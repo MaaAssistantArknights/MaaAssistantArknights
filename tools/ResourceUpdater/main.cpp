@@ -21,6 +21,7 @@
 #elif defined(__GNUC__)
 #pragma GCC diagnostic pop
 #endif
+#include <ranges>
 #include <meojson/json.hpp>
 
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
@@ -318,8 +319,8 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     // 这里面有些是手动修改的，要保留
     json::value& root = old_json;
     std::unordered_set<std::string> rooms;
-    for (auto& [_, buff_obj] : buffs) {
-        std::string raw_room_type = (std::string)buff_obj["roomType"];
+    for (auto& buff_obj : buffs | std::views::values) {
+        std::string raw_room_type = static_cast<std::string>(buff_obj["roomType"]);
 
         // 为了兼容老版本的字段 orz
         static const std::unordered_map<std::string, std::string> RoomTypeMapping = {
@@ -341,10 +342,10 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
         rooms.emplace(room_type);
 
-        std::string key = (std::string)buff_obj["skillIcon"];
-        std::string name = (std::string)buff_obj["buffName"];
+        std::string key = static_cast<std::string>(buff_obj["skillIcon"]);
+        std::string name = static_cast<std::string>(buff_obj["buffName"]);
         // 这玩意里面有类似 xml 的东西，全删一下
-        std::string desc = (std::string)buff_obj["description"];
+        std::string desc = static_cast<std::string>(buff_obj["description"]);
         remove_xml(desc);
 
         auto& skill = root[room_type]["skills"][key];
@@ -565,7 +566,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
                 char_data.get("phases", 2, "rangeId", default_range),
             };
         }
-        char_new_data["rarity"] = (int)char_data["rarity"] + 1;
+        char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
 
         chars.emplace(id, std::move(char_new_data));
     }
