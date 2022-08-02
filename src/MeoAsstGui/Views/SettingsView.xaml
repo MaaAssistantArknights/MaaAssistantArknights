@@ -45,7 +45,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[0]}" />
-                <local:InfrastSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" />
+                <local:InfrastSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -57,7 +57,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[1]}" />
-                <local:RoguelikeSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" />
+                <local:RoguelikeSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -69,7 +69,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[2]}" />
-                <local:AutoRecruitSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" />
+                <local:AutoRecruitSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -81,7 +81,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[3]}" />
-                <local:MallSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" />
+                <local:MallSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -93,7 +93,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[4]}" />
-                <local:PenguinReportSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" />
+                <local:PenguinReportSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -105,7 +105,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[5]}" />
-                <local:ConnectSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" />
+                <local:ConnectSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -117,7 +117,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[6]}" />
-                <local:StartSettingsUserControl Margin="20" />
+                <local:StartSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -129,7 +129,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[7]}" />
-                <local:TimerSettingsUserControl Margin="20" />
+                <local:TimerSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -141,7 +141,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[8]}" />
-                <local:GUISettingsUserControl Margin="20" />
+                <local:GUISettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -153,7 +153,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[9]}" />
-                <local:VersionUpdateSettingsUserControl Margin="20" />
+                <local:VersionUpdateSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -165,7 +165,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[10]}" />
-                <local:AboutUserControl Margin="20" />
+                <local:AboutUserControl Margin="20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->
             </StackPanel>
         </ScrollViewer>
