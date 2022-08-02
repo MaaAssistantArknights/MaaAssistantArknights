@@ -30,8 +30,8 @@ namespace asst
 
         friend std::strong_ordering operator<=>(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
         {
-            if (lhs.level != rhs.level) return rhs.level <=> lhs.level;
-            return lhs.name <=> rhs.name;
+            if (lhs.level != rhs.level) return lhs.level <=> rhs.level; // increment order
+            return rhs.name <=> lhs.name; // decrement order (print reversely)
         }
 
         friend bool operator==(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
