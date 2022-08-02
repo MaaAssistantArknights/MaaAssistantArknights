@@ -1,5 +1,7 @@
 #include "BattleFormationTask.h"
 
+#include <ranges>
+
 #include "Resource.h"
 #include "Controller.h"
 #include "ProcessTask.h"
@@ -29,7 +31,7 @@ bool asst::BattleFormationTask::_run()
     json::value info = basic_info_with_what("BattleFormation");
     auto& details = info["details"];
     auto& formation = details["formation"];
-    for (const auto& [name, oper_vec] : m_groups) {
+    for (const auto& name : m_groups | std::views::keys) {
         formation.array_emplace(name);
     }
     callback(AsstMsg::SubTaskExtraInfo, info);

@@ -1,5 +1,7 @@
 #include "StageDropsImageAnalyzer.h"
 
+#include <ranges>
+
 #include "NoWarningCV.h"
 
 #include "TaskData.h"
@@ -55,7 +57,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     const auto& stages = Resrc.drops().get_all_stage_code();
     std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
     // 名字长的放前面
-    std::sort(stages_req.begin(), stages_req.end(),
+    std::ranges::sort(stages_req,
         [](const std::string& lhs, const std::string& rhs) -> bool {
             return lhs.size() > rhs.size();
         });
@@ -326,7 +328,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
             m_baseline.emplace_back(baseline, match_droptype(baseline));
         }
     }
-    if (m_baseline.size() >= 1) {
+    if (!m_baseline.empty()) {
         if (m_baseline.back().second == StageDropType::Unknown) {
             Log.warn(__FUNCTION__, "The last baseline is unknown type, remove it");
             m_baseline.pop_back();
@@ -334,8 +336,8 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
-    for (const auto& baseline : m_baseline) {
-        Log.trace(__FUNCTION__, "baseline", baseline.first.to_string());
+    for (const auto& key : m_baseline | std::views::keys) {
+        Log.trace(__FUNCTION__, "baseline", key.to_string());
     }
 
     return !m_baseline.empty();
@@ -557,8 +559,8 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     //}
 
     if (digit_str.empty() ||
-        !std::all_of(digit_str.cbegin(), digit_str.cend(),
-            [](char c) -> bool {return std::isdigit(c) || c == '.';})) {
+        !std::ranges::all_of(digit_str,
+            [](const char& c) -> bool {return std::isdigit(c) || c == '.';})) {
         return 0;
     }
 
