@@ -296,7 +296,7 @@
         "algorithm": "OcrDetect",
         "cache": false,
         "text": [],
-		"Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
+        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
             [
                 "A Date With Slugs",
@@ -680,7 +680,7 @@
                 "龙舌兰"
             ],
             [
-            	"Flint",
+                "Flint",
                 "燧石"
             ],
             [
@@ -740,7 +740,7 @@
                 "安洁莉娜"
             ],
             [
-            	"Sora",
+                "Sora",
                 "空"
             ],
             [
@@ -1272,15 +1272,15 @@
                 "蜜蜡"
             ],
             [
-            	"Click",
+                "Click",
                 "卡达"
             ],
             [
-            	"Leonhardt",
+                "Leonhardt",
                 "莱恩哈特"
             ],
             [
-            	"Absinthe",
+                "Absinthe",
                 "苦艾"
             ],
             [
@@ -1364,7 +1364,7 @@
                 "卡夫卡"
             ],
             [
-            	"Robin",
+                "Robin",
                 "罗宾"
             ],
             [
@@ -1376,7 +1376,7 @@
                 "温蒂"
             ],
             [
-            	"Phantom",
+                "Phantom",
                 "傀影"
             ],
             [
@@ -1384,7 +1384,7 @@
                 "阿"
             ],
             [
-            	"Snowsant",
+                "Snowsant",
                 "雪雉"
             ],
             [
@@ -1392,7 +1392,7 @@
                 "槐琥"
             ],
             [
-            	"Ethan",
+                "Ethan",
                 "伊桑"
             ],
             [
@@ -1424,5 +1424,138 @@
                 "砾"
             ]
         ]
+    },
+    "Roguelike1Custom-HijackSquad": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            0,
+            383,
+            1280,
+            142
+        ],
+        "ocrReplace": [
+            [
+                "Leader Squad",
+                "指挥分队"
+            ],
+            [
+                "Gathering Squad",
+                "集群分队"
+            ],
+            [
+                "Support Squad",
+                "后勤分队"
+            ],
+            [
+                "Spearhead Squad",
+                "矛头分队"
+            ],
+            [
+                "Tactical Assault",
+                "突击战术分队"
+            ],
+            [
+                "Tactical Fortification",
+                "堡垒战术分队"
+            ],
+            [
+                "Tactical Ranged",
+                "远程战术分队"
+            ],
+            [
+                "Tactical Destruction",
+                "破坏战术分队"
+            ],
+            [
+                "Research Squad",
+                "研究分队"
+            ],
+            [
+                "First-Class Squad",
+                "高规格分队"
+            ]
+        ]
+    },
+    "Roguelike1Custom-HijackRoles": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            54,
+            356,
+            1172,
+            183
+        ],
+        "ocrReplace": [
+            [
+                "As Your Heart Desires",
+                "随心所欲"
+            ],
+            [
+                "First Move Advantage",
+                "先手必胜"
+            ],
+            [
+                "Slow and Steady Wins",
+                "稳扎稳打"
+            ],
+            [
+                "the Race",
+                "稳扎稳打"
+            ],
+            [
+                "Overcoming Your",
+                "取长补短"
+            ],
+            [
+                "Weaknesses",
+                "取长补短"
+            ]
+        ]
+    },
+    "Roguelike1Custom-HijackCoChar": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            186,
+            298,
+            913,
+            200
+        ],
+        "ocrReplace": [
+            [
+                "Caster",
+                "术师"
+            ],
+            [
+                "Medic",
+                "医疗"
+            ],
+            [
+                "Vanguard",
+                "先锋"
+            ],
+            [
+                "Sniper",
+                "狙击"
+            ],
+            [
+                "Specialist",
+                "特种"
+            ],
+            [
+                "Supporter",
+                "辅助"
+            ],
+            [
+                "Defender",
+                "重装"
+            ],
+            [
+                "Guard",
+                "近卫"
+            ]
+        ],
+        "preDelay": 1000
     }
 }

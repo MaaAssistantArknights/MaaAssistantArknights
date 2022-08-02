@@ -6,7 +6,7 @@
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
-    <system:String x:Key="RougelikeSettings">ローグ設定</system:String>
+    <system:String x:Key="RoguelikeSettings">ローグ設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
     <system:String x:Key="MallSettings">FP交換所設定</system:String>
     <system:String x:Key="PenguinSettings">Penguin Statistics設定</system:String>
@@ -46,8 +46,30 @@
 
     <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">キャンドルを集める、多くのステージをクリアする</system:String>
-    <system:String x:Key="RougelikeStrategyGold">源石錐を集める、1階旅商人のすぐ後に終了する</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集める、多くのステージをクリアする</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">源石錐を集める、1階旅商人のすぐ後に終了する</system:String>
+
+    <system:String x:Key="StartingSquad">スターティング・スクワッド</system:String>
+    <system:String x:Key="StartingRoles">始めるキャリア</system:String>
+    <system:String x:Key="StartingCoreChar">オペレーター（シングルプレイヤー、中国名のみ）</system:String>
+
+    <system:String x:Key="DefaultSquad">デフォルト</system:String>
+    <system:String x:Key="LeaderSquad">指揮分隊</system:String>
+    <system:String x:Key="GatheringSquad">集団分隊</system:String>
+    <system:String x:Key="SupportSquad">支援分隊</system:String>
+    <system:String x:Key="SpearheadSquad">先鋒分隊</system:String>
+    <system:String x:Key="TacticalAssaultOperative">突撃戦術分隊</system:String>
+    <system:String x:Key="TacticalFortificationOperative">要塞戦術分隊</system:String>
+    <system:String x:Key="TacticalRangedOperative">援護戦術分隊</system:String>
+    <system:String x:Key="TacticalDestructionOperative">破壊戦術分隊</system:String>
+    <system:String x:Key="ResearchSquad">研究分隊</system:String>
+    <system:String x:Key="First-ClassSquad">高規格分隊</system:String>
+
+    <system:String x:Key="DefaultRoles">デフォルト</system:String>
+    <system:String x:Key="FirstMoveAdvantage">先手必勝</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">攻守一体</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">前線支援</system:String>
+    <system:String x:Key="AsYourHeartDesires">自由自在</system:String>
 
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
