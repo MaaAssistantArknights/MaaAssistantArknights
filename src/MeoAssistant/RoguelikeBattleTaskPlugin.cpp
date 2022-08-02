@@ -222,7 +222,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         return true;
     }
     // 如果已经放了一些人了，就不要再有费就下了
-    if (m_used_tiles.size() >= std::max(m_homes.size(), 2ULL)) {
+    if (m_used_tiles.size() >= std::max(m_homes.size(), static_cast<size_t>(2))) {
         size_t available_count = 0;
         size_t not_cooling_count = 0;
         for (const auto& oper : opers) {

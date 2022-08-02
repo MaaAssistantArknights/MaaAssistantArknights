@@ -254,6 +254,7 @@ namespace asst::utils
         int pipe_out[2] = { 0 };
         int pipe_in_ret = pipe(pipe_in);
         int pipe_out_ret = pipe(pipe_out);
+        if (pipe_in_ret != 0 || pipe_out_ret != 0) { return {}; }
         fcntl(pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
         int exit_ret = 0;
         int child = fork();
