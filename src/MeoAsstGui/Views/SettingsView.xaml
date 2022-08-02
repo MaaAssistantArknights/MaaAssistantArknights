@@ -45,7 +45,10 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[0]}" />
-                <local:InfrastSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
+                <local:InfrastSettingsUserControl
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -57,7 +60,10 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[1]}" />
-                <local:RoguelikeSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
+                <local:RoguelikeSettingsUserControl
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -69,7 +75,10 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[2]}" />
-                <local:AutoRecruitSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
+                <local:AutoRecruitSettingsUserControl
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -81,7 +90,10 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[3]}" />
-                <local:MallSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
+                <local:MallSettingsUserControl
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -93,7 +105,10 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[4]}" />
-                <local:PenguinReportSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
+                <local:PenguinReportSettingsUserControl
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
@@ -105,7 +120,10 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[5]}" />
-                <local:ConnectSettingsUserControl Margin="20" IsEnabled="{Binding Idle}" HorizontalAlignment="Center" />
+                <local:ConnectSettingsUserControl
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"

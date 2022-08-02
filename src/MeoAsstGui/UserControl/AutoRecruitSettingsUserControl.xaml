@@ -20,10 +20,14 @@
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
-        <Grid HorizontalAlignment="Stretch" Height="125" VerticalAlignment="Center" >
+        <Grid
+            Height="125"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center">
             <StackPanel
                 Grid.Row="0"
-                HorizontalAlignment="Center" VerticalAlignment="Top">
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"
@@ -43,12 +47,13 @@
                 Orientation="Horizontal">
                 <TextBlock
                     Width="90"
+                    Height="40"
                     Margin="5"
                     VerticalAlignment="Stretch"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource RecruitMaxTimes}"
-                    TextWrapping="Wrap" Height="40" />
+                    TextWrapping="Wrap" />
                 <TextBox
                     Width="50"
                     Margin="5"
@@ -61,7 +66,8 @@
         <StackPanel
             Grid.Column="1"
             Height="125"
-            VerticalAlignment="Center" HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
             <CheckBox
                 Margin="5"
                 Content="{DynamicResource ManuallySelectLevel1}"
