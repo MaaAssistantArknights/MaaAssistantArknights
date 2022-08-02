@@ -20,8 +20,8 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
-
-    if (details.at("details").at("task").as_string() == "EndOfAction") {
+    const std::string task = details.at("details").at("task").as_string();
+    if (task == "EndOfAction") {
         auto pre_time_opt = m_status->get_number("LastStartButton2");
         int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
         auto pre_reg_time_opt = m_status->get_number("LastRecognizeDrops");
@@ -30,6 +30,11 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
             Log.info("Recognitions time too close, pass", pre_start_time, pre_recognize_time);
             return false;
         }
+        m_is_annihilation = false;
+        return true;
+    }
+    else if (task == "EndOfActionAnnihilation") {
+        m_is_annihilation = true;
         return true;
     }
     else {
@@ -85,7 +90,7 @@ bool asst::StageDropsTaskPlugin::_run()
         stop_task();
     }
 
-    if (m_enable_penguid) {
+    if (m_enable_penguid && !m_is_annihilation) {
         auto upload_future = std::async(
             std::launch::async,
             &StageDropsTaskPlugin::upload_to_penguin, this);
@@ -118,6 +123,10 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     m_stage_difficulty = difficulty;
     m_stars = analyzer.get_stars();
     m_cur_drops = analyzer.get_drops();
+
+    if (m_is_annihilation) {
+        return true;
+    }
 
     auto last_time_opt = m_status->get_number("LastStartButton2");
     auto last_time = last_time_opt ? last_time_opt.value() : 0;
@@ -176,6 +185,10 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 void asst::StageDropsTaskPlugin::set_start_button_delay()
 {
     LogTraceFunction;
+
+    if (m_is_annihilation) {
+        return;
+    }
 
     if (!m_start_button_delay_is_set) {
         auto last_time_opt = m_status->get_number("LastStartButton2");

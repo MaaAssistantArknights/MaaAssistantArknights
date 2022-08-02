@@ -178,6 +178,8 @@
     <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
 
+    <system:String x:Key="Annihilation">Annihilation</system:String>
+
     <system:String x:Key="TodaysStageTip">Today's Stage tips:</system:String>
     <system:String x:Key="CETip">CE (LMD)</system:String>
     <system:String x:Key="APTip">AP (Shop Voucher)</system:String>
