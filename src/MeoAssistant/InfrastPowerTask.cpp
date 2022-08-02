@@ -9,7 +9,7 @@ bool asst::InfrastPowerTask::_run()
     // 发电站只能造这一个
     set_product("Drone");
 
-    for (; m_cur_facility_index != max_num_of_facilities(); ++m_cur_facility_index) {
+    for (; m_cur_facility_index != static_cast<int>(max_num_of_facilities()); ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
@@ -34,8 +34,7 @@ bool asst::InfrastPowerTask::_run()
                 opers_detect();
             }
 
-            auto find_iter = std::find_if(
-                m_all_available_opers.begin(), m_all_available_opers.end(),
+            auto find_iter = std::ranges::find_if(m_all_available_opers,
                 [&](const infrast::Oper& info) -> bool {
                     return info.selected;
                 });

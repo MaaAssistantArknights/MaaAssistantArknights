@@ -6,7 +6,7 @@
     <!--  设置  -->
     <system:String x:Key="Settings">设置</system:String>
     <system:String x:Key="BaseSettings">基建设置</system:String>
-    <system:String x:Key="RougelikeSettings">肉鸽设置</system:String>
+    <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
     <system:String x:Key="RecruitingSettings">自动公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
     <system:String x:Key="PenguinSettings">企鹅物流</system:String>
@@ -46,8 +46,30 @@
 
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
-    <system:String x:Key="RougelikeStrategyGold">刷源石锭，第一层商店后直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">刷源石锭，第一层商店后直接退出</system:String>
+    <system:String x:Key="StartingSquad">开局分队</system:String>
+    <system:String x:Key="StartingRoles">开局职业组</system:String>
+    <system:String x:Key="StartingCoreChar">开局干员(单个)</system:String>
+    <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择</system:String>
+
+    <system:String x:Key="DefaultSquad">默认分队</system:String>
+    <system:String x:Key="LeaderSquad">指挥分队</system:String>
+    <system:String x:Key="GatheringSquad">集群分队</system:String>
+    <system:String x:Key="SupportSquad">后勤分队</system:String>
+    <system:String x:Key="SpearheadSquad">矛头分队</system:String>
+    <system:String x:Key="TacticalAssaultOperative">突击战术分队</system:String>
+    <system:String x:Key="TacticalFortificationOperative">堡垒战术分队</system:String>
+    <system:String x:Key="TacticalRangedOperative">远程战术分队</system:String>
+    <system:String x:Key="TacticalDestructionOperative">破坏战术分队</system:String>
+    <system:String x:Key="ResearchSquad">研究分队</system:String>
+    <system:String x:Key="First-ClassSquad">高规格分队</system:String>
+
+    <system:String x:Key="DefaultRoles">默认职业组</system:String>
+    <system:String x:Key="FirstMoveAdvantage">先手必胜（先锋、狙击、特种）</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">稳扎稳打（重装、术师、狙击）</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">取长补短（近卫、辅助、医疗）</system:String>
+    <system:String x:Key="AsYourHeartDesires">随心所欲（三张随机）</system:String>
 
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
@@ -177,6 +199,8 @@
     <system:String x:Key="PR-C-2">先/辅芯片组</system:String>
     <system:String x:Key="PR-D-1">近/特芯片</system:String>
     <system:String x:Key="PR-D-2">近/特芯片组</system:String>
+
+    <system:String x:Key="Annihilation">剿灭模式</system:String>
 
     <system:String x:Key="TodaysStageTip">今日关卡小提示：</system:String>
     <system:String x:Key="CETip">货物运送（龙门币）</system:String>

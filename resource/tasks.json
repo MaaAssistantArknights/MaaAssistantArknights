@@ -1516,6 +1516,7 @@
     "Annihilation": {
         "doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
+        "templThreshold": 0.6,
         "cache": false,
         "action": "ClickSelf",
         "roi": [
@@ -1546,6 +1547,7 @@
         "next": [
             "UsePrts",
             "UsePrts-StageSN",
+            "UsePrts-Annihilation",
             "StartButton1",
             "PRTS3",
             "PRTS",
@@ -1668,6 +1670,19 @@
             "StartButton1"
         ]
     },
+    "UsePrts-Annihilation": {
+        "Doc": "剿灭的“全权委托”按钮",
+        "action": "ClickSelf",
+        "roi": [
+            877,
+            532,
+            183,
+            123
+        ],
+        "next": [
+            "StartButton1"
+        ]
+    },
     "UsePrts-StageSN": {
         "Doc": "三周年活动关卡“愚人号”代理指挥按钮",
         "action": "ClickSelf",
@@ -1705,7 +1720,20 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "AnnihilationConfirm"
+        ]
+    },
+    "AnnihilationConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            992,
+            584,
+            288,
+            136
+        ],
+        "next": [
+            "EndOfActionAnnihilation"
         ]
     },
     "StageSNFlag": {
@@ -2042,6 +2070,23 @@
             357,
             153,
             143
+        ],
+        "action": "DoNothing",
+        "next": [
+            "ClickCorner"
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "algorithm": "OcrDetect",
+        "Doc": "本任务注册了插件 StageDropsTaskPlugin",
+        "text": [
+            "行动结束"
+        ],
+        "roi": [
+            0,
+            118,
+            409,
+            194
         ],
         "action": "DoNothing",
         "next": [
@@ -2390,6 +2435,7 @@
         "next": [
             "UsePrts",
             "UsePrts-StageSN",
+            "UsePrts-Annihilation",
             "StartButton1"
         ]
     },
@@ -4174,7 +4220,7 @@
             200,
             300
         ],
-        "preDelay": 100,
+        "preDelay": 300,
         "rearDelay": 1000,
         "maxTimes": 2,
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
@@ -6414,48 +6460,36 @@
     },
     "Roguelike1Custom-HijackSquad": {
         "algorithm": "OcrDetect",
-        "text": [
-
-        ],
+        "text": [],
         "roi": [
             0,
             383,
             1280,
             142
         ],
-        "ocrReplace": [
-
-        ]
+        "ocrReplace": []
     },
     "Roguelike1Custom-HijackRoles": {
         "algorithm": "OcrDetect",
-        "text": [
-
-        ],
+        "text": [],
         "roi": [
             54,
             356,
             1172,
             183
         ],
-        "ocrReplace": [
-
-        ]
+        "ocrReplace": []
     },
     "Roguelike1Custom-HijackCoChar": {
         "algorithm": "OcrDetect",
-        "text": [
-
-        ],
+        "text": [],
         "roi": [
             186,
             298,
             913,
             200
         ],
-        "ocrReplace": [
-
-        ],
+        "ocrReplace": [],
         "preDelay": 1000
     },
     "Roguelike1Recruit1": {
@@ -7445,11 +7479,19 @@
     },
     "Roguelike1FormationOperSelected": {
         "template": "empty.png",
-        "templThreshold": 18000,
+        "templThreshold": 1000,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
             95,
             105
+        ],
+        "specificRect_Doc": "拿来做S、V通道的范围",
+        "specificRect": [
+            170,
+            210,
+            70,
+            140
         ]
     },
     "Roguelike1FormationConfirm": {

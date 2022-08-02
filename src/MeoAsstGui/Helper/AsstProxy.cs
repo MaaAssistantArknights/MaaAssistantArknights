@@ -516,6 +516,7 @@ namespace MeoAsstGui
                 switch (taskName)
                 {
                     case "StartButton2":
+                    case "AnnihilationConfirm":
                         mainModel.AddLog(Localization.GetString("OnTheMove") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
                         break;
 

@@ -6,7 +6,7 @@
     <!--  设置  -->
     <system:String x:Key="Settings">🍸🍷</system:String>
     <system:String x:Key="BaseSettings">🍸💃🍷</system:String>
-    <system:String x:Key="RougelikeSettings">🍷🍺🍸</system:String>
+    <system:String x:Key="RoguelikeSettings">🍷🍺🍸</system:String>
     <system:String x:Key="RecruitingSettings">🍸🍺🍸</system:String>
     <system:String x:Key="MallSettings">🍺🍷🍻</system:String>
     <system:String x:Key="PenguinSettings">💃🍷🍷</system:String>
@@ -46,8 +46,8 @@
 
     <system:String x:Key="DormThreshold">🍸🍻🍷🍻💃</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">🕺🍺🕺🕺🍺🍷🍻🍺</system:String>
-    <system:String x:Key="RougelikeStrategyGold">🍺🍻🍻🍷🍺🍸🕺🍺</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">🕺🍺🕺🕺🍺🍷🍻🍺</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">🍺🍻🍻🍷🍺🍸🕺🍺</system:String>
 
     <system:String x:Key="NotSelected">💃🍺</system:String>
     <system:String x:Key="Official">🕺🍺</system:String>

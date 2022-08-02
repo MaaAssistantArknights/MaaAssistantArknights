@@ -11,7 +11,7 @@ namespace asst
 
         bool contains_actions(const std::string& stage_name) const noexcept
         {
-            return m_battle_actions.find(stage_name) != m_battle_actions.cend();
+            return m_battle_actions.contains(stage_name);
         }
 
         auto get_actions(const std::string& stage_name) const noexcept
