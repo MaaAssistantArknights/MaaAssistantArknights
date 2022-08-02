@@ -106,12 +106,12 @@
             VerticalAlignment="Center">
 
             <StackPanel
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
                 <TextBlock
-                    Margin="10"
-                    Block.TextAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingSquad}" />
                 <ComboBox
@@ -124,12 +124,12 @@
                     SelectedValuePath="Value" />
             </StackPanel>
             <StackPanel
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <TextBlock
-                    Margin="10"
-                    Block.TextAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingRoles}" />
                 <ComboBox
@@ -143,14 +143,16 @@
             </StackPanel>
             <StackPanel
                 Margin="0,85,0,0"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
                 <TextBlock
-                    Margin="10"
-                    Block.TextAlignment="Center"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource StartingCoreChar}" />
+                    Text="{DynamicResource StartingCoreChar}"
+                    TextWrapping="Wrap" />
                 <hc:TextBox
                     Width="300"
                     Margin="10"
