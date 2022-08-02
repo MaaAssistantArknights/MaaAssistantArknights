@@ -500,7 +500,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     // 例子中的"0"
     std::string kills_count = kills_text.substr(0, pos);
     if (kills_count.empty() ||
-        !std::ranges::all_of(std::as_const(kills_count),
+        !std::ranges::all_of(kills_count,
             [](char c) -> bool {return std::isdigit(c);})) {
         return false;
     }
@@ -511,7 +511,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     std::string total_kills = kills_text.substr(pos + 1, std::string::npos);
     int cur_total_kills = 0;
     if (total_kills.empty() ||
-        !std::ranges::all_of(std::as_const(total_kills),
+        !std::ranges::all_of(total_kills,
             [](char c) -> bool {return std::isdigit(c);})) {
         Log.warn("total kills recognition failed, set to", m_pre_total_kills);
         cur_total_kills = m_pre_total_kills;
@@ -539,8 +539,8 @@ bool asst::BattleImageAnalyzer::cost_analyze()
     std::string cost_str = cost_analyzer.get_result().front().text;
 
     if (cost_str.empty() ||
-    !std::ranges::all_of(std::as_const(cost_str),
-        [](char c) -> bool {return std::isdigit(c);})) {
+    !std::ranges::all_of(cost_str,
+        [](const char& c) -> bool {return std::isdigit(c);})) {
         return false;
     }
     m_cost = std::stoi(cost_str);

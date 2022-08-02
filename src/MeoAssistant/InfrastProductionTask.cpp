@@ -206,7 +206,7 @@ size_t asst::InfrastProductionTask::opers_detect()
             //--cur_available_num;
             continue;
         }
-        auto find_iter = std::ranges::find_if(std::as_const(m_all_available_opers),
+        auto find_iter = std::ranges::find_if(m_all_available_opers,
             [&](const infrast::Oper& oper) -> bool {
                 if (oper.skills != cur_oper.skills) {
                     return false;
@@ -328,7 +328,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         // necessary里的技能，一个都不能少
         // TODO necessary暂时没做hash校验。因为没有需要比hash的necessary干员（
         for (const infrast::SkillsComb& nec_skills : group.necessary) {
-            auto find_iter = std::ranges::find_if(std::as_const(cur_available_opers),
+            auto find_iter = std::ranges::find_if(cur_available_opers,
                 [&](const infrast::SkillsComb& arg) -> bool {
                     return arg == nec_skills;
                 });
@@ -500,7 +500,7 @@ bool asst::InfrastProductionTask::opers_choose()
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
-            auto find_iter = std::ranges::find_if(std::as_const(cur_all_opers),
+            auto find_iter = std::ranges::find_if(cur_all_opers,
                 [&](const infrast::Oper& lhs) -> bool {
                     if (lhs.skills != opt_iter->skills) {
                         return false;
@@ -540,7 +540,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 m_ctrler->click(find_iter->rect);
             }
             {
-                auto avlb_iter = std::ranges::find_if(std::as_const(m_all_available_opers),
+                auto avlb_iter = std::ranges::find_if(m_all_available_opers,
                     [&](const infrast::Oper& lhs) -> bool {
                         int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                         Log.debug("opers_choose | face hash dist", dist);

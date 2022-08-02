@@ -281,8 +281,8 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
     //}
 
     if (digit_str.empty() ||
-        !std::ranges::all_of(std::as_const(digit_str),
-            [](char c) -> bool {return std::isdigit(c) || c == '.';})) {
+        !std::ranges::all_of(digit_str,
+            [](const char& c) -> bool {return std::isdigit(c) || c == '.';})) {
         return 0;
     }
 
