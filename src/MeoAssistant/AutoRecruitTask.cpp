@@ -8,6 +8,9 @@
 #include "RecruitConfiger.h"
 #include "Logger.hpp"
 
+#include <algorithm>
+#include <ranges>
+
 namespace asst::recruit_calc
 {
     // all combinations and their operator list, excluding empty set and 6-star operators while there is no senior tag
@@ -26,12 +29,9 @@ namespace asst::recruit_calc
                 return result;
             });
 
-            static constexpr std::string_view SeniorOper = "高级资深干员";
-
             for (const auto& op : all_ops) {
                 for (auto& rc : rcs_with_single_tag) {
                     if (!op.has_tag(rc.tags.front())) continue;
-                    if (op.level == 6 && rc.tags.front() != SeniorOper) continue;
                     rc.opers.push_back(op);
                     rc.min_level = (std::min)(rc.min_level, op.level);
                     rc.max_level = (std::max)(rc.max_level, op.level);
@@ -68,6 +68,22 @@ namespace asst::recruit_calc
                     result.push_back(temp3);
                 }
             }
+        }
+
+        static constexpr std::string_view SeniorOper = "高级资深干员";
+
+        for (auto comb_iter = result.begin(); comb_iter != result.end(); ++comb_iter) {
+            if (std::ranges::find(comb_iter->tags, SeniorOper) != comb_iter->tags.end()) continue;
+            // no senior tag, remove 6-star operators
+            // assuming sorted by level
+            auto iter = std::ranges::find_if(comb_iter->opers, [](const RecruitOperInfo& op) { return op.level >= 6; });
+            if (iter == comb_iter->opers.end()) continue;
+            comb_iter->opers.erase(iter, comb_iter->opers.end());
+            if (comb_iter->opers.empty()) {
+                comb_iter = result.erase(comb_iter);
+                continue;
+            }
+            comb_iter->update_attributes();
         }
 
         return result;
@@ -297,11 +313,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // assuming timer would be set to 09:00:00
         for (RecruitCombs& rc : result_vec) {
             if (rc.min_level < 3) {
-                // find another min level backwards (assuming operator list reversely sorted by level)
-                auto sec = std::find_if(
-                        rc.opers.crbegin(), rc.opers.crend(),
-                        [](const RecruitOperInfo& op) -> bool { return op.level >= 3; });
-                if (sec != rc.opers.crend()) { rc.min_level = sec->level; }
+                // find another min level (assuming operator list sorted in increment order by level)
+                auto sec = std::ranges::find_if(rc.opers, [](const RecruitOperInfo& op) { return op.level >= 3; });
+                if (sec != rc.opers.cend()) { rc.min_level = sec->level; }
             }
         }
 
@@ -351,7 +365,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 comb_json["tags"] = json::array(std::move(tags_json_vector));
 
                 std::vector<json::value> opers_json_vector;
-                for (const RecruitOperInfo& oper_info : comb.opers) {
+                for (const RecruitOperInfo& oper_info : std::ranges::reverse_view(comb.opers)) { // print reversely
                     json::value oper_json;
                     oper_json["name"] = oper_info.name;
                     oper_json["level"] = oper_info.level;
