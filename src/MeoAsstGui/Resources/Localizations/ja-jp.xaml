@@ -52,6 +52,7 @@
     <system:String x:Key="StartingSquad">スターティング・スクワッド</system:String>
     <system:String x:Key="StartingRoles">始めるキャリア</system:String>
     <system:String x:Key="StartingCoreChar">オペレーター（シングルプレイヤー、中国名のみ）</system:String>
+    <system:String x:Key="StartingCoreCharTip">1 つの oper の CN 名のみをサポートします。入力されていない場合はデフォルトです。</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>

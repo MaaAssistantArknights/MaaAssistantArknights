@@ -51,7 +51,8 @@
 
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
-    <system:String x:Key="StartingCoreChar">Starting Char (single, CN name only)</system:String>
+    <system:String x:Key="StartingCoreChar">Starting Oper (single, CN name only)</system:String>
+    <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
