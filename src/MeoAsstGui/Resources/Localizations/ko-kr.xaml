@@ -178,6 +178,8 @@
     <system:String x:Key="PR-D-1">PR-D-1 (가드/스페셜리스트)</system:String>
     <system:String x:Key="PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
 
+    <system:String x:Key="Annihilation">근절 모드</system:String>
+
     <system:String x:Key="TodaysStageTip">오늘의 수테이지 팁:</system:String>
     <system:String x:Key="CETip">CE (용문폐)</system:String>
     <system:String x:Key="APTip">AP (구매증명서)</system:String>

@@ -45,6 +45,7 @@ namespace asst
         std::unordered_map<std::string, int> m_drop_stats;
         json::value m_cur_info_json;
 
+        mutable bool m_is_annihilation = false;
         bool m_start_button_delay_is_set = false;
         std::vector<std::future<void>> m_upload_pending;
         ProcessTask* m_cast_ptr = nullptr;

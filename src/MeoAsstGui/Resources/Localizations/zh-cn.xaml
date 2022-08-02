@@ -178,6 +178,8 @@
     <system:String x:Key="PR-D-1">近/特芯片</system:String>
     <system:String x:Key="PR-D-2">近/特芯片组</system:String>
 
+    <system:String x:Key="Annihilation">剿灭模式</system:String>
+
     <system:String x:Key="TodaysStageTip">今日关卡小提示：</system:String>
     <system:String x:Key="CETip">货物运送（龙门币）</system:String>
     <system:String x:Key="APTip">粉碎防御（红票）</system:String>
