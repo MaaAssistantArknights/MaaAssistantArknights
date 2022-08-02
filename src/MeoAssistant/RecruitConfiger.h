@@ -78,11 +78,9 @@ namespace asst
 
             RecruitCombs result;
 
-            std::ranges::set_union(lhs.tags, rhs.tags,
-                                   std::back_inserter(result.tags));
+            std::ranges::set_union(lhs.tags, rhs.tags, std::back_inserter(result.tags));
 
-            std::ranges::set_intersection(lhs.opers, rhs.opers,
-                                          std::back_inserter(result.opers));
+            std::ranges::set_intersection(lhs.opers, rhs.opers, std::back_inserter(result.opers));
 
             result.update_attributes();
 
