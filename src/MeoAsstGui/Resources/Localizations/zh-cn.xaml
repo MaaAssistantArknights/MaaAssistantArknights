@@ -50,7 +50,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，第一层商店后直接退出</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
-    <system:String x:Key="StartingCoreChar">开局干员（单个）</system:String>
+    <system:String x:Key="StartingCoreChar">开局干员(单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
