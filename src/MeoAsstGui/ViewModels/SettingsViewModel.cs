@@ -1837,18 +1837,14 @@ namespace MeoAsstGui
 
                 var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
-                var result = _windowManager.ShowMessageBox(
+                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
+                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
+                System.Windows.Forms.MessageBoxManager.Register();
+                var result = MessageBox.Show(
                     Localization.GetString("LanguageChangedTip"),
                     Localization.GetString("Tip"),
                     MessageBoxButton.YesNo,
-                    MessageBoxImage.Question,
-                    MessageBoxResult.None,
-                    MessageBoxResult.None,
-                    new Dictionary<MessageBoxResult, string>
-                    {
-                        { MessageBoxResult.Yes, Localization.GetString("Ok") },
-                        { MessageBoxResult.No, Localization.GetString("ManualRestart") },
-                    });
+                    MessageBoxImage.Question);
                 SetAndNotify(ref _language, value);
                 if (result == MessageBoxResult.Yes)
                 {
