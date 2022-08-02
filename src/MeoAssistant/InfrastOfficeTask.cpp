@@ -22,11 +22,10 @@ bool asst::InfrastOfficeTask::_run()
         }
         swipe_to_the_left_of_operlist();
 
-        auto find_iter = std::ranges::find_if(m_all_available_opers
-                                              ,
-                                              [&](const infrast::Oper& info) -> bool {
-                                                  return info.selected;
-                                              });
+        auto find_iter = std::ranges::find_if(m_all_available_opers,
+            [&](const infrast::Oper& info) -> bool {
+                return info.selected;
+            });
 
         bool need_shift = true;
         if (find_iter != m_all_available_opers.end()) {
