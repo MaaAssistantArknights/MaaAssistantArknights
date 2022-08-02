@@ -6,7 +6,7 @@
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
-    <system:String x:Key="RougelikeSettings">肉鴿設定</system:String>
+    <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
     <system:String x:Key="PenguinSettings">企鵝物流</system:String>
@@ -46,8 +46,8 @@
 
     <system:String x:Key="DormThreshold">基建工作心情閾值</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">刷蠟燭，盡可能穩定的打更多層數</system:String>
-    <system:String x:Key="RougelikeStrategyGold">刷源石錠，第一層商店後直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">刷蠟燭，盡可能穩定的打更多層數</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">刷源石錠，第一層商店後直接退出</system:String>
 
     <system:String x:Key="NotSelected">不選擇</system:String>
     <system:String x:Key="Official">官服</system:String>
@@ -177,6 +177,8 @@
     <system:String x:Key="PR-C-2">先/輔晶片組</system:String>
     <system:String x:Key="PR-D-1">近/特晶片</system:String>
     <system:String x:Key="PR-D-2">近/特晶片組</system:String>
+
+    <system:String x:Key="Annihilation">剿滅模式</system:String>
 
     <system:String x:Key="TodaysStageTip">今日關卡小提示：</system:String>
     <system:String x:Key="CETip">貨物運送（龍門幣）</system:String>

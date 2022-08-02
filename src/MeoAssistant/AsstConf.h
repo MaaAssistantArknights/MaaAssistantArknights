@@ -18,7 +18,9 @@ ASST_DO_PRAGMA(warning(pop))
 #define ASST_SUPPRESS_CV_WARNINGS_START \
 ASST_DO_PRAGMA(clang diagnostic push)   \
 ASST_DO_PRAGMA(clang diagnostic ignored "-Wdeprecated-enum-enum-conversion") \
-ASST_DO_PRAGMA(clang diagnostic ignored "-Wdeprecated-anon-enum-enum-conversion")
+ASST_DO_PRAGMA(clang diagnostic ignored "-Wdeprecated-anon-enum-enum-conversion") \
+ASST_DO_PRAGMA(clang diagnostic ignored "-Wc11-extensions") \
+ASST_DO_PRAGMA(clang diagnostic ignored "-Wunused-but-set-variable")
 #define ASST_SUPPRESS_CV_WARNINGS_END \
 ASST_DO_PRAGMA(clang diagnostic pop)
 #elif defined(__GNUC__)

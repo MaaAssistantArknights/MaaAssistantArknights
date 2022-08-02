@@ -242,6 +242,9 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("PR-D-1"), Value = "PR-D-1" },
                 new CombData { Display = Localization.GetString("PR-D-2"), Value = "PR-D-2" },
 
+                // 剿灭模式
+                new CombData { Display = Localization.GetString("Annihilation"), Value = "Annihilation" },
+
                 // SideStory「绿野幻梦」活动
                 // new CombData { Display = "DV-6", Value = "DV-6" },
                 // new CombData { Display = "DV-7", Value = "DV-7" },

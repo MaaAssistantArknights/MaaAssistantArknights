@@ -28,7 +28,7 @@
         <StackPanel
             Grid.Row="1"
             Margin="10,10,40,10"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsEnabled="{Binding CreditShopping}"
             Orientation="Horizontal">
@@ -44,13 +44,12 @@
                 Height="30"
                 Margin="10"
                 Text="{Binding CreditFirstList}"
-                ToolTip="{DynamicResource Drink}"
-                />
+                ToolTip="{DynamicResource Drink}" />
         </StackPanel>
         <StackPanel
             Grid.Row="2"
             Margin="10,10,40,10"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsEnabled="{Binding CreditShopping}"
             Orientation="Horizontal">

@@ -64,7 +64,7 @@ namespace MeoAsstGui
             DisplayName = Localization.GetString("Settings");
 
             _listTitle.Add(Localization.GetString("BaseSettings"));
-            _listTitle.Add(Localization.GetString("RougelikeSettings"));
+            _listTitle.Add(Localization.GetString("RoguelikeSettings"));
             _listTitle.Add(Localization.GetString("RecruitingSettings"));
             _listTitle.Add(Localization.GetString("MallSettings"));
             _listTitle.Add(Localization.GetString("PenguinSettings"));
@@ -172,8 +172,8 @@ namespace MeoAsstGui
 
             RoguelikeModeList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("RougelikeStrategyCandle"), Value = "0" },
-                new CombData { Display = Localization.GetString("RougelikeStrategyGold"), Value = "1" },
+                new CombData { Display = Localization.GetString("RoguelikeStrategyCandle"), Value = "0" },
+                new CombData { Display = Localization.GetString("RoguelikeStrategyGold"), Value = "1" },
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
@@ -181,26 +181,26 @@ namespace MeoAsstGui
 
             RoguelikeSquadList = new List<CombData>
             {
-                new CombData { Display = "默认分队", Value = string.Empty },
-                new CombData { Display = "指挥分队", Value = "指挥分队" },
-                new CombData { Display = "集群分队", Value = "集群分队" },
-                new CombData { Display = "后勤分队", Value = "后勤分队" },
-                new CombData { Display = "矛头分队", Value = "矛头分队" },
-                new CombData { Display = "突击战术分队", Value = "突击战术分队" },
-                new CombData { Display = "堡垒战术分队", Value = "堡垒战术分队" },
-                new CombData { Display = "远程战术分队", Value = "远程战术分队" },
-                new CombData { Display = "破坏战术分队", Value = "破坏战术分队" },
-                new CombData { Display = "研究分队", Value = "研究分队" },
-                new CombData { Display = "高规格分队", Value = "高规格分队" },
+                new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
+                new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
+                new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
+                new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
+                new CombData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
+                new CombData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
+                new CombData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
+                new CombData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
+                new CombData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
+                new CombData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
+                new CombData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
             };
 
             RoguelikeRolesList = new List<CombData>
             {
-                new CombData { Display = "默认职业组", Value = string.Empty },
-                new CombData { Display = "先手必胜（先锋、狙击、特种）", Value = "先手必胜" },
-                new CombData { Display = "稳扎稳打（重装、术师、狙击）", Value = "稳扎稳打" },
-                new CombData { Display = "取长补短（近卫、辅助、医疗）", Value = "取长补短" },
-                new CombData { Display = "随心所欲（三张随机）", Value = "随心所欲" },
+                new CombData { Display = Localization.GetString("DefaultRoles"), Value = string.Empty },
+                new CombData { Display = Localization.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
+                new CombData { Display = Localization.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+                new CombData { Display = Localization.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+                new CombData { Display = Localization.GetString("AsYourHeartDesires"), Value = "随心所欲" },
             };
 
             ClientTypeList = new List<CombData>
@@ -1837,18 +1837,14 @@ namespace MeoAsstGui
 
                 var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
-                var result = _windowManager.ShowMessageBox(
+                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
+                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
+                System.Windows.Forms.MessageBoxManager.Register();
+                var result = MessageBox.Show(
                     Localization.GetString("LanguageChangedTip"),
                     Localization.GetString("Tip"),
                     MessageBoxButton.YesNo,
-                    MessageBoxImage.Question,
-                    MessageBoxResult.None,
-                    MessageBoxResult.None,
-                    new Dictionary<MessageBoxResult, string>
-                    {
-                        { MessageBoxResult.Yes, Localization.GetString("Ok") },
-                        { MessageBoxResult.No, Localization.GetString("ManualRestart") },
-                    });
+                    MessageBoxImage.Question);
                 SetAndNotify(ref _language, value);
                 if (result == MessageBoxResult.Yes)
                 {

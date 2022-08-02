@@ -9,7 +9,7 @@
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
     d:DesignHeight="300"
-    d:DesignWidth="550"
+    d:DesignWidth="400"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -20,8 +20,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Row="0"

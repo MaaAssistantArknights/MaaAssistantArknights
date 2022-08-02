@@ -23,14 +23,20 @@ namespace asst
         bool hidden = false;
         std::string name_en;
 
-        bool has_tag(const std::string &tag) const {
-            return tags.find(tag) != tags.cend();
+        bool has_tag(const std::string& tag) const
+        {
+            return tags.contains(tag);
         }
 
-        friend bool operator<(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
+        friend std::strong_ordering operator<=>(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
         {
-            if (lhs.level != rhs.level) return lhs.level > rhs.level;
-            return lhs.name < rhs.name;
+            if (lhs.level != rhs.level) return lhs.level <=> rhs.level; // increment order
+            return rhs.name <=> lhs.name; // decrement order (print reversely)
+        }
+
+        friend bool operator==(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
+        {
+            return lhs.name == rhs.name && lhs.level == rhs.level;
         }
     };
 
@@ -44,7 +50,8 @@ namespace asst
         int min_level = 0;
         double avg_level = 0;
 
-        void update_attributes() {
+        void update_attributes()
+        {
             min_level = std::transform_reduce(
                     opers.cbegin(), opers.cend(), 7,
                     [](int a, int b) -> int { return (std::min)(a, b); },
@@ -64,22 +71,16 @@ namespace asst
         // intersection of two recruit combs
         friend RecruitCombs operator*(RecruitCombs& lhs, RecruitCombs& rhs)
         {
-            std::sort(lhs.tags.begin(), lhs.tags.end());
-            std::sort(lhs.opers.begin(), lhs.opers.end());
-            std::sort(rhs.tags.begin(), rhs.tags.end());
-            std::sort(rhs.opers.begin(), rhs.opers.end());
+            std::ranges::sort(lhs.tags);
+            std::ranges::sort(lhs.opers);
+            std::ranges::sort(rhs.tags);
+            std::ranges::sort(rhs.opers);
 
             RecruitCombs result;
 
-            std::set_union(
-                    lhs.tags.cbegin(), lhs.tags.cend(),
-                    rhs.tags.cbegin(), rhs.tags.cend(),
-                    std::back_inserter(result.tags));
+            std::ranges::set_union(lhs.tags, rhs.tags, std::back_inserter(result.tags));
 
-            std::set_intersection(
-                    lhs.opers.cbegin(), lhs.opers.cend(),
-                    rhs.opers.cbegin(), rhs.opers.cend(),
-                    std::back_inserter(result.opers));
+            std::ranges::set_intersection(lhs.opers, rhs.opers, std::back_inserter(result.opers));
 
             result.update_attributes();
 
