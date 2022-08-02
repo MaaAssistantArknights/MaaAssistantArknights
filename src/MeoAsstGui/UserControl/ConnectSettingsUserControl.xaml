@@ -13,7 +13,7 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="270" />
             <ColumnDefinition Width="80" />
         </Grid.ColumnDefinitions>
@@ -52,7 +52,7 @@
             Height="30"
             Margin="10"
             Command="{s:Action SelectFile}"
-            Content="{DynamicResource Select}" />
+            Content="{DynamicResource Select}" HorizontalAlignment="Left" Width="60" />
 
         <TextBlock
             Grid.Row="2"

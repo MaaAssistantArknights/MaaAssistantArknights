@@ -55,7 +55,7 @@
             Margin="10"
             Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource StartTimesLimit}"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap" HorizontalAlignment="Right" />
         <hc:TextBox
             Grid.Row="1"
             Grid.Column="2"
@@ -64,7 +64,7 @@
             InputMethod.IsInputMethodEnabled="False"
             Text="{Binding RoguelikeStartsCount}"
             TextType="Int"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap" HorizontalAlignment="Left" Width="100" />
 
         <TextBlock
             Grid.Row="2"
@@ -72,7 +72,7 @@
             Margin="10"
             Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource GoldTimesLimit}"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap" HorizontalAlignment="Right" />
         <hc:TextBox
             Grid.Row="2"
             Grid.Column="2"
@@ -81,7 +81,7 @@
             InputMethod.IsInputMethodEnabled="False"
             Text="{Binding RoguelikeInvestsCount}"
             TextType="Int"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap" HorizontalAlignment="Left" Width="100" />
 
         <CheckBox
             Grid.Row="3"

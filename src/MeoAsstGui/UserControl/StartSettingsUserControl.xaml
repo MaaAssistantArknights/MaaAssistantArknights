@@ -9,41 +9,45 @@
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
     d:DesignHeight="300"
-    d:DesignWidth="400"
+    d:DesignWidth="500"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" VerticalAlignment="Center">
             <!--  TODO: fix margin on this  -->
-            <CheckBox
-                Margin="20,10,10,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Block.TextAlignment="Center"
-                Content="{DynamicResource LaunchOnSystemStartup}"
-                IsChecked="{Binding StartSelf}" />
-            <CheckBox
-                Margin="20,10,10,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Block.TextAlignment="Center"
-                Content="{DynamicResource RunTaskAfterLaunch}"
-                IsChecked="{Binding RunDirectly}" />
-            <TextBlock
-                Margin="10"
-                Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
-                Text="{DynamicResource ClientVersion}" />
-            <ComboBox
-                Margin="10"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle}"
-                ItemsSource="{Binding ClientTypeList}"
-                SelectedValue="{Binding ClientType}"
-                SelectedValuePath="Value" />
+            <Grid Margin="10" HorizontalAlignment="Center">
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource LaunchOnSystemStartup}"
+                    IsChecked="{Binding StartSelf}" />
+                <CheckBox
+                    Margin="10,45,10,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource RunTaskAfterLaunch}"
+                    IsChecked="{Binding RunDirectly}" />
+            </Grid>
+            <Grid Margin="10">
+                <TextBlock
+                    Margin="0,0,0,41"
+                    Block.TextAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource ClientVersion}" />
+                <ComboBox
+                    Margin="0,35,0,0"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Idle}"
+                    ItemsSource="{Binding ClientTypeList}"
+                    SelectedValue="{Binding ClientType}"
+                    SelectedValuePath="Value" />
+            </Grid>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <CheckBox

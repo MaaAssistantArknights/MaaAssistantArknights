@@ -28,7 +28,7 @@
         <StackPanel
             Grid.Row="1"
             Margin="10,10,40,10"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsEnabled="{Binding CreditShopping}"
             Orientation="Horizontal">
@@ -50,7 +50,7 @@
         <StackPanel
             Grid.Row="2"
             Margin="10,10,40,10"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsEnabled="{Binding CreditShopping}"
             Orientation="Horizontal">
