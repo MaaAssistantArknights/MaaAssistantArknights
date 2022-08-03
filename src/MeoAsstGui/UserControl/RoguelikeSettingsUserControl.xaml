@@ -147,7 +147,7 @@
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
                 <TextBlock
-                    Width="100"
+                    Width="150"
                     HorizontalAlignment="Right"
                     Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
@@ -159,7 +159,7 @@
                     HorizontalAlignment="Right"
                     Text="{Binding RoguelikeCoreChar}"
                     TextWrapping="Wrap"
-                    ToolTip="{Binding RoguelikeCoreCharTip}" />
+                    ToolTip="{DynamicResource StartingCoreCharTip}" />
             </StackPanel>
         </Grid>
     </Grid>

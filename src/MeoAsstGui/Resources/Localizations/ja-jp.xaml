@@ -48,7 +48,6 @@
 
     <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集める、多くのステージをクリアする</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐を集める、1階旅商人のすぐ後に終了する</system:String>
-
     <system:String x:Key="StartingSquad">スターティング・スクワッド</system:String>
     <system:String x:Key="StartingRoles">始めるキャリア</system:String>
     <system:String x:Key="StartingCoreChar">オペレーター（シングルプレイヤー、中国名のみ）</system:String>
