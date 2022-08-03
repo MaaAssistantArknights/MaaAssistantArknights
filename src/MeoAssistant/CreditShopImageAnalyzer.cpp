@@ -1,5 +1,7 @@
 #include "CreditShopImageAnalyzer.h"
 
+#include <ranges>
+
 #include "NoWarningCV.h"
 
 #include "MatchImageAnalyzer.h"
@@ -89,10 +91,9 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
     }
 
     if (m_is_white_list) {
-        std::sort(m_need_to_buy.begin(), m_need_to_buy.end(), [&](
-            const auto& lhs, const auto& rhs) -> bool {
-                return std::find(m_shopping_list.cbegin(), m_shopping_list.cend(), lhs.second)
-                    < std::find(m_shopping_list.cbegin(), m_shopping_list.cend(), rhs.second);
+        std::ranges::sort(m_need_to_buy, [&](const auto& lhs, const auto& rhs) -> bool {
+            return std::ranges::find(m_shopping_list, lhs.second)
+                < std::ranges::find(m_shopping_list, rhs.second);
         });
     }
 
@@ -105,7 +106,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
     MatchImageAnalyzer sold_out_analyzer(m_image);
     sold_out_analyzer.set_task_info("CreditShop-SoldOut");
 
-    for (const auto& [commodity, _] : m_need_to_buy) {
+    for (const auto& commodity : m_need_to_buy | std::views::keys) {
         sold_out_analyzer.set_roi(commodity);
         if (sold_out_analyzer.analyze()) {
 #ifdef ASST_DEBUG

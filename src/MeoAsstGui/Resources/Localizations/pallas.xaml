@@ -6,7 +6,7 @@
     <!--  设置  -->
     <system:String x:Key="Settings">🍸🍷</system:String>
     <system:String x:Key="BaseSettings">🍸💃🍷</system:String>
-    <system:String x:Key="RougelikeSettings">🍷🍺🍸</system:String>
+    <system:String x:Key="RoguelikeSettings">🍷🍺🍸</system:String>
     <system:String x:Key="RecruitingSettings">🍸🍺🍸</system:String>
     <system:String x:Key="MallSettings">🍺🍷🍻</system:String>
     <system:String x:Key="PenguinSettings">💃🍷🍷</system:String>
@@ -46,8 +46,30 @@
 
     <system:String x:Key="DormThreshold">🍸🍻🍷🍻💃</system:String>
 
-    <system:String x:Key="RougelikeStrategyCandle">🕺🍺🕺🕺🍺🍷🍻🍺</system:String>
-    <system:String x:Key="RougelikeStrategyGold">🍺🍻🍻🍷🍺🍸🕺🍺</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">🕺🍺🕺🕺🍺🍷🍻🍺</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">🍺🍻🍻🍷🍺🍸🕺🍺</system:String>
+    <system:String x:Key="StartingSquad">🍷🍻💃🍸💃</system:String>
+    <system:String x:Key="StartingRoles">🍻🕺🍸🍺🍻🍻</system:String>
+    <system:String x:Key="StartingCoreChar">🕺🍷🍻💃🍻🍸🍸🍺🍷</system:String>
+    <system:String x:Key="StartingCoreCharTip">🍻🍻🍷🍸🍺🍻🍷🍺💃🍺🍷🍸🍺🍺🍺🍷🍸🕺🍷🍸</system:String>
+
+    <system:String x:Key="DefaultSquad">🍷🍸💃🍷🍷</system:String>
+    <system:String x:Key="LeaderSquad">🍻🍸🍷🍸🍺</system:String>
+    <system:String x:Key="GatheringSquad">🍻🍸🕺🍺💃</system:String>
+    <system:String x:Key="SupportSquad">🕺🍸🍸🍸💃</system:String>
+    <system:String x:Key="SpearheadSquad">🍷🍷🍺🍻💃</system:String>
+    <system:String x:Key="TacticalAssaultOperative">🍸💃🍻🍷🍷🍻🍻</system:String>
+    <system:String x:Key="TacticalFortificationOperative">🍸🍸🍺💃🍺🍷🍸</system:String>
+    <system:String x:Key="TacticalRangedOperative">🍺🍻💃💃🍺🍷💃</system:String>
+    <system:String x:Key="TacticalDestructionOperative">🍷🍺🍺🍺🍻🍸💃</system:String>
+    <system:String x:Key="ResearchSquad">🍷🍻🍻🍷🍺</system:String>
+    <system:String x:Key="First-ClassSquad">🍸🍸🍺💃🍸🍸</system:String>
+
+    <system:String x:Key="DefaultRoles">🍸🍷💃🍻🍻🍷</system:String>
+    <system:String x:Key="FirstMoveAdvantage">🍺🍻🍸🍺🍷🍺🍻🍷🍺🍸🍸🕺🍺🍻💃</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">🍻🍷🍸🍸🍺🍺🍻🍸🕺🍷🍻🍷🍸🍻🍷</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">🍷🍺🍸🍺🍸💃💃🍻🍸🍸💃🍸🍺🍺🍸</system:String>
+    <system:String x:Key="AsYourHeartDesires">🍷🍺💃🍺🍻🍸🍻🍸🍸🍷🍷</system:String>
 
     <system:String x:Key="NotSelected">💃🍺</system:String>
     <system:String x:Key="Official">🕺🍺</system:String>
@@ -177,6 +199,8 @@
     <system:String x:Key="PR-C-2">🕺🍷🍺🍻</system:String>
     <system:String x:Key="PR-D-1">🍷🍸🍷</system:String>
     <system:String x:Key="PR-D-2">💃🕺💃🍸</system:String>
+
+    <system:String x:Key="Annihilation">🍷🍻🍷🍸🍻</system:String>
 
     <system:String x:Key="TodaysStageTip">🍷🍸🍺🍸🍷</system:String>
     <system:String x:Key="CETip">🍻🕺💃🍻🍺</system:String>

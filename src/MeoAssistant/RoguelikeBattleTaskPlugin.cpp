@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <future>
+#include <ranges>
 
 #include "NoWarningCV.h"
 
@@ -140,7 +141,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         m_homes = opt->replacement_home;
         std::string log_str = "[ ";
         for (auto& home : m_homes) {
-            if (m_normal_tile_info.find(home) == m_normal_tile_info.end()) {
+            if (!m_normal_tile_info.contains(home)) {
                 Log.error("No replacement home point", home.x, home.y);
             }
             log_str += "( " + std::to_string(home.x) + ", " + std::to_string(home.y) + " ), ";
@@ -222,7 +223,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         return true;
     }
     // 如果已经放了一些人了，就不要再有费就下了
-    if (m_used_tiles.size() >= std::max(m_homes.size(), 2ULL)) {
+    if (m_used_tiles.size() >= std::max(m_homes.size(), static_cast<size_t>(2))) {
         size_t available_count = 0;
         size_t not_cooling_count = 0;
         for (const auto& oper : opers) {
@@ -382,7 +383,7 @@ bool asst::RoguelikeBattleTaskPlugin::abandon()
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 {
-    for (const auto& [loc, _] : m_used_tiles) {
+    for (const auto& loc : m_used_tiles | std::views::keys) {
         auto& tile_info = m_normal_tile_info[loc];
         auto& type = tile_info.buildable;
         if (type == Loc::Melee || type == Loc::All) {
@@ -606,7 +607,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     std::vector<Point> available_locations;
     for (const auto& [loc, tile] : m_normal_tile_info) {
         if ((tile.buildable == buildable_type || tile.buildable == Loc::All)
-            && m_used_tiles.find(loc) == m_used_tiles.cend()) {
+            && !m_used_tiles.contains(loc)) {
             available_locations.emplace_back(loc);
         }
     }
@@ -614,13 +615,13 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         Log.error("No available locations");
         if (m_used_tiles.empty()) {
             Log.error("No used tiles");
-            return DeployInfo();
+            return {};
         }
         m_used_tiles.clear();
         return calc_best_plan(oper);
     }
 
-    std::sort(available_locations.begin(), available_locations.end(), comp_dist);
+    std::ranges::sort(available_locations, comp_dist);
 
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
     constexpr int CalcPointCount = 4;
@@ -773,7 +774,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
 
             switch (oper.role) {
             case BattleRole::Medic:
-                if (m_used_tiles.find(absolute_pos) != m_used_tiles.end()) // 根据哪个方向上人多决定朝向哪
+                if (m_used_tiles.contains(absolute_pos)) // 根据哪个方向上人多决定朝向哪
                     score += 10000;
                 if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
                     score += TileKeyMedicWeights.at(iter->second.key);
