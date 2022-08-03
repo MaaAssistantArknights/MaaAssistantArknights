@@ -21,8 +21,9 @@
         </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Row="0"
+            Margin="0,30,0,0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             Orientation="Vertical">
             <TextBlock
                 Margin="10"
@@ -77,9 +78,8 @@
         <ScrollViewer
             Grid.Column="1"
             Width="360"
-            Height="455"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            Margin="0,10"
+            VerticalAlignment="Top"
             local:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled">
             <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
@@ -88,7 +88,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
                                 Width="350"
-                                Margin="5,5"
+                                Margin="5"
                                 FontWeight="{Binding Weight}"
                                 Foreground="{Binding Color}"
                                 Style="{StaticResource TextBlockDefault}"

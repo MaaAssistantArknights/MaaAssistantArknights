@@ -227,12 +227,19 @@ namespace MeoAsstGui
                 // SideStory「多索雷斯假日」复刻活动关卡
                 new CombData { Display = "DH-9", Value = "DH-9" },
 
+                // 主线关卡
                 new CombData { Display = "1-7", Value = "1-7" },
+
+                // 资源本
                 new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
                 new CombData { Display = Localization.GetString("AP-5"), Value = "AP-5" },
                 new CombData { Display = Localization.GetString("CA-5"), Value = "CA-5" },
                 new CombData { Display = Localization.GetString("LS-6"), Value = "LS-6" },
 
+                // 剿灭模式
+                new CombData { Display = Localization.GetString("Annihilation"), Value = "Annihilation" },
+
+                // 芯片本
                 new CombData { Display = Localization.GetString("PR-A-1"), Value = "PR-A-1" },
                 new CombData { Display = Localization.GetString("PR-A-2"), Value = "PR-A-2" },
                 new CombData { Display = Localization.GetString("PR-B-1"), Value = "PR-B-1" },
@@ -241,9 +248,6 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("PR-C-2"), Value = "PR-C-2" },
                 new CombData { Display = Localization.GetString("PR-D-1"), Value = "PR-D-1" },
                 new CombData { Display = Localization.GetString("PR-D-2"), Value = "PR-D-2" },
-
-                // 剿灭模式
-                new CombData { Display = Localization.GetString("Annihilation"), Value = "Annihilation" },
 
                 // SideStory「绿野幻梦」活动
                 // new CombData { Display = "DV-6", Value = "DV-6" },
