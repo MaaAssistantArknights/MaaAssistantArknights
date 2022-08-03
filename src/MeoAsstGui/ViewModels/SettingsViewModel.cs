@@ -1845,6 +1845,7 @@ namespace MeoAsstGui
                     Localization.GetString("Tip"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
+                System.Windows.Forms.MessageBoxManager.Unregister();
                 SetAndNotify(ref _language, value);
                 if (result == MessageBoxResult.Yes)
                 {
