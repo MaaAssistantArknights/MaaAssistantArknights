@@ -18,12 +18,6 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_image(const cv::Mat image)
     m_multi_match_image_analyzer.set_image(image);
 }
 
-void asst::OcrWithFlagTemplImageAnalyzer::set_image(const cv::Mat image, const Rect& roi)
-{
-    OcrWithPreprocessImageAnalyzer::set_image(image, roi);
-    m_multi_match_image_analyzer.set_image(image, roi);
-}
-
 void asst::OcrWithFlagTemplImageAnalyzer::set_roi(const Rect& roi) noexcept
 {
     OcrWithPreprocessImageAnalyzer::set_roi(roi);

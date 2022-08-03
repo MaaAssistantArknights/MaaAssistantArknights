@@ -24,7 +24,7 @@ namespace asst
         virtual void sort_result_by_score();    // 按分数排序，得分最高的在前面
         virtual void sort_result_by_required(); // 按传入的需求数组排序，传入的在前面结果接在前面
 
-        void set_required(std::vector<std::string> required, bool full_match = false) noexcept;
+        void set_required(std::vector<std::string> required) noexcept;
         void set_replace(std::unordered_map<std::string, std::string> replace) noexcept;
 
         virtual void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
