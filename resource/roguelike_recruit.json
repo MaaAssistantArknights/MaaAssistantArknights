@@ -37,21 +37,17 @@
             "skill": 1
         },
         {
+            "name": "银灰",
+            "skill": 3,
+            "alternate_skill": 1
+        },
+        {
             "name": "陈",
             "skill": 2
         },
         {
             "name": "拉普兰德",
             "skill": 2
-        },
-        {
-            "name": "阿米娅",
-            "skill": 1
-        },
-        {
-            "name": "银灰",
-            "skill": 3,
-            "alternate_skill": 1
         },
         {
             "name": "幽灵鲨",
@@ -141,14 +137,6 @@
         {
             "name": "空弦",
             "skill": 1
-        },
-        {
-            "name": "蓝毒",
-            "skill": 1
-        },
-        {
-            "name": "白金",
-            "skill": 2
         },
         {
             "name": "克洛丝",
