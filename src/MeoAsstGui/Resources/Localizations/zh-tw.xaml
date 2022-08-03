@@ -48,6 +48,28 @@
 
     <system:String x:Key="RoguelikeStrategyCandle">刷蠟燭，盡可能穩定的打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，第一層商店後直接退出</system:String>
+    <system:String x:Key="StartingSquad">開局分隊</system:String>
+    <system:String x:Key="StartingRoles">開局職業組</system:String>
+    <system:String x:Key="StartingCoreChar">開局幹員(單個)</system:String>
+    <system:String x:Key="StartingCoreCharTip">僅支持單個幹員中文名，不填寫則默認選擇</system:String>
+
+    <system:String x:Key="DefaultSquad">默認分隊</system:String>
+    <system:String x:Key="LeaderSquad">指揮分隊</system:String>
+    <system:String x:Key="GatheringSquad">集羣分隊</system:String>
+    <system:String x:Key="SupportSquad">後勤分隊</system:String>
+    <system:String x:Key="SpearheadSquad">矛頭分隊</system:String>
+    <system:String x:Key="TacticalAssaultOperative">突擊戰術分隊</system:String>
+    <system:String x:Key="TacticalFortificationOperative">堡壘戰術分隊</system:String>
+    <system:String x:Key="TacticalRangedOperative">遠程戰術分隊</system:String>
+    <system:String x:Key="TacticalDestructionOperative">破壞戰術分隊</system:String>
+    <system:String x:Key="ResearchSquad">研究分隊</system:String>
+    <system:String x:Key="First-ClassSquad">高規格分隊</system:String>
+
+    <system:String x:Key="DefaultRoles">默認職業組</system:String>
+    <system:String x:Key="FirstMoveAdvantage">先手必勝（先鋒、狙擊、特種）</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">穩紮穩打（重裝、術師、狙擊）</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">取長補短（近衛、輔助、醫療）</system:String>
+    <system:String x:Key="AsYourHeartDesires">隨心所欲（三張隨機）</system:String>
 
     <system:String x:Key="NotSelected">不選擇</system:String>
     <system:String x:Key="Official">官服</system:String>

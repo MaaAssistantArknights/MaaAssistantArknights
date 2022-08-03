@@ -48,6 +48,28 @@
 
     <system:String x:Key="RoguelikeStrategyCandle">통합전략: 촛불 우선</system:String>
     <system:String x:Key="RoguelikeStrategyGold">통합전략: 오리지늄 주괴 우선</system:String>
+    <system:String x:Key="StartingSquad">시동 분대</system:String>
+    <system:String x:Key="StartingRoles">시동 프로팀</system:String>
+    <system:String x:Key="StartingCoreChar">시초 사무원 (1명)</system:String>
+    <system:String x:Key="StartingCoreCharTip">개별 간부의 중국어 이름만 지원하며, 기입하지 않으면 기본 선택입니다</system:String>
+
+    <system:String x:Key="DefaultSquad">묵인</system:String>
+    <system:String x:Key="LeaderSquad">지휘 분대</system:String>
+    <system:String x:Key="GatheringSquad">집합 분대</system:String>
+    <system:String x:Key="SupportSquad">지원 분대</system:String>
+    <system:String x:Key="SpearheadSquad">예봉 분대</system:String>
+    <system:String x:Key="TacticalAssaultOperative">강습 전술 분대</system:String>
+    <system:String x:Key="TacticalFortificationOperative">방어 전술 분대</system:String>
+    <system:String x:Key="TacticalRangedOperative">원거리 전술 분대</system:String>
+    <system:String x:Key="TacticalDestructionOperative">파괴 전술 분대</system:String>
+    <system:String x:Key="ResearchSquad">연구 분대</system:String>
+    <system:String x:Key="First-ClassSquad">고급화 분대</system:String>
+
+    <system:String x:Key="DefaultRoles">묵인</system:String>
+    <system:String x:Key="FirstMoveAdvantage">선수필승</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">차근차근</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">상호보완</system:String>
+    <system:String x:Key="AsYourHeartDesires">원하는 대로</system:String>
 
     <system:String x:Key="NotSelected">선택하지 않기</system:String>
     <system:String x:Key="Official">공식 서버</system:String>
