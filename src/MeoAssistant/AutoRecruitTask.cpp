@@ -48,24 +48,26 @@ namespace asst::recruit_calc
         }
 
         std::vector<RecruitCombs> result;
+        const size_t tag_size = tags.size();
+        result.reserve(tag_size * (tag_size * tag_size + 5) / 6); // C(size, 3) + C(size, 2) + C(size, 1)
 
         // select one tag first
-        for (size_t i = 0; i < tags.size(); ++i) {
+        for (size_t i = 0; i < tag_size; ++i) {
             RecruitCombs temp1 = rcs_with_single_tag[i];
             if (temp1.opers.empty()) continue; // this is not possible
-            result.push_back(temp1); // that is it
+            result.emplace_back(temp1); // that is it
 
             // but what if another tag is also selected
-            for (size_t j = i + 1; j < tags.size(); ++j) {
+            for (size_t j = i + 1; j < tag_size; ++j) {
                 RecruitCombs temp2 = temp1 * rcs_with_single_tag[j];
                 if (temp2.opers.empty()) continue;
-                if (!temp2.opers.empty()) result.push_back(temp2); // two tags only
+                result.emplace_back(temp2); // two tags only
 
                 // select a third one
-                for (size_t k = j + 1; k < tags.size(); ++k) {
+                for (size_t k = j + 1; k < tag_size; ++k) {
                     RecruitCombs temp3 = temp2 * rcs_with_single_tag[k];
                     if (temp3.opers.empty()) continue;
-                    result.push_back(temp3);
+                    result.emplace_back(temp3);
                 }
             }
         }
