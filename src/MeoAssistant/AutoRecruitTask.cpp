@@ -72,7 +72,7 @@ namespace asst::recruit_calc
 
         static constexpr std::string_view SeniorOper = "高级资深干员";
 
-        for (auto comb_iter = result.begin(); comb_iter != result.end(); ++comb_iter) {
+        for (auto comb_iter = result.begin(); comb_iter != result.end();) {
             if (std::ranges::find(comb_iter->tags, SeniorOper) != comb_iter->tags.end()) continue;
             // no senior tag, remove 6-star operators
             // assuming sorted by level
@@ -84,6 +84,7 @@ namespace asst::recruit_calc
                 continue;
             }
             comb_iter->update_attributes();
+            ++comb_iter;
         }
 
         return result;
