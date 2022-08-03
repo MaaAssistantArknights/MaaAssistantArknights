@@ -25,10 +25,6 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat image, const Rect& roi)
-        {
-            AbstractImageAnalyzer::set_image(image, roi);
-        }
         bool commodities_analyze();
         bool whether_to_buy_analyze();
         bool sold_out_analyze();
