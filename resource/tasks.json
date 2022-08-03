@@ -7061,7 +7061,8 @@
             "Roguelike1ExitThenAbandon"
         ],
         "next": [
-            "Roguelike1StageTraderLeaveConfirm"
+            "Roguelike1StageTraderLeaveConfirm",
+            "Roguelike1StageTraderLeave"
         ]
     },
     "Roguelike1ExitThenAbandon": {
