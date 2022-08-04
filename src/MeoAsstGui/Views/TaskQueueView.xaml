@@ -108,22 +108,25 @@
                         Visibility="{Binding NotInverseShowVisibility}" />
                 </Grid>
             </Border>
-            <TextBlock
+            <StackPanel
                 Grid.Row="1"
-                Margin="17,0,0,0"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
-                Text="{DynamicResource Then}"
-                TextWrapping="Wrap" />
-            <ComboBox
-                Grid.Row="1"
-                Margin="63,0,10,0"
-                VerticalAlignment="Center"
-                DisplayMemberPath="Display"
-                ItemsSource="{Binding ActionAfterCompletedList}"
-                SelectedValue="{Binding ActionAfterCompleted}"
-                SelectedValuePath="Value" />
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="5,0"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource Then}"
+                    TextWrapping="Wrap" />
+                <ComboBox
+                    Width="170"
+                    Margin="5,0"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding ActionAfterCompletedList}"
+                    SelectedValue="{Binding ActionAfterCompleted}"
+                    SelectedValuePath="Value" />
+
+            </StackPanel>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
             <!--<CheckBox IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" VerticalAlignment="Center">
