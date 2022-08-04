@@ -2,6 +2,8 @@ name: "Issue Labeler"
 on:
   issues:
     types: [opened]
+  pull_request:
+    types: [opened]
 
 jobs:
   triage:
