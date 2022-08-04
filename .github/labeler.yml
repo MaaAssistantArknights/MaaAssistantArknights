@@ -1,10 +1,10 @@
 "module: copilot":
-  - '(自动作战|copilot|自动战斗|作业)'
+  - '(自动作战|copilot|自动战斗|作业|作業|自動戰鬥|自動戦闘)'
 "module: GUI":
-  - '(闪退|界面|崩溃)'
+  - '(闪退|界面|崩溃|GUI|crash|介面|画面|インターフェース)'
 "module: infrast":
-  - '(基建|infrast)'
+  - '(基建|infrast|base|基地)'
 "module: recruit":
-  - '(公招|公开招募)'
+  - '(公招|公开招募|recruit|公開求人)'
 "module: roguelike":
-  - '(肉鸽|集成战略|rogue|roguelike)'
+  - '(肉鸽|集成战略|rogue|肉鴿|ローグ)'
