@@ -1,6 +1,7 @@
 #include "InfrastProductionTask.h"
 
 #include <algorithm>
+#include "AsstRanges.hpp"
 
 #include <calculator/calculator.hpp>
 
@@ -206,7 +207,7 @@ size_t asst::InfrastProductionTask::opers_detect()
             //--cur_available_num;
             continue;
         }
-        auto find_iter = std::ranges::find_if(m_all_available_opers,
+        auto find_iter = ranges::find_if(m_all_available_opers,
             [&](const infrast::Oper& oper) -> bool {
                 if (oper.skills != cur_oper.skills) {
                     return false;
@@ -243,7 +244,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     std::vector<infrast::SkillsComb> optimal_combs;
     optimal_combs.reserve(cur_max_num_of_opers);
     double max_efficient = 0;
-    std::ranges::sort(all_available_combs,
+    ranges::sort(all_available_combs,
         [&](const infrast::SkillsComb& lhs, const infrast::SkillsComb& rhs) -> bool {
             return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
         });
@@ -328,7 +329,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         // necessary里的技能，一个都不能少
         // TODO necessary暂时没做hash校验。因为没有需要比hash的necessary干员（
         for (const infrast::SkillsComb& nec_skills : group.necessary) {
-            auto find_iter = std::ranges::find_if(cur_available_opers,
+            auto find_iter = ranges::find_if(cur_available_opers,
                 [&](const infrast::SkillsComb& arg) -> bool {
                     return arg == nec_skills;
                 });
@@ -358,7 +359,7 @@ bool asst::InfrastProductionTask::optimal_calc()
             }
         }
 
-        std::ranges::sort(optional,
+        ranges::sort(optional,
             [&](const infrast::SkillsComb& lhs,
                 const infrast::SkillsComb& rhs) -> bool {
                     return lhs.efficient.at(m_product) > rhs.efficient.at(m_product);
@@ -387,7 +388,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                             continue;
                         }
                         std::string name = name_analyzer.get_result().front().text;
-                        hash_matched = std::ranges::find(opt.name_filter, name) != opt.name_filter.cend();
+                        hash_matched = ranges::find(opt.name_filter, name) != opt.name_filter.cend();
                     }
                     if (!hash_matched) {
                         ++find_iter;
@@ -492,15 +493,21 @@ bool asst::InfrastProductionTask::opers_choose()
         auto cur_all_opers = oper_analyzer.get_result();
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
-        auto remove_iter = std::ranges::remove_if(cur_all_opers,
+        auto remove_iter = ranges::remove_if(cur_all_opers,
             [&](const infrast::Oper& rhs) -> bool {
                 return rhs.mood_ratio < m_mood_threshold;
-            }).begin();
+            });
+#ifdef ASST_USE_RANGES_STL
+        cur_all_opers.erase(remove_iter.begin(), cur_all_opers.end());
+#elif defined(ASST_USE_RANGES_RANGE_V3)
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
+#else
+#error
+#endif
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
-            auto find_iter = std::ranges::find_if(cur_all_opers,
+            auto find_iter = ranges::find_if(cur_all_opers,
                 [&](const infrast::Oper& lhs) -> bool {
                     if (lhs.skills != opt_iter->skills) {
                         return false;
@@ -517,7 +524,7 @@ bool asst::InfrastProductionTask::opers_choose()
                             return false;
                         }
                         std::string name = name_analyzer.get_result().front().text;
-                        return std::ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
+                        return ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
                     }
                 });
 
@@ -540,7 +547,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 m_ctrler->click(find_iter->rect);
             }
             {
-                auto avlb_iter = std::ranges::find_if(m_all_available_opers,
+                auto avlb_iter = ranges::find_if(m_all_available_opers,
                     [&](const infrast::Oper& lhs) -> bool {
                         int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                         Log.debug("opers_choose | face hash dist", dist);

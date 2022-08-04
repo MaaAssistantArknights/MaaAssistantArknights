@@ -27,7 +27,7 @@ namespace asst
 
         template<typename TargetTaskInfoType>
         requires std::derived_from<TargetTaskInfoType, TaskInfo>
-             && !std::same_as<TargetTaskInfoType, TaskInfo> // Parameter must be a TaskInfo and not same as TaskInfo
+             && (!std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo and not same as TaskInfo
         std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
         {
             auto it = m_all_tasks_info.find(name);

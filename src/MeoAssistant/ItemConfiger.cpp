@@ -1,6 +1,6 @@
 #include "ItemConfiger.h"
 
-#include <ranges>
+#include "AsstRanges.hpp"
 #include <meojson/json.hpp>
 
 #include "Logger.hpp"
@@ -21,10 +21,10 @@ bool asst::ItemConfiger::parse(const json::value& json)
 
     m_ordered_material_item_id.clear();
     m_ordered_material_item_id.reserve(material_sortid.size());
-    for (const auto& item_id : material_sortid | std::views::keys) {
+    for (const auto& item_id : material_sortid | views::keys) {
         m_ordered_material_item_id.emplace_back(item_id);
     }
-    std::ranges::sort(m_ordered_material_item_id,
+    ranges::sort(m_ordered_material_item_id,
         [&](const std::string& lhs, const std::string& rhs) -> bool {
             return material_sortid[lhs] < material_sortid[rhs];
         });

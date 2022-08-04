@@ -2,7 +2,7 @@
 
 #include <chrono>
 #include <future>
-#include <ranges>
+#include "AsstRanges.hpp"
 
 #include "NoWarningCV.h"
 
@@ -383,7 +383,7 @@ bool asst::RoguelikeBattleTaskPlugin::abandon()
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 {
-    for (const auto& loc : m_used_tiles | std::views::keys) {
+    for (const auto& loc : m_used_tiles | views::keys) {
         auto& tile_info = m_normal_tile_info[loc];
         auto& type = tile_info.buildable;
         if (type == Loc::Melee || type == Loc::All) {
@@ -621,7 +621,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         return calc_best_plan(oper);
     }
 
-    std::ranges::sort(available_locations, comp_dist);
+    ranges::sort(available_locations, comp_dist);
 
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
     constexpr int CalcPointCount = 4;

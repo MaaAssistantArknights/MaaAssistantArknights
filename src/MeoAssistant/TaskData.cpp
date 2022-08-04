@@ -1,6 +1,7 @@
 #include "TaskData.h"
 
 #include <algorithm>
+#include "AsstRanges.hpp"
 
 #include <meojson/json.hpp>
 
@@ -23,7 +24,7 @@ bool asst::TaskData::parse(const json::value& json)
     };
     for (const auto& [name, task_json] : json.as_object()) {
         std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
-        std::ranges::transform(algorithm_str, algorithm_str.begin(), to_lower);
+        ranges::transform(algorithm_str, algorithm_str.begin(), to_lower);
         auto algorithm = AlgorithmType::Invalid;
         if (algorithm_str == "matchtemplate") {
             algorithm = AlgorithmType::MatchTemplate;
@@ -97,7 +98,7 @@ bool asst::TaskData::parse(const json::value& json)
         task_info_ptr->algorithm = algorithm;
         task_info_ptr->name = name;
         std::string action = task_json.get("action", "donothing");
-        std::ranges::transform(action, action.begin(), to_lower);
+        ranges::transform(action, action.begin(), to_lower);
         if (action == "clickself") {
             task_info_ptr->action = ProcessTaskAction::ClickSelf;
         }
