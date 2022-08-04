@@ -1,10 +1,16 @@
 "module: copilot":
-  - '(自动作战|copilot|自动战斗|作业)'
+  - '(自动作战|自动战斗|自动编队|作业|copilot)'
 "module: GUI":
-  - '(闪退|界面|崩溃)'
+  - '(图形化界面|闪退|gui|GUI)'
+"module: fight":
+  - '(刷图|刷.{0,6}材料)'
 "module: infrast":
-  - '(基建|infrast)'
+  - '(基建|贸易站|制造站|控制中枢|会客室|infrast)'
+"module: others":
+  - '(信用|拜访|登录|开始唤醒)'
 "module: recruit":
   - '(公招|公开招募)'
 "module: roguelike":
-  - '(肉鸽|集成战略|rogue|roguelike)'
+  - '(肉鸽|肉鴿|集成战略|rogue)'
+"release":
+  - '(Release v(\d)+\.(\d)+\.(\d)+)'
