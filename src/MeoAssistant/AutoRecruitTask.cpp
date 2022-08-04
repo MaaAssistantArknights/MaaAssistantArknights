@@ -297,7 +297,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // special tags
         const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
         auto special_iter = std::ranges::find_first_of(SpecialTags, tag_names);
-        if (special_iter != SpecialTags.cend()) {
+        if (special_iter != SpecialTags.cend()) [[unlikely]] {
             json::value info = basic_info();
             info["what"] = "RecruitSpecialTag";
             info["details"] = json::object{ { "tag", *special_iter } };
@@ -308,7 +308,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
         auto robot_iter = std::ranges::find_first_of(RobotTags, tag_names);
-        if (robot_iter != RobotTags.cend()) {
+        if (robot_iter != RobotTags.cend()) [[unlikely]] {
             json::value info = basic_info();
             info["what"] = "RecruitRobotTag";
             info["details"] = json::object{ { "tag", *robot_iter } };
@@ -398,7 +398,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             && !(m_skip_robot && has_robot_tag)
                 ) {
 
-            if (refresh_count > refresh_limit) { // unlikely
+            if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value info = basic_info();
                 info["what"] = "RecruitError";
                 info["why"] = "刷新次数达到上限";
