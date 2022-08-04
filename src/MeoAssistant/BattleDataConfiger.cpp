@@ -1,11 +1,11 @@
 #include "BattleDataConfiger.h"
 
-#include <ranges>
+#include "AsstRanges.hpp"
 #include <meojson/json.hpp>
 
 bool asst::BattleDataConfiger::parse(const json::value& json)
 {
-    for (const auto& char_data_json : json.at("chars").as_object() | std::views::values) {
+    for (const auto& char_data_json : json.at("chars").as_object() | views::values) {
         BattleCharData data;
         std::string name = char_data_json.at("name").as_string();
         data.name = name;

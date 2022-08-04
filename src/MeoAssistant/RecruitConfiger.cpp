@@ -35,7 +35,7 @@ bool asst::RecruitConfiger::parse(const json::value& json)
     }
 
     // 按干员等级排个序
-    std::ranges::sort(m_all_opers, [](const auto& lhs, const auto& rhs) -> bool {
+    ranges::sort(m_all_opers, [](const auto& lhs, const auto& rhs) -> bool {
         return lhs.level > rhs.level;
         });
 

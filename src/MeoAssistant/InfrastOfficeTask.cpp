@@ -2,6 +2,8 @@
 
 #include "Controller.h"
 
+#include "AsstRanges.hpp"
+
 bool asst::InfrastOfficeTask::_run()
 {
     m_all_available_opers.clear();
@@ -22,7 +24,7 @@ bool asst::InfrastOfficeTask::_run()
         }
         swipe_to_the_left_of_operlist();
 
-        auto find_iter = std::ranges::find_if(m_all_available_opers,
+        auto find_iter = ranges::find_if(m_all_available_opers,
             [&](const infrast::Oper& info) -> bool {
                 return info.selected;
             });

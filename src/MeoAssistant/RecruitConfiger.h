@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include "AsstRanges.hpp"
 
 #include "AsstTypes.h"
 
@@ -71,16 +72,16 @@ namespace asst
         // intersection of two recruit combs
         friend RecruitCombs operator*(RecruitCombs& lhs, RecruitCombs& rhs)
         {
-            std::ranges::sort(lhs.tags);
-            std::ranges::sort(lhs.opers);
-            std::ranges::sort(rhs.tags);
-            std::ranges::sort(rhs.opers);
+            ranges::sort(lhs.tags);
+            ranges::sort(lhs.opers);
+            ranges::sort(rhs.tags);
+            ranges::sort(rhs.opers);
 
             RecruitCombs result;
 
-            std::ranges::set_union(lhs.tags, rhs.tags, std::back_inserter(result.tags));
+            ranges::set_union(lhs.tags, rhs.tags, std::back_inserter(result.tags));
 
-            std::ranges::set_intersection(lhs.opers, rhs.opers, std::back_inserter(result.opers));
+            ranges::set_intersection(lhs.opers, rhs.opers, std::back_inserter(result.opers));
 
             result.update_attributes();
 

@@ -233,7 +233,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     for (const auto& drop : m_cur_info_json["drops"].as_array()) {
         static const std::vector<std::string> filter = { "NORMAL_DROP", "EXTRA_DROP" , "FURNITURE", "SPECIAL_DROP" };
         std::string drop_type = drop.at("dropType").as_string();
-        if (std::ranges::find(filter, drop_type) == filter.cend()) {
+        if (ranges::find(filter, drop_type) == filter.cend()) {
             continue;
         }
         if (drop.at("itemId").as_string().empty()) {
