@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Stylet;
 using StyletIoC;
@@ -114,6 +115,13 @@ namespace MeoAsstGui
         /// <inheritdoc/>
         protected override void OnClose()
         {
+            var currentProcessName = Process.GetCurrentProcess().ProcessName;
+            if (!(Process.GetProcessesByName(currentProcessName).Length > 1))
+            {
+                var p = _container.Get<AsstProxy>();
+                p.AsstRelease();
+            }
+
             System.Windows.Application.Current.Shutdown();
         }
     }

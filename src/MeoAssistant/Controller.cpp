@@ -136,9 +136,11 @@ asst::Controller::~Controller()
         m_cmd_thread.join();
     }
 
+#ifndef _WIN32
     if (--m_instance_count) {
         release();
     }
+#endif // !_WIN32
 
 #ifdef _WIN32
     CloseHandle(m_pipe_read);

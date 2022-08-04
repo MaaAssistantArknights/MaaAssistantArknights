@@ -36,6 +36,7 @@ extern "C" {
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
     void ASSTAPI AsstLog(const char* level, const char* message);
+    void ASSTAPI AsstRelease(AsstHandle handle);
 
 #ifdef __cplusplus
 }

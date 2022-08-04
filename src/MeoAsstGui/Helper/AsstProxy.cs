@@ -60,6 +60,9 @@ namespace MeoAsstGui
         [DllImport("MeoAssistant.dll")]
         private static extern bool AsstConnect(AsstHandle handle, byte[] adb_path, byte[] address, byte[] config);
 
+        [DllImport("MeoAssistant.dll")]
+        private static extern void AsstRelease(AsstHandle handle);
+
         private static bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
         {
             return AsstConnect(handle, Encoding.UTF8.GetBytes(adb_path), Encoding.UTF8.GetBytes(address), Encoding.UTF8.GetBytes(config));
@@ -1294,6 +1297,14 @@ namespace MeoAsstGui
         public void AsstDestroy()
         {
             AsstDestroy(_handle);
+        }
+
+        /// <summary>
+        /// 释放ADB资源。
+        /// </summary>
+        public void AsstRelease()
+        {
+            AsstRelease(_handle);
         }
     }
 

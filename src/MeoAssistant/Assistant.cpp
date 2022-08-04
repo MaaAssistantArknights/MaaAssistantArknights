@@ -347,3 +347,9 @@ bool asst::Assistant::inited() const noexcept
 {
     return m_ctrler && m_ctrler->inited();
 }
+
+void asst::Assistant::release()
+{
+    LogTraceFunction;
+    m_ctrler->release();
+}

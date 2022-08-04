@@ -198,3 +198,10 @@ void AsstLog(const char* level, const char* message)
     }
     asst::Log.log_with_custom_level(level, message);
 }
+
+void AsstRelease(AsstHandle handle)
+{
+    if (handle != nullptr) {
+        handle->release();
+    }
+}

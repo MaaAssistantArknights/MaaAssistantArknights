@@ -47,6 +47,8 @@ namespace asst
         std::string get_uuid() const;
         std::vector<TaskId> get_tasks_list() const;
 
+        void release();
+
     private:
         void working_proc();
         void msg_proc();
