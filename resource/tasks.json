@@ -7774,9 +7774,153 @@
         ],
         "rearDelay": 2000,
         "next": [
+            "Roguelike1GetDropSelectRecruitWarrior",
+            "Roguelike1GetDropSelectRecruitPioneer",
+            "Roguelike1GetDropSelectRecruitTank",
+            "Roguelike1GetDropSelectRecruitSniper",
+            "Roguelike1GetDropSelectRecruitCaster",
+            "Roguelike1GetDropSelectRecruitMedic",
             "Roguelike1GetDropSelectRecruit",
             "Roguelike1GetDropSelectReward",
             "Roguelike1ChooseOperFlag"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruitWarrior": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "近卫招募券"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            100
+        ],
+        "rectMove": [
+            -50,
+            150,
+            220,
+            50
+        ],
+        "next": [
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropSelectRecruit"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruitPioneer": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "先锋招募券"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            100
+        ],
+        "rectMove": [
+            -50,
+            150,
+            220,
+            50
+        ],
+        "next": [
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropSelectRecruit"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruitTank": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "重装招募券"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            100
+        ],
+        "rectMove": [
+            -50,
+            150,
+            220,
+            50
+        ],
+        "next": [
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropSelectRecruit"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruitSniper": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "狙击招募券"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            100
+        ],
+        "rectMove": [
+            -50,
+            150,
+            220,
+            50
+        ],
+        "next": [
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropSelectRecruit"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruitCaster": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "术师招募券"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            100
+        ],
+        "rectMove": [
+            -50,
+            150,
+            220,
+            50
+        ],
+        "next": [
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropSelectRecruit"
+        ]
+    },
+    "Roguelike1GetDropSelectRecruitMedic": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "医疗招募券"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            100
+        ],
+        "rectMove": [
+            -50,
+            150,
+            220,
+            50
+        ],
+        "next": [
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropSelectRecruit"
         ]
     },
     "Roguelike1GetDropSelectRecruit": {
