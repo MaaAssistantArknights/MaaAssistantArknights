@@ -31,8 +31,12 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "Episode1",
-            "SwipeLeftToStage1-7"
+            "Episode1"
+        ],
+        "next": [
+            "Stage1-7",
+            "SwipeLeftToStage1-7",
+            "SwipeRightToStage1-7"
         ]
     },
     "Episode10": {
@@ -228,7 +232,8 @@
         "next": [
             "StageThemeEpisode10ToEpisode9",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "StageThemeChapter2ToEpisode8": {
         "action": "ClickSelf",
@@ -254,7 +259,8 @@
         "next": [
             "StageThemeEpisode8ToEpisode7",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "StageThemeEpisode8ToEpisode6": {
         "algorithm": "OcrDetect",
@@ -272,7 +278,8 @@
         "next": [
             "StageThemeEpisode8ToEpisode6",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "StageThemeEpisode8ToEpisode5": {
         "algorithm": "OcrDetect",
@@ -291,7 +298,8 @@
         "next": [
             "StageThemeEpisode8ToEpisode5",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "StageThemeEpisode8ToEpisode4": {
         "algorithm": "OcrDetect",
@@ -311,7 +319,8 @@
         "next": [
             "StageThemeEpisode8ToEpisode4",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "StageThemeChapter1ToEpisode3": {
         "action": "ClickSelf",
@@ -337,7 +346,8 @@
         "next": [
             "StageThemeEpisode3ToEpisode2",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "StageThemeEpisode3ToEpisode1": {
         "algorithm": "OcrDetect",
@@ -355,7 +365,8 @@
         "next": [
             "StageThemeEpisode3ToEpisode1",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "StageThemeEpisode3ToEpisode0": {
         "algorithm": "OcrDetect",
@@ -374,7 +385,8 @@
         "next": [
             "StageThemeEpisode3ToEpisode0",
             "DoNothing"
-        ]
+        ],
+        "rearDelay": 500
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
