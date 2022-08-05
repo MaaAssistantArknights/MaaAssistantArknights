@@ -20,7 +20,7 @@
   刷图|刷.{0,6}材料|关卡选择|战斗|作战|戰鬥|戦闘|fight|battle|\
   基建|贸易站|制造站|控制中枢|会客室|infrast|base|基地|\
   信用|拜访|登录|开始唤醒|visit|login|startup|\
-  公招|招募|recruit|公開求人|\
+  公招|招募|recruit|公開募集|公開求人|\
   肉鸽|集成战略|rogue|肉鴿|ローグ|\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)GUI(?:`|))))[\\s\\S]*$)"
 "module: infrast":
@@ -32,7 +32,7 @@
   - "(?:[Aa]dd (?:`|)(?:module: |)others(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)others(?:`|))))[\\s\\S]*$)"
 "module: recruit":
-  - '(?:[Aa]dd (?:`|)(?:module: |)recruit(?:`|)|公招|招募|recruit|公開求人)'
+  - '(?:[Aa]dd (?:`|)(?:module: |)recruit(?:`|)|公招|招募|recruit|公開募集|公開求人)'
   - "(?:[Aa]dd (?:`|)(?:module: |)recruit(?:`|)|^(?![\\s\\S]*(?:\
   肉鸽|集成战略|rogue|肉鴿|ローグ|\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)recruit(?:`|))))[\\s\\S]*$)"
@@ -54,7 +54,7 @@
   图形化界面|闪退|gui|GUI|インターフェース|\
   基建|贸易站|制造站|控制中枢|会客室|infrast|base|基地|\
   信用|拜访|登录|开始唤醒|visit|login|startup|\
-  公招|招募|recruit|公開求人|\
+  公招|招募|recruit|公開募集|公開求人|\
   肉鸽|集成战略|rogue|肉鴿|ローグ|\
   Release v(?:\\d)+\\.(?:\\d)+\\.(?:\\d)+|\
   [Rr]emove (?:[Aa]ll labels|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
