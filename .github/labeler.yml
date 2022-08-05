@@ -68,18 +68,18 @@
   - "(?:[Aa]dd (?:`|)translation required(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)translation required(?:`|))))[\\s\\S]*$)"
 "Client: JP":
-  - '(?:[Aa]dd (?:`|)(?:module: |)Client: JP(?:`|)|日服)'
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: JP(?:`|)|日服|日文服|日语服|YoStarJP)'
   - "(?:[Aa]dd (?:`|)(?:module: |)Client: JP(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: JP(?:`|))))[\\s\\S]*$)"
 "Client: EN":
-  - '(?:[Aa]dd (?:`|)(?:module: |)Client: EN(?:`|)|国际服|美服)'
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: EN(?:`|)|国际服|美服|英文服|英语服|英服|YoStarEN)'
   - "(?:[Aa]dd (?:`|)(?:module: |)Client: EN(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: EN(?:`|))))[\\s\\S]*$)"
 "Client: KR":
-  - '(?:[Aa]dd (?:`|)(?:module: |)Client: KR(?:`|)|韩服)'
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: KR(?:`|)|韩服|韩文服|韩语服|YoStarKR)'
   - "(?:[Aa]dd (?:`|)(?:module: |)Client: KR(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: KR(?:`|))))[\\s\\S]*$)"
 "Client: ZH_TW":
-  - '(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|繁中服)'
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|繁中服|台服|繁体中文服|龍成|龙成|txwy|天下网游)'
   - "(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: ZH_TW(?:`|))))[\\s\\S]*$)"
