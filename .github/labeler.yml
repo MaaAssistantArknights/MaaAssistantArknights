@@ -80,6 +80,6 @@
   - "(?:[Aa]dd (?:`|)(?:module: |)Client: KR(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: KR(?:`|))))[\\s\\S]*$)"
 "Client: ZH_TW":
-  - '(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|繁中服||台服|繁体中文服|龍成|龙成|txwy|天下网游)'
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|繁中服|台服|繁体中文服|龍成|龙成|txwy|天下网游)'
   - "(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: ZH_TW(?:`|))))[\\s\\S]*$)"
