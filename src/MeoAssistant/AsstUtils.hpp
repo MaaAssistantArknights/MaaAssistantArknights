@@ -47,8 +47,8 @@ namespace asst::utils
 
     template<typename map_t>
     inline std::string string_replace_all_batch(const std::string& src, const map_t& replace_pairs)
-    requires std::derived_from<map_t::value_type::first_type, std::string>
-          && std::derived_from<map_t::value_type::second_type, std::string>
+    requires std::derived_from<typename map_t::value_type::first_type, std::string>
+          && std::derived_from<typename map_t::value_type::second_type, std::string>
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
