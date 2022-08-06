@@ -45,10 +45,6 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat image, const Rect& roi)
-        {
-            AbstractImageAnalyzer::set_image(image, roi);
-        }
         bool match_analyze(const std::shared_ptr<TaskInfo>& task_ptr);
         bool ocr_analyze(const std::shared_ptr<TaskInfo>& task_ptr);
         void reset() noexcept;

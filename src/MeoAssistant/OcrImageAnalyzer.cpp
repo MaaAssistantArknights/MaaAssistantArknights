@@ -97,10 +97,9 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
     m_use_cache = is_use;
 }
 
-void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required, bool full_match) noexcept
+void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
     m_required = std::move(required);
-    m_full_match = full_match;
 }
 
 void asst::OcrImageAnalyzer::set_replace(std::unordered_map<std::string, std::string> replace) noexcept
