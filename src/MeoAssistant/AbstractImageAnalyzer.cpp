@@ -31,12 +31,6 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat image)
 #endif
 }
 
-void asst::AbstractImageAnalyzer::set_image(const cv::Mat image, const Rect& roi)
-{
-    set_image(image);
-    m_roi = empty_rect_to_full(roi, image);
-}
-
 void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
 {
     m_roi = empty_rect_to_full(roi, m_image);

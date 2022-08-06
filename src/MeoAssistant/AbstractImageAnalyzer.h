@@ -21,7 +21,6 @@ namespace asst
         virtual ~AbstractImageAnalyzer() = default;
 
         virtual void set_image(const cv::Mat image);
-        virtual void set_image(const cv::Mat image, const Rect& roi);
         virtual void set_roi(const Rect& roi) noexcept;
 
         virtual bool analyze() = 0;

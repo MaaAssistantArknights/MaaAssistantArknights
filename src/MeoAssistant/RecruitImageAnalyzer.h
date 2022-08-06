@@ -37,10 +37,6 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat image, const Rect& roi)
-        {
-            AbstractImageAnalyzer::set_image(image, roi);
-        }
         bool tags_analyze();
         bool time_analyze();
         bool refresh_analyze();
