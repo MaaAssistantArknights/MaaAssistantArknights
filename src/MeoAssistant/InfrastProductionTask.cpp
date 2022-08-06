@@ -496,14 +496,8 @@ bool asst::InfrastProductionTask::opers_choose()
         auto remove_iter = ranges::remove_if(cur_all_opers,
             [&](const infrast::Oper& rhs) -> bool {
                 return rhs.mood_ratio < m_mood_threshold;
-            });
-#ifdef ASST_USE_RANGES_STL
-        cur_all_opers.erase(remove_iter.begin(), cur_all_opers.end());
-#elif defined(ASST_USE_RANGES_RANGE_V3)
+            }).begin();
         cur_all_opers.erase(remove_iter, cur_all_opers.end());
-#else
-#error
-#endif
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());
