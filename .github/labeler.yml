@@ -60,11 +60,7 @@
   [Rr]emove (?:[Aa]ll labels|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
 "translation required":
   # 不要使用日文发 issue
-  - "(?:[Aa]dd (?:`|)translation required(?:`|)|[\
-  あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん\
-  アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲン\
-  がぎぐげござじずぜぞだぢづでどぱぴぷぺぽばびぶべぼゎゃゅょぁぃぅぇぉっゔゕゖゝゞ\
-  ガギグゲゴザジズゼゾダヂヅデドパピプペポバビブベボヮャュョァィゥェォッヴヵヶヽヾヷヸヹヺ㍿㍐])"
+  - "(?:[Aa]dd (?:`|)translation required(?:`|)|([\\u3040-\\u30ff]|[㍿㍐]))"
   - "(?:[Aa]dd (?:`|)translation required(?:`|)|^(?![\\s\\S]*(?:\
   [Rr]emove (?:[Aa]ll labels|(?:`|)translation required(?:`|))))[\\s\\S]*$)"
 "Client: JP":
