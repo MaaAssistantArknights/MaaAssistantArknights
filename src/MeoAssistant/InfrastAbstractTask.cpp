@@ -155,6 +155,14 @@ bool asst::InfrastAbstractTask::click_clear_button()
     return task.run();
 }
 
+bool asst::InfrastAbstractTask::click_SortByTrustButton()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastSortByTrustButton" });
+    return task.run();
+}
+
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
