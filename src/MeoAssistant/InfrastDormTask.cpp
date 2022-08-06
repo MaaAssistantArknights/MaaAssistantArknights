@@ -21,7 +21,10 @@ bool asst::InfrastDormTask::_run()
         if (!enter_oper_list_page()) {
             return false;
         }
-        click_clear_button();
+
+        if (!m_all_finished) {
+            click_clear_button();
+        }
 
         opers_choose();
 
@@ -29,7 +32,7 @@ bool asst::InfrastDormTask::_run()
         click_return_button();
 
         if (m_all_finished) {
-            break;
+            //break;
         }
     }
     return true;
@@ -38,6 +41,7 @@ bool asst::InfrastDormTask::_run()
 bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
+
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
             return false;
@@ -66,10 +70,19 @@ bool asst::InfrastDormTask::opers_choose()
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
-                if (++num_of_resting > max_num_of_opers()) {
+                if (m_all_finished && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
+                    m_ctrler->click(oper.rect);
+                    if (++num_of_selected >= max_num_of_opers()) {
+                        Log.trace("num_of_selected:", num_of_selected, ", just break");
+                        break;
+                    }
+                }
+                else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
+                    Log.trace("click_SortByTrustButton");
+                    click_SortByTrustButton();
                     m_all_finished = true;
-                    return true;
+                    //return true;
                 }
                 break;
             case infrast::SmileyType::Work:

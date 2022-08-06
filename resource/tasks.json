@@ -4503,6 +4503,17 @@
         ],
         "rearDelay": 1000
     },
+    "InfrastSortByTrustButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1065,
+            40,
+            0,
+            0
+        ],
+        "rearDelay": 1000
+    },
     "InfrastConfirmButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
