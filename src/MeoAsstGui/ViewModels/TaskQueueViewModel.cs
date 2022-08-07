@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -958,6 +959,61 @@ namespace MeoAsstGui
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
         }
 
+        [DllImport("user32.dll", EntryPoint = "FindWindow")]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
+
+        /// <summary>
+        /// Kills emulator by Window hwnd.
+        /// </summary>
+        /// <returns>Whether the operation is successful.</returns>
+        public bool killEumlatorbyWindow()
+        {
+            bool status;
+            IntPtr hwnd;
+            int pid = 0;
+            var windowname = new[] { "BlueStacks App Player", "BlueStacks", "明日方舟 - MuMu模拟器", "夜神模拟器", "逍遥模拟器", "明日方舟" };
+            Process emulator;
+            foreach (string i in windowname)
+            {
+                hwnd = FindWindow(null, i);
+                if (hwnd != IntPtr.Zero)
+                {
+                    GetWindowThreadProcessId(hwnd, out pid);
+                    break;
+                }
+            }
+
+            if (pid != 0)
+            {
+                emulator = Process.GetProcessById(pid);
+                status = emulator.CloseMainWindow();
+                if (!status || !emulator.HasExited)
+                {
+                    try
+                    {
+                        emulator.Kill();
+                    }
+                    catch
+                    {
+                        return killEmulator();
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return killEmulator();
+            }
+        }
+
         /// <summary>
         /// Kills emulator.
         /// </summary>
@@ -1104,7 +1160,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulator:
-                    if (!killEmulator())
+                    if (!killEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
@@ -1112,7 +1168,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
-                    if (!killEmulator())
+                    if (!killEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
                     }
