@@ -1,5 +1,13 @@
 #pragma once
 
+#if !defined(ASST_USE_RANGES_STL) && !defined(ASST_USE_RANGES_RANGE_V3) && !defined(ASST_USE_RANGES_BOOST)
+#ifdef __clang__
+#define ASST_USE_RANGES_RANGE_V3
+#else
+#define ASST_USE_RANGES_STL
+#endif
+#endif
+
 #ifdef _MSC_VER
 #define ASST_DO_PRAGMA(x) __pragma(x)
 #elif defined(__GNUC__)

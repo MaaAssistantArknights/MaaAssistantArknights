@@ -27,7 +27,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
         std::vector<std::string> all_tags_vec;
         all_tags_vec.assign(all_tags_set.begin(), all_tags_set.end());
         // 把因为“资深干员”是“高级资深干员”的子串，把“高级资深干员”放到最前面，免得先被“资深干员”匹配上了
-        auto ssr_iter = std::ranges::find(all_tags_vec, "高级资深干员");
+        auto ssr_iter = ranges::find(all_tags_vec, "高级资深干员");
         if (ssr_iter != all_tags_vec.end()) {
             std::swap(*ssr_iter, all_tags_vec.front());
         }
