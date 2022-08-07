@@ -83,9 +83,15 @@ namespace MeoAsstGui
         /// Gets a localized string.
         /// </summary>
         /// <param name="key">The key of the string.</param>
+        /// <param name="culture">The language of the string</param>
         /// <returns>The string.</returns>
-        public static string GetString(string key)
+        public static string GetString(string key, string culture = null)
         {
+            if (string.IsNullOrEmpty(culture))
+            {
+                culture = Localization.culture;
+            }
+
             var dictionary = new ResourceDictionary
             {
                 Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative),

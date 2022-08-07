@@ -248,6 +248,7 @@ void asst::Controller::pipe_working_proc()
 
 std::optional<std::vector<uchar>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
+    using namespace std::chrono_literals;
     LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
     std::vector<uchar> pipe_data;
@@ -379,7 +380,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
             reconnect_info["details"]["times"] = i;
             m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
 
-            std::this_thread::sleep_for(std::chrono::seconds(10));
+            std::this_thread::sleep_for(10s);
             auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
@@ -566,7 +567,8 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 
 void asst::Controller::wait(unsigned id) const noexcept
 {
-    static constexpr auto delay = std::chrono::milliseconds(10);
+    using namespace std::chrono_literals;
+    static constexpr auto delay = 10ms;
     while (id > m_completed_id) {
         std::this_thread::sleep_for(delay);
     }

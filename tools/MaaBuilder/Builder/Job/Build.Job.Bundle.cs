@@ -45,6 +45,9 @@ public partial class Build
             }
 
             var str = JsonSerializer.Serialize(ArtifactChecksums);
-            File.WriteAllText(checksumFile, str, Encoding.UTF8);
+            
+            // Encoding.Default => UTF8
+            // Encoding.UTF8 => UTF8-with-BOM
+            File.WriteAllText(checksumFile, str, Encoding.Default);
         });
 }
