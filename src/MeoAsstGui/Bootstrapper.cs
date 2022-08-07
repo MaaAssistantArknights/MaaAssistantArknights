@@ -55,6 +55,7 @@ namespace MeoAsstGui
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
         {
+            System.IO.Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             base.OnStart();
             ViewStatusStorage.Load();
             Localization.Load();
