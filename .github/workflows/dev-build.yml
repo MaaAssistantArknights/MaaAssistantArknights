@@ -22,9 +22,10 @@ on:
       - master
     paths:
       - 'src/MeoAssistant/**'
-      - 'src/MeoAssistantBuilder/**'
       - 'src/MeoAsstGui/**'
       - '3rdparty/**'
+      - 'tools/MaaBuilder/**'
+      - tools/MaaBuilder.sln
       - 'include/**'
       - 'resource/**'
       - MeoAssistantArknights.sln
@@ -33,9 +34,10 @@ on:
       - dev
     paths:
       - 'src/MeoAssistant/**'
-      - 'src/MeoAssistantBuilder/**'
       - 'src/MeoAsstGui/**'
       - '3rdparty/**'
+      - 'tools/MaaBuilder/**'
+      - tools/MaaBuilder.sln
       - 'include/**'
       - 'resource/**'
       - MeoAssistantArknights.sln

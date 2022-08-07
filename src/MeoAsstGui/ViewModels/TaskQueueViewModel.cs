@@ -971,7 +971,6 @@ namespace MeoAsstGui
         /// <returns>Whether the operation is successful.</returns>
         public bool killEumlatorbyWindow()
         {
-            bool status;
             IntPtr hwnd;
             int pid = 0;
             var windowname = new[] { "BlueStacks App Player", "BlueStacks", "明日方舟 - MuMu模拟器", "夜神模拟器", "逍遥模拟器", "明日方舟" };
@@ -989,8 +988,8 @@ namespace MeoAsstGui
             if (pid != 0)
             {
                 emulator = Process.GetProcessById(pid);
-                status = emulator.CloseMainWindow();
-                if (!status || !emulator.HasExited)
+                emulator.CloseMainWindow();
+                if (!emulator.HasExited)
                 {
                     try
                     {

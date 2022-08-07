@@ -29,10 +29,6 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat image, const Rect& roi)
-        {
-            AbstractImageAnalyzer::set_image(image, roi);
-        }
 
         std::vector<std::string> m_to_be_analyzed;
         std::unordered_map<std::string, Rect> m_clue_vacancy;

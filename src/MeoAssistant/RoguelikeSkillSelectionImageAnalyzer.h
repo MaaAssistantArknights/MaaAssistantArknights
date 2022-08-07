@@ -24,10 +24,6 @@ namespace asst
         {
             AbstractImageAnalyzer::set_roi(roi);
         }
-        virtual void set_image(const cv::Mat image, const Rect& roi)
-        {
-            AbstractImageAnalyzer::set_image(image, roi);
-        }
 
         std::string name_analyze(const Rect& roi);
         std::vector<Rect> skill_analyze(const Rect& roi);
