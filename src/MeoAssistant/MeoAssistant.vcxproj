@@ -23,6 +23,7 @@
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstTypes.h" />
     <ClInclude Include="AsstMsg.h" />
+    <ClInclude Include="AsstRanges.hpp" />
     <ClInclude Include="AutoRecruitTask.h" />
     <ClInclude Include="AwardTask.h" />
     <ClInclude Include="BattleDataConfiger.h" />

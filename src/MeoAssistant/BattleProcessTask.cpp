@@ -3,7 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <future>
-#include <ranges>
+#include "AsstRanges.hpp"
 
 #include "NoWarningCV.h"
 
@@ -180,7 +180,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         bool not_found = true;
         // 找出这个干员是哪个组里的，以及他的技能用法等
         for (const auto& [group_name, deploy_opers] : m_copilot_data.groups) {
-            auto iter = std::ranges::find_if(deploy_opers,
+            auto iter = ranges::find_if(deploy_opers,
                 [&](const BattleDeployOper& deploy) -> bool {
                     return deploy.name == oper_name;
                 });
@@ -596,7 +596,7 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
     MatchImageAnalyzer analyzer(image);
     analyzer.set_task_info(task_ptr);
     bool used = false;
-    for (auto& info : m_used_opers | std::views::values) {
+    for (auto& info : m_used_opers | views::values) {
         if (info.info.skill_usage != BattleSkillUsage::Possibly
             && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;

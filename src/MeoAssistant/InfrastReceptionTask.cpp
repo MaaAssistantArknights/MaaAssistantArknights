@@ -1,6 +1,6 @@
 #include "InfrastReceptionTask.h"
 
-#include <ranges>
+#include "AsstRanges.hpp"
 
 #include "Controller.h"
 #include "InfrastClueImageAnalyzer.h"
@@ -72,7 +72,7 @@ bool asst::InfrastReceptionTask::use_clue()
     if (!vacancy_analyzer.analyze()) {
     }
     const auto& vacancy = vacancy_analyzer.get_vacancy();
-    for (const auto& id : vacancy | std::views::keys) {
+    for (const auto& id : vacancy | views::keys) {
         Log.trace("InfrastReceptionTask | Vacancy", id);
     }
 
