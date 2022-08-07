@@ -1,7 +1,8 @@
-- Support I.S. custom start in YoStarEN and YoStarJP @MistEO @Npipyd
-- 新增支持剿灭 `全权委托` 关卡导航及掉落识别 @MistEO
-- 优化 界面 全屏显示及部分细节效果 @ABA2396
-- 修复 肉鸽 编队会漏掉某些干员的问题 @MistEO
-- 修复 公招 出 6 星时不显示组合的问题 @horror-proton
-- 尝试修复 基建 选择干员时的错误 @MistEO
-- C++ 20 升级工作 及 项目代码整理 @zzyyyl @horror-proton @lhhxxxxx @MistEO
+- 修复 `1-7` 关卡导航失败的问题 @ABA2396
+- 修复 肉鸽 `假日威龙陈` 技能选择错误 @MistEO
+- 修复 肉鸽 商店偶现卡住的问题 @MistEO
+- 调整 肉鸽 商店收藏品购买优先级 @MistEO
+- 优化 界面显示 @ABA2396
+- 项目代码优化、文档整理 @lhhxxxxx @horror-proton
+- 项目文档、labeler 整理 @zzyyyl @horror-proton @zzyyyl @ABA2396
+- 修复 Release checksum 编码错误 @LiamSho
