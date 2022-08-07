@@ -155,7 +155,7 @@ bool asst::InfrastAbstractTask::click_clear_button()
     return task.run();
 }
 
-bool asst::InfrastAbstractTask::click_SortByTrustButton()
+bool asst::InfrastAbstractTask::click_sort_by_trust_button()
 {
     LogTraceFunction;
 
