@@ -123,6 +123,7 @@
     <system:String x:Key="StartTimesLimit">開始次數限制</system:String>
     <system:String x:Key="GoldTimesLimit">投資次數限制</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止</system:String>
+    <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
 
     <system:String x:Key="PenguinID">企鵝物流匯報ID（僅數字部分）</system:String>
 
