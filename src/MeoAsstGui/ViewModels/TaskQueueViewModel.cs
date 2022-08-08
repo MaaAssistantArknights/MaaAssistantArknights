@@ -955,7 +955,8 @@ namespace MeoAsstGui
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(
-                mode, settings.RoguelikeStartsCount, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
+                mode, settings.RoguelikeStartsCount,
+                settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
         }
 

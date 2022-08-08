@@ -796,6 +796,25 @@ namespace MeoAsstGui
             }
         }
 
+        private string _roguelikeInvestmentEnabled = ViewStatusStorage.Get("Roguelike.InvestmentEnabled", true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether investment is enabled.
+        /// </summary>
+        public bool RoguelikeInvestmentEnabled
+        {
+            get
+            {
+                return bool.Parse(_roguelikeInvestmentEnabled);
+            }
+
+            set
+            {
+                SetAndNotify(ref _roguelikeInvestmentEnabled, value.ToString());
+                ViewStatusStorage.Set("Roguelike.InvestmentEnabled", value.ToString());
+            }
+        }
+
         private string _roguelikeInvestsCount = ViewStatusStorage.Get("Roguelike.InvestsCount", "9999999");
 
         /// <summary>
