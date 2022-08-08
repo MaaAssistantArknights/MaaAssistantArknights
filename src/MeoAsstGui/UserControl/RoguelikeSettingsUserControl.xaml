@@ -158,7 +158,7 @@
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
                 <TextBlock
-                    Width="150"
+                    MaxWidth="150"
                     HorizontalAlignment="Right"
                     Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
