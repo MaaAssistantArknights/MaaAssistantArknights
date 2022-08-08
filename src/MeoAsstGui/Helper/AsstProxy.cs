@@ -25,8 +25,10 @@ using StyletIoC;
 namespace MeoAsstGui
 {
 #pragma warning disable SA1135 // Using directives should be qualified
+
     using AsstHandle = IntPtr;
     using TaskId = Int32;
+
 #pragma warning restore SA1135 // Using directives should be qualified
 
 #pragma warning disable SA1121 // Use built-in type alias
@@ -864,7 +866,7 @@ namespace MeoAsstGui
                         foreach (var combs in result_array)
                         {
                             int tag_level = (int)combs["level"];
-                            resultContent += tag_level + "★Tags:  ";
+                            resultContent += tag_level + " ★ Tags:  ";
                             foreach (var tag in (JArray)combs["tags"])
                             {
                                 resultContent += tag + "    ";
@@ -1371,4 +1373,5 @@ namespace MeoAsstGui
         SubTaskExtraInfo,
     }
 }
+
 #pragma warning restore SA1121 // Use built-in type alias

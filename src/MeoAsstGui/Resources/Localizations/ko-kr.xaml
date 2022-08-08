@@ -237,10 +237,10 @@
     <system:String x:Key="Recognition">공개모집 인식</system:String>
     <system:String x:Key="RecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립 기능입니다. 게임 공개모집 태그 화면에서 사용하세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">★6 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">★ 3 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">★ 4 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">★ 5 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">★ 6 태그를 자동 선택</system:String>
     <system:String x:Key="BeganToRecruit">인식 시작</system:String>
 
     <!--  로그  -->
@@ -329,7 +329,7 @@
     <system:String x:Key="ThisFacility">이 시설:</system:String>
     <system:String x:Key="RecruitingResults">공개모집 인식 결과:</system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
-    <system:String x:Key="RecruitmentOfStar">★{0} 모집했습니다!</system:String>
+    <system:String x:Key="RecruitmentOfStar">★ {0} 모집했습니다!</system:String>
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">현재 슬롯이 새로 고쳐졌습니다</system:String>
@@ -362,15 +362,15 @@
     <!--  About  -->
 
     <!--  AutoRecruitSettings  -->
-    <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고치기</system:String>
+    <system:String x:Key="AutoRefresh">★ 3 태그를 자동 새로고치기</system:String>
     <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용*</system:String>
     <system:String x:Key="RecruitMaxTimes">실행할 때 최대 모집횟수</system:String>
-    <system:String x:Key="ManuallySelectLevel1">★1 수동 확인</system:String>
-    <system:String x:Key="AutoSelectLevel3">★3 자동 확인</system:String>
-    <system:String x:Key="AutoSelectLevel4">★4 자동 확인</system:String>
-    <system:String x:Key="AutoSelectLevel5">★5 자동 확인</system:String>
-    <system:String x:Key="AutoSelectLevel6">★6 자동 확인</system:String>
-    <system:String x:Key="Level1Tip">체크되면, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크되지 않면, ★1 태그를 무시합니다</system:String>
+    <system:String x:Key="ManuallySelectLevel1">★ 1 수동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel3">★ 3 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel4">★ 4 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel5">★ 5 자동 확인</system:String>
+    <system:String x:Key="AutoSelectLevel6">★ 6 자동 확인</system:String>
+    <system:String x:Key="Level1Tip">체크되면, ★ 1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크되지 않면, ★ 1 태그를 무시합니다</system:String>
     <!--  AutoRecruitSettings  -->
 
     <system:String x:Key="Burping">으…… 우웁……</system:String>
