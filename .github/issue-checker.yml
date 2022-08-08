@@ -7,26 +7,19 @@ labels:
       - '(?:[Aa]dd (?:`|)(?:module: |)copilot(?:`|)|自动(作战|战斗|编队)|作业|自動(戰|戦)(鬥|闘)|作業|copilot)'
       - "(?:[Aa]dd (?:`|)(?:module: |)copilot(?:`|)|^(?![\\s\\S]*(?:\
         [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)copilot(?:`|))))[\\s\\S]*$)"
+  - name: "module: roguelike"
+    regexes:
+      - '(?:[Aa]dd (?:`|)(?:module: |)roguelike(?:`|)|肉(鸽|鴿)|集成战略|rogue|ローグ)'
+      - "(?:[Aa]dd (?:`|)(?:module: |)roguelike(?:`|)|^(?![\\s\\S]*(?:\
+        [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)roguelike(?:`|))))[\\s\\S]*$)"
   - name: "module: fight"
     regexes:
       - '(?:[Aa]dd (?:`|)(?:module: |)fight(?:`|)|刷图|刷.{0,6}材料|关卡选择|战斗|作战|(戰|戦)(鬥|闘)|fight|battle)'
       - "(?:[Aa]dd (?:`|)(?:module: |)fight(?:`|)|^(?![\\s\\S]*(?:\
-        自动(作战|战斗|编队)|作业|自動(戰|戦)(鬥|闘)|作業|copilot|\
-        肉(鸽|鴿)|集成战略|rogue|ローグ|\
         [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)fight(?:`|))))[\\s\\S]*$)"
-  - name: "module: GUI"
-    regexes:
-      # 其它模块都匹配不上的时候再尝试匹配GUI
-      # 因为可能有人说“公招界面”“肉鸽崩溃”“基建闪退”等等
-      - '(?:[Aa]dd (?:`|)(?:module: |)GUI(?:`|)|图形化界面|闪退|gui|GUI|インターフェース)'
-      - "(?:[Aa]dd (?:`|)(?:module: |)GUI(?:`|)|^(?![\\s\\S]*(?:\
-        自动编队|作业|作業|copilot|\
-        刷图|刷.{0,6}材料|关卡选择|战斗|作战|(戰|戦)(鬥|闘)|fight|battle|\
-        基建|贸易站|制造站|控制中枢|会客室|基地|infrast|base|\
-        信用|拜访|登录|开始唤醒|visit|login|startup|\
-        公招|招募|公開(募集|求人)|recruit|\
-        肉(鸽|鴿)|集成战略|rogue|ローグ|\
-        [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)GUI(?:`|))))[\\s\\S]*$)"
+    disabled-if:
+      - "module: copilot"
+      - "module: roguelike"
   - name: "module: infrast"
     regexes:
       - '(?:[Aa]dd (?:`|)(?:module: |)infrast(?:`|)|基建|贸易站|制造站|控制中枢|会客室|基地|infrast|base)'
@@ -41,36 +34,46 @@ labels:
     regexes:
       - '(?:[Aa]dd (?:`|)(?:module: |)recruit(?:`|)|公招|招募|公開(募集|求人)|recruit)'
       - "(?:[Aa]dd (?:`|)(?:module: |)recruit(?:`|)|^(?![\\s\\S]*(?:\
-        肉(鸽|鴿)|集成战略|rogue|ローグ|\
         [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)recruit(?:`|))))[\\s\\S]*$)"
-  - name: "module: roguelike"
+    disabled-if:
+      - "module: roguelike"
+  - name: "module: GUI"
+    # 其它模块都匹配不上的时候再尝试匹配GUI
+    # 因为可能有人说“公招界面”“肉鸽崩溃”“基建闪退”等等
     regexes:
-      - '(?:[Aa]dd (?:`|)(?:module: |)roguelike(?:`|)|肉(鸽|鴿)|集成战略|rogue|ローグ)'
-      - "(?:[Aa]dd (?:`|)(?:module: |)roguelike(?:`|)|^(?![\\s\\S]*(?:\
-        [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)roguelike(?:`|))))[\\s\\S]*$)"
+      - '(?:[Aa]dd (?:`|)(?:module: |)GUI(?:`|)|图形化界面|闪退|gui|GUI|インターフェース)'
+      - "(?:[Aa]dd (?:`|)(?:module: |)GUI(?:`|)|^(?![\\s\\S]*(?:\
+        [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)GUI(?:`|))))[\\s\\S]*$)"
+    disabled-if:
+      - "module: copilot"
+      - "module: fight"
+      - "module: infrast"
+      - "module: recruit"
+      - "module: roguelike"
+      - "module: others"
   - name: "release"
     regexes:
       - '(?:[Aa]dd (?:`|)release(?:`|)|Release v(?:\d)+\.(?:\d)+\.(?:\d)+)'
       - "(?:[Aa]dd (?:`|)release(?:`|)|^(?![\\s\\S]*(?:\
         [Rr]emove (?:[Aa]ll labels|(?:`|)release(?:`|))))[\\s\\S]*$)"
   - name: "ambiguous"
+    # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
     regexes:
-      # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
-      - '(?:[Aa]dd (?:`|)ambiguous(?:`|))'
       - "(?:[Aa]dd (?:`|)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
         feat|chore|perf|style|refactor|fix|doc|\
-        自动编队|作业|作業|copilot|\
-        刷图|刷.{0,6}材料|关卡选择|战斗|作战|戰鬥|戦闘|fight|battle|\
-        图形化界面|闪退|gui|GUI|インターフェース|\
-        基建|贸易站|制造站|控制中枢|会客室|基地|infrast|base|\
-        信用|拜访|登录|开始唤醒|visit|login|startup|\
-        公招|招募|公開(募集|求人)|recruit|\
-        肉(鸽|鴿)|集成战略|rogue|ローグ|\
-        Release v(?:\\d)+\\.(?:\\d)+\\.(?:\\d)+|\
         [Rr]emove (?:[Aa]ll labels|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
+    disabled-if:
+      - "module: copilot"
+      - "module: fight"
+      - "module: GUI"
+      - "module: infrast"
+      - "module: others"
+      - "module: recruit"
+      - "module: roguelike"
+      - "release"
   - name: "translation required"
+    # 不要使用日文发 issue
     regexes:
-      # 不要使用日文发 issue
       - "(?:[Aa]dd (?:`|)translation required(?:`|)|([\\u3040-\\u30ff]|[㍿㍐]))"
       - "(?:[Aa]dd (?:`|)translation required(?:`|)|^(?![\\s\\S]*(?:\
         [Rr]emove (?:[Aa]ll labels|(?:`|)translation required(?:`|))))[\\s\\S]*$)"
