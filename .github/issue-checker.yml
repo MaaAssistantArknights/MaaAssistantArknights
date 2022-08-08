@@ -22,7 +22,8 @@ labels:
       - "module: roguelike"
   - name: "module: infrast"
     regexes:
-      - '(?:[Aa]dd (?:`|)(?:module: |)infrast(?:`|)|基建|贸易站|制造站|控制中枢|会客室|基地|infrast|base)'
+      - "(?:[Aa]dd (?:`|)(?:module: |)infrast(?:`|)|\
+        基建|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|infrast|dorm)"
       - "(?:[Aa]dd (?:`|)(?:module: |)infrast(?:`|)|^(?![\\s\\S]*(?:\
         [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)infrast(?:`|))))[\\s\\S]*$)"
   - name: "module: others"
