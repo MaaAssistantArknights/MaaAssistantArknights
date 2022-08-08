@@ -98,10 +98,8 @@ labels:
       - "(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|^(?![\\s\\S]*(?:\
         [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: ZH_TW(?:`|))))[\\s\\S]*$)"
   - name: "MAA Team"
-    regexes:
-      - '(?:[Aa]dd (?:`|)(?:MAA|maa)(?: |)[Tt]eam(?:`|))'
-      - "(?:[Aa]dd (?:`|)(?:MAA|maa)(?: |)[Tt]eam(?:`|)|^(?![\\s\\S]*(?:\
-        [Rr]emove (?:[Aa]ll labels|(?:`|)(?:MAA|maa)(?: |)[Tt]eam(?:`|))))[\\s\\S]*$)"
+    author_association:
+      - "MEMBER"
 comments:
   - name: Log upload failed
     regexes:
