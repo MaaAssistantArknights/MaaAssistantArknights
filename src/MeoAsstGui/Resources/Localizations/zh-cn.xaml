@@ -120,8 +120,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="Strategy">策略</system:String>
-    <system:String x:Key="StartTimesLimit">开始次数限制</system:String>
-    <system:String x:Key="GoldTimesLimit">投资次数限制</system:String>
+    <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
+    <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
 

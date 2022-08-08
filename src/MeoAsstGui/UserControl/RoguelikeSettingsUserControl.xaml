@@ -27,6 +27,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.ColumnSpan="4"
@@ -71,35 +72,45 @@
 
         <CheckBox
             Grid.Row="2"
+            Grid.ColumnSpan="4"
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{DynamicResource InvestmentEnabled}"
+            IsChecked="{Binding RoguelikeInvestmentEnabled}" />
+        <TextBlock
+            Grid.Row="3"
             Grid.Column="1"
             Margin="10"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Content="{DynamicResource InvestmentEnabled}"
-            IsChecked="{Binding RoguelikeInvestmentEnabled}"/>
+            Style="{StaticResource TextBlockDefault}"
+            Text="{DynamicResource GoldTimesLimit}"
+            TextWrapping="Wrap" />
         <hc:TextBox
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="2"
             Width="100"
             Height="30"
             Margin="10"
             HorizontalAlignment="Left"
             InputMethod.IsInputMethodEnabled="False"
+            IsEnabled="{Binding RoguelikeInvestmentEnabled}"
             Text="{Binding RoguelikeInvestsCount}"
             TextType="Int"
             TextWrapping="Wrap" />
 
         <CheckBox
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.ColumnSpan="4"
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            IsEnabled="{Binding RoguelikeInvestmentEnabled}"
             Content="{DynamicResource StopOnGoldLimit}"
             IsChecked="{Binding RoguelikeStopWhenInvestmentFull}" />
 
         <Grid
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.RowSpan="3"
             Grid.ColumnSpan="4"
             HorizontalAlignment="Center"

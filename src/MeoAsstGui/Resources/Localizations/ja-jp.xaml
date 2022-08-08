@@ -120,8 +120,8 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
     <system:String x:Key="Strategy">ストラテジー</system:String>
-    <system:String x:Key="StartTimesLimit">実行回数の制限</system:String>
-    <system:String x:Key="GoldTimesLimit">投資回数の制限</system:String>
+    <system:String x:Key="StartTimesLimit">N個起動したらタスク停止</system:String>
+    <system:String x:Key="GoldTimesLimit">N回投資した後にミッションを停止する</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達してミッションを停止する</system:String>
     <system:String x:Key="InvestmentEnabled">源石錐の投資</system:String>
 
