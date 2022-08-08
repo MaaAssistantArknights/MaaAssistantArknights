@@ -69,14 +69,14 @@
             TextType="Int"
             TextWrapping="Wrap" />
 
-        <TextBlock
+        <CheckBox
             Grid.Row="2"
             Grid.Column="1"
             Margin="10"
             HorizontalAlignment="Right"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource GoldTimesLimit}"
-            TextWrapping="Wrap" />
+            VerticalAlignment="Center"
+            Content="{DynamicResource InvestmentEnabled}"
+            IsChecked="{Binding RoguelikeInvestmentEnabled}"/>
         <hc:TextBox
             Grid.Row="2"
             Grid.Column="2"

@@ -6963,6 +6963,10 @@
             276,
             216
         ],
+        "exceededNext": [
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1StageTraderLeave"
+        ],
         "next": [
             "Roguelike1StageTraderInvestSystemEnter",
             "Roguelike1TraderRandomShopping",

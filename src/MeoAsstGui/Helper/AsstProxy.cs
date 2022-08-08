@@ -1194,18 +1194,20 @@ namespace MeoAsstGui
         /// </list>
         /// </param>
         /// <param name="starts">开始探索次数。</param>
+        /// <param name="investment_enabled">是否投资源石锭</param>
         /// <param name="invests">投资源石锭次数。</param>
         /// <param name="stop_when_full">投资满了自动停止任务。</param>
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRoguelike(int mode, int starts, int invests, bool stop_when_full,
+        public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
             string squad, string roles, string core_char)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
             task_params["starts_count"] = starts;
+            task_params["investment_enabled"] = investment_enabled;
             task_params["investments_count"] = invests;
             task_params["stop_when_investment_full"] = stop_when_full;
             if (squad.Length > 0)

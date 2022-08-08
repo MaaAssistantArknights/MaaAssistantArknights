@@ -123,6 +123,7 @@
     <system:String x:Key="StartTimesLimit">Limit of times</system:String>
     <system:String x:Key="GoldTimesLimit">Limit of deposit coins</system:String>
     <system:String x:Key="StopOnGoldLimit">Stop when deposited coins reached limit</system:String>
+    <system:String x:Key="InvestmentEnabled">Deposit coins</system:String>
 
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
 

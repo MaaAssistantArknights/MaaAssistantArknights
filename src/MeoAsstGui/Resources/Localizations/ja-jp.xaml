@@ -123,6 +123,7 @@
     <system:String x:Key="StartTimesLimit">実行回数の制限</system:String>
     <system:String x:Key="GoldTimesLimit">投資回数の制限</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達してミッションを停止する</system:String>
+    <system:String x:Key="InvestmentEnabled">源石錐の投資</system:String>
 
     <system:String x:Key="PenguinID">Penguin StatisticsレポートID（デジタル部分のみ）</system:String>
 

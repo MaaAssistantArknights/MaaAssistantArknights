@@ -123,6 +123,7 @@
     <system:String x:Key="StartTimesLimit">시작 횟수 제한</system:String>
     <system:String x:Key="GoldTimesLimit">투자 횟수 제한</system:String>
     <system:String x:Key="StopOnGoldLimit">오리지늄 주괴가 한계에 도달하면 중지한다</system:String>
+    <system:String x:Key="InvestmentEnabled">투자 오리지늄을</system:String>
 
     <system:String x:Key="PenguinID">PenguinStats 보고 ID (숫자만)</system:String>
 
