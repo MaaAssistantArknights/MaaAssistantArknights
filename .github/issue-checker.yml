@@ -103,7 +103,7 @@ labels:
 comments:
   - name: Log upload failed
     regexes:
-      - '\[Uploading asst(?:.bak| - 副本|).(?:zip|log)…\]\(\)'
+      - '\[Uploading asst(?:.bak|)(?: - 副本|).(?:zip|log)…\]\(\)'
     content:
       "你的日志没有上传成功，请重新上传。\n\n\
       Your log did not upload successfully, please re-upload it."
