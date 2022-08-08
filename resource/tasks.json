@@ -1557,9 +1557,9 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "UsePrts-Annihilation",
             "UsePrts",
             "UsePrts-StageSN",
-            "UsePrts-Annihilation",
             "StartButton1",
             "PRTS3",
             "PRTS",
@@ -1679,6 +1679,7 @@
         ],
         "cache": false,
         "next": [
+            "UsePrts-Annihilation",
             "StartButton1"
         ]
     },
@@ -2445,9 +2446,9 @@
         ],
         "action": "ClickSelf",
         "next": [
+            "UsePrts-Annihilation",
             "UsePrts",
             "UsePrts-StageSN",
-            "UsePrts-Annihilation",
             "StartButton1"
         ]
     },
