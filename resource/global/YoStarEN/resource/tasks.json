@@ -292,6 +292,25 @@
             "Stop"
         ]
     },
+    "Roguelike1StageTraderInvestSystemFull": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "reduceOtherTimes": [
+            "Roguelike1StageTraderInvestConfirm"
+        ],
+        "text": [
+            "Storage full"
+        ],
+        "roi": [
+            982,
+            28,
+            298,
+            289
+        ],
+        "next": [
+            "Roguelike1StageTraderInvestCancel"
+        ]
+    },
     "BattleStageName": {
         "algorithm": "OcrDetect",
         "cache": false,
