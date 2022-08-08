@@ -161,7 +161,10 @@ bool asst::AutoRecruitTask::_run()
             Log.info("ready to use expedited");
             if (need_exit()) return false;
             if (!recruit_now()) {
-                m_force_discard_flag = true;
+                // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
+                // ref: issues/1491
+                if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
+                else Log.info("Not in home page after failing to use expedited plan. ");
                 return false;
             }
         }
