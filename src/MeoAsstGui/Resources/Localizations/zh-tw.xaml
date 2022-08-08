@@ -120,6 +120,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="Strategy">策略</system:String>
+    <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
+    <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
     <system:String x:Key="StartTimesLimit">開始次數限制</system:String>
     <system:String x:Key="GoldTimesLimit">投資次數限制</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止</system:String>

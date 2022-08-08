@@ -717,6 +717,10 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ViewStatusStorage.Set("Roguelike.Mode", value);
+                if (value == "1")
+                {
+                    RoguelikeInvestmentEnabled = true;
+                }
             }
         }
 
