@@ -2,14 +2,21 @@ name: "Issue Checker"
 on:
   issues:
     types: [opened, edited]
+  pull_request:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-    - uses: zzyyyl/issue-checker@v1.1
+    - uses: zzyyyl/issue-checker@v1.3
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        configuration-path: .github/labeler.yml
+        configuration-path: .github/issue-checker.yml
         not-before: 2022-08-05T00:00:00Z
         include-title: 1
