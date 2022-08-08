@@ -2,7 +2,7 @@ name: "Issue Checker"
 on:
   issues:
     types: [opened, edited]
-  pull_request:
+  pull_request_target:
     types: [opened, edited]
 
 permissions:
