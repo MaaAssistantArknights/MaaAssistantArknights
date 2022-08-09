@@ -18,7 +18,7 @@ labels:
     [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)roguelike(?:`|))))[\\s\\S]*$)"
 - name: "module: fight"
   regexes:
-  - '(?:[Aa]dd (?:`|)(?:module: |)fight(?:`|)|刷图|刷.{0,6}材料|关卡选择|战斗|作战|(戰|戦)(鬥|闘)|fight|battle)'
+  - '(?:[Aa]dd (?:`|)(?:module: |)fight(?:`|)|刷图|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|(戰|戦)(鬥|闘)|fight|battle)'
   - "(?:[Aa]dd (?:`|)(?:module: |)fight(?:`|)|^(?![\\s\\S]*(?:\
     [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)fight(?:`|))))[\\s\\S]*$)"
   disabled-if:
