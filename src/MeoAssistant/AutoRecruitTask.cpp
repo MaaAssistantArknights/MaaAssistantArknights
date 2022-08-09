@@ -500,13 +500,6 @@ bool asst::AutoRecruitTask::recruit_begin()
     return task.run();
 }
 
-bool asst::AutoRecruitTask::check_time_unreduced()
-{
-    ProcessTask task(*this, { "RecruitCheckTimeUnreduced" });
-    task.set_retry_times(1);
-    return task.run();
-}
-
 bool asst::AutoRecruitTask::check_time_reduced()
 {
     ProcessTask task(*this, { "RecruitCheckTimeReduced" });

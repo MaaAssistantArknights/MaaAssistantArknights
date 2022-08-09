@@ -51,15 +51,6 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
-    const auto time_task_ptr = Task.get("RecruitCheckTimeUnreduced");
-
-    MatchImageAnalyzer time_analyzer(m_image);
-    time_analyzer.set_task_info(time_task_ptr);
-    // 这里检查时间是否没有调整过
-    if (!time_analyzer.analyze()) {
-        return false;
-    }
-
     const auto set_time_task_ptr = Task.get("RecruitTimeReduce");
 
     MatchImageAnalyzer set_time_analyzer(m_image);
