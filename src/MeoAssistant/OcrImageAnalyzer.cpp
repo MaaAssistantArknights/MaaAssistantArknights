@@ -194,11 +194,7 @@ void asst::OcrImageAnalyzer::sort_result_vertical()
 
 void asst::OcrImageAnalyzer::sort_result_by_score()
 {
-    ranges::sort(get_result(),
-        [](const TextRect& lhs, const TextRect& rhs) -> bool {
-            return lhs.score > rhs.score;
-        }
-    );
+    ranges::sort(get_result(), std::greater{}, std::mem_fn(&TextRect::score));
 }
 
 void asst::OcrImageAnalyzer::sort_result_by_required()
