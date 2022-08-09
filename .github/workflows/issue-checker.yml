@@ -4,6 +4,8 @@ on:
     types: [opened, edited]
   pull_request_target:
     types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
 
 permissions:
   contents: read
@@ -14,7 +16,7 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-    - uses: zzyyyl/issue-checker@v1.3
+    - uses: zzyyyl/issue-checker@v1.4
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         configuration-path: .github/issue-checker.yml
