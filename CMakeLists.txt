@@ -36,7 +36,7 @@ else ()
     find_package(ZLIB REQUIRED)
     target_link_directories(MeoAssistant PRIVATE 3rdparty/lib)
     target_link_libraries(MeoAssistant ${OpenCV_LIBS} ${ZLIB})
-    target_link_libraries(MeoAssistant gflags paddle_inference ppocr protobuf cryptopp glog utf8proc xxhash iomp5 mkldnn mklml_intel)
+    target_link_libraries(MeoAssistant ppocr paddle_inference protobuf cryptopp gflags glog utf8proc xxhash iomp5 mkldnn mklml_intel)
 endif ()
 
 if (BUILD_JNI)
