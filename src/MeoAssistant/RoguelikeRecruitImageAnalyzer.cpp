@@ -38,10 +38,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         m_result.emplace_back(std::move(info));
     }
 
-    auto first_un_req = ranges::find_if(m_result,
-        [&](const auto& info) -> bool {
-            return info.required == false;
-        });
+    auto first_un_req = ranges::find_if(m_result, std::not_fn(std::mem_fn(&BattleRecruitOperInfo::required)));
     std::sort(first_un_req, m_result.end(),
         [&](const auto& lhs, const auto& rhs) -> bool {
             if (lhs.elite == rhs.elite) {

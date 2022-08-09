@@ -91,10 +91,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
     }
 
     if (m_is_white_list) {
-        ranges::sort(m_need_to_buy, [&](const auto& lhs, const auto& rhs) -> bool {
-            return ranges::find(m_shopping_list, lhs.second)
-                < ranges::find(m_shopping_list, rhs.second);
-        });
+        ranges::sort(m_need_to_buy, std::less{}, [&](const auto& pair) { return ranges::find(m_shopping_list, pair.second); });
     }
 
     return !m_need_to_buy.empty();
