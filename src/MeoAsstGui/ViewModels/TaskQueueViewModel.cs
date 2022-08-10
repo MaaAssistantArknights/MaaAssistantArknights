@@ -220,13 +220,8 @@ namespace MeoAsstGui
 
             AllStageList = new List<CombData>
             {
+                // 「当前/上次」关卡导航
                 new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
-
-                // new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                // new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
-
-                // SideStory「多索雷斯假日」复刻活动关卡
-                new CombData { Display = "DH-9", Value = "DH-9" },
 
                 // 主线关卡
                 new CombData { Display = "1-7", Value = "1-7" },
@@ -249,6 +244,10 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("PR-C-2"), Value = "PR-C-2" },
                 new CombData { Display = Localization.GetString("PR-D-1"), Value = "PR-D-1" },
                 new CombData { Display = Localization.GetString("PR-D-2"), Value = "PR-D-2" },
+
+                // 老版本「当前/上次」关卡导航
+                // new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
+                // new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
 
                 // SideStory「绿野幻梦」活动
                 // new CombData { Display = "DV-6", Value = "DV-6" },
