@@ -31,7 +31,7 @@ namespace asst
         bool recruit_one(const Rect&);
         bool check_recruit_home_page();
         bool recruit_begin();
-        bool check_time_reduced();
+        bool check_timer();
         bool recruit_now();
         bool confirm();
         bool refresh();
@@ -53,6 +53,7 @@ namespace asst
         int m_max_times = 0;
         bool m_skip_robot = true;
         bool m_set_time = true;
+        int m_desired_time = 9 * 60; // in minutes
 
         int m_slot_fail = 0;
         int m_cur_times = 0;
