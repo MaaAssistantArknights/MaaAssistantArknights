@@ -420,7 +420,7 @@ namespace MeoAsstGui
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public void AddLog(string content, string color = "Gray", string weight = "Regular")
+        public void AddLog(string content, string color = LogColor.Trace, string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
 
@@ -649,7 +649,7 @@ namespace MeoAsstGui
             bool caught = await task;
             if (!caught)
             {
-                AddLog(errMsg, "darkred");
+                AddLog(errMsg, LogColor.Error);
                 var settingsModel = _container.Get<SettingsViewModel>();
                 var subtask = Task.Run(() =>
                 {
@@ -663,7 +663,7 @@ namespace MeoAsstGui
                 caught = await task;
                 if (!caught)
                 {
-                    AddLog(errMsg, "darkred");
+                    AddLog(errMsg, LogColor.Error);
                     Idle = true;
                     return;
                 }
@@ -884,11 +884,11 @@ namespace MeoAsstGui
             bool isSet = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
             if (isSet)
             {
-                AddLog(Localization.GetString("SetSuccessfully"), "Black");
+                AddLog(Localization.GetString("SetSuccessfully"), LogColor.Message);
             }
             else
             {
-                AddLog(Localization.GetString("SetFailed"), "Red");
+                AddLog(Localization.GetString("SetFailed"), LogColor.Error);
             }
         }
 
@@ -1151,7 +1151,7 @@ namespace MeoAsstGui
                     var asstProxy = _container.Get<AsstProxy>();
                     if (!asstProxy.AsstStartCloseDown())
                     {
-                        AddLog(Localization.GetString("CloseArknightsFailed"), "DarkRed");
+                        AddLog(Localization.GetString("CloseArknightsFailed"), LogColor.Error);
                     }
 
                     break;
@@ -1166,7 +1166,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulator:
                     if (!killEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
+                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
 
                     break;
@@ -1174,7 +1174,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulatorAndSelf:
                     if (!killEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), "DarkRed");
+                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
@@ -1203,7 +1203,7 @@ namespace MeoAsstGui
 
                 case ActionType.Hibernate:
                     // 休眠提示
-                    AddLog(Localization.GetString("HibernatePrompt"), "DarkRed");
+                    AddLog(Localization.GetString("HibernatePrompt"), LogColor.Error);
 
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                     Process.Start("shutdown.exe", "-h");
