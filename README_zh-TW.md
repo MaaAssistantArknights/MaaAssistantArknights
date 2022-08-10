@@ -26,7 +26,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 基於圖像辨識技術，一鍵完成全部日常任務！
 
-絕讚更新中  ✿✿ヽ(°▽°)ノ✿  
+絕讚更新中  ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
@@ -39,7 +39,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 肉鴿全自動刷源石錠和蠟燭，自動辨識幹員及練度
 - **新功能！導入作業 JSON 檔案，自動抄作業！** [影片演示](https://www.bilibili.com/video/BV14u411673q/)
 
-話不多說，看圖！ 
+話不多說，看圖！
 
 ![image](https://user-images.githubusercontent.com/99072975/181418126-54d3d50e-f405-4edd-a426-a27e9a465286.png)
 ![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
@@ -55,12 +55,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ***第一次使用請下載 `MaaBundle-vX.Y.Z.zip`***
 
-[穩定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[測試版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
+[穩定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
+[測試版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
-下載太慢？嘗試使用 fastgit 鏡像 
+下載太慢？嘗試使用 fastgit 鏡像
 
-[fastgit 鏡像穩定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[fastgit 鏡像穩定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
 [fastgit 鏡像測試版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用說明
@@ -84,13 +84,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支援
 
-- 國際服（美服）  
+- 國際服（美服）
   支援基本的刷理智、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarEN/readme.md)
-- 日服  
+- 日服
   支援基本的刷理智、自動公招、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarJP/readme.md)
-- 韓服  
+- 韓服
   支援基本的刷理智功能，請參考 [說明](resource/global/YoStarKR/readme.md)
-- 繁中服  
+- 繁中服
   支援基本的刷理智、自動公招、公招辨識功能，請參考 [說明](resource/global/txwy/readme.md)
 
 由於外服使用者較少及項目人手不足的問題，外服目前都僅適配了基本的功能。若您有強需求，歡迎在 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，~~或加入我們一起建設 MAA~~
@@ -169,10 +169,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 廣告
 
-[用戶交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動戰鬥 JSON 作業分享: <https://www.prts.plus> , [QQ 一群](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
-[Bilibili 直播間](https://live.bilibili.com/2808861)：每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
-[舟無關技術交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：內捲地獄！  
-[開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+[用戶交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)
+自動戰鬥 JSON 作業分享: <https://www.prts.plus> , [QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)
+[Bilibili 直播間](https://live.bilibili.com/2808861)：每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~
+[舟無關技術交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：內捲地獄！
+[開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
