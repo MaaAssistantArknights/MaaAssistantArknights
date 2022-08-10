@@ -141,6 +141,15 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexce
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_desired_time(int minutes) noexcept
+{
+    minutes = std::clamp(minutes, 60, 9 * 60);
+    minutes -= minutes % 10;
+    m_desired_time = minutes;
+    return *this;
+}
+
+
 bool asst::AutoRecruitTask::_run()
 {
     if (m_force_discard_flag) return false;
@@ -451,11 +460,17 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        // try to set the timer to 09:00:00
+        // try to set the timer to desired value
         if (m_set_time) {
-            for (const Rect& rect : image_analyzer.get_set_time_rect()) {
-                m_ctrler->click(rect);
-            }
+            int desired_hour = m_desired_time / 60;
+            int desired_minute_div_10 = (m_desired_time % 60) / 10;
+            int temp = desired_hour + (desired_minute_div_10 != 0);
+            int hour_delta = (1 < temp) ? (1 + 9 - temp) : (temp - 1);
+            int minute_delta = (0 < desired_minute_div_10) ? (0 + 6 - desired_minute_div_10) : (0);
+            for (int i = 0; i < hour_delta; ++i)
+                m_ctrler->click(image_analyzer.get_hour_decrement_rect());
+            for (int i = 0; i < minute_delta; ++i)
+                m_ctrler->click(image_analyzer.get_minute_decrement_rect());
         }
 
         // nothing to select, leave the selection empty

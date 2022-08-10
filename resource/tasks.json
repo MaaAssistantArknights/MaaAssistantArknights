@@ -3673,13 +3673,12 @@
         "algorithm": "JustReturn",
         "action": "Stop"
     },
-    "RecruitTimeReduce": {
-        "action": "ClickSelf",
-        "Doc": "检查到01，调整时间",
+    "RecruitTimerDecrement": {
+        "Doc": "two buttons that adjust recruit timer",
         "roi": [
             350,
             250,
-            200,
+            370,
             100
         ]
     },
