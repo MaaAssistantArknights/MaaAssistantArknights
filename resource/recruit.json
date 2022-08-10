@@ -1434,5 +1434,49 @@
         "hidden": false,
         "name-en": "Utage",
         "new": true
+    },
+    {
+        "name": "刻刀",
+        "type": "近卫",
+        "level": 4,
+        "sex": "女",
+        "tags": [
+            "近战位",
+            "爆发",
+            "输出"
+        ],
+        "hidden": false,
+        "name-en": "Cutter",
+        "new": true
+    },
+    {
+        "name": "巫恋",
+        "type": "辅助",
+        "level": 5,
+        "sex": "女",
+        "tags": [
+            "远程位",
+            "削弱",
+            "资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Shamare",
+        "new": true
+    },
+    {
+        "name": "傀影",
+        "type": "特种",
+        "level": 6,
+        "sex": "男",
+        "tags": [
+            "近战位",
+            "快速复活",
+            "控场",
+            "输出",
+            "高级资深干员"
+        ],
+        "hidden": false,
+        "name-en": "Phantom",
+        "new": true
     }
 ]
