@@ -454,6 +454,143 @@
             60
         ]
     },
+    "IC-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "StageIC-9",
+            "SwipeToStageIC-9"
+        ]
+    },
+    "IC-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "StageIC-8",
+            "SwipeToStageIC-8"
+        ]
+    },
+    "IC-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "StageIC-7",
+            "SwipeToStageIC-7"
+        ]
+    },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "理想城",
+            "狂欢季",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "ICChapterToIC"
+        ]
+    },
+    "ICChapterToIC": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "地底观光"
+        ],
+        "roi": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "ICChapterToIC",
+            "SwipeToTheRight"
+        ]
+    },
+    "SwipeToStageIC-9": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageIC-9",
+            "SwipeToStageIC-9"
+        ]
+    },
+    "SwipeToStageIC-8": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageIC-8",
+            "SwipeToStageIC-8"
+        ]
+    },
+    "SwipeToStageIC-7": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageIC-7",
+            "SwipeToStageIC-7"
+        ]
+    },
+    "StageIC-9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "IC-9"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageIC-8": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "IC-8"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageIC-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "IC-7"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
     "DV-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -465,17 +602,6 @@
             "SwipeToStageDV-8"
         ]
     },
-    "DV-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "DV-Open"
-        ],
-        "next": [
-            "StageDV-6",
-            "SwipeToStageDV-6"
-        ]
-    },
     "DV-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -485,6 +611,17 @@
         "next": [
             "StageDV-7",
             "SwipeToStageDV-7"
+        ]
+    },
+    "DV-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-6",
+            "SwipeToStageDV-6"
         ]
     },
     "DV-Open": {
@@ -532,20 +669,20 @@
             "SwipeToStageDV-8"
         ]
     },
-    "SwipeToStageDV-6": {
-        "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-6",
-            "SwipeToStageDV-6"
-        ]
-    },
     "SwipeToStageDV-7": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-7",
             "SwipeToStageDV-7"
+        ]
+    },
+    "SwipeToStageDV-6": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-6",
+            "SwipeToStageDV-6"
         ]
     },
     "StageDV-8": {
@@ -562,12 +699,12 @@
             332
         ]
     },
-    "StageDV-6": {
+    "StageDV-7": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "DV-6"
+            "DV-7"
         ],
         "roi": [
             0,
@@ -576,12 +713,12 @@
             332
         ]
     },
-    "StageDV-7": {
+    "StageDV-6": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "DV-7"
+            "DV-6"
         ],
         "roi": [
             0,
