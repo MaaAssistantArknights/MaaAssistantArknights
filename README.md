@@ -26,7 +26,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 基于图像识别技术，一键完成全部日常任务！
 
-绝赞更新中  ✿✿ヽ(°▽°)ノ✿  
+绝赞更新中  ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
@@ -39,7 +39,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 肉鸽全自动刷源石锭和蜡烛，自动识别干员及练度
 - **新功能！导入作业 JSON 文件，自动抄作业！** [视频演示](https://www.bilibili.com/video/BV14u411673q/)
 
-话不多说，看图！  
+话不多说，看图！
 
 ![image](https://user-images.githubusercontent.com/99072975/181418126-54d3d50e-f405-4edd-a426-a27e9a465286.png)
 ![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
@@ -55,12 +55,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***
 
-[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[测试版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
+[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
+[测试版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
-下载太慢？尝试使用 fastgit 镜像  
+下载太慢？尝试使用 fastgit 镜像
 
-[fastgit 镜像稳定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[fastgit 镜像稳定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
 [fastgit 镜像测试版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用说明
@@ -84,13 +84,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支持
 
-- 国际服（美服）  
+- 国际服（美服）
   支持基本的刷理智、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarEN/readme.md)
-- 日服  
+- 日服
   支持基本的刷理智、自动公招、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarJP/readme.md)
-- 韩服  
+- 韩服
   支持基本的刷理智功能，请参考 [说明](resource/global/YoStarKR/readme.md)
-- 繁中服  
+- 繁中服
   支持基本的刷理智、自动公招、公招识别功能，请参考 [说明](resource/global/txwy/readme.md)
 
 由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，~~或加入我们一起建设 MAA~~
@@ -169,10 +169,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-[用户交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自动战斗 JSON 作业分享: <https://www.prts.plus> , [QQ 一群](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
-[Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
-[舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
-[开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+[用户交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)
+自动战斗 JSON 作业分享: <https://www.prts.plus> , [QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)
+[Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~
+[舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！
+[开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！

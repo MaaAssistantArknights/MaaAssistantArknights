@@ -26,7 +26,7 @@ An Arknights assistant
 
 Based on image recognition, helps you to complete daily quests efficiently!
 
-Development in progress  ✿✿ヽ(°▽°)ノ✿  
+Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
@@ -39,7 +39,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - **New feature! Importing JSON task file for auto-battle!** [Video](https://www.bilibili.com/video/BV14u411673q/)
 
-Talk is cheap. Show me the pictures!  
+Talk is cheap. Show me the pictures!
 
 ![image](https://user-images.githubusercontent.com/99072975/181417856-0fb1ac8b-c0f6-4c67-904c-1c3ea2c309a8.png)
 ![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png)
@@ -50,7 +50,7 @@ Talk is cheap. Show me the pictures!
 
 ***First time use? Please download `MaaBundle-vX.Y.Z.zip`***
 
-[Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## How to Use
@@ -74,13 +74,13 @@ Please refer to: [FAQ](docs/en/FAQ.md)
 
 ## Supports for overseas clients
 
-- Global(EN) Client  
+- Global(EN) Client
   Supports basic features like Combat, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
-- JP Client  
+- JP Client
   Supports basic features like Combat, Auto Recruiting, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
-- KR Client  
+- KR Client
   Supports basic features like Combat, etc.  See also [README](resource/global/YoStarKR/readme.md)
-- ZH_CHT Client  
+- ZH_CHT Client
   Supports basic features like Combat, etc.  See also [README](resource/global/txwy/readme.md)
 
 Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better!
@@ -91,7 +91,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 - Update server: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
 - [Website](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website)
 - [Co-pilot (auto-battle) site](https://www.prts.plus): [frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend), [backend](https://github.com/MaaAssistantArknights/MaaCopilotServer)
- 
+
 ## Acknowledgements
 
 ### Open-source Libraries
@@ -158,10 +158,10 @@ Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
 
 ## Advertisement
 
-[User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)  
-[Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
-[Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+[User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1)
+Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group(full)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)
+[Bilibili Live](https://live.bilibili.com/2808861): live coding on this program
+[Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 Please click "Star" if you consider it helpful! Thank you for your support!

@@ -26,7 +26,7 @@ MAAは、MAA Assistant Arknightsです。
 
 画像認識技術に基づいて、ワンクリックですべてのデイリーリクエストを完了します！
 
-絶賛開発中  ✿✿ヽ(°▽°)ノ✿  
+絶賛開発中  ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
@@ -39,7 +39,7 @@ MAAは、MAA Assistant Arknightsです。
 - 統合戦略自動作戦、オペレーターとレベルの自動認識
 - **新機能！作業JSONファイルをインポートし、自動操作するのは可能！** [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)
 
-見ればわかる！  
+見ればわかる！
 
 ![image](https://user-images.githubusercontent.com/18511905/182035584-ba5e6db5-6fc5-4b5a-8393-faea22c0a81b.png)
 ![image](https://user-images.githubusercontent.com/18511905/182035787-faad4560-b7e5-4ce3-bb8a-b1c65778337b.png)
@@ -55,12 +55,12 @@ MAAは、MAA Assistant Arknightsです。
 
 ***初めて使用する場合 `MaaBundle-vX.Y.Z.zip`をダウンロードしてください***
 
-[安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
+[安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
+[ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
-ダウンロードが遅い？fastgit ミラーを試してください  
+ダウンロードが遅い？fastgit ミラーを試してください
 
-[fastgit ミラー安定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[fastgit ミラー安定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
 [fastgit ミラーベータ版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## マニュアル
@@ -84,13 +84,13 @@ MAAは、MAA Assistant Arknightsです。
 
 ## サーバーに応じてサポートされる機能
 
-- アメリカサーバー 
+- アメリカサーバー
   作戦、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。[README](resource/global/YoStarEN/readme.md)を参照してください。
-- 日本サーバー 
+- 日本サーバー
   作戦、自動公開求人、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。[README](resource/global/YoStarJP/readme.md)を参照してください。
-- 韓国サーバー 
+- 韓国サーバー
   基本的な作戦機能がサポートされている。[README](resource/global/YoStarKR/readme.md)を参照してください。
-- TXWYサーバー  
+- TXWYサーバー
   基本的な作戦、自動公開求人、公開求人認識の機能がサポートされている。[README](resource/global/txwy/readme.md)を参照してください。
 
 海外サーバーのユーザーがふそくですから、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案を差し出してください。~~いっしょにMAAの開発に協力しましょう~~
@@ -169,10 +169,10 @@ Visual Studio 2019 ~~または以上のバージョン~~で`MeoAssistantArknight
 
 ## 広告
 
-[ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア: <https://www.prts.plus> , [QQグループ1](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQグループ２（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQグループ３](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
-[ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングすることばかりです～  
-[アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
-[開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+[ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)
+自動作戦JSON作業シェア: <https://www.prts.plus> , [QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQグループ２（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQグループ３](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)
+[ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングすることばかりです～
+[アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！
+[開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください～　それは私たちにとって最高のサポートです！
