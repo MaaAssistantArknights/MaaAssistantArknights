@@ -170,7 +170,7 @@ Visual Studio 2019 ~~または以上のバージョン~~で`MeoAssistantArknight
 ## 広告
 
 [ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア: <https://www.prts.plus> , [QQグループ1](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQグループ２（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQグループ３](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
+自動作戦JSON作業シェア: <https://www.prts.plus> , [QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQグループ２（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQグループ３](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
 [ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングすることばかりです～  
 [アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
 [開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
