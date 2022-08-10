@@ -1,0 +1,23 @@
+name: 需求建议（使用中文）
+description: 新功能、建议等
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: describe
+    attributes:
+      label: 说说你遇到的问题？
+    validations:
+      required: false
+  - type: textarea
+    id: solution
+    attributes:
+      label: 有什么好的想法？
+    validations:
+      required: false
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他内容
+      description: 关于该需求建议的任何其他背景或屏幕截图。
+    validations:
+      required: false
