@@ -1,0 +1,74 @@
+name: Bug Report (in English)
+description: >-
+  Recognition errors, operation abnormalities,
+  connection errors, etc.
+labels: ['bug']
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before raising the issue...
+      options:
+      - label: >-
+          I understand that Issues are for feedback and problem solving,
+          not trolling the comments section, and will provide as
+          much information as possible to help solve the problem.
+        required: true
+      - label: >-
+          I spent at least 5 minutes thinking and preparing
+          before raising the issue.
+        required: true
+      - label: >-
+          I have read the FAQ and the User Manual in the documentation
+          and believe that this is most likely a bug and not designed
+          to be so.
+        required: true
+      - label: >-
+          I have checked the latest beta update and there is no mention
+          of the bug being fixed.
+        required: true
+  - type: textarea
+    id: describe
+    attributes:
+      label: Description
+      description: Describe your problem in as much detail as possible
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log files
+      description: >-
+        Upload the `asst.log` log file from the software directory and
+        indicate the approximate point in time when the problem occurred.
+
+        Please drag and drop the full file in, not your own cuttings;
+        compress it before uploading if too large.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: >-
+        If available, add screenshots to help explain your problem,
+        including but not limited to screenshots of MAA software,
+        screenshots of game screens.
+
+        If the problem is recognition related, please help by providing
+        the original image taken by the emulator's own screenshot tool
+        (or via adb).
+    validations:
+      required: false
+  - type: textarea
+    id: others
+    attributes:
+      label: Anthing else?
+      description: >-
+        Emulator used, operating system, related configuration, links,
+        reference material, etc.
+
+        Anything that will give us more insight into the problem
+        you are having.
+    validations:
+      required: false

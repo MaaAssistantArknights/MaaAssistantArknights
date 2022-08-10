@@ -1,23 +1,23 @@
-name: 需求建议（Feature request）
-description: 新功能、建议等
+name: Feature Request (in English)
+description: New features, suggestions, etc.
 labels: ['enhancement']
 body:
   - type: textarea
     id: describe
     attributes:
-      label: 说说你遇到的问题？
+      label: The problems you have encountered?
     validations:
       required: false
   - type: textarea
     id: solution
     attributes:
-      label: 有什么好的想法？
+      label: Any good ideas?
     validations:
       required: false
   - type: textarea
     id: additional
     attributes:
-      label: 其他内容
-      description: 关于该需求建议的任何其他背景或屏幕截图。
+      label: Additional
+      description: Any other background, screen shots, etc.
     validations:
       required: false

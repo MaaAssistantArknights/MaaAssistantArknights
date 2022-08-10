@@ -1,4 +1,4 @@
-name: 问题反馈（Bug report）
+name: 问题反馈（使用中文）
 description: 识别错误、操作异常、连接错误等
 labels: ['bug']
 body:

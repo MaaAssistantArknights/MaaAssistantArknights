@@ -1,0 +1,159 @@
+default-mode:
+  pull_request_target: [add, remove]
+  issues: [add, remove]
+  issue_comment: [add]
+labels:
+# <!-- [Aa]dd `LABEL` --> 可以强制加上一个 label
+# <!-- [Rr]emove `LABEL` --> 可以强制去掉一个 label
+# Add 的优先级比 Remove 高
+- name: "module: copilot"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)copilot(?:`|)|自动(作战|战斗|编队)|作业|自動(戰|戦)(鬥|闘)|作業|copilot)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)copilot(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)copilot(?:`|))))[\\s\\S]*$)"
+- name: "module: roguelike"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)roguelike(?:`|)|肉(鸽|鴿)|集成战略|rogue|ローグ)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)roguelike(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)roguelike(?:`|))))[\\s\\S]*$)"
+- name: "module: fight"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)fight(?:`|)|刷图|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|(戰|戦)(鬥|闘)|fight|battle)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)fight(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)fight(?:`|))))[\\s\\S]*$)"
+  disabled-if:
+  - "module: copilot"
+  - "module: roguelike"
+- name: "module: infrast"
+  regexes:
+  - "(?:[Aa]dd (?:`|)(?:module: |)infrast(?:`|)|\
+    基建|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|infrast|dorm)"
+  - "(?:[Aa]dd (?:`|)(?:module: |)infrast(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)infrast(?:`|))))[\\s\\S]*$)"
+- name: "module: others"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)others(?:`|)|信用|拜访|登录|开始唤醒|visit|login|startup)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)others(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)others(?:`|))))[\\s\\S]*$)"
+- name: "module: recruit"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)recruit(?:`|)|公招|招募|公開(募集|求人)|recruit)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)recruit(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)recruit(?:`|))))[\\s\\S]*$)"
+  disabled-if:
+  - "module: roguelike"
+- name: "module: GUI"
+  # 其它模块都匹配不上的时候再尝试匹配GUI
+  # 因为可能有人说“公招界面”“肉鸽崩溃”“基建闪退”等等
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)GUI(?:`|)|图形化界面|闪退|gui|GUI|インターフェース)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)GUI(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)GUI(?:`|))))[\\s\\S]*$)"
+  disabled-if:
+  - "module: copilot"
+  - "module: fight"
+  - "module: infrast"
+  - "module: recruit"
+  - "module: roguelike"
+  - "module: others"
+- name: "release"
+  regexes:
+  - '(?:[Aa]dd (?:`|)release(?:`|)|Release v(?:\d)+\.(?:\d)+\.(?:\d)+)'
+  - "(?:[Aa]dd (?:`|)release(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)release(?:`|))))[\\s\\S]*$)"
+  mode:
+    pull_request_target: [add, remove]
+- name: "ambiguous"
+  # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
+  regexes:
+  - "(?:[Aa]dd (?:`|)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
+    feat|chore|perf|style|refactor|fix|doc|\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
+  mode:
+    pull_request_target: [add, remove]
+    issues: [add, remove]
+    issue_comment: [remove]
+  disabled-if:
+  - "module: copilot"
+  - "module: fight"
+  - "module: GUI"
+  - "module: infrast"
+  - "module: others"
+  - "module: recruit"
+  - "module: roguelike"
+  - "release"
+- name: "translation required"
+  # 不要使用日文发 issue
+  regexes:
+  - "(?:[Aa]dd (?:`|)translation required(?:`|)|([\\u3040-\\u30ff]|[㍿㍐]))"
+  - "(?:[Aa]dd (?:`|)translation required(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)translation required(?:`|))))[\\s\\S]*$)"
+  mode:
+    pull_request_target: [add, remove]
+    issues: [add, remove]
+- name: "Client: JP"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: JP(?:`|)|日(文|语|本|)服|YoStarJP)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)Client: JP(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: JP(?:`|))))[\\s\\S]*$)"
+- name: "Client: EN"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: EN(?:`|)|英(文|语|)服|国际服|美服|YoStarEN)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)Client: EN(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: EN(?:`|))))[\\s\\S]*$)"
+- name: "Client: KR"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: KR(?:`|)|韩(文|语|国|)服|YoStarKR)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)Client: KR(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: KR(?:`|))))[\\s\\S]*$)"
+- name: "Client: ZH_TW"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|繁中服|台(湾|灣|)服|繁体中文服|(龙|龍)成|天下网游|txwy)'
+  - "(?:[Aa]dd (?:`|)(?:module: |)Client: ZH_TW(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:[Aa]ll labels|(?:`|)(?:module: |)Client: ZH_TW(?:`|))))[\\s\\S]*$)"
+- name: "MAA Team"
+  mode:
+    pull_request_target: [add]
+    issues: [add]
+  author_association:
+  - "MEMBER"
+- name: "fixed"
+  regexes:
+  - "(?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)\\s+)|\
+    \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\))\
+    \\s*fixed|(?:[Ff]ixed by\\s*\
+    (?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\\s+\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))|\
+    \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\))"
+  mode:
+    issue_comment: [add]
+- name: "duplicate"
+  regexes:
+    "[Dd]uplicate of\\s*\\[?`?#\\d+"
+  mode:
+    issue_comment: [add]
+comments:
+- name: Log upload failed
+  regexes:
+  - '\[Uploading asst(?:.bak|)(?: - 副本|).(?:zip|log)…\]\(\)'
+  content:
+    "你的日志没有上传成功，请重新上传。\n\n\
+    Your log did not upload successfully, please re-upload it."
+  mode:
+    pull_request_target: [add]
+    issues: [add]
+    issue_comment: [add]
+- name: Upload failed
+  regexes: Uploading
+  content:
+    "你有一些文件没有上传成功，请重新上传。\n\n\
+    You have some files that did not upload successfully, please re-upload them."
+  mode:
+    pull_request_target: [add]
+    issues: [add]
+    issue_comment: [add]
+  disabled-if:
+  - "Log upload failed"
