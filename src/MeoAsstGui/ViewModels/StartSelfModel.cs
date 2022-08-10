@@ -49,7 +49,7 @@ namespace MeoAsstGui
         {
             if (set)
             {
-                _key.SetValue("MeoAsst", fileValue);
+                _key.SetValue("MeoAsst", "\"" + fileValue + "\"");
                 return CheckStart();
             }
             else
