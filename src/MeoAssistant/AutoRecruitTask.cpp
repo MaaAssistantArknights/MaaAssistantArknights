@@ -238,7 +238,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (m_set_time && !check_time_reduced()) {
+    if (m_set_time && !check_timer()) {
         // timer was not set to 09:00:00 properly, likely the tag selection was also corrupted
         // see https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
         // return and try later
@@ -500,11 +500,29 @@ bool asst::AutoRecruitTask::recruit_begin()
     return task.run();
 }
 
-bool asst::AutoRecruitTask::check_time_reduced()
+bool asst::AutoRecruitTask::check_timer()
 {
-    ProcessTask task(*this, { "RecruitCheckTimeReduced" });
-    task.set_retry_times(2);
-    return task.run();
+    const auto image = m_ctrler->get_image();
+
+    {
+        OcrImageAnalyzer hour_ocr(image);
+        hour_ocr.set_task_info("RecruitTimerH");
+        hour_ocr.analyze();
+        if (hour_ocr.get_result().empty()) return false;
+        std::string desired_hour_str = std::string("0") + std::to_string(m_desired_time / 60);
+        if (hour_ocr.get_result().front().text != desired_hour_str) return false;
+    }
+    if (m_desired_time % 60 == 0) return true; // minute counter stays untouched
+
+    {
+        OcrImageAnalyzer minute_ocr(image);
+        minute_ocr.set_task_info("RecruitTimerM");
+        minute_ocr.analyze();
+        if (minute_ocr.get_result().empty()) return false;
+        std::string desired_minute_str = std::to_string((m_desired_time % 60) / 10) + "0";
+        if (minute_ocr.get_result().front().text != desired_minute_str) return false;
+    }
+    return true;
 }
 
 bool asst::AutoRecruitTask::check_recruit_home_page()

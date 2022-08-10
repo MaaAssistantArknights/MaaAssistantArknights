@@ -3761,14 +3761,43 @@
         "action": "DoNothing",
         "rearDelay": 2000
     },
-    "RecruitCheckTimeReduced": {
-        "action": "DoNothing",
-        "Doc": "检查时间是不是调整过",
+    "RecruitTimerH": {
+        "Doc": "识别公招小时数",
+        "algorithm": "OcrDetect",
         "roi": [
-            350,
-            150,
-            200,
-            150
+            400,
+            180,
+            100,
+            90
+        ],
+        "text": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09"
+        ]
+    },
+    "RecruitTimerM": {
+        "Doc": "识别公招分钟数",
+        "algorithm": "OcrDetect",
+        "roi": [
+            570,
+            180,
+            100,
+            90
+        ],
+        "text": [
+            "00",
+            "10",
+            "20",
+            "30",
+            "40",
+            "50"
         ]
     },
     "RecruitConfirm": {
