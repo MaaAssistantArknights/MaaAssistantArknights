@@ -99,6 +99,7 @@
     <ClInclude Include="StageDropsConfiger.h" />
     <ClInclude Include="StageDropsImageAnalyzer.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
+    <ClInclude Include="StageNavigationTask.h" />
     <ClInclude Include="StartGameTaskPlugin.h" />
     <ClInclude Include="StartUpTask.h" />
     <ClInclude Include="StopGameTaskPlugin.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="StageDropsConfiger.cpp" />
     <ClCompile Include="StageDropsImageAnalyzer.cpp" />
     <ClCompile Include="StageDropsTaskPlugin.cpp" />
+    <ClCompile Include="StageNavigationTask.cpp" />
     <ClCompile Include="StartGameTaskPlugin.cpp" />
     <ClCompile Include="StartUpTask.cpp" />
     <ClCompile Include="StopGameTaskPlugin.cpp" />
