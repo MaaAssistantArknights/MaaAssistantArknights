@@ -9,3 +9,4 @@
 - 修复编译问题、项目代码整理 @horror-proton @ChingCdesu
 - 优化调整界面布局 @ABA2396
 - Github labeler 设置 @zzyyyl
+- Add English issue template @zzyyyl
