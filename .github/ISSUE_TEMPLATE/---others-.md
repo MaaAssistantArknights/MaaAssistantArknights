@@ -1,8 +1,8 @@
 ---
-name: 其他（Others）
-about: 其他议题
+name: 其他
+about: 提出问题，但不是报告错误或需求建议
 title: ''
-labels: ''
+labels: 'question'
 assignees: ''
 
 ---
