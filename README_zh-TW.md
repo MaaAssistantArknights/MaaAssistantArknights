@@ -170,7 +170,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 廣告
 
 [用戶交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動戰鬥 JSON 作業分享: <https://www.prts.plus> , [QQ 一群](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
+自動戰鬥 JSON 作業分享: <https://www.prts.plus> , [QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
 [Bilibili 直播間](https://live.bilibili.com/2808861)：每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
 [舟無關技術交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：內捲地獄！  
 [開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
