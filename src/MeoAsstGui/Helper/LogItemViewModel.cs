@@ -27,7 +27,7 @@ namespace MeoAsstGui
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public LogItemViewModel(string content, string color = "Black", string weight = "Regular")
+        public LogItemViewModel(string content, string color = LogColor.Message, string weight = "Regular")
         {
             Time = DateTime.Now.ToString("MM'-'dd'  'HH':'mm':'ss") + "  ";
             this.Content = content;
