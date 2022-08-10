@@ -39,6 +39,12 @@
             "SwipeRightToStage1-7"
         ]
     },
+    "EpisodeStageNameOcr": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "maxTimes": 10
+    },
     "Episode10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
