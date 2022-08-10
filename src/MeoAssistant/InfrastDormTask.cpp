@@ -7,6 +7,8 @@
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "Resource.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
+#include <regex>
 
 bool asst::InfrastDormTask::_run()
 {
@@ -22,18 +24,14 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
-        if (!m_all_finished) {
-            click_clear_button();
-        }
+        click_clear_button();
 
         opers_choose();
 
         click_confirm_button();
         click_return_button();
 
-        if (m_all_finished) {
-            //break;
-        }
+        
     }
     return true;
 }
@@ -71,16 +69,46 @@ bool asst::InfrastDormTask::opers_choose()
             case infrast::SmileyType::Rest:
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                 if (m_all_finished && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
-                    m_ctrler->click(oper.rect);
-                    if (++num_of_selected >= max_num_of_opers()) {
-                        Log.trace("num_of_selected:", num_of_selected, ", just break");
-                        break;
+
+                    OcrWithPreprocessImageAnalyzer name_analyzer(oper.name_img);
+                    name_analyzer.set_replace(
+                        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+                    Log.trace("Analyze name filter");
+                    if (!name_analyzer.analyze()) {
+                        Log.trace("ERROR:!name_analyzer.analyze():");
+                        //return false;
                     }
+   
+                    std::string opername = name_analyzer.get_result().front().text;
+                    std::regex rule("[A-Za-z %]");
+                    opername = std::regex_replace(opername, rule, "");
+
+                    Log.trace("opername:", opername);
+
+                    bool if_oper_not_in_dorm_name = std::find(m_oper_in_dorm_name.begin(), m_oper_in_dorm_name.end(), opername) == m_oper_in_dorm_name.end();
+
+
+                    if (if_oper_not_in_dorm_name) {
+                        
+                        m_oper_in_dorm_name.push_back(opername);
+                        Log.trace("put oper in");
+
+                        m_ctrler->click(oper.rect);
+                        if (++num_of_selected >= max_num_of_opers()) {
+                            Log.trace("num_of_selected:", num_of_selected, ", just break");
+                            break;
+                        }
+                    }
+                    else {
+                        Log.trace("not put oper in");
+                    }
+                    
                 }
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
                     Log.trace("click_sort_by_trust_button");
                     click_sort_by_trust_button();
+                    //swipe_to_the_left_of_operlist(2);
                     m_all_finished = true;
                     //return true;
                 }
