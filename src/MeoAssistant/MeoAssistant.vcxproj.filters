@@ -378,6 +378,9 @@
     <ClInclude Include="NoWarningCVMat.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="StageNavigationTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -643,6 +646,9 @@
     </ClCompile>
     <ClCompile Include="RoguelikeResetTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="StageNavigationTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
