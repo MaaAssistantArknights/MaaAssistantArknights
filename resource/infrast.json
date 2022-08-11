@@ -1096,24 +1096,24 @@
                 "desc": [
                     "进驻制造站时，每16个工程机器人+5%生产力"
                 ],
-                "name": [
-                    "机械辅助·α"
-                ],
                 "efficient": {
                     "all": 20
                 },
+                "name": [
+                    "机械辅助·α"
+                ],
                 "template": "Bskill_man_spd_bd3.png"
             },
             "bskill_man_spd_bd4": {
                 "desc": [
                     "进驻制造站时，每8个工程机器人+5%生产力"
                 ],
-                "name": [
-                    "机械辅助·β"
-                ],
                 "efficient": {
                     "all": 40
                 },
+                "name": [
+                    "机械辅助·β"
+                ],
                 "template": "Bskill_man_spd_bd4.png"
             },
             "bskill_man_spd_bd_n1": {
@@ -2313,24 +2313,24 @@
                 "desc": [
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
                 ],
-                "name": [
-                    "不容遗漏·α"
-                ],
                 "efficient": {
                     "all": 1
                 },
+                "name": [
+                    "不容遗漏·α"
+                ],
                 "template": "Bskill_meet_spdNotOwned1.png"
             },
             "bskill_meet_spdNotOwned2": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"
                 ],
-                "name": [
-                    "不容遗漏·β"
-                ],
                 "efficient": {
                     "all": 11
                 },
+                "name": [
+                    "不容遗漏·β"
+                ],
                 "template": "Bskill_meet_spdNotOwned2.png"
             },
             "bskill_meet_ursus1": {
@@ -2442,12 +2442,12 @@
                 "desc": [
                     "进驻贸易站时，每有1条赤金生产线，则当前贸易站订单获取效率+5%"
                 ],
-                "name": [
-                    "销路宣发"
-                ],
                 "efficient": {
                     "all": 6
                 },
+                "name": [
+                    "销路宣发"
+                ],
                 "template": "Bskill_tra_flow_gs.png"
             },
             "bskill_tra_flow_gs1": {
