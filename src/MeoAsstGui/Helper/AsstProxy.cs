@@ -315,16 +315,16 @@ namespace MeoAsstGui
 
                 case "UnsupportedResolution":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ResolutionNotSupported"), "darkred");
+                    mainModel.AddLog(Localization.GetString("ResolutionNotSupported"), LogColor.Error);
                     break;
 
                 case "ResolutionError":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), "darkred");
+                    mainModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), LogColor.Error);
                     break;
 
                 case "Reconnecting":
-                    mainModel.AddLog(Localization.GetString("TryToReconnect"), "darkred");
+                    mainModel.AddLog(Localization.GetString("TryToReconnect"), LogColor.Error);
                     break;
 
                 case "Reconnected":
@@ -333,7 +333,7 @@ namespace MeoAsstGui
 
                 case "Disconnect":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ReconnectFailed"), "darkred");
+                    mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
                     AsstStop();
                     break;
             }
@@ -364,11 +364,11 @@ namespace MeoAsstGui
             switch (msg)
             {
                 case AsstMsg.TaskChainError:
-                    mainModel.AddLog(Localization.GetString("TaskError") + taskChain, "darkred");
+                    mainModel.AddLog(Localization.GetString("TaskError") + taskChain, LogColor.Error);
                     if (taskChain == "Copilot")
                     {
                         copilotModel.Idle = true;
-                        copilotModel.AddLog(Localization.GetString("CombatError"), "darkred");
+                        copilotModel.AddLog(Localization.GetString("CombatError"), LogColor.Error);
                     }
 
                     break;
@@ -387,7 +387,7 @@ namespace MeoAsstGui
                     if (taskChain == "Copilot")
                     {
                         copilotModel.Idle = true;
-                        copilotModel.AddLog(Localization.GetString("CompleteCombat"), "darkcyan");
+                        copilotModel.AddLog(Localization.GetString("CompleteCombat"), LogColor.Info);
                     }
 
                     break;
@@ -478,29 +478,29 @@ namespace MeoAsstGui
             switch (subTask)
             {
                 case "StartGameTask":
-                    mainModel.AddLog(Localization.GetString("FailedToOpenClient"), "darkred");
+                    mainModel.AddLog(Localization.GetString("FailedToOpenClient"), LogColor.Error);
                     break;
 
                 case "AutoRecruitTask":
                     {
                         var why_str = details.TryGetValue("why", out var why) ? why.ToString() : Localization.GetString("ErrorOccurred");
-                        mainModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), "darkred");
+                        mainModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), LogColor.Error);
                         break;
                     }
 
                 case "RecognizeDrops":
-                    mainModel.AddLog(Localization.GetString("DropRecognitionError"), "darkred");
+                    mainModel.AddLog(Localization.GetString("DropRecognitionError"), LogColor.Error);
                     break;
 
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"].ToString();
-                        mainModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), "darkred");
+                        mainModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), LogColor.Error);
                         break;
                     }
 
                 case "CheckStageValid":
-                    mainModel.AddLog(Localization.GetString("TheEX"), "darkred");
+                    mainModel.AddLog(Localization.GetString("TheEX"), LogColor.Error);
                     break;
             }
         }
@@ -519,40 +519,40 @@ namespace MeoAsstGui
                 {
                     case "StartButton2":
                     case "AnnihilationConfirm":
-                        mainModel.AddLog(Localization.GetString("OnTheMove") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("OnTheMove") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
                     case "MedicineConfirm":
-                        mainModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
                     case "StoneConfirm":
-                        mainModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
                     case "AbandonAction":
-                        mainModel.AddLog(Localization.GetString("ActingCommandError"), "darkred");
+                        mainModel.AddLog(Localization.GetString("ActingCommandError"), LogColor.Error);
                         break;
 
                     case "RecruitRefreshConfirm":
-                        mainModel.AddLog(Localization.GetString("LabelsRefreshed"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("LabelsRefreshed"), LogColor.Info);
                         break;
 
                     case "RecruitConfirm":
-                        mainModel.AddLog(Localization.GetString("RecruitConfirm"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("RecruitConfirm"), LogColor.Info);
                         break;
 
                     case "InfrastDormDoubleConfirmButton":
-                        mainModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), "darkred");
+                        mainModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), LogColor.Error);
                         break;
 
                     /* 肉鸽相关 */
                     case "Roguelike1Start":
-                        mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
                     case "Roguelike1StageTraderInvestConfirm":
-                        mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
                     case "Roguelike1ExitThenAbandon":
@@ -598,15 +598,15 @@ namespace MeoAsstGui
                         break;
 
                     case "Roguelike1StageTraderInvestSystemFull":
-                        mainModel.AddLog(Localization.GetString("UpperLimit"), "darkcyan");
+                        mainModel.AddLog(Localization.GetString("UpperLimit"), LogColor.Info);
                         break;
 
                     case "RestartGameAndContinueFighting":
-                        mainModel.AddLog(Localization.GetString("GameCrash"), "darkgoldenrod");
+                        mainModel.AddLog(Localization.GetString("GameCrash"), LogColor.Warning);
                         break;
 
                     case "OfflineConfirm":
-                        mainModel.AddLog(Localization.GetString("GameDrop"), "darkgoldenrod");
+                        mainModel.AddLog(Localization.GetString("GameDrop"), LogColor.Warning);
                         break;
                 }
             }
@@ -713,11 +713,11 @@ namespace MeoAsstGui
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
 
-                            mainModel.AddLog(level + " ★ Tags", "darkorange", "Bold");
+                            mainModel.AddLog(level + " ★ Tags", LogColor.RareOperator, "Bold");
                         }
                         else
                         {
-                            mainModel.AddLog(level + " ★ Tags", "darkcyan");
+                            mainModel.AddLog(level + " ★ Tags", LogColor.Info);
                         }
 
                         bool robot = (bool)subTaskDetails["robot"];
@@ -728,7 +728,7 @@ namespace MeoAsstGui
                                 toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
                             }
 
-                            mainModel.AddLog(1 + " ★ Tag", "darkgray", "Bold");
+                            mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
                         }
                     }
 
@@ -759,7 +759,7 @@ namespace MeoAsstGui
 
                 case "NotEnoughStaff":
                     {
-                        mainModel.AddLog(Localization.GetString("NotEnoughStaff"), "darkred");
+                        mainModel.AddLog(Localization.GetString("NotEnoughStaff"), LogColor.Error);
                     }
 
                     break;
@@ -774,7 +774,7 @@ namespace MeoAsstGui
 
                 case "StageInfoError":
                     {
-                        mainModel.AddLog(Localization.GetString("StageInfoError"), "darkred");
+                        mainModel.AddLog(Localization.GetString("StageInfoError"), LogColor.Error);
                     }
 
                     break;
@@ -807,7 +807,7 @@ namespace MeoAsstGui
                         if (doc.Length != 0)
                         {
                             string color = subTaskDetails["doc_color"].ToString();
-                            copilotModel.AddLog(doc, color.Length == 0 ? "dark" : color);
+                            copilotModel.AddLog(doc, color.Length == 0 ? LogColor.Message : color);
                         }
 
                         var action = subTaskDetails["action"].ToString();
@@ -822,14 +822,14 @@ namespace MeoAsstGui
                 case "BattleActionDoc":
                     // {
                     //    string title_color = subTaskDetails["title_color"].ToString();
-                    //    copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? "dark" : title_color);
+                    //    copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? LogColor.Message : title_color);
                     //    string details_color = subTaskDetails["details_color"].ToString();
-                    //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? "dark" : details_color);
+                    //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? LogColor.Message : details_color);
                     // }
                     break;
 
                 case "UnsupportedLevel":
-                    mainModel.AddLog(Localization.GetString("UnsupportedLevel"), "darkred");
+                    mainModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
                     break;
             }
         }
