@@ -704,6 +704,15 @@
             "Chip"
         ],
         "skills": {
+            "bskill_man_constrLv": {
+                "desc": [
+                    "进驻制造站时，基建内每间设施每级+1个工程机器人，上限64个"
+                ],
+                "name": [
+                    "绘图设计"
+                ],
+                "template": "Bskill_man_constrLv.png"
+            },
             "bskill_man_cost_all": {
                 "desc": [
                     "进驻制造站时，消除当前制造站内所有干员自身心情消耗的影响"
@@ -1082,6 +1091,30 @@
                     "意识实体"
                 ],
                 "template": "Bskill_man_spd_bd2.png"
+            },
+            "bskill_man_spd_bd3": {
+                "desc": [
+                    "进驻制造站时，每16个工程机器人+5%生产力"
+                ],
+                "name": [
+                    "机械辅助·α"
+                ],
+                "efficient": {
+                    "all": 20
+                },
+                "template": "Bskill_man_spd_bd3.png"
+            },
+            "bskill_man_spd_bd4": {
+                "desc": [
+                    "进驻制造站时，每8个工程机器人+5%生产力"
+                ],
+                "name": [
+                    "机械辅助·β"
+                ],
+                "efficient": {
+                    "all": 40
+                },
+                "template": "Bskill_man_spd_bd4.png"
             },
             "bskill_man_spd_bd_n1": {
                 "additional": {
@@ -2276,6 +2309,30 @@
                 ],
                 "template": "Bskill_meet_spd3.png"
             },
+            "bskill_meet_spdNotOwned1": {
+                "desc": [
+                    "进驻会客室时，更容易获得线索板上尚未拥有的线索"
+                ],
+                "name": [
+                    "不容遗漏·α"
+                ],
+                "efficient": {
+                    "all": 1
+                },
+                "template": "Bskill_meet_spdNotOwned1.png"
+            },
+            "bskill_meet_spdNotOwned2": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"
+                ],
+                "name": [
+                    "不容遗漏·β"
+                ],
+                "efficient": {
+                    "all": 11
+                },
+                "template": "Bskill_meet_spdNotOwned2.png"
+            },
             "bskill_meet_ursus1": {
                 "desc": [
                     "进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）"
@@ -2348,6 +2405,15 @@
                 ],
                 "template": "Bskill_tra_bd_n2.png"
             },
+            "bskill_tra_flow_durin": {
+                "desc": [
+                    "进驻贸易站时，基建内每1名杜林族干员（最多4名）为当前贸易站提供1条赤金生产线"
+                ],
+                "name": [
+                    "际崖居民"
+                ],
+                "template": "Bskill_tra_flow_durin.png"
+            },
             "bskill_tra_flow_gc1": {
                 "desc": [
                     "进驻贸易站时，订单获取效率+5%，制造站每有4条赤金生产线，则为当前贸易站额外提供2条赤金生产线"
@@ -2371,6 +2437,18 @@
                     "订单流可视化·β"
                 ],
                 "template": "Bskill_tra_flow_gc2.png"
+            },
+            "bskill_tra_flow_gs": {
+                "desc": [
+                    "进驻贸易站时，每有1条赤金生产线，则当前贸易站订单获取效率+5%"
+                ],
+                "name": [
+                    "销路宣发"
+                ],
+                "efficient": {
+                    "all": 6
+                },
+                "template": "Bskill_tra_flow_gs.png"
             },
             "bskill_tra_flow_gs1": {
                 "desc": [
