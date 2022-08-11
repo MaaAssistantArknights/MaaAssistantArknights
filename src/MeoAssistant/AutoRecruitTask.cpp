@@ -141,7 +141,7 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexce
     return *this;
 }
 
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_desired_time(int minutes) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(int minutes) noexcept
 {
     minutes = std::clamp(minutes, 60, 9 * 60);
     minutes -= minutes % 10;

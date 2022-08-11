@@ -40,6 +40,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     bool skip_robot = params.get("skip_robot", true);
+    int recruitment_time = params.get("recruitment_time", 9 * 60);
 
 
     m_auto_recruit_task_ptr->set_enable(true);
@@ -50,6 +51,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
             .set_select_level(std::move(select))
             .set_confirm_level(std::move(confirm))
             .set_skip_robot(skip_robot)
+            .set_recruitment_time(recruitment_time)
             .set_set_time(set_time).set_retry_times(3);
 
     return true;

@@ -22,7 +22,7 @@ namespace asst
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
         AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
-        AutoRecruitTask& set_desired_time(int minutes) noexcept;
+        AutoRecruitTask& set_recruitment_time(int minutes) noexcept;
 
     protected:
         virtual bool _run() override;
