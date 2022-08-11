@@ -7,8 +7,9 @@
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "Resource.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
-#include <regex>
+//#include "OcrWithPreprocessImageAnalyzer.h"
+//#include <regex>
+#include "HashImageAnalyzer.h"
 
 bool asst::InfrastDormTask::_run()
 {
@@ -40,6 +41,9 @@ bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
 
+    const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
+                    Task.get("InfrastOperFaceHash"))->dist_threshold;
+
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
             return false;
@@ -68,8 +72,9 @@ bool asst::InfrastDormTask::opers_choose()
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
-                if (m_all_finished && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
+                if (m_finished_stage>0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
 
+                    /*
                     OcrWithPreprocessImageAnalyzer name_analyzer(oper.name_img);
                     name_analyzer.set_replace(
                         Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
@@ -86,11 +91,23 @@ bool asst::InfrastDormTask::opers_choose()
                     Log.trace("opername:", opername);
 
                     bool if_oper_not_in_dorm_name = std::find(m_oper_in_dorm_name.begin(), m_oper_in_dorm_name.end(), opername) == m_oper_in_dorm_name.end();
+                    */
 
+                    Log.trace("oper.face_hash:", oper.face_hash);
 
-                    if (if_oper_not_in_dorm_name) {
+                    bool if_oper_not_in_dorm_hash = true;
+                    for (auto face_hash : m_oper_in_dorm_hash) {
+                        int dist = HashImageAnalyzer::hamming(face_hash, oper.face_hash);
+                        Log.debug("opers_detect hash dist |", dist);
+                        if (dist < face_hash_thres) {
+                            if_oper_not_in_dorm_hash = false;
+                        }
+                    }
+
+                    if (if_oper_not_in_dorm_hash) {
                         
-                        m_oper_in_dorm_name.push_back(opername);
+                        //m_oper_in_dorm_name.push_back(opername);
+                        m_oper_in_dorm_hash.push_back(oper.face_hash);
                         Log.trace("put oper in");
 
                         m_ctrler->click(oper.rect);
@@ -108,9 +125,8 @@ bool asst::InfrastDormTask::opers_choose()
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
                     Log.trace("click_sort_by_trust_button");
                     click_sort_by_trust_button();
-                    //swipe_to_the_left_of_operlist(2);
-                    m_all_finished = true;
-                    //return true;
+                    swipe_to_the_left_of_operlist(2);
+                    m_finished_stage = 1;
                 }
                 break;
             case infrast::SmileyType::Work:
@@ -127,12 +143,25 @@ bool asst::InfrastDormTask::opers_choose()
             default:
                 break;
             }
+            if (m_finished_stage==1) {
+                break;
+            }
         }
         if (num_of_selected >= max_num_of_opers()) {
             Log.trace("num_of_selected:", num_of_selected, ", just break");
+            if (m_finished_stage == 1) {
+                m_finished_stage = 2;
+            }
             break;
         }
-        swipe_of_operlist();
+
+        if(m_finished_stage == 1) {
+            m_finished_stage = 2;
+        }
+        else {
+            swipe_of_operlist();
+        }
+        
     }
     return true;
 }
