@@ -159,7 +159,7 @@ Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
 ## Advertisement
 
 [User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)  
+Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group(full)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)  
 [Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
 [Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)

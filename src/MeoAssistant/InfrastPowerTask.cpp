@@ -2,6 +2,8 @@
 
 #include "Controller.h"
 
+#include "AsstRanges.hpp"
+
 bool asst::InfrastPowerTask::_run()
 {
     m_all_available_opers.clear();
@@ -34,7 +36,7 @@ bool asst::InfrastPowerTask::_run()
                 opers_detect();
             }
 
-            auto find_iter = std::ranges::find_if(m_all_available_opers,
+            auto find_iter = ranges::find_if(m_all_available_opers,
                 [&](const infrast::Oper& info) -> bool {
                     return info.selected;
                 });

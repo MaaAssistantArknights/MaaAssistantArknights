@@ -9,7 +9,7 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignHeight="495"
+    d:DesignHeight="3000"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid Margin="20">

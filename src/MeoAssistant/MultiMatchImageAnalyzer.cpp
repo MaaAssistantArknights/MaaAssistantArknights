@@ -1,6 +1,6 @@
 #include "MultiMatchImageAnalyzer.h"
 
-#include <ranges>
+#include "AsstRanges.hpp"
 #include <utility>
 
 #include "NoWarningCV.h"
@@ -32,7 +32,7 @@ bool asst::MultiMatchImageAnalyzer::analyze()
 void asst::MultiMatchImageAnalyzer::sort_result_horizontal()
 {
     // 按位置排个序
-    std::ranges::sort(m_result,
+    ranges::sort(m_result,
         [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
             if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
                 return lhs.rect.x < rhs.rect.x;
@@ -46,7 +46,7 @@ void asst::MultiMatchImageAnalyzer::sort_result_horizontal()
 void asst::MultiMatchImageAnalyzer::sort_result_vertical()
 {
     // 按位置排个序
-    std::ranges::sort(m_result,
+    ranges::sort(m_result,
         [](const MatchRect& lhs, const MatchRect& rhs) -> bool {
             if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
                 return lhs.rect.y < rhs.rect.y;
@@ -132,7 +132,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
                 bool need_push = true;
                 // 如果有两个点离得太近，只取里面得分高的那个
                 // 一般相邻的都是刚刚push进去的，这里倒序快一点
-                for (auto& iter : std::ranges::reverse_view(m_result)) {
+                for (auto& iter : ranges::reverse_view(m_result)) {
                     if (std::abs(j + m_roi.x - iter.rect.x) < mini_distance && std::abs(i + m_roi.y - iter.rect.y) < mini_distance) {
                         if (iter.score < value) {
                             iter.rect = rect;

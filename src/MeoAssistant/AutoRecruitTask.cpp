@@ -9,7 +9,7 @@
 #include "Logger.hpp"
 
 #include <algorithm>
-#include <ranges>
+#include "AsstRanges.hpp"
 
 namespace asst::recruit_calc
 {
@@ -20,7 +20,7 @@ namespace asst::recruit_calc
 
         {
             rcs_with_single_tag.reserve(tags.size());
-            std::ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const std::string& t) {
+            ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const std::string& t) {
                 RecruitCombs result;
                 result.tags = { t };
                 result.min_level = 6;
@@ -42,8 +42,8 @@ namespace asst::recruit_calc
             for (auto& rc : rcs_with_single_tag) {
                 rc.avg_level /= static_cast<double>(rc.opers.size());
                 // intersection and union are based on sorted container
-                std::ranges::sort(rc.tags);
-                std::ranges::sort(rc.opers);
+                ranges::sort(rc.tags);
+                ranges::sort(rc.opers);
             }
         }
 
@@ -75,13 +75,13 @@ namespace asst::recruit_calc
         static constexpr std::string_view SeniorOper = "高级资深干员";
 
         for (auto comb_iter = result.begin(); comb_iter != result.end();) {
-            if (std::ranges::find(comb_iter->tags, SeniorOper) != comb_iter->tags.end()) {
+            if (ranges::find(comb_iter->tags, SeniorOper) != comb_iter->tags.end()) {
                 ++comb_iter;
                 continue;
             }
             // no senior tag, remove 6-star operators
             // assuming sorted by level
-            auto iter = std::ranges::find_if(comb_iter->opers, [](const RecruitOperInfo& op) { return op.level >= 6; });
+            auto iter = ranges::find_if(comb_iter->opers, [](const RecruitOperInfo& op) { return op.level >= 6; });
             if (iter == comb_iter->opers.end()) {
                 ++comb_iter;
                 continue;
@@ -161,7 +161,10 @@ bool asst::AutoRecruitTask::_run()
             Log.info("ready to use expedited");
             if (need_exit()) return false;
             if (!recruit_now()) {
-                m_force_discard_flag = true;
+                // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
+                // ref: issues/1491
+                if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
+                else Log.info("Not in home page after failing to use expedited plan. ");
                 return false;
             }
         }
@@ -188,7 +191,7 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     if (!start_analyzer.analyze()) return std::nullopt;
     start_analyzer.sort_result_horizontal();
     auto iter =
-        std::ranges::find_if(std::as_const(start_analyzer.get_result()),
+        ranges::find_if(std::as_const(start_analyzer.get_result()),
             [&](const TextRect& r) -> bool {
                 return !m_force_skipped.contains(slot_index_from_rect(r.rect));
             });
@@ -278,7 +281,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         bool has_refresh = !image_analyzer.get_refresh_rect().empty();
 
         std::vector<std::string> tag_names;
-        std::ranges::transform(tags, std::back_inserter(tag_names), std::mem_fn(&TextRect::text));
+        ranges::transform(tags, std::back_inserter(tag_names), std::mem_fn(&TextRect::text));
 
         bool has_special_tag = false;
         bool has_robot_tag = false;
@@ -287,7 +290,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value info = basic_info();
             std::vector<json::value> tag_json_vector;
-            std::ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
+            ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
 
             info["what"] = "RecruitTagsDetected";
             info["details"] = json::object{ { "tags", json::array(tag_json_vector) } };
@@ -296,7 +299,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // special tags
         const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
-        auto special_iter = std::ranges::find_first_of(SpecialTags, tag_names);
+        auto special_iter = ranges::find_first_of(SpecialTags, tag_names);
         if (special_iter != SpecialTags.cend()) [[unlikely]] {
             json::value info = basic_info();
             info["what"] = "RecruitSpecialTag";
@@ -307,7 +310,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
-        auto robot_iter = std::ranges::find_first_of(RobotTags, tag_names);
+        auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
         if (robot_iter != RobotTags.cend()) [[unlikely]] {
             json::value info = basic_info();
             info["what"] = "RecruitRobotTag";
@@ -323,20 +326,20 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         for (RecruitCombs& rc : result_vec) {
             if (rc.min_level < 3) {
                 // find another min level (assuming operator list sorted in increment order by level)
-                auto sec = std::ranges::find_if(rc.opers, [](const RecruitOperInfo& op) { return op.level >= 3; });
+                auto sec = ranges::find_if(rc.opers, [](const RecruitOperInfo& op) { return op.level >= 3; });
                 if (sec != rc.opers.cend()) { rc.min_level = sec->level; }
             }
         }
 
-        std::ranges::sort(result_vec,
+        ranges::sort(result_vec,
             [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool {
                 // prefer the one with special tag
                 // workaround for https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
                 if (has_special_tag) {
                     bool l_has =
-                        std::ranges::find_first_of(lhs.tags, SpecialTags) != lhs.tags.cend();
+                        ranges::find_first_of(lhs.tags, SpecialTags) != lhs.tags.cend();
                     bool r_has =
-                        std::ranges::find_first_of(rhs.tags, SpecialTags) != rhs.tags.cend();
+                        ranges::find_first_of(rhs.tags, SpecialTags) != rhs.tags.cend();
                     if (l_has != r_has) return l_has > r_has;
                 }
 
@@ -374,7 +377,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 comb_json["tags"] = json::array(std::move(tags_json_vector));
 
                 std::vector<json::value> opers_json_vector;
-                for (const RecruitOperInfo& oper_info : std::ranges::reverse_view(comb.opers)) { // print reversely
+                for (const RecruitOperInfo& oper_info : ranges::reverse_view(comb.opers)) { // print reversely
                     json::value oper_json;
                     oper_json["name"] = oper_info.name;
                     oper_json["level"] = oper_info.level;
@@ -433,7 +436,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
-            if (std::ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
+            if (ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
                 calc_task_result_type result;
                 result.success = true;
                 result.force_skip = true;
@@ -456,7 +459,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // nothing to select, leave the selection empty
-        if (std::ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
+        if (ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
             calc_task_result_type result;
             result.success = true;
             result.force_skip = false;
@@ -467,7 +470,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // select tags
         for (const std::string& final_tag_name : final_combination.tags) {
             auto tag_rect_iter =
-                std::ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
+                ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 m_ctrler->click(tag_rect_iter->rect);
             }
@@ -494,13 +497,6 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 bool asst::AutoRecruitTask::recruit_begin()
 {
     ProcessTask task(*this, { "RecruitBegin" });
-    return task.run();
-}
-
-bool asst::AutoRecruitTask::check_time_unreduced()
-{
-    ProcessTask task(*this, { "RecruitCheckTimeUnreduced" });
-    task.set_retry_times(1);
     return task.run();
 }
 

@@ -120,9 +120,10 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
     <system:String x:Key="Strategy">ストラテジー</system:String>
-    <system:String x:Key="StartTimesLimit">実行回数の制限</system:String>
-    <system:String x:Key="GoldTimesLimit">投資回数の制限</system:String>
+    <system:String x:Key="StartTimesLimit">N個起動したらタスク停止</system:String>
+    <system:String x:Key="GoldTimesLimit">N回投資した後にミッションを停止する</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達してミッションを停止する</system:String>
+    <system:String x:Key="InvestmentEnabled">源石錐の投資</system:String>
 
     <system:String x:Key="PenguinID">Penguin StatisticsレポートID（デジタル部分のみ）</system:String>
 
@@ -363,13 +364,13 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用する*</system:String>
-    <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
-    <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
+    <system:String x:Key="RecruitMaxTimes">1 回の実行あたりの求人の最大回数</system:String>
+    <system:String x:Key="ManuallySelectLevel1">星 1 を手動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel3">星 3 を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel4">星 4 を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel5">星 5 を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel6">星 6 を自動的に確認する</system:String>
+    <system:String x:Key="Level1Tip">チェックの際に星 1 タグが特定された場合、募集はスキップされ、チェックされていない場合、星 1 タグは無視されます。</system:String>
     <!--  AutoRecruitSettings  -->
 
     <system:String x:Key="Burping">うう……オエッ、つ</system:String>

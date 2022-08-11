@@ -114,6 +114,9 @@
     <ClInclude Include="AsstMsg.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="AsstRanges.hpp">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="AbstractConfiger.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>

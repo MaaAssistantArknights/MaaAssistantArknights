@@ -22,10 +22,6 @@ namespace asst
         {
             return m_set_time_rect;
         }
-        Rect get_confirm_rect() const noexcept
-        {
-            return m_confirm_rect;
-        }
         Rect get_refresh_rect() const noexcept
         {
             return m_refresh_rect;
@@ -43,7 +39,6 @@ namespace asst
 
         std::vector<TextRect> m_tags_result;
         std::vector<Rect> m_set_time_rect;
-        Rect m_confirm_rect;
         Rect m_refresh_rect;
     };
 }

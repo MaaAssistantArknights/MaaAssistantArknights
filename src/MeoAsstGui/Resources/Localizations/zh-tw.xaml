@@ -120,9 +120,10 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="Strategy">策略</system:String>
-    <system:String x:Key="StartTimesLimit">開始次數限制</system:String>
-    <system:String x:Key="GoldTimesLimit">投資次數限制</system:String>
+    <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
+    <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止</system:String>
+    <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
 
     <system:String x:Key="PenguinID">企鵝物流匯報ID（僅數字部分）</system:String>
 
@@ -234,12 +235,12 @@
 
     <!--  公招辨識  -->
     <system:String x:Key="Recognition">公招辨識</system:String>
-    <system:String x:Key="RecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招Tags介面後使用~</system:String>
+    <system:String x:Key="RecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">自動選擇3星Tags</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">自動選擇4星Tags</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">自動選擇5星Tags</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">自動選擇6星Tags</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">自動選擇 6 星 Tags</system:String>
     <system:String x:Key="BeganToRecruit">開始辨識</system:String>
 
     <!--  日誌  -->
