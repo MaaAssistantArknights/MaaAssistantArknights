@@ -22,7 +22,7 @@ namespace asst
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
         AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
-        AutoRecruitTask& set_recruitment_time(int minutes) noexcept;
+        AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
 
     protected:
         virtual bool _run() override;
@@ -32,7 +32,7 @@ namespace asst
         bool recruit_one(const Rect&);
         bool check_recruit_home_page();
         bool recruit_begin();
-        bool check_timer();
+        bool check_timer(int);
         bool recruit_now();
         bool confirm();
         bool refresh();
@@ -40,6 +40,7 @@ namespace asst
         struct calc_task_result_type {
             bool success = false;
             bool force_skip = false;
+            int recruitment_time = 60;
             [[maybe_unused]] int tags_selected = 0;
         };
 
@@ -54,7 +55,7 @@ namespace asst
         int m_max_times = 0;
         bool m_skip_robot = true;
         bool m_set_time = true;
-        int m_desired_time = 9 * 60; // in minutes
+        std::unordered_map<int /*level*/, int /*minutes*/> m_desired_time_map;
 
         int m_slot_fail = 0;
         int m_cur_times = 0;
