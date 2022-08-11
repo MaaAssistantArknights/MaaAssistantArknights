@@ -60,7 +60,7 @@ namespace MeoAsstGui
                 Localization.GetString("CopilotTip3") + "\n\n" +
                 Localization.GetString("CopilotTip4") + "\n\n" +
                 Localization.GetString("CopilotTip5"),
-                "dark");
+                LogColor.Message);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace MeoAsstGui
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public void AddLog(string content, string color = "Gray", string weight = "Regular")
+        public void AddLog(string content, string color = LogColor.Trace, string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
 
@@ -83,7 +83,7 @@ namespace MeoAsstGui
         /// <param name="url">The URL.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public void AddLogWithUrl(string content, string url, string color = "Gray", string weight = "Regular")
+        public void AddLogWithUrl(string content, string url, string color = LogColor.Trace, string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
 
@@ -142,7 +142,7 @@ namespace MeoAsstGui
                 }
                 catch (Exception)
                 {
-                    AddLog(Localization.GetString("CopilotFileReadError"), "DarkRed");
+                    AddLog(Localization.GetString("CopilotFileReadError"), LogColor.Error);
                     return;
                 }
             }
@@ -187,14 +187,14 @@ namespace MeoAsstGui
                     }
                     else
                     {
-                        AddLog(Localization.GetString("CopilotNoFound"), "DarkRed");
+                        AddLog(Localization.GetString("CopilotNoFound"), LogColor.Error);
                         return string.Empty;
                     }
                 }
             }
             catch (Exception)
             {
-                AddLog(Localization.GetString("NetworkServiceError"), "DarkRed");
+                AddLog(Localization.GetString("NetworkServiceError"), LogColor.Error);
                 return string.Empty;
             }
         }
@@ -211,7 +211,7 @@ namespace MeoAsstGui
                 var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null || !json.ContainsKey("doc"))
                 {
-                    AddLog(Localization.GetString("CopilotJsonError"), "DarkRed");
+                    AddLog(Localization.GetString("CopilotJsonError"), LogColor.Error);
                     return;
                 }
 
@@ -225,7 +225,7 @@ namespace MeoAsstGui
 
                 if (title.Length != 0)
                 {
-                    string title_color = "black";
+                    string title_color = LogColor.Message;
                     if (doc.ContainsKey("title_color"))
                     {
                         title_color = doc["title_color"].ToString();
@@ -242,7 +242,7 @@ namespace MeoAsstGui
 
                 if (details.Length != 0)
                 {
-                    string details_color = "black";
+                    string details_color = LogColor.Message;
                     if (doc.ContainsKey("details_color"))
                     {
                         details_color = doc["details_color"].ToString();
@@ -261,12 +261,12 @@ namespace MeoAsstGui
                     }
                 }
 
-                AddLog(string.Empty, "black");
+                AddLog(string.Empty, LogColor.Message);
                 int count = 0;
                 foreach (JObject oper in json["opers"])
                 {
                     count++;
-                    AddLog(string.Format("{0}, {1} 技能", oper["name"], oper["skill"]), "black");
+                    AddLog(string.Format("{0}, {1} 技能", oper["name"], oper["skill"]), LogColor.Message);
                 }
 
                 if (json.ContainsKey("groups"))
@@ -281,11 +281,11 @@ namespace MeoAsstGui
                             operInfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
                         }
 
-                        AddLog(group_name + string.Join(" / ", operInfos), "black");
+                        AddLog(group_name + string.Join(" / ", operInfos), LogColor.Message);
                     }
                 }
 
-                AddLog(string.Format("共 {0} 名干员", count), "black");
+                AddLog(string.Format("共 {0} 名干员", count), LogColor.Message);
 
                 _curStageName = json["stage_name"].ToString();
                 _curCopilotData = json.ToString();
@@ -300,7 +300,7 @@ namespace MeoAsstGui
             }
             catch (Exception)
             {
-                AddLog(Localization.GetString("CopilotJsonError"), "DarkRed");
+                AddLog(Localization.GetString("CopilotJsonError"), LogColor.Error);
             }
         }
 
@@ -345,7 +345,7 @@ namespace MeoAsstGui
             {
                 Filename = string.Empty;
                 ClearLog();
-                AddLog(Localization.GetString("NotCopilotJson"), "DarkRed");
+                AddLog(Localization.GetString("NotCopilotJson"), LogColor.Error);
             }
         }
 
@@ -370,7 +370,7 @@ namespace MeoAsstGui
             ClearLog();
             if (_form)
             {
-                AddLog(Localization.GetString("AutoSquadTip"), "dark");
+                AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
             }
 
             AddLog(Localization.GetString("ConnectingToEmulator"));
@@ -384,13 +384,13 @@ namespace MeoAsstGui
             _caught = await task;
             if (!_caught)
             {
-                AddLog(errMsg, "DarkRed");
+                AddLog(errMsg, LogColor.Error);
                 return;
             }
 
             if (errMsg.Length != 0)
             {
-                AddLog(errMsg, "DarkRed");
+                AddLog(errMsg, LogColor.Error);
             }
 
             UpdateFileDoc(Filename);
@@ -405,7 +405,7 @@ namespace MeoAsstGui
             }
             else
             {
-                AddLog(Localization.GetString("CopilotFileReadError") + "\n" + Localization.GetString("CheckTheFile"), "DarkRed");
+                AddLog(Localization.GetString("CopilotFileReadError") + "\n" + Localization.GetString("CheckTheFile"), LogColor.Error);
             }
         }
 

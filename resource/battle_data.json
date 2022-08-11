@@ -130,6 +130,16 @@
             ],
             "rarity": 5
         },
+        "char_1026_gvial2": {
+            "name": "百炼嘉维尔",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
         "char_1027_greyy2": {
             "name": "承曦格雷伊",
             "profession": "SNIPER",
@@ -2010,6 +2020,26 @@
             ],
             "rarity": 6
         },
+        "char_4054_malist": {
+            "name": "至简",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ],
+            "rarity": 5
+        },
+        "char_4055_bgsnow": {
+            "name": "鸿雪",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ],
+            "rarity": 6
+        },
         "char_405_absin": {
             "name": "苦艾",
             "profession": "CASTER",
@@ -2377,6 +2407,16 @@
                 "1-1",
                 "1-1",
                 "1-1"
+            ],
+            "rarity": 5
+        },
+        "char_497_ctable": {
+            "name": "晓歌",
+            "profession": "PIONEER",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
             ],
             "rarity": 5
         },
@@ -2807,6 +2847,16 @@
                 "0-1",
                 "0-1",
                 "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10026_bgsnow_subbow": {
+            "name": "“打字机”",
+            "profession": "TOKEN",
+            "rangeId": [
+                "3-2",
+                "3-2",
+                "3-2"
             ],
             "rarity": 6
         },
@@ -3520,8 +3570,38 @@
             ],
             "rarity": 1
         },
+        "trap_080_garage": {
+            "name": "自走车出发点",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_081_turngear": {
+            "name": "自走车单行道",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_082_salecard": {
             "name": "改派发讯器",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_085_paras": {
+            "name": "荧光孢子",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",

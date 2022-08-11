@@ -50,7 +50,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，第一层商店后直接退出</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
-    <system:String x:Key="StartingCoreChar">开局干员(单个)</system:String>
+    <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
@@ -120,9 +120,10 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="Strategy">策略</system:String>
-    <system:String x:Key="StartTimesLimit">开始次数限制</system:String>
-    <system:String x:Key="GoldTimesLimit">投资次数限制</system:String>
-    <system:String x:Key="StopOnGoldLimit">源石锭达到上限停止</system:String>
+    <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
+    <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
+    <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
+    <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
 
     <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
 
@@ -234,12 +235,12 @@
 
     <!--  公招识别  -->
     <system:String x:Key="Recognition">公招识别</system:String>
-    <system:String x:Key="RecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招Tags界面后使用~</system:String>
+    <system:String x:Key="RecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
     <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">自动选择3星Tags</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">自动选择4星Tags</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">自动选择5星Tags</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">自动选择6星Tags</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">自动选择 3 星 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">自动选择 4 星 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">自动选择 5 星 Tags</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">自动选择 6 星 Tags</system:String>
     <system:String x:Key="BeganToRecruit">开始识别</system:String>
 
     <!--  日志  -->

@@ -26,18 +26,18 @@ aux_source_directory(src/MeoAssistant SRC)
 
 add_library(MeoAssistant SHARED ${SRC})
 
-find_library(PaddleOCR_LIB NAMES ppocr PATHS 3rdparty/lib)
-
 if (WIN32)
+    find_library(PaddleOCR_LIB NAMES ppocr PATHS 3rdparty/lib)
     find_library(OpenCV NAMES opencv_world453 PATHS 3rdparty/lib)
     find_library(ZLIB NAMES zlibstatic PATHS 3rdparty/lib)
-    target_link_libraries(MeoAssistant ws2_32)
+    target_link_libraries(MeoAssistant ws2_32 ${OpenCV} ${PaddleOCR_LIB} ${ZLIB})
 else ()
     find_package(OpenCV REQUIRED)
     find_package(ZLIB REQUIRED)
+    target_link_directories(MeoAssistant PRIVATE 3rdparty/lib)
+    target_link_libraries(MeoAssistant ${OpenCV_LIBS} ${ZLIB})
+    target_link_libraries(MeoAssistant ppocr paddle_inference protobuf cryptopp gflags glog utf8proc xxhash iomp5 mkldnn mklml_intel)
 endif ()
-
-target_link_libraries(MeoAssistant ${OpenCV} ${PaddleOCR_LIB} ${ZLIB})
 
 if (BUILD_JNI)
     find_package(JNI REQUIRED)

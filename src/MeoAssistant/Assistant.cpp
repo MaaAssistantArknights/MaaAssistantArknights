@@ -1,7 +1,7 @@
 #include "Assistant.h"
 
 #include <ctime>
-#include <ranges>
+#include "AsstRanges.hpp"
 
 #include <meojson/json.hpp>
 
@@ -180,7 +180,7 @@ std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
 {
     std::vector<TaskId> result;
     std::unique_lock<std::mutex> lock(m_mutex);
-    for (const auto& id : m_tasks_list | std::views::keys) {
+    for (const auto& id : m_tasks_list | views::keys) {
         result.emplace_back(id);
     }
     return result;

@@ -120,9 +120,10 @@
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="Strategy">Strategy</system:String>
-    <system:String x:Key="StartTimesLimit">Limit of times</system:String>
-    <system:String x:Key="GoldTimesLimit">Limit of deposit coins</system:String>
+    <system:String x:Key="StartTimesLimit">Stop after starting N times</system:String>
+    <system:String x:Key="GoldTimesLimit">Stop after investing N times</system:String>
     <system:String x:Key="StopOnGoldLimit">Stop when deposited coins reached limit</system:String>
+    <system:String x:Key="InvestmentEnabled">Deposit coins</system:String>
 
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
 
@@ -352,9 +353,9 @@
     <system:String x:Key="Website">MAA Website</system:String>
     <system:String x:Key="Github">Source: GitHub</system:String>
     <system:String x:Key="QQgroup">Copilot Json sharing QQ group</system:String>
-    <system:String x:Key="QQgroup1">QQ group1</system:String>
-    <system:String x:Key="QQgroup2">QQ group2</system:String>
-    <system:String x:Key="QQgroup3">QQ group3</system:String>
+    <system:String x:Key="QQgroup1">QQ group 1</system:String>
+    <system:String x:Key="QQgroup2">QQ group 2</system:String>
+    <system:String x:Key="QQgroup3">QQ group 3</system:String>
     <system:String x:Key="QQgroupfull">(Full)</system:String>
     <system:String x:Key="Help">Q&amp;A</system:String>
     <system:String x:Key="Issue">Issue</system:String>

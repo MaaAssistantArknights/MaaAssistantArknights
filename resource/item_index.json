@@ -908,7 +908,15 @@
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
         "icon": "LMTGS_COIN_2701.png",
         "name": "寻访数据契约",
-        "sortId": 10016,
+        "sortId": 10017,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
+    "LMTGS_COIN_3001": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_3001.png",
+        "name": "寻访数据契约",
+        "sortId": 10018,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
     "LMTGS_COIN_601": {
@@ -1238,6 +1246,14 @@
         "name": "赛事奖章",
         "sortId": -10000,
         "usage": "一枚金属制的小型奖牌。获取一定数量的奖章将得到相应的赛事奖励。"
+    },
+    "act20side_token_book": {
+        "classifyType": "NONE",
+        "description": "纸页上留有各种不同的笔迹，甚至可以从数量上判断杂志转手的次数。其中大多是无意义的涂鸦，但智慧的闪光也散落其间。",
+        "icon": "act20side_token_book.png",
+        "name": "《奇谈怪论》复印本",
+        "sortId": -10000,
+        "usage": "花哨的杂志复印件，内容荒诞不经，却广受杜林人欢迎。可以用来在跳跳钳兽大市集与杜林人换取物资。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",

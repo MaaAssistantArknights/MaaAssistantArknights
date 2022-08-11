@@ -123,6 +123,7 @@
     <system:String x:Key="StartTimesLimit">🍻🍷🍸🍷</system:String>
     <system:String x:Key="GoldTimesLimit">🍺🍻🍺🍺</system:String>
     <system:String x:Key="StopOnGoldLimit">🍸🍸🍻🍸🍷🍺</system:String>
+    <system:String x:Key="InvestmentEnabled">💃🍷🍺🍺🍸🍷🕺🍷</system:String>
 
     <system:String x:Key="PenguinID">🍻🕺🍷🍻🕺🍸🍻🍻</system:String>
 

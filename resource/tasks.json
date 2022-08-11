@@ -454,22 +454,45 @@
             60
         ]
     },
-    "DH-9": {
+    "IC-9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "DH-Open"
+            "IC-Open"
         ],
         "next": [
-            "StageDH-9"
+            "StageIC-9",
+            "SwipeToStageIC-9"
         ]
     },
-    "DH-Open": {
+    "IC-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "StageIC-8",
+            "SwipeToStageIC-8"
+        ]
+    },
+    "IC-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "StageIC-7",
+            "SwipeToStageIC-7"
+        ]
+    },
+    "IC-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "假日",
-            "复刻",
+            "理想城",
+            "狂欢季",
             "活动",
             "开放"
         ],
@@ -480,41 +503,88 @@
             150
         ],
         "next": [
-            "DHChapterToDH"
+            "ICChapterToIC"
         ]
     },
-    "DHChapterToDH": {
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1028,
+            402,
+            223,
+            126
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "ICChapterToIC",
+            "SwipeToTheRight"
+        ]
+    },
+    "SwipeToStageIC-9": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageIC-9",
+            "SwipeToStageIC-9"
+        ]
+    },
+    "SwipeToStageIC-8": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageIC-8",
+            "SwipeToStageIC-8"
+        ]
+    },
+    "SwipeToStageIC-7": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageIC-7",
+            "SwipeToStageIC-7"
+        ]
+    },
+    "StageIC-9": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "极限",
-            "铁人",
-            "大奖"
+            "IC-9"
         ],
         "roi": [
-            934,
-            280,
-            234,
-            124
-        ],
-        "rearDelay": 2000,
-        "next": [
-            "DHChapterToDH",
-            "SwipeToTheRight"
+            0,
+            145,
+            1280,
+            332
         ]
     },
-    "StageDH-9": {
+    "StageIC-8": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "text": [
-            "DH-9"
+            "IC-8"
         ],
         "roi": [
-            518,
-            133,
-            176,
-            134
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageIC-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "IC-7"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "DV-8": {
@@ -528,17 +598,6 @@
             "SwipeToStageDV-8"
         ]
     },
-    "DV-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "DV-Open"
-        ],
-        "next": [
-            "StageDV-6",
-            "SwipeToStageDV-6"
-        ]
-    },
     "DV-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -548,6 +607,17 @@
         "next": [
             "StageDV-7",
             "SwipeToStageDV-7"
+        ]
+    },
+    "DV-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "StageDV-6",
+            "SwipeToStageDV-6"
         ]
     },
     "DV-Open": {
@@ -595,20 +665,20 @@
             "SwipeToStageDV-8"
         ]
     },
-    "SwipeToStageDV-6": {
-        "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-6",
-            "SwipeToStageDV-6"
-        ]
-    },
     "SwipeToStageDV-7": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-7",
             "SwipeToStageDV-7"
+        ]
+    },
+    "SwipeToStageDV-6": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageDV-6",
+            "SwipeToStageDV-6"
         ]
     },
     "StageDV-8": {
@@ -625,12 +695,12 @@
             332
         ]
     },
-    "StageDV-6": {
+    "StageDV-7": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "DV-6"
+            "DV-7"
         ],
         "roi": [
             0,
@@ -639,12 +709,12 @@
             332
         ]
     },
-    "StageDV-7": {
+    "StageDV-6": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "DV-7"
+            "DV-6"
         ],
         "roi": [
             0,
@@ -1557,9 +1627,9 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "UsePrts-Annihilation",
             "UsePrts",
             "UsePrts-StageSN",
-            "UsePrts-Annihilation",
             "StartButton1",
             "PRTS3",
             "PRTS",
@@ -1679,6 +1749,7 @@
         ],
         "cache": false,
         "next": [
+            "UsePrts-Annihilation",
             "StartButton1"
         ]
     },
@@ -2445,9 +2516,9 @@
         ],
         "action": "ClickSelf",
         "next": [
+            "UsePrts-Annihilation",
             "UsePrts",
             "UsePrts-StageSN",
-            "UsePrts-Annihilation",
             "StartButton1"
         ]
     },
@@ -3689,16 +3760,6 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "rearDelay": 2000
-    },
-    "RecruitCheckTimeUnreduced": {
-        "action": "DoNothing",
-        "Doc": "检查时间是不是没有调整过",
-        "roi": [
-            350,
-            150,
-            200,
-            150
-        ]
     },
     "RecruitCheckTimeReduced": {
         "action": "DoNothing",
@@ -6961,6 +7022,10 @@
             51,
             276,
             216
+        ],
+        "exceededNext": [
+            "Roguelike1TraderRandomShopping",
+            "Roguelike1StageTraderLeave"
         ],
         "next": [
             "Roguelike1StageTraderInvestSystemEnter",

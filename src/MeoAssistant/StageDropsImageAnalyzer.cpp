@@ -1,6 +1,6 @@
 #include "StageDropsImageAnalyzer.h"
 
-#include <ranges>
+#include "AsstRanges.hpp"
 
 #include "NoWarningCV.h"
 
@@ -57,7 +57,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     const auto& stages = Resrc.drops().get_all_stage_code();
     std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
     // 名字长的放前面
-    std::ranges::sort(stages_req,
+    ranges::sort(stages_req,
         [](const std::string& lhs, const std::string& rhs) -> bool {
             return lhs.size() > rhs.size();
         });
@@ -336,7 +336,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
-    for (const auto& key : m_baseline | std::views::keys) {
+    for (const auto& key : m_baseline | views::keys) {
         Log.trace(__FUNCTION__, "baseline", key.to_string());
     }
 
@@ -559,7 +559,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     //}
 
     if (digit_str.empty() ||
-        !std::ranges::all_of(digit_str,
+        !ranges::all_of(digit_str,
             [](const char& c) -> bool {return std::isdigit(c) || c == '.';})) {
         return 0;
     }

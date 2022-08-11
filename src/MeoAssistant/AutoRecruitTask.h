@@ -31,7 +31,6 @@ namespace asst
         bool recruit_one(const Rect&);
         bool check_recruit_home_page();
         bool recruit_begin();
-        bool check_time_unreduced();
         bool check_time_reduced();
         bool recruit_now();
         bool confirm();
