@@ -6709,9 +6709,9 @@
     },
     "Roguelike1RecruitOcrFlag": {
         "roi": [
-            600,
+            350,
             100,
-            500,
+            700,
             500
         ],
         "templThreshold": 0.95
