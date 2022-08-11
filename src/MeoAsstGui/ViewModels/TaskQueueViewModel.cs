@@ -224,9 +224,9 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
 
                 // SideStory「理想城：长夏狂欢季」活动
-                // new CombData { Display = "IC-9", Value = "IC-9" },
-                // new CombData { Display = "IC-8", Value = "IC-8" },
-                // new CombData { Display = "IC-7", Value = "IC-7" },
+                new CombData { Display = "IC-9", Value = "IC-9" },
+                new CombData { Display = "IC-8", Value = "IC-8" },
+                new CombData { Display = "IC-7", Value = "IC-7" },
 
                 // 主线关卡
                 new CombData { Display = "1-7", Value = "1-7" },

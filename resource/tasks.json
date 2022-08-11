@@ -507,17 +507,13 @@
         ]
     },
     "ICChapterToIC": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "text": [
-            "地底观光"
-        ],
         "roi": [
-            0,
-            0,
-            0,
-            0
+            1028,
+            402,
+            223,
+            126
         ],
         "rearDelay": 2000,
         "next": [
