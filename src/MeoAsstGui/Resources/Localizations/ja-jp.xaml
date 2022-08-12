@@ -47,11 +47,11 @@
     <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集める、多くのステージをクリアする</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">源石錐を集める、1階旅商人のすぐ後に止める</system:String>
-    <system:String x:Key="StartingSquad">スターティング・スクワッド</system:String>
-    <system:String x:Key="StartingRoles">始めるキャリア</system:String>
-    <system:String x:Key="StartingCoreChar">オペレーター（シングルプレイヤー、中国名のみ）</system:String>
-    <system:String x:Key="StartingCoreCharTip">1 つの oper の CN 名のみをサポートします。入力されていない場合はデフォルトです。</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">源石錐を集める、1階旅商人に出会って後止める</system:String>
+    <system:String x:Key="StartingSquad">最初の分隊</system:String>
+    <system:String x:Key="StartingRoles">最初の職業</system:String>
+    <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
+    <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトにします。</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
@@ -140,7 +140,7 @@
     <system:String x:Key="MainViewButtonFeature">スタート画面左側のボタン</system:String>
 
     <system:String x:Key="ADBTip">ヒント：ここで自動的に検出されます。エラーが発生した場合は、もう一度変更を試みることができます。それ以外の場合は、自分で入力する必要はありません。</system:String>
-    <system:String x:Key="ADBPath">adbパス (相対/絶対)</system:String>
+    <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">はじめて使うと自動で記入されるので、問題があれば手動で修正してみる</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
@@ -364,16 +364,16 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用する*</system:String>
-    <system:String x:Key="RecruitMaxTimes">1 回の実行あたりの求人の最大回数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">星 1 を手動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel3">星 3 を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel4">星 4 を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel5">星 5 を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel6">星 6 を自動的に確認する</system:String>
-    <system:String x:Key="Level1Tip">チェックの際に星 1 タグが特定された場合、募集はスキップされ、チェックされていない場合、星 1 タグは無視されます。</system:String>
+    <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
+    <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
+    <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
     <!--  AutoRecruitSettings  -->
 
-    <system:String x:Key="Burping">うう……オエッ、つ</system:String>
+    <system:String x:Key="Burping">うぅ……オエッ、つ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
     <system:String x:Key="Hangover">次は飲みすぎないようにしないと……</system:String>
 </ResourceDictionary>
