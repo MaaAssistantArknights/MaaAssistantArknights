@@ -9,7 +9,6 @@
 #include "Resource.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include <regex>
-#include "HashImageAnalyzer.h"
 
 bool asst::InfrastDormTask::_run()
 {
@@ -40,9 +39,6 @@ bool asst::InfrastDormTask::_run()
 bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
-
-    const int face_hash_thres = std::dynamic_pointer_cast<HashTaskInfo>(
-                    Task.get("InfrastOperFaceHash"))->dist_threshold;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -89,31 +85,8 @@ bool asst::InfrastDormTask::opers_choose()
 
                     bool if_opertrust_not_full = atoi(opertrust.c_str()) < 200;
 
-                    //获得干员所在设施
-                    OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
-                    if (!facility_analyzer.analyze()) {
-                        Log.trace("ERROR:!facility_analyzer.analyze():");
-                        //return false;
-                    }
 
-                    std::string facilityname = facility_analyzer.get_result().front().text;
-                    Log.trace("facilityname:<"+facilityname+">");
-                    bool if_oper_not_working = facilityname!="1F01";
-
-                    //获得干员face_hash
-                    Log.trace("oper.face_hash:", oper.face_hash);
-
-                    bool if_oper_not_in_dorm_hash = true;
-                    for (auto face_hash : m_oper_in_dorm_hash) {
-                        int dist = HashImageAnalyzer::hamming(face_hash, oper.face_hash);
-                        Log.debug("opers_detect hash dist |", dist);
-                        if (dist < face_hash_thres) {
-                            if_oper_not_in_dorm_hash = false;
-                        }
-                    }
-
-                    if (if_oper_not_in_dorm_hash && if_oper_not_working && if_opertrust_not_full) {
-                        m_oper_in_dorm_hash.push_back(oper.face_hash);
+                    if (if_opertrust_not_full) {
                         Log.trace("put oper in");
 
                         m_ctrler->click(oper.rect);
@@ -130,8 +103,10 @@ bool asst::InfrastDormTask::opers_choose()
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
                     Log.trace("click_sort_by_trust_button");
+                    click_filter_menu();
+                    click_filter_menu_not_stationed_button();
+                    click_filter_menu_confirm_button();
                     click_sort_by_trust_button();
-                    swipe_to_the_left_of_operlist(2);
                     m_finished_stage = 1;
                 }
                 break;

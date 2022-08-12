@@ -163,6 +163,30 @@ bool asst::InfrastAbstractTask::click_sort_by_trust_button()
     return task.run();
 }
 
+bool asst::InfrastAbstractTask::click_filter_menu()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastFilterMenu" });
+    return task.run();
+}
+
+bool asst::InfrastAbstractTask::click_filter_menu_not_stationed_button()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastFilterMenuNotStationedButton" });
+    return task.run();
+}
+
+bool asst::InfrastAbstractTask::click_filter_menu_confirm_button()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastFilterMenuConfirmButton" });
+    return task.run();
+}
+
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
