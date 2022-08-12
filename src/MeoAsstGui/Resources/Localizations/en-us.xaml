@@ -364,6 +364,8 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3 ★ Tags</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited*</system:String>
+    <system:String x:Key="Level3UseShortTime">Set 7:40 instead of 9:00 of 3 ★ Tags</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">No interference with other stars</system:String>
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
     <system:String x:Key="ManuallySelectLevel1">Manually confirm 1 ★</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3 ★</system:String>

@@ -123,7 +123,7 @@
     <system:String x:Key="StartTimesLimit">🍻🍷🍸🍷</system:String>
     <system:String x:Key="GoldTimesLimit">🍺🍻🍺🍺</system:String>
     <system:String x:Key="StopOnGoldLimit">🍸🍸🍻🍸🍷🍺</system:String>
-    <system:String x:Key="InvestmentEnabled">💃🍷🍺🍺🍸🍷🕺🍷</system:String>
+    <system:String x:Key="InvestmentEnabled">🍸🕺🍺💃🍸🍻🕺🍺🍸</system:String>
 
     <system:String x:Key="PenguinID">🍻🕺🍷🍻🕺🍸🍻🍻</system:String>
 
@@ -364,6 +364,8 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">🕺🍸🍺🍻🍸🍺💃</system:String>
     <system:String x:Key="AutoUseExpedited">🍸🍷🍸🍻🍻</system:String>
+    <system:String x:Key="Level3UseShortTime">🍷🍷🍸🍻🍷🍻🍺🍻💃🍸🍺🍸🍸🍷🍺🕺🕺🍻🍺</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">🍻🍸💃💃🍸🍺🍺🍸🍺🍸🍸🍸🍺</system:String>
     <system:String x:Key="RecruitMaxTimes">🍸🍺💃🍸🕺🍺</system:String>
     <system:String x:Key="ManuallySelectLevel1">🍺🍸🍷🍺💃</system:String>
     <system:String x:Key="AutoSelectLevel3">🍸🍸🍻🍸🍻</system:String>

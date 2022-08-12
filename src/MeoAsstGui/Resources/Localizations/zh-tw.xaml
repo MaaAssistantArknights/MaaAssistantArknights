@@ -364,6 +364,8 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自動使用加急許可*</system:String>
+    <system:String x:Key="Level3UseShortTime">3 星設置 7:40 而非 9:00</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">不影響其他星級 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次執行時最大招募次數</system:String>
     <system:String x:Key="ManuallySelectLevel1">手動確認 1 星</system:String>
     <system:String x:Key="AutoSelectLevel3">自動確認 3 星</system:String>

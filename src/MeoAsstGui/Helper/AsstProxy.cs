@@ -1121,7 +1121,7 @@ namespace MeoAsstGui
         /// <param name="use_expedited">是否使用加急许可。</param>
         /// <param name="skip_robot">是否在识别到小车词条时跳过。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRecruit(int max_times, int[] select_level, int required_len, int[] confirm_level, int confirm_len, bool need_refresh, bool use_expedited, bool skip_robot)
+        public bool AsstAppendRecruit(int max_times, int[] select_level, int[] confirm_level, bool need_refresh, bool use_expedited, bool skip_robot, bool is_level3_use_short_time)
         {
             var task_params = new JObject();
             task_params["refresh"] = need_refresh;
@@ -1132,6 +1132,12 @@ namespace MeoAsstGui
             task_params["expedite"] = use_expedited;
             task_params["expedite_times"] = max_times;
             task_params["skip_robot"] = skip_robot;
+            if (is_level3_use_short_time)
+            {
+                task_params["recruitment_time"] = new JObject();
+                task_params["recruitment_time"]["3"] = 460; // 7:40
+            }
+
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.Recruit] = id;
             return id != 0;

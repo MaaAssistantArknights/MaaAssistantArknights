@@ -364,6 +364,8 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">★ 3 태그를 자동 새로고치기</system:String>
     <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용*</system:String>
+    <system:String x:Key="Level3UseShortTime">별 3개 9:00 대신 7:40 설정</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">다른 별과의 간섭 없음</system:String>
     <system:String x:Key="RecruitMaxTimes">실행할 때 최대 모집횟수</system:String>
     <system:String x:Key="ManuallySelectLevel1">★ 1 수동 확인</system:String>
     <system:String x:Key="AutoSelectLevel3">★ 3 자동 확인</system:String>
