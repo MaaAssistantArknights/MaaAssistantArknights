@@ -7,8 +7,8 @@
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "Resource.h"
-//#include "OcrWithPreprocessImageAnalyzer.h"
-//#include <regex>
+#include "OcrWithPreprocessImageAnalyzer.h"
+#include <regex>
 #include "HashImageAnalyzer.h"
 
 bool asst::InfrastDormTask::_run()
@@ -74,25 +74,33 @@ bool asst::InfrastDormTask::opers_choose()
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                 if (m_finished_stage>0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
 
-                    /*
-                    OcrWithPreprocessImageAnalyzer name_analyzer(oper.name_img);
-                    name_analyzer.set_replace(
-                        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-                    Log.trace("Analyze name filter");
-                    if (!name_analyzer.analyze()) {
-                        Log.trace("ERROR:!name_analyzer.analyze():");
+                    //获得干员信赖值
+                    OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
+                    if (!trust_analyzer.analyze()) {
+                        Log.trace("ERROR:!trust_analyzer.analyze():");
                         //return false;
                     }
-   
-                    std::string opername = name_analyzer.get_result().front().text;
-                    std::regex rule("[A-Za-z %]");
-                    opername = std::regex_replace(opername, rule, "");
+  
+                    std::string opertrust = trust_analyzer.get_result().front().text;
+                    std::regex rule("[^0-9]");
+                    opertrust = std::regex_replace(opertrust, rule, "");
 
-                    Log.trace("opername:", opername);
+                    Log.trace("opertrust:", opertrust);
 
-                    bool if_oper_not_in_dorm_name = std::find(m_oper_in_dorm_name.begin(), m_oper_in_dorm_name.end(), opername) == m_oper_in_dorm_name.end();
-                    */
+                    bool if_opertrust_not_full = atoi(opertrust.c_str()) < 200;
 
+                    //获得干员所在设施
+                    OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
+                    if (!facility_analyzer.analyze()) {
+                        Log.trace("ERROR:!facility_analyzer.analyze():");
+                        //return false;
+                    }
+
+                    std::string facilityname = facility_analyzer.get_result().front().text;
+                    Log.trace("facilityname:<"+facilityname+">");
+                    bool if_oper_not_working = facilityname!="1F01";
+
+                    //获得干员face_hash
                     Log.trace("oper.face_hash:", oper.face_hash);
 
                     bool if_oper_not_in_dorm_hash = true;
@@ -104,9 +112,7 @@ bool asst::InfrastDormTask::opers_choose()
                         }
                     }
 
-                    if (if_oper_not_in_dorm_hash) {
-                        
-                        //m_oper_in_dorm_name.push_back(opername);
+                    if (if_oper_not_in_dorm_hash && if_oper_not_working && if_opertrust_not_full) {
                         m_oper_in_dorm_hash.push_back(oper.face_hash);
                         Log.trace("put oper in");
 
