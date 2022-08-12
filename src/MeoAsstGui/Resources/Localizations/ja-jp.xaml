@@ -51,7 +51,7 @@
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
-    <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトにします。</system:String>
+    <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
