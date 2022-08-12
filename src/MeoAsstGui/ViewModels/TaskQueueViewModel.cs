@@ -943,12 +943,11 @@ namespace MeoAsstGui
                 cfmList.Add(5);
             }
 
-            bool need_refresh = settings.RefreshLevel3;
-            bool use_expedited = settings.UseExpedited;
-
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRecruit(
-                max_times, reqList.ToArray(), reqList.Count, cfmList.ToArray(), cfmList.Count, need_refresh, use_expedited, settings.NotChooseLevel1);
+                max_times, reqList.ToArray(), cfmList.ToArray(),
+                settings.RefreshLevel3, settings.UseExpedited,
+                settings.NotChooseLevel1, settings.IsLevel3UseShortTime);
         }
 
         private bool appendRoguelike()

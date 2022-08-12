@@ -1279,6 +1279,22 @@ namespace MeoAsstGui
             set { SetAndNotify(ref _useExpedited, value); }
         }
 
+        private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.IsLevel3UseShortTime", bool.FalseString));
+
+        public bool IsLevel3UseShortTime
+        {
+            get
+            {
+                return _isLevel3UseShortTime;
+            }
+
+            set
+            {
+                SetAndNotify(ref _isLevel3UseShortTime, value);
+                ViewStatusStorage.Set("AutoRecruit.IsLevel3UseShortTime", value.ToString());
+            }
+        }
+
         private bool _notChooseLevel1 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.NotChooseLevel1", bool.TrueString));
 
         /// <summary>
