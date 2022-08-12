@@ -1,13 +1,13 @@
 #include "RecruitImageAnalyzer.h"
 
 #include "MatchImageAnalyzer.h"
+#include "MultiMatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
 
 bool asst::RecruitImageAnalyzer::analyze()
 {
     m_tags_result.clear();
-    m_set_time_rect.clear();
 
     time_analyze();
     refresh_analyze();
@@ -51,17 +51,14 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
-    const auto set_time_task_ptr = Task.get("RecruitTimeReduce");
-
-    MatchImageAnalyzer set_time_analyzer(m_image);
-    set_time_analyzer.set_task_info(set_time_task_ptr);
-
-    if (set_time_analyzer.analyze()) {
-        Rect rect = set_time_analyzer.get_result().rect;
-        m_set_time_rect.emplace_back(rect);
-        return true;
-    }
-    return false;
+    MultiMatchImageAnalyzer decrement_a(m_image);
+    decrement_a.set_task_info("RecruitTimerDecrement");
+    if (!decrement_a.analyze()) return false;
+    if (decrement_a.get_result().size() != 2) return false; // expecting two buttons
+    decrement_a.sort_result_horizontal();
+    m_hour_decrement = decrement_a.get_result().at(0).rect;
+    m_minute_decrement = decrement_a.get_result().at(1).rect;
+    return true;
 }
 
 bool asst::RecruitImageAnalyzer::refresh_analyze()

@@ -141,6 +141,13 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexce
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordered_map<int, int> time_map) noexcept
+{
+    m_desired_time_map = std::move(time_map);
+    return *this;
+}
+
+
 bool asst::AutoRecruitTask::_run()
 {
     if (m_force_discard_flag) return false;
@@ -238,7 +245,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (m_set_time && !check_time_reduced()) {
+    if (m_set_time && !check_timer(calc_result.recruitment_time)) {
         // timer was not set to 09:00:00 properly, likely the tag selection was also corrupted
         // see https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
         // return and try later
@@ -451,11 +458,21 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        // try to set the timer to 09:00:00
+        int recruitment_time = m_desired_time_map[(std::max)(final_combination.min_level, 3)];
+        if (recruitment_time == 0) recruitment_time = 9 * 60;
+
+        // try to set the timer to desired value
         if (m_set_time) {
-            for (const Rect& rect : image_analyzer.get_set_time_rect()) {
-                m_ctrler->click(rect);
-            }
+            Log.info("recruitment time:", recruitment_time, "min");
+            const int desired_hour = recruitment_time / 60;
+            const int desired_minute_div_10 = (recruitment_time % 60) / 10;
+            const int temp = desired_hour + (desired_minute_div_10 != 0);
+            const int hour_delta = (1 < temp) ? (1 + 9 - temp) : (temp - 1);
+            const int minute_delta = (0 < desired_minute_div_10) ? (0 + 6 - desired_minute_div_10) : (0);
+            for (int i = 0; i < hour_delta; ++i)
+                m_ctrler->click(image_analyzer.get_hour_decrement_rect());
+            for (int i = 0; i < minute_delta; ++i)
+                m_ctrler->click(image_analyzer.get_minute_decrement_rect());
         }
 
         // nothing to select, leave the selection empty
@@ -463,6 +480,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             calc_task_result_type result;
             result.success = true;
             result.force_skip = false;
+            result.recruitment_time = recruitment_time;
             result.tags_selected = 0;
             return result;
         }
@@ -488,6 +506,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         calc_task_result_type result;
         result.success = true;
         result.force_skip = false;
+        result.recruitment_time = recruitment_time;
         result.tags_selected = static_cast<int>(final_combination.tags.size());
         return result;
     }
@@ -500,11 +519,29 @@ bool asst::AutoRecruitTask::recruit_begin()
     return task.run();
 }
 
-bool asst::AutoRecruitTask::check_time_reduced()
+bool asst::AutoRecruitTask::check_timer(int minutes_expected)
 {
-    ProcessTask task(*this, { "RecruitCheckTimeReduced" });
-    task.set_retry_times(2);
-    return task.run();
+    const auto image = m_ctrler->get_image();
+
+    {
+        OcrImageAnalyzer hour_ocr(image);
+        hour_ocr.set_task_info("RecruitTimerH");
+        hour_ocr.analyze();
+        if (hour_ocr.get_result().empty()) return false;
+        std::string desired_hour_str = std::string("0") + std::to_string(minutes_expected / 60);
+        if (hour_ocr.get_result().front().text != desired_hour_str) return false;
+    }
+    if (minutes_expected % 60 == 0) return true; // minute counter stays untouched
+
+    {
+        OcrImageAnalyzer minute_ocr(image);
+        minute_ocr.set_task_info("RecruitTimerM");
+        minute_ocr.analyze();
+        if (minute_ocr.get_result().empty()) return false;
+        std::string desired_minute_str = std::to_string((minutes_expected % 60) / 10) + "0";
+        if (minute_ocr.get_result().front().text != desired_minute_str) return false;
+    }
+    return true;
 }
 
 bool asst::AutoRecruitTask::check_recruit_home_page()
