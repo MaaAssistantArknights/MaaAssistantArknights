@@ -4125,6 +4125,17 @@
             22
         ]
     },
+    "InfrastOperFacilityOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            23,
+            -224,
+            48,
+            22
+        ]
+    },
     "InfrastOperFaceHash": {
         "algorithm": "Hash",
         "hash": [],
@@ -4508,10 +4519,21 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1065,
-            40,
-            0,
-            0
+            1027,
+            30,
+            43,
+            17
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastSortByMoodButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            947,
+            28,
+            32,
+            18
         ],
         "rearDelay": 1000
     },
