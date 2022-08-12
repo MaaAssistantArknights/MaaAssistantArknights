@@ -31,7 +31,7 @@ namespace asst
     protected:
         virtual bool _run() override { return true; }
 
-        bool m_finished = false;
+        bool m_running = false;
         std::vector<std::shared_ptr<AbstractTask>> m_subtasks;
     };
 }

@@ -73,7 +73,7 @@ bool asst::FightTask::set_params(const json::value& params)
         m_stage_drops_plugin_ptr->set_specify_quantity(drops);
     }
 
-    if (!m_finished) {
+    if (!m_running) {
         if (stage.empty()) {
             m_start_up_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "StageBegin" });
             m_last_battle_task_ptr->set_enable(true);
