@@ -556,7 +556,8 @@
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "IC-9"
+            "IC-9",
+            "1C-9"
         ],
         "roi": [
             0,
@@ -570,7 +571,8 @@
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "IC-8"
+            "IC-8",
+            "1C-8"
         ],
         "roi": [
             0,
@@ -584,7 +586,8 @@
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "IC-7"
+            "IC-7",
+            "1C-7"
         ],
         "roi": [
             0,
