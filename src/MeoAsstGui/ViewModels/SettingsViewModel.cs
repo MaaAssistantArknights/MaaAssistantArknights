@@ -1664,6 +1664,7 @@ namespace MeoAsstGui
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+        private readonly string _bluestacksKeyWord = ViewStatusStorage.Get("Bluestacks.Config.Keyword", "bst.instance.Nougat64.status.adb_port");
 
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
@@ -1684,7 +1685,7 @@ namespace MeoAsstGui
             var all_lines = File.ReadAllLines(_bluestacksConfig);
             foreach (var line in all_lines)
             {
-                if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
+                if (line.StartsWith(_bluestacksKeyWord))
                 {
                     var sp = line.Split('"');
                     ConnectAddress = "127.0.0.1:" + sp[1];
