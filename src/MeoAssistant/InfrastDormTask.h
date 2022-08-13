@@ -19,6 +19,7 @@ namespace asst
 
         int m_cur_dorm_index = 0;
         int m_max_num_of_dorm = 4;
-        int m_all_finished = false;
+        int m_finished_stage = 0;
+        
     };
 }
