@@ -7,8 +7,6 @@
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "Resource.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
-#include <regex>
 
 bool asst::InfrastDormTask::_run()
 {
@@ -31,7 +29,7 @@ bool asst::InfrastDormTask::_run()
         click_confirm_button();
         click_return_button();
 
-        
+
     }
     return true;
 }
@@ -68,37 +66,12 @@ bool asst::InfrastDormTask::opers_choose()
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
-                if (m_finished_stage>0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
-
-                    //获得干员信赖值
-                    OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
-                    if (!trust_analyzer.analyze()) {
-                        Log.trace("ERROR:!trust_analyzer.analyze():");
-                        //return false;
+                if (m_finished_stage > 0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
+                    m_ctrler->click(oper.rect);
+                    if (++num_of_selected >= max_num_of_opers()) {
+                        Log.trace("num_of_selected:", num_of_selected, ", just break");
+                        break;
                     }
-  
-                    std::string opertrust = trust_analyzer.get_result().front().text;
-                    std::regex rule("[^0-9]");
-                    opertrust = std::regex_replace(opertrust, rule, "");
-
-                    Log.trace("opertrust:", opertrust);
-
-                    bool if_opertrust_not_full = atoi(opertrust.c_str()) < 200;
-
-
-                    if (if_opertrust_not_full) {
-                        Log.trace("put oper in");
-
-                        m_ctrler->click(oper.rect);
-                        if (++num_of_selected >= max_num_of_opers()) {
-                            Log.trace("num_of_selected:", num_of_selected, ", just break");
-                            break;
-                        }
-                    }
-                    else {
-                        Log.trace("not put oper in");
-                    }
-                    
                 }
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
@@ -123,7 +96,7 @@ bool asst::InfrastDormTask::opers_choose()
             default:
                 break;
             }
-            if (m_finished_stage==1) {
+            if (m_finished_stage == 1) {
                 break;
             }
         }
@@ -135,13 +108,13 @@ bool asst::InfrastDormTask::opers_choose()
             break;
         }
 
-        if(m_finished_stage == 1) {
+        if (m_finished_stage == 1) {
             m_finished_stage = 2;
         }
         else {
             swipe_of_operlist();
         }
-        
+
     }
     return true;
 }
