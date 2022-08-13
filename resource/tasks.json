@@ -4629,6 +4629,60 @@
         ],
         "rearDelay": 1000
     },
+    "InfrastSortByTrustButton": {
+        "action": "ClickSelf",
+        "template": "InfrastSortByTrustButton.png",
+        "cache": false,
+        "roi": [
+            1019,
+            24,
+            62,
+            30
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastFilterMenu": {
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenu.png",
+        "cache": false,
+        "roi": [
+            1102,
+            15,
+            158,
+            50
+        ],
+        "next": [
+            "InfrastFilterMenuNotStationedButton"
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastFilterMenuNotStationedButton": {
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenuNotStationedButton.png",
+        "cache": false,
+        "roi": [
+            359,
+            335,
+            158,
+            49
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuConfirmButton": {
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenuConfirmButton.png",
+        "cache": false,
+        "roi": [
+            870,
+            528,
+            152,
+            50
+        ],
+        "rearDelay": 1000
+    },
     "InfrastConfirmButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
