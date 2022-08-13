@@ -1114,12 +1114,11 @@ namespace MeoAsstGui
         /// </summary>
         /// <param name="max_times">加急次数，仅在 <paramref name="use_expedited"/> 为 <see langword="true"/> 时有效。</param>
         /// <param name="select_level">会去点击标签的 Tag 等级。</param>
-        /// <param name="required_len"><paramref name="required_len"/> 不使用。</param>
         /// <param name="confirm_level">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
-        /// <param name="confirm_len"><paramref name="confirm_len"/> 不使用。</param>
         /// <param name="need_refresh">是否刷新三星 Tags。</param>
         /// <param name="use_expedited">是否使用加急许可。</param>
         /// <param name="skip_robot">是否在识别到小车词条时跳过。</param>
+        /// <param name="is_level3_use_short_time">三星Tag是否使用短时间（7:40）</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int max_times, int[] select_level, int[] confirm_level, bool need_refresh, bool use_expedited, bool skip_robot, bool is_level3_use_short_time)
         {
@@ -1146,9 +1145,7 @@ namespace MeoAsstGui
         /// <summary>
         /// 基建换班。
         /// </summary>
-        /// <param name="work_mode"><paramref name="work_mode"/> 不使用。</param>
         /// <param name="order">要换班的设施（有序）。</param>
-        /// <param name="order_len"><paramref name="order_len"/> 不使用。</param>
         /// <param name="uses_of_drones">
         /// 无人机用途。可用值包括：
         /// <list type="bullet">
@@ -1163,7 +1160,7 @@ namespace MeoAsstGui
         /// </param>
         /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(int work_mode, string[] order, int order_len, string uses_of_drones, double dorm_threshold)
+        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold)
         {
             var task_params = new JObject();
 
@@ -1242,10 +1239,9 @@ namespace MeoAsstGui
         /// 公招识别。
         /// </summary>
         /// <param name="select_level">会去点击标签的 Tag 等级。</param>
-        /// <param name="required_len"><paramref name="required_len"/> 不使用。</param>
         /// <param name="set_time">是否设置 9 小时。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartRecruitCalc(int[] select_level, int required_len, bool set_time)
+        public bool AsstStartRecruitCalc(int[] select_level, bool set_time)
         {
             var task_params = new JObject();
             task_params["refresh"] = false;

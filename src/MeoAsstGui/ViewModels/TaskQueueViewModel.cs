@@ -897,9 +897,8 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var order = settings.GetInfrastOrderList();
             settings.SaveInfrastOrderList();
-            int orderLen = order.Count;
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendInfrast(1, order.ToArray(), orderLen,
+            return asstProxy.AsstAppendInfrast(order.ToArray(),
                 settings.UsesOfDrones, settings.DormThreshold / 100.0);
         }
 
