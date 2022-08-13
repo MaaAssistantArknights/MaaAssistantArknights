@@ -4634,10 +4634,10 @@
         "template": "InfrastSortByTrustButton.png",
         "cache": false,
         "roi": [
-            1019,
-            24,
-            62,
-            30
+            1000,
+            0,
+            100,
+            70
         ],
         "rearDelay": 1000
     },
@@ -4646,27 +4646,43 @@
         "template": "InfrastFilterMenu.png",
         "cache": false,
         "roi": [
-            1102,
-            15,
-            158,
-            50
+            1050,
+            0,
+            230,
+            100
         ],
         "next": [
-            "InfrastFilterMenuNotStationedButton"
+            "InfrastFilterMenuNotStationedButton",
+            "InfrastFilterMenuNotStationedButtonAlreadyClicked"
         ],
         "rearDelay": 1000
     },
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenuNotStationedButton.png",
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
-            359,
-            335,
-            158,
-            49
+            300,
+            300,
+            250,
+            150
         ],
         "rearDelay": 1000,
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
+        "action": "DoNothing",
+        "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
         "next": [
             "InfrastFilterMenuConfirmButton"
         ]
