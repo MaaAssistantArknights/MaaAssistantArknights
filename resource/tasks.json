@@ -4505,46 +4505,57 @@
         "rearDelay": 1000
     },
     "InfrastSortByTrustButton": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1027,
-            30,
-            43,
-            17
+        "action": "ClickSelf",
+        "template": "InfrastSortByTrustButton.png",
+        "cache": false,
+        "roi": [
+            1019,
+            24,
+            62,
+            30
         ],
         "rearDelay": 1000
     },
     "InfrastFilterMenu": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1104,
-            18,
-            153,
-            44
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenu.png",
+        "cache": false,
+        "roi": [
+            1102,
+            15,
+            158,
+            50
+        ],
+        "next": [
+            "InfrastFilterMenuNotStationedButton"
         ],
         "rearDelay": 1000
     },
     "InfrastFilterMenuNotStationedButton": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "未进驻"
+        ],
+        "roi": [
             362,
             338,
             151,
             43
         ],
-        "rearDelay": 1000
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
     },
     "InfrastFilterMenuConfirmButton": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            871,
-            529,
-            149,
-            43
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenuConfirmButton.png",
+        "cache": false,
+        "roi": [
+            870,
+            528,
+            152,
+            50
         ],
         "rearDelay": 1000
     },
