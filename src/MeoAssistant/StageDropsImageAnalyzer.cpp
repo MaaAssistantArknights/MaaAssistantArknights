@@ -57,10 +57,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     const auto& stages = Resrc.drops().get_all_stage_code();
     std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
     // 名字长的放前面
-    ranges::sort(stages_req,
-        [](const std::string& lhs, const std::string& rhs) -> bool {
-            return lhs.size() > rhs.size();
-        });
+    ranges::sort(stages_req, std::greater{}, std::mem_fn(&std::string::size));
     analyzer.set_required(std::move(stages_req));
 
     if (!analyzer.analyze()) {
@@ -288,7 +285,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
         static const int v_threshold = task_ptr->rect_move.width;
 
         bool is_white = value >= threshold;
-        if (pre_hsv != pre_hsv.zeros()) {
+        if (pre_hsv != cv::Vec3i::zeros()) {
             is_white &=
                 abs(pre_hsv[0] - hsv[0]) < h_threshold &&
                 abs(pre_hsv[1] - hsv[1]) < s_threshold &&
