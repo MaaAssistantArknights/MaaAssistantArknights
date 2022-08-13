@@ -908,6 +908,16 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             var buy_first = settings.CreditFirstList.Split(new char[] { ';', '；' });
             var black_list = settings.CreditBlackList.Split(new char[] { ';', '；' });
+            for (var i = 0; i < buy_first.Length; ++i)
+            {
+                buy_first[i] = buy_first[i].Trim();
+            }
+
+            for (var i = 0; i < black_list.Length; ++i)
+            {
+                black_list[i] = black_list[i].Trim();
+            }
+
             return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list);
         }
 
