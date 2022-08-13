@@ -28,8 +28,6 @@ bool asst::InfrastDormTask::_run()
 
         click_confirm_button();
         click_return_button();
-
-
     }
     return true;
 }
@@ -118,7 +116,6 @@ bool asst::InfrastDormTask::opers_choose()
         else {
             swipe_of_operlist();
         }
-
     }
     return true;
 }
