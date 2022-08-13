@@ -104,7 +104,7 @@ namespace asst
         HANDLE m_pipe_child_write = nullptr;         // 子进程的写管道句柄
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
+            SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
         STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
 
         WSADATA m_wsa_data = { 0 };

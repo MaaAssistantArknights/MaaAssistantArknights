@@ -297,7 +297,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
                 auto max_iter =
                     ranges::max_element(possible_skills, [](const auto& lhs, const auto& rhs) -> bool {
-                        return lhs.second.score < rhs.second.score;
+                    return lhs.second.score < rhs.second.score;
                     });
                 double base_score = max_iter->second.score;
                 std::string base_id = max_iter->first.id;

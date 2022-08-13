@@ -88,7 +88,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 else if (type == TASK::TaskType) { ptr = std::make_shared<TASK>(task_callback, static_cast<void*>(this)); }
 
     if constexpr (false) {}
-        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)

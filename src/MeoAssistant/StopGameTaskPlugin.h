@@ -5,7 +5,6 @@
 
 namespace asst
 {
-
     class StopGameTaskPlugin : public AbstractTaskPlugin
     {
     public:
