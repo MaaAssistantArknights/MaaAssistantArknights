@@ -147,7 +147,6 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordere
     return *this;
 }
 
-
 bool asst::AutoRecruitTask::_run()
 {
     if (m_force_discard_flag) return false;
@@ -315,7 +314,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             has_special_tag = true;
         }
 
-        // robot tags
+            // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
         auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
         if (robot_iter != RobotTags.cend()) [[unlikely]] {
@@ -325,7 +324,6 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, info);
             has_robot_tag = true;
         }
-
 
         std::vector<RecruitCombs> result_vec = recruit_calc::get_all_combs(tag_names);
 
@@ -360,7 +358,6 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                     return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
             }
         );
-
 
         if (result_vec.empty()) continue;
 
@@ -407,7 +404,6 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             && final_combination.min_level == 3
             && !(m_skip_robot && has_robot_tag)
                 ) {
-
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value info = basic_info();
                 info["what"] = "RecruitError";

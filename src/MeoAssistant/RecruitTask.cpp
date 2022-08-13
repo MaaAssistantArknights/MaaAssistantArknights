@@ -47,17 +47,16 @@ bool asst::RecruitTask::set_params(const json::value& params)
     recruitment_time_map[5] = std::clamp(params.get("recruitment_time", "5", 9 * 60), 1 * 60, 9 * 60);
     recruitment_time_map[6] = std::clamp(params.get("recruitment_time", "6", 9 * 60), 1 * 60, 9 * 60);
 
-
     m_auto_recruit_task_ptr->set_enable(true);
 
     m_auto_recruit_task_ptr->set_max_times(times)
-            .set_need_refresh(refresh)
-            .set_use_expedited(expedite)
-            .set_select_level(std::move(select))
-            .set_confirm_level(std::move(confirm))
-            .set_skip_robot(skip_robot)
-            .set_recruitment_time(recruitment_time_map)
-            .set_set_time(set_time).set_retry_times(3);
+        .set_need_refresh(refresh)
+        .set_use_expedited(expedite)
+        .set_select_level(std::move(select))
+        .set_confirm_level(std::move(confirm))
+        .set_skip_robot(skip_robot)
+        .set_recruitment_time(recruitment_time_map)
+        .set_set_time(set_time).set_retry_times(3);
 
     return true;
 }

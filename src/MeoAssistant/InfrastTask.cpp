@@ -15,95 +15,95 @@
 #include "ReplenishOriginiumShardTaskPlugin.h"
 
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
-	: PackageTask(callback, callback_arg, TaskType),
-	m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
-	m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, callback_arg, TaskType)),
-	m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, callback_arg, TaskType)),
-	m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, callback_arg, TaskType)),
-	m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, callback_arg, TaskType)),
-	m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, callback_arg, TaskType)),
-	m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, callback_arg, TaskType)),
-	m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, callback_arg, TaskType)),
-	m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, callback_arg, TaskType))
+    : PackageTask(callback, callback_arg, TaskType),
+    m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
+    m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, callback_arg, TaskType)),
+    m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, callback_arg, TaskType)),
+    m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, callback_arg, TaskType)),
+    m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, callback_arg, TaskType)),
+    m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, callback_arg, TaskType)),
+    m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, callback_arg, TaskType)),
+    m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, callback_arg, TaskType)),
+    m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, callback_arg, TaskType))
 {
-	m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" });
-	m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
-	m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
+    m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" });
+    m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
+    m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
 
-	m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+    m_subtasks.emplace_back(m_infrast_begin_task_ptr);
 }
 
 bool asst::InfrastTask::set_params(const json::value& params)
 {
-	if (!m_running) {
-		auto facility_opt = params.find<json::array>("facility");
-		if (!facility_opt) {
-			return false;
-		}
+    if (!m_running) {
+        auto facility_opt = params.find<json::array>("facility");
+        if (!facility_opt) {
+            return false;
+        }
 
-		auto append_infrast_begin = [&]() {
-			m_subtasks.emplace_back(m_infrast_begin_task_ptr);
-		};
+        auto append_infrast_begin = [&]() {
+            m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+        };
 
-		m_subtasks.clear();
-		append_infrast_begin();
-		m_subtasks.emplace_back(m_info_task_ptr);
+        m_subtasks.clear();
+        append_infrast_begin();
+        m_subtasks.emplace_back(m_info_task_ptr);
 
-		for (const auto& facility_json : facility_opt.value()) {
-			if (!facility_json.is_string()) {
-				m_subtasks.clear();
-				append_infrast_begin();
-				return false;
-			}
+        for (const auto& facility_json : facility_opt.value()) {
+            if (!facility_json.is_string()) {
+                m_subtasks.clear();
+                append_infrast_begin();
+                return false;
+            }
 
-			std::string facility = facility_json.as_string();
-			if (facility == "Dorm") {
-				m_subtasks.emplace_back(m_dorm_task_ptr);
-			}
-			else if (facility == "Mfg") {
-				m_subtasks.emplace_back(m_mfg_task_ptr);
-			}
-			else if (facility == "Trade") {
-				m_subtasks.emplace_back(m_trade_task_ptr);
-			}
-			else if (facility == "Power") {
-				m_subtasks.emplace_back(m_power_task_ptr);
-			}
-			else if (facility == "Office") {
-				m_subtasks.emplace_back(m_office_task_ptr);
-			}
-			else if (facility == "Reception") {
-				m_subtasks.emplace_back(m_reception_task_ptr);
-			}
-			else if (facility == "Control") {
-				m_subtasks.emplace_back(m_control_task_ptr);
-			}
-			else {
-				Log.error(__FUNCTION__, "| Unknown facility", facility);
-				m_subtasks.clear();
-				append_infrast_begin();
-				return false;
-			}
-			append_infrast_begin();
-		}
-	}
+            std::string facility = facility_json.as_string();
+            if (facility == "Dorm") {
+                m_subtasks.emplace_back(m_dorm_task_ptr);
+            }
+            else if (facility == "Mfg") {
+                m_subtasks.emplace_back(m_mfg_task_ptr);
+            }
+            else if (facility == "Trade") {
+                m_subtasks.emplace_back(m_trade_task_ptr);
+            }
+            else if (facility == "Power") {
+                m_subtasks.emplace_back(m_power_task_ptr);
+            }
+            else if (facility == "Office") {
+                m_subtasks.emplace_back(m_office_task_ptr);
+            }
+            else if (facility == "Reception") {
+                m_subtasks.emplace_back(m_reception_task_ptr);
+            }
+            else if (facility == "Control") {
+                m_subtasks.emplace_back(m_control_task_ptr);
+            }
+            else {
+                Log.error(__FUNCTION__, "| Unknown facility", facility);
+                m_subtasks.clear();
+                append_infrast_begin();
+                return false;
+            }
+            append_infrast_begin();
+        }
+    }
 
-	std::string drones = params.get("drones", "_NotUse");
-	m_mfg_task_ptr->set_uses_of_drone(drones);
-	m_trade_task_ptr->set_uses_of_drone(drones);
+    std::string drones = params.get("drones", "_NotUse");
+    m_mfg_task_ptr->set_uses_of_drone(drones);
+    m_trade_task_ptr->set_uses_of_drone(drones);
 
-	double threshold = params.get("threshold", 0.3);
-	m_info_task_ptr->set_mood_threshold(threshold);
-	m_mfg_task_ptr->set_mood_threshold(threshold);
-	m_trade_task_ptr->set_mood_threshold(threshold);
-	m_power_task_ptr->set_mood_threshold(threshold);
-	m_control_task_ptr->set_mood_threshold(threshold);
-	m_reception_task_ptr->set_mood_threshold(threshold);
-	m_office_task_ptr->set_mood_threshold(threshold);
-	m_dorm_task_ptr->set_mood_threshold(threshold);
+    double threshold = params.get("threshold", 0.3);
+    m_info_task_ptr->set_mood_threshold(threshold);
+    m_mfg_task_ptr->set_mood_threshold(threshold);
+    m_trade_task_ptr->set_mood_threshold(threshold);
+    m_power_task_ptr->set_mood_threshold(threshold);
+    m_control_task_ptr->set_mood_threshold(threshold);
+    m_reception_task_ptr->set_mood_threshold(threshold);
+    m_office_task_ptr->set_mood_threshold(threshold);
+    m_dorm_task_ptr->set_mood_threshold(threshold);
 
-	bool replenish = params.get("replenish", false);
-	m_replenish_task_ptr->set_enable(replenish);
+    bool replenish = params.get("replenish", false);
+    m_replenish_task_ptr->set_enable(replenish);
 
-	return true;
+    return true;
 }

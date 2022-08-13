@@ -37,7 +37,8 @@ namespace asst
         bool confirm();
         bool refresh();
 
-        struct calc_task_result_type {
+        struct calc_task_result_type
+        {
             bool success = false;
             bool force_skip = false;
             int recruitment_time = 60;
@@ -64,7 +65,7 @@ namespace asst
 
         std::set<slot_index> m_force_skipped;
 
-        static slot_index slot_index_from_rect(const Rect &r)
+        static slot_index slot_index_from_rect(const Rect& r)
         {
             /* 公开招募
              * 0    | 1

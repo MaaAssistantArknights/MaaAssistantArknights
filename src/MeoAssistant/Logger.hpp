@@ -169,9 +169,9 @@ namespace asst
 
         template <typename Stream, typename T>
         struct has_stream_insertion_operator<
-                Stream, T,
-                std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-                : std::true_type
+            Stream, T,
+            std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
+            : std::true_type
         {
         };
 
@@ -180,25 +180,27 @@ namespace asst
 
         template <typename T>
         struct is_range_expression<T, std::enable_if_t<
-                std::is_convertible_v<
-                        typename std::iterator_traits<decltype(begin(std::declval<T>()))>::iterator_category,
-                        std::forward_iterator_tag
-                >
-        >> : std::true_type
+            std::is_convertible_v<
+            typename std::iterator_traits<decltype(begin(std::declval<T>()))>::iterator_category,
+            std::forward_iterator_tag
+            >
+            >> : std::true_type
         {
         };
 
         template <bool ToAnsi, typename Stream, typename T>
         static Stream& stream_put(Stream& s, T&& v)
         {
-            if constexpr(std::is_constructible_v<std::string, T>) {
+            if constexpr (std::is_constructible_v<std::string, T>) {
                 if constexpr (ToAnsi) s << utils::utf8_to_ansi(std::forward<T>(v));
                 else s << std::string(std::forward<T>(v));
                 return s;
-            } else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+            }
+            else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
                 s << std::forward<T>(v);
                 return s;
-            } else if constexpr (is_range_expression<T>::value) {
+            }
+            else if constexpr (is_range_expression<T>::value) {
                 s << "[";
                 std::string_view comma{};
                 for (const auto& elem : std::forward<T>(v)) {
@@ -208,7 +210,8 @@ namespace asst
                 }
                 s << "]";
                 return s;
-            } else {
+            }
+            else {
                 ASST_STATIC_ASSERT_FALSE(
                         "\nunsupported type, one of the following expected\n"
                         "\t1. those can be converted to string;\n"
@@ -222,8 +225,10 @@ namespace asst
         struct stream_put_line_impl;
 
         template <bool ToAnsi, typename Stream>
-        struct stream_put_line_impl <ToAnsi, Stream>{
-            static constexpr Stream& apply(Stream& s) {
+        struct stream_put_line_impl <ToAnsi, Stream>
+        {
+            static constexpr Stream& apply(Stream& s)
+            {
                 s << std::endl;
                 return s;
             }
