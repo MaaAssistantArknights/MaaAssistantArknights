@@ -37,9 +37,7 @@ namespace asst
         virtual bool click_bottom_left_tab(); // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
         virtual bool click_clear_button();   // 点击干员选择页面的“清空选择”按钮
         virtual bool click_sort_by_trust_button();// 点击干员选择页面的“按信赖值排序”按钮
-        virtual bool click_filter_menu();// 点击干员选择页面的筛选菜单按钮
-        virtual bool click_filter_menu_not_stationed_button();// 点击干员选择页面的筛选菜单的“未进驻”按钮
-        virtual bool click_filter_menu_confirm_button();// 点击干员选择页面的筛选菜单的“确认”按钮
+        virtual bool click_filter_menu_not_stationed_button();// 点击干员选择页面的筛选菜单按钮的“未进驻”按钮
         virtual bool click_confirm_button(); // 点击干员选择页面的“确认”按钮
 
         int m_last_swipe_id = 0;

@@ -102,10 +102,9 @@ bool asst::InfrastDormTask::opers_choose()
                 }
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    Log.trace("click_sort_by_trust_button");
-                    click_filter_menu();
+                    Log.trace("click_filter_menu_not_stationed_button");
                     click_filter_menu_not_stationed_button();
-                    click_filter_menu_confirm_button();
+                    Log.trace("click_sort_by_trust_button");
                     click_sort_by_trust_button();
                     m_finished_stage = 1;
                 }
