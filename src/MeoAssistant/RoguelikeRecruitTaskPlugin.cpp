@@ -107,7 +107,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     Log.info(__FUNCTION__, "did not choose oper.");
-    ProcessTask(*this, { "SwipeToTheLeft" }).set_times_limit("SwipeToTheLeft", i / 2 + 1).run();
+    swipe_to_the_left_of_operlist(i / 2 + 1);
     return false;
 }
 
@@ -144,7 +144,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
         }
         Log.info(__FUNCTION__, "| Oper list:", oper_names);
         if (it == chars.cend()) {
-            ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+            slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
             sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
         }
@@ -152,7 +152,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
         return true;
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + core_opt.value() + "`");
-    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    swipe_to_the_left_of_operlist();
     return false;
 }
 
@@ -172,4 +172,42 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
         { "level", oper.level },
     };
     m_status->set_str(RuntimeStatus::RoguelikeCharOverview, overview.to_string());
+}
+
+void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)
+{
+    LogTraceFunction;
+    static Rect begin_rect = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->specific_rect;
+    static Rect end_rect = Task.get("RoguelikeRecruitSwipeToTheLeftEnd")->specific_rect;
+    static int duration = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->pre_delay;
+    static int extra_delay = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->rear_delay;
+    static int cfg_loop_times = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->max_times;
+
+    for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
+        if (need_exit()) {
+            return;
+        }
+        m_ctrler->swipe(end_rect, begin_rect, duration, true, 0, false);
+    }
+    sleep(extra_delay);
+}
+
+void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(ProcessTaskAction action)
+{
+    LogTraceFunction;
+    static Rect right_rect = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->specific_rect;
+    static Rect left_rect = Task.get("RoguelikeRecruitSlowlySwipeLeftRect")->specific_rect;
+    static int duration = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->pre_delay;
+    static int extra_delay = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->rear_delay;
+
+    switch (action) {
+    case asst::ProcessTaskAction::SlowlySwipeToTheLeft:
+        m_ctrler->swipe(left_rect, right_rect, duration, true, extra_delay, true);
+        break;
+    case asst::ProcessTaskAction::SlowlySwipeToTheRight:
+        m_ctrler->swipe(right_rect, left_rect, duration, true, extra_delay, true);
+        break;
+    default: // 走不到这里
+        break;
+    }
 }
