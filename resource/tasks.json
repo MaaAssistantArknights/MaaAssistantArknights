@@ -4532,17 +4532,16 @@
         "rearDelay": 1000
     },
     "InfrastFilterMenuNotStationedButton": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": [
-            "未进驻"
-        ],
+        "template": "InfrastFilterMenuNotStationedButton.png",
+        "cache": false,
         "roi": [
-            362,
-            338,
-            151,
-            43
+            359,
+            335,
+            158,
+            49
         ],
+        "rearDelay": 1000,
         "next": [
             "InfrastFilterMenuConfirmButton"
         ]
