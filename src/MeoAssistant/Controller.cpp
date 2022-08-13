@@ -595,7 +595,7 @@ bool asst::Controller::screencap()
         }
         size_t header_size = data.size() - std_size;
         bool is_all_zero =
-                std::all_of(data.data() + header_size, data.data() + std_size, std::logical_not<bool>{});
+            std::all_of(data.data() + header_size, data.data() + std_size, std::logical_not<bool>{});
         if (is_all_zero) {
             return false;
         }
@@ -620,7 +620,7 @@ bool asst::Controller::screencap()
         }
         size_t header_size = unzip_data.size() - std_size;
         bool is_all_zero =
-                std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, std::logical_not<bool>{});
+            std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, std::logical_not<bool>{});
         if (is_all_zero) {
             return false;
         }
