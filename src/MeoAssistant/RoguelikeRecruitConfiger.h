@@ -15,6 +15,9 @@ namespace asst
     struct RoguelikeOperInfo
     {
         std::string name;
+        int recruit_priority = 0;   // 招募优先级 (0-1000)
+        int promote_priority = 0;   // 晋升优先级 (0-1000)
+        bool is_alternate = false;  // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
         int skill = 0;
         int alternate_skill = 0;
         BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
