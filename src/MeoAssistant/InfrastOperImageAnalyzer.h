@@ -51,10 +51,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
+        using AbstractImageAnalyzer::set_roi;
 
         void oper_detect();
         void mood_analyze();

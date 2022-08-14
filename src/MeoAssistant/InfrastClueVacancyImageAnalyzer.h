@@ -25,10 +25,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
+        using AbstractImageAnalyzer::set_roi;
 
         std::vector<std::string> m_to_be_analyzed;
         std::unordered_map<std::string, Rect> m_clue_vacancy;
