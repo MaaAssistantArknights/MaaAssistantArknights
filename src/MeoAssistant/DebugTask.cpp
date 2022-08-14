@@ -21,7 +21,7 @@ bool asst::DebugTask::run()
 {
     size_t total = 0;
     size_t success = 0;
-    for (const auto& entry : std::filesystem::directory_iterator("err")) {
+    for (const auto& entry : std::filesystem::directory_iterator("../../test/drops/screenshots")) {
         cv::Mat image = cv::imread(entry.path().string());
         if (image.empty()) {
             continue;
