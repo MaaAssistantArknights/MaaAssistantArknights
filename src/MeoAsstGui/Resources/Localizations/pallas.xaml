@@ -136,6 +136,7 @@
 
     <system:String x:Key="MinimizeToTray">🍷🕺🍻🍷🕺</system:String>
     <system:String x:Key="SystemNotification">🍻💃🍻🍸🍷🍸</system:String>
+    <system:String x:Key="UseAlternateStage">🍻🍸🍷🍺🍸</system:String>
     <system:String x:Key="HideUnavailableStage">🍻🍸🍷🍺🍺🍸🍸</system:String>
     <system:String x:Key="MainViewButtonFeature">🍷🍺🍻🍺🍸🍺</system:String>
 
@@ -181,6 +182,7 @@
     <system:String x:Key="AssignedMaterial">💃🍷🍺</system:String>
     <system:String x:Key="Quantity">🕺🕺🍸</system:String>
     <system:String x:Key="StageSelect">🍷🍻🍷</system:String>
+    <system:String x:Key="StageSelect2">🕺🍻</system:String>
     <system:String x:Key="Amend">🍺🍺</system:String>
 
     <!--<system:String x:Key="CurrentStage">🕺🍺🍻</system:String>
