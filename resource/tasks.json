@@ -4405,6 +4405,53 @@
             300
         ]
     },
+    "RoguelikeRecruitSwipeToTheLeftBegin": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1080,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 300,
+        "rearDelay": 1000,
+        "maxTimes": 2,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+    },
+    "RoguelikeRecruitSwipeToTheLeftEnd": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            400,
+            200,
+            100,
+            300
+        ]
+    },
+    "RoguelikeRecruitSlowlySwipeRightRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            780,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 1500,
+        "rearDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+    },
+    "RoguelikeRecruitSlowlySwipeLeftRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            360,
+            200,
+            100,
+            300
+        ]
+    },
     "InfrastOperMoodProgressBar": {
         "template": "empty.png",
         "templThreshold": 160,
