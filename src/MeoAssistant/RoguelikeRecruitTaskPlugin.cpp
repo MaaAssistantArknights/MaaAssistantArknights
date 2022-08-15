@@ -154,9 +154,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 可能是晋升界面，随便选个精二的
         for (const auto& info : oper_list) {
-            if (!info.required) {
-                continue;
-            }
             if (info.elite != 2) {
                 continue;
             }
@@ -167,9 +164,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 仍然没选，随便选个精一 50 以上的
         for (const auto& info : oper_list) {
-            if (!info.required) {
-                continue;
-            }
             if (info.elite == 0 ||
                 (info.elite == 1 && info.level < 50)) {
                 continue;
