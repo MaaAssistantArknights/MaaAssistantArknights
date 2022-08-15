@@ -90,9 +90,8 @@ labels:
   - "module: core"
   - "release"
 - name: "translation required"
-  # 不要使用日文发 issue
   regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)translation required(?:`|)|(?:[\\u3040-\\u30ff]|[㍿㍐]))"
+  - "(?:[Aa]dd (?:`|)(?:label |)translation required(?:`|)|(?:(?:[\\u3040-\\u30ff]|[㍿㍐])[^`]*){10,})"
   - "(?:[Aa]dd (?:`|)(?:label |)translation required(?:`|)|^(?![\\s\\S]*(?:\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)translation required(?:`|))))[\\s\\S]*$)"
   mode:
