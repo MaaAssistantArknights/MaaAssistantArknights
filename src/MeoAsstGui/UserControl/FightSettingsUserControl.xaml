@@ -19,31 +19,33 @@
             <ColumnDefinition Width="70" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150" />
-            <RowDefinition Height="150" />
+            <RowDefinition Height="138" />
+            <RowDefinition Height="138" />
+            <RowDefinition Height="46" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
 
         <StackPanel
-            Grid.ColumnSpan="3"
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Left"
             Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
                 <CheckBox
                     Height="30"
-                    Margin="10"
+                    Margin="10,8"
                     Content="{DynamicResource UseSanityPotion}"
                     IsChecked="{Binding UseMedicine}" />
                 <CheckBox
                     Height="30"
-                    Margin="10"
+                    Margin="10,8"
                     Content="{DynamicResource UseOriginitePrime}"
                     IsChecked="{Binding UseStone}"
                     ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                 <CheckBox
                     Height="30"
-                    Margin="10"
+                    Margin="10,8"
                     Content="{DynamicResource PerformBattles}"
                     IsChecked="{Binding HasTimesLimited}"
                     ToolTip="{DynamicResource CheckBoxesNotSaved}" />
@@ -52,7 +54,7 @@
                 <hc:TextBox
                     Width="50"
                     Height="30"
-                    Margin="10"
+                    Margin="10,8"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding MedicineNumber}"
                     TextType="Int"
@@ -60,7 +62,7 @@
                 <hc:TextBox
                     Width="50"
                     Height="30"
-                    Margin="10"
+                    Margin="10,8"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding StoneNumber}"
                     TextType="Int"
@@ -68,7 +70,7 @@
                 <hc:TextBox
                     Width="50"
                     Height="30"
-                    Margin="10"
+                    Margin="10,8"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding MaxTimes}"
                     TextType="Int"
@@ -79,11 +81,11 @@
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <CheckBox
                 Height="30"
-                Margin="10"
+                Margin="10,8"
                 Content="{DynamicResource AssignedMaterial}"
                 IsChecked="{Binding IsSpecifiedDrops}"
                 ToolTip="{DynamicResource NoAutoNavigation}" />
-            <Grid Height="50">
+            <Grid Height="46">
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -91,9 +93,9 @@
                     Text="{DynamicResource Quantity}"
                     TextAlignment="Center" />
             </Grid>
-            <Grid Height="50">
+            <Grid Height="46">
                 <TextBlock
-                    Margin="10"
+                    Margin="10,8"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
@@ -110,7 +112,7 @@
             <ComboBox
                 Width="120"
                 Height="30"
-                Margin="10"
+                Margin="10,8"
                 DisplayMemberPath="Display"
                 IsDropDownOpen="{Binding IsDropDown}"
                 IsEditable="True"
@@ -123,7 +125,7 @@
             <hc:TextBox
                 Width="120"
                 Height="30"
-                Margin="10"
+                Margin="10,8"
                 InputMethod.IsInputMethodEnabled="False"
                 Text="{Binding DropsQuantity}"
                 TextType="Int"
@@ -132,19 +134,45 @@
             <ComboBox
                 Width="120"
                 Height="30"
-                Margin="10"
+                Margin="10,8"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{c:Binding !FightTaskRunning}"
                 ItemsSource="{Binding StageList}"
-                SelectedValue="{Binding Stage}"
+                SelectedValue="{Binding Stage1}"
                 SelectedValuePath="Value" />
         </StackPanel>
-        <Button
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <Grid Height="46">
+                <TextBlock
+                    Margin="10,8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource StageSelect2}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding AlternateStageDisplay}" />
+            </Grid>
+        </StackPanel>
+        <StackPanel
             Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Orientation="Vertical">
+            <ComboBox
+                Width="120"
+                Height="30"
+                Margin="10,8"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                ItemsSource="{Binding StageList}"
+                SelectedValue="{Binding Stage2}"
+                SelectedValuePath="Value"
+                Visibility="{Binding AlternateStageDisplay}" />
+        </StackPanel>
+        <Button
+            Grid.Row="3"
             Grid.Column="2"
-            Width="60"
-            Height="30"
-            Margin="0,0,10,0"
             Command="{s:Action SetParams}"
             Content="{DynamicResource Amend}"
             FontSize="10"

@@ -30,6 +30,11 @@
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
+                Content="{DynamicResource UseAlternateStage}"
+                IsChecked="{Binding UseAlternateStage}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}" />
         </StackPanel>
