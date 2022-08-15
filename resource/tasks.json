@@ -1147,35 +1147,67 @@
     },
     "StageCE": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StageLS": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StageCA": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StageAP": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-A": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-B": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-C": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-D": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "AbleToAgent": {
         "algorithm": "JustReturn",
