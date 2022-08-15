@@ -136,6 +136,7 @@
 
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
+    <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
 
@@ -181,6 +182,7 @@
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">掉落数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
+    <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
@@ -364,6 +366,8 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
+    <system:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
     <system:String x:Key="ManuallySelectLevel1">手动确认 1 星</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>

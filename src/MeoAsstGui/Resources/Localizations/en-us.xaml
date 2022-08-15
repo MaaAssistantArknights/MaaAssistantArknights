@@ -136,6 +136,7 @@
 
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
+    <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
 
@@ -181,6 +182,7 @@
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
+    <system:String x:Key="StageSelect2">alternative</system:String>
     <system:String x:Key="Amend">Amend</system:String>
 
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
@@ -364,6 +366,8 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3 ★ Tags</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited*</system:String>
+    <system:String x:Key="Level3UseShortTime">Set 7:40 instead of 9:00 of 3 ★ Tags</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">No interference with other stars</system:String>
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
     <system:String x:Key="ManuallySelectLevel1">Manually confirm 1 ★</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3 ★</system:String>

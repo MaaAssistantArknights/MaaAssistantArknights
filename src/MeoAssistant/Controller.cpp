@@ -264,10 +264,10 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 #ifdef _WIN32
 
     ASST_AUTO_DEDUCED_ZERO_INIT_START
-    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
+        PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-    BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
+        BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
@@ -594,10 +594,8 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = data.size() - std_size;
-        bool is_all_zero = std::all_of(data.data() + header_size, data.data() + std_size,
-            [](uchar uch) -> bool {
-                return uch == 0;
-            });
+        bool is_all_zero =
+            std::all_of(data.data() + header_size, data.data() + std_size, std::logical_not<bool>{});
         if (is_all_zero) {
             return false;
         }
@@ -621,10 +619,8 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = unzip_data.size() - std_size;
-        bool is_all_zero = std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size,
-            [](uchar uch) -> bool {
-                return uch == 0;
-            });
+        bool is_all_zero =
+            std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, std::logical_not<bool>{});
         if (is_all_zero) {
             return false;
         }

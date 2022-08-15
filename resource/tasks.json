@@ -39,6 +39,12 @@
             "SwipeRightToStage1-7"
         ]
     },
+    "EpisodeStageNameOcr": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "maxTimes": 10
+    },
     "Episode10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -550,7 +556,8 @@
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "IC-9"
+            "IC-9",
+            "1C-9"
         ],
         "roi": [
             0,
@@ -564,7 +571,8 @@
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "IC-8"
+            "IC-8",
+            "1C-8"
         ],
         "roi": [
             0,
@@ -578,7 +586,8 @@
         "action": "ClickSelf",
         "cache": false,
         "text": [
-            "IC-7"
+            "IC-7",
+            "1C-7"
         ],
         "roi": [
             0,
@@ -1138,35 +1147,67 @@
     },
     "StageCE": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StageLS": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StageCA": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StageAP": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-A": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-B": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-C": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "StagePR-D": {
         "action": "ClickSelf",
-        "cache": false
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "AbleToAgent": {
         "algorithm": "JustReturn",
@@ -1536,7 +1577,7 @@
             ],
             [
                 "慢砂",
-                "摄砂"
+                "慑砂"
             ],
             [
                 "灌尘芙蓉",
@@ -1553,6 +1594,34 @@
             [
                 "岚笛",
                 "风笛"
+            ],
+            [
+                "罗比塔",
+                "罗比菈塔"
+            ],
+            [
+                "惊垫",
+                "惊蛰"
+            ],
+            [
+                "^岁$",
+                "夕"
+            ],
+            [
+                "特米来",
+                "特米米"
+            ],
+            [
+                "一岁",
+                "夕"
+            ],
+            [
+                "永月",
+                "水月"
+            ],
+            [
+                "布亍",
+                "布丁"
             ]
         ]
     },
@@ -3673,13 +3742,12 @@
         "algorithm": "JustReturn",
         "action": "Stop"
     },
-    "RecruitTimeReduce": {
-        "action": "ClickSelf",
-        "Doc": "检查到01，调整时间",
+    "RecruitTimerDecrement": {
+        "Doc": "two buttons that adjust recruit timer",
         "roi": [
             350,
             250,
-            200,
+            370,
             100
         ]
     },
@@ -3761,14 +3829,43 @@
         "action": "DoNothing",
         "rearDelay": 2000
     },
-    "RecruitCheckTimeReduced": {
-        "action": "DoNothing",
-        "Doc": "检查时间是不是调整过",
+    "RecruitTimerH": {
+        "Doc": "识别公招小时数",
+        "algorithm": "OcrDetect",
         "roi": [
-            350,
-            150,
-            200,
-            150
+            400,
+            180,
+            100,
+            90
+        ],
+        "text": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09"
+        ]
+    },
+    "RecruitTimerM": {
+        "Doc": "识别公招分钟数",
+        "algorithm": "OcrDetect",
+        "roi": [
+            570,
+            180,
+            100,
+            90
+        ],
+        "text": [
+            "00",
+            "10",
+            "20",
+            "30",
+            "40",
+            "50"
         ]
     },
     "RecruitConfirm": {
@@ -4308,6 +4405,53 @@
             300
         ]
     },
+    "RoguelikeRecruitSwipeToTheLeftBegin": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1080,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 300,
+        "rearDelay": 1000,
+        "maxTimes": 2,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+    },
+    "RoguelikeRecruitSwipeToTheLeftEnd": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            400,
+            200,
+            100,
+            300
+        ]
+    },
+    "RoguelikeRecruitSlowlySwipeRightRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            780,
+            200,
+            100,
+            300
+        ],
+        "preDelay": 1500,
+        "rearDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+    },
+    "RoguelikeRecruitSlowlySwipeLeftRect": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            360,
+            200,
+            100,
+            300
+        ]
+    },
     "InfrastOperMoodProgressBar": {
         "template": "empty.png",
         "templThreshold": 160,
@@ -4561,6 +4705,76 @@
             655,
             150,
             40
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastSortByTrustButton": {
+        "action": "ClickSelf",
+        "template": "InfrastSortByTrustButton.png",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            100,
+            70
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastFilterMenu": {
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenu.png",
+        "cache": false,
+        "roi": [
+            1050,
+            0,
+            230,
+            100
+        ],
+        "next": [
+            "InfrastFilterMenuNotStationedButton",
+            "InfrastFilterMenuNotStationedButtonAlreadyClicked"
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastFilterMenuNotStationedButton": {
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenuNotStationedButton.png",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
+        "action": "DoNothing",
+        "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuConfirmButton": {
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenuConfirmButton.png",
+        "cache": false,
+        "roi": [
+            870,
+            528,
+            152,
+            50
         ],
         "rearDelay": 1000
     },
@@ -6703,9 +6917,9 @@
     },
     "Roguelike1RecruitOcrFlag": {
         "roi": [
-            600,
+            350,
             100,
-            500,
+            700,
             500
         ],
         "templThreshold": 0.95
@@ -8014,8 +8228,8 @@
         ],
         "rectMove": [
             181,
-            60,
-            30,
+            40,
+            25,
             0
         ],
         "rectMove_Doc": "作为hsv阈值使用"

@@ -330,7 +330,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::BulletTime:
         action_desc = "子弹时间";
         break;
-    // TODO 其他情况
+        // TODO 其他情况
     case BattleActionType::SkillUsage:
     case BattleActionType::UseAllSkill:
     case BattleActionType::Output:;
@@ -379,7 +379,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::SkillDaemon:
         ret = wait_to_end(action);
         break;
-    // TODO 其他情况
+        // TODO 其他情况
     case BattleActionType::UseAllSkill:;
     }
     sleep_with_possible_skill(action.rear_delay);

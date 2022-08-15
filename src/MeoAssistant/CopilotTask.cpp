@@ -28,7 +28,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::CopilotTask::set_params(const json::value& params)
 {
-    if (m_finished) {
+    if (m_running) {
         return false;
     }
 

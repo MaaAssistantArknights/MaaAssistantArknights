@@ -21,10 +21,7 @@ namespace asst
         const std::vector<FormationOper>& get_result() const noexcept;
     protected:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
+        using AbstractImageAnalyzer::set_roi;
 
         bool selected_analyze(const Rect& roi);
 

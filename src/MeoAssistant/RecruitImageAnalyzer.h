@@ -18,9 +18,13 @@ namespace asst
         {
             return m_tags_result;
         }
-        const std::vector<Rect>& get_set_time_rect() const noexcept
+        Rect get_hour_decrement_rect() const noexcept
         {
-            return m_set_time_rect;
+            return m_hour_decrement;
+        }
+        Rect get_minute_decrement_rect() const noexcept
+        {
+            return m_minute_decrement;
         }
         Rect get_refresh_rect() const noexcept
         {
@@ -29,16 +33,14 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
+        using AbstractImageAnalyzer::set_roi;
         bool tags_analyze();
         bool time_analyze();
         bool refresh_analyze();
 
         std::vector<TextRect> m_tags_result;
-        std::vector<Rect> m_set_time_rect;
+        Rect m_hour_decrement;
+        Rect m_minute_decrement;
         Rect m_refresh_rect;
     };
 }

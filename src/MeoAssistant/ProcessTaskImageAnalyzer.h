@@ -41,10 +41,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
+        using AbstractImageAnalyzer::set_roi;
         bool match_analyze(const std::shared_ptr<TaskInfo>& task_ptr);
         bool ocr_analyze(const std::shared_ptr<TaskInfo>& task_ptr);
         void reset() noexcept;

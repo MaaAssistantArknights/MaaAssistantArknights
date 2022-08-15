@@ -30,9 +30,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     while (true) {
         DepotImageAnalyzer analyzer(m_ctrler->get_image());
 
-        auto future = std::async(std::launch::async, [&]() {
-            this->swipe();
-        });
+        auto future = std::async(std::launch::async, [&]() { swipe(); });
 
         // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
         // 所以这个 begin pos 不能设置

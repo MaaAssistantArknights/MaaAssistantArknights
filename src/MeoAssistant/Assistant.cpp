@@ -1,6 +1,5 @@
 #include "Assistant.h"
 
-#include <ctime>
 #include "AsstRanges.hpp"
 
 #include <meojson/json.hpp>
@@ -88,7 +87,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 else if (type == TASK::TaskType) { ptr = std::make_shared<TASK>(task_callback, static_cast<void*>(this)); }
 
     if constexpr (false) {}
-        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
         ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
@@ -178,11 +177,9 @@ std::string asst::Assistant::get_uuid() const
 
 std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
 {
-    std::vector<TaskId> result;
     std::unique_lock<std::mutex> lock(m_mutex);
-    for (const auto& id : m_tasks_list | views::keys) {
-        result.emplace_back(id);
-    }
+    std::vector<TaskId> result(m_tasks_list.size());
+    ranges::copy(m_tasks_list | views::keys, result.begin());
     return result;
 }
 
@@ -235,6 +232,7 @@ void Assistant::working_proc()
         if (!m_thread_idle && !m_tasks_list.empty()) {
             const auto [id, task_ptr] = m_tasks_list.front();
             lock.unlock();
+            // only one instance of working_proc running, unlock here to allow set_task_param to the running task
 
             json::value callback_json = json::object{
                 { "taskchain", task_ptr->get_task_chain() },
@@ -255,11 +253,7 @@ void Assistant::working_proc()
             }
             lock.unlock();
 
-            auto run_msg = AsstMsg::TaskChainCompleted;
-            if (!ret) {
-                run_msg = AsstMsg::TaskChainError;
-            }
-            task_callback(run_msg, callback_json, this);
+            task_callback(ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError, callback_json, this);
 
             if (!m_thread_idle && m_tasks_list.empty()) {
                 callback_json["finished_tasks"] = json::array(finished_tasks);

@@ -21,10 +21,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
+        using AbstractImageAnalyzer::set_roi;
         bool commodities_analyze();
         bool whether_to_buy_analyze();
         bool sold_out_analyze();

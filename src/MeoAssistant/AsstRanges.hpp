@@ -17,7 +17,7 @@ namespace asst
         {
             template <permutable I, sentinel_for<I> S, typename C, typename P = identity>
             constexpr subrange<I>
-            operator()(I first, S last, C pred, P proj = P{}) const
+                operator()(I first, S last, C pred, P proj = P{}) const
             {
                 return { ::ranges::remove_if(std::move(first), last, std::move(pred), std::move(proj)), last };
             }
@@ -53,7 +53,8 @@ namespace asst
 #include <boost/range/algorithm.hpp>
 #include <boost/range/adaptors.hpp>
 
-namespace asst {
+namespace asst
+{
     namespace ranges = boost::range;
     namespace views = boost::adaptors;
 }
