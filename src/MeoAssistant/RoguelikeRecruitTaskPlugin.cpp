@@ -78,13 +78,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             const auto& char_opt = chars_map.find(oper_info.name);
 
             if (char_opt.has_value()) {
-                // 干员已在编队中
-                int elite = char_opt.value().get("elite", 0);
-                if (elite == 2) {
-                    // 干员已精二，忽略
-                    continue;
-                }
-
+                // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
                     // 预备干员可以重复招募
                     priority = recruit_info.recruit_priority;
