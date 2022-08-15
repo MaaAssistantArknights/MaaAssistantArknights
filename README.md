@@ -130,7 +130,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 贡献/参与者
 
-感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (*´▽｀)ノノ
+感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (\*´▽｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
@@ -157,6 +157,13 @@ MAA 的意思是 MAA Assistant Arknights
 - [回调消息协议](docs/回调消息协议.md)
 - [任务流程协议](docs/任务流程协议.md)
 - [自动抄作业协议](docs/战斗流程协议.md)
+
+### Issue bot
+
+- 使用 `Add {LABEL_NAME}` 增加标签，使用 `Remove {LABEL_NAME}` 删除标签。
+- 在提交说明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 给对应议题增加 `fixed` 标签。
+
+更多说明请参考 [Issue bot 使用方法](docs/IssueBot使用方法.md)。
 
 ### 想参与开发，但不太会用 Github?
 
