@@ -136,6 +136,7 @@
 
     <system:String x:Key="MinimizeToTray">最小化するとトレイに非表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
+    <system:String x:Key="UseAlternateStage">代替ステージを使う</system:String>
     <system:String x:Key="HideUnavailableStage">当日は開放されないステージを隠します</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面左側のボタン</system:String>
 
@@ -181,6 +182,7 @@
     <system:String x:Key="AssignedMaterial">素材限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
+    <system:String x:Key="StageSelect2">欲しい</system:String>
     <system:String x:Key="Amend">改定</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>

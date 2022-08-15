@@ -1770,6 +1770,29 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use alternate stage.
+        /// </summary>
+        public bool UseAlternateStage
+        {
+            get
+            {
+                return _useAlternateStage;
+            }
+
+            set
+            {
+                SetAndNotify(ref _useAlternateStage, value);
+                ViewStatusStorage.Set("GUI.UseAlternateStage", value.ToString());
+                if (value)
+                {
+                    HideUnavailableStage = false;
+                }
+            }
+        }
+
         private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.HideUnavailableStage", bool.TrueString));
 
         /// <summary>
@@ -1786,6 +1809,12 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _hideUnavailableStage, value);
                 ViewStatusStorage.Set("GUI.HideUnavailableStage", value.ToString());
+
+                if (value)
+                {
+                    UseAlternateStage = false;
+                }
+
                 var mainModel = _container.Get<TaskQueueViewModel>();
                 mainModel.UpdateStageList();
             }

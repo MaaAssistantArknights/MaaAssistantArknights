@@ -136,6 +136,7 @@
 
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림을 팝업</system:String>
+    <system:String x:Key="UseAlternateStage">대체 검문소를 사용합니다</system:String>
     <system:String x:Key="HideUnavailableStage">당일 스테이지만 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 왼쪽의 버튼</system:String>
 
@@ -181,6 +182,7 @@
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
+    <system:String x:Key="StageSelect2">참조</system:String>
     <system:String x:Key="Amend">수정</system:String>
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
