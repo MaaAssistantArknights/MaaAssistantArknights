@@ -178,9 +178,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     // 选择优先级最高的干员
-    auto selected_oper = ranges::max_element(recruit_list, [&](const asst::RoguelikeRecruitInfo& lhs, const asst::RoguelikeRecruitInfo& rhs) -> int {
-        return rhs.priority > lhs.priority;
-    });
+    auto selected_oper = ranges::max_element(recruit_list, std::less{}, std::mem_fn(&RoguelikeRecruitInfo::priority));
     if (selected_oper == recruit_list.cend()) {
         Log.trace(__FUNCTION__, "| No opers in recruit list.");
         return false;
