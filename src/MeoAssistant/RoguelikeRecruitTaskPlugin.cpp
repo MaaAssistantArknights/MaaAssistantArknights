@@ -112,7 +112,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 添加到候选名单
-            auto existing_it = std::ranges::find_if(recruit_list, [&](const RoguelikeRecruitInfo& pri) -> bool {
+            auto existing_it = ranges::find_if(recruit_list, [&](const RoguelikeRecruitInfo& pri) -> bool {
                 return pri.name == recruit_info.name;
             });
             if (existing_it == recruit_list.cend()) {
@@ -184,7 +184,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     // 选择优先级最高的干员
-    auto selected_oper = std::ranges::max_element(recruit_list, [&](asst::RoguelikeRecruitInfo& lhs, asst::RoguelikeRecruitInfo& rhs) -> int {
+    auto selected_oper = ranges::max_element(recruit_list, [&](asst::RoguelikeRecruitInfo& lhs, asst::RoguelikeRecruitInfo& rhs) -> int {
         return rhs.priority > lhs.priority;
     });
     if (selected_oper == recruit_list.cend()) {
