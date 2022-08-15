@@ -1785,6 +1785,8 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _useAlternateStage, value);
+                var taskQueueViewModel = _container.Get<TaskQueueViewModel>();
+                taskQueueViewModel.AlternateStageDisplay = value ? "Visible" : "Hidden";
                 ViewStatusStorage.Set("GUI.UseAlternateStage", value.ToString());
                 if (value)
                 {

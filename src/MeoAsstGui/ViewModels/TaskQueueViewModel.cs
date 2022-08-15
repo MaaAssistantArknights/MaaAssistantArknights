@@ -1448,6 +1448,8 @@ namespace MeoAsstGui
             }
         }
 
+        private string _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString)) ? "Visible" : "Hidden";
+
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
         /// </summary>
@@ -1455,12 +1457,12 @@ namespace MeoAsstGui
         {
             get
             {
-                var settingsModel = _container.Get<SettingsViewModel>();
-                return settingsModel.UseAlternateStage ? "Visible" : "Hidden";
+                return _alternateStageDisplay;
             }
 
             set
             {
+                SetAndNotify(ref _alternateStageDisplay, value);
             }
         }
 
