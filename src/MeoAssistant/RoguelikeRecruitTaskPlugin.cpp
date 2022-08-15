@@ -56,7 +56,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            // 本页没有检测到符合条件的干员，向右滑动
+            // 如果还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
+            if (i == 0) {
+                Log.error(__FUNCTION__, "| Recruit list analyse failed before swiping");
+                return true;
+            }
+            // 已经滑动过，识别失败可能是意外情况，尝试继续滑动
+            Log.error(__FUNCTION__, "| Recruit list analyze failed after swiping: ", i);
             slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
             sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
@@ -149,7 +155,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            Log.error(__FUNCTION__, "| Random recruitment analyse failed");
+            // 寻找候选干员时没有出现识别失败，而此处识别失败，应该属于意外情况，退出重试
+            Log.error(__FUNCTION__, "| Random recruitment analyze failed");
             return false;
         }
 
@@ -176,7 +183,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             return true;
         }
 
-        Log.trace(__FUNCTION__, "| Did not choose oper");
+        Log.error(__FUNCTION__, "| Did not choose oper");
         return false;
     }
 
@@ -216,28 +223,30 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
     for (; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
+        if (!analyzer.analyze()) {
+            // 寻找候选干员时没有出现识别失败，而此处识别失败，应该属于意外情况，退出重试
+            Log.error(__FUNCTION__, "| Choose oper analyze failed");
+            return false;
+        }
 
-        // 只处理识别成功的情况，失败(无任何结果)时继续滑动
-        if (analyzer.analyze()) {
-            const auto& chars = analyzer.get_result();
-            auto it = ranges::find_if(chars,
-                [&](const BattleRecruitOperInfo& oper) -> bool {
-                    return oper.name == char_name;
-                });
+        const auto& chars = analyzer.get_result();
+        auto it = ranges::find_if(chars,
+            [&](const BattleRecruitOperInfo& oper) -> bool {
+                return oper.name == char_name;
+            });
 
-            std::string oper_names = "";
-            for (const auto& oper : chars) {
-                if (!oper_names.empty()) {
-                    oper_names += ", ";
-                }
-                oper_names += oper.name;
+        std::string oper_names = "";
+        for (const auto& oper : chars) {
+            if (!oper_names.empty()) {
+                oper_names += ", ";
             }
-            Log.info(__FUNCTION__, "| Oper list:", oper_names);
+            oper_names += oper.name;
+        }
+        Log.info(__FUNCTION__, "| Oper list:", oper_names);
 
-            if (it != chars.cend()) {
-                select_oper(*it);
-                return true;
-            }
+        if (it != chars.cend()) {
+            select_oper(*it);
+            return true;
         }
 
         // 没识别到目标干员，可能不在这一页，继续划动
