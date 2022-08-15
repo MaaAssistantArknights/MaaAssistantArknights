@@ -1279,6 +1279,22 @@ namespace MeoAsstGui
             set { SetAndNotify(ref _useExpedited, value); }
         }
 
+        private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.IsLevel3UseShortTime", bool.FalseString));
+
+        public bool IsLevel3UseShortTime
+        {
+            get
+            {
+                return _isLevel3UseShortTime;
+            }
+
+            set
+            {
+                SetAndNotify(ref _isLevel3UseShortTime, value);
+                ViewStatusStorage.Set("AutoRecruit.IsLevel3UseShortTime", value.ToString());
+            }
+        }
+
         private bool _notChooseLevel1 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.NotChooseLevel1", bool.TrueString));
 
         /// <summary>
@@ -1648,6 +1664,7 @@ namespace MeoAsstGui
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
+        private readonly string _bluestacksKeyWord = ViewStatusStorage.Get("Bluestacks.Config.Keyword", "bst.instance.Nougat64.status.adb_port");
 
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
@@ -1668,7 +1685,7 @@ namespace MeoAsstGui
             var all_lines = File.ReadAllLines(_bluestacksConfig);
             foreach (var line in all_lines)
             {
-                if (line.StartsWith("bst.instance.Nougat64.status.adb_port"))
+                if (line.StartsWith(_bluestacksKeyWord))
                 {
                     var sp = line.Split('"');
                     ConnectAddress = "127.0.0.1:" + sp[1];
@@ -1754,6 +1771,31 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use alternate stage.
+        /// </summary>
+        public bool UseAlternateStage
+        {
+            get
+            {
+                return _useAlternateStage;
+            }
+
+            set
+            {
+                SetAndNotify(ref _useAlternateStage, value);
+                var taskQueueViewModel = _container.Get<TaskQueueViewModel>();
+                taskQueueViewModel.AlternateStageDisplay = value ? "Visible" : "Hidden";
+                ViewStatusStorage.Set("GUI.UseAlternateStage", value.ToString());
+                if (value)
+                {
+                    HideUnavailableStage = false;
+                }
+            }
+        }
+
         private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.HideUnavailableStage", bool.TrueString));
 
         /// <summary>
@@ -1770,6 +1812,12 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _hideUnavailableStage, value);
                 ViewStatusStorage.Set("GUI.HideUnavailableStage", value.ToString());
+
+                if (value)
+                {
+                    UseAlternateStage = false;
+                }
+
                 var mainModel = _container.Get<TaskQueueViewModel>();
                 mainModel.UpdateStageList();
             }

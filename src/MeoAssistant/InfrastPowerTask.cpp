@@ -36,10 +36,7 @@ bool asst::InfrastPowerTask::_run()
                 opers_detect();
             }
 
-            auto find_iter = ranges::find_if(m_all_available_opers,
-                [&](const infrast::Oper& info) -> bool {
-                    return info.selected;
-                });
+            auto find_iter = ranges::find_if(m_all_available_opers, std::mem_fn(&infrast::Oper::selected));
             bool need_shift = true;
             if (find_iter != m_all_available_opers.end()) {
                 switch (m_work_mode) {

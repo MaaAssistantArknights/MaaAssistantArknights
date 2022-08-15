@@ -41,7 +41,7 @@ namespace asst
 
         template<typename PluginType>
         std::shared_ptr<PluginType> register_plugin()
-        requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
+            requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
         {
             auto plugin = std::make_shared<PluginType>(m_callback, m_callback_arg, m_task_chain);
             m_plugins.emplace(plugin);

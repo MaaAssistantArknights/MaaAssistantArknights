@@ -47,8 +47,8 @@ namespace asst::utils
 
     template<typename map_t>
     inline std::string string_replace_all_batch(const std::string& src, const map_t& replace_pairs)
-    requires std::derived_from<typename map_t::value_type::first_type, std::string>
-          && std::derived_from<typename map_t::value_type::second_type, std::string>
+        requires std::derived_from<typename map_t::value_type::first_type, std::string>
+    && std::derived_from<typename map_t::value_type::second_type, std::string>
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
@@ -194,9 +194,9 @@ namespace asst::utils
 
 #ifdef _WIN32
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-        SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
+            SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
-        pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
+            pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
         pipe_sec_attr.lpSecurityDescriptor = nullptr;
         pipe_sec_attr.bInheritHandle = TRUE;
         HANDLE pipe_read = nullptr;
@@ -204,19 +204,19 @@ namespace asst::utils
         CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, PipeBuffSize);
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-        STARTUPINFOA si = { 0 };
+            STARTUPINFOA si = { 0 };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
-        si.cb = sizeof(STARTUPINFO);
+            si.cb = sizeof(STARTUPINFO);
         si.dwFlags = STARTF_USESTDHANDLES;
         si.wShowWindow = SW_HIDE;
         si.hStdOutput = pipe_child_write;
         si.hStdError = pipe_child_write;
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-        PROCESS_INFORMATION pi = { nullptr };
+            PROCESS_INFORMATION pi = { nullptr };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-        BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
+            BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
         if (p_ret) {
             DWORD peek_num = 0;
             DWORD read_num = 0;

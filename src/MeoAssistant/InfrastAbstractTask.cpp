@@ -155,6 +155,22 @@ bool asst::InfrastAbstractTask::click_clear_button()
     return task.run();
 }
 
+bool asst::InfrastAbstractTask::click_sort_by_trust_button()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastSortByTrustButton" });
+    return task.run();
+}
+
+bool asst::InfrastAbstractTask::click_filter_menu_not_stationed_button()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastFilterMenu" });
+    return task.run();
+}
+
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;

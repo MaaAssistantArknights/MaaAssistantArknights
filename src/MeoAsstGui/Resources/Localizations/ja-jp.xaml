@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">ローグ設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
     <system:String x:Key="MallSettings">FP交換所設定</system:String>
-    <system:String x:Key="PenguinSettings">Penguin Statistics設定</system:String>
+    <system:String x:Key="PenguinSettings">Penguin-Stats設定</system:String>
     <system:String x:Key="ConnectionSettings">接続設定</system:String>
     <system:String x:Key="StartupSettings">起動設定</system:String>
     <system:String x:Key="ScheduleSettings">スケジュール実行設定</system:String>
@@ -47,11 +47,11 @@
     <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集める、多くのステージをクリアする</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">源石錐を集める、1階旅商人のすぐ後に終了する</system:String>
-    <system:String x:Key="StartingSquad">スターティング・スクワッド</system:String>
-    <system:String x:Key="StartingRoles">始めるキャリア</system:String>
-    <system:String x:Key="StartingCoreChar">オペレーター（シングルプレイヤー、中国名のみ）</system:String>
-    <system:String x:Key="StartingCoreCharTip">1 つの oper の CN 名のみをサポートします。入力されていない場合はデフォルトです。</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">源石錐を集める、1階旅商人に出会って後止める</system:String>
+    <system:String x:Key="StartingSquad">最初の分隊</system:String>
+    <system:String x:Key="StartingRoles">最初の職業</system:String>
+    <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
+    <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
@@ -125,7 +125,7 @@
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達してミッションを停止する</system:String>
     <system:String x:Key="InvestmentEnabled">源石錐の投資</system:String>
 
-    <system:String x:Key="PenguinID">Penguin StatisticsレポートID（デジタル部分のみ）</system:String>
+    <system:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
     <system:String x:Key="HighPriority">優先購入　セミコロンで区切</system:String>
@@ -136,18 +136,19 @@
 
     <system:String x:Key="MinimizeToTray">最小化するとトレイに非表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
+    <system:String x:Key="UseAlternateStage">代替ステージを使う</system:String>
     <system:String x:Key="HideUnavailableStage">当日は開放されないステージを隠します</system:String>
-    <system:String x:Key="MainViewButtonFeature">メイン画面左側のボタン</system:String>
+    <system:String x:Key="MainViewButtonFeature">スタート画面左側のボタン</system:String>
 
     <system:String x:Key="ADBTip">ヒント：ここで自動的に検出されます。エラーが発生した場合は、もう一度変更を試みることができます。それ以外の場合は、自分で入力する必要はありません。</system:String>
-    <system:String x:Key="ADBPath">adbパス (相対/絶対)</system:String>
+    <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">はじめて使うと自動で記入されるので、問題があれば手動で修正してみる</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <!--  設定  -->
 
-    <!--  メイン  -->
-    <system:String x:Key="Farming">メイン</system:String>
+    <!--  スタート  -->
+    <system:String x:Key="Farming">スタート</system:String>
 
     <system:String x:Key="WakeUp">ウェイクアップ</system:String>
     <system:String x:Key="Recruiting">公開求人</system:String>
@@ -172,7 +173,7 @@
     <system:String x:Key="Shutdown">シャットダウン*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
-    <system:String x:Key="Stop">終了</system:String>
+    <system:String x:Key="Stop">止める</system:String>
 
     <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">回復剤使う</system:String>
@@ -181,6 +182,7 @@
     <system:String x:Key="AssignedMaterial">素材限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
+    <system:String x:Key="StageSelect2">欲しい</system:String>
     <system:String x:Key="Amend">改定</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
@@ -221,7 +223,7 @@
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
-    <system:String x:Key="Stopped">終了しました</system:String>
+    <system:String x:Key="Stopped">止めました</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
     <system:String x:Key="SetSuccessfully">設定に成功しました</system:String>
     <system:String x:Key="SetFailed">設定に失敗しました</system:String>
@@ -231,11 +233,11 @@
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています。</system:String>
     <!--  ログ  -->
-    <!--  メイン  -->
+    <!--  スタート  -->
 
     <!--  公開求人認識  -->
     <system:String x:Key="Recognition">公開求人認識</system:String>
-    <system:String x:Key="RecognitionTip">ヒント：これとメインの公開求人は、2つの別々の機能です。使用する前にゲームの公開求人を手動で開いてください～</system:String>
+    <system:String x:Key="RecognitionTip">ヒント：これとスタート画面の公開求人は、2つの別々の機能です。使用する前にゲームの公開求人を手動で開いてください～</system:String>
     <system:String x:Key="AutoSettingTime">時刻を自動的に設定する</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
@@ -299,8 +301,8 @@
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
     <system:String x:Key="HasReturned">戻った</system:String>
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
-    <system:String x:Key="GiveUpUploadingPenguins">Penguin Statisticsのアップロードをあきらめます</system:String>
-    <system:String x:Key="TheEX">EXステージですから、終了します</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsのアップロードをあきらめます</system:String>
+    <system:String x:Key="TheEX">EXステージですから、止めます</system:String>
     <system:String x:Key="OnTheMove">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
@@ -356,7 +358,7 @@
     <system:String x:Key="QQgroup1">グループ1</system:String>
     <system:String x:Key="QQgroup2">グループ2</system:String>
     <system:String x:Key="QQgroup3">グループ3</system:String>
-    <system:String x:Key="QQgroupfull">(フル)</system:String>
+    <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
     <!--  About  -->
@@ -364,16 +366,18 @@
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用する*</system:String>
-    <system:String x:Key="RecruitMaxTimes">1 回の実行あたりの求人の最大回数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">星 1 を手動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel3">星 3 を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel4">星 4 を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel5">星 5 を自動的に確認する</system:String>
-    <system:String x:Key="AutoSelectLevel6">星 6 を自動的に確認する</system:String>
-    <system:String x:Key="Level1Tip">チェックの際に星 1 タグが特定された場合、募集はスキップされ、チェックされていない場合、星 1 タグは無視されます。</system:String>
+    <system:String x:Key="Level3UseShortTime">3 ★タグの9:00の代わりに7:40を設定する</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">他の星との干渉がない</system:String>
+    <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
+    <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
+    <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
+    <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
     <!--  AutoRecruitSettings  -->
 
-    <system:String x:Key="Burping">うう……オエッ、つ</system:String>
+    <system:String x:Key="Burping">うぅ……オエッ、つ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
     <system:String x:Key="Hangover">次は飲みすぎないようにしないと……</system:String>
 </ResourceDictionary>

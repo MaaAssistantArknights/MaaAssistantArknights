@@ -1,12 +1,15 @@
-- 新增支持 `理想城：长夏狂欢季` 活动关卡导航 @ABA2396 @MistEO
-- 更新 `理想城：长夏狂欢季` 掉落识别、自动战斗地图数据 @MistEO @yuanyuan3060
-- 更新 公招 `傀影`, `巫恋`, `刻刀` 的数据 @zzyyyl
-- 新增支持 肉鸽 是否投资源石锭选项 @et2012
-- 修复 国际服肉鸽 boss 关卡不能识别的问题 @cookie223
-- 修复剿灭不勾选 `全权委托` 的问题 @MistEO
-- 修复关闭模拟器、开机自启动的一些问题 @cglcv
-- 修复 UI 启动时的工作目录设置 @BombaxCeiba
-- 修复编译问题、项目代码整理 @horror-proton @ChingCdesu @lhhxxxxx
-- 优化调整界面布局 @ABA2396
-- Github labeler 设置 @zzyyyl
-- Add English issue template @zzyyyl
+- 新增支持 基建宿舍 自动填充信赖未满干员 @Hydrogina
+- 新增支持 自动公招 3 星 Tags 设置 7:40，如有需要请进入设置中启用 @horror-proton @MistEO
+- 新增支持 刷理智 备选关卡逻辑，如有需要请进入设置中启用 @ABA2396
+- 优化 肉鸽 干员招募策略 @et2012
+- 修复 刷理智 IC 活动关卡的导航错误 @ABA2396
+- 修复 刷理智 资源关卡全开放时的导航错误 @MistEO
+- 修复 刷理智 一处掉落识别错误 @MistEO
+- 修复 肉鸽 招募不到干员的问题 @MistEO
+- 修复 肉鸽 在找不到需要的干员时的滑动错误 @et2012
+- 修复 自动战斗 编队干员识别错误 @ABA2396
+- 修复 信用购物 多输入了空格时无法识别的问题 @lhhxxxxx
+- GUI 新增 蓝叠 HyperV 多开的小后门，请参考文档使用 @MistEO
+- core 新增支持 刷理智 全部主线关卡导航 @MistEO
+- 新增 连接安卓手机 相关文档 @Stardust-Djohn
+- 更新 日语 翻译文本 @Tastror

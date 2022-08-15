@@ -8,7 +8,7 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignHeight="150"
+    d:DesignHeight="180"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <Grid>
@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid
-            Height="125"
+            Height="180"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center">
             <StackPanel
@@ -39,9 +39,15 @@
                     Content="{DynamicResource AutoUseExpedited}"
                     IsChecked="{Binding UseExpedited}"
                     ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Content="{DynamicResource Level3UseShortTime}"
+                    IsChecked="{Binding IsLevel3UseShortTime}"
+                    ToolTip="{DynamicResource Level3UseShortTimeTip}" />
             </StackPanel>
             <StackPanel
-                Margin="0,85,0,0"
+                Margin="0,110,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
@@ -60,7 +66,6 @@
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding RecruitMaxTimes}" />
             </StackPanel>
-
         </Grid>
 
         <StackPanel
