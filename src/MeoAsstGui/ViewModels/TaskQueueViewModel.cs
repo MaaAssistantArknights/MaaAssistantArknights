@@ -1413,9 +1413,11 @@ namespace MeoAsstGui
                             return _stage1;
                         }
                     }
+
+                    return _stage2;
                 }
 
-                return _stage2;
+                return _stage1;
             }
         }
 
