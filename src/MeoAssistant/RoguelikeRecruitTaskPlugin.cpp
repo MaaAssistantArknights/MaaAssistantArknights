@@ -95,20 +95,29 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
             }
             else {
-                // 干员待招募
+                // 干员待招募，检查练度
                 if (oper_info.elite == 2) {
                     // TODO: 招募时已精二 (随机提升或对应分队) => promoted_priority
                     priority = recruit_info.recruit_priority;
                 }
-                else {
-                    // 招募时未精二
+                else if (oper_info.elite == 1 && oper_info.level >= 50) {
+                    // 精一50级以上
                     priority = recruit_info.recruit_priority;
+                }
+                else {
+                    // 精一50级以下，默认不招募
+                    Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite, oper_info.level);
                 }
             }
 
             // 已经划到后备干员，且已有候选干员，假定后面的干员优先级不会更高，不再划动
             if (recruit_info.is_alternate && !recruit_list.empty()) {
                 stop_swipe = true;
+            }
+
+            // 优先级为0，可能练度不够被忽略
+            if (priority == 0) {
+                continue;
             }
 
             // 添加到候选名单
