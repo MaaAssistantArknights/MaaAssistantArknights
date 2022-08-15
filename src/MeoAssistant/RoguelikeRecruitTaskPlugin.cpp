@@ -195,14 +195,16 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     auto& char_name = selected_oper->name;
     Log.trace(__FUNCTION__, "| Top priority oper:", char_name, selected_oper->priority, "page", selected_oper->page_index, "/", i);
 
+    // 滑动方向
+    // 页码大于一半: 从右往左划动
+    // 页码小于一半: 划回最左边再往右
     bool is_rtl = false;
 
     // 如果划动过，判断目标角色离哪个方向更近
     if (i != 0) {
-        // 页码大于一半: 从右往左划动
-        // 页码小于一半: 划回最左边再往右
         is_rtl = (selected_oper->page_index * 2) >= i;
         if (!is_rtl) {
+            // 从左往右需要先划回最左边
             swipe_to_the_left_of_operlist(i / 2 + 1);
         }
     }
