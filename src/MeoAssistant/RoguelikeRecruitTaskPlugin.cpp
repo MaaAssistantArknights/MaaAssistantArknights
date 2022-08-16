@@ -56,7 +56,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            // 本页没有检测到符合条件的干员，向右滑动
+            // 如果还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
+            if (i == 0) {
+                Log.trace(__FUNCTION__, "| Recruit list analyse failed before swiping");
+                return true;
+            }
+            // 已经滑动过，识别失败可能是意外情况，尝试继续滑动
+            Log.trace(__FUNCTION__, "| Recruit list analyze failed after swiping: ", i);
             slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
             sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
