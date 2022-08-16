@@ -160,13 +160,14 @@ bool asst::AutoRecruitTask::_run()
     static constexpr int slot_retry_limit = 3;
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
+    int this_run = m_cur_times;
     while (m_cur_times != m_max_times) {
         if (m_force_discard_flag) { return false; }
         if (m_slot_fail >= slot_retry_limit) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
             if (need_exit()) return false;
-            if (!recruit_now() && m_cur_times != 0) {
+            if (!recruit_now() && (m_cur_times - this_run) != 0) {
                 // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
                 // ref: issues/1491
                 if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
