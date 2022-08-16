@@ -166,7 +166,7 @@ bool asst::AutoRecruitTask::_run()
         if (m_use_expedited) {
             Log.info("ready to use expedited");
             if (need_exit()) return false;
-            if (!recruit_now()) {
+            if (!recruit_now() && m_cur_times != 0) {
                 // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
                 // ref: issues/1491
                 if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
