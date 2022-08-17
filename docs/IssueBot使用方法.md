@@ -2,6 +2,8 @@
 
 Issue bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-checker)，配置文件为 [issue-checker.yml](.github/issue-checker.yml)。
 
+_Note: PR 被打上 `ambiguous` 标签可能是因为没有按照 commitizen 规范提交。推荐在 PR 标题加上 docs/feat/fix/merge/release 等。_
+
 ## 功能
 
 ### 自动触发
