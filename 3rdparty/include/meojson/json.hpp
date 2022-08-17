@@ -216,9 +216,13 @@ namespace json
         array(const raw_array& arr);
         array(raw_array&& arr) noexcept;
         array(std::initializer_list<raw_array::value_type> init_list);
+        array(raw_array::size_type size);
+
         explicit array(const value& val);
         explicit array(value&& val);
-        template<typename ArrayType> array(ArrayType arr);
+        template<typename ArrayType, typename EnableT = std::enable_if_t<
+            std::is_constructible_v<value, typename ArrayType::value_type>>>
+            array(ArrayType arr);
 
         ~array() noexcept = default;
 
@@ -309,7 +313,9 @@ namespace json
         object(std::initializer_list<raw_object::value_type> init_list);
         explicit object(const value& val);
         explicit object(value&& val);
-        template <typename MapType> object(MapType map);
+        template <typename MapType, typename EnableT = std::enable_if_t<
+            std::is_constructible_v<raw_object::value_type, typename MapType::value_type>>>
+            object(MapType map);
 
         ~object() = default;
 
@@ -600,12 +606,14 @@ namespace json
     }
 
     template <typename Type>
-    MEOJSON_INLINE std::optional<Type> value::find(size_t pos) const {
+    MEOJSON_INLINE std::optional<Type> value::find(size_t pos) const
+    {
         return is_array() ? as_array().template find<Type>(pos) : std::nullopt;
     }
 
     template <typename Type>
-    MEOJSON_INLINE std::optional<Type> value::find(const std::string& key) const {
+    MEOJSON_INLINE std::optional<Type> value::find(const std::string& key) const
+    {
         return is_object() ? as_object().template find<Type>(key) : std::nullopt;
     }
 
@@ -1029,6 +1037,13 @@ namespace json
         ;
     }
 
+    MEOJSON_INLINE
+        array::array(raw_array::size_type size)
+        : _array_data(size)
+    {
+        ;
+    }
+
     MEOJSON_INLINE array::array(const value& val)
         : array(val.as_array())
     {
@@ -1041,12 +1056,9 @@ namespace json
         ;
     }
 
-    template<typename ArrayType>
+    template<typename ArrayType, typename EnableT>
     MEOJSON_INLINE array::array(ArrayType arr)
     {
-        static_assert(
-            std::is_constructible<value, typename ArrayType::value_type>::value,
-            "Parameter can't be used to construct a value");
         _array_data.assign(
             std::make_move_iterator(arr.begin()),
             std::make_move_iterator(arr.end()));
@@ -1906,12 +1918,9 @@ namespace json
         return out;
     }
 
-    template <typename MapType> object::object(MapType map)
+    template <typename MapType, typename EnableT>
+    object::object(MapType map)
     {
-        static_assert(std::is_constructible<raw_object::value_type,
-                                            typename MapType::value_type>::value,
-                      "Parameter can't be used to construct a "
-                      "object::raw_object::value_type");
         _object_data.insert(
             std::make_move_iterator(map.begin()),
             std::make_move_iterator(map.end()));
