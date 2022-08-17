@@ -293,37 +293,38 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         bool has_special_tag = false;
         bool has_robot_tag = false;
 
+        json::value info = basic_info();
+        std::vector<json::value> tag_json_vector;
+        ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
+        info["details"]["tags"] = json::array(tag_json_vector);
+
         // tags result
         {
-            json::value info = basic_info();
-            std::vector<json::value> tag_json_vector;
-            ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
-
-            info["what"] = "RecruitTagsDetected";
-            info["details"] = json::object{ { "tags", json::array(tag_json_vector) } };
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            json::value cb_info = info;
+            cb_info["what"] = "RecruitTagsDetected";
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         // special tags
         const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
-        auto special_iter = ranges::find_first_of(SpecialTags, tag_names);
-        if (special_iter != SpecialTags.cend()) [[unlikely]] {
-            json::value info = basic_info();
-            info["what"] = "RecruitSpecialTag";
-            info["details"] = json::object{ { "tag", *special_iter } };
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            has_special_tag = true;
+        if (auto special_iter = ranges::find_first_of(SpecialTags, tag_names);
+            special_iter != SpecialTags.cend()) [[unlikely]] {
+                has_special_tag = true;
+                json::value cb_info = info;
+                cb_info["what"] = "RecruitSpecialTag";
+                cb_info["details"]["tag"] = *special_iter;
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
             // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
-        auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
-        if (robot_iter != RobotTags.cend()) [[unlikely]] {
-            json::value info = basic_info();
-            info["what"] = "RecruitSpecialTag";
-            info["details"] = json::object{ { "tag", *robot_iter } };
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            has_robot_tag = true;
+        if (auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
+            robot_iter != RobotTags.cend()) [[unlikely]] {
+                has_robot_tag = true;
+                json::value cb_info = info;
+                cb_info["what"] = "RecruitSpecialTag";
+                cb_info["details"]["tag"] = *robot_iter;
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         std::vector<RecruitCombs> result_vec = recruit_calc::get_all_combs(tag_names);
@@ -365,8 +366,6 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         const auto& final_combination = result_vec.front();
 
         {
-            json::value info = basic_info();
-
             json::value results_json;
             results_json["result"] = json::array();
             results_json["level"] = final_combination.min_level;
@@ -391,9 +390,11 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 comb_json["level"] = comb.min_level;
                 results_json["result"].as_array().emplace_back(std::move(comb_json));
             }
-            info["what"] = "RecruitResult";
-            info["details"] = results_json;
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            info["details"] |= results_json.as_object();
+
+            json::value cb_info = info;
+            cb_info["what"] = "RecruitResult";
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         if (need_exit()) return {};
@@ -405,13 +406,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             && !(m_skip_robot && has_robot_tag)
                 ) {
             if (refresh_count > refresh_limit) [[unlikely]] {
-                json::value info = basic_info();
-                info["what"] = "RecruitError";
-                info["why"] = "刷新次数达到上限";
-                info["details"] = json::object{
+                json::value cb_info = basic_info();
+                cb_info["what"] = "RecruitError";
+                cb_info["why"] = "刷新次数达到上限";
+                cb_info["details"] = json::object{
                         { "refresh_limit", refresh_limit }
                 };
-                callback(AsstMsg::SubTaskError, info);
+                callback(AsstMsg::SubTaskError, cb_info);
                 return {};
             }
 
@@ -420,13 +421,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             ++refresh_count;
 
             {
-                json::value info = basic_info();
-                info["what"] = "RecruitTagsRefreshed";
-                info["details"] = json::object{
+                json::value cb_info = basic_info();
+                cb_info["what"] = "RecruitTagsRefreshed";
+                cb_info["details"] = json::object{
                         { "count",         refresh_count },
                         { "refresh_limit", refresh_limit }
                 };
-                callback(AsstMsg::SubTaskExtraInfo, info);
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
                 Log.trace("recruit tags refreshed", std::to_string(refresh_count), " times, rerunning recruit task");
             }
 
@@ -491,12 +492,12 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         {
-            json::value info = basic_info();
-            info["what"] = "RecruitTagsSelected";
-            info["details"] = json::object{
+            json::value cb_info = basic_info();
+            cb_info["what"] = "RecruitTagsSelected";
+            cb_info["details"] = json::object{
                     { "tags", json::array(final_combination.tags) }
             };
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         calc_task_result_type result;
