@@ -9,6 +9,7 @@
 #include "Logger.hpp"
 
 #include <algorithm>
+#include <regex>
 #include "AsstRanges.hpp"
 
 namespace asst::recruit_calc
@@ -144,6 +145,27 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexce
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordered_map<int, int> time_map) noexcept
 {
     m_desired_time_map = std::move(time_map);
+    return *this;
+}
+
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguid_id) noexcept
+{
+    m_upload_to_penguin = enable;
+    if (!penguid_id.empty()) {
+        m_penguin_id = std::move(penguid_id);
+    }
+    return *this;
+}
+
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_yituliu_enabled(bool enable) noexcept
+{
+    m_upload_to_yituliu = enable;
+    return *this;
+}
+
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noexcept
+{
+    m_server = std::move(server);
     return *this;
 }
 
@@ -397,6 +419,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
+        async_upload_result(info["details"]);
+
         if (need_exit()) return {};
 
         // refresh
@@ -564,4 +588,103 @@ bool asst::AutoRecruitTask::refresh()
 {
     ProcessTask refresh_task(*this, { "RecruitRefresh" });
     return refresh_task.run();
+}
+
+void asst::AutoRecruitTask::async_upload_result(const json::value& details)
+{
+    LogTraceFunction;
+
+    if (m_upload_to_penguin) {
+        auto upload_future = std::async(
+            std::launch::async,
+            &AutoRecruitTask::upload_to_penguin, this, details);
+        m_upload_pending.emplace_back(std::move(upload_future));
+    }
+    if (m_upload_to_yituliu) {
+        auto upload_future = std::async(
+            std::launch::async,
+            &AutoRecruitTask::upload_to_yituliu, this, details);
+        m_upload_pending.emplace_back(std::move(upload_future));
+    }
+}
+
+void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
+{
+    LogTraceFunction;
+
+    auto& opt = Resrc.cfg().get_options();
+
+    json::value cb_info = basic_info();
+    cb_info["subtask"] = "ReportToPenguinStats";
+    callback(AsstMsg::SubTaskStart, cb_info);
+
+    json::value body;
+    body["server"] = m_server;
+    body["stageId"] = "recruit";
+    auto& all_drops = body["drops"];
+    for (const auto& tag : details.at("tags").as_array()) {
+        all_drops.array_emplace(json::object{
+            { "dropType", "NORMAL_DROP" },
+            { "itemId", tag.as_string() },
+            { "quantity", 1 }
+        });
+    }
+    body["source"] = "MeoAssistant";
+    body["version"] = Version;
+
+    std::string body_escape = utils::string_replace_all(body.to_string(), "\"", "\\\"");
+    std::string cmd_line = utils::string_replace_all(opt.penguin_report.cmd_format, "[body]", body_escape);
+
+    std::string extra_param;
+    if (!m_penguin_id.empty()) {
+        extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
+    }
+    cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
+
+    Log.trace("request_penguin |", cmd_line);
+
+    std::string response = utils::callcmd(cmd_line);
+
+    static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
+    std::smatch penguinid_sm;
+    if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
+        json::value id_info = basic_info_with_what("PenguinId");
+        m_penguin_id = penguinid_sm[1];
+        id_info["details"]["id"] = m_penguin_id;
+        callback(AsstMsg::SubTaskExtraInfo, id_info);
+    }
+
+    Log.trace("request_penguin | response:\n", response);
+
+    callback(AsstMsg::SubTaskCompleted, cb_info);
+}
+
+void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
+{
+    LogTraceFunction;
+
+    auto& opt = Resrc.cfg().get_options();
+
+    json::value cb_info = basic_info();
+    cb_info["subtask"] = "ReportToyituliu";
+    callback(AsstMsg::SubTaskStart, cb_info);
+
+    json::value body = details;
+    body["server"] = m_server;
+    body["source"] = "MeoAssistant";
+    body["version"] = Version;
+
+    std::string body_escape = utils::string_replace_all(body.to_string(), "\"", "\\\"");
+    std::string cmd_line = utils::string_replace_all(opt.yituliu_report.cmd_format, "[body]", body_escape);
+
+    std::string extra_param;
+    cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
+
+    Log.trace("request_yituliu |", cmd_line);
+
+    std::string response = utils::callcmd(cmd_line);
+
+    Log.trace("request_yituliu | response:\n", response);
+
+    callback(AsstMsg::SubTaskCompleted, cb_info);
 }

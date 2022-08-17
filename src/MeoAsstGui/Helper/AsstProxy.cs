@@ -1009,7 +1009,7 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
-            task_params["server"] = "CN";
+            task_params["server"] = settings.ServerType;
             return task_params;
         }
 
@@ -1143,6 +1143,12 @@ namespace MeoAsstGui
                 task_params["recruitment_time"]["3"] = 460; // 7:40
             }
 
+            task_params["report_to_penguin"] = true;
+            task_params["report_to_yituliu"] = true;
+            var settings = _container.Get<SettingsViewModel>();
+            task_params["penguin_id"] = settings.PenguinId;
+            task_params["server"] = settings.ServerType;
+
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.Recruit] = id;
             return id != 0;
@@ -1257,6 +1263,13 @@ namespace MeoAsstGui
             task_params["set_time"] = set_time;
             task_params["expedite"] = false;
             task_params["expedite_times"] = 0;
+
+            task_params["report_to_penguin"] = true;
+            task_params["report_to_yituliu"] = true;
+            var settings = _container.Get<SettingsViewModel>();
+            task_params["penguin_id"] = settings.PenguinId;
+            task_params["server"] = settings.ServerType;
+
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.RecruitCalc] = id;
             return id != 0 && AsstStart();
