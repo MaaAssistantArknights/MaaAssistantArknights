@@ -26,6 +26,14 @@ Compatible.
 
   4. LinkStart!
 
+- If you need to run multiple emulators (ignore this step if you do not need to do so), you can change the keywords for MAA to detect configuration files.
+    Add field `Bluestacks.Config.Keyword` following the steps above
+    Example:
+
+    ```jsonc
+    "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+    ```
+
 ### ✅ Nox
 
 Fully compatible.
@@ -52,7 +60,8 @@ Incompatible. ADB screenshot is black.
 
 ### 🚫 Leidian
 
-Compatible but not recommended. There is a small chance that the game will be displayed upside down or blackscreen, causing the application to click the button to use Originium by mistake (reported by users).
+Compatible but not recommended. There is a small chance that the game will be displayed upside down or blackscreen, and with other problems.
+For example, when it clicks the "Back" button at the top left corner, the screen rotated 180°, causing the application to click the button of using Originium by mistake (reported by users).
 
 ### ⚠️ MEmu
 
@@ -80,6 +89,41 @@ Compatible.
 ### ⚙️ Custom Connection
 
 1. Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip.
-2. Go to `Settings` - `Connection Settings`, and fill in ADB path and address (IP+port is required, e.g. `127.0.0.1:5555`)  
+2. Go to `Settings` - `Connection Settings`, and fill in ADB path and address (IP + port are required, e.g. `127.0.0.1:5555`)
 
-**Note:** If your device is non-`16:9` resolution like mobile phone or Android pad, You can set resolution with `adb shell wm size` on your phone and change it back later.
+### ⚙️ Non-`16:9` devices like smartphones or tablets
+
+You may need to change the resolution manually since MAA supports only `16:9` resolution.
+
+1. Turn on USB debugging mode and connect your device to the computer with a cable, or debug with ADB remotely.
+2. Run `Command Prompt (CMD)`, check the device address and connect.
+
+    - Use the following command to check device ID if you are using USB cable to connect:
+
+    ```bash
+    adb devices                          # Checks the connection status of the current device, with the first column to be the device ID
+    ```
+
+    - If you are using remote ADB connection: go to `Settings -> WLAN -> View` to find the corresponding IP address, and the port will usually be 5555 or 5037.
+
+    ```bash
+    adb connect <IP Address + Port>        # E.g. 192.168.0.10:5555
+    ```
+
+3. Enter the command prompt to proceed
+
+   ```bash
+   adb -s <Device ID or IP + Port> shell  # Enters the command prompt of the device
+   wm size                               # Checks the resolution of the current device
+   wm size 720x1280                      # Changes the resolution to 720p
+   ```
+
+4. Fill in the ADB path and the address of your smartphone (device ID or IP + port) in MAA
+5. Set the `Special-shaped screen adaptation` to 0 (off) in the game settings.
+    Otherwise, your phone UI and click response may be dislocated if you change the resolution with ADB later.
+6. Use MAA (≧∇≦)ﾉ
+7. Before exiting MAA, reset the resolution of your phone.
+
+   ```bash
+   wm size reset                         # Resets resolution
+   ```
