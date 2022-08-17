@@ -343,6 +343,7 @@ namespace MeoAsstGui
             }
 
             StageList = newList;
+            StageList2 = newList;
 
             bool hasSavedValue = false;
             foreach (var item in StageList)
@@ -356,7 +357,7 @@ namespace MeoAsstGui
 
             if (!hasSavedValue)
             {
-                Stage = string.Empty;
+                Stage1 = string.Empty;
             }
         }
 
@@ -1359,22 +1360,120 @@ namespace MeoAsstGui
             }
         }
 
-        private string _stage = ViewStatusStorage.Get("MainFunction.Stage", string.Empty);
+        private ObservableCollection<CombData> _stageList2 = new ObservableCollection<CombData>();
 
         /// <summary>
-        /// Gets or sets the stage.
+        /// Gets or sets the list of stages2.
+        /// </summary>
+        public ObservableCollection<CombData> StageList2
+        {
+            get
+            {
+                return _stageList2;
+            }
+
+            set
+            {
+                SetAndNotify(ref _stageList2, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the stage.
         /// </summary>
         public string Stage
         {
             get
             {
-                return _stage;
+                var settingsModel = _container.Get<SettingsViewModel>();
+                if (settingsModel.UseAlternateStage)
+                {
+                    ObservableCollection<CombData> newList;
+                    newList = new ObservableCollection<CombData>();
+                    foreach (var item in AllStageList)
+                    {
+                        if (_stageAvailableInfo.ContainsKey(item.Value))
+                        {
+                            var info = _stageAvailableInfo[item.Value];
+                            if (info.Item1.Contains(_curDayOfWeek))
+                            {
+                                newList.Add(item);
+                            }
+                        }
+                        else
+                        {
+                            newList.Add(item);
+                        }
+                    }
+
+                    foreach (var stage in newList)
+                    {
+                        if (stage.Value == _stage1)
+                        {
+                            return _stage1;
+                        }
+                    }
+
+                    return _stage2;
+                }
+
+                return _stage1;
+            }
+        }
+
+        private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty);
+
+        /// <summary>
+        /// Gets or sets the stage1.
+        /// </summary>
+        public string Stage1
+        {
+            get
+            {
+                return _stage1;
             }
 
             set
             {
-                SetAndNotify(ref _stage, value);
-                ViewStatusStorage.Set("MainFunction.Stage", value);
+                SetAndNotify(ref _stage1, value);
+                ViewStatusStorage.Set("MainFunction.Stage1", value);
+            }
+        }
+
+        private string _stage2 = ViewStatusStorage.Get("MainFunction.Stage2", string.Empty);
+
+        /// <summary>
+        /// Gets or sets the stage2.
+        /// </summary>
+        public string Stage2
+        {
+            get
+            {
+                return _stage2;
+            }
+
+            set
+            {
+                SetAndNotify(ref _stage2, value);
+                ViewStatusStorage.Set("MainFunction.Stage2", value);
+            }
+        }
+
+        private string _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString)) ? "Visible" : "Hidden";
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use alternate stage.
+        /// </summary>
+        public string AlternateStageDisplay
+        {
+            get
+            {
+                return _alternateStageDisplay;
+            }
+
+            set
+            {
+                SetAndNotify(ref _alternateStageDisplay, value);
             }
         }
 

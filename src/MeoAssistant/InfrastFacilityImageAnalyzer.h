@@ -49,10 +49,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        virtual void set_roi(const Rect& roi) noexcept override
-        {
-            AbstractImageAnalyzer::set_roi(roi);
-        }
+        using AbstractImageAnalyzer::set_roi;
 
         // key：设施名，value：所有这种设施的当前Rect（例如所有制造站的位置）
         std::unordered_map<std::string, std::vector<MatchRect>> m_result;

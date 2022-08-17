@@ -136,6 +136,7 @@
 
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
+    <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
 
@@ -181,6 +182,7 @@
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">掉落数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
+    <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
