@@ -320,7 +320,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
         if (robot_iter != RobotTags.cend()) [[unlikely]] {
             json::value info = basic_info();
-            info["what"] = "RecruitRobotTag";
+            info["what"] = "RecruitSpecialTag";
             info["details"] = json::object{ { "tag", *robot_iter } };
             callback(AsstMsg::SubTaskExtraInfo, info);
             has_robot_tag = true;
@@ -370,7 +370,6 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             json::value results_json;
             results_json["result"] = json::array();
             results_json["level"] = final_combination.min_level;
-            results_json["robot"] = m_skip_robot && has_robot_tag;
             std::vector<json::value> result_json_vector;
             for (const auto& comb : result_vec) {
                 json::value comb_json;
