@@ -6628,7 +6628,7 @@
         ]
     },
     "Roguelike1InitalDrop": {
-        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认。月底小队也有，再多几次",
+        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认。月度小队也有，再多几次",
         "action": "ClickSelf",
         "roi": [
             569,
@@ -6642,7 +6642,7 @@
         ]
     },
     "Roguelike1DialogSkip": {
-        "Doc": "月底小队，跳过对话",
+        "Doc": "月度小队，跳过对话",
         "action": "ClickSelf",
         "roi": [
             1106,
