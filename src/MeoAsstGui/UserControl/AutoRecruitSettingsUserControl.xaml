@@ -27,7 +27,7 @@
             <StackPanel
                 Grid.Row="0"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top">
+                VerticalAlignment="Top" Margin="0,10,0,0">
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"
@@ -49,15 +49,14 @@
                 </CheckBox>
             </StackPanel>
             <StackPanel
-                Margin="0,110,0,0"
+                Margin="0,130,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
                 <TextBlock
                     Width="90"
-                    Height="40"
                     Margin="5"
-                    VerticalAlignment="Stretch"
+                    VerticalAlignment="Center"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource RecruitMaxTimes}"
