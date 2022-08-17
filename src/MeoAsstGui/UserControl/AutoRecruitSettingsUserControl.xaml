@@ -40,11 +40,13 @@
                     IsChecked="{Binding UseExpedited}"
                     ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                 <CheckBox
+                    MaxWidth="155"
                     Margin="10"
                     HorizontalAlignment="Left"
-                    Content="{DynamicResource Level3UseShortTime}"
                     IsChecked="{Binding IsLevel3UseShortTime}"
-                    ToolTip="{DynamicResource Level3UseShortTimeTip}" />
+                    ToolTip="{DynamicResource Level3UseShortTimeTip}">
+                    <TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
+                </CheckBox>
             </StackPanel>
             <StackPanel
                 Margin="0,110,0,0"
