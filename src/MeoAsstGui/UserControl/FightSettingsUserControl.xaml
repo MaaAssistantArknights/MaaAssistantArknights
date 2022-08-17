@@ -28,7 +28,7 @@
 
         <StackPanel
             Grid.Row="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             HorizontalAlignment="Left"
             Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
