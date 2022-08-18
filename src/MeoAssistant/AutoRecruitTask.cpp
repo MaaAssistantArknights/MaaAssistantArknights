@@ -645,7 +645,11 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
 
     Log.trace("request_penguin |", cmd_line);
 
+#ifdef _WIN32
+    std::string response = utils::callcmd(utils::utf8_to_ansi(cmd_line));
+#else
     std::string response = utils::callcmd(cmd_line);
+#endif
 
     static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
     std::smatch penguinid_sm;
@@ -685,7 +689,11 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
 
     Log.trace("request_yituliu |", cmd_line);
 
+#ifdef _WIN32
+    std::string response = utils::callcmd(utils::utf8_to_ansi(cmd_line));
+#else
     std::string response = utils::callcmd(cmd_line);
+#endif
 
     Log.trace("request_yituliu | response:\n", response);
 

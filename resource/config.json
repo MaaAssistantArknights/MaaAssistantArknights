@@ -15,11 +15,13 @@
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
             "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 20 -i -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
+            "cmdFormat_win32": "curl -H \"Content-Type: application/json; charset=GB2312\" -s -S -m 20 -i -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         },
         "yituliuReport": {
             "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
             "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 20 -i -d \"[body]\" \"https://houduan.yituliu.site/tool/recruitUpload\" [extra]",
+            "cmdFormat_win32": "curl -H \"Content-Type: application/json; charset=GB2312\" -s -S -m 20 -i -d \"[body]\" \"https://houduan.yituliu.site/tool/recruitUpload\" [extra]",
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         },
         "depotExportTemplate": {

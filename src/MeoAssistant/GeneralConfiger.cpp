@@ -17,8 +17,13 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         //m_options.print_window = options_json.at("printWindow").as_boolean();
         m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
+#ifdef _WIN32
+        m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat_win32", std::string());
+        m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat_win32", std::string());
+#else
         m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
         m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
+#endif
         m_options.depot_export_template.ark_planner = options_json.get("depotExportTemplate", "arkPlanner", std::string());
     }
 
