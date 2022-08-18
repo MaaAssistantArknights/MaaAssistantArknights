@@ -3609,6 +3609,26 @@
                 "0-1"
             ],
             "rarity": 1
+        },
+        "trap_090_recodr": {
+            "name": "实体程式",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_091_brctrl": {
+            "name": "实体程式控制",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
         }
     },
     "ranges": {
