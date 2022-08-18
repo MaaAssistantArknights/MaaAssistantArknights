@@ -30,6 +30,10 @@ bool asst::InfrastDormTask::_run()
 
         click_confirm_button();
         click_return_button();
+
+        if (m_finished_stage == 3) {//所有干员满信赖
+            break;
+        }
     }
     return true;
 }
@@ -38,6 +42,12 @@ bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
     size_t num_of_fulltrust = 0;
+
+    if (m_filter_notstationed == 1) {
+        Log.trace("click_filter_menu_not_stationed_button");
+        click_filter_menu_not_stationed_button();
+        m_filter_notstationed = 2;
+         }
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -90,6 +100,7 @@ bool asst::InfrastDormTask::opers_choose()
                         num_of_fulltrust++;
                     }
                     if (num_of_fulltrust >= 6) {//所有干员都满信赖了
+                        m_finished_stage = 3;
                         Log.trace("num_of_fulltrust:", num_of_fulltrust, ", just return");
                         return true;
                     }
@@ -127,8 +138,11 @@ bool asst::InfrastDormTask::opers_choose()
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    Log.trace("click_filter_menu_not_stationed_button");
-                    click_filter_menu_not_stationed_button();
+                    if (m_filter_notstationed <2) {
+                        Log.trace("click_filter_menu_not_stationed_button");
+                        click_filter_menu_not_stationed_button();
+                        m_filter_notstationed = 2;
+                    }
                     Log.trace("click_sort_by_trust_button");
                     click_sort_by_trust_button();
                     m_finished_stage = 1;// 选中未进驻标签并按信赖值排序
