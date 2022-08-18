@@ -310,11 +310,11 @@ namespace json
         object(object&& rhs) noexcept = default;
         object(const raw_object& raw_obj);
         object(raw_object&& raw_obj);
-        object(std::initializer_list<raw_object::value_type> init_list);
+        object(std::initializer_list<value_type> init_list);
         explicit object(const value& val);
         explicit object(value&& val);
         template <typename MapType, typename EnableT = std::enable_if_t<
-            std::is_constructible_v<raw_object::value_type, typename MapType::value_type>>>
+            std::is_constructible_v<value_type, typename MapType::value_type>>>
             object(MapType map);
 
         ~object() = default;
@@ -1017,7 +1017,7 @@ namespace json
     // *************************
     template <typename... Args> decltype(auto) array::emplace_back(Args &&...args)
     {
-        static_assert(std::is_constructible<raw_array::value_type, Args...>::value,
+        static_assert(std::is_constructible<value_type, Args...>::value,
                       "Parameter can't be used to construct a raw_array::value_type");
         return _array_data.emplace_back(std::forward<Args>(args)...);
     }
@@ -1031,7 +1031,7 @@ namespace json
     }
 
     MEOJSON_INLINE
-        array::array(std::initializer_list<raw_array::value_type> init_list)
+        array::array(std::initializer_list<value_type> init_list)
         : _array_data(init_list)
     {
         ;
@@ -1433,7 +1433,7 @@ namespace json
     template <typename... Args> decltype(auto) object::emplace(Args &&...args)
     {
         static_assert(
-            std::is_constructible<raw_object::value_type, Args...>::value,
+            std::is_constructible<value_type, Args...>::value,
             "Parameter can't be used to construct a raw_object::value_type");
         return _object_data.emplace(std::forward<Args>(args)...);
     }

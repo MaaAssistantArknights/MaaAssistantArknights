@@ -25,7 +25,7 @@ namespace asst
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
         AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
 
-        AutoRecruitTask& set_penguin_enabled(bool enable, std::string penguid_id = std::string()) noexcept;
+        AutoRecruitTask& set_penguin_enabled(bool enable, std::string penguin_id = std::string()) noexcept;
         AutoRecruitTask& set_yituliu_enabled(bool enable) noexcept;
         AutoRecruitTask& set_server(std::string server) noexcept;
 
