@@ -148,11 +148,11 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordere
     return *this;
 }
 
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguid_id) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguin_id) noexcept
 {
     m_upload_to_penguin = enable;
-    if (!penguid_id.empty()) {
-        m_penguin_id = std::move(penguid_id);
+    if (!penguin_id.empty()) {
+        m_penguin_id = std::move(penguin_id);
     }
     return *this;
 }
