@@ -632,14 +632,16 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     body["source"] = "MeoAssistant";
     body["version"] = Version;
 
-    std::string body_escape = utils::string_replace_all(body.to_string(), "\"", "\\\"");
-    std::string cmd_line = utils::string_replace_all(opt.penguin_report.cmd_format, "[body]", body_escape);
+    std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
+        {"\"", "\\\""} });
 
     std::string extra_param;
     if (!m_penguin_id.empty()) {
         extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
     }
-    cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
+    std::string cmd_line = utils::string_replace_all_batch(opt.penguin_report.cmd_format, {
+        { "[body]", body_escape },
+        { "[extra]", extra_param} });
 
     Log.trace("request_penguin |", cmd_line);
 
@@ -674,11 +676,12 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     body["source"] = "MeoAssistant";
     body["version"] = Version;
 
-    std::string body_escape = utils::string_replace_all(body.to_string(), "\"", "\\\"");
-    std::string cmd_line = utils::string_replace_all(opt.yituliu_report.cmd_format, "[body]", body_escape);
+    std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
+        {"\"", "\\\""} });
 
-    std::string extra_param;
-    cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
+    std::string cmd_line = utils::string_replace_all_batch(opt.yituliu_report.cmd_format, {
+        { "[body]", body_escape },
+        { "[extra]", ""} });
 
     Log.trace("request_yituliu |", cmd_line);
 
