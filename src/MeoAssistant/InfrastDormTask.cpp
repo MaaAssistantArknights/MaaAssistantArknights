@@ -9,7 +9,6 @@
 #include "Resource.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include <regex>
-#include "NoWarningCV.h"
 
 bool asst::InfrastDormTask::_run()
 {
@@ -39,7 +38,6 @@ bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
     size_t num_of_fulltrust = 0;
-    int tempi = 0;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -99,8 +97,6 @@ bool asst::InfrastDormTask::opers_choose()
 
                     //获得干员所在设施
                     OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
-                    cv::imwrite("./img/aaaa_" + std::to_string(tempi) + "_" + opertrust + ".jpg", oper.facility_img);
-                    tempi++;
                     if (!facility_analyzer.analyze()) {
                         Log.trace("ERROR:!facility_analyzer.analyze():");
                         //return false;
