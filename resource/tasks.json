@@ -4282,6 +4282,17 @@
             22
         ]
     },
+    "InfrastOperFacilityOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            14,
+            -209,
+            40,
+            22
+        ]
+    },
     "InfrastOperFaceHash": {
         "algorithm": "Hash",
         "hash": [],

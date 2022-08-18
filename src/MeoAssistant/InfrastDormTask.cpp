@@ -9,6 +9,7 @@
 #include "Resource.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include <regex>
+#include "NoWarningCV.h"
 
 bool asst::InfrastDormTask::_run()
 {
@@ -37,6 +38,8 @@ bool asst::InfrastDormTask::_run()
 bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
+    size_t num_of_fulltrust = 0;
+    int tempi = 0;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -76,15 +79,42 @@ bool asst::InfrastDormTask::opers_choose()
                     }
 
                     std::string opertrust = trust_analyzer.get_result().front().text;
-                    std::regex rule("[^0-9]");
+                    std::regex rule("[^0-9]");//只保留数字
                     opertrust = std::regex_replace(opertrust, rule, "");
 
                     Log.trace("opertrust:", opertrust);
 
-                    bool if_opertrust_not_full = opertrust != "" && atoi(opertrust.c_str()) < 200;
+                    bool if_opertrust_not_full = false;
+                    if (opertrust != "" && atoi(opertrust.c_str()) < 200) {
+                        if_opertrust_not_full = true;
+                    }
+                    else if (opertrust != "" && atoi(opertrust.c_str()) >= 200) {
+                        num_of_fulltrust++;
+                    }
+                    if (num_of_fulltrust >= 6) {//所有干员都满信赖了
+                        Log.trace("num_of_fulltrust:", num_of_fulltrust, ", just return");
+                        return true;
+                    }
 
 
-                    if (if_opertrust_not_full) {
+                    //获得干员所在设施
+                    OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
+                    cv::imwrite("./img/aaaa_" + std::to_string(tempi) + "_" + opertrust + ".jpg", oper.facility_img);
+                    tempi++;
+                    if (!facility_analyzer.analyze()) {
+                        Log.trace("ERROR:!facility_analyzer.analyze():");
+                        //return false;
+                    }
+
+                    std::string facilityname = facility_analyzer.get_result().front().text;
+                    std::regex rule2("[^BF0-9]");//只保留B、F和数字
+                    facilityname = std::regex_replace(facilityname, rule2, "");
+
+                    Log.trace("facilityname:<" + facilityname + ">");
+                    bool if_oper_not_stationed = facilityname.length() < 4;//只有形如1F01或B101才是设施标签
+
+                    //判断要不要把人放进宿舍if_opertrust_not_full && if_oper_not_stationed
+                    if (if_opertrust_not_full && if_oper_not_stationed) {
                         Log.trace("put oper in");
 
                         m_ctrler->click(oper.rect);
