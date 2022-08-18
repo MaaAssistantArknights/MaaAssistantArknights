@@ -32,7 +32,7 @@ MAAは、MAA Assistant Arknightsです。
 
 ## 機能一覧
 
-- 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.cn/)へデータアップロード
+- 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.io/)へデータアップロード
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート
 - 戦友訪問、FP収集、買い物、デイリーレワード収集、ワンクリックして全自動操作！
@@ -49,29 +49,29 @@ MAAは、MAA Assistant Arknightsです。
 
 ## ダウンロードリンク
 
-***初めて使用する場合 `MaaBundle-vX.Y.Z.zip`をダウンロードしてください***
+***初めて使用する場合 `MaaBundle-vX.Y.Z.zip` をダウンロードしてください***
 
-***初めて使用する場合 `MaaBundle-vX.Y.Z.zip`をダウンロードしてください***
+***初めて使用する場合 `MaaBundle-vX.Y.Z.zip` をダウンロードしてください***
 
-***初めて使用する場合 `MaaBundle-vX.Y.Z.zip`をダウンロードしてください***
+***初めて使用する場合 `MaaBundle-vX.Y.Z.zip` をダウンロードしてください***
 
 [安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
 
-ダウンロードが遅い？fastgit ミラーを試してください  
+ダウンロードが遅い？fastgitミラーを試してください  
 
-[fastgit ミラー安定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[fastgit ミラーベータ版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
+[fastgitミラー安定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[fastgitミラーベータ版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## マニュアル
 
 ### 基本設定
 
-1. この[サポートされているエミュレータ（英語）](docs/en/EMULATOR_SUPPORTS.md)を参照して、対応する操作に進んでください。
-2. エミュレータ解像度を`16:9`、`1280 * 720`以上に変更してください。それより大きい解像度も大丈夫です。
+1. この[エミュレータのサポート](docs/ja-jp/1.3-エミュレータのサポート.md)を参照して、対応する操作に進んでください。
+2. エミュレータ解像度を `16:9`、`1280 * 720` 以上に変更してください。それより大きい解像度も大丈夫です。
 3. ゲームスタート！
 
-詳しいマニュアルは[ユーザーマニュアル（英語）](docs/en/USER_MANUAL.md)を参照してください。
+詳しいマニュアルは[MAA使用説明書](docs/ja-jp/1.1-詳細な説明.md)を参照してください。
 
 ## よくある質問
 
@@ -80,7 +80,7 @@ MAAは、MAA Assistant Arknightsです。
 - 認識エラー、またはオペレーション開始したあとで反応が出ない
 - カスタムポート設定について
 
-[FAQ（英語）](docs/en/FAQ.md)を参照してください。
+[よくある質問](docs/ja-jp/1.2-よくある質問.md)を参照してください。
 
 ## サーバーに応じてサポートされる機能
 
@@ -100,7 +100,7 @@ MAAは、MAA Assistant Arknightsです。
 - 新しいGUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （開発中、貢献することを歓迎します！）
 - 更新サーバー: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
 - 公式ウェブサイト <https://www.maa.plus>: [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作業シェアサイト <https://www.prts.plus>: [フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend) , [バックエンド](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 作業シェアサイト <https://www.prts.plus>: [フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)、[バックエンド](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 謝辞
 
@@ -125,7 +125,7 @@ MAAは、MAA Assistant Arknightsです。
 
 - ~~公開求人データ：[アークナイツツール](https://www.bigfun.cn/tools/aktools/hr)~~
 - オペレーターおよび基地データ：[PRTSアークナイツ中国語WIKI](http://prts.wiki/)
-- ステージデータ：[PenguinStatsデータ統計](https://penguin-stats.cn/)
+- ステージデータ：[PenguinStatsデータ統計](https://penguin-stats.io/)
 - ゲームデータとリソース：[アークナイツbotリソース](https://github.com/yuanyan3060/Arknights-Bot-Resource)
 
 ### 貢献/協力者
@@ -138,29 +138,29 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### Windows
 
-Visual Studio 2019 ~~または以上のバージョン~~で`MeoAssistantArknights.sln`を開きます。すべての構成が正しいはずです。
+Visual Studio 2019~~または以上のバージョン~~で `MeoAssistantArknights.sln` を開きます。すべての構成が正しいはずです。
 
 ### Linux | macOS
 
-[Linuxチュートリアル](docs/en/LINUX_TUTORIAL.md)を参照してください。
+[Linuxチュートリアル](docs/ja-jp/2.1-Linuxチュートリアル.md)を参照してください。
 
 ### API
 
-- [C インターフェース](include/AsstCaller.h)：[統合例](tools/TestCaller/main.cpp)
-- [Python インターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
-- [Golang インターフェース](src/Golang/maa/)：[統合例](src/Golang/cli.go)（メンテナンスが停止しました orz）
-- [Dart インターフェース](src/dart/)
-- [Java インターフェース](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[統合例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Rust インターフェース](src/Rust/src/maa_sys/)：[HTTP インターフェース](src/Rust)
-- [HTTP インターフェース](src/Java/Maaj/Readme.md)
-- [統合ドキュメント（英語）](docs/en/INTEGRATION.md)
-- [コールバックメッセージスキーマ（英語）](docs/en/CALLBACK_SCHEMA.md)
-- [タスクスキーマ（英語）](docs/en/TASK_SCHEMA.md)
-- [自動作戦スキーマ（英語）](docs/en/COPILOT_SCHEMA.md)
+- [Cインターフェース](include/AsstCaller.h)：[統合例](tools/TestCaller/main.cpp)
+- [Pythonインターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
+- [Golangインターフェース](src/Golang/maa/)：[統合例](src/Golang/cli.go)（メンテナンスが停止しました orz）
+- [Dartインターフェース](src/dart/)
+- [Javaインターフェース](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[統合例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)
+- [HTTPインターフェース](src/Java/Maaj/Readme.md)
+- [統合ドキュメント](docs/ja-jp/3.1-統合ドキュメント.md)
+- [コールバックAPI](docs/ja-jp/3.2-コールバックAPI.md)
+- [タスクAPI](docs/ja-jp/3.4-タスクAPI.md)
+- [自動作戦API](docs/ja-jp/3.3-自動作戦API.md)
 
 ### 開発に参加したいですけど、GitHubの使い方がよくわかりません？
 
-[Github Pull Requestプロセス概要（英語）](docs/en/CONTRIBUTING.md)
+[Githubプルリクエストのプロセス](docs/ja-jp/2.2-プルリクエスト.md)
 
 ## 免責事項
 
@@ -170,7 +170,7 @@ Visual Studio 2019 ~~または以上のバージョン~~で`MeoAssistantArknight
 ## 広告
 
 [ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア: <https://www.prts.plus> , [QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQグループ２（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQグループ３](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
+自動作戦JSON作業シェア: <https://www.prts.plus>、[QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)、[QQグループ2（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)、[QQグループ3](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
 [ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングすることばかりです～  
 [アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
 [開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
