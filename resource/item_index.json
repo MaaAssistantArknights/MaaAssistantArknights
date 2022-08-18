@@ -1239,6 +1239,22 @@
         "sortId": -10000,
         "usage": "莱茵生命能量科的最新研究成果。收集一定数量可以从危险物品回收处领取必要物资。"
     },
+    "act1bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
+        "icon": "act1bossrush_milestone_point.png",
+        "name": "试炼经验",
+        "sortId": -10000,
+        "usage": "试炼结束后获得的经验，可以提升试炼等级。"
+    },
+    "act1bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解码的数据方块。永远记住，信息转换往往伴随着不可避免的损耗。善用信息储存工具，但别依赖它们。",
+        "icon": "act1bossrush_token_relic.png",
+        "name": "数据黑盒",
+        "sortId": -10000,
+        "usage": "用于对遏制单元进行数据迭代。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通过击破假想敌队伍获得的赛事积分，将以奖章形式颁发给参赛队伍。由米诺斯工匠制作的奖牌上，刻有“英雄都是从普通人做起”的谚语。",
