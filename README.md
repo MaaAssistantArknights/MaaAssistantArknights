@@ -68,7 +68,7 @@ MAA 的意思是 MAA Assistant Arknights
 ### 基本说明
 
 1. 请根据 [模拟器支持情况](docs/模拟器支持.md)，进行对应的操作。
-2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`, 更高不限。
+2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，更高不限。
 3. 开始使用吧！
 
 更多使用说明请参考 [详细介绍](docs/详细介绍.md)
@@ -100,7 +100,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
 - 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
 - 官网 <https://www.maa.plus>: [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作业分享站 <https://www.prts.plus>: [前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend) , [后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 作业分享站 <https://www.prts.plus>: [前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)，[后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 致谢
 
@@ -171,13 +171,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 声明
 
-- 本软件 logo 并非使用 AGPL 3.0 协议开源，画师 [耗毛](https://weibo.com/u/3251357314) 及软件全体开发者保留所有权利。不得以 AGPL 3.0 协议已授权为由在未经授权的情况下使用本软件 logo, 不得在未经授权的情况下将本软件 logo 用于任何商业用途。
+- 本软件 logo 并非使用 AGPL 3.0 协议开源，画师 [耗毛](https://weibo.com/u/3251357314) 及软件全体开发者保留所有权利。不得以 AGPL 3.0 协议已授权为由在未经授权的情况下使用本软件 logo，不得在未经授权的情况下将本软件 logo 用于任何商业用途。
 - 本软件开源、免费，仅供学习交流使用。若您遇到商家使用本软件进行代练并收费，可能是设备与时间等费用，产生的问题及后果与本软件无关。
 
 ## 广告
 
 [用户交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自动战斗 JSON 作业分享: <https://www.prts.plus> , [QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
+自动战斗 JSON 作业分享: <https://www.prts.plus>，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)    
 [Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 [舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
 [开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
