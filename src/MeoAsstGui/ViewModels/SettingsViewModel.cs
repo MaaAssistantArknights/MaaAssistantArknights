@@ -429,6 +429,25 @@ namespace MeoAsstGui
             }
         }
 
+        private readonly Dictionary<string, string> ServerMapping = new Dictionary<string, string>
+        {
+            { String.Empty, "CN" },
+            { "Official", "CN" },
+            { "Bilibili", "CN" },
+            { "YoStarEN", "EN" },
+            { "YoStarJP", "JP" },
+            { "YoStarKR", "KR" },
+            { "txwy", "CN_TW" },
+        };
+
+        public string ServerType
+        {
+            get
+            {
+                return ServerMapping[ClientType];
+            }
+        }
+
         /* 基建设置 */
         private readonly Dictionary<string, string> _facilityKey = new Dictionary<string, string>();
 

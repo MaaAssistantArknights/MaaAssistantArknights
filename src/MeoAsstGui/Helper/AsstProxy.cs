@@ -630,6 +630,7 @@ namespace MeoAsstGui
 
             var mainModel = _container.Get<TaskQueueViewModel>();
             var copilotModel = _container.Get<CopilotViewModel>();
+            var settingsModel = _container.Get<SettingsViewModel>();
             switch (what)
             {
                 case "StageDrops":
@@ -684,6 +685,11 @@ namespace MeoAsstGui
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
+                        if (special == "支援机械" && settingsModel.NotChooseLevel1 == false)
+                        {
+                            break;
+                        }
+
                         using (var toast = new ToastNotification(Localization.GetString("RecruitingTips")))
                         {
                             toast.AppendContentText(special).ShowRecruit();
@@ -720,16 +726,16 @@ namespace MeoAsstGui
                             mainModel.AddLog(level + " ★ Tags", LogColor.Info);
                         }
 
-                        bool robot = (bool)subTaskDetails["robot"];
-                        if (robot)
-                        {
-                            using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
-                            {
-                                toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
-                            }
+                        //bool robot = (bool)subTaskDetails["robot"];
+                        //if (robot)
+                        //{
+                        //    using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
+                        //    {
+                        //        toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
+                        //    }
 
-                            mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
-                        }
+                        //    mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
+                        //}
                     }
 
                     break;
@@ -1003,7 +1009,7 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
-            task_params["server"] = "CN";
+            task_params["server"] = settings.ServerType;
             return task_params;
         }
 
@@ -1137,6 +1143,12 @@ namespace MeoAsstGui
                 task_params["recruitment_time"]["3"] = 460; // 7:40
             }
 
+            task_params["report_to_penguin"] = true;
+            task_params["report_to_yituliu"] = true;
+            var settings = _container.Get<SettingsViewModel>();
+            task_params["penguin_id"] = settings.PenguinId;
+            task_params["server"] = settings.ServerType;
+
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.Recruit] = id;
             return id != 0;
@@ -1251,6 +1263,13 @@ namespace MeoAsstGui
             task_params["set_time"] = set_time;
             task_params["expedite"] = false;
             task_params["expedite_times"] = 0;
+
+            task_params["report_to_penguin"] = true;
+            task_params["report_to_yituliu"] = true;
+            var settings = _container.Get<SettingsViewModel>();
+            task_params["penguin_id"] = settings.PenguinId;
+            task_params["server"] = settings.ServerType;
+
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.RecruitCalc] = id;
             return id != 0 && AsstStart();
