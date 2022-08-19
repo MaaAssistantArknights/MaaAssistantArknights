@@ -57,11 +57,11 @@ Talk is cheap. Show me the pictures!
 
 ### Basic Settings
 
-1. Follow the [Emulator Support](docs/en/EMULATOR_SUPPORTS.md) to configure your emulator.
+1. Follow the [Emulator Support](docs/en-us/EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
 3. Enjoy it!
 
-See also: [User Manual](docs/en/USER_MANUAL.md)
+See also: [User Manual](docs/en-us/USER_MANUAL.md)
 
 ## FAQ
 
@@ -70,7 +70,7 @@ See also: [User Manual](docs/en/USER_MANUAL.md)
 - Wrong recognition/program freezes after starting
 - Custom connection settings
 
-Please refer to: [FAQ](docs/en/FAQ.md)
+Please refer to: [FAQ](docs/en-us/FAQ.md)
 
 ## Supports for overseas clients
 
@@ -132,7 +132,7 @@ Open `MeoAssistantArknights.sln` with Visual Studio 2019 ~~or higher version~~. 
 
 ### Linux/MacOS
 
-Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
+Please refer to [Linux Tutorial](docs/en-us/LINUX_TUTORIAL.md)
 
 ### API
 
@@ -142,14 +142,14 @@ Please refer to [Linux Tutorial](docs/en/LINUX_TUTORIAL.md)
 - [Dart interface](src/dart/)
 - [Java interface](src/Java/Maaj)：[Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/)：[HTTP api](src/Rust)
-- [Integration Documentation](docs/en/INTEGRATION.md)
-- [Callback Schema](docs/en/CALLBACK_SCHEMA.md)
-- [Task Schema](docs/en/TASK_SCHEMA.md)
-- [Copilot Schema](docs/en/COPILOT_SCHEMA.md)
+- [Integration Documentation](docs/en-us/INTEGRATION.md)
+- [Callback Schema](docs/en-us/CALLBACK_SCHEMA.md)
+- [Task Schema](docs/en-us/TASK_SCHEMA.md)
+- [Copilot Schema](docs/en-us/COPILOT_SCHEMA.md)
 
 ### For Novice Users of GitHub
 
-[Contributing](docs/en/CONTRIBUTING.md)
+[Contributing](docs/en-us/CONTRIBUTING.md)
 
 ## Disclaimer
 

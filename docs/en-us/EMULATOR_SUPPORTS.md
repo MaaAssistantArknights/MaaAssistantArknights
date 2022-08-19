@@ -4,7 +4,7 @@
 
 Fully compatible. Need to turn on `Settings` - `Engine Settings` - `Allow ADB connection`.
 
-### ✅ [Bluestacks](https://www.bluestacks.com/) (Recommended 👍)
+### ✅ [Bluestacks](https://www.bluestacks.com/) (Recommended👍)
 
 Fully compatible. Need to turn on `Settings` - `Advanced` - `Android Debug Bridge`.
 
@@ -75,7 +75,7 @@ Incompatible. ADB port is not open.
 
 Partially compatible.
 
-- Need to connect with [Custom Connection](#⚙️ Custom Connection).
+- Need to connect with [Custom Connection](#%EF%B8%8F-custom-connection).
 - For WSA 2204 or higher (version is in the `About` window of system settings), try `General Configuration` to connect.
 - For WSA 2203 or older (version is in the top of the system settings window), try `Legacy WSA` to connect.
 - Since WSA does not support changing resolution, please resize the window manually because this program supports 720p or higher `16:9` resolution better. (Or you can simply maximize the window with `F11` if your monitor is 16:9.)
