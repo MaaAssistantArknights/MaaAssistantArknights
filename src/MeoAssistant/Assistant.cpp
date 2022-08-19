@@ -35,6 +35,7 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg)
 
     m_status = std::make_shared<RuntimeStatus>();
     m_ctrler = std::make_shared<Controller>(task_callback, static_cast<void*>(this));
+    m_ctrler->set_exit_flag(&m_thread_idle);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
