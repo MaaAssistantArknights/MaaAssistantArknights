@@ -635,13 +635,19 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
         {"\"", "\\\""} });
 
+#ifdef _WIN32
+    std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
+#else
+    std::string body_escapes = body_escape;
+#endif
+
     std::string extra_param;
     if (!m_penguin_id.empty()) {
         extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
     }
     std::string cmd_line = utils::string_replace_all_batch(opt.penguin_report.cmd_format, {
-        { "[body]", body_escape },
-        { "[extra]", extra_param} });
+        { "[body]", body_escapes },
+        { "[extra]", extra_param } });
 
     Log.trace("request_penguin |", cmd_line);
 
@@ -679,9 +685,15 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
         {"\"", "\\\""} });
 
+#ifdef _WIN32
+    std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
+#else
+    std::string body_escapes = body_escape;
+#endif
+
     std::string cmd_line = utils::string_replace_all_batch(opt.yituliu_report.cmd_format, {
-        { "[body]", body_escape },
-        { "[extra]", ""} });
+        { "[body]", body_escapes },
+        { "[extra]", "" } });
 
     Log.trace("request_yituliu |", cmd_line);
 

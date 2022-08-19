@@ -134,7 +134,7 @@ namespace asst::utils
 #ifdef _WIN32
         const char* src_str = utf8_str.c_str();
         int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
-        const std::size_t wsz_ansi_length = static_cast<std::size_t>(len) + 1;
+        const std::size_t wsz_ansi_length = static_cast<std::size_t>(len) + 1U;
         auto wsz_ansi = new wchar_t[wsz_ansi_length];
         memset(wsz_ansi, 0, sizeof(wsz_ansi[0]) * wsz_ansi_length);
         MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wsz_ansi, len);
@@ -156,6 +156,39 @@ namespace asst::utils
         return utf8_str;
 #endif
     }
+
+#ifdef _WIN32
+    inline std::string utf8_to_unicode_escape(const std::string& utf8_str)
+    {
+        const char* src_str = utf8_str.c_str();
+        int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
+        const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
+        auto wstr = new wchar_t[wstr_length];
+        memset(wstr, 0, sizeof(wstr[0]) * wstr_length);
+        MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wstr, len);
+
+        std::string unicode_escape_str = {};
+        constexpr char hexcode[] = "0123456789abcdef";
+        for (const wchar_t* pchr = wstr; *pchr; ++pchr) {
+            const wchar_t chr = *pchr;
+            if (chr > 255) {
+                unicode_escape_str += "\\u";
+                unicode_escape_str.push_back(hexcode[chr >> 12]);
+                unicode_escape_str.push_back(hexcode[(chr >> 8) & 15]);
+                unicode_escape_str.push_back(hexcode[(chr >> 4) & 15]);
+                unicode_escape_str.push_back(hexcode[chr & 15]);
+            }
+            else {
+                unicode_escape_str.push_back(chr & 255);
+            }
+        }
+
+        delete[] wstr;
+        wstr = nullptr;
+
+        return unicode_escape_str;
+    }
+#endif
 
     template <typename RetTy, typename ArgType>
     constexpr inline RetTy make_rect(const ArgType& rect)
