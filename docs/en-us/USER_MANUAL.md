@@ -41,6 +41,7 @@ Recognize the percentage of the Morale progress bar. When Morale decreases beyon
 - Auto-recruitment and recruitment recognition are two different features!
 - Auto-recruitment supports using `Expedited Plan` to make it fully automated! Please set it in the settings.
 - Pop-up window when 5★, 6★ operators are recruited.
+- Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/) and [Yituliu](https://yituliu.site/) while auto-recruitment.
 
 ### Integrated Strategy (I.S.) Support
 
