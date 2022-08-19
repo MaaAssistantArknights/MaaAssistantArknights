@@ -358,6 +358,7 @@
     <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>
     <system:String x:Key="QQgroup3">三群</system:String>
+    <system:String x:Key="QQgroup4">四群</system:String>
     <system:String x:Key="QQgroupfull">(已满)</system:String>
     <system:String x:Key="Help">常见问题</system:String>
     <system:String x:Key="Issue">问题反馈</system:String>
@@ -369,7 +370,7 @@
     <system:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">手动确认 1 星</system:String>
+    <system:String x:Key="ManuallySelectLevel1">手动确认“支援机械”</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>

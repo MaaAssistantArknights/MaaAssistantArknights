@@ -91,7 +91,16 @@ Appends a task.
     "expedite": bool,           // Whether to use expedited plans, optional, by default false
     "expedite_times": int,      // The times of using expedited plans, available only when `expedite` is `true`
                                 // Optional, by default infinity until `times` reaches its limitation.
-    "skip_robot": bool          // Whether to skip when robot tag is recognized, optional, skip by default
+    "skip_robot": bool,         // Whether to skip when robot tag is recognized, optional, skip by default.
+    "recruitment_time": {       // Tags level and set duration in minutes, optional, by default 540 (i.e. 9 hours)
+        "3": int,
+        "4": int,
+        ...
+    },
+    "report_to_penguin": bool,  // Whether to report to Penguin Stats, optional, by default false.
+    "penguin_id": string,       // Penguin Stats user id, optional, by default empty. Vaild only if report_to_penguin is true.
+    "report_to_yituliu": bool,  // Whether to report to YITULIU, optional, by default false.
+    "yituliu_id": string,       // YITULIU user id, optional, by default empty. Vaild only if report_to_yituliu is true.
 }
 ```
 

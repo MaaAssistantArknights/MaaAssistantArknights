@@ -437,6 +437,7 @@ adb_screen.png
 tools/**/*.png
 .vscode
 !3rdparty/tools/*
+enc_temp_folder/*
 
 # Nuke
 .nuke/temp/*

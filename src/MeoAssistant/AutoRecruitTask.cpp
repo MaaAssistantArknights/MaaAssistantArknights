@@ -9,6 +9,7 @@
 #include "Logger.hpp"
 
 #include <algorithm>
+#include <regex>
 #include "AsstRanges.hpp"
 
 namespace asst::recruit_calc
@@ -147,6 +148,30 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordere
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguin_id) noexcept
+{
+    m_upload_to_penguin = enable;
+    if (!penguin_id.empty()) {
+        m_penguin_id = std::move(penguin_id);
+    }
+    return *this;
+}
+
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_yituliu_enabled(bool enable, std::string yituliu_id) noexcept
+{
+    m_upload_to_yituliu = enable;
+    if (!yituliu_id.empty()) {
+        m_yituliu_id = std::move(yituliu_id);
+    }
+    return *this;
+}
+
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noexcept
+{
+    m_server = std::move(server);
+    return *this;
+}
+
 bool asst::AutoRecruitTask::_run()
 {
     if (m_force_discard_flag) return false;
@@ -160,13 +185,14 @@ bool asst::AutoRecruitTask::_run()
     static constexpr int slot_retry_limit = 3;
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
+    int this_run = m_cur_times;
     while (m_cur_times != m_max_times) {
         if (m_force_discard_flag) { return false; }
         if (m_slot_fail >= slot_retry_limit) { return false; }
         if (m_use_expedited) {
             Log.info("ready to use expedited");
             if (need_exit()) return false;
-            if (!recruit_now()) {
+            if (!recruit_now() && (m_cur_times - this_run) != 0) {
                 // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
                 // ref: issues/1491
                 if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
@@ -292,37 +318,38 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         bool has_special_tag = false;
         bool has_robot_tag = false;
 
+        json::value info = basic_info();
+        std::vector<json::value> tag_json_vector;
+        ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
+        info["details"]["tags"] = json::array(tag_json_vector);
+
         // tags result
         {
-            json::value info = basic_info();
-            std::vector<json::value> tag_json_vector;
-            ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
-
-            info["what"] = "RecruitTagsDetected";
-            info["details"] = json::object{ { "tags", json::array(tag_json_vector) } };
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            json::value cb_info = info;
+            cb_info["what"] = "RecruitTagsDetected";
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         // special tags
         const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
-        auto special_iter = ranges::find_first_of(SpecialTags, tag_names);
-        if (special_iter != SpecialTags.cend()) [[unlikely]] {
-            json::value info = basic_info();
-            info["what"] = "RecruitSpecialTag";
-            info["details"] = json::object{ { "tag", *special_iter } };
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            has_special_tag = true;
+        if (auto special_iter = ranges::find_first_of(SpecialTags, tag_names);
+            special_iter != SpecialTags.cend()) [[unlikely]] {
+                has_special_tag = true;
+                json::value cb_info = info;
+                cb_info["what"] = "RecruitSpecialTag";
+                cb_info["details"]["tag"] = *special_iter;
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
             // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
-        auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
-        if (robot_iter != RobotTags.cend()) [[unlikely]] {
-            json::value info = basic_info();
-            info["what"] = "RecruitRobotTag";
-            info["details"] = json::object{ { "tag", *robot_iter } };
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            has_robot_tag = true;
+        if (auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
+            robot_iter != RobotTags.cend()) [[unlikely]] {
+                has_robot_tag = true;
+                json::value cb_info = info;
+                cb_info["what"] = "RecruitSpecialTag";
+                cb_info["details"]["tag"] = *robot_iter;
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         std::vector<RecruitCombs> result_vec = recruit_calc::get_all_combs(tag_names);
@@ -364,12 +391,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         const auto& final_combination = result_vec.front();
 
         {
-            json::value info = basic_info();
-
             json::value results_json;
             results_json["result"] = json::array();
             results_json["level"] = final_combination.min_level;
-            results_json["robot"] = m_skip_robot && has_robot_tag;
             std::vector<json::value> result_json_vector;
             for (const auto& comb : result_vec) {
                 json::value comb_json;
@@ -391,9 +415,15 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 comb_json["level"] = comb.min_level;
                 results_json["result"].as_array().emplace_back(std::move(comb_json));
             }
-            info["what"] = "RecruitResult";
-            info["details"] = results_json;
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            info["details"] |= results_json.as_object();
+
+            json::value cb_info = info;
+            cb_info["what"] = "RecruitResult";
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
+        }
+
+        if (!is_calc_only_task()) {
+            async_upload_result(info["details"]);
         }
 
         if (need_exit()) return {};
@@ -405,13 +435,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             && !(m_skip_robot && has_robot_tag)
                 ) {
             if (refresh_count > refresh_limit) [[unlikely]] {
-                json::value info = basic_info();
-                info["what"] = "RecruitError";
-                info["why"] = "刷新次数达到上限";
-                info["details"] = json::object{
+                json::value cb_info = basic_info();
+                cb_info["what"] = "RecruitError";
+                cb_info["why"] = "刷新次数达到上限";
+                cb_info["details"] = json::object{
                         { "refresh_limit", refresh_limit }
                 };
-                callback(AsstMsg::SubTaskError, info);
+                callback(AsstMsg::SubTaskError, cb_info);
                 return {};
             }
 
@@ -420,13 +450,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             ++refresh_count;
 
             {
-                json::value info = basic_info();
-                info["what"] = "RecruitTagsRefreshed";
-                info["details"] = json::object{
+                json::value cb_info = basic_info();
+                cb_info["what"] = "RecruitTagsRefreshed";
+                cb_info["details"] = json::object{
                         { "count",         refresh_count },
                         { "refresh_limit", refresh_limit }
                 };
-                callback(AsstMsg::SubTaskExtraInfo, info);
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
                 Log.trace("recruit tags refreshed", std::to_string(refresh_count), " times, rerunning recruit task");
             }
 
@@ -491,12 +521,12 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         {
-            json::value info = basic_info();
-            info["what"] = "RecruitTagsSelected";
-            info["details"] = json::object{
+            json::value cb_info = basic_info();
+            cb_info["what"] = "RecruitTagsSelected";
+            cb_info["details"] = json::object{
                     { "tags", json::array(final_combination.tags) }
             };
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         calc_task_result_type result;
@@ -563,4 +593,119 @@ bool asst::AutoRecruitTask::refresh()
 {
     ProcessTask refresh_task(*this, { "RecruitRefresh" });
     return refresh_task.run();
+}
+
+void asst::AutoRecruitTask::async_upload_result(const json::value& details)
+{
+    LogTraceFunction;
+
+    if (m_upload_to_penguin) {
+        auto upload_future = std::async(
+            std::launch::async,
+            &AutoRecruitTask::upload_to_penguin, this, details);
+        m_upload_pending.emplace_back(std::move(upload_future));
+    }
+    if (m_upload_to_yituliu) {
+        auto upload_future = std::async(
+            std::launch::async,
+            &AutoRecruitTask::upload_to_yituliu, this, details);
+        m_upload_pending.emplace_back(std::move(upload_future));
+    }
+}
+
+void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
+{
+    LogTraceFunction;
+
+    auto& opt = Resrc.cfg().get_options();
+
+    json::value cb_info = basic_info();
+    cb_info["subtask"] = "ReportToPenguinStats";
+    callback(AsstMsg::SubTaskStart, cb_info);
+
+    json::value body;
+    body["server"] = m_server;
+    body["stageId"] = "recruit";
+    auto& all_drops = body["drops"];
+    for (const auto& tag : details.at("tags").as_array()) {
+        all_drops.array_emplace(json::object{
+            { "dropType", "NORMAL_DROP" },
+            { "itemId", tag.as_string() },
+            { "quantity", 1 }
+        });
+    }
+    body["source"] = "MeoAssistant";
+    body["version"] = Version;
+
+    std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
+        {"\"", "\\\""} });
+
+#ifdef _WIN32
+    std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
+#else
+    std::string body_escapes = body_escape;
+#endif
+
+    std::string extra_param;
+    if (!m_penguin_id.empty()) {
+        extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
+    }
+    std::string cmd_line = utils::string_replace_all_batch(opt.penguin_report.cmd_format, {
+        { "[body]", body_escapes },
+        { "[extra]", extra_param } });
+
+    Log.trace("request_penguin |", cmd_line);
+
+    std::string response = utils::callcmd(cmd_line);
+
+    static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
+    std::smatch penguinid_sm;
+    if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
+        json::value id_info = basic_info_with_what("PenguinId");
+        m_penguin_id = penguinid_sm[1];
+        id_info["details"]["id"] = m_penguin_id;
+        callback(AsstMsg::SubTaskExtraInfo, id_info);
+    }
+
+    Log.trace("request_penguin | response:\n", response);
+
+    callback(AsstMsg::SubTaskCompleted, cb_info);
+}
+
+void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
+{
+    LogTraceFunction;
+
+    auto& opt = Resrc.cfg().get_options();
+
+    json::value cb_info = basic_info();
+    cb_info["subtask"] = "ReportToyituliu";
+    callback(AsstMsg::SubTaskStart, cb_info);
+
+    json::value body = details;
+    body["server"] = m_server;
+    body["source"] = "MeoAssistant";
+    body["version"] = Version;
+    body["uuid"] = m_yituliu_id;
+
+    std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
+        {"\"", "\\\""} });
+
+#ifdef _WIN32
+    std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
+#else
+    std::string body_escapes = body_escape;
+#endif
+
+    std::string cmd_line = utils::string_replace_all_batch(opt.yituliu_report.cmd_format, {
+        { "[body]", body_escapes },
+        { "[extra]", "" } });
+
+    Log.trace("request_yituliu |", cmd_line);
+
+    std::string response = utils::callcmd(cmd_line);
+
+    Log.trace("request_yituliu | response:\n", response);
+
+    callback(AsstMsg::SubTaskCompleted, cb_info);
 }

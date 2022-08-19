@@ -46,8 +46,8 @@
 
     <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
 
-    <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集める、多くのステージをクリアする</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">源石錐を集める、1階旅商人に出会って後止める</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、多くのステージをクリアする</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、1階旅商人に出会った後止める</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
@@ -111,7 +111,7 @@
     <system:String x:Key="Timer">タイミング</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
-    <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行する</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
     <system:String x:Key="ClientVersion">クライアントバージョン</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
@@ -120,10 +120,10 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
     <system:String x:Key="Strategy">ストラテジー</system:String>
-    <system:String x:Key="StartTimesLimit">N個起動したらタスク停止</system:String>
-    <system:String x:Key="GoldTimesLimit">N回投資した後にミッションを停止する</system:String>
-    <system:String x:Key="StopOnGoldLimit">源石錐が上限に達してミッションを停止する</system:String>
-    <system:String x:Key="InvestmentEnabled">源石錐の投資</system:String>
+    <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
+    <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
+    <system:String x:Key="StopOnGoldLimit">源石錐が上限に達した後に停止する</system:String>
+    <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
 
     <system:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
 
@@ -136,14 +136,14 @@
 
     <system:String x:Key="MinimizeToTray">最小化するとトレイに非表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
-    <system:String x:Key="UseAlternateStage">代替ステージを使う</system:String>
-    <system:String x:Key="HideUnavailableStage">当日は開放されないステージを隠します</system:String>
+    <system:String x:Key="UseAlternateStage">代わりのステージが選択できる</system:String>
+    <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面左側のボタン</system:String>
 
     <system:String x:Key="ADBTip">ヒント：ここで自動的に検出されます。エラーが発生した場合は、もう一度変更を試みることができます。それ以外の場合は、自分で入力する必要はありません。</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
-    <system:String x:Key="ConnectionAddressTip">はじめて使うと自動で記入されるので、問題があれば手動で修正してみる</system:String>
+    <system:String x:Key="ConnectionAddressTip">初めて使うと自動で記入されますので、問題があれば手動で修正してみてください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <!--  設定  -->
 
@@ -182,7 +182,7 @@
     <system:String x:Key="AssignedMaterial">素材限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
-    <system:String x:Key="StageSelect2">欲しい</system:String>
+    <system:String x:Key="StageSelect2">代わり</system:String>
     <system:String x:Key="Amend">改定</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
@@ -358,6 +358,7 @@
     <system:String x:Key="QQgroup1">グループ1</system:String>
     <system:String x:Key="QQgroup2">グループ2</system:String>
     <system:String x:Key="QQgroup3">グループ3</system:String>
+    <system:String x:Key="QQgroup4">グループ4</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
@@ -365,11 +366,11 @@
 
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
-    <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用する*</system:String>
-    <system:String x:Key="Level3UseShortTime">3 ★タグの9:00の代わりに7:40を設定する</system:String>
-    <system:String x:Key="Level3UseShortTimeTip">他の星との干渉がない</system:String>
+    <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用*</system:String>
+    <system:String x:Key="Level3UseShortTime">星3タグを7:40に設定する</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">他の星に影響しない</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>
+    <system:String x:Key="ManuallySelectLevel1">ロボットを手動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>

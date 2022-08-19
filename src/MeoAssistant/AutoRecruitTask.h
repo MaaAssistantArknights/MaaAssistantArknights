@@ -6,6 +6,7 @@
 #include <vector>
 #include <set>
 #include <optional>
+#include <future>
 
 namespace asst
 {
@@ -24,6 +25,10 @@ namespace asst
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
         AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
 
+        AutoRecruitTask& set_penguin_enabled(bool enable, std::string penguin_id = std::string()) noexcept;
+        AutoRecruitTask& set_yituliu_enabled(bool enable, std::string yituliu_id = std::string()) noexcept;
+        AutoRecruitTask& set_server(std::string server) noexcept;
+
     protected:
         virtual bool _run() override;
 
@@ -36,6 +41,10 @@ namespace asst
         bool recruit_now();
         bool confirm();
         bool refresh();
+
+        void async_upload_result(const json::value& details);
+        void upload_to_penguin(const json::value& details);
+        void upload_to_yituliu(const json::value& details);
 
         struct calc_task_result_type
         {
@@ -64,6 +73,13 @@ namespace asst
         using slot_index = size_t;
 
         std::set<slot_index> m_force_skipped;
+
+        std::string m_server = "CN";
+        bool m_upload_to_penguin = false;
+        bool m_upload_to_yituliu = false;
+        std::string m_penguin_id;
+        std::string m_yituliu_id;
+        std::vector<std::future<void>> m_upload_pending;
 
         static slot_index slot_index_from_rect(const Rect& r)
         {

@@ -212,6 +212,11 @@ std::pair<int, int> asst::Controller::get_scale_size() const noexcept
     return m_scale_size;
 }
 
+bool asst::Controller::need_exit() const
+{
+    return m_exit_flag != nullptr && *m_exit_flag;
+}
+
 void asst::Controller::pipe_working_proc()
 {
     LogTraceFunction;
@@ -377,6 +382,9 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         }} };
         constexpr static int ReconnectTimes = 20;
         for (int i = 0; i < ReconnectTimes; ++i) {
+            if (need_exit()) {
+                break;
+            }
             reconnect_info["details"]["times"] = i;
             m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
 
@@ -540,6 +548,9 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 
     u_short max_port = try_port + try_times;
     for (u_short port = try_port; port < max_port; ++port) {
+        if (need_exit()) {
+            break;
+        }
         Log.trace("try to bind port", port);
 
 #ifdef _WIN32
@@ -1202,6 +1213,9 @@ bool asst::Controller::inited() const noexcept
     return m_inited;
 }
 
+void asst::Controller::set_exit_flag(bool* flag)
+{}
+
 const std::string& asst::Controller::get_uuid() const
 {
     return m_uuid;
@@ -1218,6 +1232,9 @@ cv::Mat asst::Controller::get_image(bool raw)
     constexpr static int MaxTryCount = 20;
     bool success = false;
     for (int i = 0; i < MaxTryCount && m_inited; ++i) {
+        if (need_exit()) {
+            break;
+        }
         if (screencap()) {
             success = true;
             break;

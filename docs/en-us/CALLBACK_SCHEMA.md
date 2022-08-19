@@ -298,16 +298,6 @@ Todo
     }
     ```
 
-- `RecruitRobotTag`
-    Recruitment tag recognized as robot and skip (i.e. user needs it)
-
-    ```jsonc
-    // Example of corresponding details field
-    {
-        "tag": "支援机械" // Support robot
-    }
-    ```
-
 - `RecruitResult`  
     Recruitment result
 
@@ -374,8 +364,7 @@ Todo
                     }
                 ]
             }
-        ],
-        "robot": True               // Recruitment tag recognized and skip (i.e. user needs it)
+        ]
     }
     ```
 

@@ -58,8 +58,8 @@ namespace MeoAsstGui
                 Localization.GetString("CopilotTip1") + "\n\n" +
                 Localization.GetString("CopilotTip2") + "\n\n" +
                 Localization.GetString("CopilotTip3") + "\n\n" +
-                Localization.GetString("CopilotTip4") + "\n\n" +
-                Localization.GetString("CopilotTip5"),
+                Localization.GetString("CopilotTip4"),
+                //Localization.GetString("CopilotTip5"),
                 LogColor.Message);
         }
 
@@ -295,8 +295,8 @@ namespace MeoAsstGui
                     Localization.GetString("CopilotTip1") + "\n\n" +
                     Localization.GetString("CopilotTip2") + "\n\n" +
                     Localization.GetString("CopilotTip3") + "\n\n" +
-                    Localization.GetString("CopilotTip4") + "\n\n" +
-                    Localization.GetString("CopilotTip5"));
+                    Localization.GetString("CopilotTip4"));
+                    //Localization.GetString("CopilotTip5"));
             }
             catch (Exception)
             {
@@ -368,10 +368,10 @@ namespace MeoAsstGui
         public async void Start()
         {
             ClearLog();
-            if (_form)
-            {
-                AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
-            }
+            //if (_form)
+            //{
+            //    AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
+            //}
 
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
