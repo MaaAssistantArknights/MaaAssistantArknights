@@ -97,10 +97,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 主要關聯項目
 
-- 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在開發中，歡迎加入！）
-- 更新伺服器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- 官網 <https://www.maa.plus>: [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作業分享站 <https://www.prts.plus>: [前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend) , [後端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在開發中，歡迎加入！）
+- 更新伺服器：[MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
+- 官網 <https://www.maa.plus>：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
+- 作業分享站 <https://www.prts.plus>：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend) , [後端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 致謝
 
@@ -118,7 +118,7 @@ MAA 的意思是 MAA Assistant Arknights
 - C++ Gzip封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF部件庫：[HandyControl](https://github.com/HandyOrg/HandyControl)
-- C# JSON庫: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- C# JSON庫：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - 下載器：[aria2](https://github.com/aria2/aria2)
 
 ### 資料源
@@ -130,7 +130,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 貢獻/參與者
 
-感謝所有參與到開發/測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (*´▽｀)ノノ
+感謝所有參與到開發/測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (\*´▽｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
@@ -170,7 +170,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 廣告
 
 [用戶交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動戰鬥 JSON 作業分享: <https://www.prts.plus> , [QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已滿）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
+自動戰鬥 JSON 作業分享：<https://www.prts.plus> , [QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已滿）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
 [Bilibili 直播間](https://live.bilibili.com/2808861)：每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
 [舟無關技術交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：內捲地獄！  
 [開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
