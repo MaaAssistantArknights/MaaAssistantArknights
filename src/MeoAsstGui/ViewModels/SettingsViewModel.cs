@@ -1300,6 +1300,9 @@ namespace MeoAsstGui
 
         private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.IsLevel3UseShortTime", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to shorten the time for level 3.
+        /// </summary>
         public bool IsLevel3UseShortTime
         {
             get

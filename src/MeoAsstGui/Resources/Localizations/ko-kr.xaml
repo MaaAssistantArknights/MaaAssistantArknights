@@ -358,6 +358,7 @@
     <system:String x:Key="QQgroup1">QQ그룹1</system:String>
     <system:String x:Key="QQgroup2">QQ그룹2</system:String>
     <system:String x:Key="QQgroup3">QQ그룹3</system:String>
+    <system:String x:Key="QQgroup4">QQ그룹4</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
     <system:String x:Key="Issue">문제 피드백</system:String>
