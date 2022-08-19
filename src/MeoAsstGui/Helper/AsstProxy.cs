@@ -1268,6 +1268,7 @@ namespace MeoAsstGui
             task_params["report_to_yituliu"] = true;
             var settings = _container.Get<SettingsViewModel>();
             task_params["penguin_id"] = settings.PenguinId;
+            task_params["yituliu_id"] = settings.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
             task_params["server"] = settings.ServerType;
 
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
