@@ -358,6 +358,7 @@
     <system:String x:Key="QQgroup1">QQ group 1</system:String>
     <system:String x:Key="QQgroup2">QQ group 2</system:String>
     <system:String x:Key="QQgroup3">QQ group 3</system:String>
+    <system:String x:Key="QQgroup4">QQ group 4</system:String>
     <system:String x:Key="QQgroupfull">(Full)</system:String>
     <system:String x:Key="Help">Q&amp;A</system:String>
     <system:String x:Key="Issue">Issue</system:String>
