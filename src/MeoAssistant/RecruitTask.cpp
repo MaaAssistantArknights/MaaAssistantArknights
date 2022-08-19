@@ -50,6 +50,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     bool penguin_enabled = params.get("report_to_penguin", false);
     std::string penguin_id = params.get("penguin_id", "");
     bool yituliu_enabled = params.get("report_to_yituliu", false);
+    std::string yituliu_id = params.get("yituliu_id", "");
     std::string server = params.get("server", "CN");
 
     m_auto_recruit_task_ptr->set_enable(true);

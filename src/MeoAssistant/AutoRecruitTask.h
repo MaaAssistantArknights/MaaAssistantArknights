@@ -26,7 +26,7 @@ namespace asst
         AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
 
         AutoRecruitTask& set_penguin_enabled(bool enable, std::string penguin_id = std::string()) noexcept;
-        AutoRecruitTask& set_yituliu_enabled(bool enable) noexcept;
+        AutoRecruitTask& set_yituliu_enabled(bool enable, std::string yituliu_id = std::string()) noexcept;
         AutoRecruitTask& set_server(std::string server) noexcept;
 
     protected:
@@ -78,6 +78,7 @@ namespace asst
         bool m_upload_to_penguin = false;
         bool m_upload_to_yituliu = false;
         std::string m_penguin_id;
+        std::string m_yituliu_id;
         std::vector<std::future<void>> m_upload_pending;
 
         static slot_index slot_index_from_rect(const Rect& r)

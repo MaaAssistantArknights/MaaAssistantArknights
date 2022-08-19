@@ -157,9 +157,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, s
     return *this;
 }
 
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_yituliu_enabled(bool enable) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_yituliu_enabled(bool enable, std::string yituliu_id) noexcept
 {
     m_upload_to_yituliu = enable;
+    if (!yituliu_id.empty()) {
+        m_yituliu_id = std::move(yituliu_id);
+    }
     return *this;
 }
 
@@ -683,6 +686,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     body["server"] = m_server;
     body["source"] = "MeoAssistant";
     body["version"] = Version;
+    body["uuid"] = m_yituliu_id;
 
     std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
         {"\"", "\\\""} });
