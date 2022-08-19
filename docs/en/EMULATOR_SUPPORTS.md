@@ -1,14 +1,14 @@
 ## Emulator Supports
 
-### ✅ Bluestacks
+### ✅ [Bluestacks-CN](https://www.bluestacks.cn/)
 
 Fully compatible. Need to turn on `Settings` - `Engine Settings` - `Allow ADB connection`.
 
-### ✅ Bluestacks Global Version (Recommended 👍)
+### ✅ [Bluestacks](https://www.bluestacks.com/) (Recommended 👍)
 
 Fully compatible. Need to turn on `Settings` - `Advanced` - `Android Debug Bridge`.
 
-### ✅ Bluestacks Hyper-V Version
+### ✅ [Bluestacks Hyper-V Version](https://support.bluestacks.com/hc/en-us/articles/4415238471053-System-requirements-for-BlueStacks-5-on-Hyper-V-enabled-Windows-10-and-11-)
 
 Compatible.
 
@@ -34,15 +34,15 @@ Compatible.
     "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
     ```
 
-### ✅ Nox
+### ✅ [Nox](https://en.bignox.com/)
 
 Fully compatible.
 
-### ✅ Nox Android 9
+### ✅ [Nox Android 9](https://en.bignox.com/)
 
 Fully compatible.
 
-### ⚠️ MuMu
+### ⚠️ [MuMu](https://www.mumuglobal.com/)
 
 Compatible but:
 
@@ -63,7 +63,7 @@ Incompatible. ADB screenshot is black.
 Compatible but not recommended. There is a small chance that the game will be displayed upside down or blackscreen, and with other problems.
 For example, when it clicks the "Back" button at the top left corner, the screen rotated 180°, causing the application to click the button of using Originium by mistake (reported by users).
 
-### ⚠️ MEmu
+### ⚠️ [Memu](https://www.memuplay.com)
 
 Compatible, but some recognition error may occur.
 
@@ -71,18 +71,18 @@ Compatible, but some recognition error may occur.
 
 Incompatible. ADB port is not open.
 
-### ⚠️ Win11 WSA
+### ⚠️ [Win11 WSA](https://docs.microsoft.com/en-us/windows/android/wsa/)
 
 Partially compatible.
 
-- Need to connect with [Custom Connection](#custom-connection).
+- Need to connect with [Custom Connection](#⚙️ Custom Connection).
 - For WSA 2204 or higher (version is in the `About` window of system settings), try `General Configuration` to connect.
 - For WSA 2203 or older (version is in the top of the system settings window), try `Legacy WSA` to connect.
 - Since WSA does not support changing resolution, please resize the window manually because this program supports 720p or higher `16:9` resolution better. (Or you can simply maximize the window with `F11` if your monitor is 16:9.)
 - Please ensure that your emulator is at the top of other windows in most of the time and there are no other android applications running. Otherwise the game may pause or the recognition may fail.
 - Sometimes the screenshot of WSA may be blank, causing recognition failure. So it is not recommended to use WSA.
 
-### ✅ AVD
+### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
 Compatible.
 
