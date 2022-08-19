@@ -35,6 +35,7 @@ namespace asst
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool release();
         bool inited() const noexcept;
+        void set_exit_flag(bool* flag);
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -66,6 +67,7 @@ namespace asst
         Controller& operator=(Controller&&) = delete;
 
     private:
+        bool need_exit() const;
         void pipe_working_proc();
         std::optional<std::vector<uchar>> call_command(const std::string& cmd, int64_t timeout = 20000, bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
@@ -86,6 +88,7 @@ namespace asst
         // 转换data中所有的crlf为lf：有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
         static void convert_lf(std::vector<uchar>& data);
 
+        bool* m_exit_flag = nullptr;
         AsstCallback m_callback;
         void* m_callback_arg = nullptr;
 

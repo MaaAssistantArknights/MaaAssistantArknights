@@ -27,7 +27,7 @@
             <StackPanel
                 Grid.Row="0"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top">
+                VerticalAlignment="Top" Margin="0,10,0,0">
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"
@@ -40,22 +40,23 @@
                     IsChecked="{Binding UseExpedited}"
                     ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                 <CheckBox
+                    MaxWidth="155"
                     Margin="10"
                     HorizontalAlignment="Left"
-                    Content="{DynamicResource Level3UseShortTime}"
                     IsChecked="{Binding IsLevel3UseShortTime}"
-                    ToolTip="{DynamicResource Level3UseShortTimeTip}" />
+                    ToolTip="{DynamicResource Level3UseShortTimeTip}">
+                    <TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
+                </CheckBox>
             </StackPanel>
             <StackPanel
-                Margin="0,110,0,0"
+                Margin="0,130,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
                 <TextBlock
                     Width="90"
-                    Height="40"
                     Margin="5"
-                    VerticalAlignment="Stretch"
+                    VerticalAlignment="Center"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource RecruitMaxTimes}"

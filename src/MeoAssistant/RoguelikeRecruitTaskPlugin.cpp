@@ -56,7 +56,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            // 本页没有检测到符合条件的干员，向右滑动
+            // 如果还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
+            if (i == 0) {
+                Log.trace(__FUNCTION__, "| Recruit list analyse failed before swiping");
+                return true;
+            }
+            // 已经滑动过，识别失败可能是意外情况，尝试继续滑动
+            Log.trace(__FUNCTION__, "| Recruit list analyze failed after swiping: ", i);
             slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
             sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
             continue;
@@ -78,13 +84,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             const auto& char_opt = chars_map.find(oper_info.name);
 
             if (char_opt.has_value()) {
-                // 干员已在编队中
-                int elite = char_opt.value().get("elite", 0);
-                if (elite == 2) {
-                    // 干员已精二，忽略
-                    continue;
-                }
-
+                // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
                     // 预备干员可以重复招募
                     priority = recruit_info.recruit_priority;
@@ -95,20 +95,29 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
             }
             else {
-                // 干员待招募
+                // 干员待招募，检查练度
                 if (oper_info.elite == 2) {
                     // TODO: 招募时已精二 (随机提升或对应分队) => promoted_priority
                     priority = recruit_info.recruit_priority;
                 }
-                else {
-                    // 招募时未精二
+                else if (oper_info.elite == 1 && oper_info.level >= 50) {
+                    // 精一50级以上
                     priority = recruit_info.recruit_priority;
+                }
+                else {
+                    // 精一50级以下，默认不招募
+                    Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite, oper_info.level);
                 }
             }
 
             // 已经划到后备干员，且已有候选干员，假定后面的干员优先级不会更高，不再划动
             if (recruit_info.is_alternate && !recruit_list.empty()) {
                 stop_swipe = true;
+            }
+
+            // 优先级为0，可能练度不够被忽略
+            if (priority == 0) {
+                continue;
             }
 
             // 添加到候选名单

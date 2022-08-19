@@ -1404,6 +1404,10 @@
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
         "ocrReplace": [
             [
+                "【",
+                ""
+            ],
+            [
                 "白面.*",
                 "白面鸮"
             ],
@@ -5731,15 +5735,28 @@
             420
         ]
     },
+    "BattleQuickFormation-OperNameFlag-SpecialFocus": {
+        "templThreshold": 0.8,
+        "roi": [
+            370,
+            250,
+            910,
+            420
+        ],
+        "maskRange": [
+            1,
+            250
+        ]
+    },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
         "roi": [
-            10,
-            -10,
-            117,
-            22
+            20,
+            -8,
+            107,
+            20
         ],
         "rearDelay": 100
     },
@@ -6028,7 +6045,7 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialThreshold": 1000,
+        "specialThreshold": 3000,
         "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
@@ -6046,7 +6063,7 @@
             200,
             255,
             0,
-            255
+            100
         ]
     },
     "BattleOperRoleRange": {
@@ -6628,7 +6645,7 @@
         ]
     },
     "Roguelike1InitalDrop": {
-        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认。月底小队也有，再多几次",
+        "Doc": "古堡观光（简单模式）初始会有一个免费道具，点确认。月度小队也有，再多几次",
         "action": "ClickSelf",
         "roi": [
             569,
@@ -6642,7 +6659,7 @@
         ]
     },
     "Roguelike1DialogSkip": {
-        "Doc": "月底小队，跳过对话",
+        "Doc": "月度小队，跳过对话",
         "action": "ClickSelf",
         "roi": [
             1106,
@@ -6917,9 +6934,9 @@
     },
     "Roguelike1RecruitOcrFlag": {
         "roi": [
-            350,
-            100,
-            700,
+            525,
+            110,
+            640,
             500
         ],
         "templThreshold": 0.95
@@ -7997,6 +8014,7 @@
             157
         ],
         "templThreshold": 0.85,
+        "rearDelay": 1000,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1ChooseOperFlag",
@@ -8013,6 +8031,7 @@
             1280,
             157
         ],
+        "rearDelay": 1000,
         "templThreshold": 0.85,
         "next": [
             "Roguelike1ChooseOperFlag",

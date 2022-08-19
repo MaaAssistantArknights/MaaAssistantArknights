@@ -7,6 +7,8 @@
 #include "ProcessTask.h"
 #include "OcrWithFlagTemplImageAnalyzer.h"
 
+#include "AsstRanges.hpp"
+
 void asst::BattleFormationTask::set_stage_name(std::string name)
 {
     m_stage_name = std::move(name);
@@ -56,14 +58,38 @@ bool asst::BattleFormationTask::enter_selection_page()
 bool asst::BattleFormationTask::select_opers_in_cur_page()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
-    OcrWithFlagTemplImageAnalyzer name_analyzer(m_ctrler->get_image());
+    auto image = m_ctrler->get_image();
     auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+
+    OcrWithFlagTemplImageAnalyzer name_analyzer(image);
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
     name_analyzer.set_replace(ocr_replace);
-    if (!name_analyzer.analyze()) {
+    name_analyzer.analyze();
+
+    OcrWithFlagTemplImageAnalyzer special_focus_analyzer(image);
+    special_focus_analyzer.set_task_info("BattleQuickFormation-OperNameFlag-SpecialFocus", "BattleQuickFormationOCR");
+    special_focus_analyzer.set_replace(ocr_replace);
+    special_focus_analyzer.analyze();
+
+    auto opers_result = name_analyzer.get_result();
+    const auto& special_focus_res = special_focus_analyzer.get_result();
+    opers_result.insert(opers_result.end(), special_focus_res.cbegin(), special_focus_res.cend());
+
+    if (opers_result.empty()) {
         return false;
     }
-    name_analyzer.sort_result_horizontal();
+
+    // 按位置排个序
+    ranges::sort(opers_result,
+        [](const TextRect& lhs, const TextRect& rhs) -> bool {
+            if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
+                return lhs.rect.x < rhs.rect.x;
+            }
+            else {
+                return lhs.rect.y < rhs.rect.y;
+            }
+        }
+    );
 
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,
@@ -72,7 +98,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
     };
 
     int skill = 1;
-    for (const auto& res : name_analyzer.get_result()) {
+    for (const auto& res : opers_result) {
         const std::string& name = res.text;
         auto iter = m_groups.begin();
         bool found = false;
@@ -96,7 +122,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
         m_ctrler->click(res.rect);
         sleep(formation_task_ptr->rear_delay);
         if (1 <= skill && skill <= 3) {
-            m_ctrler->click(SkillRectArray.at(skill - 1));
+            m_ctrler->click(SkillRectArray.at(skill - 1ULL));
         }
         m_groups.erase(iter);
 

@@ -1,15 +1,11 @@
-- 新增支持 基建宿舍 自动填充信赖未满干员 @Hydrogina
-- 新增支持 自动公招 3 星 Tags 设置 7:40，如有需要请进入设置中启用 @horror-proton @MistEO
-- 新增支持 刷理智 备选关卡逻辑，如有需要请进入设置中启用 @ABA2396
-- 优化 肉鸽 干员招募策略 @et2012
-- 修复 刷理智 IC 活动关卡的导航错误 @ABA2396
-- 修复 刷理智 资源关卡全开放时的导航错误 @MistEO
-- 修复 刷理智 一处掉落识别错误 @MistEO
-- 修复 肉鸽 招募不到干员的问题 @MistEO
-- 修复 肉鸽 在找不到需要的干员时的滑动错误 @et2012
-- 修复 自动战斗 编队干员识别错误 @ABA2396
-- 修复 信用购物 多输入了空格时无法识别的问题 @lhhxxxxx
-- GUI 新增 蓝叠 HyperV 多开的小后门，请参考文档使用 @MistEO
-- core 新增支持 刷理智 全部主线关卡导航 @MistEO
-- 新增 连接安卓手机 相关文档 @Stardust-Djohn
-- 更新 日语 翻译文本 @Tastror
+- 更新 `长夏狂欢季 理想城` EX 关卡地图数据
+- 新增支持 公招 自动上传 [企鹅数据公招统计](https://penguin-stats.cn/result/stage/recruit/recruit) 及 [一图流公招大数据](https://yituliu.site/maarecruitdata) （默认开启） @MistEO @zzyyyl @horror-proton
+- 优化 肉鸽 干员选择逻辑 @et2012
+- 修复 公招 不使用加急许可的问题 @horror-proton
+- 修复 自动战斗 自动编队 `特别关注` 干员无法识别的问题 @MistEO
+- 修复 自动战斗 自动编队干员名识别错误 @MistEO
+- 修复 自动战斗 史尔特尔~~太红了所以~~不上传的问题 @MistEO
+- 修复 肉鸽 剧目集界面卡死的问题 @MistEO
+- 界面优化调整 @ABA2396
+- 项目文档更新、新增日文说明书 @Tastror @LYZhelloworld @ABA2396
+- 项目代码重构、整理 @MistEO @zzyyyl @Mangolia-club
