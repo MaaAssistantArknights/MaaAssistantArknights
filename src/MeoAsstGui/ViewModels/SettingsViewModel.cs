@@ -560,6 +560,44 @@ namespace MeoAsstGui
             }
         }
 
+        private string _dormFilterNotStationedEnabled = ViewStatusStorage.Get("Infrast.DormFilterNotStationedEnabled", false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
+        /// </summary>
+        public bool DormFilterNotStationedEnabled
+        {
+            get
+            {
+                return bool.Parse(_dormFilterNotStationedEnabled);
+            }
+
+            set
+            {
+                SetAndNotify(ref _dormFilterNotStationedEnabled, value.ToString());
+                ViewStatusStorage.Set("Infrast.DormFilterNotStationedEnabled", value.ToString());
+            }
+        }
+
+        private string _dormTrustEnabled = ViewStatusStorage.Get("Infrast.DormTrustEnabled", true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether get trust in dorm is enabled.
+        /// </summary>
+        public bool DormTrustEnabled
+        {
+            get
+            {
+                return bool.Parse(_dormTrustEnabled);
+            }
+
+            set
+            {
+                SetAndNotify(ref _dormTrustEnabled, value.ToString());
+                ViewStatusStorage.Set("Infrast.DormTrustEnabled", value.ToString());
+            }
+        }
+
         #region 设置页面列表和滚动视图联动绑定
 
         private enum NotifyType

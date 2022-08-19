@@ -102,6 +102,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_office_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
 
+    bool notstationed_enabled = params.get("notstationed_enabled", false);
+    m_dorm_task_ptr->set_notstationed_enabled(notstationed_enabled);
+
+    bool trust_enabled = params.get("trust_enabled", true);
+    m_dorm_task_ptr->set_trust_enabled(trust_enabled);
+
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 

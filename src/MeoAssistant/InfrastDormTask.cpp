@@ -10,6 +10,18 @@
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include <regex>
 
+asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool notstationed_enabled) noexcept
+{
+    m_notstationed_enabled = std::move(notstationed_enabled);
+    return *this;
+}
+
+asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool trust_enabled) noexcept
+{
+    m_trust_enabled = std::move(trust_enabled);
+    return *this;
+}
+
 bool asst::InfrastDormTask::_run()
 {
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
@@ -31,7 +43,7 @@ bool asst::InfrastDormTask::_run()
         click_confirm_button();
         click_return_button();
 
-        if (m_finished_stage == 3) {//所有干员满信赖
+        if (m_finished_stage == 3) {//不蹭信赖或所有干员满信赖
             break;
         }
     }
@@ -43,11 +55,12 @@ bool asst::InfrastDormTask::opers_choose()
     size_t num_of_selected = 0;
     size_t num_of_fulltrust = 0;
 
-    if (m_filter_notstationed == 1) {
+    Log.trace("m_notstationed_enabled:", m_notstationed_enabled);
+    if (m_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
         Log.trace("click_filter_menu_not_stationed_button");
         click_filter_menu_not_stationed_button();
-        m_filter_notstationed = 2;
-         }
+        m_if_filter_notstationed_haspressed = true;
+    }
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -77,7 +90,7 @@ bool asst::InfrastDormTask::opers_choose()
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
                 // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍
-                if (m_finished_stage > 0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
+                if (m_trust_enabled && m_finished_stage > 0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
 
                     //获得干员信赖值
                     OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
@@ -138,14 +151,22 @@ bool asst::InfrastDormTask::opers_choose()
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    if (m_filter_notstationed <2) {
-                        Log.trace("click_filter_menu_not_stationed_button");
-                        click_filter_menu_not_stationed_button();
-                        m_filter_notstationed = 2;
+                    if (m_trust_enabled) {
+                        Log.trace("m_trust_enabled:", m_trust_enabled);
+                        if (!m_if_filter_notstationed_haspressed) {
+                            Log.trace("click_filter_menu_not_stationed_button");
+                            click_filter_menu_not_stationed_button();
+                            m_if_filter_notstationed_haspressed = true;
+                        }
+                        Log.trace("click_sort_by_trust_button");
+                        click_sort_by_trust_button();
+                        m_finished_stage = 1;// 选中未进驻标签并按信赖值排序
                     }
-                    Log.trace("click_sort_by_trust_button");
-                    click_sort_by_trust_button();
-                    m_finished_stage = 1;// 选中未进驻标签并按信赖值排序
+                    else {
+                        m_finished_stage = 3;
+                        Log.trace("m_trust_enabled:", m_trust_enabled, ", just return");
+                        return true;
+                    }
                 }
                 break;
             case infrast::SmileyType::Work:
