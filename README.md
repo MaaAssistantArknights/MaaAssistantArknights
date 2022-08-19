@@ -97,10 +97,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 主要关联项目
 
-- 全新 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
-- 更新服务器: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- 官网 <https://www.maa.plus>: [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作业分享站 <https://www.prts.plus>: [前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)，[后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
+- 更新服务器：[MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
+- 官网 <https://www.maa.plus>：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
+- 作业分享站 <https://www.prts.plus>：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)，[后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 致谢
 
@@ -118,7 +118,7 @@ MAA 的意思是 MAA Assistant Arknights
 - C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
-- C# JSON库: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - 下载器：[aria2](https://github.com/aria2/aria2)
 
 ### 数据源
@@ -177,7 +177,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 广告
 
 [用户交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自动战斗 JSON 作业分享: <https://www.prts.plus>，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已满）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
+自动战斗 JSON 作业分享：<https://www.prts.plus>，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已满）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
 [Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 [舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
 [开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  

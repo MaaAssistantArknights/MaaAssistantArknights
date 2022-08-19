@@ -113,14 +113,14 @@ Due to the small number of overseas clients users and the lack of project manpow
 
 ### Data Source
 
-- ~~Recruitment data：[ArkTools](https://www.bigfun.cn/tools/aktools/hr)~~
-- Operators and infrastructure data：[PRTS Arknights Wiki (Chinese)](http://prts.wiki/)
+- ~~Recruitment data: [ArkTools](https://www.bigfun.cn/tools/aktools/hr)~~
+- Operators and infrastructure data: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)
 - Stage data: [Penguin Stats](https://penguin-stats.cn/)
 - Gamedata and resources: [Arknights Bot Resource](https://github.com/yuanyan3060/Arknights-Bot-Resource)
 
 ### Contributors
 
-Thanks to all friends who contribute to development/testing for making MAA better! (*´▽｀)ノノ
+Thanks to all friends who contribute to development/testing for making MAA better! (\*´▽｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
@@ -140,8 +140,8 @@ Please refer to [Linux Tutorial](docs/en-us/LINUX_TUTORIAL.md)
 - [Python interface](src/Python/asst.py): [Integration Example](src/Python/sample.py)
 - [Golang interface](src/Golang/maa/): [Integration Example](src/Golang/cli.go) (deprecated)
 - [Dart interface](src/dart/)
-- [Java interface](src/Java/Maaj)：[Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
-- [Rust interface](src/Rust/src/maa_sys/)：[HTTP api](src/Rust)
+- [Java interface](src/Java/Maaj): [Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
+- [Rust interface](src/Rust/src/maa_sys/): [HTTP api](src/Rust)
 - [Integration Documentation](docs/en-us/INTEGRATION.md)
 - [Callback Schema](docs/en-us/CALLBACK_SCHEMA.md)
 - [Task Schema](docs/en-us/TASK_SCHEMA.md)
