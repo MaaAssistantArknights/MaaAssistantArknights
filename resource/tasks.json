@@ -1404,6 +1404,10 @@
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
         "ocrReplace": [
             [
+                "【",
+                ""
+            ],
+            [
                 "白面.*",
                 "白面鸮"
             ],
@@ -5731,14 +5735,27 @@
             420
         ]
     },
+    "BattleQuickFormation-OperNameFlag-SpecialFocus": {
+        "templThreshold": 0.8,
+        "roi": [
+            370,
+            250,
+            910,
+            420
+        ],
+        "maskRange": [
+            1,
+            250
+        ]
+    },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
         "roi": [
-            10,
+            20,
             -8,
-            117,
+            107,
             20
         ],
         "rearDelay": 100
