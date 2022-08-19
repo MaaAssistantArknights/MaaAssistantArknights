@@ -157,9 +157,9 @@ namespace asst::utils
 #endif
     }
 
-#ifdef _WIN32
     inline std::string utf8_to_unicode_escape(const std::string& utf8_str)
     {
+#ifdef _WIN32
         const char* src_str = utf8_str.c_str();
         int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
         const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
@@ -187,8 +187,10 @@ namespace asst::utils
         wstr = nullptr;
 
         return unicode_escape_str;
-    }
+#else
+        static_assert(false, "Don't use utf8_to_unicode_escape in non-win32.");
 #endif
+    }
 
     template <typename RetTy, typename ArgType>
     constexpr inline RetTy make_rect(const ArgType& rect)
