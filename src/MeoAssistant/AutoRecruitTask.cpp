@@ -419,7 +419,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
-        async_upload_result(info["details"]);
+        if (!is_calc_only_task()) {
+            async_upload_result(info["details"]);
+        }
 
         if (need_exit()) return {};
 
