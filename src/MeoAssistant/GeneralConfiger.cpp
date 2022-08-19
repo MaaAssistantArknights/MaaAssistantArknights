@@ -18,6 +18,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
         m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
+        m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
         m_options.depot_export_template.ark_planner = options_json.get("depotExportTemplate", "arkPlanner", std::string());
     }
 
