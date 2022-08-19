@@ -358,6 +358,7 @@
     <system:String x:Key="QQgroup1">グループ1</system:String>
     <system:String x:Key="QQgroup2">グループ2</system:String>
     <system:String x:Key="QQgroup3">グループ3</system:String>
+    <system:String x:Key="QQgroup4">グループ4</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
