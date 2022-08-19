@@ -1214,7 +1214,9 @@ bool asst::Controller::inited() const noexcept
 }
 
 void asst::Controller::set_exit_flag(bool* flag)
-{}
+{
+    m_exit_flag = flag;
+}
 
 const std::string& asst::Controller::get_uuid() const
 {
