@@ -168,9 +168,9 @@ namespace asst::utils
         MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wstr, len);
 
         std::string unicode_escape_str = {};
-        constexpr char hexcode[] = "0123456789abcdef";
+        constexpr static char hexcode[] = "0123456789abcdef";
         for (const wchar_t* pchr = wstr; *pchr; ++pchr) {
-            const wchar_t chr = *pchr;
+            const wchar_t& chr = *pchr;
             if (chr > 255) {
                 unicode_escape_str += "\\u";
                 unicode_escape_str.push_back(hexcode[chr >> 12]);
