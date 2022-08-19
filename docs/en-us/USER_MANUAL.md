@@ -8,7 +8,7 @@
 - When any of the `Sanity Potion`, `Originite Prime`, `Times` conditions are met, the task is considered completed and stops.
   - Example 1：check `Sanity Potion`: `999`, `Originite Prime`: `10`, `Times`: `1`. After **ONE** operation is completed, the task stops because `Times`: `1` is met.
   - Example 2：uncheck `Sanity Potion` and `Originite Prime`, and set `Times`: `100`. After sanity is used up (maybe several times), the condition `Sanity Potion` and `Originite Prime` is met, and the task stops.
-- Uploading operation statistics to [Penguin Stats](https://penguin-stats.cn/).
+- Uploading operation statistics to [Penguin Stats](https://penguin-stats.io/).
 - Custom Penguin Stats ID.
 - Recognizing and displaying drops.
 - Auto-reconnection after disconnection.

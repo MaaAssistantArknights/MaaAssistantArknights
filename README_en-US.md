@@ -32,7 +32,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 ## Features
 
-- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.cn/)
+- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/)
 - Auto-shifting in the infrastructure, auto efficiency calculation of operators, optimal solution in single facility
 - Auto-recruitment, support for expedited plan
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
@@ -115,7 +115,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 
 - ~~Recruitment data: [ArkTools](https://www.bigfun.cn/tools/aktools/hr)~~
 - Operators and infrastructure data: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)
-- Stage data: [Penguin Stats](https://penguin-stats.cn/)
+- Stage data: [Penguin Stats](https://penguin-stats.io/)
 - Gamedata and resources: [Arknights Bot Resource](https://github.com/yuanyan3060/Arknights-Bot-Resource)
 
 ### Contributors
