@@ -185,14 +185,26 @@ bool asst::AutoRecruitTask::_run()
     static constexpr int slot_retry_limit = 3;
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
-    int this_run = m_cur_times;
     while (m_cur_times != m_max_times) {
         if (m_force_discard_flag) { return false; }
         if (m_slot_fail >= slot_retry_limit) { return false; }
-        if (m_use_expedited) {
-            Log.info("ready to use expedited");
+
+        auto start_rect = try_get_start_button(m_ctrler->get_image());
+        if (start_rect) {
             if (need_exit()) return false;
-            if (!recruit_now() && (m_cur_times - this_run) != 0) {
+            if (recruit_one(start_rect.value())) {
+                ++m_cur_times;
+            } else ++m_slot_fail;
+        } else {
+            if (!check_recruit_home_page()) return false;
+            Log.info("There is no available start button.");
+            if (!m_use_expedited) return true;
+        }
+
+        if (m_use_expedited) {
+            if (need_exit()) return false;
+            Log.info("ready to use expedited plan");
+            if (!recruit_now()) {
                 // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
                 // ref: issues/1491
                 if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
@@ -200,17 +212,6 @@ bool asst::AutoRecruitTask::_run()
                 return false;
             }
         }
-        auto start_rect = try_get_start_button(m_ctrler->get_image());
-        if (!start_rect) {
-            if (!check_recruit_home_page()) return false;
-            Log.info("There is no available start button.");
-            return true;
-        }
-        if (need_exit()) return false;
-        if (!recruit_one(start_rect.value()))
-            ++m_slot_fail;
-        else
-            ++m_cur_times;
     }
     return true;
 }
