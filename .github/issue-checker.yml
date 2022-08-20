@@ -73,7 +73,7 @@ labels:
   # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
   regexes:
   - "(?:[Aa]dd (?:`|)(?:label |)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
-    feat|chore|perf|style|refactor|fix|doc|\
+    feat|chore|perf|style|refactor|fix|doc|[Mm]erge|\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
   mode:
     pull_request_target: [add, remove]

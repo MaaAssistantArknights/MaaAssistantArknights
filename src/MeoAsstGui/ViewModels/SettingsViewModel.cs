@@ -431,7 +431,7 @@ namespace MeoAsstGui
 
         private readonly Dictionary<string, string> ServerMapping = new Dictionary<string, string>
         {
-            { String.Empty, "CN" },
+            { string.Empty, "CN" },
             { "Official", "CN" },
             { "Bilibili", "CN" },
             { "YoStarEN", "EN" },
@@ -440,6 +440,9 @@ namespace MeoAsstGui
             { "txwy", "CN_TW" },
         };
 
+        /// <summary>
+        /// Gets server type.
+        /// </summary>
         public string ServerType
         {
             get
