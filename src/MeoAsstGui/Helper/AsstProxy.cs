@@ -141,7 +141,7 @@ namespace MeoAsstGui
             }
 
             bool loaded = true;
-            if (settingsModel.ClientType == String.Empty
+            if (settingsModel.ClientType == string.Empty
                 || settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili")
             {
                 // The resources of Official and Bilibili are the same
@@ -168,7 +168,7 @@ namespace MeoAsstGui
 
             if (loaded)
             {
-                if (settingsModel.ClientType == String.Empty)
+                if (settingsModel.ClientType == string.Empty)
                 {
                     _curResource = "Official";
                 }
@@ -240,7 +240,7 @@ namespace MeoAsstGui
             }
 
             int len = lstrlenA(ptr);
-            Byte[] bytes = new Byte[len + 1];
+            byte[] bytes = new byte[len + 1];
             Marshal.Copy(ptr, bytes, 0, len + 1);
             return enc.GetString(bytes);
         }
@@ -714,7 +714,7 @@ namespace MeoAsstGui
                         int level = (int)subTaskDetails["level"];
                         if (level >= 5)
                         {
-                            using (var toast = new ToastNotification(String.Format(Localization.GetString("RecruitmentOfStar"), level)))
+                            using (var toast = new ToastNotification(string.Format(Localization.GetString("RecruitmentOfStar"), level)))
                             {
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
@@ -726,16 +726,16 @@ namespace MeoAsstGui
                             mainModel.AddLog(level + " ★ Tags", LogColor.Info);
                         }
 
-                        //bool robot = (bool)subTaskDetails["robot"];
-                        //if (robot)
-                        //{
+                        // bool robot = (bool)subTaskDetails["robot"];
+                        // if (robot)
+                        // {
                         //    using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
                         //    {
                         //        toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
                         //    }
 
-                        //    mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
-                        //}
+                        // mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
+                        // }
                     }
 
                     break;
@@ -788,7 +788,7 @@ namespace MeoAsstGui
                 case "PenguinId":
                     {
                         var settings = _container.Get<SettingsViewModel>();
-                        if (settings.PenguinId == String.Empty)
+                        if (settings.PenguinId == string.Empty)
                         {
                             string id = subTaskDetails["id"].ToString();
                             settings.PenguinId = id;
@@ -916,8 +916,8 @@ namespace MeoAsstGui
                 return true;
             }
 
-            if (settings.AdbPath == String.Empty ||
-                settings.ConnectAddress == String.Empty)
+            if (settings.AdbPath == string.Empty ||
+                settings.ConnectAddress == string.Empty)
             {
                 if (!settings.RefreshAdbConfig(ref error))
                 {
