@@ -75,8 +75,8 @@ Usage of `resource/copilot/*.json` and field description.
             "location": [ 5, 5 ],   // Position for deployment 
                                     // Required when `type` is "Deploy".
                                     // Optional when `type` is "Skill" or "Retreat",
-                                    // "Skill": Recommended for site facilities only, use skill with location instead of name, Please simply use name to use skill for normal operators
-                                    // Recommended only when multiple summons exist, retreating with location instead of name, Please simply use name to retreat for normal operators
+                                    // "Skill": Recommended for site facilities only, using skill with location instead of name, please simply use name to use skill for normal operators
+                                    // "Retreat"： Recommended only when multiple summons exist, retreating with location instead of name, please simply use name to retreat for normal operators
 
             "direction": "左",      // Direction for deployment, required when `type` is "Deploy"
                                     // "Left" | "Right" | "Up" | "Down" | "None"
