@@ -20,7 +20,7 @@ Usage of `resource/copilot/*.json` and field description.
                                     // 3 - Auto-decision (not implemented)
                                     // 0 for auto skills
 
-            "requirements": {       // Requirements, optional, empty by default
+            "requirements": {       // Requirements, Reserved field, not implemented, optional, empty by default
                 "elite": 2,         // Elite requirement, optional, 0 by default
                 "level": 90,        // Level requirement, optional, 0 by default
                 "skill_level": 10,  // Skill level requirement, optional, 0 by default
@@ -57,7 +57,7 @@ Usage of `resource/copilot/*.json` and field description.
                                     // "Deploy" will wait until the cost is enough (unless timeout)
                                     // "Skill" will wait until the skill is ready (unless timeout)
                                     // "SpeedUp" is switchable, i.e. after using it will become 2x speed, and using it again will make it back to normal speed
-                                    // "BulletTime" is the 1/5 speed after clicking any operator. Proceeding with any other action will make it back to normal speed
+                                    // "BulletTime", Reserved field, not implemented, it is the 1/5 speed after clicking any operator. Proceeding with any other action will make it back to normal speed
                                     // "Ouput" (Output) will print out the content of the doc (for subtities, etc.)
                                     // "SkillDaemon" will cast skills when they are ready, and do nothing else until the end
 
@@ -70,13 +70,13 @@ Usage of `resource/copilot/*.json` and field description.
             // TODO: "condition_type": 0,    // Condition aggregation type, optional, 0 by default
             //                        // 0 - AND； 1 - OR
 
-            "name": "棘刺",         // Operator/group name, required when `type` is one of "Deploy" | "Skill" | "Retreat"
+            "name": "棘刺",         // Operator/group name, required when `type` is "Deploy", Optional when type is "Skill" or "Retreat"
 
             "location": [ 5, 5 ],   // Position for deployment 
-                                    // Required when `type` is "Deploy"
-                                    // Optional when `type` is "Retreat"
-                                    // Recommended only when multiple summons exist, retreating with location instead of name
-                                    // Please simply use name to retreat for normal operators
+                                    // Required when `type` is "Deploy".
+                                    // Optional when `type` is "Skill" or "Retreat",
+                                    // "Skill": Recommended for site facilities only, use skill with location instead of name, Please simply use name to use skill for normal operators
+                                    // Recommended only when multiple summons exist, retreating with location instead of name, Please simply use name to retreat for normal operators
 
             "direction": "左",      // Direction for deployment, required when `type` is "Deploy"
                                     // "Left" | "Right" | "Up" | "Down" | "None"
