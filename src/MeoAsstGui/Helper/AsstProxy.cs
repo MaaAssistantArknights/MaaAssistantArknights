@@ -726,16 +726,18 @@ namespace MeoAsstGui
                             mainModel.AddLog(level + " ★ Tags", LogColor.Info);
                         }
 
-                        // bool robot = (bool)subTaskDetails["robot"];
-                        // if (robot)
-                        // {
-                        //    using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
-                        //    {
-                        //        toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
-                        //    }
+                        /*
+                        bool robot = (bool)subTaskDetails["robot"];
+                        if (robot)
+                        {
+                            using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
+                            {
+                                toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
+                            }
 
-                        // mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
-                        // }
+                            mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
+                        }
+                        */
                     }
 
                     break;

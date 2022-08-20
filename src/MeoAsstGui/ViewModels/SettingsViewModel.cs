@@ -107,7 +107,7 @@ namespace MeoAsstGui
         private void InfrastInit()
         {
             /* 基建设置 */
-            string[] facility_list = new string[]
+            var facility_list = new string[]
             {
                 Localization.GetString("Mfg"),
                 Localization.GetString("Trade"),
@@ -122,8 +122,7 @@ namespace MeoAsstGui
             for (int i = 0; i != facility_list.Length; ++i)
             {
                 var facility = facility_list[i];
-                int order;
-                bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out order);
+                bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out int order);
 
                 if (!parsed || order < 0)
                 {
@@ -386,8 +385,7 @@ namespace MeoAsstGui
                 Process.Start(EmulatorPath);
             }
 
-            int delay;
-            if (!int.TryParse(EmulatorWaitSeconds, out delay))
+            if (!int.TryParse(EmulatorWaitSeconds, out int delay))
             {
                 delay = 60;
             }
@@ -400,9 +398,10 @@ namespace MeoAsstGui
         /// </summary>
         public void SelectEmulatorExec()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-
-            dialog.Filter = Localization.GetString("Executable") + "|*.exe;*.bat;*.lnk";
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = Localization.GetString("Executable") + "|*.exe;*.bat;*.lnk",
+            };
 
             if (dialog.ShowDialog() == true)
             {
@@ -429,7 +428,7 @@ namespace MeoAsstGui
             }
         }
 
-        private readonly Dictionary<string, string> ServerMapping = new Dictionary<string, string>
+        private readonly Dictionary<string, string> _serverMapping = new Dictionary<string, string>
         {
             { string.Empty, "CN" },
             { "Official", "CN" },
@@ -441,13 +440,13 @@ namespace MeoAsstGui
         };
 
         /// <summary>
-        /// Gets server type.
+        /// Gets the server type.
         /// </summary>
         public string ServerType
         {
             get
             {
-                return ServerMapping[ClientType];
+                return _serverMapping[ClientType];
             }
         }
 
@@ -1660,9 +1659,10 @@ namespace MeoAsstGui
         /// </summary>
         public void SelectFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-
-            dialog.Filter = Localization.GetString("ADBProgram") + "|*.exe";
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = Localization.GetString("ADBProgram") + "|*.exe",
+            };
 
             if (dialog.ShowDialog() == true)
             {
@@ -1676,8 +1676,8 @@ namespace MeoAsstGui
         public void UpdateWindowTitle()
         {
             var rvm = (RootViewModel)this.Parent;
-            string connectConfigName = string.Empty;
-            foreach (CombData data in ConnectConfigList)
+            var connectConfigName = string.Empty;
+            foreach (var data in ConnectConfigList)
             {
                 if (data.Value == ConnectConfig)
                 {
@@ -1720,6 +1720,7 @@ namespace MeoAsstGui
 
         /* 界面设置 */
 #pragma warning disable SA1401 // Fields should be private
+#pragma warning disable IDE1006
 
         /// <summary>
         /// Gets or sets a value indicating whether to use tray icon.
@@ -1727,25 +1728,28 @@ namespace MeoAsstGui
         public bool UseTray = true;
 
 #pragma warning restore SA1401 // Fields should be private
+#pragma warning restore IDE1006
 
-        // private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
+        /*
+        private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
-        // public bool UseTray
-        // {
-        //    get { return _useTray; }
-        //    set
-        //    {
-        //        SetAndNotify(ref _useTray, value);
-        //        ViewStatusStorage.Set("GUI.UseTray", value.ToString());
-        //        var trayObj = _container.Get<TrayIcon>();
-        //        trayObj.SetVisible(value);
+        public bool UseTray
+        {
+           get { return _useTray; }
+           set
+           {
+               SetAndNotify(ref _useTray, value);
+               ViewStatusStorage.Set("GUI.UseTray", value.ToString());
+               var trayObj = _container.Get<TrayIcon>();
+               trayObj.SetVisible(value);
 
-        // if (!Convert.ToBoolean(value))
-        //        {
-        //            MinimizeToTray = false;
-        //        }
-        //    }
-        // }
+        if (!Convert.ToBoolean(value))
+               {
+                   MinimizeToTray = false;
+               }
+           }
+        }*/
+
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
         /// <summary>
@@ -1872,8 +1876,7 @@ namespace MeoAsstGui
 
             set
             {
-                bool parsed = Enum.TryParse(value, out InverseClearType tempEnumValue);
-                if (!parsed)
+                if (!Enum.TryParse(value, out InverseClearType tempEnumValue))
                 {
                     return;
                 }
@@ -1931,7 +1934,7 @@ namespace MeoAsstGui
                     Cheers = false;
                 }
 
-                var backup = _language;
+                // var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
                 System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok", value);
                 System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart", value);
@@ -1974,7 +1977,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("GUI.Cheers", value.ToString());
                 if (_cheers)
                 {
-                    setPallasLanguage();
+                    SetPallasLanguage();
                 }
             }
         }
@@ -1998,7 +2001,7 @@ namespace MeoAsstGui
             }
         }
 
-        private void setPallasLanguage()
+        private void SetPallasLanguage()
         {
             ViewStatusStorage.Set("GUI.Localization", PallasLangKey);
             var result = _windowManager.ShowMessageBox(
