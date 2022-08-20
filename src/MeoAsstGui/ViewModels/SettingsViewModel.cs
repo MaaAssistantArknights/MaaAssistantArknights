@@ -1685,7 +1685,7 @@ namespace MeoAsstGui
                 }
             }
 
-            rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", connectConfigName, ConnectAddress);
+            rvm.WindowTitle = $"MaaAssistantArknights ({_versionInfo}) - {connectConfigName} ({ConnectAddress})";
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
