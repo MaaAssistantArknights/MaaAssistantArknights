@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">製造所-純金</system:String>
     <system:String x:Key="OriginStone">製造所-源石の欠片</system:String>
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>

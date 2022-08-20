@@ -36,6 +36,13 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
+        Log.trace("m_notstationed_enabled:", m_notstationed_enabled);
+        if (m_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
+            Log.trace("click_filter_menu_not_stationed_button");
+            click_filter_menu_not_stationed_button();
+            m_if_filter_notstationed_haspressed = true;
+        }
+
         click_clear_button();
 
         opers_choose();
@@ -54,13 +61,6 @@ bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
     size_t num_of_fulltrust = 0;
-
-    Log.trace("m_notstationed_enabled:", m_notstationed_enabled);
-    if (m_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
-        Log.trace("click_filter_menu_not_stationed_button");
-        click_filter_menu_not_stationed_button();
-        m_if_filter_notstationed_haspressed = true;
-    }
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
