@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -34,7 +35,9 @@ namespace MeoAsstGui
     /// </summary>
     public class CopilotViewModel : Screen
     {
+#pragma warning disable IDE0052 // 删除未读的私有成员
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052 // 删除未读的私有成员
         private readonly IContainer _container;
 
         /// <summary>
@@ -59,6 +62,7 @@ namespace MeoAsstGui
                 Localization.GetString("CopilotTip2") + "\n\n" +
                 Localization.GetString("CopilotTip3") + "\n\n" +
                 Localization.GetString("CopilotTip4"),
+                /* Localization.GetString("CopilotTip5"),*/
                 LogColor.Message);
         }
 
@@ -128,7 +132,7 @@ namespace MeoAsstGui
             }
         }
 
-        private readonly string CopilotIdPrefix = "maa://";
+        private const string CopilotIdPrefix = "maa://";
 
         private void UpdateFileDoc(string filename)
         {
@@ -147,15 +151,13 @@ namespace MeoAsstGui
             }
             else if (int.TryParse(filename, out _))
             {
-                int copilotID;
-                int.TryParse(filename, out copilotID);
+                int.TryParse(filename, out int copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
-                int copilotID;
-                int.TryParse(copilotIdStr, out copilotID);
+                int.TryParse(copilotIdStr, out int copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
 
@@ -200,7 +202,7 @@ namespace MeoAsstGui
 
         private string _curStageName = string.Empty;
         private string _curCopilotData = string.Empty;
-        private const string _tempCopilotFile = "resource/_temp_copilot.json";
+        private const string TempCopilotFile = "resource/_temp_copilot.json";
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
@@ -272,7 +274,7 @@ namespace MeoAsstGui
 
                 AddLog(string.Empty, LogColor.Message);
                 int count = 0;
-                foreach (JObject oper in json["opers"])
+                foreach (var oper in json["opers"].Cast<JObject>())
                 {
                     count++;
                     AddLog(string.Format("{0}, {1} 技能", oper["name"], oper["skill"]), LogColor.Message);
@@ -280,12 +282,12 @@ namespace MeoAsstGui
 
                 if (json.ContainsKey("groups"))
                 {
-                    foreach (JObject group in json["groups"])
+                    foreach (var group in json["groups"].Cast<JObject>())
                     {
                         count++;
                         string group_name = group["name"] + ": ";
                         var operInfos = new List<string>();
-                        foreach (JObject oper in group["opers"])
+                        foreach (var oper in group["opers"].Cast<JObject>())
                         {
                             operInfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
                         }
@@ -305,6 +307,7 @@ namespace MeoAsstGui
                     Localization.GetString("CopilotTip2") + "\n\n" +
                     Localization.GetString("CopilotTip3") + "\n\n" +
                     Localization.GetString("CopilotTip4"));
+                /*  Localization.GetString("CopilotTip5"));*/
             }
             catch (Exception)
             {
@@ -317,9 +320,10 @@ namespace MeoAsstGui
         /// </summary>
         public void SelectFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-
-            dialog.Filter = "JSON|*.json";
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "JSON|*.json",
+            };
 
             if (dialog.ShowDialog() == true)
             {
@@ -376,11 +380,12 @@ namespace MeoAsstGui
         public async void Start()
         {
             ClearLog();
+            /*
+            if (_form)
+            {
+                AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
+            }*/
 
-            // if (_form)
-            // {
-            //    AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
-            // }
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
             var asstProxy = _container.Get<AsstProxy>();
@@ -402,10 +407,10 @@ namespace MeoAsstGui
             }
 
             UpdateFileDoc(Filename);
-            File.Delete(_tempCopilotFile);
-            File.WriteAllText(_tempCopilotFile, _curCopilotData);
+            File.Delete(TempCopilotFile);
+            File.WriteAllText(TempCopilotFile, _curCopilotData);
 
-            bool ret = asstProxy.AsstStartCopilot(_curStageName, _tempCopilotFile, Form);
+            bool ret = asstProxy.AsstStartCopilot(_curStageName, TempCopilotFile, Form);
             if (ret)
             {
                 Idle = false;
@@ -427,7 +432,7 @@ namespace MeoAsstGui
             Idle = true;
         }
 
-        private static readonly string CopilotUiUrl = "https://www.prts.plus/";
+        private const string CopilotUiUrl = "https://www.prts.plus/";
         private string _url = CopilotUiUrl;
 
         /// <summary>
