@@ -34,7 +34,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 - Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/)
 - Auto-shifting in the infrastructure, auto efficiency calculation of operators, optimal solution in single facility
-- Auto-recruitment, support for expedited plan
+- Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/), [Yituliu](https://yituliu.site/maarecruitdata)
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - **New feature! Importing JSON task file for auto-battle!** [Video](https://www.bilibili.com/video/BV14u411673q/)
