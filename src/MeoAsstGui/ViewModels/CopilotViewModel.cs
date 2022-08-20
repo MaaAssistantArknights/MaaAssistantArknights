@@ -251,12 +251,22 @@ namespace MeoAsstGui
                     AddLog(details, details_color);
                     {
                         Url = string.Empty;
-                        var linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-                        foreach (Match m in linkParser.Matches(details))
+                        var linkParser = new Regex(@"(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        foreach (Match match in linkParser.Matches(details))
                         {
-                            Url = m.Value;
+                            Url = "https://www.bilibili.com/video/" + match.Value;
                             break;
+                        }
+
+                        if (string.IsNullOrEmpty(Url))
+                        {
+                            linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+                            foreach (Match m in linkParser.Matches(details))
+                            {
+                                Url = m.Value;
+                                break;
+                            }
                         }
                     }
                 }
