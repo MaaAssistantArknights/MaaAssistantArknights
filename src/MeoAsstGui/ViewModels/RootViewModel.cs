@@ -24,6 +24,7 @@ namespace MeoAsstGui
     {
         private readonly IContainer _container;
         private readonly IWindowManager _windowManager;
+        private readonly string _version;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RootViewModel"/> class.
@@ -34,6 +35,7 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
+            _version = _container.Get<SettingsViewModel>().VersionInfo;
         }
 
         /// <inheritdoc/>
@@ -110,6 +112,11 @@ namespace MeoAsstGui
             get => _windowTitle;
             set => SetAndNotify(ref _windowTitle, value);
         }
+
+        /// <summary>
+        /// Gets the version info.
+        /// </summary>
+        public string VersionInfo => _version;
 
         /// <inheritdoc/>
         protected override void OnClose()

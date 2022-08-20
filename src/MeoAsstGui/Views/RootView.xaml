@@ -28,5 +28,10 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+        <TextBlock
+            DockPanel.Dock="Bottom"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"
+            d:Text="DEBUG VERSION"/>
     </DockPanel>
 </Window>
