@@ -34,7 +34,7 @@ MAAは、MAA Assistant Arknightsです。
 
 - 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.io/)へデータアップロード
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション
-- 自動公開求人、緊急招集票を使う、使い切るのもサポート
+- 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データアップロード
 - 戦友訪問、FP収集、買い物、デイリーレワード収集、ワンクリックして全自動操作！
 - 統合戦略自動作戦、オペレーターとレベルの自動認識
 - **新機能！作業JSONファイルをインポートし、自動操作するのは可能！** [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)
