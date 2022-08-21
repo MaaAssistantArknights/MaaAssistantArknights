@@ -62,14 +62,14 @@ labels:
   - "module: recruit"
   - "module: roguelike"
   - "module: others"
-- name: "release"
+- name: release
   regexes:
   - '(?:[Aa]dd (?:`|)(?:label |)release(?:`|)|Release v(?:\d)+\.(?:\d)+\.(?:\d)+)'
   - "(?:[Aa]dd (?:`|)(?:label |)release(?:`|)|^(?![\\s\\S]*(?:\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)release(?:`|))))[\\s\\S]*$)"
   mode:
     pull_request_target: [add, remove]
-- name: "ambiguous"
+- name: ambiguous
   # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
   regexes:
   - "(?:[Aa]dd (?:`|)(?:label |)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
@@ -89,7 +89,7 @@ labels:
   - "module: roguelike"
   - "module: core"
   - "release"
-- name: "translation required"
+- name: translation required
   regexes:
   - "(?:[Aa]dd (?:`|)(?:label |)translation required(?:`|)|(?:(?:[\\u3040-\\u30ff]|[㍿㍐])[^`]*){10,})"
   - "(?:[Aa]dd (?:`|)(?:label |)translation required(?:`|)|^(?![\\s\\S]*(?:\
@@ -117,13 +117,13 @@ labels:
   - '(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)ZH_TW(?:`|)|繁中服|台(?:湾|灣|)服|繁体中文服|(?:龙|龍)成|天下网游|txwy)'
   - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)ZH_TW(?:`|)|^(?![\\s\\S]*(?:\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)(?:Client: |)ZH_TW(?:`|))))[\\s\\S]*$)"
-- name: "MAA Team"
+- name: MAA Team
   mode:
     pull_request_target: [add]
     issues: [add]
   author_association:
   - "MEMBER"
-- name: "fixed"
+- name: fixed
   regexes:
   - "(?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)\\s+)|\
@@ -138,11 +138,31 @@ labels:
     https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/[0-9a-z]{40,40})"
   mode:
     issue_comment: [add]
-- name: "duplicate"
+- name: duplicate
   regexes:
     "[Dd]uplicate of\\s*\\[?`?#\\d+"
   mode:
     issue_comment: [add]
+- name: incomplete
+  regexes:
+  - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|\
+    \\[Uploading asst(?:.bak|)(?: - 副本|).(?:zip|log)…\\]\\(\\))"
+  - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)[Ii][nm]complete(?:`|))))[\\s\\S]*$)"
+  mode:
+    issues: [add]
+    issue_comment: [add]
+- name: complete!
+  content: incomplete
+  regexes:
+  - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|^(?![\\s\\S]*(?:\
+    \\[asst(?:.bak|)(?: - 副本|).(?:zip|log)\\]\\([^\\)]+\\)|\
+    [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)[Ii][nm]complete(?:`|))))[\\s\\S]*$)"
+  mode:
+    issues: [remove]
+    issue_comment: [remove]
+  disabled-if:
+    incomplete
 comments:
 - name: Log upload failed
   regexes:
