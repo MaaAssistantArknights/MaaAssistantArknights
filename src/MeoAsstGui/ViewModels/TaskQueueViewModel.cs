@@ -1644,6 +1644,11 @@ namespace MeoAsstGui
                     continue;
                 }
 
+                if (val == _dropsItemId)
+                {
+                    _dropsItem = dis;
+                }
+
                 AllDrops.Add(new CombData { Display = dis, Value = val });
             }
 
