@@ -12,13 +12,13 @@
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool notstationed_enabled) noexcept
 {
-    m_notstationed_enabled = std::move(notstationed_enabled);
+    m_notstationed_enabled = notstationed_enabled;
     return *this;
 }
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool trust_enabled) noexcept
 {
-    m_trust_enabled = std::move(trust_enabled);
+    m_trust_enabled = trust_enabled;
     return *this;
 }
 
