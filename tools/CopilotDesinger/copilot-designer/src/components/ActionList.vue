@@ -22,7 +22,7 @@
         <td>
           <ActionTypeSelector
             :value="action.type"
-            @update="(value) => changeActionType(value, id)"
+            @update="(value: ActionType) => changeActionType(value, id)"
           />
         </td>
         <td>
@@ -68,7 +68,7 @@
         <td>
           <DirectionSelector
             :value="action.direction"
-            @update="(value) => changeDirection(value, id)"
+            @update="(value: Direction) => changeDirection(value, id)"
           />
         </td>
         <td>

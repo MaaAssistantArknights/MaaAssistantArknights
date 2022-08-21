@@ -10,7 +10,7 @@ describe("OperatorComponent.vue", () => {
   const testData: Operator[] = [
     {
       name: "Lancet-2",
-      skill: 0,
+      skill: 1,
       skill_usage: 1,
     },
     {

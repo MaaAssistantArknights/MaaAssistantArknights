@@ -16,7 +16,7 @@ describe("ActionList.vue", () => {
       name: "Lancet-2",
       location: [2, 3],
       direction: "Left",
-      skill_usage: 4,
+      skill_usage: 3,
       pre_delay: 5,
       rear_delay: 6,
       doc: "doc",

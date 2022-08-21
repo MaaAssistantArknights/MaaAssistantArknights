@@ -14,14 +14,14 @@
         <td>
           <OperatorName
             :value="operator.name"
-            @input="(e) => changeOperatorName(e.target.value, id)"
+            @input="(value: string) => changeOperatorName(value, id)"
           />
         </td>
         <td>
           <input
             type="number"
             class="form-control"
-            :value="String(operator.skill ?? 0)"
+            :value="String(operator.skill ?? 1)"
             @input="(e) => changeOperatorSkill((e.target as HTMLInputElement).value, id)"
           />
         </td>
@@ -45,9 +45,9 @@
 </template>
 
 <script lang="ts">
-import { Operator, Skill } from "@/interfaces/CopilotData";
+import { Operator, Skill, SkillUsage } from "@/interfaces/CopilotData";
 import { defineComponent, PropType } from "vue";
-import OperatorName from "../controls/OperatorName.vue";
+import OperatorName from "@/controls/OperatorName.vue";
 import MoveUpButton from "@/controls/MoveUpButton.vue";
 import MoveDownButton from "@/controls/MoveDownButton.vue";
 import DeleteButton from "@/controls/DeleteButton.vue";
@@ -69,8 +69,8 @@ export default defineComponent({
     changeOperatorSkill(value: string, id: number) {
       let numValue = value !== "" ? Number(value) : undefined;
       if (numValue !== undefined) {
-        if (numValue < 0) {
-          numValue = 0;
+        if (numValue < 1) {
+          numValue = 1;
         } else if (numValue > 3) {
           numValue = 3;
         }
@@ -82,8 +82,13 @@ export default defineComponent({
     },
     changeOperatorSkillUsage(value: string, id: number) {
       const numValue = value !== "" ? Number(value) : undefined;
+      if (numValue !== undefined) {
+        if (numValue < 0 || numValue > 3) {
+          return;
+        }
+      }
       const newOperators = [...this.operators];
-      newOperators[id].skill_usage = numValue;
+      newOperators[id].skill_usage = numValue as SkillUsage | undefined;
       this.$emit("update", newOperators);
     },
     moveUp(id: number) {
