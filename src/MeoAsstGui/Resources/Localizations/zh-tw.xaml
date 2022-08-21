@@ -34,7 +34,7 @@
     <system:String x:Key="PureGold">製造站-赤金</system:String>
     <system:String x:Key="OriginStone">製造站-源石碎片</system:String>
     <system:String x:Key="Chip">製造站-晶片組</system:String>
-    <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信賴</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舍空餘位置蹭信賴</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不將已進駐的幹員放入宿舍</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
