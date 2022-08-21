@@ -23,7 +23,9 @@ export default defineComponent({
   },
   methods: {
     beforeUploadJson() {
-      (this.$refs.jsonFile as HTMLInputElement).click();
+      const jsonFile = this.$refs.jsonFile as HTMLInputElement;
+      jsonFile.value = "";
+      jsonFile.click();
     },
     uploadJson(e: Event) {
       const files = (e.target as HTMLInputElement).files;
@@ -31,11 +33,17 @@ export default defineComponent({
       const f = files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        const newData = JSON.parse(reader.result as string);
-        this.$emit("loadData", {
-          ...createEmptyCopilotData(),
-          ...newData,
-        } as CopilotData);
+        try {
+          const newData = JSON.parse(reader.result as string);
+          this.$emit("loadData", {
+            ...createEmptyCopilotData(),
+            ...newData,
+          } as CopilotData);
+        } catch (e) {
+          if (e instanceof Error) {
+            window.alert("读取 JSON 时发生错误：\n" + e.message);
+          }
+        }
       };
       reader.readAsText(f);
     },
