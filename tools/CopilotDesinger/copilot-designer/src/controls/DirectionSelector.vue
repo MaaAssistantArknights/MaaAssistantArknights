@@ -1,10 +1,10 @@
 <template>
   <select class="form-control" style="width: auto" v-model="modelValue">
-    <option value="无"></option>
-    <option value="上">上</option>
-    <option value="下">下</option>
-    <option value="左">左</option>
-    <option value="右">右</option>
+    <option value="None">无</option>
+    <option value="Up">上</option>
+    <option value="Down">下</option>
+    <option value="Left">左</option>
+    <option value="Right">右</option>
   </select>
 </template>
 

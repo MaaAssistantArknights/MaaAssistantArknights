@@ -21,7 +21,7 @@ export default defineComponent({
   },
   methods: {
     input(e: Event) {
-      this.$emit("input", e);
+      this.$emit("input", (e.target as HTMLInputElement).value);
     },
   },
   emits: ["input"],

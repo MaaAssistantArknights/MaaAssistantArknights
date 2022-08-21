@@ -11,7 +11,7 @@
         />
         <OperatorComponent
           :operators="group.opers"
-          @update="(newOperators) => updateOperators(newOperators, id)"
+          @update="(newOperators: Operator[]) => updateOperators(newOperators, id)"
         />
       </div>
       <div class="col-2">
