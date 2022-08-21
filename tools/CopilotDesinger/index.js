@@ -130,19 +130,19 @@ const action = (action_data, arr) => {
     // x坐标
     const location_x_input = input_text()
         .attr('type', 'number')
-        .val(String((action_data.location ?? [undefined, undefined])[0] ?? ""))
+        .val(String((action_data.location ?? [0, 0])[0] ?? ""))
         .change(function () {
-            action_data.location = action_data.location ?? [undefined, undefined];
-            action_data.location[0] = $(this).val() !== "" ? Number($(this).val()) : undefined;
+            action_data.location = action_data.location ?? [0, 0];
+            action_data.location[0] = $(this).val() !== "" ? Number($(this).val()) : 0;
         });
     tr.append($('<td>').append(location_x_input));
     // y坐标
     const location_y_input = input_text()
         .attr('type', 'number')
-        .val(String((action_data.location ?? [undefined, undefined])[1] ?? ""))
+        .val(String((action_data.location ?? [0, 0])[1] ?? ""))
         .change(function () {
-            action_data.location = action_data.location ?? [undefined, undefined];
-            action_data.location[1] = $(this).val() !== "" ? Number($(this).val()) : undefined;
+            action_data.location = action_data.location ?? [0, 0];
+            action_data.location[1] = $(this).val() !== "" ? Number($(this).val()) : 0;
         });
     tr.append($('<td>').append(location_y_input));
     // 方向
