@@ -360,7 +360,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (rc.min_level < 3) {
                 // find another min level (assuming operator list sorted in increment order by level)
                 auto sec = ranges::find_if(rc.opers, [](const RecruitOperInfo& op) { return op.level >= 3; });
-                if (sec != rc.opers.cend()) { rc.min_level = sec->level; }
+                if (sec != rc.opers.end()) {
+                    rc.min_level = sec->level;
+                    rc.avg_level = std::transform_reduce(
+                            sec, rc.opers.end(), 0.,
+                            std::plus<double>{},
+                            std::mem_fn(&RecruitOperInfo::level)) / static_cast<double>(std::distance(sec, rc.opers.end()));
+                }
             }
         }
 
