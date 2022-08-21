@@ -36,12 +36,14 @@
         </ListBox>
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="37*" />
-                <RowDefinition Height="19*" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <StackPanel
                 Grid.Row="0"
-                Margin="0,10,0,103"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Orientation="Vertical">
                 <TextBlock
                     Margin="0,5"
@@ -58,7 +60,9 @@
                     SelectedValuePath="Value" />
             </StackPanel>
             <StackPanel
-                Margin="0,87,0,19"
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Orientation="Vertical">
                 <TextBlock
                     Margin="0,5"
@@ -76,14 +80,24 @@
                     Value="{Binding DormThreshold}" />
             </StackPanel>
             <StackPanel
-                Margin="0,171,0,-11"
-                Orientation="Vertical" Grid.RowSpan="2">
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
                 <CheckBox
-                Content="{DynamicResource DormTrustEnabled}"
-                IsChecked="{Binding DormTrustEnabled}" Height="24"/>
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource DormTrustEnabled}"
+                    IsChecked="{Binding DormTrustEnabled}" />
                 <CheckBox
-                Content="{DynamicResource DormFilterNotStationedEnabled}"
-                IsChecked="{Binding DormFilterNotStationedEnabled}" Height="24"/>
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding DormFilterNotStationedEnabled}">
+                    <TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
+                </CheckBox>
             </StackPanel>
         </Grid>
     </Grid>
