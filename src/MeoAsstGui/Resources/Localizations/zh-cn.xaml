@@ -180,7 +180,7 @@
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
     <system:String x:Key="PerformBattles">指定次数*</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
-    <system:String x:Key="Quantity">掉落数量</system:String>
+    <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="Amend">修改</system:String>
