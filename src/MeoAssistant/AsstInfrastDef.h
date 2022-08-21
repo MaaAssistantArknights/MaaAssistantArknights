@@ -75,6 +75,7 @@ namespace asst::infrast
         Rect rect;
         // 因为OCR识别名字比较费时间，所以仅在name_filter不为空（有识别名字需求）的时候才识别，否则仅保存图片但不识别
         cv::Mat name_img;
+        cv::Mat facility_img;
     };
 
     struct SkillsComb
