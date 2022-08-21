@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">제조소-순금</system:String>
     <system:String x:Key="OriginStone">제조소-오리지늄 조각</system:String>
     <system:String x:Key="Chip">제조소-칩</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="BlueStacks">블루스택</system:String>

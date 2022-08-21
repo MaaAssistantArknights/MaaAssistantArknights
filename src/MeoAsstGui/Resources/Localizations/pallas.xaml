@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">🍸🍸🍻🍷</system:String>
     <system:String x:Key="OriginStone">🍸🍻🍻🍻🍻</system:String>
     <system:String x:Key="Chip">🍺🍻🍷🍷</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
 
     <system:String x:Key="General">🍻🍸🕺</system:String>
     <system:String x:Key="BlueStacks">🍺🕺🍻</system:String>

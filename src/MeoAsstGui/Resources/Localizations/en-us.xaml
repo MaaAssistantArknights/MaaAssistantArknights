@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">Pure Gold</system:String>
     <system:String x:Key="OriginStone">Originium Shards</system:String>
     <system:String x:Key="Chip">Chip Packs</system:String>
+    <system:String x:Key="DormTrustEnabled">Trust farming in dorm</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed opers in dorm</system:String>
 
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
