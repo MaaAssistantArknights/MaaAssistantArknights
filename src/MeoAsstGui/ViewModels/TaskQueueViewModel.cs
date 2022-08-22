@@ -782,9 +782,6 @@ namespace MeoAsstGui
             // 指定刷关次数
             ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
 
-            // 指定掉落材料
-            ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
-
             // 指定掉落材料数量
             ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
         }
@@ -1678,12 +1675,8 @@ namespace MeoAsstGui
 
             set
             {
-                if (value == null)
-                {
-                    return;
-                }
-
                 SetAndNotify(ref _dropsItemId, value);
+                ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
         }
 
