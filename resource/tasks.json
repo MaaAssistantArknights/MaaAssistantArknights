@@ -8022,6 +8022,7 @@
             157
         ],
         "templThreshold": 0.85,
+        "rearDelay": 1000,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1ChooseOperFlag"
@@ -8111,6 +8112,7 @@
             1280,
             175
         ],
+        "rearDelay": 1000,
         "templThreshold": 0.85,
         "next": [
             "Roguelike1ChooseOperFlag",
@@ -8126,6 +8128,7 @@
             1280,
             175
         ],
+        "rearDelay": 1000,
         "next": [
             "Roguelike1ClickToDrops",
             "Roguelike1GetDropSelectReward",
