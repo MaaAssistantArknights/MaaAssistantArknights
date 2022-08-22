@@ -2,6 +2,7 @@
 
 #include "Resource.h"
 #include "OcrImageAnalyzer.h"
+#include "MultiMatchImageAnalyzer.h"
 #include "Controller.h"
 #include "ProcessTask.h"
 #include "RecruitImageAnalyzer.h"
@@ -182,17 +183,39 @@ bool asst::AutoRecruitTask::_run()
 
     if (!recruit_begin()) return false;
 
+    {
+        const auto image = m_ctrler->get_image();
+        // initialize_dirty_slot_info(image);
+        m_dirty_slots = { 0, 1, 2, 3 };
+        if (!hire_all(image)) return false;
+    }
+
     static constexpr int slot_retry_limit = 3;
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
-    int this_run = m_cur_times;
     while (m_cur_times != m_max_times) {
         if (m_force_discard_flag) { return false; }
-        if (m_slot_fail >= slot_retry_limit) { return false; }
-        if (m_use_expedited) {
-            Log.info("ready to use expedited");
+
+        auto start_rect = try_get_start_button(m_ctrler->get_image());
+        if (start_rect) {
             if (need_exit()) return false;
-            if (!recruit_now() && (m_cur_times - this_run) != 0) {
+            if (recruit_one(start_rect.value()))
+                ++m_cur_times;
+            else
+                ++m_slot_fail;
+            if (m_slot_fail >= slot_retry_limit) { return false; }
+        } else {
+            if (!check_recruit_home_page()) return false;
+            Log.info("There is no available start button.");
+            if (!m_use_expedited) return true;
+        }
+
+        if (m_use_expedited) {
+            if (need_exit()) return false;
+            Log.info("ready to use expedited plan");
+            if (recruit_now()) {
+                hire_all();
+            } else {
                 // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
                 // ref: issues/1491
                 if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
@@ -200,34 +223,29 @@ bool asst::AutoRecruitTask::_run()
                 return false;
             }
         }
-        auto start_rect = try_get_start_button(m_ctrler->get_image());
-        if (!start_rect) {
-            if (!check_recruit_home_page()) return false;
-            Log.info("There is no available start button.");
-            return true;
-        }
-        if (need_exit()) return false;
-        if (!recruit_one(start_rect.value()))
-            ++m_slot_fail;
-        else
-            ++m_cur_times;
     }
     return true;
 }
 
-std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::Mat& image)
+std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
     OcrImageAnalyzer start_analyzer;
     start_analyzer.set_task_info("StartRecruit");
     start_analyzer.set_image(image);
-    if (!start_analyzer.analyze()) return std::nullopt;
-    start_analyzer.sort_result_horizontal();
+    if (!start_analyzer.analyze()) return {};
+    return start_analyzer.get_result();
+}
+
+std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::Mat& image)
+{
+    const auto result = start_recruit_analyze(image);
+    if (result.empty()) return std::nullopt;
     auto iter =
-        ranges::find_if(std::as_const(start_analyzer.get_result()),
+        ranges::find_if(result,
             [&](const TextRect& r) -> bool {
                 return !m_force_skipped.contains(slot_index_from_rect(r.rect));
             });
-    if (iter == start_analyzer.get_result().cend()) return std::nullopt;
+    if (iter == result.cend()) return std::nullopt;
     Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
     return iter->rect;
 }
@@ -246,11 +264,11 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
     m_ctrler->click(button);
     sleep(delay);
 
-    auto calc_result = recruit_calc_task();
+    auto calc_result = recruit_calc_task(slot_index_from_rect(button));
     sleep(delay);
 
     if (!calc_result.success) {
-        // recognition failed, perhaps open the slot again would not help
+        // recognition failed, perhaps opening the slot again would not help
         {
             json::value info = basic_info();
             info["what"] = "RecruitError";
@@ -294,7 +312,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 }
 
 // set recruit timer and tags only
-asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc_task()
+asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc_task(slot_index index)
 {
     LogTraceFunction;
 
@@ -341,7 +359,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
-            // robot tags
+        // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
         if (auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
             robot_iter != RobotTags.cend()) [[unlikely]] {
@@ -359,7 +377,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (rc.min_level < 3) {
                 // find another min level (assuming operator list sorted in increment order by level)
                 auto sec = ranges::find_if(rc.opers, [](const RecruitOperInfo& op) { return op.level >= 3; });
-                if (sec != rc.opers.cend()) { rc.min_level = sec->level; }
+                if (sec != rc.opers.end()) {
+                    rc.min_level = sec->level;
+                    rc.avg_level = std::transform_reduce(
+                            sec, rc.opers.end(), 0.,
+                            std::plus<double>{},
+                            std::mem_fn(&RecruitOperInfo::level)) / static_cast<double>(std::distance(sec, rc.opers.end()));
+                }
             }
         }
 
@@ -423,7 +447,11 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         if (!is_calc_only_task()) {
-            async_upload_result(info["details"]);
+            // report if the slot is clean
+            if (!m_dirty_slots.contains(index)) {
+                async_upload_result(info["details"]);
+                m_dirty_slots.emplace(index); // mark as dirty
+            } else Log.info("will not report, dirty slots are", m_dirty_slots);
         }
 
         if (need_exit()) return {};
@@ -448,6 +476,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             refresh();
 
             ++refresh_count;
+
+            // mark the slot clean after refreshed
+            m_dirty_slots.erase(index);
 
             {
                 json::value cb_info = basic_info();
@@ -595,10 +626,46 @@ bool asst::AutoRecruitTask::refresh()
     return refresh_task.run();
 }
 
+bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
+{
+    LogTraceFunction;
+    // mark slots with *Hire* button clean (regardless of whether hiring will success)
+    {
+        MultiMatchImageAnalyzer hire_searcher(image);
+        hire_searcher.set_task_info("RecruitFinish");
+        hire_searcher.analyze();
+        for (const MatchRect& r : hire_searcher.get_result()) {
+            Log.info("Mark", slot_index_from_rect(r.rect), "clean");
+            m_dirty_slots.erase(slot_index_from_rect(r.rect));
+        }
+        if (hire_searcher.get_result().empty()) return true;
+    }
+    // hire all
+    return ProcessTask{ *this, { "RecruitFinish" }}.run();
+}
+
+/// search for blue *Hire* buttons in the recruit home page, mark those slot clean and do hiring
+bool asst::AutoRecruitTask::hire_all()
+{
+    return hire_all(m_ctrler->get_image());
+}
+
+/// search for *RecruitNow* buttons before recruit and mark them as dirty
+[[maybe_unused]] bool asst::AutoRecruitTask::initialize_dirty_slot_info(const cv::Mat& image)
+{
+    m_dirty_slots.clear();
+    const auto result = start_recruit_analyze(image);
+    for (const TextRect& r: result) {
+        m_dirty_slots.emplace(slot_index_from_rect(r.rect));
+    }
+    Log.info("Dirty slots are", m_dirty_slots);
+    return true;
+}
+
 void asst::AutoRecruitTask::async_upload_result(const json::value& details)
 {
     LogTraceFunction;
-
+    return;
     if (m_upload_to_penguin) {
         auto upload_future = std::async(
             std::launch::async,

@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">Roguelike</system:String>
     <system:String x:Key="RecruitingSettings">Recruiting</system:String>
     <system:String x:Key="MallSettings">Mall</system:String>
-    <system:String x:Key="PenguinSettings">Penguin Statistics</system:String>
+    <system:String x:Key="OtherCombatSettings">Combat</system:String>
     <system:String x:Key="ConnectionSettings">Connection</system:String>
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">Pure Gold</system:String>
     <system:String x:Key="OriginStone">Originium Shards</system:String>
     <system:String x:Key="Chip">Chip Packs</system:String>
+    <system:String x:Key="DormTrustEnabled">Trust farming in dorm</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed opers in dorm</system:String>
 
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
@@ -126,6 +128,8 @@
     <system:String x:Key="InvestmentEnabled">Deposit coins</system:String>
 
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
+    <system:String x:Key="DrGrandet">Use Originiums like Dr. Grandet</system:String>
+    <system:String x:Key="DrGrandetTip">Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>

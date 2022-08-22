@@ -6,6 +6,7 @@
 #include "StageDropsTaskPlugin.h"
 #include "GameCrashRestartTaskPlugin.h"
 #include "StageNavigationTask.h"
+#include "DrGrandetTaskPlugin.h"
 
 asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
     : PackageTask(std::move(callback), callback_arg, TaskType),
@@ -47,6 +48,8 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
     m_stage_drops_plugin_ptr->set_retry_times(0);
     m_game_restart_plugin_ptr = m_fight_task_ptr->register_plugin<GameCrashRestartTaskPlugin>();
     m_game_restart_plugin_ptr->set_retry_times(0);
+    m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
+    m_dr_grandet_task_plugin_ptr->set_enable(false);
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
     m_subtasks.emplace_back(m_last_battle_task_ptr);
@@ -64,6 +67,7 @@ bool asst::FightTask::set_params(const json::value& params)
     std::string penguin_id = params.get("penguin_id", "");
     std::string server = params.get("server", "CN");
     std::string client_type = params.get("client_type", std::string());
+    bool is_dr_grandet = params.get("DrGrandet", false);
 
     if (auto opt = params.find<json::object>("drops")) {
         std::unordered_map<std::string, int> drops;
@@ -91,6 +95,7 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
+    m_dr_grandet_task_plugin_ptr->set_enable(is_dr_grandet);
     m_stage_drops_plugin_ptr->set_enable_penguid(enable_penguid);
     m_stage_drops_plugin_ptr->set_penguin_id(std::move(penguin_id));
     if (!client_type.empty()) {

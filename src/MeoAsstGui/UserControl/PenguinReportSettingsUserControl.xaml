@@ -12,7 +12,23 @@
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Content="{DynamicResource DrGrandet}"
+                IsChecked="{Binding IsDrGrandet}"
+                ToolTip="{DynamicResource DrGrandetTip}"
+                Margin="10" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">

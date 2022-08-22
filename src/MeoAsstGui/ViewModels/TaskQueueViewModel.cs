@@ -900,7 +900,7 @@ namespace MeoAsstGui
             settings.SaveInfrastOrderList();
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendInfrast(order.ToArray(),
-                settings.UsesOfDrones, settings.DormThreshold / 100.0);
+                settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled);
         }
 
         private bool appendMall()
@@ -1642,6 +1642,11 @@ namespace MeoAsstGui
                     || dis == "晶体电子单元" || dis == "龙骨" || dis == "芯片助剂")
                 {
                     continue;
+                }
+
+                if (val == _dropsItemId)
+                {
+                    _dropsItem = dis;
                 }
 
                 AllDrops.Add(new CombData { Display = dis, Value = val });

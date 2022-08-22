@@ -7,6 +7,20 @@
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "Resource.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
+#include <regex>
+
+asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool notstationed_enabled) noexcept
+{
+    m_notstationed_enabled = notstationed_enabled;
+    return *this;
+}
+
+asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool trust_enabled) noexcept
+{
+    m_trust_enabled = trust_enabled;
+    return *this;
+}
 
 bool asst::InfrastDormTask::_run()
 {
@@ -22,12 +36,23 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
+        Log.trace("m_notstationed_enabled:", m_notstationed_enabled);
+        if (m_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
+            Log.trace("click_filter_menu_not_stationed_button");
+            click_filter_menu_not_stationed_button();
+            m_if_filter_notstationed_haspressed = true;
+        }
+
         click_clear_button();
 
         opers_choose();
 
         click_confirm_button();
         click_return_button();
+
+        if (m_finished_stage == 3) {//不蹭信赖或所有干员满信赖
+            break;
+        }
     }
     return true;
 }
@@ -35,6 +60,7 @@ bool asst::InfrastDormTask::_run()
 bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = 0;
+    size_t num_of_fulltrust = 0;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -64,21 +90,83 @@ bool asst::InfrastDormTask::opers_choose()
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
                 // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍
-                if (m_finished_stage > 0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
-                    m_ctrler->click(oper.rect);
-                    if (++num_of_selected >= max_num_of_opers()) {
-                        Log.trace("num_of_selected:", num_of_selected, ", just break");
-                        break;
+                if (m_trust_enabled && m_finished_stage > 0 && oper.selected == false && oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
+
+                    //获得干员信赖值
+                    OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
+                    if (!trust_analyzer.analyze()) {
+                        Log.trace("ERROR:!trust_analyzer.analyze():");
+                        //return false;
                     }
+
+                    std::string opertrust = trust_analyzer.get_result().front().text;
+                    std::regex rule("[^0-9]");//只保留数字
+                    opertrust = std::regex_replace(opertrust, rule, "");
+
+                    Log.trace("opertrust:", opertrust);
+
+                    bool if_opertrust_not_full = false;
+                    if (opertrust != "" && atoi(opertrust.c_str()) < 200) {
+                        if_opertrust_not_full = true;
+                    }
+                    else if (opertrust != "" && atoi(opertrust.c_str()) >= 200) {
+                        num_of_fulltrust++;
+                    }
+                    if (num_of_fulltrust >= 6) {//所有干员都满信赖了
+                        m_finished_stage = 3;
+                        Log.trace("num_of_fulltrust:", num_of_fulltrust, ", just return");
+                        return true;
+                    }
+
+
+                    //获得干员所在设施
+                    OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
+                    if (!facility_analyzer.analyze()) {
+                        Log.trace("ERROR:!facility_analyzer.analyze():");
+                        //return false;
+                    }
+
+                    std::string facilityname = facility_analyzer.get_result().front().text;
+                    std::regex rule2("[^BF0-9]");//只保留B、F和数字
+                    facilityname = std::regex_replace(facilityname, rule2, "");
+
+                    Log.trace("facilityname:<" + facilityname + ">");
+                    bool if_oper_not_stationed = facilityname.length() < 4;//只有形如1F01或B101才是设施标签
+
+                    //判断要不要把人放进宿舍if_opertrust_not_full && if_oper_not_stationed
+                    if (if_opertrust_not_full && if_oper_not_stationed) {
+                        Log.trace("put oper in");
+
+                        m_ctrler->click(oper.rect);
+                        if (++num_of_selected >= max_num_of_opers()) {
+                            Log.trace("num_of_selected:", num_of_selected, ", just break");
+                            break;
+                        }
+                    }
+                    else {
+                        Log.trace("not put oper in");
+                    }
+
                 }
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    Log.trace("click_filter_menu_not_stationed_button");
-                    click_filter_menu_not_stationed_button();
-                    Log.trace("click_sort_by_trust_button");
-                    click_sort_by_trust_button();
-                    m_finished_stage = 1;// 选中未进驻标签并按信赖值排序
+                    if (m_trust_enabled) {
+                        Log.trace("m_trust_enabled:", m_trust_enabled);
+                        if (!m_if_filter_notstationed_haspressed) {
+                            Log.trace("click_filter_menu_not_stationed_button");
+                            click_filter_menu_not_stationed_button();
+                            m_if_filter_notstationed_haspressed = true;
+                        }
+                        Log.trace("click_sort_by_trust_button");
+                        click_sort_by_trust_button();
+                        m_finished_stage = 1;// 选中未进驻标签并按信赖值排序
+                    }
+                    else {
+                        m_finished_stage = 3;
+                        Log.trace("m_trust_enabled:", m_trust_enabled, ", just return");
+                        return true;
+                    }
                 }
                 break;
             case infrast::SmileyType::Work:

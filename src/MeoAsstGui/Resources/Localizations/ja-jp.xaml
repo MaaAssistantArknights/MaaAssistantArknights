@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">ローグ設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
     <system:String x:Key="MallSettings">FP交換所設定</system:String>
-    <system:String x:Key="PenguinSettings">Penguin-Stats設定</system:String>
+    <system:String x:Key="OtherCombatSettings">戦闘設定</system:String>
     <system:String x:Key="ConnectionSettings">接続設定</system:String>
     <system:String x:Key="StartupSettings">起動設定</system:String>
     <system:String x:Key="ScheduleSettings">スケジュール実行設定</system:String>
@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">製造所-純金</system:String>
     <system:String x:Key="OriginStone">製造所-源石の欠片</system:String>
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を高める</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">すでに進駐している幹部を宿舎に入れない</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
@@ -126,6 +128,8 @@
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
 
     <system:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
+    <system:String x:Key="DrGrandet">Dr.グランデのようにオリジニウムを使う</system:String>
+    <system:String x:Key="DrGrandetTip">オリジナイト使用確認画面で正気度が1回復するまで待ってから、すぐにオリジナイトを使用してください</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
     <system:String x:Key="HighPriority">優先購入　セミコロンで区切</system:String>
