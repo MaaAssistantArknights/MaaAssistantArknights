@@ -262,10 +262,47 @@
             "promote_priority": 700
         },
         {
-            "name": "孑",
+            "name": "风丸",
             "skill": 2,
-            "recruit_priority": 80,
+            "recruit_priority": 500,
             "promote_priority": 600
+        },
+        {
+            "name": "贝娜",
+            "skill": 2,
+            "recruit_priority": 500,
+            "promote_priority": 600
+        },
+        {
+            "name": "伊桑",
+            "skill": 2,
+            "recruit_priority": 500,
+            "promote_priority": 400
+        },
+        {
+            "name": "狮蝎",
+            "skill": 2,
+            "recruit_priority": 500,
+            "promote_priority": 500
+        },
+        {
+            "name": "绮良",
+            "skill": 1,
+            "recruit_priority": 500,
+            "promote_priority": 400
+        },
+        {
+            "name": "水月",
+            "skill": 2,
+            "recruit_priority": 300,
+            "promote_priority": 650
+        },
+        {
+            "name": "温蒂",
+            "skill": 3,
+            "alternate_skill": 2,
+            "recruit_priority": 100,
+            "promote_priority": 650
         }
     ],
     "Medic": [
