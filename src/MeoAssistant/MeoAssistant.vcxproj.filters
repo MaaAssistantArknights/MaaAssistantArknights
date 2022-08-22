@@ -381,6 +381,9 @@
     <ClInclude Include="StageNavigationTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
+    <ClInclude Include="DrGrandetTaskPlugin.h">
+      <Filter>头文件\Task\Plugin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -649,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="StageNavigationTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="DrGrandetTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

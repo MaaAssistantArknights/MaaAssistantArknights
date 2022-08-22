@@ -37,7 +37,9 @@ namespace MeoAsstGui
         [DllImport("MeoAssistant.dll")]
         private static extern IntPtr AsstGetVersion();
 
-        private readonly string _versionInfo = Localization.GetString("Version") + ": " + Marshal.PtrToStringAnsi(AsstGetVersion());
+        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+
+        private static readonly string _versionInfo = Localization.GetString("Version") + ": " + _versionId;
 
         /// <summary>
         /// Gets the version info.
@@ -45,6 +47,11 @@ namespace MeoAsstGui
         public string VersionInfo
         {
             get { return _versionInfo; }
+        }
+
+        public string VersionId
+        {
+            get { return _versionId; }
         }
 
         /// <summary>
@@ -67,7 +74,7 @@ namespace MeoAsstGui
             _listTitle.Add(Localization.GetString("RoguelikeSettings"));
             _listTitle.Add(Localization.GetString("RecruitingSettings"));
             _listTitle.Add(Localization.GetString("MallSettings"));
-            _listTitle.Add(Localization.GetString("PenguinSettings"));
+            _listTitle.Add(Localization.GetString("OtherCombatSettings"));
             _listTitle.Add(Localization.GetString("ConnectionSettings"));
             _listTitle.Add(Localization.GetString("StartupSettings"));
             _listTitle.Add(Localization.GetString("ScheduleSettings"));
@@ -107,7 +114,7 @@ namespace MeoAsstGui
         private void InfrastInit()
         {
             /* 基建设置 */
-            string[] facility_list = new string[]
+            var facility_list = new string[]
             {
                 Localization.GetString("Mfg"),
                 Localization.GetString("Trade"),
@@ -122,8 +129,7 @@ namespace MeoAsstGui
             for (int i = 0; i != facility_list.Length; ++i)
             {
                 var facility = facility_list[i];
-                int order;
-                bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out order);
+                bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out int order);
 
                 if (!parsed || order < 0)
                 {
@@ -386,8 +392,7 @@ namespace MeoAsstGui
                 Process.Start(EmulatorPath);
             }
 
-            int delay;
-            if (!int.TryParse(EmulatorWaitSeconds, out delay))
+            if (!int.TryParse(EmulatorWaitSeconds, out int delay))
             {
                 delay = 60;
             }
@@ -400,9 +405,10 @@ namespace MeoAsstGui
         /// </summary>
         public void SelectEmulatorExec()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-
-            dialog.Filter = Localization.GetString("Executable") + "|*.exe;*.bat;*.lnk";
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = Localization.GetString("Executable") + "|*.exe;*.bat;*.lnk",
+            };
 
             if (dialog.ShowDialog() == true)
             {
@@ -429,9 +435,24 @@ namespace MeoAsstGui
             }
         }
 
-        private readonly Dictionary<string, string> ServerMapping = new Dictionary<string, string>
+        public string ClientName
         {
-            { String.Empty, "CN" },
+            get
+            {
+                foreach (var item in ClientTypeList)
+                {
+                    if (item.Value == ClientType)
+                    {
+                        return item.Display;
+                    }
+                }
+                return "Unknown Client";
+            }
+        }
+
+        private readonly Dictionary<string, string> _serverMapping = new Dictionary<string, string>
+        {
+            { string.Empty, "CN" },
             { "Official", "CN" },
             { "Bilibili", "CN" },
             { "YoStarEN", "EN" },
@@ -440,11 +461,14 @@ namespace MeoAsstGui
             { "txwy", "CN_TW" },
         };
 
+        /// <summary>
+        /// Gets the server type.
+        /// </summary>
         public string ServerType
         {
             get
             {
-                return ServerMapping[ClientType];
+                return _serverMapping[ClientType];
             }
         }
 
@@ -576,6 +600,44 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _usesOfDrones, value);
                 ViewStatusStorage.Set("Infrast.UsesOfDrones", value);
+            }
+        }
+
+        private string _dormFilterNotStationedEnabled = ViewStatusStorage.Get("Infrast.DormFilterNotStationedEnabled", false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
+        /// </summary>
+        public bool DormFilterNotStationedEnabled
+        {
+            get
+            {
+                return bool.Parse(_dormFilterNotStationedEnabled);
+            }
+
+            set
+            {
+                SetAndNotify(ref _dormFilterNotStationedEnabled, value.ToString());
+                ViewStatusStorage.Set("Infrast.DormFilterNotStationedEnabled", value.ToString());
+            }
+        }
+
+        private string _dormTrustEnabled = ViewStatusStorage.Get("Infrast.DormTrustEnabled", true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether get trust in dorm is enabled.
+        /// </summary>
+        public bool DormTrustEnabled
+        {
+            get
+            {
+                return bool.Parse(_dormTrustEnabled);
+            }
+
+            set
+            {
+                SetAndNotify(ref _dormTrustEnabled, value.ToString());
+                ViewStatusStorage.Set("Infrast.DormTrustEnabled", value.ToString());
             }
         }
 
@@ -1227,7 +1289,7 @@ namespace MeoAsstGui
             }
         }
 
-        /* 企鹅物流设置 */
+        /* 刷理智设置 */
 
         private string _penguinId = ViewStatusStorage.Get("Penguin.Id", string.Empty);
 
@@ -1245,6 +1307,22 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _penguinId, value);
                 ViewStatusStorage.Set("Penguin.Id", value);
+            }
+        }
+
+        private bool _isDrGrandet = Convert.ToBoolean(ViewStatusStorage.Get("Penguin.IsDrGrandet", bool.FalseString));
+
+        public bool IsDrGrandet
+        {
+            get
+            {
+                return _isDrGrandet;
+            }
+
+            set
+            {
+                SetAndNotify(ref _isDrGrandet, value);
+                ViewStatusStorage.Set("Penguin.IsDrGrandet", value.ToString());
             }
         }
 
@@ -1657,9 +1735,10 @@ namespace MeoAsstGui
         /// </summary>
         public void SelectFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-
-            dialog.Filter = Localization.GetString("ADBProgram") + "|*.exe";
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = Localization.GetString("ADBProgram") + "|*.exe",
+            };
 
             if (dialog.ShowDialog() == true)
             {
@@ -1673,8 +1752,8 @@ namespace MeoAsstGui
         public void UpdateWindowTitle()
         {
             var rvm = (RootViewModel)this.Parent;
-            string connectConfigName = string.Empty;
-            foreach (CombData data in ConnectConfigList)
+            var connectConfigName = string.Empty;
+            foreach (var data in ConnectConfigList)
             {
                 if (data.Value == ConnectConfig)
                 {
@@ -1682,7 +1761,7 @@ namespace MeoAsstGui
                 }
             }
 
-            rvm.WindowTitle = string.Format("MaaAssistantArknights - {0} ({1})", connectConfigName, ConnectAddress);
+            rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
@@ -1717,6 +1796,7 @@ namespace MeoAsstGui
 
         /* 界面设置 */
 #pragma warning disable SA1401 // Fields should be private
+#pragma warning disable IDE1006
 
         /// <summary>
         /// Gets or sets a value indicating whether to use tray icon.
@@ -1724,25 +1804,28 @@ namespace MeoAsstGui
         public bool UseTray = true;
 
 #pragma warning restore SA1401 // Fields should be private
+#pragma warning restore IDE1006
 
-        // private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
+        /*
+        private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
-        // public bool UseTray
-        // {
-        //    get { return _useTray; }
-        //    set
-        //    {
-        //        SetAndNotify(ref _useTray, value);
-        //        ViewStatusStorage.Set("GUI.UseTray", value.ToString());
-        //        var trayObj = _container.Get<TrayIcon>();
-        //        trayObj.SetVisible(value);
+        public bool UseTray
+        {
+           get { return _useTray; }
+           set
+           {
+               SetAndNotify(ref _useTray, value);
+               ViewStatusStorage.Set("GUI.UseTray", value.ToString());
+               var trayObj = _container.Get<TrayIcon>();
+               trayObj.SetVisible(value);
 
-        // if (!Convert.ToBoolean(value))
-        //        {
-        //            MinimizeToTray = false;
-        //        }
-        //    }
-        // }
+        if (!Convert.ToBoolean(value))
+               {
+                   MinimizeToTray = false;
+               }
+           }
+        }*/
+
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
         /// <summary>
@@ -1869,8 +1952,7 @@ namespace MeoAsstGui
 
             set
             {
-                bool parsed = Enum.TryParse(value, out InverseClearType tempEnumValue);
-                if (!parsed)
+                if (!Enum.TryParse(value, out InverseClearType tempEnumValue))
                 {
                     return;
                 }
@@ -1928,7 +2010,7 @@ namespace MeoAsstGui
                     Cheers = false;
                 }
 
-                var backup = _language;
+                // var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
                 System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok", value);
                 System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart", value);
@@ -1971,7 +2053,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("GUI.Cheers", value.ToString());
                 if (_cheers)
                 {
-                    setPallasLanguage();
+                    SetPallasLanguage();
                 }
             }
         }
@@ -1995,7 +2077,7 @@ namespace MeoAsstGui
             }
         }
 
-        private void setPallasLanguage()
+        private void SetPallasLanguage()
         {
             ViewStatusStorage.Set("GUI.Localization", PallasLangKey);
             var result = _windowManager.ShowMessageBox(

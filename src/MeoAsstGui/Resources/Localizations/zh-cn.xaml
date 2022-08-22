@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
     <system:String x:Key="RecruitingSettings">自动公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
-    <system:String x:Key="PenguinSettings">企鹅物流</system:String>
+    <system:String x:Key="OtherCombatSettings">理智设置</system:String>
     <system:String x:Key="ConnectionSettings">连接设置</system:String>
     <system:String x:Key="StartupSettings">启动设置</system:String>
     <system:String x:Key="ScheduleSettings">定时执行</system:String>
@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">制造站-赤金</system:String>
     <system:String x:Key="OriginStone">制造站-源石碎片</system:String>
     <system:String x:Key="Chip">制造站-芯片组</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
@@ -126,6 +128,8 @@
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
 
     <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
+    <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
+    <system:String x:Key="DrGrandetTip">在碎石确认界面等待，直到当前的 1 点理智恢复完成再立即确认。不碎石时该选项不影响正常运行</system:String>
 
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
@@ -180,7 +184,7 @@
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
     <system:String x:Key="PerformBattles">指定次数*</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
-    <system:String x:Key="Quantity">掉落数量</system:String>
+    <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="Amend">修改</system:String>

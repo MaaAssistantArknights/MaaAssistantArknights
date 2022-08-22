@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">통합전략 설정</system:String>
     <system:String x:Key="RecruitingSettings">자동 모집</system:String>
     <system:String x:Key="MallSettings">크레딧 상점</system:String>
-    <system:String x:Key="PenguinSettings">Penguin Stats</system:String>
+    <system:String x:Key="OtherCombatSettings">온전한 설정</system:String>
     <system:String x:Key="ConnectionSettings">연결 설정</system:String>
     <system:String x:Key="StartupSettings">스타트업 설정</system:String>
     <system:String x:Key="ScheduleSettings">예정된 작업 설정</system:String>
@@ -34,6 +34,8 @@
     <system:String x:Key="PureGold">제조소-순금</system:String>
     <system:String x:Key="OriginStone">제조소-오리지늄 조각</system:String>
     <system:String x:Key="Chip">제조소-칩</system:String>
+    <system:String x:Key="DormTrustEnabled">기숙사 남은 자리 사용 신뢰감 증가</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">이미 들어온 간부는 숙소에 넣지 않는다</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="BlueStacks">블루스택</system:String>
@@ -126,6 +128,8 @@
     <system:String x:Key="InvestmentEnabled">투자 오리지늄을</system:String>
 
     <system:String x:Key="PenguinID">PenguinStats 보고 ID (숫자만)</system:String>
+    <system:String x:Key="DrGrandet">Dr. Grandet과 같은 Originium을 사용하십시오.</system:String>
+    <system:String x:Key="DrGrandetTip">Originites 사용 확인 화면에서 1점이 회복될 때까지 기다린 후 Originites를 즉시 사용하세요.</system:String>
 
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (세미콜론으로 구분)</system:String>

@@ -141,7 +141,7 @@ namespace MeoAsstGui
             }
 
             bool loaded = true;
-            if (settingsModel.ClientType == String.Empty
+            if (settingsModel.ClientType == string.Empty
                 || settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili")
             {
                 // The resources of Official and Bilibili are the same
@@ -168,7 +168,7 @@ namespace MeoAsstGui
 
             if (loaded)
             {
-                if (settingsModel.ClientType == String.Empty)
+                if (settingsModel.ClientType == string.Empty)
                 {
                     _curResource = "Official";
                 }
@@ -240,7 +240,7 @@ namespace MeoAsstGui
             }
 
             int len = lstrlenA(ptr);
-            Byte[] bytes = new Byte[len + 1];
+            byte[] bytes = new byte[len + 1];
             Marshal.Copy(ptr, bytes, 0, len + 1);
             return enc.GetString(bytes);
         }
@@ -714,7 +714,7 @@ namespace MeoAsstGui
                         int level = (int)subTaskDetails["level"];
                         if (level >= 5)
                         {
-                            using (var toast = new ToastNotification(String.Format(Localization.GetString("RecruitmentOfStar"), level)))
+                            using (var toast = new ToastNotification(string.Format(Localization.GetString("RecruitmentOfStar"), level)))
                             {
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
@@ -726,16 +726,18 @@ namespace MeoAsstGui
                             mainModel.AddLog(level + " ★ Tags", LogColor.Info);
                         }
 
-                        //bool robot = (bool)subTaskDetails["robot"];
-                        //if (robot)
-                        //{
-                        //    using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
-                        //    {
-                        //        toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
-                        //    }
+                        /*
+                        bool robot = (bool)subTaskDetails["robot"];
+                        if (robot)
+                        {
+                            using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
+                            {
+                                toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
+                            }
 
-                        //    mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
-                        //}
+                            mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
+                        }
+                        */
                     }
 
                     break;
@@ -788,7 +790,7 @@ namespace MeoAsstGui
                 case "PenguinId":
                     {
                         var settings = _container.Get<SettingsViewModel>();
-                        if (settings.PenguinId == String.Empty)
+                        if (settings.PenguinId == string.Empty)
                         {
                             string id = subTaskDetails["id"].ToString();
                             settings.PenguinId = id;
@@ -916,8 +918,8 @@ namespace MeoAsstGui
                 return true;
             }
 
-            if (settings.AdbPath == String.Empty ||
-                settings.ConnectAddress == String.Empty)
+            if (settings.AdbPath == string.Empty ||
+                settings.ConnectAddress == string.Empty)
             {
                 if (!settings.RefreshAdbConfig(ref error))
                 {
@@ -1009,6 +1011,7 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
+            task_params["DrGrandet"] = settings.IsDrGrandet;
             task_params["server"] = settings.ServerType;
             return task_params;
         }
@@ -1171,8 +1174,10 @@ namespace MeoAsstGui
         /// </list>
         /// </param>
         /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
+        /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
+        /// <param name="dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold)
+        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_trust_enabled)
         {
             var task_params = new JObject();
 
@@ -1180,6 +1185,8 @@ namespace MeoAsstGui
             task_params["facility"] = new JArray(order);
             task_params["drones"] = uses_of_drones;
             task_params["threshold"] = dorm_threshold;
+            task_params["notstationed_enabled"] = dorm_filter_not_stationed_enabled;
+            task_params["trust_enabled"] = dorm_trust_enabled;
             task_params["replenish"] = true;
             TaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;

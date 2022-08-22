@@ -15,7 +15,8 @@
             "include": [
                 "resource/**",
                 "MeoAssistant.dll",
-                "MeoAsstGui.exe"
+                "MeoAsstGui.exe",
+                "作业制作器/**"
             ],
             "exclude": [
                 "**/PaddleOCR/**"

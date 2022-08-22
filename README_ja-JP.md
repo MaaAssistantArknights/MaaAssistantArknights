@@ -34,7 +34,7 @@ MAAは、MAA Assistant Arknightsです。
 
 - 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.io/)へデータアップロード
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション
-- 自動公開求人、緊急招集票を使う、使い切るのもサポート
+- 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データアップロード
 - 戦友訪問、FP収集、買い物、デイリーレワード収集、ワンクリックして全自動操作！
 - 統合戦略自動作戦、オペレーターとレベルの自動認識
 - **新機能！作業JSONファイルをインポートし、自動操作するのは可能！** [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)
@@ -97,10 +97,10 @@ MAAは、MAA Assistant Arknightsです。
 
 ## 主な関連プロジェクト
 
-- 新しいGUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （開発中、貢献することを歓迎します！）
-- 更新サーバー: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- 公式ウェブサイト <https://www.maa.plus>: [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作業シェアサイト <https://www.prts.plus>: [フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)、[バックエンド](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 新しいGUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （開発中、貢献することを歓迎します！）
+- 更新サーバー：[MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
+- 公式ウェブサイト <https://www.maa.plus>：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
+- 作業シェアサイト <https://www.prts.plus>：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)、[バックエンド](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 謝辞
 
@@ -118,7 +118,7 @@ MAAは、MAA Assistant Arknightsです。
 - C++ Gzipカプセル化ライブラリ：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - WPF MVVWフレームワーク：[Stylet](https://github.com/canton7/Stylet)
 - WPFコントロールライブラリ：[HandyControl](https://github.com/HandyOrg/HandyControl)
-- C# JSONライブラリ: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- C# JSONライブラリ：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - ダウンローダー：[aria2](https://github.com/aria2/aria2)
 
 ### データソース
@@ -130,7 +130,7 @@ MAAは、MAA Assistant Arknightsです。
 
 ### 貢献/協力者
 
-MAAをより良くするために開発・テストに貢献してくれたすべての友達に感謝します！ (*´▽｀)ノノ
+MAAをより良くするために開発・テストに貢献してくれたすべての友達に感謝します！ (\*´▽｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
@@ -170,7 +170,7 @@ Visual Studio 2019~~または以上のバージョン~~で `MeoAssistantArknight
 ## 広告
 
 [ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア: <https://www.prts.plus>、[QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)、[QQグループ2（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)、[QQグループ3（満員）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)、[QQグループ4](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
+自動作戦JSON作業シェア：<https://www.prts.plus>、[QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)、[QQグループ2（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)、[QQグループ3（満員）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)、[QQグループ4](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
 [ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングすることばかりです～  
 [アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
 [開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  

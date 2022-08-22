@@ -1408,6 +1408,18 @@
                 ""
             ],
             [
+                "《",
+                ""
+            ],
+            [
+                ".*SLAN",
+                ""
+            ],
+            [
+                "^S",
+                ""
+            ],
+            [
                 "白面.*",
                 "白面鸮"
             ],
@@ -2336,6 +2348,20 @@
             "StoneConfirm"
         ]
     },
+    "DrGrandetUseOriginiums": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            50,
+            376,
+            230,
+            40
+        ],
+        "preDelay": 3000,
+        "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
+        "rearDelay": 355000,
+        "rearDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+    },
     "StoneConfirm": {
         "template": "MedicineConfirm.png",
         "action": "ClickSelf",
@@ -2599,7 +2625,6 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "RecruitFinish",
             "RecruitFlag",
             "Recruit",
             "ReturnToRecruit",
@@ -2840,7 +2865,7 @@
             150
         ],
         "next": [
-            "RecruitFinish",
+            "RecruitFlag",
             "RecruitNowConfirm"
         ]
     },
@@ -4283,6 +4308,17 @@
             0,
             20,
             113,
+            22
+        ]
+    },
+    "InfrastOperFacilityOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            14,
+            -209,
+            40,
             22
         ]
     },
@@ -7998,6 +8034,7 @@
             157
         ],
         "templThreshold": 0.85,
+        "rearDelay": 1000,
         "next": [
             "Roguelike1DropsFlag",
             "Roguelike1ChooseOperFlag"
@@ -8087,6 +8124,7 @@
             1280,
             175
         ],
+        "rearDelay": 1000,
         "templThreshold": 0.85,
         "next": [
             "Roguelike1ChooseOperFlag",
@@ -8102,6 +8140,7 @@
             1280,
             175
         ],
+        "rearDelay": 1000,
         "next": [
             "Roguelike1ClickToDrops",
             "Roguelike1GetDropSelectReward",
@@ -8372,6 +8411,10 @@
             [
                 "方",
                 "万"
+            ],
+            [
+                "：",
+                ":"
             ]
         ]
     },

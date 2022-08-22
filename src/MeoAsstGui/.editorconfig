@@ -167,6 +167,10 @@ dotnet_diagnostic.IDE0044.severity = warning
 dotnet_public_api_analyzer.require_api_files = true
 
 # CSharp code style settings:
+
+# IDE0060: Remove unused parameter
+dotnet_diagnostic.IDE0060.severity = silent
+
 [*.cs]
 # Newline settings
 csharp_new_line_before_open_brace = all
@@ -191,9 +195,9 @@ csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false
 csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false
 
 # Prefer "var" everywhere
-csharp_style_var_for_built_in_types = true:suggestion
-csharp_style_var_when_type_is_apparent = true:suggestion
-csharp_style_var_elsewhere = true:suggestion
+csharp_style_var_for_built_in_types = true:silent
+csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_elsewhere = true:silent
 
 # Prefer method-like constructs to have a block body
 csharp_style_expression_bodied_methods = false:none
@@ -259,6 +263,9 @@ dotnet_diagnostic.SA1642.severity = suggestion
 
 # SA1623: Property summary documentation should match accessors
 dotnet_diagnostic.SA1623.severity = suggestion
+
+# IDE0007: Prefer "var" everywhere
+dotnet_diagnostic.IDE0007.severity = silent
 
 [src/CodeStyle/**.{cs,vb}]
 # warning RS0005: Do not use generic CodeAction.Create to create CodeAction
