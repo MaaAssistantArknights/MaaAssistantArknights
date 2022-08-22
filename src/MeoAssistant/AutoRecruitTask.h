@@ -41,10 +41,16 @@ namespace asst
         bool recruit_now();
         bool confirm();
         bool refresh();
+        bool hire_all(const cv::Mat&);
+        bool hire_all();
+        bool initialize_dirty_slot_info(const cv::Mat&);
+        static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
         void async_upload_result(const json::value& details);
         void upload_to_penguin(const json::value& details);
         void upload_to_yituliu(const json::value& details);
+
+        using slot_index = size_t;
 
         struct calc_task_result_type
         {
@@ -54,7 +60,7 @@ namespace asst
             [[maybe_unused]] int tags_selected = 0;
         };
 
-        calc_task_result_type recruit_calc_task();
+        calc_task_result_type recruit_calc_task(slot_index = 0);
 
         bool m_force_discard_flag = false;
 
@@ -70,9 +76,13 @@ namespace asst
         int m_slot_fail = 0;
         int m_cur_times = 0;
 
-        using slot_index = size_t;
 
         std::set<slot_index> m_force_skipped;
+
+        // Do not report tags from these slot. Already reported, or we can not make sure whether it has been reported.
+        // e.g. those that were already empty (*Recruit Now*) when we open the recruit page,
+        // because we can not make sure whether they were already reported yesterday but stayed untouched for some reason
+        std::set<slot_index> m_dirty_slots = { 0, 1, 2, 3 };
 
         std::string m_server = "CN";
         bool m_upload_to_penguin = false;
