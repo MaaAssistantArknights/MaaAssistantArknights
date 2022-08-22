@@ -1011,6 +1011,7 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
+            task_params["DrGrandet"] = settings.IsDrGrandet;
             task_params["server"] = settings.ServerType;
             return task_params;
         }

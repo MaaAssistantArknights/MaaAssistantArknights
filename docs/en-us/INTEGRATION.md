@@ -65,8 +65,10 @@ Appends a task.
     "penguin_id": string,       // Penguin Stats ID, optional, by default empty. Available only when `report_to_penguin` is `true`.
     "server": string,           // Server, optional, by default "CN", will affect the drop recognition and upload
                                 // Options："CN" | "US" | "JP" | "KR"
-    "client_type": string       // Client versino, optional, empty by default. Used to reconnect after the game crashed. Empty means to disable this feature
+    "client_type": string,      // Client versino, optional, empty by default. Used to reconnect after the game crashed. Empty means to disable this feature
                                 // Options: "Official" | "Bilibili"
+    "DrGrandet": bool,          // Save sanity by using Originites, Optional, false by default. effective only when Originites may be used
+                                // Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.
 }
 ```
 

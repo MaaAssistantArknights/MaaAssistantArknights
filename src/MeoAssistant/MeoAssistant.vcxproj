@@ -36,6 +36,7 @@
     <ClInclude Include="DepotImageAnalyzer.h" />
     <ClInclude Include="DepotRecognitionTask.h" />
     <ClInclude Include="DepotTask.h" />
+    <ClInclude Include="DrGrandetTaskPlugin.h" />
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
     <ClInclude Include="NoWarningCV.h" />
     <ClInclude Include="NoWarningCVMat.h" />
@@ -128,6 +129,7 @@
     <ClCompile Include="DepotImageAnalyzer.cpp" />
     <ClCompile Include="DepotRecognitionTask.cpp" />
     <ClCompile Include="DepotTask.cpp" />
+    <ClCompile Include="DrGrandetTaskPlugin.cpp" />
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeControlTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeCustomStartTaskPlugin.cpp" />

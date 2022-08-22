@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">🍷🍺🍸</system:String>
     <system:String x:Key="RecruitingSettings">🍸🍺🍸</system:String>
     <system:String x:Key="MallSettings">🍺🍷🍻</system:String>
-    <system:String x:Key="PenguinSettings">💃🍷🍷</system:String>
+    <system:String x:Key="OtherCombatSettings">💃🍷🍷</system:String>
     <system:String x:Key="ConnectionSettings">🍺🕺💃</system:String>
     <system:String x:Key="StartupSettings">🍻🕺🍺</system:String>
     <system:String x:Key="ScheduleSettings">🍸🍸💃</system:String>
@@ -128,6 +128,8 @@
     <system:String x:Key="InvestmentEnabled">🍸🕺🍺💃🍸🍻🕺🍺🍸</system:String>
 
     <system:String x:Key="PenguinID">🍻🕺🍷🍻🕺🍸🍻🍻</system:String>
+    <system:String x:Key="DrGrandet">🍻🍸🍷🍺🍺🍷🍺🕺</system:String>
+    <system:String x:Key="DrGrandetTip">🍻🍸🍺🍻🍺🍸🍻🍺🍷🍷🕺💃🍷🕺🍻🕺🍷🍷🍸🍻🍺🍻🍸🍺🍷🍺🕺🍷🍷🍸🍸🍺🍺🍻🕺🍻🕺🍸🍷💃🍷🍸🍻🍻🍻🕺</system:String>
 
     <system:String x:Key="SocialPtShop">🍺🍷🕺</system:String>
     <system:String x:Key="HighPriority">🍸🕺💃🍺🕺🕺🍻🍺</system:String>
