@@ -264,8 +264,8 @@
         {
             "name": "风丸",
             "skill": 2,
-            "recruit_priority": 500,
-            "promote_priority": 600
+            "recruit_priority": 550,
+            "promote_priority": 650
         },
         {
             "name": "贝娜",
@@ -286,16 +286,10 @@
             "promote_priority": 500
         },
         {
-            "name": "绮良",
-            "skill": 1,
-            "recruit_priority": 500,
-            "promote_priority": 400
-        },
-        {
             "name": "水月",
             "skill": 2,
             "recruit_priority": 300,
-            "promote_priority": 650
+            "promote_priority": 550
         },
         {
             "name": "温蒂",
