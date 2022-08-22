@@ -2613,7 +2613,6 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "RecruitFinish",
             "RecruitFlag",
             "Recruit",
             "ReturnToRecruit",
@@ -2854,7 +2853,7 @@
             150
         ],
         "next": [
-            "RecruitFinish",
+            "RecruitFlag",
             "RecruitNowConfirm"
         ]
     },
