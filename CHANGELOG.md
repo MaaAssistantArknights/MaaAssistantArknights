@@ -1,11 +1,13 @@
-- 更新 `长夏狂欢季 理想城` EX 关卡地图数据
-- 新增支持 公招 自动上传 [企鹅数据公招统计](https://penguin-stats.cn/result/stage/recruit/recruit) 及 [一图流公招大数据](https://yituliu.site/maarecruitdata) （默认开启） @MistEO @zzyyyl @horror-proton
-- 优化 肉鸽 干员选择逻辑 @et2012
-- 修复 公招 不使用加急许可的问题 @horror-proton
-- 修复 自动战斗 自动编队 `特别关注` 干员无法识别的问题 @MistEO
-- 修复 自动战斗 自动编队干员名识别错误 @MistEO
-- 修复 自动战斗 史尔特尔 ~~太红了所以~~ 不上场的问题 @MistEO
-- 修复 肉鸽 剧目集界面卡死的问题 @MistEO
-- 界面优化调整 @ABA2396
-- 项目文档更新、新增日文说明书 @Tastror @LYZhelloworld @ABA2396
-- 项目代码重构、整理 @MistEO @zzyyyl @Mangolia-club
+- 新增 刷理智 `博朗台碎石模式`，会在碎石界面等待 1 点理智恢复完成后再碎石 @MistEO
+- 新增 基建宿舍 是否按 `未进驻` 筛选干员功能 @Hydrogina
+- 新增 自动战斗 识别作业中的 BV 号 @AnnoyingFlowers
+- 优化 公招 自动上传逻辑，现在仅会上传由 MAA 刷出来的公招操作，过滤脏数据 @horror-proton
+- 优化 界面布局 @MistEO @ABA2396 @LYZhelloworld
+- 优化 肉鸽 特种干员招募优先级 @zzyyyl @et2012 @Private233
+- 修复 基建宿舍 会将异格干员放入的问题 @Hydrogina
+- 修复 自动战斗 作业编辑器的一些字段错误 @LYZhelloworld
+- 修复 自动战斗 部分特别关注干员名识别错误 @MistEO
+- 修复 刷理智 掉落物设置不保存的问题 @ABA2396
+- 修复 肉鸽 获取剧目集后卡住的问题 @MistEO
+- 文档及翻译整理 @zzyyyl @MistEO
+- 项目打包逻辑整理、代码清理 @zzyyyl @LYZhelloworld
