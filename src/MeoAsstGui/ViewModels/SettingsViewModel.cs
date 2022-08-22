@@ -37,7 +37,9 @@ namespace MeoAsstGui
         [DllImport("MeoAssistant.dll")]
         private static extern IntPtr AsstGetVersion();
 
-        private readonly string _versionInfo = Localization.GetString("Version") + ": " + Marshal.PtrToStringAnsi(AsstGetVersion());
+        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+
+        private static readonly string _versionInfo = Localization.GetString("Version") + ": " + _versionId;
 
         /// <summary>
         /// Gets the version info.
@@ -45,6 +47,11 @@ namespace MeoAsstGui
         public string VersionInfo
         {
             get { return _versionInfo; }
+        }
+
+        public string VersionId
+        {
+            get { return _versionId; }
         }
 
         /// <summary>
@@ -425,6 +432,21 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _clientType, value);
                 ViewStatusStorage.Set("Start.ClientType", value);
+            }
+        }
+
+        public string ClientName
+        {
+            get
+            {
+                foreach (var item in ClientTypeList)
+                {
+                    if (item.Value == ClientType)
+                    {
+                        return item.Display;
+                    }
+                }
+                return "Unknown Client";
             }
         }
 
@@ -1739,7 +1761,7 @@ namespace MeoAsstGui
                 }
             }
 
-            rvm.WindowTitle = $"MaaAssistantArknights ({_versionInfo}) - {connectConfigName} ({ConnectAddress})";
+            rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
