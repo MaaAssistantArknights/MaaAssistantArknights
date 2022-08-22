@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">통합전략 설정</system:String>
     <system:String x:Key="RecruitingSettings">자동 모집</system:String>
     <system:String x:Key="MallSettings">크레딧 상점</system:String>
-    <system:String x:Key="PenguinSettings">Penguin Stats</system:String>
+    <system:String x:Key="OtherCombatSettings">온전한 설정</system:String>
     <system:String x:Key="ConnectionSettings">연결 설정</system:String>
     <system:String x:Key="StartupSettings">스타트업 설정</system:String>
     <system:String x:Key="ScheduleSettings">예정된 작업 설정</system:String>
@@ -128,6 +128,8 @@
     <system:String x:Key="InvestmentEnabled">투자 오리지늄을</system:String>
 
     <system:String x:Key="PenguinID">PenguinStats 보고 ID (숫자만)</system:String>
+    <system:String x:Key="DrGrandet">Dr. Grandet과 같은 Originium을 사용하십시오.</system:String>
+    <system:String x:Key="DrGrandetTip">Originites 사용 확인 화면에서 1점이 회복될 때까지 기다린 후 Originites를 즉시 사용하세요.</system:String>
 
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (세미콜론으로 구분)</system:String>

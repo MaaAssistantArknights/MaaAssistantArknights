@@ -9,7 +9,7 @@
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
-    <system:String x:Key="PenguinSettings">企鵝物流</system:String>
+    <system:String x:Key="OtherCombatSettings">理智設置</system:String>
     <system:String x:Key="ConnectionSettings">連接設定</system:String>
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
@@ -128,6 +128,8 @@
     <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
 
     <system:String x:Key="PenguinID">企鵝物流匯報ID（僅數字部分）</system:String>
+    <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
+    <system:String x:Key="DrGrandetTip">在碎石確認界面等待，直到當前的 1 點理智恢復完成再立即確認。不碎石時該選項不影響正常運行</system:String>
 
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>

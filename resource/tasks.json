@@ -2336,6 +2336,20 @@
             "StoneConfirm"
         ]
     },
+    "DrGrandetUseOriginiums": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            50,
+            376,
+            230,
+            40
+        ],
+        "preDelay": 3000,
+        "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
+        "rearDelay": 355000,
+        "rearDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+    },
     "StoneConfirm": {
         "template": "MedicineConfirm.png",
         "action": "ClickSelf",
@@ -8383,6 +8397,10 @@
             [
                 "方",
                 "万"
+            ],
+            [
+                "：",
+                ":"
             ]
         ]
     },

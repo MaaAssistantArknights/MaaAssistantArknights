@@ -67,7 +67,7 @@ namespace MeoAsstGui
             _listTitle.Add(Localization.GetString("RoguelikeSettings"));
             _listTitle.Add(Localization.GetString("RecruitingSettings"));
             _listTitle.Add(Localization.GetString("MallSettings"));
-            _listTitle.Add(Localization.GetString("PenguinSettings"));
+            _listTitle.Add(Localization.GetString("OtherCombatSettings"));
             _listTitle.Add(Localization.GetString("ConnectionSettings"));
             _listTitle.Add(Localization.GetString("StartupSettings"));
             _listTitle.Add(Localization.GetString("ScheduleSettings"));
@@ -1267,7 +1267,7 @@ namespace MeoAsstGui
             }
         }
 
-        /* 企鹅物流设置 */
+        /* 刷理智设置 */
 
         private string _penguinId = ViewStatusStorage.Get("Penguin.Id", string.Empty);
 
@@ -1285,6 +1285,22 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _penguinId, value);
                 ViewStatusStorage.Set("Penguin.Id", value);
+            }
+        }
+
+        private bool _isDrGrandet = Convert.ToBoolean(ViewStatusStorage.Get("Penguin.IsDrGrandet", bool.FalseString));
+
+        public bool IsDrGrandet
+        {
+            get
+            {
+                return _isDrGrandet;
+            }
+
+            set
+            {
+                SetAndNotify(ref _isDrGrandet, value);
+                ViewStatusStorage.Set("Penguin.IsDrGrandet", value.ToString());
             }
         }
 
