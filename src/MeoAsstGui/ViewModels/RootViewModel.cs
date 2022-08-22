@@ -100,7 +100,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _windowTitle = "MaaAssistantArknights";
+        private string _windowTitle = "MAA";
 
         /// <summary>
         /// Gets or sets the window title.
@@ -114,7 +114,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets the version info.
         /// </summary>
-        public string VersionInfo => _container.Get<SettingsViewModel>().VersionInfo;
+        public string VersionId => _container.Get<SettingsViewModel>().VersionId;
 
         /// <inheritdoc/>
         protected override void OnClose()
