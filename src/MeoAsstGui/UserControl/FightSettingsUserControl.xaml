@@ -14,68 +14,66 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="70" />
-            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="122" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
 
 
         <StackPanel
             Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Vertical">
+            <CheckBox
+                Height="30"
+                Margin="10,6"
+                Content="{DynamicResource UseSanityPotion}"
+                IsChecked="{Binding UseMedicine}" VerticalContentAlignment="Center" />
+            <CheckBox
+                Height="30"
+                Margin="10,6"
+                Content="{DynamicResource UseOriginitePrime}"
+                IsChecked="{Binding UseStone}"
+                ToolTip="{DynamicResource CheckBoxesNotSaved}" VerticalContentAlignment="Center" />
+            <CheckBox
+                Height="30"
+                Margin="10,6"
+                Content="{DynamicResource PerformBattles}"
+                IsChecked="{Binding HasTimesLimited}"
+                ToolTip="{DynamicResource CheckBoxesNotSaved}" VerticalContentAlignment="Center" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
             Grid.ColumnSpan="3"
-            HorizontalAlignment="Left"
-            Orientation="Horizontal">
-            <StackPanel Orientation="Vertical">
-                <CheckBox
-                    Height="30"
-                    Margin="10,6"
-                    Content="{DynamicResource UseSanityPotion}"
-                    IsChecked="{Binding UseMedicine}" />
-                <CheckBox
-                    Height="30"
-                    Margin="10,6"
-                    Content="{DynamicResource UseOriginitePrime}"
-                    IsChecked="{Binding UseStone}"
-                    ToolTip="{DynamicResource CheckBoxesNotSaved}" />
-                <CheckBox
-                    Height="30"
-                    Margin="10,6"
-                    Content="{DynamicResource PerformBattles}"
-                    IsChecked="{Binding HasTimesLimited}"
-                    ToolTip="{DynamicResource CheckBoxesNotSaved}" />
-            </StackPanel>
-            <StackPanel Width="70" Orientation="Vertical">
-                <hc:TextBox
-                    Width="50"
-                    Height="30"
-                    Margin="10,6"
-                    InputMethod.IsInputMethodEnabled="False"
-                    Text="{Binding MedicineNumber}"
-                    TextType="Int"
-                    TextWrapping="Wrap" />
-                <hc:TextBox
-                    Width="50"
-                    Height="30"
-                    Margin="10,6"
-                    InputMethod.IsInputMethodEnabled="False"
-                    Text="{Binding StoneNumber}"
-                    TextType="Int"
-                    TextWrapping="Wrap" />
-                <hc:TextBox
-                    Width="50"
-                    Height="30"
-                    Margin="10,6"
-                    InputMethod.IsInputMethodEnabled="False"
-                    Text="{Binding MaxTimes}"
-                    TextType="Int"
-                    TextWrapping="Wrap" />
-            </StackPanel>
+            Orientation="Vertical">
+            <hc:TextBox
+                Height="30"
+                Margin="0,6"
+                InputMethod.IsInputMethodEnabled="False"
+                Text="{Binding MedicineNumber}"
+                TextType="Int"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="80" MaxWidth="80" HorizontalAlignment="Left" />
+            <hc:TextBox
+                Height="30"
+                Margin="0,6"
+                InputMethod.IsInputMethodEnabled="False"
+                Text="{Binding StoneNumber}"
+                TextType="Int"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="80" MaxWidth="80" HorizontalAlignment="Left" />
+            <hc:TextBox
+                Height="30"
+                Margin="0,6"
+                InputMethod.IsInputMethodEnabled="False"
+                Text="{Binding MaxTimes}"
+                TextType="Int"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="80" MaxWidth="80" HorizontalAlignment="Left"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
@@ -84,7 +82,7 @@
                 Margin="10,6"
                 Content="{DynamicResource AssignedMaterial}"
                 IsChecked="{Binding IsSpecifiedDrops}"
-                ToolTip="{DynamicResource NoAutoNavigation}" />
+                ToolTip="{DynamicResource NoAutoNavigation}" VerticalContentAlignment="Center" />
             <Grid Height="42">
                 <TextBlock
                     HorizontalAlignment="Center"
@@ -93,6 +91,34 @@
                     Text="{DynamicResource Quantity}"
                     TextAlignment="Center" />
             </Grid>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Orientation="Vertical">
+            <ComboBox
+                Height="30"
+                Margin="0,6"
+                DisplayMemberPath="Display"
+                IsDropDownOpen="{Binding IsDropDown}"
+                IsEditable="True"
+                IsTextSearchEnabled="True"
+                ItemsSource="{Binding DropsList}"
+                SelectedValue="{Binding DropsItemId}"
+                SelectedValuePath="Value"
+                Text="{Binding DropsItem}" VerticalContentAlignment="Center" />
+
+            <hc:TextBox
+                Height="30"
+                Margin="0,6"
+                InputMethod.IsInputMethodEnabled="False"
+                IsEnabled="{Binding IsSpecifiedDrops}"
+                Text="{Binding DropsQuantity}"
+                TextType="Int"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="80" MaxWidth="80"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Vertical">
             <Grid Height="42">
                 <TextBlock
                     Margin="10,6"
@@ -103,46 +129,6 @@
                     TextAlignment="Center"
                     TextWrapping="Wrap" />
             </Grid>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="2"
-            Orientation="Vertical">
-            <ComboBox
-                Width="120"
-                Height="30"
-                Margin="10,6"
-                DisplayMemberPath="Display"
-                IsDropDownOpen="{Binding IsDropDown}"
-                IsEditable="True"
-                IsTextSearchEnabled="True"
-                ItemsSource="{Binding DropsList}"
-                SelectedValue="{Binding DropsItemId}"
-                SelectedValuePath="Value"
-                Text="{Binding DropsItem}" />
-
-            <hc:TextBox
-                Width="120"
-                Height="30"
-                Margin="10,6"
-                InputMethod.IsInputMethodEnabled="False"
-                IsEnabled="{Binding IsSpecifiedDrops}"
-                Text="{Binding DropsQuantity}"
-                TextType="Int"
-                TextWrapping="Wrap" />
-
-            <ComboBox
-                Width="120"
-                Height="30"
-                Margin="10,6"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                ItemsSource="{Binding StageList}"
-                SelectedValue="{Binding Stage1}"
-                SelectedValuePath="Value" />
-        </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Vertical">
             <Grid Height="42">
                 <TextBlock
                     Margin="10,6"
@@ -161,25 +147,39 @@
             Grid.ColumnSpan="2"
             Orientation="Vertical">
             <ComboBox
-                Width="120"
                 Height="30"
-                Margin="10,6"
+                Margin="0,6"
+                Padding="6,0,0,0"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                ItemsSource="{Binding StageList}"
+                SelectedValue="{Binding Stage1}"
+                SelectedValuePath="Value"
+                VerticalContentAlignment="Center" />
+            <ComboBox
+                Height="30"
+                Margin="0,6"
+                Padding="6,0,0,0"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{c:Binding !FightTaskRunning}"
                 ItemsSource="{Binding StageList}"
                 SelectedValue="{Binding Stage2}"
                 SelectedValuePath="Value"
-                Visibility="{Binding AlternateStageDisplay}" />
+                Visibility="{Binding AlternateStageDisplay}"
+                VerticalContentAlignment="Center" />
         </StackPanel>
-        <Button
+        <StackPanel
             Grid.Row="3"
             Grid.Column="2"
             Grid.ColumnSpan="2"
-            Margin="0,0,10,0"
-            HorizontalAlignment="Right"
-            Command="{s:Action SetParams}"
-            Content="{DynamicResource Amend}"
-            FontSize="10"
-            Visibility="{c:Binding !Idle}" />
+            >
+            <Button
+                Margin="0,6"
+                Padding="10,2"
+                Command="{s:Action SetParams}"
+                Content="{DynamicResource Amend}"
+                FontSize="10"
+                Visibility="{c:Binding !Idle}" Height="30" HorizontalContentAlignment="Center" HorizontalAlignment="Right" />
+        </StackPanel>
     </Grid>
 </UserControl>

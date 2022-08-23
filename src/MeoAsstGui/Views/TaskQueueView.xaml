@@ -13,20 +13,19 @@
     d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
     d:DesignHeight="495"
     d:DesignWidth="800"
-    mc:Ignorable="d">
+    mc:Ignorable="d" MinWidth="720">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <!--<ColumnDefinition Width="5" />-->
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border
                 MaxWidth="260"
@@ -56,7 +55,7 @@
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
-                        ToolTip="{DynamicResource LabelSequenceTip}">
+                        ToolTip="{DynamicResource LabelSequenceTip}" MinHeight="220">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -108,25 +107,56 @@
                         Visibility="{Binding NotInverseShowVisibility}" />
                 </Grid>
             </Border>
-            <StackPanel
-                Grid.Row="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <Grid
+                Margin="20,10"
+                Grid.Row="1" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <TextBlock
-                    Margin="5,0"
+                    Margin="5"
+                    Padding="5,0"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource Then}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
                 <ComboBox
-                    Width="170"
-                    Margin="5,0"
+                    Grid.Column="1"
+                    Margin="5"
+                    Width="120"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ActionAfterCompletedList}"
                     SelectedValue="{Binding ActionAfterCompleted}"
-                    SelectedValuePath="Value" />
-
-            </StackPanel>
+                    SelectedValuePath="Value"/>
+            </Grid>
+            <Grid
+                Margin="0,10"
+                Grid.Row="2" MaxWidth="280">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Height="50"
+                    Margin="5"
+                    Command="{s:Action LinkStart}"
+                    Content="{DynamicResource LinkStart}"
+                    IsEnabled="{Binding Idle}" MinWidth="100" />
+                <Button
+                    Grid.Column="1"
+                    Height="50"
+                    Margin="5"
+                    Command="{s:Action Stop}"
+                    Content="{DynamicResource Stop}" MinWidth="100" />
+            </Grid>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
             <!--<CheckBox IsChecked="{Binding Shutdown}" Content="自动关机" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -138,23 +168,6 @@
                 <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="{Binding Visible}"  HorizontalAlignment="Center" VerticalAlignment="Center" />-->
             <!--</StackPanel>-->
 
-            <Button
-                Grid.Row="2"
-                Width="120"
-                Height="50"
-                Margin="5"
-                HorizontalAlignment="Center"
-                Command="{s:Action LinkStart}"
-                Content="{DynamicResource LinkStart}"
-                IsEnabled="{Binding Idle}" />
-            <Button
-                Grid.Row="3"
-                Width="120"
-                Height="50"
-                Margin="5"
-                HorizontalAlignment="Center"
-                Command="{s:Action Stop}"
-                Content="{DynamicResource Stop}" />
         </Grid>
         <local:FightSettingsUserControl
             Grid.Column="1"
@@ -172,7 +185,8 @@
         <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="LightGray" Width="4" />-->
         <ScrollViewer
             Grid.Column="2"
-            HorizontalAlignment="Center"
+            Margin="10"
+            HorizontalAlignment="Left"
             VerticalAlignment="Top"
             local:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled">
