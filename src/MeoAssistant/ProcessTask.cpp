@@ -209,6 +209,10 @@ bool ProcessTask::_run()
             auto& v = m_exec_times[reduce];
             if (v > 0) {
                 --v;
+                Log.trace("Task `", m_cur_task_ptr->name, "` reduce `", reduce, "` times to ", v);
+            }
+            else {
+                Log.trace("Task `", m_cur_task_ptr->name, "` attempt to reduce `", reduce, "` times, but it is already 0");
             }
         }
 
