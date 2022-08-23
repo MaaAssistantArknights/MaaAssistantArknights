@@ -2509,7 +2509,7 @@
         ]
     },
     "OfflineConfirm": {
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "roi": [
             310,
             409,
@@ -2521,12 +2521,25 @@
             "StartButton2"
         ],
         "next": [
+            "OfflineConfirmImpl"
+        ]
+    },
+    "OfflineConfirmImpl": {
+        "template": "OfflineConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            310,
+            409,
+            648,
+            165
+        ],
+        "next": [
             "CloseAnno",
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
-            "OfflineConfirm",
+            "OfflineConfirmImpl",
             "TodaysSupplies"
         ]
     },
