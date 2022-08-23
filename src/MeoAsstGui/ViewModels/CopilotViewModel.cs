@@ -162,6 +162,11 @@ namespace MeoAsstGui
                 int.TryParse(copilotIdStr, out int copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
+            else
+            {
+                EasterEgg(filename);
+                return;
+            }
 
             if (jsonStr != string.Empty)
             {
@@ -500,6 +505,16 @@ namespace MeoAsstGui
             DependencyObject scope = FocusManager.GetFocusScope(element);
             FocusManager.SetFocusedElement(scope, element);
             Keyboard.ClearFocus();
+        }
+
+        private void EasterEgg(string text)
+        {
+            switch (text)
+            {
+                case "/help":
+                    AddLog(Localization.GetString("HelloWorld"), LogColor.Message);
+                    break;
+            }
         }
     }
 }

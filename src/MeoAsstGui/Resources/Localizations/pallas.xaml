@@ -382,7 +382,10 @@
     <system:String x:Key="Level1Tip">🍸🍻💃🍸🍻💃🍻🍸🍻🕺🍺💃🍺🍷💃🕺🍸</system:String>
     <!--  AutoRecruitSettings  -->
 
+    <!--  EasterEggs  -->
     <system:String x:Key="Burping">🕺💃</system:String>
     <system:String x:Key="DrunkAndStaggering">🍻🍻🍻🍻🍻🍻🍻🍻🍻🍻</system:String>
     <system:String x:Key="Hangover">🍻🍻🍻🍻🍻🍻🍻🍻🍻🍻</system:String>
+    <system:String x:Key="HelloWorld">🍻🍻🍻🍻🍻🍻🍻🍻🍻🍻</system:String>
+    <!--  EasterEggs  -->
 </ResourceDictionary>
