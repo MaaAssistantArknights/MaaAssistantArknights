@@ -665,7 +665,6 @@ bool asst::AutoRecruitTask::hire_all()
 void asst::AutoRecruitTask::async_upload_result(const json::value& details)
 {
     LogTraceFunction;
-    return;
     if (m_upload_to_penguin) {
         auto upload_future = std::async(
             std::launch::async,

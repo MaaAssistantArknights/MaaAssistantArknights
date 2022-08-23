@@ -20,11 +20,13 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using DataFormats = System.Windows.Forms.DataFormats;
 using DragEventArgs = System.Windows.DragEventArgs;
 using Screen = Stylet.Screen;
 
@@ -459,6 +461,23 @@ namespace MeoAsstGui
             catch (Exception)
             {
             }
+        }
+
+        /// <summary>
+        /// 点击后移除界面中元素焦点
+        /// </summary>
+        /// <param name="sender">点击事件发送者</param>
+        /// <param name="e">点击事件</param>
+        public void MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!(sender is UIElement element))
+            {
+                return;
+            }
+
+            DependencyObject scope = FocusManager.GetFocusScope(element);
+            FocusManager.SetFocusedElement(scope, element);
+            Keyboard.ClearFocus();
         }
     }
 }
