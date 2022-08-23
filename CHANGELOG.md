@@ -1,13 +1,3 @@
-- 新增 刷理智 `博朗台碎石模式`，会在碎石界面等待 1 点理智恢复完成后再碎石 @MistEO
-- 新增 基建宿舍 是否按 `未进驻` 筛选干员功能 @Hydrogina
-- 新增 自动战斗 识别作业中的 BV 号 @AnnoyingFlowers
-- 优化 公招 自动上传逻辑，现在仅会上传由 MAA 刷出来的公招操作，过滤脏数据 @horror-proton
-- 优化 界面布局 @MistEO @ABA2396 @LYZhelloworld
-- 优化 肉鸽 特种干员招募优先级 @zzyyyl @et2012 @Private233
-- 修复 基建宿舍 会将异格干员放入的问题 @Hydrogina
-- 修复 自动战斗 作业编辑器的一些字段错误 @LYZhelloworld
-- 修复 自动战斗 部分特别关注干员名识别错误 @MistEO
-- 修复 刷理智 掉落物设置不保存的问题 @ABA2396
-- 修复 肉鸽 获取剧目集后卡住的问题 @MistEO
-- 文档及翻译整理 @zzyyyl @MistEO
-- 项目打包逻辑整理、代码清理 @zzyyyl @LYZhelloworld
+- 修复 公招 不自动上传的问题 @horror-proton
+- 优化 刷理智 代理指挥连续失误四次后，停止刷理智任务 @zzyyyl
+- 优化 界面布局及保存逻辑 @lhhxxxxx
