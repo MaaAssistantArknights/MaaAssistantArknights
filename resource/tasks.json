@@ -2236,6 +2236,9 @@
             143
         ],
         "action": "DoNothing",
+        "reduceOtherTimes": [
+            "FightMissionFailed"
+        ],
         "next": [
             "ClickCorner"
         ]
@@ -2462,8 +2465,26 @@
             "OfflineConfirm",
             "StartButton1"
         ],
+        "maxTimes": 3,
+        "maxTimesDoc": "这是失败次数的限制，超过此限制会停止任务，但每成功一次 EndOfAction 会减少一次失败次数",
+        "exceededNext": [
+            "FightMissionFailedAndStop"
+        ],
         "onErrorNext": [
             "ClickCornerAfterPRTS_1"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "任务失败"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            36,
+            226,
+            482,
+            269
         ]
     },
     "OfflineConfirmAfterBattle": {
