@@ -7005,7 +7005,7 @@
             640,
             500
         ],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "Roguelike1RecruitOcr": {
         "algorithm": "OcrDetect",
