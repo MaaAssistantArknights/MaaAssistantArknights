@@ -479,5 +479,27 @@ namespace MeoAsstGui
             FocusManager.SetFocusedElement(scope, element);
             Keyboard.ClearFocus();
         }
+
+        /// <summary>
+        /// 回车键点击后移除界面中元素焦点
+        /// </summary>
+        /// <param name="sender">点击事件发送者</param>
+        /// <param name="e">点击事件</param>
+        public void KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+            {
+                return;
+            }
+
+            if (!(sender is UIElement element))
+            {
+                return;
+            }
+
+            DependencyObject scope = FocusManager.GetFocusScope(element);
+            FocusManager.SetFocusedElement(scope, element);
+            Keyboard.ClearFocus();
+        }
     }
 }

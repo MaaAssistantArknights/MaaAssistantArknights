@@ -14,6 +14,7 @@
     AllowDrop="True"
     Drop="{s:Action DropFile}"
     MouseDown="{s:Action MouseDown}"
+    KeyDown="{s:Action KeyDown}"
     mc:Ignorable="d">
     <Grid Margin="20" Background="White">
         <Grid.ColumnDefinitions>
