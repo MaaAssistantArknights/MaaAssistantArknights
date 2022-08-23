@@ -37,21 +37,24 @@ namespace MeoAsstGui
         [DllImport("MeoAssistant.dll")]
         private static extern IntPtr AsstGetVersion();
 
-        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
 
-        private static readonly string _versionInfo = Localization.GetString("Version") + ": " + _versionId;
+        /// <summary>
+        /// Gets the version id.
+        /// </summary>
+        public string VersionId
+        {
+            get { return s_versionId; }
+        }
+
+        private static readonly string s_versionInfo = Localization.GetString("Version") + ": " + s_versionId;
 
         /// <summary>
         /// Gets the version info.
         /// </summary>
         public string VersionInfo
         {
-            get { return _versionInfo; }
-        }
-
-        public string VersionId
-        {
-            get { return _versionId; }
+            get { return s_versionInfo; }
         }
 
         /// <summary>
@@ -435,6 +438,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets the client type.
+        /// </summary>
         public string ClientName
         {
             get
@@ -446,6 +452,7 @@ namespace MeoAsstGui
                         return item.Display;
                     }
                 }
+
                 return "Unknown Client";
             }
         }
@@ -1312,6 +1319,9 @@ namespace MeoAsstGui
 
         private bool _isDrGrandet = Convert.ToBoolean(ViewStatusStorage.Get("Penguin.IsDrGrandet", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use DrGrandet mode.
+        /// </summary>
         public bool IsDrGrandet
         {
             get
