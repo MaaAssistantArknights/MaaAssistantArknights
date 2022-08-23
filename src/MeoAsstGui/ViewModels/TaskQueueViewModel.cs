@@ -637,8 +637,6 @@ namespace MeoAsstGui
 
             ClearLog();
 
-            SaveSettingValue();
-
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
             var asstProxy = _container.Get<AsstProxy>();
@@ -766,27 +764,6 @@ namespace MeoAsstGui
             asstProxy.AsstStop();
             AddLog(Localization.GetString("Stopped"));
             Idle = true;
-        }
-
-        /// <summary>
-        /// 保存界面设置数值
-        /// </summary>
-        private void SaveSettingValue()
-        {
-            // 吃理智药个数
-            ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
-
-            // 吃石头颗数
-            ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
-
-            // 指定刷关次数
-            ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
-
-            // 指定掉落材料
-            ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
-
-            // 指定掉落材料数量
-            ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
         }
 
         private bool appendStart()
@@ -1516,6 +1493,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _medicineNumber, value);
+                ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             }
         }
 
@@ -1556,6 +1534,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
+                ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
             }
         }
 
@@ -1592,6 +1571,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _maxTimes, value);
+                ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
             }
         }
 
@@ -1678,12 +1658,8 @@ namespace MeoAsstGui
 
             set
             {
-                if (value == null)
-                {
-                    return;
-                }
-
                 SetAndNotify(ref _dropsItemId, value);
+                ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
         }
 
@@ -1765,6 +1741,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _dropsQuantity, value);
+                ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
             }
         }
     }

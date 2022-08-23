@@ -6,7 +6,7 @@ Usage of `resource/copilot/*.json` and field description.
 
 ```jsonc
 {
-    "stage_name": "暴君",           // Stage name, required. Name should be in Chinese except for C.C. (contingency contracts)
+    "stage_name": "暴君",           // Stage name, required. The Chinese name of the level, code, stageId, levelId, etc. are all acceptable as long as they are unique.
     "opers": [                      // Operator list
         {
             "name": "棘刺",         // Operator name
