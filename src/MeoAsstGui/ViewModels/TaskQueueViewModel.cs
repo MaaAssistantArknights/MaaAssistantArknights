@@ -162,6 +162,55 @@ namespace MeoAsstGui
         /// </summary>
         public void DeleteOldConfig()
         {
+
+            string[] saved_list_name_1 = new string[]
+            {
+                "开始唤醒", "自动公招", "基建换班", "刷理智", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽",
+            };
+            string[] saved_list_name_1_ori = new string[]
+            {
+                "WakeUp", "Recruiting", "Base", "Combat", "Visiting", "Mall", "Mission", "AutoRoguelike",
+            };
+            int index = 0;
+            foreach (var name in saved_list_name_1)
+            {
+                string check = ViewStatusStorage.Get("TaskQueue." + name + ".IsChecked", string.Empty);
+                string order = ViewStatusStorage.Get("TaskQueue.Order." + name, string.Empty);
+                if (check != string.Empty)
+                {
+                    ViewStatusStorage.Set("TaskQueue." + saved_list_name_1_ori[index] + ".IsChecked", check);
+                }
+                if (order != string.Empty)
+                {
+                    ViewStatusStorage.Set("TaskQueue.Order." + saved_list_name_1_ori[index], order);
+                }
+                index++;
+            }
+
+            string[] saved_list_name_2 = new string[]
+            {
+                "制造站", "贸易站", "控制中枢", "发电站", "会客室", "办公室", "宿舍",
+            };
+            string[] saved_list_name_2_ori = new string[]
+            {
+                "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm",
+            };
+            index = 0;
+            foreach (var name in saved_list_name_2)
+            {
+                string check = ViewStatusStorage.Get("Infrast." + name + ".IsChecked", string.Empty);
+                string order = ViewStatusStorage.Get("Infrast.Order." + name, string.Empty);
+                if (check != string.Empty)
+                {
+                    ViewStatusStorage.Set("Infrast." + saved_list_name_2_ori[index] + ".IsChecked", check);
+                }
+                if (order != string.Empty)
+                {
+                    ViewStatusStorage.Set("Infrast.Order." + saved_list_name_2_ori[index], order);
+                }
+                index++;
+            }
+
             string[] old_list_name = new string[]
             {
                 "开始唤醒", "自动公招", "基建换班", "刷理智", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽",
