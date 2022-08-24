@@ -48,7 +48,7 @@
 
     <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
 
-    <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、多くのステージをクリアする</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、できるだけクリアする</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、1階旅商人に出会った後止める</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
@@ -128,12 +128,12 @@
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
 
     <system:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
-    <system:String x:Key="DrGrandet">Dr.グランデのようにオリジニウムを使う</system:String>
+    <system:String x:Key="DrGrandet">Dr.グランデのように源石を使う</system:String>
     <system:String x:Key="DrGrandetTip">オリジナイト使用確認画面で正気度が1回復するまで待ってから、すぐにオリジナイトを使用してください</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入　セミコロンで区切</system:String>
-    <system:String x:Key="Blacklist">ブラックリスト　セミコロンで区切</system:String>
+    <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
+    <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
