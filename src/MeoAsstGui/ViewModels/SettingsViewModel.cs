@@ -119,13 +119,13 @@ namespace MeoAsstGui
             /* 基建设置 */
             var facility_list = new string[]
             {
-                Localization.GetString("Mfg"),
-                Localization.GetString("Trade"),
-                Localization.GetString("Control"),
-                Localization.GetString("Power"),
-                Localization.GetString("Reception"),
-                Localization.GetString("Office"),
-                Localization.GetString("Dorm"),
+                "Mfg",
+                "Trade",
+                "Control",
+                "Power",
+                "Reception",
+                "Office",
+                "Dorm",
             };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
@@ -136,11 +136,11 @@ namespace MeoAsstGui
 
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = new DragItemViewModel(facility, "Infrast.");
+                    temp_order_list[i] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
                 }
                 else
                 {
-                    temp_order_list[order] = new DragItemViewModel(facility, "Infrast.");
+                    temp_order_list[order] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
                 }
             }
 
@@ -574,7 +574,7 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                orderList.Add(_facilityKey[item.Name]);
+                orderList.Add(_facilityKey[item.OriginalName]);
             }
 
             return orderList;
@@ -587,7 +587,7 @@ namespace MeoAsstGui
         {
             for (int i = 0; i < InfrastItemViewModels.Count; i++)
             {
-                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].Name, i.ToString());
+                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].OriginalName, i.ToString());
             }
         }
 
