@@ -8311,7 +8311,7 @@
         "specialThreshold": 100,
         "specialThreshold_Doc": "基建长度阈值（不小于120）",
         "maskRange": [
-            35,
+            70,
             255
         ],
         "rectMove": [
