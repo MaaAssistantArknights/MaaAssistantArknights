@@ -11,6 +11,8 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
+#include <numbers>
+
 bool asst::StageDropsImageAnalyzer::analyze()
 {
     LogTraceFunction;
@@ -248,17 +250,35 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
 
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-BaseLine");
 
-    cv::Mat roi = m_image(utils::make_rect<cv::Rect>(task_ptr->roi));
-    cv::Mat gray;
-    cv::cvtColor(roi, gray, cv::COLOR_BGR2GRAY);
-    cv::Mat bin;
-    cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
+    cv::Mat preprocessed_roi;
 
-    cv::Rect bounding_rect = cv::boundingRect(bin);
-    cv::Mat bounding = gray(bounding_rect);
-    cv::Mat bgr_bounding = roi(bounding_rect);
-    cv::Mat hsv_bounding;
-    cv::cvtColor(bgr_bounding, hsv_bounding, cv::COLOR_BGR2HSV);
+    {
+        double angle = 60. / 180. * std::numbers::pi;
+        cv::Mat temp; // convert to float point for convenience
+        m_image.convertTo(temp, CV_32F, 1. / 255);
+        cv::Mat pdy;
+        cv::Mat pdx;
+        cv::Sobel(temp, pdy, CV_32F, 0, 1);
+        cv::Sobel(temp, pdx, CV_32F, 1, 0);
+        // prefer gradient in vertical direction, make value of those pixels positive
+        cv::sqrt(pdy.mul(pdy) - std::pow(std::tan(angle), 2.) * pdx.mul(pdx), temp);
+
+        // cropping after derivatives, not before
+        temp(utils::make_rect<cv::Rect>(task_ptr->roi)).convertTo(preprocessed_roi, CV_8U, 255);
+
+        // filling small gaps
+        cv::dilate(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
+        // line must be thick enough
+        cv::erode(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 2 }));
+
+        cv::cvtColor(preprocessed_roi, preprocessed_roi, cv::COLOR_BGR2GRAY);
+    }
+
+    cv::Mat preprocessed_bin;
+    cv::inRange(preprocessed_roi, task_ptr->mask_range.first, task_ptr->mask_range.second, preprocessed_bin);
+
+    cv::Rect bounding_rect = cv::boundingRect(preprocessed_bin);
+    cv::Mat bounding = preprocessed_bin(bounding_rect);
 
     int x_offset = task_ptr->roi.x + bounding_rect.x;
     int y_offset = task_ptr->roi.y + bounding_rect.y;
@@ -271,28 +291,13 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int spacing = 0;
 
     // split
-    int threshold = task_ptr->mask_range.first;
-    cv::Vec3i pre_hsv;
     for (int i = 0; i < bounding.cols; ++i) {
         uchar value = 0;
         for (int j = 0; j < bounding.rows; ++j) {
             value = std::max(value, bounding.at<uchar>(j, i));
         }
-        cv::Vec3i hsv = hsv_bounding.at<cv::Vec3b>(0, i);
 
-        static const int h_threshold = task_ptr->rect_move.x;
-        static const int s_threshold = task_ptr->rect_move.y;
-        static const int v_threshold = task_ptr->rect_move.width;
-
-        bool is_white = value >= threshold;
-        if (pre_hsv != cv::Vec3i::zeros()) {
-            is_white &=
-                abs(pre_hsv[0] - hsv[0]) < h_threshold &&
-                abs(pre_hsv[1] - hsv[1]) < s_threshold &&
-                abs(pre_hsv[2] - hsv[2]) < v_threshold;
-        }
-
-        pre_hsv = hsv;
+        bool is_white = value;
 
         if (in && !is_white) {
             in = false;
