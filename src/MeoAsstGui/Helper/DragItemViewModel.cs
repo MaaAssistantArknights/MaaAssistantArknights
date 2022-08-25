@@ -28,8 +28,34 @@ namespace MeoAsstGui
         public DragItemViewModel(string name, string storageKey)
         {
             this.Name = name;
+            this.OriginalName = name;
             this._isCheckedStorageKey = storageKey + name + ".IsChecked";
             this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DragItemViewModel"/> class.
+        /// </summary>
+        /// <param name="name">The name (viewed name).</param>
+        /// <param name="original_name">The original name (may not be the same as viewed name).</param>
+        /// <param name="storageKey">The storage key.</param>
+        public DragItemViewModel(string name, string original_name, string storageKey)
+        {
+            this.Name = name;
+            this.OriginalName = original_name;
+            this._isCheckedStorageKey = storageKey + original_name + ".IsChecked";
+            this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
+        }
+
+        private string _original_name;
+
+        /// <summary>
+        /// Gets or sets the original_name.
+        /// </summary>
+        public string OriginalName
+        {
+            get { return _original_name; }
+            set { SetAndNotify(ref _original_name, value); }
         }
 
         private string _name;
