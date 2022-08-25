@@ -102,26 +102,6 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// Deletes configuration.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>Whether the operation is successful.</returns>
-        public static bool Delete(string key)
-        {
-            try
-            {
-                _viewStatus.Remove(key);
-                Save();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Saves configuration.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
