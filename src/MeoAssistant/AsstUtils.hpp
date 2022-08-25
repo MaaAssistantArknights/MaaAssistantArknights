@@ -107,6 +107,7 @@ namespace asst::utils
         return buff;
     }
 
+    template<typename _ = void>
     inline std::string ansi_to_utf8(const std::string& ansi_str)
     {
 #ifdef _WIN32
@@ -131,10 +132,12 @@ namespace asst::utils
 
         return strTemp;
 #else   // Don't fucking use gbk in linux!
+        ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
         return ansi_str;
 #endif
     }
 
+    template<typename _ = void>
     inline std::string utf8_to_ansi(const std::string& utf8_str)
     {
 #ifdef _WIN32
@@ -159,6 +162,7 @@ namespace asst::utils
 
         return strTemp;
 #else   // Don't fucking use gbk in linux!
+        ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
         return utf8_str;
 #endif
     }
