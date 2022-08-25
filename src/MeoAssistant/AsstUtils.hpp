@@ -339,46 +339,4 @@ namespace asst::utils
 #endif
         return pipe_str;
     }
-
-    // template<typename T,
-    //	typename = typename std::enable_if<std::is_constructible<T, std::string>::value>::type>
-    //	std::string VectorToString(const std::vector<T>& vector, bool to_gbk = false) {
-    //	if (vector.empty()) {
-    //		return std::string();
-    //	}
-    //	static const std::string inter = ",  ";
-    //	std::string str;
-    //	for (const T& ele : vector) {
-    //		if (to_gbk) {
-    //			str += utils::utf8_to_ansi(ele) + inter;
-    //		}
-    //		else {
-    //			str += ele + inter;
-    //		}
-    //	}
-
-    //	if (!str.empty()) {
-    //		str.erase(str.size() - inter.size(), inter.size());
-    //	}
-    //	return str;
-    //}
-
-    //template<typename T,
-    //	typename = typename std::enable_if<std::is_arithmetic<T>::value>::type>
-    //	std::string VectorToString(const std::vector<T>& vector) {
-    //	if (vector.empty()) {
-    //		return std::string();
-    //	}
-    //	static const std::string inter = ",  ";
-    //	std::string str;
-    //	for (const T& ele : vector) {
-    //		str += std::to_string(ele) + inter;
-    //	}
-
-    //	if (!str.empty()) {
-    //		str.erase(str.size() - inter.size(), inter.size());
-    //	}
-    //	return str;
-    //}
 }
-
