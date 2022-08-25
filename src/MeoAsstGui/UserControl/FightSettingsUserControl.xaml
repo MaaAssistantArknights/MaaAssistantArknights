@@ -97,7 +97,9 @@
                     IsChecked="{Binding IsSpecifiedDrops}"
                     ToolTip="{DynamicResource NoAutoNavigation}"
                     VerticalContentAlignment="Center" />
-                <Grid Height="42">
+                <Grid
+                    Height="42"
+                    Visibility="{c:Binding IsSpecifiedDrops}" >
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -127,7 +129,7 @@
                     Width="60"
                     Margin="0,6"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsEnabled="{Binding IsSpecifiedDrops}"
+                    Visibility="{c:Binding IsSpecifiedDrops}"
                     Text="{Binding DropsQuantity}"
                     TextType="Int"
                     HorizontalContentAlignment="Center"
