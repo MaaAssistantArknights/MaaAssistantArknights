@@ -19,10 +19,6 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         return false;
     }
 
-    const auto& order = Resrc.roguelike_recruit().get_oper_order();
-    analyzer.set_required(order);
-    analyzer.sort_result_by_required();
-
     for (const auto& [_, rect, name] : analyzer.get_result()) {
         int elite = match_elite(rect);
         int level = match_level(rect);
@@ -32,20 +28,10 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         info.name = name;
         info.elite = elite;
         info.level = level;
-        info.required = ranges::find(order, name) != order.cend();
 
         Log.info(__FUNCTION__, name, elite, level, rect.to_string());
         m_result.emplace_back(std::move(info));
     }
-
-    auto first_un_req = ranges::find_if(m_result, std::not_fn(std::mem_fn(&BattleRecruitOperInfo::required)));
-    std::sort(first_un_req, m_result.end(),
-        [&](const auto& lhs, const auto& rhs) -> bool {
-            if (lhs.elite == rhs.elite) {
-                return lhs.level > rhs.level;
-            }
-            return lhs.elite > rhs.elite;
-        });
 
     return !m_result.empty();
 }
