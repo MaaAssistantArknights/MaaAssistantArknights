@@ -28,27 +28,23 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border
-                MaxWidth="260"
+                Width="210"
+                MaxWidth="210"
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
                 <Grid
                     Grid.Row="0"
-                    Width="200"
+                    Width="190"
                     Margin="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
                     <ListBox
                         x:Name="TaskList"
                         Grid.Row="0"
-                        Grid.ColumnSpan="2"
-                        Width="200"
+                        Width="190"
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
                         dd:DragDrop.IsDragSource="{Binding Idle}"
@@ -69,50 +65,50 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Width="{Binding SelectedAllWidth}"
-                        Height="30"
-                        VerticalAlignment="Top"
-                        Command="{s:Action SelectedAll}"
-                        Content="{DynamicResource SelectAll}"
-                        IsEnabled="{Binding Idle}" />
-                    <hc:SplitButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Width="{Binding InverseSelectedWidth}"
-                        Height="30"
-                        VerticalAlignment="Top"
-                        Command="{s:Action InverseSelected}"
-                        Content="{Binding InverseShowText}"
-                        IsEnabled="{Binding Idle}"
-                        Visibility="{Binding InverseShowVisibility}">
-                        <hc:SplitButton.DropDownContent>
-                            <MenuItem
-                                Width="{Binding InverseSelectedWidth}"
-                                Command="{s:Action ChangeInverseMode}"
-                                Header="{Binding InverseMenuText}" />
-                        </hc:SplitButton.DropDownContent>
-                    </hc:SplitButton>
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Width="90"
-                        Height="30"
-                        VerticalAlignment="Top"
-                        Command="{s:Action InverseSelected}"
-                        Content="{Binding InverseShowText}"
-                        IsEnabled="{Binding Idle}"
-                        Visibility="{Binding NotInverseShowVisibility}" />
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Width="{Binding SelectedAllWidth}"
+                            Height="30"
+                            VerticalAlignment="Top"
+                            Command="{s:Action SelectedAll}"
+                            Content="{DynamicResource SelectAll}"
+                            IsEnabled="{Binding Idle}" />
+                        <hc:SplitButton
+                            Grid.Column="1"
+                            Width="{Binding InverseSelectedWidth}"
+                            Height="30"
+                            VerticalAlignment="Top"
+                            Command="{s:Action InverseSelected}"
+                            Content="{Binding InverseShowText}"
+                            IsEnabled="{Binding Idle}"
+                            Visibility="{Binding InverseShowVisibility}">
+                            <hc:SplitButton.DropDownContent>
+                                <MenuItem
+                                    Width="{Binding InverseSelectedWidth}"
+                                    Command="{s:Action ChangeInverseMode}"
+                                    Header="{Binding InverseMenuText}" />
+                            </hc:SplitButton.DropDownContent>
+                        </hc:SplitButton>
+                        <Button
+                            Grid.Column="1"
+                            Width="90"
+                            Height="30"
+                            VerticalAlignment="Top"
+                            Command="{s:Action InverseSelected}"
+                            Content="{Binding InverseShowText}"
+                            IsEnabled="{Binding Idle}"
+                            Visibility="{Binding NotInverseShowVisibility}" />
+                    </Grid>
                 </Grid>
             </Border>
             <Grid
-                Margin="20,10"
+                Margin="10"
                 Grid.Row="1" HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -135,27 +131,23 @@
                     SelectedValuePath="Value"/>
             </Grid>
             <Grid
-                Margin="0,10"
-                Grid.Row="2" MaxWidth="280">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                Grid.Row="2">
                 <Button
                     Height="50"
+                    MinWidth="100"
+                    MaxWidth="100"
                     Margin="5"
+                    Visibility="{Binding Idle, Converter={StaticResource Boolean2VisibilityConverter}}"
                     Command="{s:Action LinkStart}"
-                    Content="{DynamicResource LinkStart}"
-                    IsEnabled="{Binding Idle}" MinWidth="100" />
+                    Content="{DynamicResource LinkStart}" />
                 <Button
-                    Grid.Column="1"
                     Height="50"
+                    MinWidth="100"
+                    MaxWidth="100"
                     Margin="5"
+                    Visibility="{c:Binding Path=!Idle}"
                     Command="{s:Action Stop}"
-                    Content="{DynamicResource Stop}" MinWidth="100" />
+                    Content="{DynamicResource Stop}" />
             </Grid>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
@@ -198,7 +190,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
-                                Width="100"
+                                Width="95"
                                 Margin="0,5"
                                 Foreground="Gray"
                                 Style="{StaticResource TextBlockDefault}"
