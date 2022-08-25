@@ -37,21 +37,24 @@ namespace MeoAsstGui
         [DllImport("MeoAssistant.dll")]
         private static extern IntPtr AsstGetVersion();
 
-        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
 
-        private static readonly string _versionInfo = Localization.GetString("Version") + ": " + _versionId;
+        /// <summary>
+        /// Gets the version id.
+        /// </summary>
+        public string VersionId
+        {
+            get { return s_versionId; }
+        }
+
+        private static readonly string s_versionInfo = Localization.GetString("Version") + ": " + s_versionId;
 
         /// <summary>
         /// Gets the version info.
         /// </summary>
         public string VersionInfo
         {
-            get { return _versionInfo; }
-        }
-
-        public string VersionId
-        {
-            get { return _versionId; }
+            get { return s_versionInfo; }
         }
 
         /// <summary>
@@ -116,13 +119,13 @@ namespace MeoAsstGui
             /* 基建设置 */
             var facility_list = new string[]
             {
-                Localization.GetString("Mfg"),
-                Localization.GetString("Trade"),
-                Localization.GetString("Control"),
-                Localization.GetString("Power"),
-                Localization.GetString("Reception"),
-                Localization.GetString("Office"),
-                Localization.GetString("Dorm"),
+                "Mfg",
+                "Trade",
+                "Control",
+                "Power",
+                "Reception",
+                "Office",
+                "Dorm",
             };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
@@ -133,11 +136,11 @@ namespace MeoAsstGui
 
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = new DragItemViewModel(facility, "Infrast.");
+                    temp_order_list[i] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
                 }
                 else
                 {
-                    temp_order_list[order] = new DragItemViewModel(facility, "Infrast.");
+                    temp_order_list[order] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
                 }
             }
 
@@ -435,6 +438,9 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets the client type.
+        /// </summary>
         public string ClientName
         {
             get
@@ -446,6 +452,7 @@ namespace MeoAsstGui
                         return item.Display;
                     }
                 }
+
                 return "Unknown Client";
             }
         }
@@ -567,7 +574,7 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                orderList.Add(_facilityKey[item.Name]);
+                orderList.Add(_facilityKey[item.OriginalName]);
             }
 
             return orderList;
@@ -580,7 +587,7 @@ namespace MeoAsstGui
         {
             for (int i = 0; i < InfrastItemViewModels.Count; i++)
             {
-                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].Name, i.ToString());
+                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].OriginalName, i.ToString());
             }
         }
 
@@ -1312,6 +1319,9 @@ namespace MeoAsstGui
 
         private bool _isDrGrandet = Convert.ToBoolean(ViewStatusStorage.Get("Penguin.IsDrGrandet", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use DrGrandet mode.
+        /// </summary>
         public bool IsDrGrandet
         {
             get

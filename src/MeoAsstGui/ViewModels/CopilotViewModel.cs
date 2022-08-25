@@ -162,6 +162,11 @@ namespace MeoAsstGui
                 int.TryParse(copilotIdStr, out int copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
             }
+            else
+            {
+                EasterEgg(filename);
+                return;
+            }
 
             if (jsonStr != string.Empty)
             {
@@ -478,6 +483,38 @@ namespace MeoAsstGui
             DependencyObject scope = FocusManager.GetFocusScope(element);
             FocusManager.SetFocusedElement(scope, element);
             Keyboard.ClearFocus();
+        }
+
+        /// <summary>
+        /// 回车键点击后移除界面中元素焦点
+        /// </summary>
+        /// <param name="sender">点击事件发送者</param>
+        /// <param name="e">点击事件</param>
+        public void KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+            {
+                return;
+            }
+
+            if (!(sender is UIElement element))
+            {
+                return;
+            }
+
+            DependencyObject scope = FocusManager.GetFocusScope(element);
+            FocusManager.SetFocusedElement(scope, element);
+            Keyboard.ClearFocus();
+        }
+
+        private void EasterEgg(string text)
+        {
+            switch (text)
+            {
+                case "/help":
+                    AddLog(Localization.GetString("HelloWorld"), LogColor.Message);
+                    break;
+            }
         }
     }
 }
