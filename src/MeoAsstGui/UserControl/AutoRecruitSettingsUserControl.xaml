@@ -40,7 +40,7 @@
                     IsChecked="{Binding UseExpedited}"
                     ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                 <CheckBox
-                    MaxWidth="155"
+                    MaxWidth="170"
                     Margin="10"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding IsLevel3UseShortTime}"
