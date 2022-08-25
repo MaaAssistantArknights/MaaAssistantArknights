@@ -321,7 +321,7 @@ namespace json
 
         bool empty() const noexcept { return _object_data.empty(); }
         size_t size() const noexcept { return _object_data.size(); }
-        bool contains(const std::string& key) const { return _object_data.find(key) != _object_data.cend(); }
+        bool contains(const std::string& key) const;
         bool exists(const std::string& key) const { return contains(key); }
         const value& at(const std::string& key) const;
         const std::string to_string() const;
@@ -1482,6 +1482,11 @@ namespace json
         : object(std::move(val.as_object()))
     {
         ;
+    }
+
+    MEOJSON_INLINE bool object::contains(const std::string& key) const
+    {
+        return _object_data.find(key) != _object_data.cend();
     }
 
     MEOJSON_INLINE const value& object::at(const std::string& key) const

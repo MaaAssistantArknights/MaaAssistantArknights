@@ -19,6 +19,12 @@
 
 namespace asst::utils
 {
+    //  delete instantiation of template with message, when static_assert(false, Message) does not work
+    #define ASST_STATIC_ASSERT_FALSE(Message, ...) \
+    static_assert(::asst::utils::integral_constant_at_template_instantiation<bool, false, __VA_ARGS__>::value, Message)
+    template <typename T, T Val, typename... Unused>
+    struct integral_constant_at_template_instantiation : std::integral_constant<T, Val> {};
+
     inline void _string_replace_all(std::string& str, const std::string_view& old_value, const std::string_view& new_value)
     {
         for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
@@ -157,6 +163,7 @@ namespace asst::utils
 #endif
     }
 
+    template<typename _ = void>
     inline std::string utf8_to_unicode_escape(const std::string& utf8_str)
     {
 #ifdef _WIN32
@@ -188,7 +195,8 @@ namespace asst::utils
 
         return unicode_escape_str;
 #else
-        static_assert(false, "Don't use utf8_to_unicode_escape in non-win32.");
+        ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
+        return utf8_str;
 #endif
     }
 
@@ -368,11 +376,5 @@ namespace asst::utils
     //	}
     //	return str;
     //}
-
-    template <typename T, T Val, typename... Unused>
-    struct integral_constant_at_template_instantiation : std::integral_constant<T, Val> {};
 }
 
-//  delete instantiation of template with message, when static_assert(false, Message) does not work
-#define ASST_STATIC_ASSERT_FALSE(Message, ...) \
-static_assert(::asst::utils::integral_constant_at_template_instantiation<bool, false, __VA_ARGS__>::value, Message)
