@@ -48,6 +48,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // 候选干员
     std::vector<RoguelikeRecruitInfo> recruit_list;
 
+    // 干员名字的识别位置
+    std::unordered_map<std::string, Rect> last_oper_rects;
+
     constexpr int SwipeTimes = 5;
     int i = 0;
 
@@ -56,22 +59,45 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            // 如果还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
+            Log.trace(__FUNCTION__, "| Page", i, "recruit list analyse failed");
+            // 还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
             if (i == 0) {
-                Log.trace(__FUNCTION__, "| Recruit list analyse failed before swiping");
                 return true;
             }
-            // 已经滑动过，识别失败可能是意外情况，尝试继续滑动
-            Log.trace(__FUNCTION__, "| Recruit list analyze failed after swiping: ", i);
-            slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
-            sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
-            continue;
+            // 已经滑动过，识别失败可能是干员不可选
+            break;
         }
 
+        std::string oper_names = "";
         const auto& oper_list = analyzer.get_result();
         bool stop_swipe = false;
 
         for (const auto& oper_info : oper_list) {
+            if (!oper_names.empty()) {
+                oper_names += ", ";
+            }
+            oper_names += oper_info.name;
+
+            // 查询上次识别位置
+            const auto& rect_it = last_oper_rects.find(oper_info.name);
+            if (rect_it == last_oper_rects.cend()) {
+                last_oper_rects.emplace(oper_info.name, oper_info.rect);
+            }
+            else {
+                const auto x_offset = abs(rect_it->second.x - oper_info.rect.x);
+                const auto y_offset = abs(rect_it->second.y - oper_info.rect.y);
+
+                // 偏移低于阈值，代表划动没有效果，已经到达屏幕最右侧
+                if (x_offset < 20 && y_offset < 5) {
+                    stop_swipe = true;
+                    Log.trace(__FUNCTION__, "| Page", i, "oper", oper_info.name, "last rect:", rect_it->second.to_string(),
+                        "current rect:", oper_info.rect.to_string(), " - stop swiping");
+                    break;
+                }
+
+                rect_it->second = oper_info.rect;
+            }
+
             // 查询招募配置
             auto& recruit_info = recruit_cfg.get_oper_info(oper_info.name);
             if (recruit_info.name.empty()) {
@@ -110,11 +136,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
             }
 
-            // 已经划到后备干员，且已有候选干员，假定后面的干员优先级不会更高，不再划动
-            if (recruit_info.is_alternate && !recruit_list.empty()) {
-                stop_swipe = true;
-            }
-
             // 优先级为0，可能练度不够被忽略
             if (priority == 0) {
                 continue;
@@ -134,11 +155,21 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
         }
 
+        Log.info(__FUNCTION__, "| Page", i, "oper list:", oper_names);
+
         if (stop_swipe) {
             break;
         }
 
+        // 每列4个干员，未滑动时可以显示2列，滑动后至少可以显示1列
+        const auto oper_count = oper_list.size();
+        if ((i == 0 && oper_count < 8) || oper_count < 4) {
+            Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- stop swiping");
+            break;
+        }
+
         // 向右滑动
+        Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
         slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
         sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
     }

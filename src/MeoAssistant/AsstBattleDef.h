@@ -127,7 +127,6 @@ namespace asst
         Rect rect;
         int elite = 0;
         int level = 0;
-        bool required = false;
     };
 
     using BattleAttackRange = std::vector<Point>;

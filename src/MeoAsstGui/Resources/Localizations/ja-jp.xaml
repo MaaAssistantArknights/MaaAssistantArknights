@@ -382,7 +382,10 @@
     <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
     <!--  AutoRecruitSettings  -->
 
+    <!--  EasterEggs  -->
     <system:String x:Key="Burping">うぅ……オエッ、つ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
     <system:String x:Key="Hangover">次は飲みすぎないようにしないと……</system:String>
+    <system:String x:Key="HelloWorld">Hello World!</system:String>
+    <!--  EasterEggs  -->
 </ResourceDictionary>

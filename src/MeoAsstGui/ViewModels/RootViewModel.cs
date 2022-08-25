@@ -111,11 +111,6 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _windowTitle, value);
         }
 
-        /// <summary>
-        /// Gets the version info.
-        /// </summary>
-        public string VersionId => _container.Get<SettingsViewModel>().VersionId;
-
         /// <inheritdoc/>
         protected override void OnClose()
         {
