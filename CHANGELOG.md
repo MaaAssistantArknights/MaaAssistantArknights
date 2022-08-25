@@ -3,6 +3,6 @@
 - 优化 刷理智 掉落识别检测算法 @horror-proton
 - 修复 刷理智 IC 关卡导航错误 @ABA2396
 - 优化 界面 缩放显示 @zzyyyl
-- 优化 界面 顺序保存 @Tastror
 - 优化 界面 不知道写了个什么鬼东西 @lhhxxxxx
 - 项目代码整理、utils 优化 @zzyyyl
+- 回滚 `v4.3.0-beta.5` 版本的崩溃问题 @MistEO
