@@ -8302,9 +8302,9 @@
         "templThreshold": 17,
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialThreshold": 100,
-        "specialThreshold_Doc": "基建长度阈值（不小于120）",
+        "specialThreshold_Doc": "基线长度阈值（不小于100）",
         "maskRange": [
-            35,
+            70,
             255
         ],
         "rectMove": [
