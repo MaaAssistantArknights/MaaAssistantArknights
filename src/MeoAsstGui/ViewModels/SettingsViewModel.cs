@@ -146,14 +146,6 @@ namespace MeoAsstGui
 
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            _facilityKey.Add(Localization.GetString("Dorm"), "Dorm");
-            _facilityKey.Add(Localization.GetString("Mfg"), "Mfg");
-            _facilityKey.Add(Localization.GetString("Trade"), "Trade");
-            _facilityKey.Add(Localization.GetString("Power"), "Power");
-            _facilityKey.Add(Localization.GetString("Reception"), "Reception");
-            _facilityKey.Add(Localization.GetString("Office"), "Office");
-            _facilityKey.Add(Localization.GetString("Control"), "Control");
-
             UsesOfDronesList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("DronesNotUse"), Value = "_NotUse" },
@@ -480,7 +472,6 @@ namespace MeoAsstGui
         }
 
         /* 基建设置 */
-        private readonly Dictionary<string, string> _facilityKey = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets or sets the infrast item view models.
@@ -574,7 +565,7 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                orderList.Add(_facilityKey[item.OriginalName]);
+                orderList.Add(item.OriginalName);
             }
 
             return orderList;
