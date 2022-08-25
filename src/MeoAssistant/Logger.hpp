@@ -10,6 +10,7 @@
 #include <thread>
 
 #include "AsstUtils.hpp"
+#include "AsstRanges.hpp"
 #include "Version.h"
 
 namespace asst
@@ -171,22 +172,7 @@ namespace asst
         struct has_stream_insertion_operator<
             Stream, T,
             std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-            : std::true_type
-        {
-        };
-
-        template <typename T, typename Enable = void>
-        struct is_range_expression : std::false_type {};
-
-        template <typename T>
-        struct is_range_expression<T, std::enable_if_t<
-            std::is_convertible_v<
-            typename std::iterator_traits<decltype(begin(std::declval<T>()))>::iterator_category,
-            std::forward_iterator_tag
-            >
-            >> : std::true_type
-        {
-        };
+            : std::true_type {};
 
         template <bool ToAnsi, typename Stream, typename T>
         static Stream& stream_put(Stream& s, T&& v)
@@ -200,7 +186,7 @@ namespace asst
                 s << std::forward<T>(v);
                 return s;
             }
-            else if constexpr (is_range_expression<T>::value) {
+            else if constexpr (ranges::input_range<T>) {
                 s << "[";
                 std::string_view comma{};
                 for (const auto& elem : std::forward<T>(v)) {
@@ -213,11 +199,11 @@ namespace asst
             }
             else {
                 ASST_STATIC_ASSERT_FALSE(
-                        "\nunsupported type, one of the following expected\n"
-                        "\t1. those can be converted to string;\n"
-                        "\t2. those can be inserted to stream with operator<< directly;\n"
-                        "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
-                        Stream, T);
+                    "\nunsupported type, one of the following expected\n"
+                    "\t1. those can be converted to string;\n"
+                    "\t2. those can be inserted to stream with operator<< directly;\n"
+                    "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
+                    Stream, T);
             }
         }
 
