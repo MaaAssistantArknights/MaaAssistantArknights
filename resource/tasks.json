@@ -495,18 +495,11 @@
     },
     "IC-Open": {
         "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "理想城",
-            "狂欢季",
-            "活动",
-            "开放"
-        ],
         "roi": [
+            471,
             0,
-            500,
-            500,
-            150
+            530,
+            711
         ],
         "next": [
             "ICChapterToIC"
