@@ -1495,6 +1495,14 @@
         "sortId": 60012,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
+    "randomMaterialRune_10": {
+        "classifyType": "CONSUME",
+        "description": "来自危机合约的材料补给箱。给予努力治疗着这片大地的人们的微小回报。----危机合约",
+        "icon": "randomMaterialRune_10.png",
+        "name": "尘环行动物资补给",
+        "sortId": 60021,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
     "randomMaterialRune_2": {
         "classifyType": "CONSUME",
         "description": "来自危机合约的材料补给箱。给予努力治疗着这片大地的人们的微小回报。----危机合约",
