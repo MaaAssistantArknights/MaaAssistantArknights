@@ -295,11 +295,11 @@
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError">任務出錯：</system:String>
-    <system:String x:Key="CombatError">戰鬥出錯：</system:String>
+    <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask">開始任務：</system:String>
     <system:String x:Key="CompleteTask">完成任務：</system:String>
     <system:String x:Key="StartCombat">開始戰鬥：</system:String>
-    <system:String x:Key="CompleteCombat">完成戰鬥：</system:String>
+    <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
     <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
     <system:String x:Key="ErrorOccurred">出現錯誤</system:String>

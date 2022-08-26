@@ -295,11 +295,11 @@
     <system:String x:Key="ReconnectFailed">再接続に失敗した。切断されました！</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError">タスクエラー：</system:String>
-    <system:String x:Key="CombatError">戦闘エラー：</system:String>
+    <system:String x:Key="CombatError">戦闘エラー</system:String>
     <system:String x:Key="StartTask">タスク開始：</system:String>
     <system:String x:Key="CompleteTask">タスク完了：</system:String>
     <system:String x:Key="StartCombat">戦闘開始：</system:String>
-    <system:String x:Key="CompleteCombat">戦闘完了：</system:String>
+    <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
