@@ -260,15 +260,16 @@ namespace asst
         int max_times = INT_MAX;                // 任务最多执行多少次
         std::vector<std::string> exceeded_next; // 达到最多次数了之后，下一个可能的任务（列表）
         std::vector<std::string> on_error_next; // 任务出错之后要去执行什么
-        std::vector<std::string>
-            reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
-        Rect specific_rect;     // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
-        int pre_delay = 0;      // 执行该任务前的延时
-        int rear_delay = 0;     // 执行该任务后的延时
+        std::vector<std::string> reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。
+                                                     // 例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，
+                                                     // 所以蓝色开始行动要-1
+        Rect specific_rect;        // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+        int pre_delay = 0;         // 执行该任务前的延时
+        int rear_delay = 0;        // 执行该任务后的延时
         int retry_times = INT_MAX; // 未找到图像时的重试次数
         Rect roi;                  // 要识别的区域，若为0则全图识别
-        Rect rect_move; // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。即识别到了res，点击res +
-                        // result_move的位置
+        Rect rect_move;     // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
+                            // 即识别到了res，点击res + result_move的位置
         bool cache = false; // 是否使用缓存区域
     };
 

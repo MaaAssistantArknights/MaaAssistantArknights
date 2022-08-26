@@ -52,7 +52,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     case 1:
         m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeave", 0);
         break;
-        [[unlikely]] case 2 : m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
+    case 2:
+        [[unlikely]] m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
         break;
     default:
         Log.error(__FUNCTION__, "| Unknown mode", mode);

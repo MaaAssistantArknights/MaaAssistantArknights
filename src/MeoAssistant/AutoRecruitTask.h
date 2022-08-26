@@ -79,9 +79,8 @@ namespace asst
         std::set<slot_index> m_force_skipped;
 
         // Do not report tags from these slot. Already reported, or we can not make sure whether it has been reported.
-        // e.g. those that were already empty (*Recruit Now*) when we open the recruit page,
-        // because we can not make sure whether they were already reported yesterday but stayed untouched for some
-        // reason
+        // e.g. those that were already empty (*Recruit Now*) when we open the recruit page, because
+        // we can not make sure whether they were already reported yesterday but stayed untouched for some reason.
         std::set<slot_index> m_dirty_slots = { 0, 1, 2, 3 };
 
         std::string m_server = "CN";
