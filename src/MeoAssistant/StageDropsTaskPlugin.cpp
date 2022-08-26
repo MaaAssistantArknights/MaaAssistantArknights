@@ -1,23 +1,22 @@
 #include "StageDropsTaskPlugin.h"
 
-#include <thread>
 #include <chrono>
 #include <regex>
+#include <thread>
 
-#include "Controller.h"
-#include "Resource.h"
-#include "ProcessTask.h"
-#include "RuntimeStatus.h"
-#include "Version.h"
 #include "AsstUtils.hpp"
+#include "Controller.h"
 #include "Logger.hpp"
-#include "TaskData.h"
+#include "ProcessTask.h"
+#include "Resource.h"
+#include "RuntimeStatus.h"
 #include "StageDropsImageAnalyzer.h"
+#include "TaskData.h"
+#include "Version.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskCompleted
-        || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
     const std::string task = details.at("details").at("task").as_string();
@@ -91,9 +90,7 @@ bool asst::StageDropsTaskPlugin::_run()
     }
 
     if (m_enable_penguid && !m_is_annihilation) {
-        auto upload_future = std::async(
-            std::launch::async,
-            &StageDropsTaskPlugin::upload_to_penguin, this);
+        auto upload_future = std::async(std::launch::async, &StageDropsTaskPlugin::upload_to_penguin, this);
         m_upload_pending.emplace_back(std::move(upload_future));
     }
 
@@ -162,10 +159,10 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         stats_vec.emplace_back(std::move(info));
     }
     //// 排个序，数量多的放前面
-    //std::sort(stats_vec.begin(), stats_vec.end(),
-    //    [](const json::value& lhs, const json::value& rhs) -> bool {
-    //        return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-    //    });
+    // std::sort(stats_vec.begin(), stats_vec.end(),
+    //     [](const json::value& lhs, const json::value& rhs) -> bool {
+    //         return lhs.at("count").as_integer() > rhs.at("count").as_integer();
+    //     });
 
     json::value info = basic_info_with_what("StageDrops");
     json::value& details = info["details"];
@@ -231,7 +228,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     body["stageId"] = stage_id;
     auto& all_drops = body["drops"];
     for (const auto& drop : m_cur_info_json["drops"].as_array()) {
-        static const std::vector<std::string> filter = { "NORMAL_DROP", "EXTRA_DROP" , "FURNITURE", "SPECIAL_DROP" };
+        static const std::vector<std::string> filter = { "NORMAL_DROP", "EXTRA_DROP", "FURNITURE", "SPECIAL_DROP" };
         std::string drop_type = drop.at("dropType").as_string();
         if (ranges::find(filter, drop_type) == filter.cend()) {
             continue;
@@ -293,8 +290,7 @@ bool asst::StageDropsTaskPlugin::check_stage_valid()
 bool asst::StageDropsTaskPlugin::check_specify_quantity() const
 {
     for (const auto& [id, quantity] : m_specify_quantity) {
-        if (auto find_iter = m_drop_stats.find(id);
-            find_iter != m_drop_stats.end() && find_iter->second >= quantity) {
+        if (auto find_iter = m_drop_stats.find(id); find_iter != m_drop_stats.end() && find_iter->second >= quantity) {
             return true;
         }
     }

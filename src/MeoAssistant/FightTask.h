@@ -20,8 +20,8 @@ namespace asst
         virtual bool set_params(const json::value& params) override;
 
         static constexpr const char* TaskType = "Fight";
-    protected:
 
+    protected:
         std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_last_battle_task_ptr = nullptr;
         std::shared_ptr<StageNavigationTask> m_stage_navigation_task_ptr = nullptr;

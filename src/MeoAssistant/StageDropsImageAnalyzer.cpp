@@ -4,12 +4,12 @@
 
 #include "NoWarningCV.h"
 
-#include "TaskData.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
-#include "Resource.h"
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
+#include "Resource.h"
+#include "TaskData.h"
 
 #include <numbers>
 
@@ -19,7 +19,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
 
 #ifdef ASST_DEBUG
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, { {":", "-"}, {" ", "_"} });
+    stem = utils::string_replace_all_batch(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
     cv::imwrite("debug/" + stem + "_raw.png", m_image);
 #endif
@@ -59,7 +59,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     const auto& stages = Resrc.drops().get_all_stage_code();
     std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
     // 名字长的放前面
-    ranges::sort(stages_req, std::greater{}, std::mem_fn(&std::string::size));
+    ranges::sort(stages_req, std::greater {}, std::mem_fn(&std::string::size));
     analyzer.set_required(std::move(stages_req));
 
     if (!analyzer.analyze()) {
@@ -72,7 +72,8 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 #ifdef ASST_DEBUG
     const Rect& text_rect = analyzer.get_result().front().rect;
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
-    cv::putText(m_image_draw, m_stage_code, cv::Point(text_rect.x, text_rect.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, m_stage_code, cv::Point(text_rect.x, text_rect.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1,
+                cv::Scalar(0, 0, 255), 2);
 #endif
 
     return true;
@@ -83,8 +84,8 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
     LogTraceFunction;
 
     static const std::unordered_map<int, std::string> StarsTaskName = {
-        {2, "StageDrops-Stars-2"},
-        {3, "StageDrops-Stars-3"},
+        { 2, "StageDrops-Stars-2" },
+        { 3, "StageDrops-Stars-3" },
     };
 
     MatchImageAnalyzer analyzer(m_image);
@@ -117,8 +118,9 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
-    cv::putText(m_image_draw, std::to_string(m_stars) + " stars", cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
-        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, std::to_string(m_stars) + " stars",
+                cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Scalar(0, 0, 255), 2);
 #endif
 
     return true;
@@ -129,9 +131,9 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     LogTraceFunction;
 
     static const std::unordered_map<std::string, StageDifficulty> DifficultyTaskName = {
-        {"StageDrops-Difficulty-Normal", StageDifficulty::Normal},
-        {"StageDrops-Difficulty-Normal2", StageDifficulty::Normal},
-        {"StageDrops-Difficulty-Tough", StageDifficulty::Tough},
+        { "StageDrops-Difficulty-Normal", StageDifficulty::Normal },
+        { "StageDrops-Difficulty-Normal2", StageDifficulty::Normal },
+        { "StageDrops-Difficulty-Tough", StageDifficulty::Tough },
     };
 
     MatchImageAnalyzer analyzer(m_image);
@@ -167,7 +169,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
     matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
     cv::putText(m_image_draw, matched_name, cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
-        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
 
     return true;
@@ -189,7 +191,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
     for (auto it = m_baseline.cbegin(); it != m_baseline.cend(); ++it) {
         const auto& [baseline, drop_type] = *it;
         bool is_first_drop_type = it == m_baseline.cbegin();
-        int size = baseline.width / (roi.width + 10) + 1;   // + 10 为了带点容差
+        int size = baseline.width / (roi.width + 10) + 1; // + 10 为了带点容差
         for (int i = 1; i <= size; ++i) {
             Rect item_roi;
             if (is_first_drop_type) {
@@ -208,8 +210,10 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             Log.info("Item id:", item, ", quantity:", quantity);
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
-            cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
-            cv::putText(m_image_draw, std::to_string(quantity), cv::Point(item_roi.x, item_roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+            cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                        cv::Scalar(0, 0, 255), 2);
+            cv::putText(m_image_draw, std::to_string(quantity), cv::Point(item_roi.x, item_roi.y + 10),
+                        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
 #endif
             if (quantity <= 0) {
                 has_error = true;
@@ -227,14 +231,10 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             info.item_name = name.empty() ? info.item_id : name;
 
             static const std::unordered_map<StageDropType, std::string> DropTypeName = {
-                { StageDropType::Normal, "NORMAL_DROP" },
-                { StageDropType::Extra,"EXTRA_DROP" },
-                { StageDropType::Furniture, "FURNITURE" },
-                { StageDropType::Special, "SPECIAL_DROP" },
-                { StageDropType::ExpAndLMB, "EXP_LMB_DROP" },
-                { StageDropType::Sanity, "SANITY_DROP" },
-                { StageDropType::Reward, "REWARD_DROP" },
-                { StageDropType::Unknown, "UNKNOWN_DROP" }
+                { StageDropType::Normal, "NORMAL_DROP" },     { StageDropType::Extra, "EXTRA_DROP" },
+                { StageDropType::Furniture, "FURNITURE" },    { StageDropType::Special, "SPECIAL_DROP" },
+                { StageDropType::ExpAndLMB, "EXP_LMB_DROP" }, { StageDropType::Sanity, "SANITY_DROP" },
+                { StageDropType::Reward, "REWARD_DROP" },     { StageDropType::Unknown, "UNKNOWN_DROP" }
             };
             info.drop_type_name = DropTypeName.at(drop_type);
 
@@ -287,7 +287,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
 
     int i_start = 0, i_end = bounding.cols - 1;
-    bool in = true;         // 是否正处在白线中
+    bool in = true; // 是否正处在白线中
     int spacing = 0;
 
     // split
@@ -308,7 +308,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
             }
             else {
                 spacing = 0;
-                Rect baseline{ x_offset + i_start, y_offset, width, bounding_rect.height };
+                Rect baseline { x_offset + i_start, y_offset, width, bounding_rect.height };
                 m_baseline.emplace_back(baseline, match_droptype(baseline));
             }
         }
@@ -323,10 +323,10 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
         }
     }
 
-    if (in) {   // 最右边的白线贴着 bounding 边的情况
+    if (in) { // 最右边的白线贴着 bounding 边的情况
         int width = bounding.cols - 1 - i_start;
         if (width >= min_width) {
-            Rect baseline{ x_offset + i_start, y_offset, width, bounding_rect.height };
+            Rect baseline { x_offset + i_start, y_offset, width, bounding_rect.height };
             m_baseline.emplace_back(baseline, match_droptype(baseline));
         }
     }
@@ -352,13 +352,13 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
     Log.trace(__FUNCTION__, "baseline: ", roi.to_string());
 
     static const std::unordered_map<StageDropType, std::string> DropTypeTaskName = {
-        {StageDropType::ExpAndLMB, "StageDrops-DropType-ExpAndLMB"},
-        {StageDropType::Normal, "StageDrops-DropType-Normal"},
-        {StageDropType::Extra, "StageDrops-DropType-Extra"},
-        {StageDropType::Furniture, "StageDrops-DropType-Furniture"},
-        {StageDropType::Special, "StageDrops-DropType-Special"},
-        {StageDropType::Sanity, "StageDrops-DropType-Sanity"},
-        {StageDropType::Reward, "StageDrops-DropType-Reward"},
+        { StageDropType::ExpAndLMB, "StageDrops-DropType-ExpAndLMB" },
+        { StageDropType::Normal, "StageDrops-DropType-Normal" },
+        { StageDropType::Extra, "StageDrops-DropType-Extra" },
+        { StageDropType::Furniture, "StageDrops-DropType-Furniture" },
+        { StageDropType::Special, "StageDrops-DropType-Special" },
+        { StageDropType::Sanity, "StageDrops-DropType-Sanity" },
+        { StageDropType::Reward, "StageDrops-DropType-Reward" },
     };
 
     MatchImageAnalyzer analyzer(m_image);
@@ -395,7 +395,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_roi), cv::Scalar(0, 0, 255), 2);
     matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
     cv::putText(m_image_draw, matched_name, cv::Point(matched_roi.x, matched_roi.y + matched_roi.height + 20),
-        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
+                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
 #endif
 
     return matched;
@@ -412,10 +412,10 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         }
         else if (size == 2) {
             if (index == 0) {
-                return "5001";  // 声望（经验）
+                return "5001"; // 声望（经验）
             }
             else {
-                return "4001";  // 龙门币
+                return "4001"; // 龙门币
             }
         }
         else {
@@ -424,11 +424,11 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         }
         break;
     case StageDropType::Furniture:
-        return "furni";     // 家具
+        return "furni"; // 家具
     case StageDropType::Sanity:
-        return "AP_GAMEPLAY";   // 理智返还
+        return "AP_GAMEPLAY"; // 理智返还
     case StageDropType::Reward:
-        return "4003";          // 合成玉
+        return "4003"; // 合成玉
     }
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
@@ -466,7 +466,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         result = match_item_with_templs(std::vector<std::string>(items.cbegin(), items.cend()));
         // 将这次识别到的加入该关卡的待识别列表
         if (!result.empty() && !m_stage_code.empty()) {
-            Resrc.drops().append_drops(StageKey{ m_stage_code, m_difficulty }, type, result);
+            Resrc.drops().append_drops(StageKey { m_stage_code, m_difficulty }, type, result);
         }
     }
 
@@ -504,15 +504,14 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
             i_left = i;
             in = false;
             spacing = 0;
-            contours.emplace_back(i_left, i_right + 1);   // range 是前闭后开的
+            contours.emplace_back(i_left, i_right + 1); // range 是前闭后开的
         }
         else if (!in && has_white) {
             i_right = i;
             in = true;
         }
         else if (!in) {
-            if (++spacing > max_spacing &&
-                i_left != 0) {
+            if (++spacing > max_spacing && i_left != 0) {
                 // filter out noise
                 break;
             }
@@ -543,26 +542,24 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
-    cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5),
-        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Scalar(0, 255, 0), 2);
 #endif
 
     std::string digit_str = result.text;
     int multiple = 1;
-    if (size_t w_pos = digit_str.find("万");
-        w_pos != std::string::npos) {
+    if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
         multiple = 10000;
         digit_str.erase(w_pos, digit_str.size());
     }
-    //else if (size_t e_pos = digit_str.find("亿");
-    //    e_pos != std::string::npos) {
-    //    multiple = 100000000;
-    //    digit_str.erase(e_pos, digit_str.size());
-    //}
+    // else if (size_t e_pos = digit_str.find("亿");
+    //     e_pos != std::string::npos) {
+    //     multiple = 100000000;
+    //     digit_str.erase(e_pos, digit_str.size());
+    // }
 
     if (digit_str.empty() ||
-        !ranges::all_of(digit_str,
-            [](const char& c) -> bool {return std::isdigit(c) || c == '.';})) {
+        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == '.'; })) {
         return 0;
     }
 

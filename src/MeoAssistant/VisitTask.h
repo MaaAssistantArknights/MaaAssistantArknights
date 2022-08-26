@@ -12,6 +12,7 @@ namespace asst
         virtual ~VisitTask() override = default;
 
         static constexpr const char* TaskType = "Visit";
+
     private:
         std::shared_ptr<ProcessTask> m_visit_task_ptr = nullptr;
     };

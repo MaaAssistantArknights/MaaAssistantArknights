@@ -13,11 +13,9 @@ namespace asst
     public:
         virtual ~InfrastConfiger() override = default;
 
-        auto get_templ_required() const noexcept -> const std::unordered_set<std::string>&
-        {
-            return m_templ_required;
-        }
-        auto get_skills(const std::string& facility_name) const -> const std::unordered_map<std::string, infrast::Skill>&
+        auto get_templ_required() const noexcept -> const std::unordered_set<std::string>& { return m_templ_required; }
+        auto get_skills(const std::string& facility_name) const
+            -> const std::unordered_map<std::string, infrast::Skill>&
         {
             return m_skills.at(facility_name);
         }

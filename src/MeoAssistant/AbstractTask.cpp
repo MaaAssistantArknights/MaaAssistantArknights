@@ -2,25 +2,23 @@
 
 #include <algorithm>
 #include <filesystem>
-#include <thread>
 #include <regex>
+#include <thread>
 #include <utility>
 
 #include "NoWarningCV.h"
 
+#include "AbstractTaskPlugin.h"
 #include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"
-#include "Resource.h"
-#include "AbstractTaskPlugin.h"
 #include "ProcessTask.h"
+#include "Resource.h"
 
 using namespace asst;
 
 AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
-    : m_callback(std::move(callback)),
-    m_callback_arg(callback_arg),
-    m_task_chain(std::move(task_chain))
+    : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_task_chain(std::move(task_chain))
 {}
 
 bool asst::AbstractTask::run()
@@ -113,7 +111,7 @@ json::value asst::AbstractTask::basic_info() const
             task_name = class_name;
         }
 
-        m_basic_info_cache = json::object{
+        m_basic_info_cache = json::object {
             { "taskchain", m_task_chain },
             { "taskid", m_task_id },
             { "class", class_name },
@@ -193,7 +191,7 @@ void asst::AbstractTask::click_return_button()
 void asst::AbstractTask::save_image()
 {
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, { {":", "-"}, {" ", "_"} });
+    stem = utils::string_replace_all_batch(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
     cv::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
 }

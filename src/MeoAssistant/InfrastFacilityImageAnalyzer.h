@@ -19,8 +19,7 @@ namespace asst
 
         size_t get_quantity(const std::string& name) const
         {
-            if (auto iter = m_result.find(name);
-                iter == m_result.cend()) {
+            if (auto iter = m_result.find(name); iter == m_result.cend()) {
                 return 0;
             }
             else {
@@ -29,8 +28,7 @@ namespace asst
         }
         Rect get_rect(const std::string& name, int index) const
         {
-            if (auto iter = m_result.find(name);
-                iter == m_result.cend()) {
+            if (auto iter = m_result.find(name); iter == m_result.cend()) {
                 return {};
             }
             else {
@@ -42,10 +40,7 @@ namespace asst
                 }
             }
         }
-        const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept
-        {
-            return m_result;
-        }
+        const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept { return m_result; }
 
     private:
         // 该分析器不支持外部设置ROI

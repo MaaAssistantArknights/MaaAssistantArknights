@@ -3,8 +3,8 @@
 
 #include <unordered_map>
 
-#include "AsstTypes.h"
 #include "AsstBattleDef.h"
+#include "AsstTypes.h"
 
 namespace asst
 {
@@ -31,7 +31,7 @@ namespace asst
             return iter->second.rarity;
         }
 
-        static inline const BattleAttackRange& EmptyRange{ {0, 0} };
+        static inline const BattleAttackRange& EmptyRange { { 0, 0 } };
 
         const BattleAttackRange& get_range(const std::string& name, size_t index) const
         {

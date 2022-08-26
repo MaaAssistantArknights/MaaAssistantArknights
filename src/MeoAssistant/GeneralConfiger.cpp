@@ -1,7 +1,7 @@
 #include "GeneralConfiger.h"
 
-#include <meojson/json.hpp>
 #include "Logger.hpp"
+#include <meojson/json.hpp>
 
 bool asst::GeneralConfiger::parse(const json::value& json)
 {
@@ -14,12 +14,13 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         m_options.task_delay = options_json.at("taskDelay").as_integer();
         m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
         m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
-        //m_options.print_window = options_json.at("printWindow").as_boolean();
+        // m_options.print_window = options_json.at("printWindow").as_boolean();
         m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
         m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
         m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
-        m_options.depot_export_template.ark_planner = options_json.get("depotExportTemplate", "arkPlanner", std::string());
+        m_options.depot_export_template.ark_planner =
+            options_json.get("depotExportTemplate", "arkPlanner", std::string());
     }
 
     for (const auto& [client_type, intent_name] : json.at("intent").as_object()) {
@@ -46,7 +47,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.release = cfg_json.at("release").as_string();
         adb.start = cfg_json.at("start").as_string();
         adb.stop = cfg_json.at("stop").as_string();
-        //adb.pullscreen = cfg_json.at("pullscreen").as_string();
+        // adb.pullscreen = cfg_json.at("pullscreen").as_string();
 
         m_adb_cfg[name] = std::move(adb);
     }

@@ -3,13 +3,11 @@
 #include "TaskData.h"
 
 asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image)
-    : OcrWithPreprocessImageAnalyzer(image),
-    m_multi_match_image_analyzer(image)
+    : OcrWithPreprocessImageAnalyzer(image), m_multi_match_image_analyzer(image)
 {}
 
 asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi)
-    : OcrWithPreprocessImageAnalyzer(image, roi),
-    m_multi_match_image_analyzer(image, roi)
+    : OcrWithPreprocessImageAnalyzer(image, roi), m_multi_match_image_analyzer(image, roi)
 {}
 
 void asst::OcrWithFlagTemplImageAnalyzer::set_image(const cv::Mat image)
@@ -39,9 +37,8 @@ bool asst::OcrWithFlagTemplImageAnalyzer::analyze()
         set_roi(roi);
 
         if (OcrWithPreprocessImageAnalyzer::analyze()) {
-            m_all_result.insert(m_all_result.end(),
-                std::make_move_iterator(m_ocr_result.begin()),
-                std::make_move_iterator(m_ocr_result.end()));
+            m_all_result.insert(m_all_result.end(), std::make_move_iterator(m_ocr_result.begin()),
+                                std::make_move_iterator(m_ocr_result.end()));
         }
     }
 
@@ -53,8 +50,8 @@ const std::vector<asst::TextRect>& asst::OcrWithFlagTemplImageAnalyzer::get_resu
     return m_all_result;
 }
 
-void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ_task_name, const std::string&
-                                                        ocr_task_name)
+void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ_task_name,
+                                                        const std::string& ocr_task_name)
 {
     auto ocr_task_ptr = Task.get<OcrTaskInfo>(ocr_task_name);
     OcrWithPreprocessImageAnalyzer::set_task_info(*ocr_task_ptr);

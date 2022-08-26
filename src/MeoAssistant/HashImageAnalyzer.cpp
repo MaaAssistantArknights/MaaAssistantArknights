@@ -34,13 +34,13 @@ bool asst::HashImageAnalyzer::analyze()
             to_hash = bound_bin(to_hash);
         }
         std::string hash_result = s_hash(to_hash);
-        //Log.debug(hash_result);
+        // Log.debug(hash_result);
 
         int min_dist = INT_MAX;
         std::string cur_min_dist_name;
         for (auto&& [name, templ] : m_hash_templates) {
             int hm = hamming(hash_result, templ);
-            //Log.debug(name, "dist:", hm);
+            // Log.debug(name, "dist:", hm);
             if (hm < min_dist) {
                 cur_min_dist_name = name;
                 min_dist = hm;
@@ -103,8 +103,7 @@ std::string asst::HashImageAnalyzer::s_hash(const cv::Mat& img)
     int tmp_dec = 0;
     for (int ro = 0; ro < 256; ro++) {
         tmp_dec = tmp_dec << 1;
-        if (*pix > 127)
-            tmp_dec++;
+        if (*pix > 127) tmp_dec++;
         if (ro % 4 == 3) {
             hash_value << std::hex << tmp_dec;
             tmp_dec = 0;
@@ -162,8 +161,8 @@ int asst::HashImageAnalyzer::hamming(std::string hash1, std::string hash2)
     hash2.insert(hash2.begin(), HammingFlags - hash2.size(), '0');
     int dist = 0;
     for (int i = 0; i < HammingFlags; i = i + 16) {
-        unsigned long long x = strtoull(hash1.substr(i, 16).c_str(), nullptr, 16)
-            ^ strtoull(hash2.substr(i, 16).c_str(), nullptr, 16);
+        unsigned long long x =
+            strtoull(hash1.substr(i, 16).c_str(), nullptr, 16) ^ strtoull(hash2.substr(i, 16).c_str(), nullptr, 16);
         while (x) {
             ++dist;
             x = x & (x - 1);

@@ -3,9 +3,9 @@
 #include "NoWarningCV.h"
 
 #include "AsstUtils.hpp"
+#include "Logger.hpp"
 #include "MultiMatchImageAnalyzer.h"
 #include "TaskData.h"
-#include "Logger.hpp"
 
 bool asst::RoguelikeFormationImageAnalyzer::analyze()
 {
@@ -39,8 +39,8 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
     return !m_result.empty();
 }
 
-const std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper>&
-asst::RoguelikeFormationImageAnalyzer::get_result() const noexcept
+const std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper>& asst::RoguelikeFormationImageAnalyzer::
+    get_result() const noexcept
 {
     return m_result;
 }

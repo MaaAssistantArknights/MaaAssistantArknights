@@ -3,16 +3,17 @@
 #include <queue>
 
 #include "AbstractTaskPlugin.h"
-#include "AsstTypes.h"
-#include "TilePack.h"
-#include "BattleImageAnalyzer.h"
 #include "AsstBattleDef.h"
+#include "AsstTypes.h"
+#include "BattleImageAnalyzer.h"
+#include "TilePack.h"
 
 namespace asst
 {
     class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin
     {
         using Loc = asst::TilePack::BuildableType;
+
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
         virtual ~RoguelikeBattleTaskPlugin() override = default;

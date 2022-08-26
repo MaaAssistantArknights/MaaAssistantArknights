@@ -1,7 +1,7 @@
 #include "PackageTask.h"
 
-#include "Resource.h"
 #include "Logger.hpp"
+#include "Resource.h"
 
 bool asst::PackageTask::run()
 {
@@ -23,10 +23,7 @@ bool asst::PackageTask::run()
             continue;
         }
 
-        task_ptr->set_exit_flag(m_exit_flag)
-            .set_ctrler(m_ctrler)
-            .set_status(m_status)
-            .set_task_id(m_task_id);
+        task_ptr->set_exit_flag(m_exit_flag).set_ctrler(m_ctrler).set_status(m_status).set_task_id(m_task_id);
 
         if (!task_ptr->run() && !task_ptr->get_ignore_error()) {
             return false;
