@@ -295,11 +295,11 @@
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError">작업 오류:</system:String>
-    <system:String x:Key="CombatError">작전 오류:</system:String>
+    <system:String x:Key="CombatError">작전 오류</system:String>
     <system:String x:Key="StartTask">작업 시작:</system:String>
     <system:String x:Key="CompleteTask">작업 완료:</system:String>
     <system:String x:Key="StartCombat">작전 시작:</system:String>
-    <system:String x:Key="CompleteCombat">작전 완료:</system:String>
+    <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 구성 파일을 확인하십시오.</system:String>
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
