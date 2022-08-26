@@ -2,8 +2,7 @@
 
 bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskExtraInfo
-        || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskExtraInfo || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
     const std::string what = details.get("what", std::string());
@@ -12,8 +11,7 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "Roguelike1Start" ||
-        task == "Roguelike1StageTraderInvestConfirm" ||
+    if (task == "Roguelike1Start" || task == "Roguelike1StageTraderInvestConfirm" ||
         task == "Roguelike1StageTraderInvestSystemFull") {
         return true;
     }

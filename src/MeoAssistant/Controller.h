@@ -2,16 +2,16 @@
 
 #include "AsstConf.h"
 
-#include <optional>
-#include <random>
-#include <string>
+#include <atomic>
 #include <condition_variable>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <queue>
+#include <random>
 #include <shared_mutex>
+#include <string>
 #include <thread>
-#include <atomic>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -19,8 +19,8 @@
 
 #include "NoWarningCVMat.h"
 
-#include "AsstTypes.h"
 #include "AsstMsg.h"
+#include "AsstTypes.h"
 
 namespace asst
 {
@@ -52,15 +52,19 @@ namespace asst
         int click_without_scale(const Rect& rect, bool block = true);
 
         constexpr static int SwipeExtraDelayDefault = 1000;
-        int swipe(const Point& p1, const Point& p2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
-        int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
-        int swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
-        int swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool block = true, int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
+        int swipe(const Point& p1, const Point& p2, int duration = 0, bool block = true,
+                  int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
+        int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true,
+                  int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
+        int swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool block = true,
+                                int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
+        int swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool block = true,
+                                int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
 
         void wait(unsigned id) const noexcept;
 
         // 异形屏矫正
-        //Rect shaped_correct(const Rect& rect) const;
+        // Rect shaped_correct(const Rect& rect) const;
         std::pair<int, int> get_scale_size() const noexcept;
 
         Controller& operator=(const Controller&) = delete;
@@ -69,10 +73,12 @@ namespace asst
     private:
         bool need_exit() const;
         void pipe_working_proc();
-        std::optional<std::vector<uchar>> call_command(const std::string& cmd, int64_t timeout = 20000, bool recv_by_socket = false);
+        std::optional<std::vector<uchar>> call_command(const std::string& cmd, int64_t timeout = 20000,
+                                                       bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
 
-        std::optional<unsigned short> try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times = 10U);
+        std::optional<unsigned short> try_to_init_socket(const std::string& local_address, unsigned short try_port,
+                                                         unsigned short try_times = 10U);
 
         using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
         bool screencap();
@@ -94,20 +100,20 @@ namespace asst
 
         std::minstd_rand m_rand_engine;
 
-        constexpr static int PipeBuffSize = 4 * 1024 * 1024; // 管道缓冲区大小
-        constexpr static int SocketBuffSize = 4 * 1024 * 1024;   // socket 缓冲区大小
+        constexpr static int PipeBuffSize = 4 * 1024 * 1024;   // 管道缓冲区大小
+        constexpr static int SocketBuffSize = 4 * 1024 * 1024; // socket 缓冲区大小
         std::unique_ptr<uchar[]> m_pipe_buffer = nullptr;
         std::mutex m_pipe_mutex;
         std::unique_ptr<char[]> m_socket_buffer = nullptr;
         std::mutex m_socket_mutex;
 #ifdef _WIN32
-        HANDLE m_pipe_read = nullptr;                // 读管道句柄
-        HANDLE m_pipe_write = nullptr;               // 写管道句柄
-        HANDLE m_pipe_child_read = nullptr;          // 子进程的读管道句柄
-        HANDLE m_pipe_child_write = nullptr;         // 子进程的写管道句柄
+        HANDLE m_pipe_read = nullptr;        // 读管道句柄
+        HANDLE m_pipe_write = nullptr;       // 写管道句柄
+        HANDLE m_pipe_child_read = nullptr;  // 子进程的读管道句柄
+        HANDLE m_pipe_child_write = nullptr; // 子进程的写管道句柄
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-            SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
+        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
         STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
 
         WSADATA m_wsa_data = { 0 };
@@ -150,7 +156,7 @@ namespace asst
             enum class ScreencapMethod
             {
                 UnknownYet,
-                //Default,
+                // Default,
                 RawByNc,
                 RawWithGzip,
                 Encode
@@ -172,7 +178,7 @@ namespace asst
         cv::Mat m_cache_image;
 
         bool m_thread_exit = false;
-        //bool m_thread_idle = true;
+        // bool m_thread_idle = true;
         std::mutex m_cmd_queue_mutex;
         std::condition_variable m_cmd_condvar;
         std::queue<std::string> m_cmd_queue;
@@ -180,4 +186,4 @@ namespace asst
         unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
         std::thread m_cmd_thread;
     };
-}
+} // namespace asst

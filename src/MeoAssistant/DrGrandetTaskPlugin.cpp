@@ -1,16 +1,15 @@
 #include "DrGrandetTaskPlugin.h"
 
-#include "OcrImageAnalyzer.h"
 #include "Controller.h"
-#include "TaskData.h"
 #include "Logger.hpp"
+#include "OcrImageAnalyzer.h"
+#include "TaskData.h"
 
 #include <regex>
 
 bool asst::DrGrandetTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskStart
-    || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 

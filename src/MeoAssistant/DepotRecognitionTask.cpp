@@ -4,12 +4,12 @@
 
 #include <meojson/json.hpp>
 
-#include "Logger.hpp"
 #include "Controller.h"
-#include "TaskData.h"
 #include "DepotImageAnalyzer.h"
-#include "Resource.h"
+#include "Logger.hpp"
 #include "ProcessTask.h"
+#include "Resource.h"
+#include "TaskData.h"
 
 bool asst::DepotRecognitionTask::_run()
 {
@@ -34,7 +34,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
 
         // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
         // 所以这个 begin pos 不能设置
-        //analyzer.set_match_begin_pos(pre_pos);
+        // analyzer.set_match_begin_pos(pre_pos);
         if (!analyzer.analyze()) {
             break;
         }
@@ -69,12 +69,7 @@ void asst::DepotRecognitionTask::callback_analyze_result()
 
         for (const auto& [item_id, item_info] : m_all_items) {
             arkplanner_data_items.array_emplace(
-                json::object({
-                    { "id", item_id },
-                    { "have", item_info.quantity },
-                    { "name", item_info.item_name }
-                    })
-            );
+                json::object({ { "id", item_id }, { "have", item_info.quantity }, { "name", item_info.item_name } }));
         }
         arkplanner["data"] = arkplanner_obj.to_string();
     }

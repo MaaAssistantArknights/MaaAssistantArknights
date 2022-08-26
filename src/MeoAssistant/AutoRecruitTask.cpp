@@ -1,22 +1,23 @@
 #include "AutoRecruitTask.h"
 
-#include "Resource.h"
-#include "OcrImageAnalyzer.h"
-#include "MultiMatchImageAnalyzer.h"
 #include "Controller.h"
-#include "ProcessTask.h"
-#include "RecruitImageAnalyzer.h"
-#include "RecruitConfiger.h"
 #include "Logger.hpp"
+#include "MultiMatchImageAnalyzer.h"
+#include "OcrImageAnalyzer.h"
+#include "ProcessTask.h"
+#include "RecruitConfiger.h"
+#include "RecruitImageAnalyzer.h"
+#include "Resource.h"
 
+#include "AsstRanges.hpp"
 #include <algorithm>
 #include <regex>
-#include "AsstRanges.hpp"
 
 namespace asst::recruit_calc
 {
     // all combinations and their operator list, excluding empty set and 6-star operators while there is no senior tag
-    auto get_all_combs(const std::vector<std::string>& tags, const std::vector<RecruitOperInfo>& all_ops = Resrc.recruit().get_all_opers())
+    auto get_all_combs(const std::vector<std::string>& tags,
+                       const std::vector<RecruitOperInfo>& all_ops = Resrc.recruit().get_all_opers())
     {
         std::vector<RecruitCombs> rcs_with_single_tag;
 
@@ -57,7 +58,7 @@ namespace asst::recruit_calc
         for (size_t i = 0; i < tag_size; ++i) {
             RecruitCombs temp1 = rcs_with_single_tag[i];
             if (temp1.opers.empty()) continue; // this is not possible
-            result.emplace_back(temp1); // that is it
+            result.emplace_back(temp1);        // that is it
 
             // but what if another tag is also selected
             for (size_t j = i + 1; j < tag_size; ++j) {
@@ -99,7 +100,7 @@ namespace asst::recruit_calc
 
         return result;
     }
-}
+} // namespace asst::recruit_calc
 
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_level(std::vector<int> select_level) noexcept
 {
@@ -194,7 +195,9 @@ bool asst::AutoRecruitTask::_run()
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
     while (m_cur_times != m_max_times) {
-        if (m_force_discard_flag) { return false; }
+        if (m_force_discard_flag) {
+            return false;
+        }
 
         auto start_rect = try_get_start_button(m_ctrler->get_image());
         if (start_rect) {
@@ -203,8 +206,11 @@ bool asst::AutoRecruitTask::_run()
                 ++m_cur_times;
             else
                 ++m_slot_fail;
-            if (m_slot_fail >= slot_retry_limit) { return false; }
-        } else {
+            if (m_slot_fail >= slot_retry_limit) {
+                return false;
+            }
+        }
+        else {
             if (!check_recruit_home_page()) return false;
             Log.info("There is no available start button.");
             if (!m_use_expedited) return true;
@@ -215,11 +221,15 @@ bool asst::AutoRecruitTask::_run()
             Log.info("ready to use expedited plan");
             if (recruit_now()) {
                 hire_all();
-            } else {
-                // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right slot
-                // ref: issues/1491
-                if (check_recruit_home_page()) { m_force_discard_flag = true; } // ran out of expedited plan?
-                else Log.info("Not in home page after failing to use expedited plan. ");
+            }
+            else {
+                // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right
+                // slot ref: issues/1491
+                if (check_recruit_home_page()) {
+                    m_force_discard_flag = true;
+                } // ran out of expedited plan?
+                else
+                    Log.info("Not in home page after failing to use expedited plan. ");
                 return false;
             }
         }
@@ -240,11 +250,8 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
 {
     const auto result = start_recruit_analyze(image);
     if (result.empty()) return std::nullopt;
-    auto iter =
-        ranges::find_if(result,
-            [&](const TextRect& r) -> bool {
-                return !m_force_skipped.contains(slot_index_from_rect(r.rect));
-            });
+    auto iter = ranges::find_if(
+        result, [&](const TextRect& r) -> bool { return !m_force_skipped.contains(slot_index_from_rect(r.rect)); });
     if (iter == result.cend()) return std::nullopt;
     Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
     return iter->rect;
@@ -350,24 +357,24 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // special tags
         const std::vector<std::string> SpecialTags = { "高级资深干员", "资深干员" };
-        if (auto special_iter = ranges::find_first_of(SpecialTags, tag_names);
-            special_iter != SpecialTags.cend()) [[unlikely]] {
-                has_special_tag = true;
-                json::value cb_info = info;
-                cb_info["what"] = "RecruitSpecialTag";
-                cb_info["details"]["tag"] = *special_iter;
-                callback(AsstMsg::SubTaskExtraInfo, cb_info);
+        if (auto special_iter = ranges::find_first_of(SpecialTags, tag_names); special_iter != SpecialTags.cend())
+            [[unlikely]] {
+            has_special_tag = true;
+            json::value cb_info = info;
+            cb_info["what"] = "RecruitSpecialTag";
+            cb_info["details"]["tag"] = *special_iter;
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         // robot tags
         const std::vector<std::string> RobotTags = { "支援机械" };
-        if (auto robot_iter = ranges::find_first_of(RobotTags, tag_names);
-            robot_iter != RobotTags.cend()) [[unlikely]] {
-                has_robot_tag = true;
-                json::value cb_info = info;
-                cb_info["what"] = "RecruitSpecialTag";
-                cb_info["details"]["tag"] = *robot_iter;
-                callback(AsstMsg::SubTaskExtraInfo, cb_info);
+        if (auto robot_iter = ranges::find_first_of(RobotTags, tag_names); robot_iter != RobotTags.cend())
+            [[unlikely]] {
+            has_robot_tag = true;
+            json::value cb_info = info;
+            cb_info["what"] = "RecruitSpecialTag";
+            cb_info["details"]["tag"] = *robot_iter;
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
         std::vector<RecruitCombs> result_vec = recruit_calc::get_all_combs(tag_names);
@@ -379,36 +386,31 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 auto sec = ranges::find_if(rc.opers, [](const RecruitOperInfo& op) { return op.level >= 3; });
                 if (sec != rc.opers.end()) {
                     rc.min_level = sec->level;
-                    rc.avg_level = std::transform_reduce(
-                            sec, rc.opers.end(), 0.,
-                            std::plus<double>{},
-                            std::mem_fn(&RecruitOperInfo::level)) / static_cast<double>(std::distance(sec, rc.opers.end()));
+                    rc.avg_level = std::transform_reduce(sec, rc.opers.end(), 0., std::plus<double> {},
+                                                         std::mem_fn(&RecruitOperInfo::level)) /
+                                   static_cast<double>(std::distance(sec, rc.opers.end()));
                 }
             }
         }
 
-        ranges::sort(result_vec,
-            [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool {
-                // prefer the one with special tag
-                // workaround for https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
-                if (has_special_tag) {
-                    bool l_has =
-                        ranges::find_first_of(lhs.tags, SpecialTags) != lhs.tags.cend();
-                    bool r_has =
-                        ranges::find_first_of(rhs.tags, SpecialTags) != rhs.tags.cend();
-                    if (l_has != r_has) return l_has > r_has;
-                }
-
-                if (lhs.min_level != rhs.min_level)
-                    return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
-                else if (lhs.max_level != rhs.max_level)
-                    return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
-                else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
-                    return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
-                else
-                    return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
+        ranges::sort(result_vec, [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool {
+            // prefer the one with special tag
+            // workaround for https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
+            if (has_special_tag) {
+                bool l_has = ranges::find_first_of(lhs.tags, SpecialTags) != lhs.tags.cend();
+                bool r_has = ranges::find_first_of(rhs.tags, SpecialTags) != rhs.tags.cend();
+                if (l_has != r_has) return l_has > r_has;
             }
-        );
+
+            if (lhs.min_level != rhs.min_level)
+                return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
+            else if (lhs.max_level != rhs.max_level)
+                return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
+            else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
+                return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
+            else
+                return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
+        });
 
         if (result_vec.empty()) continue;
 
@@ -451,24 +453,21 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (!m_dirty_slots.contains(index)) {
                 async_upload_result(info["details"]);
                 m_dirty_slots.emplace(index); // mark as dirty
-            } else Log.info("will not report, dirty slots are", m_dirty_slots);
+            }
+            else
+                Log.info("will not report, dirty slots are", m_dirty_slots);
         }
 
         if (need_exit()) return {};
 
         // refresh
-        if (m_need_refresh && has_refresh
-            && !has_special_tag
-            && final_combination.min_level == 3
-            && !(m_skip_robot && has_robot_tag)
-                ) {
+        if (m_need_refresh && has_refresh && !has_special_tag && final_combination.min_level == 3 &&
+            !(m_skip_robot && has_robot_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
                 cb_info["why"] = "刷新次数达到上限";
-                cb_info["details"] = json::object{
-                        { "refresh_limit", refresh_limit }
-                };
+                cb_info["details"] = json::object { { "refresh_limit", refresh_limit } };
                 callback(AsstMsg::SubTaskError, cb_info);
                 return {};
             }
@@ -483,10 +482,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitTagsRefreshed";
-                cb_info["details"] = json::object{
-                        { "count",         refresh_count },
-                        { "refresh_limit", refresh_limit }
-                };
+                cb_info["details"] = json::object { { "count", refresh_count }, { "refresh_limit", refresh_limit } };
                 callback(AsstMsg::SubTaskExtraInfo, cb_info);
                 Log.trace("recruit tags refreshed", std::to_string(refresh_count), " times, rerunning recruit task");
             }
@@ -544,8 +540,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // select tags
         for (const std::string& final_tag_name : final_combination.tags) {
-            auto tag_rect_iter =
-                ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
+            auto tag_rect_iter = ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 m_ctrler->click(tag_rect_iter->rect);
             }
@@ -554,9 +549,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object{
-                    { "tags", json::array(final_combination.tags) }
-            };
+            cb_info["details"] = json::object { { "tags", json::array(final_combination.tags) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -641,7 +634,7 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
         if (hire_searcher.get_result().empty()) return true;
     }
     // hire all
-    return ProcessTask{ *this, { "RecruitFinish" }}.run();
+    return ProcessTask { *this, { "RecruitFinish" } }.run();
 }
 
 /// search for blue *Hire* buttons in the recruit home page, mark those slot clean and do hiring
@@ -655,7 +648,7 @@ bool asst::AutoRecruitTask::hire_all()
 {
     m_dirty_slots.clear();
     const auto result = start_recruit_analyze(image);
-    for (const TextRect& r: result) {
+    for (const TextRect& r : result) {
         m_dirty_slots.emplace(slot_index_from_rect(r.rect));
     }
     Log.info("Dirty slots are", m_dirty_slots);
@@ -666,15 +659,11 @@ void asst::AutoRecruitTask::async_upload_result(const json::value& details)
 {
     LogTraceFunction;
     if (m_upload_to_penguin) {
-        auto upload_future = std::async(
-            std::launch::async,
-            &AutoRecruitTask::upload_to_penguin, this, details);
+        auto upload_future = std::async(std::launch::async, &AutoRecruitTask::upload_to_penguin, this, details);
         m_upload_pending.emplace_back(std::move(upload_future));
     }
     if (m_upload_to_yituliu) {
-        auto upload_future = std::async(
-            std::launch::async,
-            &AutoRecruitTask::upload_to_yituliu, this, details);
+        auto upload_future = std::async(std::launch::async, &AutoRecruitTask::upload_to_yituliu, this, details);
         m_upload_pending.emplace_back(std::move(upload_future));
     }
 }
@@ -694,17 +683,13 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     body["stageId"] = "recruit";
     auto& all_drops = body["drops"];
     for (const auto& tag : details.at("tags").as_array()) {
-        all_drops.array_emplace(json::object{
-            { "dropType", "NORMAL_DROP" },
-            { "itemId", tag.as_string() },
-            { "quantity", 1 }
-        });
+        all_drops.array_emplace(
+            json::object { { "dropType", "NORMAL_DROP" }, { "itemId", tag.as_string() }, { "quantity", 1 } });
     }
     body["source"] = "MeoAssistant";
     body["version"] = Version;
 
-    std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
-        {"\"", "\\\""} });
+    std::string body_escape = utils::string_replace_all_batch(body.to_string(), { { "\"", "\\\"" } });
 
 #ifdef _WIN32
     std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
@@ -716,9 +701,8 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     if (!m_penguin_id.empty()) {
         extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
     }
-    std::string cmd_line = utils::string_replace_all_batch(opt.penguin_report.cmd_format, {
-        { "[body]", body_escapes },
-        { "[extra]", extra_param } });
+    std::string cmd_line = utils::string_replace_all_batch(opt.penguin_report.cmd_format,
+                                                           { { "[body]", body_escapes }, { "[extra]", extra_param } });
 
     Log.trace("request_penguin |", cmd_line);
 
@@ -754,8 +738,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     body["version"] = Version;
     body["uuid"] = m_yituliu_id;
 
-    std::string body_escape = utils::string_replace_all_batch(body.to_string(), {
-        {"\"", "\\\""} });
+    std::string body_escape = utils::string_replace_all_batch(body.to_string(), { { "\"", "\\\"" } });
 
 #ifdef _WIN32
     std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
@@ -763,9 +746,8 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     std::string body_escapes = body_escape;
 #endif
 
-    std::string cmd_line = utils::string_replace_all_batch(opt.yituliu_report.cmd_format, {
-        { "[body]", body_escapes },
-        { "[extra]", "" } });
+    std::string cmd_line = utils::string_replace_all_batch(opt.yituliu_report.cmd_format,
+                                                           { { "[body]", body_escapes }, { "[extra]", "" } });
 
     Log.trace("request_yituliu |", cmd_line);
 

@@ -2,22 +2,21 @@
 
 #include <utility>
 
+#include "DrGrandetTaskPlugin.h"
+#include "GameCrashRestartTaskPlugin.h"
 #include "ProcessTask.h"
 #include "StageDropsTaskPlugin.h"
-#include "GameCrashRestartTaskPlugin.h"
 #include "StageNavigationTask.h"
-#include "DrGrandetTaskPlugin.h"
 
 asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
     : PackageTask(std::move(callback), callback_arg, TaskType),
-    m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
-    m_last_battle_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
-    m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_callback_arg, TaskType)),
-    m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
+      m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
+      m_last_battle_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
+      m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_callback_arg, TaskType)),
+      m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {
     // 进入选关界面（主界面的“终端”点进去）
-    m_start_up_task_ptr->
-        set_times_limit("GoLastBattle", 0)
+    m_start_up_task_ptr->set_times_limit("GoLastBattle", 0)
         .set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)

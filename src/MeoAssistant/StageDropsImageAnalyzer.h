@@ -16,10 +16,7 @@ namespace asst
         int get_stars() const noexcept;
 
         // <drop_type, <item_id, quantity>>
-        const auto& get_drops() const noexcept
-        {
-            return m_drops;
-        }
+        const auto& get_drops() const noexcept { return m_drops; }
 
     protected:
         bool analyze_stage_code();

@@ -15,7 +15,9 @@ namespace asst
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override
         {
-            std::ignore = msg; std::ignore = details; return true;
+            std::ignore = msg;
+            std::ignore = details;
+            return true;
         }
 
         StartGameTaskPlugin& set_client_type(std::string client_type) noexcept;

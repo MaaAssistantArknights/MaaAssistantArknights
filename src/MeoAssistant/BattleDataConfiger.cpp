@@ -10,18 +10,12 @@ bool asst::BattleDataConfiger::parse(const json::value& json)
         std::string name = char_data_json.at("name").as_string();
         data.name = name;
         static const std::unordered_map<std::string, BattleRole> RoleMap = {
-            { "CASTER", BattleRole::Caster },
-            { "MEDIC", BattleRole::Medic },
-            { "PIONEER", BattleRole::Pioneer },
-            { "SNIPER", BattleRole::Sniper},
-            { "SPECIAL", BattleRole::Special},
-            { "SUPPORT", BattleRole::Support},
-            { "TANK", BattleRole::Tank},
-            { "WARRIOR", BattleRole::Warrior},
+            { "CASTER", BattleRole::Caster }, { "MEDIC", BattleRole::Medic },     { "PIONEER", BattleRole::Pioneer },
+            { "SNIPER", BattleRole::Sniper }, { "SPECIAL", BattleRole::Special }, { "SUPPORT", BattleRole::Support },
+            { "TANK", BattleRole::Tank },     { "WARRIOR", BattleRole::Warrior },
         };
 
-        if (auto iter = RoleMap.find(char_data_json.at("profession").as_string());
-            iter == RoleMap.cend()) {
+        if (auto iter = RoleMap.find(char_data_json.at("profession").as_string()); iter == RoleMap.cend()) {
             data.role = BattleRole::Drone;
         }
         else {

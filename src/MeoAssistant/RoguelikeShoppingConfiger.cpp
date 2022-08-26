@@ -11,14 +11,10 @@ bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
         if (auto roles_opt = goods_json.find<json::array>("roles")) {
             for (const auto& role_json : roles_opt.value()) {
                 static const std::unordered_map<std::string, BattleRole> RoleMap = {
-                    { "CASTER", BattleRole::Caster },
-                    { "MEDIC", BattleRole::Medic },
-                    { "PIONEER", BattleRole::Pioneer },
-                    { "SNIPER", BattleRole::Sniper},
-                    { "SPECIAL", BattleRole::Special},
-                    { "SUPPORT", BattleRole::Support},
-                    { "TANK", BattleRole::Tank},
-                    { "WARRIOR", BattleRole::Warrior},
+                    { "CASTER", BattleRole::Caster },   { "MEDIC", BattleRole::Medic },
+                    { "PIONEER", BattleRole::Pioneer }, { "SNIPER", BattleRole::Sniper },
+                    { "SPECIAL", BattleRole::Special }, { "SUPPORT", BattleRole::Support },
+                    { "TANK", BattleRole::Tank },       { "WARRIOR", BattleRole::Warrior },
                 };
                 roles.emplace_back(RoleMap.at(role_json.as_string()));
             }

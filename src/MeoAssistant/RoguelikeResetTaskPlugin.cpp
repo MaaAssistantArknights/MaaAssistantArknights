@@ -4,8 +4,7 @@
 
 bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskStart
-    || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 

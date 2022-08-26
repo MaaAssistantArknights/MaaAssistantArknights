@@ -27,14 +27,8 @@ namespace asst
         void set_tasks(std::vector<std::string> tasks_name);
         void set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
 
-        std::shared_ptr<TaskInfo> get_result() const noexcept
-        {
-            return m_result;
-        }
-        const Rect& get_rect() const noexcept
-        {
-            return m_result_rect;
-        }
+        std::shared_ptr<TaskInfo> get_result() const noexcept { return m_result; }
+        const Rect& get_rect() const noexcept { return m_result_rect; }
 
         ProcessTaskImageAnalyzer& operator=(const ProcessTaskImageAnalyzer&) = delete;
         ProcessTaskImageAnalyzer& operator=(ProcessTaskImageAnalyzer&&) = delete;
@@ -52,6 +46,6 @@ namespace asst
         std::shared_ptr<TaskInfo> m_result = nullptr;
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
         Rect m_result_rect;
-        //std::vector<TextRect> m_ocr_cache;
+        // std::vector<TextRect> m_ocr_cache;
     };
 }

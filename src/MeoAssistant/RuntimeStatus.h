@@ -1,9 +1,9 @@
 #pragma once
 
 //#include <any>
-#include <unordered_map>
-#include <string>
 #include <optional>
+#include <string>
+#include <unordered_map>
 
 #include "AsstTypes.h"
 
@@ -40,7 +40,6 @@ namespace asst
         static inline const std::string RoguelikeTraderNoLongerBuy = "RoguelikeNoLongerBuy";
 
     private:
-
         std::unordered_map<std::string, int64_t> m_number;
         std::unordered_map<std::string, Rect> m_rect;
         std::unordered_map<std::string, std::string> m_string;

@@ -16,22 +16,22 @@ namespace asst
 
     private:
         virtual bool _run() override;
-        //virtual bool click_confirm_button() override;
+        // virtual bool click_confirm_button() override;
 
         bool opers_choose();
 
-        bool m_notstationed_enabled = false;//设置是否启用未进驻筛选
-        bool m_trust_enabled = true;//设置是否启用蹭信赖
+        bool m_notstationed_enabled = false; //设置是否启用未进驻筛选
+        bool m_trust_enabled = true;         //设置是否启用蹭信赖
 
         int m_cur_dorm_index = 0;
         int m_max_num_of_dorm = 4;
         /*
-        * m_finished_stage
-        * 0：心情恢复阶段
-        * 1：心情恢复完成
-        * 2：蹭信赖阶段
-        * 3：全部任务完成
-        */
+         * m_finished_stage
+         * 0：心情恢复阶段
+         * 1：心情恢复完成
+         * 2：蹭信赖阶段
+         * 3：全部任务完成
+         */
         int m_finished_stage = 0;
         bool m_if_filter_notstationed_haspressed = false;
     };

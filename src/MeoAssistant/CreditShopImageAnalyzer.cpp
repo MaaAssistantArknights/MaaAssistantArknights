@@ -4,11 +4,11 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstUtils.hpp"
 #include "MatchImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
 #include "Resource.h"
-#include "AsstUtils.hpp"
 
 void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)
 {
@@ -87,11 +87,13 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
-        m_need_to_buy.emplace_back(commodity, ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text);
+        m_need_to_buy.emplace_back(
+            commodity, ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text);
     }
 
     if (m_is_white_list) {
-        ranges::sort(m_need_to_buy, std::less{}, [&](const auto& pair) { return ranges::find(m_shopping_list, pair.second); });
+        ranges::sort(m_need_to_buy, std::less {},
+                     [&](const auto& pair) { return ranges::find(m_shopping_list, pair.second); });
     }
 
     return !m_need_to_buy.empty();

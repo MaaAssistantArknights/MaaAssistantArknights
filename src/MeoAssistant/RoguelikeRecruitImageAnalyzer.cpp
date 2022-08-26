@@ -1,10 +1,10 @@
 #include "RoguelikeRecruitImageAnalyzer.h"
 
-#include "OcrWithFlagTemplImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
-#include "TaskData.h"
-#include "Resource.h"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "OcrWithFlagTemplImageAnalyzer.h"
+#include "Resource.h"
+#include "TaskData.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {
@@ -12,8 +12,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 
     OcrWithFlagTemplImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("Roguelike1RecruitOcrFlag", "Roguelike1RecruitOcr");
-    analyzer.set_replace(
-        Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+    analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
     if (!analyzer.analyze()) {
         return false;
@@ -40,11 +39,9 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
 {
     LogTraceFunction;
 
-    static const std::unordered_map<std::string, int> EliteTaskName = {
-        { "Roguelike1RecruitElite0", 0 },
-        { "Roguelike1RecruitElite1", 1 },
-        { "Roguelike1RecruitElite2", 2 }
-    };
+    static const std::unordered_map<std::string, int> EliteTaskName = { { "Roguelike1RecruitElite0", 0 },
+                                                                        { "Roguelike1RecruitElite1", 1 },
+                                                                        { "Roguelike1RecruitElite2", 2 } };
 
     int elite_result = 0;
     double max_score = 0;
@@ -59,8 +56,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
             continue;
         }
 
-        if (double score = analyzer.get_result().score;
-            score > max_score) {
+        if (double score = analyzer.get_result().score; score > max_score) {
             max_score = score;
             elite_result = elite;
         }
@@ -83,8 +79,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
     }
 
     const std::string& level = analyzer.get_result().front().text;
-    if (level.empty() || !ranges::all_of(level,
-        [](char c) -> bool {return std::isdigit(c);})) {
+    if (level.empty() || !ranges::all_of(level, [](char c) -> bool { return std::isdigit(c); })) {
         return 0;
     }
     return std::stoi(level);
