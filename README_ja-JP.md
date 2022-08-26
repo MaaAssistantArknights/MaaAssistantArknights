@@ -138,7 +138,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### Windows
 
-Visual Studio 2019~~または以上のバージョン~~で `MeoAssistantArknights.sln` を開きます。すべての構成が正しいはずです。
+Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。すべての構成が正しいはずです。
 
 ### Linux | macOS
 
