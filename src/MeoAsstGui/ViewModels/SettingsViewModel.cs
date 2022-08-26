@@ -119,13 +119,13 @@ namespace MeoAsstGui
             /* 基建设置 */
             var facility_list = new string[]
             {
-                Localization.GetString("Mfg"),
-                Localization.GetString("Trade"),
-                Localization.GetString("Control"),
-                Localization.GetString("Power"),
-                Localization.GetString("Reception"),
-                Localization.GetString("Office"),
-                Localization.GetString("Dorm"),
+                "Mfg",
+                "Trade",
+                "Control",
+                "Power",
+                "Reception",
+                "Office",
+                "Dorm",
             };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
@@ -136,23 +136,15 @@ namespace MeoAsstGui
 
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = new DragItemViewModel(facility, "Infrast.");
+                    temp_order_list[i] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
                 }
                 else
                 {
-                    temp_order_list[order] = new DragItemViewModel(facility, "Infrast.");
+                    temp_order_list[order] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
                 }
             }
 
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
-
-            _facilityKey.Add(Localization.GetString("Dorm"), "Dorm");
-            _facilityKey.Add(Localization.GetString("Mfg"), "Mfg");
-            _facilityKey.Add(Localization.GetString("Trade"), "Trade");
-            _facilityKey.Add(Localization.GetString("Power"), "Power");
-            _facilityKey.Add(Localization.GetString("Reception"), "Reception");
-            _facilityKey.Add(Localization.GetString("Office"), "Office");
-            _facilityKey.Add(Localization.GetString("Control"), "Control");
 
             UsesOfDronesList = new List<CombData>
             {
@@ -480,7 +472,6 @@ namespace MeoAsstGui
         }
 
         /* 基建设置 */
-        private readonly Dictionary<string, string> _facilityKey = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets or sets the infrast item view models.
@@ -574,7 +565,7 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                orderList.Add(_facilityKey[item.Name]);
+                orderList.Add(item.OriginalName);
             }
 
             return orderList;
@@ -587,7 +578,7 @@ namespace MeoAsstGui
         {
             for (int i = 0; i < InfrastItemViewModels.Count; i++)
             {
-                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].Name, i.ToString());
+                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].OriginalName, i.ToString());
             }
         }
 
