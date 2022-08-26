@@ -547,7 +547,7 @@ namespace MeoAsstGui
         }
 
         private int _selectedAllWidth =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 90;
+            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
@@ -568,9 +568,9 @@ namespace MeoAsstGui
         /// <summary>
         /// The width of "Select All" when both.
         /// </summary>
-        public const int SelectedAllWidthWhenBoth = 85;
+        public const int SelectedAllWidthWhenBoth = 80;
 
-        private int _inverseSelectedWidth = 95;
+        private int _inverseSelectedWidth = 90;
 
         /// <summary>
         /// Gets or sets the width of "Select inversely".
