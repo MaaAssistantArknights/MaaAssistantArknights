@@ -680,21 +680,24 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         switch (oper.role) {
         case BattleRole::Support:
             right_attack_range = {
-                Point(-1, -1), Point(0, -1), Point(1, -1), Point(2, -1), Point(-1, 0), Point(0, 0),
-                Point(1, 0),   Point(2, 0),  Point(-1, 1), Point(0, 1),  Point(1, 1),  Point(2, 1),
+                Point(-1, -1), Point(0, -1), Point(1, -1), Point(2, -1), //
+                Point(-1, 0),  Point(0, 0),  Point(1, 0),  Point(2, 0),  //
+                Point(-1, 1),  Point(0, 1),  Point(1, 1),  Point(2, 1),  //
             };
             break;
         case BattleRole::Caster:
             right_attack_range = {
-                Point(0, -1), Point(1, -1), Point(2, -1), Point(0, 0), Point(1, 0),
-                Point(2, 0),  Point(3, 0),  Point(0, 1),  Point(1, 1), Point(2, 1),
+                Point(0, -1), Point(1, -1), Point(2, -1),              //
+                Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0), //
+                Point(0, 1),  Point(1, 1),  Point(2, 1),               //
             };
             break;
         case BattleRole::Medic:
         case BattleRole::Sniper:
             right_attack_range = {
-                Point(0, -1), Point(1, -1), Point(2, -1), Point(3, -1), Point(0, 0), Point(1, 0),
-                Point(2, 0),  Point(3, 0),  Point(0, 1),  Point(1, 1),  Point(2, 1), Point(3, 1),
+                Point(0, -1), Point(1, -1), Point(2, -1), Point(3, -1), //
+                Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0),  //
+                Point(0, 1),  Point(1, 1),  Point(2, 1),  Point(3, 1),  //
             };
             break;
         case BattleRole::Warrior:

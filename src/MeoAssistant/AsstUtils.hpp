@@ -99,8 +99,7 @@ namespace asst::utils
                   curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
 
 #else  // ! _WIN32
-        struct timeval tv
-        {};
+        struct timeval tv = {};
         gettimeofday(&tv, nullptr);
         time_t nowtime = tv.tv_sec;
         struct tm* tm_info = localtime(&nowtime);

@@ -41,8 +41,8 @@ namespace asst::infrast
         std::string desc;
         std::unordered_map<std::string, double> efficient; // 技能效率，key：产品名（赤金、经验书等）, value: 效率数值
         std::unordered_map<std::string, std::string>
-            efficient_regex; // 技能效率正则，key：产品名（赤金、经验书等）, value:
-                             // 效率正则。如不为空，会先对正则进行计算，再加上efficient里面的值
+            efficient_regex; // 技能效率正则，key：产品名（赤金、经验书等）, value: 效率正则。
+                             // 如不为空，会先对正则进行计算，再加上efficient里面的值
         int max_num = INT_MAX; // 最多选几个该技能
 
         bool operator==(const Skill& skill) const noexcept { return id == skill.id; }
@@ -115,8 +115,14 @@ namespace asst::infrast
     enum class WorkMode
     {
         Invalid = -1,
-        Gentle, // 温和换班模式：会对干员人数不满的设施进行换班，计算单设施内最优解，尽量不破坏原有的干员组合；即若设施内干员是满的，则不对该设施进行换班
-        Aggressive, // 激进换班模式：会对每一个设施进行换班，计算单设施内最优解，但不会将其他设施中的干员替换过来；即按工作状态排序，仅选择前面的干员
-        Extreme // 偏激换班模式：会对每一个设施进行换班，计算全局的单设施内最优解，为追求更高效率，会将其他设施内的干员也替换过来；即按技能排序，计算所有拥有该设施技能的干员效率，无论他在不在其他地方工作
+        Gentle, // 温和换班模式：
+                // 会对干员人数不满的设施进行换班，计算单设施内最优解，尽量不破坏原有的干员组合；
+                // 即若设施内干员是满的，则不对该设施进行换班
+        Aggressive, // 激进换班模式：
+                    // 会对每一个设施进行换班，计算单设施内最优解，但不会将其他设施中的干员替换过来；
+                    // 即按工作状态排序，仅选择前面的干员
+        Extreme // 偏激换班模式：
+                // 会对每一个设施进行换班，计算全局的单设施内最优解，为追求更高效率，会将其他设施内的干员也替换过来；
+                // 即按技能排序，计算所有拥有该设施技能的干员效率，无论他在不在其他地方工作
     };
 } // namespace asst::infrast

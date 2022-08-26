@@ -57,19 +57,25 @@ namespace asst::recruit_calc
         // select one tag first
         for (size_t i = 0; i < tag_size; ++i) {
             RecruitCombs temp1 = rcs_with_single_tag[i];
-            if (temp1.opers.empty()) continue; // this is not possible
-            result.emplace_back(temp1);        // that is it
+            if (temp1.opers.empty()) [[unlikely]] {
+                continue; // this is not possible
+            }
+            result.emplace_back(temp1); // that is it
 
             // but what if another tag is also selected
             for (size_t j = i + 1; j < tag_size; ++j) {
                 RecruitCombs temp2 = temp1 * rcs_with_single_tag[j];
-                if (temp2.opers.empty()) continue;
+                if (temp2.opers.empty()) [[unlikely]] {
+                    continue;
+                }
                 result.emplace_back(temp2); // two tags only
 
                 // select a third one
                 for (size_t k = j + 1; k < tag_size; ++k) {
                     RecruitCombs temp3 = temp2 * rcs_with_single_tag[k];
-                    if (temp3.opers.empty()) continue;
+                    if (temp3.opers.empty()) [[unlikely]] {
+                        continue;
+                    }
                     result.emplace_back(temp3);
                 }
             }
@@ -223,13 +229,13 @@ bool asst::AutoRecruitTask::_run()
                 hire_all();
             }
             else {
-                // there is a small chance that confirm button were clicked twice and got stuck into the bottom-right
-                // slot ref: issues/1491
+                // There is a small chance that confirm button were clicked twice and got stuck into the bottom-right
+                // slot. ref: issues/1491
                 if (check_recruit_home_page()) {
                     m_force_discard_flag = true;
                 } // ran out of expedited plan?
                 else
-                    Log.info("Not in home page after failing to use expedited plan. ");
+                    Log.info("Not in home page after failing to use expedited plan.");
                 return false;
             }
         }
