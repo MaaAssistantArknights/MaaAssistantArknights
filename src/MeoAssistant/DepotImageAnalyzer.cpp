@@ -64,14 +64,15 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
     if (pos == NPos) {
         return false;
     }
-
-    auto& base_rect = base_item_info.rect;
+    const auto& base_rect = base_item_info.rect;
+    const auto& [base_x, base_y, base_w, base_h] = base_rect;
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(base_rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
-    // 每个材料之间有间隔，这里 高度 * 2 的 roi, 一定有一个完整的材料 + 一个不完整的材料。所以识别结果只会有一个（除非这个间隔非常大）
-    Rect vertical_rect(base_rect.x, base_rect.y + base_rect.height, base_rect.width, base_rect.height * 2);
+    // 每个材料之间有间隔，这里 高度 * 2 的 roi, 一定有一个完整的材料 + 一个不完整的材料。
+    // 所以识别结果只会有一个（除非这个间隔非常大）
+    const Rect vertical_rect(base_x, base_y + base_h, base_w, base_h * 2);
     ItemInfo vertical_item_info;
     pos = match_item(vertical_rect, vertical_item_info, pos + 1);
 
@@ -80,7 +81,7 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
 #endif
 
     // 宽度 * 2，同上
-    Rect horizontal_roi(base_rect.x + base_rect.width, base_rect.y, base_rect.width * 2, base_rect.height);
+    const Rect horizontal_roi(base_x + base_w, base_y, base_w * 2, base_h);
     ItemInfo horizontal_item_info;
     pos = match_item(horizontal_roi, horizontal_item_info, pos + 1);
 
@@ -88,12 +89,12 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
     cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(horizontal_item_info.rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
-    int horizontal_spacing = horizontal_item_info.rect.x - (base_rect.x + base_rect.width);
-    int vertical_spacing = vertical_item_info.rect.y - (base_rect.y + base_rect.height);
+    const int horizontal_spacing = horizontal_item_info.rect.x - (base_x + base_w);
+    const int vertical_spacing = vertical_item_info.rect.y - (base_y + base_h);
 
-    for (int x = base_rect.x; x <= m_image_resized.cols; x += (base_rect.width + horizontal_spacing)) {
-        for (int y = base_rect.y; y <= m_image_resized.rows; y += (base_rect.height + vertical_spacing)) {
-            Rect item_roi = Rect(x, y, base_rect.width, base_rect.height);
+    for (int x = base_x; x <= m_image_resized.cols; x += (base_w + horizontal_spacing)) {
+        for (int y = base_y; y <= m_image_resized.rows; y += (base_h + vertical_spacing)) {
+            Rect item_roi = Rect(x, y, base_w, base_h);
             if (!m_resized_rect.include(item_roi)) {
                 continue;
             }
