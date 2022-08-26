@@ -51,7 +51,8 @@ namespace asst::infrast
 
 namespace std
 {
-    template <> struct hash<asst::infrast::Skill>
+    template <>
+    struct hash<asst::infrast::Skill>
     {
         size_t operator()(const asst::infrast::Skill& skill) const noexcept
         {
