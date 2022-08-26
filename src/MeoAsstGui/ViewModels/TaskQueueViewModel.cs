@@ -153,21 +153,94 @@ namespace MeoAsstGui
             }
         }
 
+
+        // TODO: Delete this.
+
+        /// <summary>
+        /// Delete old configurations.
+        /// Note that this feature ought to be removed in later versions.
+        /// </summary>
+        public void DeleteOldConfig()
+        {
+
+            string[] saved_list_name_1 = new string[]
+            {
+                "WakeUp", "Recruiting", "Base", "Combat", "Visiting", "Mall", "Mission", "AutoRoguelike",
+            };
+            foreach (var name in saved_list_name_1)
+            {
+                string local_name = Localization.GetString(name);
+                string check = ViewStatusStorage.Get("TaskQueue." + local_name + ".IsChecked", string.Empty);
+                string order = ViewStatusStorage.Get("TaskQueue.Order." + local_name, string.Empty);
+                if (check != string.Empty)
+                {
+                    ViewStatusStorage.Set("TaskQueue." + name + ".IsChecked", check);
+                }
+                if (order != string.Empty)
+                {
+                    ViewStatusStorage.Set("TaskQueue.Order." + name, order);
+                }
+            }
+
+            string[] saved_list_name_2 = new string[]
+            {
+                "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm",
+            };
+            foreach (var name in saved_list_name_2)
+            {
+                string local_name = Localization.GetString(name);
+                string check = ViewStatusStorage.Get("Infrast." + local_name + ".IsChecked", string.Empty);
+                string order = ViewStatusStorage.Get("Infrast.Order." + local_name, string.Empty);
+                if (check != string.Empty)
+                {
+                    ViewStatusStorage.Set("Infrast." + name + ".IsChecked", check);
+                }
+                if (order != string.Empty)
+                {
+                    ViewStatusStorage.Set("Infrast.Order." + name, order);
+                }
+            }
+
+            string[] old_list_name = new string[]
+            {
+                "开始唤醒", "自动公招", "基建换班", "刷理智", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽",
+                "宿舍", "制造站", "贸易站", "发电站", "会客室", "办公室", "控制中枢",
+                "開始喚醒", "自動公招", "基建換班", "刷理智", "訪問好友", "收取信用及購物", "領取日常獎勵", "自動肉鴿",
+                "宿舍", "製造站", "貿易站", "發電站", "會客室", "辦公室", "控制中樞",
+                "ウェイクアップ", "公開求人", "基地仕事", "作戦", "戦友訪問", "FP交換", "報酬受取", "自動ローグ",
+                "宿舎", "製造所", "貿易所", "発電所", "応接室", "事務所", "制御中枢",
+                "웨이크업", "공개모집", "기반시설 교대", "작전", "친구 방문", "상점", "일일 퀘스트 보상을 수집", "통합전략",
+                "숙소", "제조소", "무역소", "발전소", "응접실", "사무실", "제어 센터",
+                "🍻💃", "🕺🍺", "🍺🍺", "🍺🍸", "🍺🍻", "🕺🍸", "🍻🍸🍻",
+                "🍸💃💃", "🍸🍺🍻", "🍺🍸🍺", "🍸🍷", "🍺🍸🍷", "🍻🍺🍸🍻", "🍺🍸🕺🍸", "🍺🍸🍸",
+            };
+            foreach (var name in old_list_name)
+            {
+                ViewStatusStorage.Delete("TaskQueue." + name + ".IsChecked");
+                ViewStatusStorage.Delete("TaskQueue.Order." + name);
+                ViewStatusStorage.Delete("Infrast." + name + ".IsChecked");
+                ViewStatusStorage.Delete("Infrast.Order." + name);
+            }
+        }
+
+
         /// <summary>
         /// Initializes items.
         /// </summary>
         public void InitializeItems()
         {
+            DeleteOldConfig();
+
             string[] task_list = new string[]
             {
-                Localization.GetString("WakeUp"),
-                Localization.GetString("Recruiting"),
-                Localization.GetString("Base"),
-                Localization.GetString("Combat"),
-                Localization.GetString("Visiting"),
-                Localization.GetString("Mall"),
-                Localization.GetString("Mission"),
-                Localization.GetString("AutoRoguelike"),
+                "WakeUp",
+                "Recruiting",
+                "Base",
+                "Combat",
+                "Visiting",
+                "Mall",
+                "Mission",
+                "AutoRoguelike",
             };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
@@ -189,8 +262,8 @@ namespace MeoAsstGui
                 int order;
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
-                var vm = new DragItemViewModel(task, "TaskQueue.");
-                if (task == Localization.GetString("AutoRoguelike"))
+                var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
+                if (task == "AutoRoguelike")
                 {
                     vm.IsChecked = false;
                 }
@@ -443,7 +516,7 @@ namespace MeoAsstGui
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.Name == Localization.GetString("AutoRoguelike"))
+                if (item.OriginalName == "AutoRoguelike")
                 {
                     continue;
                 }
@@ -606,7 +679,7 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == Localization.GetString("AutoRoguelike"))
+                    if (item.OriginalName == "AutoRoguelike")
                     {
                         continue;
                     }
@@ -634,6 +707,16 @@ namespace MeoAsstGui
             }
 
             Idle = false;
+
+            // 点击开始后先保存两大顺序：任务顺序和基建顺序
+            // TODO: optimize me: 要不要改成类似 check，在拖动后保存？
+            int index = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
+                ++index;
+            }
+            _container.Get<SettingsViewModel>().SaveInfrastOrderList();
 
             ClearLog();
 
@@ -678,47 +761,43 @@ namespace MeoAsstGui
 
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
             int count = 0;
-            int index = 0;
             foreach (var item in TaskItemViewModels)
             {
-                ViewStatusStorage.Set("TaskQueue.Order." + item.Name, index.ToString());
-                ++index;
-
                 if (item.IsChecked == false)
                 {
                     continue;
                 }
 
                 ++count;
-                if (item.Name == Localization.GetString("Base"))
+                if (item.OriginalName == "Base")
                 {
                     ret &= appendInfrast();
                 }
-                else if (item.Name == Localization.GetString("WakeUp"))
+                else if (item.OriginalName == "WakeUp")
                 {
                     ret &= appendStart();
                 }
-                else if (item.Name == Localization.GetString("Combat"))
+                else if (item.OriginalName == "Combat")
                 {
                     ret &= appendFight();
                 }
-                else if (item.Name == Localization.GetString("Recruiting"))
+                else if (item.OriginalName == "Recruiting")
                 {
                     ret &= appendRecruit();
                 }
-                else if (item.Name == Localization.GetString("Visiting"))
+                else if (item.OriginalName == "Visiting")
                 {
                     ret &= asstProxy.AsstAppendVisit();
                 }
-                else if (item.Name == Localization.GetString("Mall"))
+                else if (item.OriginalName == "Mall")
                 {
                     ret &= appendMall();
                 }
-                else if (item.Name == Localization.GetString("Mission"))
+                else if (item.OriginalName == "Mission")
                 {
                     ret &= asstProxy.AsstAppendAward();
                 }
-                else if (item.Name == Localization.GetString("AutoRoguelike"))
+                else if (item.OriginalName == "AutoRoguelike")
                 {
                     ret &= appendRoguelike();
                 }
