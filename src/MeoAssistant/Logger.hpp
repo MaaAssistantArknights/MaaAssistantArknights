@@ -40,7 +40,8 @@ namespace asst
             return true;
         }
 
-        template <typename... Args> inline void debug([[maybe_unused]] Args&&... args)
+        template <typename... Args>
+        inline void debug([[maybe_unused]] Args&&... args)
         {
 #ifdef ASST_DEBUG
             std::string_view level = "DEB";
@@ -48,27 +49,32 @@ namespace asst
 #endif
         }
 
-        template <typename... Args> inline void trace(Args&&... args)
+        template <typename... Args>
+        inline void trace(Args&&... args)
         {
             std::string_view level = "TRC";
             log(level, std::forward<Args>(args)...);
         }
-        template <typename... Args> inline void info(Args&&... args)
+        template <typename... Args>
+        inline void info(Args&&... args)
         {
             std::string_view level = "INF";
             log(level, std::forward<Args>(args)...);
         }
-        template <typename... Args> inline void warn(Args&&... args)
+        template <typename... Args>
+        inline void warn(Args&&... args)
         {
             std::string_view level = "WRN";
             log(level, std::forward<Args>(args)...);
         }
-        template <typename... Args> inline void error(Args&&... args)
+        template <typename... Args>
+        inline void error(Args&&... args)
         {
             std::string_view level = "ERR";
             log(level, std::forward<Args>(args)...);
         }
-        template <typename... Args> inline void log_with_custom_level(std::string_view level, Args&&... args)
+        template <typename... Args>
+        inline void log_with_custom_level(std::string_view level, Args&&... args)
         {
             log(level, std::forward<Args>(args)...);
         }
@@ -118,7 +124,8 @@ namespace asst
             trace("-----------------------------");
         }
 
-        template <typename... Args> void log(std::string_view level, Args&&... args)
+        template <typename... Args>
+        void log(std::string_view level, Args&&... args)
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
@@ -161,7 +168,8 @@ namespace asst
             : std::true_type
         {};
 
-        template <bool ToAnsi, typename Stream, typename T> static Stream& stream_put(Stream& s, T&& v)
+        template <bool ToAnsi, typename Stream, typename T>
+        static Stream& stream_put(Stream& s, T&& v)
         {
             if constexpr (std::is_constructible_v<std::string, T>) {
                 if constexpr (ToAnsi)
@@ -195,9 +203,11 @@ namespace asst
             }
         }
 
-        template <bool ToAnsi, typename Stream, typename... Args> struct stream_put_line_impl;
+        template <bool ToAnsi, typename Stream, typename... Args>
+        struct stream_put_line_impl;
 
-        template <bool ToAnsi, typename Stream> struct stream_put_line_impl<ToAnsi, Stream>
+        template <bool ToAnsi, typename Stream>
+        struct stream_put_line_impl<ToAnsi, Stream>
         {
             static constexpr Stream& apply(Stream& s)
             {
@@ -206,7 +216,8 @@ namespace asst
             }
         };
 
-        template <bool ToAnsi, typename Stream, typename Only> struct stream_put_line_impl<ToAnsi, Stream, Only>
+        template <bool ToAnsi, typename Stream, typename Only>
+        struct stream_put_line_impl<ToAnsi, Stream, Only>
         {
             static constexpr Stream& apply(Stream& s, Only&& only)
             {

@@ -109,7 +109,8 @@ namespace asst::utils
         return buff;
     }
 
-    template <typename _ = void> inline std::string ansi_to_utf8(const std::string& ansi_str)
+    template <typename _ = void>
+    inline std::string ansi_to_utf8(const std::string& ansi_str)
     {
 #ifdef _WIN32
         const char* src_str = ansi_str.c_str();
@@ -138,7 +139,8 @@ namespace asst::utils
 #endif
     }
 
-    template <typename _ = void> inline std::string utf8_to_ansi(const std::string& utf8_str)
+    template <typename _ = void>
+    inline std::string utf8_to_ansi(const std::string& utf8_str)
     {
 #ifdef _WIN32
         const char* src_str = utf8_str.c_str();
@@ -167,7 +169,8 @@ namespace asst::utils
 #endif
     }
 
-    template <typename _ = void> inline std::string utf8_to_unicode_escape(const std::string& utf8_str)
+    template <typename _ = void>
+    inline std::string utf8_to_unicode_escape(const std::string& utf8_str)
     {
 #ifdef _WIN32
         const char* src_str = utf8_str.c_str();
@@ -203,7 +206,8 @@ namespace asst::utils
 #endif
     }
 
-    template <typename RetTy, typename ArgType> constexpr inline RetTy make_rect(const ArgType& rect)
+    template <typename RetTy, typename ArgType>
+    constexpr inline RetTy make_rect(const ArgType& rect)
     {
         return RetTy { rect.x, rect.y, rect.width, rect.height };
     }

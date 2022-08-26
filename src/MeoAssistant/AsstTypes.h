@@ -197,7 +197,8 @@ namespace asst
 
 namespace std
 {
-    template <> struct hash<asst::Point>
+    template <>
+    struct hash<asst::Point>
     {
         size_t operator()(const asst::Point& point) const noexcept
         {
@@ -205,7 +206,8 @@ namespace std
         }
     };
 
-    template <> struct hash<asst::Rect>
+    template <>
+    struct hash<asst::Rect>
     {
         size_t operator()(const asst::Rect& rect) const noexcept
         {
@@ -213,7 +215,8 @@ namespace std
                    std::hash<int>()(rect.height);
         }
     };
-    template <> struct hash<asst::TextRect>
+    template <>
+    struct hash<asst::TextRect>
     {
         size_t operator()(const asst::TextRect& tr) const noexcept
         {
