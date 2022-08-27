@@ -246,7 +246,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
                                                                  bool recv_by_socket)
 {
     using namespace std::chrono_literals;
-    LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
+    // LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
     std::vector<uchar> pipe_data;
 
@@ -570,8 +570,6 @@ void asst::Controller::wait(unsigned id) const noexcept
 
 bool asst::Controller::screencap()
 {
-    LogTraceFunction;
-
     // if (true) {
     //     m_inited = true;
     //     std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
