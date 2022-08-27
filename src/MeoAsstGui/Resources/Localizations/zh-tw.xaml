@@ -192,6 +192,7 @@
     <!--<system:String x:Key="CurrentStage">當前關卡</system:String>
     <system:String x:Key="LastBattle">上次作戰</system:String>-->
     <system:String x:Key="DefaultStage">當前/上次</system:String>
+    <system:String x:Key="ClosedStage">活動已結束</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
     <system:String x:Key="AP-5">紅票-5</system:String>
