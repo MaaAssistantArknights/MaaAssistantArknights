@@ -68,7 +68,9 @@ bool asst::InfrastReceptionTask::use_clue()
     InfrastClueVacancyImageAnalyzer vacancy_analyzer(image);
 
     vacancy_analyzer.set_to_be_analyzed(clue_suffix);
-    if (!vacancy_analyzer.analyze()) {}
+    if (!vacancy_analyzer.analyze()) {
+        return false;
+    }
     const auto& vacancy = vacancy_analyzer.get_vacancy();
     for (const auto& id : vacancy | views::keys) {
         Log.trace("InfrastReceptionTask | Vacancy", id);
