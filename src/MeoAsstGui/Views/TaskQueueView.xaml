@@ -10,10 +10,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+    MinWidth="720"
     d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
     d:DesignHeight="495"
     d:DesignWidth="800"
-    mc:Ignorable="d" MinWidth="720">
+    mc:Ignorable="d">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -45,13 +46,14 @@
                         x:Name="TaskList"
                         Grid.Row="0"
                         Width="190"
+                        MinHeight="220"
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
-                        ToolTip="{DynamicResource LabelSequenceTip}" MinHeight="220">
+                        ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -65,8 +67,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Grid
-                        Grid.Row="1">
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -107,8 +108,9 @@
                 </Grid>
             </Border>
             <Grid
+                Grid.Row="1"
                 Margin="10"
-                Grid.Row="1" HorizontalAlignment="Center">
+                HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -116,38 +118,37 @@
                 <TextBlock
                     Margin="5"
                     Padding="5,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource Then}"
-                    TextWrapping="Wrap"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
+                    TextWrapping="Wrap" />
                 <ComboBox
                     Grid.Column="1"
-                    Margin="5"
                     Width="120"
+                    Margin="5"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ActionAfterCompletedList}"
                     SelectedValue="{Binding ActionAfterCompleted}"
-                    SelectedValuePath="Value"/>
+                    SelectedValuePath="Value" />
             </Grid>
-            <Grid
-                Grid.Row="2">
+            <Grid Grid.Row="2">
                 <Button
                     Height="50"
                     MinWidth="100"
                     MaxWidth="100"
                     Margin="5"
-                    Visibility="{Binding Idle, Converter={StaticResource Boolean2VisibilityConverter}}"
                     Command="{s:Action LinkStart}"
-                    Content="{DynamicResource LinkStart}" />
+                    Content="{DynamicResource LinkStart}"
+                    Visibility="{Binding Idle, Converter={StaticResource Boolean2VisibilityConverter}}" />
                 <Button
                     Height="50"
                     MinWidth="100"
                     MaxWidth="100"
                     Margin="5"
-                    Visibility="{c:Binding Path=!Idle}"
                     Command="{s:Action Stop}"
-                    Content="{DynamicResource Stop}" />
+                    Content="{DynamicResource Stop}"
+                    Visibility="{c:Binding Path=!Idle}" />
             </Grid>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
@@ -161,18 +162,26 @@
             <!--</StackPanel>-->
 
         </Grid>
-        <local:FightSettingsUserControl
-            Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top" />
-        <TextBlock
-            Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Bottom"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{Binding StagesOfToday}" />
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <!--周日的关卡特别多，高度待测，暂定为167，此时默认大小无滚轮-->
+                <RowDefinition Height="167"/>
+            </Grid.RowDefinitions>
+            <local:FightSettingsUserControl
+                Grid.Row="0"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top" />
+            <TextBlock
+                Grid.Row="1"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource TextBlockDefault}"
+                Text="{Binding StagesOfToday}" />
+        </Grid>
+
         <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
         <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="LightGray" Width="4" />-->
         <ScrollViewer
