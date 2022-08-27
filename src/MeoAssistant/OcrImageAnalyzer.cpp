@@ -8,7 +8,7 @@
 
 bool asst::OcrImageAnalyzer::analyze()
 {
-    LogTraceFunction;
+    // LogTraceFunction;
 
     m_ocr_result.clear();
 
