@@ -225,6 +225,8 @@ namespace MeoAsstGui
             }
         }
 
+        private readonly string _closedStage = "_ClosedStage";
+
         /// <summary>
         /// Initializes items.
         /// </summary>
@@ -307,8 +309,8 @@ namespace MeoAsstGui
             }
             else
             {
-                AllStageList.Add(new CombData { Display = "已关闭活动", Value = "ClosedStage" });
-                Stage1 = "ClosedStage";
+                AllStageList.Add(new CombData { Display = "已关闭活动", Value = _closedStage });
+                Stage1 = _closedStage;
             }
 
             var resident = new List<CombData>
@@ -1460,7 +1462,7 @@ namespace MeoAsstGui
                         }
                     }
 
-                    if (_stage1 != "ClosedStage")
+                    if (_stage1 != _closedStage)
                     {
                         foreach (var stage in newList)
                         {
@@ -1479,10 +1481,21 @@ namespace MeoAsstGui
                         }
                     }
 
-                    return _stage3;
+                    foreach (var stage in newList)
+                    {
+                        if (stage.Value == _stage3)
+                        {
+                            return _stage3;
+                        }
+                    }
                 }
 
-                return _stage1;
+                if (_stage1 != _closedStage)
+                {
+                    return _stage1;
+                }
+
+                return string.Empty;
             }
         }
 
