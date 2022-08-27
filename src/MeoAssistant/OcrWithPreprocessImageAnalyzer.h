@@ -17,6 +17,7 @@ namespace asst
 
         virtual void set_task_info(std::shared_ptr<TaskInfo> task_ptr) override;
         virtual void set_task_info(const std::string& task_name) override;
+
     protected:
         virtual void set_task_info(OcrTaskInfo task_info) noexcept override;
 

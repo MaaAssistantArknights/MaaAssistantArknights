@@ -1,31 +1,31 @@
-#include "AsstConf.h"
 #include "Controller.h"
+#include "AsstConf.h"
 
 #ifdef _WIN32
 #include <WinUser.h>
 #else
-#include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <unistd.h>
 #endif
 
-#include <cstdint>
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
+#include <memory>
 #include <regex>
 #include <utility>
 #include <vector>
-#include <memory>
 
 #include "NoWarningCV.h"
 
 #ifdef _MSC_VER
-#pragma warning( push )
-#pragma warning( disable: 4068 )
+#pragma warning(push)
+#pragma warning(disable : 4068)
 #endif
 #include <zlib/decompress.hpp>
 #ifdef _MSC_VER
-#pragma warning( pop )
+#pragma warning(pop)
 #endif
 
 #include "AsstTypes.h"
@@ -37,32 +37,23 @@
 class WsaHelper
 {
 public:
-    ~WsaHelper()
-    {
-        WSACleanup();
-    }
+    ~WsaHelper() { WSACleanup(); }
     static WsaHelper& get_instance()
     {
         static WsaHelper instance;
         return instance;
     }
     bool operator()() const noexcept { return m_supports; }
+
 private:
-    WsaHelper()
-    {
-        m_supports =
-            WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 &&
-            m_wsa_data.wVersion == MAKEWORD(2, 2);
-    }
+    WsaHelper() { m_supports = WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 && m_wsa_data.wVersion == MAKEWORD(2, 2); }
     WSADATA m_wsa_data = { 0 };
     bool m_supports = false;
 };
 #endif
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
-    : m_callback(std::move(callback)),
-    m_callback_arg(callback_arg),
-    m_rand_engine(std::random_device{}())
+    : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 
@@ -128,7 +119,7 @@ asst::Controller::~Controller()
     LogTraceFunction;
 
     m_thread_exit = true;
-    //m_thread_idle = true;
+    // m_thread_idle = true;
     m_cmd_condvar.notify_all();
     m_completed_id = UINT_MAX; // make all WinMacor::wait to exit
 
@@ -154,58 +145,58 @@ asst::Controller::~Controller()
 #endif
 }
 
-//asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
+// asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
 //{
-//    if (rect.empty()
-//        || m_scale_size.first == 0
-//        || m_scale_size.second == 0) {
-//        return rect;
-//    }
-//    // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
-//    Rect dst = rect;
-//    if (m_scale_size.first != WindowWidthDefault) {                 // 说明是宽屏
-//        if (rect.width <= WindowWidthDefault / 2) {
-//            if (rect.x + rect.width <= WindowWidthDefault / 2) {     // 整个矩形都在左半边
-//                dst.x = 0;
-//                dst.width = m_scale_size.first / 2;
-//            }
-//            else if (rect.x >= WindowWidthDefault / 2) {            // 整个矩形都在右半边
-//                dst.x = m_scale_size.first / 2;
-//                dst.width = m_scale_size.first / 2;
-//            }
-//            else {                                                  // 整个矩形横跨了中线
-//                dst.x = 0;
-//                dst.width = m_scale_size.first;
-//            }
-//        }
-//        else {
-//            dst.x = 0;
-//            dst.width = m_scale_size.first;
-//        }
-//    }
-//    else if (m_scale_size.second != WindowHeightDefault) {          // 说明是偏方形屏
-//        if (rect.height <= WindowHeightDefault / 2) {
-//            if (rect.y + rect.height <= WindowHeightDefault / 2) {   // 整个矩形都在上半边
-//                dst.y = 0;
-//                dst.height = m_scale_size.second / 2;
-//            }
-//            else if (rect.y >= WindowHeightDefault / 2) {           // 整个矩形都在下半边
-//                dst.y = m_scale_size.second / 2;
-//                dst.height = m_scale_size.second / 2;                // 整个矩形横跨了中线
-//            }
-//            else {
-//                dst.y = 0;
-//                dst.height = m_scale_size.second;
-//            }
-//        }
+//     if (rect.empty()
+//         || m_scale_size.first == 0
+//         || m_scale_size.second == 0) {
+//         return rect;
+//     }
+//     // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
+//     Rect dst = rect;
+//     if (m_scale_size.first != WindowWidthDefault) {                 // 说明是宽屏
+//         if (rect.width <= WindowWidthDefault / 2) {
+//             if (rect.x + rect.width <= WindowWidthDefault / 2) {     // 整个矩形都在左半边
+//                 dst.x = 0;
+//                 dst.width = m_scale_size.first / 2;
+//             }
+//             else if (rect.x >= WindowWidthDefault / 2) {            // 整个矩形都在右半边
+//                 dst.x = m_scale_size.first / 2;
+//                 dst.width = m_scale_size.first / 2;
+//             }
+//             else {                                                  // 整个矩形横跨了中线
+//                 dst.x = 0;
+//                 dst.width = m_scale_size.first;
+//             }
+//         }
+//         else {
+//             dst.x = 0;
+//             dst.width = m_scale_size.first;
+//         }
+//     }
+//     else if (m_scale_size.second != WindowHeightDefault) {          // 说明是偏方形屏
+//         if (rect.height <= WindowHeightDefault / 2) {
+//             if (rect.y + rect.height <= WindowHeightDefault / 2) {   // 整个矩形都在上半边
+//                 dst.y = 0;
+//                 dst.height = m_scale_size.second / 2;
+//             }
+//             else if (rect.y >= WindowHeightDefault / 2) {           // 整个矩形都在下半边
+//                 dst.y = m_scale_size.second / 2;
+//                 dst.height = m_scale_size.second / 2;                // 整个矩形横跨了中线
+//             }
+//             else {
+//                 dst.y = 0;
+//                 dst.height = m_scale_size.second;
+//             }
+//         }
 //
-//        else {
-//            dst.y = 0;
-//            dst.height = m_scale_size.second;
-//        }
-//    }
-//    return dst;
-//}
+//         else {
+//             dst.y = 0;
+//             dst.height = m_scale_size.second;
+//         }
+//     }
+//     return dst;
+// }
 
 std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 {
@@ -232,7 +223,7 @@ void asst::Controller::pipe_working_proc()
             call_command(cmd);
             ++m_completed_id;
         }
-        //else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
+        // else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
         //	cmd_queue_lock.unlock();
         //	auto start_time = std::chrono::steady_clock::now();
         //	screencap();
@@ -243,15 +234,16 @@ void asst::Controller::pipe_working_proc()
         //	m_cmd_condvar.wait_until(
         //		cmd_queue_lock,
         //		start_time + std::chrono::milliseconds(1000));	// todo 时间写到配置文件里
-        //}
+        // }
         else {
-            //m_cmd_condvar.wait(cmd_queue_lock, [&]() -> bool {return !m_thread_idle; });
+            // m_cmd_condvar.wait(cmd_queue_lock, [&]() -> bool {return !m_thread_idle; });
             m_cmd_condvar.wait(cmd_queue_lock);
         }
     }
 }
 
-std::optional<std::vector<uchar>> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
+std::optional<std::vector<uchar>> asst::Controller::call_command(const std::string& cmd, int64_t timeout,
+                                                                 bool recv_by_socket)
 {
     using namespace std::chrono_literals;
     LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
@@ -260,19 +252,19 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 
     auto start_time = std::chrono::steady_clock::now();
     auto check_timeout = [&]() -> bool {
-        return timeout &&
-            timeout < std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - start_time)
-            .count();
+        return timeout && timeout < std::chrono::duration_cast<std::chrono::milliseconds>(
+                                        std::chrono::steady_clock::now() - start_time)
+                                        .count();
     };
 
 #ifdef _WIN32
 
     ASST_AUTO_DEDUCED_ZERO_INIT_START
-        PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
+    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-        BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &m_child_startup_info, &process_info);
+    BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW,
+                                     nullptr, nullptr, &m_child_startup_info, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
@@ -282,8 +274,8 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         DWORD read_num = 0;
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
-            //DWORD write_num = 0;
-            //WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
+            // DWORD write_num = 0;
+            // WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
             while (PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
                 if (ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
                     pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
@@ -300,7 +292,8 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         select(static_cast<int>(m_server_sock) + 1, &fdset, nullptr, nullptr, &select_timeout);
         if (FD_ISSET(m_server_sock, &fdset)) {
             SOCKET client_sock = ::accept(m_server_sock, nullptr, nullptr);
-            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&TimeoutMilliseconds), sizeof(int));
+            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&TimeoutMilliseconds),
+                       sizeof(int));
             int recv_size = 0;
             do {
                 recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
@@ -372,14 +365,11 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
         m_inited = false;
 
         // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
-        json::value reconnect_info = json::object{
-            { "uuid", m_uuid},
-            { "what", "Reconnecting" },
-            { "why", "" },
-            { "details", json::object {
-                { "reconnect", m_adb.connect },
-                { "cmd", cmd }
-        }} };
+        json::value reconnect_info =
+            json::object { { "uuid", m_uuid },
+                           { "what", "Reconnecting" },
+                           { "why", "" },
+                           { "details", json::object { { "reconnect", m_adb.connect }, { "cmd", cmd } } } };
         constexpr static int ReconnectTimes = 20;
         for (int i = 0; i < ReconnectTimes; ++i) {
             if (need_exit()) {
@@ -393,9 +383,8 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
             bool is_reconnect_success = false;
             if (reconnect_ret) {
                 auto& reconnect_val = reconnect_ret.value();
-                std::string reconnect_str(
-                    std::make_move_iterator(reconnect_val.begin()),
-                    std::make_move_iterator(reconnect_val.end()));
+                std::string reconnect_str(std::make_move_iterator(reconnect_val.begin()),
+                                          std::make_move_iterator(reconnect_val.end()));
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
@@ -410,13 +399,10 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
                 }
             }
         }
-        json::value info = json::object{
-                { "uuid", m_uuid},
-                { "what", "Disconnect" },
-                { "why", "Reconnect failed" },
-                { "details", json::object {
-                    { "cmd", m_adb.connect }
-                }} };
+        json::value info = json::object { { "uuid", m_uuid },
+                                          { "what", "Disconnect" },
+                                          { "why", "Reconnect failed" },
+                                          { "details", json::object { { "cmd", m_adb.connect } } } };
         m_inited = false;
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
@@ -431,9 +417,7 @@ void asst::Controller::convert_lf(std::vector<uchar>& data)
     if (data.empty() || data.size() < 2) {
         return;
     }
-    auto pred = [](const std::vector<uchar>::iterator& cur) -> bool {
-        return *cur == '\r' && *(cur + 1) == '\n';
-    };
+    auto pred = [](const std::vector<uchar>::iterator& cur) -> bool { return *cur == '\r' && *(cur + 1) == '\n'; };
     // find the first of "\r\n"
     auto first_iter = data.end();
     for (auto iter = data.begin(); iter != data.end() - 1; ++iter) {
@@ -487,10 +471,8 @@ void asst::Controller::random_delay() const
     auto& opt = Resrc.cfg().get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
-        static std::default_random_engine rand_engine(std::random_device{}());
-        static std::uniform_int_distribution<unsigned> rand_uni(
-            opt.control_delay_lower,
-            opt.control_delay_upper);
+        static std::default_random_engine rand_engine(std::random_device {}());
+        static std::uniform_int_distribution<unsigned> rand_uni(opt.control_delay_lower, opt.control_delay_upper);
 
         unsigned rand_delay = rand_uni(rand_engine);
 
@@ -528,7 +510,8 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return static_cast<int>(++m_push_id);
 }
 
-std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address, unsigned short try_port, unsigned short try_times)
+std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address,
+                                                                   unsigned short try_port, unsigned short try_times)
 {
     LogTraceFunction;
 
@@ -589,12 +572,12 @@ bool asst::Controller::screencap()
 {
     LogTraceFunction;
 
-    //if (true) {
-    //    m_inited = true;
-    //    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-    //    m_cache_image = cv::imread("err/1.png");
-    //    return true;
-    //}
+    // if (true) {
+    //     m_inited = true;
+    //     std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+    //     m_cache_image = cv::imread("err/1.png");
+    //     return true;
+    // }
 
     DecodeFunc decode_raw = [&](std::vector<uchar>& data) -> bool {
         if (data.empty()) {
@@ -605,8 +588,7 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = data.size() - std_size;
-        bool is_all_zero =
-            std::all_of(data.data() + header_size, data.data() + std_size, std::logical_not<bool>{});
+        bool is_all_zero = std::all_of(data.data() + header_size, data.data() + std_size, std::logical_not<bool> {});
         if (is_all_zero) {
             return false;
         }
@@ -631,7 +613,7 @@ bool asst::Controller::screencap()
         }
         size_t header_size = unzip_data.size() - std_size;
         bool is_all_zero =
-            std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, std::logical_not<bool>{});
+            std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, std::logical_not<bool> {});
         if (is_all_zero) {
             return false;
         }
@@ -656,15 +638,13 @@ bool asst::Controller::screencap()
     };
 
     switch (m_adb.screencap_method) {
-    case AdbProperty::ScreencapMethod::UnknownYet:
-    {
+    case AdbProperty::ScreencapMethod::UnknownYet: {
         Log.info("Try to find the fastest way to screencap");
         m_inited = false;
         auto min_cost = std::chrono::nanoseconds(LLONG_MAX);
 
         auto start_time = std::chrono::high_resolution_clock::now();
-        if (m_support_socket && m_server_started &&
-            screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
+        if (m_support_socket && m_server_started && screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
             auto duration = std::chrono::high_resolution_clock::now() - start_time;
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
@@ -709,23 +689,16 @@ bool asst::Controller::screencap()
         Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ns");
         clear_lf_info();
         return m_inited;
-    }
-    break;
-    case AdbProperty::ScreencapMethod::RawByNc:
-    {
+    } break;
+    case AdbProperty::ScreencapMethod::RawByNc: {
         return screencap(m_adb.screencap_raw_by_nc, decode_raw, true);
-    }
-    break;
-    case AdbProperty::ScreencapMethod::RawWithGzip:
-    {
+    } break;
+    case AdbProperty::ScreencapMethod::RawWithGzip: {
         return screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip);
-    }
-    break;
-    case AdbProperty::ScreencapMethod::Encode:
-    {
+    } break;
+    case AdbProperty::ScreencapMethod::Encode: {
         return screencap(m_adb.screencap_encode, decode_encode);
-    }
-    break;
+    } break;
     }
 
     return false;
@@ -825,7 +798,7 @@ int asst::Controller::click(const Point& p, bool block)
 {
     int x = static_cast<int>(p.x * m_control_scale);
     int y = static_cast<int>(p.y * m_control_scale);
-    //log.trace("Click, raw:", p.x, p.y, "corr:", x, y);
+    // log.trace("Click, raw:", p.x, p.y, "corr:", x, y);
 
     return click_without_scale(Point(x, y), block);
 }
@@ -840,10 +813,8 @@ int asst::Controller::click_without_scale(const Point& p, bool block)
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
     }
-    std::string cur_cmd = utils::string_replace_all_batch(m_adb.click, {
-        { "[x]", std::to_string(p.x) },
-        { "[y]", std::to_string(p.y) }
-    });
+    std::string cur_cmd = utils::string_replace_all_batch(
+        m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
     int id = push_cmd(cur_cmd);
     if (block) {
         wait(id);
@@ -856,13 +827,14 @@ int asst::Controller::click_without_scale(const Rect& rect, bool block)
     return click_without_scale(rand_point_in_rect(rect), block);
 }
 
-int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay,
+                            bool extra_swipe)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
     int x2 = static_cast<int>(p2.x * m_control_scale);
     int y2 = static_cast<int>(p2.y * m_control_scale);
-    //log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
+    // log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
     return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
 }
@@ -872,7 +844,8 @@ int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool b
     return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
 }
 
-int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay,
+                                          bool extra_swipe)
 {
     int x1 = p1.x;
     int y1 = p1.y;
@@ -886,25 +859,25 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    std::string cur_cmd = utils::string_replace_all_batch(m_adb.swipe, {
-        { "[x1]", std::to_string(x1) },
-        { "[y1]", std::to_string(y1) },
-        { "[x2]", std::to_string(x2) },
-        { "[y2]", std::to_string(y2) },
-        { "[duration]", duration <= 0 ? "" : std::to_string(duration) }
-    });
+    std::string cur_cmd = utils::string_replace_all_batch(
+        m_adb.swipe, { { "[x1]", std::to_string(x1) },
+                       { "[y1]", std::to_string(y1) },
+                       { "[x2]", std::to_string(x2) },
+                       { "[y2]", std::to_string(y2) },
+                       { "[duration]", duration <= 0 ? "" : std::to_string(duration) } });
 
     int id = 0;
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
     const auto& opt = Resrc.cfg().get_options();
     if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
-        std::string extra_cmd = utils::string_replace_all_batch(m_adb.swipe, {
-            { "[x1]", std::to_string(x2)},
-            { "[y1]", std::to_string(y2) },
-            { "[x2]", std::to_string(x2) },
-            { "[y2]", std::to_string(y2 - opt.adb_extra_swipe_dist /* * m_control_scale*/) },
-            { "[duration]", std::to_string(opt.adb_extra_swipe_duration) },
-        });
+        std::string extra_cmd = utils::string_replace_all_batch(
+            m_adb.swipe, {
+                             { "[x1]", std::to_string(x2) },
+                             { "[y1]", std::to_string(y2) },
+                             { "[x2]", std::to_string(x2) },
+                             { "[y2]", std::to_string(y2 - opt.adb_extra_swipe_dist /* * m_control_scale*/) },
+                             { "[duration]", std::to_string(opt.adb_extra_swipe_duration) },
+                         });
         push_cmd(cur_cmd);
         id = push_cmd(extra_cmd);
     }
@@ -919,9 +892,11 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
     return id;
 }
 
-int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
+int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay,
+                                          bool extra_swipe)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay,
+                               extra_swipe);
 }
 
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
@@ -938,22 +913,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 #endif
 
     auto get_info_json = [&]() -> json::value {
-        return json::object{
-            { "uuid", m_uuid},
-            { "details", json::object {
-                { "adb", adb_path },
-                { "address", address },
-                { "config", config }
-            }}
-        };
+        return json::object { { "uuid", m_uuid },
+                              { "details",
+                                json::object { { "adb", adb_path }, { "address", address }, { "config", config } } } };
     };
 
     auto adb_ret = Resrc.cfg().get_adb_cfg(config);
     if (!adb_ret) {
-        json::value info = get_info_json() |
-            json::object{
-                { "what", "ConnectFailed" },
-                { "why", "ConfigNotFound" } };
+        json::value info = get_info_json() | json::object { { "what", "ConnectFailed" }, { "why", "ConfigNotFound" } };
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
         return false;
     }
@@ -966,12 +933,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     // 里面的值每次执行命令后可能更新，所以要用 lambda 拿最新的
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
         return utils::string_replace_all_batch(cfg_cmd, {
-            { "[Adb]", adb_path },
-            { "[AdbSerial]", address },
-            { "[DisplayId]", display_id },
-            { "[NcPort]", std::to_string(nc_port) },
-            { "[NcAddress]", nc_address },
-        });
+                                                            { "[Adb]", adb_path },
+                                                            { "[AdbSerial]", address },
+                                                            { "[DisplayId]", display_id },
+                                                            { "[NcPort]", std::to_string(nc_port) },
+                                                            { "[NcAddress]", nc_address },
+                                                        });
     };
 
     /* connect */
@@ -982,17 +949,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         bool is_connect_success = false;
         if (connect_ret) {
             auto& connect_val = connect_ret.value();
-            std::string connect_str(
-                std::make_move_iterator(connect_val.begin()),
-                std::make_move_iterator(connect_val.end()));
+            std::string connect_str(std::make_move_iterator(connect_val.begin()),
+                                    std::make_move_iterator(connect_val.end()));
             is_connect_success = connect_str.find("error") == std::string::npos;
         }
         if (!is_connect_success) {
-            json::value info = get_info_json() |
-                json::object{
-                    { "what", "ConnectFailed" },
-                    { "why", "Connection command failed to exec" }
-            };
+            json::value info = get_info_json() | json::object { { "what", "ConnectFailed" },
+                                                                { "why", "Connection command failed to exec" } };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
@@ -1003,26 +966,17 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid));
         if (!uuid_ret) {
             json::value info = get_info_json() |
-                json::object{
-                    { "what", "ConnectFailed" },
-                    { "why", "Uuid command failed to exec" }
-            };
+                               json::object { { "what", "ConnectFailed" }, { "why", "Uuid command failed to exec" } };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
 
         auto& uuid_result = uuid_ret.value();
-        std::string uuid_str(
-            std::make_move_iterator(uuid_result.begin()),
-            std::make_move_iterator(uuid_result.end()));
+        std::string uuid_str(std::make_move_iterator(uuid_result.begin()), std::make_move_iterator(uuid_result.end()));
         std::erase(uuid_str, ' ');
         m_uuid = std::move(uuid_str);
 
-        json::value info = get_info_json() |
-            json::object{
-                { "what", "UuidGot" },
-                { "why", "" }
-        };
+        json::value info = get_info_json() | json::object { { "what", "UuidGot" }, { "why", "" } };
         info["details"]["uuid"] = m_uuid;
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
@@ -1036,9 +990,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         auto& display_id_result = display_id_ret.value();
         convert_lf(display_id_result);
-        std::string display_id_pipe_str(
-            std::make_move_iterator(display_id_result.begin()),
-            std::make_move_iterator(display_id_result.end()));
+        std::string display_id_pipe_str(std::make_move_iterator(display_id_result.begin()),
+                                        std::make_move_iterator(display_id_result.end()));
         auto last = display_id_pipe_str.rfind(':');
         if (last == std::string::npos) {
             return false;
@@ -1053,19 +1006,15 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     {
         auto display_ret = call_command(cmd_replace(adb_cfg.display));
         if (!display_ret) {
-            json::value info = get_info_json() |
-                json::object{
-                    { "what", "ConnectFailed" },
-                    { "why", "Display command failed to exec" }
-            };
+            json::value info = get_info_json() | json::object { { "what", "ConnectFailed" },
+                                                                { "why", "Display command failed to exec" } };
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
 
         auto& display_result = display_ret.value();
-        std::string display_pipe_str(
-            std::make_move_iterator(display_result.begin()),
-            std::make_move_iterator(display_result.end()));
+        std::string display_pipe_str(std::make_move_iterator(display_result.begin()),
+                                     std::make_move_iterator(display_result.end()));
         int size_value1 = 0;
         int size_value2 = 0;
 #ifdef _MSC_VER
@@ -1078,16 +1027,9 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         m_width = (std::max)(size_value1, size_value2);
         m_height = (std::min)(size_value1, size_value2);
 
-        json::value info = get_info_json() |
-            json::object{
-            { "what", "ResolutionGot" },
-            { "why", "" }
-        };
+        json::value info = get_info_json() | json::object { { "what", "ResolutionGot" }, { "why", "" } };
 
-        info["details"] |= json::object{
-                { "width", m_width },
-                { "height", m_height }
-        };
+        info["details"] |= json::object { { "width", m_width }, { "height", m_height } };
 
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
 
@@ -1103,8 +1045,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
             return false;
         }
-        else if (std::fabs(static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault)
-            - static_cast<double>(m_width) / static_cast<double>(m_height)) > 1e-7) {
+        else if (std::fabs(static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
+                           static_cast<double>(m_width) / static_cast<double>(m_height)) > 1e-7) {
             info["what"] = "UnsupportedResolution";
             info["why"] = "Not 16:9";
             m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
@@ -1132,11 +1074,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 
     {
-        json::value info = get_info_json() |
-            json::object{
-                { "what", "Connected" },
-                { "why", "" }
-        };
+        json::value info = get_info_json() | json::object { { "what", "Connected" }, { "why", "" } };
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
     }
 
@@ -1150,8 +1088,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     if (m_support_socket && !m_server_started) {
         std::string bind_address;
-        if (size_t pos = address.rfind(':');
-            pos != std::string::npos) {
+        if (size_t pos = address.rfind(':'); pos != std::string::npos) {
             bind_address = address.substr(0, pos);
         }
         else {
@@ -1159,15 +1096,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
 
         // Todo: detect remote address, and check remote port
-        // reference from https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
+        // reference from
+        // https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
         auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
         if (nc_address_ret) {
             auto& nc_result = nc_address_ret.value();
-            std::string nc_result_str(
-                std::make_move_iterator(nc_result.begin()),
-                std::make_move_iterator(nc_result.end()));
-            if (auto pos = nc_result_str.find(' ');
-                pos != std::string::npos) {
+            std::string nc_result_str(std::make_move_iterator(nc_result.begin()),
+                                      std::make_move_iterator(nc_result.end()));
+            if (auto pos = nc_result_str.find(' '); pos != std::string::npos) {
                 nc_address = nc_result_str.substr(0, pos);
             }
         }

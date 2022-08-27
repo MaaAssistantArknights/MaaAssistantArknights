@@ -19,9 +19,9 @@ namespace asst
 
         void filter(const TextRectProc& filter_func);
 
-        virtual void sort_result_horizontal();  // 按位置排序，左上角的排在前面，右上角在左下角前面
-        virtual void sort_result_vertical();    // 按位置排序，左上角的排在前面，左下角在右上角前面
-        virtual void sort_result_by_score();    // 按分数排序，得分最高的在前面
+        virtual void sort_result_horizontal(); // 按位置排序，左上角的排在前面，右上角在左下角前面
+        virtual void sort_result_vertical(); // 按位置排序，左上角的排在前面，左下角在右上角前面
+        virtual void sort_result_by_score(); // 按分数排序，得分最高的在前面
         virtual void sort_result_by_required(); // 按传入的需求数组排序，传入的在前面结果接在前面
 
         void set_required(std::vector<std::string> required) noexcept;

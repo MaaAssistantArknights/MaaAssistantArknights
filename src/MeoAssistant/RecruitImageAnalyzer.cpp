@@ -42,9 +42,9 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     if (tags_analyzer.analyze()) {
         m_tags_result = tags_analyzer.get_result();
         return true;
-        //if (m_tags_result.size() == Resrc.recruit().CorrectNumberOfTags) {
-        //    return true;
-        //}
+        // if (m_tags_result.size() == Resrc.recruit().CorrectNumberOfTags) {
+        //     return true;
+        // }
     }
     return false;
 }

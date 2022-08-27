@@ -1,7 +1,7 @@
 #pragma once
 
-#include "NoWarningCVMat.h"
 #include "AsstTypes.h"
+#include "NoWarningCVMat.h"
 
 //#ifndef  ASST_DEBUG
 //#define ASST_DEBUG

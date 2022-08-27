@@ -2,16 +2,15 @@
 
 #include "AsstRanges.hpp"
 
-#include "RoguelikeFormationImageAnalyzer.h"
 #include "Controller.h"
-#include "TaskData.h"
-#include "ProcessTask.h"
 #include "Logger.hpp"
+#include "ProcessTask.h"
+#include "RoguelikeFormationImageAnalyzer.h"
+#include "TaskData.h"
 
 bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskCompleted
-        || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
@@ -60,8 +59,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         }
 
         auto& new_result = formation_analyzer.get_result();
-        size_t new_selected_count = ranges::count_if(new_result,
-            [](const auto& oper) { return oper.selected; });
+        size_t new_selected_count = ranges::count_if(new_result, [](const auto& oper) { return oper.selected; });
         // 说明 select_count 计数没生效，即都没点上
         if (new_selected_count == pre_selected) {
             reselect = true;

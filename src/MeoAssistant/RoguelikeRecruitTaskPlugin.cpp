@@ -1,17 +1,16 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
-#include "RoguelikeRecruitImageAnalyzer.h"
 #include "Controller.h"
-#include "TaskData.h"
-#include "Resource.h"
 #include "Logger.hpp"
-#include "RuntimeStatus.h"
 #include "ProcessTask.h"
+#include "Resource.h"
+#include "RoguelikeRecruitImageAnalyzer.h"
+#include "RuntimeStatus.h"
+#include "TaskData.h"
 
 bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskCompleted
-        || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
@@ -41,7 +40,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     const auto& recruit_cfg = Resrc.roguelike_recruit();
 
     // 编队信息 (已有角色)
-    std::string str_chars_info = m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
+    std::string str_chars_info =
+        m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
 
@@ -90,8 +90,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 // 偏移低于阈值，代表划动没有效果，已经到达屏幕最右侧
                 if (x_offset < 20 && y_offset < 5) {
                     stop_swipe = true;
-                    Log.trace(__FUNCTION__, "| Page", i, "oper", oper_info.name, "last rect:", rect_it->second.to_string(),
-                        "current rect:", oper_info.rect.to_string(), " - stop swiping");
+                    Log.trace(__FUNCTION__, "| Page", i, "oper", oper_info.name,
+                              "last rect:", rect_it->second.to_string(), "current rect:", oper_info.rect.to_string(),
+                              " - stop swiping");
                     break;
                 }
 
@@ -132,7 +133,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
                 else {
                     // 精一50级以下，默认不招募
-                    Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite, oper_info.level);
+                    Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite,
+                              oper_info.level);
                 }
             }
 
@@ -142,9 +144,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 添加到候选名单
-            auto existing_it = ranges::find_if(recruit_list, [&](const RoguelikeRecruitInfo& pri) -> bool {
-                return pri.name == recruit_info.name;
-            });
+            auto existing_it = ranges::find_if(
+                recruit_list, [&](const RoguelikeRecruitInfo& pri) -> bool { return pri.name == recruit_info.name; });
             if (existing_it == recruit_list.cend()) {
                 RoguelikeRecruitInfo info;
                 info.name = recruit_info.name;
@@ -204,8 +205,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 仍然没选，随便选个精一 50 以上的
         for (const auto& info : oper_list) {
-            if (info.elite == 0 ||
-                (info.elite == 1 && info.level < 50)) {
+            if (info.elite == 0 || (info.elite == 1 && info.level < 50)) {
                 continue;
             }
             Log.trace(__FUNCTION__, "| Choose random elite 1:", info.name, info.elite, info.level);
@@ -218,14 +218,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     // 选择优先级最高的干员
-    auto selected_oper = ranges::max_element(recruit_list, std::less{}, std::mem_fn(&RoguelikeRecruitInfo::priority));
+    auto selected_oper = ranges::max_element(recruit_list, std::less {}, std::mem_fn(&RoguelikeRecruitInfo::priority));
     if (selected_oper == recruit_list.cend()) {
         Log.trace(__FUNCTION__, "| No opers in recruit list.");
         return false;
     }
 
     auto& char_name = selected_oper->name;
-    Log.trace(__FUNCTION__, "| Top priority oper:", char_name, selected_oper->priority, "page", selected_oper->page_index, "/", i);
+    Log.trace(__FUNCTION__, "| Top priority oper:", char_name, selected_oper->priority, "page",
+              selected_oper->page_index, "/", i);
 
     // 滑动方向
     // 页码大于一半: 从右往左划动
@@ -257,10 +258,8 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         // 只处理识别成功的情况，失败(无任何结果)时继续滑动
         if (analyzer.analyze()) {
             const auto& chars = analyzer.get_result();
-            auto it = ranges::find_if(chars,
-                [&](const BattleRecruitOperInfo& oper) -> bool {
-                    return oper.name == char_name;
-                });
+            auto it = ranges::find_if(
+                chars, [&](const BattleRecruitOperInfo& oper) -> bool { return oper.name == char_name; });
 
             std::string oper_names = "";
             for (const auto& oper : chars) {
@@ -312,9 +311,10 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
     m_status->set_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name, oper.elite);
     m_status->set_number(RuntimeStatus::RoguelikeCharLevelPrefix + oper.name, oper.level);
 
-    std::string overview_str = m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
+    std::string overview_str =
+        m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value overview = json::parse(overview_str).value_or(json::value());
-    overview[oper.name] = json::object{
+    overview[oper.name] = json::object {
         { "elite", oper.elite },
         { "level", oper.level },
     };
@@ -324,8 +324,8 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)
 {
     LogTraceFunction;
-    static Rect begin_rect = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->specific_rect;    // 1080, 200, 100, 300
-    static Rect end_rect = Task.get("RoguelikeRecruitSwipeToTheLeftEnd")->specific_rect;        // 400, 200, 100, 300
+    static Rect begin_rect = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->specific_rect; // 1080, 200, 100, 300
+    static Rect end_rect = Task.get("RoguelikeRecruitSwipeToTheLeftEnd")->specific_rect;     // 400, 200, 100, 300
     static int duration = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->pre_delay;
     static int extra_delay = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->rear_delay;
     static int cfg_loop_times = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->max_times;
@@ -342,8 +342,8 @@ void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_ti
 void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(ProcessTaskAction action)
 {
     LogTraceFunction;
-    static Rect right_rect = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->specific_rect;   // 780, 200, 100, 300
-    static Rect left_rect = Task.get("RoguelikeRecruitSlowlySwipeLeftRect")->specific_rect;     // 360, 200, 100, 300
+    static Rect right_rect = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->specific_rect; // 780, 200, 100, 300
+    static Rect left_rect = Task.get("RoguelikeRecruitSlowlySwipeLeftRect")->specific_rect;   // 360, 200, 100, 300
     static int duration = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->pre_delay;
     static int extra_delay = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->rear_delay;
 
