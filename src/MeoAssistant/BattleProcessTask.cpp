@@ -157,6 +157,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     Rect cur_rect;
     int click_delay = Task.get("BattleUseOper")->pre_delay;
     for (size_t i = 0; i != opers.size(); ++i) {
+        Log.trace(__FUNCTION__, "ready to click No.", i, "oper");
         const auto& cur_oper = oper_analyzer.get_opers();
         size_t offset = opers.size() > cur_oper.size() ? opers.size() - cur_oper.size() : 0;
         cur_rect = cur_oper.at(i - offset).rect;
@@ -175,6 +176,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
             oper_name = name_analyzer.get_result().front().text;
         }
         opers.at(i).name = oper_name;
+        Log.info(__FUNCTION__, "oper's name", oper_name);
 
         bool not_found = true;
         // 找出这个干员是哪个组里的，以及他的技能用法等
@@ -195,6 +197,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
 
         // 干员特别多的时候，任意干员被点开，都会导致下方的干员图标被裁剪和移动。所以这里需要重新识别一下
+        Log.trace(__FUNCTION__, "ready to analyze oper again");
         oper_analyzer.set_image(image);
         oper_analyzer.analyze();
     }
