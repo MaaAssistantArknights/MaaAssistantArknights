@@ -2,8 +2,7 @@
 
 std::optional<int64_t> asst::RuntimeStatus::get_number(const std::string& key) const noexcept
 {
-    if (auto iter = m_number.find(key);
-        iter != m_number.cend()) {
+    if (auto iter = m_number.find(key); iter != m_number.cend()) {
         return iter->second;
     }
     else {
@@ -23,8 +22,7 @@ void asst::RuntimeStatus::clear_number() noexcept
 
 std::optional<asst::Rect> asst::RuntimeStatus::get_rect(const std::string& key) const noexcept
 {
-    if (auto iter = m_rect.find(key);
-        iter != m_rect.cend()) {
+    if (auto iter = m_rect.find(key); iter != m_rect.cend()) {
         return iter->second;
     }
     else {
@@ -44,8 +42,7 @@ void asst::RuntimeStatus::clear_rect() noexcept
 
 std::optional<std::string> asst::RuntimeStatus::get_str(const std::string& key) const noexcept
 {
-    if (auto iter = m_string.find(key);
-        iter != m_string.cend()) {
+    if (auto iter = m_string.find(key); iter != m_string.cend()) {
         return iter->second;
     }
     else {

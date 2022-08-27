@@ -4,10 +4,10 @@
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
-#include "TaskData.h"
-#include "Resource.h"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
+#include "Resource.h"
+#include "TaskData.h"
 
 bool asst::DepotImageAnalyzer::analyze()
 {
@@ -64,14 +64,15 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
     if (pos == NPos) {
         return false;
     }
-
-    auto& base_rect = base_item_info.rect;
+    const auto& base_rect = base_item_info.rect;
+    const auto& [base_x, base_y, base_w, base_h] = base_rect;
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(base_rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
-    // 每个材料之间有间隔，这里 高度 * 2 的 roi, 一定有一个完整的材料 + 一个不完整的材料。所以识别结果只会有一个（除非这个间隔非常大）
-    Rect vertical_rect(base_rect.x, base_rect.y + base_rect.height, base_rect.width, base_rect.height * 2);
+    // 每个材料之间有间隔，这里 高度 * 2 的 roi, 一定有一个完整的材料 + 一个不完整的材料。
+    // 所以识别结果只会有一个（除非这个间隔非常大）
+    const Rect vertical_rect(base_x, base_y + base_h, base_w, base_h * 2);
     ItemInfo vertical_item_info;
     pos = match_item(vertical_rect, vertical_item_info, pos + 1);
 
@@ -80,20 +81,21 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
 #endif
 
     // 宽度 * 2，同上
-    Rect horizontal_roi(base_rect.x + base_rect.width, base_rect.y, base_rect.width * 2, base_rect.height);
+    const Rect horizontal_roi(base_x + base_w, base_y, base_w * 2, base_h);
     ItemInfo horizontal_item_info;
     pos = match_item(horizontal_roi, horizontal_item_info, pos + 1);
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(horizontal_item_info.rect), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(horizontal_item_info.rect), cv::Scalar(0, 0, 255),
+                  2);
 #endif
 
-    int horizontal_spacing = horizontal_item_info.rect.x - (base_rect.x + base_rect.width);
-    int vertical_spacing = vertical_item_info.rect.y - (base_rect.y + base_rect.height);
+    const int horizontal_spacing = horizontal_item_info.rect.x - (base_x + base_w);
+    const int vertical_spacing = vertical_item_info.rect.y - (base_y + base_h);
 
-    for (int x = base_rect.x; x <= m_image_resized.cols; x += (base_rect.width + horizontal_spacing)) {
-        for (int y = base_rect.y; y <= m_image_resized.rows; y += (base_rect.height + vertical_spacing)) {
-            Rect item_roi = Rect(x, y, base_rect.width, base_rect.height);
+    for (int x = base_x; x <= m_image_resized.cols; x += (base_w + horizontal_spacing)) {
+        for (int y = base_y; y <= m_image_resized.rows; y += (base_h + vertical_spacing)) {
+            Rect item_roi = Rect(x, y, base_w, base_h);
             if (!m_resized_rect.include(item_roi)) {
                 continue;
             }
@@ -128,8 +130,10 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         info.quantity = match_quantity(info.rect);
         info.item_name = res_item.get_item_name(item_id);
 #ifdef ASST_DEBUG
-        cv::putText(m_image_draw_resized, item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
-        cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw_resized, item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                    cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
         if (item_id.empty() || info.quantity == 0) {
             Log.error(__FUNCTION__, item_id, info.item_name, " quantity is zero");
@@ -148,7 +152,8 @@ bool asst::DepotImageAnalyzer::check_roi_empty(const Rect& roi)
     return false;
 }
 
-size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index, bool with_enlarge)
+size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index,
+                                            bool with_enlarge)
 {
     LogTraceFunction;
 
@@ -172,8 +177,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
         if (!analyzer.analyze()) {
             continue;
         }
-        if (double score = analyzer.get_result().score;
-            score >= matched.score) {
+        if (double score = analyzer.get_result().score; score >= matched.score) {
             matched = analyzer.get_result();
             matched_item_id = item_id;
             matched_index = index;
@@ -224,15 +228,14 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
             i_left = i;
             in = false;
             spacing = 0;
-            contours.emplace_back(i_left, i_right + 1);   // range 是前闭后开的
+            contours.emplace_back(i_left, i_right + 1); // range 是前闭后开的
         }
         else if (!in && has_white) {
             i_right = i;
             in = true;
         }
         else if (!in) {
-            if (++spacing > max_spacing &&
-                i_left != 0) {
+            if (++spacing > max_spacing && i_left != 0) {
                 // filter out noise
                 break;
             }
@@ -264,25 +267,23 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
     cv::putText(m_image_draw_resized, result.text, cv::Point(result.rect.x, result.rect.y - 5),
-        cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
 #endif
 
     std::string digit_str = result.text;
     int multiple = 1;
-    if (size_t w_pos = digit_str.find("万");
-        w_pos != std::string::npos) {
+    if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
         multiple = 10000;
         digit_str.erase(w_pos, digit_str.size());
     }
-    //else if (size_t e_pos = digit_str.find("亿");
-    //    e_pos != std::string::npos) {
-    //    multiple = 100000000;
-    //    digit_str.erase(e_pos, digit_str.size());
-    //}
+    // else if (size_t e_pos = digit_str.find("亿");
+    //     e_pos != std::string::npos) {
+    //     multiple = 100000000;
+    //     digit_str.erase(e_pos, digit_str.size());
+    // }
 
     if (digit_str.empty() ||
-        !ranges::all_of(digit_str,
-            [](const char& c) -> bool {return std::isdigit(c) || c == '.';})) {
+        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == '.'; })) {
         return 0;
     }
 

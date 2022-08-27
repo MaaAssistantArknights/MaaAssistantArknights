@@ -1,14 +1,14 @@
 #include "TaskData.h"
 
-#include <algorithm>
 #include "AsstRanges.hpp"
+#include <algorithm>
 
 #include <meojson/json.hpp>
 
 #include "AsstTypes.h"
 #include "GeneralConfiger.h"
-#include "TemplResource.h"
 #include "Logger.hpp"
+#include "TemplResource.h"
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
@@ -19,9 +19,7 @@ bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
 
-    auto to_lower = [](char c) -> char {
-        return static_cast<char>(std::tolower(c));
-    };
+    auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
     for (const auto& [name, task_json] : json.as_object()) {
         std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
         ranges::transform(algorithm_str, algorithm_str.begin(), to_lower);
@@ -53,13 +51,12 @@ bool asst::TaskData::parse(const json::value& json)
             match_task_info_ptr->templ_name = task_json.get("template", name + ".png");
             m_templ_required.emplace(match_task_info_ptr->templ_name);
 
-            match_task_info_ptr->templ_threshold = task_json.get(
-                "templThreshold", TemplThresholdDefault);
-            match_task_info_ptr->special_threshold = task_json.get(
-                "specialThreshold", 0);
+            match_task_info_ptr->templ_threshold = task_json.get("templThreshold", TemplThresholdDefault);
+            match_task_info_ptr->special_threshold = task_json.get("specialThreshold", 0);
             if (auto opt = task_json.find<json::array>("maskRange")) {
                 auto& mask_range = *opt;
-                match_task_info_ptr->mask_range = std::make_pair(static_cast<int>(mask_range[0]), static_cast<int>(mask_range[1]));
+                match_task_info_ptr->mask_range =
+                    std::make_pair(static_cast<int>(mask_range[0]), static_cast<int>(mask_range[1]));
             }
 
             task_info_ptr = match_task_info_ptr;
@@ -77,8 +74,7 @@ bool asst::TaskData::parse(const json::value& json)
             }
             task_info_ptr = ocr_task_info_ptr;
         } break;
-        case AlgorithmType::Hash:
-        {
+        case AlgorithmType::Hash: {
             auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
             for (const json::value& hash : task_json.at("hash").as_array()) {
                 hash_task_info_ptr->hashes.emplace_back(hash.as_string());
@@ -87,7 +83,8 @@ bool asst::TaskData::parse(const json::value& json)
 
             if (auto opt = task_json.find<json::array>("maskRange")) {
                 auto& mask_range = *opt;
-                hash_task_info_ptr->mask_range = std::make_pair(static_cast<int>(mask_range[0]), static_cast<int>(mask_range[1]));
+                hash_task_info_ptr->mask_range =
+                    std::make_pair(static_cast<int>(mask_range[0]), static_cast<int>(mask_range[1]));
             }
             hash_task_info_ptr->bound = task_json.get("bound", true);
 
@@ -182,11 +179,8 @@ bool asst::TaskData::parse(const json::value& json)
 
         if (auto opt = task_json.find<json::array>("rectMove")) {
             auto& move_arr = opt.value();
-            task_info_ptr->rect_move = Rect(
-                move_arr[0].as_integer(),
-                move_arr[1].as_integer(),
-                move_arr[2].as_integer(),
-                move_arr[3].as_integer());
+            task_info_ptr->rect_move = Rect(move_arr[0].as_integer(), move_arr[1].as_integer(),
+                                            move_arr[2].as_integer(), move_arr[3].as_integer());
         }
         else {
             task_info_ptr->rect_move = Rect();
@@ -194,11 +188,8 @@ bool asst::TaskData::parse(const json::value& json)
 
         if (auto opt = task_json.find<json::array>("specificRect")) {
             auto& rect_arr = opt.value();
-            task_info_ptr->specific_rect = Rect(
-                rect_arr[0].as_integer(),
-                rect_arr[1].as_integer(),
-                rect_arr[2].as_integer(),
-                rect_arr[3].as_integer());
+            task_info_ptr->specific_rect = Rect(rect_arr[0].as_integer(), rect_arr[1].as_integer(),
+                                                rect_arr[2].as_integer(), rect_arr[3].as_integer());
         }
         else {
             task_info_ptr->specific_rect = Rect();

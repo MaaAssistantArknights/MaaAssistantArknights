@@ -1,15 +1,15 @@
 #include "BattleImageAnalyzer.h"
 
-#include <algorithm>
 #include "AsstRanges.hpp"
+#include <algorithm>
 
 #include "NoWarningCV.h"
 
-#include "MultiMatchImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
-#include "OcrWithFlagTemplImageAnalyzer.h"
 #include "HashImageAnalyzer.h"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
+#include "MultiMatchImageAnalyzer.h"
+#include "OcrWithFlagTemplImageAnalyzer.h"
 #include "TaskData.h"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
@@ -171,8 +171,8 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         oper.role = oper_role_analyze(role_rect);
 
         // 费用识别的不太准，暂时也没用上，先注释掉，TODO：优化费用识别
-        //Rect cost_rect = flag_mrect.rect.move(cost_move);
-        //oper.cost = oper_cost_analyze(cost_rect);
+        // Rect cost_rect = flag_mrect.rect.move(cost_move);
+        // oper.cost = oper_cost_analyze(cost_rect);
         oper.index = index++;
 
         m_opers.emplace_back(std::move(oper));
@@ -184,15 +184,9 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 {
     static const std::unordered_map<BattleRole, std::string> RolesName = {
-        { BattleRole::Caster, "Caster" },
-        { BattleRole::Medic, "Medic" },
-        { BattleRole::Pioneer, "Pioneer" },
-        { BattleRole::Sniper, "Sniper" },
-        { BattleRole::Special, "Special" },
-        { BattleRole::Support, "Support" },
-        { BattleRole::Tank, "Tank" },
-        { BattleRole::Warrior, "Warrior" },
-        { BattleRole::Drone, "Drone" }
+        { BattleRole::Caster, "Caster" }, { BattleRole::Medic, "Medic" },     { BattleRole::Pioneer, "Pioneer" },
+        { BattleRole::Sniper, "Sniper" }, { BattleRole::Special, "Special" }, { BattleRole::Support, "Support" },
+        { BattleRole::Tank, "Tank" },     { BattleRole::Warrior, "Warrior" }, { BattleRole::Drone, "Drone" }
     };
 
     MatchImageAnalyzer role_analyzer(m_image);
@@ -205,8 +199,7 @@ asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
         if (!role_analyzer.analyze()) {
             continue;
         }
-        if (double cur_score = role_analyzer.get_result().score;
-            max_score < cur_score) {
+        if (double cur_score = role_analyzer.get_result().score; max_score < cur_score) {
             result = role;
             max_score = cur_score;
         }
@@ -214,8 +207,7 @@ asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 
 #ifdef ASST_DEBUG
     std::string role_name;
-    if (auto iter = RolesName.find(result);
-        iter == RolesName.cend()) {
+    if (auto iter = RolesName.find(result); iter == RolesName.cend()) {
         role_name = "Unknown";
     }
     else {
@@ -259,26 +251,20 @@ bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
 
 int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
 {
-    static const std::array<std::string, 10> NumName = {
-        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-    };
+    static const std::array<std::string, 10> NumName = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
     static bool inited = false;
     static cv::Scalar range_lower, range_upper;
 
     static HashImageAnalyzer hash_analyzer;
     if (!inited) {
-        auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleOperCostChannelH"))->mask_range;
-        auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleOperCostChannelS"))->mask_range;
-        auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleOperCostChannelV"))->mask_range;
+        auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCostChannelH"))->mask_range;
+        auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCostChannelS"))->mask_range;
+        auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCostChannelV"))->mask_range;
         range_lower = cv::Scalar(h_l, s_l, v_l);
         range_upper = cv::Scalar(h_u, s_u, v_u);
         std::unordered_map<std::string, std::string> num_hashs;
         for (auto&& num : NumName) {
-            auto hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
-                Task.get("BattleOperCost" + num))->hashes;
+            auto hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCost" + num))->hashes;
             for (size_t i = 0; i != hashs_vec.size(); ++i) {
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }
@@ -320,8 +306,7 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
     cv::Scalar avg = cv::mean(hsv);
     Log.trace("oper available, mean", avg[2]);
 
-    static int thres = static_cast<int>(
-        Task.get<MatchTaskInfo>("BattleOperAvailable")->special_threshold);
+    static int thres = static_cast<int>(Task.get<MatchTaskInfo>("BattleOperAvailable")->special_threshold);
     if (avg[2] < thres) {
         return false;
     }
@@ -403,25 +388,19 @@ bool asst::BattleImageAnalyzer::hp_analyze()
     Rect roi_rect = flag_analyzer.get_result().rect.move(flag_task_ptr->rect_move);
     cv::Mat roi = m_image(utils::make_rect<cv::Rect>(roi_rect));
 
-    static const std::array<std::string, 10> NumName = {
-    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-    };
+    static const std::array<std::string, 10> NumName = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
     static bool inited = false;
     static cv::Scalar range_lower, range_upper;
     static HashImageAnalyzer hash_analyzer;
     if (!inited) {
-        auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleHpChannelH"))->mask_range;
-        auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleHpChannelS"))->mask_range;
-        auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(
-            Task.get("BattleHpChannelV"))->mask_range;
+        auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHpChannelH"))->mask_range;
+        auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHpChannelS"))->mask_range;
+        auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHpChannelV"))->mask_range;
         range_lower = cv::Scalar(h_l, s_l, v_l);
         range_upper = cv::Scalar(h_u, s_u, v_u);
         std::unordered_map<std::string, std::string> num_hashs;
         for (auto&& num : NumName) {
-            const auto& hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(
-                Task.get("BattleHp" + num))->hashes;
+            const auto& hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHp" + num))->hashes;
             for (size_t i = 0; i != hashs_vec.size(); ++i) {
                 num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
             }
@@ -450,7 +429,8 @@ bool asst::BattleImageAnalyzer::hp_analyze()
     }
 
 #ifdef ASST_DEBUG
-    cv::putText(m_image_draw, "HP: " + std::to_string(hp), cv::Point(roi_rect.x, roi_rect.y + 50), 2, 1, cv::Scalar(0, 0, 255));
+    cv::putText(m_image_draw, "HP: " + std::to_string(hp), cv::Point(roi_rect.x, roi_rect.y + 50), 2, 1,
+                cv::Scalar(0, 0, 255));
 #endif
     m_hp = hp;
     return true;
@@ -460,8 +440,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
 {
     OcrWithFlagTemplImageAnalyzer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
-    kills_analyzer.set_replace(
-        Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    kills_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
     if (!kills_analyzer.analyze()) {
         return false;
@@ -500,9 +479,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
 
     // 例子中的"0"
     std::string kills_count = kills_text.substr(0, pos);
-    if (kills_count.empty() ||
-        !ranges::all_of(kills_count,
-            [](char c) -> bool {return std::isdigit(c);})) {
+    if (kills_count.empty() || !ranges::all_of(kills_count, [](char c) -> bool { return std::isdigit(c); })) {
         return false;
     }
     int cur_kills = std::stoi(kills_count);
@@ -511,9 +488,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     // 例子中的"41"
     std::string total_kills = kills_text.substr(pos + 1, std::string::npos);
     int cur_total_kills = 0;
-    if (total_kills.empty() ||
-        !ranges::all_of(total_kills,
-            [](char c) -> bool {return std::isdigit(c);})) {
+    if (total_kills.empty() || !ranges::all_of(total_kills, [](char c) -> bool { return std::isdigit(c); })) {
         Log.warn("total kills recognition failed, set to", m_pre_total_kills);
         cur_total_kills = m_pre_total_kills;
     }
@@ -530,8 +505,7 @@ bool asst::BattleImageAnalyzer::cost_analyze()
 {
     OcrWithPreprocessImageAnalyzer cost_analyzer(m_image);
     cost_analyzer.set_task_info("BattleCostData");
-    cost_analyzer.set_replace(
-        Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    cost_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
     if (!cost_analyzer.analyze()) {
         return false;
@@ -539,9 +513,7 @@ bool asst::BattleImageAnalyzer::cost_analyze()
 
     std::string cost_str = cost_analyzer.get_result().front().text;
 
-    if (cost_str.empty() ||
-    !ranges::all_of(cost_str,
-        [](const char& c) -> bool {return std::isdigit(c);})) {
+    if (cost_str.empty() || !ranges::all_of(cost_str, [](const char& c) -> bool { return std::isdigit(c); })) {
         return false;
     }
     m_cost = std::stoi(cost_str);

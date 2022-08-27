@@ -4,13 +4,12 @@
 
 bool asst::ReplenishOriginiumShardTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskExtraInfo
-        || details.get("subtask", std::string()) != "InfrastMfgTask") {
+    if (msg != AsstMsg::SubTaskExtraInfo || details.get("subtask", std::string()) != "InfrastMfgTask") {
         return false;
     }
 
-    if (details.at("what").as_string() == "ProductOfFacility"
-        && details.at("details").at("product").as_string() == "OriginStone") {
+    if (details.at("what").as_string() == "ProductOfFacility" &&
+        details.at("details").at("product").as_string() == "OriginStone") {
         return true;
     }
     else {

@@ -1,9 +1,9 @@
 #pragma once
 #include "AbstractConfiger.h"
 
-#include <utility>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 namespace asst
@@ -17,10 +17,7 @@ namespace asst
     {
         std::string code;
         StageDifficulty difficulty = StageDifficulty::Normal;
-        bool operator==(const StageKey& other) const
-        {
-            return code == other.code && difficulty == other.difficulty;
-        }
+        bool operator==(const StageKey& other) const { return code == other.code && difficulty == other.difficulty; }
     };
     struct StageKeyHasher
     {
@@ -36,10 +33,10 @@ namespace asst
         ExpAndLMB,
         Normal,
         Extra,
-        Furniture,  // 家具
-        Special,    // 稀有材料、周年庆箱子等
-        Sanity,     // 理智返还
-        Reward      // 报酬（合成玉，仅剿灭）
+        Furniture, // 家具
+        Special,   // 稀有材料、周年庆箱子等
+        Sanity,    // 理智返还
+        Reward     // 报酬（合成玉，仅剿灭）
     };
     struct StageInfo
     {
@@ -64,9 +61,8 @@ namespace asst
 
         const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
         {
-            StageKey key{ code, difficulty };
-            if (auto find_iter = m_stage_info.find(key);
-                find_iter != m_stage_info.end()) {
+            StageKey key { code, difficulty };
+            if (auto find_iter = m_stage_info.find(key); find_iter != m_stage_info.end()) {
                 return find_iter->second;
             }
             else {
@@ -74,14 +70,8 @@ namespace asst
                 return empty_info;
             }
         }
-        const auto& get_all_stage_code() const
-        {
-            return m_all_stage_code;
-        }
-        const auto& get_all_item_id() const
-        {
-            return m_all_item_id;
-        }
+        const auto& get_all_stage_code() const { return m_all_stage_code; }
+        const auto& get_all_item_id() const { return m_all_item_id; }
         void append_drops(const StageKey& stage_key, StageDropType type, std::string item_id)
         {
             m_stage_info[stage_key].drops[type].emplace_back(std::move(item_id));
@@ -94,4 +84,4 @@ namespace asst
         std::unordered_set<std::string> m_all_item_id;
         std::unordered_map<StageKey, StageInfo, StageKeyHasher> m_stage_info;
     };
-}
+} // namespace asst

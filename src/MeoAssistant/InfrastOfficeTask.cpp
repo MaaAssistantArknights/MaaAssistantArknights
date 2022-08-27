@@ -24,10 +24,8 @@ bool asst::InfrastOfficeTask::_run()
         }
         swipe_to_the_left_of_operlist();
 
-        auto find_iter = ranges::find_if(m_all_available_opers,
-            [&](const infrast::Oper& info) -> bool {
-                return info.selected;
-            });
+        auto find_iter =
+            ranges::find_if(m_all_available_opers, [&](const infrast::Oper& info) -> bool { return info.selected; });
 
         bool need_shift = true;
         if (find_iter != m_all_available_opers.end()) {
@@ -41,8 +39,8 @@ bool asst::InfrastOfficeTask::_run()
                 need_shift = true;
                 // TODO，这里有个bug，全部干员中的selected，和当前的，不一定是同一个页面
                 // 不过目前没影响，反正滑动到最前面了，selected的一定是在最前面
-                //m_ctrler->click(find_iter->rect);
-                //sleep(300);
+                // m_ctrler->click(find_iter->rect);
+                // sleep(300);
                 break;
             case infrast::WorkMode::Extreme: // TODO
                 break;

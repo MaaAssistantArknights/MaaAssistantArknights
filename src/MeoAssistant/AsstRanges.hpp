@@ -16,21 +16,20 @@ namespace asst
         struct remove_if_fn
         {
             template <permutable I, sentinel_for<I> S, typename C, typename P = identity>
-            constexpr subrange<I>
-                operator()(I first, S last, C pred, P proj = P{}) const
+            constexpr subrange<I> operator()(I first, S last, C pred, P proj = P {}) const
             {
                 return { ::ranges::remove_if(std::move(first), last, std::move(pred), std::move(proj)), last };
             }
 
             template <forward_range Rng, typename C, typename P = identity>
-            constexpr borrowed_subrange_t<Rng> operator()(Rng&& rng, C pred, P proj = P{}) const
+            constexpr borrowed_subrange_t<Rng> operator()(Rng&& rng, C pred, P proj = P {}) const
             {
                 return (*this)(begin(rng), end(rng), std::move(pred), std::move(proj));
             }
         };
 
         // this one will be found before ::ranges::remove_if
-        inline constexpr remove_if_fn remove_if{};
+        inline constexpr remove_if_fn remove_if {};
     }
 
     namespace views = ::ranges::views;
@@ -50,8 +49,8 @@ namespace asst
 
 #error "Not implemented"
 
-#include <boost/range/algorithm.hpp>
 #include <boost/range/adaptors.hpp>
+#include <boost/range/algorithm.hpp>
 
 namespace asst
 {

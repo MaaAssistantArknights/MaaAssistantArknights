@@ -1,14 +1,14 @@
 #pragma once
 
 #include <condition_variable>
+#include <list>
 #include <memory>
 #include <mutex>
-#include <list>
 #include <queue>
 #include <thread>
 
-#include "AsstTypes.h"
 #include "AsstMsg.h"
+#include "AsstTypes.h"
 
 typedef unsigned char uchar;
 
