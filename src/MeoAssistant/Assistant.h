@@ -64,7 +64,7 @@ namespace asst
 
         bool m_thread_exit = false;
         std::list<std::pair<TaskId, std::shared_ptr<PackageTask>>> m_tasks_list;
-        TaskId m_task_id = 0;
+        inline static TaskId m_task_id = 0; // 进程级唯一
         AsstApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 
