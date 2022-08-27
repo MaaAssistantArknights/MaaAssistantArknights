@@ -87,6 +87,8 @@ Todo
     Disconnected (adb/emulator crashed), and reconnected successfully
 - `Disconnect`
     Disconnected (adb/emulator crashed), and failed to reconnect
+- `ScreencapFailed`  
+    Screencap Failed (adb/emulator crashed), and failed to reconnect
 
 #### AllTasksCompleted
 

@@ -293,6 +293,7 @@
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
+    <system:String x:Key="ScreencapFailed">截圖失敗，如反復出現請嘗試重啟或更換模擬器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError">任務出錯：</system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>

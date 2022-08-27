@@ -336,6 +336,10 @@ namespace MeoAsstGui
                     mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
                     AsstStop();
                     break;
+
+                case "ScreencapFailed":
+                    mainModel.AddLog(Localization.GetString("ScreencapFailed"), LogColor.Error);
+                    break;
             }
         }
 

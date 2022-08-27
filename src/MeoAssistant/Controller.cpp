@@ -1178,7 +1178,14 @@ cv::Mat asst::Controller::get_image(bool raw)
             break;
         }
     }
-    if (!success) {
+    if (!success && !need_exit()) {
+        Log.error(__FUNCTION__, "screencap failed!");
+        json::value info = json::object { { "uuid", m_uuid },
+                                          { "what", "ScreencapFailed" },
+                                          { "why", "ScreencapFailed" },
+                                          { "details", json::object {} } };
+        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+
         const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
         m_cache_image = cv::Mat(d_size, CV_8UC3);
     }
