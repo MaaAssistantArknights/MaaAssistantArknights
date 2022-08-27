@@ -72,18 +72,12 @@ namespace asst
         {
             return { value.x * scalar, value.y * scalar };
         }
-        static int dot(const Point& lhs, const Point& rhs) noexcept
-        {
-            return (lhs.x * rhs.x) + (lhs.y * rhs.y);
-        }
+        static int dot(const Point& lhs, const Point& rhs) noexcept { return (lhs.x * rhs.x) + (lhs.y * rhs.y); }
         static double distance(const Point& lhs, const Point& rhs) noexcept
         {
             return std::sqrt(std::pow(rhs.x - lhs.x, 2) + std::pow(rhs.y - lhs.y, 2));
         }
-        double length() const noexcept
-        {
-            return std::sqrt(static_cast<double>(dot(*this, *this)));
-        }
+        double length() const noexcept { return std::sqrt(static_cast<double>(dot(*this, *this))); }
     };
 
     struct Rect
