@@ -292,15 +292,24 @@ namespace MeoAsstGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            AllStageList = new List<CombData>
+            AllStageList = new List<CombData>();
+
+            if (DateTime.UtcNow.AddHours(8).Date < new DateTime(2022, 9, 1, 4, 0, 0))
+            {
+                var limit = new List<CombData>
+                {
+                    // SideStory「理想城：长夏狂欢季」活动
+                    new CombData { Display = "IC-9", Value = "IC-9" },
+                    new CombData { Display = "IC-8", Value = "IC-8" },
+                    new CombData { Display = "IC-7", Value = "IC-7" },
+                };
+                AllStageList.AddRange(limit);
+            }
+
+            var resident = new List<CombData>
             {
                 // 「当前/上次」关卡导航
                 new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
-
-                // SideStory「理想城：长夏狂欢季」活动
-                new CombData { Display = "IC-9", Value = "IC-9" },
-                new CombData { Display = "IC-8", Value = "IC-8" },
-                new CombData { Display = "IC-7", Value = "IC-7" },
 
                 // 主线关卡
                 new CombData { Display = "1-7", Value = "1-7" },
@@ -347,6 +356,7 @@ namespace MeoAsstGui
                 // new CombData { Display = "BI-7", Value = "BI-7" },
                 // new CombData { Display = "BI-8", Value = "BI-8" }
             };
+            AllStageList.AddRange(resident);
 
             _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
             {
