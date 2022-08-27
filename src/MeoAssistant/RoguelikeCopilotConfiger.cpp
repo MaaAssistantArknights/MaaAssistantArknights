@@ -4,7 +4,8 @@
 
 #include "Logger.hpp"
 
-std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfiger::get_stage_data(const std::string& stage_name) const
+std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfiger::get_stage_data(
+    const std::string& stage_name) const
 {
     auto it = m_stage_data.find(stage_name);
     if (it == m_stage_data.end()) {

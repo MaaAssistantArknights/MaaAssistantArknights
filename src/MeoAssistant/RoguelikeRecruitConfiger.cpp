@@ -9,8 +9,7 @@
 const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfiger::get_oper_info(const std::string& name) const noexcept
 
 {
-    if (auto find_iter = m_all_opers.find(name);
-        find_iter != m_all_opers.cend()) {
+    if (auto find_iter = m_all_opers.find(name); find_iter != m_all_opers.cend()) {
         return find_iter->second;
     }
     else {

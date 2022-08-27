@@ -28,7 +28,6 @@ namespace asst
         static cv::Mat bound_bin(const cv::Mat& bin);
 
     protected:
-
         std::pair<int, int> m_mask_range;
         std::unordered_map<std::string, std::string> m_hash_templates;
         bool m_need_split = false;

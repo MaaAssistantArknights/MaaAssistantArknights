@@ -1,22 +1,22 @@
 #include "BattleProcessTask.h"
 
-#include <thread>
+#include "AsstRanges.hpp"
 #include <chrono>
 #include <future>
-#include "AsstRanges.hpp"
+#include <thread>
 
 #include "NoWarningCV.h"
 
 #include "Controller.h"
+#include "Logger.hpp"
 #include "Resource.h"
 #include "TaskData.h"
-#include "Logger.hpp"
 
 #include "ProcessTask.h"
 
+#include "BattleImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
-#include "BattleImageAnalyzer.h"
 
 void asst::BattleProcessTask::set_stage_name(std::string name)
 {
@@ -167,8 +167,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
         OcrWithPreprocessImageAnalyzer name_analyzer(image);
         name_analyzer.set_task_info("BattleOperName");
-        name_analyzer.set_replace(
-            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+        name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
         std::string oper_name = "Unknown";
         if (name_analyzer.analyze()) {
@@ -180,10 +179,8 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         bool not_found = true;
         // 找出这个干员是哪个组里的，以及他的技能用法等
         for (const auto& [group_name, deploy_opers] : m_copilot_data.groups) {
-            auto iter = ranges::find_if(deploy_opers,
-                [&](const BattleDeployOper& deploy) -> bool {
-                    return deploy.name == oper_name;
-                });
+            auto iter = ranges::find_if(
+                deploy_opers, [&](const BattleDeployOper& deploy) -> bool { return deploy.name == oper_name; });
             if (iter != deploy_opers.cend()) {
                 m_group_to_oper_mapping.emplace(group_name, *iter);
                 not_found = false;
@@ -192,7 +189,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         }
         // 没找到，可能是召唤物等新出现的
         if (not_found) {
-            m_group_to_oper_mapping.emplace(oper_name, BattleDeployOper{ oper_name });
+            m_group_to_oper_mapping.emplace(oper_name, BattleDeployOper { oper_name });
         }
 
         m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
@@ -280,14 +277,13 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
 
             OcrWithPreprocessImageAnalyzer name_analyzer(m_ctrler->get_image());
             name_analyzer.set_task_info("BattleOperName");
-            name_analyzer.set_replace(
-                Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+            name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
             if (name_analyzer.analyze()) {
                 name_analyzer.sort_result_by_score();
                 oper_name = name_analyzer.get_result().front().text;
             }
-            m_group_to_oper_mapping[oper_name] = BattleDeployOper{ oper_name };
+            m_group_to_oper_mapping[oper_name] = BattleDeployOper { oper_name };
             m_ctrler->click(cur_oper.rect);
             sleep(Task.get("BattleUseOper")->pre_delay);
             battle_pause();
@@ -366,8 +362,7 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::BulletTime:
         // TODO
         break;
-    case BattleActionType::SkillUsage:
-    {
+    case BattleActionType::SkillUsage: {
         auto& oper_info = m_group_to_oper_mapping[action.group_name];
         oper_info.skill_usage = action.modify_usage;
         m_used_opers[oper_info.name].info.skill_usage = action.modify_usage;
@@ -452,8 +447,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             }
             update_opers_info(image);
 
-            if (auto iter = m_cur_opers_info.find(name);
-                iter != m_cur_opers_info.cend() && iter->second.available) {
+            if (auto iter = m_cur_opers_info.find(name); iter != m_cur_opers_info.cend() && iter->second.available) {
                 break;
             }
 
@@ -487,9 +481,9 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
 
-    Rect placed_rect{ placed_point.x ,placed_point.y, 0, 0 };
-    int dist = static_cast<int>(Point::distance(
-        placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
+    Rect placed_rect { placed_point.x, placed_point.y, 0, 0 };
+    int dist = static_cast<int>(
+        Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));
     m_ctrler->swipe(oper_rect, placed_rect, duration, true, 0);
@@ -499,11 +493,9 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     // 拖动干员朝向
     if (action.direction != BattleDeployDirection::None) {
         static const std::unordered_map<BattleDeployDirection, Point> DirectionMapping = {
-            { BattleDeployDirection::Right, Point(1, 0)},
-            { BattleDeployDirection::Down, Point(0, 1)},
-            { BattleDeployDirection::Left, Point(-1, 0)},
-            { BattleDeployDirection::Up, Point(0, -1)},
-            { BattleDeployDirection::None, Point(0, 0)},
+            { BattleDeployDirection::Right, Point(1, 0) }, { BattleDeployDirection::Down, Point(0, 1) },
+            { BattleDeployDirection::Left, Point(-1, 0) }, { BattleDeployDirection::Up, Point(0, -1) },
+            { BattleDeployDirection::None, Point(0, 0) },
         };
 
         // 计算往哪边拖动
@@ -516,14 +508,12 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
     }
 
-    m_used_opers[iter->first] = BattleDeployInfo{
-        action.location,
-        m_normal_tile_info[action.location].pos,
-        oper_info };
+    m_used_opers[iter->first] =
+        BattleDeployInfo { action.location, m_normal_tile_info[action.location].pos, oper_info };
 
     m_cur_opers_info.erase(iter);
 
-    //sleep(use_oper_task_ptr->pre_delay);
+    // sleep(use_oper_task_ptr->pre_delay);
 
     return true;
 }
@@ -533,8 +523,7 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
     Point pos;
     if (auto iter = m_used_opers.find(name);
-        action.location.x == 0 && action.location.y == 0 &&
-        iter != m_used_opers.cend()) {
+        action.location.x == 0 && action.location.y == 0 && iter != m_used_opers.cend()) {
         pos = iter->second.pos;
         m_used_opers.erase(iter);
     }
@@ -552,8 +541,7 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action)
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
     Point pos;
     if (auto iter = m_used_opers.find(name);
-        action.location.x == 0 && action.location.y == 0 &&
-        iter != m_used_opers.cend()) {
+        action.location.x == 0 && action.location.y == 0 && iter != m_used_opers.cend()) {
         pos = iter->second.pos;
     }
     else {
@@ -597,11 +585,10 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
     analyzer.set_task_info(task_ptr);
     bool used = false;
     for (auto& info : m_used_opers | views::values) {
-        if (info.info.skill_usage != BattleSkillUsage::Possibly
-            && info.info.skill_usage != BattleSkillUsage::Once) {
+        if (info.info.skill_usage != BattleSkillUsage::Possibly && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;
         }
-        const Rect roi = Rect{ info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move);
+        const Rect roi = Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move);
         analyzer.set_roi(roi);
         if (!analyzer.analyze()) {
             continue;
@@ -630,8 +617,8 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
     Log.trace("ready to sleep_with_possible_skill", millisecond);
 
     while (!need_exit() && duration < millisecond) {
-        duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start).count();
+        duration =
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
         try_possible_skill(m_ctrler->get_image());
         std::this_thread::yield();
     }
@@ -639,10 +626,9 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
 }
 
 template <typename GroupNameType, typename CharNameType>
-std::optional<std::unordered_map<GroupNameType, CharNameType>>
-asst::BattleProcessTask::get_char_allocation_for_each_group(
-    const std::unordered_map<GroupNameType, std::vector<CharNameType>>& group_list,
-    const std::vector<CharNameType>& char_list)
+std::optional<std::unordered_map<GroupNameType, CharNameType>> asst::BattleProcessTask::
+    get_char_allocation_for_each_group(const std::unordered_map<GroupNameType, std::vector<CharNameType>>& group_list,
+                                       const std::vector<CharNameType>& char_list)
 {
     /*
      * * dlx 算法简介
@@ -720,12 +706,11 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
      *
      */
 
-     // dlx 算法模板类
+    // dlx 算法模板类
     class DancingLinksModel
     {
     private:
-
-        size_t index{};
+        size_t index {};
         std::vector<size_t> first, size;
         std::vector<size_t> left, right, up, down;
         std::vector<size_t> column, row;
@@ -755,20 +740,12 @@ asst::BattleProcessTask::get_char_allocation_for_each_group(
         }
 
     public:
-
-        size_t answer_stack_size{};
+        size_t answer_stack_size {};
         std::vector<size_t> answer_stack;
 
-        DancingLinksModel(const size_t& max_node_num, const size_t& max_ans_size) :
-            first(max_node_num),
-            size(max_node_num),
-            left(max_node_num),
-            right(max_node_num),
-            up(max_node_num),
-            down(max_node_num),
-            column(max_node_num),
-            row(max_node_num),
-            answer_stack(max_ans_size)
+        DancingLinksModel(const size_t& max_node_num, const size_t& max_ans_size)
+            : first(max_node_num), size(max_node_num), left(max_node_num), right(max_node_num), up(max_node_num),
+              down(max_node_num), column(max_node_num), row(max_node_num), answer_stack(max_ans_size)
         {}
 
         void build(const size_t& column_id)

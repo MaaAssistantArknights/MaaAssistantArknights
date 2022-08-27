@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "AsstMsg.h"
 #include "AbstractTask.h"
+#include "AsstMsg.h"
 
 namespace asst
 {
@@ -27,7 +27,6 @@ namespace asst
         bool operator==(const AbstractTaskPlugin& rhs) const;
 
     protected:
-
         AbstractTask* m_task_ptr = nullptr;
         int m_priority = 0;
         bool m_block = false;

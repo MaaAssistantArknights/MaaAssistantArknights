@@ -25,6 +25,7 @@ namespace asst
         bool set_penguin_id(std::string id);
         bool set_server(std::string server);
         bool set_specify_quantity(std::unordered_map<std::string, int> quantity);
+
     private:
         virtual bool _run() override;
 

@@ -2,11 +2,11 @@
 
 #include <regex>
 
-#include "TaskData.h"
 #include "Controller.h"
+#include "Logger.hpp"
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Logger.hpp"
+#include "TaskData.h"
 
 void asst::StageNavigationTask::set_stage_name(std::string stage_name)
 {
@@ -22,8 +22,7 @@ bool asst::StageNavigationTask::_run()
         return ProcessTask(*this, { m_stage_name }).run();
     }
 
-    return chapter_wayfinding()
-        && swipe_and_find_stage();
+    return chapter_wayfinding() && swipe_and_find_stage();
 }
 
 bool asst::StageNavigationTask::chapter_wayfinding()
@@ -42,8 +41,7 @@ bool asst::StageNavigationTask::chapter_wayfinding()
 
     Log.info("capter name", episode_task_name);
 
-    return Task.get(episode_task_name)
-        && ProcessTask(*this, { episode_task_name }).run();
+    return Task.get(episode_task_name) && ProcessTask(*this, { episode_task_name }).run();
 }
 
 bool asst::StageNavigationTask::swipe_and_find_stage()

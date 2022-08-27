@@ -7,9 +7,9 @@
 
 #include "Assistant.h"
 #include "AsstTypes.h"
-#include "Version.h"
 #include "Logger.hpp"
 #include "Resource.h"
+#include "Version.h"
 
 static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
 

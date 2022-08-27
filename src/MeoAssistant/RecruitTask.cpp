@@ -5,7 +5,7 @@
 
 asst::RecruitTask::RecruitTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
-    m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, callback_arg, TaskType))
+      m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, callback_arg, TaskType))
 {
     m_subtasks.emplace_back(m_auto_recruit_task_ptr)->set_retry_times(5);
 }
@@ -65,7 +65,8 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_penguin_enabled(penguin_enabled, penguin_id)
         .set_yituliu_enabled(yituliu_enabled)
         .set_server(server)
-        .set_set_time(set_time).set_retry_times(3);
+        .set_set_time(set_time)
+        .set_retry_times(3);
 
     return true;
 }

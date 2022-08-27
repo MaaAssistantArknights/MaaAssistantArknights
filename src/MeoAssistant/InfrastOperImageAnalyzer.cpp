@@ -4,10 +4,10 @@
 
 #include "NoWarningCV.h"
 
-#include "InfrastSmileyImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
 #include "HashImageAnalyzer.h"
+#include "InfrastSmileyImageAnalyzer.h"
 #include "Logger.hpp"
+#include "MatchImageAnalyzer.h"
 #include "Resource.h"
 
 bool asst::InfrastOperImageAnalyzer::analyze()
@@ -87,7 +87,7 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
     const Rect name_rect_move = Task.get("InfrastOperNameOcr")->rect_move;
     const Rect facility_rect_move = Task.get("InfrastOperFacilityOcr")->rect_move;
     const Rect prg_rect_move = Task.get("InfrastOperMoodProgressBar")->roi;
-    const std::vector<Rect> all_rect_move = { skill_rect_move, name_rect_move,facility_rect_move, prg_rect_move };
+    const std::vector<Rect> all_rect_move = { skill_rect_move, name_rect_move, facility_rect_move, prg_rect_move };
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
 
@@ -297,7 +297,8 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             else if (possible_skills.size() > 1) {
                 // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
-                auto max_iter = ranges::max_element(possible_skills, std::less{}, [](const auto& pair) { return pair.second.score; });
+                auto max_iter = ranges::max_element(possible_skills, std::less {},
+                                                    [](const auto& pair) { return pair.second.score; });
                 double base_score = max_iter->second.score;
                 std::string base_id = max_iter->first.id;
                 size_t level_pos = 0;
@@ -315,8 +316,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                     if (base_score - skill_mr.score > 0.05) {
                         continue;
                     }
-                    if (size_t find_pos = skill.id.find(base_id);
-                        find_pos != std::string::npos) {
+                    if (size_t find_pos = skill.id.find(base_id); find_pos != std::string::npos) {
                         std::string cur_skill_level = skill.id.substr(base_id.size());
                         if (max_level.empty() || cur_skill_level > max_level) {
                             max_level = cur_skill_level;
@@ -372,7 +372,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
         }
         Log.trace("selected_analyze |", count);
         oper.selected = count >= selected_task_ptr->templ_threshold;
-        oper.rect = selected_rect;  // 先凑合用（
+        oper.rect = selected_rect; // 先凑合用（
     }
 }
 
@@ -395,7 +395,8 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
         if (working_analyzer.analyze()) {
             oper.doing = infrast::Doing::Working;
 #ifdef ASST_DEBUG
-            cv::putText(m_image_draw, "Working", cv::Point(working_rect.x, working_rect.y), 1, 1, cv::Scalar(0, 0, 255), 2);
+            cv::putText(m_image_draw, "Working", cv::Point(working_rect.x, working_rect.y), 1, 1, cv::Scalar(0, 0, 255),
+                        2);
 #endif
         }
         // TODO: infrast::Doing::Resting的识别

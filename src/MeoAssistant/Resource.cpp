@@ -21,7 +21,7 @@ bool asst::Resource::load(const std::string& dir)
     constexpr static auto ItemCfgFilename = "item_index.json";
     constexpr static auto InfrastCfgFilename = "infrast.json";
     constexpr static auto InfrastTempls = "template/infrast";
-    //constexpr static const char* CopilotCfgDirname = "copilot";
+    // constexpr static const char* CopilotCfgDirname = "copilot";
     constexpr static auto RoguelikeCfgDirname = "roguelike_copilot.json";
     constexpr static auto OcrResourceFilename = "PaddleOCR";
     constexpr static auto TilesCalcResourceFilename = "Arknights-Tile-Pos";
@@ -65,7 +65,8 @@ bool asst::Resource::load(const std::string& dir)
 
     if (!m_roguelike_recruit_cfg_unique_ins.load(dir + RoguelikeRecruitCfgFilename)) {
         if (!m_loaded) {
-            m_last_error = std::string(RoguelikeRecruitCfgFilename) + ": " + m_roguelike_recruit_cfg_unique_ins.get_last_error();
+            m_last_error =
+                std::string(RoguelikeRecruitCfgFilename) + ": " + m_roguelike_recruit_cfg_unique_ins.get_last_error();
             return false;
         }
     }
@@ -83,15 +84,15 @@ bool asst::Resource::load(const std::string& dir)
         overload = true;
     }
 
-    //for (const auto& entry : std::filesystem::directory_iterator(dir + CopilotCfgDirname)) {
-    //    if (entry.path().extension() != ".json") {
-    //        continue;
-    //    }
-    //    if (!m_copilot_cfg_unique_ins.load(entry.path().string())) {
-    //        m_last_error = entry.path().string() + " Load failed";
-    //        return false;
-    //    }
-    //}
+    // for (const auto& entry : std::filesystem::directory_iterator(dir + CopilotCfgDirname)) {
+    //     if (entry.path().extension() != ".json") {
+    //         continue;
+    //     }
+    //     if (!m_copilot_cfg_unique_ins.load(entry.path().string())) {
+    //         m_last_error = entry.path().string() + " Load failed";
+    //         return false;
+    //     }
+    // }
 
     if (!m_roguelike_cfg_unique_ins.load(dir + RoguelikeCfgDirname)) {
         if (!m_loaded) {
@@ -172,7 +173,8 @@ bool asst::Resource::load(const std::string& dir)
     // 加载肉鸽购物需要的数据
     if (!m_roguelike_shopping_cfg_unique_ins.load(dir + RoguelikeShoppingCfgFilename)) {
         if (!m_loaded) {
-            m_last_error = std::string(RoguelikeShoppingCfgFilename) + ": " + m_roguelike_shopping_cfg_unique_ins.get_last_error();
+            m_last_error =
+                std::string(RoguelikeShoppingCfgFilename) + ": " + m_roguelike_shopping_cfg_unique_ins.get_last_error();
             return false;
         }
     }
@@ -181,7 +183,7 @@ bool asst::Resource::load(const std::string& dir)
     }
 
     /* 加载OCR库所需要的资源 */
-    //m_ocr_pack_unique_ins.set_param(opt.ocr_gpu_index, opt.ocr_thread_number);
+    // m_ocr_pack_unique_ins.set_param(opt.ocr_gpu_index, opt.ocr_thread_number);
     if (!m_ocr_pack_unique_ins.load(dir + OcrResourceFilename)) {
         if (!m_loaded) {
             m_last_error = std::string(OcrResourceFilename) + ": " + m_ocr_pack_unique_ins.get_last_error();

@@ -1,16 +1,15 @@
 #include "RoguelikeShoppingTaskPlugin.h"
 
-#include "OcrWithFlagTemplImageAnalyzer.h"
-#include "Resource.h"
 #include "Controller.h"
-#include "ProcessTask.h"
 #include "Logger.hpp"
+#include "OcrWithFlagTemplImageAnalyzer.h"
+#include "ProcessTask.h"
+#include "Resource.h"
 #include "RuntimeStatus.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskStart
-        || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
@@ -34,13 +33,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         return false;
     }
 
-    bool no_longer_buy =
-        m_status->get_number(RuntimeStatus::RoguelikeTraderNoLongerBuy).value_or(0)
-        ? true : false;
+    bool no_longer_buy = m_status->get_number(RuntimeStatus::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
 
     std::string str_chars_info =
-        m_status->get_str(RuntimeStatus::RoguelikeCharOverview)
-        .value_or(json::value().to_string());
+        m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
 
     std::unordered_map<BattleRole, size_t> map_roles_count;
@@ -74,13 +70,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             map_roles_count[role] += 1;
 
             static const std::unordered_map<int, int> RarityPromotionLevel = {
-                { 0, INT_MAX },
-                { 1, INT_MAX },
-                { 2, INT_MAX },
-                { 3, INT_MAX },
-                { 4, 60 },
-                { 5, 70 },
-                { 6, 80 },
+                { 0, INT_MAX }, { 1, INT_MAX }, { 2, INT_MAX }, { 3, INT_MAX }, { 4, 60 }, { 5, 70 }, { 6, 80 },
             };
             int rarity = battle_data.get_rarity(name);
             if (elite == 1 && level >= RarityPromotionLevel.at(rarity)) {
@@ -101,11 +91,9 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             continue;
         }
 
-        auto find_it = ranges::find_if(result,
-            [&](const TextRect& tr) -> bool {
-                return tr.text.find(goods.name) != std::string::npos ||
-                    goods.name.find(tr.text) != std::string::npos;
-            });
+        auto find_it = ranges::find_if(result, [&](const TextRect& tr) -> bool {
+            return tr.text.find(goods.name) != std::string::npos || goods.name.find(tr.text) != std::string::npos;
+        });
         if (find_it == result.cend()) {
             continue;
         }
@@ -119,15 +107,13 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                 }
             }
             if (!role_mathced) {
-                Log.trace("Ready to buy", goods.name,
-                    ", but there is no such professional operator, skip");
+                Log.trace("Ready to buy", goods.name, ", but there is no such professional operator, skip");
                 continue;
             }
         }
         if (goods.promotion != 0) {
             if (total_wait_promotion == 0) {
-                Log.trace("Ready to buy", goods.name,
-                    ", but there is no one waiting for promotion, skip");
+                Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
                 continue;
             }
             if (!goods.roles.empty()) {
@@ -139,8 +125,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                     }
                 }
                 if (!role_mathced) {
-                    Log.trace("Ready to buy", goods.name,
-                        ", but there is no one waiting for promotion, skip");
+                    Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
                     continue;
                 }
             }
@@ -148,8 +133,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
         if (!goods.chars.empty()) {
             if (ranges::find_first_of(chars_list, goods.chars) == chars_list.cend()) {
-                Log.trace("Ready to buy", goods.name,
-                    ", but there is no such character, skip");
+                Log.trace("Ready to buy", goods.name, ", but there is no such character, skip");
                 continue;
             }
         }

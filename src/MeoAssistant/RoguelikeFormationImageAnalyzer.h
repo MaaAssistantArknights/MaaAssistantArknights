@@ -12,6 +12,7 @@ namespace asst
             bool selected = false;
             // TODO
         };
+
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~RoguelikeFormationImageAnalyzer() override = default;
@@ -19,6 +20,7 @@ namespace asst
         virtual bool analyze() override;
 
         const std::vector<FormationOper>& get_result() const noexcept;
+
     protected:
         // 该分析器不支持外部设置ROI
         using AbstractImageAnalyzer::set_roi;

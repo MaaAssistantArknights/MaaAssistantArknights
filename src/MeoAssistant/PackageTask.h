@@ -2,8 +2,8 @@
 
 #include "AbstractTask.h"
 
-#include <queue>
 #include <memory>
+#include <queue>
 
 namespace json
 {

@@ -38,8 +38,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 const json::value& efficient = *opt;
                 const static std::string reg_suffix = "_reg";
 
-                if (std::string all_reg_key = "all" + reg_suffix;
-                    efficient.contains(all_reg_key)) {
+                if (std::string all_reg_key = "all" + reg_suffix; efficient.contains(all_reg_key)) {
                     std::string all_reg_value = efficient.at(all_reg_key).as_string();
                     for (const std::string& pd : products) {
                         skill.efficient_regex.emplace(pd, all_reg_value);
@@ -54,8 +53,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                 }
                 else {
                     for (const std::string& pd : products) {
-                        if (std::string pd_reg_key = pd + reg_suffix;
-                            efficient.contains(pd_reg_key)) {
+                        if (std::string pd_reg_key = pd + reg_suffix; efficient.contains(pd_reg_key)) {
                             skill.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                             skill.efficient.emplace(pd, 0);
                         }
@@ -102,8 +100,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         const static std::string reg_suffix = "_reg";
                         const json::value& efficient = necessary_json.at("efficient");
 
-                        if (std::string all_reg_key = "all" + reg_suffix;
-                            efficient.contains(all_reg_key)) {
+                        if (std::string all_reg_key = "all" + reg_suffix; efficient.contains(all_reg_key)) {
                             std::string all_reg_value = efficient.at(all_reg_key).as_string();
                             for (const std::string& pd : products) {
                                 comb.efficient_regex.emplace(pd, all_reg_value);
@@ -118,8 +115,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         }
                         else {
                             for (const std::string& pd : products) {
-                                if (std::string pd_reg_key = pd + reg_suffix;
-                                    efficient.contains(pd_reg_key)) {
+                                if (std::string pd_reg_key = pd + reg_suffix; efficient.contains(pd_reg_key)) {
                                     comb.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                                     comb.efficient.emplace(pd, 0);
                                 }
@@ -156,8 +152,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         const static std::string reg_suffix = "_reg";
                         const json::value& efficient = opt_json.at("efficient");
 
-                        if (std::string all_reg_key = "all" + reg_suffix;
-                            efficient.contains(all_reg_key)) {
+                        if (std::string all_reg_key = "all" + reg_suffix; efficient.contains(all_reg_key)) {
                             std::string all_reg_value = efficient.at(all_reg_key).as_string();
                             for (const std::string& pd : products) {
                                 comb.efficient_regex.emplace(pd, all_reg_value);
@@ -172,8 +167,7 @@ bool asst::InfrastConfiger::parse(const json::value& json)
                         }
                         else {
                             for (const std::string& pd : products) {
-                                if (std::string pd_reg_key = pd + reg_suffix;
-                                    efficient.contains(pd_reg_key)) {
+                                if (std::string pd_reg_key = pd + reg_suffix; efficient.contains(pd_reg_key)) {
                                     comb.efficient_regex.emplace(pd, efficient.at(pd_reg_key).as_string());
                                     comb.efficient.emplace(pd, 0);
                                 }

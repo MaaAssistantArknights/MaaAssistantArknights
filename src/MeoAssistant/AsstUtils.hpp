@@ -10,22 +10,24 @@
 #include <Windows.h>
 #else
 #include <ctime>
-#include <sys/time.h>
-#include <unistd.h>
 #include <fcntl.h>
-#include <sys/wait.h>
 #include <memory.h>
+#include <sys/time.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #endif
 
 namespace asst::utils
 {
-    //  delete instantiation of template with message, when static_assert(false, Message) does not work
-    #define ASST_STATIC_ASSERT_FALSE(Message, ...) \
+//  delete instantiation of template with message, when static_assert(false, Message) does not work
+#define ASST_STATIC_ASSERT_FALSE(Message, ...) \
     static_assert(::asst::utils::integral_constant_at_template_instantiation<bool, false, __VA_ARGS__>::value, Message)
     template <typename T, T Val, typename... Unused>
-    struct integral_constant_at_template_instantiation : std::integral_constant<T, Val> {};
+    struct integral_constant_at_template_instantiation : std::integral_constant<T, Val>
+    {};
 
-    inline void _string_replace_all(std::string& str, const std::string_view& old_value, const std::string_view& new_value)
+    inline void _string_replace_all(std::string& str, const std::string_view& old_value,
+                                    const std::string_view& new_value)
     {
         for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
             if ((pos = str.find(old_value, pos)) != std::string::npos)
@@ -35,14 +37,16 @@ namespace asst::utils
         }
     }
 
-    inline std::string string_replace_all(const std::string& src, const std::string_view& old_value, const std::string_view& new_value)
+    inline std::string string_replace_all(const std::string& src, const std::string_view& old_value,
+                                          const std::string_view& new_value)
     {
         std::string str = src;
         _string_replace_all(str, old_value, new_value);
         return str;
     }
 
-    inline std::string string_replace_all_batch(const std::string& src, std::initializer_list<std::pair<std::string_view, std::string_view>>&& replace_pairs)
+    inline std::string string_replace_all_batch(
+        const std::string& src, std::initializer_list<std::pair<std::string_view, std::string_view>>&& replace_pairs)
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
@@ -51,10 +55,10 @@ namespace asst::utils
         return str;
     }
 
-    template<typename map_t>
-    inline std::string string_replace_all_batch(const std::string& src, const map_t& replace_pairs)
-        requires std::derived_from<typename map_t::value_type::first_type, std::string>
-    && std::derived_from<typename map_t::value_type::second_type, std::string>
+    template <typename map_t>
+    inline std::string string_replace_all_batch(const std::string& src, const map_t& replace_pairs) requires
+        std::derived_from<typename map_t::value_type::first_type, std::string> &&
+        std::derived_from<typename map_t::value_type::second_type, std::string>
     {
         std::string str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
@@ -75,8 +79,7 @@ namespace asst::utils
             pos1 = pos2 + delimiter.size();
             pos2 = str.find(delimiter, pos1);
         }
-        if (pos1 != str.length())
-            result.emplace_back(str.substr(pos1));
+        if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
 
         return result;
     }
@@ -89,25 +92,24 @@ namespace asst::utils
         GetLocalTime(&curtime);
 #ifdef _MSC_VER
         sprintf_s(buff, sizeof(buff),
-#else   // ! _MSC_VER
+#else  // ! _MSC_VER
         sprintf(buff,
-#endif  // END _MSC_VER
-        "%04d-%02d-%02d %02d:%02d:%02d.%03d",
-                  curtime.wYear, curtime.wMonth, curtime.wDay,
-                  curtime.wHour, curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
+#endif // END _MSC_VER
+                  "%04d-%02d-%02d %02d:%02d:%02d.%03d", curtime.wYear, curtime.wMonth, curtime.wDay, curtime.wHour,
+                  curtime.wMinute, curtime.wSecond, curtime.wMilliseconds);
 
-#else   // ! _WIN32
-        struct timeval tv {};
+#else  // ! _WIN32
+        struct timeval tv = {};
         gettimeofday(&tv, nullptr);
         time_t nowtime = tv.tv_sec;
         struct tm* tm_info = localtime(&nowtime);
         strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
         sprintf(buff, "%s.%03ld", buff, tv.tv_usec / 1000);
-#endif  // END _WIN32
+#endif // END _WIN32
         return buff;
     }
 
-    template<typename _ = void>
+    template <typename _ = void>
     inline std::string ansi_to_utf8(const std::string& ansi_str)
     {
 #ifdef _WIN32
@@ -131,13 +133,13 @@ namespace asst::utils
         str = nullptr;
 
         return strTemp;
-#else   // Don't fucking use gbk in linux!
+#else // Don't fucking use gbk in linux!
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
         return ansi_str;
 #endif
     }
 
-    template<typename _ = void>
+    template <typename _ = void>
     inline std::string utf8_to_ansi(const std::string& utf8_str)
     {
 #ifdef _WIN32
@@ -161,13 +163,13 @@ namespace asst::utils
         sz_ansi = nullptr;
 
         return strTemp;
-#else   // Don't fucking use gbk in linux!
+#else // Don't fucking use gbk in linux!
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
         return utf8_str;
 #endif
     }
 
-    template<typename _ = void>
+    template <typename _ = void>
     inline std::string utf8_to_unicode_escape(const std::string& utf8_str)
     {
 #ifdef _WIN32
@@ -179,7 +181,7 @@ namespace asst::utils
         MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wstr, len);
 
         std::string unicode_escape_str = {};
-        constexpr static char hexcode[] = "0123456789abcdef";
+        constinit static char hexcode[] = "0123456789abcdef";
         for (const wchar_t* pchr = wstr; *pchr; ++pchr) {
             const wchar_t& chr = *pchr;
             if (chr > 255) {
@@ -207,7 +209,7 @@ namespace asst::utils
     template <typename RetTy, typename ArgType>
     constexpr inline RetTy make_rect(const ArgType& rect)
     {
-        return RetTy{ rect.x, rect.y, rect.width, rect.height };
+        return RetTy { rect.x, rect.y, rect.width, rect.height };
     }
 
     inline std::string load_file_without_bom(const std::string& filename)
@@ -226,7 +228,8 @@ namespace asst::utils
         constexpr static uchar Bom_1 = 0xBB;
         constexpr static uchar Bom_2 = 0xBF;
 
-        if (str.size() >= 3 && static_cast<uchar>(str.at(0)) == Bom_0 && static_cast<uchar>(str.at(1)) == Bom_1 && static_cast<uchar>(str.at(2)) == Bom_2) {
+        if (str.size() >= 3 && static_cast<uchar>(str.at(0)) == Bom_0 && static_cast<uchar>(str.at(1)) == Bom_1 &&
+            static_cast<uchar>(str.at(2)) == Bom_2) {
             str.assign(str.begin() + 3, str.end());
             return str;
         }
@@ -241,9 +244,9 @@ namespace asst::utils
 
 #ifdef _WIN32
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-            SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
+        SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
-            pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
+        pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
         pipe_sec_attr.lpSecurityDescriptor = nullptr;
         pipe_sec_attr.bInheritHandle = TRUE;
         HANDLE pipe_read = nullptr;
@@ -251,19 +254,20 @@ namespace asst::utils
         CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, PipeBuffSize);
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-            STARTUPINFOA si = { 0 };
+        STARTUPINFOA si = { 0 };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
-            si.cb = sizeof(STARTUPINFO);
+        si.cb = sizeof(STARTUPINFO);
         si.dwFlags = STARTF_USESTDHANDLES;
         si.wShowWindow = SW_HIDE;
         si.hStdOutput = pipe_child_write;
         si.hStdError = pipe_child_write;
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-            PROCESS_INFORMATION pi = { nullptr };
+        PROCESS_INFORMATION pi = { nullptr };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-            BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
+        BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE,
+                                    CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
         if (p_ret) {
             DWORD peek_num = 0;
             DWORD read_num = 0;
@@ -291,7 +295,9 @@ namespace asst::utils
         int pipe_out[2] = { 0 };
         int pipe_in_ret = pipe(pipe_in);
         int pipe_out_ret = pipe(pipe_out);
-        if (pipe_in_ret != 0 || pipe_out_ret != 0) { return {}; }
+        if (pipe_in_ret != 0 || pipe_out_ret != 0) {
+            return {};
+        }
         fcntl(pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
         int exit_ret = 0;
         int child = fork();
@@ -339,4 +345,4 @@ namespace asst::utils
 #endif
         return pipe_str;
     }
-}
+} // namespace asst::utils
