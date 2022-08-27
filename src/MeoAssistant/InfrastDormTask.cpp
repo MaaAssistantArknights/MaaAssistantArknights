@@ -84,7 +84,7 @@ bool asst::InfrastDormTask::opers_choose()
                 return false;
             }
             if (num_of_selected >= max_num_of_opers()) {
-                Log.trace("num_of_selected:", num_of_selected, ", just break");
+                Log.info("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
             switch (oper.smiley.type) {
@@ -92,12 +92,11 @@ bool asst::InfrastDormTask::opers_choose()
                 // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍
                 if (m_trust_enabled && m_finished_stage > 0 && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
-
                     // 获得干员信赖值
                     OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
-                        Log.trace("ERROR:!trust_analyzer.analyze():");
-                        // return false;
+                        Log.trace("ERROR:!trust_analyzer.analyze()");
+                        break;
                     }
 
                     std::string opertrust = trust_analyzer.get_result().front().text;
@@ -122,8 +121,8 @@ bool asst::InfrastDormTask::opers_choose()
                     // 获得干员所在设施
                     OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
-                        Log.trace("ERROR:!facility_analyzer.analyze():");
-                        // return false;
+                        Log.trace("ERROR:!facility_analyzer.analyze()");
+                        break;
                     }
 
                     std::string facilityname = facility_analyzer.get_result().front().text;
