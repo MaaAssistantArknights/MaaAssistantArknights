@@ -6104,7 +6104,7 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialThreshold": 3000,
+        "specialThreshold": 800,
         "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
@@ -7222,9 +7222,7 @@
             190,
             35
         ],
-        "ocrReplace": [
-
-        ]
+        "ocrReplace": []
     },
     "Roguelike1TraderShoppingOver": {
         "template": "Roguelike1StageTraderLeave.png",
