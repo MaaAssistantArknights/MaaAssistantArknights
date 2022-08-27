@@ -56,8 +56,6 @@ bool asst::OcrPack::load(const std::string& dir)
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
                                                      bool without_det)
 {
-    LogTraceFunction;
-
     size_t size = 0;
 
     std::vector<uchar> buf;

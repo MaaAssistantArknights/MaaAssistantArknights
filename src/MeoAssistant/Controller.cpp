@@ -317,8 +317,6 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
     m_child = fork();
     if (m_child == 0) {
         // child process
-        LogTraceScope("Child process: " + cmd);
-        std::cout << ("Child process: " + cmd) << std::endl;
 
         dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
         dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
@@ -335,7 +333,6 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
     }
     else if (m_child > 0) {
         // parent process
-        // LogTraceScope("Parent process: " + cmd);
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
             ssize_t read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
@@ -348,13 +345,19 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
     }
     else {
         // failed to create child process
+        Log.error("Call `", cmd, "` create process failed, child:", m_child);
         return std::nullopt;
     }
 #endif
 
-    Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size());
+    auto duration =
+        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("output:", std::string(pipe_data.cbegin(), pipe_data.cend()));
+        Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", std::string(pipe_data.cbegin(), pipe_data.cend()),
+                  ", cost", duration, "ms");
+    }
+    else {
+        Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size(), ", cost", duration, "ms");
     }
 
     if (!exit_ret) {
