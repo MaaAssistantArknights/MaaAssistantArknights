@@ -187,6 +187,7 @@
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代わり</system:String>
+    <system:String x:Key="StageSelectTip">主選択関門為資源関系且つ「資源収集」終日開放イベント時机能使用不可</system:String>
     <system:String x:Key="Amend">改定</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>

@@ -187,6 +187,7 @@
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">alternative</system:String>
+    <system:String x:Key="StageSelectTip">Do not use the function when the primary level is a resource level and &quot;Resource Collection&quot; is open all day</system:String>
     <system:String x:Key="Amend">Amend</system:String>
 
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
