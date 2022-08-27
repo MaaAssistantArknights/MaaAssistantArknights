@@ -153,7 +153,6 @@ namespace MeoAsstGui
             }
         }
 
-
         // TODO: Delete this.
 
         /// <summary>
@@ -162,7 +161,6 @@ namespace MeoAsstGui
         /// </summary>
         public void DeleteOldConfig()
         {
-
             string[] saved_list_name_1 = new string[]
             {
                 "WakeUp", "Recruiting", "Base", "Combat", "Visiting", "Mall", "Mission", "AutoRoguelike",
@@ -176,6 +174,7 @@ namespace MeoAsstGui
                 {
                     ViewStatusStorage.Set("TaskQueue." + name + ".IsChecked", check);
                 }
+
                 if (order != string.Empty)
                 {
                     ViewStatusStorage.Set("TaskQueue.Order." + name, order);
@@ -195,6 +194,7 @@ namespace MeoAsstGui
                 {
                     ViewStatusStorage.Set("Infrast." + name + ".IsChecked", check);
                 }
+
                 if (order != string.Empty)
                 {
                     ViewStatusStorage.Set("Infrast.Order." + name, order);
@@ -224,7 +224,6 @@ namespace MeoAsstGui
                 ViewStatusStorage.Delete("Infrast.Order." + name);
             }
         }
-
 
         /// <summary>
         /// Initializes items.
@@ -717,6 +716,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
                 ++index;
             }
+
             _container.Get<SettingsViewModel>().SaveInfrastOrderList();
 
             ClearLog();
