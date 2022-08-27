@@ -12,8 +12,7 @@
     d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
     d:DesignWidth="250"
     mc:Ignorable="d">
-    <Grid
-        Width="220">
+    <Grid Width="220">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -25,81 +24,75 @@
                 <ColumnDefinition Width="Auto" MinWidth="100" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <StackPanel
-                Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
                 <CheckBox
                     Height="30"
                     Margin="10,6"
+                    VerticalContentAlignment="Center"
                     Content="{DynamicResource UseSanityPotion}"
-                    IsChecked="{Binding UseMedicine}"
-                    VerticalContentAlignment="Center" />
+                    IsChecked="{Binding UseMedicine}" />
                 <CheckBox
                     Height="30"
                     Margin="10,6"
+                    VerticalContentAlignment="Center"
                     Content="{DynamicResource UseOriginitePrime}"
                     IsChecked="{Binding UseStone}"
-                    ToolTip="{DynamicResource CheckBoxesNotSaved}"
-                    VerticalContentAlignment="Center" />
+                    ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                 <CheckBox
                     Height="30"
                     Margin="10,6"
+                    VerticalContentAlignment="Center"
                     Content="{DynamicResource PerformBattles}"
                     IsChecked="{Binding HasTimesLimited}"
-                    ToolTip="{DynamicResource CheckBoxesNotSaved}"
-                    VerticalContentAlignment="Center" />
+                    ToolTip="{DynamicResource CheckBoxesNotSaved}" />
             </StackPanel>
-            <StackPanel
-                Grid.Column="1"
-                Orientation="Vertical">
+            <StackPanel Grid.Column="1" Orientation="Vertical">
                 <hc:TextBox
-                    Height="30"
                     Width="60"
+                    Height="30"
                     Margin="0,6"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding MedicineNumber}"
-                    TextType="Int"
+                    TextType="Int" />
+                <hc:TextBox
+                    Width="60"
+                    Height="30"
+                    Margin="0,6"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    HorizontalAlignment="Left" />
-                <hc:TextBox
-                    Height="30"
-                    Width="60"
-                    Margin="0,6"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding StoneNumber}"
-                    TextType="Int"
+                    TextType="Int" />
+                <hc:TextBox
+                    Width="60"
+                    Height="30"
+                    Margin="0,6"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    HorizontalAlignment="Left" />
-                <hc:TextBox
-                    Height="30"
-                    Width="60"
-                    Margin="0,6"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding MaxTimes}"
-                    TextType="Int"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    HorizontalAlignment="Left"/>
+                    TextType="Int" />
             </StackPanel>
         </Grid>
-        <Grid
-            Grid.Row="1">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="100" />
-                <ColumnDefinition/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical">
                 <CheckBox
                     Height="30"
                     Margin="10,6"
+                    VerticalContentAlignment="Center"
                     Content="{DynamicResource AssignedMaterial}"
                     IsChecked="{Binding IsSpecifiedDrops}"
-                    ToolTip="{DynamicResource NoAutoNavigation}"
-                    VerticalContentAlignment="Center" />
-                <Grid
-                    Height="42"
-                    Visibility="{c:Binding IsSpecifiedDrops}" >
+                    ToolTip="{DynamicResource NoAutoNavigation}" />
+                <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -108,12 +101,11 @@
                         TextAlignment="Center" />
                 </Grid>
             </StackPanel>
-            <StackPanel
-                Grid.Column="1"
-                Orientation="Vertical">
+            <StackPanel Grid.Column="1" Orientation="Vertical">
                 <ComboBox
                     Height="30"
                     Margin="0,6"
+                    VerticalContentAlignment="Center"
                     DisplayMemberPath="Display"
                     IsDropDownOpen="{Binding IsDropDown}"
                     IsEditable="True"
@@ -121,24 +113,22 @@
                     ItemsSource="{Binding DropsList}"
                     SelectedValue="{Binding DropsItemId}"
                     SelectedValuePath="Value"
-                    Text="{Binding DropsItem}"
-                    VerticalContentAlignment="Center" />
+                    Text="{Binding DropsItem}" />
 
                 <hc:TextBox
-                    Height="30"
                     Width="60"
+                    Height="30"
                     Margin="0,6"
-                    InputMethod.IsInputMethodEnabled="False"
-                    Visibility="{c:Binding IsSpecifiedDrops}"
-                    Text="{Binding DropsQuantity}"
-                    TextType="Int"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    HorizontalAlignment="Left"/>
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding DropsQuantity}"
+                    TextType="Int"
+                    Visibility="{c:Binding IsSpecifiedDrops}" />
             </StackPanel>
         </Grid>
-        <Grid
-            Grid.Row="2">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="100" />
                 <ColumnDefinition />
@@ -174,37 +164,57 @@
                     Height="30"
                     Margin="0,6"
                     Padding="6,0,0,0"
+                    VerticalContentAlignment="Center"
                     DisplayMemberPath="Display"
                     IsHitTestVisible="{c:Binding !FightTaskRunning}"
                     ItemsSource="{Binding StageList}"
                     SelectedValue="{Binding Stage1}"
-                    SelectedValuePath="Value"
-                    VerticalContentAlignment="Center" />
-                <ComboBox
-                    Height="30"
-                    Margin="0,6"
-                    Padding="6,0,0,0"
-                    DisplayMemberPath="Display"
-                    IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                    ItemsSource="{Binding StageList}"
-                    SelectedValue="{Binding Stage2}"
-                    SelectedValuePath="Value"
-                    Visibility="{Binding AlternateStageDisplay}"
-                    VerticalContentAlignment="Center" />
+                    SelectedValuePath="Value" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        ItemsSource="{Binding StageList}"
+                        SelectedValue="{Binding Stage2}"
+                        SelectedValuePath="Value"
+                        Visibility="{Binding AlternateStageDisplay}" />
+                    <ComboBox
+                        Grid.Column="1"
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        ItemsSource="{Binding StageList}"
+                        SelectedValue="{Binding Stage3}"
+                        SelectedValuePath="Value"
+                        Visibility="{Binding AlternateStageDisplay}" />
+                </Grid>
+
             </StackPanel>
         </Grid>
-        
+
         <StackPanel Grid.Row="3">
             <Button
                 Height="30"
                 Margin="0,6"
                 Padding="14,2"
+                HorizontalAlignment="Right"
+                HorizontalContentAlignment="Center"
                 Command="{s:Action SetParams}"
                 Content="{DynamicResource Amend}"
                 FontSize="10"
-                Visibility="{c:Binding !Idle}"
-                HorizontalContentAlignment="Center"
-                HorizontalAlignment="Right" />
+                Visibility="{c:Binding !Idle}" />
         </StackPanel>
     </Grid>
 </UserControl>

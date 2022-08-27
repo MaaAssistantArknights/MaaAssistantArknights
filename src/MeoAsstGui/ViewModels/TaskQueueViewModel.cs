@@ -418,7 +418,6 @@ namespace MeoAsstGui
             }
 
             StageList = newList;
-            StageList2 = newList;
 
             bool hasSavedValue = false;
             foreach (var item in StageList)
@@ -1418,24 +1417,6 @@ namespace MeoAsstGui
             }
         }
 
-        private ObservableCollection<CombData> _stageList2 = new ObservableCollection<CombData>();
-
-        /// <summary>
-        /// Gets or sets the list of stages2.
-        /// </summary>
-        public ObservableCollection<CombData> StageList2
-        {
-            get
-            {
-                return _stageList2;
-            }
-
-            set
-            {
-                SetAndNotify(ref _stageList2, value);
-            }
-        }
-
         /// <summary>
         /// Gets the stage.
         /// </summary>
@@ -1472,7 +1453,15 @@ namespace MeoAsstGui
                         }
                     }
 
-                    return _stage2;
+                    foreach (var stage in newList)
+                    {
+                        if (stage.Value == _stage2)
+                        {
+                            return _stage2;
+                        }
+                    }
+
+                    return _stage3;
                 }
 
                 return _stage1;
@@ -1514,6 +1503,25 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _stage2, value);
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
+            }
+        }
+
+        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty);
+
+        /// <summary>
+        /// Gets or sets the stage2.
+        /// </summary>
+        public string Stage3
+        {
+            get
+            {
+                return _stage3;
+            }
+
+            set
+            {
+                SetAndNotify(ref _stage3, value);
+                ViewStatusStorage.Set("MainFunction.Stage3", value);
             }
         }
 
