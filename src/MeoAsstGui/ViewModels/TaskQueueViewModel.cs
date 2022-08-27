@@ -1556,12 +1556,12 @@ namespace MeoAsstGui
             }
         }
 
-        private string _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString)) ? "Visible" : "Hidden";
+        private bool _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
         /// </summary>
-        public string AlternateStageDisplay
+        public bool AlternateStageDisplay
         {
             get
             {
