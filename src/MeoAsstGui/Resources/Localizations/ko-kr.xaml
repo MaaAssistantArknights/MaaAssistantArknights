@@ -187,6 +187,7 @@
     <system:String x:Key="Quantity">드롭 수</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">참조</system:String>
+    <system:String x:Key="StageSelectTip">주 선택 레벨은 자원 닫기이며, 자원 수집 활동이 하루 종일 열려 있으면 사용하지 마십시오</system:String>
     <system:String x:Key="Amend">수정</system:String>
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>

@@ -2,6 +2,7 @@
     x:Class="MeoAsstGui.GUISettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -31,12 +32,16 @@
                 Margin="10"
                 HorizontalAlignment="Left"
                 Content="{DynamicResource UseAlternateStage}"
-                IsChecked="{Binding UseAlternateStage}" />
+                IsChecked="{Binding UseAlternateStage}"
+                IsEnabled="{c:Binding !HideUnavailableStage}"
+                ToolTip="{DynamicResource StageSelectTip}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
                 Content="{DynamicResource HideUnavailableStage}"
-                IsChecked="{Binding HideUnavailableStage}" />
+                IsChecked="{Binding HideUnavailableStage}"
+                IsEnabled="{c:Binding !UseAlternateStage}"
+                ToolTip="{DynamicResource StageSelectTip}" />
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"

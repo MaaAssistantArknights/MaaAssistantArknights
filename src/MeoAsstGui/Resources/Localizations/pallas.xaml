@@ -187,6 +187,7 @@
     <system:String x:Key="Quantity">🕺🕺🍸</system:String>
     <system:String x:Key="StageSelect">🍷🍻🍷</system:String>
     <system:String x:Key="StageSelect2">🕺🍻</system:String>
+    <system:String x:Key="StageSelectTip">🍻🍷🍸🕺🕺🍺🍷🍺🍻🍺🍷🍸🍸🍺🍺🍷🍺🍻🍸🍻</system:String>
     <system:String x:Key="Amend">🍺🍺</system:String>
 
     <!--<system:String x:Key="CurrentStage">🕺🍺🍻</system:String>
