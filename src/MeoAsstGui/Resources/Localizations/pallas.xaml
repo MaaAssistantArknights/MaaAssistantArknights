@@ -293,7 +293,7 @@
     <system:String x:Key="TryToReconnect">🕺🍷🍷🍻🍺🍻🍻</system:String>
     <system:String x:Key="ReconnectSuccess">🍻💃🍸🍷🍷</system:String>
     <system:String x:Key="ReconnectFailed">🍻🍸🍻🍺🍸🕺</system:String>
-    <system:String x:Key="IdentifyTheMistakes">🍺🍺🍷</system:String>
+    <system:String x:Key="ScreencapFailed">🍷🍷🕺🍺🍻🍸🕺🍺🍷🍸💃🍻💃🍺🍷</system:String>
     <system:String x:Key="TaskError">🍷🕺🍺</system:String>
     <system:String x:Key="CombatError">🕺🍻💃</system:String>
     <system:String x:Key="StartTask">🍷🍻🍸</system:String>
