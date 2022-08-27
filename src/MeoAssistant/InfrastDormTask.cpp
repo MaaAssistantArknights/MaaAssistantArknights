@@ -50,7 +50,7 @@ bool asst::InfrastDormTask::_run()
         click_confirm_button();
         click_return_button();
 
-        if (m_finished_stage == 3) { //不蹭信赖或所有干员满信赖
+        if (m_finished_stage == 3) { // 不蹭信赖或所有干员满信赖
             break;
         }
     }
@@ -93,7 +93,7 @@ bool asst::InfrastDormTask::opers_choose()
                 if (m_trust_enabled && m_finished_stage > 0 && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
 
-                    //获得干员信赖值
+                    // 获得干员信赖值
                     OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
                         Log.trace("ERROR:!trust_analyzer.analyze():");
@@ -101,7 +101,7 @@ bool asst::InfrastDormTask::opers_choose()
                     }
 
                     std::string opertrust = trust_analyzer.get_result().front().text;
-                    std::regex rule("[^0-9]"); //只保留数字
+                    std::regex rule("[^0-9]"); // 只保留数字
                     opertrust = std::regex_replace(opertrust, rule, "");
 
                     Log.trace("opertrust:", opertrust);
@@ -113,13 +113,13 @@ bool asst::InfrastDormTask::opers_choose()
                     else if (opertrust != "" && atoi(opertrust.c_str()) >= 200) {
                         num_of_fulltrust++;
                     }
-                    if (num_of_fulltrust >= 6) { //所有干员都满信赖了
+                    if (num_of_fulltrust >= 6) { // 所有干员都满信赖了
                         m_finished_stage = 3;
                         Log.trace("num_of_fulltrust:", num_of_fulltrust, ", just return");
                         return true;
                     }
 
-                    //获得干员所在设施
+                    // 获得干员所在设施
                     OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
                         Log.trace("ERROR:!facility_analyzer.analyze():");
@@ -127,13 +127,13 @@ bool asst::InfrastDormTask::opers_choose()
                     }
 
                     std::string facilityname = facility_analyzer.get_result().front().text;
-                    std::regex rule2("[^BF0-9]"); //只保留B、F和数字
+                    std::regex rule2("[^BF0-9]"); // 只保留B、F和数字
                     facilityname = std::regex_replace(facilityname, rule2, "");
 
                     Log.trace("facilityname:<" + facilityname + ">");
-                    bool if_oper_not_stationed = facilityname.length() < 4; //只有形如1F01或B101才是设施标签
+                    bool if_oper_not_stationed = facilityname.length() < 4; // 只有形如1F01或B101才是设施标签
 
-                    //判断要不要把人放进宿舍if_opertrust_not_full && if_oper_not_stationed
+                    // 判断要不要把人放进宿舍if_opertrust_not_full && if_oper_not_stationed
                     if (if_opertrust_not_full && if_oper_not_stationed) {
                         Log.trace("put oper in");
 

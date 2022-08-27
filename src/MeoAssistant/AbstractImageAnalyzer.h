@@ -3,9 +3,9 @@
 #include "AsstTypes.h"
 #include "NoWarningCVMat.h"
 
-//#ifndef  ASST_DEBUG
-//#define ASST_DEBUG
-//#endif // ! ASST_DEBUG
+// #ifndef  ASST_DEBUG
+// #define ASST_DEBUG
+// #endif // ! ASST_DEBUG
 
 namespace asst
 {
