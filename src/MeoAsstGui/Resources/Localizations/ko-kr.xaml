@@ -326,6 +326,7 @@
     <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
     <system:String x:Key="GameCrash">게임이 다운되었습니다. 다시 시작해야 합니다.</system:String>
     <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다.</system:String>
+    <system:String x:Key="RoguelikeGamePass">게임 클리어, 축하합니다!</system:String>
     <system:String x:Key="Trader">레벨: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">레벨: 안전가옥</system:String>
     <system:String x:Key="Encounter">레벨: 우연한 만남</system:String>

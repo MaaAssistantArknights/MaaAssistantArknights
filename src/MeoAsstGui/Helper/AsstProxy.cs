@@ -612,6 +612,10 @@ namespace MeoAsstGui
                     case "OfflineConfirm":
                         mainModel.AddLog(Localization.GetString("GameDrop"), LogColor.Warning);
                         break;
+
+                    case "Roguelike1GamePass":
+                        mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), LogColor.RareOperator);
+                        break;
                 }
             }
         }

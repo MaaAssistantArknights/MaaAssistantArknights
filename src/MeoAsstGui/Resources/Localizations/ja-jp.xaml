@@ -326,6 +326,7 @@
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュした、再起動しようとしています</system:String>
     <system:String x:Key="GameDrop">ゲームで回線が落ちました、再接続しようとしています</system:String>
+    <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ：怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ：安全な片隅</system:String>
     <system:String x:Key="Encounter">ステージ：思わぬ遭遇</system:String>

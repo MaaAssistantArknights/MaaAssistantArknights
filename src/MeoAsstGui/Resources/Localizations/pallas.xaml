@@ -325,6 +325,7 @@
     <system:String x:Key="UpperLimit">🕺🍷🍺🍷</system:String>
     <system:String x:Key="GameCrash">🍷🍻🍺🍺🍻</system:String>
     <system:String x:Key="GameDrop">🍻🍷🍻🍻🍷</system:String>
+    <system:String x:Key="RoguelikeGamePass">🍻🍻🍻🍻🍻🍻🍻🍻🍻</system:String>
     <system:String x:Key="Trader">🍻🍻🍷🍻</system:String>
     <system:String x:Key="SafeHouse">🍸🍷🍷🍺🍻</system:String>
     <system:String x:Key="Encounter">🍸🍸🍷🍻</system:String>

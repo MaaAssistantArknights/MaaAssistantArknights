@@ -326,6 +326,7 @@
     <system:String x:Key="UpperLimit">投资达到上限</system:String>
     <system:String x:Key="GameCrash">游戏崩溃，重新启动</system:String>
     <system:String x:Key="GameDrop">游戏掉线，重新连接</system:String>
+    <system:String x:Key="RoguelikeGamePass">肉鸽通关啦！</system:String>
     <system:String x:Key="Trader">关卡：诡意行商</system:String>
     <system:String x:Key="SafeHouse">关卡：安全的角落</system:String>
     <system:String x:Key="Encounter">关卡：不期而遇</system:String>
