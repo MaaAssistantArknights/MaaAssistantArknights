@@ -305,6 +305,11 @@ namespace MeoAsstGui
                 };
                 AllStageList.AddRange(limit);
             }
+            else
+            {
+                AllStageList.Add(new CombData { Display = "已关闭活动", Value = "ClosedStage" });
+                Stage1 = "ClosedStage";
+            }
 
             var resident = new List<CombData>
             {
@@ -1455,11 +1460,14 @@ namespace MeoAsstGui
                         }
                     }
 
-                    foreach (var stage in newList)
+                    if (_stage1 != "ClosedStage")
                     {
-                        if (stage.Value == _stage1)
+                        foreach (var stage in newList)
                         {
-                            return _stage1;
+                            if (stage.Value == _stage1)
+                            {
+                                return _stage1;
+                            }
                         }
                     }
 
