@@ -14,10 +14,7 @@ namespace asst
         void set_black_list(std::vector<std::string> black_list);
         void set_white_list(std::vector<std::string> white_list);
 
-        const std::vector<Rect>& get_result() const noexcept
-        {
-            return m_result;
-        }
+        const std::vector<Rect>& get_result() const noexcept { return m_result; }
 
     private:
         // 该分析器不支持外部设置ROI

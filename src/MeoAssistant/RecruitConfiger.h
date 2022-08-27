@@ -2,12 +2,12 @@
 
 #include "AbstractConfiger.h"
 
+#include "AsstRanges.hpp"
+#include <algorithm>
+#include <numeric>
 #include <string>
 #include <unordered_set>
 #include <vector>
-#include <algorithm>
-#include <numeric>
-#include "AsstRanges.hpp"
 
 #include "AsstTypes.h"
 
@@ -24,15 +24,12 @@ namespace asst
         bool hidden = false;
         std::string name_en;
 
-        bool has_tag(const std::string& tag) const
-        {
-            return tags.contains(tag);
-        }
+        bool has_tag(const std::string& tag) const { return tags.contains(tag); }
 
         friend std::strong_ordering operator<=>(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
         {
             if (lhs.level != rhs.level) return lhs.level <=> rhs.level; // increment order
-            return rhs.name <=> lhs.name; // decrement order (print reversely)
+            return rhs.name <=> lhs.name;                               // decrement order (print reversely)
         }
 
         friend bool operator==(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
@@ -54,19 +51,16 @@ namespace asst
         void update_attributes()
         {
             min_level = std::transform_reduce(
-                    opers.cbegin(), opers.cend(), 7,
-                    [](int a, int b) -> int { return (std::min)(a, b); },
-                    std::mem_fn(&RecruitOperInfo::level));
+                opers.cbegin(), opers.cend(), 7, [](int a, int b) -> int { return (std::min)(a, b); },
+                std::mem_fn(&RecruitOperInfo::level));
 
             max_level = std::transform_reduce(
-                    opers.cbegin(), opers.cend(), 0,
-                    [](int a, int b) -> int { return (std::max)(a, b); },
-                    std::mem_fn(&RecruitOperInfo::level));
+                opers.cbegin(), opers.cend(), 0, [](int a, int b) -> int { return (std::max)(a, b); },
+                std::mem_fn(&RecruitOperInfo::level));
 
-            avg_level = std::transform_reduce(
-                    opers.cbegin(), opers.cend(), 0.,
-                    std::plus<double>{},
-                    std::mem_fn(&RecruitOperInfo::level)) / static_cast<double>(opers.size());
+            avg_level = std::transform_reduce(opers.cbegin(), opers.cend(), 0., std::plus<double> {},
+                                              std::mem_fn(&RecruitOperInfo::level)) /
+                        static_cast<double>(opers.size());
         }
 
         // intersection of two recruit combs
@@ -95,14 +89,8 @@ namespace asst
         virtual ~RecruitConfiger() override = default;
         constexpr static int CorrectNumberOfTags = 5;
 
-        const std::unordered_set<std::string>& get_all_tags() const noexcept
-        {
-            return m_all_tags;
-        }
-        const std::vector<RecruitOperInfo>& get_all_opers() const noexcept
-        {
-            return m_all_opers;
-        }
+        const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
+        const std::vector<RecruitOperInfo>& get_all_opers() const noexcept { return m_all_opers; }
 
     protected:
         virtual bool parse(const json::value& json) override;
@@ -114,4 +102,4 @@ namespace asst
 
         std::vector<RecruitOperInfo> m_all_opers;
     };
-}
+} // namespace asst

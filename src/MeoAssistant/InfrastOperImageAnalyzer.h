@@ -14,7 +14,7 @@ namespace asst
             Smiley = 1,
             Mood = 2,
             FaceHash = 4,
-            //NameHash = 8,
+            // NameHash = 8,
             Selected = 16,
             Doing = 32,
             Skill = 64,
@@ -30,22 +30,10 @@ namespace asst
         void sort_by_loc();
         void sort_by_mood();
 
-        auto get_result() const noexcept -> const std::vector<infrast::Oper>&
-        {
-            return m_result;
-        }
-        int get_num_of_opers_with_skills() const noexcept
-        {
-            return m_num_of_opers_with_skills;
-        }
-        void set_facility(std::string facility) noexcept
-        {
-            m_facility = std::move(facility);
-        }
-        void set_to_be_calced(int to_be_calced) noexcept
-        {
-            m_to_be_calced = to_be_calced;
-        }
+        auto get_result() const noexcept -> const std::vector<infrast::Oper>& { return m_result; }
+        int get_num_of_opers_with_skills() const noexcept { return m_num_of_opers_with_skills; }
+        void set_facility(std::string facility) noexcept { m_facility = std::move(facility); }
+        void set_to_be_calced(int to_be_calced) noexcept { m_to_be_calced = to_be_calced; }
 
         constexpr static int MaxNumOfSkills = 2; // 单个干员最多有几个基建技能
 
@@ -65,4 +53,4 @@ namespace asst
         int m_to_be_calced = All;
         int m_num_of_opers_with_skills = 0;
     };
-}
+} // namespace asst

@@ -18,8 +18,7 @@ namespace asst
                 static const std::string unknown = "Unknown";
                 return unknown;
             }
-            if (auto iter = m_item_name.find(id);
-                iter != m_item_name.cend()) {
+            if (auto iter = m_item_name.find(id); iter != m_item_name.cend()) {
                 return iter->second;
             }
             else {
@@ -27,14 +26,8 @@ namespace asst
                 return empty;
             }
         }
-        const auto& get_all_item_id() const noexcept
-        {
-            return m_all_item_id;
-        }
-        const auto& get_ordered_material_item_id() const noexcept
-        {
-            return m_ordered_material_item_id;
-        }
+        const auto& get_all_item_id() const noexcept { return m_all_item_id; }
+        const auto& get_ordered_material_item_id() const noexcept { return m_ordered_material_item_id; }
 
     protected:
         virtual bool parse(const json::value& json) override;

@@ -14,7 +14,7 @@ asst::OcrPack::OcrPack()
     for (size_t i = 0; i != MaxBoxSize; ++i) {
         constexpr static size_t MaxTextSize = 1024;
         *(m_strs_buffer + i) = new char[MaxTextSize];
-        //memset(*(m_strs_buffer + i), 0, MaxTextSize);
+        // memset(*(m_strs_buffer + i), 0, MaxTextSize);
     }
 }
 
@@ -36,12 +36,12 @@ bool asst::OcrPack::load(const std::string& dir)
     }
 
     constexpr static auto DetName = "/det";
-    //constexpr static const char* ClsName = "/cls";
+    // constexpr static const char* ClsName = "/cls";
     constexpr static auto RecName = "/rec";
     constexpr static auto KeysName = "/ppocr_keys_v1.txt";
 
     const std::string dst_filename = dir + DetName;
-    //const std::string cls_filename = dir + ClsName;
+    // const std::string cls_filename = dir + ClsName;
     const std::string rec_filename = dir + RecName;
     const std::string keys_filename = dir + KeysName;
 
@@ -53,7 +53,8 @@ bool asst::OcrPack::load(const std::string& dir)
     return m_ocr != nullptr;
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred, bool without_det)
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
+                                                     bool without_det)
 {
     LogTraceFunction;
 
@@ -64,13 +65,12 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 
     if (!without_det) {
         Log.trace("Ocr System");
-        PaddleOcrSystem(m_ocr, buf.data(), buf.size(),
-            false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
+        PaddleOcrSystem(m_ocr, buf.data(), buf.size(), false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size,
+                        nullptr, nullptr);
     }
     else {
         Log.trace("Ocr Rec");
-        PaddleOcrRec(m_ocr, buf.data(), buf.size(),
-            m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
+        PaddleOcrRec(m_ocr, buf.data(), buf.size(), m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
     }
 
     std::vector<TextRect> result;
@@ -102,7 +102,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
             score = 0;
         }
 
-        TextRect tr{ score, rect, text };
+        TextRect tr { score, rect, text };
 #ifdef ASST_DEBUG
         cv::rectangle(draw, utils::make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
 #endif
@@ -118,7 +118,8 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     return result;
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi, const asst::TextRectProc& pred, bool without_det)
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi,
+                                                     const asst::TextRectProc& pred, bool without_det)
 {
     auto rect_cor = [&roi, &pred, &without_det](TextRect& tr) -> bool {
         if (without_det) {

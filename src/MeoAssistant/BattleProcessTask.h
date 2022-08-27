@@ -1,10 +1,10 @@
 #pragma once
 #include "AbstractTask.h"
 
-#include "AsstTypes.h"
-#include "TilePack.h"
 #include "AsstBattleDef.h"
+#include "AsstTypes.h"
 #include "BattleImageAnalyzer.h"
+#include "TilePack.h"
 
 namespace asst
 {

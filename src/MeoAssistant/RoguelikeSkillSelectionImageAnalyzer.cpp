@@ -3,11 +3,11 @@
 #include "NoWarningCV.h"
 
 #include "AsstUtils.hpp"
-#include "OcrWithPreprocessImageAnalyzer.h"
-#include "MultiMatchImageAnalyzer.h"
-#include "TaskData.h"
 #include "Logger.hpp"
+#include "MultiMatchImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "Resource.h"
+#include "TaskData.h"
 
 bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 {
@@ -51,10 +51,7 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
     analyzer.set_image(m_image);
     analyzer.set_roi(roi.move(name_task_ptr->roi));
     analyzer.set_required(Resrc.roguelike_recruit().get_oper_order());
-    analyzer.set_replace(
-        std::dynamic_pointer_cast<OcrTaskInfo>(
-            Task.get("CharsNameOcrReplace"))
-        ->replace_map);
+    analyzer.set_replace(std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_map);
 
     if (!analyzer.analyze()) {
         return {};
@@ -64,11 +61,9 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
 
 std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyze(const Rect& roi)
 {
-    static const std::vector<std::string> TasksName = {
-        "Roguelike1SkillSelectionMove1",
-        "Roguelike1SkillSelectionMove2",
-        "Roguelike1SkillSelectionMove3"
-    };
+    static const std::vector<std::string> TasksName = { "Roguelike1SkillSelectionMove1",
+                                                        "Roguelike1SkillSelectionMove2",
+                                                        "Roguelike1SkillSelectionMove3" };
     std::vector<Rect> result;
     result.reserve(TasksName.size());
 

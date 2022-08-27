@@ -11,10 +11,7 @@ namespace asst
 
         virtual bool analyze() override;
 
-        const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept
-        {
-            return m_result;
-        }
+        const std::vector<std::pair<Rect, std::string>>& get_result() const noexcept { return m_result; }
 
     protected:
         bool clue_detect();

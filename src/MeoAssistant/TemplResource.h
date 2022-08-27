@@ -12,7 +12,6 @@ namespace asst
     class TemplResource : public AbstractResource
     {
     public:
-
         virtual ~TemplResource() override = default;
 
         void set_load_required(std::unordered_set<std::string> required) noexcept;

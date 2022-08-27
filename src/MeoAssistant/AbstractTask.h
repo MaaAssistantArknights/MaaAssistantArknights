@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <meojson/json.hpp>
 #include <set>
 #include <type_traits>
-#include <meojson/json.hpp>
 
 #include "AsstMsg.h"
 
@@ -39,9 +39,9 @@ namespace asst
         virtual AbstractTask& set_ignore_error(bool ignore) noexcept;
         virtual AbstractTask& set_task_id(int task_id) noexcept;
 
-        template<typename PluginType>
-        std::shared_ptr<PluginType> register_plugin()
-            requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
+        template <typename PluginType>
+        std::shared_ptr<PluginType> register_plugin() requires
+            std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
         {
             auto plugin = std::make_shared<PluginType>(m_callback, m_callback_arg, m_task_chain);
             m_plugins.emplace(plugin);
@@ -56,6 +56,7 @@ namespace asst
         virtual json::value basic_info() const;
 
         constexpr static int RetryTimesDefault = 20;
+
     protected:
         virtual bool _run() = 0;
         virtual bool on_run_fails() { return true; }
@@ -82,4 +83,4 @@ namespace asst
         std::shared_ptr<Controller> m_ctrler = nullptr;
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
     };
-}
+} // namespace asst

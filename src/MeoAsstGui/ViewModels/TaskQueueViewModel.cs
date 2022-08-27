@@ -153,7 +153,6 @@ namespace MeoAsstGui
             }
         }
 
-
         // TODO: Delete this.
 
         /// <summary>
@@ -162,7 +161,6 @@ namespace MeoAsstGui
         /// </summary>
         public void DeleteOldConfig()
         {
-
             string[] saved_list_name_1 = new string[]
             {
                 "WakeUp", "Recruiting", "Base", "Combat", "Visiting", "Mall", "Mission", "AutoRoguelike",
@@ -176,6 +174,7 @@ namespace MeoAsstGui
                 {
                     ViewStatusStorage.Set("TaskQueue." + name + ".IsChecked", check);
                 }
+
                 if (order != string.Empty)
                 {
                     ViewStatusStorage.Set("TaskQueue.Order." + name, order);
@@ -195,6 +194,7 @@ namespace MeoAsstGui
                 {
                     ViewStatusStorage.Set("Infrast." + name + ".IsChecked", check);
                 }
+
                 if (order != string.Empty)
                 {
                     ViewStatusStorage.Set("Infrast.Order." + name, order);
@@ -211,8 +211,10 @@ namespace MeoAsstGui
                 "宿舎", "製造所", "貿易所", "発電所", "応接室", "事務所", "制御中枢",
                 "웨이크업", "공개모집", "기반시설 교대", "작전", "친구 방문", "상점", "일일 퀘스트 보상을 수집", "통합전략",
                 "숙소", "제조소", "무역소", "발전소", "응접실", "사무실", "제어 센터",
-                "🍻💃", "🕺🍺", "🍺🍺", "🍺🍸", "🍺🍻", "🕺🍸", "🍻🍸🍻",
                 "🍸💃💃", "🍸🍺🍻", "🍺🍸🍺", "🍸🍷", "🍺🍸🍷", "🍻🍺🍸🍻", "🍺🍸🕺🍸", "🍺🍸🍸",
+                "🍻💃", "🕺🍺", "🍺🍺", "🍺🍸", "🍺🍻", "🕺🍸", "🍻🍸🍻",
+                "Login", "Recruit", "Visit Friends", "Credit Store", "Collect mission rewards", "Auto I.S.",
+                "Manufacturing Station", "Trade Post", "Power Station", "Reception Room", "Control Center",
             };
             foreach (var name in old_list_name)
             {
@@ -222,7 +224,6 @@ namespace MeoAsstGui
                 ViewStatusStorage.Delete("Infrast.Order." + name);
             }
         }
-
 
         /// <summary>
         /// Initializes items.
@@ -291,15 +292,29 @@ namespace MeoAsstGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            AllStageList = new List<CombData>
+            AllStageList = new List<CombData>();
+
+            if (DateTime.UtcNow.AddHours(8).Date < new DateTime(2022, 9, 1, 4, 0, 0))
+            {
+                var limit = new List<CombData>
+                {
+                    // SideStory「理想城：长夏狂欢季」活动
+                    new CombData { Display = "IC-9", Value = "IC-9" },
+                    new CombData { Display = "IC-8", Value = "IC-8" },
+                    new CombData { Display = "IC-7", Value = "IC-7" },
+                };
+                AllStageList.AddRange(limit);
+            }
+            else
+            {
+                AllStageList.Add(new CombData { Display = "已关闭活动", Value = "ClosedStage" });
+                Stage1 = "ClosedStage";
+            }
+
+            var resident = new List<CombData>
             {
                 // 「当前/上次」关卡导航
                 new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
-
-                // SideStory「理想城：长夏狂欢季」活动
-                new CombData { Display = "IC-9", Value = "IC-9" },
-                new CombData { Display = "IC-8", Value = "IC-8" },
-                new CombData { Display = "IC-7", Value = "IC-7" },
 
                 // 主线关卡
                 new CombData { Display = "1-7", Value = "1-7" },
@@ -346,6 +361,7 @@ namespace MeoAsstGui
                 // new CombData { Display = "BI-7", Value = "BI-7" },
                 // new CombData { Display = "BI-8", Value = "BI-8" }
             };
+            AllStageList.AddRange(resident);
 
             _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
             {
@@ -416,7 +432,6 @@ namespace MeoAsstGui
             }
 
             StageList = newList;
-            StageList2 = newList;
 
             bool hasSavedValue = false;
             foreach (var item in StageList)
@@ -716,6 +731,7 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
                 ++index;
             }
+
             _container.Get<SettingsViewModel>().SaveInfrastOrderList();
 
             ClearLog();
@@ -1416,24 +1432,6 @@ namespace MeoAsstGui
             }
         }
 
-        private ObservableCollection<CombData> _stageList2 = new ObservableCollection<CombData>();
-
-        /// <summary>
-        /// Gets or sets the list of stages2.
-        /// </summary>
-        public ObservableCollection<CombData> StageList2
-        {
-            get
-            {
-                return _stageList2;
-            }
-
-            set
-            {
-                SetAndNotify(ref _stageList2, value);
-            }
-        }
-
         /// <summary>
         /// Gets the stage.
         /// </summary>
@@ -1462,15 +1460,26 @@ namespace MeoAsstGui
                         }
                     }
 
-                    foreach (var stage in newList)
+                    if (_stage1 != "ClosedStage")
                     {
-                        if (stage.Value == _stage1)
+                        foreach (var stage in newList)
                         {
-                            return _stage1;
+                            if (stage.Value == _stage1)
+                            {
+                                return _stage1;
+                            }
                         }
                     }
 
-                    return _stage2;
+                    foreach (var stage in newList)
+                    {
+                        if (stage.Value == _stage2)
+                        {
+                            return _stage2;
+                        }
+                    }
+
+                    return _stage3;
                 }
 
                 return _stage1;
@@ -1512,6 +1521,25 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _stage2, value);
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
+            }
+        }
+
+        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty);
+
+        /// <summary>
+        /// Gets or sets the stage2.
+        /// </summary>
+        public string Stage3
+        {
+            get
+            {
+                return _stage3;
+            }
+
+            set
+            {
+                SetAndNotify(ref _stage3, value);
+                ViewStatusStorage.Set("MainFunction.Stage3", value);
             }
         }
 

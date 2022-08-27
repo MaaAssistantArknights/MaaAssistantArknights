@@ -9,10 +9,11 @@ bool asst::StageDropsConfiger::parse(const json::value& json)
         if (!drop_infos_opt) { // 这种一般是以前的活动关，现在已经关闭了的
             continue;
         }
-        std::string code = stage_json.at("code").as_string();           // 关卡名，举例 1-7，可能重复（例如磨难和普通是同一个关卡名）
-        std::string stage_id = stage_json.at("stageId").as_string();    // 关卡id，举例 main_01-07，上传用的，唯一
+        std::string code = stage_json.at("code").as_string(); // 关卡名，
+                                                              // 举例 1-7，可能重复（例如磨难和普通是同一个关卡名）
+        std::string stage_id = stage_json.at("stageId").as_string(); // 关卡id，举例 main_01-07，上传用的，唯一
         StageDifficulty difficulty = (stage_id.find("tough_") == 0) ? StageDifficulty::Tough : StageDifficulty::Normal;
-        StageKey key{ code, difficulty };
+        StageKey key { code, difficulty };
 
         StageInfo info;
         info.stage_id = stage_id;
