@@ -68,7 +68,10 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
 bool asst::AbstractImageAnalyzer::save_img()
 {
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, { { ":", "-" }, { " ", "_" } });
+    stem = utils::string_replace_all_batch(stem, {
+                                                     { ":", "-" },
+                                                     { " ", "_" },
+                                                 });
     std::filesystem::create_directory("debug");
     bool ret = cv::imwrite("debug/" + stem + "_raw.png", m_image);
 
