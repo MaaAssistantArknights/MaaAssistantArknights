@@ -1578,7 +1578,7 @@
                     {
                         "desc": "温蒂-2",
                         "efficient": {
-                            "all": 45
+                            "all": 45.2
                         },
                         "skills": [
                             "bskill_man_spd&power3"
@@ -1670,7 +1670,7 @@
                     {
                         "desc": "温蒂-2",
                         "efficient": {
-                            "all": 30
+                            "all": 30.2
                         },
                         "skills": [
                             "bskill_man_spd&power3"
