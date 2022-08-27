@@ -309,7 +309,7 @@ namespace MeoAsstGui
             }
             else
             {
-                AllStageList.Add(new CombData { Display = "已关闭活动", Value = _closedStage });
+                AllStageList.Add(new CombData { Display = Localization.GetString("ClosedStage"), Value = _closedStage });
                 Stage1 = _closedStage;
             }
 

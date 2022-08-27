@@ -192,6 +192,7 @@
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
     <system:String x:Key="LastBattle">이전 작전</system:String>-->
     <system:String x:Key="DefaultStage">현재/이전</system:String>
+    <system:String x:Key="ClosedStage">행사가 이미 종료되었다</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
     <system:String x:Key="AP-5">AP-5 (구매증명서)</system:String>

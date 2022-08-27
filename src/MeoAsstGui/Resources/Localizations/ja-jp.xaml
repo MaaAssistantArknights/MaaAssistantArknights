@@ -192,6 +192,7 @@
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
+    <system:String x:Key="ClosedStage">行事はもう終わった</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
     <system:String x:Key="AP-5">購買資格証-5</system:String>

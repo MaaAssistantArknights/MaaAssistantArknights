@@ -192,6 +192,7 @@
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
     <system:String x:Key="LastBattle">Last Battle</system:String>-->
+    <system:String x:Key="ClosedStage">The event is over</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
     <system:String x:Key="AP-5">AP-5</system:String>
