@@ -742,7 +742,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     auto& opt = Resrc.cfg().get_options();
 
     json::value cb_info = basic_info();
-    cb_info["subtask"] = "ReportToyituliu";
+    cb_info["subtask"] = "ReportToYituliu";
     callback(AsstMsg::SubTaskStart, cb_info);
 
     json::value body = details;
