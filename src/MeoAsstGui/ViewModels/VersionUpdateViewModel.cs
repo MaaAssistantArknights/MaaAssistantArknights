@@ -70,11 +70,7 @@ namespace MeoAsstGui
         /// </summary>
         public string UpdateTag
         {
-            get
-            {
-                return _updateTag;
-            }
-
+            get => _updateTag;
             set
             {
                 SetAndNotify(ref _updateTag, value);
@@ -117,15 +113,8 @@ namespace MeoAsstGui
         /// </summary>
         public string UpdateUrl
         {
-            get
-            {
-                return _updateUrl;
-            }
-
-            set
-            {
-                SetAndNotify(ref _updateUrl, value);
-            }
+            get => _updateUrl;
+            set => SetAndNotify(ref _updateUrl, value);
         }
 
         // public FlowDocument UpdateInfoDocument
@@ -155,10 +144,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets a value indicating whether it is the first boot after updating.
         /// </summary>
-        public bool IsFirstBootAfterUpdate
-        {
-            get { return UpdateTag != string.Empty && UpdateTag == _curVersion; }
-        }
+        public bool IsFirstBootAfterUpdate => UpdateTag != string.Empty && UpdateTag == _curVersion;
 
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
 
@@ -167,11 +153,7 @@ namespace MeoAsstGui
         /// </summary>
         public string UpdatePackageName
         {
-            get
-            {
-                return _updatePackageName;
-            }
-
+            get => _updatePackageName;
             set
             {
                 SetAndNotify(ref _updatePackageName, value);

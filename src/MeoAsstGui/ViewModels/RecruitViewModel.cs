@@ -45,8 +45,8 @@ namespace MeoAsstGui
         /// </summary>
         public string RecruitInfo
         {
-            get { return _recruitInfo; }
-            set { SetAndNotify(ref _recruitInfo, value); }
+            get => _recruitInfo;
+            set => SetAndNotify(ref _recruitInfo, value);
         }
 
         private string _recruitResult;
@@ -56,8 +56,8 @@ namespace MeoAsstGui
         /// </summary>
         public string RecruitResult
         {
-            get { return _recruitResult; }
-            set { SetAndNotify(ref _recruitResult, value); }
+            get => _recruitResult;
+            set => SetAndNotify(ref _recruitResult, value);
         }
 
         private bool _chooseLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel3", bool.FalseString));
@@ -67,11 +67,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool ChooseLevel3
         {
-            get
-            {
-                return _chooseLevel3;
-            }
-
+            get => _chooseLevel3;
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
@@ -86,11 +82,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool ChooseLevel4
         {
-            get
-            {
-                return _chooseLevel4;
-            }
-
+            get => _chooseLevel4;
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
@@ -105,11 +97,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool ChooseLevel5
         {
-            get
-            {
-                return _chooseLevel5;
-            }
-
+            get => _chooseLevel5;
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
@@ -124,11 +112,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool ChooseLevel6
         {
-            get
-            {
-                return _chooseLevel6;
-            }
-
+            get => _chooseLevel6;
             set
             {
                 SetAndNotify(ref _chooseLevel6, value);
@@ -143,11 +127,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool AutoSetTime
         {
-            get
-            {
-                return _autoSetTime;
-            }
-
+            get => _autoSetTime;
             set
             {
                 SetAndNotify(ref _autoSetTime, value);
