@@ -187,11 +187,13 @@
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">alternative</system:String>
+    <system:String x:Key="StageSelectTip">Do not use the function when the primary level is a resource level and &quot;Resource Collection&quot; is open all day</system:String>
     <system:String x:Key="Amend">Amend</system:String>
 
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
     <system:String x:Key="LastBattle">Last Battle</system:String>-->
+    <system:String x:Key="ClosedStage">The event is over</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
     <system:String x:Key="AP-5">AP-5</system:String>
@@ -209,7 +211,7 @@
 
     <system:String x:Key="Annihilation">Annihilation</system:String>
 
-    <system:String x:Key="TodaysStageTip">Today's Stage tips:</system:String>
+    <system:String x:Key="TodaysStageTip" xml:space="preserve">Today's Stage tips: </system:String>
     <system:String x:Key="CETip">CE (LMD)</system:String>
     <system:String x:Key="APTip">AP (Shop Voucher)</system:String>
     <system:String x:Key="CATip">CA (Skill Summary)</system:String>
@@ -293,13 +295,14 @@
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>
+    <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try restarting or changing the emulator.</system:String>
     <system:String x:Key="IdentifyTheMistakes">Identify error</system:String>
-    <system:String x:Key="TaskError">Task error:</system:String>
-    <system:String x:Key="CombatError">Combat error:</system:String>
-    <system:String x:Key="StartTask">Start task:</system:String>
-    <system:String x:Key="CompleteTask">Complete task:</system:String>
-    <system:String x:Key="StartCombat">Start combat:</system:String>
-    <system:String x:Key="CompleteCombat">Complete combat:</system:String>
+    <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
+    <system:String x:Key="CombatError">Combat error</system:String>
+    <system:String x:Key="StartTask" xml:space="preserve">Start task: </system:String>
+    <system:String x:Key="CompleteTask" xml:space="preserve">Complete task: </system:String>
+    <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
+    <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
     <system:String x:Key="ErrorOccurred">Error occurred</system:String>
@@ -323,6 +326,7 @@
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
+    <system:String x:Key="RoguelikeGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Trader">Stage: Trader</system:String>
     <system:String x:Key="SafeHouse">Stage: SafeHouse</system:String>
     <system:String x:Key="Encounter">Stage: Encounter</system:String>
@@ -332,8 +336,8 @@
     <system:String x:Key="NoDrop">Nothing</system:String>
     <system:String x:Key="Drop">Drop:</system:String>
     <system:String x:Key="TotalDrop">Total Drop:</system:String>
-    <system:String x:Key="ThisFacility">Current Facilities:</system:String>
-    <system:String x:Key="RecruitingResults">Recruitment Results:</system:String>
+    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facilities: </system:String>
+    <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
     <system:String x:Key="RecruitmentOfBot">Robot! robot! more robot!</system:String>
@@ -342,10 +346,10 @@
     <system:String x:Key="NotEnoughStaff">Insufficient operators (wait what you understaff?)</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
-    <system:String x:Key="BattleFormationSelected">Selection of operator:</system:String>
-    <system:String x:Key="CurrentSteps">Current step:</system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
+    <system:String x:Key="CurrentSteps" xml:space="preserve">Current step: </system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported levels, please update the MAA, or check input file</system:String>
-    <system:String x:Key="RecruitTagsDetected">Identify results:</system:String>
+    <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identify results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
     <system:String x:Key="CheckSettings">Please check the connection Settings or try to restart the computer</system:String>

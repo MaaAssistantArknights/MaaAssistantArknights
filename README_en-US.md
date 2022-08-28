@@ -128,7 +128,7 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 ### Windows
 
-Open `MeoAssistantArknights.sln` with Visual Studio 2019 ~~or higher version~~. All settings have been configured properly.
+Open `MeoAssistantArknights.sln` with Visual Studio 2022. All settings have been configured properly.
 
 ### Linux/MacOS
 

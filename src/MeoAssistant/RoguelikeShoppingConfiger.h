@@ -13,7 +13,7 @@ namespace asst
         std::string name;
         std::vector<BattleRole> roles;
         std::vector<std::string> chars;
-        int promotion = 0;  // 晋升 N 个干员
+        int promotion = 0; // 晋升 N 个干员
         bool no_longer_buy = false;
         bool ignore_no_longer_buy = false;
     };
@@ -23,10 +23,7 @@ namespace asst
     public:
         virtual ~RoguelikeShoppingConfiger() override = default;
 
-        const auto& get_goods() const noexcept
-        {
-            return m_goods;
-        }
+        const auto& get_goods() const noexcept { return m_goods; }
 
     private:
         virtual bool parse(const json::value& json) override;

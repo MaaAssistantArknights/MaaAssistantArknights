@@ -28,8 +28,34 @@ namespace MeoAsstGui
         public DragItemViewModel(string name, string storageKey)
         {
             this.Name = name;
+            this.OriginalName = name;
             this._isCheckedStorageKey = storageKey + name + ".IsChecked";
             this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DragItemViewModel"/> class.
+        /// </summary>
+        /// <param name="name">The name (viewed name).</param>
+        /// <param name="original_name">The original name (may not be the same as viewed name).</param>
+        /// <param name="storageKey">The storage key.</param>
+        public DragItemViewModel(string name, string original_name, string storageKey)
+        {
+            this.Name = name;
+            this.OriginalName = original_name;
+            this._isCheckedStorageKey = storageKey + original_name + ".IsChecked";
+            this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
+        }
+
+        private string _original_name;
+
+        /// <summary>
+        /// Gets or sets the original_name.
+        /// </summary>
+        public string OriginalName
+        {
+            get => _original_name;
+            set => SetAndNotify(ref _original_name, value);
         }
 
         private string _name;
@@ -39,8 +65,8 @@ namespace MeoAsstGui
         /// </summary>
         public string Name
         {
-            get { return _name; }
-            set { SetAndNotify(ref _name, value); }
+            get => _name;
+            set => SetAndNotify(ref _name, value);
         }
 
         private readonly string _isCheckedStorageKey;
@@ -51,11 +77,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsChecked
         {
-            get
-            {
-                return _isChecked;
-            }
-
+            get => _isChecked;
             set
             {
                 SetAndNotify(ref _isChecked, value);
@@ -71,8 +93,8 @@ namespace MeoAsstGui
         /// </summary>
         public string IconPath
         {
-            get { return _iconPath; }
-            set { SetAndNotify(ref _iconPath, value); }
+            get => _iconPath;
+            set => SetAndNotify(ref _iconPath, value);
         }
 
         private string _token;
@@ -82,8 +104,8 @@ namespace MeoAsstGui
         /// </summary>
         public string Token
         {
-            get { return _token; }
-            set { SetAndNotify(ref _token, value); }
+            get => _token;
+            set => SetAndNotify(ref _token, value);
         }
 
         private string _runStatus;
@@ -93,8 +115,8 @@ namespace MeoAsstGui
         /// </summary>
         public string RunStatus
         {
-            get { return _runStatus; }
-            set { SetAndNotify(ref _runStatus, value); }
+            get => _runStatus;
+            set => SetAndNotify(ref _runStatus, value);
         }
     }
 }

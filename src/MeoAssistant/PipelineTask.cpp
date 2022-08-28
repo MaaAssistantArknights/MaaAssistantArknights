@@ -7,7 +7,7 @@
 
 asst::PipelineTask::PipelineTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
-    m_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
+      m_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
 {}
 
 bool asst::PipelineTask::set_params(const json::value& params)

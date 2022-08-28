@@ -46,7 +46,8 @@ bool asst::InfrastReceptionTask::close_end_of_clue_exchange()
 
 bool asst::InfrastReceptionTask::get_clue()
 {
-    ProcessTask task_temp(*this, { "InfrastClueSelfNew", "InfrastClueFriendNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
+    ProcessTask task_temp(
+        *this, { "InfrastClueSelfNew", "InfrastClueFriendNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
     return task_temp.set_retry_times(ProcessTask::RetryTimesDefault).run();
 }
 
@@ -54,9 +55,7 @@ bool asst::InfrastReceptionTask::use_clue()
 {
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
-    const static std::vector<std::string> clue_suffix = {
-        "No1", "No2", "No3", "No4", "No5", "No6", "No7"
-    };
+    const static std::vector<std::string> clue_suffix = { "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
 
     proc_clue_vacancy();
     if (unlock_clue_exchange()) {
@@ -70,6 +69,7 @@ bool asst::InfrastReceptionTask::use_clue()
 
     vacancy_analyzer.set_to_be_analyzed(clue_suffix);
     if (!vacancy_analyzer.analyze()) {
+        return false;
     }
     const auto& vacancy = vacancy_analyzer.get_vacancy();
     for (const auto& id : vacancy | views::keys) {
@@ -93,9 +93,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
 {
     LogTraceFunction;
     const static std::string clue_vacancy = "InfrastClueVacancy";
-    const static std::vector<std::string> clue_suffix = {
-        "No1", "No2", "No3", "No4", "No5", "No6", "No7"
-    };
+    const static std::vector<std::string> clue_suffix = { "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
 
     cv::Mat image = m_ctrler->get_image();
     for (const std::string& clue : clue_suffix) {
@@ -116,7 +114,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
-        //swipe_to_the_bottom_of_clue_list_on_the_right();
+        // swipe_to_the_bottom_of_clue_list_on_the_right();
         image = m_ctrler->get_image();
         InfrastClueImageAnalyzer clue_analyzer(image);
 

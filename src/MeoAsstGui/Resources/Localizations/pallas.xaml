@@ -187,11 +187,13 @@
     <system:String x:Key="Quantity">🕺🕺🍸</system:String>
     <system:String x:Key="StageSelect">🍷🍻🍷</system:String>
     <system:String x:Key="StageSelect2">🕺🍻</system:String>
+    <system:String x:Key="StageSelectTip">🍻🍷🍸🕺🕺🍺🍷🍺🍻🍺🍷🍸🍸🍺🍺🍷🍺🍻🍸🍻</system:String>
     <system:String x:Key="Amend">🍺🍺</system:String>
 
     <!--<system:String x:Key="CurrentStage">🕺🍺🍻</system:String>
     <system:String x:Key="LastBattle">🍻🕺🕺</system:String>-->
     <system:String x:Key="DefaultStage">🕺🍷🍷</system:String>
+    <system:String x:Key="ClosedStage">💃🕺🍻🍷🍷</system:String>
     <system:String x:Key="1-7">🍷💃</system:String>
     <system:String x:Key="CE-6">💃💃🕺🍻</system:String>
     <system:String x:Key="AP-5">🍺🍸🍺</system:String>
@@ -293,7 +295,7 @@
     <system:String x:Key="TryToReconnect">🕺🍷🍷🍻🍺🍻🍻</system:String>
     <system:String x:Key="ReconnectSuccess">🍻💃🍸🍷🍷</system:String>
     <system:String x:Key="ReconnectFailed">🍻🍸🍻🍺🍸🕺</system:String>
-    <system:String x:Key="IdentifyTheMistakes">🍺🍺🍷</system:String>
+    <system:String x:Key="ScreencapFailed">🍷🍷🕺🍺🍻🍸🕺🍺🍷🍸💃🍻💃🍺🍷</system:String>
     <system:String x:Key="TaskError">🍷🕺🍺</system:String>
     <system:String x:Key="CombatError">🕺🍻💃</system:String>
     <system:String x:Key="StartTask">🍷🍻🍸</system:String>
@@ -323,6 +325,7 @@
     <system:String x:Key="UpperLimit">🕺🍷🍺🍷</system:String>
     <system:String x:Key="GameCrash">🍷🍻🍺🍺🍻</system:String>
     <system:String x:Key="GameDrop">🍻🍷🍻🍻🍷</system:String>
+    <system:String x:Key="RoguelikeGamePass">🍻🍻🍻🍻🍻🍻🍻🍻🍻</system:String>
     <system:String x:Key="Trader">🍻🍻🍷🍻</system:String>
     <system:String x:Key="SafeHouse">🍸🍷🍷🍺🍻</system:String>
     <system:String x:Key="Encounter">🍸🍸🍷🍻</system:String>

@@ -9,17 +9,16 @@
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
     : m_image(image), m_roi(empty_rect_to_full(Rect(), image))
 #ifdef ASST_DEBUG
-    ,
-    m_image_draw(image.clone())
+      ,
+      m_image_draw(image.clone())
 #endif
 {}
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi)
-    : m_image(image),
-    m_roi(empty_rect_to_full(roi, image))
+    : m_image(image), m_roi(empty_rect_to_full(roi, image))
 #ifdef ASST_DEBUG
-    ,
-    m_image_draw(image.clone())
+      ,
+      m_image_draw(image.clone())
 #endif
 {}
 
@@ -69,7 +68,10 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
 bool asst::AbstractImageAnalyzer::save_img()
 {
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, { {":", "-"}, {" ", "_"} });
+    stem = utils::string_replace_all_batch(stem, {
+                                                     { ":", "-" },
+                                                     { " ", "_" },
+                                                 });
     std::filesystem::create_directory("debug");
     bool ret = cv::imwrite("debug/" + stem + "_raw.png", m_image);
 

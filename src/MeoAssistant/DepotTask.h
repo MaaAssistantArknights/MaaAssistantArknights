@@ -10,6 +10,7 @@ namespace asst
         virtual ~DepotTask() override = default;
 
         static constexpr const char* TaskType = "Depot";
+
     private:
     };
 }

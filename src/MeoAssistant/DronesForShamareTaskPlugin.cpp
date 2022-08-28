@@ -5,14 +5,12 @@
 
 bool asst::DronesForShamareTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskExtraInfo
-    || details.get("subtask", std::string()) != "InfrastTradeTask") {
+    if (msg != AsstMsg::SubTaskExtraInfo || details.get("subtask", std::string()) != "InfrastTradeTask") {
         return false;
     }
 
-    if (details.at("what").as_string() == "ProductOfFacility"
-        && details.at("details").at("product").as_string() == "Money"
-        && m_cast_ptr->get_uses_of_drone() == "Money") {
+    if (details.at("what").as_string() == "ProductOfFacility" &&
+        details.at("details").at("product").as_string() == "Money" && m_cast_ptr->get_uses_of_drone() == "Money") {
         return true;
     }
     else {

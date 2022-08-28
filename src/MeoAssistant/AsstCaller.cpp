@@ -7,9 +7,9 @@
 
 #include "Assistant.h"
 #include "AsstTypes.h"
-#include "Version.h"
 #include "Logger.hpp"
 #include "Resource.h"
+#include "Version.h"
 
 static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
 
@@ -110,6 +110,15 @@ bool AsstStop(AsstHandle handle)
     }
 
     return handle->stop();
+}
+
+bool AsstRunning(AsstHandle handle)
+{
+    if (!inited || handle == nullptr) {
+        return false;
+    }
+
+    return handle->running();
 }
 
 TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)

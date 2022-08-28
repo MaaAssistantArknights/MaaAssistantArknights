@@ -19,7 +19,7 @@ bool asst::AbstractConfiger::load(const std::string& filename)
         return false;
     }
 
-    //std::string content = utils::load_file_without_bom(filename);
+    // std::string content = utils::load_file_without_bom(filename);
 
     auto&& ret = json::open(filename, true);
     if (!ret) {

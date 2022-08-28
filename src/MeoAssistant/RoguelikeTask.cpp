@@ -1,24 +1,22 @@
 #include "RoguelikeTask.h"
 
 #include "ProcessTask.h"
-#include "RoguelikeFormationTaskPlugin.h"
-#include "RoguelikeBattleTaskPlugin.h"
-#include "RoguelikeRecruitTaskPlugin.h"
-#include "RoguelikeSkillSelectionTaskPlugin.h"
 #include "RoguelikeBattleTaskPlugin.h"
 #include "RoguelikeControlTaskPlugin.h"
 #include "RoguelikeCustomStartTaskPlugin.h"
-#include "RoguelikeShoppingTaskPlugin.h"
+#include "RoguelikeFormationTaskPlugin.h"
+#include "RoguelikeRecruitTaskPlugin.h"
 #include "RoguelikeResetTaskPlugin.h"
+#include "RoguelikeShoppingTaskPlugin.h"
+#include "RoguelikeSkillSelectionTaskPlugin.h"
 
 #include "Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
-    m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
+      m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
 {
-    m_roguelike_task_ptr->set_tasks({ "Roguelike1Begin" })
-        .set_retry_times(50);
+    m_roguelike_task_ptr->set_tasks({ "Roguelike1Begin" }).set_retry_times(50);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
@@ -54,8 +52,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     case 1:
         m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeave", 0);
         break;
-    [[unlikely]] case 2:
-        m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
+    case 2:
+        [[unlikely]] m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
         break;
     default:
         Log.error(__FUNCTION__, "| Unknown mode", mode);

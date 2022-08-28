@@ -1,8 +1,15 @@
-- 更新 `IC-S`, `IS-MO`, `危机合约 尘环行动` 自动战斗地图数据 @MistEO
-- 优化 肉鸽 干员招募逻辑 @et2012
-- 优化 刷理智 掉落识别检测算法 @horror-proton
-- 修复 刷理智 IC 关卡导航错误 @ABA2396
-- 优化 界面 缩放显示 @zzyyyl
-- 优化 界面 不知道写了个什么鬼东西 @lhhxxxxx
-- 项目代码整理、utils 优化 @zzyyyl
-- 回滚 `v4.3.0-beta.5` 版本的崩溃问题 @MistEO
+- 新增 界面 支持两个备选关卡，并在活动结束后自动切换关卡导航 @ABA2396
+- 优化 截图 反复出错时的界面提示 @MistEO
+- 优化 基建 温蒂组优先级 @MistEO
+- 优化 界面 部分样式重构整理 @zzyyyl @ABA2396
+- 修复 肉鸽 通关后卡住的问题，增加通关识别及界面提示 @MistEO
+- 修复 自动战斗 反复识别冷却中的干员的问题 @MistEO
+- 修复 自动战斗 偶现干员撤退不掉的问题 @MistEO @nightofknife
+- 修复 基建宿舍 识别信赖及未进驻时候崩溃及卡住问题 @MistEO
+- 优化 界面 多语言下的顺序保存逻辑 @Tastror
+- 优化 日志打印 @MistEO
+- 新增 AsstRunning 接口，可参考 python sample 使用 @MistEO
+- 新增 Python 接口增量加载外服资源文件 @MistEO
+- 修复 上传 企鹅物流 及 一图流数据 时回调消息不可靠的问题 @MistEO
+- 更新 日语文档及翻译 @Tastror
+- 整理 项目代码、工程，修复编译问题等 @zzyyyl @horror-proton @MistEO @ABA2396

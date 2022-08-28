@@ -16,6 +16,7 @@ namespace asst
     class OcrPack final : public AbstractResource
     {
         constexpr static size_t MaxBoxSize = 128;
+
     public:
         using AbstractResource::AbstractResource;
         OcrPack();
@@ -23,8 +24,10 @@ namespace asst
 
         virtual bool load(const std::string& dir) override;
 
-        std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr, bool without_det = false);
-        std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr, bool without_det = false);
+        std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr,
+                                        bool without_det = false);
+        std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr,
+                                        bool without_det = false);
 
     private:
         paddle_ocr_t* m_ocr = nullptr;

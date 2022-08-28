@@ -105,9 +105,9 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsEnabled="{Binding RoguelikeInvestmentEnabled}"
             Content="{DynamicResource StopOnGoldLimit}"
-            IsChecked="{Binding RoguelikeStopWhenInvestmentFull}" />
+            IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
+            IsEnabled="{Binding RoguelikeInvestmentEnabled}" />
 
         <Grid
             Grid.Row="5"

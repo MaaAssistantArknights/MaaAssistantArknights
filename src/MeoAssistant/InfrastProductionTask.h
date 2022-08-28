@@ -26,8 +26,7 @@ namespace asst
         bool use_drone();
         void set_product(std::string product_name) noexcept;
 
-        infrast::SkillsComb efficient_regex_calc(
-            std::unordered_set<infrast::Skill> skills) const;
+        infrast::SkillsComb efficient_regex_calc(std::unordered_set<infrast::Skill> skills) const;
 
         std::string m_product;
         std::string m_uses_of_drones;

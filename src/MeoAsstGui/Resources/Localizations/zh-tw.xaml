@@ -187,11 +187,13 @@
     <system:String x:Key="Quantity">刷取數量</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
+    <system:String x:Key="StageSelectTip">主選關卡爲資源關且“資源收集”全天開放活動時請勿使用此功能</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">當前關卡</system:String>
     <system:String x:Key="LastBattle">上次作戰</system:String>-->
     <system:String x:Key="DefaultStage">當前/上次</system:String>
+    <system:String x:Key="ClosedStage">活動已結束</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
     <system:String x:Key="AP-5">紅票-5</system:String>
@@ -293,13 +295,14 @@
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
+    <system:String x:Key="ScreencapFailed">截圖失敗，如反復出現請嘗試重啟或更換模擬器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError">任務出錯：</system:String>
-    <system:String x:Key="CombatError">戰鬥出錯：</system:String>
+    <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask">開始任務：</system:String>
     <system:String x:Key="CompleteTask">完成任務：</system:String>
     <system:String x:Key="StartCombat">開始戰鬥：</system:String>
-    <system:String x:Key="CompleteCombat">完成戰鬥：</system:String>
+    <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
     <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
     <system:String x:Key="ErrorOccurred">出現錯誤</system:String>
@@ -323,6 +326,7 @@
     <system:String x:Key="UpperLimit">投資達到上限</system:String>
     <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
     <system:String x:Key="GameDrop">遊戲斷線，重新連接</system:String>
+    <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="Trader">關卡：詭意行商</system:String>
     <system:String x:Key="SafeHouse">關卡：安全的角落</system:String>
     <system:String x:Key="Encounter">關卡：不期而遇</system:String>

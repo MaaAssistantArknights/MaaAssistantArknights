@@ -4,17 +4,17 @@
 
 #include "NoWarningCV.h"
 
-//#include "RoguelikeSkillSelectionTaskPlugin.h"
+// #include "RoguelikeSkillSelectionTaskPlugin.h"
 
-#include "StageDropsImageAnalyzer.h"
 #include "Logger.hpp"
+#include "StageDropsImageAnalyzer.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType)
 {
     ////auto task_ptr = std::make_shared<RoguelikeSkillSelectionTaskPlugin>(callback, callback_arg, TaskType);
-    //auto task_ptr = std::make_shared<StageDropsTaskPlugin>(callback, callback_arg, TaskType);
-    //m_subtasks.emplace_back(task_ptr);
+    // auto task_ptr = std::make_shared<StageDropsTaskPlugin>(callback, callback_arg, TaskType);
+    // m_subtasks.emplace_back(task_ptr);
 }
 
 bool asst::DebugTask::run()

@@ -39,7 +39,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
 
-            battle_actions.groups.emplace(std::move(group_name), std::vector{ std::move(oper) });
+            battle_actions.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
         }
     }
 
@@ -96,8 +96,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
 
         std::string type_str = action_info.get("type", "Deploy");
 
-        if (auto iter = ActionTypeMapping.find(type_str);
-            iter != ActionTypeMapping.end()) {
+        if (auto iter = ActionTypeMapping.find(type_str); iter != ActionTypeMapping.end()) {
             action.type = iter->second;
         }
         else {
@@ -111,36 +110,25 @@ bool asst::CopilotConfiger::parse(const json::value& json)
         action.location.y = action_info.get("location", 1, 0);
 
         static const std::unordered_map<std::string, BattleDeployDirection> DeployDirectionMapping = {
-            { "Right", BattleDeployDirection::Right },
-            { "RIGHT", BattleDeployDirection::Right },
-            { "right", BattleDeployDirection::Right },
-            { "右", BattleDeployDirection::Right },
+            { "Right", BattleDeployDirection::Right }, { "RIGHT", BattleDeployDirection::Right },
+            { "right", BattleDeployDirection::Right }, { "右", BattleDeployDirection::Right },
 
-            { "Left", BattleDeployDirection::Left },
-            { "LEFT", BattleDeployDirection::Left },
-            { "left", BattleDeployDirection::Left },
-            { "左", BattleDeployDirection::Left },
+            { "Left", BattleDeployDirection::Left },   { "LEFT", BattleDeployDirection::Left },
+            { "left", BattleDeployDirection::Left },   { "左", BattleDeployDirection::Left },
 
-            { "Up", BattleDeployDirection::Up },
-            { "UP", BattleDeployDirection::Up },
-            { "up", BattleDeployDirection::Up },
-            { "上", BattleDeployDirection::Up },
+            { "Up", BattleDeployDirection::Up },       { "UP", BattleDeployDirection::Up },
+            { "up", BattleDeployDirection::Up },       { "上", BattleDeployDirection::Up },
 
-            { "Down", BattleDeployDirection::Down },
-            { "DOWN", BattleDeployDirection::Down },
-            { "down", BattleDeployDirection::Down },
-            { "下", BattleDeployDirection::Down },
+            { "Down", BattleDeployDirection::Down },   { "DOWN", BattleDeployDirection::Down },
+            { "down", BattleDeployDirection::Down },   { "下", BattleDeployDirection::Down },
 
-            { "None", BattleDeployDirection::None },
-            { "NONE", BattleDeployDirection::None },
-            { "none", BattleDeployDirection::None },
-            { "无", BattleDeployDirection::None },
+            { "None", BattleDeployDirection::None },   { "NONE", BattleDeployDirection::None },
+            { "none", BattleDeployDirection::None },   { "无", BattleDeployDirection::None },
         };
 
         std::string direction_str = action_info.get("direction", "Right");
 
-        if (auto iter = DeployDirectionMapping.find(direction_str);
-            iter != DeployDirectionMapping.end()) {
+        if (auto iter = DeployDirectionMapping.find(direction_str); iter != DeployDirectionMapping.end()) {
             action.direction = iter->second;
         }
         else {

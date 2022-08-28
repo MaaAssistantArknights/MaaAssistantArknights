@@ -73,10 +73,8 @@ labels:
   # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
   regexes:
   - "(?:[Aa]dd (?:`|)(?:label |)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
-    feat|chore|perf|style|refactor|fix|doc|[Mm]erge|\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
   mode:
-    pull_request_target: [add, remove]
     issues: [add, remove]
     issue_comment: [remove]
   disabled-if:
@@ -88,6 +86,16 @@ labels:
   - "module: recruit"
   - "module: roguelike"
   - "module: core"
+- name: pr-ambiguous
+  content: ambiguous
+  # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
+  regexes:
+  - "(?:[Aa]dd (?:`|)(?:label |)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
+    [Rr]emove (?:(?:[Aa]ll |)[Ll]abels|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
+  - "^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rfc|style|test)[\\:\\.\\(\\,]|[Mm]erge|[Rr]evert)"
+  mode:
+    pull_request_target: [add, remove]
+  disabled-if:
   - "release"
 - name: translation required
   regexes:

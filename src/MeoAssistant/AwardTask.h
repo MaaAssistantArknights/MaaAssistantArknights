@@ -12,6 +12,7 @@ namespace asst
         virtual ~AwardTask() override = default;
 
         static constexpr const char* TaskType = "Award";
+
     private:
         std::shared_ptr<ProcessTask> m_award_task_ptr = nullptr;
     };

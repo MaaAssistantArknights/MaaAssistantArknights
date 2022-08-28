@@ -4,13 +4,13 @@
 #include <fstream>
 #include <iostream>
 #include <mutex>
+#include <thread>
 #include <type_traits>
 #include <utility>
 #include <vector>
-#include <thread>
 
-#include "AsstUtils.hpp"
 #include "AsstRanges.hpp"
+#include "AsstUtils.hpp"
 #include "Version.h"
 
 namespace asst
@@ -18,10 +18,7 @@ namespace asst
     class Logger
     {
     public:
-        ~Logger()
-        {
-            flush();
-        }
+        ~Logger() { flush(); }
 
         Logger(const Logger&) = delete;
         Logger(Logger&&) = delete;
@@ -137,19 +134,15 @@ namespace asst
 #ifdef _WIN32
 #ifdef _MSC_VER
             sprintf_s(buff, buff_len,
-#else   // ! _MSC_VER
+#else  // ! _MSC_VER
             sprintf(buff,
-#endif  // END _MSC_VER
-            "[%s][%s][Px%x][Tx%lx]",
-                      asst::utils::get_format_time().c_str(),
-                      level.data(), _getpid(), ::GetCurrentThreadId()
-            );
-#else   // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%lx]",
-                      asst::utils::get_format_time().c_str(),
-                      level.data(), getpid(), (unsigned long)(std::hash<std::thread::id>{}(std::this_thread::get_id()))
-            );
-#endif  // END _WIN32
+#endif // END _MSC_VER
+                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level.data(), _getpid(),
+                      ::GetCurrentThreadId());
+#else  // ! _WIN32
+            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level.data(), getpid(),
+                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
+#endif // END _WIN32
 
             if (!m_ofs || !m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
@@ -166,20 +159,23 @@ namespace asst
         }
 
         template <typename Stream, typename T, typename Enable = void>
-        struct has_stream_insertion_operator : std::false_type {};
+        struct has_stream_insertion_operator : std::false_type
+        {};
 
         template <typename Stream, typename T>
-        struct has_stream_insertion_operator<
-            Stream, T,
-            std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-            : std::true_type {};
+        struct has_stream_insertion_operator<Stream, T,
+                                             std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
+            : std::true_type
+        {};
 
         template <bool ToAnsi, typename Stream, typename T>
         static Stream& stream_put(Stream& s, T&& v)
         {
             if constexpr (std::is_constructible_v<std::string, T>) {
-                if constexpr (ToAnsi) s << utils::utf8_to_ansi(std::forward<T>(v));
-                else s << std::string(std::forward<T>(v));
+                if constexpr (ToAnsi)
+                    s << utils::utf8_to_ansi(std::forward<T>(v));
+                else
+                    s << std::string(std::forward<T>(v));
                 return s;
             }
             else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
@@ -188,7 +184,7 @@ namespace asst
             }
             else if constexpr (ranges::input_range<T>) {
                 s << "[";
-                std::string_view comma{};
+                std::string_view comma {};
                 for (const auto& elem : std::forward<T>(v)) {
                     s << comma;
                     stream_put<ToAnsi>(s, elem);
@@ -211,7 +207,7 @@ namespace asst
         struct stream_put_line_impl;
 
         template <bool ToAnsi, typename Stream>
-        struct stream_put_line_impl <ToAnsi, Stream>
+        struct stream_put_line_impl<ToAnsi, Stream>
         {
             static constexpr Stream& apply(Stream& s)
             {
@@ -258,8 +254,7 @@ namespace asst
     {
     public:
         explicit LoggerAux(std::string func_name)
-            : m_func_name(std::move(func_name)),
-            m_start_time(std::chrono::steady_clock::now())
+            : m_func_name(std::move(func_name)), m_start_time(std::chrono::steady_clock::now())
         {
             Logger::get_instance().trace(m_func_name, "| enter");
         }
@@ -273,12 +268,13 @@ namespace asst
         LoggerAux(LoggerAux&&) = default;
         LoggerAux& operator=(const LoggerAux&) = default;
         LoggerAux& operator=(LoggerAux&&) = default;
+
     private:
         std::string m_func_name;
         std::chrono::time_point<std::chrono::steady_clock> m_start_time;
     };
 
-#define _Cat_(a, b) a ## b
+#define _Cat_(a, b) a##b
 #define _Cat(a, b) _Cat_(a, b)
 #define _CatVarNameWithLine(Var) _Cat(Var, __LINE__)
 
@@ -286,4 +282,4 @@ namespace asst
 #define LogTraceScope LoggerAux _CatVarNameWithLine(_func_aux_)
 #define LogTraceFunction LogTraceScope(__FUNCTION__)
 #define LogTraceFunctionWithArgs // how to do this?, like LogTraceScope(__FUNCTION__, __FUNCTION_ALL_ARGS__)
-}
+} // namespace asst

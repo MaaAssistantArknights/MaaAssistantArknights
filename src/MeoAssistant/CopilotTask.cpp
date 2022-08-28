@@ -1,19 +1,17 @@
 #include "CopilotTask.h"
 
-#include "Resource.h"
-#include "ProcessTask.h"
-#include "BattleProcessTask.h"
 #include "BattleFormationTask.h"
+#include "BattleProcessTask.h"
+#include "ProcessTask.h"
+#include "Resource.h"
 
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
-    m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, callback_arg, TaskType)),
-    m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, callback_arg, TaskType))
+      m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, callback_arg, TaskType)),
+      m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, callback_arg, TaskType))
 {
     auto start_1_tp = std::make_shared<ProcessTask>(callback, callback_arg, TaskType);
-    start_1_tp->set_tasks({ "BattleStartPre" })
-        .set_retry_times(0)
-        .set_ignore_error(true);
+    start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
     m_subtasks.emplace_back(m_formation_task_ptr)->set_ignore_error(false).set_retry_times(0);
