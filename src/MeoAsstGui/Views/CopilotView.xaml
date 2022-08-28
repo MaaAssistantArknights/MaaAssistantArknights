@@ -13,8 +13,8 @@
     d:DesignWidth="800"
     AllowDrop="True"
     Drop="{s:Action DropFile}"
-    MouseDown="{s:Action MouseDown}"
     KeyDown="{s:Action KeyDown}"
+    MouseDown="{s:Action MouseDown}"
     mc:Ignorable="d">
     <Grid Margin="20" Background="White">
         <Grid.ColumnDefinitions>
