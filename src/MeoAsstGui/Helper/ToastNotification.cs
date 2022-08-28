@@ -280,8 +280,8 @@ namespace MeoAsstGui
         /// </summary>
         public string ButtonSystemUrl
         {
-            get { return _buttonSystemUrl; }
-            set { _buttonSystemUrl = value; }
+            get => _buttonSystemUrl;
+            set => _buttonSystemUrl = value;
         }
 
         private bool _buttonSystemEnabled = false;

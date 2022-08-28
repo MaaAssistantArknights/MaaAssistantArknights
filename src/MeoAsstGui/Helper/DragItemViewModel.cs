@@ -54,8 +54,8 @@ namespace MeoAsstGui
         /// </summary>
         public string OriginalName
         {
-            get { return _original_name; }
-            set { SetAndNotify(ref _original_name, value); }
+            get => _original_name;
+            set => SetAndNotify(ref _original_name, value);
         }
 
         private string _name;
@@ -65,8 +65,8 @@ namespace MeoAsstGui
         /// </summary>
         public string Name
         {
-            get { return _name; }
-            set { SetAndNotify(ref _name, value); }
+            get => _name;
+            set => SetAndNotify(ref _name, value);
         }
 
         private readonly string _isCheckedStorageKey;
@@ -77,11 +77,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsChecked
         {
-            get
-            {
-                return _isChecked;
-            }
-
+            get => _isChecked;
             set
             {
                 SetAndNotify(ref _isChecked, value);
@@ -97,8 +93,8 @@ namespace MeoAsstGui
         /// </summary>
         public string IconPath
         {
-            get { return _iconPath; }
-            set { SetAndNotify(ref _iconPath, value); }
+            get => _iconPath;
+            set => SetAndNotify(ref _iconPath, value);
         }
 
         private string _token;
@@ -108,8 +104,8 @@ namespace MeoAsstGui
         /// </summary>
         public string Token
         {
-            get { return _token; }
-            set { SetAndNotify(ref _token, value); }
+            get => _token;
+            set => SetAndNotify(ref _token, value);
         }
 
         private string _runStatus;
@@ -119,8 +115,8 @@ namespace MeoAsstGui
         /// </summary>
         public string RunStatus
         {
-            get { return _runStatus; }
-            set { SetAndNotify(ref _runStatus, value); }
+            get => _runStatus;
+            set => SetAndNotify(ref _runStatus, value);
         }
     }
 }

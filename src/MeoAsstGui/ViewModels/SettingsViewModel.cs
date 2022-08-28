@@ -42,20 +42,14 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets the version id.
         /// </summary>
-        public string VersionId
-        {
-            get { return s_versionId; }
-        }
+        public string VersionId => s_versionId;
 
         private static readonly string s_versionInfo = Localization.GetString("Version") + ": " + s_versionId;
 
         /// <summary>
         /// Gets the version info.
         /// </summary>
-        public string VersionInfo
-        {
-            get { return s_versionInfo; }
-        }
+        public string VersionInfo => s_versionInfo;
 
         /// <summary>
         /// The Pallas language key.
@@ -110,8 +104,8 @@ namespace MeoAsstGui
         /// </summary>
         public List<string> ListTitle
         {
-            get { return _listTitle; }
-            set { SetAndNotify(ref _listTitle, value); }
+            get => _listTitle;
+            set => SetAndNotify(ref _listTitle, value);
         }
 
         private void InfrastInit()
@@ -241,8 +235,8 @@ namespace MeoAsstGui
         /// </summary>
         public bool Idle
         {
-            get { return _idle; }
-            set { SetAndNotify(ref _idle, value); }
+            get => _idle;
+            set => SetAndNotify(ref _idle, value);
         }
 
         /* 启动设置 */
@@ -253,11 +247,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool StartSelf
         {
-            get
-            {
-                return _startSelf;
-            }
-
+            get => _startSelf;
             set
             {
                 SetAndNotify(ref _startSelf, value);
@@ -272,11 +262,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool RunDirectly
         {
-            get
-            {
-                return _runDirectly;
-            }
-
+            get => _runDirectly;
             set
             {
                 SetAndNotify(ref _runDirectly, value);
@@ -291,11 +277,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool StartEmulator
         {
-            get
-            {
-                return _startEmulator;
-            }
-
+            get => _startEmulator;
             set
             {
                 SetAndNotify(ref _startEmulator, value);
@@ -314,11 +296,7 @@ namespace MeoAsstGui
         /// </summary>
         public string EmulatorPath
         {
-            get
-            {
-                return _emulatorPath;
-            }
-
+            get => _emulatorPath;
             set
             {
                 SetAndNotify(ref _emulatorPath, value);
@@ -333,11 +311,7 @@ namespace MeoAsstGui
         /// </summary>
         public string EmulatorAddCommand
         {
-            get
-            {
-                return _emulatorAddCommand;
-            }
-
+            get => _emulatorAddCommand;
             set
             {
                 SetAndNotify(ref _emulatorAddCommand, value);
@@ -352,11 +326,7 @@ namespace MeoAsstGui
         /// </summary>
         public string EmulatorWaitSeconds
         {
-            get
-            {
-                return _emulatorWaitSeconds;
-            }
-
+            get => _emulatorWaitSeconds;
             set
             {
                 SetAndNotify(ref _emulatorWaitSeconds, value);
@@ -418,11 +388,7 @@ namespace MeoAsstGui
         /// </summary>
         public string ClientType
         {
-            get
-            {
-                return _clientType;
-            }
-
+            get => _clientType;
             set
             {
                 SetAndNotify(ref _clientType, value);
@@ -465,10 +431,7 @@ namespace MeoAsstGui
         /// </summary>
         public string ServerType
         {
-            get
-            {
-                return _serverMapping[ClientType];
-            }
+            get => _serverMapping[ClientType];
         }
 
         /* 基建设置 */
@@ -527,11 +490,7 @@ namespace MeoAsstGui
         /// </summary>
         public int DormThreshold
         {
-            get
-            {
-                return _dormThreshold;
-            }
-
+            get => _dormThreshold;
             set
             {
                 DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
@@ -547,8 +506,8 @@ namespace MeoAsstGui
         /// </summary>
         public string DormThresholdLabel
         {
-            get { return _dormThresholdLabel; }
-            set { SetAndNotify(ref _dormThresholdLabel, value); }
+            get => _dormThresholdLabel;
+            set => SetAndNotify(ref _dormThresholdLabel, value);
         }
 
         /// <summary>
@@ -589,11 +548,7 @@ namespace MeoAsstGui
         /// </summary>
         public string UsesOfDrones
         {
-            get
-            {
-                return _usesOfDrones;
-            }
-
+            get => _usesOfDrones;
             set
             {
                 SetAndNotify(ref _usesOfDrones, value);
@@ -608,11 +563,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool DormFilterNotStationedEnabled
         {
-            get
-            {
-                return bool.Parse(_dormFilterNotStationedEnabled);
-            }
-
+            get => bool.Parse(_dormFilterNotStationedEnabled);
             set
             {
                 SetAndNotify(ref _dormFilterNotStationedEnabled, value.ToString());
@@ -627,11 +578,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool DormTrustEnabled
         {
-            get
-            {
-                return bool.Parse(_dormTrustEnabled);
-            }
-
+            get => bool.Parse(_dormTrustEnabled);
             set
             {
                 SetAndNotify(ref _dormTrustEnabled, value.ToString());
@@ -692,11 +639,7 @@ namespace MeoAsstGui
         /// </summary>
         public int SelectedIndex
         {
-            get
-            {
-                return _selectedIndex;
-            }
-
+            get => _selectedIndex;
             set
             {
                 switch (_notifySource)
@@ -731,11 +674,7 @@ namespace MeoAsstGui
         /// </summary>
         public double ScrollOffset
         {
-            get
-            {
-                return _scrollOffset;
-            }
-
+            get => _scrollOffset;
             set
             {
                 switch (_notifySource)
@@ -787,11 +726,7 @@ namespace MeoAsstGui
         /// </summary>
         public string RoguelikeMode
         {
-            get
-            {
-                return _roguelikeMode;
-            }
-
+            get => _roguelikeMode;
             set
             {
                 SetAndNotify(ref _roguelikeMode, value);
@@ -810,11 +745,7 @@ namespace MeoAsstGui
         /// </summary>
         public string RoguelikeSquad
         {
-            get
-            {
-                return _roguelikeSquad;
-            }
-
+            get => _roguelikeSquad;
             set
             {
                 SetAndNotify(ref _roguelikeSquad, value);
@@ -829,11 +760,7 @@ namespace MeoAsstGui
         /// </summary>
         public string RoguelikeRoles
         {
-            get
-            {
-                return _roguelikeRoles;
-            }
-
+            get => _roguelikeRoles;
             set
             {
                 SetAndNotify(ref _roguelikeRoles, value);
@@ -848,11 +775,7 @@ namespace MeoAsstGui
         /// </summary>
         public string RoguelikeCoreChar
         {
-            get
-            {
-                return _roguelikeCoreChar;
-            }
-
+            get => _roguelikeCoreChar;
             set
             {
                 SetAndNotify(ref _roguelikeCoreChar, value);
@@ -867,11 +790,7 @@ namespace MeoAsstGui
         /// </summary>
         public int RoguelikeStartsCount
         {
-            get
-            {
-                return int.Parse(_roguelikeStartsCount);
-            }
-
+            get => int.Parse(_roguelikeStartsCount);
             set
             {
                 SetAndNotify(ref _roguelikeStartsCount, value.ToString());
@@ -886,11 +805,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool RoguelikeInvestmentEnabled
         {
-            get
-            {
-                return bool.Parse(_roguelikeInvestmentEnabled);
-            }
-
+            get => bool.Parse(_roguelikeInvestmentEnabled);
             set
             {
                 SetAndNotify(ref _roguelikeInvestmentEnabled, value.ToString());
@@ -905,11 +820,7 @@ namespace MeoAsstGui
         /// </summary>
         public int RoguelikeInvestsCount
         {
-            get
-            {
-                return int.Parse(_roguelikeInvestsCount);
-            }
-
+            get => int.Parse(_roguelikeInvestsCount);
             set
             {
                 SetAndNotify(ref _roguelikeInvestsCount, value.ToString());
@@ -924,11 +835,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool RoguelikeStopWhenInvestmentFull
         {
-            get
-            {
-                return bool.Parse(_roguelikeStopWhenInvestmentFull);
-            }
-
+            get => bool.Parse(_roguelikeStopWhenInvestmentFull);
             set
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
@@ -945,11 +852,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool CreditShopping
         {
-            get
-            {
-                return _creditShopping;
-            }
-
+            get => _creditShopping;
             set
             {
                 SetAndNotify(ref _creditShopping, value);
@@ -964,11 +867,7 @@ namespace MeoAsstGui
         /// </summary>
         public string CreditFirstList
         {
-            get
-            {
-                return _creditFirstList;
-            }
-
+            get => _creditFirstList;
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
@@ -983,11 +882,7 @@ namespace MeoAsstGui
         /// </summary>
         public string CreditBlackList
         {
-            get
-            {
-                return _creditBlackList;
-            }
-
+            get => _creditBlackList;
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
@@ -1020,11 +915,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer1
         {
-            get
-            {
-                return _timer1;
-            }
-
+            get => _timer1;
             set
             {
                 SetAndNotify(ref _timer1, value);
@@ -1037,11 +928,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer2
         {
-            get
-            {
-                return _timer2;
-            }
-
+            get => _timer2;
             set
             {
                 SetAndNotify(ref _timer2, value);
@@ -1054,11 +941,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer3
         {
-            get
-            {
-                return _timer3;
-            }
-
+            get => _timer3;
             set
             {
                 SetAndNotify(ref _timer3, value);
@@ -1071,11 +954,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer4
         {
-            get
-            {
-                return _timer4;
-            }
-
+            get => _timer4;
             set
             {
                 SetAndNotify(ref _timer4, value);
@@ -1088,11 +967,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer5
         {
-            get
-            {
-                return _timer5;
-            }
-
+            get => _timer5;
             set
             {
                 SetAndNotify(ref _timer5, value);
@@ -1105,11 +980,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer6
         {
-            get
-            {
-                return _timer6;
-            }
-
+            get => _timer6;
             set
             {
                 SetAndNotify(ref _timer6, value);
@@ -1122,11 +993,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer7
         {
-            get
-            {
-                return _timer7;
-            }
-
+            get => _timer7;
             set
             {
                 SetAndNotify(ref _timer7, value);
@@ -1139,11 +1006,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Timer8
         {
-            get
-            {
-                return _timer8;
-            }
-
+            get => _timer8;
             set
             {
                 SetAndNotify(ref _timer8, value);
@@ -1156,11 +1019,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer1Hour
         {
-            get
-            {
-                return _timer1hour;
-            }
-
+            get => _timer1hour;
             set
             {
                 SetAndNotify(ref _timer1hour, value);
@@ -1173,11 +1032,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer2Hour
         {
-            get
-            {
-                return _timer2hour;
-            }
-
+            get => _timer2hour;
             set
             {
                 SetAndNotify(ref _timer2hour, value);
@@ -1190,11 +1045,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer3Hour
         {
-            get
-            {
-                return _timer3hour;
-            }
-
+            get => _timer3hour;
             set
             {
                 SetAndNotify(ref _timer3hour, value);
@@ -1207,11 +1058,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer4Hour
         {
-            get
-            {
-                return _timer4hour;
-            }
-
+            get => _timer4hour;
             set
             {
                 SetAndNotify(ref _timer4hour, value);
@@ -1224,11 +1071,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer5Hour
         {
-            get
-            {
-                return _timer5hour;
-            }
-
+            get => _timer5hour;
             set
             {
                 SetAndNotify(ref _timer5hour, value);
@@ -1241,11 +1084,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer6Hour
         {
-            get
-            {
-                return _timer6hour;
-            }
-
+            get => _timer6hour;
             set
             {
                 SetAndNotify(ref _timer6hour, value);
@@ -1258,11 +1097,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer7Hour
         {
-            get
-            {
-                return _timer7hour;
-            }
-
+            get => _timer7hour;
             set
             {
                 SetAndNotify(ref _timer7hour, value);
@@ -1275,11 +1110,7 @@ namespace MeoAsstGui
         /// </summary>
         public int Timer8Hour
         {
-            get
-            {
-                return _timer8hour;
-            }
-
+            get => _timer8hour;
             set
             {
                 SetAndNotify(ref _timer8hour, value);
@@ -1296,11 +1127,7 @@ namespace MeoAsstGui
         /// </summary>
         public string PenguinId
         {
-            get
-            {
-                return _penguinId;
-            }
-
+            get => _penguinId;
             set
             {
                 SetAndNotify(ref _penguinId, value);
@@ -1315,11 +1142,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsDrGrandet
         {
-            get
-            {
-                return _isDrGrandet;
-            }
-
+            get => _isDrGrandet;
             set
             {
                 SetAndNotify(ref _isDrGrandet, value);
@@ -1335,11 +1158,7 @@ namespace MeoAsstGui
         /// </summary>
         public string RecruitMaxTimes
         {
-            get
-            {
-                return _recruitMaxTimes;
-            }
-
+            get => _recruitMaxTimes;
             set
             {
                 SetAndNotify(ref _recruitMaxTimes, value);
@@ -1354,11 +1173,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool RefreshLevel3
         {
-            get
-            {
-                return _refreshLevel3;
-            }
-
+            get => _refreshLevel3;
             set
             {
                 SetAndNotify(ref _refreshLevel3, value);
@@ -1373,8 +1188,8 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseExpedited
         {
-            get { return _useExpedited; }
-            set { SetAndNotify(ref _useExpedited, value); }
+            get => _useExpedited;
+            set => SetAndNotify(ref _useExpedited, value);
         }
 
         private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.IsLevel3UseShortTime", bool.FalseString));
@@ -1384,11 +1199,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsLevel3UseShortTime
         {
-            get
-            {
-                return _isLevel3UseShortTime;
-            }
-
+            get => _isLevel3UseShortTime;
             set
             {
                 SetAndNotify(ref _isLevel3UseShortTime, value);
@@ -1403,11 +1214,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool NotChooseLevel1
         {
-            get
-            {
-                return _notChooseLevel1;
-            }
-
+            get => _notChooseLevel1;
             set
             {
                 SetAndNotify(ref _notChooseLevel1, value);
@@ -1422,11 +1229,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool ChooseLevel3
         {
-            get
-            {
-                return _chooseLevel3;
-            }
-
+            get => _chooseLevel3;
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
@@ -1441,11 +1244,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool ChooseLevel4
         {
-            get
-            {
-                return _chooseLevel4;
-            }
-
+            get => _chooseLevel4;
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
@@ -1460,11 +1259,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool ChooseLevel5
         {
-            get
-            {
-                return _chooseLevel5;
-            }
-
+            get => _chooseLevel5;
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
@@ -1480,11 +1275,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UpdateBeta
         {
-            get
-            {
-                return _updateBeta;
-            }
-
+            get => _updateBeta;
             set
             {
                 SetAndNotify(ref _updateBeta, value);
@@ -1499,11 +1290,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UpdateCheck
         {
-            get
-            {
-                return _updateCheck;
-            }
-
+            get => _updateCheck;
             set
             {
                 SetAndNotify(ref _updateCheck, value);
@@ -1518,11 +1305,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Proxy
         {
-            get
-            {
-                return _proxy;
-            }
-
+            get => _proxy;
             set
             {
                 SetAndNotify(ref _proxy, value);
@@ -1537,11 +1320,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseAria2
         {
-            get
-            {
-                return _useAria2;
-            }
-
+            get => _useAria2;
             set
             {
                 SetAndNotify(ref _useAria2, value);
@@ -1556,11 +1335,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool AutoDownloadUpdatePackage
         {
-            get
-            {
-                return _autoDownloadUpdatePackage;
-            }
-
+            get => _autoDownloadUpdatePackage;
             set
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
@@ -1600,11 +1375,7 @@ namespace MeoAsstGui
         /// </summary>
         public string ConnectAddress
         {
-            get
-            {
-                return _connectAddress;
-            }
-
+            get => _connectAddress;
             set
             {
                 SetAndNotify(ref _connectAddress, value);
@@ -1620,11 +1391,7 @@ namespace MeoAsstGui
         /// </summary>
         public string AdbPath
         {
-            get
-            {
-                return _adbPath;
-            }
-
+            get => _adbPath;
             set
             {
                 SetAndNotify(ref _adbPath, value);
@@ -1639,11 +1406,7 @@ namespace MeoAsstGui
         /// </summary>
         public string ConnectConfig
         {
-            get
-            {
-                return _connectConfig;
-            }
-
+            get => _connectConfig;
             set
             {
                 SetAndNotify(ref _connectConfig, value);
@@ -1812,7 +1575,7 @@ namespace MeoAsstGui
 
         public bool UseTray
         {
-           get { return _useTray; }
+           get => _useTray;
            set
            {
                SetAndNotify(ref _useTray, value);
@@ -1834,11 +1597,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool MinimizeToTray
         {
-            get
-            {
-                return _minimizeToTray;
-            }
-
+            get => _minimizeToTray;
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
@@ -1855,11 +1614,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseNotify
         {
-            get
-            {
-                return _useNotify;
-            }
-
+            get => _useNotify;
             set
             {
                 SetAndNotify(ref _useNotify, value);
@@ -1884,11 +1639,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseAlternateStage
         {
-            get
-            {
-                return _useAlternateStage;
-            }
-
+            get => _useAlternateStage;
             set
             {
                 SetAndNotify(ref _useAlternateStage, value);
@@ -1909,11 +1660,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool HideUnavailableStage
         {
-            get
-            {
-                return _hideUnavailableStage;
-            }
-
+            get => _hideUnavailableStage;
             set
             {
                 SetAndNotify(ref _hideUnavailableStage, value);
@@ -1946,11 +1693,7 @@ namespace MeoAsstGui
         /// </summary>
         public string InverseClearMode
         {
-            get
-            {
-                return _inverseClearMode.ToString();
-            }
-
+            get => _inverseClearMode.ToString();
             set
             {
                 if (!Enum.TryParse(value, out InverseClearType tempEnumValue))
@@ -1993,11 +1736,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Language
         {
-            get
-            {
-                return _language;
-            }
-
+            get => _language;
             set
             {
                 if (value == _language)
@@ -2038,11 +1777,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Cheers
         {
-            get
-            {
-                return _cheers;
-            }
-
+            get => _cheers;
             set
             {
                 if (_cheers == value)
@@ -2066,11 +1801,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Hangover
         {
-            get
-            {
-                return _hangover;
-            }
-
+            get => _hangover;
             set
             {
                 SetAndNotify(ref _hangover, value);

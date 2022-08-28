@@ -107,11 +107,8 @@ namespace MeoAsstGui
 
         // public Visibility Visible
         // {
-        //    get { return _visible; }
-        //    set
-        //    {
-        //        SetAndNotify(ref _visible, value);
-        //    }
+        //    get => _visible;
+        //    set => SetAndNotify(ref _visible, value);
         // }
         private readonly System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
@@ -501,8 +498,8 @@ namespace MeoAsstGui
         /// </summary>
         public string StagesOfToday
         {
-            get { return _stagesOfToday; }
-            set { SetAndNotify(ref _stagesOfToday, value); }
+            get => _stagesOfToday;
+            set => SetAndNotify(ref _stagesOfToday, value);
         }
 
         /// <summary>
@@ -549,11 +546,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool InverseMode
         {
-            get
-            {
-                return _inverseMode;
-            }
-
+            get => _inverseMode;
             set
             {
                 SetAndNotify(ref _inverseMode, value);
@@ -571,15 +564,8 @@ namespace MeoAsstGui
         /// </summary>
         public int SelectedAllWidth
         {
-            get
-            {
-                return _selectedAllWidth;
-            }
-
-            set
-            {
-                SetAndNotify(ref _selectedAllWidth, value);
-            }
+            get => _selectedAllWidth;
+            set => SetAndNotify(ref _selectedAllWidth, value);
         }
 
         /// <summary>
@@ -594,15 +580,8 @@ namespace MeoAsstGui
         /// </summary>
         public int InverseSelectedWidth
         {
-            get
-            {
-                return _inverseSelectedWidth;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseSelectedWidth, value);
-            }
+            get => _inverseSelectedWidth;
+            set => SetAndNotify(ref _inverseSelectedWidth, value);
         }
 
         private Visibility _inverseShowVisibility =
@@ -613,15 +592,8 @@ namespace MeoAsstGui
         /// </summary>
         public Visibility InverseShowVisibility
         {
-            get
-            {
-                return _inverseShowVisibility;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseShowVisibility, value);
-            }
+            get => _inverseShowVisibility;
+            set => SetAndNotify(ref _inverseShowVisibility, value);
         }
 
         private Visibility _notInverseShowVisibility =
@@ -632,15 +604,8 @@ namespace MeoAsstGui
         /// </summary>
         public Visibility NotInverseShowVisibility
         {
-            get
-            {
-                return _notInverseShowVisibility;
-            }
-
-            set
-            {
-                SetAndNotify(ref _notInverseShowVisibility, value);
-            }
+            get => _notInverseShowVisibility;
+            set => SetAndNotify(ref _notInverseShowVisibility, value);
         }
 
         private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
@@ -650,15 +615,8 @@ namespace MeoAsstGui
         /// </summary>
         public string InverseShowText
         {
-            get
-            {
-                return _inverseShowText;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseShowText, value);
-            }
+            get => _inverseShowText;
+            set => SetAndNotify(ref _inverseShowText, value);
         }
 
         private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
@@ -668,15 +626,8 @@ namespace MeoAsstGui
         /// </summary>
         public string InverseMenuText
         {
-            get
-            {
-                return _inverseMenuText;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseMenuText, value);
-            }
+            get => _inverseMenuText;
+            set => SetAndNotify(ref _inverseMenuText, value);
         }
 
         /// <summary>
@@ -1328,14 +1279,13 @@ namespace MeoAsstGui
         /// </summary>
         public bool Inited
         {
-            get
-            {
-                return _inited;
-            }
-
+            get => _inited;
             set
             {
-                SetAndNotify(ref _inited, value);
+                if (value)
+                {
+                    SetAndNotify(ref _inited, value);
+                }
             }
         }
 
@@ -1346,11 +1296,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Idle
         {
-            get
-            {
-                return _idle;
-            }
-
+            get => _idle;
             set
             {
                 SetAndNotify(ref _idle, value);
@@ -1370,27 +1316,20 @@ namespace MeoAsstGui
         /// </summary>
         public bool FightTaskRunning
         {
-            get
-            {
-                return _fightTaskRunning;
-            }
-
-            set
-            {
-                SetAndNotify(ref _fightTaskRunning, value);
-            }
+            get => _fightTaskRunning;
+            set => SetAndNotify(ref _fightTaskRunning, value);
         }
 
         // private bool _shutdown = false;
 
         // public bool Shutdown
         // {
-        //    get { return _shutdown; }
+        //    get => return _shutdown;
         //    set
         //    {
         //        SetAndNotify(ref _shutdown, value);
-
-        // if (value)
+        //
+        //        if (value)
         //        {
         //            Hibernate = false;
         //            Suspend = false;
@@ -1402,12 +1341,12 @@ namespace MeoAsstGui
 
         // public bool Hibernate
         // {
-        //    get { return _hibernate; }
+        //    get => return _hibernate;
         //    set
         //    {
         //        SetAndNotify(ref _hibernate, value);
-
-        // if (value)
+        //
+        //        if (value)
         //        {
         //            Shutdown = false;
         //            Suspend = false;
@@ -1419,12 +1358,12 @@ namespace MeoAsstGui
 
         // public bool Suspend
         // {
-        //    get { return _suspend; }
+        //    get => return _suspend;
         //    set
         //    {
         //        SetAndNotify(ref _suspend, value);
-
-        // if (value)
+        //
+        //        if (value)
         //        {
         //            Shutdown = false;
         //            Hibernate = false;
@@ -1444,15 +1383,8 @@ namespace MeoAsstGui
         /// </summary>
         public ObservableCollection<CombData> StageList
         {
-            get
-            {
-                return _stageList;
-            }
-
-            set
-            {
-                SetAndNotify(ref _stageList, value);
-            }
+            get => _stageList;
+            set => SetAndNotify(ref _stageList, value);
         }
 
         /// <summary>
@@ -1527,11 +1459,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Stage1
         {
-            get
-            {
-                return _stage1;
-            }
-
+            get => _stage1;
             set
             {
                 SetAndNotify(ref _stage1, value);
@@ -1546,11 +1474,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Stage2
         {
-            get
-            {
-                return _stage2;
-            }
-
+            get => _stage2;
             set
             {
                 SetAndNotify(ref _stage2, value);
@@ -1565,11 +1489,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Stage3
         {
-            get
-            {
-                return _stage3;
-            }
-
+            get => _stage3;
             set
             {
                 SetAndNotify(ref _stage3, value);
@@ -1584,15 +1504,8 @@ namespace MeoAsstGui
         /// </summary>
         public bool AlternateStageDisplay
         {
-            get
-            {
-                return _alternateStageDisplay;
-            }
-
-            set
-            {
-                SetAndNotify(ref _alternateStageDisplay, value);
-            }
+            get => _alternateStageDisplay;
+            set => SetAndNotify(ref _alternateStageDisplay, value);
         }
 
         private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
@@ -1602,11 +1515,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseMedicine
         {
-            get
-            {
-                return _useMedicine;
-            }
-
+            get => _useMedicine;
             set
             {
                 SetAndNotify(ref _useMedicine, value);
@@ -1626,11 +1535,7 @@ namespace MeoAsstGui
         /// </summary>
         public string MedicineNumber
         {
-            get
-            {
-                return _medicineNumber;
-            }
-
+            get => _medicineNumber;
             set
             {
                 SetAndNotify(ref _medicineNumber, value);
@@ -1645,11 +1550,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseStone
         {
-            get
-            {
-                return _useStone;
-            }
-
+            get => _useStone;
             set
             {
                 SetAndNotify(ref _useStone, value);
@@ -1667,11 +1568,7 @@ namespace MeoAsstGui
         /// </summary>
         public string StoneNumber
         {
-            get
-            {
-                return _stoneNumber;
-            }
-
+            get => _stoneNumber;
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
@@ -1686,15 +1583,8 @@ namespace MeoAsstGui
         /// </summary>
         public bool HasTimesLimited
         {
-            get
-            {
-                return _hasTimesLimited;
-            }
-
-            set
-            {
-                SetAndNotify(ref _hasTimesLimited, value);
-            }
+            get => _hasTimesLimited;
+            set => SetAndNotify(ref _hasTimesLimited, value);
         }
 
         private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
@@ -1704,11 +1594,7 @@ namespace MeoAsstGui
         /// </summary>
         public string MaxTimes
         {
-            get
-            {
-                return _maxTimes;
-            }
-
+            get => _maxTimes;
             set
             {
                 SetAndNotify(ref _maxTimes, value);
@@ -1723,11 +1609,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsSpecifiedDrops
         {
-            get
-            {
-                return _isSpecifiedDrops;
-            }
-
+            get => _isSpecifiedDrops;
             set
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
@@ -1792,11 +1674,7 @@ namespace MeoAsstGui
         /// </summary>
         public string DropsItemId
         {
-            get
-            {
-                return _dropsItemId;
-            }
-
+            get => _dropsItemId;
             set
             {
                 SetAndNotify(ref _dropsItemId, value);
@@ -1813,11 +1691,7 @@ namespace MeoAsstGui
         /// </summary>
         public string DropsItem
         {
-            get
-            {
-                return _dropsItem;
-            }
-
+            get => _dropsItem;
             set
             {
                 if (_isFirstLoadDropItem)
@@ -1856,15 +1730,8 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsDropDown
         {
-            get
-            {
-                return _isDropDown;
-            }
-
-            set
-            {
-                SetAndNotify(ref _isDropDown, value);
-            }
+            get => _isDropDown;
+            set => SetAndNotify(ref _isDropDown, value);
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
@@ -1874,11 +1741,7 @@ namespace MeoAsstGui
         /// </summary>
         public string DropsQuantity
         {
-            get
-            {
-                return _dropsQuantity;
-            }
-
+            get => _dropsQuantity;
             set
             {
                 SetAndNotify(ref _dropsQuantity, value);
