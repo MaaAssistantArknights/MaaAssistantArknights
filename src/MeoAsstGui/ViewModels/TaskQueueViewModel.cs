@@ -1297,27 +1297,43 @@ namespace MeoAsstGui
             }
         }
 
-        // public void CheckAndShutdown()
-        // {
-        //    if (Shutdown)
-        //    {
-        //        System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+        /*
+        public void CheckAndShutdown()
+        {
+           if (Shutdown)
+           {
+               System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
 
-        // var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
-        //        if (result == MessageBoxResult.OK)
-        //        {
-        //            System.Diagnostics.Process.Start("shutdown.exe", "-a");
-        //        }
-        //    }
-        //    if (Hibernate)
-        //    {
-        //        System.Diagnostics.Process.Start("shutdown.exe", "-h");
-        //    }
-        //    if (Suspend)
-        //    {
-        //        System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
-        //    }
-        // }
+        var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+               if (result == MessageBoxResult.OK)
+               {
+                   System.Diagnostics.Process.Start("shutdown.exe", "-a");
+               }
+           }
+           if (Hibernate)
+           {
+               System.Diagnostics.Process.Start("shutdown.exe", "-h");
+           }
+           if (Suspend)
+           {
+               System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+           }
+        }
+        */
+
+        /// <summary>
+        /// Gets a value indicating whether it is initialized.
+        /// </summary>
+        public bool Inited { get; private set; } = false;
+
+        /// <summary>
+        /// Set initialized.
+        /// </summary>
+        public void SetInited()
+        {
+            Inited = true;
+        }
+
         private bool _idle = false;
 
         /// <summary>
