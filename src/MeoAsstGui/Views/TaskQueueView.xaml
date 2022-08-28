@@ -167,8 +167,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <!--周日的关卡特别多，高度待测，暂定为167，此时默认大小无滚轮-->
-                <RowDefinition Height="167"/>
+                <RowDefinition Height="160"/>
             </Grid.RowDefinitions>
             <local:FightSettingsUserControl
                 Grid.Row="0"
@@ -177,7 +176,6 @@
                 VerticalAlignment="Top" />
             <TextBlock
                 Grid.Row="1"
-                Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Style="{StaticResource TextBlockDefault}"
@@ -209,7 +207,6 @@
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Width="135"
-                                Margin="0,5"
                                 FontWeight="{Binding Weight}"
                                 Foreground="{Binding Color}"
                                 Style="{StaticResource TextBlockDefault}"
