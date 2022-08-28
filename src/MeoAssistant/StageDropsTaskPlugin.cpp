@@ -207,20 +207,20 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
 
     auto& opt = Resrc.cfg().get_options();
 
-    json::value info = basic_info();
-    info["subtask"] = "ReportToPenguinStats";
-    callback(AsstMsg::SubTaskStart, info);
+    json::value cb_info = basic_info();
+    cb_info["subtask"] = "ReportToPenguinStats";
+    callback(AsstMsg::SubTaskStart, cb_info);
 
     // Doc: https://developer.penguin-stats_vec.io/public-api/api-v2-instruction/report-api
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
-        info["why"] = "未知关卡";
-        callback(AsstMsg::SubTaskError, info);
+        cb_info["why"] = "未知关卡";
+        callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
     if (m_stars != 3) {
-        info["why"] = "非三星作战";
-        callback(AsstMsg::SubTaskError, info);
+        cb_info["why"] = "非三星作战";
+        callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
     json::value body;
@@ -234,8 +234,8 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
             continue;
         }
         if (drop.at("itemId").as_string().empty()) {
-            info["why"] = "存在未知掉落";
-            callback(AsstMsg::SubTaskError, info);
+            cb_info["why"] = "存在未知掉落";
+            callback(AsstMsg::SubTaskError, cb_info);
             return;
         }
         json::value format_drop = drop;
@@ -253,10 +253,21 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
     }
     cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
-
-    Log.trace("request_penguin |", cmd_line);
+    Log.info("request_penguin |", cmd_line);
 
     std::string response = utils::callcmd(cmd_line);
+
+    Log.info("response:\n", response);
+    cb_info["details"]["response"] = response;
+
+    static const std::regex http_ok_regex(R"(HTTP/.+ 200 OK)");
+    if (std::regex_search(response, http_ok_regex)) {
+        callback(AsstMsg::SubTaskCompleted, cb_info);
+    }
+    else {
+        cb_info["why"] = "上报失败";
+        callback(AsstMsg::SubTaskError, cb_info);
+    }
 
     static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
     std::smatch penguinid_sm;
@@ -266,10 +277,6 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         id_info["details"]["id"] = m_penguin_id;
         callback(AsstMsg::SubTaskExtraInfo, id_info);
     }
-
-    Log.trace("response:\n", response);
-
-    callback(AsstMsg::SubTaskCompleted, info);
 }
 
 bool asst::StageDropsTaskPlugin::check_stage_valid()
