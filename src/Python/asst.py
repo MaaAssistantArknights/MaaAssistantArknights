@@ -112,9 +112,15 @@ class Asst:
 
         :return: 是否成功
         """
-        Asst.__lib.AsstStop.restype = ctypes.c_bool
-        Asst.__lib.AsstStop.argtypes = (ctypes.c_void_p,)
         return Asst.__lib.AsstStop(self.__ptr)
+
+    def running(self) -> bool:
+        """
+        是否正在运行
+
+        :return: 是否正在运行
+        """
+        return Asst.__lib.AsstRunning(self.__ptr)
 
     @staticmethod
     def log(level: str, message: str) -> None:
@@ -132,7 +138,7 @@ class Asst:
         """
         获取DLL版本号
 
-        :return: 版本号
+        : return: 版本号
         """
         return Asst.__lib.AsstGetVersion().decode('utf-8')
 
@@ -165,6 +171,12 @@ class Asst:
 
         Asst.__lib.AsstStart.restype = ctypes.c_bool
         Asst.__lib.AsstStart.argtypes = (ctypes.c_void_p,)
+
+        Asst.__lib.AsstStop.restype = ctypes.c_bool
+        Asst.__lib.AsstStop.argtypes = (ctypes.c_void_p,)
+
+        Asst.__lib.AsstRunning.restype = ctypes.c_bool
+        Asst.__lib.AsstRunning.argtypes = (ctypes.c_void_p,)
 
         Asst.__lib.AsstGetVersion.restype = ctypes.c_char_p
 
