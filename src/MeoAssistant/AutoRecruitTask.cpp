@@ -710,9 +710,20 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     std::string cmd_line = utils::string_replace_all_batch(opt.penguin_report.cmd_format,
                                                            { { "[body]", body_escapes }, { "[extra]", extra_param } });
 
-    Log.trace("request_penguin |", cmd_line);
-
+    Log.info("request_penguin |", cmd_line);
     std::string response = utils::callcmd(cmd_line);
+
+    Log.info("response:\n", response);
+    cb_info["details"]["response"] = response;
+
+    static const std::regex http_ok_regex(R"(HTTP/.+ 200 OK)");
+    if (std::regex_search(response, http_ok_regex)) {
+        callback(AsstMsg::SubTaskCompleted, cb_info);
+    }
+    else {
+        cb_info["why"] = "上报失败";
+        callback(AsstMsg::SubTaskError, cb_info);
+    }
 
     static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
     std::smatch penguinid_sm;
@@ -722,10 +733,6 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
         id_info["details"]["id"] = m_penguin_id;
         callback(AsstMsg::SubTaskExtraInfo, id_info);
     }
-
-    Log.trace("request_penguin | response:\n", response);
-
-    callback(AsstMsg::SubTaskCompleted, cb_info);
 }
 
 void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
@@ -754,12 +761,19 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
 
     std::string cmd_line = utils::string_replace_all_batch(opt.yituliu_report.cmd_format,
                                                            { { "[body]", body_escapes }, { "[extra]", "" } });
-
     Log.trace("request_yituliu |", cmd_line);
 
     std::string response = utils::callcmd(cmd_line);
-
     Log.trace("request_yituliu | response:\n", response);
 
-    callback(AsstMsg::SubTaskCompleted, cb_info);
+    cb_info["details"]["response"] = response;
+
+    static const std::regex http_ok_regex(R"(HTTP/.+ 200 OK)");
+    if (std::regex_search(response, http_ok_regex)) {
+        callback(AsstMsg::SubTaskCompleted, cb_info);
+    }
+    else {
+        cb_info["why"] = "上报失败";
+        callback(AsstMsg::SubTaskError, cb_info);
+    }
 }
