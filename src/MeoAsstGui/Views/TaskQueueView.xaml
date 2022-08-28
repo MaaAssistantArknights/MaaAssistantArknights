@@ -132,9 +132,7 @@
                     SelectedValue="{Binding ActionAfterCompleted}"
                     SelectedValuePath="Value" />
             </Grid>
-            <Grid
-                Grid.Row="2"
-                Height="60" >
+            <Grid Grid.Row="2" Height="60">
                 <Button
                     Height="50"
                     MinWidth="100"
@@ -142,7 +140,8 @@
                     Margin="5"
                     Command="{s:Action LinkStart}"
                     Content="{DynamicResource LinkStart}"
-                    Visibility="{Binding Idle, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                    IsEnabled="{Binding Inited}"
+                    Visibility="{c:Binding Path='Idle or !Inited'}" />
                 <Button
                     Height="50"
                     MinWidth="100"
@@ -166,8 +165,8 @@
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="160"/>
+                <RowDefinition />
+                <RowDefinition Height="165" />
             </Grid.RowDefinitions>
             <local:FightSettingsUserControl
                 Grid.Row="0"

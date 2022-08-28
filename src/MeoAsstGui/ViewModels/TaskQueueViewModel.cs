@@ -1321,17 +1321,22 @@ namespace MeoAsstGui
         }
         */
 
-        /// <summary>
-        /// Gets a value indicating whether it is initialized.
-        /// </summary>
-        public bool Inited { get; private set; } = false;
+        private bool _inited = false;
 
         /// <summary>
-        /// Set initialized.
+        /// Gets or sets a value indicating whether it is initialized.
         /// </summary>
-        public void SetInited()
+        public bool Inited
         {
-            Inited = true;
+            get
+            {
+                return _inited;
+            }
+
+            set
+            {
+                SetAndNotify(ref _inited, value);
+            }
         }
 
         private bool _idle = false;
