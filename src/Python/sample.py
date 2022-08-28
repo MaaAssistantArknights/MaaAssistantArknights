@@ -1,6 +1,6 @@
 import json
 import pathlib
-import asyncio
+import time
 
 from asst import Asst, Message
 
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     asst.start()
 
     while asst.running():
-        asyncio.sleep(0)
+        time.sleep(0)
