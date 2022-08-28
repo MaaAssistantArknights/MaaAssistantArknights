@@ -223,6 +223,11 @@ bool Assistant::stop(bool block)
     return true;
 }
 
+bool asst::Assistant::running()
+{
+    return !m_thread_idle;
+}
+
 void Assistant::working_proc()
 {
     LogTraceFunction;
