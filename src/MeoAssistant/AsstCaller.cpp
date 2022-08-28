@@ -112,6 +112,15 @@ bool AsstStop(AsstHandle handle)
     return handle->stop();
 }
 
+bool AsstRunning(AsstHandle handle)
+{
+    if (!inited || handle == nullptr) {
+        return false;
+    }
+
+    return handle->running();
+}
+
 TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited || handle == nullptr) {

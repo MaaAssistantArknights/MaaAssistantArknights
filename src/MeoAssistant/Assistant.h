@@ -41,6 +41,8 @@ namespace asst
         bool start(bool block = true);
         // 停止任务队列并清空
         bool stop(bool block = true);
+        // 是否正在运行
+        bool running();
 
         std::vector<uchar> get_image() const;
         bool ctrler_click(int x, int y, bool block = true);
