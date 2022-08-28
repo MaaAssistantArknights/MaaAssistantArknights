@@ -2,7 +2,7 @@
 
 Issue bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-checker)，配置文件为 [issue-checker.yml](.github/issue-checker.yml)。
 
-_Note: PR 被打上 `ambiguous` 标签可能是因为没有按照 commitizen 规范提交。推荐在 PR 标题加上 docs/feat/fix/merge/release 等。_
+**注意：拉取请求被增加 `ambiguous` 标签是因为没有按照 commitizen 规范提交。**
 
 ## 功能
 
@@ -14,6 +14,13 @@ _Note: PR 被打上 `ambiguous` 标签可能是因为没有按照 commitizen 规
   具体关键词可以参考[配置文件](.github/issue-checker.yml)。
 - 给可见性设置为 public 的 MAA 成员增加 `MAA Team` 标签。
 
+#### 拉取请求（Pull Request）
+
+Issue bot 会对拉取请求标题的格式进行简单审查。它会增加 `ambiguous` 标签，除非拉取请求标题以下列任一单词开头：
+
+  - `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rfc` `style` `test`
+  - `Merge` `merge` `Revert` `revert`
+
 ### 手动触发
 
 多使用关键词详细描述问题来自动触发分类标签，少使用下列指令。但**当你知道自己的行为会导致 Issue bot 误解时除外**。
@@ -22,13 +29,13 @@ _Note: PR 被打上 `ambiguous` 标签可能是因为没有按照 commitizen 规
 
 #### 议题（Issue）及其评论
 
-在 **修改/新增** 一个议题时：
+在 修改/新增 一个议题时：
 
 - `Add {LABEL_NAME}` 可以增加一个标签。
 - `Remove {LABEL_NAME}` 可以删除一个标签。
 - `Remove labels` 可以删除所有标签。
 
-在 **修改/新增** 一个议题评论时：
+在 修改/新增 一个议题评论时：
 
 - `Add ambiguous` 可以保证不删除 `ambiguous` 标签，但没有 `ambiguous` 标签时不会添加。
 - `Remove {LABEL_NAME}` 可以保证不增加标签。<sup>1</sup>
@@ -52,6 +59,8 @@ _Note<sup>2</sup>: 这里的 COMMIT_HASH 需要完整的 40 位。_
 - **不会**自动添加 `fixed`, `duplicate` 标签。
 
 #### 推送（Push）
+
+对于一个推送中的任意提交：
 
 - 在 commit message 中包含以下几种任意一个，可以为对应议题加上 `fixed` 标签：
   - `fix #{ISSUE_NUMBER}`
