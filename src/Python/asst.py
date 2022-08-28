@@ -4,7 +4,7 @@ import pathlib
 import platform
 import json
 
-from typing import Union, Dict, List, Any, Type
+from typing import Union, Dict, List, Any, Type, Optional
 from enum import Enum, unique, auto
 
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
@@ -23,7 +23,7 @@ class Asst:
     """
 
     @staticmethod
-    def load(path: Union[pathlib.Path, str]) -> bool:
+    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
 
@@ -40,7 +40,12 @@ class Asst:
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
-        return Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
+        ret: bool = Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
+        if incremental_path:
+            ret &= Asst.__lib.AsstLoadResource(
+                str(incremental_path).encode('utf-8'))
+
+        return ret
 
     def __init__(self, callback: CallBackType = None, arg=None):
         """

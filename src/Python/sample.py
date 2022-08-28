@@ -18,6 +18,8 @@ if __name__ == "__main__":
     # 请设置为存放 dll 文件及资源的路径
     path = pathlib.Path.cwd().parent
 
+    # 外服需要再额外传入增量资源路径，例如
+    # incremental_path=path / 'resource' / 'global' / 'YoStarEN'
     Asst.load(path=path)
 
     # 若需要获取详细执行信息，请传入 callback 参数
