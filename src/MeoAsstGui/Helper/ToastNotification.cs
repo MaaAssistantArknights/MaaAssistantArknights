@@ -273,16 +273,10 @@ namespace MeoAsstGui
         // 系统按钮
         private string _buttonSystemText = null;
 
-        private string _buttonSystemUrl;
-
         /// <summary>
         /// Gets or sets the button system URL.
         /// </summary>
-        public string ButtonSystemUrl
-        {
-            get => _buttonSystemUrl;
-            set => _buttonSystemUrl = value;
-        }
+        public string ButtonSystemUrl { get; set; }
 
         private bool _buttonSystemEnabled = false;
 
@@ -404,7 +398,7 @@ namespace MeoAsstGui
             {
                 if (_buttonSystemEnabled)
                 {
-                    Uri burl = new Uri(_buttonSystemUrl);
+                    Uri burl = new Uri(ButtonSystemUrl);
                     new ToastContentBuilder()
                     .AddText(_notificationTitle)
                     .AddText(_contentCollection.ToString())

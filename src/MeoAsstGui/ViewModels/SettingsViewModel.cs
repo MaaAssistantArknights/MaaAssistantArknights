@@ -429,10 +429,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets the server type.
         /// </summary>
-        public string ServerType
-        {
-            get => _serverMapping[ClientType];
-        }
+        public string ServerType => _serverMapping[ClientType];
 
         /* 基建设置 */
 
@@ -1559,35 +1556,30 @@ namespace MeoAsstGui
         }
 
         /* 界面设置 */
-#pragma warning disable SA1401 // Fields should be private
-#pragma warning disable IDE1006
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use tray icon.
+        /// Gets a value indicating whether to use tray icon.
         /// </summary>
-        public bool UseTray = true;
-
-#pragma warning restore SA1401 // Fields should be private
-#pragma warning restore IDE1006
+        public bool UseTray => true;
 
         /*
         private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
 
         public bool UseTray
         {
-           get => _useTray;
-           set
-           {
-               SetAndNotify(ref _useTray, value);
-               ViewStatusStorage.Set("GUI.UseTray", value.ToString());
-               var trayObj = _container.Get<TrayIcon>();
-               trayObj.SetVisible(value);
+            get => _useTray;
+            set
+            {
+                SetAndNotify(ref _useTray, value);
+                ViewStatusStorage.Set("GUI.UseTray", value.ToString());
+                var trayObj = _container.Get<TrayIcon>();
+                trayObj.SetVisible(value);
 
-        if (!Convert.ToBoolean(value))
-               {
-                   MinimizeToTray = false;
-               }
-           }
+                if (!Convert.ToBoolean(value))
+                {
+                    MinimizeToTray = false;
+                }
+            }
         }*/
 
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
@@ -1708,21 +1700,18 @@ namespace MeoAsstGui
                 {
                     case InverseClearType.Clear:
                         taskQueueModel.InverseMode = false;
-                        taskQueueModel.InverseShowVisibility = Visibility.Collapsed;
-                        taskQueueModel.NotInverseShowVisibility = Visibility.Visible;
+                        taskQueueModel.ShowInverse = false;
                         taskQueueModel.SelectedAllWidth = 90;
                         break;
 
                     case InverseClearType.Inverse:
                         taskQueueModel.InverseMode = true;
-                        taskQueueModel.InverseShowVisibility = Visibility.Collapsed;
-                        taskQueueModel.NotInverseShowVisibility = Visibility.Visible;
+                        taskQueueModel.ShowInverse = false;
                         taskQueueModel.SelectedAllWidth = 90;
                         break;
 
                     case InverseClearType.ClearInverse:
-                        taskQueueModel.InverseShowVisibility = Visibility.Visible;
-                        taskQueueModel.NotInverseShowVisibility = Visibility.Collapsed;
+                        taskQueueModel.ShowInverse = true;
                         taskQueueModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
                 }

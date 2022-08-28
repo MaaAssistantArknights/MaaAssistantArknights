@@ -117,29 +117,31 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _updateUrl, value);
         }
 
-        // public FlowDocument UpdateInfoDocument
-        // {
-        //     get
-        //     {
-        //         try
-        //         {
-        //             return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
-        //         }
-        //         catch (Exception)
-        //         {
-        //             // 不知道为什么有一部分用户的电脑上，用 MarkdownXaml 解析直接就会 crash
-        //             // 换另一个库再试一遍
-        //             try
-        //             {
-        //                 return new MdXaml.Markdown().Transform(UpdateInfo);
-        //             }
-        //             catch (Exception)
-        //             {
-        //                 return new FlowDocument();
-        //             }
-        //         }
-        //     }
-        // }
+        /*
+        public FlowDocument UpdateInfoDocument
+        {
+            get
+            {
+                try
+                {
+                    return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
+                }
+                catch (Exception)
+                {
+                    // 不知道为什么有一部分用户的电脑上，用 MarkdownXaml 解析直接就会 crash
+                    // 换另一个库再试一遍
+                    try
+                    {
+                        return new MdXaml.Markdown().Transform(UpdateInfo);
+                    }
+                    catch (Exception)
+                    {
+                        return new FlowDocument();
+                    }
+                }
+            }
+        }
+        */
 
         /// <summary>
         /// Gets a value indicating whether it is the first boot after updating.
