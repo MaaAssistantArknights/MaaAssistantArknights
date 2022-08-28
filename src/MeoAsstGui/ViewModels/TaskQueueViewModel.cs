@@ -97,19 +97,22 @@ namespace MeoAsstGui
             trayIcon.SetTaskQueueViewModel(this);
         }
 
-        // public void ShowButton()
-        // {
-        //    Visible = Visibility.Visible;
-        //    Hibernate = true;
-        // }
+        /*
+        public void ShowButton()
+        {
+           Visible = Visibility.Visible;
+           Hibernate = true;
+        }
 
-        // private Visibility _visible = Visibility.Collapsed;
+        private Visibility _visible = Visibility.Collapsed;
 
-        // public Visibility Visible
-        // {
-        //    get => _visible;
-        //    set => SetAndNotify(ref _visible, value);
-        // }
+        public Visibility Visible
+        {
+           get => _visible;
+           set => SetAndNotify(ref _visible, value);
+        }
+        */
+
         private readonly System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
         private void InitTimer()
@@ -556,6 +559,11 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// The width of "Select All" when both.
+        /// </summary>
+        public const int SelectedAllWidthWhenBoth = 80;
+
         private int _selectedAllWidth =
             ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
 
@@ -568,11 +576,6 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _selectedAllWidth, value);
         }
 
-        /// <summary>
-        /// The width of "Select All" when both.
-        /// </summary>
-        public const int SelectedAllWidthWhenBoth = 80;
-
         private int _inverseSelectedWidth = 90;
 
         /// <summary>
@@ -584,28 +587,15 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _inverseSelectedWidth, value);
         }
 
-        private Visibility _inverseShowVisibility =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Visible : Visibility.Collapsed;
+        private bool _showInverse = ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse";
 
         /// <summary>
-        /// Gets or sets the visibility of "Select inversely".
+        /// Gets or sets a value indicating whether "Select inversely" is visible.
         /// </summary>
-        public Visibility InverseShowVisibility
+        public bool ShowInverse
         {
-            get => _inverseShowVisibility;
-            set => SetAndNotify(ref _inverseShowVisibility, value);
-        }
-
-        private Visibility _notInverseShowVisibility =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Collapsed : Visibility.Visible;
-
-        /// <summary>
-        /// Gets or sets the visibility of "Not inversion".
-        /// </summary>
-        public Visibility NotInverseShowVisibility
-        {
-            get => _notInverseShowVisibility;
-            set => SetAndNotify(ref _notInverseShowVisibility, value);
+            get => _showInverse;
+            set => SetAndNotify(ref _showInverse, value);
         }
 
         private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
@@ -1251,42 +1241,39 @@ namespace MeoAsstGui
         /*
         public void CheckAndShutdown()
         {
-           if (Shutdown)
-           {
-               System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+            if (Shutdown)
+            {
+                System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
 
-        var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
-               if (result == MessageBoxResult.OK)
-               {
-                   System.Diagnostics.Process.Start("shutdown.exe", "-a");
-               }
-           }
-           if (Hibernate)
-           {
-               System.Diagnostics.Process.Start("shutdown.exe", "-h");
-           }
-           if (Suspend)
-           {
-               System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
-           }
+                var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                }
+            }
+            if (Hibernate)
+            {
+                System.Diagnostics.Process.Start("shutdown.exe", "-h");
+            }
+            if (Suspend)
+            {
+                System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+            }
         }
         */
 
-        private bool _inited = false;
+        /// <summary>
+        /// Gets a value indicating whether it is initialized.
+        /// </summary>
+        public bool Inited { get; private set; } = false;
 
         /// <summary>
-        /// Gets or sets a value indicating whether it is initialized.
+        /// Sets it initialized.
         /// </summary>
-        public bool Inited
+        public void SetInited()
         {
-            get => _inited;
-            set
-            {
-                if (value)
-                {
-                    SetAndNotify(ref _inited, value);
-                }
-            }
+            Inited = true;
+            NotifyOfPropertyChange("Inited");
         }
 
         private bool _idle = false;
@@ -1320,56 +1307,58 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _fightTaskRunning, value);
         }
 
-        // private bool _shutdown = false;
+        /*
+        private bool _shutdown = false;
 
-        // public bool Shutdown
-        // {
-        //    get => return _shutdown;
-        //    set
-        //    {
-        //        SetAndNotify(ref _shutdown, value);
-        //
-        //        if (value)
-        //        {
-        //            Hibernate = false;
-        //            Suspend = false;
-        //        }
-        //    }
-        // }
+        public bool Shutdown
+        {
+            get => return _shutdown;
+            set
+            {
+                SetAndNotify(ref _shutdown, value);
 
-        // private bool _hibernate = false;  // 休眠
+                if (value)
+                {
+                    Hibernate = false;
+                    Suspend = false;
+                }
+            }
+        }
 
-        // public bool Hibernate
-        // {
-        //    get => return _hibernate;
-        //    set
-        //    {
-        //        SetAndNotify(ref _hibernate, value);
-        //
-        //        if (value)
-        //        {
-        //            Shutdown = false;
-        //            Suspend = false;
-        //        }
-        //    }
-        // }
+        private bool _hibernate = false;  // 休眠
 
-        // private bool _suspend = false;  // 待机
+        public bool Hibernate
+        {
+            get => return _hibernate;
+            set
+            {
+                SetAndNotify(ref _hibernate, value);
 
-        // public bool Suspend
-        // {
-        //    get => return _suspend;
-        //    set
-        //    {
-        //        SetAndNotify(ref _suspend, value);
-        //
-        //        if (value)
-        //        {
-        //            Shutdown = false;
-        //            Hibernate = false;
-        //        }
-        //    }
-        // }
+                if (value)
+                {
+                    Shutdown = false;
+                    Suspend = false;
+                }
+            }
+        }
+
+        private bool _suspend = false;  // 待机
+
+        public bool Suspend
+        {
+            get => return _suspend;
+            set
+            {
+                SetAndNotify(ref _suspend, value);
+
+                if (value)
+                {
+                    Shutdown = false;
+                    Hibernate = false;
+                }
+            }
+        }
+        */
 
         /// <summary>
         /// Gets or sets the list of all stages.
