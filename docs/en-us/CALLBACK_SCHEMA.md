@@ -182,6 +182,8 @@ Todo
     Confirmation of expedited recruitment.
 - `ReportToPenguinStats`  
     Reporting to Penguin Stats.
+- `ReportToYituliu`  
+    Reporting to Yituliu Big Data.
 - `InfrastDormDoubleConfirmButton`  
     Double confirmation at infrastructure, only happens when there is a conflict with other operators.
 - `Roguelike1Start`  
