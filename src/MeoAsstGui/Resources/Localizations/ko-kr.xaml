@@ -187,11 +187,13 @@
     <system:String x:Key="Quantity">드롭 수</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">참조</system:String>
+    <system:String x:Key="StageSelectTip">주 선택 레벨은 자원 닫기이며, 자원 수집 활동이 하루 종일 열려 있으면 사용하지 마십시오</system:String>
     <system:String x:Key="Amend">수정</system:String>
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
     <system:String x:Key="LastBattle">이전 작전</system:String>-->
     <system:String x:Key="DefaultStage">현재/이전</system:String>
+    <system:String x:Key="ClosedStage">행사가 이미 종료되었다</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
     <system:String x:Key="AP-5">AP-5 (구매증명서)</system:String>
@@ -293,13 +295,14 @@
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 다시 연결하려고 합니다.</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
+    <system:String x:Key="ScreencapFailed">스크린캡이 실패했습니다. 반복적으로 발생하면 에뮬레이터를 다시 시작하거나 변경해 보세요.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError">작업 오류:</system:String>
-    <system:String x:Key="CombatError">작전 오류:</system:String>
+    <system:String x:Key="CombatError">작전 오류</system:String>
     <system:String x:Key="StartTask">작업 시작:</system:String>
     <system:String x:Key="CompleteTask">작업 완료:</system:String>
     <system:String x:Key="StartCombat">작전 시작:</system:String>
-    <system:String x:Key="CompleteCombat">작전 완료:</system:String>
+    <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 구성 파일을 확인하십시오.</system:String>
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
@@ -323,6 +326,7 @@
     <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
     <system:String x:Key="GameCrash">게임이 다운되었습니다. 다시 시작해야 합니다.</system:String>
     <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다.</system:String>
+    <system:String x:Key="RoguelikeGamePass">게임 클리어, 축하합니다!</system:String>
     <system:String x:Key="Trader">레벨: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">레벨: 안전가옥</system:String>
     <system:String x:Key="Encounter">레벨: 우연한 만남</system:String>

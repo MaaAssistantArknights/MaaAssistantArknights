@@ -97,22 +97,22 @@ namespace MeoAsstGui
             trayIcon.SetTaskQueueViewModel(this);
         }
 
-        // public void ShowButton()
-        // {
-        //    Visible = Visibility.Visible;
-        //    Hibernate = true;
-        // }
+        /*
+        public void ShowButton()
+        {
+           Visible = Visibility.Visible;
+           Hibernate = true;
+        }
 
-        // private Visibility _visible = Visibility.Collapsed;
+        private Visibility _visible = Visibility.Collapsed;
 
-        // public Visibility Visible
-        // {
-        //    get { return _visible; }
-        //    set
-        //    {
-        //        SetAndNotify(ref _visible, value);
-        //    }
-        // }
+        public Visibility Visible
+        {
+           get => _visible;
+           set => SetAndNotify(ref _visible, value);
+        }
+        */
+
         private readonly System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
         private void InitTimer()
@@ -153,21 +153,97 @@ namespace MeoAsstGui
             }
         }
 
+        // TODO: Delete this.
+
+        /// <summary>
+        /// Delete old configurations.
+        /// Note that this feature ought to be removed in later versions.
+        /// </summary>
+        public void DeleteOldConfig()
+        {
+            string[] saved_list_name_1 = new string[]
+            {
+                "WakeUp", "Recruiting", "Base", "Combat", "Visiting", "Mall", "Mission", "AutoRoguelike",
+            };
+            foreach (var name in saved_list_name_1)
+            {
+                string local_name = Localization.GetString(name);
+                string check = ViewStatusStorage.Get("TaskQueue." + local_name + ".IsChecked", string.Empty);
+                string order = ViewStatusStorage.Get("TaskQueue.Order." + local_name, string.Empty);
+                if (check != string.Empty)
+                {
+                    ViewStatusStorage.Set("TaskQueue." + name + ".IsChecked", check);
+                }
+
+                if (order != string.Empty)
+                {
+                    ViewStatusStorage.Set("TaskQueue.Order." + name, order);
+                }
+            }
+
+            string[] saved_list_name_2 = new string[]
+            {
+                "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm",
+            };
+            foreach (var name in saved_list_name_2)
+            {
+                string local_name = Localization.GetString(name);
+                string check = ViewStatusStorage.Get("Infrast." + local_name + ".IsChecked", string.Empty);
+                string order = ViewStatusStorage.Get("Infrast.Order." + local_name, string.Empty);
+                if (check != string.Empty)
+                {
+                    ViewStatusStorage.Set("Infrast." + name + ".IsChecked", check);
+                }
+
+                if (order != string.Empty)
+                {
+                    ViewStatusStorage.Set("Infrast.Order." + name, order);
+                }
+            }
+
+            string[] old_list_name = new string[]
+            {
+                "开始唤醒", "自动公招", "基建换班", "刷理智", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽",
+                "宿舍", "制造站", "贸易站", "发电站", "会客室", "办公室", "控制中枢",
+                "開始喚醒", "自動公招", "基建換班", "刷理智", "訪問好友", "收取信用及購物", "領取日常獎勵", "自動肉鴿",
+                "宿舍", "製造站", "貿易站", "發電站", "會客室", "辦公室", "控制中樞",
+                "ウェイクアップ", "公開求人", "基地仕事", "作戦", "戦友訪問", "FP交換", "報酬受取", "自動ローグ",
+                "宿舎", "製造所", "貿易所", "発電所", "応接室", "事務所", "制御中枢",
+                "웨이크업", "공개모집", "기반시설 교대", "작전", "친구 방문", "상점", "일일 퀘스트 보상을 수집", "통합전략",
+                "숙소", "제조소", "무역소", "발전소", "응접실", "사무실", "제어 센터",
+                "🍸💃💃", "🍸🍺🍻", "🍺🍸🍺", "🍸🍷", "🍺🍸🍷", "🍻🍺🍸🍻", "🍺🍸🕺🍸", "🍺🍸🍸",
+                "🍻💃", "🕺🍺", "🍺🍺", "🍺🍸", "🍺🍻", "🕺🍸", "🍻🍸🍻",
+                "Login", "Recruit", "Visit Friends", "Credit Store", "Collect mission rewards", "Auto I.S.",
+                "Manufacturing Station", "Trade Post", "Power Station", "Reception Room", "Control Center",
+            };
+            foreach (var name in old_list_name)
+            {
+                ViewStatusStorage.Delete("TaskQueue." + name + ".IsChecked");
+                ViewStatusStorage.Delete("TaskQueue.Order." + name);
+                ViewStatusStorage.Delete("Infrast." + name + ".IsChecked");
+                ViewStatusStorage.Delete("Infrast.Order." + name);
+            }
+        }
+
+        private readonly string _closedStage = "_ClosedStage";
+
         /// <summary>
         /// Initializes items.
         /// </summary>
         public void InitializeItems()
         {
+            DeleteOldConfig();
+
             string[] task_list = new string[]
             {
-                Localization.GetString("WakeUp"),
-                Localization.GetString("Recruiting"),
-                Localization.GetString("Base"),
-                Localization.GetString("Combat"),
-                Localization.GetString("Visiting"),
-                Localization.GetString("Mall"),
-                Localization.GetString("Mission"),
-                Localization.GetString("AutoRoguelike"),
+                "WakeUp",
+                "Recruiting",
+                "Base",
+                "Combat",
+                "Visiting",
+                "Mall",
+                "Mission",
+                "AutoRoguelike",
             };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
@@ -189,8 +265,8 @@ namespace MeoAsstGui
                 int order;
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
-                var vm = new DragItemViewModel(task, "TaskQueue.");
-                if (task == Localization.GetString("AutoRoguelike"))
+                var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
+                if (task == "AutoRoguelike")
                 {
                     vm.IsChecked = false;
                 }
@@ -218,15 +294,29 @@ namespace MeoAsstGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            AllStageList = new List<CombData>
+            AllStageList = new List<CombData>();
+
+            if (DateTime.UtcNow.AddHours(8).Date < new DateTime(2022, 9, 1, 4, 0, 0))
+            {
+                var limit = new List<CombData>
+                {
+                    // SideStory「理想城：长夏狂欢季」活动
+                    new CombData { Display = "IC-9", Value = "IC-9" },
+                    new CombData { Display = "IC-8", Value = "IC-8" },
+                    new CombData { Display = "IC-7", Value = "IC-7" },
+                };
+                AllStageList.AddRange(limit);
+            }
+            else
+            {
+                AllStageList.Add(new CombData { Display = Localization.GetString("ClosedStage"), Value = _closedStage });
+                Stage1 = _closedStage;
+            }
+
+            var resident = new List<CombData>
             {
                 // 「当前/上次」关卡导航
                 new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
-
-                // SideStory「理想城：长夏狂欢季」活动
-                new CombData { Display = "IC-9", Value = "IC-9" },
-                new CombData { Display = "IC-8", Value = "IC-8" },
-                new CombData { Display = "IC-7", Value = "IC-7" },
 
                 // 主线关卡
                 new CombData { Display = "1-7", Value = "1-7" },
@@ -273,6 +363,7 @@ namespace MeoAsstGui
                 // new CombData { Display = "BI-7", Value = "BI-7" },
                 // new CombData { Display = "BI-8", Value = "BI-8" }
             };
+            AllStageList.AddRange(resident);
 
             _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
             {
@@ -343,7 +434,6 @@ namespace MeoAsstGui
             }
 
             StageList = newList;
-            StageList2 = newList;
 
             bool hasSavedValue = false;
             foreach (var item in StageList)
@@ -411,8 +501,8 @@ namespace MeoAsstGui
         /// </summary>
         public string StagesOfToday
         {
-            get { return _stagesOfToday; }
-            set { SetAndNotify(ref _stagesOfToday, value); }
+            get => _stagesOfToday;
+            set => SetAndNotify(ref _stagesOfToday, value);
         }
 
         /// <summary>
@@ -443,7 +533,7 @@ namespace MeoAsstGui
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.Name == Localization.GetString("AutoRoguelike"))
+                if (item.OriginalName == "AutoRoguelike")
                 {
                     continue;
                 }
@@ -459,11 +549,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool InverseMode
         {
-            get
-            {
-                return _inverseMode;
-            }
-
+            get => _inverseMode;
             set
             {
                 SetAndNotify(ref _inverseMode, value);
@@ -473,84 +559,43 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// The width of "Select All" when both.
+        /// </summary>
+        public const int SelectedAllWidthWhenBoth = 80;
+
         private int _selectedAllWidth =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 90;
+            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
         /// </summary>
         public int SelectedAllWidth
         {
-            get
-            {
-                return _selectedAllWidth;
-            }
-
-            set
-            {
-                SetAndNotify(ref _selectedAllWidth, value);
-            }
+            get => _selectedAllWidth;
+            set => SetAndNotify(ref _selectedAllWidth, value);
         }
 
-        /// <summary>
-        /// The width of "Select All" when both.
-        /// </summary>
-        public const int SelectedAllWidthWhenBoth = 85;
-
-        private int _inverseSelectedWidth = 95;
+        private int _inverseSelectedWidth = 90;
 
         /// <summary>
         /// Gets or sets the width of "Select inversely".
         /// </summary>
         public int InverseSelectedWidth
         {
-            get
-            {
-                return _inverseSelectedWidth;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseSelectedWidth, value);
-            }
+            get => _inverseSelectedWidth;
+            set => SetAndNotify(ref _inverseSelectedWidth, value);
         }
 
-        private Visibility _inverseShowVisibility =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Visible : Visibility.Collapsed;
+        private bool _showInverse = ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse";
 
         /// <summary>
-        /// Gets or sets the visibility of "Select inversely".
+        /// Gets or sets a value indicating whether "Select inversely" is visible.
         /// </summary>
-        public Visibility InverseShowVisibility
+        public bool ShowInverse
         {
-            get
-            {
-                return _inverseShowVisibility;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseShowVisibility, value);
-            }
-        }
-
-        private Visibility _notInverseShowVisibility =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? Visibility.Collapsed : Visibility.Visible;
-
-        /// <summary>
-        /// Gets or sets the visibility of "Not inversion".
-        /// </summary>
-        public Visibility NotInverseShowVisibility
-        {
-            get
-            {
-                return _notInverseShowVisibility;
-            }
-
-            set
-            {
-                SetAndNotify(ref _notInverseShowVisibility, value);
-            }
+            get => _showInverse;
+            set => SetAndNotify(ref _showInverse, value);
         }
 
         private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
@@ -560,15 +605,8 @@ namespace MeoAsstGui
         /// </summary>
         public string InverseShowText
         {
-            get
-            {
-                return _inverseShowText;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseShowText, value);
-            }
+            get => _inverseShowText;
+            set => SetAndNotify(ref _inverseShowText, value);
         }
 
         private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
@@ -578,15 +616,8 @@ namespace MeoAsstGui
         /// </summary>
         public string InverseMenuText
         {
-            get
-            {
-                return _inverseMenuText;
-            }
-
-            set
-            {
-                SetAndNotify(ref _inverseMenuText, value);
-            }
+            get => _inverseMenuText;
+            set => SetAndNotify(ref _inverseMenuText, value);
         }
 
         /// <summary>
@@ -606,7 +637,7 @@ namespace MeoAsstGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.Name == Localization.GetString("AutoRoguelike"))
+                    if (item.OriginalName == "AutoRoguelike")
                     {
                         continue;
                     }
@@ -634,6 +665,17 @@ namespace MeoAsstGui
             }
 
             Idle = false;
+
+            // 点击开始后先保存两大顺序：任务顺序和基建顺序
+            // TODO: optimize me: 要不要改成类似 check，在拖动后保存？
+            int index = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
+                ++index;
+            }
+
+            _container.Get<SettingsViewModel>().SaveInfrastOrderList();
 
             ClearLog();
 
@@ -678,47 +720,43 @@ namespace MeoAsstGui
 
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
             int count = 0;
-            int index = 0;
             foreach (var item in TaskItemViewModels)
             {
-                ViewStatusStorage.Set("TaskQueue.Order." + item.Name, index.ToString());
-                ++index;
-
                 if (item.IsChecked == false)
                 {
                     continue;
                 }
 
                 ++count;
-                if (item.Name == Localization.GetString("Base"))
+                if (item.OriginalName == "Base")
                 {
                     ret &= appendInfrast();
                 }
-                else if (item.Name == Localization.GetString("WakeUp"))
+                else if (item.OriginalName == "WakeUp")
                 {
                     ret &= appendStart();
                 }
-                else if (item.Name == Localization.GetString("Combat"))
+                else if (item.OriginalName == "Combat")
                 {
                     ret &= appendFight();
                 }
-                else if (item.Name == Localization.GetString("Recruiting"))
+                else if (item.OriginalName == "Recruiting")
                 {
                     ret &= appendRecruit();
                 }
-                else if (item.Name == Localization.GetString("Visiting"))
+                else if (item.OriginalName == "Visiting")
                 {
                     ret &= asstProxy.AsstAppendVisit();
                 }
-                else if (item.Name == Localization.GetString("Mall"))
+                else if (item.OriginalName == "Mall")
                 {
                     ret &= appendMall();
                 }
-                else if (item.Name == Localization.GetString("Mission"))
+                else if (item.OriginalName == "Mission")
                 {
                     ret &= asstProxy.AsstAppendAward();
                 }
-                else if (item.Name == Localization.GetString("AutoRoguelike"))
+                else if (item.OriginalName == "AutoRoguelike")
                 {
                     ret &= appendRoguelike();
                 }
@@ -1200,27 +1238,44 @@ namespace MeoAsstGui
             }
         }
 
-        // public void CheckAndShutdown()
-        // {
-        //    if (Shutdown)
-        //    {
-        //        System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
+        /*
+        public void CheckAndShutdown()
+        {
+            if (Shutdown)
+            {
+                System.Diagnostics.Process.Start("shutdown.exe", "-s -t 60");
 
-        // var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
-        //        if (result == MessageBoxResult.OK)
-        //        {
-        //            System.Diagnostics.Process.Start("shutdown.exe", "-a");
-        //        }
-        //    }
-        //    if (Hibernate)
-        //    {
-        //        System.Diagnostics.Process.Start("shutdown.exe", "-h");
-        //    }
-        //    if (Suspend)
-        //    {
-        //        System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
-        //    }
-        // }
+                var result = _windowManager.ShowMessageBox("已刷完，即将关机，是否取消？", "提示", MessageBoxButton.OK, MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    System.Diagnostics.Process.Start("shutdown.exe", "-a");
+                }
+            }
+            if (Hibernate)
+            {
+                System.Diagnostics.Process.Start("shutdown.exe", "-h");
+            }
+            if (Suspend)
+            {
+                System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+            }
+        }
+        */
+
+        /// <summary>
+        /// Gets a value indicating whether it is initialized.
+        /// </summary>
+        public bool Inited { get; private set; } = false;
+
+        /// <summary>
+        /// Sets it initialized.
+        /// </summary>
+        public void SetInited()
+        {
+            Inited = true;
+            NotifyOfPropertyChange("Inited");
+        }
+
         private bool _idle = false;
 
         /// <summary>
@@ -1228,11 +1283,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool Idle
         {
-            get
-            {
-                return _idle;
-            }
-
+            get => _idle;
             set
             {
                 SetAndNotify(ref _idle, value);
@@ -1252,67 +1303,62 @@ namespace MeoAsstGui
         /// </summary>
         public bool FightTaskRunning
         {
-            get
-            {
-                return _fightTaskRunning;
-            }
+            get => _fightTaskRunning;
+            set => SetAndNotify(ref _fightTaskRunning, value);
+        }
 
+        /*
+        private bool _shutdown = false;
+
+        public bool Shutdown
+        {
+            get => return _shutdown;
             set
             {
-                SetAndNotify(ref _fightTaskRunning, value);
+                SetAndNotify(ref _shutdown, value);
+
+                if (value)
+                {
+                    Hibernate = false;
+                    Suspend = false;
+                }
             }
         }
 
-        // private bool _shutdown = false;
+        private bool _hibernate = false;  // 休眠
 
-        // public bool Shutdown
-        // {
-        //    get { return _shutdown; }
-        //    set
-        //    {
-        //        SetAndNotify(ref _shutdown, value);
+        public bool Hibernate
+        {
+            get => return _hibernate;
+            set
+            {
+                SetAndNotify(ref _hibernate, value);
 
-        // if (value)
-        //        {
-        //            Hibernate = false;
-        //            Suspend = false;
-        //        }
-        //    }
-        // }
+                if (value)
+                {
+                    Shutdown = false;
+                    Suspend = false;
+                }
+            }
+        }
 
-        // private bool _hibernate = false;  // 休眠
+        private bool _suspend = false;  // 待机
 
-        // public bool Hibernate
-        // {
-        //    get { return _hibernate; }
-        //    set
-        //    {
-        //        SetAndNotify(ref _hibernate, value);
+        public bool Suspend
+        {
+            get => return _suspend;
+            set
+            {
+                SetAndNotify(ref _suspend, value);
 
-        // if (value)
-        //        {
-        //            Shutdown = false;
-        //            Suspend = false;
-        //        }
-        //    }
-        // }
-
-        // private bool _suspend = false;  // 待机
-
-        // public bool Suspend
-        // {
-        //    get { return _suspend; }
-        //    set
-        //    {
-        //        SetAndNotify(ref _suspend, value);
-
-        // if (value)
-        //        {
-        //            Shutdown = false;
-        //            Hibernate = false;
-        //        }
-        //    }
-        // }
+                if (value)
+                {
+                    Shutdown = false;
+                    Hibernate = false;
+                }
+            }
+        }
+        */
 
         /// <summary>
         /// Gets or sets the list of all stages.
@@ -1326,33 +1372,8 @@ namespace MeoAsstGui
         /// </summary>
         public ObservableCollection<CombData> StageList
         {
-            get
-            {
-                return _stageList;
-            }
-
-            set
-            {
-                SetAndNotify(ref _stageList, value);
-            }
-        }
-
-        private ObservableCollection<CombData> _stageList2 = new ObservableCollection<CombData>();
-
-        /// <summary>
-        /// Gets or sets the list of stages2.
-        /// </summary>
-        public ObservableCollection<CombData> StageList2
-        {
-            get
-            {
-                return _stageList2;
-            }
-
-            set
-            {
-                SetAndNotify(ref _stageList2, value);
-            }
+            get => _stageList;
+            set => SetAndNotify(ref _stageList, value);
         }
 
         /// <summary>
@@ -1383,18 +1404,40 @@ namespace MeoAsstGui
                         }
                     }
 
-                    foreach (var stage in newList)
+                    if (_stage1 != _closedStage)
                     {
-                        if (stage.Value == _stage1)
+                        foreach (var stage in newList)
                         {
-                            return _stage1;
+                            if (stage.Value == _stage1)
+                            {
+                                return _stage1;
+                            }
                         }
                     }
 
-                    return _stage2;
+                    foreach (var stage in newList)
+                    {
+                        if (stage.Value == _stage2)
+                        {
+                            return _stage2;
+                        }
+                    }
+
+                    foreach (var stage in newList)
+                    {
+                        if (stage.Value == _stage3)
+                        {
+                            return _stage3;
+                        }
+                    }
                 }
 
-                return _stage1;
+                if (_stage1 != _closedStage)
+                {
+                    return _stage1;
+                }
+
+                return string.Empty;
             }
         }
 
@@ -1405,11 +1448,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Stage1
         {
-            get
-            {
-                return _stage1;
-            }
-
+            get => _stage1;
             set
             {
                 SetAndNotify(ref _stage1, value);
@@ -1424,11 +1463,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Stage2
         {
-            get
-            {
-                return _stage2;
-            }
-
+            get => _stage2;
             set
             {
                 SetAndNotify(ref _stage2, value);
@@ -1436,22 +1471,30 @@ namespace MeoAsstGui
             }
         }
 
-        private string _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString)) ? "Visible" : "Hidden";
+        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty);
+
+        /// <summary>
+        /// Gets or sets the stage2.
+        /// </summary>
+        public string Stage3
+        {
+            get => _stage3;
+            set
+            {
+                SetAndNotify(ref _stage3, value);
+                ViewStatusStorage.Set("MainFunction.Stage3", value);
+            }
+        }
+
+        private bool _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
         /// </summary>
-        public string AlternateStageDisplay
+        public bool AlternateStageDisplay
         {
-            get
-            {
-                return _alternateStageDisplay;
-            }
-
-            set
-            {
-                SetAndNotify(ref _alternateStageDisplay, value);
-            }
+            get => _alternateStageDisplay;
+            set => SetAndNotify(ref _alternateStageDisplay, value);
         }
 
         private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
@@ -1461,11 +1504,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseMedicine
         {
-            get
-            {
-                return _useMedicine;
-            }
-
+            get => _useMedicine;
             set
             {
                 SetAndNotify(ref _useMedicine, value);
@@ -1485,11 +1524,7 @@ namespace MeoAsstGui
         /// </summary>
         public string MedicineNumber
         {
-            get
-            {
-                return _medicineNumber;
-            }
-
+            get => _medicineNumber;
             set
             {
                 SetAndNotify(ref _medicineNumber, value);
@@ -1504,11 +1539,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UseStone
         {
-            get
-            {
-                return _useStone;
-            }
-
+            get => _useStone;
             set
             {
                 SetAndNotify(ref _useStone, value);
@@ -1526,11 +1557,7 @@ namespace MeoAsstGui
         /// </summary>
         public string StoneNumber
         {
-            get
-            {
-                return _stoneNumber;
-            }
-
+            get => _stoneNumber;
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
@@ -1545,15 +1572,8 @@ namespace MeoAsstGui
         /// </summary>
         public bool HasTimesLimited
         {
-            get
-            {
-                return _hasTimesLimited;
-            }
-
-            set
-            {
-                SetAndNotify(ref _hasTimesLimited, value);
-            }
+            get => _hasTimesLimited;
+            set => SetAndNotify(ref _hasTimesLimited, value);
         }
 
         private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
@@ -1563,11 +1583,7 @@ namespace MeoAsstGui
         /// </summary>
         public string MaxTimes
         {
-            get
-            {
-                return _maxTimes;
-            }
-
+            get => _maxTimes;
             set
             {
                 SetAndNotify(ref _maxTimes, value);
@@ -1582,11 +1598,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsSpecifiedDrops
         {
-            get
-            {
-                return _isSpecifiedDrops;
-            }
-
+            get => _isSpecifiedDrops;
             set
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
@@ -1651,11 +1663,7 @@ namespace MeoAsstGui
         /// </summary>
         public string DropsItemId
         {
-            get
-            {
-                return _dropsItemId;
-            }
-
+            get => _dropsItemId;
             set
             {
                 SetAndNotify(ref _dropsItemId, value);
@@ -1672,11 +1680,7 @@ namespace MeoAsstGui
         /// </summary>
         public string DropsItem
         {
-            get
-            {
-                return _dropsItem;
-            }
-
+            get => _dropsItem;
             set
             {
                 if (_isFirstLoadDropItem)
@@ -1715,15 +1719,8 @@ namespace MeoAsstGui
         /// </summary>
         public bool IsDropDown
         {
-            get
-            {
-                return _isDropDown;
-            }
-
-            set
-            {
-                SetAndNotify(ref _isDropDown, value);
-            }
+            get => _isDropDown;
+            set => SetAndNotify(ref _isDropDown, value);
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
@@ -1733,11 +1730,7 @@ namespace MeoAsstGui
         /// </summary>
         public string DropsQuantity
         {
-            get
-            {
-                return _dropsQuantity;
-            }
-
+            get => _dropsQuantity;
             set
             {
                 SetAndNotify(ref _dropsQuantity, value);

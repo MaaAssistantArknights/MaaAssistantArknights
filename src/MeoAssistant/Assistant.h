@@ -1,14 +1,14 @@
 #pragma once
 
 #include <condition_variable>
+#include <list>
 #include <memory>
 #include <mutex>
-#include <list>
 #include <queue>
 #include <thread>
 
-#include "AsstTypes.h"
 #include "AsstMsg.h"
+#include "AsstTypes.h"
 
 typedef unsigned char uchar;
 
@@ -41,6 +41,8 @@ namespace asst
         bool start(bool block = true);
         // 停止任务队列并清空
         bool stop(bool block = true);
+        // 是否正在运行
+        bool running();
 
         std::vector<uchar> get_image() const;
         bool ctrler_click(int x, int y, bool block = true);
@@ -64,7 +66,7 @@ namespace asst
 
         bool m_thread_exit = false;
         std::list<std::pair<TaskId, std::shared_ptr<PackageTask>>> m_tasks_list;
-        TaskId m_task_id = 0;
+        inline static TaskId m_task_id = 0; // 进程级唯一
         AsstApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 

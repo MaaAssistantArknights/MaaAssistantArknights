@@ -1,5 +1,6 @@
 import json
 import pathlib
+import time
 
 from asst import Asst, Message
 
@@ -17,6 +18,8 @@ if __name__ == "__main__":
     # 请设置为存放 dll 文件及资源的路径
     path = pathlib.Path.cwd().parent
 
+    # 外服需要再额外传入增量资源路径，例如
+    # incremental_path=path / 'resource' / 'global' / 'YoStarEN'
     Asst.load(path=path)
 
     # 若需要获取详细执行信息，请传入 callback 参数
@@ -64,5 +67,5 @@ if __name__ == "__main__":
 
     asst.start()
 
-    while True:
-        input('>')
+    while asst.running():
+        time.sleep(0)

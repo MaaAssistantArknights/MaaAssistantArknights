@@ -11,8 +11,7 @@
 #include "RuntimeStatus.h"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
-    : AbstractImageAnalyzer(image),
-    m_tasks_name(std::move(tasks_name))
+    : AbstractImageAnalyzer(image), m_tasks_name(std::move(tasks_name))
 {}
 
 asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
@@ -44,7 +43,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
     std::shared_ptr<OcrTaskInfo> ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr);
 
     // 先尝试从缓存的结果里找
-    //for (const TextRect& tr : m_ocr_cache) {
+    // for (const TextRect& tr : m_ocr_cache) {
     //    TextRect temp = tr;
     //    for (const auto& [regex, new_str] : ocr_task_ptr->replace_map) {
     //        temp.text = std::regex_replace(temp.text, std::regex(regex), new_str);
@@ -88,7 +87,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
         m_result = ocr_task_ptr;
         m_result_rect = res.rect;
         m_status->set_rect(ocr_task_ptr->name, m_result_rect);
-        //m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
+        // m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
         Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string());
     }
     return ret;
@@ -96,7 +95,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
 
 void asst::ProcessTaskImageAnalyzer::reset() noexcept
 {
-    //m_ocr_cache.clear();
+    // m_ocr_cache.clear();
     m_ocr_analyzer = nullptr;
     m_match_analyzer = nullptr;
 }

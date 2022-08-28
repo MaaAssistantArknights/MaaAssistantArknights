@@ -2,29 +2,29 @@
 
 #include "Logger.hpp"
 
-#include "ProcessTask.h"
+#include "DronesForShamareTaskPlugin.h"
+#include "InfrastControlTask.h"
+#include "InfrastDormTask.h"
 #include "InfrastInfoTask.h"
 #include "InfrastMfgTask.h"
-#include "InfrastTradeTask.h"
-#include "InfrastPowerTask.h"
-#include "InfrastControlTask.h"
-#include "InfrastReceptionTask.h"
 #include "InfrastOfficeTask.h"
-#include "InfrastDormTask.h"
-#include "DronesForShamareTaskPlugin.h"
+#include "InfrastPowerTask.h"
+#include "InfrastReceptionTask.h"
+#include "InfrastTradeTask.h"
+#include "ProcessTask.h"
 #include "ReplenishOriginiumShardTaskPlugin.h"
 
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
-    m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
-    m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, callback_arg, TaskType)),
-    m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, callback_arg, TaskType)),
-    m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, callback_arg, TaskType)),
-    m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, callback_arg, TaskType)),
-    m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, callback_arg, TaskType)),
-    m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, callback_arg, TaskType)),
-    m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, callback_arg, TaskType)),
-    m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, callback_arg, TaskType))
+      m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
+      m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, callback_arg, TaskType)),
+      m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, callback_arg, TaskType)),
+      m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, callback_arg, TaskType)),
+      m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, callback_arg, TaskType)),
+      m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, callback_arg, TaskType)),
+      m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, callback_arg, TaskType)),
+      m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, callback_arg, TaskType)),
+      m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, callback_arg, TaskType))
 {
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" });
     m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
@@ -41,9 +41,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
             return false;
         }
 
-        auto append_infrast_begin = [&]() {
-            m_subtasks.emplace_back(m_infrast_begin_task_ptr);
-        };
+        auto append_infrast_begin = [&]() { m_subtasks.emplace_back(m_infrast_begin_task_ptr); };
 
         m_subtasks.clear();
         append_infrast_begin();

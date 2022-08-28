@@ -14,6 +14,7 @@ namespace asst
     {
     public:
         constexpr static size_t NPos = ~0ULL;
+
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~DepotImageAnalyzer() override = default;
@@ -22,10 +23,7 @@ namespace asst
 
         void set_match_begin_pos(size_t pos) noexcept;
         size_t get_match_begin_pos() const noexcept;
-        const auto& get_result() const noexcept
-        {
-            return m_result;
-        }
+        const auto& get_result() const noexcept { return m_result; }
 
     private:
         void resize();
@@ -33,7 +31,8 @@ namespace asst
         bool analyze_all_items();
 
         bool check_roi_empty(const Rect& roi);
-        size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL, bool with_enlarge = true);
+        size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL,
+                          bool with_enlarge = true);
         int match_quantity(const Rect& roi);
         Rect resize_rect_to_raw_size(const Rect& rect);
 

@@ -187,11 +187,13 @@
     <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
+    <system:String x:Key="StageSelectTip">主选关卡为资源关且“资源收集”全天开放活动时请勿使用此功能</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
     <system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
+    <system:String x:Key="ClosedStage">活动已结束</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
     <system:String x:Key="AP-5">红票-5</system:String>
@@ -293,13 +295,14 @@
     <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>
     <system:String x:Key="ReconnectSuccess">重连成功，继续任务</system:String>
     <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
+    <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError">任务出错：</system:String>
-    <system:String x:Key="CombatError">战斗出错：</system:String>
+    <system:String x:Key="CombatError">战斗出错</system:String>
     <system:String x:Key="StartTask">开始任务：</system:String>
     <system:String x:Key="CompleteTask">完成任务：</system:String>
     <system:String x:Key="StartCombat">开始战斗：</system:String>
-    <system:String x:Key="CompleteCombat">完成战斗：</system:String>
+    <system:String x:Key="CompleteCombat">完成战斗</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
     <system:String x:Key="ErrorOccurred">出现错误</system:String>
@@ -323,6 +326,7 @@
     <system:String x:Key="UpperLimit">投资达到上限</system:String>
     <system:String x:Key="GameCrash">游戏崩溃，重新启动</system:String>
     <system:String x:Key="GameDrop">游戏掉线，重新连接</system:String>
+    <system:String x:Key="RoguelikeGamePass">肉鸽通关啦！</system:String>
     <system:String x:Key="Trader">关卡：诡意行商</system:String>
     <system:String x:Key="SafeHouse">关卡：安全的角落</system:String>
     <system:String x:Key="Encounter">关卡：不期而遇</system:String>

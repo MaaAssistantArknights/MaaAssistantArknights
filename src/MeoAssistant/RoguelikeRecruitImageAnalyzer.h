@@ -13,12 +13,9 @@ namespace asst
 
         bool analyze() override;
 
-        const auto& get_result() const noexcept
-        {
-            return m_result;
-        }
-    private:
+        const auto& get_result() const noexcept { return m_result; }
 
+    private:
         int match_elite(const Rect& raw_roi);
         int match_level(const Rect& raw_roi);
 

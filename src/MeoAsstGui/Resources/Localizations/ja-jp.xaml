@@ -34,8 +34,8 @@
     <system:String x:Key="PureGold">製造所-純金</system:String>
     <system:String x:Key="OriginStone">製造所-源石の欠片</system:String>
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
-    <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を高める</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">すでに進駐している幹部を宿舎に入れない</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">すでに進駐しているオペレーターを宿舎に入れない</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
@@ -48,7 +48,7 @@
 
     <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
 
-    <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、多くのステージをクリアする</system:String>
+    <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、できるだけクリアする</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、1階旅商人に出会った後止める</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
@@ -128,12 +128,12 @@
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
 
     <system:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
-    <system:String x:Key="DrGrandet">Dr.グランデのようにオリジニウムを使う</system:String>
+    <system:String x:Key="DrGrandet">Dr.グランデのように源石を使う</system:String>
     <system:String x:Key="DrGrandetTip">オリジナイト使用確認画面で正気度が1回復するまで待ってから、すぐにオリジナイトを使用してください</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入　セミコロンで区切</system:String>
-    <system:String x:Key="Blacklist">ブラックリスト　セミコロンで区切</system:String>
+    <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
+    <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
@@ -187,11 +187,13 @@
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代わり</system:String>
+    <system:String x:Key="StageSelectTip">主な選択が「資源調達」ステージで「資源調達」が終日開かれている場合は、この機能を使用しないでください</system:String>
     <system:String x:Key="Amend">改定</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
+    <system:String x:Key="ClosedStage">イベントが終わった</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
     <system:String x:Key="AP-5">購買資格証-5</system:String>
@@ -293,13 +295,14 @@
     <system:String x:Key="TryToReconnect">エミュレータが切断されました。再接続しようとしています</system:String>
     <system:String x:Key="ReconnectSuccess">再接続に成功した。タスクを続行します</system:String>
     <system:String x:Key="ReconnectFailed">再接続に失敗した。切断されました！</system:String>
+    <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError">タスクエラー：</system:String>
-    <system:String x:Key="CombatError">戦闘エラー：</system:String>
+    <system:String x:Key="CombatError">戦闘エラー</system:String>
     <system:String x:Key="StartTask">タスク開始：</system:String>
     <system:String x:Key="CompleteTask">タスク完了：</system:String>
     <system:String x:Key="StartCombat">戦闘開始：</system:String>
-    <system:String x:Key="CompleteCombat">戦闘完了：</system:String>
+    <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
@@ -323,6 +326,7 @@
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュした、再起動しようとしています</system:String>
     <system:String x:Key="GameDrop">ゲームで回線が落ちました、再接続しようとしています</system:String>
+    <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ：怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ：安全な片隅</system:String>
     <system:String x:Key="Encounter">ステージ：思わぬ遭遇</system:String>

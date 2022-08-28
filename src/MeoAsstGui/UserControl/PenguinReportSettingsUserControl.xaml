@@ -22,10 +22,10 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <CheckBox
+                Margin="10"
                 Content="{DynamicResource DrGrandet}"
                 IsChecked="{Binding IsDrGrandet}"
-                ToolTip="{DynamicResource DrGrandetTip}"
-                Margin="10" />
+                ToolTip="{DynamicResource DrGrandetTip}" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"

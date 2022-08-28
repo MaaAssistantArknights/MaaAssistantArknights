@@ -87,6 +87,8 @@ Todo
     Disconnected (adb/emulator crashed), and reconnected successfully
 - `Disconnect`
     Disconnected (adb/emulator crashed), and failed to reconnect
+- `ScreencapFailed`  
+    Screencap Failed (adb/emulator crashed), and failed to reconnect
 
 #### AllTasksCompleted
 
@@ -180,6 +182,8 @@ Todo
     Confirmation of expedited recruitment.
 - `ReportToPenguinStats`  
     Reporting to Penguin Stats.
+- `ReportToYituliu`  
+    Reporting to Yituliu Big Data.
 - `InfrastDormDoubleConfirmButton`  
     Double confirmation at infrastructure, only happens when there is a conflict with other operators.
 - `Roguelike1Start`  
@@ -304,6 +308,13 @@ Todo
     ```jsonc
     // Example of corresponding details field
     {
+        "tags": [                   // All tags, Must be 5
+            "削弱",
+            "减速",
+            "术师干员",
+            "辅助干员",
+            "近战位"
+        ],
         "level": 4,                 // ★ in total
         "result": [
             {

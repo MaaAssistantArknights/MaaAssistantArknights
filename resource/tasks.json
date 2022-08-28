@@ -4802,7 +4802,7 @@
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenuNotStationedButton.png",
-        "templThreshold": 0.9,
+        "templThreshold": 0.85,
         "cache": false,
         "roi": [
             300,
@@ -6104,7 +6104,7 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialThreshold": 3000,
+        "specialThreshold": 800,
         "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
@@ -7222,9 +7222,7 @@
             190,
             35
         ],
-        "ocrReplace": [
-
-        ]
+        "ocrReplace": []
     },
     "Roguelike1TraderShoppingOver": {
         "template": "Roguelike1StageTraderLeave.png",
@@ -7933,7 +7931,73 @@
             "Roguelike1InBattleFlag",
             "Roguelike1MissionCompletedFlag",
             "Roguelike1MissionFailedFlag",
-            "Roguelike1MissionFailedFlag2"
+            "Roguelike1MissionFailedFlag2",
+            "Roguelike1GamePassSkip1",
+            "Roguelike1GamePassTheEndConfirm",
+            "Roguelike1GamePass"
+        ]
+    },
+    "Roguelike1GamePassSkip1": {
+        "action": "ClickSelf",
+        "roi": [
+            1090,
+            0,
+            190,
+            144
+        ],
+        "next": [
+            "Roguelike1GamePassSkip1Confirm"
+        ]
+    },
+    "Roguelike1GamePassSkip1Confirm": {
+        "action": "ClickSelf",
+        "roi": [
+            715,
+            282,
+            171,
+            155
+        ],
+        "next": [
+            "Roguelike1GamePassSkip2",
+            "Roguelike1GamePassTheEndConfirm",
+            "Roguelike1GamePass"
+        ]
+    },
+    "Roguelike1GamePassSkip2": {
+        "action": "ClickSelf",
+        "roi": [
+            1109,
+            0,
+            171,
+            138
+        ],
+        "next": [
+            "Roguelike1GamePassTheEndConfirm",
+            "Roguelike1GamePass"
+        ]
+    },
+    "Roguelike1GamePassTheEndConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            554,
+            512,
+            177,
+            161
+        ],
+        "next": [
+            "Roguelike1GamePass"
+        ]
+    },
+    "Roguelike1GamePass": {
+        "cache": false,
+        "roi": [
+            455,
+            0,
+            376,
+            249
+        ],
+        "next": [
+            "Roguelike1ClickToStartPoint"
         ]
     },
     "Roguelike1WaitBattleStart": {

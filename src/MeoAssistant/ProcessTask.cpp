@@ -7,24 +7,22 @@
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
+#include "Logger.hpp"
 #include "ProcessTaskImageAnalyzer.h"
 #include "Resource.h"
-#include "Logger.hpp"
 #include "RuntimeStatus.h"
 
 using namespace asst;
 
 asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name)
-    : AbstractTask(abs),
-    m_raw_tasks_name(std::move(tasks_name))
+    : AbstractTask(abs), m_raw_tasks_name(std::move(tasks_name))
 {
     m_task_delay = Resrc.cfg().get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
 asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept
-    : AbstractTask(std::move(abs)),
-    m_raw_tasks_name(std::move(tasks_name))
+    : AbstractTask(std::move(abs)), m_raw_tasks_name(std::move(tasks_name))
 {
     m_task_delay = Resrc.cfg().get_options().task_delay;
     m_basic_info_cache = json::value();
@@ -88,11 +86,9 @@ bool ProcessTask::_run()
             return false;
         }
         json::value info = basic_info();
-        info["details"] = json::object{
-            {"to_be_recognized", json::array(m_cur_tasks_name)},
-            {"cur_retry", m_cur_retry},
-            {"retry_times", m_retry_times}
-        };
+        info["details"] = json::object { { "to_be_recognized", json::array(m_cur_tasks_name) },
+                                         { "cur_retry", m_cur_retry },
+                                         { "retry_times", m_retry_times } };
         Log.info(info.to_string());
 
         auto front_task_ptr = Task.get(m_cur_tasks_name.front());
@@ -132,18 +128,14 @@ bool ProcessTask::_run()
         int& exec_times = m_exec_times[cur_name];
 
         int max_times = m_cur_task_ptr->max_times;
-        if (auto iter = m_times_limit.find(cur_name);
-            iter != m_times_limit.cend()) {
+        if (auto iter = m_times_limit.find(cur_name); iter != m_times_limit.cend()) {
             max_times = iter->second;
         }
 
         if (exec_times >= max_times) {
             info["what"] = "ExceededLimit";
-            info["details"] = json::object{
-                { "task", cur_name },
-                { "exec_times", exec_times },
-                { "max_times", max_times }
-            };
+            info["details"] =
+                json::object { { "task", cur_name }, { "exec_times", exec_times }, { "max_times", max_times } };
             Log.info("exec times exceeded the limit", info.to_string());
             callback(AsstMsg::SubTaskExtraInfo, info);
             m_cur_tasks_name = m_cur_task_ptr->exceeded_next;
@@ -154,13 +146,11 @@ bool ProcessTask::_run()
         m_cur_retry = 0;
         ++exec_times;
 
-        info["details"] = json::object{
-            { "task", cur_name },
-            { "action", static_cast<int>(m_cur_task_ptr->action) },
-            { "exec_times", exec_times },
-            { "max_times", max_times },
-            { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) }
-        };
+        info["details"] = json::object { { "task", cur_name },
+                                         { "action", static_cast<int>(m_cur_task_ptr->action) },
+                                         { "exec_times", exec_times },
+                                         { "max_times", max_times },
+                                         { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) } };
 
         callback(AsstMsg::SubTaskStart, info);
 
@@ -212,14 +202,14 @@ bool ProcessTask::_run()
                 Log.trace("Task `", m_cur_task_ptr->name, "` reduce `", reduce, "` times to ", v);
             }
             else {
-                Log.trace("Task `", m_cur_task_ptr->name, "` attempt to reduce `", reduce, "` times, but it is already 0");
+                Log.trace("Task `", m_cur_task_ptr->name, "` attempt to reduce `", reduce,
+                          "` times, but it is already 0");
             }
         }
 
         // 后置固定延时
         int rear_delay = m_cur_task_ptr->rear_delay;
-        if (auto iter = m_rear_delay.find(cur_name);
-            iter != m_rear_delay.cend()) {
+        if (auto iter = m_rear_delay.find(cur_name); iter != m_rear_delay.cend()) {
             rear_delay = iter->second;
         }
         if (!sleep(rear_delay)) {
@@ -265,9 +255,7 @@ bool asst::ProcessTask::on_run_fails()
 
 json::value asst::ProcessTask::basic_info() const
 {
-    return AbstractTask::basic_info() | json::object{
-        { "first", json::array(m_raw_tasks_name) }
-    };
+    return AbstractTask::basic_info() | json::object { { "first", json::array(m_raw_tasks_name) } };
 }
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
@@ -279,17 +267,11 @@ void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
 {
     const auto&& [width, height] = m_ctrler->get_scale_size();
 
-    const static Rect right_rect(
-        static_cast<int>(width * 0.8),
-        static_cast<int>(height * 0.4),
-        static_cast<int>(width * 0.1),
-        static_cast<int>(height * 0.2));
+    const static Rect right_rect(static_cast<int>(width * 0.8), static_cast<int>(height * 0.4),
+                                 static_cast<int>(width * 0.1), static_cast<int>(height * 0.2));
 
-    const static Rect left_rect(
-        static_cast<int>(width * 0.1),
-        static_cast<int>(height * 0.4),
-        static_cast<int>(width * 0.1),
-        static_cast<int>(height * 0.2));
+    const static Rect left_rect(static_cast<int>(width * 0.1), static_cast<int>(height * 0.4),
+                                static_cast<int>(width * 0.1), static_cast<int>(height * 0.2));
 
     switch (action) {
     case asst::ProcessTaskAction::SwipeToTheLeft:

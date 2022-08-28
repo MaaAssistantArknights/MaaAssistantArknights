@@ -13,6 +13,7 @@ namespace asst
         virtual ~CloseDownTask() override = default;
 
         static constexpr const char* TaskType = "CloseDown";
+
     private:
         std::shared_ptr<StopGameTaskPlugin> m_stop_game_task_ptr = nullptr;
     };

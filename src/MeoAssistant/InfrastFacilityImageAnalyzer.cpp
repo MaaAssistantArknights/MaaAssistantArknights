@@ -9,15 +9,10 @@
 
 bool asst::InfrastFacilityImageAnalyzer::analyze()
 {
-    const static std::unordered_map<std::string, std::string>
-        facility_task_name = {
-            { "Dorm", "InfrastDorm" },
-            { "Control", "InfrastControl" },
-            { "Mfg", "InfrastMfg" },
-            { "Trade", "InfrastTrade" },
-            { "Power", "InfrastPower" },
-            { "Office", "InfrastOffice" },
-            { "Reception", "InfrastReception" }
+    const static std::unordered_map<std::string, std::string> facility_task_name = {
+        { "Dorm", "InfrastDorm" },          { "Control", "InfrastControl" }, { "Mfg", "InfrastMfg" },
+        { "Trade", "InfrastTrade" },        { "Power", "InfrastPower" },     { "Office", "InfrastOffice" },
+        { "Reception", "InfrastReception" }
     };
     // 因为基建的缩放是不确定的，有可能是正常大小，也可能是最小化的
     // 所以对每种情况都进行一下识别，取其中得分最高的
@@ -57,12 +52,11 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                 }
 
                 const auto& cur_res = mm_analyzer.get_result();
-                auto cur_max_iter = ranges::max_element(cur_res, std::less{}, std::mem_fn(&MatchRect::score));
+                auto cur_max_iter = ranges::max_element(cur_res, std::less {}, std::mem_fn(&MatchRect::score));
                 if (cur_max_iter == cur_res.cend()) {
                     continue;
                 }
-                if (double cur_score = cur_max_iter->score;
-                    max_score < cur_score) {
+                if (double cur_score = cur_max_iter->score; max_score < cur_score) {
                     mm_analyzer.sort_result_horizontal();
                     max_score = cur_score;
                     cur_facility_result = cur_res;

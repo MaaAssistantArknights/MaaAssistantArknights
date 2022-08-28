@@ -2,10 +2,10 @@
 
 #include "AsstRanges.hpp"
 
-#include "Resource.h"
 #include "Controller.h"
-#include "ProcessTask.h"
 #include "OcrWithFlagTemplImageAnalyzer.h"
+#include "ProcessTask.h"
+#include "Resource.h"
 
 #include "AsstRanges.hpp"
 
@@ -80,22 +80,18 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
     }
 
     // 按位置排个序
-    ranges::sort(opers_result,
-        [](const TextRect& lhs, const TextRect& rhs) -> bool {
-            if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
-                return lhs.rect.x < rhs.rect.x;
-            }
-            else {
-                return lhs.rect.y < rhs.rect.y;
-            }
+    ranges::sort(opers_result, [](const TextRect& lhs, const TextRect& rhs) -> bool {
+        if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
+            return lhs.rect.x < rhs.rect.x;
         }
-    );
+        else {
+            return lhs.rect.y < rhs.rect.y;
+        }
+    });
 
-    static const std::array<Rect, 3> SkillRectArray = {
-        Task.get("BattleQuickFormationSkill1")->specific_rect,
-        Task.get("BattleQuickFormationSkill2")->specific_rect,
-        Task.get("BattleQuickFormationSkill3")->specific_rect
-    };
+    static const std::array<Rect, 3> SkillRectArray = { Task.get("BattleQuickFormationSkill1")->specific_rect,
+                                                        Task.get("BattleQuickFormationSkill2")->specific_rect,
+                                                        Task.get("BattleQuickFormationSkill3")->specific_rect };
 
     int skill = 1;
     for (const auto& res : opers_result) {
@@ -141,8 +137,7 @@ void asst::BattleFormationTask::swipe_page()
     static Rect end_rect = Task.get("InfrastOperListSwipeEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeBegin")->pre_delay;
 
-    m_ctrler->swipe(begin_rect, end_rect,
-        duration, true, Task.get("InfrastOperListSwipeBegin")->rear_delay, true);
+    m_ctrler->swipe(begin_rect, end_rect, duration, true, Task.get("InfrastOperListSwipeBegin")->rear_delay, true);
 }
 
 bool asst::BattleFormationTask::confirm_selection()

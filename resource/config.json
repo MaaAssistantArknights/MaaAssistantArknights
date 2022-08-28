@@ -14,12 +14,12 @@
         "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能",
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
-            "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 20 -i -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
+            "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 5 -i -d \"[body]\" \"https://penguin-stats.cn/PenguinStats/api/v2/report\" [extra]",
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         },
         "yituliuReport": {
             "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
-            "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 20 -i -d \"[body]\" \"https://houduan.yituliu.site/tool/recruitUpload\" [extra]",
+            "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 5 -i -d \"[body]\" \"https://houduan.yituliu.site/tool/recruitUpload\" [extra]",
             "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i"
         },
         "depotExportTemplate": {

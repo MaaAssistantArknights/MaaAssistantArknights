@@ -8,7 +8,8 @@ namespace asst
 }
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
     typedef asst::Assistant* AsstHandle;
     typedef int TaskId;
@@ -27,6 +28,7 @@ extern "C" {
 
     bool ASSTAPI AsstStart(AsstHandle handle);
     bool ASSTAPI AsstStop(AsstHandle handle);
+    bool ASSTAPI AsstRunning(AsstHandle handle);
 
     bool ASSTAPI AsstCtrlerClick(AsstHandle handle, int x, int y, bool block);
     unsigned long long ASSTAPI AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size);
