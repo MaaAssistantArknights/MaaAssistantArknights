@@ -132,7 +132,9 @@
                     SelectedValue="{Binding ActionAfterCompleted}"
                     SelectedValuePath="Value" />
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid
+                Grid.Row="2"
+                Height="60" >
                 <Button
                     Height="50"
                     MinWidth="100"
@@ -148,7 +150,7 @@
                     Margin="5"
                     Command="{s:Action Stop}"
                     Content="{DynamicResource Stop}"
-                    Visibility="{c:Binding Path=!Idle}" />
+                    Visibility="{c:Binding Path='!Idle and Inited'}" />
             </Grid>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->

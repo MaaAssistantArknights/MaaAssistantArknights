@@ -200,6 +200,7 @@ namespace MeoAsstGui
             }
 
             var mainModel = _container.Get<TaskQueueViewModel>();
+            mainModel.SetInited();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
             Execute.OnUIThread(async () =>
