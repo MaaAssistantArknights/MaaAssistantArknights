@@ -207,7 +207,7 @@
                     Command="{s:Action SetParams}"
                     Content="{DynamicResource Amend}"
                     FontSize="10"
-                    Visibility="{c:Binding !Idle}" />
+                    Visibility="{c:Binding Path='!Idle and Inited'}" />
             </StackPanel>
         </Grid>
 
