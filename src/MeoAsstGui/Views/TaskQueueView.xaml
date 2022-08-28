@@ -87,7 +87,7 @@
                             Command="{s:Action InverseSelected}"
                             Content="{Binding InverseShowText}"
                             IsEnabled="{Binding Idle}"
-                            Visibility="{Binding InverseShowVisibility}">
+                            Visibility="{c:Binding ShowInverse}">
                             <hc:SplitButton.DropDownContent>
                                 <MenuItem
                                     Width="{Binding InverseSelectedWidth}"
@@ -103,7 +103,7 @@
                             Command="{s:Action InverseSelected}"
                             Content="{Binding InverseShowText}"
                             IsEnabled="{Binding Idle}"
-                            Visibility="{Binding NotInverseShowVisibility}" />
+                            Visibility="{c:Binding Path=!ShowInverse}" />
                     </Grid>
                 </Grid>
             </Border>
