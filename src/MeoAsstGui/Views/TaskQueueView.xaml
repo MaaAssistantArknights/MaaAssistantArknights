@@ -134,18 +134,16 @@
             </Grid>
             <Grid Grid.Row="2" Height="60">
                 <Button
+                    Width="100"
                     Height="50"
-                    MinWidth="100"
-                    MaxWidth="100"
                     Margin="5"
                     Command="{s:Action LinkStart}"
                     Content="{DynamicResource LinkStart}"
                     IsEnabled="{Binding Inited}"
                     Visibility="{c:Binding Path='Idle or !Inited'}" />
                 <Button
+                    Width="100"
                     Height="50"
-                    MinWidth="100"
-                    MaxWidth="100"
                     Margin="5"
                     Command="{s:Action Stop}"
                     Content="{DynamicResource Stop}"
@@ -186,7 +184,7 @@
         <ScrollViewer
             Grid.Column="2"
             Margin="10"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
             local:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled">
