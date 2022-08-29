@@ -24,7 +24,7 @@ bool asst::TemplResource::load(const std::string& dir)
         }
         if (std::filesystem::exists(filepath)) {
             cv::Mat templ = cv::imread(filepath.string());
-            emplace_templ(filename, std::move(templ));
+            insert_or_assign_templ(filename, std::move(templ));
         }
         else if (m_loaded) {
             continue;
@@ -53,7 +53,7 @@ const cv::Mat asst::TemplResource::get_templ(const std::string& key) const noexc
     }
 }
 
-void asst::TemplResource::emplace_templ(std::string key, cv::Mat templ)
+void asst::TemplResource::insert_or_assign_templ(const std::string& key, cv::Mat&& templ)
 {
-    m_templs[std::move(key)] = std::move(templ);
+    m_templs.insert_or_assign(key, std::move(templ));
 }

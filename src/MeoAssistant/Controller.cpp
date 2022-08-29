@@ -538,10 +538,10 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 #endif
 
     bool server_start = false;
-    u_short port_result = 0;
+    uint16_t port_result = 0;
 
-    u_short max_port = try_port + try_times;
-    for (u_short port = try_port; port < max_port; ++port) {
+    uint16_t max_port = try_port + try_times;
+    for (uint16_t port = try_port; port < max_port; ++port) {
         if (need_exit()) {
             break;
         }
@@ -948,7 +948,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     const auto adb_cfg = std::move(adb_ret.value());
     std::string display_id;
     std::string nc_address = "10.0.2.2";
-    u_short nc_port = 0;
+    uint16_t nc_port = 0;
 
     // 里面的值每次执行命令后可能更新，所以要用 lambda 拿最新的
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
@@ -1218,10 +1218,12 @@ cv::Mat asst::Controller::get_image(bool raw)
     }
     if (!success && !need_exit()) {
         Log.error(__FUNCTION__, "screencap failed!");
-        json::value info = json::object { { "uuid", m_uuid },
-                                          { "what", "ScreencapFailed" },
-                                          { "why", "ScreencapFailed" },
-                                          { "details", json::object {} } };
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "ScreencapFailed" },
+            { "why", "ScreencapFailed" },
+            { "details", json::object {} },
+        };
         m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
 
         const static cv::Size d_size(m_scale_size.first, m_scale_size.second);

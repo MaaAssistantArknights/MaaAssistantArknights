@@ -215,6 +215,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
         cb_info["why"] = "未知关卡";
+        cb_info["details"] = json::object { { "stage_code", m_stage_code } };
         callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
@@ -228,7 +229,12 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     body["stageId"] = stage_id;
     auto& all_drops = body["drops"];
     for (const auto& drop : m_cur_info_json["drops"].as_array()) {
-        static const std::vector<std::string> filter = { "NORMAL_DROP", "EXTRA_DROP", "FURNITURE", "SPECIAL_DROP" };
+        static const std::array<std::string, 4> filter = {
+            "NORMAL_DROP",
+            "EXTRA_DROP",
+            "FURNITURE",
+            "SPECIAL_DROP",
+        };
         std::string drop_type = drop.at("dropType").as_string();
         if (ranges::find(filter, drop_type) == filter.cend()) {
             continue;
@@ -282,11 +288,12 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
 bool asst::StageDropsTaskPlugin::check_stage_valid()
 {
     LogTraceFunction;
+    static const std::string invalid_stage_code = "_INVALID_";
 
-    if (m_stage_code.find("-EX-") != std::string::npos) {
+    if (m_stage_code == invalid_stage_code) {
         json::value info = basic_info();
         info["subtask"] = "CheckStageValid";
-        info["why"] = "EX关卡";
+        info["why"] = "无奖励关卡";
         callback(AsstMsg::SubTaskError, info);
 
         return false;

@@ -68,8 +68,11 @@ void asst::DepotRecognitionTask::callback_analyze_result()
         auto& arkplanner_data_items = arkplanner_obj["items"];
 
         for (const auto& [item_id, item_info] : m_all_items) {
-            arkplanner_data_items.array_emplace(
-                json::object({ { "id", item_id }, { "have", item_info.quantity }, { "name", item_info.item_name } }));
+            arkplanner_data_items.array_emplace(json::object {
+                { "id", item_id },
+                { "have", item_info.quantity },
+                { "name", item_info.item_name },
+            });
         }
         arkplanner["data"] = arkplanner_obj.to_string();
     }
