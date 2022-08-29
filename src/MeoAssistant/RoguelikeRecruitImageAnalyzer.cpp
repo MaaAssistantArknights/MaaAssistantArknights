@@ -39,9 +39,11 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
 {
     LogTraceFunction;
 
-    static const std::unordered_map<std::string, int> EliteTaskName = { { "Roguelike1RecruitElite0", 0 },
-                                                                        { "Roguelike1RecruitElite1", 1 },
-                                                                        { "Roguelike1RecruitElite2", 2 } };
+    static const std::unordered_map<std::string, int> EliteTaskName = {
+        { "Roguelike1RecruitElite0", 0 },
+        { "Roguelike1RecruitElite1", 1 },
+        { "Roguelike1RecruitElite2", 2 },
+    };
 
     int elite_result = 0;
     double max_score = 0;

@@ -89,9 +89,11 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
         }
     });
 
-    static const std::array<Rect, 3> SkillRectArray = { Task.get("BattleQuickFormationSkill1")->specific_rect,
-                                                        Task.get("BattleQuickFormationSkill2")->specific_rect,
-                                                        Task.get("BattleQuickFormationSkill3")->specific_rect };
+    static const std::array<Rect, 3> SkillRectArray = {
+        Task.get("BattleQuickFormationSkill1")->specific_rect,
+        Task.get("BattleQuickFormationSkill2")->specific_rect,
+        Task.get("BattleQuickFormationSkill3")->specific_rect,
+    };
 
     int skill = 1;
     for (const auto& res : opers_result) {
