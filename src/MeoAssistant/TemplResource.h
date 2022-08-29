@@ -9,7 +9,7 @@
 
 namespace asst
 {
-    class TemplResource : public AbstractResource
+    class TemplResource final : public AbstractResource
     {
     public:
         virtual ~TemplResource() override = default;
@@ -20,7 +20,7 @@ namespace asst
         bool exist_templ(const std::string& key) const noexcept;
         const cv::Mat get_templ(const std::string& key) const noexcept;
 
-        void emplace_templ(std::string key, cv::Mat templ);
+        void insert_or_assign_templ(const std::string& key, cv::Mat&& templ);
 
     private:
         std::unordered_set<std::string> m_templs_filename;

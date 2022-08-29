@@ -86,9 +86,11 @@ bool ProcessTask::_run()
             return false;
         }
         json::value info = basic_info();
-        info["details"] = json::object { { "to_be_recognized", json::array(m_cur_tasks_name) },
-                                         { "cur_retry", m_cur_retry },
-                                         { "retry_times", m_retry_times } };
+        info["details"] = json::object {
+            { "to_be_recognized", json::array(m_cur_tasks_name) },
+            { "cur_retry", m_cur_retry },
+            { "retry_times", m_retry_times },
+        };
         Log.info(info.to_string());
 
         auto front_task_ptr = Task.get(m_cur_tasks_name.front());
@@ -134,8 +136,11 @@ bool ProcessTask::_run()
 
         if (exec_times >= max_times) {
             info["what"] = "ExceededLimit";
-            info["details"] =
-                json::object { { "task", cur_name }, { "exec_times", exec_times }, { "max_times", max_times } };
+            info["details"] = json::object {
+                { "task", cur_name },
+                { "exec_times", exec_times },
+                { "max_times", max_times },
+            };
             Log.info("exec times exceeded the limit", info.to_string());
             callback(AsstMsg::SubTaskExtraInfo, info);
             m_cur_tasks_name = m_cur_task_ptr->exceeded_next;
@@ -146,11 +151,13 @@ bool ProcessTask::_run()
         m_cur_retry = 0;
         ++exec_times;
 
-        info["details"] = json::object { { "task", cur_name },
-                                         { "action", static_cast<int>(m_cur_task_ptr->action) },
-                                         { "exec_times", exec_times },
-                                         { "max_times", max_times },
-                                         { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) } };
+        info["details"] = json::object {
+            { "task", cur_name },
+            { "action", static_cast<int>(m_cur_task_ptr->action) },
+            { "exec_times", exec_times },
+            { "max_times", max_times },
+            { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) },
+        };
 
         callback(AsstMsg::SubTaskStart, info);
 

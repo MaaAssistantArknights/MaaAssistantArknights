@@ -488,7 +488,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitTagsRefreshed";
-                cb_info["details"] = json::object { { "count", refresh_count }, { "refresh_limit", refresh_limit } };
+                cb_info["details"] = json::object {
+                    { "count", refresh_count },
+                    { "refresh_limit", refresh_limit },
+                };
                 callback(AsstMsg::SubTaskExtraInfo, cb_info);
                 Log.trace("recruit tags refreshed", std::to_string(refresh_count), " times, rerunning recruit task");
             }
@@ -689,8 +692,11 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     body["stageId"] = "recruit";
     auto& all_drops = body["drops"];
     for (const auto& tag : details.at("tags").as_array()) {
-        all_drops.array_emplace(
-            json::object { { "dropType", "NORMAL_DROP" }, { "itemId", tag.as_string() }, { "quantity", 1 } });
+        all_drops.array_emplace(json::object {
+            { "dropType", "NORMAL_DROP" },
+            { "itemId", tag.as_string() },
+            { "quantity", 1 },
+        });
     }
     body["source"] = "MeoAssistant";
     body["version"] = Version;

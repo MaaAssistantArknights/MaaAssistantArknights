@@ -241,9 +241,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         }
     }
 
-    static const std::array<BattleRole, 9> RoleOrder = { BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,
-                                                         BattleRole::Tank,    BattleRole::Sniper,  BattleRole::Caster,
-                                                         BattleRole::Support, BattleRole::Special, BattleRole::Drone };
+    static const std::array<BattleRole, 9> RoleOrder = {
+        BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
+        BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
+    };
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
