@@ -8348,6 +8348,20 @@
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "text": [],
+        "ocrReplace": [
+            [
+                "^.*-EX-.*$",
+                "_INVALID_"
+            ],
+            [
+                "^.*-S-.*$",
+                "_INVALID_"
+            ],
+            [
+                "^.*-MO-.*$",
+                "_INVALID_"
+            ]
+        ],
         "roi": [
             140,
             60,
