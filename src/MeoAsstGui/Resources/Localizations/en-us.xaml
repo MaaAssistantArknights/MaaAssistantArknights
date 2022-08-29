@@ -309,7 +309,7 @@
     <system:String x:Key="HasReturned">Has returned</system:String>
     <system:String x:Key="DropRecognitionError">Drop recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">abort upload to Penguins statistics</system:String>
-    <system:String x:Key="TheEX">EX stage, stopped</system:String>
+    <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
     <system:String x:Key="OnTheMove">operation started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>

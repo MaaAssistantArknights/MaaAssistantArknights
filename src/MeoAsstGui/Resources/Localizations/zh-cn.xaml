@@ -309,7 +309,7 @@
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
-    <system:String x:Key="TheEX">EX 关卡，已停止</system:String>
+    <system:String x:Key="TheEX">无奖励关卡，已停止</system:String>
     <system:String x:Key="OnTheMove">已开始行动</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>

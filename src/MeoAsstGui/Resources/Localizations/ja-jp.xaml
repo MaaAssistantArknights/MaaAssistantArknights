@@ -309,7 +309,7 @@
     <system:String x:Key="HasReturned">戻った</system:String>
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsのアップロードをあきらめます</system:String>
-    <system:String x:Key="TheEX">EXステージですから、止めます</system:String>
+    <system:String x:Key="TheEX">無報酬のステージですから、止めます</system:String>
     <system:String x:Key="OnTheMove">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
