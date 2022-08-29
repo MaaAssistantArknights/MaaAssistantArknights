@@ -56,11 +56,11 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 
     OcrImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
-    const auto& stages = Resrc.drops().get_all_stage_code();
-    std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
-    // 名字长的放前面
-    ranges::sort(stages_req, std::greater {}, std::mem_fn(&std::string::size));
-    analyzer.set_required(std::move(stages_req));
+    // const auto& stages = Resrc.drops().get_all_stage_code();
+    // std::vector<std::string> stages_req(stages.cbegin(), stages.cend());
+    // // 名字长的放前面
+    // ranges::sort(stages_req, std::greater {}, std::mem_fn(&std::string::size));
+    // analyzer.set_required(std::move(stages_req));
 
     if (!analyzer.analyze()) {
         return false;
