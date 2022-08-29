@@ -61,9 +61,11 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
 
 std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyze(const Rect& roi)
 {
-    static const std::vector<std::string> TasksName = { "Roguelike1SkillSelectionMove1",
-                                                        "Roguelike1SkillSelectionMove2",
-                                                        "Roguelike1SkillSelectionMove3" };
+    static const std::array<std::string, 3> TasksName = {
+        "Roguelike1SkillSelectionMove1",
+        "Roguelike1SkillSelectionMove2",
+        "Roguelike1SkillSelectionMove3",
+    };
     std::vector<Rect> result;
     result.reserve(TasksName.size());
 

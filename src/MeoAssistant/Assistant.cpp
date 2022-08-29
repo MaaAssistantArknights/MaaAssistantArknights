@@ -242,7 +242,10 @@ void Assistant::working_proc()
             lock.unlock();
             // only one instance of working_proc running, unlock here to allow set_task_param to the running task
 
-            json::value callback_json = json::object { { "taskchain", task_ptr->get_task_chain() }, { "taskid", id } };
+            json::value callback_json = json::object {
+                { "taskchain", task_ptr->get_task_chain() },
+                { "taskid", id },
+            };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
 
             task_ptr->set_exit_flag(&m_thread_idle).set_ctrler(m_ctrler).set_status(m_status);
