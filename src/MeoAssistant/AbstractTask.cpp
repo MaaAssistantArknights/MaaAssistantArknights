@@ -98,7 +98,7 @@ void asst::AbstractTask::clear_plugin() noexcept
 json::value asst::AbstractTask::basic_info() const
 {
     if (m_basic_info_cache.empty()) {
-        std::string class_name = typeid(*this).name();
+        std::string class_name = utils::demangle(typeid(*this).name());
         std::string task_name;
         // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
         // 但还是不能完全保证，如果不行的话建议 override
