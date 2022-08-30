@@ -360,11 +360,11 @@ namespace asst::utils
         std::free(p);
         return result;
 #else
-        std::string result = name_from_typeid;
-        if (result.substr(0, 6) == "class ") result = result.substr(6);
-        if (result.substr(0, 7) == "struct ") result = result.substr(7);
-        if (result.substr(0, 5) == "enum ") result = result.substr(5);
-        return result;
+        std::string_view temp(name_from_typeid);
+        if (temp.substr(0, 6) == "class ") return std::string(temp.substr(6));
+        if (temp.substr(0, 7) == "struct ") return std::string(temp.substr(7));
+        if (temp.substr(0, 5) == "enum ") return std::string(temp.substr(5));
+        return std::string(temp);
 #endif
     }
 } // namespace asst::utils
