@@ -384,6 +384,9 @@
     <ClInclude Include="DrGrandetTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
+    <ClInclude Include="ReportDataTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -655,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="DrGrandetTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="ReportDataTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
