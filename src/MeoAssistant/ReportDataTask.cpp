@@ -6,8 +6,11 @@
 
 #include <meojson/json.hpp>
 
+#include <chrono>
 #include <functional>
+#include <random>
 #include <regex>
+#include <sstream>
 
 asst::ReportDataTask& asst::ReportDataTask::set_report_type(ReportType type)
 {
@@ -52,18 +55,40 @@ bool asst::ReportDataTask::_run()
 
 void asst::ReportDataTask::report_to_penguin()
 {
+    using namespace std::chrono;
+
     LogTraceFunction;
 
-    const auto& [success, response] =
-        escape_and_request("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
+    auto epoch = time_point_cast<nanoseconds>(steady_clock::now()).time_since_epoch();
+    long long tick = duration_cast<nanoseconds>(epoch).count();
 
-    static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
-    std::smatch penguinid_sm;
-    if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
-        json::value id_info = basic_info_with_what("PenguinId");
-        std::string penguin_id = penguinid_sm[1];
-        id_info["details"]["id"] = penguin_id;
-        callback(AsstMsg::SubTaskExtraInfo, id_info);
+    static std::default_random_engine rand_engine(std::random_device {}());
+    static std::uniform_int_distribution<uint64_t> rand_uni(0, UINT64_MAX);
+
+    uint64_t rand = rand_uni(rand_engine);
+
+    std::stringstream key_ss;
+    key_ss << "MAA" << std::hex << tick << rand;
+    std::string key = key_ss.str();
+    Log.info("X-Penguin-Idempotency-Key:", key);
+
+    m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
+
+    for (int i = 0; i != m_retry_times; ++i) {
+        const auto& [success, response] =
+            escape_and_request("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
+
+        if (success) {
+            static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
+            std::smatch penguinid_sm;
+            if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
+                json::value id_info = basic_info_with_what("PenguinId");
+                std::string penguin_id = penguinid_sm[1];
+                id_info["details"]["id"] = penguin_id;
+                callback(AsstMsg::SubTaskExtraInfo, id_info);
+            }
+            break;
+        }
     }
 }
 
