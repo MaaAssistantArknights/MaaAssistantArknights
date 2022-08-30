@@ -528,13 +528,15 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// Saves infrast order list.
+        /// 实时更新基建换班顺序
         /// </summary>
-        public void SaveInfrastOrderList()
+        public void InfrastOrderSelectionChanged()
         {
-            for (int i = 0; i < InfrastItemViewModels.Count; i++)
+            int index = 0;
+            foreach (var item in InfrastItemViewModels)
             {
-                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].OriginalName, i.ToString());
+                ViewStatusStorage.Set("Infrast.Order." + item.OriginalName, index.ToString());
+                ++index;
             }
         }
 
