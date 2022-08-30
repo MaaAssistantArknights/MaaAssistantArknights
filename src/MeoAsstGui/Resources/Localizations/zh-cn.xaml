@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">制造站-芯片组</system:String>
     <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>

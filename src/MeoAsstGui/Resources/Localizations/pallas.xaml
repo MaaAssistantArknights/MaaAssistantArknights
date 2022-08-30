@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">🍺🍻🍷🍷</system:String>
     <system:String x:Key="DormTrustEnabled">🍻🍸🕺🍸🍺🍺🍺🍸</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">🍻🍷🍸🍺🍺🍺🍷🍸🕺🍷💃🍺🍷🍸</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">🍺🍺🍺🍺🍸🍸🍻🍻</system:String>
 
     <system:String x:Key="General">🍻🍸🕺</system:String>
     <system:String x:Key="BlueStacks">🍺🕺🍻</system:String>
