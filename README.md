@@ -63,12 +63,6 @@ MAA 的意思是 MAA Assistant Arknights
 [fastgit 镜像稳定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [fastgit 镜像测试版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
-可以打开Github但下载速度慢，镜像站却无法打开网页？尝试以下操作：
-1. 右键下载链接，选择``复制链接地址``
-2. 将链接地址粘贴到浏览器地址栏
-3. 将链接地址中的``github.com``替换为``download.fastgit.org``
-4. 回车以开始下载
-
 ## 使用说明
 
 ### 基本说明
