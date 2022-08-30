@@ -16,6 +16,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #endif
+#ifndef _MSC_VER
+#include <cxxabi.h>
+#endif
 
 namespace asst::utils
 {
@@ -344,5 +347,24 @@ namespace asst::utils
         }
 #endif
         return pipe_str;
+    }
+
+    inline std::string demangle(const char* name_from_typeid)
+    {
+#ifndef _MSC_VER
+        int status = 0;
+        std::size_t size = 0;
+        char* p = abi::__cxa_demangle(name_from_typeid, NULL, &size, &status);
+        if (!p) return name_from_typeid;
+        std::string result(p);
+        std::free(p);
+        return result;
+#else
+        std::string result = name_from_typeid;
+        if (result.substr(0, 6) == "class ") result = result.substr(6);
+        if (result.substr(0, 7) == "struct ") result = result.substr(7);
+        if (result.substr(0, 5) == "enum ") result = result.substr(5);
+        return result;
+#endif
     }
 } // namespace asst::utils
