@@ -3,13 +3,14 @@
 
 #include "AsstTypes.h"
 
-#include <future>
 #include <optional>
 #include <set>
 #include <vector>
 
 namespace asst
 {
+    class ReportDataTask;
+
     class AutoRecruitTask final : public AbstractTask
     {
     public:
@@ -46,9 +47,11 @@ namespace asst
         bool initialize_dirty_slot_info(const cv::Mat&);
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
-        void async_upload_result(const json::value& details);
+        void upload_result(const json::value& details);
         void upload_to_penguin(const json::value& details);
         void upload_to_yituliu(const json::value& details);
+        static void report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
+        static void report_yituliu_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
         using slot_index = size_t;
 
@@ -88,7 +91,8 @@ namespace asst
         bool m_upload_to_yituliu = false;
         std::string m_penguin_id;
         std::string m_yituliu_id;
-        std::vector<std::future<void>> m_upload_pending;
+        std::shared_ptr<ReportDataTask> m_report_penguin_task_ptr = nullptr;
+        std::shared_ptr<ReportDataTask> m_report_yituliu_task_ptr = nullptr;
 
         static slot_index slot_index_from_rect(const Rect& r)
         {

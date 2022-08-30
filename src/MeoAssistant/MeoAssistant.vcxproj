@@ -40,6 +40,7 @@
     <ClInclude Include="GameCrashRestartTaskPlugin.h" />
     <ClInclude Include="NoWarningCV.h" />
     <ClInclude Include="NoWarningCVMat.h" />
+    <ClInclude Include="ReportDataTask.h" />
     <ClInclude Include="RoguelikeControlTaskPlugin.h" />
     <ClInclude Include="RoguelikeCustomStartTaskPlugin.h" />
     <ClInclude Include="RoguelikeRecruitConfiger.h" />
@@ -131,6 +132,7 @@
     <ClCompile Include="DepotTask.cpp" />
     <ClCompile Include="DrGrandetTaskPlugin.cpp" />
     <ClCompile Include="GameCrashRestartTaskPlugin.cpp" />
+    <ClCompile Include="ReportDataTask.cpp" />
     <ClCompile Include="RoguelikeControlTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeCustomStartTaskPlugin.cpp" />
     <ClCompile Include="RoguelikeRecruitConfiger.cpp" />
