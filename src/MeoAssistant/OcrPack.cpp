@@ -21,7 +21,7 @@ asst::OcrPack::OcrPack()
 asst::OcrPack::~OcrPack()
 {
     for (size_t i = 0; i != MaxBoxSize; ++i) {
-        delete[] * (m_strs_buffer + i);
+        delete[] *(m_strs_buffer + i);
     }
 
     PaddleOcrDestroy(m_ocr);
