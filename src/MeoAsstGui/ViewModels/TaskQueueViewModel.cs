@@ -915,7 +915,7 @@ namespace MeoAsstGui
             settings.SaveInfrastOrderList();
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendInfrast(order.ToArray(),
-                settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled);
+                settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment);
         }
 
         private bool appendMall()
