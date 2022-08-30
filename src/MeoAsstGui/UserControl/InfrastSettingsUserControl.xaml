@@ -13,8 +13,8 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ListBox
             Grid.Column="0"
@@ -36,9 +36,9 @@
         </ListBox>
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel
                 Grid.Row="0"
@@ -96,7 +96,20 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsChecked="{Binding DormFilterNotStationedEnabled}">
-                    <TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
+                    <TextBlock
+                        MaxWidth="180"
+                        Text="{DynamicResource DormFilterNotStationedEnabled}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <CheckBox
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding OriginiumShardAutoReplenishment}">
+                    <TextBlock
+                        MaxWidth="180"
+                        Text="{DynamicResource OriginiumShardAutoReplenishment}"
+                        TextWrapping="Wrap" />
                 </CheckBox>
             </StackPanel>
         </Grid>

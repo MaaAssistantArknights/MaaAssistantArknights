@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">기숙사 남은 자리 사용 신뢰감 증가</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">이미 들어온 간부는 숙소에 넣지 않는다</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">오리지 늄 조 각 자동 완성 상품</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="BlueStacks">블루스택</system:String>

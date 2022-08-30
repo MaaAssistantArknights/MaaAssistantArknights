@@ -583,6 +583,21 @@ namespace MeoAsstGui
             }
         }
 
+        private string _originiumShardAutoReplenishment = ViewStatusStorage.Get("Infrast.OriginiumShardAutoReplenishment", true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Originium shard auto replenishment is enabled.
+        /// </summary>
+        public bool OriginiumShardAutoReplenishment
+        {
+            get => bool.Parse(_originiumShardAutoReplenishment);
+            set
+            {
+                SetAndNotify(ref _originiumShardAutoReplenishment, value.ToString());
+                ViewStatusStorage.Set("Infrast.OriginiumShardAutoReplenishment", value.ToString());
+            }
+        }
+
         #region 设置页面列表和滚动视图联动绑定
 
         private enum NotifyType
