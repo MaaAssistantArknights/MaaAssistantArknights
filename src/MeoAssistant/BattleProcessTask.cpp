@@ -468,8 +468,8 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             BattleImageAnalyzer analyzer(image);
             analyzer.set_target(BattleImageAnalyzer::Target::Oper);
             if (analyzer.analyze()) {
-                int cooling_count =
-                    ranges::count_if(analyzer.get_opers(), [](const auto& oper) -> bool { return oper.cooling; });
+                int cooling_count = static_cast<int>(
+                    ranges::count_if(analyzer.get_opers(), [](const auto& oper) -> bool { return oper.cooling; }));
                 if (cooling_count == action.cooling) {
                     break;
                 }
