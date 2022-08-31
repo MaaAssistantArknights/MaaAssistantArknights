@@ -350,7 +350,7 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
     m_ctrler->click(rect);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    ProcessTask task(*this, { "BattleUseSkill" });
+    ProcessTask task(*this, { "BattleUseSkillJustClick" });
     task.set_retry_times(0);
     return task.run();
 }

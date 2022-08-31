@@ -6424,7 +6424,7 @@
             40
         ]
     },
-    "BattleUseSkill": {
+    "BattleUseSkillJustClick": {
         "algorithm": "JustReturn",
         "rearDelay": 100,
         "action": "ClickRect",
