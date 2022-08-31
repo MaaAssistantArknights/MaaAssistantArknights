@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AsstRanges.hpp"
 #include "AsstUtils.hpp"
 
 #include <cctype>
@@ -13,7 +14,7 @@ namespace asst::http
     {
     private:
         std::string m_last_error;
-        size_t m_status_code = 0;
+        unsigned m_status_code = 0;
         std::string_view m_protocol_version;
         std::string_view m_status_code_info;
         std::string_view m_data;
@@ -34,22 +35,14 @@ namespace asst::http
                     m_protocol_version = utils::view_cast<std::string_view>(word);
                 }
                 else if (_word_count == 2) {
-                    static const std::unordered_map<char, int> numbers = {
-                        { '0', 0 }, { '1', 1 }, { '2', 2 }, { '3', 3 }, { '4', 4 },
-                        { '5', 5 }, { '6', 6 }, { '7', 7 }, { '8', 8 }, { '9', 9 },
-                    };
                     if (word.length() != 3) {
                         m_last_error = "status code length is not 3";
                         return false;
                     }
-                    m_status_code = 0;
-                    for (char num : word) {
-                        if (!numbers.contains(num)) {
-                            m_last_error = "status code is not number";
-                            return false;
-                        }
-                        m_status_code = m_status_code * 10 + numbers.at(num);
+                    if (!ranges::all_of(word, [](char c) -> bool { return std::isdigit(c); })) {
+                        return false;
                     }
+                    m_status_code = std::atoi(word.data());
                 }
                 else {
                     m_status_code_info = std::string_view(word.begin(), status_line.end());
@@ -113,13 +106,20 @@ namespace asst::http
             }
         }
 
-        size_t status_code() const { return m_status_code; }
+        unsigned status_code() const { return m_status_code; }
         std::string_view protocol_version() const { return m_protocol_version; }
         std::string_view status_code_info() const { return m_status_code_info; }
         std::string_view data() const { return m_data; }
-        std::string_view at_header(const std::string& key) const { return m_headers.at(key); }
-        bool contains_header(const std::string& key) const { return m_headers.contains(key); }
-        const std::unordered_map<std::string, std::string_view> headers() const { return m_headers; }
+        std::optional<std::string_view> find_header(const std::string& key) const
+        {
+            if (auto iter = m_headers.find(key); iter != m_headers.cend()) {
+                return iter->second;
+            }
+            else {
+                return std::nullopt;
+            }
+        }
+        const auto& headers() const { return m_headers; }
         const std::string& get_last_error() const noexcept { return m_last_error; }
 
         bool success() const { return m_status_code == 200; }
