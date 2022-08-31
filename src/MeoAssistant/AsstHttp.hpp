@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace asst
+namespace asst::http
 {
     class Response : public std::string
     {
@@ -79,8 +79,8 @@ namespace asst
 
     public:
         template <typename... Args>
-        requires std::is_constructible_v<std::string, Args...>
-        Response(Args&&... args) : std::string(std::forward<Args>(args)...)
+        requires std::is_constructible_v<std::string, Args...> Response(Args&&... args)
+            : std::string(std::forward<Args>(args)...)
         {
             bool _is_status_line = true;
             // 这里的 \r\n 处理很奇怪，因为 views::split 好像不支持 string，只能 char
@@ -128,4 +128,4 @@ namespace asst
         bool status_4xx() const { return m_status_code >= 400 && m_status_code < 500; }
         bool status_5xx() const { return m_status_code >= 500 && m_status_code < 600; }
     };
-} // namespace asst
+} // namespace asst::http

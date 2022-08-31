@@ -29,20 +29,21 @@ namespace asst
         ReportDataTask& set_extra_param(std::string extra_param);
 
     protected:
+        using HttpResponsePred = std::function<bool(const http::Response&)>;
+
         virtual bool _run() override;
 
         void report_to_penguin();
         void report_to_yituliu();
-        Response escape_and_request(const std::string& format);
-        Response report_and_retry(
-            const std::string& subtask, const std::string& format, int report_retry_times = 1,
-            std::function<bool(const Response&)> retry_condition = [](const Response& response) {
-                return response.status_5xx();
-            });
+        http::Response escape_and_request(const std::string& format);
+        http::Response report(
+            const std::string& subtask, const std::string& format,
+            HttpResponsePred success_cond = [](const http::Response& response) -> bool { return response.success(); },
+            HttpResponsePred retry_cond = [](const http::Response& response) -> bool { return response.status_5xx(); });
 
         ReportType m_report_type = ReportType::Invaild;
         std::string m_body;
         std::string m_extra_param;
-        static inline std::vector<std::future<void>> m_upload_pending;
+        static std::vector<std::future<void>> m_upload_pending;
     };
 } // namespace asst
