@@ -73,7 +73,7 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    ReportDataTask::Response response =
+    Response response =
         report_and_retry("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format, m_retry_times);
 
     if (response.success() && response.contains_header("x-penguin-set-penguinid")) [[unlikely]] {
@@ -91,9 +91,9 @@ void asst::ReportDataTask::report_to_yituliu()
     report_and_retry("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
 }
 
-asst::ReportDataTask::Response asst::ReportDataTask::report_and_retry(const std::string& subtask,
-                                                                      const std::string& format, int report_retry_times,
-                                                                      std::function<bool(const Response&)> retry_condition)
+asst::Response asst::ReportDataTask::report_and_retry(const std::string& subtask, const std::string& format,
+                                                      int report_retry_times,
+                                                      std::function<bool(const Response&)> retry_condition)
 {
     LogTraceFunction;
 
@@ -144,7 +144,7 @@ asst::ReportDataTask::Response asst::ReportDataTask::report_and_retry(const std:
     return response;
 }
 
-asst::ReportDataTask::Response asst::ReportDataTask::escape_and_request(const std::string& format)
+asst::Response asst::ReportDataTask::escape_and_request(const std::string& format)
 {
     LogTraceFunction;
 
