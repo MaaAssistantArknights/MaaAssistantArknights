@@ -75,19 +75,24 @@ void asst::ReportDataTask::report_to_penguin()
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
     for (int i = 0; i != m_retry_times; ++i) {
-        const auto& [success, response] =
+        const auto& response =
             escape_and_request("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
 
-        if (success) {
+        if (response.success()) [[likely]] {
             static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
-            std::smatch penguinid_sm;
-            if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
+            if (response.headers().contains("X-Penguin-Set-Penguinid")) {
                 json::value id_info = basic_info_with_what("PenguinId");
-                std::string penguin_id = penguinid_sm[1];
+                std::string penguin_id(response.headers().at("X-Penguin-Set-Penguinid"));
                 id_info["details"]["id"] = penguin_id;
                 callback(AsstMsg::SubTaskExtraInfo, id_info);
             }
             break;
+        }
+        else if (!response.code_5xx()) [[unlikely]] {
+            json::value cb_info = basic_info();
+            cb_info["why"] = std::string(response.status_code_info());
+            cb_info["details"]["status_code"] = response.status_code();
+            callback(AsstMsg::SubTaskError, cb_info);
         }
     }
 }
@@ -120,22 +125,18 @@ asst::ReportDataTask::Response asst::ReportDataTask::escape_and_request(const st
         utils::string_replace_all_batch(format, { { "[body]", body_escapes }, { "[extra]", m_extra_param } });
 
     Log.info("request:\n", cmd_line);
-    std::string response = utils::callcmd(cmd_line);
+    Response response = utils::callcmd(cmd_line);
     Log.info("response:\n", response);
 
-    cb_info["details"]["response"] = response;
+    cb_info["details"]["response"] = static_cast<std::string&>(response);
 
-    bool success = false;
-    static const std::regex http_ok_regex(R"(HTTP/.+ 200)");
-    if (std::regex_search(response, http_ok_regex)) {
-        success = true;
+    if (response.status_code()) [[likely]] {
         callback(AsstMsg::SubTaskCompleted, cb_info);
     }
-    else {
-        success = false;
+    else { // 连状态码都没有，一般是网络错误
         cb_info["why"] = "上报失败";
         callback(AsstMsg::SubTaskError, cb_info);
     }
 
-    return { success, response };
+    return response;
 }
