@@ -6436,8 +6436,27 @@
         ]
     },
     "BattleOperRetreat": {
+        "roi": [
+            554,
+            146,
+            119,
+            118
+        ],
+        "templThreshold": 0.7,
+        "cache": false,
+        "action": "ClickSelf",
+        "maskRange": [
+            100,
+            255
+        ],
+        "onErrorNext": [
+            "BattleOperRetreatJustClick"
+        ],
+        "rearDelay": 300
+    },
+    "BattleOperRetreatJustClick": {
         "algorithm": "JustReturn",
-        "rearDelay": 200,
+        "rearDelay": 300,
         "action": "ClickRect",
         "specificRect": [
             580,
