@@ -266,7 +266,7 @@
 
     <system:String x:Key="Start">开始</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">作业分享站</system:String>
+    <system:String x:Key="CopilotJSONSharing">作业分享平台</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
 
     <!--  日志  -->
@@ -362,7 +362,8 @@
     <!--  About  -->
     <system:String x:Key="Website">MAA 官网</system:String>
     <system:String x:Key="Github">源码：GitHub</system:String>
-    <system:String x:Key="QQgroup">自动战斗作业分享 Q 群</system:String>
+    <system:String x:Key="PrtsPlus">自动战斗作业分享平台</system:String>
+    <system:String x:Key="QQgroup">Q 群：</system:String>
     <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>
     <system:String x:Key="QQgroup3">三群</system:String>

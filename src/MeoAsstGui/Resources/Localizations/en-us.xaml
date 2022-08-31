@@ -362,7 +362,8 @@
     <!--  AboutUser  -->
     <system:String x:Key="Website">MAA Website</system:String>
     <system:String x:Key="Github">Source: GitHub</system:String>
-    <system:String x:Key="QQgroup">Copilot Json sharing QQ group</system:String>
+    <system:String x:Key="PrtsPlus">Copilot Json sharing site</system:String>
+    <system:String x:Key="QQgroup">QQ group:</system:String>
     <system:String x:Key="QQgroup1">QQ group 1</system:String>
     <system:String x:Key="QQgroup2">QQ group 2</system:String>
     <system:String x:Key="QQgroup3">QQ group 3</system:String>

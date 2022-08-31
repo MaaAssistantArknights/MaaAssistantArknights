@@ -361,7 +361,8 @@
     <!--  About  -->
     <system:String x:Key="Website">🍸🍷🍺🍺</system:String>
     <system:String x:Key="Github">💃🍺💃🍻💃</system:String>
-    <system:String x:Key="QQgroup">🕺🍷🍸🍺🍷🕺🍺</system:String>
+    <system:String x:Key="PrtsPlus">🕺🍷🍸🍺🍷🕺🍺</system:String>
+    <system:String x:Key="QQgroup">🍻🍻</system:String>
     <system:String x:Key="QQgroup1">🍻🍺</system:String>
     <system:String x:Key="QQgroup2">🍷💃</system:String>
     <system:String x:Key="QQgroup3">🍺🍻</system:String>
