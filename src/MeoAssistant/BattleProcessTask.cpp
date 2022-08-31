@@ -628,6 +628,16 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
     Log.trace("end of sleep_with_possible_skill", millisecond);
 }
 
+bool asst::BattleProcessTask::battle_pause()
+{
+    return ProcessTask(*this, { "BattlePause" }).run();
+}
+
+bool asst::BattleProcessTask::battle_speedup()
+{
+    return ProcessTask(*this, { "BattleSpeedUp" }).run();
+}
+
 template <typename GroupNameType, typename CharNameType>
 std::optional<std::unordered_map<GroupNameType, CharNameType>> asst::BattleProcessTask::
     get_char_allocation_for_each_group(const std::unordered_map<GroupNameType, std::vector<CharNameType>>& group_list,
@@ -869,14 +879,4 @@ std::optional<std::unordered_map<GroupNameType, CharNameType>> asst::BattleProce
     }
 
     return return_value;
-}
-
-bool asst::BattleProcessTask::battle_pause()
-{
-    return ProcessTask(*this, { "BattlePause" }).run();
-}
-
-bool asst::BattleProcessTask::battle_speedup()
-{
-    return ProcessTask(*this, { "BattleSpeedUp" }).run();
 }
