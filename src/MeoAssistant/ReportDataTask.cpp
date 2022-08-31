@@ -92,7 +92,8 @@ void asst::ReportDataTask::report_to_yituliu()
 }
 
 asst::ReportDataTask::Response asst::ReportDataTask::report_and_retry(const std::string& subtask,
-                                                                      const std::string& format, int report_retry_times)
+                                                                      const std::string& format, int report_retry_times,
+                                                                      std::function<bool(const Response&)> retry_condition)
 {
     LogTraceFunction;
 
@@ -102,35 +103,32 @@ asst::ReportDataTask::Response asst::ReportDataTask::report_and_retry(const std:
         callback(AsstMsg::SubTaskStart, cb_info);
     }
 
-    ReportDataTask::Response response;
+    Response response;
     for (int i = 0; i != report_retry_times; ++i) {
+        json::value cb_info = basic_info();
+        cb_info["subtask"] = subtask;
+
         response = escape_and_request(format);
 
         if (response.success()) {
-            json::value cb_info = basic_info();
-            cb_info["subtask"] = subtask;
             callback(AsstMsg::SubTaskCompleted, cb_info);
             return response;
         }
         else if (response.status_code()) {
-            json::value cb_info = basic_info();
-            cb_info["subtask"] = subtask;
             cb_info["why"] = "上报失败";
             cb_info["details"]["why"] = std::string(response.status_code_info());
             cb_info["details"]["status_code"] = response.status_code();
             cb_info["details"]["response_data"] = std::string(response.data());
 
-            if (!response.status_5xx()) { // 非 5xx 错误不必继续重试
+            if (retry_condition(response)) {
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
+            }
+            else {
                 callback(AsstMsg::SubTaskError, cb_info);
                 return response;
             }
-            else {
-                callback(AsstMsg::SubTaskExtraInfo, cb_info);
-            }
         }
         else {
-            json::value cb_info = basic_info();
-            cb_info["subtask"] = subtask;
             cb_info["why"] = "上报失败";
             cb_info["details"]["why"] = response.get_last_error();
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
