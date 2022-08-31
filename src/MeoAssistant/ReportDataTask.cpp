@@ -11,6 +11,8 @@
 #include <random>
 #include <sstream>
 
+std::vector<std::future<void>> asst::ReportDataTask::m_upload_pending;
+
 asst::ReportDataTask& asst::ReportDataTask::set_report_type(ReportType type)
 {
     m_report_type = type;
@@ -73,8 +75,7 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    Response response =
-        report_and_retry("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format, m_retry_times);
+    http::Response response = report("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
 
     if (response.success() && response.contains_header("x-penguin-set-penguinid")) [[unlikely]] {
         json::value id_info = basic_info_with_what("PenguinId");
@@ -88,63 +89,42 @@ void asst::ReportDataTask::report_to_yituliu()
 {
     LogTraceFunction;
 
-    report_and_retry("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
+    report("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
 }
 
-asst::Response asst::ReportDataTask::report_and_retry(const std::string& subtask, const std::string& format,
-                                                      int report_retry_times,
-                                                      std::function<bool(const Response&)> retry_condition)
+asst::http::Response asst::ReportDataTask::report(const std::string& subtask, const std::string& format,
+                                                  HttpResponsePred success_cond, HttpResponsePred retry_cond)
 {
     LogTraceFunction;
 
-    {
-        json::value cb_info = basic_info();
-        cb_info["subtask"] = subtask;
-        callback(AsstMsg::SubTaskStart, cb_info);
-    }
+    json::value cb_info = basic_info();
+    cb_info["subtask"] = subtask;
+    callback(AsstMsg::SubTaskStart, cb_info);
 
-    Response response;
-    for (int i = 0; i != report_retry_times; ++i) {
-        json::value cb_info = basic_info();
-        cb_info["subtask"] = subtask;
-
+    http::Response response;
+    for (int i = 0; i <= m_retry_times; ++i) {
         response = escape_and_request(format);
-
-        if (response.success()) {
+        if (success_cond(response)) {
             callback(AsstMsg::SubTaskCompleted, cb_info);
             return response;
         }
-        else if (response.status_code()) {
-            cb_info["why"] = "上报失败";
-            cb_info["details"]["why"] = std::string(response.status_code_info());
-            cb_info["details"]["status_code"] = response.status_code();
-            cb_info["details"]["response_data"] = std::string(response.data());
-
-            if (retry_condition(response)) {
-                callback(AsstMsg::SubTaskExtraInfo, cb_info);
-            }
-            else {
-                callback(AsstMsg::SubTaskError, cb_info);
-                return response;
-            }
-        }
-        else {
-            cb_info["why"] = "上报失败";
-            cb_info["details"]["why"] = response.get_last_error();
-            callback(AsstMsg::SubTaskExtraInfo, cb_info);
+        else if (!retry_cond(response)) {
+            break;
         }
     }
 
-    {
-        json::value cb_info = basic_info();
-        cb_info["subtask"] = subtask;
-        cb_info["why"] = "重试次数达到上限，上报失败";
-        callback(AsstMsg::SubTaskError, cb_info);
-    }
+    cb_info["why"] = "上报失败";
+    cb_info["details"] = json::object { { "error", response.get_last_error() },
+                                        { "status_code", response.status_code() },
+                                        { "status_code_info", std::string(response.status_code_info()) },
+                                        { "response", std::string(response.data()) } };
+
+    callback(AsstMsg::SubTaskError, cb_info);
+
     return response;
 }
 
-asst::Response asst::ReportDataTask::escape_and_request(const std::string& format)
+asst::http::Response asst::ReportDataTask::escape_and_request(const std::string& format)
 {
     LogTraceFunction;
 
@@ -160,7 +140,7 @@ asst::Response asst::ReportDataTask::escape_and_request(const std::string& forma
         utils::string_replace_all_batch(format, { { "[body]", body_escapes }, { "[extra]", m_extra_param } });
 
     Log.info("request:\n", cmd_line);
-    Response response = utils::callcmd(cmd_line);
+    http::Response response = utils::callcmd(cmd_line);
     Log.info("response:\n", response);
 
     return response;
