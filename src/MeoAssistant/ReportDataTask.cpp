@@ -73,25 +73,14 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    for (int i = 0; i != m_retry_times; ++i) {
-        const auto& response =
-            escape_and_request("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
+    ReportDataTask::Response response =
+        report_and_retry("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format, m_retry_times);
 
-        if (response.success()) [[likely]] {
-            if (response.contains_header("x-penguin-set-penguinid")) {
-                json::value id_info = basic_info_with_what("PenguinId");
-                std::string penguin_id(response.at_header("x-penguin-set-penguinid"));
-                id_info["details"]["id"] = penguin_id;
-                callback(AsstMsg::SubTaskExtraInfo, id_info);
-            }
-            break;
-        }
-        else if (!response.code_5xx()) [[unlikely]] {
-            json::value cb_info = basic_info();
-            cb_info["why"] = std::string(response.status_code_info());
-            cb_info["details"]["status_code"] = response.status_code();
-            callback(AsstMsg::SubTaskError, cb_info);
-        }
+    if (response.success() && response.contains_header("x-penguin-set-penguinid")) [[unlikely]] {
+        json::value id_info = basic_info_with_what("PenguinId");
+        std::string penguin_id(response.at_header("x-penguin-set-penguinid"));
+        id_info["details"]["id"] = penguin_id;
+        callback(AsstMsg::SubTaskExtraInfo, id_info);
     }
 }
 
@@ -99,17 +88,44 @@ void asst::ReportDataTask::report_to_yituliu()
 {
     LogTraceFunction;
 
-    escape_and_request("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
+    report_and_retry("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
 }
 
-asst::ReportDataTask::Response asst::ReportDataTask::escape_and_request(const std::string& subtask,
-                                                                        const std::string& format)
+asst::ReportDataTask::Response asst::ReportDataTask::report_and_retry(const std::string& subtask,
+                                                                      const std::string& format, int report_retry_times)
 {
     LogTraceFunction;
 
     json::value cb_info = basic_info();
     cb_info["subtask"] = subtask;
     callback(AsstMsg::SubTaskStart, cb_info);
+
+    ReportDataTask::Response response;
+    for (int i = 0; i != report_retry_times; ++i) {
+        response = escape_and_request(format);
+
+        if (response.success()) {
+            callback(AsstMsg::SubTaskCompleted, cb_info);
+            return response;
+        }
+        else if (response.status_code() && !response.code_5xx()) { // 非 5xx 错误不必继续重试
+            cb_info["why"] = "上报失败";
+            cb_info["details"]["why"] = std::string(response.status_code_info());
+            cb_info["details"]["status_code"] = response.status_code();
+            cb_info["details"]["response"] = static_cast<std::string&>(response);
+            callback(AsstMsg::SubTaskError, cb_info);
+            return response;
+        }
+    }
+
+    cb_info["why"] = "重试次数达到上限，上报失败";
+    callback(AsstMsg::SubTaskError, cb_info);
+    return response;
+}
+
+asst::ReportDataTask::Response asst::ReportDataTask::escape_and_request(const std::string& format)
+{
+    LogTraceFunction;
 
     std::string body_escape = utils::string_replace_all_batch(m_body, { { "\"", "\\\"" } });
 
@@ -122,19 +138,9 @@ asst::ReportDataTask::Response asst::ReportDataTask::escape_and_request(const st
     std::string cmd_line =
         utils::string_replace_all_batch(format, { { "[body]", body_escapes }, { "[extra]", m_extra_param } });
 
-    Log.info("request:\n", cmd_line);
     Response response = utils::callcmd(cmd_line);
+    Log.info("request:\n", cmd_line);
     Log.info("response:\n", response);
-
-    cb_info["details"]["response"] = static_cast<std::string&>(response);
-
-    if (response.status_code()) [[likely]] {
-        callback(AsstMsg::SubTaskCompleted, cb_info);
-    }
-    else { // 连状态码都没有，一般是网络错误
-        cb_info["why"] = "上报失败";
-        callback(AsstMsg::SubTaskError, cb_info);
-    }
 
     return response;
 }
