@@ -19,6 +19,7 @@
     <ClInclude Include="AbstractTask.h" />
     <ClInclude Include="AbstractTaskPlugin.h" />
     <ClInclude Include="Assistant.h" />
+    <ClInclude Include="AsstHttp.hpp" />
     <ClInclude Include="AsstInfrastDef.h" />
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstTypes.h" />

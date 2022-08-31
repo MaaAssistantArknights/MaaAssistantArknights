@@ -387,6 +387,9 @@
     <ClInclude Include="ReportDataTask.h">
       <Filter>头文件\Task\Sub</Filter>
     </ClInclude>
+    <ClInclude Include="AsstHttp.hpp">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
