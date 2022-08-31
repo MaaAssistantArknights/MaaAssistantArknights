@@ -9,7 +9,6 @@
 #include <chrono>
 #include <functional>
 #include <random>
-#include <regex>
 #include <sstream>
 
 asst::ReportDataTask& asst::ReportDataTask::set_report_type(ReportType type)
@@ -74,21 +73,14 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    for (int i = 0; i != m_retry_times; ++i) {
-        const auto& [success, response] =
-            escape_and_request("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
+    Response response =
+        report_and_retry("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format, m_retry_times);
 
-        if (success) {
-            static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
-            std::smatch penguinid_sm;
-            if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
-                json::value id_info = basic_info_with_what("PenguinId");
-                std::string penguin_id = penguinid_sm[1];
-                id_info["details"]["id"] = penguin_id;
-                callback(AsstMsg::SubTaskExtraInfo, id_info);
-            }
-            break;
-        }
+    if (response.success() && response.contains_header("x-penguin-set-penguinid")) [[unlikely]] {
+        json::value id_info = basic_info_with_what("PenguinId");
+        std::string penguin_id(response.at_header("x-penguin-set-penguinid"));
+        id_info["details"]["id"] = penguin_id;
+        callback(AsstMsg::SubTaskExtraInfo, id_info);
     }
 }
 
@@ -96,17 +88,65 @@ void asst::ReportDataTask::report_to_yituliu()
 {
     LogTraceFunction;
 
-    escape_and_request("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
+    report_and_retry("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
 }
 
-asst::ReportDataTask::Response asst::ReportDataTask::escape_and_request(const std::string& subtask,
-                                                                        const std::string& format)
+asst::Response asst::ReportDataTask::report_and_retry(const std::string& subtask, const std::string& format,
+                                                      int report_retry_times,
+                                                      std::function<bool(const Response&)> retry_condition)
 {
     LogTraceFunction;
 
-    json::value cb_info = basic_info();
-    cb_info["subtask"] = subtask;
-    callback(AsstMsg::SubTaskStart, cb_info);
+    {
+        json::value cb_info = basic_info();
+        cb_info["subtask"] = subtask;
+        callback(AsstMsg::SubTaskStart, cb_info);
+    }
+
+    Response response;
+    for (int i = 0; i != report_retry_times; ++i) {
+        json::value cb_info = basic_info();
+        cb_info["subtask"] = subtask;
+
+        response = escape_and_request(format);
+
+        if (response.success()) {
+            callback(AsstMsg::SubTaskCompleted, cb_info);
+            return response;
+        }
+        else if (response.status_code()) {
+            cb_info["why"] = "上报失败";
+            cb_info["details"]["why"] = std::string(response.status_code_info());
+            cb_info["details"]["status_code"] = response.status_code();
+            cb_info["details"]["response_data"] = std::string(response.data());
+
+            if (retry_condition(response)) {
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
+            }
+            else {
+                callback(AsstMsg::SubTaskError, cb_info);
+                return response;
+            }
+        }
+        else {
+            cb_info["why"] = "上报失败";
+            cb_info["details"]["why"] = response.get_last_error();
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
+        }
+    }
+
+    {
+        json::value cb_info = basic_info();
+        cb_info["subtask"] = subtask;
+        cb_info["why"] = "重试次数达到上限，上报失败";
+        callback(AsstMsg::SubTaskError, cb_info);
+    }
+    return response;
+}
+
+asst::Response asst::ReportDataTask::escape_and_request(const std::string& format)
+{
+    LogTraceFunction;
 
     std::string body_escape = utils::string_replace_all_batch(m_body, { { "\"", "\\\"" } });
 
@@ -120,22 +160,8 @@ asst::ReportDataTask::Response asst::ReportDataTask::escape_and_request(const st
         utils::string_replace_all_batch(format, { { "[body]", body_escapes }, { "[extra]", m_extra_param } });
 
     Log.info("request:\n", cmd_line);
-    std::string response = utils::callcmd(cmd_line);
+    Response response = utils::callcmd(cmd_line);
     Log.info("response:\n", response);
 
-    cb_info["details"]["response"] = response;
-
-    bool success = false;
-    static const std::regex http_ok_regex(R"(HTTP/.+ 200)");
-    if (std::regex_search(response, http_ok_regex)) {
-        success = true;
-        callback(AsstMsg::SubTaskCompleted, cb_info);
-    }
-    else {
-        success = false;
-        cb_info["why"] = "上报失败";
-        callback(AsstMsg::SubTaskError, cb_info);
-    }
-
-    return { success, response };
+    return response;
 }
