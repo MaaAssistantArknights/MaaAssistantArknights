@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractTaskPlugin.h"
 
-#include <future>
+#include <memory>
 #include <vector>
 
 #include <meojson/json.hpp>
@@ -11,6 +11,7 @@
 namespace asst
 {
     class ProcessTask;
+    class ReportDataTask;
 
     class StageDropsTaskPlugin final : public AbstractTaskPlugin
     {
@@ -36,6 +37,7 @@ namespace asst
         bool check_specify_quantity() const;
         void stop_task();
         void upload_to_penguin();
+        static void report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
         static constexpr int64_t RecognitionTimeOffset = 20;
 
@@ -48,8 +50,8 @@ namespace asst
 
         mutable bool m_is_annihilation = false;
         bool m_start_button_delay_is_set = false;
-        std::vector<std::future<void>> m_upload_pending;
         ProcessTask* m_cast_ptr = nullptr;
+        std::shared_ptr<ReportDataTask> m_report_penguin_task_ptr = nullptr;
         bool m_enable_penguid = false;
         std::string m_penguin_id;
         std::string m_server = "CN";

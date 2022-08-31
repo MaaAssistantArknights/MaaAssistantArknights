@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AsstConf.h"
+#include "AsstRanges.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -28,6 +29,13 @@ namespace asst::utils
     template <typename T, T Val, typename... Unused>
     struct integral_constant_at_template_instantiation : std::integral_constant<T, Val>
     {};
+
+    template <typename dst_t, typename src_t>
+    requires ranges::range<src_t> && ranges::range<dst_t>
+    dst_t view_cast(const src_t& src)
+    {
+        return dst_t(src.begin(), src.end());
+    }
 
     inline void _string_replace_all(std::string& str, const std::string_view& old_value,
                                     const std::string_view& new_value)
