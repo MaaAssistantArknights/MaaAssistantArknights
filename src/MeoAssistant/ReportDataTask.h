@@ -3,8 +3,8 @@
 #include "AbstractTask.h"
 #include "AsstUtils.hpp"
 
+#include <cctype>
 #include <future>
-#include <regex>
 #include <unordered_set>
 
 namespace asst
@@ -36,7 +36,7 @@ namespace asst
             std::string_view m_protocol_version;
             std::string_view m_status_code_info;
             std::string_view m_data;
-            std::unordered_map<std::string_view, std::string_view> m_headers;
+            std::unordered_map<std::string, std::string_view> m_headers;
             bool _analyze_status_line(std::string_view status_line)
             {
                 size_t __word_count = 0;
@@ -46,12 +46,12 @@ namespace asst
                      })) {
                     ++__word_count;
                     if (__word_count == 1) {
-                        static const std::unordered_set<std::string> accepted_protocol_version = { "HTTP/1.1" };
-                        if (!accepted_protocol_version.contains(utils::view_cast<std::string>(word))) {
+                        static const std::unordered_set<std::string_view> accepted_protocol_version = { "HTTP/1.1" };
+                        if (!accepted_protocol_version.contains(utils::view_cast<std::string_view>(word))) {
                             m_last_error = "unsupport protocol version";
                             return false;
                         }
-                        m_protocol_version = utils::view_cast<std::string>(word);
+                        m_protocol_version = utils::view_cast<std::string_view>(word);
                     }
                     else if (__word_count == 2) {
                         static const std::unordered_map<char, int> numbers = {
@@ -90,7 +90,9 @@ namespace asst
                     m_last_error = "connot decode header `" + std::string(status_line) + "`";
                     return false;
                 }
-                m_headers[status_line.substr(0, colon_pos)] =
+                m_headers[utils::view_cast<std::string>(status_line.substr(0, colon_pos) | views::transform([](char c) {
+                                                            return static_cast<char>(std::tolower(c));
+                                                        }))] =
                     status_line.substr(colon_pos + 1 + status_line.substr(colon_pos + 1).find_first_not_of(' '));
                 return true;
             }
@@ -131,7 +133,9 @@ namespace asst
             std::string_view protocol_version() const { return m_protocol_version; }
             std::string_view status_code_info() const { return m_status_code_info; }
             std::string_view data() const { return m_data; }
-            const std::unordered_map<std::string_view, std::string_view> headers() const { return m_headers; }
+            std::string_view at_header(const std::string& key) const { return m_headers.at(key); }
+            bool contains_header(const std::string& key) const { return m_headers.contains(key); }
+            const std::unordered_map<std::string, std::string_view> headers() const { return m_headers; }
 
             bool success() const { return m_status_code == 200; }
             bool code_2xx() const { return m_status_code >= 200 && m_status_code < 300; }

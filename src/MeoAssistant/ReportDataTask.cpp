@@ -9,7 +9,6 @@
 #include <chrono>
 #include <functional>
 #include <random>
-#include <regex>
 #include <sstream>
 
 asst::ReportDataTask& asst::ReportDataTask::set_report_type(ReportType type)
@@ -79,10 +78,9 @@ void asst::ReportDataTask::report_to_penguin()
             escape_and_request("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
 
         if (response.success()) [[likely]] {
-            static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
-            if (response.headers().contains("X-Penguin-Set-Penguinid")) {
+            if (response.contains_header("x-penguin-set-penguinid")) {
                 json::value id_info = basic_info_with_what("PenguinId");
-                std::string penguin_id(response.headers().at("X-Penguin-Set-Penguinid"));
+                std::string penguin_id(response.at_header("x-penguin-set-penguinid"));
                 id_info["details"]["id"] = penguin_id;
                 callback(AsstMsg::SubTaskExtraInfo, id_info);
             }
