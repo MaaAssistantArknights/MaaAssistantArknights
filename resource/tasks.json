@@ -6047,6 +6047,7 @@
             210,
             118
         ],
+        "templThreshold": 0.7,
         "cache": false,
         "action": "ClickSelf",
         "rectMove": [
