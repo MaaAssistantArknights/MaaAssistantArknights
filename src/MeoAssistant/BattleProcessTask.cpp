@@ -5,6 +5,7 @@
 #include <future>
 #include <thread>
 
+#include "AsstRanges.hpp"
 #include "NoWarningCV.h"
 
 #include "Controller.h"
@@ -387,38 +388,32 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
 
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
-    cv::Mat image;
+    cv::Mat image = m_ctrler->get_image();
 
-    // 因为要算基准cost，所以这个要放在kills前面
+    // 计算初始状态
+    int cost_base = -1;
+    // int cooling_base = -1;
+
     if (action.cost_changes != 0) {
-        int cost_base = -1;
-
-        while (true) {
-            image = m_ctrler->get_image();
-            BattleImageAnalyzer analyzer(image);
-            analyzer.set_target(BattleImageAnalyzer::Target::Cost);
-            if (analyzer.analyze()) {
-                int cost = analyzer.get_cost();
-                if (cost_base == -1) {
-                    cost_base = cost;
-                    continue;
-                }
-                if (cost >= cost_base + action.cost_changes) {
-                    break;
-                }
-            }
-
-            try_possible_skill(image);
-            std::this_thread::yield();
+        BattleImageAnalyzer analyzer(image);
+        analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+        if (analyzer.analyze()) {
+            cost_base = analyzer.get_cost();
         }
     }
+    // if (action.cooling != 0) {
+    //     BattleImageAnalyzer analyzer(image);
+    //     analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    //     if (analyzer.analyze()) {
+    //         cooling_base =
+    //             ranges::count_if(analyzer.get_opers(), [](const auto& oper) -> bool { return oper.cooling; });
+    //     }
+    // }
 
+    // 计算击杀数
     while (m_kills < action.kills) {
         if (need_exit()) {
             return false;
-        }
-        if (image.empty()) {
-            image = m_ctrler->get_image();
         }
         BattleImageAnalyzer analyzer(image);
         if (m_total_kills) {
@@ -438,15 +433,60 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
         image = m_ctrler->get_image();
     }
 
+    // 计算费用变化量
+    if (action.cost_changes) {
+        while (true) {
+            if (need_exit()) {
+                return false;
+            }
+            BattleImageAnalyzer analyzer(image);
+            analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+            if (analyzer.analyze()) {
+                int cost = analyzer.get_cost();
+                if (cost_base == -1) {
+                    cost_base = cost;
+                    image = m_ctrler->get_image();
+                    continue;
+                }
+                if (cost >= cost_base + action.cost_changes) {
+                    break;
+                }
+            }
+
+            try_possible_skill(image);
+            std::this_thread::yield();
+            image = m_ctrler->get_image();
+        }
+    }
+
+    // 计算有几个干员在cd
+    if (action.cooling >= 0) {
+        while (true) {
+            if (need_exit()) {
+                return false;
+            }
+            BattleImageAnalyzer analyzer(image);
+            analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+            if (analyzer.analyze()) {
+                int cooling_count =
+                    ranges::count_if(analyzer.get_opers(), [](const auto& oper) -> bool { return oper.cooling; });
+                if (cooling_count == action.cooling) {
+                    break;
+                }
+            }
+
+            try_possible_skill(image);
+            std::this_thread::yield();
+            image = m_ctrler->get_image();
+        }
+    }
+
     // 部署干员还有额外等待费用够或 CD 转好
     if (action.type == BattleActionType::Deploy) {
         const std::string& name = m_group_to_oper_mapping[action.group_name].name;
         while (true) {
             if (need_exit()) {
                 return false;
-            }
-            if (image.empty()) {
-                image = m_ctrler->get_image();
             }
             update_opers_info(image);
 
@@ -458,10 +498,6 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
             std::this_thread::yield();
             image = m_ctrler->get_image();
         }
-    }
-    if (image.empty()) {
-        image = m_ctrler->get_image();
-        try_possible_skill(image);
     }
 
     return true;
