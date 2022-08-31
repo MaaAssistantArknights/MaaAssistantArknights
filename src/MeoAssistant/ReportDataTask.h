@@ -149,7 +149,8 @@ namespace asst
 
         void report_to_penguin();
         void report_to_yituliu();
-        Response escape_and_request(const std::string& subtask, const std::string& format);
+        Response escape_and_request(const std::string& format);
+        Response report_and_retry(const std::string& subtask, const std::string& format, int report_retry_times = 1);
 
         ReportType m_report_type = ReportType::Invaild;
         std::string m_body;
