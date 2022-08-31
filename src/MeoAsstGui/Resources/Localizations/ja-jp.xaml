@@ -363,7 +363,8 @@
     <!--  About  -->
     <system:String x:Key="Website">MAA公式サイト</system:String>
     <system:String x:Key="Github">ソースコード：GitHub</system:String>
-    <system:String x:Key="QQgroup">自動攻略ファイルシェアQQグループ</system:String>
+    <system:String x:Key="PrtsPlus">自動攻略ファイルシェアWebサイト</system:String>
+    <system:String x:Key="QQgroup">QQグループ：</system:String>
     <system:String x:Key="QQgroup1">グループ1</system:String>
     <system:String x:Key="QQgroup2">グループ2</system:String>
     <system:String x:Key="QQgroup3">グループ3</system:String>

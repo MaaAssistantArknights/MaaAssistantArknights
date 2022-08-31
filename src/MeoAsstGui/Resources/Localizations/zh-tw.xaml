@@ -267,7 +267,7 @@
 
     <system:String x:Key="Start">開始</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">作業分享站</system:String>
+    <system:String x:Key="CopilotJSONSharing">作業分享平台</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
 
     <!--  日誌  -->
@@ -363,7 +363,8 @@
     <!--  About  -->
     <system:String x:Key="Website">MAA 官網</system:String>
     <system:String x:Key="Github">原始碼：GitHub</system:String>
-    <system:String x:Key="QQgroup">自動戰鬥作業分享 Q 群</system:String>
+    <system:String x:Key="PrtsPlus">自動戰鬥作業分享網站</system:String>
+    <system:String x:Key="QQgroup">Q 群：</system:String>
     <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>
     <system:String x:Key="QQgroup3">三群</system:String>

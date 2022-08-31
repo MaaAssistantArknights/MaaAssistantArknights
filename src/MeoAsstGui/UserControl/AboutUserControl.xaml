@@ -40,13 +40,20 @@
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource QQgroup}" />
+            Style="{StaticResource TextBlockDefault}">
+            <Hyperlink
+                Click="Hyperlink_Click"
+                NavigateUri="https://prts.plus/"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource PrtsPlus}" />
+            </Hyperlink>
+        </TextBlock>
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Style="{StaticResource TextBlockDefault}">
+            <TextBlock Text="{DynamicResource QQgroup}" />
             <Hyperlink
                 Click="Hyperlink_Click"
                 NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=xRh6gqQZ"
