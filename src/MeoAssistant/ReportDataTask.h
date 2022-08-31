@@ -39,13 +39,13 @@ namespace asst
             std::unordered_map<std::string, std::string_view> m_headers;
             bool _analyze_status_line(std::string_view status_line)
             {
-                size_t __word_count = 0;
+                size_t _word_count = 0;
                 for (const std::string_view& word :
-                     std::views::split(status_line, ' ') | std::views::transform([](auto str_range) {
+                     views::split(status_line, ' ') | views::transform([](auto str_range) {
                          return utils::view_cast<std::string_view>(str_range);
                      })) {
-                    ++__word_count;
-                    if (__word_count == 1) {
+                    ++_word_count;
+                    if (_word_count == 1) {
                         static const std::unordered_set<std::string_view> accepted_protocol_version = { "HTTP/1.1" };
                         if (!accepted_protocol_version.contains(utils::view_cast<std::string_view>(word))) {
                             m_last_error = "unsupport protocol version";
@@ -53,7 +53,7 @@ namespace asst
                         }
                         m_protocol_version = utils::view_cast<std::string_view>(word);
                     }
-                    else if (__word_count == 2) {
+                    else if (_word_count == 2) {
                         static const std::unordered_map<char, int> numbers = {
                             { '0', 0 }, { '1', 1 }, { '2', 2 }, { '3', 3 }, { '4', 4 },
                             { '5', 5 }, { '6', 6 }, { '7', 7 }, { '8', 8 }, { '9', 9 },
@@ -76,7 +76,7 @@ namespace asst
                         return true;
                     }
                 }
-                if (__word_count == 2) {
+                if (_word_count == 2) {
                     m_status_code_info = "";
                     return true;
                 }
@@ -85,15 +85,15 @@ namespace asst
             }
             bool _analyze_headers_line(std::string_view status_line)
             {
-                size_t colon_pos = status_line.find(':');
-                if (colon_pos == status_line.npos) {
+                size_t _colon_pos = status_line.find(':');
+                if (_colon_pos == status_line.npos) {
                     m_last_error = "connot decode header `" + std::string(status_line) + "`";
                     return false;
                 }
-                m_headers[utils::view_cast<std::string>(status_line.substr(0, colon_pos) | views::transform([](char c) {
-                                                            return static_cast<char>(std::tolower(c));
-                                                        }))] =
-                    status_line.substr(colon_pos + 1 + status_line.substr(colon_pos + 1).find_first_not_of(' '));
+                m_headers[utils::view_cast<std::string>(
+                    status_line.substr(0, _colon_pos) |
+                    views::transform([](char c) { return static_cast<char>(std::tolower(c)); }))] =
+                    status_line.substr(_colon_pos + 1 + status_line.substr(_colon_pos + 1).find_first_not_of(' '));
                 return true;
             }
 
@@ -102,26 +102,30 @@ namespace asst
             requires std::is_constructible_v<std::string, Args...>
             Response(Args&&... args) : std::string(std::forward<Args>(args)...)
             {
-                bool __is_status_line = true;
-                for (const auto& line : std::views::split(*this, '\n')) {
+                bool _is_status_line = true;
+                // 这里的 \r\n 处理很奇怪，因为 views::split 好像不支持 string，只能 char
+                for (const auto& line : views::split(*this, '\n')) {
                     std::string_view line_view;
                     if (utils::view_cast<std::string_view>(line).ends_with('\r')) {
-                        line_view = utils::view_cast<std::string_view>(line | std::views::take(line.size() - 1));
+                        line_view = utils::view_cast<std::string_view>(line | views::take(line.size() - 1));
                     }
                     else {
                         line_view = utils::view_cast<std::string_view>(line);
                     }
-                    if (__is_status_line) {
+                    // status
+                    if (_is_status_line) {
                         if (!_analyze_status_line(line_view)) {
                             return;
                         }
-                        __is_status_line = false;
+                        _is_status_line = false;
                     }
+                    // headers
                     else if (!line_view.empty()) {
                         if (!_analyze_headers_line(line_view)) {
                             return;
                         }
                     }
+                    // data
                     else {
                         m_data = std::string_view(line.begin(), this->end());
                         return;
@@ -136,12 +140,13 @@ namespace asst
             std::string_view at_header(const std::string& key) const { return m_headers.at(key); }
             bool contains_header(const std::string& key) const { return m_headers.contains(key); }
             const std::unordered_map<std::string, std::string_view> headers() const { return m_headers; }
+            const std::string& get_last_error() const noexcept { return m_last_error; }
 
             bool success() const { return m_status_code == 200; }
-            bool code_2xx() const { return m_status_code >= 200 && m_status_code < 300; }
-            bool code_3xx() const { return m_status_code >= 300 && m_status_code < 400; }
-            bool code_4xx() const { return m_status_code >= 400 && m_status_code < 500; }
-            bool code_5xx() const { return m_status_code >= 500 && m_status_code < 600; }
+            bool status_2xx() const { return m_status_code >= 200 && m_status_code < 300; }
+            bool status_3xx() const { return m_status_code >= 300 && m_status_code < 400; }
+            bool status_4xx() const { return m_status_code >= 400 && m_status_code < 500; }
+            bool status_5xx() const { return m_status_code >= 500 && m_status_code < 600; }
         };
 
     protected:
@@ -155,6 +160,6 @@ namespace asst
         ReportType m_report_type = ReportType::Invaild;
         std::string m_body;
         std::string m_extra_param;
-        std::vector<std::future<void>> m_upload_pending;
+        static inline std::vector<std::future<void>> m_upload_pending;
     };
 } // namespace asst
