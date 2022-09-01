@@ -648,54 +648,55 @@ bool asst::Controller::screencap()
 
     switch (m_adb.screencap_method) {
     case AdbProperty::ScreencapMethod::UnknownYet: {
+        using namespace std::chrono;
         Log.info("Try to find the fastest way to screencap");
         m_inited = false;
-        auto min_cost = std::chrono::nanoseconds(LLONG_MAX);
+        auto min_cost = milliseconds(LLONG_MAX);
 
-        auto start_time = std::chrono::high_resolution_clock::now();
+        auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started && screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
-            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("RawByNc cost", duration.count(), "ns");
+            Log.info("RawByNc cost", duration.count(), "ms");
         }
         else {
             Log.info("RawByNc is not supported");
         }
         clear_lf_info();
 
-        start_time = std::chrono::high_resolution_clock::now();
+        start_time = high_resolution_clock::now();
         if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
-            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("RawWithGzip cost", duration.count(), "ns");
+            Log.info("RawWithGzip cost", duration.count(), "ms");
         }
         else {
             Log.info("RawWithGzip is not supported");
         }
         clear_lf_info();
 
-        start_time = std::chrono::high_resolution_clock::now();
+        start_time = high_resolution_clock::now();
         if (screencap(m_adb.screencap_encode, decode_encode)) {
-            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("Encode cost", duration.count(), "ns");
+            Log.info("Encode cost", duration.count(), "ms");
         }
         else {
             Log.info("Encode is not supported");
         }
-        Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ns");
+        Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         clear_lf_info();
         return m_inited;
     } break;
@@ -741,7 +742,8 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     else {
         Log.info("data is not empty, but image is empty");
 
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet ||
+            m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::LF) {
             Log.info("try to cvt lf");
             convert_lf(data);
 
@@ -754,6 +756,7 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
                 Log.error("convert lf and retry decode failed!");
             }
         }
+        m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::UnknownYet;
         return false;
     }
 }
