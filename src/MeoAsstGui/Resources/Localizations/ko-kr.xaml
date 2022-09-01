@@ -150,6 +150,8 @@
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">처음 사용할 때는 자동으로 작성되며, 문제가 있으면 수동으로 수정하십시오</system:String>
     <system:String x:Key="ConnectionPreset">연결 사전 설정</system:String>
+    <system:String x:Key="RetryOnDisconnected">adb 재연결이 실패하면 자동으로 에뮬레이터를 다시 시작합니다</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">20번의 재연결 실패 후 에뮬레이터를 다시 시작하십시오, 백그라운드 시간 지정 작업을 사용하고 작업이 완료되면 시뮬레이터를 닫도록 설정하려면 다음을 선택해야 합니다</system:String>
     <!--  설정  -->
 
     <!--  메인 화면  -->
