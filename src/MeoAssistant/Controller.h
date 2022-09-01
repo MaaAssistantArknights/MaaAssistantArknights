@@ -92,9 +92,9 @@ namespace asst
         void random_delay() const;
         void clear_info() noexcept;
 
-        // 转换 data 中所有的 crlf 为 lf：有些模拟器自带的 adb，exec-out 输出的 lf 会被替换成 crlf，
+        // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
-        static void convert_lf(std::vector<uchar>& data);
+        static bool convert_lf(std::vector<uchar>& data);
 
         bool* m_exit_flag = nullptr;
         AsstCallback m_callback;
