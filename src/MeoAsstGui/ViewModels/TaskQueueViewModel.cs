@@ -296,21 +296,45 @@ namespace MeoAsstGui
 
             AllStageList = new List<CombData>();
 
-            if (DateTime.UtcNow.AddHours(8).Date < new DateTime(2022, 9, 1, 4, 0, 0))
-            {
-                var limit = new List<CombData>
+            var limit = new List<CombData>
                 {
                     // SideStory「理想城：长夏狂欢季」活动
                     new CombData { Display = "IC-9", Value = "IC-9" },
                     new CombData { Display = "IC-8", Value = "IC-8" },
                     new CombData { Display = "IC-7", Value = "IC-7" },
                 };
+            if (DateTime.UtcNow.AddHours(8 - 4).Date < new DateTime(2022, 9, 1))
+            {
                 AllStageList.AddRange(limit);
             }
             else
             {
-                AllStageList.Add(new CombData { Display = Localization.GetString("ClosedStage"), Value = _closedStage });
-                Stage1 = _closedStage;
+                var closeFlag = false;
+                foreach (var item in limit)
+                {
+                    if (item.Display == Stage1)
+                    {
+                        Stage1 = _closedStage;
+                        closeFlag = true;
+                    }
+
+                    if (item.Display == Stage2)
+                    {
+                        Stage2 = _closedStage;
+                        closeFlag = true;
+                    }
+
+                    if (item.Display == Stage3)
+                    {
+                        Stage3 = _closedStage;
+                        closeFlag = true;
+                    }
+                }
+
+                if (closeFlag)
+                {
+                    AllStageList.Add(new CombData { Display = Localization.GetString("ClosedStage"), Value = _closedStage });
+                }
             }
 
             var resident = new List<CombData>
@@ -1415,19 +1439,25 @@ namespace MeoAsstGui
                         }
                     }
 
-                    foreach (var stage in newList)
+                    if (_stage2 != _closedStage)
                     {
-                        if (stage.Value == _stage2)
+                        foreach (var stage in newList)
                         {
-                            return _stage2;
+                            if (stage.Value == _stage2)
+                            {
+                                return _stage2;
+                            }
                         }
                     }
 
-                    foreach (var stage in newList)
+                    if (_stage3 != _closedStage)
                     {
-                        if (stage.Value == _stage3)
+                        foreach (var stage in newList)
                         {
-                            return _stage3;
+                            if (stage.Value == _stage3)
+                            {
+                                return _stage3;
+                            }
                         }
                     }
                 }
