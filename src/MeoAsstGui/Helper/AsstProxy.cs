@@ -325,7 +325,7 @@ namespace MeoAsstGui
                     break;
 
                 case "Reconnecting":
-                    mainModel.AddLog(Localization.GetString("TryToReconnect"), LogColor.Error);
+                    mainModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", LogColor.Error);
                     break;
 
                 case "Reconnected":
@@ -336,6 +336,20 @@ namespace MeoAsstGui
                     connected = false;
                     mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
                     AsstStop();
+
+                    var settingsModel = _container.Get<SettingsViewModel>();
+                    Execute.OnUIThread(async () =>
+                    {
+                        if (settingsModel.RetryOnDisconnected)
+                        {
+                            mainModel.AddLog(Localization.GetString("TryToStartEmulator"), LogColor.Error);
+                            mainModel.killEmulator();
+                            await Task.Delay(3000);
+                            mainModel.Stop();
+                            mainModel.LinkStart();
+                        }
+                    });
+
                     break;
 
                 case "ScreencapFailed":

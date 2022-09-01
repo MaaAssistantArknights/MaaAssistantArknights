@@ -150,6 +150,8 @@
     <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
     <system:String x:Key="ConnectionAddressTip">🍷🍷🍷🍺🍺🍻💃🍻🍺🍺🍷🍻🕺🍻🕺💃🕺🍸💃🍸🍷🍷🍺🕺🍸</system:String>
     <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
+    <system:String x:Key="RetryOnDisconnected">🍺🍷🍺🍸🍷🍻🕺🕺🍺🍷🍻🍺🍸🍻🍸🍺</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">🍻🍺🍸🍻🍷🍻🍷🍻🍷🍻🍻🍸🕺🍺🍺🍸🍺🍺🍺🍺🍸🕺🍻🍷🍸🕺🍷🕺🕺🍻🍷🍻🍺🕺🍺🍻🍷🍷💃💃🍺🍸</system:String>
     <!--  设置  -->
 
     <!--  一键长草  -->
