@@ -401,12 +401,13 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
     return std::nullopt;
 }
 
-void asst::Controller::convert_lf(std::vector<uchar>& data)
+// 返回值代表是否找到 "\r\n"，函数本身会将所有 "\r\n" 替换为 "\n"
+bool asst::Controller::convert_lf(std::vector<uchar>& data)
 {
     LogTraceFunction;
 
     if (data.empty() || data.size() < 2) {
-        return;
+        return false;
     }
     auto pred = [](const std::vector<uchar>::iterator& cur) -> bool { return *cur == '\r' && *(cur + 1) == '\n'; };
     // find the first of "\r\n"
@@ -418,7 +419,7 @@ void asst::Controller::convert_lf(std::vector<uchar>& data)
         }
     }
     if (first_iter == data.end()) {
-        return;
+        return false;
     }
     // move forward all non-crlf elements
     auto end_r1_iter = data.end() - 1;
@@ -432,6 +433,7 @@ void asst::Controller::convert_lf(std::vector<uchar>& data)
     *next_iter = *end_r1_iter;
     ++next_iter;
     data.erase(next_iter, data.end());
+    return true;
 }
 
 asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
@@ -706,10 +708,15 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
         Log.error("data is empty!");
         return false;
     }
-    auto data = std::move(ret).value();
+    auto& data = ret.value();
 
+    bool tried_conversion = false;
     if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
-        convert_lf(data);
+        tried_conversion = true;
+        if (!convert_lf(data)) { // 没找到 "\r\n"
+            Log.info("screencap_end_of_line is set to CRLF but no `\\r\\n` found, set it to LF");
+            m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
+        }
     }
 
     if (decode_func(data)) {
@@ -722,21 +729,30 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     else {
         Log.info("data is not empty, but image is empty");
 
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet ||
-            m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::LF) {
+        if (!tried_conversion) {
             Log.info("try to cvt lf");
-            convert_lf(data);
+            if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
+                Log.error("skip retry decoding and decode failed!");
+                return false;
+            }
 
             if (decode_func(data)) {
+                if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+                    Log.info("screencap_end_of_line is CRLF");
+                }
+                else {
+                    Log.info("screencap_end_of_line is changed to CRLF");
+                }
                 m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
-                Log.info("screencap_end_of_line is CRLF");
                 return true;
             }
             else {
                 Log.error("convert lf and retry decode failed!");
             }
         }
-        m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::UnknownYet;
+        else { // 已经转换过行尾，再次转换 data 不会变化，不必重试
+            Log.error("skip retry decoding and decode failed!");
+        }
         return false;
     }
 }
