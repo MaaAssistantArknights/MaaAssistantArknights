@@ -150,8 +150,8 @@
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">第一次使用會自動填寫，若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
-    <system:String x:Key="RetryOnDisconnected">adb重連失敗時自動重啟模擬器</system:String>
-    <system:String x:Key="RetryOnDisconnectedTip">重連失敗20次後嘗試重啟模擬器，使用後台定時任務且設置任務完成關閉模擬器時必須勾選</system:String>
+    <system:String x:Key="RetryOnDisconnected">adb 重連失敗時自動重啟模擬器</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重啟模擬器，使用後台定時任務且設置任務完成關閉模擬器時必須勾選</system:String>
     <!--  設定  -->
 
     <!--  一鍵長草  -->
