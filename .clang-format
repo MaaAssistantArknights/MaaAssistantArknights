@@ -1,3 +1,7 @@
+Language: Json
+ColumnLimit: 1000
+IndentWidth: 4
+---
 Language: Cpp
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
