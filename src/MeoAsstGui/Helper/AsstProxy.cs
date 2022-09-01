@@ -325,7 +325,7 @@ namespace MeoAsstGui
                     break;
 
                 case "Reconnecting":
-                    mainModel.AddLog(Localization.GetString("TryToReconnect"), LogColor.Error);
+                    mainModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", LogColor.Error);
                     break;
 
                 case "Reconnected":
@@ -336,6 +336,20 @@ namespace MeoAsstGui
                     connected = false;
                     mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
                     AsstStop();
+
+                    var settingsModel = _container.Get<SettingsViewModel>();
+                    Execute.OnUIThread(async () =>
+                    {
+                        if (settingsModel.RetryOnDisconnected)
+                        {
+                            mainModel.AddLog(Localization.GetString("TryToStartEmulator"), LogColor.Error);
+                            mainModel.killEmulator();
+                            await Task.Delay(3000);
+                            mainModel.Stop();
+                            mainModel.LinkStart();
+                        }
+                    });
+
                     break;
 
                 case "ScreencapFailed":
@@ -1186,7 +1200,7 @@ namespace MeoAsstGui
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_trust_enabled)
+        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_trust_enabled, bool originium_shard_auto_replenishment)
         {
             var task_params = new JObject();
 
@@ -1196,7 +1210,7 @@ namespace MeoAsstGui
             task_params["threshold"] = dorm_threshold;
             task_params["notstationed_enabled"] = dorm_filter_not_stationed_enabled;
             task_params["trust_enabled"] = dorm_trust_enabled;
-            task_params["replenish"] = true;
+            task_params["replenish"] = originium_shard_auto_replenishment;
             TaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;
             return id != 0;

@@ -528,13 +528,15 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// Saves infrast order list.
+        /// 实时更新基建换班顺序
         /// </summary>
-        public void SaveInfrastOrderList()
+        public void InfrastOrderSelectionChanged()
         {
-            for (int i = 0; i < InfrastItemViewModels.Count; i++)
+            int index = 0;
+            foreach (var item in InfrastItemViewModels)
             {
-                ViewStatusStorage.Set("Infrast.Order." + InfrastItemViewModels[i].OriginalName, i.ToString());
+                ViewStatusStorage.Set("Infrast.Order." + item.OriginalName, index.ToString());
+                ++index;
             }
         }
 
@@ -580,6 +582,21 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _dormTrustEnabled, value.ToString());
                 ViewStatusStorage.Set("Infrast.DormTrustEnabled", value.ToString());
+            }
+        }
+
+        private string _originiumShardAutoReplenishment = ViewStatusStorage.Get("Infrast.OriginiumShardAutoReplenishment", true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Originium shard auto replenishment is enabled.
+        /// </summary>
+        public bool OriginiumShardAutoReplenishment
+        {
+            get => bool.Parse(_originiumShardAutoReplenishment);
+            set
+            {
+                SetAndNotify(ref _originiumShardAutoReplenishment, value.ToString());
+                ViewStatusStorage.Set("Infrast.OriginiumShardAutoReplenishment", value.ToString());
             }
         }
 
@@ -1408,6 +1425,21 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
+            }
+        }
+
+        private bool _retryOnDisconnected = Convert.ToBoolean(ViewStatusStorage.Get("Connect.RetryOnDisconnected", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// </summary>
+        public bool RetryOnDisconnected
+        {
+            get => _retryOnDisconnected;
+            set
+            {
+                SetAndNotify(ref _retryOnDisconnected, value);
+                ViewStatusStorage.Set("Connect.RetryOnDisconnected", value.ToString());
             }
         }
 

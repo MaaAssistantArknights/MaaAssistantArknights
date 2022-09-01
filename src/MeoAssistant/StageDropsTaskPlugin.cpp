@@ -8,6 +8,7 @@
 #include "Controller.h"
 #include "Logger.hpp"
 #include "ProcessTask.h"
+#include "ReportDataTask.h"
 #include "Resource.h"
 #include "RuntimeStatus.h"
 #include "StageDropsImageAnalyzer.h"
@@ -90,8 +91,7 @@ bool asst::StageDropsTaskPlugin::_run()
     }
 
     if (m_enable_penguid && !m_is_annihilation) {
-        auto upload_future = std::async(std::launch::async, &StageDropsTaskPlugin::upload_to_penguin, this);
-        m_upload_pending.emplace_back(std::move(upload_future));
+        upload_to_penguin();
     }
 
     return true;
@@ -205,11 +205,8 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
 {
     LogTraceFunction;
 
-    auto& opt = Resrc.cfg().get_options();
-
     json::value cb_info = basic_info();
     cb_info["subtask"] = "ReportToPenguinStats";
-    callback(AsstMsg::SubTaskStart, cb_info);
 
     // Doc: https://developer.penguin-stats_vec.io/public-api/api-v2-instruction/report-api
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
@@ -251,38 +248,38 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     body["source"] = "MeoAssistant";
     body["version"] = Version;
 
-    std::string body_escape = utils::string_replace_all(body.to_string(), "\"", "\\\"");
-    std::string cmd_line = utils::string_replace_all(opt.penguin_report.cmd_format, "[body]", body_escape);
-
     std::string extra_param;
     if (!m_penguin_id.empty()) {
         extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
     }
-    cmd_line = utils::string_replace_all(cmd_line, "[extra]", extra_param);
-    Log.info("request_penguin |", cmd_line);
 
-    std::string response = utils::callcmd(cmd_line);
-
-    Log.info("response:\n", response);
-    cb_info["details"]["response"] = response;
-
-    static const std::regex http_ok_regex(R"(HTTP/.+ 200 OK)");
-    if (std::regex_search(response, http_ok_regex)) {
-        callback(AsstMsg::SubTaskCompleted, cb_info);
-    }
-    else {
-        cb_info["why"] = "上报失败";
-        callback(AsstMsg::SubTaskError, cb_info);
+    if (!m_report_penguin_task_ptr) {
+        m_report_penguin_task_ptr =
+            std::make_shared<ReportDataTask>(report_penguin_callback, static_cast<void*>(this), m_task_chain);
     }
 
-    static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
-    std::smatch penguinid_sm;
-    if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
-        json::value id_info = basic_info_with_what("PenguinId");
-        m_penguin_id = penguinid_sm[1];
-        id_info["details"]["id"] = m_penguin_id;
-        callback(AsstMsg::SubTaskExtraInfo, id_info);
+    m_report_penguin_task_ptr->set_report_type(ReportType::PenguinStats)
+        .set_body(body.to_string())
+        .set_extra_param(extra_param)
+        .set_retry_times(5)
+        .run();
+}
+
+void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+{
+    LogTraceFunction;
+
+    auto p_this = static_cast<StageDropsTaskPlugin*>(custom_arg);
+    if (!p_this) {
+        return;
     }
+
+    if (msg == AsstMsg::SubTaskExtraInfo && detail.get("what", std::string()) == "PenguinId") {
+        std::string id = detail.get("details", "id", std::string());
+        p_this->m_penguin_id = id;
+    }
+
+    p_this->callback(msg, detail);
 }
 
 bool asst::StageDropsTaskPlugin::check_stage_valid()

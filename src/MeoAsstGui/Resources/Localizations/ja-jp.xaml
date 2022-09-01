@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
     <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">すでに進駐しているオペレーターを宿舎に入れない</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片は自動で補充する</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
@@ -149,6 +150,8 @@
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">初めて使うと自動で記入されますので、問題があれば手動で修正してみてください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
+    <system:String x:Key="RetryOnDisconnected">adb再接続失敗時のエミュレータの自動再起動</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <!--  設定  -->
 
     <!--  スタート  -->
@@ -309,7 +312,7 @@
     <system:String x:Key="HasReturned">戻った</system:String>
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsのアップロードをあきらめます</system:String>
-    <system:String x:Key="TheEX">EXステージですから、止めます</system:String>
+    <system:String x:Key="TheEX">無報酬のステージですから、止めます</system:String>
     <system:String x:Key="OnTheMove">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
@@ -362,7 +365,8 @@
     <!--  About  -->
     <system:String x:Key="Website">MAA公式サイト</system:String>
     <system:String x:Key="Github">ソースコード：GitHub</system:String>
-    <system:String x:Key="QQgroup">自動攻略ファイルシェアQQグループ</system:String>
+    <system:String x:Key="PrtsPlus">自動攻略ファイルシェアWebサイト</system:String>
+    <system:String x:Key="QQgroup">QQグループ：</system:String>
     <system:String x:Key="QQgroup1">グループ1</system:String>
     <system:String x:Key="QQgroup2">グループ2</system:String>
     <system:String x:Key="QQgroup3">グループ3</system:String>

@@ -43,7 +43,6 @@
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
                     <ListBox
-                        x:Name="TaskList"
                         Grid.Row="0"
                         Width="190"
                         MinHeight="220"
@@ -53,6 +52,7 @@
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
+                        SelectionChanged="{s:Action TaskItemSelectionChanged}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -62,7 +62,7 @@
                                     <CheckBox
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
-                                        IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
+                                        IsHitTestVisible="{Binding Path=DataContext.Idle}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

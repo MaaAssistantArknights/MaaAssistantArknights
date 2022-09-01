@@ -41,6 +41,19 @@ namespace MeoAsstGui
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
 
         /// <summary>
+        /// 实时更新任务顺序
+        /// </summary>
+        public void TaskItemSelectionChanged()
+        {
+            int index = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
+                ++index;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the view models of log items.
         /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
@@ -666,16 +679,9 @@ namespace MeoAsstGui
 
             Idle = false;
 
-            // 点击开始后先保存两大顺序：任务顺序和基建顺序
-            // TODO: optimize me: 要不要改成类似 check，在拖动后保存？
-            int index = 0;
-            foreach (var item in TaskItemViewModels)
-            {
-                ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
-                ++index;
-            }
-
-            _container.Get<SettingsViewModel>().SaveInfrastOrderList();
+            // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
+            TaskItemSelectionChanged();
+            _container.Get<SettingsViewModel>().InfrastOrderSelectionChanged();
 
             ClearLog();
 
@@ -912,10 +918,9 @@ namespace MeoAsstGui
         {
             var settings = _container.Get<SettingsViewModel>();
             var order = settings.GetInfrastOrderList();
-            settings.SaveInfrastOrderList();
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendInfrast(order.ToArray(),
-                settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled);
+                settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment);
         }
 
         private bool appendMall()

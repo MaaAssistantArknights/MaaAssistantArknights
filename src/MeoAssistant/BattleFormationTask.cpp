@@ -3,11 +3,10 @@
 #include "AsstRanges.hpp"
 
 #include "Controller.h"
+#include "Logger.hpp"
 #include "OcrWithFlagTemplImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "Resource.h"
-
-#include "AsstRanges.hpp"
 
 void asst::BattleFormationTask::set_stage_name(std::string name)
 {
@@ -16,35 +15,26 @@ void asst::BattleFormationTask::set_stage_name(std::string name)
 
 bool asst::BattleFormationTask::_run()
 {
-    const auto& copilot = Resrc.copilot();
-    if (!copilot.contains_actions(m_stage_name)) {
-        return false;
-    }
+    LogTraceFunction;
 
-    m_groups = copilot.get_actions(m_stage_name).groups;
-    if (m_groups.empty()) {
-        return true;
+    if (!parse_formation()) {
+        return false;
     }
 
     if (!enter_selection_page()) {
         return false;
     }
 
-    json::value info = basic_info_with_what("BattleFormation");
-    auto& details = info["details"];
-    auto& formation = details["formation"];
-    for (const auto& name : m_groups | views::keys) {
-        formation.array_emplace(name);
-    }
-    callback(AsstMsg::SubTaskExtraInfo, info);
-
-    // TODO: 需要加一个滑到头了的检测
-    while (!need_exit()) {
-        select_opers_in_cur_page();
-        if (m_groups.empty()) {
-            break;
+    for (auto& [role, oper_groups] : m_formation) {
+        click_role_table(role);
+        // TODO: 需要加一个滑到头了的检测
+        while (!need_exit()) {
+            select_opers_in_cur_page(oper_groups);
+            if (oper_groups.empty()) {
+                break;
+            }
+            swipe_page();
         }
-        swipe_page();
     }
     confirm_selection();
     return true;
@@ -55,7 +45,7 @@ bool asst::BattleFormationTask::enter_selection_page()
     return ProcessTask(*this, { "BattleQuickFormation" }).run();
 }
 
-bool asst::BattleFormationTask::select_opers_in_cur_page()
+bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = m_ctrler->get_image();
@@ -98,11 +88,10 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
     int skill = 1;
     for (const auto& res : opers_result) {
         const std::string& name = res.text;
-        auto iter = m_groups.begin();
+        auto iter = groups.begin();
         bool found = false;
-        for (; iter != m_groups.end(); ++iter) {
-            const auto& [_, opers_vec] = *iter;
-            for (const auto& oper : opers_vec) {
+        for (; iter != groups.end(); ++iter) {
+            for (const auto& oper : *iter) {
                 if (oper.name == name) {
                     found = true;
                     skill = oper.skill;
@@ -114,7 +103,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
             }
         }
 
-        if (iter == m_groups.end()) {
+        if (iter == groups.end()) {
             continue;
         }
         m_ctrler->click(res.rect);
@@ -122,7 +111,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page()
         if (1 <= skill && skill <= 3) {
             m_ctrler->click(SkillRectArray.at(skill - 1ULL));
         }
-        m_groups.erase(iter);
+        groups.erase(iter);
 
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
@@ -145,4 +134,49 @@ void asst::BattleFormationTask::swipe_page()
 bool asst::BattleFormationTask::confirm_selection()
 {
     return ProcessTask(*this, { "BattleQuickFormationConfirm" }).run();
+}
+
+bool asst::BattleFormationTask::click_role_table(BattleRole role)
+{
+    static const std::unordered_map<BattleRole, std::string> RoleNameType = {
+        { BattleRole::Caster, "Caster" }, { BattleRole::Medic, "Medic" },     { BattleRole::Pioneer, "Pioneer" },
+        { BattleRole::Sniper, "Sniper" }, { BattleRole::Special, "Special" }, { BattleRole::Support, "Support" },
+        { BattleRole::Tank, "Tank" },     { BattleRole::Warrior, "Warrior" },
+    };
+
+    auto role_iter = RoleNameType.find(role);
+    if (role_iter == RoleNameType.cend()) {
+        return ProcessTask(*this, { "BattleQuickFormationRole-All" }).set_retry_times(0).run();
+    }
+    else {
+        return ProcessTask(*this, { "BattleQuickFormationRole-" + role_iter->second }).set_retry_times(0).run();
+    }
+}
+
+bool asst::BattleFormationTask::parse_formation()
+{
+    if (!Resrc.copilot().contains_actions(m_stage_name)) {
+        Log.error("Unknown stage name", m_stage_name);
+        return false;
+    }
+
+    const auto& group = Resrc.copilot().get_actions(m_stage_name).groups;
+    const auto& battle_data = Resrc.battle_data();
+
+    json::value info = basic_info_with_what("BattleFormation");
+    auto& details = info["details"];
+    auto& formation = details["formation"];
+
+    for (const auto& [name, opers_vec] : group) {
+        if (opers_vec.empty()) {
+            continue;
+        }
+        formation.array_emplace(name);
+
+        BattleRole role = battle_data.get_role(opers_vec.front().name);
+        m_formation[role].emplace_back(opers_vec);
+    }
+
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    return true;
 }

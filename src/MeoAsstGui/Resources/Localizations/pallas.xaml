@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">🍺🍻🍷🍷</system:String>
     <system:String x:Key="DormTrustEnabled">🍻🍸🕺🍸🍺🍺🍺🍸</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">🍻🍷🍸🍺🍺🍺🍷🍸🕺🍷💃🍺🍷🍸</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">🍺🍺🍺🍺🍸🍸🍻🍻</system:String>
 
     <system:String x:Key="General">🍻🍸🕺</system:String>
     <system:String x:Key="BlueStacks">🍺🕺🍻</system:String>
@@ -149,6 +150,8 @@
     <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
     <system:String x:Key="ConnectionAddressTip">🍷🍷🍷🍺🍺🍻💃🍻🍺🍺🍷🍻🕺🍻🕺💃🕺🍸💃🍸🍷🍷🍺🕺🍸</system:String>
     <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
+    <system:String x:Key="RetryOnDisconnected">🍺🍷🍺🍸🍷🍻🕺🕺🍺🍷🍻🍺🍸🍻🍸🍺</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">🍻🍺🍸🍻🍷🍻🍷🍻🍷🍻🍻🍸🕺🍺🍺🍸🍺🍺🍺🍺🍸🕺🍻🍷🍸🕺🍷🕺🕺🍻🍷🍻🍺🕺🍺🍻🍷🍷💃💃🍺🍸</system:String>
     <!--  设置  -->
 
     <!--  一键长草  -->
@@ -361,7 +364,8 @@
     <!--  About  -->
     <system:String x:Key="Website">🍸🍷🍺🍺</system:String>
     <system:String x:Key="Github">💃🍺💃🍻💃</system:String>
-    <system:String x:Key="QQgroup">🕺🍷🍸🍺🍷🕺🍺</system:String>
+    <system:String x:Key="PrtsPlus">🕺🍷🍸🍺🍷🕺🍺</system:String>
+    <system:String x:Key="QQgroup">🍻🍻</system:String>
     <system:String x:Key="QQgroup1">🍻🍺</system:String>
     <system:String x:Key="QQgroup2">🍷💃</system:String>
     <system:String x:Key="QQgroup3">🍺🍻</system:String>

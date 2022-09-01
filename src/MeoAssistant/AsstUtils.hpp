@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AsstConf.h"
+#include "AsstRanges.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -16,6 +17,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #endif
+#ifndef _MSC_VER
+#include <cxxabi.h>
+#endif
 
 namespace asst::utils
 {
@@ -25,6 +29,13 @@ namespace asst::utils
     template <typename T, T Val, typename... Unused>
     struct integral_constant_at_template_instantiation : std::integral_constant<T, Val>
     {};
+
+    template <typename dst_t, typename src_t>
+    requires ranges::range<src_t> && ranges::range<dst_t>
+    dst_t view_cast(const src_t& src)
+    {
+        return dst_t(src.begin(), src.end());
+    }
 
     inline void _string_replace_all(std::string& str, const std::string_view& old_value,
                                     const std::string_view& new_value)
@@ -344,5 +355,24 @@ namespace asst::utils
         }
 #endif
         return pipe_str;
+    }
+
+    inline std::string demangle(const char* name_from_typeid)
+    {
+#ifndef _MSC_VER
+        int status = 0;
+        std::size_t size = 0;
+        char* p = abi::__cxa_demangle(name_from_typeid, NULL, &size, &status);
+        if (!p) return name_from_typeid;
+        std::string result(p);
+        std::free(p);
+        return result;
+#else
+        std::string_view temp(name_from_typeid);
+        if (temp.substr(0, 6) == "class ") return std::string(temp.substr(6));
+        if (temp.substr(0, 7) == "struct ") return std::string(temp.substr(7));
+        if (temp.substr(0, 5) == "enum ") return std::string(temp.substr(5));
+        return std::string(temp);
+#endif
     }
 } // namespace asst::utils

@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">Chip Packs</system:String>
     <system:String x:Key="DormTrustEnabled">Trust farming in dorm</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed opers in dorm</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
 
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
@@ -149,6 +150,8 @@
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
+    <system:String x:Key="RetryOnDisconnected">Auto restart emulator when adb reconnection fails</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, Must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <!--  Settings  -->
 
     <!--  Farming  -->
@@ -309,7 +312,7 @@
     <system:String x:Key="HasReturned">Has returned</system:String>
     <system:String x:Key="DropRecognitionError">Drop recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">abort upload to Penguins statistics</system:String>
-    <system:String x:Key="TheEX">EX stage, stopped</system:String>
+    <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
     <system:String x:Key="OnTheMove">operation started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
@@ -362,7 +365,8 @@
     <!--  AboutUser  -->
     <system:String x:Key="Website">MAA Website</system:String>
     <system:String x:Key="Github">Source: GitHub</system:String>
-    <system:String x:Key="QQgroup">Copilot Json sharing QQ group</system:String>
+    <system:String x:Key="PrtsPlus">Copilot Json sharing site</system:String>
+    <system:String x:Key="QQgroup">QQ group:</system:String>
     <system:String x:Key="QQgroup1">QQ group 1</system:String>
     <system:String x:Key="QQgroup2">QQ group 2</system:String>
     <system:String x:Key="QQgroup3">QQ group 3</system:String>
