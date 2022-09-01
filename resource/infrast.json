@@ -10,7 +10,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05；基建内深海猎人干员获得特殊加成（与部分技能有特殊叠加规则）"
                 ],
                 "efficient": {
-                    "all": 0.05
+                    "all": 0.04
                 },
                 "name": [
                     "集群狩猎·α"
@@ -22,7 +22,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05；基建内深海猎人干员获得特殊加成（与部分技能有特殊叠加规则）"
                 ],
                 "efficient": {
-                    "all": 0.05
+                    "all": 0.04
                 },
                 "name": [
                     "集群狩猎·β"
@@ -363,8 +363,7 @@
                 "template": "Bskill_ctrl_ussg.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Dorm": {
         "skills": {
@@ -1931,8 +1930,7 @@
                 "template": "Bskill_hire_spd_memento.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Power": {
         "maxNumOfOpers": 1,
@@ -2050,8 +2048,7 @@
                 "template": "Bskill_pow_spd3.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Reception": {
         "Doc": "会客室",
@@ -2359,8 +2356,7 @@
                 "template": "Bskill_meet_ursus2.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Trade": {
         "maxNumOfOpers": 3,
@@ -2940,8 +2936,7 @@
                         ]
                     }
                 ],
-                "optional": [
-                ]
+                "optional": []
             },
             {
                 "allowExternal": true,

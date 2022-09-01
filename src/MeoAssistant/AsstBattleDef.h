@@ -57,6 +57,7 @@ namespace asst
     {
         int kills = 0;
         int cost_changes = 0;
+        int cooling = 0;
         BattleActionType type = BattleActionType::Deploy;
         std::string group_name; // 目标名，若 type >= SwitchSpeed, group_name 为空
         Point location;
