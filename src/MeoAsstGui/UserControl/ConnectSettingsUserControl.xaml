@@ -22,6 +22,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="0"
@@ -91,5 +92,15 @@
             ItemsSource="{Binding ConnectConfigList}"
             SelectedValue="{Binding ConnectConfig}"
             SelectedValuePath="Value" />
+
+        <CheckBox
+            Grid.Row="4"
+            Grid.ColumnSpan="4"
+            Margin="10,0,0,0"
+            VerticalAlignment="Center"
+            IsChecked="{Binding RetryOnDisconnected}"
+            HorizontalAlignment="Left">
+            <TextBlock TextWrapping="Wrap" Text="{DynamicResource RetryOnDisconnected}" />
+        </CheckBox>
     </Grid>
 </UserControl>
