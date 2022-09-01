@@ -376,7 +376,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
                   { "cmd", cmd },
               } },
         };
-        constexpr static int ReconnectTimes = 5;
+        constexpr static int ReconnectTimes = 20;
         for (int i = 0; i < ReconnectTimes; ++i) {
             if (need_exit()) {
                 break;

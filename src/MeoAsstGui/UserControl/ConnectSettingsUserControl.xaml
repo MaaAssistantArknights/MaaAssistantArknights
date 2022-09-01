@@ -99,8 +99,8 @@
             Margin="10,0,0,0"
             VerticalAlignment="Center"
             IsChecked="{Binding RetryOnDisconnected}"
-            HorizontalAlignment="Left">
-            <TextBlock TextWrapping="Wrap" Text="{DynamicResource RetryOnDisconnected}" />
-        </CheckBox>
+            Content="{DynamicResource RetryOnDisconnected}"
+            ToolTip="{DynamicResource RetryOnDisconnectedTip}"
+            HorizontalAlignment="Left" />
     </Grid>
 </UserControl>
