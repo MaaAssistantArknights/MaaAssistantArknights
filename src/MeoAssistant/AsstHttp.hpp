@@ -72,8 +72,8 @@ namespace asst::http
 
     public:
         template <typename... Args>
-        requires std::is_constructible_v<std::string, Args...> Response(Args&&... args)
-            : std::string(std::forward<Args>(args)...)
+        requires std::is_constructible_v<std::string, Args...>
+        Response(Args&&... args) : std::string(std::forward<Args>(args)...)
         {
             bool _is_status_line = true;
             // 这里的 \r\n 处理很奇怪，因为 views::split 好像不支持 string，只能 char
