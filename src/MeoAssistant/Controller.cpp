@@ -741,7 +741,8 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     else {
         Log.info("data is not empty, but image is empty");
 
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet ||
+            m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::LF) {
             Log.info("try to cvt lf");
             convert_lf(data);
 
@@ -754,6 +755,7 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
                 Log.error("convert lf and retry decode failed!");
             }
         }
+        m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::UnknownYet;
         return false;
     }
 }
