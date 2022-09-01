@@ -1428,6 +1428,21 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _retryOnDisconnected = Convert.ToBoolean(ViewStatusStorage.Get("Connect.RetryOnDisconnected", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// </summary>
+        public bool RetryOnDisconnected
+        {
+            get => _retryOnDisconnected;
+            set
+            {
+                SetAndNotify(ref _retryOnDisconnected, value);
+                ViewStatusStorage.Set("Connect.RetryOnDisconnected", value.ToString());
+            }
+        }
+
         private readonly Dictionary<string, List<string>> _defaultAddress = new Dictionary<string, List<string>>
         {
             { "General", new List<string> { string.Empty } },

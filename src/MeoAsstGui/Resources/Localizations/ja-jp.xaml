@@ -150,6 +150,8 @@
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">初めて使うと自動で記入されますので、問題があれば手動で修正してみてください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
+    <system:String x:Key="RetryOnDisconnected">adb再接続失敗時のエミュレータの自動再起動</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <!--  設定  -->
 
     <!--  スタート  -->
