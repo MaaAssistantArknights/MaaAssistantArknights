@@ -80,7 +80,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     m_support_socket = false;
 #endif
 
-    m_pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
+    m_pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
     if (!m_pipe_buffer) {
         throw "controller pipe buffer allocated failed";
     }
@@ -222,14 +222,13 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::vector<uchar>> asst::Controller::call_command(const std::string& cmd, int64_t timeout,
-                                                                 bool recv_by_socket)
+std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
     using namespace std::chrono_literals;
     using namespace std::chrono;
     // LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
-    std::vector<uchar> pipe_data;
+    std::string pipe_data;
 
     auto start_time = steady_clock::now();
     auto check_timeout = [&]() -> bool {
@@ -331,8 +330,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 
     auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", std::string(pipe_data.cbegin(), pipe_data.cend()),
-                  ", cost", duration, "ms");
+        Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", pipe_data, ", cost", duration, "ms");
     }
     else {
         Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size(), ", cost", duration, "ms");
@@ -368,9 +366,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
             auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
-                auto& reconnect_val = reconnect_ret.value();
-                std::string reconnect_str(std::make_move_iterator(reconnect_val.begin()),
-                                          std::make_move_iterator(reconnect_val.end()));
+                auto& reconnect_str = reconnect_ret.value();
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
@@ -402,14 +398,14 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 }
 
 // 返回值代表是否找到 "\r\n"，函数本身会将所有 "\r\n" 替换为 "\n"
-bool asst::Controller::convert_lf(std::vector<uchar>& data)
+bool asst::Controller::convert_lf(std::string& data)
 {
     LogTraceFunction;
 
     if (data.empty() || data.size() < 2) {
         return false;
     }
-    auto pred = [](const std::vector<uchar>::iterator& cur) -> bool { return *cur == '\r' && *(cur + 1) == '\n'; };
+    auto pred = [](const std::string::iterator& cur) -> bool { return *cur == '\r' && *(cur + 1) == '\n'; };
     // find the first of "\r\n"
     auto first_iter = data.end();
     for (auto iter = data.begin(); iter != data.end() - 1; ++iter) {
@@ -570,7 +566,7 @@ bool asst::Controller::screencap()
     //     return true;
     // }
 
-    DecodeFunc decode_raw = [&](std::vector<uchar>& data) -> bool {
+    DecodeFunc decode_raw = [&](std::string_view data) -> bool {
         if (data.empty()) {
             return false;
         }
@@ -579,11 +575,11 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = data.size() - std_size;
-        bool is_all_zero = std::all_of(data.data() + header_size, data.data() + std_size, std::logical_not<bool> {});
-        if (is_all_zero) {
+        auto img_data = data.substr(header_size);
+        if (ranges::all_of(img_data, std::logical_not<bool> {})) {
             return false;
         }
-        cv::Mat temp(m_height, m_width, CV_8UC4, data.data() + header_size);
+        cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(img_data.data()));
         if (temp.empty()) {
             return false;
         }
@@ -593,33 +589,12 @@ bool asst::Controller::screencap()
         return true;
     };
 
-    DecodeFunc decode_raw_with_gzip = [&](std::vector<uchar>& data) -> bool {
-        auto unzip_data = gzip::decompress(data.data(), data.size());
-        if (unzip_data.empty()) {
-            return false;
-        }
-        size_t std_size = 4ULL * m_width * m_height;
-        if (unzip_data.size() < std_size) {
-            return false;
-        }
-        size_t header_size = unzip_data.size() - std_size;
-        bool is_all_zero =
-            std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, std::logical_not<bool> {});
-        if (is_all_zero) {
-            return false;
-        }
-        cv::Mat temp(m_height, m_width, CV_8UC4, unzip_data.data() + header_size);
-        if (temp.empty()) {
-            return false;
-        }
-        cv::cvtColor(temp, temp, cv::COLOR_RGB2BGR);
-        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-        m_cache_image = temp;
-        return true;
+    DecodeFunc decode_raw_with_gzip = [&](std::string_view data) -> bool {
+        return decode_raw(gzip::decompress(data.data(), data.size()));
     };
 
-    DecodeFunc decode_encode = [&](std::vector<uchar>& data) -> bool {
-        cv::Mat temp = cv::imdecode(data, cv::IMREAD_COLOR);
+    DecodeFunc decode_encode = [&](std::string_view data) -> bool {
+        cv::Mat temp = cv::imdecode({ data.data(), int(data.size()) }, cv::IMREAD_COLOR);
         if (temp.empty()) {
             return false;
         }
@@ -698,13 +673,13 @@ bool asst::Controller::screencap()
 
 bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket)
 {
-    if ((!m_support_socket || !m_server_started) && by_socket) {
+    if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
 
     auto ret = call_command(cmd, 20000, by_socket);
 
-    if (!ret || ret.value().empty()) {
+    if (!ret || ret.value().empty()) [[unlikely]] {
         Log.error("data is empty!");
         return false;
     }
@@ -713,13 +688,13 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     bool tried_conversion = false;
     if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
         tried_conversion = true;
-        if (!convert_lf(data)) { // 没找到 "\r\n"
+        if (!convert_lf(data)) [[unlikely]] { // 没找到 "\r\n"
             Log.info("screencap_end_of_line is set to CRLF but no `\\r\\n` found, set it to LF");
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
         }
     }
 
-    if (decode_func(data)) {
+    if (decode_func(data)) [[likely]] {
         if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
             Log.info("screencap_end_of_line is LF");
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
@@ -944,7 +919,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         return false;
     }
 
-    const auto adb_cfg = std::move(adb_ret.value());
+    const auto& adb_cfg = adb_ret.value();
     std::string display_id;
     std::string nc_address = "10.0.2.2";
     uint16_t nc_port = 0;
@@ -967,9 +942,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
-            auto& connect_val = connect_ret.value();
-            std::string connect_str(std::make_move_iterator(connect_val.begin()),
-                                    std::make_move_iterator(connect_val.end()));
+            auto& connect_str = connect_ret.value();
             is_connect_success = connect_str.find("error") == std::string::npos;
         }
         if (!is_connect_success) {
@@ -994,8 +967,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             return false;
         }
 
-        auto& uuid_result = uuid_ret.value();
-        std::string uuid_str(std::make_move_iterator(uuid_result.begin()), std::make_move_iterator(uuid_result.end()));
+        auto& uuid_str = uuid_ret.value();
         std::erase(uuid_str, ' ');
         m_uuid = std::move(uuid_str);
 
@@ -1014,10 +986,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             return false;
         }
 
-        auto& display_id_result = display_id_ret.value();
-        convert_lf(display_id_result);
-        std::string display_id_pipe_str(std::make_move_iterator(display_id_result.begin()),
-                                        std::make_move_iterator(display_id_result.end()));
+        auto& display_id_pipe_str = display_id_ret.value();
+        convert_lf(display_id_pipe_str);
         auto last = display_id_pipe_str.rfind(':');
         if (last == std::string::npos) {
             return false;
@@ -1040,9 +1010,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             return false;
         }
 
-        auto& display_result = display_ret.value();
-        std::string display_pipe_str(std::make_move_iterator(display_result.begin()),
-                                     std::make_move_iterator(display_result.end()));
+        auto& display_pipe_str = display_ret.value();
         int size_value1 = 0;
         int size_value2 = 0;
 #ifdef _MSC_VER
@@ -1137,9 +1105,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         // https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
         auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
         if (nc_address_ret) {
-            auto& nc_result = nc_address_ret.value();
-            std::string nc_result_str(std::make_move_iterator(nc_result.begin()),
-                                      std::make_move_iterator(nc_result.end()));
+            auto& nc_result_str = nc_address_ret.value();
             if (auto pos = nc_result_str.find(' '); pos != std::string::npos) {
                 nc_address = nc_result_str.substr(0, pos);
             }

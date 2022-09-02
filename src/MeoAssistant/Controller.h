@@ -74,14 +74,14 @@ namespace asst
     private:
         bool need_exit() const;
         void pipe_working_proc();
-        std::optional<std::vector<uchar>> call_command(const std::string& cmd, int64_t timeout = 20000,
-                                                       bool recv_by_socket = false);
+        std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
+                                                bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
 
         std::optional<unsigned short> try_to_init_socket(const std::string& local_address, unsigned short try_port,
                                                          unsigned short try_times = 10U);
 
-        using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
+        using DecodeFunc = std::function<bool(std::string_view)>;
         bool screencap();
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
         void clear_lf_info();
@@ -94,7 +94,7 @@ namespace asst
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
-        static bool convert_lf(std::vector<uchar>& data);
+        static bool convert_lf(std::string& data);
 
         bool* m_exit_flag = nullptr;
         AsstCallback m_callback;
@@ -104,7 +104,7 @@ namespace asst
 
         constexpr static int PipeBuffSize = 4 * 1024 * 1024;   // 管道缓冲区大小
         constexpr static int SocketBuffSize = 4 * 1024 * 1024; // socket 缓冲区大小
-        std::unique_ptr<uchar[]> m_pipe_buffer = nullptr;
+        std::unique_ptr<char[]> m_pipe_buffer = nullptr;
         std::mutex m_pipe_mutex;
         std::unique_ptr<char[]> m_socket_buffer = nullptr;
         std::mutex m_socket_mutex;
