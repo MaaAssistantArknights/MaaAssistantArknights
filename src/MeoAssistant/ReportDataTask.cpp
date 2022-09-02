@@ -77,8 +77,8 @@ void asst::ReportDataTask::report_to_penguin()
 
     http::Response response = report("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
 
-    if (response.success()) [[unlikely]] {
-        if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) {
+    if (response.success()) {
+        if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
             json::value id_info = basic_info_with_what("PenguinId");
             id_info["details"]["id"] = std::string(penguinid_opt.value());
             callback(AsstMsg::SubTaskExtraInfo, id_info);
