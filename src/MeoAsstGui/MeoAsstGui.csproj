@@ -113,6 +113,9 @@
     <Compile Include="Helper\MessageBoxManager.cs" />
     <Compile Include="Helper\ToastNotification.cs" />
     <Compile Include="Helper\ScrollViewerBinding.cs" />
+    <Compile Include="Helper\StageActivityInfo.cs" />
+    <Compile Include="Helper\StageInfo.cs" />
+    <Compile Include="Helper\StageManager.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
     <Compile Include="UserControl\GUISettingsUserControl.xaml.cs">
