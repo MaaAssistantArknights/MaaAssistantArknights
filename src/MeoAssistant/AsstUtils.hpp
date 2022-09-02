@@ -38,63 +38,73 @@ namespace asst::utils
         return dst_t(src.begin(), src.end());
     }
 
-    inline void _string_replace_all(std::string& str, const std::string_view& old_value,
-                                    const std::string_view& new_value)
+    template <typename char_t>
+    inline void _string_replace_all(std::basic_string<char_t>& str, std::basic_string_view<char_t> old_value,
+                                    std::basic_string_view<char_t> new_value)
     {
-        for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
-            if ((pos = str.find(old_value, pos)) != std::string::npos)
+        for (typename std::basic_string<char_t>::size_type pos(0); pos != str.npos; pos += new_value.length()) {
+            if ((pos = str.find(old_value, pos)) != str.npos)
                 str.replace(pos, old_value.length(), new_value);
             else
                 break;
         }
     }
 
-    inline std::string string_replace_all(const std::string& src, const std::string_view& old_value,
-                                          const std::string_view& new_value)
+    template <typename char_t, typename old_value_t, typename new_value_t>
+    requires std::is_constructible_v<std::basic_string_view<char_t>, old_value_t> &&
+             std::is_constructible_v<std::basic_string_view<char_t>, new_value_t>
+    inline std::basic_string<char_t> string_replace_all(const std::basic_string<char_t>& src, old_value_t&& old_value,
+                                                        new_value_t&& new_value)
     {
-        std::string str = src;
-        _string_replace_all(str, old_value, new_value);
+        std::basic_string<char_t> str = src;
+        _string_replace_all(str, { old_value }, { new_value });
         return str;
     }
 
-    inline std::string string_replace_all_batch(
-        const std::string& src, std::initializer_list<std::pair<std::string_view, std::string_view>>&& replace_pairs)
+    template <typename char_t, typename old_value_t = std::basic_string_view<char_t>,
+              typename new_value_t = std::basic_string_view<char_t>>
+    requires std::is_constructible_v<std::basic_string_view<char_t>, old_value_t> &&
+             std::is_constructible_v<std::basic_string_view<char_t>, new_value_t>
+    inline std::basic_string<char_t> string_replace_all_batch(
+        const std::basic_string<char_t>& src,
+        std::initializer_list<std::pair<old_value_t, new_value_t>>&& replace_pairs)
     {
-        std::string str = src;
+        std::basic_string<char_t> str = src;
+        for (auto&& [old_value, new_value] : replace_pairs) {
+            _string_replace_all(str, { old_value }, { new_value });
+        }
+        return str;
+    }
+
+    template <typename char_t, typename map_t>
+    [[deprecated]] inline std::basic_string<char_t> string_replace_all_batch(const std::basic_string<char_t>& src,
+                                                                             const map_t& replace_pairs)
+    requires std::derived_from<typename map_t::value_type::first_type, std::basic_string<char_t>> &&
+             std::derived_from<typename map_t::value_type::second_type, std::basic_string<char_t>>
+    {
+        std::basic_string<char_t> str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
-            _string_replace_all(str, old_value, new_value);
+            _string_replace_all(str, { old_value }, { new_value });
         }
         return str;
     }
 
-    template <typename map_t>
-    inline std::string string_replace_all_batch(const std::string& src, const map_t& replace_pairs)
-    requires std::derived_from<typename map_t::value_type::first_type, std::string> &&
-             std::derived_from<typename map_t::value_type::second_type, std::string>
-    {
-        std::string str = src;
-        for (const auto& [old_value, new_value] : replace_pairs) {
-            _string_replace_all(str, old_value, new_value);
-        }
-        return str;
-    }
+    // inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
+    // {
+    //     std::string::size_type pos1 = 0;
+    //     std::string::size_type pos2 = str.find(delimiter);
+    //     std::vector<std::string> result;
 
-    inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
-    {
-        std::string::size_type pos1 = 0;
-        std::string::size_type pos2 = str.find(delimiter);
-        std::vector<std::string> result;
+    //     while (std::string::npos != pos2) {
+    //         result.emplace_back(str.substr(pos1, pos2 - pos1));
 
-        while (std::string::npos != pos2) {
-            result.emplace_back(str.substr(pos1, pos2 - pos1));
+    //         pos1 = pos2 + delimiter.size();
+    //         pos2 = str.find(delimiter, pos1);
+    //     }
+    //     if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
 
-            pos1 = pos2 + delimiter.size();
-            pos2 = str.find(delimiter, pos1);
-        }
-        if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
-
-        return result;
-    }
+    //     return result;
+    // }
 
     inline std::string get_format_time()
     {
@@ -235,15 +245,14 @@ namespace asst::utils
         ifs.close();
         std::string str = iss.str();
 
-        using uchar = unsigned char;
-        constexpr static uchar Bom_0 = 0xEF;
-        constexpr static uchar Bom_1 = 0xBB;
-        constexpr static uchar Bom_2 = 0xBF;
+        static constexpr char _Bom[] = {
+            static_cast<char>(0xEF),
+            static_cast<char>(0xBB),
+            static_cast<char>(0xBF),
+        };
 
-        if (str.size() >= 3 && static_cast<uchar>(str.at(0)) == Bom_0 && static_cast<uchar>(str.at(1)) == Bom_1 &&
-            static_cast<uchar>(str.at(2)) == Bom_2) {
+        if (str.starts_with(_Bom)) {
             str.assign(str.begin() + 3, str.end());
-            return str;
         }
         return str;
     }
