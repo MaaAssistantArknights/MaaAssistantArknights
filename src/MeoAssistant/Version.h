@@ -2,7 +2,7 @@
 
 namespace asst
 {
-    constexpr static const char* Version =
+    static constexpr const char* Version =
 #ifdef MAA_VERSION
         MAA_VERSION;
 #else

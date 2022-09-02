@@ -35,7 +35,7 @@ namespace asst
         void set_facility(std::string facility) noexcept { m_facility = std::move(facility); }
         void set_to_be_calced(int to_be_calced) noexcept { m_to_be_calced = to_be_calced; }
 
-        constexpr static int MaxNumOfSkills = 2; // 单个干员最多有几个基建技能
+        static constexpr int MaxNumOfSkills = 2; // 单个干员最多有几个基建技能
 
     private:
         // 该分析器不支持外部设置ROI

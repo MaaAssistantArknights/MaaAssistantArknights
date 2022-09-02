@@ -52,7 +52,7 @@ namespace asst
         int click_without_scale(const Point& p, bool block = true);
         int click_without_scale(const Rect& rect, bool block = true);
 
-        constexpr static int SwipeExtraDelayDefault = 1000;
+        static constexpr int SwipeExtraDelayDefault = 1000;
         int swipe(const Point& p1, const Point& p2, int duration = 0, bool block = true,
                   int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
         int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true,
@@ -102,8 +102,8 @@ namespace asst
 
         std::minstd_rand m_rand_engine;
 
-        constexpr static int PipeBuffSize = 4 * 1024 * 1024;   // 管道缓冲区大小
-        constexpr static int SocketBuffSize = 4 * 1024 * 1024; // socket 缓冲区大小
+        static constexpr int PipeBuffSize = 4 * 1024 * 1024;   // 管道缓冲区大小
+        static constexpr int SocketBuffSize = 4 * 1024 * 1024; // socket 缓冲区大小
         std::unique_ptr<char[]> m_pipe_buffer = nullptr;
         std::mutex m_pipe_mutex;
         std::unique_ptr<char[]> m_socket_buffer = nullptr;
@@ -124,8 +124,8 @@ namespace asst
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 
 #else
-        constexpr static int PIPE_READ = 0;
-        constexpr static int PIPE_WRITE = 1;
+        static constexpr int PIPE_READ = 0;
+        static constexpr int PIPE_WRITE = 1;
         int m_pipe_in[2] = { 0 };
         int m_pipe_out[2] = { 0 };
         int m_child = 0;
