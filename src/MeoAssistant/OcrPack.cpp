@@ -12,7 +12,7 @@ asst::OcrPack::OcrPack()
 {
     Log.info("hardware_concurrency:", std::thread::hardware_concurrency());
     for (size_t i = 0; i != MaxBoxSize; ++i) {
-        constexpr static size_t MaxTextSize = 1024;
+        static constexpr size_t MaxTextSize = 1024;
         *(m_strs_buffer + i) = new char[MaxTextSize];
         // memset(*(m_strs_buffer + i), 0, MaxTextSize);
     }

@@ -354,7 +354,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", cmd },
               } },
         };
-        constexpr static int ReconnectTimes = 20;
+        static constexpr int ReconnectTimes = 20;
         for (int i = 0; i < ReconnectTimes; ++i) {
             if (need_exit()) {
                 break;
@@ -1170,7 +1170,7 @@ cv::Mat asst::Controller::get_image(bool raw)
     }
 
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
-    constexpr static int MaxTryCount = 20;
+    static constexpr int MaxTryCount = 20;
     bool success = false;
     for (int i = 0; i < MaxTryCount && m_inited; ++i) {
         if (need_exit()) {

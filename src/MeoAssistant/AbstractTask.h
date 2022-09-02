@@ -55,7 +55,7 @@ namespace asst
         int get_task_id() const noexcept { return m_task_id; }
         virtual json::value basic_info() const;
 
-        constexpr static int RetryTimesDefault = 20;
+        static constexpr int RetryTimesDefault = 20;
 
     protected:
         virtual bool _run() = 0;

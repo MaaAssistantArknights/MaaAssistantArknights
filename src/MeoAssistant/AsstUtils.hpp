@@ -310,8 +310,8 @@ namespace asst::utils
         CloseHandle(pipe_child_write);
 
 #else
-        constexpr static int PIPE_READ = 0;
-        constexpr static int PIPE_WRITE = 1;
+        static constexpr int PIPE_READ = 0;
+        static constexpr int PIPE_WRITE = 1;
         int pipe_in[2] = { 0 };
         int pipe_out[2] = { 0 };
         int pipe_in_ret = pipe(pipe_in);
