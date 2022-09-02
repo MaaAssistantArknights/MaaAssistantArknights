@@ -434,12 +434,28 @@ namespace MeoAsstGui
 
             if (settingsModel.HideUnavailableStage)
             {
-                var stage1 = Stage1;
                 StageList = newList;
 
-                if (stage1 == null)
+                if (Stage1 == null)
                 {
                     Stage1 = string.Empty;
+                }
+                else
+                {
+                    bool hasSavedValue = false;
+                    foreach (var item in StageList)
+                    {
+                        if (item.Value == Stage1)
+                        {
+                            hasSavedValue = true;
+                            break;
+                        }
+                    }
+
+                    if (!hasSavedValue)
+                    {
+                        Stage1 = string.Empty;
+                    }
                 }
             }
             else
