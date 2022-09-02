@@ -79,7 +79,7 @@ public partial class Build
     
     static void RemoveDebugSymbols(AbsolutePath outputDir)
     {
-        var files = outputDir.GlobFiles("*.pdb", "*.lib", "*.exp", "*.exe.config");
+        var files = outputDir.GlobFiles("*.pdb", "*.lib", "*.exp", "*.exe.config", "*.xml");
 
         foreach (var file in files)
         {
