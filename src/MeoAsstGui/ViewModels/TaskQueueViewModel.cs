@@ -292,102 +292,7 @@ namespace MeoAsstGui
                 temp_order_list[i] = new_vm;
             }
 
-            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
-
-            AllStageList = new List<CombData>();
-
-            var limit = new List<CombData>
-                {
-                    // SideStory「理想城：长夏狂欢季」活动
-                    new CombData { Display = "IC-9", Value = "IC-9" },
-                    new CombData { Display = "IC-8", Value = "IC-8" },
-                    new CombData { Display = "IC-7", Value = "IC-7" },
-                };
-            if (DateTime.UtcNow.AddHours(8 - 4).Date < new DateTime(2022, 9, 1))
-            {
-                AllStageList.AddRange(limit);
-            }
-            else
-            {
-                var closeFlag = false;
-                foreach (var item in limit)
-                {
-                    if (item.Display == Stage1)
-                    {
-                        Stage1 = _closedStage;
-                        closeFlag = true;
-                    }
-
-                    if (item.Display == Stage2)
-                    {
-                        Stage2 = _closedStage;
-                        closeFlag = true;
-                    }
-
-                    if (item.Display == Stage3)
-                    {
-                        Stage3 = _closedStage;
-                        closeFlag = true;
-                    }
-                }
-
-                if (closeFlag)
-                {
-                    AllStageList.Add(new CombData { Display = Localization.GetString("ClosedStage"), Value = _closedStage });
-                }
-            }
-
-            var resident = new List<CombData>
-            {
-                // 「当前/上次」关卡导航
-                new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
-
-                // 主线关卡
-                new CombData { Display = "1-7", Value = "1-7" },
-
-                // 资源本
-                new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
-                new CombData { Display = Localization.GetString("AP-5"), Value = "AP-5" },
-                new CombData { Display = Localization.GetString("CA-5"), Value = "CA-5" },
-                new CombData { Display = Localization.GetString("LS-6"), Value = "LS-6" },
-
-                // 剿灭模式
-                new CombData { Display = Localization.GetString("Annihilation"), Value = "Annihilation" },
-
-                // 芯片本
-                new CombData { Display = Localization.GetString("PR-A-1"), Value = "PR-A-1" },
-                new CombData { Display = Localization.GetString("PR-A-2"), Value = "PR-A-2" },
-                new CombData { Display = Localization.GetString("PR-B-1"), Value = "PR-B-1" },
-                new CombData { Display = Localization.GetString("PR-B-2"), Value = "PR-B-2" },
-                new CombData { Display = Localization.GetString("PR-C-1"), Value = "PR-C-1" },
-                new CombData { Display = Localization.GetString("PR-C-2"), Value = "PR-C-2" },
-                new CombData { Display = Localization.GetString("PR-D-1"), Value = "PR-D-1" },
-                new CombData { Display = Localization.GetString("PR-D-2"), Value = "PR-D-2" },
-
-                // 老版本「当前/上次」关卡导航
-                // new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                // new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
-
-                // SideStory「绿野幻梦」活动
-                // new CombData { Display = "DV-6", Value = "DV-6" },
-                // new CombData { Display = "DV-7", Value = "DV-7" },
-                // new CombData { Display = "DV-8", Value = "DV-8" },
-
-                // SideStory「尘影余音」活动
-                // new CombData { Display = "LE-7", Value = "LE-7" },
-                // new CombData { Display = "LE-6", Value = "LE-6" },
-                // new CombData { Display = "LE-5", Value = "LE-5" },
-
-                // SideStory「愚人号」活动关卡
-                // new CombData { Display = "SN-8", Value = "SN-8" },
-                // new CombData { Display = "SN-9", Value = "SN-9" },
-                // new CombData { Display = "SN-10", Value = "SN-10" },
-
-                // SideStory「风雪过境」活动关卡
-                // new CombData { Display = "BI-7", Value = "BI-7" },
-                // new CombData { Display = "BI-8", Value = "BI-8" }
-            };
-            AllStageList.AddRange(resident);
+            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list); 
 
             _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
             {
@@ -426,6 +331,76 @@ namespace MeoAsstGui
         /// </summary>
         public void UpdateStageList()
         {
+            AllStageList = new List<CombData>();
+            var limitTime = new DateTime(2022, 9, 3, 4, 0, 0);
+            var limit = new List<CombData>
+            {
+                // SideStory「理想城：长夏狂欢季」活动
+                new CombData { Display = "IC-9", Value = "IC-9" },
+                new CombData { Display = "IC-8", Value = "IC-8" },
+                new CombData { Display = "IC-7", Value = "IC-7" },
+
+                // SideStory「绿野幻梦」活动
+                // new CombData { Display = "DV-6", Value = "DV-6" },
+                // new CombData { Display = "DV-7", Value = "DV-7" },
+                // new CombData { Display = "DV-8", Value = "DV-8" },
+
+                // SideStory「尘影余音」活动
+                // new CombData { Display = "LE-7", Value = "LE-7" },
+                // new CombData { Display = "LE-6", Value = "LE-6" },
+                // new CombData { Display = "LE-5", Value = "LE-5" },
+
+                // SideStory「愚人号」活动关卡
+                // new CombData { Display = "SN-8", Value = "SN-8" },
+                // new CombData { Display = "SN-9", Value = "SN-9" },
+                // new CombData { Display = "SN-10", Value = "SN-10" },
+
+                // SideStory「风雪过境」活动关卡
+                // new CombData { Display = "BI-7", Value = "BI-7" },
+                // new CombData { Display = "BI-8", Value = "BI-8" }
+            };
+            if (DateTime.Compare(DateTime.UtcNow.AddHours(8), limitTime) < 0)
+            {
+                AllStageList.AddRange(limit);
+            }
+            else
+            {
+                AllStageList.Add(new CombData { Display = Localization.GetString("ClosedStage"), Value = _closedStage });
+            }
+
+            var resident = new List<CombData>
+            {
+                // 「当前/上次」关卡导航
+                new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
+
+                // 主线关卡
+                new CombData { Display = "1-7", Value = "1-7" },
+
+                // 资源本
+                new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
+                new CombData { Display = Localization.GetString("AP-5"), Value = "AP-5" },
+                new CombData { Display = Localization.GetString("CA-5"), Value = "CA-5" },
+                new CombData { Display = Localization.GetString("LS-6"), Value = "LS-6" },
+
+                // 剿灭模式
+                new CombData { Display = Localization.GetString("Annihilation"), Value = "Annihilation" },
+
+                // 芯片本
+                new CombData { Display = Localization.GetString("PR-A-1"), Value = "PR-A-1" },
+                new CombData { Display = Localization.GetString("PR-A-2"), Value = "PR-A-2" },
+                new CombData { Display = Localization.GetString("PR-B-1"), Value = "PR-B-1" },
+                new CombData { Display = Localization.GetString("PR-B-2"), Value = "PR-B-2" },
+                new CombData { Display = Localization.GetString("PR-C-1"), Value = "PR-C-1" },
+                new CombData { Display = Localization.GetString("PR-C-2"), Value = "PR-C-2" },
+                new CombData { Display = Localization.GetString("PR-D-1"), Value = "PR-D-1" },
+                new CombData { Display = Localization.GetString("PR-D-2"), Value = "PR-D-2" },
+
+                // 老版本「当前/上次」关卡导航
+                // new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
+                // new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
+            };
+            AllStageList.AddRange(resident);
+
             ObservableCollection<CombData> newList;
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.HideUnavailableStage)
@@ -457,21 +432,46 @@ namespace MeoAsstGui
                 return;
             }
 
-            StageList = newList;
-
-            bool hasSavedValue = false;
-            foreach (var item in StageList)
+            if (settingsModel.HideUnavailableStage)
             {
-                if (item.Value == Stage)
+                var stage1 = Stage1;
+                StageList = newList;
+
+                if (stage1 == null)
                 {
-                    hasSavedValue = true;
-                    break;
+                    Stage1 = string.Empty;
                 }
             }
-
-            if (!hasSavedValue)
+            else
             {
-                Stage1 = string.Empty;
+                // StageList更新会导致stage1，stage2，stage3变成null，要先备份一下
+                var stage1 = Stage1;
+                var stage2 = Stage2;
+                var stage3 = Stage3;
+                StageList = newList;
+
+                if (DateTime.Compare(DateTime.UtcNow.AddHours(8), limitTime) >= 0)
+                {
+                    foreach (var item in limit)
+                    {
+                        if (item.Value == stage1)
+                        {
+                            stage1 = _closedStage;
+                        }
+                        if (item.Value == stage2)
+                        {
+                            stage2 = _closedStage;
+                        }
+                        if (item.Value == stage2)
+                        {
+                            stage3 = _closedStage;
+                        }
+                    }
+
+                    Stage1 = stage1;
+                    Stage2 = stage2;
+                    Stage3 = stage3;
+                }
             }
         }
 
