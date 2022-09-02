@@ -9,6 +9,7 @@ using MaaBuilder.Models;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Nuke.Common;
 using Nuke.Common.IO;
+using Serilog;
 
 namespace MaaBuilder;
 
@@ -34,7 +35,9 @@ public partial class Build
         var sourceDirectory = new DirectoryInfo(input);
         var allFiles = sourceDirectory.GetFiles("*.*", SearchOption.AllDirectories);
         var allHashes = allFiles
-            .Select(x => FileSystemTasks.GetFileHash(x.FullName).ToUpperInvariant())
+            .Select(x => FileSystemTasks.GetFileHash(x.FullName).ToUpperInvariant() +
+                         ((AbsolutePath)x.FullName).GetUnixRelativePathTo(input))
+            .Select(GetStringMd5)
             .OrderBy(x => x);
         var hashCombinedBuilder = new StringBuilder();
         foreach (var h in allHashes)
