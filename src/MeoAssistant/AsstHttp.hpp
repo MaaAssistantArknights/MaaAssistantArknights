@@ -75,32 +75,25 @@ namespace asst::http
         requires std::is_constructible_v<std::string, Args...>
         Response(Args&&... args) : std::string(std::forward<Args>(args)...)
         {
+            std::string_view this_view = *this;
             bool _is_status_line = true;
-            // 这里的 \r\n 处理很奇怪，因为 views::split 好像不支持 string，只能 char
-            for (const auto& line : views::split(*this, '\n')) {
-                std::string_view line_view;
-                if (utils::view_cast<std::string_view>(line).ends_with('\r')) {
-                    line_view = utils::view_cast<std::string_view>(line | views::take(line.size() - 1));
-                }
-                else {
-                    line_view = utils::view_cast<std::string_view>(line);
-                }
+            for (const auto& line : utils::string_split(this_view, "\r\n")) {
                 // status
                 if (_is_status_line) {
-                    if (!_analyze_status_line(line_view)) {
+                    if (!_analyze_status_line(line)) {
                         return;
                     }
                     _is_status_line = false;
                 }
                 // headers
-                else if (!line_view.empty()) {
-                    if (!_analyze_headers_line(line_view)) {
+                else if (!line.empty()) {
+                    if (!_analyze_headers_line(line)) {
                         return;
                     }
                 }
                 // data
                 else {
-                    m_data = std::string_view(line.begin(), this->end());
+                    m_data = std::string_view(line.begin(), this_view.end());
                     return;
                 }
             }
