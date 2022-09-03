@@ -22,17 +22,15 @@ namespace asst::http
         bool _analyze_status_line(std::string_view status_line)
         {
             size_t _word_count = 0;
-            for (const std::string_view& word : views::split(status_line, ' ') | views::transform([](auto str_range) {
-                                                    return utils::view_cast<std::string_view>(str_range);
-                                                })) {
+            for (const auto& word : utils::string_split(status_line, " ", 2)) {
                 ++_word_count;
                 if (_word_count == 1) {
                     static const std::unordered_set<std::string_view> accepted_protocol_version = { "HTTP/1.1" };
-                    if (!accepted_protocol_version.contains(utils::view_cast<std::string_view>(word))) {
+                    if (!accepted_protocol_version.contains(word)) {
                         m_last_error = "unsupport protocol version";
                         return false;
                     }
-                    m_protocol_version = utils::view_cast<std::string_view>(word);
+                    m_protocol_version = word;
                 }
                 else if (_word_count == 2) {
                     if (word.length() != 3) {
@@ -45,7 +43,7 @@ namespace asst::http
                     m_status_code = std::atoi(word.data());
                 }
                 else {
-                    m_status_code_info = std::string_view(word.begin(), status_line.end());
+                    m_status_code_info = word;
                     return true;
                 }
             }
