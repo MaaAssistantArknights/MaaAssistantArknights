@@ -96,8 +96,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     LogTraceFunction;
 
     wait_for_start();
-
-    const auto& tile = Tile;
+    
     bool calced = false;
 
     if (m_stage_name.empty()) {
@@ -115,13 +114,13 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
 
             for (const auto& tr : name_analyzer.get_result()) {
-                auto side_info = tile.calc(tr.text, true);
+                auto side_info = Tile.calc(tr.text, true);
                 if (side_info.empty()) {
                     continue;
                 }
                 m_stage_name = tr.text;
                 m_side_tile_info = std::move(side_info);
-                m_normal_tile_info = tile.calc(m_stage_name, false);
+                m_normal_tile_info = Tile.calc(m_stage_name, false);
                 calced = true;
                 break;
             }
@@ -132,8 +131,8 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         }
     }
     else {
-        m_side_tile_info = tile.calc(m_stage_name, true);
-        m_normal_tile_info = tile.calc(m_stage_name, false);
+        m_side_tile_info = Tile.calc(m_stage_name, true);
+        m_normal_tile_info = Tile.calc(m_stage_name, false);
         calced = true;
     }
 
