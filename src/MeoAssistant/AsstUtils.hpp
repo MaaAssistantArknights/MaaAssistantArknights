@@ -116,7 +116,8 @@ namespace asst::utils
     requires std::convertible_to<str_t, std::basic_string_view<char_t>> &&
              std::convertible_to<delimiter_t, std::basic_string_view<char_t>>
     inline std::vector<std::basic_string_view<char_t>> string_split(const str_t& src,
-                                                                    delimiter_t delimiter)
+                                                                    delimiter_t delimiter,
+                                                                    size_t split_count = -1)
     {
         std::basic_string_view<char_t> delimiter_view = delimiter;
         std::basic_string_view<char_t> str = src;
@@ -124,7 +125,7 @@ namespace asst::utils
         typename std::basic_string<char_t>::size_type pos2 = str.find(delimiter_view);
         std::vector<std::basic_string_view<char_t>> result;
 
-        while (pos2 != str.npos) {
+        while (split_count-- && pos2 != str.npos) {
             result.emplace_back(str.substr(pos1, pos2 - pos1));
 
             pos1 = pos2 + delimiter_view.length();
