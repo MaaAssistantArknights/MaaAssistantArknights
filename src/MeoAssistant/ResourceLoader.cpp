@@ -21,7 +21,7 @@
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
-#define LoadResouceAndCheckRet(Configer, Filename)     \
+#define LoadResourceAndCheckRet(Configer, Filename)    \
     {                                                  \
         auto full_path = path / Filename;              \
         bool ret = load_resource<Configer>(full_path); \
@@ -31,7 +31,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }                                              \
     }
 
-#define LoadResouceWithTemplAndCheckRet(Configer, Filename, TemplDir)             \
+#define LoadResourceWithTemplAndCheckRet(Configer, Filename, TemplDir)            \
     {                                                                             \
         auto full_path = path / Filename;                                         \
         auto full_templ_dir = path / TemplDir;                                    \
@@ -45,27 +45,27 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
 
     /* load resource with json files*/
-    LoadResouceAndCheckRet(GeneralConfiger, "config.json");
-    LoadResouceAndCheckRet(RecruitConfiger, "recruit.json");
-    LoadResouceAndCheckRet(StageDropsConfiger, "stages.json");
-    LoadResouceAndCheckRet(RoguelikeCopilotConfiger, "roguelike_copilot.json");
-    LoadResouceAndCheckRet(RoguelikeRecruitConfiger, "roguelike_recruit.json");
-    LoadResouceAndCheckRet(RoguelikeShoppingConfiger, "roguelike_shopping.json");
-    LoadResouceAndCheckRet(BattleDataConfiger, "battle_data.json");
+    LoadResourceAndCheckRet(GeneralConfiger, "config.json");
+    LoadResourceAndCheckRet(RecruitConfiger, "recruit.json");
+    LoadResourceAndCheckRet(StageDropsConfiger, "stages.json");
+    LoadResourceAndCheckRet(RoguelikeCopilotConfiger, "roguelike_copilot.json");
+    LoadResourceAndCheckRet(RoguelikeRecruitConfiger, "roguelike_recruit.json");
+    LoadResourceAndCheckRet(RoguelikeShoppingConfiger, "roguelike_shopping.json");
+    LoadResourceAndCheckRet(BattleDataConfiger, "battle_data.json");
 
     /* load resource with json and template files*/
-    LoadResouceWithTemplAndCheckRet(TaskData, "tasks.json", "template");
-    LoadResouceWithTemplAndCheckRet(InfrastConfiger, "infrast.json", "template" / "infrast");
-    LoadResouceWithTemplAndCheckRet(ItemConfiger, "item_index.json", "template" / "items");
+    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json", "template");
+    LoadResourceWithTemplAndCheckRet(InfrastConfiger, "infrast.json", "template" / "infrast");
+    LoadResourceWithTemplAndCheckRet(ItemConfiger, "item_index.json", "template" / "items");
 
     /* load 3rd parties resource */
-    LoadResouceAndCheckRet(TilePack, "Arknights-Tile-Pos" / "levels.json");
-    LoadResouceAndCheckRet(OcrPack, "PaddleOCR");
+    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos" / "levels.json");
+    LoadResourceAndCheckRet(OcrPack, "PaddleOCR");
 
     m_loaded = true;
 
 #undef LoadTemplByConfigerAndCheckRet
-#undef LoadResouceAndCheckRet
+#undef LoadResourceAndCheckRet
 
     return true;
 }
