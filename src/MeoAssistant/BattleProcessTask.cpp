@@ -8,16 +8,15 @@
 #include "AsstRanges.hpp"
 #include "NoWarningCV.h"
 
-#include "Controller.h"
-#include "Logger.hpp"
-#include "Resource.h"
-#include "TaskData.h"
-
-#include "ProcessTask.h"
-
 #include "BattleImageAnalyzer.h"
+#include "Controller.h"
+#include "CopilotConfiger.h"
+#include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
+#include "ProcessTask.h"
+#include "TaskData.h"
+#include "TilePack.h"
 
 void asst::BattleProcessTask::set_stage_name(std::string name)
 {
@@ -64,7 +63,7 @@ bool asst::BattleProcessTask::get_stage_info()
 {
     LogTraceFunction;
 
-    const auto& tile = Resrc.tile();
+    const auto& tile = TilePack::get_instance();
 
     m_normal_tile_info = tile.calc(m_stage_name, false);
     m_side_tile_info = tile.calc(m_stage_name, true);
@@ -73,7 +72,7 @@ bool asst::BattleProcessTask::get_stage_info()
         return false;
     }
 
-    const auto& copilot = Resrc.copilot();
+    const auto& copilot = CopilotConfiger::get_instance();
     bool contains = copilot.contains_actions(m_stage_name);
     if (!contains) {
         return false;

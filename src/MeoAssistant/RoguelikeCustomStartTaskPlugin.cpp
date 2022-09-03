@@ -1,9 +1,10 @@
 #include "RoguelikeCustomStartTaskPlugin.h"
+
+#include "BattleDataConfiger.h"
 #include "Controller.h"
 #include "Logger.hpp"
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 
@@ -109,7 +110,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
         { BattleRole::Sniper, "狙击" }, { BattleRole::Special, "特种" }, { BattleRole::Support, "辅助" },
         { BattleRole::Tank, "重装" },   { BattleRole::Warrior, "近卫" }
     };
-    const auto& role = Resrc.battle_data().get_role(char_name);
+    const auto& role = BattleDataConfiger::get_instance().get_role(char_name);
     auto role_iter = RoleOcrNameMap.find(role);
     if (role_iter == RoleOcrNameMap.cend()) {
         Log.error("Unknown role", char_name, static_cast<int>(role));

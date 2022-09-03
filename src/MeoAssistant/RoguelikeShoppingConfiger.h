@@ -18,7 +18,7 @@ namespace asst
         bool ignore_no_longer_buy = false;
     };
 
-    class RoguelikeShoppingConfiger : public AbstractConfiger
+    class RoguelikeShoppingConfiger final : public SingletonHolder<RoguelikeShoppingConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RoguelikeShoppingConfiger() override = default;

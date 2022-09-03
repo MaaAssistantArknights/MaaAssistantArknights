@@ -13,16 +13,14 @@ struct paddle_ocr_t;
 
 namespace asst
 {
-    class OcrPack final : public AbstractResource
+    class OcrPack final : public SingletonHolder<OcrPack>, public AbstractResource
     {
         constexpr static size_t MaxBoxSize = 128;
 
     public:
-        using AbstractResource::AbstractResource;
-        OcrPack();
         virtual ~OcrPack() override;
 
-        virtual bool load(const std::string& dir) override;
+        virtual bool load(const std::filesystem::path& path) override;
 
         std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr,
                                         bool without_det = false);
@@ -30,6 +28,9 @@ namespace asst
                                         bool without_det = false);
 
     private:
+        friend class SingletonHolder<OcrPack>;
+        OcrPack();
+
         paddle_ocr_t* m_ocr = nullptr;
 
         // each box has 8 value ( 4 points, x and y )

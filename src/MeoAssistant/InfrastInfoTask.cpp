@@ -3,7 +3,6 @@
 #include "Controller.h"
 #include "InfrastFacilityImageAnalyzer.h"
 #include "Logger.hpp"
-#include "Resource.h"
 #include "RuntimeStatus.h"
 
 bool asst::InfrastInfoTask::_run()

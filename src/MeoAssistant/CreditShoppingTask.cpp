@@ -7,7 +7,7 @@
 #include "CreditShopImageAnalyzer.h"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "Resource.h"
+#include "TaskData.h"
 
 void asst::CreditShoppingTask::set_black_list(std::vector<std::string> black_list)
 {

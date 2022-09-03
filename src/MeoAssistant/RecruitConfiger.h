@@ -83,7 +83,7 @@ namespace asst
         }
     };
 
-    class RecruitConfiger : public AbstractConfiger
+    class RecruitConfiger final : public SingletonHolder<RecruitConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RecruitConfiger() override = default;

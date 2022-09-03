@@ -6,8 +6,8 @@
 #include "NoWarningCV.h"
 
 #include "Logger.hpp"
-#include "Resource.h"
 #include "TaskData.h"
+#include "TemplResource.h"
 
 asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name,
                                                        double templ_thres)
@@ -19,7 +19,7 @@ bool asst::MultiMatchImageAnalyzer::analyze()
     Log.trace("MultiMatchImageAnalyzer::analyze | ", m_templ_name);
     m_result.clear();
 
-    const cv::Mat templ = Resrc.templ().get_templ(m_templ_name);
+    const cv::Mat templ = TemplResource::get_instance().get_templ(m_templ_name);
     if (templ.empty()) {
         Log.error("templ is empty!");
         return false;

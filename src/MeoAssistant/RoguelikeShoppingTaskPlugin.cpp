@@ -1,10 +1,11 @@
 #include "RoguelikeShoppingTaskPlugin.h"
 
+#include "BattleDataConfiger.h"
 #include "Controller.h"
 #include "Logger.hpp"
 #include "OcrWithFlagTemplImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
+#include "RoguelikeShoppingConfiger.h"
 #include "RuntimeStatus.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -65,7 +66,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             }
         }
         else {
-            auto& battle_data = Resrc.battle_data();
+            auto& battle_data = BattleDataConfiger::get_instance();
             BattleRole role = battle_data.get_role(name);
             map_roles_count[role] += 1;
 
@@ -81,7 +82,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     }
 
     const auto& result = analyzer.get_result();
-    const auto& order_goods_list = Resrc.roguelike_shopping().get_goods();
+    const auto& order_goods_list = RoguelikeShoppingConfiger::get_instance().get_goods();
     bool bought = false;
     for (const auto& goods : order_goods_list) {
         if (need_exit()) {

@@ -69,7 +69,7 @@ namespace asst
         std::string stop;
     };
 
-    class GeneralConfiger : public AbstractConfiger
+    class GeneralConfiger final : public SingletonHolder<GeneralConfiger>, public AbstractConfiger
     {
     public:
         virtual ~GeneralConfiger() override = default;

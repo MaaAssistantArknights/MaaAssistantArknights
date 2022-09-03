@@ -23,7 +23,7 @@ namespace asst
         BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
         BattleSkillUsage alternate_skill_usage = BattleSkillUsage::Possibly;
     };
-    class RoguelikeRecruitConfiger : public AbstractConfiger
+    class RoguelikeRecruitConfiger final : public SingletonHolder<RoguelikeRecruitConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RoguelikeRecruitConfiger() override = default;

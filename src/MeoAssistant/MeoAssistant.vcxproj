@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\include\AsstCaller.h" />
     <ClInclude Include="..\..\include\AsstPort.h" />
     <ClInclude Include="AbstractConfiger.h" />
+    <ClInclude Include="AbstractConfigerWithTempl.h" />
     <ClInclude Include="AbstractImageAnalyzer.h" />
     <ClInclude Include="AbstractResource.h" />
     <ClInclude Include="AbstractTask.h" />
@@ -81,7 +82,7 @@
     <ClInclude Include="OcrImageAnalyzer.h" />
     <ClInclude Include="OcrPack.h" />
     <ClInclude Include="RecruitImageAnalyzer.h" />
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ItemConfiger.h" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="ProcessTask.h" />
@@ -99,6 +100,7 @@
     <ClInclude Include="RoguelikeSkillSelectionTaskPlugin.h" />
     <ClInclude Include="RoguelikeTask.h" />
     <ClInclude Include="RuntimeStatus.h" />
+    <ClInclude Include="SingletonHolder.hpp" />
     <ClInclude Include="StageDropsConfiger.h" />
     <ClInclude Include="StageDropsImageAnalyzer.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
@@ -117,7 +119,6 @@
   <ItemGroup>
     <ClCompile Include="AbstractConfiger.cpp" />
     <ClCompile Include="AbstractImageAnalyzer.cpp" />
-    <ClCompile Include="AbstractResource.cpp" />
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="AbstractTaskPlugin.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
@@ -172,7 +173,7 @@
     <ClCompile Include="OcrImageAnalyzer.cpp" />
     <ClCompile Include="OcrPack.cpp" />
     <ClCompile Include="RecruitImageAnalyzer.cpp" />
-    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="Assistant.cpp" />
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="GeneralConfiger.cpp" />

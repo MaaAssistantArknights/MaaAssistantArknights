@@ -6,7 +6,7 @@
 #include "Logger.hpp"
 #include "MultiMatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
-#include "Resource.h"
+#include "RoguelikeRecruitConfiger.h"
 #include "TaskData.h"
 
 bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
@@ -50,7 +50,7 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
     analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image);
     analyzer.set_roi(roi.move(name_task_ptr->roi));
-    analyzer.set_required(Resrc.roguelike_recruit().get_oper_order());
+    analyzer.set_required(RoguelikeRecruitConfiger::get_instance().get_oper_order());
     analyzer.set_replace(std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_map);
 
     if (!analyzer.analyze()) {

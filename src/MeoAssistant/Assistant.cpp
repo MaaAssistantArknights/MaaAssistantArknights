@@ -6,8 +6,8 @@
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
-#include "Resource.h"
 #include "RuntimeStatus.h"
 
 #include "AwardTask.h"
@@ -267,7 +267,7 @@ void Assistant::working_proc()
                 finished_tasks.clear();
             }
 
-            auto delay = Resrc.cfg().get_options().task_delay;
+            auto delay = GeneralConfiger::get_instance().get_options().task_delay;
             lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
         }
