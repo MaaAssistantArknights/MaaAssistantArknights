@@ -1,39 +1,6 @@
-- 新增 刷理智 `博朗台碎石模式`，会在碎石界面等待 1 点理智恢复完成后再碎石 @MistEO
-- 新增支持 基建宿舍 自动填充信赖未满干员，及是否按 `未进驻` 筛选干员功能 @Hydrogina @MistEO
-- 新增支持 公招 自动上传 [企鹅数据公招统计](https://penguin-stats.cn/result/stage/recruit/recruit) 及 [一图流公招大数据](https://yituliu.site/maarecruitdata) （默认开启），并仅会上传由 MAA 刷出来的公招槽位，规避重复数据 @MistEO @zzyyyl @horror-proton
-- 新增支持 自动公招 3 星 Tags 设置 7:40，如有需要请进入设置中启用 @horror-proton @MistEO
-- 新增支持 刷理智 备选关卡逻辑，如有需要请进入设置中启用 @ABA2396 @zzyyyl
-- 新增 界面 支持两个备选关卡，并在活动结束后自动切换关卡导航 @ABA2396
-- Using different recruitment profile in overseas clients @MistEO
-- 优化 肉鸽 干员招募策略及优先级 @et2012 @zzyyyl @Private233
-- 优化 刷理智 代理指挥连续失误四次后，停止刷理智任务 @zzyyyl
-- 优化 刷理智 掉落识别检测算法 @horror-proton
-- 优化 基建 温蒂组优先级 @MistEO
-- 优化 截图 反复出错时的界面提示 @MistEO
-- 修复 公招 不使用加急许可的问题 @horror-proton
-- 修复 自动战斗 自动编队 `特别关注` 干员无法识别的问题 @MistEO
-- 修复 自动战斗 自动编队干员名识别错误 @MistEO
-- 修复 自动战斗 史尔特尔 ~~太红了所以~~ 不上场的问题 @MistEO
-- 修复 自动战斗 编队干员识别错误 @ABA2396
-- 修复 刷理智 IC 活动关卡的导航错误 @ABA2396
-- 修复 刷理智 资源关卡全开放时的导航错误 @MistEO
-- 修复 刷理智 一处掉落识别错误 @MistEO
-- 修复 刷理智 掉落物设置不保存的问题 @ABA2396
-- 修复 刷理智 无法识别 EX 关卡并继续刷的问题 @zzyyyl
-- 修复 基建 宿舍 会将异格干员放入的问题 @Hydrogina
-- 修复 基建 会客室 闪退的问题 @zzyyyl @ABA2396
-- 修复 肉鸽 通关后卡住的问题，增加通关识别及界面提示 @MistEO
-- 修复 肉鸽 招募不到干员的问题及滑动错误 @MistEO @et2012
-- 修复 肉鸽 剧目集界面卡死的问题 @MistEO
-- 修复 信用购物 多输入了空格时无法识别的问题 @lhhxxxxx
-- 修复 自动战斗 作业编辑器的一些字段错误 @LYZhelloworld
-- 修复 自动战斗 偶现干员撤退不掉的问题 @MistEO
-- 优化 界面布局，界面细节调整 @MistEO @ABA2396 @LYZhelloworld @zzyyyl @lhhxxxxx @AnnoyingFlowers
-- GUI 新增 蓝叠 HyperV 多开的小后门，请参考文档使用 @MistEO
-- core 新增支持 刷理智 全部主线关卡导航，新增 AsstRunning 接口 @ABA2396 @MistEO
-- 新增 Python 接口增量加载外服资源文件 @MistEO
-- 修复 上传 企鹅物流 及 一图流数据 时回调消息不可靠的问题 @MistEO
-- 新增 连接安卓手机 相关文档 @Stardust-Djohn @Zirun-wang @MistEO
-- 项目文档更新、新增日文说明书 @Tastror @LYZhelloworld @ABA2396
-- 项目代码、工程重构及整理，编译问题修复 @zzyyyl @horror-proton @LYZhelloworld @lhhxxxxx  @MistEO @Mangolia-club @ChingCdesu
-- Github bot 升级，文档整理 @zzyyyl
+- 修复 刷理智 活动结束后关卡导航无法实时刷新、保存、及备选关卡显示的问题 @ABA2396
+- 修复 自动公招 上传一图流数据时的响应检查错误 @MistEO
+- 修复 自动战斗 关技能关不掉的问题 @MistEO
+- 修复 基建 偶现不换人的问题 @MistEO
+- 优化 基建 控制中枢 歌蕾蒂娅 优先级 @MistEO
+- 优化 界面 布局 @MistEO
