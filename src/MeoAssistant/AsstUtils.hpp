@@ -33,10 +33,13 @@ namespace asst::utils
 
     template <typename dst_t, typename src_t>
     requires ranges::range<src_t> && ranges::range<dst_t>
-    dst_t view_cast(const src_t& src)
+    dst_t view_cast(src_t&& src)
     {
         return dst_t(src.begin(), src.end());
     }
+
+    template <typename char_t = char>
+    using pair_of_string_view = std::pair<std::basic_string_view<char_t>, std::basic_string_view<char_t>>;
 
     template <typename char_t>
     inline void _string_replace_all(std::basic_string<char_t>& str, std::basic_string_view<char_t> old_value,
@@ -51,8 +54,22 @@ namespace asst::utils
     }
 
     template <typename char_t, typename old_value_t, typename new_value_t>
-    requires std::is_constructible_v<std::basic_string_view<char_t>, old_value_t> &&
-             std::is_constructible_v<std::basic_string_view<char_t>, new_value_t>
+    requires std::convertible_to<old_value_t, std::basic_string_view<char_t>> &&
+             std::convertible_to<new_value_t, std::basic_string_view<char_t>>
+    inline void _string_replace_all(std::basic_string<char_t>& str, old_value_t&& old_value, new_value_t&& new_value)
+    {
+        _string_replace_all(str, { old_value }, { new_value });
+    }
+
+    template <typename char_t>
+    inline void _string_replace_all(std::basic_string<char_t>& str, const pair_of_string_view<char_t>& replace_pair)
+    {
+        _string_replace_all(str, replace_pair.first, replace_pair.second);
+    }
+
+    template <typename char_t, typename old_value_t, typename new_value_t>
+    requires std::convertible_to<old_value_t, std::basic_string_view<char_t>> &&
+             std::convertible_to<new_value_t, std::basic_string_view<char_t>>
     inline std::basic_string<char_t> string_replace_all(const std::basic_string<char_t>& src, old_value_t&& old_value,
                                                         new_value_t&& new_value)
     {
@@ -61,30 +78,35 @@ namespace asst::utils
         return str;
     }
 
-    template <typename char_t, typename old_value_t = std::basic_string_view<char_t>,
-              typename new_value_t = std::basic_string_view<char_t>>
-    requires std::is_constructible_v<std::basic_string_view<char_t>, old_value_t> &&
-             std::is_constructible_v<std::basic_string_view<char_t>, new_value_t>
-    inline std::basic_string<char_t> string_replace_all_batch(
-        const std::basic_string<char_t>& src,
-        std::initializer_list<std::pair<old_value_t, new_value_t>>&& replace_pairs)
+    template <typename char_t>
+    inline std::basic_string<char_t> string_replace_all(const std::basic_string<char_t>& src,
+                                                        const pair_of_string_view<char_t>& replace_pair)
     {
         std::basic_string<char_t> str = src;
-        for (auto&& [old_value, new_value] : replace_pairs) {
-            _string_replace_all(str, { old_value }, { new_value });
+        _string_replace_all(str, replace_pair);
+        return str;
+    }
+
+    template <typename char_t>
+    inline std::basic_string<char_t> string_replace_all(
+        const std::basic_string<char_t>& src, std::initializer_list<pair_of_string_view<char_t>>&& replace_pairs)
+    {
+        std::basic_string<char_t> str = src;
+        for (const auto& [old_value, new_value] : replace_pairs) {
+            _string_replace_all(str, old_value, new_value);
         }
         return str;
     }
 
     template <typename char_t, typename map_t>
-    [[deprecated]] inline std::basic_string<char_t> string_replace_all_batch(const std::basic_string<char_t>& src,
-                                                                             const map_t& replace_pairs)
     requires std::derived_from<typename map_t::value_type::first_type, std::basic_string<char_t>> &&
              std::derived_from<typename map_t::value_type::second_type, std::basic_string<char_t>>
+    [[deprecated]] inline std::basic_string<char_t> string_replace_all(const std::basic_string<char_t>& src,
+                                                                       const map_t& replace_pairs)
     {
         std::basic_string<char_t> str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
-            _string_replace_all(str, { old_value }, { new_value });
+            _string_replace_all(str, old_value, new_value);
         }
         return str;
     }
