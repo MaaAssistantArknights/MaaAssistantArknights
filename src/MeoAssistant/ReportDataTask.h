@@ -39,7 +39,9 @@ namespace asst
         http::Response report(
             const std::string& subtask, const std::string& format,
             HttpResponsePred success_cond = [](const http::Response& response) -> bool { return response.success(); },
-            HttpResponsePred retry_cond = [](const http::Response& response) -> bool { return response.status_5xx(); });
+            HttpResponsePred retry_cond = [](const http::Response& response) -> bool {
+                return !response.status_code() || response.status_5xx();
+            });
 
         ReportType m_report_type = ReportType::Invaild;
         std::string m_body;
