@@ -111,22 +111,29 @@ namespace asst::utils
         return str;
     }
 
-    // inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
-    // {
-    //     std::string::size_type pos1 = 0;
-    //     std::string::size_type pos2 = str.find(delimiter);
-    //     std::vector<std::string> result;
+    // 以低内存开销拆分一个字符串；注意当 src 析构后，返回值将失效
+    template <typename str_t, typename char_t = typename str_t::value_type, typename delimiter_t>
+    requires std::convertible_to<str_t, std::basic_string_view<char_t>> &&
+             std::convertible_to<delimiter_t, std::basic_string_view<char_t>>
+    inline std::vector<std::basic_string_view<char_t>> string_split(const str_t& src,
+                                                                    delimiter_t delimiter)
+    {
+        std::basic_string_view<char_t> delimiter_view = delimiter;
+        std::basic_string_view<char_t> str = src;
+        typename std::basic_string<char_t>::size_type pos1 = 0;
+        typename std::basic_string<char_t>::size_type pos2 = str.find(delimiter_view);
+        std::vector<std::basic_string_view<char_t>> result;
 
-    //     while (std::string::npos != pos2) {
-    //         result.emplace_back(str.substr(pos1, pos2 - pos1));
+        while (pos2 != str.npos) {
+            result.emplace_back(str.substr(pos1, pos2 - pos1));
 
-    //         pos1 = pos2 + delimiter.size();
-    //         pos2 = str.find(delimiter, pos1);
-    //     }
-    //     if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
+            pos1 = pos2 + delimiter_view.length();
+            pos2 = str.find(delimiter_view, pos1);
+        }
+        if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
 
-    //     return result;
-    // }
+        return result;
+    }
 
     inline std::string get_format_time()
     {
