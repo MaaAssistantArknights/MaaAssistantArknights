@@ -53,10 +53,9 @@ namespace asst
         int quantity = 0;
     };
 
-    class StageDropsConfiger final : public AbstractConfiger
+    class StageDropsConfiger final : public SingletonHolder<StageDropsConfiger>, public AbstractConfiger
     {
     public:
-        using AbstractConfiger::AbstractConfiger;
         virtual ~StageDropsConfiger() override = default;
 
         const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const

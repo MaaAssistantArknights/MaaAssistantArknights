@@ -3,10 +3,10 @@
 #include "NoWarningCV.h"
 
 #include "AsstUtils.hpp"
+#include "ItemConfiger.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
-#include "Resource.h"
 #include "TaskData.h"
 
 bool asst::DepotImageAnalyzer::analyze()
@@ -113,7 +113,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
 {
     LogTraceFunction;
 
-    auto& res_item = Resrc.item();
+    auto& res_item = ItemConfiger::get_instance();
 
     for (const Rect& roi : m_all_items_roi) {
         if (check_roi_empty(roi)) { // roi 是竖着有序的
@@ -157,7 +157,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 {
     LogTraceFunction;
 
-    const auto& all_items = Resrc.item().get_ordered_material_item_id();
+    const auto& all_items = ItemConfiger::get_instance().get_ordered_material_item_id();
 
     MatchImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("DeoptMatchData");

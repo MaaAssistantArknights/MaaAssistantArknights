@@ -1,7 +1,7 @@
 #include "RoguelikeSkillSelectionTaskPlugin.h"
 
 #include "Controller.h"
-#include "Resource.h"
+#include "RoguelikeRecruitConfiger.h"
 #include "RoguelikeSkillSelectionImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
@@ -33,7 +33,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         return false;
     }
 
-    const auto& rg_src = Resrc.roguelike_recruit();
+    const auto& rg_src = RoguelikeRecruitConfiger::get_instance();
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         if (name.empty()) {
             continue;

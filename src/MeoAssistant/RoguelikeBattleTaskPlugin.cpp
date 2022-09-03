@@ -6,15 +6,17 @@
 
 #include "NoWarningCV.h"
 
+#include "BattleDataConfiger.h"
 #include "BattleImageAnalyzer.h"
 #include "Controller.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
+#include "RoguelikeCopilotConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "TilePack.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -95,7 +97,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     wait_for_start();
 
-    const auto& tile = Resrc.tile();
+    const auto& tile = TilePack::get_instance();
     bool calced = false;
 
     if (m_stage_name.empty()) {
@@ -135,7 +137,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         calced = true;
     }
 
-    auto opt = Resrc.roguelike().get_stage_data(m_stage_name);
+    auto opt = RoguelikeCopilotConfiger::get_instance().get_stage_data(m_stage_name);
     if (opt && !opt->replacement_home.empty()) {
         m_homes = opt->replacement_home;
         std::string log_str = "[ ";
@@ -675,7 +677,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
 
     int64_t elite = m_status->get_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name).value_or(0);
     // 按朝右算，后面根据方向做转换
-    BattleAttackRange right_attack_range = Resrc.battle_data().get_range(oper.name, elite);
+    BattleAttackRange right_attack_range = BattleDataConfiger::get_instance().get_range(oper.name, elite);
 
     if (right_attack_range == BattleDataConfiger::EmptyRange) {
         switch (oper.role) {

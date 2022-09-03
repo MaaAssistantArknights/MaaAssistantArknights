@@ -3,7 +3,8 @@
 #include "MatchImageAnalyzer.h"
 #include "MultiMatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "Resource.h"
+#include "RecruitConfiger.h"
+#include "TaskData.h"
 
 bool asst::RecruitImageAnalyzer::analyze()
 {
@@ -23,7 +24,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     if (!analyzer_inited) {
         const auto tags_task_ptr = Task.get<OcrTaskInfo>("RecruitTags");
         tags_analyzer.set_roi(tags_task_ptr->roi);
-        auto& all_tags_set = Resrc.recruit().get_all_tags();
+        auto& all_tags_set = RecruitConfiger::get_instance().get_all_tags();
         std::vector<std::string> all_tags_vec;
         all_tags_vec.assign(all_tags_set.begin(), all_tags_set.end());
         // 把因为“资深干员”是“高级资深干员”的子串，把“高级资深干员”放到最前面，免得先被“资深干员”匹配上了
@@ -42,7 +43,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     if (tags_analyzer.analyze()) {
         m_tags_result = tags_analyzer.get_result();
         return true;
-        // if (m_tags_result.size() == Resrc.recruit().CorrectNumberOfTags) {
+        // if (m_tags_result.size() == RecruitConfiger::get_instance().CorrectNumberOfTags) {
         //     return true;
         // }
     }

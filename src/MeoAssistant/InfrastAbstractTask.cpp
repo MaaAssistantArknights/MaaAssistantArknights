@@ -10,7 +10,7 @@
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
+#include "TaskData.h"
 
 asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
     : AbstractTask(std::move(callback), callback_arg, std::move(task_chain))

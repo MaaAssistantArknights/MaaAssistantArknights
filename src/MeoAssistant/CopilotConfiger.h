@@ -4,7 +4,7 @@
 
 namespace asst
 {
-    class CopilotConfiger : public AbstractConfiger
+    class CopilotConfiger : public SingletonHolder<CopilotConfiger>, public AbstractConfiger
     {
     public:
         virtual ~CopilotConfiger() override = default;

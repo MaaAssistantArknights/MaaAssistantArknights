@@ -12,7 +12,7 @@ namespace Map
 
 namespace asst
 {
-    class TilePack final : public AbstractResource
+    class TilePack final : public SingletonHolder<TilePack>, public AbstractResource
     {
     public:
         enum class BuildableType
@@ -55,10 +55,9 @@ namespace asst
         };
 
     public:
-        using AbstractResource::AbstractResource;
         virtual ~TilePack() override;
 
-        virtual bool load(const std::string& dir) override;
+        virtual bool load(const std::filesystem::path& path) override;
 
         std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
 

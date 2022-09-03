@@ -4,7 +4,8 @@
 #include <unordered_map>
 
 #include "Logger.hpp"
-#include "Resource.h"
+#include "OcrPack.h"
+#include "TaskData.h"
 
 bool asst::OcrImageAnalyzer::analyze()
 {
@@ -74,7 +75,7 @@ bool asst::OcrImageAnalyzer::analyze()
         m_roi.height = m_image.rows - m_roi.y;
     }
 
-    m_ocr_result = Resrc.ocr().recognize(m_image, m_roi, all_pred, m_without_det);
+    m_ocr_result = OcrPack::get_instance().recognize(m_image, m_roi, all_pred, m_without_det);
 
     // log.trace("ocr result", m_ocr_result);
     return !m_ocr_result.empty();

@@ -37,7 +37,7 @@ bool asst::TaskData::parse(const json::value& json)
             algorithm = AlgorithmType::Hash;
         }
         else {
-            m_last_error = "algorithm error " + algorithm_str;
+            Log.error("Unknown algorithm", algorithm_str);
             return false;
         }
 
@@ -124,7 +124,7 @@ bool asst::TaskData::parse(const json::value& json)
             task_info_ptr->action = ProcessTaskAction::SlowlySwipeToTheRight;
         }
         else {
-            m_last_error = "Task: " + name + " error: " + action;
+            Log.error("Unknown action:", action, ", Task:", name);
             return false;
         }
 
@@ -154,7 +154,7 @@ bool asst::TaskData::parse(const json::value& json)
             int height = static_cast<int>(roi_arr[3]);
 #ifdef ASST_DEBUG
             if (x + width > WindowWidthDefault || y + height > WindowHeightDefault) {
-                m_last_error = name + " roi is out of bounds";
+                Log.error(name, "roi is out of bounds");
                 return false;
             }
 #endif
@@ -201,7 +201,7 @@ bool asst::TaskData::parse(const json::value& json)
     for (const auto& [name, task] : m_all_tasks_info) {
         for (const auto& next : task->next) {
             if (m_all_tasks_info.find(next) == m_all_tasks_info.cend()) {
-                m_last_error = name + "'s next " + next + " is null";
+                Log.error(name, "'s next", next, "is null");
                 return false;
             }
         }

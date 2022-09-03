@@ -8,7 +8,7 @@
 
 namespace asst
 {
-    class BattleDataConfiger : public AbstractConfiger
+    class BattleDataConfiger final : public SingletonHolder<BattleDataConfiger>, public AbstractConfiger
     {
     public:
         virtual ~BattleDataConfiger() override = default;

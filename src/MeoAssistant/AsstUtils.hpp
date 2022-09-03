@@ -3,6 +3,7 @@
 #include "AsstConf.h"
 #include "AsstRanges.hpp"
 
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -223,9 +224,9 @@ namespace asst::utils
         return RetTy { rect.x, rect.y, rect.width, rect.height };
     }
 
-    inline std::string load_file_without_bom(const std::string& filename)
+    inline std::string load_file_without_bom(const std::filesystem::path& path)
     {
-        std::ifstream ifs(filename, std::ios::in);
+        std::ifstream ifs(path, std::ios::in);
         if (!ifs.is_open()) {
             return {};
         }

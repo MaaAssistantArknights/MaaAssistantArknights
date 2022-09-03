@@ -13,12 +13,12 @@ void asst::TemplResource::set_load_required(std::unordered_set<std::string> requ
     m_templs_filename = std::move(required);
 }
 
-bool asst::TemplResource::load(const std::string& dir)
+bool asst::TemplResource::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
 
     for (const std::string& filename : m_templs_filename) {
-        std::filesystem::path filepath(dir + "/" + filename);
+        std::filesystem::path filepath(path / filename);
         if (!filepath.has_extension()) {
             filepath.replace_extension(".png");
         }
@@ -30,7 +30,7 @@ bool asst::TemplResource::load(const std::string& dir)
             continue;
         }
         else {
-            m_last_error = filepath.string() + " not exists";
+            Log.error("Templ load failed, file not exists", filepath);
             return false;
         }
     }

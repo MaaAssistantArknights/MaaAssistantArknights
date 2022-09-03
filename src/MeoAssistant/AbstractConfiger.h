@@ -2,8 +2,6 @@
 
 #include "AbstractResource.h"
 
-#include <string>
-
 namespace json
 {
     class value;
@@ -15,7 +13,7 @@ namespace asst
     {
     public:
         virtual ~AbstractConfiger() override = default;
-        virtual bool load(const std::string& filename) override;
+        virtual bool load(const std::filesystem::path& path) override;
 
     protected:
         virtual bool parse(const json::value& json) = 0;

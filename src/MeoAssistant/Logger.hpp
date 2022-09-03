@@ -11,32 +11,25 @@
 
 #include "AsstRanges.hpp"
 #include "AsstUtils.hpp"
+#include "SingletonHolder.hpp"
 #include "Version.h"
 
 namespace asst
 {
-    class Logger
+    class Logger : public SingletonHolder<Logger>
     {
     public:
-        ~Logger() { flush(); }
+        virtual ~Logger() override { flush(); }
 
-        Logger(const Logger&) = delete;
-        Logger(Logger&&) = delete;
-        Logger& operator=(const Logger&) = delete;
-        Logger& operator=(Logger&&) = delete;
-
-        static Logger& get_instance()
+        static bool set_directory(const std::filesystem::path& dir)
         {
-            static Logger _unique_instance;
-            return _unique_instance;
-        }
-
-        static bool set_dirname(std::string dirname) noexcept
-        {
-            if (!std::filesystem::exists(dirname) || !std::filesystem::is_directory(dirname)) {
+            if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
                 return false;
             }
-            m_dirname = std::move(dirname);
+            m_directory = dir;
+            m_log_path = m_directory / "asst.log";
+            m_log_bak_path = m_directory / "asst.bak.log";
+
             return true;
         }
 
@@ -86,24 +79,24 @@ namespace asst
             }
         }
 
-        const std::string m_log_filename = m_dirname + "asst.log";
-        const std::string m_log_bak_filename = m_dirname + "asst.bak.log";
+    protected:
+        friend class SingletonHolder<Logger>;
 
-    private:
         Logger()
         {
             check_filesize_and_remove();
             log_init_info();
         }
 
+    private:
         void check_filesize_and_remove() const
         {
             constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
             try {
-                if (std::filesystem::exists(m_log_filename)) {
-                    const uintmax_t log_size = std::filesystem::file_size(m_log_filename);
+                if (std::filesystem::exists(m_log_path)) {
+                    const uintmax_t log_size = std::filesystem::file_size(m_log_path);
                     if (log_size >= MaxLogSize) {
-                        std::filesystem::rename(m_log_filename, m_log_bak_filename);
+                        std::filesystem::rename(m_log_path, m_log_bak_path);
                     }
                 }
             }
@@ -116,11 +109,7 @@ namespace asst
             trace("MeoAssistant Process Start");
             trace("Version", asst::Version);
             trace("Built at", __DATE__, __TIME__);
-#ifdef _WIN32 // 输出到日志的时候统一编码utf8
-            trace("Working Path", asst::utils::ansi_to_utf8(m_dirname));
-#else
-            trace("Working Path", m_dirname);
-#endif
+            trace("Working Path", m_directory);
             trace("-----------------------------");
         }
 
@@ -145,7 +134,7 @@ namespace asst
 #endif // END _WIN32
 
             if (!m_ofs || !m_ofs.is_open()) {
-                m_ofs = std::ofstream(m_log_filename, std::ios::out | std::ios::app);
+                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
 #ifdef ASST_DEBUG
             stream_put_line(m_ofs, buff, args...);
@@ -195,7 +184,7 @@ namespace asst
             }
             else {
                 ASST_STATIC_ASSERT_FALSE(
-                    "\nunsupported type, one of the following expected\n"
+                    "unsupported type, one of the following expected\n"
                     "\t1. those can be converted to string;\n"
                     "\t2. those can be inserted to stream with operator<< directly;\n"
                     "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
@@ -245,7 +234,10 @@ namespace asst
             return stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, std::forward<Args>(args)...);
         }
 
-        inline static std::string m_dirname;
+        inline static std::filesystem::path m_directory;
+        inline static std::filesystem::path m_log_path;
+        inline static std::filesystem::path m_log_bak_path;
+
         std::mutex m_trace_mutex;
         std::ofstream m_ofs;
     };

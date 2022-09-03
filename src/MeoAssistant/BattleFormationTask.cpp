@@ -2,11 +2,13 @@
 
 #include "AsstRanges.hpp"
 
+#include "BattleDataConfiger.h"
 #include "Controller.h"
+#include "CopilotConfiger.h"
 #include "Logger.hpp"
 #include "OcrWithFlagTemplImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
+#include "TaskData.h"
 
 void asst::BattleFormationTask::set_stage_name(std::string name)
 {
@@ -155,13 +157,13 @@ bool asst::BattleFormationTask::click_role_table(BattleRole role)
 
 bool asst::BattleFormationTask::parse_formation()
 {
-    if (!Resrc.copilot().contains_actions(m_stage_name)) {
+    if (!CopilotConfiger::get_instance().contains_actions(m_stage_name)) {
         Log.error("Unknown stage name", m_stage_name);
         return false;
     }
 
-    const auto& group = Resrc.copilot().get_actions(m_stage_name).groups;
-    const auto& battle_data = Resrc.battle_data();
+    const auto& group = CopilotConfiger::get_instance().get_actions(m_stage_name).groups;
+    const auto& battle_data = BattleDataConfiger::get_instance();
 
     json::value info = basic_info_with_what("BattleFormation");
     auto& details = info["details"];
