@@ -18,8 +18,8 @@ namespace asst
         virtual bool load(const std::filesystem::path& path) override;
 
     private:
-        template <typename T>
-        requires std::is_base_of_v<AbstractResource, T> && Singleton<T>
+        template <Singleton T>
+        requires std::is_base_of_v<AbstractResource, T>
         bool load_resource(const std::filesystem::path& path)
         {
             if (!std::filesystem::exists(path)) {
@@ -28,8 +28,8 @@ namespace asst
             return SingletonHolder<T>::get_instance().load(path);
         }
 
-        template <typename T>
-        requires std::is_base_of_v<AbstractConfigerWithTempl, T> && Singleton<T>
+        template <Singleton T>
+        requires std::is_base_of_v<AbstractConfigerWithTempl, T>
         bool load_resource_with_templ(const std::filesystem::path& path, const std::filesystem::path& templ_dir)
         {
             if (!load_resource<T>(path)) {
