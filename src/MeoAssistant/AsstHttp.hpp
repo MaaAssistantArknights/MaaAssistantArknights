@@ -22,7 +22,7 @@ namespace asst::http
         bool _analyze_status_line(std::string_view status_line)
         {
             size_t _word_count = 0;
-            for (const auto& word : utils::string_split(status_line, " ", 2)) {
+            for (const auto& word : utils::string_split(status_line, ' ')) {
                 ++_word_count;
                 if (_word_count == 1) {
                     static const std::unordered_set<std::string_view> accepted_protocol_version = { "HTTP/1.1" };
@@ -43,7 +43,7 @@ namespace asst::http
                     m_status_code = std::atoi(word.data());
                 }
                 else {
-                    m_status_code_info = word;
+                    m_status_code_info = std::string_view(word.begin(), status_line.end());
                     return true;
                 }
             }
