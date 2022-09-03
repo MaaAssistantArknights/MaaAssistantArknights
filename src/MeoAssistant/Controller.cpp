@@ -796,8 +796,8 @@ int asst::Controller::click_without_scale(const Point& p, bool block)
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
     }
-    std::string cur_cmd = utils::string_replace_all_batch(
-        m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
     int id = push_cmd(cur_cmd);
     if (block) {
         wait(id);
@@ -842,20 +842,20 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    std::string cur_cmd = utils::string_replace_all_batch(
-        m_adb.swipe, {
-                         { "[x1]", std::to_string(x1) },
-                         { "[y1]", std::to_string(y1) },
-                         { "[x2]", std::to_string(x2) },
-                         { "[y2]", std::to_string(y2) },
-                         { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
-                     });
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.swipe, {
+                                                   { "[x1]", std::to_string(x1) },
+                                                   { "[y1]", std::to_string(y1) },
+                                                   { "[x2]", std::to_string(x2) },
+                                                   { "[y2]", std::to_string(y2) },
+                                                   { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
+                                               });
 
     int id = 0;
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
     const auto& opt = Configer.get_options();
     if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
-        std::string extra_cmd = utils::string_replace_all_batch(
+        std::string extra_cmd = utils::string_replace_all(
             m_adb.swipe, {
                              { "[x1]", std::to_string(x2) },
                              { "[y1]", std::to_string(y2) },
@@ -926,13 +926,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     // 里面的值每次执行命令后可能更新，所以要用 lambda 拿最新的
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
-        return utils::string_replace_all_batch(cfg_cmd, {
-                                                            { "[Adb]", adb_path },
-                                                            { "[AdbSerial]", address },
-                                                            { "[DisplayId]", display_id },
-                                                            { "[NcPort]", std::to_string(nc_port) },
-                                                            { "[NcAddress]", nc_address },
-                                                        });
+        return utils::string_replace_all(cfg_cmd, {
+                                                      { "[Adb]", adb_path },
+                                                      { "[AdbSerial]", address },
+                                                      { "[DisplayId]", display_id },
+                                                      { "[NcPort]", std::to_string(nc_port) },
+                                                      { "[NcAddress]", nc_address },
+                                                  });
     };
 
     /* connect */
