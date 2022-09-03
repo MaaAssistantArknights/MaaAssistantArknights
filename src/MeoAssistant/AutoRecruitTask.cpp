@@ -722,7 +722,7 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     Log.info("response:\n", response);
     cb_info["details"]["response"] = response;
 
-    static const std::regex http_ok_regex(R"(HTTP/.+ 200 OK)");
+    static const std::regex http_ok_regex(R"(HTTP/.+ 200)");
     if (std::regex_search(response, http_ok_regex)) {
         callback(AsstMsg::SubTaskCompleted, cb_info);
     }
@@ -774,7 +774,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
 
     cb_info["details"]["response"] = response;
 
-    static const std::regex http_ok_regex(R"(HTTP/.+ 200 OK)");
+    static const std::regex http_ok_regex(R"(HTTP/.+ 200)");
     if (std::regex_search(response, http_ok_regex)) {
         callback(AsstMsg::SubTaskCompleted, cb_info);
     }

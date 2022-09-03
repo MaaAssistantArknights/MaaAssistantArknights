@@ -5050,7 +5050,7 @@
             500,
             220
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorMfgAggressive": {
         "template": "AddOperatorMfgAggressive.png",
@@ -5067,7 +5067,7 @@
             80,
             80
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorTradeGentle": {
         "template": "AddOperatorTradeGentle.png",
@@ -5078,7 +5078,7 @@
             500,
             220
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorTradeAggressive": {
         "template": "AddOperatorTradeAggressive.png",
@@ -5095,7 +5095,7 @@
             80,
             80
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorReceptionGentle": {
         "template": "AddOperatorReceptionGentle.png",
@@ -5106,7 +5106,7 @@
             300,
             720
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorReceptionAggressive": {
         "algorithm": "JustReturn",
@@ -5117,7 +5117,7 @@
             200,
             300
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastOperSelected": {
         "template": "empty.png",
@@ -6047,6 +6047,7 @@
             210,
             118
         ],
+        "templThreshold": 0.7,
         "cache": false,
         "action": "ClickSelf",
         "rectMove": [

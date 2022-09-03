@@ -362,7 +362,8 @@
     <!--  About  -->
     <system:String x:Key="Website">MAA 공식 웹사이트</system:String>
     <system:String x:Key="Github">소스 코드: GitHub</system:String>
-    <system:String x:Key="QQgroup">자동 작전 작업 공유 QQ그룹</system:String>
+    <system:String x:Key="PrtsPlus">자동 작전 작업 공유 웹사이트</system:String>
+    <system:String x:Key="QQgroup">QQ그룹:</system:String>
     <system:String x:Key="QQgroup1">QQ그룹1</system:String>
     <system:String x:Key="QQgroup2">QQ그룹2</system:String>
     <system:String x:Key="QQgroup3">QQ그룹3</system:String>
