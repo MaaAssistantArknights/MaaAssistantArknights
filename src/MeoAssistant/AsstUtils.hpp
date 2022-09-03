@@ -111,30 +111,165 @@ namespace asst::utils
         return str;
     }
 
-    // 以低内存开销拆分一个字符串；注意当 src 析构后，返回值将失效
-    template <typename str_t, typename char_t = typename str_t::value_type, typename delimiter_t>
-    requires std::convertible_to<str_t, std::basic_string_view<char_t>> &&
-             std::convertible_to<delimiter_t, std::basic_string_view<char_t>>
-    inline std::vector<std::basic_string_view<char_t>> string_split(const str_t& src,
-                                                                    delimiter_t delimiter,
-                                                                    size_t split_count = -1)
+    // 延迟求值的 string_split，分隔符可以为字符或字符串
+    template <typename char_t>
+    class string_split_view : public ranges::view_interface<string_split_view<char_t>>
     {
-        std::basic_string_view<char_t> delimiter_view = delimiter;
-        std::basic_string_view<char_t> str = src;
-        typename std::basic_string<char_t>::size_type pos1 = 0;
-        typename std::basic_string<char_t>::size_type pos2 = str.find(delimiter_view);
-        std::vector<std::basic_string_view<char_t>> result;
+    private:
+        using base_string_view = std::basic_string_view<char_t>;
+        using base_string = std::basic_string<char_t>;
+        base_string_view _Range {};
+        base_string_view _Pattern {};
+        ranges::_Non_propagating_cache<base_string_view> _Next {};
+        using string_iter = base_string_view::const_iterator;
 
-        while (split_count-- && pos2 != str.npos) {
-            result.emplace_back(str.substr(pos1, pos2 - pos1));
+        class _Iterator
+        {
+        private:
+            string_split_view* _Parent = nullptr;
+            string_iter _Current = {};
+            base_string_view _Next = {};
+            bool _Trailing_empty = false;
 
-            pos1 = pos2 + delimiter_view.length();
-            pos2 = str.find(delimiter_view, pos1);
+        public:
+            using iterator_concept = std::forward_iterator_tag;
+            using iterator_category = std::input_iterator_tag;
+            using value_type = base_string_view;
+            using difference_type = base_string_view::difference_type;
+
+            _Iterator() = default;
+
+            constexpr _Iterator(string_split_view& _Parent_, string_iter _Current_, base_string_view _Next_) noexcept
+                : _Parent { std::addressof(_Parent_) }, _Current { std::move(_Current_) }, _Next { std::move(_Next_) }
+            {}
+
+            [[nodiscard]] constexpr string_iter base() const noexcept { return _Current; }
+
+            [[nodiscard]] constexpr value_type operator*() const noexcept { return { _Current, _Next.cbegin() }; }
+
+            constexpr _Iterator& operator++()
+            {
+                const auto _Last = _Parent->_Range.cend();
+                _Current = _Next.cbegin();
+                if (_Current == _Last) {
+                    _Trailing_empty = false;
+                    return *this;
+                }
+
+                _Current = _Next.cend();
+                if (_Current == _Last) {
+                    _Trailing_empty = true;
+                    _Next = { _Current, _Current };
+                    return *this;
+                }
+
+                if (const auto _pos = base_string_view(_Current, _Last).find(_Parent->_Pattern);
+                    _pos == base_string_view::npos) {
+                    _Next = { std::move(_Last), std::move(_Last) };
+                }
+                else {
+                    _Next = { _Current + _pos, _Current + _pos + _Parent->_Pattern.length() };
+                }
+
+                return *this;
+            }
+
+            constexpr _Iterator operator++(int)
+            {
+                auto _Tmp = *this;
+                ++*this;
+                return _Tmp;
+            }
+
+            friend constexpr bool operator==(const _Iterator& _Left, const _Iterator& _Right) noexcept
+            {
+                return _Left._Current == _Right._Current && _Left._Trailing_empty == _Right._Trailing_empty;
+            }
+        };
+
+        constexpr base_string_view _Find_next(string_iter _It)
+        {
+            const auto _Last = _Range.cend();
+
+            if (const auto _pos = base_string_view(_It, _Last).find(_Pattern); _pos == base_string_view::npos) {
+                return { std::move(_Last), std::move(_Last) };
+            }
+            else {
+                return { _It + _pos, _It + _pos + _Pattern.length() };
+            }
         }
-        if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
 
-        return result;
-    }
+    public:
+        string_split_view() = default;
+
+        template <typename _Tp1, typename _Tp2>
+        requires std::convertible_to<_Tp2, base_string_view>
+        constexpr string_split_view(_Tp1&& _Range_, _Tp2&& _Pattern_) noexcept
+            : _Range(std::forward<_Tp1>(_Range_)), _Pattern(std::forward<_Tp2>(_Pattern_))
+        {}
+
+        template <typename _Tp1>
+        constexpr string_split_view(_Tp1&& _Range_, const char_t& _Elem) noexcept
+            : _Range(std::forward<_Tp1>(_Range_)), _Pattern(&_Elem, 1)
+        {}
+
+        [[nodiscard]] constexpr const base_string_view& base() const noexcept { return _Range; }
+        [[nodiscard]] constexpr base_string_view&& base() noexcept { return std::move(_Range); }
+
+        [[nodiscard]] constexpr auto begin()
+        {
+            auto _First = _Range.cbegin();
+            if (!_Next) {
+                _Next._Emplace(_Find_next(_First));
+            }
+            return _Iterator { *this, _First, *_Next };
+        }
+
+        [[nodiscard]] constexpr auto end() { return _Iterator { *this, _Range.cend(), {} }; }
+    };
+
+    template <ranges::range str_t, class pat_t>
+    string_split_view(str_t, pat_t) -> string_split_view<typename str_t::value_type>;
+
+    template <class str_t, class pat_t>
+    string_split_view(str_t*, pat_t) -> string_split_view<typename std::remove_cv<str_t>::type>;
+
+    struct _string_split_fn
+    {
+        template <ranges::range str_t, class pat_t>
+        [[nodiscard]] constexpr auto operator()(str_t&& str, pat_t&& _Pattern) const
+            noexcept(noexcept(string_split_view(std::forward<str_t>(str), std::forward<pat_t>(_Pattern))))
+        requires requires { string_split_view(static_cast<str_t&&>(str), static_cast<pat_t&&>(_Pattern)); }
+        {
+            return string_split_view(std::forward<str_t>(str), std::forward<pat_t>(_Pattern));
+        }
+    };
+
+    inline constexpr _string_split_fn string_split;
+
+    // // 以低内存开销拆分一个字符串；注意当 src 析构后，返回值将失效
+    // template <typename str_t, typename char_t = typename str_t::value_type, typename delimiter_t>
+    // requires std::convertible_to<str_t, std::basic_string_view<char_t>> &&
+    //          std::convertible_to<delimiter_t, std::basic_string_view<char_t>>
+    // inline std::vector<std::basic_string_view<char_t>> string_split(const str_t& src, delimiter_t delimiter,
+    //                                                                 size_t split_count = -1)
+    // {
+    //     std::basic_string_view<char_t> delimiter_view = delimiter;
+    //     std::basic_string_view<char_t> str = src;
+    //     typename std::basic_string<char_t>::size_type pos1 = 0;
+    //     typename std::basic_string<char_t>::size_type pos2 = str.find(delimiter_view);
+    //     std::vector<std::basic_string_view<char_t>> result;
+
+    //     while (split_count-- && pos2 != str.npos) {
+    //         result.emplace_back(str.substr(pos1, pos2 - pos1));
+
+    //         pos1 = pos2 + delimiter_view.length();
+    //         pos2 = str.find(delimiter_view, pos1);
+    //     }
+    //     if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
+
+    //     return result;
+    // }
 
     inline std::string get_format_time()
     {
