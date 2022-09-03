@@ -56,7 +56,7 @@ void asst::DepotRecognitionTask::callback_analyze_result()
 {
     LogTraceFunction;
 
-    auto& templ = GeneralConfiger::get_instance().get_options().depot_export_template;
+    auto& templ = Configer.get_options().depot_export_template;
     json::value info = basic_info_with_what("DepotInfo");
     auto& details = info["details"];
 

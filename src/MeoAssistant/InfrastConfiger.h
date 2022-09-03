@@ -48,4 +48,6 @@ namespace asst
         // 需要加载的模板
         std::unordered_set<std::string> m_templ_required;
     };
+
+    inline static auto& InfrastData = InfrastConfiger::get_instance();
 }

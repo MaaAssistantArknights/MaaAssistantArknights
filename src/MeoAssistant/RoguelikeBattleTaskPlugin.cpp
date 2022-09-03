@@ -97,7 +97,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     wait_for_start();
 
-    const auto& tile = TilePack::get_instance();
+    const auto& tile = Tile;
     bool calced = false;
 
     if (m_stage_name.empty()) {
@@ -137,7 +137,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         calced = true;
     }
 
-    auto opt = RoguelikeCopilotConfiger::get_instance().get_stage_data(m_stage_name);
+    auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
     if (opt && !opt->replacement_home.empty()) {
         m_homes = opt->replacement_home;
         std::string log_str = "[ ";
@@ -677,7 +677,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
 
     int64_t elite = m_status->get_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name).value_or(0);
     // 按朝右算，后面根据方向做转换
-    BattleAttackRange right_attack_range = BattleDataConfiger::get_instance().get_range(oper.name, elite);
+    BattleAttackRange right_attack_range = BattleData.get_range(oper.name, elite);
 
     if (right_attack_range == BattleDataConfiger::EmptyRange) {
         switch (oper.role) {

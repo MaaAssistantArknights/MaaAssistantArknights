@@ -33,12 +33,11 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         return false;
     }
 
-    const auto& rg_src = RoguelikeRecruitConfiger::get_instance();
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         if (name.empty()) {
             continue;
         }
-        const auto& oper_info = rg_src.get_oper_info(name);
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(name);
 
         if (oper_info.alternate_skill > 0) {
             Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);

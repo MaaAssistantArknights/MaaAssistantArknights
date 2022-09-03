@@ -75,8 +75,7 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    http::Response response =
-        report("ReportToPenguinStats", GeneralConfiger::get_instance().get_options().penguin_report.cmd_format);
+    http::Response response = report("ReportToPenguinStats", Configer.get_options().penguin_report.cmd_format);
 
     if (response.success()) {
         if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
@@ -91,7 +90,7 @@ void asst::ReportDataTask::report_to_yituliu()
 {
     LogTraceFunction;
 
-    report("ReportToYituliu", GeneralConfiger::get_instance().get_options().yituliu_report.cmd_format);
+    report("ReportToYituliu", Configer.get_options().yituliu_report.cmd_format);
 }
 
 asst::http::Response asst::ReportDataTask::report(const std::string& subtask, const std::string& format,

@@ -30,4 +30,6 @@ namespace asst
 
         std::vector<RoguelikeGoods> m_goods;
     };
+
+    inline static auto& RoguelikeShopping = RoguelikeShoppingConfiger::get_instance();
 }

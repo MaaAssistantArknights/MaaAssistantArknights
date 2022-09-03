@@ -64,4 +64,6 @@ namespace asst
     private:
         std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;
     };
+
+    inline static auto& Tile = TilePack::get_instance();
 }

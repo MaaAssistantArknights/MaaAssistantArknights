@@ -37,8 +37,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         recruited = true;
     };
 
-    const auto& recruit_cfg = RoguelikeRecruitConfiger::get_instance();
-
     // 编队信息 (已有角色)
     std::string str_chars_info =
         m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
@@ -100,7 +98,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = recruit_cfg.get_oper_info(oper_info.name);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(oper_info.name);
             if (recruit_info.name.empty()) {
                 continue;
             }

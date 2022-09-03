@@ -11,7 +11,7 @@ bool asst::PackageTask::run()
     }
     m_running = true;
 
-    const auto task_delay = GeneralConfiger::get_instance().get_options().task_delay;
+    const int task_delay = Configer.get_options().task_delay;
 
     for (size_t i = 0; i != m_subtasks.size(); ++i) {
         if (need_exit()) {

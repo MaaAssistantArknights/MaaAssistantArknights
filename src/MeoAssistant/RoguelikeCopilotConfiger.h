@@ -18,4 +18,6 @@ namespace asst
         virtual bool parse(const json::value& json) override;
         std::unordered_map<std::string, RoguelikeBattleData> m_stage_data;
     };
+
+    inline static auto& RoguelikeCopilot = RoguelikeCopilotConfiger::get_instance();
 }

@@ -42,4 +42,6 @@ namespace asst
         std::unordered_set<std::string> m_all_item_id;
         std::vector<std::string> m_ordered_material_item_id;
     };
+
+    inline static auto& ItemData = ItemConfiger::get_instance();
 }

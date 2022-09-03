@@ -44,5 +44,5 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     std::string filename = params.get("filename", std::string());
     // 文件名为空时，不加载资源，直接返回 true
-    return filename.empty() || CopilotConfiger::get_instance().load(filename);
+    return filename.empty() || Copilot.load(filename);
 }

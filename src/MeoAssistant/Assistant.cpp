@@ -267,7 +267,7 @@ void Assistant::working_proc()
                 finished_tasks.clear();
             }
 
-            auto delay = GeneralConfiger::get_instance().get_options().task_delay;
+            auto delay = Configer.get_options().task_delay;
             lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
         }

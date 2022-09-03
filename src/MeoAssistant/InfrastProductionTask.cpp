@@ -85,7 +85,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
 
-        auto& all_products = InfrastConfiger::get_instance().get_facility_info(facility_name()).products;
+        auto& all_products = InfrastData.get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
         for (const std::string& product : all_products) {
@@ -229,7 +229,7 @@ size_t asst::InfrastProductionTask::opers_detect()
 bool asst::InfrastProductionTask::optimal_calc()
 {
     LogTraceFunction;
-    auto& facility_info = InfrastConfiger::get_instance().get_facility_info(facility_name());
+    auto& facility_info = InfrastData.get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
 
     std::vector<infrast::SkillsComb> all_available_combs;
@@ -300,7 +300,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     // 遍历所有组合，找到效率最高的
-    auto& all_group = InfrastConfiger::get_instance().get_skills_group(facility_name());
+    auto& all_group = InfrastData.get_skills_group(facility_name());
     for (const infrast::SkillsGroup& group : all_group) {
         Log.trace(group.desc);
         auto cur_available_opers = all_available_combs;
@@ -443,7 +443,7 @@ bool asst::InfrastProductionTask::opers_choose()
     LogTraceFunction;
     bool has_error = false;
 
-    auto& facility_info = InfrastConfiger::get_instance().get_facility_info(facility_name());
+    auto& facility_info = InfrastData.get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
 
     const int face_hash_thres =

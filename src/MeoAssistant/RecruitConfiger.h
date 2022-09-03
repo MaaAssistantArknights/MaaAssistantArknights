@@ -102,4 +102,5 @@ namespace asst
 
         std::vector<RecruitOperInfo> m_all_opers;
     };
+    inline static auto& RecruitData = RecruitConfiger::get_instance();
 } // namespace asst

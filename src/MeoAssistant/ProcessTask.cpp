@@ -18,14 +18,14 @@ using namespace asst;
 asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name)
     : AbstractTask(abs), m_raw_tasks_name(std::move(tasks_name))
 {
-    m_task_delay = GeneralConfiger::get_instance().get_options().task_delay;
+    m_task_delay = Configer.get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
 asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept
     : AbstractTask(std::move(abs)), m_raw_tasks_name(std::move(tasks_name))
 {
-    m_task_delay = GeneralConfiger::get_instance().get_options().task_delay;
+    m_task_delay = Configer.get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
@@ -36,7 +36,7 @@ bool asst::ProcessTask::run()
         return true;
     }
     if (m_task_delay == TaskDelayUnsetted) {
-        m_task_delay = GeneralConfiger::get_instance().get_options().task_delay;
+        m_task_delay = Configer.get_options().task_delay;
     }
 
     m_cur_tasks_name = m_raw_tasks_name;
