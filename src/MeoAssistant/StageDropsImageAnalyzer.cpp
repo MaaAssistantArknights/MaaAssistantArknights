@@ -222,7 +222,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             info.item_id = std::move(item);
             info.quantity = quantity;
 
-            const std::string& name = ItemConfiger::get_instance().get_item_name(info.item_id);
+            const std::string& name = ItemData.get_item_name(info.item_id);
             info.item_name = name.empty() ? info.item_id : name;
 
             static const std::unordered_map<StageDropType, std::string> DropTypeName = {
@@ -449,7 +449,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
 
     std::string result;
     if (!m_stage_code.empty()) {
-        auto& drops = StageDropsConfiger::get_instance().get_stage_info(m_stage_code, m_difficulty).drops;
+        auto& drops = StageDrops.get_stage_info(m_stage_code, m_difficulty).drops;
         if (auto find_iter = drops.find(type); find_iter != drops.end()) {
             result = match_item_with_templs(find_iter->second);
         }
@@ -457,11 +457,11 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
 
     // 没识别到的话就把全部材料都拿来跑一遍
     if (result.empty()) {
-        auto items = ItemConfiger::get_instance().get_all_item_id();
+        auto items = ItemData.get_all_item_id();
         result = match_item_with_templs(std::vector<std::string>(items.cbegin(), items.cend()));
         // 将这次识别到的加入该关卡的待识别列表
         if (!result.empty() && !m_stage_code.empty()) {
-            StageDropsConfiger::get_instance().append_drops(StageKey { m_stage_code, m_difficulty }, type, result);
+            StageDrops.append_drops(StageKey { m_stage_code, m_difficulty }, type, result);
         }
     }
 

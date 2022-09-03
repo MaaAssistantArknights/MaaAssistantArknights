@@ -18,7 +18,7 @@ namespace asst::recruit_calc
 {
     // all combinations and their operator list, excluding empty set and 6-star operators while there is no senior tag
     auto get_all_combs(const std::vector<std::string>& tags,
-                       const std::vector<RecruitOperInfo>& all_ops = RecruitConfiger::get_instance().get_all_opers())
+                       const std::vector<RecruitOperInfo>& all_ops = RecruitData.get_all_opers())
     {
         std::vector<RecruitCombs> rcs_with_single_tag;
 
@@ -273,7 +273,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 {
     LogTraceFunction;
 
-    int delay = GeneralConfiger::get_instance().get_options().task_delay;
+    int delay = Configer.get_options().task_delay;
 
     m_ctrler->click(button);
     sleep(delay);

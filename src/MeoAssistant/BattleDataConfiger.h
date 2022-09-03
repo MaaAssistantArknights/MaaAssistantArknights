@@ -62,4 +62,5 @@ namespace asst
         std::unordered_map<std::string, BattleCharData> m_chars;
         std::unordered_map<std::string, BattleAttackRange> m_ranges;
     };
+    inline static auto& BattleData = BattleDataConfiger::get_instance();
 }

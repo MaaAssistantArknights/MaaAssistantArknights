@@ -32,26 +32,6 @@
 #include "GeneralConfiger.h"
 #include "Logger.hpp"
 
-#ifdef _WIN32
-// for Windows socket
-class WsaHelper
-{
-public:
-    ~WsaHelper() { WSACleanup(); }
-    static WsaHelper& get_instance()
-    {
-        static WsaHelper instance;
-        return instance;
-    }
-    bool operator()() const noexcept { return m_supports; }
-
-private:
-    WsaHelper() { m_supports = WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 && m_wsa_data.wVersion == MAKEWORD(2, 2); }
-    WSADATA m_wsa_data = { 0 };
-    bool m_supports = false;
-};
-#endif
-
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
 {
@@ -479,7 +459,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 
 void asst::Controller::random_delay() const
 {
-    auto& opt = GeneralConfiger::get_instance().get_options();
+    auto& opt = Configer.get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
         static std::default_random_engine rand_engine(std::random_device {}());
@@ -785,7 +765,7 @@ std::optional<int> asst::Controller::start_game(const std::string& client_type, 
     if (client_type.empty()) {
         return std::nullopt;
     }
-    if (auto intent_name = GeneralConfiger::get_instance().get_intent_name(client_type)) {
+    if (auto intent_name = Configer.get_intent_name(client_type)) {
         std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", intent_name.value());
         int id = push_cmd(cur_cmd);
         if (block) {
@@ -882,7 +862,7 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
 
     int id = 0;
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
-    const auto& opt = GeneralConfiger::get_instance().get_options();
+    const auto& opt = Configer.get_options();
     if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
         std::string extra_cmd = utils::string_replace_all_batch(
             m_adb.swipe, {
@@ -938,7 +918,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         };
     };
 
-    auto adb_ret = GeneralConfiger::get_instance().get_adb_cfg(config);
+    auto adb_ret = Configer.get_adb_cfg(config);
     if (!adb_ret) {
         json::value info = get_info_json() | json::object {
             { "what", "ConnectFailed" },

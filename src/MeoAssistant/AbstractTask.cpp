@@ -36,7 +36,7 @@ bool asst::AbstractTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = GeneralConfiger::get_instance().get_options().task_delay;
+        int delay = Configer.get_options().task_delay;
         sleep(delay);
 
         if (!on_run_fails()) {

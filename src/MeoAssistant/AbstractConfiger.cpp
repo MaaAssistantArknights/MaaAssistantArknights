@@ -15,8 +15,6 @@ bool asst::AbstractConfiger::load(const std::filesystem::path& path)
         return false;
     }
 
-    // std::string content = utils::load_file_without_bom(filename);
-
     auto&& ret = json::open(path, true);
     if (!ret) {
         Log.error("Json open failed", path);

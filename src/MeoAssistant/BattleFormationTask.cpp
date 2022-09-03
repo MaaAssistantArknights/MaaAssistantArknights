@@ -157,13 +157,12 @@ bool asst::BattleFormationTask::click_role_table(BattleRole role)
 
 bool asst::BattleFormationTask::parse_formation()
 {
-    if (!CopilotConfiger::get_instance().contains_actions(m_stage_name)) {
+    if (!Copilot.contains_actions(m_stage_name)) {
         Log.error("Unknown stage name", m_stage_name);
         return false;
     }
 
-    const auto& group = CopilotConfiger::get_instance().get_actions(m_stage_name).groups;
-    const auto& battle_data = BattleDataConfiger::get_instance();
+    const auto& group = Copilot.get_actions(m_stage_name).groups;
 
     json::value info = basic_info_with_what("BattleFormation");
     auto& details = info["details"];
@@ -175,7 +174,7 @@ bool asst::BattleFormationTask::parse_formation()
         }
         formation.array_emplace(name);
 
-        BattleRole role = battle_data.get_role(opers_vec.front().name);
+        BattleRole role = BattleData.get_role(opers_vec.front().name);
         m_formation[role].emplace_back(opers_vec);
     }
 

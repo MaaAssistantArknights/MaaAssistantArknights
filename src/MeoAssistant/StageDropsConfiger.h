@@ -83,4 +83,6 @@ namespace asst
         std::unordered_set<std::string> m_all_item_id;
         std::unordered_map<StageKey, StageInfo, StageKeyHasher> m_stage_info;
     };
+
+    inline static auto& StageDrops = StageDropsConfiger::get_instance();
 } // namespace asst

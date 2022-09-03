@@ -66,14 +66,13 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             }
         }
         else {
-            auto& battle_data = BattleDataConfiger::get_instance();
-            BattleRole role = battle_data.get_role(name);
+            BattleRole role = BattleData.get_role(name);
             map_roles_count[role] += 1;
 
             static const std::unordered_map<int, int> RarityPromotionLevel = {
                 { 0, INT_MAX }, { 1, INT_MAX }, { 2, INT_MAX }, { 3, INT_MAX }, { 4, 60 }, { 5, 70 }, { 6, 80 },
             };
-            int rarity = battle_data.get_rarity(name);
+            int rarity = BattleData.get_rarity(name);
             if (elite == 1 && level >= RarityPromotionLevel.at(rarity)) {
                 total_wait_promotion += 1;
                 map_wait_promotion[role] += 1;
@@ -82,9 +81,8 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     }
 
     const auto& result = analyzer.get_result();
-    const auto& order_goods_list = RoguelikeShoppingConfiger::get_instance().get_goods();
     bool bought = false;
-    for (const auto& goods : order_goods_list) {
+    for (const auto& goods : RoguelikeShopping.get_goods()) {
         if (need_exit()) {
             return false;
         }

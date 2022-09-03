@@ -63,16 +63,14 @@ bool asst::BattleProcessTask::get_stage_info()
 {
     LogTraceFunction;
 
-    const auto& tile = TilePack::get_instance();
-
-    m_normal_tile_info = tile.calc(m_stage_name, false);
-    m_side_tile_info = tile.calc(m_stage_name, true);
+    m_normal_tile_info = Tile.calc(m_stage_name, false);
+    m_side_tile_info = Tile.calc(m_stage_name, true);
 
     if (m_side_tile_info.empty() || m_normal_tile_info.empty()) {
         return false;
     }
 
-    const auto& copilot = CopilotConfiger::get_instance();
+    const auto& copilot = Copilot;
     bool contains = copilot.contains_actions(m_stage_name);
     if (!contains) {
         return false;
