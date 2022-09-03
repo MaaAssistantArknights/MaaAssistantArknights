@@ -292,7 +292,7 @@ namespace MeoAsstGui
                 temp_order_list[i] = new_vm;
             }
 
-            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list); 
+            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
             _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
             {
@@ -443,24 +443,16 @@ namespace MeoAsstGui
                 }
                 else
                 {
-                    bool hasSavedValue = false;
                     foreach (var item in StageList)
                     {
                         if (item.Value == stage1)
                         {
-                            hasSavedValue = true;
-                            break;
+                            Stage1 = stage1;
+                            return;
                         }
                     }
 
-                    if (!hasSavedValue)
-                    {
-                        Stage1 = string.Empty;
-                    }
-                    else
-                    {
-                        Stage1 = stage1;
-                    }
+                    Stage1 = string.Empty;
                 }
             }
             else
@@ -490,11 +482,11 @@ namespace MeoAsstGui
                             stage3 = _closedStage;
                         }
                     }
-
-                    Stage1 = stage1;
-                    Stage2 = stage2;
-                    Stage3 = stage3;
                 }
+
+                Stage1 = stage1;
+                Stage2 = stage2;
+                Stage3 = stage3;
             }
         }
 
