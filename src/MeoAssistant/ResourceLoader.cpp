@@ -21,25 +21,25 @@
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
-#define LoadResourceAndCheckRet(Configer, Filename)    \
-    {                                                  \
-        auto full_path = path / Filename;              \
-        bool ret = load_resource<Configer>(full_path); \
-        if (!ret) {                                    \
-            Log.error("Load", full_path, "failed");    \
-            return false;                              \
-        }                                              \
+#define LoadResourceAndCheckRet(Configer, Filename)                 \
+    {                                                               \
+        auto full_path = path / Filename;                           \
+        bool ret = load_resource<Configer>(full_path);              \
+        if (!ret) {                                                 \
+            Log.error(#Configer, " load failed, path:", full_path); \
+            return false;                                           \
+        }                                                           \
     }
 
-#define LoadResourceWithTemplAndCheckRet(Configer, Filename, TemplDir)            \
-    {                                                                             \
-        auto full_path = path / Filename;                                         \
-        auto full_templ_dir = path / TemplDir;                                    \
-        bool ret = load_resource_with_templ<Configer>(full_path, full_templ_dir); \
-        if (!ret) {                                                               \
-            Log.error("Load", full_path, "with", full_templ_dir, "failed");       \
-            return false;                                                         \
-        }                                                                         \
+#define LoadResourceWithTemplAndCheckRet(Configer, Filename, TemplDir)                             \
+    {                                                                                              \
+        auto full_path = path / Filename;                                                          \
+        auto full_templ_dir = path / TemplDir;                                                     \
+        bool ret = load_resource_with_templ<Configer>(full_path, full_templ_dir);                  \
+        if (!ret) {                                                                                \
+            Log.error(#Configer, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
+            return false;                                                                          \
+        }                                                                                          \
     }
 
     LogTraceFunction;
