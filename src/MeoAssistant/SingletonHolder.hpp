@@ -23,4 +23,7 @@ namespace asst
     protected:
         SingletonHolder() = default;
     };
+
+    template <typename T>
+    concept Singleton = std::is_base_of_v<SingletonHolder<T>, T>;
 }
