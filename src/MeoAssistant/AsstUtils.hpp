@@ -9,7 +9,7 @@
 #include <string>
 
 #ifdef _WIN32
-#include <Windows.h>
+#include "SafeWindows.h"
 #else
 #include <ctime>
 #include <fcntl.h>
@@ -478,115 +478,7 @@ namespace asst::utils
         return str;
     }
 
-    inline std::string callcmd(const std::string& cmdline)
-    {
-        constexpr int PipeBuffSize = 4096;
-        std::string pipe_str;
-        auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
-
-#ifdef _WIN32
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-        pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
-        pipe_sec_attr.lpSecurityDescriptor = nullptr;
-        pipe_sec_attr.bInheritHandle = TRUE;
-        HANDLE pipe_read = nullptr;
-        HANDLE pipe_child_write = nullptr;
-        CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, PipeBuffSize);
-
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        STARTUPINFOA si = { 0 };
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-        si.cb = sizeof(STARTUPINFO);
-        si.dwFlags = STARTF_USESTDHANDLES;
-        si.wShowWindow = SW_HIDE;
-        si.hStdOutput = pipe_child_write;
-        si.hStdError = pipe_child_write;
-
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        PROCESS_INFORMATION pi = { nullptr };
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-
-        BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE,
-                                    CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
-        if (p_ret) {
-            DWORD peek_num = 0;
-            DWORD read_num = 0;
-            do {
-                while (PeekNamedPipe(pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-                    if (ReadFile(pipe_read, pipe_buffer.get(), peek_num, &read_num, nullptr)) {
-                        pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
-                    }
-                }
-            } while (WaitForSingleObject(pi.hProcess, 0) == WAIT_TIMEOUT);
-
-            DWORD exit_ret = 255;
-            GetExitCodeProcess(pi.hProcess, &exit_ret);
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
-        }
-
-        CloseHandle(pipe_read);
-        CloseHandle(pipe_child_write);
-
-#else
-        static constexpr int PIPE_READ = 0;
-        static constexpr int PIPE_WRITE = 1;
-        int pipe_in[2] = { 0 };
-        int pipe_out[2] = { 0 };
-        int pipe_in_ret = pipe(pipe_in);
-        int pipe_out_ret = pipe(pipe_out);
-        if (pipe_in_ret != 0 || pipe_out_ret != 0) {
-            return {};
-        }
-        fcntl(pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
-        int exit_ret = 0;
-        int child = fork();
-        if (child == 0) {
-            // child process
-            dup2(pipe_in[PIPE_READ], STDIN_FILENO);
-            dup2(pipe_out[PIPE_WRITE], STDOUT_FILENO);
-            dup2(pipe_out[PIPE_WRITE], STDERR_FILENO);
-
-            // all these are for use by parent only
-            close(pipe_in[PIPE_READ]);
-            close(pipe_in[PIPE_WRITE]);
-            close(pipe_out[PIPE_READ]);
-            close(pipe_out[PIPE_WRITE]);
-
-            exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), nullptr);
-            exit(exit_ret);
-        }
-        else if (child > 0) {
-            // parent process
-
-            // close unused file descriptors, these are for child only
-            close(pipe_in[PIPE_READ]);
-            close(pipe_out[PIPE_WRITE]);
-
-            do {
-                ssize_t read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
-
-                while (read_num > 0) {
-                    pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
-                    read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
-                };
-            } while (::waitpid(child, &exit_ret, WNOHANG) == 0);
-
-            close(pipe_in[PIPE_WRITE]);
-            close(pipe_out[PIPE_READ]);
-        }
-        else {
-            // failed to create child process
-            close(pipe_in[PIPE_READ]);
-            close(pipe_in[PIPE_WRITE]);
-            close(pipe_out[PIPE_READ]);
-            close(pipe_out[PIPE_WRITE]);
-        }
-#endif
-        return pipe_str;
-    }
+    std::string callcmd(const std::string& cmdline);
 
     inline std::string demangle(const char* name_from_typeid)
     {

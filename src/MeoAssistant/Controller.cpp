@@ -2,7 +2,8 @@
 #include "AsstConf.h"
 
 #ifdef _WIN32
-#include <WinUser.h>
+#include "AsstPlatformWin32.h"
+#include <ws2tcpip.h>
 #else
 #include <fcntl.h>
 #include <sys/wait.h>
@@ -38,27 +39,6 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     LogTraceFunction;
 
 #ifdef _WIN32
-    // 安全属性描述符
-    m_pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
-    m_pipe_sec_attr.lpSecurityDescriptor = nullptr;
-    m_pipe_sec_attr.bInheritHandle = TRUE;
-
-    // 创建管道，本进程读-子进程写
-    BOOL pipe_read_ret = CreatePipe(&m_pipe_read, &m_pipe_child_write, &m_pipe_sec_attr, PipeBuffSize);
-    // 创建管道，本进程写-子进程读
-    BOOL pipe_write_ret = CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
-
-    if (!pipe_read_ret || !pipe_write_ret) {
-        throw "controller pipe created failed";
-    }
-
-    m_child_startup_info.cb = sizeof(STARTUPINFO);
-    m_child_startup_info.dwFlags = STARTF_USESTDHANDLES;
-    m_child_startup_info.wShowWindow = SW_HIDE;
-    // 重定向子进程的读写
-    m_child_startup_info.hStdInput = m_pipe_child_read;
-    m_child_startup_info.hStdOutput = m_pipe_child_write;
-    m_child_startup_info.hStdError = m_pipe_child_write;
 
     m_support_socket = false;
     do {
@@ -111,13 +91,7 @@ asst::Controller::~Controller()
         release();
     }
 
-#ifdef _WIN32
-    CloseHandle(m_pipe_read);
-    CloseHandle(m_pipe_write);
-    CloseHandle(m_pipe_child_read);
-    CloseHandle(m_pipe_child_write);
-
-#else
+#ifndef _WIN32
     close(m_pipe_in[PIPE_READ]);
     close(m_pipe_in[PIPE_WRITE]);
     close(m_pipe_out[PIPE_READ]);
@@ -228,69 +202,181 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     using namespace std::chrono;
     // LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
-    std::string pipe_data;
+    std::vector<uchar> pipe_data;
+    std::vector<uchar> sock_data;
 
     auto start_time = steady_clock::now();
-    auto check_timeout = [&]() -> bool {
-        return timeout && timeout < duration_cast<milliseconds>(steady_clock::now() - start_time).count();
-    };
 
 #ifdef _WIN32
 
+    DWORD err;
+    HANDLE pipe_parent_read, pipe_child_write;
+    SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize, true,
+                                false)) {
+        err = GetLastError();
+        Log.error("CreateOverlappablePipe failed, err", err);
+        return std::nullopt;
+    }
+
+    STARTUPINFOW si {};
+    si.cb = sizeof(STARTUPINFOW);
+    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = pipe_child_write;
+    si.hStdError = pipe_child_write;
     ASST_AUTO_DEDUCED_ZERO_INIT_START
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-    BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW,
-                                     nullptr, nullptr, &m_child_startup_info, &process_info);
+    auto cmdline_osstr = asst::utils::to_osstring(cmd);
+    BOOL create_ret = CreateProcessW(nullptr, &cmdline_osstr[0], nullptr, nullptr, TRUE, 0, nullptr,
+                                     nullptr, &si, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
     }
-    if (!recv_by_socket) {
-        DWORD peek_num = 0;
-        DWORD read_num = 0;
-        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
-        do {
-            // DWORD write_num = 0;
-            // WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
-            while (PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-                if (ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
-                    pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
+
+    CloseHandle(pipe_child_write);
+
+    std::vector<HANDLE> wait_handles;
+    wait_handles.reserve(3);
+    bool process_running = true;
+    bool pipe_eof = false;
+    bool accept_pending = false;
+    bool socket_eof = false;
+
+    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
+    (void)ReadFile(pipe_parent_read, m_pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+
+    OVERLAPPED sockov {};
+    SOCKET client_socket = INVALID_SOCKET;
+
+    if (recv_by_socket) {
+        sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+        client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        DWORD dummy;
+        if (!m_AcceptEx(m_server_sock, client_socket, m_socket_buffer.get(),
+                        SocketBuffSize - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
+                        sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
+            err = WSAGetLastError();
+            if (err == ERROR_IO_PENDING) {
+                accept_pending = true;
+            }
+            else {
+                Log.trace("AcceptEx failed, err:", err);
+                accept_pending = false;
+                socket_eof = true;
+            }
+        }
+    }
+
+    while (1) {
+        wait_handles.clear();
+        if (process_running) wait_handles.push_back(process_info.hProcess);
+        if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
+        if (recv_by_socket && ((accept_pending && process_running) || !socket_eof)) {
+            wait_handles.push_back(sockov.hEvent);
+        }
+        if (wait_handles.empty()) break;
+        auto elapsed = steady_clock::now() - start_time;
+        auto wait_time = std::min(timeout - duration_cast<milliseconds>(elapsed).count(), 0xFFFFFFFELL);
+        if (wait_time < 0) break;
+        auto wait_result =
+            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
+        HANDLE signaled_object = INVALID_HANDLE_VALUE;
+        if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
+            signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
+        }
+        else if (wait_result == WAIT_TIMEOUT) {
+            continue;
+        }
+        else {
+            // something bad happened
+            err = GetLastError();
+            throw std::system_error(std::error_code(err, std::system_category()));
+        }
+
+        if (signaled_object == process_info.hProcess) {
+            process_running = false;
+        }
+        else if (signaled_object == pipeov.hEvent) {
+            // pipe read
+            DWORD len = 0;
+            if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
+                pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + len);
+                (void)ReadFile(pipe_parent_read, m_pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+            }
+            else {
+                err = GetLastError();
+                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
+                    pipe_eof = true;
                 }
             }
-        } while (WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
-    }
-    else {
-        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
-        fd_set fdset = { 0 };
-        FD_SET(m_server_sock, &fdset);
-        constexpr int TimeoutMilliseconds = 5000;
-        timeval select_timeout = { TimeoutMilliseconds / 1000, (TimeoutMilliseconds % 1000) * 1000 };
-        select(static_cast<int>(m_server_sock) + 1, &fdset, nullptr, nullptr, &select_timeout);
-        if (FD_ISSET(m_server_sock, &fdset)) {
-            SOCKET client_sock = ::accept(m_server_sock, nullptr, nullptr);
-            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&TimeoutMilliseconds),
-                       sizeof(int));
-            int recv_size = 0;
-            do {
-                recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
-                if (recv_size < 0) {
-                    Log.error("recv error", recv_size);
-                    break;
-                }
-                pipe_data.insert(pipe_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + recv_size);
-            } while (recv_size > 0 && !check_timeout());
-            ::closesocket(client_sock);
         }
-        WaitForSingleObject(process_info.hProcess, TimeoutMilliseconds);
+        else if (signaled_object == sockov.hEvent) {
+            if (accept_pending) {
+                // AcceptEx, client_socker is connected and first chunk of data is received
+                DWORD len = 0;
+                if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
+                    accept_pending = false;
+                    if (recv_by_socket)
+                        sock_data.insert(sock_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + len);
+
+                    if (len == 0) {
+                        socket_eof = true;
+                        closesocket(client_socket);
+                    }
+                    else {
+                    // reset the overlapped since we reuse it for different handle
+                    auto event = sockov.hEvent;
+                    sockov = {};
+                    sockov.hEvent = event;
+
+                    (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
+                                   nullptr, &sockov);
+                }
+            }
+            }
+            else {
+                // ReadFile
+                DWORD len = 0;
+                if (GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &len, FALSE)) {
+                    if (recv_by_socket)
+                        sock_data.insert(sock_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + len);
+                    if (len == 0) {
+                        socket_eof = true;
+                        closesocket(client_socket);
+                    }
+                    else {
+                    (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
+                                   nullptr, &sockov);
+                }
+                }
+                else {
+                    //err = GetLastError();
+                        socket_eof = true;
+                }
+            }
+        }
     }
+
     DWORD exit_ret = 0;
     GetExitCodeProcess(process_info.hProcess, &exit_ret);
     CloseHandle(process_info.hProcess);
     CloseHandle(process_info.hThread);
+    CloseHandle(pipe_parent_read);
+    CloseHandle(pipeov.hEvent);
+    if (recv_by_socket) {
+        if (!socket_eof) closesocket(client_socket);
+        CloseHandle(sockov.hEvent);
+    }
 
 #else
+    auto check_timeout = [&]() -> bool {
+        return timeout && timeout < duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+    };
+
     int exit_ret = 0;
     m_child = fork();
     if (m_child == 0) {
@@ -333,11 +419,11 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", pipe_data, ", cost", duration, "ms");
     }
     else {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size(), ", cost", duration, "ms");
+        Log.trace("Call `", cmd, "` ret", exit_ret, ", stdout size:", pipe_data.size(), ", socket size:", sock_data.size(), ", cost", duration, "ms");
     }
 
     if (!exit_ret) {
-        return pipe_data;
+        return recv_by_socket ? sock_data : pipe_data;
     }
     else if (m_inited) {
         // 这里用 m_inited 限制了仅递归一层，修改需要注意下
@@ -509,8 +595,19 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     if (m_server_sock == INVALID_SOCKET) {
         return std::nullopt;
     }
+
+    DWORD dummy;
+    GUID GuidAcceptEx = WSAID_ACCEPTEX;
+    auto err = WSAIoctl(m_server_sock, SIO_GET_EXTENSION_FUNCTION_POINTER, &GuidAcceptEx, sizeof(GuidAcceptEx),
+                        &m_AcceptEx, sizeof(m_AcceptEx), &dummy, NULL, NULL);
+    if (err == SOCKET_ERROR) {
+        err = WSAGetLastError();
+        Log.error("failed to resolve AcceptEx, err:", err);
+        closesocket(m_server_sock);
+        return std::nullopt;
+    }
     m_server_addr.sin_family = PF_INET;
-    m_server_addr.sin_addr.s_addr = inet_addr(local_address.c_str());
+    inet_pton(AF_INET, local_address.c_str(), &m_server_addr.sin_addr);
 #else
     // Linux, todo
 #endif

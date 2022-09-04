@@ -399,6 +399,9 @@
     <ClInclude Include="AsstImageIo.hpp">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="SafeWindows.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">

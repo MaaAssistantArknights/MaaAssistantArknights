@@ -9,7 +9,7 @@
 #include "Logger.hpp"
 
 #ifdef _WIN32
-#include <windows.h>
+#include "SafeWindows.h"
 #include <format>
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp);
 #else
