@@ -522,9 +522,6 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 
     uint16_t max_port = try_port + try_times;
     for (uint16_t port = try_port; port < max_port; ++port) {
-        if (need_exit()) {
-            break;
-        }
         Log.trace("try to bind port", port);
 
 #ifdef _WIN32
