@@ -23,6 +23,7 @@
     <ClInclude Include="AsstHttp.hpp" />
     <ClInclude Include="AsstImageIo.hpp" />
     <ClInclude Include="AsstInfrastDef.h" />
+    <ClInclude Include="AsstPlatformWin32.h" />
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstTypes.h" />
     <ClInclude Include="AsstMsg.h" />
@@ -123,7 +124,8 @@
     <ClCompile Include="AbstractImageAnalyzer.cpp" />
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="AbstractTaskPlugin.cpp" />
-    <ClCompile Include="AsstUtils.cpp" />
+    <ClCompile Include="AsstPlatformWin32.cpp" />
+    <ClCompile Include="AsstPlatformPosix.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="AwardTask.cpp" />
     <ClCompile Include="BattleDataConfiger.cpp" />
