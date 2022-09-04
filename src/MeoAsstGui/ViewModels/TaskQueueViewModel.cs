@@ -1716,6 +1716,11 @@ namespace MeoAsstGui
             get => _dropsItemId;
             set
             {
+                if (value == null)
+                {
+                    return;
+                }
+
                 SetAndNotify(ref _dropsItemId, value);
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
