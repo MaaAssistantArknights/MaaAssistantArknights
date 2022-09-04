@@ -396,6 +396,9 @@
     <ClInclude Include="AbstractConfigerWithTempl.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="AsstImageIo.hpp">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -667,6 +670,9 @@
     </ClCompile>
     <ClCompile Include="ReportDataTask.cpp">
       <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="AsstUtils.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

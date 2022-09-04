@@ -8,6 +8,7 @@
 
 #include "Logger.hpp"
 #include "StageDropsImageAnalyzer.h"
+#include "AsstImageIo.hpp"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType)
@@ -22,7 +23,7 @@ bool asst::DebugTask::run()
     size_t total = 0;
     size_t success = 0;
     for (const auto& entry : std::filesystem::directory_iterator("../../test/drops/screenshots")) {
-        cv::Mat image = cv::imread(entry.path().string());
+        cv::Mat image = asst::imread(entry.path());
         if (image.empty()) {
             continue;
         }

@@ -8,6 +8,18 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
+#ifdef _WIN32
+#include <windows.h>
+#include <format>
+static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp);
+#else
+static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp)
+{
+    *is_temp = false;
+    return dir;
+}
+#endif
+
 asst::OcrPack::OcrPack()
 {
     Log.info("hardware_concurrency:", std::thread::hardware_concurrency());
@@ -25,22 +37,51 @@ asst::OcrPack::~OcrPack()
     }
 
     PaddleOcrDestroy(m_ocr);
+
 }
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
-    if (!std::filesystem::exists(path)) {
+    bool use_temp_dir;
+    auto paddle_dir = prepare_paddle_dir(path, &use_temp_dir);
+
+    if (paddle_dir.empty() || !std::filesystem::exists(paddle_dir)) {
         return false;
     }
 
-    const auto& dst_path = path / "det";
-    const auto& rec_path = path / "rec";
-    const auto& key_path = path / "ppocr_keys_v1.txt";
+    constexpr static auto DetName = "det";
+    // constexpr static const char* ClsName = "cls";
+    constexpr static auto RecName = "rec";
+    constexpr static auto KeysName = "ppocr_keys_v1.txt";
+
+    const auto dst_filename = paddle_dir / asst::utils::path(DetName);
+    // const std::string cls_filename = dir + ClsName;
+    const auto rec_filename = paddle_dir / asst::utils::path(RecName);
+    const auto keys_filename = paddle_dir / asst::utils::path(KeysName);
 
     if (m_ocr != nullptr) {
         PaddleOcrDestroy(m_ocr);
     }
-    m_ocr = PaddleOcrCreate(dst_path.string().c_str(), rec_path.string().c_str(), key_path.string().c_str(), nullptr);
+
+    const auto det4paddle = asst::utils::path_to_crt_string(dst_filename);
+    const auto rec4paddle = asst::utils::path_to_crt_string(rec_filename);
+    const auto keys4paddle = asst::utils::path_to_crt_string(keys_filename);
+
+    if (det4paddle.empty() || rec4paddle.empty() || keys4paddle.empty()) {
+        return false;
+    }
+
+    m_ocr = PaddleOcrCreate(det4paddle.c_str(), rec4paddle.c_str(), keys4paddle.c_str(), nullptr);
+
+    if (use_temp_dir) {
+        // files can be removed after load
+        std::thread([paddle_dir]() {
+            for (int i = 0; i < 50; i++) {
+                if (std::filesystem::remove(paddle_dir)) break;
+                std::this_thread::sleep_for(std::chrono::milliseconds(20));
+            }
+        }).detach();
+    }
 
     return m_ocr != nullptr;
 }
@@ -125,3 +166,143 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     cv::Mat roi_img = image(utils::make_rect<cv::Rect>(roi));
     return recognize(roi_img, rect_cor, without_det);
 }
+
+
+#ifdef _WIN32
+
+#define REPARSE_MOUNTPOINT_HEADER_SIZE 8
+
+struct REPARSE_MOUNTPOINT_DATA_BUFFER
+{
+    DWORD ReparseTag;
+    DWORD ReparseDataLength;
+    WORD Reserved;
+    WORD ReparseTargetLength;
+    WORD ReparseTargetMaximumLength;
+    WORD Reserved1;
+    WCHAR ReparseTarget[1];
+};
+
+struct REPARSE_DATA_BUFFER
+{
+    DWORD ReparseTag;
+    WORD ReparseDataLength;
+    WORD Reserved;
+    union
+    {
+        struct
+        {
+            WORD SubstituteNameOffset;
+            WORD SubstituteNameLength;
+            WORD PrintNameOffset;
+            WORD PrintNameLength;
+            WCHAR PathBuffer[1];
+        } SymbolicLinkReparseBuffer;
+        struct
+        {
+            WORD SubstituteNameOffset;
+            WORD SubstituteNameLength;
+            WORD PrintNameOffset;
+            WORD PrintNameLength;
+            WCHAR PathBuffer[1];
+        } MountPointReparseBuffer;
+        struct
+        {
+            BYTE DataBuffer[1];
+        } GenericReparseBuffer;
+    };
+};
+
+#define REPARSE_DATA_BUFFER_HEADER_SIZE FIELD_OFFSET(REPARSE_DATA_BUFFER, GenericReparseBuffer)
+
+static HANDLE OpenDirectory(LPCWSTR pszPath, BOOL bReadWrite)
+{
+    // Obtain backup/restore privilege in case we don't have it
+    HANDLE hToken;
+    TOKEN_PRIVILEGES tp;
+    OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &hToken);
+    LookupPrivilegeValueW(NULL, (bReadWrite ? SE_RESTORE_NAME : SE_BACKUP_NAME), &tp.Privileges[0].Luid);
+    tp.PrivilegeCount = 1;
+    tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+    AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL);
+    CloseHandle(hToken);
+
+    // Open the directory
+    DWORD dwAccess = bReadWrite ? (GENERIC_READ | GENERIC_WRITE) : GENERIC_READ;
+    HANDLE hDir = CreateFileW(pszPath, dwAccess, 0, NULL, OPEN_EXISTING,
+                               FILE_FLAG_OPEN_REPARSE_POINT | FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+    return hDir;
+}
+
+static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp)
+{
+    static std::atomic<uint64_t> id{};
+
+    *is_temp = false;
+    auto path = asst::utils::path(asst::utils::string_replace_all(asst::utils::path_to_utf8_string(dir), "/", "\\"));
+    if (!asst::utils::path_to_ansi_string(path).empty()) {
+        // can be passed to paddle via path_to_ansi_string
+        return path;
+    }
+    // fallback: create junction (reparse point) in user temp directory
+    wchar_t tempbuf[MAX_PATH + 1];
+    auto templen = GetTempPathW(MAX_PATH + 1, tempbuf);
+    std::filesystem::path tempdir(std::wstring_view(tempbuf, templen));
+    if (asst::utils::path_to_ansi_string(tempdir).empty()) {
+        asst::Log.error("failed to escape unicode path: temp dir cannot be escaped");
+        // cannot escape temp dir, no luck
+        return {};
+    }
+    auto pid = GetCurrentProcessId();
+    while (1) {
+        auto dirname = std::format(L"MaaLink-{}-{}", pid, id++);
+        auto linkdir = tempdir / dirname;
+        if (CreateDirectoryW(linkdir.c_str(), nullptr)) {
+            // prepare link target (NT path)
+
+            auto normtarget = L"\\??\\" + std::filesystem::absolute(path).native();
+            if (normtarget.back() != L'\\') normtarget.push_back(L'\\');
+
+            // set reparse point
+            auto hReparsePoint = OpenDirectory(linkdir.c_str(), TRUE);
+
+            BYTE buf[sizeof(REPARSE_MOUNTPOINT_DATA_BUFFER) + MAX_PATH * sizeof(WCHAR)];
+            REPARSE_MOUNTPOINT_DATA_BUFFER& ReparseBuffer = (REPARSE_MOUNTPOINT_DATA_BUFFER&)buf;
+
+            // Prepare reparse point data
+            memset(buf, 0, sizeof(buf));
+            ReparseBuffer.ReparseTag = IO_REPARSE_TAG_MOUNT_POINT;
+            wcsncpy_s(ReparseBuffer.ReparseTarget, MAX_PATH + 1, normtarget.c_str(), MAX_PATH);
+            ReparseBuffer.ReparseTargetMaximumLength = (WORD)((normtarget.size() + 1) * sizeof(WCHAR));
+            ReparseBuffer.ReparseTargetLength = (WORD)(normtarget.size() * sizeof(WCHAR));
+            ReparseBuffer.ReparseDataLength = ReparseBuffer.ReparseTargetLength + 12;
+
+            // Attach reparse point
+            auto success = DeviceIoControl(hReparsePoint, FSCTL_SET_REPARSE_POINT, &ReparseBuffer,
+                                           ReparseBuffer.ReparseDataLength + REPARSE_MOUNTPOINT_HEADER_SIZE, nullptr, 0,
+                                           nullptr, nullptr);
+
+            CloseHandle(hReparsePoint);
+
+            if (success) {
+                *is_temp = true;
+                return linkdir;
+            }
+            else {
+                asst::Log.error("failed to escape unicode path: failed to create junction");
+                return {};
+            }
+
+        } else {
+            auto err = GetLastError();
+            if (err != ERROR_ALREADY_EXISTS) {
+                // cannot create link, no luck
+                asst::Log.error("failed to escape unicode path: failed to create junction");
+                return {};
+            }
+        }
+    }
+}
+
+#endif

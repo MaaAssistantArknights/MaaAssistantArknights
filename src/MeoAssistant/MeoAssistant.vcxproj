@@ -21,6 +21,7 @@
     <ClInclude Include="AbstractTaskPlugin.h" />
     <ClInclude Include="Assistant.h" />
     <ClInclude Include="AsstHttp.hpp" />
+    <ClInclude Include="AsstImageIo.hpp" />
     <ClInclude Include="AsstInfrastDef.h" />
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstTypes.h" />
@@ -121,6 +122,7 @@
     <ClCompile Include="AbstractImageAnalyzer.cpp" />
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="AbstractTaskPlugin.cpp" />
+    <ClCompile Include="AsstUtils.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="AwardTask.cpp" />
     <ClCompile Include="BattleDataConfiger.cpp" />
