@@ -1062,7 +1062,7 @@ namespace MeoAsstGui
             task_params["stone"] = max_stone;
             task_params["times"] = max_times;
             task_params["report_to_penguin"] = true;
-            if (drops_item_quantity != 0)
+            if (drops_item_quantity != 0 && !string.IsNullOrWhiteSpace(drops_item_id))
             {
                 task_params["drops"] = new JObject();
                 task_params["drops"][drops_item_id] = drops_item_quantity;
