@@ -96,7 +96,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     LogTraceFunction;
 
     wait_for_start();
-    
+
     bool calced = false;
 
     if (m_stage_name.empty()) {
@@ -361,7 +361,7 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
     m_ctrler->click(point);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    return ProcessTask(*this, { "BattleOperRetreat" }).run();
+    return ProcessTask(*this, { "BattleOperRetreatJustClick" }).run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::abandon()
