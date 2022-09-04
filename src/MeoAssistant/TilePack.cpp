@@ -11,8 +11,6 @@ asst::TilePack::~TilePack() = default;
 
 bool asst::TilePack::load(const std::filesystem::path& path)
 {
-    LogTraceFunction;
-
     if (!std::filesystem::exists(path)) {
         return false;
     }

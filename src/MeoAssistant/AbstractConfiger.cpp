@@ -8,8 +8,7 @@
 bool asst::AbstractConfiger::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-
-    Log.info("Load:", path);
+    Log.info("load", path);
 
     if (!std::filesystem::exists(path)) {
         return false;

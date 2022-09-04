@@ -29,8 +29,6 @@ asst::OcrPack::~OcrPack()
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
-    LogTraceFunction;
-
     if (!std::filesystem::exists(path)) {
         return false;
     }

@@ -21,18 +21,20 @@
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
-#define LoadResourceAndCheckRet(Configer, Filename)                 \
-    {                                                               \
-        auto full_path = path / Filename;                           \
-        bool ret = load_resource<Configer>(full_path);              \
-        if (!ret) {                                                 \
-            Log.error(#Configer, " load failed, path:", full_path); \
-            return false;                                           \
-        }                                                           \
+#define LoadResourceAndCheckRet(Configer, Filename)                         \
+    {                                                                       \
+        LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Configer); \
+        auto full_path = path / Filename;                                   \
+        bool ret = load_resource<Configer>(full_path);                      \
+        if (!ret) {                                                         \
+            Log.error(#Configer, " load failed, path:", full_path);         \
+            return false;                                                   \
+        }                                                                   \
     }
 
 #define LoadResourceWithTemplAndCheckRet(Configer, Filename, TemplDir)                             \
     {                                                                                              \
+        LogTraceScope(std::string("LoadResourceWithTemplAndCheckRet ") + #Configer);               \
         auto full_path = path / Filename;                                                          \
         auto full_templ_dir = path / TemplDir;                                                     \
         bool ret = load_resource_with_templ<Configer>(full_path, full_templ_dir);                  \
