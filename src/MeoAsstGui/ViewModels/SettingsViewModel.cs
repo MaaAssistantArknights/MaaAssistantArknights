@@ -1696,7 +1696,7 @@ namespace MeoAsstGui
                 }
 
                 var mainModel = _container.Get<TaskQueueViewModel>();
-                mainModel.UpdateStageList();
+                mainModel.UpdateStageList(true);
             }
         }
 
