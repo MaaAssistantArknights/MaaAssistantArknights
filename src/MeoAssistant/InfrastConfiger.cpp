@@ -6,8 +6,6 @@
 
 bool asst::InfrastConfiger::parse(const json::value& json)
 {
-    LogTraceFunction;
-
     for (const json::value& facility : json.at("roomType").as_array()) {
         std::string facility_name = facility.as_string();
         const json::value& facility_json = json.at(facility_name);

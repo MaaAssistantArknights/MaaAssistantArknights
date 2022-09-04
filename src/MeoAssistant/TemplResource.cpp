@@ -16,6 +16,7 @@ void asst::TemplResource::set_load_required(std::unordered_set<std::string> requ
 bool asst::TemplResource::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
+    Log.info("load", path);
 
     for (const std::string& filename : m_templs_filename) {
         std::filesystem::path filepath(path / filename);
