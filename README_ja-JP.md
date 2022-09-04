@@ -138,7 +138,8 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### Windows
 
-Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。すべての構成が正しいはずです。
+- Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。環境がすでに構成されています。
+- clang-formatのサポートを有効にすることをお勧めします。詳細については、[Visual Studioでclang-formatを有効にする](docs/ja-jp/2.2-プルリクエスト.md)を参照してください。
 
 ### Linux | macOS
 
@@ -157,6 +158,13 @@ Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。すべての
 - [コールバックAPI](docs/ja-jp/3.2-コールバックAPI.md)
 - [タスクAPI](docs/ja-jp/3.4-タスクAPI.md)
 - [自動作戦API](docs/ja-jp/3.3-自動作戦API.md)
+
+### Issue bot
+
+- `Add {LABEL_NAME}`を使用してタグを追加し、`Remove {LABEL_NAME}` を使用してタグを削除できます。
+- `close #{ISSUE_NUMBER}` または `fix #{ISSUE_NUMBER}` を使用してissueに `fixed` タグを追加できます。
+
+詳細については[Issue bot 使用方法](docs/ja-jp/2.3-IssueBot使う方.md)を参照してください。
 
 ### 開発に参加したいですけど、GitHubの使い方がよくわかりません？
 
