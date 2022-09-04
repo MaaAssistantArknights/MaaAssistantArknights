@@ -11,9 +11,9 @@
 #include "AbstractTaskPlugin.h"
 #include "AsstUtils.hpp"
 #include "Controller.h"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
 #include "ProcessTask.h"
-#include "Resource.h"
 
 using namespace asst;
 
@@ -36,7 +36,7 @@ bool asst::AbstractTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = Resrc.cfg().get_options().task_delay;
+        int delay = Configer.get_options().task_delay;
         sleep(delay);
 
         if (!on_run_fails()) {

@@ -1,7 +1,6 @@
 #include "InfrastClueImageAnalyzer.h"
 
 #include "MultiMatchImageAnalyzer.h"
-#include "Resource.h"
 
 bool asst::InfrastClueImageAnalyzer::analyze()
 {

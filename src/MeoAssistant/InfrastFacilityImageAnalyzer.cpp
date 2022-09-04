@@ -5,7 +5,7 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "MultiMatchImageAnalyzer.h"
-#include "Resource.h"
+#include "TaskData.h"
 
 bool asst::InfrastFacilityImageAnalyzer::analyze()
 {

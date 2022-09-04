@@ -7,8 +7,8 @@
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
-#include "Resource.h"
 #include "RuntimeStatus.h"
+#include "TaskData.h"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image), m_tasks_name(std::move(tasks_name))

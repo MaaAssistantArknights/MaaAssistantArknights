@@ -3,7 +3,6 @@
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithFlagTemplImageAnalyzer.h"
-#include "Resource.h"
 #include "TaskData.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
