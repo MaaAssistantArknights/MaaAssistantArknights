@@ -1,6 +1,9 @@
-- 修复 刷理智 活动结束后关卡导航无法实时刷新、保存、及备选关卡显示的问题 @ABA2396
-- 修复 自动公招 上传一图流数据时的响应检查错误 @MistEO
-- 修复 自动战斗 关技能关不掉的问题 @MistEO
-- 修复 基建 偶现不换人的问题 @MistEO
-- 优化 基建 控制中枢 歌蕾蒂娅 优先级 @MistEO
-- 优化 界面 布局 @MistEO
+- 修复 截图 不使用 socket 的问题 @MistEO @dantmnf
+- 修复 自动战斗 干员撤退不了的问题 @MistEO
+- 重构 资源管理相关代码 @MistEO
+- 重构 基础设施部分代码 @zzyyyl @horror-proton
+- 重构 界面 关卡选择、材料选择逻辑 @et2012 @ABA2396
+- 优化 界面样式 @ABA2396 @MistEO
+- 优化 CICD @LiamSho
+- 修复 Copilot 接口 传入中文路径时的错误 @MistEO
+- 整理 开发手册、常见问题文档 @zzyyyl @MistEO @Tastror
