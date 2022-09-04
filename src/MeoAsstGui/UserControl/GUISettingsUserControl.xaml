@@ -33,14 +33,12 @@
                 HorizontalAlignment="Left"
                 Content="{DynamicResource UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}"
-                IsEnabled="{c:Binding !HideUnavailableStage}"
                 ToolTip="{DynamicResource StageSelectTip}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}"
-                IsEnabled="{c:Binding !UseAlternateStage}"
                 ToolTip="{DynamicResource StageSelectTip}" />
         </StackPanel>
         <StackPanel
