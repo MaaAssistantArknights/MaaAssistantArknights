@@ -434,9 +434,10 @@ namespace MeoAsstGui
 
             if (settingsModel.HideUnavailableStage)
             {
+                var stage1 = Stage1;
                 StageList = newList;
 
-                if (Stage1 == null)
+                if (stage1 == null)
                 {
                     Stage1 = string.Empty;
                 }
@@ -445,7 +446,7 @@ namespace MeoAsstGui
                     bool hasSavedValue = false;
                     foreach (var item in StageList)
                     {
-                        if (item.Value == Stage1)
+                        if (item.Value == stage1)
                         {
                             hasSavedValue = true;
                             break;
@@ -455,6 +456,10 @@ namespace MeoAsstGui
                     if (!hasSavedValue)
                     {
                         Stage1 = string.Empty;
+                    }
+                    else
+                    {
+                        Stage1 = stage1;
                     }
                 }
             }
@@ -474,10 +479,12 @@ namespace MeoAsstGui
                         {
                             stage1 = _closedStage;
                         }
+
                         if (item.Value == stage2)
                         {
                             stage2 = _closedStage;
                         }
+
                         if (item.Value == stage2)
                         {
                             stage3 = _closedStage;
