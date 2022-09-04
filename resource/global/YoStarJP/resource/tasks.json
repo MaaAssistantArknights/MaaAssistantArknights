@@ -1490,10 +1490,6 @@
             120,
             80,
             32
-        ],
-        "cache": false,
-        "next": [
-            "StageThemeChapter2ToChapter1To1-7"
         ]
     },
     "StageThemeChapter2ToChapter1To1-7": {
@@ -1507,12 +1503,6 @@
             120,
             80,
             32
-        ],
-        "cache": false,
-        "next": [
-            "StageThemeEpisode3ToEpisode1To1-7",
-            "StageThemeEpisode2ToEpisode1To1-7",
-            "StageThemeEpisode1To1-7"
         ]
     },
     "StagePR-A-1": {
