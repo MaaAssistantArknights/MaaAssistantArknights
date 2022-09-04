@@ -4,6 +4,7 @@
 #include "BattleFormationTask.h"
 #include "BattleProcessTask.h"
 #include "CopilotConfiger.h"
+#include "Logger.hpp"
 #include "ProcessTask.h"
 
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
@@ -32,7 +33,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     auto stage_name_opt = params.find<std::string>("stage_name");
-    if (!stage_name_opt) {
+    auto filename_opt = params.find<std::string>("filename");
+    if (!stage_name_opt || !filename_opt) {
+        Log.error("CopilotTask set_params failed, stage_name or filename not found");
         return false;
     }
 
@@ -43,11 +46,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool with_formation = params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
 
-    std::string filename = params.get("filename", std::string());
+    std::string filename = std::move(filename_opt.value());
 #ifdef _WIN32
     filename = utils::utf8_to_ansi(filename);
 #endif //  _WIN32
 
-    // 文件名为空时，不加载资源，直接返回 true
-    return filename.empty() || Copilot.load(filename);
+    return Copilot.load(filename);
 }
