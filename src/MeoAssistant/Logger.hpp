@@ -26,8 +26,6 @@ namespace asst
                 return false;
             }
             m_directory = dir;
-            m_log_path = m_directory / "asst.log";
-            m_log_bak_path = m_directory / "asst.bak.log";
 
             return true;
         }
@@ -234,9 +232,9 @@ namespace asst
         }
 
         inline static std::filesystem::path m_directory;
-        inline static std::filesystem::path m_log_path;
-        inline static std::filesystem::path m_log_bak_path;
 
+        std::filesystem::path m_log_path = m_directory / "asst.log";
+        std::filesystem::path m_log_bak_path = m_directory / "asst.bak.log";
         std::mutex m_trace_mutex;
         std::ofstream m_ofs;
     };
