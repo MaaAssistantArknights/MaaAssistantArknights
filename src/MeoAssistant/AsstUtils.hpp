@@ -22,79 +22,255 @@
 #include <cxxabi.h>
 #endif
 
+// delete instantiation of template with message, when static_assert(false, Message) does not work
+#define ASST_STATIC_ASSERT_FALSE(Message, ...) static_assert(::asst::utils::always_false<__VA_ARGS__>, Message);
+
 namespace asst::utils
 {
-//  delete instantiation of template with message, when static_assert(false, Message) does not work
-#define ASST_STATIC_ASSERT_FALSE(Message, ...) \
-    static_assert(::asst::utils::integral_constant_at_template_instantiation<bool, false, __VA_ARGS__>::value, Message)
-    template <typename T, T Val, typename... Unused>
-    struct integral_constant_at_template_instantiation : std::integral_constant<T, Val>
-    {};
+    template<typename... Unused> constexpr bool always_false = false;
 
     template <typename dst_t, typename src_t>
     requires ranges::range<src_t> && ranges::range<dst_t>
-    dst_t view_cast(const src_t& src)
+    dst_t view_cast(src_t&& src)
     {
         return dst_t(src.begin(), src.end());
     }
 
-    inline void _string_replace_all(std::string& str, const std::string_view& old_value,
-                                    const std::string_view& new_value)
+    template <typename char_t = char>
+    using pair_of_string_view = std::pair<std::basic_string_view<char_t>, std::basic_string_view<char_t>>;
+
+    template <typename char_t>
+    inline void _string_replace_all(std::basic_string<char_t>& str, std::basic_string_view<char_t> old_value,
+                                    std::basic_string_view<char_t> new_value)
     {
-        for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length()) {
-            if ((pos = str.find(old_value, pos)) != std::string::npos)
+        for (typename std::basic_string<char_t>::size_type pos(0); pos != str.npos; pos += new_value.length()) {
+            if ((pos = str.find(old_value, pos)) != str.npos)
                 str.replace(pos, old_value.length(), new_value);
             else
                 break;
         }
     }
 
-    inline std::string string_replace_all(const std::string& src, const std::string_view& old_value,
-                                          const std::string_view& new_value)
+    template <typename char_t, typename old_value_t, typename new_value_t>
+    requires std::convertible_to<old_value_t, std::basic_string_view<char_t>> &&
+             std::convertible_to<new_value_t, std::basic_string_view<char_t>>
+    inline void _string_replace_all(std::basic_string<char_t>& str, old_value_t&& old_value, new_value_t&& new_value)
     {
-        std::string str = src;
-        _string_replace_all(str, old_value, new_value);
+        _string_replace_all(str, { old_value }, { new_value });
+    }
+
+    template <typename char_t>
+    inline void _string_replace_all(std::basic_string<char_t>& str, const pair_of_string_view<char_t>& replace_pair)
+    {
+        _string_replace_all(str, replace_pair.first, replace_pair.second);
+    }
+
+    template <typename char_t, typename old_value_t, typename new_value_t>
+    requires std::convertible_to<old_value_t, std::basic_string_view<char_t>> &&
+             std::convertible_to<new_value_t, std::basic_string_view<char_t>>
+    inline std::basic_string<char_t> string_replace_all(const std::basic_string<char_t>& src, old_value_t&& old_value,
+                                                        new_value_t&& new_value)
+    {
+        std::basic_string<char_t> str = src;
+        _string_replace_all(str, { old_value }, { new_value });
         return str;
     }
 
-    inline std::string string_replace_all_batch(
-        const std::string& src, std::initializer_list<std::pair<std::string_view, std::string_view>>&& replace_pairs)
+    template <typename char_t>
+    inline std::basic_string<char_t> string_replace_all(const std::basic_string<char_t>& src,
+                                                        const pair_of_string_view<char_t>& replace_pair)
     {
-        std::string str = src;
+        std::basic_string<char_t> str = src;
+        _string_replace_all(str, replace_pair);
+        return str;
+    }
+
+    template <typename char_t>
+    inline std::basic_string<char_t> string_replace_all(
+        const std::basic_string<char_t>& src, std::initializer_list<pair_of_string_view<char_t>>&& replace_pairs)
+    {
+        std::basic_string<char_t> str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
             _string_replace_all(str, old_value, new_value);
         }
         return str;
     }
 
-    template <typename map_t>
-    inline std::string string_replace_all_batch(const std::string& src, const map_t& replace_pairs)
-    requires std::derived_from<typename map_t::value_type::first_type, std::string> &&
-             std::derived_from<typename map_t::value_type::second_type, std::string>
+    template <typename char_t, typename map_t>
+    requires std::derived_from<typename map_t::value_type::first_type, std::basic_string<char_t>> &&
+             std::derived_from<typename map_t::value_type::second_type, std::basic_string<char_t>>
+    [[deprecated]] inline std::basic_string<char_t> string_replace_all(const std::basic_string<char_t>& src,
+                                                                       const map_t& replace_pairs)
     {
-        std::string str = src;
+        std::basic_string<char_t> str = src;
         for (const auto& [old_value, new_value] : replace_pairs) {
             _string_replace_all(str, old_value, new_value);
         }
         return str;
     }
 
-    inline std::vector<std::string> string_split(const std::string& str, const std::string& delimiter)
+    // 延迟求值的 string_split，分隔符可以为字符或字符串
+    template <typename char_t>
+    class string_split_view : public ranges::view_interface<string_split_view<char_t>>
     {
-        std::string::size_type pos1 = 0;
-        std::string::size_type pos2 = str.find(delimiter);
-        std::vector<std::string> result;
+    private:
+        using base_string_view = std::basic_string_view<char_t>;
+        using base_string = std::basic_string<char_t>;
+        using string_iter = typename base_string_view::const_iterator;
+        base_string_view _rng {};
+        base_string_view _pat {};
+        base_string_view _nxt {};
 
-        while (std::string::npos != pos2) {
-            result.emplace_back(str.substr(pos1, pos2 - pos1));
+        class _iterator
+        {
+        private:
+            string_split_view* _pre = nullptr;
+            string_iter _cur = {};
+            base_string_view _nxt = {};
+            bool _trailing_empty = false;
 
-            pos1 = pos2 + delimiter.size();
-            pos2 = str.find(delimiter, pos1);
+        public:
+            using iterator_concept = std::forward_iterator_tag;
+            using iterator_category = std::input_iterator_tag;
+            using value_type = base_string_view;
+            using difference_type = typename base_string_view::difference_type;
+
+            _iterator() = default;
+
+            constexpr _iterator(string_split_view& prev, string_iter curr, base_string_view next) noexcept
+                : _pre { std::addressof(prev) }, _cur { std::move(curr) }, _nxt { std::move(next) }
+            {}
+
+            [[nodiscard]] constexpr string_iter base() const noexcept { return _cur; }
+
+            [[nodiscard]] constexpr value_type operator*() const noexcept { return { _cur, _nxt.cbegin() }; }
+
+            constexpr _iterator& operator++()
+            {
+                const auto _end = _pre->_rng.cend();
+
+                if (_cur = _nxt.cbegin(); _cur == _end) {
+                    _trailing_empty = false;
+                    return *this;
+                }
+
+                if (_cur = _nxt.cend(); _cur == _end) {
+                    _trailing_empty = true;
+                    _nxt = { _cur, _cur };
+                    return *this;
+                }
+
+                if (size_t _len = _pre->_pat.length(); !_len) {
+                    auto _beg = _cur + 1;
+                    _nxt = { std::move(_beg), std::move(_beg) };
+                }
+                else if (const auto _pos = base_string_view(_cur, _end).find(_pre->_pat);
+                         _pos == base_string_view::npos) {
+                    _nxt = { std::move(_end), std::move(_end) };
+                }
+                else {
+                    auto _beg = _cur + _pos;
+                    _nxt = { std::move(_beg), _beg + _pre->_pat.length() };
+                }
+
+                return *this;
+            }
+
+            constexpr _iterator operator++(int)
+            {
+                auto _tmp = *this;
+                ++*this;
+                return _tmp;
+            }
+
+            friend constexpr bool operator==(const _iterator& _lhs, const _iterator& _rhs) noexcept
+            {
+                return _lhs._cur == _rhs._cur && _lhs._trailing_empty == _rhs._trailing_empty;
+            }
+        };
+
+    public:
+        string_split_view() = default;
+
+        template <typename rng_t, typename pat_t>
+        requires std::convertible_to<pat_t, base_string_view>
+        constexpr string_split_view(rng_t&& rang, pat_t&& patt) noexcept
+            : _rng(std::forward<rng_t>(rang)), _pat(std::forward<pat_t>(patt))
+        {}
+
+        template <typename rng_t>
+        constexpr string_split_view(rng_t&& rang, const char_t& elem) noexcept
+            : _rng(std::forward<rng_t>(rang)), _pat(&elem, 1)
+        {}
+
+        [[nodiscard]] constexpr const base_string_view& base() const noexcept { return _rng; }
+        [[nodiscard]] constexpr base_string_view&& base() noexcept { return std::move(_rng); }
+
+        [[nodiscard]] constexpr auto begin()
+        {
+            const auto _beg = _rng.cbegin(), _end = _rng.cend();
+
+            if (_nxt.empty()) {
+                if (size_t _len = _pat.length(); !_len) {
+                    auto _cur = _beg + 1;
+                    _nxt = { std::move(_cur), std::move(_cur) };
+                }
+                else if (const auto _pos = _rng.find(_pat); _pos == base_string_view::npos) {
+                    _nxt = { std::move(_end), std::move(_end) };
+                }
+                else {
+                    auto _cur = _beg + _pos;
+                    _nxt = { std::move(_cur), _cur + _pat.length() };
+                }
+            }
+            return _iterator { *this, _beg, _nxt };
         }
-        if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
 
-        return result;
-    }
+        [[nodiscard]] constexpr auto end() { return _iterator { *this, _rng.cend(), {} }; }
+    };
+
+    template <ranges::range str_t, class pat_t>
+    string_split_view(str_t, pat_t) -> string_split_view<typename str_t::value_type>;
+
+    template <class str_t, class pat_t>
+    string_split_view(str_t*, pat_t) -> string_split_view<typename std::remove_cv<str_t>::type>;
+
+    struct _string_split_fn
+    {
+        template <ranges::range str_t, class pat_t>
+        [[nodiscard]] constexpr auto operator()(str_t&& _str, pat_t&& _pat) const
+            noexcept(noexcept(string_split_view(std::forward<str_t>(_str), std::forward<pat_t>(_pat))))
+        requires requires { string_split_view(static_cast<str_t&&>(_str), static_cast<pat_t&&>(_pat)); }
+        {
+            return string_split_view(std::forward<str_t>(_str), std::forward<pat_t>(_pat));
+        }
+    };
+
+    inline constexpr _string_split_fn string_split;
+
+    // // 以低内存开销拆分一个字符串；注意当 src 析构后，返回值将失效
+    // template <typename str_t, typename char_t = typename str_t::value_type, typename delimiter_t>
+    // requires std::convertible_to<str_t, std::basic_string_view<char_t>> &&
+    //          std::convertible_to<delimiter_t, std::basic_string_view<char_t>>
+    // inline std::vector<std::basic_string_view<char_t>> string_split(const str_t& src, delimiter_t delimiter,
+    //                                                                 size_t split_count = -1)
+    // {
+    //     std::basic_string_view<char_t> delimiter_view = delimiter;
+    //     std::basic_string_view<char_t> str = src;
+    //     typename std::basic_string<char_t>::size_type pos1 = 0;
+    //     typename std::basic_string<char_t>::size_type pos2 = str.find(delimiter_view);
+    //     std::vector<std::basic_string_view<char_t>> result;
+
+    //     while (split_count-- && pos2 != str.npos) {
+    //         result.emplace_back(str.substr(pos1, pos2 - pos1));
+
+    //         pos1 = pos2 + delimiter_view.length();
+    //         pos2 = str.find(delimiter_view, pos1);
+    //     }
+    //     if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
+
+    //     return result;
+    // }
 
     inline std::string get_format_time()
     {
@@ -235,15 +411,14 @@ namespace asst::utils
         ifs.close();
         std::string str = iss.str();
 
-        using uchar = unsigned char;
-        constexpr static uchar Bom_0 = 0xEF;
-        constexpr static uchar Bom_1 = 0xBB;
-        constexpr static uchar Bom_2 = 0xBF;
+        static constexpr char _Bom[] = {
+            static_cast<char>(0xEF),
+            static_cast<char>(0xBB),
+            static_cast<char>(0xBF),
+        };
 
-        if (str.size() >= 3 && static_cast<uchar>(str.at(0)) == Bom_0 && static_cast<uchar>(str.at(1)) == Bom_1 &&
-            static_cast<uchar>(str.at(2)) == Bom_2) {
+        if (str.starts_with(_Bom)) {
             str.assign(str.begin() + 3, str.end());
-            return str;
         }
         return str;
     }
@@ -301,8 +476,8 @@ namespace asst::utils
         CloseHandle(pipe_child_write);
 
 #else
-        constexpr static int PIPE_READ = 0;
-        constexpr static int PIPE_WRITE = 1;
+        static constexpr int PIPE_READ = 0;
+        static constexpr int PIPE_WRITE = 1;
         int pipe_in[2] = { 0 };
         int pipe_out[2] = { 0 };
         int pipe_in_ret = pipe(pipe_in);

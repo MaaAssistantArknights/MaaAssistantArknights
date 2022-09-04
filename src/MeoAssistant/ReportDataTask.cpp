@@ -129,7 +129,7 @@ asst::http::Response asst::ReportDataTask::escape_and_request(const std::string&
 {
     LogTraceFunction;
 
-    std::string body_escape = utils::string_replace_all_batch(m_body, { { "\"", "\\\"" } });
+    std::string body_escape = utils::string_replace_all(m_body, { { "\"", "\\\"" } });
 
 #ifdef _WIN32
     std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
@@ -138,7 +138,7 @@ asst::http::Response asst::ReportDataTask::escape_and_request(const std::string&
 #endif
 
     std::string cmd_line =
-        utils::string_replace_all_batch(format, { { "[body]", body_escapes }, { "[extra]", m_extra_param } });
+        utils::string_replace_all(format, { { "[body]", body_escapes }, { "[extra]", m_extra_param } });
 
     Log.info("request:\n", cmd_line);
     http::Response response = utils::callcmd(cmd_line);
