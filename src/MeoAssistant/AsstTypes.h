@@ -22,10 +22,10 @@ namespace asst
 {
     constexpr double DoubleDiff = 1e-12;
 
-    constexpr static int WindowWidthDefault = 1280;
-    constexpr static int WindowHeightDefault = 720;
+    static constexpr int WindowWidthDefault = 1280;
+    static constexpr int WindowHeightDefault = 720;
 
-    constexpr static double TemplThresholdDefault = 0.8;
+    static constexpr double TemplThresholdDefault = 0.8;
 
     struct Point
     {

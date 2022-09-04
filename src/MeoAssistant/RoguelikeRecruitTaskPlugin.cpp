@@ -3,7 +3,7 @@
 #include "Controller.h"
 #include "Logger.hpp"
 #include "ProcessTask.h"
-#include "Resource.h"
+#include "RoguelikeRecruitConfiger.h"
 #include "RoguelikeRecruitImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
@@ -36,8 +36,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         select_oper(info);
         recruited = true;
     };
-
-    const auto& recruit_cfg = Resrc.roguelike_recruit();
 
     // 编队信息 (已有角色)
     std::string str_chars_info =
@@ -100,7 +98,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = recruit_cfg.get_oper_info(oper_info.name);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(oper_info.name);
             if (recruit_info.name.empty()) {
                 continue;
             }

@@ -8,8 +8,6 @@
 
 bool asst::RecruitConfiger::parse(const json::value& json)
 {
-    LogTraceFunction;
-
     clear();
 
     for (const json::value& oper : json.as_array()) {

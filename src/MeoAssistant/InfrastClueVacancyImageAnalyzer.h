@@ -11,7 +11,7 @@ namespace asst
         InfrastClueVacancyImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
 
         virtual bool analyze() override;
-        constexpr static int MaxNumOfClue = 7;
+        static constexpr int MaxNumOfClue = 7;
 
         void set_to_be_analyzed(std::vector<std::string> to_be_analyzed) noexcept
         {

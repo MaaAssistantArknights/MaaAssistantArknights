@@ -4,7 +4,6 @@
 
 #include "AsstUtils.hpp"
 #include "MultiMatchImageAnalyzer.h"
-#include "Resource.h"
 
 bool asst::InfrastSmileyImageAnalyzer::analyze()
 {

@@ -16,7 +16,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -141,7 +143,7 @@ namespace MeoAsstGui
             if (CheckAndUpdateDayOfWeek())
             {
                 UpdateDatePrompt();
-                UpdateStageList();
+                UpdateStageList(false);
             }
 
             int intMinute = DateTime.Now.Minute;
@@ -238,8 +240,6 @@ namespace MeoAsstGui
             }
         }
 
-        private readonly string _closedStage = "_ClosedStage";
-
         /// <summary>
         /// Initializes items.
         /// </summary>
@@ -306,161 +306,77 @@ namespace MeoAsstGui
             }
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
-
-            AllStageList = new List<CombData>();
-
-            if (DateTime.UtcNow.AddHours(8).Date < new DateTime(2022, 9, 1, 4, 0, 0))
-            {
-                var limit = new List<CombData>
-                {
-                    // SideStory「理想城：长夏狂欢季」活动
-                    new CombData { Display = "IC-9", Value = "IC-9" },
-                    new CombData { Display = "IC-8", Value = "IC-8" },
-                    new CombData { Display = "IC-7", Value = "IC-7" },
-                };
-                AllStageList.AddRange(limit);
-            }
-            else
-            {
-                AllStageList.Add(new CombData { Display = Localization.GetString("ClosedStage"), Value = _closedStage });
-                Stage1 = _closedStage;
-            }
-
-            var resident = new List<CombData>
-            {
-                // 「当前/上次」关卡导航
-                new CombData { Display = Localization.GetString("DefaultStage"), Value = string.Empty },
-
-                // 主线关卡
-                new CombData { Display = "1-7", Value = "1-7" },
-
-                // 资源本
-                new CombData { Display = Localization.GetString("CE-6"), Value = "CE-6" },
-                new CombData { Display = Localization.GetString("AP-5"), Value = "AP-5" },
-                new CombData { Display = Localization.GetString("CA-5"), Value = "CA-5" },
-                new CombData { Display = Localization.GetString("LS-6"), Value = "LS-6" },
-
-                // 剿灭模式
-                new CombData { Display = Localization.GetString("Annihilation"), Value = "Annihilation" },
-
-                // 芯片本
-                new CombData { Display = Localization.GetString("PR-A-1"), Value = "PR-A-1" },
-                new CombData { Display = Localization.GetString("PR-A-2"), Value = "PR-A-2" },
-                new CombData { Display = Localization.GetString("PR-B-1"), Value = "PR-B-1" },
-                new CombData { Display = Localization.GetString("PR-B-2"), Value = "PR-B-2" },
-                new CombData { Display = Localization.GetString("PR-C-1"), Value = "PR-C-1" },
-                new CombData { Display = Localization.GetString("PR-C-2"), Value = "PR-C-2" },
-                new CombData { Display = Localization.GetString("PR-D-1"), Value = "PR-D-1" },
-                new CombData { Display = Localization.GetString("PR-D-2"), Value = "PR-D-2" },
-
-                // 老版本「当前/上次」关卡导航
-                // new CombData { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                // new CombData { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
-
-                // SideStory「绿野幻梦」活动
-                // new CombData { Display = "DV-6", Value = "DV-6" },
-                // new CombData { Display = "DV-7", Value = "DV-7" },
-                // new CombData { Display = "DV-8", Value = "DV-8" },
-
-                // SideStory「尘影余音」活动
-                // new CombData { Display = "LE-7", Value = "LE-7" },
-                // new CombData { Display = "LE-6", Value = "LE-6" },
-                // new CombData { Display = "LE-5", Value = "LE-5" },
-
-                // SideStory「愚人号」活动关卡
-                // new CombData { Display = "SN-8", Value = "SN-8" },
-                // new CombData { Display = "SN-9", Value = "SN-9" },
-                // new CombData { Display = "SN-10", Value = "SN-10" },
-
-                // SideStory「风雪过境」活动关卡
-                // new CombData { Display = "BI-7", Value = "BI-7" },
-                // new CombData { Display = "BI-8", Value = "BI-8" }
-            };
-            AllStageList.AddRange(resident);
-
-            _stageAvailableInfo = new Dictionary<string, Tuple<List<DayOfWeek>, string>>
-            {
-                { "CE-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("CETip")) },
-                { "AP-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("APTip")) },
-                { "CA-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday }, Localization.GetString("CATip")) },
-                { "LS-6", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("LSTip")) },
-
-                // 碳本没做导航
-                { "SK-5", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, Localization.GetString("SKTip")) },
-                { "PR-A-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, Localization.GetString("PR-ATip")) },
-                { "PR-A-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, string.Empty) },
-                { "PR-B-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, Localization.GetString("PR-BTip")) },
-                { "PR-B-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday }, string.Empty) },
-                { "PR-C-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("PR-CTip")) },
-                { "PR-C-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, string.Empty) },
-                { "PR-D-1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, Localization.GetString("PR-DTip")) },
-                { "PR-D-2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, string.Empty) },
-
-                // 下面的不支持导航
-                { "Pormpt1", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Monday }, Localization.GetString("Pormpt1")) },
-                { "Pormpt2", new Tuple<List<DayOfWeek>, string>(new List<DayOfWeek> { DayOfWeek.Sunday }, Localization.GetString("Pormpt2")) },
-            };
+            _stageManager = new StageManager();
 
             InitDrops();
             CheckAndUpdateDayOfWeek();
             UpdateDatePrompt();
-            UpdateStageList();
+            UpdateStageList(true);
         }
 
-        private Dictionary<string, Tuple<List<DayOfWeek>, string>> _stageAvailableInfo;
+        private StageManager _stageManager;
         private DayOfWeek _curDayOfWeek;
+
+        /// <summary>
+        /// Determine whether the specified stage is open
+        /// </summary>
+        /// <param name="name">stage name</param>
+        /// <returns>Whether the specified stage is open</returns>
+        private bool IsStageOpen(string name)
+        {
+            return _stageManager.IsStageOpen(name, _curDayOfWeek);
+        }
 
         /// <summary>
         /// Updates stage list.
         /// </summary>
-        public void UpdateStageList()
+        /// <param name="forceUpdate">Whether or not to update the stage list for selection forcely</param>
+        public void UpdateStageList(bool forceUpdate)
         {
-            ObservableCollection<CombData> newList;
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.HideUnavailableStage)
             {
-                newList = new ObservableCollection<CombData>();
-                foreach (var item in AllStageList)
+                // update available stage list
+                var stage1 = Stage1;
+                StageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
+
+                // reset closed stage1 to "Last/Current"
+                if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
                 {
-                    if (_stageAvailableInfo.ContainsKey(item.Value))
-                    {
-                        var info = _stageAvailableInfo[item.Value];
-                        if (info.Item1.Contains(_curDayOfWeek))
-                        {
-                            newList.Add(item);
-                        }
-                    }
-                    else
-                    {
-                        newList.Add(item);
-                    }
+                    Stage1 = string.Empty;
                 }
             }
             else
             {
-                newList = new ObservableCollection<CombData>(AllStageList);
-            }
-
-            if (StageList == newList)
-            {
-                return;
-            }
-
-            StageList = newList;
-
-            bool hasSavedValue = false;
-            foreach (var item in StageList)
-            {
-                if (item.Value == Stage)
+                // initializing or settings changing, update stage list forcely
+                if (forceUpdate)
                 {
-                    hasSavedValue = true;
-                    break;
-                }
-            }
+                    var stage1 = Stage1;
+                    var stage2 = Stage2;
+                    var stage3 = Stage3;
 
-            if (!hasSavedValue)
-            {
-                Stage1 = string.Empty;
+                    StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
+
+                    // reset closed stages to "Last/Current"
+                    if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
+                    {
+                        Stage1 = string.Empty;
+                    }
+
+                    if (stage2 == null || !_stageManager.IsStageOpen(stage2, _curDayOfWeek))
+                    {
+                        Stage2 = string.Empty;
+                    }
+
+                    if (stage3 == null || !_stageManager.IsStageOpen(stage3, _curDayOfWeek))
+                    {
+                        Stage3 = string.Empty;
+                    }
+                }
+                else
+                {
+                    // do nothing
+                }
             }
         }
 
@@ -489,16 +405,26 @@ namespace MeoAsstGui
         /// </summary>
         public void UpdateDatePrompt()
         {
-            var prompt = Localization.GetString("TodaysStageTip") + "\n";
+            var builder = new StringBuilder(Localization.GetString("TodaysStageTip") + "\n");
 
-            foreach (var item in _stageAvailableInfo)
+            // Closed activity stages
+            var stages = new[] { Stage1, Stage2, Stage3 };
+            foreach (var stage in stages)
             {
-                if (item.Value.Item1.Contains(_curDayOfWeek) && item.Value.Item2 != string.Empty)
+                if (_stageManager.GetStageInfo(stage)?.IsActivityClosed() == true)
                 {
-                    prompt += item.Value.Item2 + "\n";
+                    builder.Append(stage).Append(": ").AppendLine(Localization.GetString("ClosedStage"));
                 }
             }
 
+            // Open stages today
+            var openStages = _stageManager.GetStageTips(_curDayOfWeek);
+            if (!string.IsNullOrEmpty(openStages))
+            {
+                builder.Append(openStages);
+            }
+
+            var prompt = builder.ToString();
             if (StagesOfToday == prompt)
             {
                 return;
@@ -1365,11 +1291,6 @@ namespace MeoAsstGui
         }
         */
 
-        /// <summary>
-        /// Gets or sets the list of all stages.
-        /// </summary>
-        public List<CombData> AllStageList { get; set; }
-
         private ObservableCollection<CombData> _stageList = new ObservableCollection<CombData>();
 
         /// <summary>
@@ -1391,58 +1312,25 @@ namespace MeoAsstGui
                 var settingsModel = _container.Get<SettingsViewModel>();
                 if (settingsModel.UseAlternateStage)
                 {
-                    ObservableCollection<CombData> newList;
-                    newList = new ObservableCollection<CombData>();
-                    foreach (var item in AllStageList)
+                    if (IsStageOpen(_stage1))
                     {
-                        if (_stageAvailableInfo.ContainsKey(item.Value))
-                        {
-                            var info = _stageAvailableInfo[item.Value];
-                            if (info.Item1.Contains(_curDayOfWeek))
-                            {
-                                newList.Add(item);
-                            }
-                        }
-                        else
-                        {
-                            newList.Add(item);
-                        }
+                        return _stage1;
                     }
 
-                    if (_stage1 != _closedStage)
+                    if (IsStageOpen(_stage2))
                     {
-                        foreach (var stage in newList)
-                        {
-                            if (stage.Value == _stage1)
-                            {
-                                return _stage1;
-                            }
-                        }
+                        return _stage2;
                     }
 
-                    foreach (var stage in newList)
+                    if (IsStageOpen(_stage3))
                     {
-                        if (stage.Value == _stage2)
-                        {
-                            return _stage2;
-                        }
+                        return _stage3;
                     }
 
-                    foreach (var stage in newList)
-                    {
-                        if (stage.Value == _stage3)
-                        {
-                            return _stage3;
-                        }
-                    }
+                    return string.Empty;
                 }
 
-                if (_stage1 != _closedStage)
-                {
-                    return _stage1;
-                }
-
-                return string.Empty;
+                return IsStageOpen(_stage1) ? _stage1 : string.Empty;
             }
         }
 
@@ -1458,6 +1346,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _stage1, value);
                 ViewStatusStorage.Set("MainFunction.Stage1", value);
+                UpdateDatePrompt();
             }
         }
 
@@ -1473,6 +1362,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _stage2, value);
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
+                UpdateDatePrompt();
             }
         }
 
@@ -1488,6 +1378,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _stage3, value);
                 ViewStatusStorage.Set("MainFunction.Stage3", value);
+                UpdateDatePrompt();
             }
         }
 
@@ -1671,6 +1562,11 @@ namespace MeoAsstGui
             get => _dropsItemId;
             set
             {
+                if (value == null)
+                {
+                    return;
+                }
+
                 SetAndNotify(ref _dropsItemId, value);
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }

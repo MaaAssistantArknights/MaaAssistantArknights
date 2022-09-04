@@ -7,8 +7,6 @@
 
 bool asst::ItemConfiger::parse(const json::value& json)
 {
-    LogTraceFunction;
-
     std::unordered_map<std::string, int> material_sortid;
     for (const auto& [id, item_json] : json.as_object()) {
         std::string name = item_json.at("name").as_string();
