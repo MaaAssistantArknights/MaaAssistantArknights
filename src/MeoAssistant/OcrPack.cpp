@@ -12,7 +12,7 @@ asst::OcrPack::OcrPack()
 {
     Log.info("hardware_concurrency:", std::thread::hardware_concurrency());
     for (size_t i = 0; i != MaxBoxSize; ++i) {
-        constexpr static size_t MaxTextSize = 1024;
+        static constexpr size_t MaxTextSize = 1024;
         *(m_strs_buffer + i) = new char[MaxTextSize];
         // memset(*(m_strs_buffer + i), 0, MaxTextSize);
     }
@@ -27,28 +27,20 @@ asst::OcrPack::~OcrPack()
     PaddleOcrDestroy(m_ocr);
 }
 
-bool asst::OcrPack::load(const std::string& dir)
+bool asst::OcrPack::load(const std::filesystem::path& path)
 {
-    LogTraceFunction;
-
-    if (!std::filesystem::exists(dir)) {
+    if (!std::filesystem::exists(path)) {
         return false;
     }
 
-    constexpr static auto DetName = "/det";
-    // constexpr static const char* ClsName = "/cls";
-    constexpr static auto RecName = "/rec";
-    constexpr static auto KeysName = "/ppocr_keys_v1.txt";
-
-    const std::string dst_filename = dir + DetName;
-    // const std::string cls_filename = dir + ClsName;
-    const std::string rec_filename = dir + RecName;
-    const std::string keys_filename = dir + KeysName;
+    const auto& dst_path = path / "det";
+    const auto& rec_path = path / "rec";
+    const auto& key_path = path / "ppocr_keys_v1.txt";
 
     if (m_ocr != nullptr) {
         PaddleOcrDestroy(m_ocr);
     }
-    m_ocr = PaddleOcrCreate(dst_filename.c_str(), rec_filename.c_str(), keys_filename.c_str(), nullptr);
+    m_ocr = PaddleOcrCreate(dst_path.string().c_str(), rec_path.string().c_str(), key_path.string().c_str(), nullptr);
 
     return m_ocr != nullptr;
 }

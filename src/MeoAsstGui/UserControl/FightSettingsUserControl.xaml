@@ -180,7 +180,6 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage2}"
                         SelectedValuePath="Value"
-                        ToolTip="{DynamicResource StageSelectTip}"
                         Visibility="{Binding AlternateStageDisplay, Converter={StaticResource Boolean2VisibilityConverter}}" />
                     <ComboBox
                         Height="30"
@@ -192,7 +191,6 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
-                        ToolTip="{DynamicResource StageSelectTip}"
                         Visibility="{Binding AlternateStageDisplay, Converter={StaticResource Boolean2VisibilityConverter}}" />
                 </StackPanel>
             </Grid>

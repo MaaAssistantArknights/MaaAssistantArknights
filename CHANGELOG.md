@@ -1,11 +1,9 @@
-- 新增 基建 源石碎片自动补货选框 @ABA2396
-- 新增 ADB 断开时重启模拟器并重试选项 @StarWishLXH
-- 新增 自动战斗 CD 中干员数量检测条件。目前编辑器尚未支持，可参考文档修改 JSON 文件使用 @MistEO
-- 新增 自动战斗 自动编队 按照职业区分干员并编队 @MistEO
-- 优化 上传 企鹅物流 及 一图流大数据 时的检查及重试逻辑，并支持企鹅物流的幂等机制 @MistEO @zzyyyl
-- 优化 基建 控制中枢 歌蕾蒂娅 优先级 @MistEO
-- 修复 雷电等模拟器偶现的截图错误 @zzyyyl
-- 修复 自动战斗 干员技能关不掉的问题 @MistEO
-- 修复 自动战斗 干员撤退不掉的问题 @MistEO
-- 优化 界面 样式布局 @ABA2396 @zzyyyl
-- 优化 JSON 文件格式 @zzyyyl
+- 修复 截图 不使用 socket 的问题 @MistEO @dantmnf
+- 修复 自动战斗 干员撤退不了的问题 @MistEO
+- 重构 资源管理相关代码 @MistEO
+- 重构 基础设施部分代码 @zzyyyl @horror-proton
+- 重构 界面 关卡选择、材料选择逻辑 @et2012 @ABA2396
+- 优化 界面样式 @ABA2396 @MistEO
+- 优化 CICD @LiamSho
+- 修复 Copilot 接口 传入中文路径时的错误 @MistEO
+- 整理 开发手册、常见问题文档 @zzyyyl @MistEO @Tastror

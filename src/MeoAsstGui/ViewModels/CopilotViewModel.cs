@@ -258,7 +258,7 @@ namespace MeoAsstGui
 
                     AddLog(details, details_color);
                     {
-                        Url = string.Empty;
+                        Url = CopilotUiUrl;
                         var linkParser = new Regex(@"(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {

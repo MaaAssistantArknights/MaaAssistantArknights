@@ -8,16 +8,15 @@
 #include "AsstRanges.hpp"
 #include "NoWarningCV.h"
 
-#include "Controller.h"
-#include "Logger.hpp"
-#include "Resource.h"
-#include "TaskData.h"
-
-#include "ProcessTask.h"
-
 #include "BattleImageAnalyzer.h"
+#include "Controller.h"
+#include "CopilotConfiger.h"
+#include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
+#include "ProcessTask.h"
+#include "TaskData.h"
+#include "TilePack.h"
 
 void asst::BattleProcessTask::set_stage_name(std::string name)
 {
@@ -64,16 +63,14 @@ bool asst::BattleProcessTask::get_stage_info()
 {
     LogTraceFunction;
 
-    const auto& tile = Resrc.tile();
-
-    m_normal_tile_info = tile.calc(m_stage_name, false);
-    m_side_tile_info = tile.calc(m_stage_name, true);
+    m_normal_tile_info = Tile.calc(m_stage_name, false);
+    m_side_tile_info = Tile.calc(m_stage_name, true);
 
     if (m_side_tile_info.empty() || m_normal_tile_info.empty()) {
         return false;
     }
 
-    const auto& copilot = Resrc.copilot();
+    const auto& copilot = Copilot;
     bool contains = copilot.contains_actions(m_stage_name);
     if (!contains) {
         return false;
@@ -572,7 +569,7 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
     m_ctrler->click(pos);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    return ProcessTask(*this, { "BattleOperRetreat" }).set_task_delay(0).set_retry_times(3).run();
+    return ProcessTask(*this, { "BattleOperRetreatJustClick" }).run();
 }
 
 bool asst::BattleProcessTask::use_skill(const BattleAction& action)

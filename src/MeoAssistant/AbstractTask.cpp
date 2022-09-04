@@ -11,9 +11,9 @@
 #include "AbstractTaskPlugin.h"
 #include "AsstUtils.hpp"
 #include "Controller.h"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
 #include "ProcessTask.h"
-#include "Resource.h"
 
 using namespace asst;
 
@@ -36,7 +36,7 @@ bool asst::AbstractTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = Resrc.cfg().get_options().task_delay;
+        int delay = Configer.get_options().task_delay;
         sleep(delay);
 
         if (!on_run_fails()) {
@@ -191,7 +191,7 @@ void asst::AbstractTask::click_return_button()
 void asst::AbstractTask::save_image()
 {
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, { { ":", "-" }, { " ", "_" } });
+    stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
     cv::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
 }

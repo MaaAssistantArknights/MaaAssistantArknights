@@ -5050,7 +5050,7 @@
             500,
             220
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorMfgAggressive": {
         "template": "AddOperatorMfgAggressive.png",
@@ -5067,7 +5067,7 @@
             80,
             80
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorTradeGentle": {
         "template": "AddOperatorTradeGentle.png",
@@ -5078,7 +5078,7 @@
             500,
             220
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorTradeAggressive": {
         "template": "AddOperatorTradeAggressive.png",
@@ -5095,7 +5095,7 @@
             80,
             80
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorReceptionGentle": {
         "template": "AddOperatorReceptionGentle.png",
@@ -5106,7 +5106,7 @@
             300,
             720
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastAddOperatorReceptionAggressive": {
         "algorithm": "JustReturn",
@@ -5117,7 +5117,7 @@
             200,
             300
         ],
-        "rearDelay": 1000
+        "rearDelay": 1500
     },
     "InfrastOperSelected": {
         "template": "empty.png",
@@ -6571,6 +6571,7 @@
         ]
     },
     "BattleOperRetreat": {
+        "Doc": "这个按钮图标在不同关卡及位置中是有畸变的，模板匹配结果很不准，不建议用这个Task",
         "roi": [
             554,
             146,
@@ -6584,13 +6585,11 @@
             100,
             255
         ],
-        "onErrorNext": [
-            "BattleOperRetreatJustClick"
-        ],
         "rearDelay": 300
     },
     "BattleOperRetreatJustClick": {
         "algorithm": "JustReturn",
+        "preDelay": 200,
         "rearDelay": 300,
         "action": "ClickRect",
         "specificRect": [

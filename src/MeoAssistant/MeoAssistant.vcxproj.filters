@@ -132,7 +132,7 @@
     <ClInclude Include="OcrPack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="ResourceLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AbstractImageAnalyzer.h">
@@ -390,6 +390,12 @@
     <ClInclude Include="AsstHttp.hpp">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="SingletonHolder.hpp">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractConfigerWithTempl.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -416,13 +422,10 @@
     <ClCompile Include="TemplResource.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractResource.cpp">
-      <Filter>源文件\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="OcrPack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource.cpp">
+    <ClCompile Include="ResourceLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InfrastSmileyImageAnalyzer.cpp">

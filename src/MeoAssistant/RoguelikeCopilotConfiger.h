@@ -7,7 +7,7 @@
 
 namespace asst
 {
-    class RoguelikeCopilotConfiger : public AbstractConfiger
+    class RoguelikeCopilotConfiger final : public SingletonHolder<RoguelikeCopilotConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RoguelikeCopilotConfiger() override = default;
@@ -18,4 +18,6 @@ namespace asst
         virtual bool parse(const json::value& json) override;
         std::unordered_map<std::string, RoguelikeBattleData> m_stage_data;
     };
+
+    inline static auto& RoguelikeCopilot = RoguelikeCopilotConfiger::get_instance();
 }

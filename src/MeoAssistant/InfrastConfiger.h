@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractConfiger.h"
+#include "AbstractConfigerWithTempl.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -8,12 +8,15 @@
 
 namespace asst
 {
-    class InfrastConfiger : public AbstractConfiger
+    class InfrastConfiger final : public SingletonHolder<InfrastConfiger>, public AbstractConfigerWithTempl
     {
     public:
         virtual ~InfrastConfiger() override = default;
 
-        auto get_templ_required() const noexcept -> const std::unordered_set<std::string>& { return m_templ_required; }
+        virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override
+        {
+            return m_templ_required;
+        }
         auto get_skills(const std::string& facility_name) const
             -> const std::unordered_map<std::string, infrast::Skill>&
         {
@@ -45,4 +48,6 @@ namespace asst
         // 需要加载的模板
         std::unordered_set<std::string> m_templ_required;
     };
+
+    inline static auto& InfrastData = InfrastConfiger::get_instance();
 }

@@ -13,7 +13,7 @@ namespace asst
     class DepotImageAnalyzer final : public AbstractImageAnalyzer
     {
     public:
-        constexpr static size_t NPos = ~0ULL;
+        static constexpr size_t NPos = ~0ULL;
 
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;

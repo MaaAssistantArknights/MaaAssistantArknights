@@ -190,7 +190,6 @@
     <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
-    <system:String x:Key="StageSelectTip">主选关卡为资源关且“资源收集”全天开放活动时请勿使用此功能</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>

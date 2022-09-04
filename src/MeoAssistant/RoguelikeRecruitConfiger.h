@@ -23,7 +23,7 @@ namespace asst
         BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
         BattleSkillUsage alternate_skill_usage = BattleSkillUsage::Possibly;
     };
-    class RoguelikeRecruitConfiger : public AbstractConfiger
+    class RoguelikeRecruitConfiger final : public SingletonHolder<RoguelikeRecruitConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RoguelikeRecruitConfiger() override = default;
@@ -37,4 +37,6 @@ namespace asst
         std::unordered_map<std::string, RoguelikeOperInfo> m_all_opers;
         std::vector<std::string> m_ordered_all_opers_name;
     };
+
+    inline static auto& RoguelikeRecruit = RoguelikeRecruitConfiger::get_instance();
 }

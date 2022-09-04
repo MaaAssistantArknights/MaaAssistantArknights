@@ -1,6 +1,7 @@
 #include "AsstCaller.h"
 
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 
 #include <meojson/json.hpp>
@@ -8,7 +9,7 @@
 #include "Assistant.h"
 #include "AsstTypes.h"
 #include "Logger.hpp"
-#include "Resource.h"
+#include "ResourceLoader.h"
 #include "Version.h"
 
 static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
@@ -42,16 +43,14 @@ static bool inited = false;
 bool AsstLoadResource(const char* path)
 {
 #ifdef _WIN32
-    std::string working_path = asst::utils::utf8_to_ansi(path);
+    std::filesystem::path working_path = asst::utils::utf8_to_ansi(path);
 #else
-    std::string working_path = std::string(path);
+    std::filesystem::path working_path = path;
 #endif
-    bool log_inited = asst::Logger::set_dirname(working_path + "/");
-    bool resrc_inited = asst::Resrc.load(working_path + "/resource/");
-    if (!resrc_inited) {
-        std::cerr << asst::Resrc.get_last_error() << std::endl;
+    if (!inited) {
+        asst::Logger::set_directory(working_path);
     }
-    inited = log_inited && resrc_inited;
+    inited = asst::ResourceLoader::get_instance().load(working_path / "resource");
     return inited;
 }
 
