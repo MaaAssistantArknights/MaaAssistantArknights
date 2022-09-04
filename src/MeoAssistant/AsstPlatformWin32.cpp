@@ -38,7 +38,7 @@ std::string asst::utils::path_to_crt_string(const std::filesystem::path& path)
 {
     // UCRT may use UTF-8 encoding while ANSI code page is still some other MBCS encoding
     // so we use CRT wcstombs instead of WideCharToMultiByte
-    size_t mbsize;
+    size_t mbsize = 0;
     auto osstr = path.native();
     auto err = wcstombs_s(&mbsize, nullptr, 0, osstr.c_str(), osstr.size());
     if (err == 0) {
@@ -108,8 +108,8 @@ std::string asst::utils::callcmd(const std::string& cmdline)
     auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
     std::string pipe_str;
 
-    DWORD err;
-    HANDLE pipe_parent_read, pipe_child_write;
+    DWORD err = 0;
+    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize,
                                              true, false)) {

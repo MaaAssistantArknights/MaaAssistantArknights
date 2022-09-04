@@ -42,7 +42,7 @@ asst::OcrPack::~OcrPack()
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
-    bool use_temp_dir;
+    bool use_temp_dir = false;
     auto paddle_dir = prepare_paddle_dir(path, &use_temp_dir);
 
     if (paddle_dir.empty() || !std::filesystem::exists(paddle_dir)) {
@@ -63,9 +63,9 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         PaddleOcrDestroy(m_ocr);
     }
 
-    const auto det4paddle = asst::utils::path_to_crt_string(dst_filename);
-    const auto rec4paddle = asst::utils::path_to_crt_string(rec_filename);
-    const auto keys4paddle = asst::utils::path_to_crt_string(keys_filename);
+    const auto det4paddle = asst::utils::path_to_ansi_string(dst_filename);
+    const auto rec4paddle = asst::utils::path_to_ansi_string(rec_filename);
+    const auto keys4paddle = asst::utils::path_to_ansi_string(keys_filename);
 
     if (det4paddle.empty() || rec4paddle.empty() || keys4paddle.empty()) {
         return false;
