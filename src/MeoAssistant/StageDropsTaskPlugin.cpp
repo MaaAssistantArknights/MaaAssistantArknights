@@ -6,11 +6,12 @@
 
 #include "AsstUtils.hpp"
 #include "Controller.h"
+#include "ItemConfiger.h"
 #include "Logger.hpp"
 #include "ProcessTask.h"
 #include "ReportDataTask.h"
-#include "Resource.h"
 #include "RuntimeStatus.h"
+#include "StageDropsConfiger.h"
 #include "StageDropsImageAnalyzer.h"
 #include "TaskData.h"
 #include "Version.h"
@@ -147,13 +148,11 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         drops_vec.emplace_back(std::move(info));
     }
 
-    auto& item = Resrc.item();
-
     std::vector<json::value> stats_vec;
     for (auto&& [id, count] : m_drop_stats) {
         json::value info;
         info["itemId"] = id;
-        const std::string& name = item.get_item_name(id);
+        const std::string& name = ItemData.get_item_name(id);
         info["itemName"] = name.empty() ? id : name;
         info["quantity"] = count;
         stats_vec.emplace_back(std::move(info));
@@ -172,7 +171,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     json::value& stage = details["stage"];
     stage["stageCode"] = m_stage_code;
     if (!m_stage_code.empty()) {
-        stage["stageId"] = Resrc.drops().get_stage_info(m_stage_code, m_stage_difficulty).stage_id;
+        stage["stageId"] = StageDrops.get_stage_info(m_stage_code, m_stage_difficulty).stage_id;
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);

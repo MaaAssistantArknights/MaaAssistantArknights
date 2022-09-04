@@ -9,21 +9,19 @@ ASST_SUPPRESS_CV_WARNINGS_END
 
 asst::TilePack::~TilePack() = default;
 
-bool asst::TilePack::load(const std::string& dir)
+bool asst::TilePack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
 
-    if (!std::filesystem::exists(dir)) {
+    if (!std::filesystem::exists(path)) {
         return false;
     }
 
-    constexpr static auto filename = "/levels.json";
-
     try {
-        m_tile_calculator = std::make_unique<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, dir + filename);
+        m_tile_calculator = std::make_unique<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, path.string());
     }
     catch (std::exception& e) {
-        m_last_error = e.what();
+        Log.error("Tile create failed", e.what());
         return false;
     }
     return m_tile_calculator != nullptr;

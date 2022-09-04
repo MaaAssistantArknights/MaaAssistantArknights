@@ -83,7 +83,7 @@ namespace asst
         }
     };
 
-    class RecruitConfiger : public AbstractConfiger
+    class RecruitConfiger final : public SingletonHolder<RecruitConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RecruitConfiger() override = default;
@@ -102,4 +102,5 @@ namespace asst
 
         std::vector<RecruitOperInfo> m_all_opers;
     };
+    inline static auto& RecruitData = RecruitConfiger::get_instance();
 } // namespace asst

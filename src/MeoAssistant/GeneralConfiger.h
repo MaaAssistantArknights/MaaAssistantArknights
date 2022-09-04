@@ -69,7 +69,7 @@ namespace asst
         std::string stop;
     };
 
-    class GeneralConfiger : public AbstractConfiger
+    class GeneralConfiger final : public SingletonHolder<GeneralConfiger>, public AbstractConfiger
     {
     public:
         virtual ~GeneralConfiger() override = default;
@@ -105,4 +105,6 @@ namespace asst
         std::unordered_map<std::string, AdbCfg> m_adb_cfg;
         std::unordered_map<std::string, std::string> m_intent_name;
     };
+
+    inline static auto& Configer = GeneralConfiger::get_instance();
 } // namespace asst

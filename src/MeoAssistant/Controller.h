@@ -21,6 +21,7 @@
 
 #include "AsstMsg.h"
 #include "AsstTypes.h"
+#include "SingletonHolder.hpp"
 
 namespace asst
 {
@@ -186,5 +187,26 @@ namespace asst
         std::atomic<unsigned> m_completed_id = 0;
         unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
         std::thread m_cmd_thread;
+
+    private:
+#ifdef _WIN32
+        // for Windows socket
+        class WsaHelper : public SingletonHolder<WsaHelper>
+        {
+            friend class SingletonHolder<WsaHelper>;
+
+        public:
+            virtual ~WsaHelper() override { WSACleanup(); }
+            bool operator()() const noexcept { return m_supports; }
+
+        private:
+            WsaHelper()
+            {
+                m_supports = WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 && m_wsa_data.wVersion == MAKEWORD(2, 2);
+            }
+            WSADATA m_wsa_data = { 0 };
+            bool m_supports = false;
+        };
+#endif
     };
 } // namespace asst

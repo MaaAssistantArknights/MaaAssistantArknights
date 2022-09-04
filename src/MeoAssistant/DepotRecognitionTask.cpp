@@ -6,9 +6,9 @@
 
 #include "Controller.h"
 #include "DepotImageAnalyzer.h"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
 #include "ProcessTask.h"
-#include "Resource.h"
 #include "TaskData.h"
 
 bool asst::DepotRecognitionTask::_run()
@@ -56,7 +56,7 @@ void asst::DepotRecognitionTask::callback_analyze_result()
 {
     LogTraceFunction;
 
-    auto& templ = Resrc.cfg().get_options().depot_export_template;
+    auto& templ = Configer.get_options().depot_export_template;
     json::value info = basic_info_with_what("DepotInfo");
     auto& details = info["details"];
 

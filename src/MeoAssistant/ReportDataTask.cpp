@@ -1,8 +1,8 @@
 #include "ReportDataTask.h"
 
 #include "AsstUtils.hpp"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
-#include "Resource.h"
 
 #include <meojson/json.hpp>
 
@@ -75,7 +75,7 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    http::Response response = report("ReportToPenguinStats", Resrc.cfg().get_options().penguin_report.cmd_format);
+    http::Response response = report("ReportToPenguinStats", Configer.get_options().penguin_report.cmd_format);
 
     if (response.success()) {
         if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
@@ -90,7 +90,7 @@ void asst::ReportDataTask::report_to_yituliu()
 {
     LogTraceFunction;
 
-    report("ReportToYituliu", Resrc.cfg().get_options().yituliu_report.cmd_format);
+    report("ReportToYituliu", Configer.get_options().yituliu_report.cmd_format);
 }
 
 asst::http::Response asst::ReportDataTask::report(const std::string& subtask, const std::string& format,

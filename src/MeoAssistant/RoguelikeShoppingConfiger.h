@@ -18,7 +18,7 @@ namespace asst
         bool ignore_no_longer_buy = false;
     };
 
-    class RoguelikeShoppingConfiger : public AbstractConfiger
+    class RoguelikeShoppingConfiger final : public SingletonHolder<RoguelikeShoppingConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RoguelikeShoppingConfiger() override = default;
@@ -30,4 +30,6 @@ namespace asst
 
         std::vector<RoguelikeGoods> m_goods;
     };
+
+    inline static auto& RoguelikeShopping = RoguelikeShoppingConfiger::get_instance();
 }
