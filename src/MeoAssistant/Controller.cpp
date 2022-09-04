@@ -202,15 +202,15 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     using namespace std::chrono;
     // LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
-    std::vector<uchar> pipe_data;
-    std::vector<uchar> sock_data;
+    std::string pipe_data;
+    std::string sock_data;
 
     auto start_time = steady_clock::now();
 
 #ifdef _WIN32
 
-    DWORD err;
-    HANDLE pipe_parent_read, pipe_child_write;
+    DWORD err = 0;
+    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize, true,
                                 false)) {
@@ -1200,7 +1200,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             }
         }
 
-        auto socket_opt = try_to_init_socket(bind_address, adb_cfg.nc_port);
+        auto socket_opt = try_to_init_socket(bind_address);
         if (socket_opt) {
             nc_port = socket_opt.value();
             m_adb.screencap_raw_by_nc = cmd_replace(adb_cfg.screencap_raw_by_nc);
