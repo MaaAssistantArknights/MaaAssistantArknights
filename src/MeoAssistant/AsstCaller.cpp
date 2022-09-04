@@ -47,9 +47,10 @@ bool AsstLoadResource(const char* path)
 #else
     std::filesystem::path working_path = path;
 #endif
-    bool log_inited = asst::Logger::set_directory(working_path);
-    bool res_inited = asst::ResourceLoader::get_instance().load(working_path / "resource");
-    inited = log_inited && res_inited;
+    if (!inited) {
+        asst::Logger::set_directory(working_path);
+    }
+    inited = asst::ResourceLoader::get_instance().load(working_path / "resource");
     return inited;
 }
 
