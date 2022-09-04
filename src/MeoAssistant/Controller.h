@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef _WIN32
+#include "SafeWindows.h"
+#include <mswsock.h>
+#endif
+
 #include "AsstConf.h"
 
 #include <atomic>
@@ -12,10 +17,6 @@
 #include <shared_mutex>
 #include <string>
 #include <thread>
-
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 #include "NoWarningCVMat.h"
 
@@ -109,18 +110,13 @@ namespace asst
         std::unique_ptr<char[]> m_socket_buffer = nullptr;
         std::mutex m_socket_mutex;
 #ifdef _WIN32
-        HANDLE m_pipe_read = nullptr;        // 读管道句柄
-        HANDLE m_pipe_write = nullptr;       // 写管道句柄
-        HANDLE m_pipe_child_read = nullptr;  // 子进程的读管道句柄
-        HANDLE m_pipe_child_write = nullptr; // 子进程的写管道句柄
+
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
-        STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
-
-        WSADATA m_wsa_data = { 0 };
+        WSADATA m_wsa_data {};
         SOCKET m_server_sock = 0ULL;
-        sockaddr_in m_server_addr = { 0 };
+        sockaddr_in m_server_addr {};
+        LPFN_ACCEPTEX m_AcceptEx = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 
 #else
