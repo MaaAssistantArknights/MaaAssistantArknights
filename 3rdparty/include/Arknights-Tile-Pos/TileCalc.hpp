@@ -38,7 +38,7 @@ namespace Map
     class TileCalc
     {
     public:
-        TileCalc(int width, int height, const std::string& dir);
+        TileCalc(int width, int height, const std::filesystem::path& dir);
         bool run(const std::string& code_or_name, bool side, std::vector<std::vector<cv::Point2d>>& out_pos, std::vector<std::vector<Tile>>& out_tiles) const;
     private:
         int width = 0;
@@ -87,7 +87,7 @@ namespace Map
         }
     }
 
-    inline TileCalc::TileCalc(int width, int height, const std::string& dir)
+    inline TileCalc::TileCalc(int width, int height, const std::filesystem::path& dir)
     {
         TileCalc::width = width;
         TileCalc::height = height;
