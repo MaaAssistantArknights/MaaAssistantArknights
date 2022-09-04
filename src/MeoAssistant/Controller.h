@@ -79,8 +79,7 @@ namespace asst
                                                 bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
 
-        std::optional<unsigned short> try_to_init_socket(const std::string& local_address, unsigned short try_port,
-                                                         unsigned short try_times = 10U);
+        std::optional<unsigned short> try_to_init_socket(const std::string& local_address);
 
         using DecodeFunc = std::function<bool(std::string_view)>;
         bool screencap();

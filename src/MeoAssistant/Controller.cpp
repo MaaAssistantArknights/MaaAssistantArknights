@@ -328,15 +328,15 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                         closesocket(client_socket);
                     }
                     else {
-                    // reset the overlapped since we reuse it for different handle
-                    auto event = sockov.hEvent;
-                    sockov = {};
-                    sockov.hEvent = event;
+                        // reset the overlapped since we reuse it for different handle
+                        auto event = sockov.hEvent;
+                        sockov = {};
+                        sockov.hEvent = event;
 
-                    (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
-                                   nullptr, &sockov);
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
+                                       nullptr, &sockov);
+                    }
                 }
-            }
             }
             else {
                 // ReadFile
@@ -349,13 +349,13 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                         closesocket(client_socket);
                     }
                     else {
-                    (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
-                                   nullptr, &sockov);
-                }
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
+                                       nullptr, &sockov);
+                    }
                 }
                 else {
                     //err = GetLastError();
-                        socket_eof = true;
+                    socket_eof = true;
                 }
             }
         }
@@ -585,8 +585,7 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return static_cast<int>(++m_push_id);
 }
 
-std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address,
-                                                                   unsigned short try_port, unsigned short try_times)
+std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address)
 {
     LogTraceFunction;
 
@@ -615,28 +614,24 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     bool server_start = false;
     uint16_t port_result = 0;
 
-    uint16_t max_port = try_port + try_times;
-    for (uint16_t port = try_port; port < max_port; ++port) {
-        Log.trace("try to bind port", port);
 
 #ifdef _WIN32
-        m_server_addr.sin_port = htons(port);
-        int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
-        int listen_ret = ::listen(m_server_sock, 3);
-        server_start = bind_ret == 0 && listen_ret == 0;
+    m_server_addr.sin_port = htons(0);
+    int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
+    int addrlen = sizeof(m_server_addr);
+    int getname_ret = getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), &addrlen);
+    int listen_ret = ::listen(m_server_sock, 3);
+    server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #else
-        // todo
+    // todo
 #endif
-        if (server_start) {
-            port_result = port;
-            break;
-        }
-    }
 
     if (!server_start) {
         Log.info("not supports netcat");
         return std::nullopt;
     }
+
+    port_result = ntohs(m_server_addr.sin_port);
 
     Log.info("server_start", local_address, port_result);
     return port_result;
