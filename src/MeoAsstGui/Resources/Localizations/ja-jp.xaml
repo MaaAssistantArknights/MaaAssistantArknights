@@ -190,7 +190,6 @@
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代わり</system:String>
-    <system:String x:Key="StageSelectTip">主な選択が「資源調達」ステージで「資源調達」が終日開かれている場合は、この機能を使用しないでください</system:String>
     <system:String x:Key="Amend">改定</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
