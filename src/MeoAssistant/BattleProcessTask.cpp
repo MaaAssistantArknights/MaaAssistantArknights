@@ -569,7 +569,7 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
     m_ctrler->click(pos);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    return ProcessTask(*this, { "BattleOperRetreat" }).set_task_delay(0).set_retry_times(3).run();
+    return ProcessTask(*this, { "BattleOperRetreatJustClick" }).run();
 }
 
 bool asst::BattleProcessTask::use_skill(const BattleAction& action)
