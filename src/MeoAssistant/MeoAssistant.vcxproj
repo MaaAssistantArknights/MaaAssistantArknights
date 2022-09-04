@@ -23,6 +23,7 @@
     <ClInclude Include="AsstHttp.hpp" />
     <ClInclude Include="AsstImageIo.hpp" />
     <ClInclude Include="AsstInfrastDef.h" />
+    <ClInclude Include="AsstPlatformPosix.h" />
     <ClInclude Include="AsstPlatformWin32.h" />
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstTypes.h" />
