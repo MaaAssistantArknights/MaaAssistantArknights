@@ -1,5 +1,6 @@
 #include "CopilotTask.h"
 
+#include "AsstUtils.hpp"
 #include "BattleFormationTask.h"
 #include "BattleProcessTask.h"
 #include "CopilotConfiger.h"
@@ -43,6 +44,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_enable(with_formation);
 
     std::string filename = params.get("filename", std::string());
+#ifdef _WIN32
+    filename = utils::utf8_to_ansi(filename);
+#endif //  _WIN32
+
     // 文件名为空时，不加载资源，直接返回 true
     return filename.empty() || Copilot.load(filename);
 }
