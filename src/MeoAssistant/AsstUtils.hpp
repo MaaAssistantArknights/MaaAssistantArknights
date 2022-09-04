@@ -118,114 +118,117 @@ namespace asst::utils
     private:
         using base_string_view = std::basic_string_view<char_t>;
         using base_string = std::basic_string<char_t>;
-        base_string_view _Range {};
-        base_string_view _Pattern {};
-        ranges::_Non_propagating_cache<base_string_view> _Next {};
-        using string_iter = base_string_view::const_iterator;
+        using string_iter = typename base_string_view::const_iterator;
+        base_string_view _rng {};
+        base_string_view _pat {};
+        base_string_view _nxt {};
 
-        class _Iterator
+        class _iterator
         {
         private:
-            string_split_view* _Parent = nullptr;
-            string_iter _Current = {};
-            base_string_view _Next = {};
-            bool _Trailing_empty = false;
+            string_split_view* _pre = nullptr;
+            string_iter _cur = {};
+            base_string_view _nxt = {};
+            bool _trailing_empty = false;
 
         public:
             using iterator_concept = std::forward_iterator_tag;
             using iterator_category = std::input_iterator_tag;
             using value_type = base_string_view;
-            using difference_type = base_string_view::difference_type;
+            using difference_type = typename base_string_view::difference_type;
 
-            _Iterator() = default;
+            _iterator() = default;
 
-            constexpr _Iterator(string_split_view& _Parent_, string_iter _Current_, base_string_view _Next_) noexcept
-                : _Parent { std::addressof(_Parent_) }, _Current { std::move(_Current_) }, _Next { std::move(_Next_) }
+            constexpr _iterator(string_split_view& prev, string_iter curr, base_string_view next) noexcept
+                : _pre { std::addressof(prev) }, _cur { std::move(curr) }, _nxt { std::move(next) }
             {}
 
-            [[nodiscard]] constexpr string_iter base() const noexcept { return _Current; }
+            [[nodiscard]] constexpr string_iter base() const noexcept { return _cur; }
 
-            [[nodiscard]] constexpr value_type operator*() const noexcept { return { _Current, _Next.cbegin() }; }
+            [[nodiscard]] constexpr value_type operator*() const noexcept { return { _cur, _nxt.cbegin() }; }
 
-            constexpr _Iterator& operator++()
+            constexpr _iterator& operator++()
             {
-                const auto _Last = _Parent->_Range.cend();
-                _Current = _Next.cbegin();
-                if (_Current == _Last) {
-                    _Trailing_empty = false;
+                const auto _end = _pre->_rng.cend();
+
+                if (_cur = _nxt.cbegin(); _cur == _end) {
+                    _trailing_empty = false;
                     return *this;
                 }
 
-                _Current = _Next.cend();
-                if (_Current == _Last) {
-                    _Trailing_empty = true;
-                    _Next = { _Current, _Current };
+                if (_cur = _nxt.cend(); _cur == _end) {
+                    _trailing_empty = true;
+                    _nxt = { _cur, _cur };
                     return *this;
                 }
 
-                if (const auto _pos = base_string_view(_Current, _Last).find(_Parent->_Pattern);
-                    _pos == base_string_view::npos) {
-                    _Next = { std::move(_Last), std::move(_Last) };
+                if (size_t _len = _pre->_pat.length(); !_len) {
+                    auto _beg = _cur + 1;
+                    _nxt = { std::move(_beg), std::move(_beg) };
+                }
+                else if (const auto _pos = base_string_view(_cur, _end).find(_pre->_pat);
+                         _pos == base_string_view::npos) {
+                    _nxt = { std::move(_end), std::move(_end) };
                 }
                 else {
-                    _Next = { _Current + _pos, _Current + _pos + _Parent->_Pattern.length() };
+                    auto _beg = _cur + _pos;
+                    _nxt = { std::move(_beg), _beg + _pre->_pat.length() };
                 }
 
                 return *this;
             }
 
-            constexpr _Iterator operator++(int)
+            constexpr _iterator operator++(int)
             {
-                auto _Tmp = *this;
+                auto _tmp = *this;
                 ++*this;
-                return _Tmp;
+                return _tmp;
             }
 
-            friend constexpr bool operator==(const _Iterator& _Left, const _Iterator& _Right) noexcept
+            friend constexpr bool operator==(const _iterator& _lhs, const _iterator& _rhs) noexcept
             {
-                return _Left._Current == _Right._Current && _Left._Trailing_empty == _Right._Trailing_empty;
+                return _lhs._cur == _rhs._cur && _lhs._trailing_empty == _rhs._trailing_empty;
             }
         };
-
-        constexpr base_string_view _Find_next(string_iter _It)
-        {
-            const auto _Last = _Range.cend();
-
-            if (const auto _pos = base_string_view(_It, _Last).find(_Pattern); _pos == base_string_view::npos) {
-                return { std::move(_Last), std::move(_Last) };
-            }
-            else {
-                return { _It + _pos, _It + _pos + _Pattern.length() };
-            }
-        }
 
     public:
         string_split_view() = default;
 
-        template <typename _Tp1, typename _Tp2>
-        requires std::convertible_to<_Tp2, base_string_view>
-        constexpr string_split_view(_Tp1&& _Range_, _Tp2&& _Pattern_) noexcept
-            : _Range(std::forward<_Tp1>(_Range_)), _Pattern(std::forward<_Tp2>(_Pattern_))
+        template <typename rng_t, typename pat_t>
+        requires std::convertible_to<pat_t, base_string_view>
+        constexpr string_split_view(rng_t&& rang, pat_t&& patt) noexcept
+            : _rng(std::forward<rng_t>(rang)), _pat(std::forward<pat_t>(patt))
         {}
 
-        template <typename _Tp1>
-        constexpr string_split_view(_Tp1&& _Range_, const char_t& _Elem) noexcept
-            : _Range(std::forward<_Tp1>(_Range_)), _Pattern(&_Elem, 1)
+        template <typename rng_t>
+        constexpr string_split_view(rng_t&& rang, const char_t& elem) noexcept
+            : _rng(std::forward<rng_t>(rang)), _pat(&elem, 1)
         {}
 
-        [[nodiscard]] constexpr const base_string_view& base() const noexcept { return _Range; }
-        [[nodiscard]] constexpr base_string_view&& base() noexcept { return std::move(_Range); }
+        [[nodiscard]] constexpr const base_string_view& base() const noexcept { return _rng; }
+        [[nodiscard]] constexpr base_string_view&& base() noexcept { return std::move(_rng); }
 
         [[nodiscard]] constexpr auto begin()
         {
-            auto _First = _Range.cbegin();
-            if (!_Next) {
-                _Next._Emplace(_Find_next(_First));
+            const auto _beg = _rng.cbegin(), _end = _rng.cend();
+
+            if (_nxt.empty()) {
+                if (size_t _len = _pat.length(); !_len) {
+                    auto _cur = _beg + 1;
+                    _nxt = { std::move(_cur), std::move(_cur) };
+                }
+                else if (const auto _pos = _rng.find(_pat); _pos == base_string_view::npos) {
+                    _nxt = { std::move(_end), std::move(_end) };
+                }
+                else {
+                    auto _cur = _beg + _pos;
+                    _nxt = { std::move(_cur), _cur + _pat.length() };
+                }
             }
-            return _Iterator { *this, _First, *_Next };
+            return _iterator { *this, _beg, _nxt };
         }
 
-        [[nodiscard]] constexpr auto end() { return _Iterator { *this, _Range.cend(), {} }; }
+        [[nodiscard]] constexpr auto end() { return _iterator { *this, _rng.cend(), {} }; }
     };
 
     template <ranges::range str_t, class pat_t>
@@ -237,11 +240,11 @@ namespace asst::utils
     struct _string_split_fn
     {
         template <ranges::range str_t, class pat_t>
-        [[nodiscard]] constexpr auto operator()(str_t&& str, pat_t&& _Pattern) const
-            noexcept(noexcept(string_split_view(std::forward<str_t>(str), std::forward<pat_t>(_Pattern))))
-        requires requires { string_split_view(static_cast<str_t&&>(str), static_cast<pat_t&&>(_Pattern)); }
+        [[nodiscard]] constexpr auto operator()(str_t&& _str, pat_t&& _pat) const
+            noexcept(noexcept(string_split_view(std::forward<str_t>(_str), std::forward<pat_t>(_pat))))
+        requires requires { string_split_view(static_cast<str_t&&>(_str), static_cast<pat_t&&>(_pat)); }
         {
-            return string_split_view(std::forward<str_t>(str), std::forward<pat_t>(_Pattern));
+            return string_split_view(std::forward<str_t>(_str), std::forward<pat_t>(_pat));
         }
     };
 
