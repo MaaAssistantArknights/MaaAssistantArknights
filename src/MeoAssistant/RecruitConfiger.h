@@ -87,7 +87,7 @@ namespace asst
     {
     public:
         virtual ~RecruitConfiger() override = default;
-        constexpr static int CorrectNumberOfTags = 5;
+        static constexpr int CorrectNumberOfTags = 5;
 
         const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
         const std::vector<RecruitOperInfo>& get_all_opers() const noexcept { return m_all_opers; }

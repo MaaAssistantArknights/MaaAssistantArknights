@@ -20,7 +20,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
 
 #ifdef ASST_DEBUG
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, { { ":", "-" }, { " ", "_" } });
+    stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
     cv::imwrite("debug/" + stem + "_raw.png", m_image);
 #endif
