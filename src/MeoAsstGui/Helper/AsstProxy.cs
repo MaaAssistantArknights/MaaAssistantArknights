@@ -860,7 +860,7 @@ namespace MeoAsstGui
                     break;
 
                 case "UnsupportedLevel":
-                    mainModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
+                    copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
                     break;
             }
         }
