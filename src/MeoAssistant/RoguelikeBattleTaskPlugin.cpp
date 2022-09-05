@@ -17,6 +17,7 @@
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "TilePack.h"
+#include "AsstImageIo.hpp"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -515,12 +516,7 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         m_total_kills = kills_analyzer.get_total_kills();
     }
 
-#ifdef WIN32
-    cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", image);
-#else
-    cv::imwrite("map/" + m_stage_name + ".png", image);
-#endif
-
+    asst::imwrite("map/" + m_stage_name + ".png", image);
     return true;
 }
 
