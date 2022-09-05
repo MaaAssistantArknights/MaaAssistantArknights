@@ -6,6 +6,50 @@ import CopilotData, {
 } from "@/interfaces/CopilotData";
 
 /**
+ * 操作类型可选值
+ */
+const actionTypes = [
+  "Deploy",
+  "Skill",
+  "Retreat",
+  "SpeedUp",
+  "BulletTime",
+  "SkillUsage",
+  "Output",
+  "SkillDaemon",
+];
+
+/**
+ * 操作类型对照表
+ */
+const actionTypeMapping = {
+  部署: "Deploy",
+  技能: "Skill",
+  撤退: "Retreat",
+  二倍速: "SpeedUp",
+  子弹时间: "BulletTime",
+  技能用法: "SkillUsage",
+  打印: "Output",
+  摆完挂机: "SkillDaemon",
+};
+
+/**
+ * 方向类型可选值
+ */
+const actionDirections = ["Left", "Right", "Up", "Down", "None"];
+
+/**
+ * 方向类型对照表
+ */
+const actionDirectionMapping = {
+  左: "Left",
+  右: "Right",
+  上: "Up",
+  下: "Down",
+  无: "None",
+};
+
+/**
  * 创建空的战斗数据
  * @returns 空的战斗数据
  */
@@ -79,6 +123,27 @@ function checkStringOptions(
   }
 
   return undefined;
+}
+
+/**
+ * 检查字符串对照
+ * @param value 要检查的字符串或空
+ * @param mapping 对照表
+ * @returns 如果字符串不为空则返回对照后的字符串，若找不到对照则返回原值，空字符串返回空
+ */
+function checkStringMapping(
+  value: string | undefined | null,
+  mapping: { [key: string]: string }
+): string | undefined | null {
+  if (value === undefined || value === null) {
+    return value;
+  }
+
+  if (Object.keys(mapping).includes(value)) {
+    return mapping[value];
+  }
+
+  return value;
 }
 
 /**
@@ -156,16 +221,10 @@ function checkGroups(groups: any): Group[] | undefined | null {
  */
 function checkActions(actions: any): Action[] | undefined | null {
   return checkArray(actions)?.map((action) => {
-    action.type = checkStringOptions(action.type, [
-      "Deploy",
-      "Skill",
-      "Retreat",
-      "SpeedUp",
-      "BulletTime",
-      "SkillUsage",
-      "Output",
-      "SkillDaemon",
-    ]);
+    action.type = checkStringOptions(
+      checkStringMapping(action.type, actionTypeMapping),
+      actionTypes
+    );
     action.kills = checkRange(action.kills, 0);
     action.cost_changes = checkRange(action.cost_changes, 0);
 
@@ -190,13 +249,10 @@ function checkActions(actions: any): Action[] | undefined | null {
       action.location[1] = checkRange(action.location[1], 0);
     }
 
-    action.direction = checkStringOptions(action.direction, [
-      "Left",
-      "Right",
-      "Up",
-      "Down",
-      "None",
-    ]);
+    action.direction = checkStringOptions(
+      checkStringMapping(action.direction, actionDirectionMapping),
+      actionDirections
+    );
 
     action.skill_usage = checkRange(action.skill_usage, 0, 3);
     action.pre_delay = checkRange(action.pre_delay, 0);
