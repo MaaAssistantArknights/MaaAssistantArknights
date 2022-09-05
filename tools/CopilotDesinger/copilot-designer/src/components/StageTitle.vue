@@ -17,7 +17,7 @@ export default defineComponent({
     value: {
       type: String,
       required: true,
-    }
+    },
   },
   methods: {
     update(e: Event) {
