@@ -15,7 +15,7 @@ export default defineComponent({
     value: {
       type: String,
       required: true,
-    }
+    },
   },
   computed: {
     modelValue: {

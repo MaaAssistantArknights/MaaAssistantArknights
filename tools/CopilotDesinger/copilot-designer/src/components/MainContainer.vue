@@ -48,13 +48,9 @@ import StageDetails from "./StageDetails.vue";
 import GroupComponent from "./GroupComponent.vue";
 import OperatorComponent from "./OperatorComponent.vue";
 import ActionList from "./ActionList.vue";
-import CopilotData, {
-  Action,
-  createEmptyCopilotData,
-  Group,
-  Operator,
-} from "@/interfaces/CopilotData";
+import CopilotData, { Action, Group, Operator } from "@/interfaces/CopilotData";
 import { CharacterList } from "@/misc/Characters";
+import { createEmptyCopilotData } from "@/utils/CopilotDataChecker";
 
 export default defineComponent({
   components: {
