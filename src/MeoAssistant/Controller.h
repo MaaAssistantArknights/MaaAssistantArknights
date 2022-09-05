@@ -110,7 +110,6 @@ namespace asst
         std::mutex m_socket_mutex;
 #ifdef _WIN32
 
-
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         WSADATA m_wsa_data {};
         SOCKET m_server_sock = 0ULL;

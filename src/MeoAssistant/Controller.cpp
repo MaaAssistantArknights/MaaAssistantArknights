@@ -212,8 +212,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     DWORD err = 0;
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
-    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize, true,
-                                false)) {
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize,
+                                             true, false)) {
         err = GetLastError();
         Log.error("CreateOverlappablePipe failed, err", err);
         return std::nullopt;
@@ -230,8 +230,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
     auto cmdline_osstr = asst::utils::to_osstring(cmd);
-    BOOL create_ret = CreateProcessW(nullptr, &cmdline_osstr[0], nullptr, nullptr, TRUE, 0, nullptr,
-                                     nullptr, &si, &process_info);
+    BOOL create_ret =
+        CreateProcessW(nullptr, &cmdline_osstr[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
@@ -354,7 +354,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                     }
                 }
                 else {
-                    //err = GetLastError();
+                    // err = GetLastError();
                     socket_eof = true;
                 }
             }
@@ -419,7 +419,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", pipe_data, ", cost", duration, "ms");
     }
     else {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", stdout size:", pipe_data.size(), ", socket size:", sock_data.size(), ", cost", duration, "ms");
+        Log.trace("Call `", cmd, "` ret", exit_ret, ", stdout size:", pipe_data.size(),
+                  ", socket size:", sock_data.size(), ", cost", duration, "ms");
     }
 
     if (!exit_ret) {
@@ -613,7 +614,6 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 
     bool server_start = false;
     uint16_t port_result = 0;
-
 
 #ifdef _WIN32
     m_server_addr.sin_port = htons(0);

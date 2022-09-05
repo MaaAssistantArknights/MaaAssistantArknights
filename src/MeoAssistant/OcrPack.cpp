@@ -9,8 +9,8 @@
 #include "Logger.hpp"
 
 #ifdef _WIN32
-#include "SafeWindows.h"
 #include "AsstPlatformWin32.h"
+#include "SafeWindows.h"
 #include <format>
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp);
 #else
@@ -38,7 +38,6 @@ asst::OcrPack::~OcrPack()
     }
 
     PaddleOcrDestroy(m_ocr);
-
 }
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
@@ -168,12 +167,11 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     return recognize(roi_img, rect_cor, without_det);
 }
 
-
 #ifdef _WIN32
 
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp)
 {
-    static std::atomic<uint64_t> id{};
+    static std::atomic<uint64_t> id {};
 
     *is_temp = false;
     if (!asst::utils::path_to_ansi_string(dir).empty()) {
@@ -203,14 +201,14 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
                 asst::Log.error("failed to escape unicode path: failed to create junction");
                 return {};
             }
-        } else {
+        }
+        else {
             auto err = GetLastError();
             if (err == ERROR_ALREADY_EXISTS) {
                 // try next id
                 continue;
             }
-            else
-            {
+            else {
                 // cannot create link, no luck
                 asst::Log.error("failed to escape unicode path: failed to create junction");
                 return {};

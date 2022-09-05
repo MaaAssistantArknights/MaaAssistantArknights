@@ -6,6 +6,7 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
 #include "BattleDataConfiger.h"
 #include "BattleImageAnalyzer.h"
 #include "Controller.h"
@@ -17,7 +18,6 @@
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "TilePack.h"
-#include "AsstImageIo.hpp"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

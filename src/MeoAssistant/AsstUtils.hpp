@@ -27,9 +27,9 @@
 
 namespace asst::utils
 {
-
     using os_string = std::filesystem::path::string_type;
-    template<typename... Unused> constexpr bool always_false = false;
+    template <typename... Unused>
+    constexpr bool always_false = false;
 
     template <typename dst_t, typename src_t>
     requires ranges::range<src_t> && ranges::range<dst_t>
@@ -305,16 +305,24 @@ namespace asst::utils
     std::string from_osstring(const os_string& os_str);
 #else
     static_assert(std::is_same_v<os_string, std::string>);
-    inline os_string to_osstring(const std::string& utf8_str) { return utf8_str; }
-    inline std::string from_osstring(const os_string& os_str) { return os_str; }
+    inline os_string to_osstring(const std::string& utf8_str)
+    {
+        return utf8_str;
+    }
+    inline std::string from_osstring(const os_string& os_str)
+    {
+        return os_str;
+    }
 #endif
 
-    inline std::filesystem::path path(const os_string& os_str) {
+    inline std::filesystem::path path(const os_string& os_str)
+    {
         return std::filesystem::path(os_str);
     }
 
     template <typename = std::enable_if_t<!std::is_same_v<os_string, std::string>>>
-    inline std::filesystem::path path(const std::string& utf8_str) {
+    inline std::filesystem::path path(const std::string& utf8_str)
+    {
         return std::filesystem::path(to_osstring(utf8_str));
     }
 
@@ -324,29 +332,35 @@ namespace asst::utils
 
     std::string path_to_ansi_string(const std::filesystem::path& path);
 
-    inline std::string path_to_utf8_string(const std::filesystem::path& path) {
+    inline std::string path_to_utf8_string(const std::filesystem::path& path)
+    {
         return from_osstring(path.native());
     }
 
-    inline std::string path_to_crt_string(const std::string& utf8_path) {
+    inline std::string path_to_crt_string(const std::string& utf8_path)
+    {
         return path_to_crt_string(path(utf8_path));
     }
 
-    inline std::string path_to_ansi_string(const std::string& utf8_path) {
+    inline std::string path_to_ansi_string(const std::string& utf8_path)
+    {
         return path_to_crt_string(path(utf8_path));
     }
 
 #else
 
-    inline std::string path_to_utf8_string(const std::filesystem::path& path) {
+    inline std::string path_to_utf8_string(const std::filesystem::path& path)
+    {
         return path.native();
     }
 
-    inline std::string path_to_ansi_string(const std::filesystem::path& path) {
+    inline std::string path_to_ansi_string(const std::filesystem::path& path)
+    {
         return path.native();
     }
 
-    inline std::string path_to_crt_string(const std::filesystem::path& path) {
+    inline std::string path_to_crt_string(const std::filesystem::path& path)
+    {
         return path.native();
     }
 
@@ -499,11 +513,12 @@ namespace asst::utils
 #endif
     }
 
-    namespace path_literals {
-        inline std::filesystem::path operator "" _p(const char* utf8_str, size_t len) {
+    namespace path_literals
+    {
+        inline std::filesystem::path operator"" _p(const char* utf8_str, size_t len)
+        {
             // 日后再优化（
             return asst::utils::path(std::string(std::string_view(utf8_str, len)));
         }
     }
-
 } // namespace asst::utils
