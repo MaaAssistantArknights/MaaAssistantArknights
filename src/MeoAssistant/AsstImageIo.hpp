@@ -1,16 +1,16 @@
 #pragma once
 
+#include <filesystem>
 #include <string>
 #include <vector>
-#include <filesystem>
 
-#include "NoWarningCVMat.h"
 #include "NoWarningCV.h"
+#include "NoWarningCVMat.h"
 
 #include "AsstUtils.hpp"
 
-namespace asst {
-
+namespace asst
+{
     inline cv::Mat imread(const std::filesystem::path& path, int flags = cv::IMREAD_COLOR)
     {
         std::ifstream file(path, std::ios::binary | std::ios::ate);
@@ -21,11 +21,14 @@ namespace asst {
         return cv::imdecode(content, flags);
     }
 
-    inline cv::Mat imread(const std::string& utf8_path, int flags = cv::IMREAD_COLOR) {
+    inline cv::Mat imread(const std::string& utf8_path, int flags = cv::IMREAD_COLOR)
+    {
         return imread(asst::utils::path(utf8_path), flags);
     }
 
-    inline bool imwrite(const std::filesystem::path& path, cv::InputArray img, const std::vector<int>& params = std::vector<int>()) {
+    inline bool imwrite(const std::filesystem::path& path, cv::InputArray img,
+                        const std::vector<int>& params = std::vector<int>())
+    {
         std::ofstream of(path, std::ios::out | std::ios::binary);
         std::vector<uint8_t> encoded;
         auto ext = asst::utils::path_to_utf8_string(path.extension());
@@ -36,8 +39,9 @@ namespace asst {
         return false;
     }
 
-    inline bool imwrite(const std::string& utf8_path, cv::InputArray img, const std::vector<int>& params = std::vector<int>()) {
+    inline bool imwrite(const std::string& utf8_path, cv::InputArray img,
+                        const std::vector<int>& params = std::vector<int>())
+    {
         return imwrite(asst::utils::path(utf8_path), img, params);
     }
-
 }

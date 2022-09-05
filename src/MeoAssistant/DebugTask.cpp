@@ -6,9 +6,9 @@
 
 // #include "RoguelikeSkillSelectionTaskPlugin.h"
 
+#include "AsstImageIo.hpp"
 #include "Logger.hpp"
 #include "StageDropsImageAnalyzer.h"
-#include "AsstImageIo.hpp"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType)

@@ -256,9 +256,10 @@ HANDLE asst::win32::OpenDirectory(const std::filesystem::path& path, BOOL bReadW
     return hDir;
 }
 
-bool asst::win32::SetDirectoryReparsePoint(const std::filesystem::path& link, const std::filesystem::path& target) {
+bool asst::win32::SetDirectoryReparsePoint(const std::filesystem::path& link, const std::filesystem::path& target)
+{
     auto normtarget = asst::utils::path(asst::utils::string_replace_all(target.native(), L"/", L"\\"));
-    
+
     auto nttarget = L"\\GLOBAL??\\" + std::filesystem::absolute(normtarget).native();
     if (nttarget.back() != L'\\') nttarget.push_back(L'\\');
 

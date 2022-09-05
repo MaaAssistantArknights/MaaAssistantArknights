@@ -63,5 +63,4 @@ std::string asst::utils::callcmd(const std::string& cmdline)
     return pipe_str;
 }
 
-
 #endif

@@ -4,6 +4,7 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
 #include "AsstUtils.hpp"
 #include "ItemConfiger.h"
 #include "Logger.hpp"
@@ -11,7 +12,6 @@
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "StageDropsConfiger.h"
 #include "TaskData.h"
-#include "AsstImageIo.hpp"
 
 #include <numbers>
 

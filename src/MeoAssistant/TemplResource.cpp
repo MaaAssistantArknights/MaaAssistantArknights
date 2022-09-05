@@ -6,8 +6,8 @@
 
 #include "NoWarningCV.h"
 
-#include "Logger.hpp"
 #include "AsstImageIo.hpp"
+#include "Logger.hpp"
 
 void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept
 {
