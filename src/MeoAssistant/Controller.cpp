@@ -631,7 +631,11 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
         return std::nullopt;
     }
 
+#ifdef _WIN32
     port_result = ntohs(m_server_addr.sin_port);
+#else
+    // todo
+#endif
 
     Log.info("server_start", local_address, port_result);
     return port_result;
