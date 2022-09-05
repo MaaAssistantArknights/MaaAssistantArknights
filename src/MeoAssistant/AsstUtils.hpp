@@ -149,7 +149,7 @@ namespace asst::utils
 
             constexpr _iterator& operator++()
             {
-                const auto _end = _pre->_rng.cend();
+                auto _end = _pre->_rng.cend();
 
                 if (_cur = _nxt.cbegin(); _cur == _end) {
                     _trailing_empty = false;
