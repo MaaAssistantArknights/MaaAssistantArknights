@@ -194,4 +194,100 @@ std::string asst::utils::callcmd(const std::string& cmdline)
     return pipe_str;
 }
 
+#define REPARSE_MOUNTPOINT_HEADER_SIZE 8
+
+struct REPARSE_MOUNTPOINT_DATA_BUFFER
+{
+    DWORD ReparseTag;
+    DWORD ReparseDataLength;
+    WORD Reserved;
+    WORD ReparseTargetLength;
+    WORD ReparseTargetMaximumLength;
+    WORD Reserved1;
+    WCHAR ReparseTarget[1];
+};
+
+struct REPARSE_DATA_BUFFER
+{
+    DWORD ReparseTag;
+    WORD ReparseDataLength;
+    WORD Reserved;
+    union {
+        struct
+        {
+            WORD SubstituteNameOffset;
+            WORD SubstituteNameLength;
+            WORD PrintNameOffset;
+            WORD PrintNameLength;
+            WCHAR PathBuffer[1];
+        } SymbolicLinkReparseBuffer;
+        struct
+        {
+            WORD SubstituteNameOffset;
+            WORD SubstituteNameLength;
+            WORD PrintNameOffset;
+            WORD PrintNameLength;
+            WCHAR PathBuffer[1];
+        } MountPointReparseBuffer;
+        struct
+        {
+            BYTE DataBuffer[1];
+        } GenericReparseBuffer;
+    };
+};
+
+#define REPARSE_DATA_BUFFER_HEADER_SIZE FIELD_OFFSET(REPARSE_DATA_BUFFER, GenericReparseBuffer)
+
+HANDLE asst::win32::OpenDirectory(const std::filesystem::path& path, BOOL bReadWrite)
+{
+    // Obtain backup/restore privilege in case we don't have it
+    HANDLE hToken;
+    TOKEN_PRIVILEGES tp;
+    OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &hToken);
+    LookupPrivilegeValueW(NULL, (bReadWrite ? SE_RESTORE_NAME : SE_BACKUP_NAME), &tp.Privileges[0].Luid);
+    tp.PrivilegeCount = 1;
+    tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+    AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL);
+    CloseHandle(hToken);
+
+    // Open the directory
+    DWORD dwAccess = bReadWrite ? (GENERIC_READ | GENERIC_WRITE) : GENERIC_READ;
+    HANDLE hDir = CreateFileW(path.c_str(), dwAccess, 0, NULL, OPEN_EXISTING,
+                              FILE_FLAG_OPEN_REPARSE_POINT | FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+    return hDir;
+}
+
+bool asst::win32::SetDirectoryReparsePoint(const std::filesystem::path& link, const std::filesystem::path& target) {
+    auto normtarget = asst::utils::path(asst::utils::string_replace_all(target.native(), L"/", L"\\"));
+    
+    auto nttarget = L"\\GLOBAL??\\" + std::filesystem::absolute(normtarget).native();
+    if (nttarget.back() != L'\\') nttarget.push_back(L'\\');
+
+    // set reparse point
+    auto hReparsePoint = OpenDirectory(link.c_str(), TRUE);
+
+    if (hReparsePoint == INVALID_HANDLE_VALUE) return false;
+
+    BYTE buf[sizeof(REPARSE_MOUNTPOINT_DATA_BUFFER) + MAX_PATH * sizeof(WCHAR)];
+    REPARSE_MOUNTPOINT_DATA_BUFFER& ReparseBuffer = (REPARSE_MOUNTPOINT_DATA_BUFFER&)buf;
+
+    // Prepare reparse point data
+    memset(buf, 0, sizeof(buf));
+    ReparseBuffer.ReparseTag = IO_REPARSE_TAG_MOUNT_POINT;
+    wcsncpy_s(ReparseBuffer.ReparseTarget, MAX_PATH + 1, nttarget.c_str(), MAX_PATH);
+    ReparseBuffer.ReparseTargetMaximumLength = (WORD)((nttarget.size() + 1) * sizeof(WCHAR));
+    ReparseBuffer.ReparseTargetLength = (WORD)(nttarget.size() * sizeof(WCHAR));
+    ReparseBuffer.ReparseDataLength = ReparseBuffer.ReparseTargetLength + 12;
+
+    // Attach reparse point
+    auto success =
+        DeviceIoControl(hReparsePoint, FSCTL_SET_REPARSE_POINT, &ReparseBuffer,
+                        ReparseBuffer.ReparseDataLength + REPARSE_MOUNTPOINT_HEADER_SIZE, nullptr, 0, nullptr, nullptr);
+
+    CloseHandle(hReparsePoint);
+
+    return success;
+}
+
 #endif
