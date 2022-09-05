@@ -19,7 +19,7 @@ namespace asst::http
         std::string_view m_protocol_version;
         std::string_view m_status_code_info;
         std::string_view m_body;
-        std::unordered_map<std::string, std::string_view> m_headers;
+        std::unordered_map<std::string_view, std::string_view> m_headers;
         static const inline std::unordered_set<std::string_view> _accepted_protocol_version = { "HTTP/1.1",
                                                                                                 "HTTP/2.0" };
         bool _analyze_status_line(std::string_view status_line)
@@ -63,9 +63,11 @@ namespace asst::http
                 m_last_error = "cannot decode header `" + std::string(status_line) + "`";
                 return false;
             }
-            m_headers[utils::view_cast<std::string>(status_line.substr(0, _colon_pos) | views::transform([](char c) {
-                                                        return static_cast<char>(std::tolower(c));
-                                                    }))] =
+            // 把 key 转换为小写
+            for (auto& c : status_line.substr(0, _colon_pos)) {
+                const_cast<char&>(c) = static_cast<char&&>(std::tolower(c));
+            }
+            m_headers[status_line.substr(0, _colon_pos)] =
                 status_line.substr(_colon_pos + 1 + status_line.substr(_colon_pos + 1).find_first_not_of(' '));
             return true;
         }
@@ -118,7 +120,7 @@ namespace asst::http
         std::string_view protocol_version() const { return m_protocol_version; }
         std::string_view status_code_info() const { return m_status_code_info; }
         std::string_view body() const { return m_body; }
-        std::optional<std::string_view> find_header(const std::string& key) const
+        std::optional<std::string_view> find_header(const std::string_view& key) const
         {
             if (auto iter = m_headers.find(key); iter != m_headers.cend()) {
                 return iter->second;
