@@ -33,13 +33,26 @@ bool asst::win32::CreateOverlappablePipe(HANDLE* read, HANDLE* write, SECURITY_A
     return true;
 }
 
+static std::string get_ansi_short_path(const std::filesystem::path& path)
+{
+    wchar_t short_path[MAX_PATH] {};
+    auto& osstr = path.native();
+    auto shortlen = GetShortPathNameW(osstr.c_str(), short_path, MAX_PATH);
+    if (shortlen == 0) return {};
+    BOOL failed = FALSE;
+    auto ansilen = WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, nullptr, 0, nullptr, &failed);
+    if (failed) return {};
+    std::string result(ansilen, 0);
+    WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, &result[0], ansilen, nullptr, nullptr);
+    return result;
+}
 
 std::string asst::utils::path_to_crt_string(const std::filesystem::path& path)
 {
     // UCRT may use UTF-8 encoding while ANSI code page is still some other MBCS encoding
     // so we use CRT wcstombs instead of WideCharToMultiByte
     size_t mbsize = 0;
-    auto osstr = path.native();
+    auto& osstr = path.native();
     auto err = wcstombs_s(&mbsize, nullptr, 0, osstr.c_str(), osstr.size());
     if (err == 0) {
         std::string result(mbsize, 0);
@@ -49,15 +62,7 @@ std::string asst::utils::path_to_crt_string(const std::filesystem::path& path)
     }
     else {
         // cannot convert (CRT is not using UTF-8), fallback to short path name in ACP
-        wchar_t short_path[MAX_PATH];
-        auto shortlen = GetShortPathNameW(osstr.c_str(), short_path, MAX_PATH);
-        if (shortlen == 0) return {};
-        BOOL failed = FALSE;
-        auto ansilen = WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, nullptr, 0, nullptr, &failed);
-        if (failed) return {};
-        std::string result(ansilen, 0);
-        WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, &result[0], ansilen, nullptr, nullptr);
-        return result;
+        return get_ansi_short_path(path);
     }
 }
 
@@ -66,7 +71,7 @@ std::string asst::utils::path_to_ansi_string(const std::filesystem::path& path)
     // UCRT may use UTF-8 encoding while ANSI code page is still some other MBCS encoding
     // so we use CRT wcstombs instead of WideCharToMultiByte
     BOOL failed = FALSE;
-    auto osstr = path.native();
+    auto& osstr = path.native();
     auto ansilen = WideCharToMultiByte(CP_ACP, 0, osstr.c_str(), (int)osstr.size(), nullptr, 0, nullptr, &failed);
     if (!failed) {
         std::string result(ansilen, 0);
@@ -75,14 +80,7 @@ std::string asst::utils::path_to_ansi_string(const std::filesystem::path& path)
     }
     else {
         // contains character that cannot be converted, fallback to short path name in ACP
-        wchar_t short_path[MAX_PATH];
-        auto shortlen = GetShortPathNameW(osstr.c_str(), short_path, MAX_PATH);
-        if (shortlen == 0) return {};
-        ansilen = WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, nullptr, 0, nullptr, &failed);
-        if (failed) return {};
-        std::string result(ansilen, 0);
-        WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, &result[0], ansilen, nullptr, nullptr);
-        return result;
+        return get_ansi_short_path(path);
     }
 }
 
