@@ -300,11 +300,11 @@ namespace asst::utils
     }
 
 #ifdef _WIN32
-    static_assert(std::is_same_v<os_string, std::wstring>);
+    static_assert(std::same_as<os_string, std::wstring>);
     os_string to_osstring(const std::string& utf8_str);
     std::string from_osstring(const os_string& os_str);
 #else
-    static_assert(std::is_same_v<os_string, std::string>);
+    static_assert(std::same_as<os_string, std::string>);
     inline os_string to_osstring(const std::string& utf8_str)
     {
         return utf8_str;
@@ -320,11 +320,13 @@ namespace asst::utils
         return std::filesystem::path(os_str);
     }
 
-    template <typename = std::enable_if_t<!std::is_same_v<os_string, std::string>>>
+#ifdef _WIN32
+    // Allow construct a path from utf8-string in win32
     inline std::filesystem::path path(const std::string& utf8_str)
     {
         return std::filesystem::path(to_osstring(utf8_str));
     }
+#endif
 
 #ifdef _WIN32
 
