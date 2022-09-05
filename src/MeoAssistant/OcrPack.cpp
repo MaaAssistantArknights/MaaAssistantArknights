@@ -10,6 +10,7 @@
 
 #ifdef _WIN32
 #include "SafeWindows.h"
+#include "AsstPlatformWin32.h"
 #include <format>
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp);
 #else
@@ -170,80 +171,14 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 
 #ifdef _WIN32
 
-#define REPARSE_MOUNTPOINT_HEADER_SIZE 8
-
-struct REPARSE_MOUNTPOINT_DATA_BUFFER
-{
-    DWORD ReparseTag;
-    DWORD ReparseDataLength;
-    WORD Reserved;
-    WORD ReparseTargetLength;
-    WORD ReparseTargetMaximumLength;
-    WORD Reserved1;
-    WCHAR ReparseTarget[1];
-};
-
-struct REPARSE_DATA_BUFFER
-{
-    DWORD ReparseTag;
-    WORD ReparseDataLength;
-    WORD Reserved;
-    union
-    {
-        struct
-        {
-            WORD SubstituteNameOffset;
-            WORD SubstituteNameLength;
-            WORD PrintNameOffset;
-            WORD PrintNameLength;
-            WCHAR PathBuffer[1];
-        } SymbolicLinkReparseBuffer;
-        struct
-        {
-            WORD SubstituteNameOffset;
-            WORD SubstituteNameLength;
-            WORD PrintNameOffset;
-            WORD PrintNameLength;
-            WCHAR PathBuffer[1];
-        } MountPointReparseBuffer;
-        struct
-        {
-            BYTE DataBuffer[1];
-        } GenericReparseBuffer;
-    };
-};
-
-#define REPARSE_DATA_BUFFER_HEADER_SIZE FIELD_OFFSET(REPARSE_DATA_BUFFER, GenericReparseBuffer)
-
-static HANDLE OpenDirectory(LPCWSTR pszPath, BOOL bReadWrite)
-{
-    // Obtain backup/restore privilege in case we don't have it
-    HANDLE hToken;
-    TOKEN_PRIVILEGES tp;
-    OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &hToken);
-    LookupPrivilegeValueW(NULL, (bReadWrite ? SE_RESTORE_NAME : SE_BACKUP_NAME), &tp.Privileges[0].Luid);
-    tp.PrivilegeCount = 1;
-    tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-    AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL);
-    CloseHandle(hToken);
-
-    // Open the directory
-    DWORD dwAccess = bReadWrite ? (GENERIC_READ | GENERIC_WRITE) : GENERIC_READ;
-    HANDLE hDir = CreateFileW(pszPath, dwAccess, 0, NULL, OPEN_EXISTING,
-                               FILE_FLAG_OPEN_REPARSE_POINT | FILE_FLAG_BACKUP_SEMANTICS, NULL);
-
-    return hDir;
-}
-
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp)
 {
     static std::atomic<uint64_t> id{};
 
     *is_temp = false;
-    auto path = asst::utils::path(asst::utils::string_replace_all(asst::utils::path_to_utf8_string(dir), "/", "\\"));
-    if (!asst::utils::path_to_ansi_string(path).empty()) {
+    if (!asst::utils::path_to_ansi_string(dir).empty()) {
         // can be passed to paddle via path_to_ansi_string
-        return path;
+        return dir;
     }
     // fallback: create junction (reparse point) in user temp directory
     wchar_t tempbuf[MAX_PATH + 1];
@@ -259,32 +194,7 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
         auto dirname = std::format(L"MaaLink-{}-{}", pid, id++);
         auto linkdir = tempdir / dirname;
         if (CreateDirectoryW(linkdir.c_str(), nullptr)) {
-            // prepare link target (NT path)
-
-            auto normtarget = L"\\??\\" + std::filesystem::absolute(path).native();
-            if (normtarget.back() != L'\\') normtarget.push_back(L'\\');
-
-            // set reparse point
-            auto hReparsePoint = OpenDirectory(linkdir.c_str(), TRUE);
-
-            BYTE buf[sizeof(REPARSE_MOUNTPOINT_DATA_BUFFER) + MAX_PATH * sizeof(WCHAR)];
-            REPARSE_MOUNTPOINT_DATA_BUFFER& ReparseBuffer = (REPARSE_MOUNTPOINT_DATA_BUFFER&)buf;
-
-            // Prepare reparse point data
-            memset(buf, 0, sizeof(buf));
-            ReparseBuffer.ReparseTag = IO_REPARSE_TAG_MOUNT_POINT;
-            wcsncpy_s(ReparseBuffer.ReparseTarget, MAX_PATH + 1, normtarget.c_str(), MAX_PATH);
-            ReparseBuffer.ReparseTargetMaximumLength = (WORD)((normtarget.size() + 1) * sizeof(WCHAR));
-            ReparseBuffer.ReparseTargetLength = (WORD)(normtarget.size() * sizeof(WCHAR));
-            ReparseBuffer.ReparseDataLength = ReparseBuffer.ReparseTargetLength + 12;
-
-            // Attach reparse point
-            auto success = DeviceIoControl(hReparsePoint, FSCTL_SET_REPARSE_POINT, &ReparseBuffer,
-                                           ReparseBuffer.ReparseDataLength + REPARSE_MOUNTPOINT_HEADER_SIZE, nullptr, 0,
-                                           nullptr, nullptr);
-
-            CloseHandle(hReparsePoint);
-
+            auto success = asst::win32::SetDirectoryReparsePoint(linkdir, dir);
             if (success) {
                 *is_temp = true;
                 return linkdir;
@@ -293,10 +203,14 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
                 asst::Log.error("failed to escape unicode path: failed to create junction");
                 return {};
             }
-
         } else {
             auto err = GetLastError();
-            if (err != ERROR_ALREADY_EXISTS) {
+            if (err == ERROR_ALREADY_EXISTS) {
+                // try next id
+                continue;
+            }
+            else
+            {
                 // cannot create link, no luck
                 asst::Log.error("failed to escape unicode path: failed to create junction");
                 return {};
