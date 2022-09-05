@@ -31,13 +31,6 @@ namespace asst::utils
     template <typename... Unused>
     constexpr bool always_false = false;
 
-    template <typename dst_t, typename src_t>
-    requires ranges::range<src_t> && ranges::range<dst_t>
-    dst_t view_cast(src_t&& src)
-    {
-        return dst_t(src.begin(), src.end());
-    }
-
     template <typename char_t = char>
     using pair_of_string_view = std::pair<std::basic_string_view<char_t>, std::basic_string_view<char_t>>;
 
