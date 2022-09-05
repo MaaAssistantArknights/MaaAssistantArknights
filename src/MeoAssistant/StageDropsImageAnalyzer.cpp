@@ -11,6 +11,7 @@
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "StageDropsConfiger.h"
 #include "TaskData.h"
+#include "AsstImageIo.hpp"
 
 #include <numbers>
 
@@ -22,7 +23,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
-    cv::imwrite("debug/" + stem + "_raw.png", m_image);
+    asst::imwrite("debug/" + stem + "_raw.png", m_image);
 #endif
 
     analyze_stage_code();
@@ -35,7 +36,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     }
 
 #ifdef ASST_DEBUG
-    cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
+    asst::imwrite("debug/" + stem + "_draw.png", m_image_draw);
 #endif
 
     return ret;

@@ -42,15 +42,11 @@ static bool inited = false;
 
 bool AsstLoadResource(const char* path)
 {
-#ifdef _WIN32
-    std::filesystem::path working_path = asst::utils::utf8_to_ansi(path);
-#else
-    std::filesystem::path working_path = path;
-#endif
+    auto working_path = asst::utils::path(path);
     if (!inited) {
         asst::Logger::set_directory(working_path);
     }
-    inited = asst::ResourceLoader::get_instance().load(working_path / "resource");
+    inited = asst::ResourceLoader::get_instance().load(working_path / asst::utils::path("resource"));
     return inited;
 }
 
@@ -86,11 +82,7 @@ bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, c
         return false;
     }
 
-#ifdef _WIN32
-    return handle->connect(asst::utils::utf8_to_ansi(adb_path), address, config ? config : std::string());
-#else
     return handle->connect(adb_path, address, config ? config : std::string());
-#endif
 }
 
 bool AsstStart(AsstHandle handle)

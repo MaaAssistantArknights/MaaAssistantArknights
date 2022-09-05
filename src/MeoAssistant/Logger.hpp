@@ -154,6 +154,12 @@ namespace asst
             : std::true_type
         {};
 
+        template <bool ToAnsi, typename Stream>
+        static Stream& stream_put(Stream& s, std::filesystem::path&& v)
+        {
+            return stream_put<ToAnsi>(s, asst::utils::path_to_utf8_string(v));
+        }
+
         template <bool ToAnsi, typename Stream, typename T>
         static Stream& stream_put(Stream& s, T&& v)
         {

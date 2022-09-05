@@ -9,7 +9,7 @@
 #include <string>
 
 #ifdef _WIN32
-#include <Windows.h>
+#include "SafeWindows.h"
 #else
 #include <ctime>
 #include <fcntl.h>
@@ -27,6 +27,8 @@
 
 namespace asst::utils
 {
+
+    using os_string = std::filesystem::path::string_type;
     template<typename... Unused> constexpr bool always_false = false;
 
     template <typename dst_t, typename src_t>
@@ -297,6 +299,59 @@ namespace asst::utils
         return buff;
     }
 
+#ifdef _WIN32
+    static_assert(std::is_same_v<os_string, std::wstring>);
+    os_string to_osstring(const std::string& utf8_str);
+    std::string from_osstring(const os_string& os_str);
+#else
+    static_assert(std::is_same_v<os_string, std::string>);
+    inline os_string to_osstring(const std::string& utf8_str) { return utf8_str; }
+    inline std::string from_osstring(const os_string& os_str) { return os_str; }
+#endif
+
+    inline std::filesystem::path path(const os_string& os_str) {
+        return std::filesystem::path(os_str);
+    }
+
+    template <typename = std::enable_if_t<!std::is_same_v<os_string, std::string>>>
+    inline std::filesystem::path path(const std::string& utf8_str) {
+        return std::filesystem::path(to_osstring(utf8_str));
+    }
+
+#ifdef _WIN32
+
+    std::string path_to_crt_string(const std::filesystem::path& path);
+
+    std::string path_to_ansi_string(const std::filesystem::path& path);
+
+    inline std::string path_to_utf8_string(const std::filesystem::path& path) {
+        return from_osstring(path.native());
+    }
+
+    inline std::string path_to_crt_string(const std::string& utf8_path) {
+        return path_to_crt_string(path(utf8_path));
+    }
+
+    inline std::string path_to_ansi_string(const std::string& utf8_path) {
+        return path_to_crt_string(path(utf8_path));
+    }
+
+#else
+
+    inline std::string path_to_utf8_string(const std::filesystem::path& path) {
+        return path.native();
+    }
+
+    inline std::string path_to_ansi_string(const std::filesystem::path& path) {
+        return path.native();
+    }
+
+    inline std::string path_to_crt_string(const std::filesystem::path& path) {
+        return path.native();
+    }
+
+#endif
+
     template <typename _ = void>
     inline std::string ansi_to_utf8(const std::string& ansi_str)
     {
@@ -423,115 +478,7 @@ namespace asst::utils
         return str;
     }
 
-    inline std::string callcmd(const std::string& cmdline)
-    {
-        constexpr int PipeBuffSize = 4096;
-        std::string pipe_str;
-        auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
-
-#ifdef _WIN32
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        SECURITY_ATTRIBUTES pipe_sec_attr = { 0 };
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-        pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
-        pipe_sec_attr.lpSecurityDescriptor = nullptr;
-        pipe_sec_attr.bInheritHandle = TRUE;
-        HANDLE pipe_read = nullptr;
-        HANDLE pipe_child_write = nullptr;
-        CreatePipe(&pipe_read, &pipe_child_write, &pipe_sec_attr, PipeBuffSize);
-
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        STARTUPINFOA si = { 0 };
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-        si.cb = sizeof(STARTUPINFO);
-        si.dwFlags = STARTF_USESTDHANDLES;
-        si.wShowWindow = SW_HIDE;
-        si.hStdOutput = pipe_child_write;
-        si.hStdError = pipe_child_write;
-
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        PROCESS_INFORMATION pi = { nullptr };
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-
-        BOOL p_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmdline.c_str()), nullptr, nullptr, TRUE,
-                                    CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
-        if (p_ret) {
-            DWORD peek_num = 0;
-            DWORD read_num = 0;
-            do {
-                while (PeekNamedPipe(pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-                    if (ReadFile(pipe_read, pipe_buffer.get(), peek_num, &read_num, nullptr)) {
-                        pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
-                    }
-                }
-            } while (WaitForSingleObject(pi.hProcess, 0) == WAIT_TIMEOUT);
-
-            DWORD exit_ret = 255;
-            GetExitCodeProcess(pi.hProcess, &exit_ret);
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
-        }
-
-        CloseHandle(pipe_read);
-        CloseHandle(pipe_child_write);
-
-#else
-        static constexpr int PIPE_READ = 0;
-        static constexpr int PIPE_WRITE = 1;
-        int pipe_in[2] = { 0 };
-        int pipe_out[2] = { 0 };
-        int pipe_in_ret = pipe(pipe_in);
-        int pipe_out_ret = pipe(pipe_out);
-        if (pipe_in_ret != 0 || pipe_out_ret != 0) {
-            return {};
-        }
-        fcntl(pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
-        int exit_ret = 0;
-        int child = fork();
-        if (child == 0) {
-            // child process
-            dup2(pipe_in[PIPE_READ], STDIN_FILENO);
-            dup2(pipe_out[PIPE_WRITE], STDOUT_FILENO);
-            dup2(pipe_out[PIPE_WRITE], STDERR_FILENO);
-
-            // all these are for use by parent only
-            close(pipe_in[PIPE_READ]);
-            close(pipe_in[PIPE_WRITE]);
-            close(pipe_out[PIPE_READ]);
-            close(pipe_out[PIPE_WRITE]);
-
-            exit_ret = execlp("sh", "sh", "-c", cmdline.c_str(), nullptr);
-            exit(exit_ret);
-        }
-        else if (child > 0) {
-            // parent process
-
-            // close unused file descriptors, these are for child only
-            close(pipe_in[PIPE_READ]);
-            close(pipe_out[PIPE_WRITE]);
-
-            do {
-                ssize_t read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
-
-                while (read_num > 0) {
-                    pipe_str.append(pipe_buffer.get(), pipe_buffer.get() + read_num);
-                    read_num = read(pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
-                };
-            } while (::waitpid(child, &exit_ret, WNOHANG) == 0);
-
-            close(pipe_in[PIPE_WRITE]);
-            close(pipe_out[PIPE_READ]);
-        }
-        else {
-            // failed to create child process
-            close(pipe_in[PIPE_READ]);
-            close(pipe_in[PIPE_WRITE]);
-            close(pipe_out[PIPE_READ]);
-            close(pipe_out[PIPE_WRITE]);
-        }
-#endif
-        return pipe_str;
-    }
+    std::string callcmd(const std::string& cmdline);
 
     inline std::string demangle(const char* name_from_typeid)
     {
@@ -551,4 +498,12 @@ namespace asst::utils
         return std::string(temp);
 #endif
     }
+
+    namespace path_literals {
+        inline std::filesystem::path operator "" _p(const char* utf8_str, size_t len) {
+            // 日后再优化（
+            return asst::utils::path(std::string(std::string_view(utf8_str, len)));
+        }
+    }
+
 } // namespace asst::utils
