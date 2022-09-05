@@ -216,7 +216,7 @@ namespace asst
         template <bool ToAnsi, typename Stream, typename First, typename... Rest>
         struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
         {
-            static constexpr Stream& apply(Stream& s, First f, Rest... rs)
+            static constexpr Stream& apply(Stream& s, First&& f, Rest&&... rs)
             {
                 stream_put<ToAnsi>(s, std::forward<First>(f));
                 s << " ";
@@ -226,7 +226,7 @@ namespace asst
         };
 
         template <bool ToAnsi = false, typename Stream, typename... Args>
-        Stream& stream_put_line(Stream& s, Args... args)
+        Stream& stream_put_line(Stream& s, Args&&... args)
         {
             return stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, std::forward<Args>(args)...);
         }
