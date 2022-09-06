@@ -12,12 +12,15 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    value: String,
+    value: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     modelValue: {
       get() {
-        return this.value ?? "";
+        return this.value;
       },
       set(value: string) {
         this.$emit("update", value);
