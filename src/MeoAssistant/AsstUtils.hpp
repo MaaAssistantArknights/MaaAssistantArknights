@@ -201,6 +201,13 @@ namespace asst::utils
         {}
 
         template <typename rng_t>
+        constexpr string_split_view(rng_t&& rang, char_t&& elem)
+        {
+            // 摆烂辣！解决不了临时变量导致 _pat 悬垂的问题
+            ASST_STATIC_ASSERT_FALSE("please use `views::split` instead ^_^", rng_t);
+        }
+
+        template <typename rng_t>
         constexpr string_split_view(rng_t&& rang, const char_t& elem) noexcept
             : _rng(std::forward<rng_t>(rang)), _pat(&elem, 1)
         {}
