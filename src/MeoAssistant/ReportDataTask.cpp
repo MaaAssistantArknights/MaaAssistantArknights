@@ -108,9 +108,6 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
 
     http::Response response;
     for (int i = 0; i <= m_retry_times; ++i) {
-        if (need_exit()) {
-            return {};
-        }
         response = escape_and_request(format);
         if (success_cond(response)) {
             callback(AsstMsg::SubTaskCompleted, cb_info);
@@ -121,6 +118,9 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
         }
         else {
             Log.trace("retrying... | why:", response.get_last_error(), "status_code:", response.status_code());
+        }
+        if (need_exit()) {
+            break;
         }
     }
 
