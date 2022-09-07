@@ -35,10 +35,10 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = Localization.GetString("Recognition");
+            DisplayName = Localization.GetString("RecruitmentRecognition");
         }
 
-        private string _recruitInfo = Localization.GetString("RecognitionTip");
+        private string _recruitInfo = Localization.GetString("RecruitmentRecognitionTip");
 
         /// <summary>
         /// Gets or sets the recruit info.
