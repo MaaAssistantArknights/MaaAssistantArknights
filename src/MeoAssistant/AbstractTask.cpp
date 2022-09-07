@@ -181,7 +181,9 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
             break;
         }
     }
-    m_callback(msg, detail, m_callback_arg);
+    if (m_callback) {
+        m_callback(msg, detail, m_callback_arg);
+    }
 }
 
 void asst::AbstractTask::click_return_button()

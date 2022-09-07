@@ -11,7 +11,11 @@
 #include <random>
 #include <sstream>
 
-std::vector<std::future<void>> asst::ReportDataTask::m_upload_pending;
+asst::ReportDataTask::~ReportDataTask()
+{
+    static bool Exit = true;
+    m_exit_flag = &Exit;
+}
 
 asst::ReportDataTask& asst::ReportDataTask::set_report_type(ReportType type)
 {
@@ -104,6 +108,9 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
 
     http::Response response;
     for (int i = 0; i <= m_retry_times; ++i) {
+        if (need_exit()) {
+            return {};
+        }
         response = escape_and_request(format);
         if (success_cond(response)) {
             callback(AsstMsg::SubTaskCompleted, cb_info);

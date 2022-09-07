@@ -91,6 +91,7 @@ namespace asst
 
         void random_delay() const;
         void clear_info() noexcept;
+        void callback(AsstMsg msg, const json::value& details);
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）

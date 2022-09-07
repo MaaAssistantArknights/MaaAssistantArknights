@@ -447,7 +447,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 break;
             }
             reconnect_info["details"]["times"] = i;
-            m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, reconnect_info);
 
             std::this_thread::sleep_for(10s);
             auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000);
@@ -462,7 +462,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                     // 重连并成功执行了
                     m_inited = true;
                     reconnect_info["what"] = "Reconnected";
-                    m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
+                    callback(AsstMsg::ConnectionInfo, reconnect_info);
 
                     return recall_ret;
                 }
@@ -478,10 +478,17 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
               } },
         };
         m_inited = false;
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
     }
 
     return std::nullopt;
+}
+
+void asst::Controller::callback(AsstMsg msg, const json::value& details)
+{
+    if (m_callback) {
+        m_callback(msg, details, m_callback_arg);
+    }
 }
 
 // 返回值代表是否找到 "\r\n"，函数本身会将所有 "\r\n" 替换为 "\n"
@@ -1008,7 +1015,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             { "what", "ConnectFailed" },
             { "why", "ConfigNotFound" },
         };
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
         return false;
     }
 
@@ -1043,7 +1050,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                 { "what", "ConnectFailed" },
                 { "why", "Connection command failed to exec" },
             };
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
     }
@@ -1056,7 +1063,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                 { "what", "ConnectFailed" },
                 { "why", "Uuid command failed to exec" },
             };
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
 
@@ -1069,7 +1076,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             { "why", "" },
         };
         info["details"]["uuid"] = m_uuid;
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
     }
 
     // 按需获取display ID 信息
@@ -1099,7 +1106,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                 { "what", "ConnectFailed" },
                 { "why", "Display command failed to exec" },
             };
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
 
@@ -1126,25 +1133,25 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             { "height", m_height },
         };
 
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
 
         if (m_width == 0 || m_height == 0) {
             info["what"] = "ResolutionError";
             info["why"] = "Get resolution failed";
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
         else if (m_width < WindowWidthDefault || m_height < WindowHeightDefault) {
             info["what"] = "UnsupportedResolution";
             info["why"] = "Low screen resolution";
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
         else if (std::fabs(static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
                            static_cast<double>(m_width) / static_cast<double>(m_height)) > 1e-7) {
             info["what"] = "UnsupportedResolution";
             info["why"] = "Not 16:9";
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
     }
@@ -1173,7 +1180,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             { "what", "Connected" },
             { "why", "" },
         };
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
     }
 
     m_adb.click = cmd_replace(adb_cfg.click);
@@ -1282,7 +1289,7 @@ cv::Mat asst::Controller::get_image(bool raw)
             { "why", "ScreencapFailed" },
             { "details", json::object {} },
         };
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
 
         const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
         m_cache_image = cv::Mat(d_size, CV_8UC3);
