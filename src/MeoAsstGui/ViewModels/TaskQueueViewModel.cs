@@ -335,6 +335,11 @@ namespace MeoAsstGui
         /// <param name="forceUpdate">Whether or not to update the stage list for selection forcely</param>
         public void UpdateStageList(bool forceUpdate)
         {
+            if (CustomStageCode)
+            {
+                return;
+            }
+
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.HideUnavailableStage)
             {
@@ -343,8 +348,7 @@ namespace MeoAsstGui
                 StageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
 
                 // reset closed stage1 to "Last/Current"
-                if (!CustomStageCode &&
-                    (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
+                if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
                 {
                     Stage1 = string.Empty;
                 }
@@ -361,8 +365,7 @@ namespace MeoAsstGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (!CustomStageCode &&
-                        (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
+                    if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
                     {
                         Stage1 = string.Empty;
                     }
@@ -1314,12 +1317,12 @@ namespace MeoAsstGui
         {
             get
             {
-                var settingsModel = _container.Get<SettingsViewModel>();
                 if (CustomStageCode)
                 {
                     return Stage1;
                 }
 
+                var settingsModel = _container.Get<SettingsViewModel>();
                 if (settingsModel.UseAlternateStage)
                 {
                     if (IsStageOpen(Stage1))
@@ -1415,6 +1418,11 @@ namespace MeoAsstGui
                 NotCustomStageCode = !value;
                 var settingsModel = _container.Get<SettingsViewModel>();
                 AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
+
+                if (!value)
+                {
+                    UpdateStageList(true);
+                }
             }
         }
 

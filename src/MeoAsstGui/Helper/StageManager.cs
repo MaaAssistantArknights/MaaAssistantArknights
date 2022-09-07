@@ -107,6 +107,11 @@ namespace MeoAsstGui
         /// <returns>Stage info</returns>
         public StageInfo GetStageInfo(string stage)
         {
+            if (stage == null)
+            {
+                return null;
+            }
+
             _stages.TryGetValue(stage, out var stageInfo);
             return stageInfo;
         }
