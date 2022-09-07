@@ -1,9 +1,10 @@
-- 修复 截图 不使用 socket 的问题 @MistEO @dantmnf
-- 修复 自动战斗 干员撤退不了的问题 @MistEO
-- 重构 资源管理相关代码 @MistEO
-- 重构 基础设施部分代码 @zzyyyl @horror-proton
-- 重构 界面 关卡选择、材料选择逻辑 @et2012 @ABA2396
-- 优化 界面样式 @ABA2396 @MistEO
-- 优化 CICD @LiamSho
-- 修复 Copilot 接口 传入中文路径时的错误 @MistEO
-- 整理 开发手册、常见问题文档 @zzyyyl @MistEO @Tastror
+- 新增 仓库识别 导出材料 初版功能 @MistEO
+- 新增 刷理智 关卡导航 全主线关卡支持，请进入设置中开启手动输入选项 @MistEO
+- 重构 Win32 下命令调用及路径转换相关逻辑 @dantmnf
+- 优化 自动战斗 作业编辑器 @LYZhelloworld
+- 优化 界面 材料选择下拉框的逻辑 @et2012
+- 修复 上传数据 空回调导致的崩溃问题 @MistEO
+- 修复 自动战斗 自动编队职业选择时的点击错误 @MistEO
+- 修复 自动战斗 作业不填写标题及简介时，解析失败的问题 @MistEO
+- 修复 HTTP, Logger 工具类的一些问题 @horror-proton @zzyyyl
+- Update Japanese documentation @wallsman
