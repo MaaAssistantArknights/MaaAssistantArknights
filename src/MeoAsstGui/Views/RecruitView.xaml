@@ -27,13 +27,15 @@
                     FontSize="14"
                     Style="{StaticResource TextBlockDefaultBold}"
                     Text="{Binding RecruitInfo}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    Margin="10" />
                 <TextBlock
                     HorizontalAlignment="Left"
                     FontSize="14"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding RecruitResult}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    Margin="10" />
             </StackPanel>
         </ScrollViewer>
         <StackPanel

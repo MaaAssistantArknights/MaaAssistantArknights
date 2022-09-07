@@ -145,14 +145,17 @@ namespace asst
         }
 
         template <typename Stream, typename T, typename Enable = void>
-        struct has_stream_insertion_operator : std::false_type
-        {};
+        static constexpr bool has_stream_insertion_operator = false;
 
         template <typename Stream, typename T>
-        struct has_stream_insertion_operator<Stream, T,
-                                             std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-            : std::true_type
-        {};
+        static constexpr bool has_stream_insertion_operator<
+            Stream, T, std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>> = true;
+
+        template <bool ToAnsi, typename Stream>
+        static Stream& stream_put(Stream& s, std::filesystem::path&& v)
+        {
+            return stream_put<ToAnsi>(s, asst::utils::path_to_utf8_string(v));
+        }
 
         template <bool ToAnsi, typename Stream, typename T>
         static Stream& stream_put(Stream& s, T&& v)
@@ -164,7 +167,7 @@ namespace asst
                     s << std::string(std::forward<T>(v));
                 return s;
             }
-            else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+            else if constexpr (has_stream_insertion_operator<Stream, T>) {
                 s << std::forward<T>(v);
                 return s;
             }
@@ -216,7 +219,7 @@ namespace asst
         template <bool ToAnsi, typename Stream, typename First, typename... Rest>
         struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
         {
-            static constexpr Stream& apply(Stream& s, First f, Rest... rs)
+            static constexpr Stream& apply(Stream& s, First&& f, Rest&&... rs)
             {
                 stream_put<ToAnsi>(s, std::forward<First>(f));
                 s << " ";
@@ -226,7 +229,7 @@ namespace asst
         };
 
         template <bool ToAnsi = false, typename Stream, typename... Args>
-        Stream& stream_put_line(Stream& s, Args... args)
+        Stream& stream_put_line(Stream& s, Args&&... args)
         {
             return stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, std::forward<Args>(args)...);
         }

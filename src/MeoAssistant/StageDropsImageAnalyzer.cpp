@@ -4,6 +4,7 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
 #include "AsstUtils.hpp"
 #include "ItemConfiger.h"
 #include "Logger.hpp"
@@ -18,25 +19,14 @@ bool asst::StageDropsImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
-#ifdef ASST_DEBUG
-    std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
-    std::filesystem::create_directory("debug");
-    cv::imwrite("debug/" + stem + "_raw.png", m_image);
-#endif
-
     analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
     bool ret = analyze_drops();
 
     if (!ret) {
-        save_img();
+        save_img("debug/drops/");
     }
-
-#ifdef ASST_DEBUG
-    cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
-#endif
 
     return ret;
 }

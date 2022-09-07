@@ -6,6 +6,7 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
 #include "BattleDataConfiger.h"
 #include "BattleImageAnalyzer.h"
 #include "Controller.h"
@@ -515,12 +516,7 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         m_total_kills = kills_analyzer.get_total_kills();
     }
 
-#ifdef WIN32
-    cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", image);
-#else
-    cv::imwrite("map/" + m_stage_name + ".png", image);
-#endif
-
+    asst::imwrite("map/" + m_stage_name + ".png", image);
     return true;
 }
 

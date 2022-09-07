@@ -18,6 +18,8 @@
 #include "TaskData.h"
 #include "TilePack.h"
 
+#include "AsstImageIo.hpp"
+
 void asst::BattleProcessTask::set_stage_name(std::string name)
 {
     m_stage_name = std::move(name);
@@ -143,11 +145,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
             std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
             cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
         }
-#ifdef WIN32
-        cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", draw);
-#else
-        cv::imwrite("map/" + m_stage_name + ".png", draw);
-#endif
+        asst::imwrite("map/" + m_stage_name + ".png", draw);
     });
 
     auto opers = oper_analyzer.get_opers();
