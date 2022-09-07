@@ -343,7 +343,8 @@ namespace MeoAsstGui
                 StageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
 
                 // reset closed stage1 to "Last/Current"
-                if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
+                if (!CustomStageCode &&
+                    (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
                 {
                     Stage1 = string.Empty;
                 }
@@ -360,7 +361,8 @@ namespace MeoAsstGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
+                    if (!CustomStageCode &&
+                        (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
                     {
                         Stage1 = string.Empty;
                     }
@@ -1389,7 +1391,8 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+        private bool _alternateStageDisplay = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString))
+            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
