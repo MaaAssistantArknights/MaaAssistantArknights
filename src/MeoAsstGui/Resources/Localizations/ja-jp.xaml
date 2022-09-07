@@ -191,13 +191,13 @@
     <system:String x:Key="AssignedMaterial">素材を限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
-    <system:String x:Key="StageSelect2">実行できない際の代替</system:String>
+    <system:String x:Key="StageSelect2">代替ステージ</system:String>
     <system:String x:Key="Amend">設定の変更</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
-    <system:String x:Key="ClosedStage">終了イベント</system:String><!--動作不明-->
+    <system:String x:Key="ClosedStage">イベント終了</system:String><!--動作不明-->
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5(CE-6)</system:String><!--馴染みのあるステージ名での表記-->
     <system:String x:Key="AP-5">購買資格証-5(AP-5)</system:String><!--馴染みのあるステージ名での表記-->
