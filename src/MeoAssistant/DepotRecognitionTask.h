@@ -17,7 +17,7 @@ namespace asst
         virtual bool _run() override;
 
         bool swipe_and_analyze();
-        void callback_analyze_result();
+        void callback_analyze_result(bool done);
         void swipe();
         std::unordered_map<std::string, ItemInfo> m_all_items;
     };

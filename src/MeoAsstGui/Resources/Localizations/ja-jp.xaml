@@ -246,8 +246,8 @@
     <!--  スタート  -->
 
     <!--  公開求人認識  -->
-    <system:String x:Key="Recognition">公開求人認識</system:String>
-    <system:String x:Key="RecognitionTip">ヒント：これとスタート画面の公開求人は、2つの別々の機能です。使用する前にゲームの公開求人を手動で開いてください～</system:String>
+    <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">ヒント：これとスタート画面の公開求人は、2つの別々の機能です。使用する前にゲームの公開求人を手動で開いてください～</system:String>
     <system:String x:Key="AutoSettingTime">時刻を自動的に設定する</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
@@ -261,7 +261,7 @@
     <!--  公開求人認識  -->
 
     <!--  自動戦闘  -->
-    <system:String x:Key="Copilot">自動戦闘 Beta</system:String>
+    <system:String x:Key="Copilot">自動戦闘</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>

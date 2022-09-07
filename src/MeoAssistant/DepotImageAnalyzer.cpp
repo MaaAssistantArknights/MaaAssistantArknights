@@ -27,8 +27,8 @@ bool asst::DepotImageAnalyzer::analyze()
 
 #ifdef ASST_DEBUG
     m_image_draw = m_image_draw_resized;
-    save_img();
 #endif
+    save_img("debug/depot/");
     return ret;
 }
 
