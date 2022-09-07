@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Input;
 
 namespace MeoAsstGui
 {
@@ -92,18 +93,20 @@ namespace MeoAsstGui
                 culture = Localization.culture;
             }
 
-            var dictionary = new ResourceDictionary
+            var culureList = new string[] { culture, "en-us", "zh-cn", };
+            foreach (var curCulutre in culureList)
             {
-                Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative),
-            };
-            if (dictionary.Contains(key))
-            {
-                return dictionary[key] as string;
+                var dictionary = new ResourceDictionary
+                {
+                    Source = new Uri($@"Resources\Localizations\{curCulutre}.xaml", UriKind.Relative),
+                };
+                if (dictionary.Contains(key))
+                {
+                    return dictionary[key] as string;
+                }
             }
-            else
-            {
-                return $"{{{{ {key} }}}}";
-            }
+
+            return $"{{{{ {key} }}}}";
         }
     }
 }

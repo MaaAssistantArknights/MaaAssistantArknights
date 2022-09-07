@@ -246,8 +246,8 @@
     <!--  一键长草  -->
 
     <!--  公招识别  -->
-    <system:String x:Key="Recognition">💃🍸🍺</system:String>
-    <system:String x:Key="RecognitionTip">🕺💃💃🕺🍺💃🕺🍻🍷🍸🕺🕺🍺🍸🍻🍺🍻🕺🍷🍺🍸</system:String>
+    <system:String x:Key="RecruitmentRecognition">💃🍸🍺</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">🕺💃💃🕺🍺💃🕺🍻🍷🍸🕺🕺🍺🍸🍻🍺🍻🕺🍷🍺🍸</system:String>
     <system:String x:Key="AutoSettingTime">🕺🍸🍸🍻</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">🍻🍺🍺🍻🍷🍷</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">🍺🍺🍸🍻🍻🍻</system:String>

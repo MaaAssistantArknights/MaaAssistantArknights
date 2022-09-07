@@ -246,8 +246,8 @@
     <!--  一鍵長草  -->
 
     <!--  公招辨識  -->
-    <system:String x:Key="Recognition">公招辨識</system:String>
-    <system:String x:Key="RecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用~</system:String>
+    <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
@@ -261,7 +261,7 @@
     <!--  公招辨識  -->
 
     <!--  自動戰鬥  -->
-    <system:String x:Key="Copilot">自動戰鬥 Beta</system:String>
+    <system:String x:Key="Copilot">自動戰鬥</system:String>
     <system:String x:Key="CopilotLocation">作業路徑/神秘代碼</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
