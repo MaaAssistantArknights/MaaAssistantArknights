@@ -1700,6 +1700,18 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        public bool CustomStageCode
+        {
+            get => _customStageCode;
+            set
+            {
+                SetAndNotify(ref _customStageCode, value);
+                ViewStatusStorage.Set("GUI.CustomStageCode", value.ToString());
+            }
+        }
+
         private enum InverseClearType
         {
             Clear,

@@ -144,6 +144,8 @@
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="HideUnavailableStage">關卡選擇隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
+    <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
+    <system:String x:Key="CustomStageCodeTip">支持所有主線關卡名 + 原列表中的關卡名（如 4-10、6-16 等）</system:String>
 
     <system:String x:Key="ADBTip">小提示：這裡會自動檢測的，若出現問題可再嘗試修改，否則不需要自行填寫</system:String>
     <system:String x:Key="ADBPath">adb 路徑 (相對/絕對)</system:String>

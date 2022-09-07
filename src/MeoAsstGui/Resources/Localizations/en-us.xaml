@@ -144,6 +144,8 @@
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
+    <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
+    <system:String x:Key="CustomStageCodeTip">Support all main line level names + level names from the original list (e.g. 4-10, 6-16, etc.)</system:String>
 
     <system:String x:Key="ADBTip">Tip: It will be automatically detected here. If there is an error, you can try to modify it again, otherwise you do not need to fill in it yourself</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
