@@ -1409,6 +1409,8 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _customStageCode, value);
                 NotCustomStageCode = !value;
+                var settingsModel = _container.Get<SettingsViewModel>();
+                AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
             }
         }
 
