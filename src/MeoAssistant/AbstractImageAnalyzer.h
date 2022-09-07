@@ -28,10 +28,10 @@ namespace asst
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
 
+        bool save_img(const std::string& dirname = "debug/");
+
     protected:
         static Rect empty_rect_to_full(const Rect& rect, const cv::Mat& image) noexcept;
-
-        bool save_img();
 
         cv::Mat m_image;
         Rect m_roi;

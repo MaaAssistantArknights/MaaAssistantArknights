@@ -56,6 +56,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <DocumentationFile>..\..\x64\Release\MeoAsstGui.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RelWithDebInfo|x64'">
     <OutputPath>..\..\x64\RelWithDebInfo\</OutputPath>
@@ -65,6 +66,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <!-- StyleCop -->
   <PropertyGroup>
@@ -106,6 +108,7 @@
     <Compile Include="Helper\AsstProxy.cs" />
     <Compile Include="Helper\AutoScroll.cs" />
     <Compile Include="Helper\CombData.cs" />
+    <Compile Include="Helper\ComboBoxExtensions.cs" />
     <Compile Include="Helper\GenericCombData{TValueType}.cs" />
     <Compile Include="Helper\Localization.cs" />
     <Compile Include="Helper\LogColor.cs" />
@@ -157,6 +160,7 @@
     <Compile Include="UserControl\VersionUpdateSettingsUserControl.xaml.cs">
       <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DepotViewModel.cs" />
     <Compile Include="ViewModels\StartSelfModel.cs" />
     <Compile Include="ViewModels\RecruitViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
@@ -238,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CopilotView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DepotView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

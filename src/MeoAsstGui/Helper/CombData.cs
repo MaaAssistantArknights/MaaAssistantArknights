@@ -18,5 +18,7 @@ namespace MeoAsstGui
     /// </summary>
     public class CombData : GenericCombData<string>
     {
+        /// <inheritdoc/>
+        public override string ToString() => Display;
     }
 }

@@ -144,6 +144,8 @@
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
+    <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
+    <system:String x:Key="CustomStageCodeTip">Support all main line level names + level names from the original list (e.g. 4-10, 6-16, etc.)</system:String>
 
     <system:String x:Key="ADBTip">Tip: It will be automatically detected here. If there is an error, you can try to modify it again, otherwise you do not need to fill in it yourself</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
@@ -243,23 +245,33 @@
     <!--  Logs  -->
     <!--  Farming  -->
 
-    <!--  Recognition  -->
-    <system:String x:Key="Recognition">Recruit tools</system:String>
-    <system:String x:Key="RecognitionTip">Tip: this Recognition is independent from main tab(Farming); need open up in game recruit tag selection screen then begin ~</system:String>
+    <!--  Recruitment Recognition  -->
+    <system:String x:Key="RecruitmentRecognition">Recruit tool</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">Auto select 6 ★ Tags</system:String>
     <system:String x:Key="BeganToRecruit">Begin To Recruit</system:String>
+    <!--  Recruitment Recognition  -->
+
+    <!--  Depot Recognition  -->
+    <system:String x:Key="DepotRecognition">Depot tool alpha</system:String>
+    <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
+    <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
+    <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
+    <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
+    <system:String x:Key="CopiedToClipboard">Copied to clipboard</system:String>
+    <!--  Depot Recognition  -->
 
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying...</system:String>
+    <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
     <!--  Logs  -->
-    <!--  Recognition  -->
 
     <!--  Copilot  -->
-    <system:String x:Key="Copilot">Copilot Beta</system:String>
+    <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / url</system:String>
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse (oﾟvﾟ)ノ</system:String>

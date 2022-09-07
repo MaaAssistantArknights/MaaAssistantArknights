@@ -19,7 +19,11 @@ export type ActionType =
 /** 方向 */
 export type Direction = "Left" | "Right" | "Up" | "Down" | "None";
 
-/** 自动战斗数据 */
+/**
+ * 自动战斗数据
+ *
+ * @see {@link https://github.com/MaaAssistantArknights/maa-copilot-frontend/blob/main/src/models/copilot.schema.json}
+ */
 export default interface CopilotData {
   /** 关卡名，必选。除危机合约外，均为关卡中文名 */
   stage_name: string;
@@ -115,15 +119,4 @@ export interface Documentation {
   title_color?: string;
   details?: string;
   details_color?: string;
-}
-
-/** 创建空的战斗数据 */
-export function createEmptyCopilotData(): CopilotData {
-  return {
-    stage_name: "",
-    opers: [],
-    groups: [],
-    actions: [],
-    minimum_required: "v4.0",
-  };
 }

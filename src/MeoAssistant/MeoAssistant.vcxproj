@@ -21,7 +21,10 @@
     <ClInclude Include="AbstractTaskPlugin.h" />
     <ClInclude Include="Assistant.h" />
     <ClInclude Include="AsstHttp.hpp" />
+    <ClInclude Include="AsstImageIo.hpp" />
     <ClInclude Include="AsstInfrastDef.h" />
+    <ClInclude Include="AsstPlatformPosix.h" />
+    <ClInclude Include="AsstPlatformWin32.h" />
     <ClInclude Include="AsstUtils.hpp" />
     <ClInclude Include="AsstTypes.h" />
     <ClInclude Include="AsstMsg.h" />
@@ -101,6 +104,7 @@
     <ClInclude Include="RoguelikeTask.h" />
     <ClInclude Include="RuntimeStatus.h" />
     <ClInclude Include="SingletonHolder.hpp" />
+    <ClInclude Include="SafeWindows.h" />
     <ClInclude Include="StageDropsConfiger.h" />
     <ClInclude Include="StageDropsImageAnalyzer.h" />
     <ClInclude Include="StageDropsTaskPlugin.h" />
@@ -121,6 +125,8 @@
     <ClCompile Include="AbstractImageAnalyzer.cpp" />
     <ClCompile Include="AbstractTask.cpp" />
     <ClCompile Include="AbstractTaskPlugin.cpp" />
+    <ClCompile Include="AsstPlatformWin32.cpp" />
+    <ClCompile Include="AsstPlatformPosix.cpp" />
     <ClCompile Include="AutoRecruitTask.cpp" />
     <ClCompile Include="AwardTask.cpp" />
     <ClCompile Include="BattleDataConfiger.cpp" />

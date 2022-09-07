@@ -6,6 +6,7 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
 #include "Logger.hpp"
 
 void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept
@@ -19,12 +20,12 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     Log.info("load", path);
 
     for (const std::string& filename : m_templs_filename) {
-        std::filesystem::path filepath(path / filename);
+        std::filesystem::path filepath(path / asst::utils::path(filename));
         if (!filepath.has_extension()) {
-            filepath.replace_extension(".png");
+            filepath.replace_extension(asst::utils::path(".png"));
         }
         if (std::filesystem::exists(filepath)) {
-            cv::Mat templ = cv::imread(filepath.string());
+            cv::Mat templ = asst::imread(filepath);
             insert_or_assign_templ(filename, std::move(templ));
         }
         else if (m_loaded) {

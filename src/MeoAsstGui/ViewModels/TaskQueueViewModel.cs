@@ -22,6 +22,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using MeoAsstGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -341,7 +343,8 @@ namespace MeoAsstGui
                 StageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
 
                 // reset closed stage1 to "Last/Current"
-                if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
+                if (!CustomStageCode &&
+                    (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
                 {
                     Stage1 = string.Empty;
                 }
@@ -358,7 +361,8 @@ namespace MeoAsstGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
+                    if (!CustomStageCode &&
+                        (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
                     {
                         Stage1 = string.Empty;
                     }
@@ -1310,27 +1314,32 @@ namespace MeoAsstGui
             get
             {
                 var settingsModel = _container.Get<SettingsViewModel>();
+                if (CustomStageCode)
+                {
+                    return Stage1;
+                }
+
                 if (settingsModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(_stage1))
+                    if (IsStageOpen(Stage1))
                     {
-                        return _stage1;
+                        return Stage1;
                     }
 
-                    if (IsStageOpen(_stage2))
+                    if (IsStageOpen(Stage2))
                     {
-                        return _stage2;
+                        return Stage2;
                     }
 
-                    if (IsStageOpen(_stage3))
+                    if (IsStageOpen(Stage3))
                     {
-                        return _stage3;
+                        return Stage3;
                     }
 
                     return string.Empty;
                 }
 
-                return IsStageOpen(_stage1) ? _stage1 : string.Empty;
+                return IsStageOpen(Stage1) ? Stage1 : string.Empty;
             }
         }
 
@@ -1382,7 +1391,8 @@ namespace MeoAsstGui
             }
         }
 
-        private bool _alternateStageDisplay = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+        private bool _alternateStageDisplay = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString))
+            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
@@ -1391,6 +1401,28 @@ namespace MeoAsstGui
         {
             get => _alternateStageDisplay;
             set => SetAndNotify(ref _alternateStageDisplay, value);
+        }
+
+        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        public bool CustomStageCode
+        {
+            get => _customStageCode;
+            set
+            {
+                SetAndNotify(ref _customStageCode, value);
+                NotCustomStageCode = !value;
+                var settingsModel = _container.Get<SettingsViewModel>();
+                AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
+            }
+        }
+
+        private bool _notCustomStageCode = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        public bool NotCustomStageCode
+        {
+            get => _notCustomStageCode;
+            set => SetAndNotify(ref _notCustomStageCode, value);
         }
 
         private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
@@ -1487,6 +1519,8 @@ namespace MeoAsstGui
             }
         }
 
+        #region Drops
+
         private bool _isSpecifiedDrops = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
 
         /// <summary>
@@ -1552,7 +1586,7 @@ namespace MeoAsstGui
         /// </summary>
         public ObservableCollection<CombData> DropsList { get; set; }
 
-        private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", "0");
+        private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", string.Empty);
 
         /// <summary>
         /// Gets or sets the item ID of drops.
@@ -1562,11 +1596,6 @@ namespace MeoAsstGui
             get => _dropsItemId;
             set
             {
-                if (value == null)
-                {
-                    return;
-                }
-
                 SetAndNotify(ref _dropsItemId, value);
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
@@ -1599,15 +1628,6 @@ namespace MeoAsstGui
                 }
 
                 _preSetDropsItemTicks = DateTime.Now.Ticks;
-                DropsList.Clear();
-                foreach (CombData drop in AllDrops)
-                {
-                    var enumStr = drop.Display;
-                    if (enumStr.Contains(value))
-                    {
-                        DropsList.Add(drop);
-                    }
-                }
 
                 SetAndNotify(ref _dropsItem, value);
             }
@@ -1638,5 +1658,17 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
             }
         }
+
+        /// <summary>
+        /// DropsList ComboBox loaded
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event args</param>
+        public void DropsList_Loaded(object sender, EventArgs e)
+        {
+            (sender as ComboBox)?.MakeComboBoxSearchable();
+        }
+
+        #endregion Drops
     }
 }
