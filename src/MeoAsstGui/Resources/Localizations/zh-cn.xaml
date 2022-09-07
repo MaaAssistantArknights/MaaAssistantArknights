@@ -246,22 +246,32 @@
     <!--  一键长草  -->
 
     <!--  公招识别  -->
-    <system:String x:Key="Recognition">公招识别</system:String>
-    <system:String x:Key="RecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
+    <system:String x:Key="RecruitmentRecognition">公招识别</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
     <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自动选择 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自动选择 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自动选择 5 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自动选择 6 星 Tags</system:String>
     <system:String x:Key="BeganToRecruit">开始识别</system:String>
+    <!--  公招识别  -->
+
+    <!--  仓库识别  -->
+    <system:String x:Key="DepotRecognition">仓库识别 Alpha</system:String>
+    <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
+    <system:String x:Key="BeganToDepotRecognition">开始识别</system:String>
+    <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
+    <system:String x:Key="ExportToLolicon">导出至明日方舟工具箱</system:String>
+    <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
+    <!--  仓库识别  -->
 
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
+    <system:String x:Key="IdentificationCompleted">识别完成</system:String>
     <!--  日志  -->
-    <!--  公招识别  -->
 
     <!--  自动战斗  -->
-    <system:String x:Key="Copilot">自动战斗 Beta</system:String>
+    <system:String x:Key="Copilot">自动战斗</system:String>
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>

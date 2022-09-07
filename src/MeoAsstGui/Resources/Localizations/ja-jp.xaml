@@ -261,7 +261,7 @@
     <!--  公開求人認識  -->
 
     <!--  自動戦闘  -->
-    <system:String x:Key="Copilot">自動戦闘 Beta</system:String>
+    <system:String x:Key="Copilot">自動戦闘</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>

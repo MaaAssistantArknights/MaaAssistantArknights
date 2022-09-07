@@ -56,7 +56,6 @@ namespace MeoAsstGui
 
                 return buf;
             }
-
         }
 
         [DllImport("MeoAssistant.dll")]
@@ -459,7 +458,8 @@ namespace MeoAsstGui
                         var unique_finished_task = (TaskId)finished_tasks[0];
                         if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -685,8 +685,14 @@ namespace MeoAsstGui
                 ProcRecruitCalcMsg(details);
             }
 
-            string what = details["what"].ToString();
             var subTaskDetails = details["details"];
+            if (taskChain == "Depot")
+            {
+                var depotModel = _container.Get<DepotViewModel>();
+                depotModel.Parse((JObject)subTaskDetails);
+            }
+
+            string what = details["what"].ToString();
 
             var mainModel = _container.Get<TaskQueueViewModel>();
             var copilotModel = _container.Get<CopilotViewModel>();
@@ -1050,6 +1056,7 @@ namespace MeoAsstGui
             Roguelike,
             RecruitCalc,
             Copilot,
+            Depot,
         }
 
         private readonly Dictionary<TaskType, TaskId> _latestTaskId = new Dictionary<TaskType, TaskId>();
@@ -1340,6 +1347,18 @@ namespace MeoAsstGui
 
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.RecruitCalc] = id;
+            return id != 0 && AsstStart();
+        }
+
+        /// <summary>
+        /// 仓库识别。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstStartDepot()
+        {
+            var task_params = new JObject();
+            TaskId id = AsstAppendTaskWithEncoding("Depot", task_params);
+            _latestTaskId[TaskType.Depot] = id;
             return id != 0 && AsstStart();
         }
 

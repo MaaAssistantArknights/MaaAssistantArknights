@@ -160,6 +160,7 @@
     <Compile Include="UserControl\VersionUpdateSettingsUserControl.xaml.cs">
       <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DepotViewModel.cs" />
     <Compile Include="ViewModels\StartSelfModel.cs" />
     <Compile Include="ViewModels\RecruitViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
@@ -241,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CopilotView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DepotView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

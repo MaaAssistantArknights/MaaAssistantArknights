@@ -58,21 +58,20 @@ namespace MeoAsstGui
 
         private void InitViewModels()
         {
-            var tvm = _container.Get<TaskQueueViewModel>();
-            var rvm = _container.Get<RecruitViewModel>();
+            var farming = _container.Get<TaskQueueViewModel>();
+            var recruit = _container.Get<RecruitViewModel>();
+            var settings = _container.Get<SettingsViewModel>();
+            var copilot = _container.Get<CopilotViewModel>();
+            var depot = _container.Get<DepotViewModel>();
 
-            // var ivm = _container.Get<InfrastViewModel>();
-            var svm = _container.Get<SettingsViewModel>();
-            var cvm = _container.Get<CopilotViewModel>();
+            Items.Add(farming);
+            Items.Add(copilot);
+            Items.Add(recruit);
+            Items.Add(depot);
+            Items.Add(settings);
 
-            Items.Add(tvm);
-            Items.Add(rvm);
-
-            // Items.Add(ivm);
-            Items.Add(cvm);
-            Items.Add(svm);
-            svm.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(svm)之后执行。
-            ActiveItem = tvm;
+            settings.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
+            ActiveItem = farming;
         }
 
         private bool CheckAndUpdateNow()
