@@ -144,6 +144,8 @@
     <system:String x:Key="UseAlternateStage">대체 검문소를 사용합니다</system:String>
     <system:String x:Key="HideUnavailableStage">당일 스테이지만 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 왼쪽의 버튼</system:String>
+    <system:String x:Key="CustomStageCode">레벨 코드를 수동으로 입력</system:String>
+    <system:String x:Key="CustomStageCodeTip">모든 메인라인 레벨 이름 + 원래 목록의 레벨 이름 지원(예: 4-10, 6-16 등)</system:String>
 
     <system:String x:Key="ADBTip">팁: 여기에서 자동으로 감지됩니다. 오류가 있는 경우 다시 수정을 시도할 수 있습니다. 그렇지 않으면 직접 입력할 필요가 없습니다.</system:String>
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>

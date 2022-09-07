@@ -144,6 +144,8 @@
     <system:String x:Key="UseAlternateStage">🍻🍸🍷🍺🍸</system:String>
     <system:String x:Key="HideUnavailableStage">🍻🍸🍷🍺🍺🍸🍸</system:String>
     <system:String x:Key="MainViewButtonFeature">🍷🍺🍻🍺🍸🍺</system:String>
+    <system:String x:Key="CustomStageCode">🍺🍻🍷🍻🍷🍻🍷</system:String>
+    <system:String x:Key="CustomStageCodeTip">🍻💃🍻🍸🍷🍸🍷🍷💃🍸🍻💃🍷🍺🍺🍸🍷🕺🍷🍷🍷🕺🍻🍷🍸</system:String>
 
     <system:String x:Key="ADBTip">🍸🍻🍻🍸🍸🍻💃🍻🍸🍷🍸🍷🍷💃🍸🍻💃🍷🍺🍺🍸🍷🕺🍷🍷🍷🕺🍻🍷🍸💃🕺🍸🍷🍺</system:String>
     <system:String x:Key="ADBPath">🕺💃🍸🍷🍸💃🍸</system:String>

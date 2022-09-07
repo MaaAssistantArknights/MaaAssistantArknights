@@ -1312,27 +1312,32 @@ namespace MeoAsstGui
             get
             {
                 var settingsModel = _container.Get<SettingsViewModel>();
+                if (CustomStageCode)
+                {
+                    return Stage1;
+                }
+
                 if (settingsModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(_stage1))
+                    if (IsStageOpen(Stage1))
                     {
-                        return _stage1;
+                        return Stage1;
                     }
 
-                    if (IsStageOpen(_stage2))
+                    if (IsStageOpen(Stage2))
                     {
-                        return _stage2;
+                        return Stage2;
                     }
 
-                    if (IsStageOpen(_stage3))
+                    if (IsStageOpen(Stage3))
                     {
-                        return _stage3;
+                        return Stage3;
                     }
 
                     return string.Empty;
                 }
 
-                return IsStageOpen(_stage1) ? _stage1 : string.Empty;
+                return IsStageOpen(Stage1) ? Stage1 : string.Empty;
             }
         }
 
@@ -1393,6 +1398,26 @@ namespace MeoAsstGui
         {
             get => _alternateStageDisplay;
             set => SetAndNotify(ref _alternateStageDisplay, value);
+        }
+
+        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        public bool CustomStageCode
+        {
+            get => _customStageCode;
+            set
+            {
+                SetAndNotify(ref _customStageCode, value);
+                NotCustomStageCode = !value;
+            }
+        }
+
+        private bool _notCustomStageCode = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        public bool NotCustomStageCode
+        {
+            get => _notCustomStageCode;
+            set => SetAndNotify(ref _notCustomStageCode, value);
         }
 
         private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
