@@ -363,7 +363,8 @@
                 "template": "Bskill_ctrl_ussg.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Dorm": {
         "skills": {
@@ -1930,7 +1931,8 @@
                 "template": "Bskill_hire_spd_memento.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Power": {
         "maxNumOfOpers": 1,
@@ -2048,7 +2050,8 @@
                 "template": "Bskill_pow_spd3.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Reception": {
         "Doc": "会客室",
@@ -2356,7 +2359,8 @@
                 "template": "Bskill_meet_ursus2.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Trade": {
         "maxNumOfOpers": 3,
@@ -2936,7 +2940,8 @@
                         ]
                     }
                 ],
-                "optional": []
+                "optional": [
+                ]
             },
             {
                 "allowExternal": true,

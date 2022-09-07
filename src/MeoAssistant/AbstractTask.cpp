@@ -9,6 +9,7 @@
 #include "NoWarningCV.h"
 
 #include "AbstractTaskPlugin.h"
+#include "AsstImageIo.hpp"
 #include "AsstUtils.hpp"
 #include "Controller.h"
 #include "GeneralConfiger.h"
@@ -180,7 +181,9 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
             break;
         }
     }
-    m_callback(msg, detail, m_callback_arg);
+    if (m_callback) {
+        m_callback(msg, detail, m_callback_arg);
+    }
 }
 
 void asst::AbstractTask::click_return_button()
@@ -193,5 +196,5 @@ void asst::AbstractTask::save_image()
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
-    cv::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
+    asst::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
 }

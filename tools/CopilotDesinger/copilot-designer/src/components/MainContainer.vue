@@ -10,16 +10,22 @@
         <StageName :value="data.stage_name" @update="updateStageName" />
       </div>
       <div class="col-12">
-        <StageTitle :value="data.doc?.title" @update="updateStageTitle" />
+        <StageTitle :value="data.doc?.title ?? ''" @update="updateStageTitle" />
       </div>
       <div class="col-12">
-        <StageDetails :value="data.doc?.details" @update="updateStageDetails" />
+        <StageDetails
+          :value="data.doc?.details ?? ''"
+          @update="updateStageDetails"
+        />
       </div>
       <div class="col-12">
-        <GroupComponent :groups="data.groups" @update="updateGroups" />
+        <GroupComponent :groups="data.groups ?? []" @update="updateGroups" />
       </div>
       <div class="col-12">
-        <OperatorComponent :operators="data.opers" @update="updateOperators" />
+        <OperatorComponent
+          :operators="data.opers ?? []"
+          @update="updateOperators"
+        />
       </div>
       <div class="col-12">
         <ActionList :actions="data.actions" @update="updateActions" />
@@ -42,13 +48,9 @@ import StageDetails from "./StageDetails.vue";
 import GroupComponent from "./GroupComponent.vue";
 import OperatorComponent from "./OperatorComponent.vue";
 import ActionList from "./ActionList.vue";
-import CopilotData, {
-  Action,
-  createEmptyCopilotData,
-  Group,
-  Operator,
-} from "@/interfaces/CopilotData";
+import CopilotData, { Action, Group, Operator } from "@/interfaces/CopilotData";
 import { CharacterList } from "@/misc/Characters";
+import { createEmptyCopilotData } from "@/utils/CopilotDataChecker";
 
 export default defineComponent({
   components: {

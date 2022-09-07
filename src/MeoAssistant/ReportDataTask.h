@@ -21,7 +21,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~ReportDataTask() noexcept override = default;
+        virtual ~ReportDataTask() override;
 
         ReportDataTask& set_report_type(ReportType type);
 
@@ -46,6 +46,6 @@ namespace asst
         ReportType m_report_type = ReportType::Invaild;
         std::string m_body;
         std::string m_extra_param;
-        static std::vector<std::future<void>> m_upload_pending;
+        std::vector<std::future<void>> m_upload_pending;
     };
 } // namespace asst

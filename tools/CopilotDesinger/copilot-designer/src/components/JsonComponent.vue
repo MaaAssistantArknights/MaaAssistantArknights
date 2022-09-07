@@ -12,7 +12,8 @@
 </template>
 
 <script lang="ts">
-import CopilotData, { createEmptyCopilotData } from "@/interfaces/CopilotData";
+import CopilotData from "@/interfaces/CopilotData";
+import { checkCopilotData } from "@/utils/CopilotDataChecker";
 import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
@@ -35,10 +36,7 @@ export default defineComponent({
       reader.onload = () => {
         try {
           const newData = JSON.parse(reader.result as string);
-          this.$emit("loadData", {
-            ...createEmptyCopilotData(),
-            ...newData,
-          } as CopilotData);
+          this.$emit("loadData", checkCopilotData(newData));
         } catch (e) {
           if (e instanceof Error) {
             window.alert("读取 JSON 时发生错误：\n" + e.message);

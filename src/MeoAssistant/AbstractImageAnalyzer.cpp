@@ -2,6 +2,7 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
 #include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"
@@ -70,10 +71,10 @@ bool asst::AbstractImageAnalyzer::save_img()
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
-    bool ret = cv::imwrite("debug/" + stem + "_raw.png", m_image);
+    bool ret = asst::imwrite("debug/" + stem + "_raw.png", m_image);
 
 #ifdef ASST_DEBUG
-    cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
+    asst::imwrite("debug/" + stem + "_draw.png", m_image_draw);
 #endif
 
     return ret;

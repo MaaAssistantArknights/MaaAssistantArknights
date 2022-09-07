@@ -42,12 +42,32 @@ namespace MeoAsstGui
 
         private delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
 
-        [DllImport("MeoAssistant.dll")]
-        private static extern bool AsstLoadResource(byte[] dirname);
-
-        private static bool AsstLoadResource(string dirname)
+        private static unsafe byte[] EncodeNullTerminatedUTF8(string s)
         {
-            return AsstLoadResource(Encoding.UTF8.GetBytes(dirname));
+            var enc = Encoding.UTF8.GetEncoder();
+            fixed (char* c = s)
+            {
+                var len = enc.GetByteCount(c, s.Length, true);
+                var buf = new byte[len + 1];
+                fixed (byte* ptr = buf)
+                {
+                    enc.Convert(c, s.Length, ptr, len, true, out _, out _, out var completed);
+                }
+
+                return buf;
+            }
+
+        }
+
+        [DllImport("MeoAssistant.dll")]
+        private static extern unsafe bool AsstLoadResource(byte* dirname);
+
+        private static unsafe bool AsstLoadResource(string dirname)
+        {
+            fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
+            {
+                return AsstLoadResource(ptr);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
@@ -60,27 +80,39 @@ namespace MeoAsstGui
         private static extern void AsstDestroy(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")]
-        private static extern bool AsstConnect(AsstHandle handle, byte[] adb_path, byte[] address, byte[] config);
+        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adb_path, byte* address, byte* config);
 
-        private static bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
+        private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
         {
-            return AsstConnect(handle, Encoding.UTF8.GetBytes(adb_path), Encoding.UTF8.GetBytes(address), Encoding.UTF8.GetBytes(config));
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adb_path),
+                ptr2 = EncodeNullTerminatedUTF8(address),
+                ptr3 = EncodeNullTerminatedUTF8(config))
+            {
+                return AsstConnect(handle, ptr1, ptr2, ptr3);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
-        private static extern TaskId AsstAppendTask(AsstHandle handle, byte[] type, byte[] task_params);
+        private static extern unsafe TaskId AsstAppendTask(AsstHandle handle, byte* type, byte* task_params);
 
-        private static TaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
+        private static unsafe TaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
         {
-            return AsstAppendTask(handle, Encoding.UTF8.GetBytes(type), Encoding.UTF8.GetBytes(task_params));
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(type),
+                ptr2 = EncodeNullTerminatedUTF8(task_params))
+            {
+                return AsstAppendTask(handle, ptr1, ptr2);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
-        private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte[] task_params);
+        private static extern unsafe bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte* task_params);
 
-        private static bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params)
+        private static unsafe bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params)
         {
-            return AsstSetTaskParams(handle, id, Encoding.UTF8.GetBytes(task_params));
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(task_params))
+            {
+                return AsstSetTaskParams(handle, id, ptr1);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
@@ -90,15 +122,19 @@ namespace MeoAsstGui
         private static extern bool AsstStop(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")]
-        private static extern void AsstLog(byte[] level, byte[] message);
+        private static extern unsafe void AsstLog(byte* level, byte* message);
 
         /// <summary>
         /// 记录日志。
         /// </summary>
         /// <param name="message">日志内容。</param>
-        public static void AsstLog(string message)
+        public static unsafe void AsstLog(string message)
         {
-            AsstLog(Encoding.UTF8.GetBytes("GUI"), Encoding.UTF8.GetBytes(message));
+            var level = new ReadOnlySpan<byte>(new byte[] { (byte)'G', (byte)'U', (byte)'I', 0 });
+            fixed (byte* ptr1 = level, ptr2 = EncodeNullTerminatedUTF8(message))
+            {
+                AsstLog(ptr1, ptr2);
+            }
         }
 
         private readonly CallbackDelegate _callback;
@@ -225,8 +261,8 @@ namespace MeoAsstGui
         /// The function returns the length of the string, in characters.
         /// If <paramref name="ptr"/> is <see cref="IntPtr.Zero"/>, the function returns <c>0</c>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
-        internal static extern int lstrlenA(IntPtr ptr);
+        [DllImport("ucrtbase.dll", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int strlen(IntPtr ptr);
 
         private static string PtrToStringCustom(IntPtr ptr, Encoding enc)
         {
@@ -235,14 +271,15 @@ namespace MeoAsstGui
                 return null;
             }
 
-            if (lstrlenA(ptr) == 0)
+            int len = strlen(ptr);
+
+            if (len == 0)
             {
                 return string.Empty;
             }
 
-            int len = lstrlenA(ptr);
-            byte[] bytes = new byte[len + 1];
-            Marshal.Copy(ptr, bytes, 0, len + 1);
+            byte[] bytes = new byte[len];
+            Marshal.Copy(ptr, bytes, 0, len);
             return enc.GetString(bytes);
         }
 
@@ -1025,7 +1062,7 @@ namespace MeoAsstGui
             task_params["stone"] = max_stone;
             task_params["times"] = max_times;
             task_params["report_to_penguin"] = true;
-            if (drops_item_quantity != 0)
+            if (drops_item_quantity != 0 && !string.IsNullOrWhiteSpace(drops_item_id))
             {
                 task_params["drops"] = new JObject();
                 task_params["drops"][drops_item_id] = drops_item_quantity;
