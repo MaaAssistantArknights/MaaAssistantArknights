@@ -56,7 +56,7 @@ namespace MeoAsstGui
         /// <param name="tipKey">Localization key of tip</param>
         /// <param name="openDays">Open days of week</param>
         /// <param name="activity">Associated activity</param>
-        public StageInfo(string name, string tipKey, IEnumerable<DayOfWeek> openDays, StageActivityInfo activity)
+        public StageInfo(string name, string tipKey, IEnumerable<DayOfWeek> openDays = null, StageActivityInfo activity = null)
         {
             Value = name;
             Display = Localization.GetString(name);

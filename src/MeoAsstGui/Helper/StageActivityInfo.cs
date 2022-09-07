@@ -26,9 +26,19 @@ namespace MeoAsstGui
         public string Tip { get; set; }
 
         /// <summary>
-        /// Gets or sets the activity UTC expire time
+        /// Gets or sets the client type
         /// </summary>
-        public DateTime UtcExpireTime { get; set; }
+        public string ClientType { get; set; } = "Official";
+
+        /// <summary>
+        /// Gets or sets a <seealso cref="DateTimeOffset"/> object indicates the start time, expressed as UTC.
+        /// </summary>
+        public DateTimeOffset UtcStartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <seealso cref="DateTimeOffset"/> object indicates the expire time, expressed as UTC.
+        /// </summary>
+        public DateTimeOffset UtcExpireTime { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the activity is a resource collection activity
@@ -40,8 +50,18 @@ namespace MeoAsstGui
         public bool IsResourceCollection { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the activity is started
+        /// </summary>
+        public bool IsStarted => DateTimeOffset.UtcNow >= UtcStartTime;
+
+        /// <summary>
         /// Gets a value indicating whether the activity is expired
         /// </summary>
-        public bool IsExpired => DateTime.UtcNow >= UtcExpireTime;
+        public bool IsExpired => DateTimeOffset.UtcNow >= UtcExpireTime;
+
+        /// <summary>
+        /// Gets a value indicating whether the activity is open (started and not expired)
+        /// </summary>
+        public bool IsOpen => IsStarted && !IsExpired;
     }
 }

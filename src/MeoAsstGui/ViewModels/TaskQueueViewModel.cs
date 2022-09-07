@@ -409,6 +409,7 @@ namespace MeoAsstGui
         /// </summary>
         public void UpdateDatePrompt()
         {
+            var settings = _container.Get<SettingsViewModel>();
             var builder = new StringBuilder(Localization.GetString("TodaysStageTip") + "\n");
 
             // Closed activity stages
@@ -422,7 +423,7 @@ namespace MeoAsstGui
             }
 
             // Open stages today
-            var openStages = _stageManager.GetStageTips(_curDayOfWeek);
+            var openStages = _stageManager.GetStageTips(_curDayOfWeek, settings.ClientType);
             if (!string.IsNullOrEmpty(openStages))
             {
                 builder.Append(openStages);
