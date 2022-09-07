@@ -22,6 +22,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using MeoAsstGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -1487,6 +1489,8 @@ namespace MeoAsstGui
             }
         }
 
+        #region Drops
+
         private bool _isSpecifiedDrops = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
 
         /// <summary>
@@ -1552,7 +1556,7 @@ namespace MeoAsstGui
         /// </summary>
         public ObservableCollection<CombData> DropsList { get; set; }
 
-        private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", "0");
+        private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", string.Empty);
 
         /// <summary>
         /// Gets or sets the item ID of drops.
@@ -1562,11 +1566,6 @@ namespace MeoAsstGui
             get => _dropsItemId;
             set
             {
-                if (value == null)
-                {
-                    return;
-                }
-
                 SetAndNotify(ref _dropsItemId, value);
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
@@ -1599,15 +1598,6 @@ namespace MeoAsstGui
                 }
 
                 _preSetDropsItemTicks = DateTime.Now.Ticks;
-                DropsList.Clear();
-                foreach (CombData drop in AllDrops)
-                {
-                    var enumStr = drop.Display;
-                    if (enumStr.Contains(value))
-                    {
-                        DropsList.Add(drop);
-                    }
-                }
 
                 SetAndNotify(ref _dropsItem, value);
             }
@@ -1638,5 +1628,17 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
             }
         }
+
+        /// <summary>
+        /// DropsList ComboBox loaded
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event args</param>
+        public void DropsList_Loaded(object sender, EventArgs e)
+        {
+            (sender as ComboBox)?.MakeComboBoxSearchable();
+        }
+
+        #endregion Drops
     }
 }
