@@ -112,13 +112,18 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
         else if (!retry_cond(response)) {
             break;
         }
+        else {
+            Log.trace("retrying... | why:", response.get_last_error(), "status_code:", response.status_code());
+        }
     }
 
     cb_info["why"] = "上报失败";
-    cb_info["details"] = json::object { { "error", response.get_last_error() },
-                                        { "status_code", response.status_code() },
-                                        { "status_code_info", std::string(response.status_code_info()) },
-                                        { "response", std::string(response.data()) } };
+    cb_info["details"] = json::object {
+        { "error", response.get_last_error() },
+        { "status_code", response.status_code() },
+        { "status_code_info", std::string(response.status_code_info()) },
+        { "response", std::string(response.body()) },
+    };
 
     callback(AsstMsg::SubTaskError, cb_info);
 
@@ -127,22 +132,24 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
 
 asst::http::Response asst::ReportDataTask::escape_and_request(const std::string& format)
 {
-    LogTraceFunction;
-
-    std::string body_escape = utils::string_replace_all(m_body, { { "\"", "\\\"" } });
+    std::string body_escape = utils::string_replace_all(m_body, "\"", "\\\"");
 
 #ifdef _WIN32
-    std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
-#else
-    std::string body_escapes = body_escape;
+    body_escape = utils::utf8_to_unicode_escape(body_escape);
 #endif
 
     std::string cmd_line =
-        utils::string_replace_all(format, { { "[body]", body_escapes }, { "[extra]", m_extra_param } });
+        utils::string_replace_all(format, { { "[body]", body_escape }, { "[extra]", m_extra_param } });
 
-    Log.info("request:\n", cmd_line);
-    http::Response response = utils::callcmd(cmd_line);
-    Log.info("response:\n", response);
+    Log.info("request:\n" + cmd_line);
+    std::string response = utils::callcmd(cmd_line);
+    Log.info("response:\n" + response);
+
+    // Log.info("response:\n" + utils::string_replace_all(response, {
+    //                                                                  { "\n", " [LF]\n" },
+    //                                                                  { "\r [LF]\n", " [CRLF]\n" },
+    //                                                                  { "\r", " [CR]\n" },
+    //                                                              }));
 
     return response;
 }

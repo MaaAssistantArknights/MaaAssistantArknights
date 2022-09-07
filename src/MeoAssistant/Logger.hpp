@@ -145,14 +145,11 @@ namespace asst
         }
 
         template <typename Stream, typename T, typename Enable = void>
-        struct has_stream_insertion_operator : std::false_type
-        {};
+        static constexpr bool has_stream_insertion_operator = false;
 
         template <typename Stream, typename T>
-        struct has_stream_insertion_operator<Stream, T,
-                                             std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-            : std::true_type
-        {};
+        static constexpr bool has_stream_insertion_operator<
+            Stream, T, std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>> = true;
 
         template <bool ToAnsi, typename Stream>
         static Stream& stream_put(Stream& s, std::filesystem::path&& v)
@@ -170,7 +167,7 @@ namespace asst
                     s << std::string(std::forward<T>(v));
                 return s;
             }
-            else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+            else if constexpr (has_stream_insertion_operator<Stream, T>) {
                 s << std::forward<T>(v);
                 return s;
             }
