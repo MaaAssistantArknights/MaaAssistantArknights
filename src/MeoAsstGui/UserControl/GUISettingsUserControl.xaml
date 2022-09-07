@@ -31,13 +31,20 @@
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
+                Content="{DynamicResource CustomStageCode}"
+                IsChecked="{Binding CustomStageCode}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
                 Content="{DynamicResource UseAlternateStage}"
-                IsChecked="{Binding UseAlternateStage}" />
+                IsChecked="{Binding UseAlternateStage}"
+                IsEnabled="{c:Binding !CustomStageCode}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
                 Content="{DynamicResource HideUnavailableStage}"
-                IsChecked="{Binding HideUnavailableStage}" />
+                IsChecked="{Binding HideUnavailableStage}"
+                IsEnabled="{c:Binding !CustomStageCode}" />
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"

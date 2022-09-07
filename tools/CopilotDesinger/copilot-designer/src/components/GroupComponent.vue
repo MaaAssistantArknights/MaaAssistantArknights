@@ -10,7 +10,7 @@
           @input="(e) => updateName((e.target as HTMLInputElement).value, id)"
         />
         <OperatorComponent
-          :operators="group.opers"
+          :operators="group.opers ?? []"
           @update="(newOperators: Operator[]) => updateOperators(newOperators, id)"
         />
       </div>

@@ -144,6 +144,8 @@
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String><!--現状動作内容不明のため翻訳修正候補-->
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
+    <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
+    <system:String x:Key="CustomStageCodeTip">ステージの原名と番号（4-10、6-16など）の両方がサポートされています。</system:String>
 
     <system:String x:Key="ADBTip">ヒント：接続時に自動的に検出されますが、エラーが発生した場合は変更を試みることができます。通常は自分で入力する必要はありません。</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>

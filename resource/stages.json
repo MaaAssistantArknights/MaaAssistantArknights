@@ -42571,7 +42571,7 @@
             {
                 "bounds": {
                     "lower": 1,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP"
             }
@@ -57312,85 +57312,6 @@
             "ko": "IC-1",
             "zh": "IC-1"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57408,9 +57329,6 @@
             }
         },
         "minClearTime": 179000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_01",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -57424,85 +57342,6 @@
             "ko": "IC-2",
             "zh": "IC-2"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57520,9 +57359,6 @@
             }
         },
         "minClearTime": 195000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_02",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -57536,53 +57372,6 @@
             "ko": "IC-3",
             "zh": "IC-3"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30012"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30032"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57600,9 +57389,6 @@
             }
         },
         "minClearTime": 176000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_03",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -57616,53 +57402,6 @@
             "ko": "IC-4",
             "zh": "IC-4"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57680,9 +57419,6 @@
             }
         },
         "minClearTime": 168000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_04",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -57696,53 +57432,6 @@
             "ko": "IC-5",
             "zh": "IC-5"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30012"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30052"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 2,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57760,9 +57449,6 @@
             }
         },
         "minClearTime": 150000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_05",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -57776,53 +57462,6 @@
             "ko": "IC-6",
             "zh": "IC-6"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57840,9 +57479,6 @@
             }
         },
         "minClearTime": 205000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_06",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -57856,45 +57492,6 @@
             "ko": "IC-7",
             "zh": "IC-7"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30053"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57912,9 +57509,6 @@
             }
         },
         "minClearTime": 188000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_07",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -57928,45 +57522,6 @@
             "ko": "IC-8",
             "zh": "IC-8"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "31013"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -57984,9 +57539,6 @@
             }
         },
         "minClearTime": 185000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_08",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"
@@ -58000,45 +57552,6 @@
             "ko": "IC-9",
             "zh": "IC-9"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30103"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1661976000000,
@@ -58056,9 +57569,6 @@
             }
         },
         "minClearTime": 266000,
-        "recognitionOnly": [
-            "act20side_token_book"
-        ],
         "stageId": "act20side_09",
         "stageType": "ACTIVITY",
         "zoneId": "act20side_zone1"

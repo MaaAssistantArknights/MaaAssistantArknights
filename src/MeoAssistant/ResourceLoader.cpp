@@ -21,6 +21,8 @@
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
+    using namespace asst::utils::path_literals;
+
 #define LoadResourceAndCheckRet(Configer, Filename)                         \
     {                                                                       \
         LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Configer); \
@@ -47,22 +49,22 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
 
     /* load resource with json files*/
-    LoadResourceAndCheckRet(GeneralConfiger, "config.json");
-    LoadResourceAndCheckRet(RecruitConfiger, "recruit.json");
-    LoadResourceAndCheckRet(StageDropsConfiger, "stages.json");
-    LoadResourceAndCheckRet(RoguelikeCopilotConfiger, "roguelike_copilot.json");
-    LoadResourceAndCheckRet(RoguelikeRecruitConfiger, "roguelike_recruit.json");
-    LoadResourceAndCheckRet(RoguelikeShoppingConfiger, "roguelike_shopping.json");
-    LoadResourceAndCheckRet(BattleDataConfiger, "battle_data.json");
+    LoadResourceAndCheckRet(GeneralConfiger, "config.json"_p);
+    LoadResourceAndCheckRet(RecruitConfiger, "recruit.json"_p);
+    LoadResourceAndCheckRet(StageDropsConfiger, "stages.json"_p);
+    LoadResourceAndCheckRet(RoguelikeCopilotConfiger, "roguelike_copilot.json"_p);
+    LoadResourceAndCheckRet(RoguelikeRecruitConfiger, "roguelike_recruit.json"_p);
+    LoadResourceAndCheckRet(RoguelikeShoppingConfiger, "roguelike_shopping.json"_p);
+    LoadResourceAndCheckRet(BattleDataConfiger, "battle_data.json"_p);
 
     /* load resource with json and template files*/
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json", "template");
-    LoadResourceWithTemplAndCheckRet(InfrastConfiger, "infrast.json", "template" / "infrast");
-    LoadResourceWithTemplAndCheckRet(ItemConfiger, "item_index.json", "template" / "items");
+    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    LoadResourceWithTemplAndCheckRet(InfrastConfiger, "infrast.json"_p, "template"_p / "infrast"_p);
+    LoadResourceWithTemplAndCheckRet(ItemConfiger, "item_index.json"_p, "template"_p / "items"_p);
 
     /* load 3rd parties resource */
-    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos" / "levels.json");
-    LoadResourceAndCheckRet(OcrPack, "PaddleOCR");
+    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "levels.json"_p);
+    LoadResourceAndCheckRet(OcrPack, "PaddleOCR"_p);
 
     m_loaded = true;
 
