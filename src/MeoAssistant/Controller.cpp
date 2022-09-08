@@ -2,7 +2,8 @@
 #include "AsstConf.h"
 
 #ifdef _WIN32
-#include <WinUser.h>
+#include "AsstPlatformWin32.h"
+#include <ws2tcpip.h>
 #else
 #include <fcntl.h>
 #include <sys/wait.h>
@@ -29,28 +30,8 @@
 #endif
 
 #include "AsstTypes.h"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
-#include "Resource.h"
-
-#ifdef _WIN32
-// for Windows socket
-class WsaHelper
-{
-public:
-    ~WsaHelper() { WSACleanup(); }
-    static WsaHelper& get_instance()
-    {
-        static WsaHelper instance;
-        return instance;
-    }
-    bool operator()() const noexcept { return m_supports; }
-
-private:
-    WsaHelper() { m_supports = WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 && m_wsa_data.wVersion == MAKEWORD(2, 2); }
-    WSADATA m_wsa_data = { 0 };
-    bool m_supports = false;
-};
-#endif
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
@@ -58,27 +39,6 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     LogTraceFunction;
 
 #ifdef _WIN32
-    // 安全属性描述符
-    m_pipe_sec_attr.nLength = sizeof(SECURITY_ATTRIBUTES);
-    m_pipe_sec_attr.lpSecurityDescriptor = nullptr;
-    m_pipe_sec_attr.bInheritHandle = TRUE;
-
-    // 创建管道，本进程读-子进程写
-    BOOL pipe_read_ret = CreatePipe(&m_pipe_read, &m_pipe_child_write, &m_pipe_sec_attr, PipeBuffSize);
-    // 创建管道，本进程写-子进程读
-    BOOL pipe_write_ret = CreatePipe(&m_pipe_write, &m_pipe_child_read, &m_pipe_sec_attr, PipeBuffSize);
-
-    if (!pipe_read_ret || !pipe_write_ret) {
-        throw "controller pipe created failed";
-    }
-
-    m_child_startup_info.cb = sizeof(STARTUPINFO);
-    m_child_startup_info.dwFlags = STARTF_USESTDHANDLES;
-    m_child_startup_info.wShowWindow = SW_HIDE;
-    // 重定向子进程的读写
-    m_child_startup_info.hStdInput = m_pipe_child_read;
-    m_child_startup_info.hStdOutput = m_pipe_child_write;
-    m_child_startup_info.hStdError = m_pipe_child_write;
 
     m_support_socket = false;
     do {
@@ -100,7 +60,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     m_support_socket = false;
 #endif
 
-    m_pipe_buffer = std::make_unique<uchar[]>(PipeBuffSize);
+    m_pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
     if (!m_pipe_buffer) {
         throw "controller pipe buffer allocated failed";
     }
@@ -131,13 +91,7 @@ asst::Controller::~Controller()
         release();
     }
 
-#ifdef _WIN32
-    CloseHandle(m_pipe_read);
-    CloseHandle(m_pipe_write);
-    CloseHandle(m_pipe_child_read);
-    CloseHandle(m_pipe_child_write);
-
-#else
+#ifndef _WIN32
     close(m_pipe_in[PIPE_READ]);
     close(m_pipe_in[PIPE_WRITE]);
     close(m_pipe_out[PIPE_READ]);
@@ -242,76 +196,187 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::vector<uchar>> asst::Controller::call_command(const std::string& cmd, int64_t timeout,
-                                                                 bool recv_by_socket)
+std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
     using namespace std::chrono_literals;
     using namespace std::chrono;
     // LogTraceScope(std::string(__FUNCTION__) + " | `" + cmd + "`");
 
-    std::vector<uchar> pipe_data;
+    std::string pipe_data;
+    std::string sock_data;
 
     auto start_time = steady_clock::now();
-    auto check_timeout = [&]() -> bool {
-        return timeout && timeout < duration_cast<milliseconds>(steady_clock::now() - start_time).count();
-    };
 
 #ifdef _WIN32
 
+    DWORD err = 0;
+    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
+    SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize,
+                                             true, false)) {
+        err = GetLastError();
+        Log.error("CreateOverlappablePipe failed, err", err);
+        return std::nullopt;
+    }
+
+    STARTUPINFOW si {};
+    si.cb = sizeof(STARTUPINFOW);
+    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = pipe_child_write;
+    si.hStdError = pipe_child_write;
     ASST_AUTO_DEDUCED_ZERO_INIT_START
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-    BOOL create_ret = CreateProcessA(nullptr, const_cast<LPSTR>(cmd.c_str()), nullptr, nullptr, TRUE, CREATE_NO_WINDOW,
-                                     nullptr, nullptr, &m_child_startup_info, &process_info);
+    auto cmdline_osstr = asst::utils::to_osstring(cmd);
+    BOOL create_ret =
+        CreateProcessW(nullptr, &cmdline_osstr[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
     }
-    if (!recv_by_socket) {
-        DWORD peek_num = 0;
-        DWORD read_num = 0;
-        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
-        do {
-            // DWORD write_num = 0;
-            // WriteFile(parent_write, cmd.c_str(), cmd.size(), &write_num, nullptr);
-            while (PeekNamedPipe(m_pipe_read, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
-                if (ReadFile(m_pipe_read, m_pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
-                    pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
+
+    CloseHandle(pipe_child_write);
+
+    std::vector<HANDLE> wait_handles;
+    wait_handles.reserve(3);
+    bool process_running = true;
+    bool pipe_eof = false;
+    bool accept_pending = false;
+    bool socket_eof = false;
+
+    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
+    (void)ReadFile(pipe_parent_read, m_pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+
+    OVERLAPPED sockov {};
+    SOCKET client_socket = INVALID_SOCKET;
+
+    if (recv_by_socket) {
+        sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+        client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        DWORD dummy;
+        if (!m_AcceptEx(m_server_sock, client_socket, m_socket_buffer.get(),
+                        SocketBuffSize - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
+                        sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
+            err = WSAGetLastError();
+            if (err == ERROR_IO_PENDING) {
+                accept_pending = true;
+            }
+            else {
+                Log.trace("AcceptEx failed, err:", err);
+                accept_pending = false;
+                socket_eof = true;
+            }
+        }
+    }
+
+    while (1) {
+        wait_handles.clear();
+        if (process_running) wait_handles.push_back(process_info.hProcess);
+        if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
+        if (recv_by_socket && ((accept_pending && process_running) || !socket_eof)) {
+            wait_handles.push_back(sockov.hEvent);
+        }
+        if (wait_handles.empty()) break;
+        auto elapsed = steady_clock::now() - start_time;
+        auto wait_time = std::min(timeout - duration_cast<milliseconds>(elapsed).count(), 0xFFFFFFFELL);
+        if (wait_time < 0) break;
+        auto wait_result =
+            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
+        HANDLE signaled_object = INVALID_HANDLE_VALUE;
+        if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
+            signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
+        }
+        else if (wait_result == WAIT_TIMEOUT) {
+            continue;
+        }
+        else {
+            // something bad happened
+            err = GetLastError();
+            throw std::system_error(std::error_code(err, std::system_category()));
+        }
+
+        if (signaled_object == process_info.hProcess) {
+            process_running = false;
+        }
+        else if (signaled_object == pipeov.hEvent) {
+            // pipe read
+            DWORD len = 0;
+            if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
+                pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + len);
+                (void)ReadFile(pipe_parent_read, m_pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+            }
+            else {
+                err = GetLastError();
+                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
+                    pipe_eof = true;
                 }
             }
-        } while (WaitForSingleObject(process_info.hProcess, 0) == WAIT_TIMEOUT && !check_timeout());
-    }
-    else {
-        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
-        fd_set fdset = { 0 };
-        FD_SET(m_server_sock, &fdset);
-        constexpr int TimeoutMilliseconds = 5000;
-        timeval select_timeout = { TimeoutMilliseconds / 1000, (TimeoutMilliseconds % 1000) * 1000 };
-        select(static_cast<int>(m_server_sock) + 1, &fdset, nullptr, nullptr, &select_timeout);
-        if (FD_ISSET(m_server_sock, &fdset)) {
-            SOCKET client_sock = ::accept(m_server_sock, nullptr, nullptr);
-            setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<const char*>(&TimeoutMilliseconds),
-                       sizeof(int));
-            int recv_size = 0;
-            do {
-                recv_size = ::recv(client_sock, (char*)m_socket_buffer.get(), SocketBuffSize, NULL);
-                if (recv_size < 0) {
-                    Log.error("recv error", recv_size);
-                    break;
-                }
-                pipe_data.insert(pipe_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + recv_size);
-            } while (recv_size > 0 && !check_timeout());
-            ::closesocket(client_sock);
         }
-        WaitForSingleObject(process_info.hProcess, TimeoutMilliseconds);
+        else if (signaled_object == sockov.hEvent) {
+            if (accept_pending) {
+                // AcceptEx, client_socker is connected and first chunk of data is received
+                DWORD len = 0;
+                if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
+                    accept_pending = false;
+                    if (recv_by_socket)
+                        sock_data.insert(sock_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + len);
+
+                    if (len == 0) {
+                        socket_eof = true;
+                        closesocket(client_socket);
+                    }
+                    else {
+                        // reset the overlapped since we reuse it for different handle
+                        auto event = sockov.hEvent;
+                        sockov = {};
+                        sockov.hEvent = event;
+
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
+                                       nullptr, &sockov);
+                    }
+                }
+            }
+            else {
+                // ReadFile
+                DWORD len = 0;
+                if (GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &len, FALSE)) {
+                    if (recv_by_socket)
+                        sock_data.insert(sock_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + len);
+                    if (len == 0) {
+                        socket_eof = true;
+                        closesocket(client_socket);
+                    }
+                    else {
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
+                                       nullptr, &sockov);
+                    }
+                }
+                else {
+                    // err = GetLastError();
+                    socket_eof = true;
+                }
+            }
+        }
     }
+
     DWORD exit_ret = 0;
     GetExitCodeProcess(process_info.hProcess, &exit_ret);
     CloseHandle(process_info.hProcess);
     CloseHandle(process_info.hThread);
+    CloseHandle(pipe_parent_read);
+    CloseHandle(pipeov.hEvent);
+    if (recv_by_socket) {
+        if (!socket_eof) closesocket(client_socket);
+        CloseHandle(sockov.hEvent);
+    }
 
 #else
+    auto check_timeout = [&]() -> bool {
+        return timeout && timeout < duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+    };
+
     int exit_ret = 0;
     m_child = fork();
     if (m_child == 0) {
@@ -351,15 +416,15 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
 
     auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", std::string(pipe_data.cbegin(), pipe_data.cend()),
-                  ", cost", duration, "ms");
+        Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", pipe_data, ", cost", duration, "ms");
     }
     else {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", output size:", pipe_data.size(), ", cost", duration, "ms");
+        Log.trace("Call `", cmd, "` ret", exit_ret, ", stdout size:", pipe_data.size(),
+                  ", socket size:", sock_data.size(), ", cost", duration, "ms");
     }
 
     if (!exit_ret) {
-        return pipe_data;
+        return recv_by_socket ? sock_data : pipe_data;
     }
     else if (m_inited) {
         // 这里用 m_inited 限制了仅递归一层，修改需要注意下
@@ -376,21 +441,19 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
                   { "cmd", cmd },
               } },
         };
-        constexpr static int ReconnectTimes = 20;
+        static constexpr int ReconnectTimes = 20;
         for (int i = 0; i < ReconnectTimes; ++i) {
             if (need_exit()) {
                 break;
             }
             reconnect_info["details"]["times"] = i;
-            m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, reconnect_info);
 
             std::this_thread::sleep_for(10s);
             auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
-                auto& reconnect_val = reconnect_ret.value();
-                std::string reconnect_str(std::make_move_iterator(reconnect_val.begin()),
-                                          std::make_move_iterator(reconnect_val.end()));
+                auto& reconnect_str = reconnect_ret.value();
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
@@ -399,7 +462,7 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
                     // 重连并成功执行了
                     m_inited = true;
                     reconnect_info["what"] = "Reconnected";
-                    m_callback(AsstMsg::ConnectionInfo, reconnect_info, m_callback_arg);
+                    callback(AsstMsg::ConnectionInfo, reconnect_info);
 
                     return recall_ret;
                 }
@@ -415,20 +478,28 @@ std::optional<std::vector<uchar>> asst::Controller::call_command(const std::stri
               } },
         };
         m_inited = false;
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
     }
 
     return std::nullopt;
 }
 
-void asst::Controller::convert_lf(std::vector<uchar>& data)
+void asst::Controller::callback(AsstMsg msg, const json::value& details)
+{
+    if (m_callback) {
+        m_callback(msg, details, m_callback_arg);
+    }
+}
+
+// 返回值代表是否找到 "\r\n"，函数本身会将所有 "\r\n" 替换为 "\n"
+bool asst::Controller::convert_lf(std::string& data)
 {
     LogTraceFunction;
 
     if (data.empty() || data.size() < 2) {
-        return;
+        return false;
     }
-    auto pred = [](const std::vector<uchar>::iterator& cur) -> bool { return *cur == '\r' && *(cur + 1) == '\n'; };
+    auto pred = [](const std::string::iterator& cur) -> bool { return *cur == '\r' && *(cur + 1) == '\n'; };
     // find the first of "\r\n"
     auto first_iter = data.end();
     for (auto iter = data.begin(); iter != data.end() - 1; ++iter) {
@@ -438,7 +509,7 @@ void asst::Controller::convert_lf(std::vector<uchar>& data)
         }
     }
     if (first_iter == data.end()) {
-        return;
+        return false;
     }
     // move forward all non-crlf elements
     auto end_r1_iter = data.end() - 1;
@@ -452,6 +523,7 @@ void asst::Controller::convert_lf(std::vector<uchar>& data)
     *next_iter = *end_r1_iter;
     ++next_iter;
     data.erase(next_iter, data.end());
+    return true;
 }
 
 asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
@@ -479,7 +551,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 
 void asst::Controller::random_delay() const
 {
-    auto& opt = Resrc.cfg().get_options();
+    auto& opt = Configer.get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
         static std::default_random_engine rand_engine(std::random_device {}());
@@ -521,8 +593,7 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return static_cast<int>(++m_push_id);
 }
 
-std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address,
-                                                                   unsigned short try_port, unsigned short try_times)
+std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address)
 {
     LogTraceFunction;
 
@@ -531,8 +602,19 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     if (m_server_sock == INVALID_SOCKET) {
         return std::nullopt;
     }
+
+    DWORD dummy;
+    GUID GuidAcceptEx = WSAID_ACCEPTEX;
+    auto err = WSAIoctl(m_server_sock, SIO_GET_EXTENSION_FUNCTION_POINTER, &GuidAcceptEx, sizeof(GuidAcceptEx),
+                        &m_AcceptEx, sizeof(m_AcceptEx), &dummy, NULL, NULL);
+    if (err == SOCKET_ERROR) {
+        err = WSAGetLastError();
+        Log.error("failed to resolve AcceptEx, err:", err);
+        closesocket(m_server_sock);
+        return std::nullopt;
+    }
     m_server_addr.sin_family = PF_INET;
-    m_server_addr.sin_addr.s_addr = inet_addr(local_address.c_str());
+    inet_pton(AF_INET, local_address.c_str(), &m_server_addr.sin_addr);
 #else
     // Linux, todo
 #endif
@@ -540,31 +622,27 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     bool server_start = false;
     uint16_t port_result = 0;
 
-    uint16_t max_port = try_port + try_times;
-    for (uint16_t port = try_port; port < max_port; ++port) {
-        if (need_exit()) {
-            break;
-        }
-        Log.trace("try to bind port", port);
-
 #ifdef _WIN32
-        m_server_addr.sin_port = htons(port);
-        int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
-        int listen_ret = ::listen(m_server_sock, 3);
-        server_start = bind_ret == 0 && listen_ret == 0;
+    m_server_addr.sin_port = htons(0);
+    int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
+    int addrlen = sizeof(m_server_addr);
+    int getname_ret = getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), &addrlen);
+    int listen_ret = ::listen(m_server_sock, 3);
+    server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #else
-        // todo
+    // todo
 #endif
-        if (server_start) {
-            port_result = port;
-            break;
-        }
-    }
 
     if (!server_start) {
         Log.info("not supports netcat");
         return std::nullopt;
     }
+
+#ifdef _WIN32
+    port_result = ntohs(m_server_addr.sin_port);
+#else
+    // todo
+#endif
 
     Log.info("server_start", local_address, port_result);
     return port_result;
@@ -588,7 +666,7 @@ bool asst::Controller::screencap()
     //     return true;
     // }
 
-    DecodeFunc decode_raw = [&](std::vector<uchar>& data) -> bool {
+    DecodeFunc decode_raw = [&](std::string_view data) -> bool {
         if (data.empty()) {
             return false;
         }
@@ -597,11 +675,11 @@ bool asst::Controller::screencap()
             return false;
         }
         size_t header_size = data.size() - std_size;
-        bool is_all_zero = std::all_of(data.data() + header_size, data.data() + std_size, std::logical_not<bool> {});
-        if (is_all_zero) {
+        auto img_data = data.substr(header_size);
+        if (ranges::all_of(img_data, std::logical_not<bool> {})) {
             return false;
         }
-        cv::Mat temp(m_height, m_width, CV_8UC4, data.data() + header_size);
+        cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(img_data.data()));
         if (temp.empty()) {
             return false;
         }
@@ -611,33 +689,12 @@ bool asst::Controller::screencap()
         return true;
     };
 
-    DecodeFunc decode_raw_with_gzip = [&](std::vector<uchar>& data) -> bool {
-        auto unzip_data = gzip::decompress(data.data(), data.size());
-        if (unzip_data.empty()) {
-            return false;
-        }
-        size_t std_size = 4ULL * m_width * m_height;
-        if (unzip_data.size() < std_size) {
-            return false;
-        }
-        size_t header_size = unzip_data.size() - std_size;
-        bool is_all_zero =
-            std::all_of(unzip_data.data() + header_size, unzip_data.data() + std_size, std::logical_not<bool> {});
-        if (is_all_zero) {
-            return false;
-        }
-        cv::Mat temp(m_height, m_width, CV_8UC4, unzip_data.data() + header_size);
-        if (temp.empty()) {
-            return false;
-        }
-        cv::cvtColor(temp, temp, cv::COLOR_RGB2BGR);
-        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-        m_cache_image = temp;
-        return true;
+    DecodeFunc decode_raw_with_gzip = [&](std::string_view data) -> bool {
+        return decode_raw(gzip::decompress(data.data(), data.size()));
     };
 
-    DecodeFunc decode_encode = [&](std::vector<uchar>& data) -> bool {
-        cv::Mat temp = cv::imdecode(data, cv::IMREAD_COLOR);
+    DecodeFunc decode_encode = [&](std::string_view data) -> bool {
+        cv::Mat temp = cv::imdecode({ data.data(), int(data.size()) }, cv::IMREAD_COLOR);
         if (temp.empty()) {
             return false;
         }
@@ -648,54 +705,55 @@ bool asst::Controller::screencap()
 
     switch (m_adb.screencap_method) {
     case AdbProperty::ScreencapMethod::UnknownYet: {
+        using namespace std::chrono;
         Log.info("Try to find the fastest way to screencap");
         m_inited = false;
-        auto min_cost = std::chrono::nanoseconds(LLONG_MAX);
+        auto min_cost = milliseconds(LLONG_MAX);
 
-        auto start_time = std::chrono::high_resolution_clock::now();
+        auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started && screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
-            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("RawByNc cost", duration.count(), "ns");
+            Log.info("RawByNc cost", duration.count(), "ms");
         }
         else {
             Log.info("RawByNc is not supported");
         }
         clear_lf_info();
 
-        start_time = std::chrono::high_resolution_clock::now();
+        start_time = high_resolution_clock::now();
         if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
-            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("RawWithGzip cost", duration.count(), "ns");
+            Log.info("RawWithGzip cost", duration.count(), "ms");
         }
         else {
             Log.info("RawWithGzip is not supported");
         }
         clear_lf_info();
 
-        start_time = std::chrono::high_resolution_clock::now();
+        start_time = high_resolution_clock::now();
         if (screencap(m_adb.screencap_encode, decode_encode)) {
-            auto duration = std::chrono::high_resolution_clock::now() - start_time;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("Encode cost", duration.count(), "ns");
+            Log.info("Encode cost", duration.count(), "ms");
         }
         else {
             Log.info("Encode is not supported");
         }
-        Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ns");
+        Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         clear_lf_info();
         return m_inited;
     } break;
@@ -715,23 +773,28 @@ bool asst::Controller::screencap()
 
 bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket)
 {
-    if ((!m_support_socket || !m_server_started) && by_socket) {
+    if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
 
     auto ret = call_command(cmd, 20000, by_socket);
 
-    if (!ret || ret.value().empty()) {
+    if (!ret || ret.value().empty()) [[unlikely]] {
         Log.error("data is empty!");
         return false;
     }
-    auto data = std::move(ret).value();
+    auto& data = ret.value();
 
+    bool tried_conversion = false;
     if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
-        convert_lf(data);
+        tried_conversion = true;
+        if (!convert_lf(data)) [[unlikely]] { // 没找到 "\r\n"
+            Log.info("screencap_end_of_line is set to CRLF but no `\\r\\n` found, set it to LF");
+            m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
+        }
     }
 
-    if (decode_func(data)) {
+    if (decode_func(data)) [[likely]] {
         if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
             Log.info("screencap_end_of_line is LF");
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
@@ -741,18 +804,29 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     else {
         Log.info("data is not empty, but image is empty");
 
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+        if (!tried_conversion) {
             Log.info("try to cvt lf");
-            convert_lf(data);
+            if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
+                Log.error("skip retry decoding and decode failed!");
+                return false;
+            }
 
             if (decode_func(data)) {
+                if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+                    Log.info("screencap_end_of_line is CRLF");
+                }
+                else {
+                    Log.info("screencap_end_of_line is changed to CRLF");
+                }
                 m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
-                Log.info("screencap_end_of_line is CRLF");
                 return true;
             }
             else {
                 Log.error("convert lf and retry decode failed!");
             }
+        }
+        else { // 已经转换过行尾，再次转换 data 不会变化，不必重试
+            Log.error("skip retry decoding and decode failed!");
         }
         return false;
     }
@@ -782,7 +856,7 @@ std::optional<int> asst::Controller::start_game(const std::string& client_type, 
     if (client_type.empty()) {
         return std::nullopt;
     }
-    if (auto intent_name = Resrc.cfg().get_intent_name(client_type)) {
+    if (auto intent_name = Configer.get_intent_name(client_type)) {
         std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", intent_name.value());
         int id = push_cmd(cur_cmd);
         if (block) {
@@ -822,8 +896,8 @@ int asst::Controller::click_without_scale(const Point& p, bool block)
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
     }
-    std::string cur_cmd = utils::string_replace_all_batch(
-        m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
     int id = push_cmd(cur_cmd);
     if (block) {
         wait(id);
@@ -868,20 +942,20 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    std::string cur_cmd = utils::string_replace_all_batch(
-        m_adb.swipe, {
-                         { "[x1]", std::to_string(x1) },
-                         { "[y1]", std::to_string(y1) },
-                         { "[x2]", std::to_string(x2) },
-                         { "[y2]", std::to_string(y2) },
-                         { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
-                     });
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.swipe, {
+                                                   { "[x1]", std::to_string(x1) },
+                                                   { "[y1]", std::to_string(y1) },
+                                                   { "[x2]", std::to_string(x2) },
+                                                   { "[y2]", std::to_string(y2) },
+                                                   { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
+                                               });
 
     int id = 0;
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
-    const auto& opt = Resrc.cfg().get_options();
+    const auto& opt = Configer.get_options();
     if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
-        std::string extra_cmd = utils::string_replace_all_batch(
+        std::string extra_cmd = utils::string_replace_all(
             m_adb.swipe, {
                              { "[x1]", std::to_string(x2) },
                              { "[y1]", std::to_string(y2) },
@@ -935,30 +1009,30 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         };
     };
 
-    auto adb_ret = Resrc.cfg().get_adb_cfg(config);
+    auto adb_ret = Configer.get_adb_cfg(config);
     if (!adb_ret) {
         json::value info = get_info_json() | json::object {
             { "what", "ConnectFailed" },
             { "why", "ConfigNotFound" },
         };
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
         return false;
     }
 
-    const auto adb_cfg = std::move(adb_ret.value());
+    const auto& adb_cfg = adb_ret.value();
     std::string display_id;
     std::string nc_address = "10.0.2.2";
     uint16_t nc_port = 0;
 
     // 里面的值每次执行命令后可能更新，所以要用 lambda 拿最新的
     auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
-        return utils::string_replace_all_batch(cfg_cmd, {
-                                                            { "[Adb]", adb_path },
-                                                            { "[AdbSerial]", address },
-                                                            { "[DisplayId]", display_id },
-                                                            { "[NcPort]", std::to_string(nc_port) },
-                                                            { "[NcAddress]", nc_address },
-                                                        });
+        return utils::string_replace_all(cfg_cmd, {
+                                                      { "[Adb]", adb_path },
+                                                      { "[AdbSerial]", address },
+                                                      { "[DisplayId]", display_id },
+                                                      { "[NcPort]", std::to_string(nc_port) },
+                                                      { "[NcAddress]", nc_address },
+                                                  });
     };
 
     /* connect */
@@ -968,9 +1042,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
-            auto& connect_val = connect_ret.value();
-            std::string connect_str(std::make_move_iterator(connect_val.begin()),
-                                    std::make_move_iterator(connect_val.end()));
+            auto& connect_str = connect_ret.value();
             is_connect_success = connect_str.find("error") == std::string::npos;
         }
         if (!is_connect_success) {
@@ -978,7 +1050,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                 { "what", "ConnectFailed" },
                 { "why", "Connection command failed to exec" },
             };
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
     }
@@ -991,12 +1063,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                 { "what", "ConnectFailed" },
                 { "why", "Uuid command failed to exec" },
             };
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
 
-        auto& uuid_result = uuid_ret.value();
-        std::string uuid_str(std::make_move_iterator(uuid_result.begin()), std::make_move_iterator(uuid_result.end()));
+        auto& uuid_str = uuid_ret.value();
         std::erase(uuid_str, ' ');
         m_uuid = std::move(uuid_str);
 
@@ -1005,7 +1076,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             { "why", "" },
         };
         info["details"]["uuid"] = m_uuid;
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
     }
 
     // 按需获取display ID 信息
@@ -1015,10 +1086,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             return false;
         }
 
-        auto& display_id_result = display_id_ret.value();
-        convert_lf(display_id_result);
-        std::string display_id_pipe_str(std::make_move_iterator(display_id_result.begin()),
-                                        std::make_move_iterator(display_id_result.end()));
+        auto& display_id_pipe_str = display_id_ret.value();
+        convert_lf(display_id_pipe_str);
         auto last = display_id_pipe_str.rfind(':');
         if (last == std::string::npos) {
             return false;
@@ -1037,13 +1106,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                 { "what", "ConnectFailed" },
                 { "why", "Display command failed to exec" },
             };
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
 
-        auto& display_result = display_ret.value();
-        std::string display_pipe_str(std::make_move_iterator(display_result.begin()),
-                                     std::make_move_iterator(display_result.end()));
+        auto& display_pipe_str = display_ret.value();
         int size_value1 = 0;
         int size_value2 = 0;
 #ifdef _MSC_VER
@@ -1066,25 +1133,25 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             { "height", m_height },
         };
 
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
 
         if (m_width == 0 || m_height == 0) {
             info["what"] = "ResolutionError";
             info["why"] = "Get resolution failed";
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
         else if (m_width < WindowWidthDefault || m_height < WindowHeightDefault) {
             info["what"] = "UnsupportedResolution";
             info["why"] = "Low screen resolution";
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
         else if (std::fabs(static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
                            static_cast<double>(m_width) / static_cast<double>(m_height)) > 1e-7) {
             info["what"] = "UnsupportedResolution";
             info["why"] = "Not 16:9";
-            m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+            callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
     }
@@ -1113,7 +1180,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             { "what", "Connected" },
             { "why", "" },
         };
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
     }
 
     m_adb.click = cmd_replace(adb_cfg.click);
@@ -1138,15 +1205,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         // https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
         auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
         if (nc_address_ret) {
-            auto& nc_result = nc_address_ret.value();
-            std::string nc_result_str(std::make_move_iterator(nc_result.begin()),
-                                      std::make_move_iterator(nc_result.end()));
+            auto& nc_result_str = nc_address_ret.value();
             if (auto pos = nc_result_str.find(' '); pos != std::string::npos) {
                 nc_address = nc_result_str.substr(0, pos);
             }
         }
 
-        auto socket_opt = try_to_init_socket(bind_address, adb_cfg.nc_port);
+        auto socket_opt = try_to_init_socket(bind_address);
         if (socket_opt) {
             nc_port = socket_opt.value();
             m_adb.screencap_raw_by_nc = cmd_replace(adb_cfg.screencap_raw_by_nc);
@@ -1205,7 +1270,7 @@ cv::Mat asst::Controller::get_image(bool raw)
     }
 
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
-    constexpr static int MaxTryCount = 20;
+    static constexpr int MaxTryCount = 20;
     bool success = false;
     for (int i = 0; i < MaxTryCount && m_inited; ++i) {
         if (need_exit()) {
@@ -1224,7 +1289,7 @@ cv::Mat asst::Controller::get_image(bool raw)
             { "why", "ScreencapFailed" },
             { "details", json::object {} },
         };
-        m_callback(AsstMsg::ConnectionInfo, info, m_callback_arg);
+        callback(AsstMsg::ConnectionInfo, info);
 
         const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
         m_cache_image = cv::Mat(d_size, CV_8UC3);

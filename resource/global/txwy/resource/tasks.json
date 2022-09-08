@@ -72,7 +72,7 @@
         ],
         "action": "Stop"
     },
-	"TodaysSuppliesToRecruit": {
+    "TodaysSuppliesToRecruit": {
         "algorithm": "OcrDetect",
         "text": [
             "今日配給"
@@ -140,7 +140,7 @@
         "rearDelay": 500,
         "text": [
             "開始招.*",
-			"開始招募"
+            "開始招募"
         ],
         "roi": [
             0,
@@ -203,7 +203,7 @@
             "RecruitFlag"
         ]
     },
-	"RecruitTags": {
+    "RecruitTags": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -217,11 +217,11 @@
                 "初期",
                 "新手"
             ],
-			[
+            [
                 "乾員",
                 "干员"
             ],
-			[
+            [
                 "幹員",
                 "干员"
             ],
@@ -257,7 +257,7 @@
                 "術師",
                 "术师"
             ],
-			[
+            [
                 "衛師",
                 "术师"
             ],
@@ -265,7 +265,7 @@
                 "狙撃",
                 "狙击"
             ],
-			[
+            [
                 "狙擊",
                 "狙击"
             ],
@@ -333,7 +333,7 @@
                 "快速復活",
                 "快速复活"
             ],
-			[
+            [
                 "回復",
                 "回复"
             ],

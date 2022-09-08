@@ -132,7 +132,7 @@
     <ClInclude Include="OcrPack.h">
       <Filter>头文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="ResourceLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AbstractImageAnalyzer.h">
@@ -384,6 +384,30 @@
     <ClInclude Include="DrGrandetTaskPlugin.h">
       <Filter>头文件\Task\Plugin</Filter>
     </ClInclude>
+    <ClInclude Include="ReportDataTask.h">
+      <Filter>头文件\Task\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="AsstHttp.hpp">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SingletonHolder.hpp">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractConfigerWithTempl.h">
+      <Filter>头文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="AsstImageIo.hpp">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SafeWindows.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AsstPlatformWin32.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AsstPlatformPosix.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -410,13 +434,10 @@
     <ClCompile Include="TemplResource.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractResource.cpp">
-      <Filter>源文件\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="OcrPack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource.cpp">
+    <ClCompile Include="ResourceLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InfrastSmileyImageAnalyzer.cpp">
@@ -655,6 +676,15 @@
     </ClCompile>
     <ClCompile Include="DrGrandetTaskPlugin.cpp">
       <Filter>源文件\Task\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="ReportDataTask.cpp">
+      <Filter>源文件\Task\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="AsstPlatformPosix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AsstPlatformWin32.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,10 +3,10 @@
 #include "NoWarningCV.h"
 
 #include "AsstUtils.hpp"
+#include "ItemConfiger.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
-#include "Resource.h"
 #include "TaskData.h"
 
 bool asst::DepotImageAnalyzer::analyze()
@@ -27,8 +27,8 @@ bool asst::DepotImageAnalyzer::analyze()
 
 #ifdef ASST_DEBUG
     m_image_draw = m_image_draw_resized;
-    save_img();
 #endif
+    save_img("debug/depot/");
     return ret;
 }
 
@@ -113,8 +113,6 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
 {
     LogTraceFunction;
 
-    auto& res_item = Resrc.item();
-
     for (const Rect& roi : m_all_items_roi) {
         if (check_roi_empty(roi)) { // roi 是竖着有序的
             break;
@@ -128,7 +126,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
 
         m_match_begin_pos = cur_pos + 1;
         info.quantity = match_quantity(info.rect);
-        info.item_name = res_item.get_item_name(item_id);
+        info.item_name = ItemData.get_item_name(item_id);
 #ifdef ASST_DEBUG
         cv::putText(m_image_draw_resized, item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                     cv::Scalar(0, 0, 255), 2);
@@ -157,7 +155,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 {
     LogTraceFunction;
 
-    const auto& all_items = Resrc.item().get_ordered_material_item_id();
+    const auto& all_items = ItemData.get_ordered_material_item_id();
 
     MatchImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("DeoptMatchData");

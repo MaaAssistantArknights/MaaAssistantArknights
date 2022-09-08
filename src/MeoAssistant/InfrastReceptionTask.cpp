@@ -8,7 +8,7 @@
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
+#include "TaskData.h"
 
 bool asst::InfrastReceptionTask::_run()
 {

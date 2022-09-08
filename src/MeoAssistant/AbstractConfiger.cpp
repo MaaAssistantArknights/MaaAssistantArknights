@@ -5,25 +5,18 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 
-bool asst::AbstractConfiger::load(const std::string& filename)
+bool asst::AbstractConfiger::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
+    Log.info("load", path);
 
-#ifdef _WIN32
-    Log.info("Load:", utils::ansi_to_utf8(filename));
-#else
-    Log.info("Load:", filename);
-#endif
-
-    if (!std::filesystem::exists(filename)) {
+    if (!std::filesystem::exists(path)) {
         return false;
     }
 
-    // std::string content = utils::load_file_without_bom(filename);
-
-    auto&& ret = json::open(filename, true);
+    auto&& ret = json::open(path, true);
     if (!ret) {
-        m_last_error = "json passing error, filename: " + filename;
+        Log.error("Json open failed", path);
         return false;
     }
 
@@ -33,11 +26,11 @@ bool asst::AbstractConfiger::load(const std::string& filename)
         return parse(root);
     }
     catch (json::exception& e) {
-        m_last_error = std::string("json field error ") + e.what();
+        Log.error("Json parse failed", path, e.what());
         return false;
     }
     catch (std::exception& e) {
-        m_last_error = std::string("json field error ") + e.what();
+        Log.error("Json parse failed", path, e.what());
         return false;
     }
 }

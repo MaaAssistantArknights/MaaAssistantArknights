@@ -1,5 +1,7 @@
 #include "InfrastDormTask.h"
 
+#include <regex>
+
 #include "Controller.h"
 #include "InfrastOperImageAnalyzer.h"
 #include "Logger.hpp"
@@ -7,8 +9,7 @@
 #include "OcrImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
-#include <regex>
+#include "TaskData.h"
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool notstationed_enabled) noexcept
 {

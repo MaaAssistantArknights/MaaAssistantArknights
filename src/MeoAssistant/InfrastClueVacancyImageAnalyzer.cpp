@@ -5,7 +5,6 @@
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
-#include "Resource.h"
 
 bool asst::InfrastClueVacancyImageAnalyzer::analyze()
 {

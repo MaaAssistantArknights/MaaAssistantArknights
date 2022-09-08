@@ -1,13 +1,14 @@
 #pragma once
 
-#include "AbstractConfiger.h"
+#include "AbstractConfigerWithTempl.h"
 
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
 namespace asst
 {
-    class ItemConfiger : public AbstractConfiger
+    class ItemConfiger final : public SingletonHolder<ItemConfiger>, public AbstractConfigerWithTempl
     {
     public:
         virtual ~ItemConfiger() override = default;
@@ -27,6 +28,10 @@ namespace asst
             }
         }
         const auto& get_all_item_id() const noexcept { return m_all_item_id; }
+        virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override
+        {
+            return get_all_item_id();
+        }
         const auto& get_ordered_material_item_id() const noexcept { return m_ordered_material_item_id; }
 
     protected:
@@ -37,4 +42,6 @@ namespace asst
         std::unordered_set<std::string> m_all_item_id;
         std::vector<std::string> m_ordered_material_item_id;
     };
+
+    inline static auto& ItemData = ItemConfiger::get_instance();
 }

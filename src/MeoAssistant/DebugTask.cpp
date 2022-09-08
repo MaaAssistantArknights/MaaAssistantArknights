@@ -6,6 +6,7 @@
 
 // #include "RoguelikeSkillSelectionTaskPlugin.h"
 
+#include "AsstImageIo.hpp"
 #include "Logger.hpp"
 #include "StageDropsImageAnalyzer.h"
 
@@ -22,7 +23,7 @@ bool asst::DebugTask::run()
     size_t total = 0;
     size_t success = 0;
     for (const auto& entry : std::filesystem::directory_iterator("../../test/drops/screenshots")) {
-        cv::Mat image = cv::imread(entry.path().string());
+        cv::Mat image = asst::imread(entry.path());
         if (image.empty()) {
             continue;
         }

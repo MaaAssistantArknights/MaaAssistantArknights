@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef _WIN32
+#include "SafeWindows.h"
+#include <mswsock.h>
+#endif
+
 #include "AsstConf.h"
 
 #include <atomic>
@@ -13,14 +18,11 @@
 #include <string>
 #include <thread>
 
-#ifdef _WIN32
-#include <Windows.h>
-#endif
-
 #include "NoWarningCVMat.h"
 
 #include "AsstMsg.h"
 #include "AsstTypes.h"
+#include "SingletonHolder.hpp"
 
 namespace asst
 {
@@ -51,7 +53,7 @@ namespace asst
         int click_without_scale(const Point& p, bool block = true);
         int click_without_scale(const Rect& rect, bool block = true);
 
-        constexpr static int SwipeExtraDelayDefault = 1000;
+        static constexpr int SwipeExtraDelayDefault = 1000;
         int swipe(const Point& p1, const Point& p2, int duration = 0, bool block = true,
                   int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
         int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true,
@@ -73,14 +75,13 @@ namespace asst
     private:
         bool need_exit() const;
         void pipe_working_proc();
-        std::optional<std::vector<uchar>> call_command(const std::string& cmd, int64_t timeout = 20000,
-                                                       bool recv_by_socket = false);
+        std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
+                                                bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
 
-        std::optional<unsigned short> try_to_init_socket(const std::string& local_address, unsigned short try_port,
-                                                         unsigned short try_times = 10U);
+        std::optional<unsigned short> try_to_init_socket(const std::string& local_address);
 
-        using DecodeFunc = std::function<bool(std::vector<uchar>&)>;
+        using DecodeFunc = std::function<bool(std::string_view)>;
         bool screencap();
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
         void clear_lf_info();
@@ -90,9 +91,11 @@ namespace asst
 
         void random_delay() const;
         void clear_info() noexcept;
+        void callback(AsstMsg msg, const json::value& details);
 
-        // 转换data中所有的crlf为lf：有些模拟器自带的adb，exec-out输出的\n，会被替换成\r\n，导致解码错误，所以这里转一下回来（点名批评mumu）
-        static void convert_lf(std::vector<uchar>& data);
+        // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
+        // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
+        static bool convert_lf(std::string& data);
 
         bool* m_exit_flag = nullptr;
         AsstCallback m_callback;
@@ -100,30 +103,24 @@ namespace asst
 
         std::minstd_rand m_rand_engine;
 
-        constexpr static int PipeBuffSize = 4 * 1024 * 1024;   // 管道缓冲区大小
-        constexpr static int SocketBuffSize = 4 * 1024 * 1024; // socket 缓冲区大小
-        std::unique_ptr<uchar[]> m_pipe_buffer = nullptr;
+        static constexpr int PipeBuffSize = 4 * 1024 * 1024;   // 管道缓冲区大小
+        static constexpr int SocketBuffSize = 4 * 1024 * 1024; // socket 缓冲区大小
+        std::unique_ptr<char[]> m_pipe_buffer = nullptr;
         std::mutex m_pipe_mutex;
         std::unique_ptr<char[]> m_socket_buffer = nullptr;
         std::mutex m_socket_mutex;
 #ifdef _WIN32
-        HANDLE m_pipe_read = nullptr;        // 读管道句柄
-        HANDLE m_pipe_write = nullptr;       // 写管道句柄
-        HANDLE m_pipe_child_read = nullptr;  // 子进程的读管道句柄
-        HANDLE m_pipe_child_write = nullptr; // 子进程的写管道句柄
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-        SECURITY_ATTRIBUTES m_pipe_sec_attr = { 0 }; // 管道安全描述符
-        STARTUPINFOA m_child_startup_info = { 0 };   // 子进程启动信息
-
-        WSADATA m_wsa_data = { 0 };
+        WSADATA m_wsa_data {};
         SOCKET m_server_sock = 0ULL;
-        sockaddr_in m_server_addr = { 0 };
+        sockaddr_in m_server_addr {};
+        LPFN_ACCEPTEX m_AcceptEx = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 
 #else
-        constexpr static int PIPE_READ = 0;
-        constexpr static int PIPE_WRITE = 1;
+        static constexpr int PIPE_READ = 0;
+        static constexpr int PIPE_WRITE = 1;
         int m_pipe_in[2] = { 0 };
         int m_pipe_out[2] = { 0 };
         int m_child = 0;
@@ -185,5 +182,26 @@ namespace asst
         std::atomic<unsigned> m_completed_id = 0;
         unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
         std::thread m_cmd_thread;
+
+    private:
+#ifdef _WIN32
+        // for Windows socket
+        class WsaHelper : public SingletonHolder<WsaHelper>
+        {
+            friend class SingletonHolder<WsaHelper>;
+
+        public:
+            virtual ~WsaHelper() override { WSACleanup(); }
+            bool operator()() const noexcept { return m_supports; }
+
+        private:
+            WsaHelper()
+            {
+                m_supports = WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 && m_wsa_data.wVersion == MAKEWORD(2, 2);
+            }
+            WSADATA m_wsa_data = { 0 };
+            bool m_supports = false;
+        };
+#endif
     };
 } // namespace asst

@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">製造站-晶片組</system:String>
     <system:String x:Key="DormTrustEnabled">宿舍空餘位置蹭信賴</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不將已進駐的幹員放入宿舍</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
@@ -143,12 +144,16 @@
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="HideUnavailableStage">關卡選擇隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
+    <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
+    <system:String x:Key="CustomStageCodeTip">支持所有主線關卡名 + 原列表中的關卡名（如 4-10、6-16 等）</system:String>
 
     <system:String x:Key="ADBTip">小提示：這裡會自動檢測的，若出現問題可再嘗試修改，否則不需要自行填寫</system:String>
     <system:String x:Key="ADBPath">adb 路徑 (相對/絕對)</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">第一次使用會自動填寫，若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
+    <system:String x:Key="RetryOnDisconnected">adb 重連失敗時自動重啟模擬器</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重啟模擬器，使用後台定時任務且設置任務完成關閉模擬器時必須勾選</system:String>
     <!--  設定  -->
 
     <!--  一鍵長草  -->
@@ -187,7 +192,6 @@
     <system:String x:Key="Quantity">刷取數量</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
-    <system:String x:Key="StageSelectTip">主選關卡爲資源關且“資源收集”全天開放活動時請勿使用此功能</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">當前關卡</system:String>
@@ -242,8 +246,8 @@
     <!--  一鍵長草  -->
 
     <!--  公招辨識  -->
-    <system:String x:Key="Recognition">公招辨識</system:String>
-    <system:String x:Key="RecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用~</system:String>
+    <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
@@ -257,7 +261,7 @@
     <!--  公招辨識  -->
 
     <!--  自動戰鬥  -->
-    <system:String x:Key="Copilot">自動戰鬥 Beta</system:String>
+    <system:String x:Key="Copilot">自動戰鬥</system:String>
     <system:String x:Key="CopilotLocation">作業路徑/神秘代碼</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
@@ -309,7 +313,7 @@
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
-    <system:String x:Key="TheEX">EX 關卡，已停止</system:String>
+    <system:String x:Key="TheEX">無獎勵關卡，已停止</system:String>
     <system:String x:Key="OnTheMove">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>

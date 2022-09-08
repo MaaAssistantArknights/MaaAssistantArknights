@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[中文（简体）](README.md) | [中文（繁體）](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
+[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
 
 MAAは、MAA Assistant Arknightsです。
 
@@ -32,12 +32,12 @@ MAAは、MAA Assistant Arknightsです。
 
 ## 機能一覧
 
-- 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.io/)へデータアップロード
-- 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション
+- 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.io/)へデータアップロード（ドロップ認識はJPも対応予定）
+- 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション（現在JPは未対応）
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データアップロード
-- 戦友訪問、FP収集、買い物、デイリーレワード収集、ワンクリックして全自動操作！
+- 戦友訪問、FP収集、買い物、デイリーレワード収集、ワンクリックして全自動操作！（現在JPは未対応）
 - 統合戦略自動作戦、オペレーターとレベルの自動認識
-- **新機能！作業JSONファイルをインポートし、自動操作するのは可能！** [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)
+- **新機能！作業JSONファイルをインポートし、自動操作することも可能！** [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)
 
 見ればわかる！  
 
@@ -58,7 +58,7 @@ MAAは、MAA Assistant Arknightsです。
 [安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
 
-ダウンロードが遅い？fastgitミラーを試してください  
+ダウンロードが遅い場合はfastgitミラーを試してみてください  
 
 [fastgitミラー安定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [fastgitミラーベータ版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
@@ -67,17 +67,17 @@ MAAは、MAA Assistant Arknightsです。
 
 ### 基本設定
 
-1. この[エミュレータのサポート](docs/ja-jp/1.3-エミュレータのサポート.md)を参照して、対応する操作に進んでください。
-2. エミュレータ解像度を `16:9`、`1280 * 720` 以上に変更してください。それより大きい解像度も大丈夫です。
+1. [エミュレータのサポート](docs/ja-jp/1.3-エミュレータのサポート.md)を参照して、対応するエミュレーターの操作に進んでください。
+2. エミュレータ解像度を `16:9`、`1280 * 720` 以上に変更してください。それより大きい解像度でも大丈夫です。
 3. ゲームスタート！
 
 詳しいマニュアルは[MAA使用説明書](docs/ja-jp/1.1-詳細な説明.md)を参照してください。
 
 ## よくある質問
 
-- 起動するとき、ソフトウェアがクラッシュしました
-- 接続エラー、adbパスが知らない場合
-- 認識エラー、またはオペレーション開始したあとで反応が出ない
+- 起動するとき、ソフトウェアがクラッシュする
+- 接続エラー、adbパスがわからない場合
+- 認識エラー、またはオペレーション開始したあとで反応がない
 - カスタムポート設定について
 
 [よくある質問](docs/ja-jp/1.2-よくある質問.md)を参照してください。
@@ -93,11 +93,11 @@ MAAは、MAA Assistant Arknightsです。
 - TXWYサーバー  
   基本的な作戦、自動公開求人、公開求人認識の機能がサポートされている。[README](resource/global/txwy/readme.md)を参照してください。
 
-海外サーバーのユーザーがふそくですから、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案を差し出してください。~~いっしょにMAAの開発に協力しましょう~~
+海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。~~いっしょにMAAの開発に協力しましょう~~
 
 ## 主な関連プロジェクト
 
-- 新しいGUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （開発中、貢献することを歓迎します！）
+- 新しいGUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （開発中、貢献歓迎！）
 - 更新サーバー：[MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
 - 公式ウェブサイト <https://www.maa.plus>：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
 - 作業シェアサイト <https://www.prts.plus>：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)、[バックエンド](https://github.com/MaaAssistantArknights/MaaCopilotServer)
@@ -130,7 +130,7 @@ MAAは、MAA Assistant Arknightsです。
 
 ### 貢献/協力者
 
-MAAをより良くするために開発・テストに貢献してくれたすべての友達に感謝します！ (\*´▽｀)ノノ
+MAAをより良くするために開発・テストに貢献してくれたすべての方々に感謝します！ (\*´▽｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
@@ -138,7 +138,8 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### Windows
 
-Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。すべての構成が正しいはずです。
+- Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。環境がすでに構成されています。
+- clang-formatのサポートを有効にすることをお勧めします。詳細については、[Visual Studioでclang-formatを有効にする](docs/ja-jp/2.2-プルリクエスト.md)を参照してください。
 
 ### Linux | macOS
 
@@ -158,13 +159,20 @@ Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。すべての
 - [タスクAPI](docs/ja-jp/3.4-タスクAPI.md)
 - [自動作戦API](docs/ja-jp/3.3-自動作戦API.md)
 
-### 開発に参加したいですけど、GitHubの使い方がよくわかりません？
+### Issue bot
+
+- `Add {LABEL_NAME}`を使用してタグを追加し、`Remove {LABEL_NAME}` を使用してタグを削除できます。
+- `close #{ISSUE_NUMBER}` または `fix #{ISSUE_NUMBER}` を使用してissueに `fixed` タグを追加できます。
+
+詳細については[Issue bot 使用方法](docs/ja-jp/2.3-IssueBot使う方.md)を参照してください。
+
+### 開発に参加したいがGitHubの使い方がよくわかりません。
 
 [Githubプルリクエストのプロセス](docs/ja-jp/2.2-プルリクエスト.md)
 
 ## 免責事項
 
-- 本ソフトウェアのロゴは、AGPL 3.0ライセンスを使用してオープンソースではなく、絵師[耗毛](https://weibo.com/u/3251357314)および本ソフトウェアのすべての開発者がすべての権利を留保しています。「AGPL 3.0ライセンスに基づいて許可されている」という理由で、許可がない場合に本ソフトウェアのロゴを無断で使用することは禁止です。許可がない場合に商業目的で本ソフトウェアのロゴを無断で使用することも禁止です。
+- 本ソフトウェアのロゴはAGPL 3.0ライセンスを使用しており、オープンソースではなく、絵師[耗毛](https://weibo.com/u/3251357314)および本ソフトウェアのすべての開発者がすべての権利を留保しています。「AGPL 3.0ライセンスに基づいて許可されている」という理由で、許可がない場合に本ソフトウェアのロゴを無断で使用することは禁止しております。また、許可なく商業目的で本ソフトウェアのロゴを無断で使用することも禁止しております。
 - 本ソフトウェアはオープンソースで無料であり、学習と研究のみの目的としています。販売者が本ソフトウェアの料金を請求する場合は、デバイスや時間の料金である可能性があります。発生した問題と結果は、本ソフトウェアとは一切関係ありません。
 
 ## 広告

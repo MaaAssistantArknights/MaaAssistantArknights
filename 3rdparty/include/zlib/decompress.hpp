@@ -20,9 +20,7 @@ namespace gzip
         {}
 
         template <typename OutputType>
-        void decompress(OutputType& output,
-                        const uchar* data,
-                        std::size_t size) const
+        void decompress(OutputType& output, const char* data, std::size_t size) const
         {
             z_stream inflate_s;
 
@@ -68,7 +66,8 @@ namespace gzip
                 std::size_t resize_to = size_uncompressed + 2 * size;
                 if (resize_to > max_) {
                     inflateEnd(&inflate_s);
-                    throw std::runtime_error("size of output string will use more memory then intended when decompressing");
+                    throw std::runtime_error(
+                        "size of output string will use more memory then intended when decompressing");
                 }
                 output.resize(resize_to);
                 inflate_s.avail_out = static_cast<unsigned int>(2 * size);
@@ -77,7 +76,7 @@ namespace gzip
                 if (ret != Z_STREAM_END && ret != Z_OK && ret != Z_BUF_ERROR) {
                     std::string error_msg = inflate_s.msg;
                     inflateEnd(&inflate_s);
-                    //throw std::runtime_error(error_msg);
+                    // throw std::runtime_error(error_msg);
                     output.clear();
                     return;
                 }
@@ -89,10 +88,10 @@ namespace gzip
         }
     };
 
-    inline std::vector<uchar> decompress(const uchar* data, std::size_t size)
+    inline std::string decompress(const char* data, std::size_t size)
     {
         Decompressor decomp;
-        std::vector<uchar> output;
+        std::string output;
         decomp.decompress(output, data, size);
         return output;
     }

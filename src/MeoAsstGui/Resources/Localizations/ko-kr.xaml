@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">기숙사 남은 자리 사용 신뢰감 증가</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">이미 들어온 간부는 숙소에 넣지 않는다</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">오리지 늄 조 각 자동 완성 상품</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="BlueStacks">블루스택</system:String>
@@ -143,12 +144,16 @@
     <system:String x:Key="UseAlternateStage">대체 검문소를 사용합니다</system:String>
     <system:String x:Key="HideUnavailableStage">당일 스테이지만 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 왼쪽의 버튼</system:String>
+    <system:String x:Key="CustomStageCode">레벨 코드를 수동으로 입력</system:String>
+    <system:String x:Key="CustomStageCodeTip">모든 메인라인 레벨 이름 + 원래 목록의 레벨 이름 지원(예: 4-10, 6-16 등)</system:String>
 
     <system:String x:Key="ADBTip">팁: 여기에서 자동으로 감지됩니다. 오류가 있는 경우 다시 수정을 시도할 수 있습니다. 그렇지 않으면 직접 입력할 필요가 없습니다.</system:String>
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">처음 사용할 때는 자동으로 작성되며, 문제가 있으면 수동으로 수정하십시오</system:String>
     <system:String x:Key="ConnectionPreset">연결 사전 설정</system:String>
+    <system:String x:Key="RetryOnDisconnected">adb 재연결이 실패하면 자동으로 에뮬레이터를 다시 시작합니다</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">20번의 재연결 실패 후 에뮬레이터를 다시 시작하십시오, 백그라운드 시간 지정 작업을 사용하고 작업이 완료되면 시뮬레이터를 닫도록 설정하려면 다음을 선택해야 합니다</system:String>
     <!--  설정  -->
 
     <!--  메인 화면  -->
@@ -187,7 +192,6 @@
     <system:String x:Key="Quantity">드롭 수</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">참조</system:String>
-    <system:String x:Key="StageSelectTip">주 선택 레벨은 자원 닫기이며, 자원 수집 활동이 하루 종일 열려 있으면 사용하지 마십시오</system:String>
     <system:String x:Key="Amend">수정</system:String>
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
@@ -242,8 +246,8 @@
     <!--  메인 화면  -->
 
     <!--  공개모집 인식  -->
-    <system:String x:Key="Recognition">공개모집 인식</system:String>
-    <system:String x:Key="RecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립 기능입니다. 게임 공개모집 태그 화면에서 사용하세요~</system:String>
+    <system:String x:Key="RecruitmentRecognition">공개모집 인식</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립 기능입니다. 게임 공개모집 태그 화면에서 사용하세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">★ 3 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">★ 4 태그를 자동 선택</system:String>
@@ -257,7 +261,7 @@
     <!--  공개모집 인식  -->
 
     <!--  자동 작전  -->
-    <system:String x:Key="Copilot">자동 작전 베타</system:String>
+    <system:String x:Key="Copilot">자동 작전</system:String>
     <system:String x:Key="CopilotLocation">작업 경로/코드</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그할 수 있어요 (oﾟvﾟ)ノ</system:String>

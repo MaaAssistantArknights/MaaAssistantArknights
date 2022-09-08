@@ -2,6 +2,7 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
 #include "AsstUtils.hpp"
 #include "Controller.h"
 #include "Logger.hpp"
@@ -65,18 +66,15 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
     return res;
 }
 
-bool asst::AbstractImageAnalyzer::save_img()
+bool asst::AbstractImageAnalyzer::save_img(const std::string& dirname)
 {
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, {
-                                                     { ":", "-" },
-                                                     { " ", "_" },
-                                                 });
-    std::filesystem::create_directory("debug");
-    bool ret = cv::imwrite("debug/" + stem + "_raw.png", m_image);
+    stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
+    std::filesystem::create_directories(dirname);
+    bool ret = asst::imwrite(dirname + stem + "_raw.png", m_image);
 
 #ifdef ASST_DEBUG
-    cv::imwrite("debug/" + stem + "_draw.png", m_image_draw);
+    asst::imwrite(dirname + stem + "_draw.png", m_image_draw);
 #endif
 
     return ret;

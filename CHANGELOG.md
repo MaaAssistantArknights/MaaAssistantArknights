@@ -1,6 +1,20 @@
-- 修复 刷理智 活动结束后关卡导航无法实时刷新、保存、及备选关卡显示的问题 @ABA2396
-- 修复 自动公招 上传一图流数据时的响应检查错误 @MistEO
-- 修复 自动战斗 关技能关不掉的问题 @MistEO
-- 修复 基建 偶现不换人的问题 @MistEO
-- 优化 基建 控制中枢 歌蕾蒂娅 优先级 @MistEO
-- 优化 界面 布局 @MistEO
+- 更新 `日暮寻路` 故事集、`巧克力大街` 剿灭关卡地图、掉落数据 @MistEO
+- 新增 仓库识别 导出材料 初版功能 @MistEO
+- 新增 刷理智 关卡导航 全主线关卡支持，请进入设置中开启手动输入选项 @MistEO
+- 新增 基建 源石碎片自动补货选框 @ABA2396
+- 新增 ADB 断开时重启模拟器并重试选项 @StarWishLXH
+- 新增 自动战斗 自动编队 按照职业区分干员并编队 @MistEO
+- 新增 自动战斗 CD 中干员数量检测条件。目前编辑器尚未支持，可参考文档修改 JSON 文件使用 @MistEO
+- 重构 Win32 下命令调用及路径转换相关逻辑 @dantmnf
+- 重构 资源管理相关代码 @MistEO
+- 重构 基础设施部分代码 @zzyyyl @horror-proton
+- 重构 界面 关卡选择、材料选择逻辑 @et2012 @ABA2396
+- 优化 上传 企鹅物流 及 一图流大数据 时的检查及重试逻辑，并支持企鹅物流的幂等机制 @MistEO @zzyyyl
+- 优化 自动战斗 作业编辑器 @LYZhelloworld
+- 优化 界面 样式布局 @ABA2396 @zzyyyl @MistEO
+- 修复 截图 偶现行尾错误，及不使用 socket 的问题 @zzyyyl @MistEO
+- 修复 上传数据 空回调导致的崩溃问题 @MistEO
+- 修复 自动战斗 干员撤退不掉的问题 @MistEO
+- 修复 自动战斗 作业不填写标题及简介时，解析失败的问题 @MistEO
+- 修复 Copilot 接口 传入中文路径时的错误 @MistEO
+- Update Japanese translation and documentation @wallsman @Tastror

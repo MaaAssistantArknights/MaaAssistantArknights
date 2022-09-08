@@ -15,9 +15,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="270" />
-            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="150" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -91,5 +92,14 @@
             ItemsSource="{Binding ConnectConfigList}"
             SelectedValue="{Binding ConnectConfig}"
             SelectedValuePath="Value" />
+
+        <CheckBox
+            Grid.Row="4"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Center"
+            IsChecked="{Binding RetryOnDisconnected}"
+            Content="{DynamicResource RetryOnDisconnected}"
+            ToolTip="{DynamicResource RetryOnDisconnectedTip}"
+            HorizontalAlignment="Center" />
     </Grid>
 </UserControl>

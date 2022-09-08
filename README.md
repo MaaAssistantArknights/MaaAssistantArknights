@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[中文（简体）](README.md) | [中文（繁體）](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
+[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -67,11 +67,11 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-1. 请根据 [模拟器支持情况](docs/模拟器支持.md)，进行对应的操作。
+1. 请根据 [模拟器支持情况](docs/1.3-模拟器支持.md)，进行对应的操作。
 2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，更高不限。
 3. 开始使用吧！
 
-更多使用说明请参考 [详细介绍](docs/详细介绍.md)
+更多使用说明请参考 [详细介绍](docs/1.1-详细介绍.md)
 
 ## 常见问题
 
@@ -79,8 +79,9 @@ MAA 的意思是 MAA Assistant Arknights
 - 连接错误、不知道 adb 路径怎么填写
 - 识别错误/任务开始后一直不动、没有反应
 - 如何连接自定义端口
+- 下载速度慢，且镜像站无法打开网页
 
-请参考 [常见问题](docs/常见问题.md)
+请参考 [常见问题](docs/1.2-常见问题.md)
 
 ## 外服支持
 
@@ -138,11 +139,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-直接使用 Visual Studio 2022 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+- 直接使用 Visual Studio 2022 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+- 建议启用 clang-format 支持，详细内容可以参考 [在 Visual Studio 中启用 clang-format](docs/2.2-开发相关.md#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
-请参考 [Linux 编译教程](docs/Linux编译教程.md)
+请参考 [Linux 编译教程](docs/2.1-Linux编译教程.md)
 
 ### API
 
@@ -153,21 +155,21 @@ MAA 的意思是 MAA Assistant Arknights
 - [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
 - [HTTP 接口](src/Java/Maaj/Readme.md)
-- [集成文档](docs/集成文档.md)
-- [回调消息协议](docs/回调消息协议.md)
-- [任务流程协议](docs/任务流程协议.md)
-- [自动抄作业协议](docs/战斗流程协议.md)
+- [集成文档](docs/3.1-集成文档.md)
+- [回调消息协议](docs/3.2-回调消息协议.md)
+- [任务流程协议](docs/3.4-任务流程协议.md)
+- [自动抄作业协议](docs/3.3-战斗流程协议.md)
 
 ### Issue bot
 
 - 使用 `Add {LABEL_NAME}` 增加标签，使用 `Remove {LABEL_NAME}` 删除标签。
 - 在提交说明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 给对应议题增加 `fixed` 标签。
 
-更多说明请参考 [Issue bot 使用方法](docs/IssueBot使用方法.md)。
+更多说明请参考 [Issue bot 使用方法](docs/2.3-IssueBot使用方法.md)。
 
 ### 想参与开发，但不太会用 Github?
 
-[Github Pull Request 流程简述](docs/PR流程简述.md)
+[Github Pull Request 流程简述](docs/2.2-开发相关.md#github-pull-request-流程简述)
 
 ## 声明
 
