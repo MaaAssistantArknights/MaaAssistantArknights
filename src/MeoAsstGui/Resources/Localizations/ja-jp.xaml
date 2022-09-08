@@ -27,7 +27,7 @@
     <system:String x:Key="Office">事務所</system:String>
     <system:String x:Key="Control">制御中枢</system:String>
 
-    <system:String x:Key="DronesNotUse">ドローン使わない</system:String>
+    <system:String x:Key="DronesNotUse">ドローンを使わない</system:String>
     <system:String x:Key="Money">貿易所-龍門幣</system:String>
     <system:String x:Key="SyntheticJade">貿易所-合成玉</system:String>
     <system:String x:Key="CombatRecord">製造所-作戦記録</system:String>
@@ -35,7 +35,7 @@
     <system:String x:Key="OriginStone">製造所-源石の欠片</system:String>
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
     <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">すでに進駐しているオペレーターを宿舎に入れない</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">すでに進駐しているオペレーターを宿舎に入れない</system:String><!--現状動作不明のため対応次第訳修正-->
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片は自動で補充する</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
@@ -47,7 +47,7 @@
     <system:String x:Key="WSA">WSA 古いバージョン</system:String>
     <system:String x:Key="Compatible">互換モード</system:String>
 
-    <system:String x:Key="DormThreshold">基地で働く体力のしきい値</system:String>
+    <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、できるだけクリアする</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、1階旅商人に出会った後止める</system:String>
@@ -89,7 +89,7 @@
 
     <system:String x:Key="EmulatorException">エミュレータのエラー検出&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorNotFound">エミュレータが検出されない&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</system:String>
-    <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出された&#x0a;不要なエミュレータを閉じるか&#x0a;手動で接続設定を行ってください</system:String>
+    <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため&#x0a;不要なエミュレータを閉じるか&#x0a;手動で接続設定を行ってください</system:String>
 
     <system:String x:Key="AlreadyLatest">すでに最新版です～</system:String>
 
@@ -110,8 +110,8 @@
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
-    <system:String x:Key="TimerTip">時間数のみを記入し、正時に実行されます</system:String>
-    <system:String x:Key="Timer">タイミング</system:String>
+    <system:String x:Key="TimerTip">時間のみを記入（例:15/午後3時に実行する）</system:String>
+    <system:String x:Key="Timer">タイマー</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
@@ -130,29 +130,29 @@
 
     <system:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデのように源石を使う</system:String>
-    <system:String x:Key="DrGrandetTip">オリジナイト使用確認画面で正気度が1回復するまで待ってから、すぐにオリジナイトを使用してください</system:String>
+    <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
-    <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
+    <system:String x:Key="HighPriority">優先購入（中国語名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
+    <system:String x:Key="Blacklist">ブラックリスト（中国語名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
 
-    <system:String x:Key="MinimizeToTray">最小化するとトレイに非表示</system:String>
+    <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
-    <system:String x:Key="UseAlternateStage">代わりのステージが選択できる</system:String>
+    <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String><!--現状動作内容不明のため翻訳修正候補-->
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
-    <system:String x:Key="MainViewButtonFeature">スタート画面左側のボタン</system:String>
-    <system:String x:Key="CustomStageCode">レベルコードの手入力</system:String>
-    <system:String x:Key="CustomStageCodeTip">すべてのメインラインレベル名＋オリジナルリストのレベル名（例：4-10、6-16など）をサポートします。</system:String>
+    <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
+    <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
+    <system:String x:Key="CustomStageCodeTip">ステージの原名と番号（4-10、6-16など）の両方がサポートされています。</system:String>
 
-    <system:String x:Key="ADBTip">ヒント：ここで自動的に検出されます。エラーが発生した場合は、もう一度変更を試みることができます。それ以外の場合は、自分で入力する必要はありません。</system:String>
+    <system:String x:Key="ADBTip">ヒント：接続時に自動的に検出されますが、エラーが発生した場合は変更を試みることができます。通常は自分で入力する必要はありません。</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
-    <system:String x:Key="ConnectionAddressTip">初めて使うと自動で記入されますので、問題があれば手動で修正してみてください</system:String>
+    <system:String x:Key="ConnectionAddressTip">初めて使用した際に自動で記入されますが、問題があれば手動で修正してください。</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
-    <system:String x:Key="RetryOnDisconnected">adb再接続失敗時のエミュレータの自動再起動</system:String>
+    <system:String x:Key="RetryOnDisconnected">adb再接続失敗時にエミュレータを自動で再起動</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <!--  設定  -->
 
@@ -181,28 +181,28 @@
     <system:String x:Key="Hibernate">休止状態にする*</system:String>
     <system:String x:Key="Shutdown">シャットダウン*</system:String>
 
-    <system:String x:Key="LinkStart">Link Start!</system:String>
+    <system:String x:Key="LinkStart">Link Start!</system:String><!--分かりやすく動作開始でも良い気はする-->
     <system:String x:Key="Stop">止める</system:String>
 
     <!--  戦闘設定  -->
-    <system:String x:Key="UseSanityPotion">回復剤使う</system:String>
-    <system:String x:Key="UseOriginitePrime">源石使う*</system:String>
-    <system:String x:Key="PerformBattles">回数限定*</system:String>
-    <system:String x:Key="AssignedMaterial">素材限定</system:String>
+    <system:String x:Key="UseSanityPotion">理性剤使用数</system:String><!--UIの表示バランス大丈夫？-->
+    <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String><!--UIの表示バランス大丈夫？-->
+    <system:String x:Key="PerformBattles">周回数指定*</system:String>
+    <system:String x:Key="AssignedMaterial">素材を限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
-    <system:String x:Key="StageSelect2">代わり</system:String>
-    <system:String x:Key="Amend">改定</system:String>
+    <system:String x:Key="StageSelect2">代替ステージ</system:String>
+    <system:String x:Key="Amend">設定の変更</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
-    <system:String x:Key="ClosedStage">イベントが終わった</system:String>
+    <system:String x:Key="ClosedStage">イベント終了</system:String><!--動作不明-->
     <system:String x:Key="1-7">1-7</system:String>
-    <system:String x:Key="CE-6">龍門幣-6/5</system:String>
-    <system:String x:Key="AP-5">購買資格証-5</system:String>
-    <system:String x:Key="CA-5">アーツ学-5</system:String>
-    <system:String x:Key="LS-6">作戦記録-6/5</system:String>
+    <system:String x:Key="CE-6">龍門幣-6/5(CE-6)</system:String><!--馴染みのあるステージ名での表記-->
+    <system:String x:Key="AP-5">購買資格証-5(AP-5)</system:String><!--馴染みのあるステージ名での表記-->
+    <system:String x:Key="CA-5">アーツ学-5(CA-5)</system:String><!--馴染みのあるステージ名での表記-->
+    <system:String x:Key="LS-6">作戦記録-6/5(LS-6)</system:String><!--馴染みのあるステージ名での表記-->
 
     <system:String x:Key="PR-A-1">医療/重装SoC・初</system:String>
     <system:String x:Key="PR-A-2">医療/重装SoC・中</system:String>
@@ -213,7 +213,7 @@
     <system:String x:Key="PR-D-1">前衛/特殊SoC・初</system:String>
     <system:String x:Key="PR-D-2">前衛/特殊SoC・中</system:String>
 
-    <system:String x:Key="Annihilation">殲滅モード</system:String>
+    <system:String x:Key="Annihilation">殲滅作戦</system:String>
 
     <system:String x:Key="TodaysStageTip">今日のステージのヒント：</system:String>
     <system:String x:Key="CETip">貨物輸送（龍門幣）</system:String>
@@ -225,15 +225,15 @@
     <system:String x:Key="PR-BTip">術師/狙撃SoC</system:String>
     <system:String x:Key="PR-CTip">先鋒/補助SoC</system:String>
     <system:String x:Key="PR-DTip">前衛/特殊SoC</system:String>
-    <system:String x:Key="Pormpt1">月曜で，殲滅作戦がリセットされました～</system:String>
-    <system:String x:Key="Pormpt2">日曜で，殲滅作戦を忘れないでください～</system:String>
+    <system:String x:Key="Pormpt1">月曜です。殲滅作戦がリセットされています！</system:String>
+    <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか？</system:String>
     <!--  戦闘設定  -->
 
     <!--  ログ  -->
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
-    <system:String x:Key="Stopped">止めました</system:String>
+    <system:String x:Key="Stopped">動作停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
     <system:String x:Key="SetSuccessfully">設定に成功しました</system:String>
     <system:String x:Key="SetFailed">設定に失敗しました</system:String>
@@ -246,9 +246,9 @@
     <!--  スタート  -->
 
     <!--  公開求人認識  -->
-    <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">ヒント：これとスタート画面の公開求人は、2つの別々の機能です。使用する前にゲームの公開求人を手動で開いてください～</system:String>
-    <system:String x:Key="AutoSettingTime">時刻を自動的に設定する</system:String>
+    <system:String x:Key="Recognition">公開求人認識</system:String>
+    <system:String x:Key="RecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください～</system:String>
+    <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">星5タグを自動的に選択する</system:String>
@@ -266,16 +266,16 @@
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
-    <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
+    <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String><!--現状動作内容不明のため翻訳修正候補-->
 
     <system:String x:Key="Start">開始</system:String>
 
     <system:String x:Key="CopilotJSONSharing">攻略ファイル・シェアステーション</system:String>
-    <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String>
+    <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String><!--Where use it?-->
 
     <!--  ログ  -->
     <system:String x:Key="CopilotTip">ヒント：</system:String>
-    <system:String x:Key="CopilotTip1">1.エミュレータとゲームのフレームレートを60fps以上に設定してください；</system:String>
+    <system:String x:Key="CopilotTip1">1.エミュレータとゲーム内設定のフレームレートを60fps以上に設定してください；</system:String>
     <system:String x:Key="CopilotTip2">2.「行動開始」ボタンのあるインターフェースでこの機能を使用してください；</system:String>
     <system:String x:Key="CopilotTip3">3.サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；</system:String>
     <system:String x:Key="CopilotTip4">4.逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；</system:String>
@@ -310,26 +310,26 @@
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
-    <system:String x:Key="HasReturned">戻った</system:String>
+    <system:String x:Key="HasReturned">戻った</system:String><!--内容不明のため翻訳修正候補-->
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
-    <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsのアップロードをあきらめます</system:String>
-    <system:String x:Key="TheEX">無報酬のステージですから、止めます</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
+    <system:String x:Key="TheEX">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="OnTheMove">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
-    <system:String x:Key="RecruitConfirm">募集を行った</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">オペレーターが競合した</system:String>
+    <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">オペレーターが競合しました</system:String>
     <system:String x:Key="BegunToExplore">冒険を開始しました</system:String>
     <system:String x:Key="HasInvested">投資しました</system:String>
     <system:String x:Key="ExplorationAbandoned">この冒険を放棄しました</system:String>
     <system:String x:Key="FightCompleted">戦闘完了</system:String>
     <system:String x:Key="FightFailed">戦闘失敗</system:String>
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
-    <system:String x:Key="GameCrash">ゲームがクラッシュした、再起動しようとしています</system:String>
-    <system:String x:Key="GameDrop">ゲームで回線が落ちました、再接続しようとしています</system:String>
+    <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
+    <system:String x:Key="GameDrop">回線が落ちました。再接続を行います</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ：怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ：安全な片隅</system:String>
@@ -337,7 +337,7 @@
     <system:String x:Key="CambatDps">ステージ：作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ：緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ：悪路凶敵</system:String>
-    <system:String x:Key="NoDrop">なし</system:String>
+    <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop">ドロップ：</system:String>
     <system:String x:Key="TotalDrop">ドロップ統計：</system:String>
     <system:String x:Key="ThisFacility">現在の施設：</system:String>
@@ -347,12 +347,12 @@
     <system:String x:Key="RecruitmentOfBot">公開求人でロボットが出ました！</system:String>
     <system:String x:Key="Choose">選択</system:String>
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
-    <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが足りません</system:String>
+    <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected">オペレーターを選択：</system:String>
     <system:String x:Key="CurrentSteps">現在の手順：</system:String>
-    <system:String x:Key="UnsupportedLevel">このステージがサポートされていません。MAAのバージョンをアップデートするか、攻略ファイルを確認してください</system:String>
+    <system:String x:Key="UnsupportedLevel">このステージはサポートされていません。MAAのバージョンをアップデートするか、攻略ファイルを確認してください</system:String>
     <system:String x:Key="RecruitTagsDetected">認識結果：</system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
@@ -381,7 +381,7 @@
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用*</system:String>
     <system:String x:Key="Level3UseShortTime">星3タグを7:40に設定する</system:String>
-    <system:String x:Key="Level3UseShortTimeTip">他の星に影響しない</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">他のレアリティには影響しない</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
     <system:String x:Key="ManuallySelectLevel1">ロボットを手動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
@@ -392,9 +392,9 @@
     <!--  AutoRecruitSettings  -->
 
     <!--  EasterEggs  -->
-    <system:String x:Key="Burping">うぅ……オエッ、つ</system:String>
+    <system:String x:Key="Burping">うぅ……オエッ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
-    <system:String x:Key="Hangover">次は飲みすぎないようにしないと……</system:String>
+    <system:String x:Key="Hangover">つ、次は飲みすぎないようにしないと……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
 </ResourceDictionary>

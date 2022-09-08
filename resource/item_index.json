@@ -1031,6 +1031,14 @@
         "sortId": -10000,
         "usage": "以淀粉与果糖制成的米诺斯传统美食，用来获取蜜饼城堡的奖励。"
     },
+    "act12mini_token_component": {
+        "classifyType": "NONE",
+        "description": "迅速锈蚀的战争野心的残骸，骑士团淘汰或损坏武器的零件，处置不当的话会有源石感染的风险。不知道为什么，有时候能在寻常农户的家中发现。",
+        "icon": "act12mini_token_component.png",
+        "name": "制式器械零件",
+        "sortId": -10000,
+        "usage": "茨沃涅克附近较常见的废旧器械零件，在遍布卡西米尔城镇的连锁超市可以回收。"
+    },
     "act12side_point_cmemomedal": {
         "classifyType": "NONE",
         "description": "每一枚奖牌，都代表陈在调查过程中顺手解决的，与坎黛拉女士的委托无关的事件，她滞留多索雷斯期间，城市犯罪率达到了新低。作为对本地警察局的警示，奖牌被陈列在警察总局的正中央。",
@@ -1398,6 +1406,38 @@
         "name": "应急理智浓缩液",
         "sortId": 30001,
         "usage": "用于临时维持理智的大剂量浓缩应急合剂，配方中新增活性成分，效果立竿见影，可能会造成生物钟紊乱，服用前请仔细阅读说明。"
+    },
+    "ap_supply_lt_120_2022_1": {
+        "classifyType": "CONSUME",
+        "description": "口口松脆的酥皮月饼，颜色焦黄，让人食指大动。",
+        "icon": "ap_supply_lt_120_2022_1.png",
+        "name": "满颜色",
+        "sortId": 30001,
+        "usage": "一份鲜甜肉馅的酥皮月饼，可用于恢复理智。"
+    },
+    "ap_supply_lt_120_2022_2": {
+        "classifyType": "CONSUME",
+        "description": "口口松脆的酥皮月饼，颜色焦黄，让人食指大动。",
+        "icon": "ap_supply_lt_120_2022_2.png",
+        "name": "正圆月",
+        "sortId": 30001,
+        "usage": "一份乳香云腿的酥皮月饼，可用于恢复理智。"
+    },
+    "ap_supply_lt_120_2022_3": {
+        "classifyType": "CONSUME",
+        "description": "口口绵润的糖皮月饼，色泽油亮，引人口水四溢。",
+        "icon": "ap_supply_lt_120_2022_3.png",
+        "name": "笑靥开",
+        "sortId": 30001,
+        "usage": "一份玫瑰豆沙的糖皮月饼，可用于恢复理智。"
+    },
+    "ap_supply_lt_120_2022_4": {
+        "classifyType": "CONSUME",
+        "description": "口口绵润的糖皮月饼，色泽油亮，引人口水四溢。",
+        "icon": "ap_supply_lt_120_2022_4.png",
+        "name": "桂子落",
+        "sortId": 30001,
+        "usage": "一份椒盐果仁的糖皮月饼，可用于恢复理智。"
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
