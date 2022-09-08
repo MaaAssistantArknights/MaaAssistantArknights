@@ -9,11 +9,12 @@
 #include "NoWarningCV.h"
 
 #include "AbstractTaskPlugin.h"
+#include "AsstImageIo.hpp"
 #include "AsstUtils.hpp"
 #include "Controller.h"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
 #include "ProcessTask.h"
-#include "Resource.h"
 
 using namespace asst;
 
@@ -36,7 +37,7 @@ bool asst::AbstractTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = Resrc.cfg().get_options().task_delay;
+        int delay = Configer.get_options().task_delay;
         sleep(delay);
 
         if (!on_run_fails()) {
@@ -98,7 +99,7 @@ void asst::AbstractTask::clear_plugin() noexcept
 json::value asst::AbstractTask::basic_info() const
 {
     if (m_basic_info_cache.empty()) {
-        std::string class_name = typeid(*this).name();
+        std::string class_name = utils::demangle(typeid(*this).name());
         std::string task_name;
         // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
         // 但还是不能完全保证，如果不行的话建议 override
@@ -180,7 +181,9 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
             break;
         }
     }
-    m_callback(msg, detail, m_callback_arg);
+    if (m_callback) {
+        m_callback(msg, detail, m_callback_arg);
+    }
 }
 
 void asst::AbstractTask::click_return_button()
@@ -191,7 +194,7 @@ void asst::AbstractTask::click_return_button()
 void asst::AbstractTask::save_image()
 {
     std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all_batch(stem, { { ":", "-" }, { " ", "_" } });
+    stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directory("debug");
-    cv::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
+    asst::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
 }

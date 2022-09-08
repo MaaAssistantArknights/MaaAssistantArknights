@@ -36,6 +36,7 @@
     <system:String x:Key="Chip">🍺🍻🍷🍷</system:String>
     <system:String x:Key="DormTrustEnabled">🍻🍸🕺🍸🍺🍺🍺🍸</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">🍻🍷🍸🍺🍺🍺🍷🍸🕺🍷💃🍺🍷🍸</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">🍺🍺🍺🍺🍸🍸🍻🍻</system:String>
 
     <system:String x:Key="General">🍻🍸🕺</system:String>
     <system:String x:Key="BlueStacks">🍺🕺🍻</system:String>
@@ -143,12 +144,16 @@
     <system:String x:Key="UseAlternateStage">🍻🍸🍷🍺🍸</system:String>
     <system:String x:Key="HideUnavailableStage">🍻🍸🍷🍺🍺🍸🍸</system:String>
     <system:String x:Key="MainViewButtonFeature">🍷🍺🍻🍺🍸🍺</system:String>
+    <system:String x:Key="CustomStageCode">🍺🍻🍷🍻🍷🍻🍷</system:String>
+    <system:String x:Key="CustomStageCodeTip">🍻💃🍻🍸🍷🍸🍷🍷💃🍸🍻💃🍷🍺🍺🍸🍷🕺🍷🍷🍷🕺🍻🍷🍸</system:String>
 
     <system:String x:Key="ADBTip">🍸🍻🍻🍸🍸🍻💃🍻🍸🍷🍸🍷🍷💃🍸🍻💃🍷🍺🍺🍸🍷🕺🍷🍷🍷🕺🍻🍷🍸💃🕺🍸🍷🍺</system:String>
     <system:String x:Key="ADBPath">🕺💃🍸🍷🍸💃🍸</system:String>
     <system:String x:Key="ConnectionAddress">🍻🕺🍻</system:String>
     <system:String x:Key="ConnectionAddressTip">🍷🍷🍷🍺🍺🍻💃🍻🍺🍺🍷🍻🕺🍻🕺💃🕺🍸💃🍸🍷🍷🍺🕺🍸</system:String>
     <system:String x:Key="ConnectionPreset">🍸🍷🍻</system:String>
+    <system:String x:Key="RetryOnDisconnected">🍺🍷🍺🍸🍷🍻🕺🕺🍺🍷🍻🍺🍸🍻🍸🍺</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">🍻🍺🍸🍻🍷🍻🍷🍻🍷🍻🍻🍸🕺🍺🍺🍸🍺🍺🍺🍺🍸🕺🍻🍷🍸🕺🍷🕺🕺🍻🍷🍻🍺🕺🍺🍻🍷🍷💃💃🍺🍸</system:String>
     <!--  设置  -->
 
     <!--  一键长草  -->
@@ -187,7 +192,6 @@
     <system:String x:Key="Quantity">🕺🕺🍸</system:String>
     <system:String x:Key="StageSelect">🍷🍻🍷</system:String>
     <system:String x:Key="StageSelect2">🕺🍻</system:String>
-    <system:String x:Key="StageSelectTip">🍻🍷🍸🕺🕺🍺🍷🍺🍻🍺🍷🍸🍸🍺🍺🍷🍺🍻🍸🍻</system:String>
     <system:String x:Key="Amend">🍺🍺</system:String>
 
     <!--<system:String x:Key="CurrentStage">🕺🍺🍻</system:String>
@@ -242,8 +246,8 @@
     <!--  一键长草  -->
 
     <!--  公招识别  -->
-    <system:String x:Key="Recognition">💃🍸🍺</system:String>
-    <system:String x:Key="RecognitionTip">🕺💃💃🕺🍺💃🕺🍻🍷🍸🕺🕺🍺🍸🍻🍺🍻🕺🍷🍺🍸</system:String>
+    <system:String x:Key="RecruitmentRecognition">💃🍸🍺</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">🕺💃💃🕺🍺💃🕺🍻🍷🍸🕺🕺🍺🍸🍻🍺🍻🕺🍷🍺🍸</system:String>
     <system:String x:Key="AutoSettingTime">🕺🍸🍸🍻</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">🍻🍺🍺🍻🍷🍷</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">🍺🍺🍸🍻🍻🍻</system:String>

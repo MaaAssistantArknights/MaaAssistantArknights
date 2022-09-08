@@ -276,7 +276,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets or sets the button system URL.
         /// </summary>
-        public string ButtonSystemUrl { get; set; }
+        public string ButtonSystemUrl { get; set; } = string.Empty;
 
         private bool _buttonSystemEnabled = false;
 

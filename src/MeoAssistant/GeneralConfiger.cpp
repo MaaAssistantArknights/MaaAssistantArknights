@@ -5,8 +5,6 @@
 
 bool asst::GeneralConfiger::parse(const json::value& json)
 {
-    LogTraceFunction;
-
     m_version = json.at("version").as_string();
 
     {

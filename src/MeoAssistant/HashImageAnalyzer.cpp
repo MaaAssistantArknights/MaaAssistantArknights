@@ -90,7 +90,7 @@ const std::vector<std::string>& asst::HashImageAnalyzer::get_hash() const noexce
 
 std::string asst::HashImageAnalyzer::s_hash(const cv::Mat& img)
 {
-    constexpr static int HashKernelSize = 16;
+    static constexpr int HashKernelSize = 16;
     cv::Mat resized;
     cv::resize(img, resized, cv::Size(HashKernelSize, HashKernelSize));
     if (img.channels() == 3) {
@@ -155,7 +155,7 @@ cv::Mat asst::HashImageAnalyzer::bound_bin(const cv::Mat& bin)
 
 int asst::HashImageAnalyzer::hamming(std::string hash1, std::string hash2)
 {
-    constexpr static int HammingFlags = 64;
+    static constexpr int HammingFlags = 64;
 
     hash1.insert(hash1.begin(), HammingFlags - hash1.size(), '0');
     hash2.insert(hash2.begin(), HammingFlags - hash2.size(), '0');

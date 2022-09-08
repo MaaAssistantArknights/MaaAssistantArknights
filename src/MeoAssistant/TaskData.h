@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractConfiger.h"
+#include "AbstractConfigerWithTempl.h"
 
 #include <memory>
 #include <unordered_map>
@@ -10,20 +10,11 @@ namespace asst
 {
     struct TaskInfo;
 
-    class TaskData : public AbstractConfiger
+    class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigerWithTempl
     {
     public:
-        TaskData(const TaskData&) = delete;
-        TaskData(TaskData&&) = delete;
-
         virtual ~TaskData() override = default;
-
-        static TaskData& get_instance() noexcept
-        {
-            static TaskData unique_instance;
-            return unique_instance;
-        }
-        const std::unordered_set<std::string>& get_templ_required() const noexcept;
+        virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override;
 
         template <typename TargetTaskInfoType>
         requires std::derived_from<TargetTaskInfoType, TaskInfo> &&
@@ -51,13 +42,11 @@ namespace asst
         }
 
     protected:
-        TaskData() = default;
-
         virtual bool parse(const json::value& json) override;
 
         std::unordered_map<std::string, std::shared_ptr<TaskInfo>> m_all_tasks_info;
         std::unordered_set<std::string> m_templ_required;
     };
 
-    static auto& Task = TaskData::get_instance();
+    inline static auto& Task = TaskData::get_instance();
 }

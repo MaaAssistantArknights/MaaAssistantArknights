@@ -1,13 +1,14 @@
 #include "AutoRecruitTask.h"
 
 #include "Controller.h"
+#include "GeneralConfiger.h"
 #include "Logger.hpp"
 #include "MultiMatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "RecruitConfiger.h"
 #include "RecruitImageAnalyzer.h"
-#include "Resource.h"
+#include "ReportDataTask.h"
 
 #include "AsstRanges.hpp"
 #include <algorithm>
@@ -17,7 +18,7 @@ namespace asst::recruit_calc
 {
     // all combinations and their operator list, excluding empty set and 6-star operators while there is no senior tag
     auto get_all_combs(const std::vector<std::string>& tags,
-                       const std::vector<RecruitOperInfo>& all_ops = Resrc.recruit().get_all_opers())
+                       const std::vector<RecruitOperInfo>& all_ops = RecruitData.get_all_opers())
     {
         std::vector<RecruitCombs> rcs_with_single_tag;
 
@@ -272,7 +273,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 {
     LogTraceFunction;
 
-    int delay = Resrc.cfg().get_options().task_delay;
+    int delay = Configer.get_options().task_delay;
 
     m_ctrler->click(button);
     sleep(delay);
@@ -454,14 +455,22 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
+        bool to_report = false;
         if (!is_calc_only_task()) {
             // report if the slot is clean
             if (!m_dirty_slots.contains(index)) {
-                async_upload_result(info["details"]);
+                to_report = true;
                 m_dirty_slots.emplace(index); // mark as dirty
             }
             else
                 Log.info("will not report, dirty slots are", m_dirty_slots);
+        }
+
+#ifdef ASST_DEBUG
+        to_report = true;
+#endif
+        if (to_report) {
+            upload_result(info["details"]);
         }
 
         if (need_exit()) return {};
@@ -664,28 +673,20 @@ bool asst::AutoRecruitTask::hire_all()
     return true;
 }
 
-void asst::AutoRecruitTask::async_upload_result(const json::value& details)
+void asst::AutoRecruitTask::upload_result(const json::value& details)
 {
     LogTraceFunction;
     if (m_upload_to_penguin) {
-        auto upload_future = std::async(std::launch::async, &AutoRecruitTask::upload_to_penguin, this, details);
-        m_upload_pending.emplace_back(std::move(upload_future));
+        upload_to_penguin(details);
     }
     if (m_upload_to_yituliu) {
-        auto upload_future = std::async(std::launch::async, &AutoRecruitTask::upload_to_yituliu, this, details);
-        m_upload_pending.emplace_back(std::move(upload_future));
+        upload_to_yituliu(details);
     }
 }
 
 void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
 {
     LogTraceFunction;
-
-    auto& opt = Resrc.cfg().get_options();
-
-    json::value cb_info = basic_info();
-    cb_info["subtask"] = "ReportToPenguinStats";
-    callback(AsstMsg::SubTaskStart, cb_info);
 
     json::value body;
     body["server"] = m_server;
@@ -701,55 +702,26 @@ void asst::AutoRecruitTask::upload_to_penguin(const json::value& details)
     body["source"] = "MeoAssistant";
     body["version"] = Version;
 
-    std::string body_escape = utils::string_replace_all_batch(body.to_string(), { { "\"", "\\\"" } });
-
-#ifdef _WIN32
-    std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
-#else
-    std::string body_escapes = body_escape;
-#endif
-
     std::string extra_param;
     if (!m_penguin_id.empty()) {
         extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
     }
-    std::string cmd_line = utils::string_replace_all_batch(opt.penguin_report.cmd_format,
-                                                           { { "[body]", body_escapes }, { "[extra]", extra_param } });
 
-    Log.info("request_penguin |", cmd_line);
-    std::string response = utils::callcmd(cmd_line);
-
-    Log.info("response:\n", response);
-    cb_info["details"]["response"] = response;
-
-    static const std::regex http_ok_regex(R"(HTTP/.+ 200)");
-    if (std::regex_search(response, http_ok_regex)) {
-        callback(AsstMsg::SubTaskCompleted, cb_info);
-    }
-    else {
-        cb_info["why"] = "上报失败";
-        callback(AsstMsg::SubTaskError, cb_info);
+    if (!m_report_penguin_task_ptr) {
+        m_report_penguin_task_ptr =
+            std::make_shared<ReportDataTask>(report_penguin_callback, static_cast<void*>(this), m_task_chain);
     }
 
-    static const std::regex penguinid_regex(R"(X-Penguin-Set-Penguinid: (\d+))");
-    std::smatch penguinid_sm;
-    if (std::regex_search(response, penguinid_sm, penguinid_regex)) {
-        json::value id_info = basic_info_with_what("PenguinId");
-        m_penguin_id = penguinid_sm[1];
-        id_info["details"]["id"] = m_penguin_id;
-        callback(AsstMsg::SubTaskExtraInfo, id_info);
-    }
+    m_report_penguin_task_ptr->set_report_type(ReportType::PenguinStats)
+        .set_body(body.to_string())
+        .set_extra_param(extra_param)
+        .set_retry_times(5)
+        .run();
 }
 
 void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
 {
     LogTraceFunction;
-
-    auto& opt = Resrc.cfg().get_options();
-
-    json::value cb_info = basic_info();
-    cb_info["subtask"] = "ReportToYituliu";
-    callback(AsstMsg::SubTaskStart, cb_info);
 
     json::value body = details;
     body["server"] = m_server;
@@ -757,29 +729,42 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     body["version"] = Version;
     body["uuid"] = m_yituliu_id;
 
-    std::string body_escape = utils::string_replace_all_batch(body.to_string(), { { "\"", "\\\"" } });
-
-#ifdef _WIN32
-    std::string body_escapes = utils::utf8_to_unicode_escape(body_escape);
-#else
-    std::string body_escapes = body_escape;
-#endif
-
-    std::string cmd_line = utils::string_replace_all_batch(opt.yituliu_report.cmd_format,
-                                                           { { "[body]", body_escapes }, { "[extra]", "" } });
-    Log.trace("request_yituliu |", cmd_line);
-
-    std::string response = utils::callcmd(cmd_line);
-    Log.trace("request_yituliu | response:\n", response);
-
-    cb_info["details"]["response"] = response;
-
-    static const std::regex http_ok_regex(R"(HTTP/.+ 200)");
-    if (std::regex_search(response, http_ok_regex)) {
-        callback(AsstMsg::SubTaskCompleted, cb_info);
+    if (!m_report_yituliu_task_ptr) {
+        m_report_yituliu_task_ptr =
+            std::make_shared<ReportDataTask>(report_yituliu_callback, static_cast<void*>(this), m_task_chain);
     }
-    else {
-        cb_info["why"] = "上报失败";
-        callback(AsstMsg::SubTaskError, cb_info);
+
+    m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigData)
+        .set_body(body.to_string())
+        .set_retry_times(0)
+        .run();
+}
+
+void asst::AutoRecruitTask::report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+{
+    LogTraceFunction;
+
+    auto p_this = static_cast<AutoRecruitTask*>(custom_arg);
+    if (!p_this) {
+        return;
     }
+
+    if (msg == AsstMsg::SubTaskExtraInfo && detail.get("what", std::string()) == "PenguinId") {
+        std::string id = detail.get("details", "id", std::string());
+        p_this->m_penguin_id = id;
+    }
+
+    p_this->callback(msg, detail);
+}
+
+void asst::AutoRecruitTask::report_yituliu_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+{
+    LogTraceFunction;
+
+    auto p_this = static_cast<AutoRecruitTask*>(custom_arg);
+    if (!p_this) {
+        return;
+    }
+
+    p_this->callback(msg, detail);
 }

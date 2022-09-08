@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[中文（简体）](README.md) | [中文（繁體）](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
+[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
 
 MAA means MAA Assistant Arknights
 
@@ -57,11 +57,11 @@ Talk is cheap. Show me the pictures!
 
 ### Basic Settings
 
-1. Follow the [Emulator Support](docs/en-us/EMULATOR_SUPPORTS.md) to configure your emulator.
+1. Follow the [Emulator Support](docs/en-us/1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
 3. Enjoy it!
 
-See also: [User Manual](docs/en-us/USER_MANUAL.md)
+See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
 
 ## FAQ
 
@@ -70,7 +70,7 @@ See also: [User Manual](docs/en-us/USER_MANUAL.md)
 - Wrong recognition/program freezes after starting
 - Custom connection settings
 
-Please refer to: [FAQ](docs/en-us/FAQ.md)
+Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 
 ## Supports for overseas clients
 
@@ -132,7 +132,7 @@ Open `MeoAssistantArknights.sln` with Visual Studio 2022. All settings have been
 
 ### Linux/MacOS
 
-Please refer to [Linux Tutorial](docs/en-us/LINUX_TUTORIAL.md)
+Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 
 ### API
 
@@ -142,14 +142,14 @@ Please refer to [Linux Tutorial](docs/en-us/LINUX_TUTORIAL.md)
 - [Dart interface](src/dart/)
 - [Java interface](src/Java/Maaj): [Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/): [HTTP api](src/Rust)
-- [Integration Documentation](docs/en-us/INTEGRATION.md)
-- [Callback Schema](docs/en-us/CALLBACK_SCHEMA.md)
-- [Task Schema](docs/en-us/TASK_SCHEMA.md)
-- [Copilot Schema](docs/en-us/COPILOT_SCHEMA.md)
+- [Integration Documentation](docs/en-us/3.1-INTEGRATION.md)
+- [Callback Schema](docs/en-us/3.2-CALLBACK_SCHEMA.md)
+- [Task Schema](docs/en-us/3.4-TASK_SCHEMA.md)
+- [Copilot Schema](docs/en-us/3.3-COPILOT_SCHEMA.md)
 
 ### For Novice Users of GitHub
 
-[Contributing](docs/en-us/CONTRIBUTING.md)
+[Contributing](docs/en-us/2.2-CONTRIBUTING.md)
 
 ## Disclaimer
 

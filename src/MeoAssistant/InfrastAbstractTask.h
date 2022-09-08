@@ -19,8 +19,8 @@ namespace asst
         virtual size_t max_num_of_facilities() const noexcept { return 1ULL; }
         virtual size_t max_num_of_opers() const noexcept { return 1ULL; }
 
-        constexpr static int OperSelectRetryTimes = 3;
-        constexpr static int TaskRetryTimes = 3;
+        static constexpr int OperSelectRetryTimes = 3;
+        static constexpr int TaskRetryTimes = 3;
 
     protected:
         virtual bool on_run_fails() override;

@@ -110,7 +110,8 @@
                         DisplayMemberPath="Display"
                         IsDropDownOpen="{Binding IsDropDown}"
                         IsEditable="True"
-                        IsTextSearchEnabled="True"
+                        IsTextSearchEnabled="False"
+                        Loaded="{s:Action DropsList_Loaded}"
                         ItemsSource="{Binding DropsList}"
                         SelectedValue="{Binding DropsItemId}"
                         SelectedValuePath="Value"
@@ -169,7 +170,17 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage1}"
-                        SelectedValuePath="Value" />
+                        SelectedValuePath="Value"
+                        Visibility="{Binding NotCustomStageCode, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding Stage1}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{Binding CustomStageCode, Converter={StaticResource Boolean2VisibilityConverter}}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -180,7 +191,6 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage2}"
                         SelectedValuePath="Value"
-                        ToolTip="{DynamicResource StageSelectTip}"
                         Visibility="{Binding AlternateStageDisplay, Converter={StaticResource Boolean2VisibilityConverter}}" />
                     <ComboBox
                         Height="30"
@@ -192,7 +202,6 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
-                        ToolTip="{DynamicResource StageSelectTip}"
                         Visibility="{Binding AlternateStageDisplay, Converter={StaticResource Boolean2VisibilityConverter}}" />
                 </StackPanel>
             </Grid>
@@ -210,6 +219,5 @@
                     Visibility="{c:Binding Path='!Idle and Inited'}" />
             </StackPanel>
         </Grid>
-
     </ScrollViewer>
 </UserControl>

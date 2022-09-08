@@ -8,17 +8,14 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignHeight="300"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <CheckBox
-            Grid.Row="0"
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -27,44 +24,41 @@
             IsChecked="{Binding CreditShopping}" />
         <StackPanel
             Grid.Row="1"
-            Margin="10,10,40,10"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            IsEnabled="{Binding CreditShopping}"
-            Orientation="Horizontal">
-            <TextBlock
-                Width="155"
-                Margin="10"
-                Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
-                Text="{DynamicResource HighPriority}"
-                TextWrapping="Wrap" />
-            <TextBox
-                Width="250"
-                Height="30"
-                Margin="10"
-                Text="{Binding CreditFirstList}"
-                ToolTip="{DynamicResource Drink}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="2"
-            Margin="10,10,40,10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            IsEnabled="{Binding CreditShopping}"
-            Orientation="Horizontal">
-            <TextBlock
-                Width="155"
-                Margin="10"
-                Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
-                Text="{DynamicResource Blacklist}"
-                TextWrapping="Wrap" />
-            <TextBox
-                Width="250"
-                Height="30"
-                Margin="10"
-                Text="{Binding CreditBlackList}" />
+            Orientation="Vertical">
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                IsEnabled="{Binding CreditShopping}"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource Blacklist}"/>
+                <TextBox
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{Binding CreditBlackList}" />
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                IsEnabled="{Binding CreditShopping}"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource HighPriority}"/>
+                <TextBox
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{Binding CreditFirstList}"
+                    ToolTip="{DynamicResource Drink}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

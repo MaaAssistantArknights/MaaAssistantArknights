@@ -21,7 +21,7 @@ if not input_dir:
 for root, dirs, files in os.walk(input_dir):
     for f in files:
         file = os.path.join(root, f)
-        if os.path.splitext(file)[-1] in [".c", ".h", ".cpp", ".hpp"]:
+        if os.path.splitext(file)[-1] in [".c", ".h", ".cpp", ".hpp", ".json"]:
             print(file)
             os.system(f"{clang_format_exe} -i -style=file \"{file}\"");
 

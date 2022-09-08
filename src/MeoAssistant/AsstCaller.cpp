@@ -1,6 +1,7 @@
 #include "AsstCaller.h"
 
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 
 #include <meojson/json.hpp>
@@ -8,7 +9,7 @@
 #include "Assistant.h"
 #include "AsstTypes.h"
 #include "Logger.hpp"
-#include "Resource.h"
+#include "ResourceLoader.h"
 #include "Version.h"
 
 static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
@@ -41,17 +42,11 @@ static bool inited = false;
 
 bool AsstLoadResource(const char* path)
 {
-#ifdef _WIN32
-    std::string working_path = asst::utils::utf8_to_ansi(path);
-#else
-    std::string working_path = std::string(path);
-#endif
-    bool log_inited = asst::Logger::set_dirname(working_path + "/");
-    bool resrc_inited = asst::Resrc.load(working_path + "/resource/");
-    if (!resrc_inited) {
-        std::cerr << asst::Resrc.get_last_error() << std::endl;
+    auto working_path = asst::utils::path(path);
+    if (!inited) {
+        asst::Logger::set_directory(working_path);
     }
-    inited = log_inited && resrc_inited;
+    inited = asst::ResourceLoader::get_instance().load(working_path / asst::utils::path("resource"));
     return inited;
 }
 
@@ -87,11 +82,7 @@ bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, c
         return false;
     }
 
-#ifdef _WIN32
-    return handle->connect(asst::utils::utf8_to_ansi(adb_path), address, config ? config : std::string());
-#else
     return handle->connect(adb_path, address, config ? config : std::string());
-#endif
 }
 
 bool AsstStart(AsstHandle handle)

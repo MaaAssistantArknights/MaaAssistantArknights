@@ -42,12 +42,31 @@ namespace MeoAsstGui
 
         private delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
 
-        [DllImport("MeoAssistant.dll")]
-        private static extern bool AsstLoadResource(byte[] dirname);
-
-        private static bool AsstLoadResource(string dirname)
+        private static unsafe byte[] EncodeNullTerminatedUTF8(string s)
         {
-            return AsstLoadResource(Encoding.UTF8.GetBytes(dirname));
+            var enc = Encoding.UTF8.GetEncoder();
+            fixed (char* c = s)
+            {
+                var len = enc.GetByteCount(c, s.Length, true);
+                var buf = new byte[len + 1];
+                fixed (byte* ptr = buf)
+                {
+                    enc.Convert(c, s.Length, ptr, len, true, out _, out _, out var completed);
+                }
+
+                return buf;
+            }
+        }
+
+        [DllImport("MeoAssistant.dll")]
+        private static extern unsafe bool AsstLoadResource(byte* dirname);
+
+        private static unsafe bool AsstLoadResource(string dirname)
+        {
+            fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
+            {
+                return AsstLoadResource(ptr);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
@@ -60,27 +79,39 @@ namespace MeoAsstGui
         private static extern void AsstDestroy(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")]
-        private static extern bool AsstConnect(AsstHandle handle, byte[] adb_path, byte[] address, byte[] config);
+        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adb_path, byte* address, byte* config);
 
-        private static bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
+        private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
         {
-            return AsstConnect(handle, Encoding.UTF8.GetBytes(adb_path), Encoding.UTF8.GetBytes(address), Encoding.UTF8.GetBytes(config));
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adb_path),
+                ptr2 = EncodeNullTerminatedUTF8(address),
+                ptr3 = EncodeNullTerminatedUTF8(config))
+            {
+                return AsstConnect(handle, ptr1, ptr2, ptr3);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
-        private static extern TaskId AsstAppendTask(AsstHandle handle, byte[] type, byte[] task_params);
+        private static extern unsafe TaskId AsstAppendTask(AsstHandle handle, byte* type, byte* task_params);
 
-        private static TaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
+        private static unsafe TaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
         {
-            return AsstAppendTask(handle, Encoding.UTF8.GetBytes(type), Encoding.UTF8.GetBytes(task_params));
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(type),
+                ptr2 = EncodeNullTerminatedUTF8(task_params))
+            {
+                return AsstAppendTask(handle, ptr1, ptr2);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
-        private static extern bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte[] task_params);
+        private static extern unsafe bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte* task_params);
 
-        private static bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params)
+        private static unsafe bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params)
         {
-            return AsstSetTaskParams(handle, id, Encoding.UTF8.GetBytes(task_params));
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(task_params))
+            {
+                return AsstSetTaskParams(handle, id, ptr1);
+            }
         }
 
         [DllImport("MeoAssistant.dll")]
@@ -90,15 +121,19 @@ namespace MeoAsstGui
         private static extern bool AsstStop(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")]
-        private static extern void AsstLog(byte[] level, byte[] message);
+        private static extern unsafe void AsstLog(byte* level, byte* message);
 
         /// <summary>
         /// 记录日志。
         /// </summary>
         /// <param name="message">日志内容。</param>
-        public static void AsstLog(string message)
+        public static unsafe void AsstLog(string message)
         {
-            AsstLog(Encoding.UTF8.GetBytes("GUI"), Encoding.UTF8.GetBytes(message));
+            var level = new ReadOnlySpan<byte>(new byte[] { (byte)'G', (byte)'U', (byte)'I', 0 });
+            fixed (byte* ptr1 = level, ptr2 = EncodeNullTerminatedUTF8(message))
+            {
+                AsstLog(ptr1, ptr2);
+            }
         }
 
         private readonly CallbackDelegate _callback;
@@ -225,8 +260,8 @@ namespace MeoAsstGui
         /// The function returns the length of the string, in characters.
         /// If <paramref name="ptr"/> is <see cref="IntPtr.Zero"/>, the function returns <c>0</c>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
-        internal static extern int lstrlenA(IntPtr ptr);
+        [DllImport("ucrtbase.dll", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int strlen(IntPtr ptr);
 
         private static string PtrToStringCustom(IntPtr ptr, Encoding enc)
         {
@@ -235,14 +270,15 @@ namespace MeoAsstGui
                 return null;
             }
 
-            if (lstrlenA(ptr) == 0)
+            int len = strlen(ptr);
+
+            if (len == 0)
             {
                 return string.Empty;
             }
 
-            int len = lstrlenA(ptr);
-            byte[] bytes = new byte[len + 1];
-            Marshal.Copy(ptr, bytes, 0, len + 1);
+            byte[] bytes = new byte[len];
+            Marshal.Copy(ptr, bytes, 0, len);
             return enc.GetString(bytes);
         }
 
@@ -325,7 +361,7 @@ namespace MeoAsstGui
                     break;
 
                 case "Reconnecting":
-                    mainModel.AddLog(Localization.GetString("TryToReconnect"), LogColor.Error);
+                    mainModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", LogColor.Error);
                     break;
 
                 case "Reconnected":
@@ -336,6 +372,20 @@ namespace MeoAsstGui
                     connected = false;
                     mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
                     AsstStop();
+
+                    var settingsModel = _container.Get<SettingsViewModel>();
+                    Execute.OnUIThread(async () =>
+                    {
+                        if (settingsModel.RetryOnDisconnected)
+                        {
+                            mainModel.AddLog(Localization.GetString("TryToStartEmulator"), LogColor.Error);
+                            mainModel.killEmulator();
+                            await Task.Delay(3000);
+                            mainModel.Stop();
+                            mainModel.LinkStart();
+                        }
+                    });
+
                     break;
 
                 case "ScreencapFailed":
@@ -408,7 +458,8 @@ namespace MeoAsstGui
                         var unique_finished_task = (TaskId)finished_tasks[0];
                         if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -634,8 +685,14 @@ namespace MeoAsstGui
                 ProcRecruitCalcMsg(details);
             }
 
-            string what = details["what"].ToString();
             var subTaskDetails = details["details"];
+            if (taskChain == "Depot")
+            {
+                var depotModel = _container.Get<DepotViewModel>();
+                depotModel.Parse((JObject)subTaskDetails);
+            }
+
+            string what = details["what"].ToString();
 
             var mainModel = _container.Get<TaskQueueViewModel>();
             var copilotModel = _container.Get<CopilotViewModel>();
@@ -846,7 +903,7 @@ namespace MeoAsstGui
                     break;
 
                 case "UnsupportedLevel":
-                    mainModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
+                    copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
                     break;
             }
         }
@@ -999,6 +1056,7 @@ namespace MeoAsstGui
             Roguelike,
             RecruitCalc,
             Copilot,
+            Depot,
         }
 
         private readonly Dictionary<TaskType, TaskId> _latestTaskId = new Dictionary<TaskType, TaskId>();
@@ -1011,7 +1069,7 @@ namespace MeoAsstGui
             task_params["stone"] = max_stone;
             task_params["times"] = max_times;
             task_params["report_to_penguin"] = true;
-            if (drops_item_quantity != 0)
+            if (drops_item_quantity != 0 && !string.IsNullOrWhiteSpace(drops_item_id))
             {
                 task_params["drops"] = new JObject();
                 task_params["drops"][drops_item_id] = drops_item_quantity;
@@ -1186,7 +1244,7 @@ namespace MeoAsstGui
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_trust_enabled)
+        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_trust_enabled, bool originium_shard_auto_replenishment)
         {
             var task_params = new JObject();
 
@@ -1196,7 +1254,7 @@ namespace MeoAsstGui
             task_params["threshold"] = dorm_threshold;
             task_params["notstationed_enabled"] = dorm_filter_not_stationed_enabled;
             task_params["trust_enabled"] = dorm_trust_enabled;
-            task_params["replenish"] = true;
+            task_params["replenish"] = originium_shard_auto_replenishment;
             TaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;
             return id != 0;
@@ -1289,6 +1347,18 @@ namespace MeoAsstGui
 
             TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.RecruitCalc] = id;
+            return id != 0 && AsstStart();
+        }
+
+        /// <summary>
+        /// 仓库识别。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstStartDepot()
+        {
+            var task_params = new JObject();
+            TaskId id = AsstAppendTaskWithEncoding("Depot", task_params);
+            _latestTaskId[TaskType.Depot] = id;
             return id != 0 && AsstStart();
         }
 

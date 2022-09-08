@@ -4,7 +4,7 @@
 
 namespace asst
 {
-    class CopilotConfiger : public AbstractConfiger
+    class CopilotConfiger : public SingletonHolder<CopilotConfiger>, public AbstractConfiger
     {
     public:
         virtual ~CopilotConfiger() override = default;
@@ -20,4 +20,6 @@ namespace asst
         virtual bool parse(const json::value& json) override;
         std::unordered_map<std::string, BattleCopilotData> m_battle_actions;
     };
+
+    inline static auto& Copilot = CopilotConfiger::get_instance();
 }

@@ -5771,17 +5771,152 @@
         ],
         "rearDelay": 500,
         "next": [
-            "BattleQuickFormationCollapseRole",
+            "BattleQuickFormationExpandRole",
             "Stop"
         ]
     },
-    "BattleQuickFormationCollapseRole": {
+    "BattleQuickFormationExpandRole": {
+        "action": "ClickSelf",
+        "roi": [
+            1152,
+            0,
+            128,
+            138
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-All": {
         "action": "ClickSelf",
         "roi": [
             1163,
             0,
             117,
             133
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Pioneer": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Warrior": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Tank": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Caster": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Medic": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Sniper": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Special": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 500
+    },
+    "BattleQuickFormationRole-Support": {
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
         ],
         "rearDelay": 500
     },
@@ -5790,7 +5925,7 @@
         "roi": [
             370,
             250,
-            910,
+            715,
             420
         ]
     },
@@ -5799,7 +5934,7 @@
         "roi": [
             370,
             250,
-            910,
+            715,
             420
         ],
         "maskRange": [
@@ -6424,7 +6559,7 @@
             40
         ]
     },
-    "BattleUseSkill": {
+    "BattleUseSkillJustClick": {
         "algorithm": "JustReturn",
         "rearDelay": 100,
         "action": "ClickRect",
@@ -6436,8 +6571,26 @@
         ]
     },
     "BattleOperRetreat": {
+        "Doc": "这个按钮图标在不同关卡及位置中是有畸变的，模板匹配结果很不准，不建议用这个Task",
+        "roi": [
+            554,
+            146,
+            119,
+            118
+        ],
+        "templThreshold": 0.7,
+        "cache": false,
+        "action": "ClickSelf",
+        "maskRange": [
+            100,
+            255
+        ],
+        "rearDelay": 300
+    },
+    "BattleOperRetreatJustClick": {
         "algorithm": "JustReturn",
-        "rearDelay": 200,
+        "preDelay": 200,
+        "rearDelay": 300,
         "action": "ClickRect",
         "specificRect": [
             580,

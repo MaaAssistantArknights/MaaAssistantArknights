@@ -8,7 +8,6 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignHeight="300"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <StackPanel Margin="10" VerticalAlignment="Center">

@@ -6,15 +6,18 @@
 
 #include "NoWarningCV.h"
 
+#include "AsstImageIo.hpp"
+#include "BattleDataConfiger.h"
 #include "BattleImageAnalyzer.h"
 #include "Controller.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource.h"
+#include "RoguelikeCopilotConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "TilePack.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -95,7 +98,6 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     wait_for_start();
 
-    const auto& tile = Resrc.tile();
     bool calced = false;
 
     if (m_stage_name.empty()) {
@@ -113,13 +115,13 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
 
             for (const auto& tr : name_analyzer.get_result()) {
-                auto side_info = tile.calc(tr.text, true);
+                auto side_info = Tile.calc(tr.text, true);
                 if (side_info.empty()) {
                     continue;
                 }
                 m_stage_name = tr.text;
                 m_side_tile_info = std::move(side_info);
-                m_normal_tile_info = tile.calc(m_stage_name, false);
+                m_normal_tile_info = Tile.calc(m_stage_name, false);
                 calced = true;
                 break;
             }
@@ -130,12 +132,12 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         }
     }
     else {
-        m_side_tile_info = tile.calc(m_stage_name, true);
-        m_normal_tile_info = tile.calc(m_stage_name, false);
+        m_side_tile_info = Tile.calc(m_stage_name, true);
+        m_normal_tile_info = Tile.calc(m_stage_name, false);
         calced = true;
     }
 
-    auto opt = Resrc.roguelike().get_stage_data(m_stage_name);
+    auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
     if (opt && !opt->replacement_home.empty()) {
         m_homes = opt->replacement_home;
         std::string log_str = "[ ";
@@ -350,7 +352,7 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
     m_ctrler->click(rect);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    ProcessTask task(*this, { "BattleUseSkill" });
+    ProcessTask task(*this, { "BattleUseSkillJustClick" });
     task.set_retry_times(0);
     return task.run();
 }
@@ -360,7 +362,7 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
     m_ctrler->click(point);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
-    return ProcessTask(*this, { "BattleOperRetreat" }).run();
+    return ProcessTask(*this, { "BattleOperRetreatJustClick" }).run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::abandon()
@@ -514,12 +516,7 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         m_total_kills = kills_analyzer.get_total_kills();
     }
 
-#ifdef WIN32
-    cv::imwrite("map/" + utils::utf8_to_ansi(m_stage_name) + ".png", image);
-#else
-    cv::imwrite("map/" + m_stage_name + ".png", image);
-#endif
-
+    asst::imwrite("map/" + m_stage_name + ".png", image);
     return true;
 }
 
@@ -675,7 +672,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
 
     int64_t elite = m_status->get_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name).value_or(0);
     // 按朝右算，后面根据方向做转换
-    BattleAttackRange right_attack_range = Resrc.battle_data().get_range(oper.name, elite);
+    BattleAttackRange right_attack_range = BattleData.get_range(oper.name, elite);
 
     if (right_attack_range == BattleDataConfiger::EmptyRange) {
         switch (oper.role) {

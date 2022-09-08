@@ -217,7 +217,7 @@ namespace MeoAsstGui
             {
                 _curCopilotData = string.Empty;
                 var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
-                if (json == null || !json.ContainsKey("doc"))
+                if (json == null)
                 {
                     AddLog(Localization.GetString("CopilotJsonError"), LogColor.Error);
                     return;
@@ -226,7 +226,7 @@ namespace MeoAsstGui
                 var doc = (JObject)json["doc"];
 
                 string title = string.Empty;
-                if (doc.ContainsKey("title"))
+                if (doc != null && doc.ContainsKey("title"))
                 {
                     title = doc["title"].ToString();
                 }
@@ -243,7 +243,7 @@ namespace MeoAsstGui
                 }
 
                 string details = string.Empty;
-                if (doc.ContainsKey("details"))
+                if (doc != null && doc.ContainsKey("details"))
                 {
                     details = doc["details"].ToString();
                 }
@@ -258,7 +258,7 @@ namespace MeoAsstGui
 
                     AddLog(details, details_color);
                     {
-                        Url = string.Empty;
+                        Url = CopilotUiUrl;
                         var linkParser = new Regex(@"(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
