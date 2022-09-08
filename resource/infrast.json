@@ -119,6 +119,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
+                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05"
                 ],
                 "efficient": {
@@ -132,7 +133,8 @@
                     "替身",
                     "必要责任",
                     "护卫",
-                    "小小的领袖"
+                    "小小的领袖",
+                    "独善其身"
                 ],
                 "template": "Bskill_ctrl_cost.png"
             },
@@ -228,6 +230,18 @@
                     "坚毅随和"
                 ],
                 "template": "Bskill_ctrl_lda_add.png"
+            },
+            "bskill_ctrl_lonely": {
+                "desc": [
+                    "进驻控制中枢时，部分设施内处于工作状态的干员心情每小时恢复+0.1；同时控制中枢内部分技能可以为其他设施内处于工作状态的干员额外提供心情恢复"
+                ],
+                "name": [
+                    "公事公办"
+                ],
+                "efficient": {
+                    "all": 0.05
+                },
+                "template": "Bskill_ctrl_lonely.png"
             },
             "bskill_ctrl_lungmen": {
                 "desc": [
@@ -2387,6 +2401,24 @@
                 ],
                 "template": "Bskill_tra_Lappland2.png"
             },
+            "bskill_tra_against": {
+                "desc": [
+                    "进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+1"
+                ],
+                "name": [
+                    "违约索赔·α"
+                ],
+                "template": "Bskill_tra_against.png"
+            },
+            "bskill_tra_against2": {
+                "desc": [
+                    "进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+2"
+                ],
+                "name": [
+                    "违约索赔·β"
+                ],
+                "template": "Bskill_tra_against2.png"
+            },
             "bskill_tra_bd_n1": {
                 "desc": [
                     "进驻贸易站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点无声共鸣"
@@ -2474,6 +2506,15 @@
                     "物流规划·β"
                 ],
                 "template": "Bskill_tra_flow_gs2.png"
+            },
+            "bskill_tra_law": {
+                "desc": [
+                    "进驻贸易站时，如果下笔赤金订单交付数小于4，则视为违约订单"
+                ],
+                "name": [
+                    "合同法"
+                ],
+                "template": "Bskill_tra_law.png"
             },
             "bskill_tra_limit&cost": {
                 "desc": [

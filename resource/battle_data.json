@@ -1920,6 +1920,16 @@
             ],
             "rarity": 5
         },
+        "char_4032_provs": {
+            "name": "但书",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ],
+            "rarity": 5
+        },
         "char_4036_forcer": {
             "name": "见行者",
             "profession": "SPECIAL",
@@ -2049,6 +2059,16 @@
                 "3-1"
             ],
             "rarity": 5
+        },
+        "char_4064_mlynar": {
+            "name": "玛恩纳",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-2",
+                "1-2",
+                "1-2"
+            ],
+            "rarity": 6
         },
         "char_411_tomimi": {
             "name": "特米米",
