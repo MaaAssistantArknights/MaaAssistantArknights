@@ -19,7 +19,13 @@ endif ()
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/W4;/WX>")
 add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic>")
 
-add_definitions(-DASST_DLL_EXPORTS)
+add_definitions(
+    -DNDEBUG
+    -D_CONSOLE
+    -DASST_DLL_EXPORTS
+    -D_WINDLL
+    -D_UNICODE
+    -DUNICODE)
 
 include_directories(include 3rdparty/include)
 aux_source_directory(src/MeoAssistant SRC)
