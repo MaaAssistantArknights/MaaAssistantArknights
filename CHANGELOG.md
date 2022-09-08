@@ -1,11 +1,20 @@
+- 更新 `日暮寻路` 故事集、`巧克力大街` 剿灭关卡地图、掉落数据 @MistEO
 - 新增 仓库识别 导出材料 初版功能 @MistEO
 - 新增 刷理智 关卡导航 全主线关卡支持，请进入设置中开启手动输入选项 @MistEO
+- 新增 基建 源石碎片自动补货选框 @ABA2396
+- 新增 ADB 断开时重启模拟器并重试选项 @StarWishLXH
+- 新增 自动战斗 自动编队 按照职业区分干员并编队 @MistEO
+- 新增 自动战斗 CD 中干员数量检测条件。目前编辑器尚未支持，可参考文档修改 JSON 文件使用 @MistEO
 - 重构 Win32 下命令调用及路径转换相关逻辑 @dantmnf
-- 更新 自动战斗 新剿灭关卡地图数据 @MistEO
+- 重构 资源管理相关代码 @MistEO
+- 重构 基础设施部分代码 @zzyyyl @horror-proton
+- 重构 界面 关卡选择、材料选择逻辑 @et2012 @ABA2396
+- 优化 上传 企鹅物流 及 一图流大数据 时的检查及重试逻辑，并支持企鹅物流的幂等机制 @MistEO @zzyyyl
 - 优化 自动战斗 作业编辑器 @LYZhelloworld
-- 优化 界面 材料选择下拉框的逻辑 @et2012
+- 优化 界面 样式布局 @ABA2396 @zzyyyl @MistEO
+- 修复 截图 偶现行尾错误，及不使用 socket 的问题 @zzyyyl @MistEO
 - 修复 上传数据 空回调导致的崩溃问题 @MistEO
-- 修复 自动战斗 自动编队职业选择时的点击错误 @MistEO
+- 修复 自动战斗 干员撤退不掉的问题 @MistEO
 - 修复 自动战斗 作业不填写标题及简介时，解析失败的问题 @MistEO
-- 修复 HTTP, Logger 工具类的一些问题 @horror-proton @zzyyyl
-- Update Japanese documentation @wallsman
+- 修复 Copilot 接口 传入中文路径时的错误 @MistEO
+- Update Japanese translation and documentation @wallsman @Tastror
