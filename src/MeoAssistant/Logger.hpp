@@ -20,7 +20,16 @@ namespace asst
     public:
         struct separator
         {
-            separator(std::string_view str) : str(str) {}
+            separator() = default;
+            separator(std::string_view s) : str(s) {}
+            separator& operator=(std::string_view s) { str = s; }
+
+            static const separator none;
+            static const separator space;
+            static const separator tab;
+            static const separator newline;
+            static const separator comma;
+
             std::string_view str;
         };
 
@@ -238,8 +247,7 @@ namespace asst
         Stream& stream_put_line(Stream& s, First&& a0, Args&&... args)
         {
             stream_put<ToAnsi>(s, std::forward<First>(a0));
-            static const separator default_sep(" ");
-            stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, default_sep, std::forward<Args>(args)...);
+            stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, separator::space, std::forward<Args>(args)...);
             return s;
         }
 
@@ -250,6 +258,12 @@ namespace asst
         std::mutex m_trace_mutex;
         std::ofstream m_ofs;
     };
+
+    inline const Logger::separator Logger::separator::none;
+    inline const Logger::separator Logger::separator::space(" ");
+    inline const Logger::separator Logger::separator::tab("\t");
+    inline const Logger::separator Logger::separator::newline("\n");
+    inline const Logger::separator Logger::separator::comma(",");
 
     class LoggerAux
     {
