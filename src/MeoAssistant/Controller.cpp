@@ -274,6 +274,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     while (1) {
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
+        else break;
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
         if (recv_by_socket && ((accept_pending && process_running) || !socket_eof)) {
             wait_handles.push_back(sockov.hEvent);
