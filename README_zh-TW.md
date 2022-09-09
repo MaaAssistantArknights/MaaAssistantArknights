@@ -79,6 +79,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 連接錯誤、不知道 adb 路徑怎麼填寫
 - 辨識錯誤/任務開始後一直不動、沒有反應
 - 如何連接自定義通訊埠
+- 下載速度慢，且鏡像站無法打開網頁
 
 請參考 [常見問題](docs/1.2-常见问题.md)
 
@@ -138,7 +139,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-直接使用 Visual Studio 2022 打開 `MeoAssistantArknights.sln` 即可，所有環境都是配置好的
+- 直接使用 Visual Studio 2022 打開 `MeoAssistantArknights.sln` 即可，所有環境都是配置好的
+- 建議啟用 clang-format 支援，詳細內容可以參考 [在 Visual Studio 中啟用 clang-format](docs/2.2-开发相关.md#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
@@ -157,6 +159,13 @@ MAA 的意思是 MAA Assistant Arknights
 - [回呼訊息協定](docs/3.2-回调消息协议.md)
 - [任務流程協定](docs/3.4-任务流程协议.md)
 - [自動抄作業協定](docs/3.3-战斗流程协议.md)
+
+### Issue Bot
+
+- 使用 `Add {LABEL_NAME}` 增加標籤，使用 `Remove {LABEL_NAME}` 刪除標籤。
+- 在提交說明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 給對應議題增加 `fixed` 標籤。
+
+更多說明請參考 [Issue Bot 使用方法](docs/2.3-IssueBot使用方法.md)。
 
 ### 想參與開發，但不太會用 Github?
 
