@@ -39,8 +39,13 @@ namespace asst
 
         struct level
         {
-            level(std::string_view s) : str(s) {}
-            level& operator=(std::string_view s) { str = s; }
+            level() = default;
+            constexpr explicit level(std::string_view s) noexcept : str(s) {}
+            level& operator=(std::string_view s) noexcept
+            {
+                str = s;
+                return *this;
+            }
 
             static const level debug;
             static const level trace;
@@ -57,10 +62,6 @@ namespace asst
 
         class FlagLogger
         {
-            bool is_first = true;
-            separator m_sep { " " };
-            std::unique_lock<std::mutex> trace_lock;
-
         public:
             FlagLogger(std::mutex& mtx, std::ofstream& ofs) : trace_lock(mtx), m_ofs(ofs) {}
             template <typename... Args>
@@ -109,20 +110,21 @@ namespace asst
                 : std::true_type
             {};
 
-            template <bool ToAnsi, typename Stream>
-            static Stream& stream_put(Stream& s, std::filesystem::path&& v)
-            {
-                return stream_put<ToAnsi>(s, asst::utils::path_to_utf8_string(v));
-            }
-
             template <bool ToAnsi, typename Stream, typename T>
             static Stream& stream_put(Stream& s, T&& v)
             {
-                if constexpr (std::is_constructible_v<std::string, T>) {
+                if constexpr (std::same_as<std::filesystem::path, std::remove_cvref_t<T>>) {
+                    if constexpr (ToAnsi)
+                        s << utils::utf8_to_ansi(utils::path_to_utf8_string(std::forward<T>(v)));
+                    else
+                        s << utils::path_to_utf8_string(std::forward<T>(v));
+                    return s;
+                }
+                if constexpr (std::convertible_to<T, std::string_view>) {
                     if constexpr (ToAnsi)
                         s << utils::utf8_to_ansi(std::forward<T>(v));
                     else
-                        s << std::string(std::forward<T>(v));
+                        s << std::forward<T>(v);
                     return s;
                 }
                 else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
@@ -147,9 +149,13 @@ namespace asst
                         "\t2. those can be inserted to stream with operator<< directly;\n"
                         "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
                         Stream, T);
+                    return s;
                 }
             }
 
+            bool is_first = true;
+            separator m_sep { " " };
+            std::unique_lock<std::mutex> trace_lock;
             std::ofstream& m_ofs;
         };
 
