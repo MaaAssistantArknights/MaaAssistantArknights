@@ -422,7 +422,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     Log.info("Call `", cmd, "` ret", exit_ret, ", cost", duration, "ms , stdout size:", pipe_data.size(),
              ", socket size:", sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("output:\n", pipe_data);
+        Log.trace("output:", Logger::separator("\n"), pipe_data);
     }
 
     if (!exit_ret) {

@@ -18,6 +18,13 @@ namespace asst
     class Logger : public SingletonHolder<Logger>
     {
     public:
+        struct separator
+        {
+            separator(std::string_view str) : str(str) {}
+            std::string_view str;
+        };
+
+    public:
         virtual ~Logger() override { flush(); }
 
         static bool set_directory(const std::filesystem::path& dir)
@@ -35,7 +42,7 @@ namespace asst
         {
 #ifdef ASST_DEBUG
             std::string_view level = "DEB";
-            log(level, std::forward<Args>(args)...);
+            log(level, DefaultSeparator, std::forward<Args>(args)...);
 #endif
         }
 
@@ -43,30 +50,30 @@ namespace asst
         inline void trace(Args&&... args)
         {
             std::string_view level = "TRC";
-            log(level, std::forward<Args>(args)...);
+            log(level, DefaultSeparator, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void info(Args&&... args)
         {
             std::string_view level = "INF";
-            log(level, std::forward<Args>(args)...);
+            log(level, DefaultSeparator, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void warn(Args&&... args)
         {
             std::string_view level = "WRN";
-            log(level, std::forward<Args>(args)...);
+            log(level, DefaultSeparator, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void error(Args&&... args)
         {
             std::string_view level = "ERR";
-            log(level, std::forward<Args>(args)...);
+            log(level, DefaultSeparator, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void log_with_custom_level(std::string_view level, Args&&... args)
         {
-            log(level, std::forward<Args>(args)...);
+            log(level, DefaultSeparator, std::forward<Args>(args)...);
         }
         void flush()
         {
@@ -111,7 +118,7 @@ namespace asst
         }
 
         template <typename... Args>
-        void log(std::string_view level, Args&&... args)
+        void log(std::string_view level, const separator& sep, Args&&... args)
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
@@ -134,13 +141,13 @@ namespace asst
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
 #ifdef ASST_DEBUG
-            stream_put_line(m_ofs, buff, args...);
+            stream_put_line(m_ofs, sep, buff, args...);
 #else
-            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
+            stream_put_line<false>(m_ofs, sep, buff, std::forward<Args>(args)...);
 #endif
 
 #ifdef ASST_DEBUG
-            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
+            stream_put_line<true>(std::cout, sep, buff, std::forward<Args>(args)...);
 #endif
         }
 
@@ -180,7 +187,7 @@ namespace asst
                 for (const auto& elem : std::forward<T>(v)) {
                     s << comma;
                     stream_put<ToAnsi>(s, elem);
-                    comma = ",";
+                    comma = ", ";
                 }
                 s << "]";
                 return s;
@@ -201,9 +208,21 @@ namespace asst
         template <bool ToAnsi, typename Stream>
         struct stream_put_line_impl<ToAnsi, Stream>
         {
-            static constexpr Stream& apply(Stream& s)
+            static constexpr Stream& apply(Stream& s, const separator& sep)
             {
+                std::ignore = sep;
                 s << std::endl;
+                return s;
+            }
+        };
+
+        template <bool ToAnsi, typename Stream, typename... Rest>
+        struct stream_put_line_impl<ToAnsi, Stream, separator, Rest...>
+        {
+            static constexpr Stream& apply(Stream& s, const separator& sep, const separator& new_sep, Rest&&... rs)
+            {
+                std::ignore = sep;
+                stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, new_sep, std::forward<Rest>(rs)...);
                 return s;
             }
         };
@@ -211,8 +230,9 @@ namespace asst
         template <bool ToAnsi, typename Stream, typename Only>
         struct stream_put_line_impl<ToAnsi, Stream, Only>
         {
-            static constexpr Stream& apply(Stream& s, Only&& only)
+            static constexpr Stream& apply(Stream& s, const separator& sep, Only&& only)
             {
+                std::ignore = sep;
                 stream_put<ToAnsi>(s, std::forward<Only>(only));
                 s << std::endl;
                 return s;
@@ -222,21 +242,22 @@ namespace asst
         template <bool ToAnsi, typename Stream, typename First, typename... Rest>
         struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
         {
-            static constexpr Stream& apply(Stream& s, First&& f, Rest&&... rs)
+            static constexpr Stream& apply(Stream& s, const separator& sep, First&& f, Rest&&... rs)
             {
                 stream_put<ToAnsi>(s, std::forward<First>(f));
-                s << " ";
-                stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, std::forward<Rest>(rs)...);
+                s << sep.str;
+                stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, sep, std::forward<Rest>(rs)...);
                 return s;
             }
         };
 
         template <bool ToAnsi = false, typename Stream, typename... Args>
-        Stream& stream_put_line(Stream& s, Args&&... args)
+        Stream& stream_put_line(Stream& s, const separator& sep, Args&&... args)
         {
-            return stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, std::forward<Args>(args)...);
+            return stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, sep, std::forward<Args>(args)...);
         }
 
+        inline static const separator DefaultSeparator { " " };
         inline static std::filesystem::path m_directory;
 
         std::filesystem::path m_log_path = m_directory / "asst.log";
