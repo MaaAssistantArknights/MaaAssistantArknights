@@ -280,7 +280,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
         if (wait_handles.empty()) break;
         auto elapsed = steady_clock::now() - start_time;
-        auto wait_time = std::min(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 0xFFFFFFFELL : 0LL);
+        auto wait_time =
+            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 0xFFFFFFFELL : 0LL);
         if (wait_time < 0) break;
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
