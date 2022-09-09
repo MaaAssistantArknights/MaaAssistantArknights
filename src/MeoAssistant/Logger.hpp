@@ -21,8 +21,12 @@ namespace asst
         struct separator
         {
             separator() = default;
-            separator(std::string_view s) : str(s) {}
-            separator& operator=(std::string_view s) { str = s; }
+            constexpr explicit separator(std::string_view s) noexcept : str(s) {}
+            separator& operator=(std::string_view s) noexcept
+            {
+                str = s;
+                return *this;
+            }
 
             static const separator none;
             static const separator space;
