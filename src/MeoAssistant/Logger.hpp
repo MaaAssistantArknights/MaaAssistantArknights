@@ -202,57 +202,43 @@ namespace asst
             }
         }
 
-        template <bool ToAnsi, bool IsFirstWord, typename Stream, typename... Args>
+        template <bool ToAnsi, typename Stream, typename... Args>
         struct stream_put_line_impl;
 
-        template <bool ToAnsi, bool IsFirstWord, typename Stream>
-        struct stream_put_line_impl<ToAnsi, IsFirstWord, Stream>
+        template <bool ToAnsi, typename Stream>
+        struct stream_put_line_impl<ToAnsi, Stream>
         {
-            static constexpr Stream& apply(Stream& s, const separator& sep)
+            static constexpr Stream& apply(Stream& s, const separator&)
             {
-                std::ignore = sep;
                 s << std::endl;
                 return s;
             }
         };
 
-        template <bool ToAnsi, bool IsFirstWord, typename Stream, typename Only>
-        struct stream_put_line_impl<ToAnsi, IsFirstWord, Stream, Only>
+        template <bool ToAnsi, typename Stream, typename First, typename... Rest>
+        struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
         {
-            static constexpr Stream& apply(Stream& s, const separator& sep, Only&& only)
+            static constexpr Stream& apply(Stream& s, [[maybe_unused]] const separator& sep, First&& f, Rest&&... rs)
             {
-                if constexpr (!IsFirstWord) {
-                    s << sep.str;
-                }
-                stream_put<ToAnsi>(s, std::forward<Only>(only));
-                s << std::endl;
-                return s;
-            }
-        };
-
-        template <bool ToAnsi, bool IsFirstWord, typename Stream, typename First, typename... Rest>
-        struct stream_put_line_impl<ToAnsi, IsFirstWord, Stream, First, Rest...>
-        {
-            static constexpr Stream& apply(Stream& s, const separator& sep, First&& f, Rest&&... rs)
-            {
-                if constexpr (std::same_as<separator, std::decay_t<First>>) {
-                    stream_put_line_impl<ToAnsi, false, Stream, Rest...>::apply(s, f, std::forward<Rest>(rs)...);
+                if constexpr (std::same_as<std::decay_t<First>, separator>) {
+                    stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, std::forward<First>(f),
+                                                                         std::forward<Rest>(rs)...);
                 }
                 else {
-                    if constexpr (!IsFirstWord) {
-                        s << sep.str;
-                    }
+                    s << sep.str;
                     stream_put<ToAnsi>(s, std::forward<First>(f));
-                    stream_put_line_impl<ToAnsi, false, Stream, Rest...>::apply(s, sep, std::forward<Rest>(rs)...);
+                    stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, sep, std::forward<Rest>(rs)...);
                 }
                 return s;
             }
         };
 
-        template <bool ToAnsi = false, typename Stream, typename... Args>
-        Stream& stream_put_line(Stream& s, const separator& sep, Args&&... args)
+        template <bool ToAnsi = false, typename Stream, typename First, typename... Args>
+        Stream& stream_put_line(Stream& s, const separator& sep, First&& a0, Args&&... args)
         {
-            return stream_put_line_impl<ToAnsi, true, Stream, Args...>::apply(s, sep, std::forward<Args>(args)...);
+            stream_put<ToAnsi>(s, std::forward<First>(a0));
+            stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, sep, std::forward<Args>(args)...);
+            return s;
         }
 
         inline static const separator DefaultSeparator { " " };
