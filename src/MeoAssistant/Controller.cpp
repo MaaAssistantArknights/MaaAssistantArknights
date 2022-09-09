@@ -274,14 +274,13 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     while (1) {
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
-        else break;
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
         if (recv_by_socket && ((accept_pending && process_running) || !socket_eof)) {
             wait_handles.push_back(sockov.hEvent);
         }
         if (wait_handles.empty()) break;
         auto elapsed = steady_clock::now() - start_time;
-        auto wait_time = std::min(timeout - duration_cast<milliseconds>(elapsed).count(), 0xFFFFFFFELL);
+        auto wait_time = std::min(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 0xFFFFFFFELL : 0LL);
         if (wait_time < 0) break;
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
@@ -290,6 +289,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
         }
         else if (wait_result == WAIT_TIMEOUT) {
+            if (wait_time == 0) {
+                break;
+            }
             continue;
         }
         else {
