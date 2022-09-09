@@ -37,6 +37,122 @@ namespace asst
             std::string_view str;
         };
 
+        struct level
+        {
+            level(std::string_view s) : str(s) {}
+            level& operator=(std::string_view s) { str = s; }
+
+            static const level debug;
+            static const level trace;
+            static const level info;
+            static const level warn;
+            static const level error;
+
+            std::string_view str;
+        };
+
+        struct _endl
+        {};
+        static constexpr _endl endl {};
+
+        class FlagLogger
+        {
+            bool is_first = true;
+            separator m_sep { " " };
+            std::unique_lock<std::mutex> trace_lock;
+
+        public:
+            FlagLogger(std::mutex& mtx, std::ofstream& ofs) : trace_lock(mtx), m_ofs(ofs) {}
+            template <typename... Args>
+            FlagLogger(std::mutex& mtx, std::ofstream& ofs, Args&&... buff) : trace_lock(mtx), m_ofs(ofs)
+            {
+                (*this << ... << std::forward<Args>(buff));
+            }
+
+            template <typename T>
+            FlagLogger& operator<<(T&& arg)
+            {
+                if constexpr (std::same_as<separator, std::remove_cvref_t<T>>) {
+                    m_sep = std::forward<T>(arg);
+                }
+                else if constexpr (std::same_as<_endl, std::remove_cvref_t<T>>) {
+                    m_ofs << std::endl;
+                }
+                else {
+                    if (!is_first) {
+#ifdef ASST_DEBUG
+                        stream_put<true>(m_ofs, m_sep.str);
+#else
+                        stream_put<false>(m_ofs, m_sep.str);
+#endif
+                    }
+                    else {
+                        is_first = false;
+                    }
+#ifdef ASST_DEBUG
+                    stream_put<true>(m_ofs, std::forward<T>(arg));
+#else
+                    stream_put<false>(m_ofs, std::forward<T>(arg));
+#endif
+                }
+                return *this;
+            }
+
+        private:
+            template <typename Stream, typename T, typename Enable = void>
+            struct has_stream_insertion_operator : std::false_type
+            {};
+
+            template <typename Stream, typename T>
+            struct has_stream_insertion_operator<Stream, T,
+                                                 std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
+                : std::true_type
+            {};
+
+            template <bool ToAnsi, typename Stream>
+            static Stream& stream_put(Stream& s, std::filesystem::path&& v)
+            {
+                return stream_put<ToAnsi>(s, asst::utils::path_to_utf8_string(v));
+            }
+
+            template <bool ToAnsi, typename Stream, typename T>
+            static Stream& stream_put(Stream& s, T&& v)
+            {
+                if constexpr (std::is_constructible_v<std::string, T>) {
+                    if constexpr (ToAnsi)
+                        s << utils::utf8_to_ansi(std::forward<T>(v));
+                    else
+                        s << std::string(std::forward<T>(v));
+                    return s;
+                }
+                else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+                    s << std::forward<T>(v);
+                    return s;
+                }
+                else if constexpr (ranges::input_range<T>) {
+                    s << "[";
+                    std::string_view comma {};
+                    for (const auto& elem : std::forward<T>(v)) {
+                        s << comma;
+                        stream_put<ToAnsi>(s, elem);
+                        comma = ", ";
+                    }
+                    s << "]";
+                    return s;
+                }
+                else {
+                    ASST_STATIC_ASSERT_FALSE(
+                        "unsupported type, one of the following expected\n"
+                        "\t1. those can be converted to string;\n"
+                        "\t2. those can be inserted to stream with operator<< directly;\n"
+                        "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
+                        Stream, T);
+                }
+            }
+
+            std::ofstream& m_ofs;
+        };
+
     public:
         virtual ~Logger() override { flush(); }
 
@@ -96,6 +212,40 @@ namespace asst
             }
         }
 
+        template <typename T>
+        FlagLogger operator<<(T&& arg)
+        {
+            std::string_view level_str = "TRC";
+            if constexpr (std::same_as<Logger::level, std::remove_cvref_t<T>>) {
+                level_str = arg.str;
+            }
+            constexpr int buff_len = 128;
+            char buff[buff_len] = { 0 };
+#ifdef _WIN32
+#ifdef _MSC_VER
+            sprintf_s(buff, buff_len,
+#else  // ! _MSC_VER
+            sprintf(buff,
+#endif // END _MSC_VER
+                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level_str.data(), _getpid(),
+                      ::GetCurrentThreadId());
+#else  // ! _WIN32
+            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level_str.data(), getpid(),
+                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
+#endif // END _WIN32
+
+            if (!m_ofs || !m_ofs.is_open()) {
+                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            }
+
+            if constexpr (std::same_as<Logger::level, std::remove_cvref_t<T>>) {
+                return FlagLogger(m_trace_mutex, m_ofs, buff);
+            }
+            else {
+                return FlagLogger(m_trace_mutex, m_ofs, buff, arg);
+            }
+        }
+
     protected:
         friend class SingletonHolder<Logger>;
 
@@ -133,125 +283,7 @@ namespace asst
         template <typename... Args>
         void log(std::string_view level, Args&&... args)
         {
-            std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
-
-            constexpr int buff_len = 128;
-            char buff[buff_len] = { 0 };
-#ifdef _WIN32
-#ifdef _MSC_VER
-            sprintf_s(buff, buff_len,
-#else  // ! _MSC_VER
-            sprintf(buff,
-#endif // END _MSC_VER
-                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level.data(), _getpid(),
-                      ::GetCurrentThreadId());
-#else  // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level.data(), getpid(),
-                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
-#endif // END _WIN32
-
-            if (!m_ofs || !m_ofs.is_open()) {
-                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-            }
-#ifdef ASST_DEBUG
-            stream_put_line(m_ofs, buff, args...);
-#else
-            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
-#endif
-
-#ifdef ASST_DEBUG
-            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
-#endif
-        }
-
-        template <typename Stream, typename T, typename Enable = void>
-        struct has_stream_insertion_operator : std::false_type
-        {};
-
-        template <typename Stream, typename T>
-        struct has_stream_insertion_operator<Stream, T,
-                                             std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-            : std::true_type
-        {};
-
-        template <bool ToAnsi, typename Stream>
-        static Stream& stream_put(Stream& s, std::filesystem::path&& v)
-        {
-            return stream_put<ToAnsi>(s, asst::utils::path_to_utf8_string(v));
-        }
-
-        template <bool ToAnsi, typename Stream, typename T>
-        static Stream& stream_put(Stream& s, T&& v)
-        {
-            if constexpr (std::is_constructible_v<std::string, T>) {
-                if constexpr (ToAnsi)
-                    s << utils::utf8_to_ansi(std::forward<T>(v));
-                else
-                    s << std::string(std::forward<T>(v));
-                return s;
-            }
-            else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
-                s << std::forward<T>(v);
-                return s;
-            }
-            else if constexpr (ranges::input_range<T>) {
-                s << "[";
-                std::string_view comma {};
-                for (const auto& elem : std::forward<T>(v)) {
-                    s << comma;
-                    stream_put<ToAnsi>(s, elem);
-                    comma = ", ";
-                }
-                s << "]";
-                return s;
-            }
-            else {
-                ASST_STATIC_ASSERT_FALSE(
-                    "unsupported type, one of the following expected\n"
-                    "\t1. those can be converted to string;\n"
-                    "\t2. those can be inserted to stream with operator<< directly;\n"
-                    "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
-                    Stream, T);
-            }
-        }
-
-        template <bool ToAnsi, typename Stream, typename... Args>
-        struct stream_put_line_impl;
-
-        template <bool ToAnsi, typename Stream>
-        struct stream_put_line_impl<ToAnsi, Stream>
-        {
-            static constexpr Stream& apply(Stream& s, const separator&)
-            {
-                s << std::endl;
-                return s;
-            }
-        };
-
-        template <bool ToAnsi, typename Stream, typename First, typename... Rest>
-        struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
-        {
-            static constexpr Stream& apply(Stream& s, [[maybe_unused]] const separator& sep, First&& f, Rest&&... rs)
-            {
-                if constexpr (std::same_as<std::decay_t<First>, separator>) {
-                    stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, std::forward<First>(f),
-                                                                         std::forward<Rest>(rs)...);
-                }
-                else {
-                    s << sep.str;
-                    stream_put<ToAnsi>(s, std::forward<First>(f));
-                    stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, sep, std::forward<Rest>(rs)...);
-                }
-                return s;
-            }
-        };
-
-        template <bool ToAnsi = false, typename Stream, typename First, typename... Args>
-        Stream& stream_put_line(Stream& s, First&& a0, Args&&... args)
-        {
-            stream_put<ToAnsi>(s, std::forward<First>(a0));
-            stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, separator::space, std::forward<Args>(args)...);
-            return s;
+            ((*this << Logger::level(level)) << ... << std::forward<Args>(args)) << endl;
         }
 
         inline static std::filesystem::path m_directory;
@@ -267,6 +299,12 @@ namespace asst
     inline const Logger::separator Logger::separator::tab("\t");
     inline const Logger::separator Logger::separator::newline("\n");
     inline const Logger::separator Logger::separator::comma(",");
+
+    inline const Logger::level Logger::level::debug("DEB");
+    inline const Logger::level Logger::level::trace("TRC");
+    inline const Logger::level Logger::level::info("INF");
+    inline const Logger::level Logger::level::warn("WRN");
+    inline const Logger::level Logger::level::error("ERR");
 
     class LoggerAux
     {
@@ -297,6 +335,11 @@ namespace asst
 #define _CatVarNameWithLine(Var) _Cat(Var, __LINE__)
 
 #define Log Logger::get_instance()
+#define LogDebug Log << Logger::level::debug
+#define LogTrace Log << Logger::level::trace
+#define LogInfo Log << Logger::level::info
+#define LogWarn Log << Logger::level::warn
+#define LogError Log << Logger::level::error
 #define LogTraceScope LoggerAux _CatVarNameWithLine(_func_aux_)
 #define LogTraceFunction LogTraceScope(__FUNCTION__)
 #define LogTraceFunctionWithArgs // how to do this?, like LogTraceScope(__FUNCTION__, __FUNCTION_ALL_ARGS__)
