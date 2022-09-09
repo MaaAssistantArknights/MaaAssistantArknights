@@ -271,7 +271,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
     }
 
-    while (1) {
+    while (true) {
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
@@ -419,12 +419,10 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 #endif
 
     auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+    Log.info("Call `", cmd, "` ret", exit_ret, ", cost", duration, "ms , stdout size:", pipe_data.size(),
+             ", socket size:", sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", pipe_data, ", cost", duration, "ms");
-    }
-    else {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", stdout size:", pipe_data.size(),
-                  ", socket size:", sock_data.size(), ", cost", duration, "ms");
+        Log.trace("output:\n", pipe_data);
     }
 
     if (!exit_ret) {
