@@ -42,7 +42,7 @@ namespace asst
         {
 #ifdef ASST_DEBUG
             std::string_view level = "DEB";
-            log(level, DefaultSeparator, std::forward<Args>(args)...);
+            log(level, std::forward<Args>(args)...);
 #endif
         }
 
@@ -50,30 +50,30 @@ namespace asst
         inline void trace(Args&&... args)
         {
             std::string_view level = "TRC";
-            log(level, DefaultSeparator, std::forward<Args>(args)...);
+            log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void info(Args&&... args)
         {
             std::string_view level = "INF";
-            log(level, DefaultSeparator, std::forward<Args>(args)...);
+            log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void warn(Args&&... args)
         {
             std::string_view level = "WRN";
-            log(level, DefaultSeparator, std::forward<Args>(args)...);
+            log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void error(Args&&... args)
         {
             std::string_view level = "ERR";
-            log(level, DefaultSeparator, std::forward<Args>(args)...);
+            log(level, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void log_with_custom_level(std::string_view level, Args&&... args)
         {
-            log(level, DefaultSeparator, std::forward<Args>(args)...);
+            log(level, std::forward<Args>(args)...);
         }
         void flush()
         {
@@ -118,7 +118,7 @@ namespace asst
         }
 
         template <typename... Args>
-        void log(std::string_view level, const separator& sep, Args&&... args)
+        void log(std::string_view level, Args&&... args)
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
@@ -141,13 +141,13 @@ namespace asst
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
 #ifdef ASST_DEBUG
-            stream_put_line(m_ofs, sep, buff, args...);
+            stream_put_line(m_ofs, buff, args...);
 #else
-            stream_put_line<false>(m_ofs, sep, buff, std::forward<Args>(args)...);
+            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
 #endif
 
 #ifdef ASST_DEBUG
-            stream_put_line<true>(std::cout, sep, buff, std::forward<Args>(args)...);
+            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
 #endif
         }
 
@@ -234,14 +234,14 @@ namespace asst
         };
 
         template <bool ToAnsi = false, typename Stream, typename First, typename... Args>
-        Stream& stream_put_line(Stream& s, const separator& sep, First&& a0, Args&&... args)
+        Stream& stream_put_line(Stream& s, First&& a0, Args&&... args)
         {
             stream_put<ToAnsi>(s, std::forward<First>(a0));
-            stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, sep, std::forward<Args>(args)...);
+            static const separator default_sep(" ");
+            stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, default_sep, std::forward<Args>(args)...);
             return s;
         }
 
-        inline static const separator DefaultSeparator { " " };
         inline static std::filesystem::path m_directory;
 
         std::filesystem::path m_log_path = m_directory / "asst.log";
