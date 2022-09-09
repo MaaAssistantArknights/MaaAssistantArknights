@@ -67,7 +67,7 @@ Try fastgit mirror if the download speed is slow:
 
 ### Basic Settings
 
-1. Follow the [Emulator Support](docs/en-us/1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
+1. Please refer to [Emulator Supports](docs/en-us/1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
 3. Enjoy it!
 
@@ -169,7 +169,7 @@ Please refer to [Issue Bot Usage](docs/en-us/2.3-ISSUE_BOT_USAGE.md) for more de
 
 ### For Novice Users of GitHub
 
-[Contributing](docs/en-us/2.2-CONTRIBUTING.md)
+[Development](docs/en-us/2.2-DEVELOPMENT.md#introduction-to-github-pull-request-flow)
 
 ## Disclaimer
 
