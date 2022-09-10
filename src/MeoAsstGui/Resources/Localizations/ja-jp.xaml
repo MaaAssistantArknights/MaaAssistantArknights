@@ -134,8 +134,8 @@
     <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入（中国語名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
-    <system:String x:Key="Blacklist">ブラックリスト（中国語名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
+    <system:String x:Key="HighPriority">優先購入（中国名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
+    <system:String x:Key="Blacklist">ブラックリスト（中国名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
@@ -248,7 +248,7 @@
 
     <!--  公開求人認識  -->
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください～</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
@@ -283,6 +283,15 @@
 
     <system:String x:Key="CopilotJSONSharing">攻略ファイル・シェアステーション</system:String>
     <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String><!--Where use it?-->
+
+    <!--  Depot Recognition  -->
+    <system:String x:Key="DepotRecognition">Depot tool alpha</system:String>
+    <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版ですので、使用する前に認識結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depot フォルダを作業パスに圧縮して、issue を提出してください。</system:String>
+    <system:String x:Key="BeganToDepotRecognition">認識開始</system:String>
+    <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
+    <system:String x:Key="ExportToLolicon">Loliconへ出力</system:String>
+    <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
+    <!--  Depot Recognition  -->
 
     <!--  ログ  -->
     <system:String x:Key="CopilotTip">ヒント：</system:String>
