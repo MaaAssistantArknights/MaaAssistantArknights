@@ -115,17 +115,20 @@ labels:
     issues: [add, remove]
 - name: "Client: JP"
   regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)JP(?:`|)|日(?:文|语|本|)服|[Yy]o[Ss]tarJP|(?:JP|jp)服)'
+  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)JP(?:`|)|日(?:文|语|本|)服|\
+    [Yy]o[Ss]tar\\-?(?:JP|jp)|(?:JP|jp)[\\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))"
   - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)JP(?:`|)|^(?![\\s\\S]*(?:\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)(?:Client: |)JP(?:`|))))[\\s\\S]*$)"
 - name: "Client: EN"
   regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)EN(?:`|)|英(?:文|语|)服|国际服|美服|[Yy]o[Ss]tarEN|(?:EN|en)服)'
+  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)EN(?:`|)|英(?:文|语|)服|国际服|美服|\
+    [Yy]o[Ss]tar\\-?(?:EN|en)|(?:EN|en)[\\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))"
   - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)EN(?:`|)|^(?![\\s\\S]*(?:\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)(?:Client: |)EN(?:`|))))[\\s\\S]*$)"
 - name: "Client: KR"
   regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)KR(?:`|)|韩(?:文|语|国|)服|[Yy]o[Ss]tarKR|(?:KR|kr)服)'
+  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)KR(?:`|)|韩(?:文|语|国|)服|\
+    [Yy]o[Ss]tar\\-?(?:KR|kr)|(?:KR|kr)[\\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))"
   - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)KR(?:`|)|^(?![\\s\\S]*(?:\
     [Rr]emove (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)(?:Client: |)KR(?:`|))))[\\s\\S]*$)"
 - name: "Client: ZH_TW"
