@@ -46,7 +46,7 @@ void asst::DepotImageAnalyzer::resize()
 {
     LogTraceFunction;
 
-    m_resized_rect = Task.get("DeoptMatchData")->roi;
+    m_resized_rect = Task.get("DepotMatchData")->roi;
     cv::Size d_size(m_resized_rect.width, m_resized_rect.height);
     cv::resize(m_image, m_image_resized, d_size, 0, 0, cv::INTER_AREA);
 #ifdef ASST_DEBUG
@@ -58,7 +58,7 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
 {
     LogTraceFunction;
 
-    Rect base_roi = Task.get("DeoptBaseRect")->roi;
+    Rect base_roi = Task.get("DepotBaseRect")->roi;
     ItemInfo base_item_info;
     size_t pos = match_item(base_roi, base_item_info, 0ULL, false);
     if (pos == NPos) {
@@ -140,6 +140,11 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         info.rect = resize_rect_to_raw_size(info.rect);
         m_result.emplace(std::move(item_id), std::move(info));
     }
+#ifdef ASST_DEBUG
+    cv::Mat hsv;
+    cv::cvtColor(m_image_resized, hsv, cv::COLOR_BGR2HSV);
+#endif
+
     return !m_result.empty();
 }
 
@@ -158,7 +163,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     const auto& all_items = ItemData.get_ordered_material_item_id();
 
     MatchImageAnalyzer analyzer(m_image_resized);
-    analyzer.set_task_info("DeoptMatchData");
+    analyzer.set_task_info("DepotMatchData");
     // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
     Rect enlarged_roi = roi;
     if (with_enlarge) {
@@ -197,18 +202,26 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 
 int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
 {
-    auto task_ptr = Task.get<MatchTaskInfo>("DeoptQuantity");
+    auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
 
     Rect quantity_roi = roi.move(task_ptr->roi);
     cv::Mat quantity_img = m_image_resized(utils::make_rect<cv::Rect>(quantity_roi));
+    cv::Mat hsv;
+    cv::cvtColor(quantity_img, hsv, cv::COLOR_BGR2HSV);
 
-    cv::Mat gray;
-    cv::cvtColor(quantity_img, gray, cv::COLOR_BGR2GRAY);
+    const int h_lower = task_ptr->mask_range.first;
+    const int h_upper = task_ptr->mask_range.second;
+    const int s_lower = task_ptr->specific_rect.x;
+    const int s_upper = task_ptr->specific_rect.y;
+    const int v_lower = task_ptr->specific_rect.width;
+    const int v_upper = task_ptr->specific_rect.height;
+
     cv::Mat bin;
-    cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
+    cv::inRange(hsv, cv::Scalar(h_lower, s_lower, v_lower), cv::Scalar(h_upper, s_upper, v_upper), bin);
 
     // split
     const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+    const int bg_v_upper = static_cast<int>(task_ptr->special_threshold);
     std::vector<cv::Range> contours;
     int i_right = bin.cols - 1, i_left = 0;
     bool in = false;
@@ -233,7 +246,10 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
             in = true;
         }
         else if (!in) {
-            if (++spacing > max_spacing && i_left != 0) {
+            ++spacing;
+            uchar bg_top_v = hsv.at<cv::Vec3b>(0, i)[2];
+            uchar bg_btm_v = hsv.at<cv::Vec3b>(bin.rows - 1, i)[2];
+            if (i_left != 0 && (spacing > max_spacing || bg_top_v > bg_v_upper || bg_btm_v > bg_v_upper)) {
                 // filter out noise
                 break;
             }
@@ -294,7 +310,7 @@ asst::Rect asst::DepotImageAnalyzer::resize_rect_to_raw_size(const asst::Rect& r
 {
     LogTraceFunction;
 
-    m_resized_rect = Task.get("DeoptMatchData")->roi;
+    m_resized_rect = Task.get("DepotMatchData")->roi;
 
     double kx = static_cast<double>(m_image.cols) / m_resized_rect.width;
     double ky = static_cast<double>(m_image.rows) / m_resized_rect.height;
