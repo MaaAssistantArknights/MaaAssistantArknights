@@ -9,6 +9,7 @@
 #include "RecruitConfiger.h"
 #include "RecruitImageAnalyzer.h"
 #include "ReportDataTask.h"
+#include "TaskData.h"
 
 #include "AsstRanges.hpp"
 #include <algorithm>
@@ -590,10 +591,12 @@ bool asst::AutoRecruitTask::recruit_begin()
 bool asst::AutoRecruitTask::check_timer(int minutes_expected)
 {
     const auto image = m_ctrler->get_image();
+    const auto replace_map = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
 
     {
         OcrImageAnalyzer hour_ocr(image);
         hour_ocr.set_task_info("RecruitTimerH");
+        hour_ocr.set_replace(replace_map);
         hour_ocr.analyze();
         if (hour_ocr.get_result().empty()) return false;
         std::string desired_hour_str = std::string("0") + std::to_string(minutes_expected / 60);
@@ -604,6 +607,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
     {
         OcrImageAnalyzer minute_ocr(image);
         minute_ocr.set_task_info("RecruitTimerM");
+        minute_ocr.set_replace(replace_map);
         minute_ocr.analyze();
         if (minute_ocr.get_result().empty()) return false;
         std::string desired_minute_str = std::to_string((minutes_expected % 60) / 10) + "0";
