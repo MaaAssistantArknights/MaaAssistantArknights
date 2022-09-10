@@ -164,7 +164,7 @@ namespace asst
                     s << utils::path_to_utf8_string(std::forward<T>(v));
                 return s;
             }
-            if constexpr (std::convertible_to<T, std::string_view>) {
+            else if constexpr (std::convertible_to<T, std::string_view>) {
                 if constexpr (ToAnsi)
                     s << utils::utf8_to_ansi(std::forward<T>(v));
                 else
