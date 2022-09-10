@@ -271,7 +271,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
     }
 
-    while (1) {
+    while (true) {
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
@@ -280,7 +280,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
         if (wait_handles.empty()) break;
         auto elapsed = steady_clock::now() - start_time;
-        auto wait_time = std::min(timeout - duration_cast<milliseconds>(elapsed).count(), 0xFFFFFFFELL);
+        auto wait_time =
+            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 0xFFFFFFFELL : 0LL);
         if (wait_time < 0) break;
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
@@ -289,6 +290,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
         }
         else if (wait_result == WAIT_TIMEOUT) {
+            if (wait_time == 0) {
+                break;
+            }
             continue;
         }
         else {
@@ -415,12 +419,10 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 #endif
 
     auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+    Log.info("Call `", cmd, "` ret", exit_ret, ", cost", duration, "ms , stdout size:", pipe_data.size(),
+             ", socket size:", sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", output:", pipe_data, ", cost", duration, "ms");
-    }
-    else {
-        Log.trace("Call `", cmd, "` ret", exit_ret, ", stdout size:", pipe_data.size(),
-                  ", socket size:", sock_data.size(), ", cost", duration, "ms");
+        Log.trace("output:", Logger::separator::newline, pipe_data);
     }
 
     if (!exit_ret) {

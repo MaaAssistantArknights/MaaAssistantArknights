@@ -105,7 +105,7 @@ IndentCaseBlocks: false
 IndentGotoLabels: true
 IndentPPDirectives: None
 IndentExternBlock: AfterExternBlock
-IndentRequires: false
+IndentRequiresClause: false
 IndentWidth: 4
 IndentWrappedFunctionNames: false
 InsertTrailingCommas: None
@@ -137,7 +137,7 @@ PPIndentWidth: -1
 ReferenceAlignment: Pointer
 ReflowComments: true
 RemoveBracesLLVM: false
-# RequiresClausePosition: OwnLine # clang-format 15
+RequiresClausePosition: OwnLine
 SeparateDefinitionBlocks: Leave
 ShortNamespaceLines: 50
 SortIncludes: CaseSensitive
@@ -159,6 +159,8 @@ SpaceBeforeParensOptions:
   AfterFunctionDeclarationName: false
   AfterIfMacros: true
   AfterOverloadedOperator: false
+  AfterRequiresInClause: true
+  AfterRequiresInExpression: true
   BeforeNonEmptyParentheses: false
 SpaceAroundPointerQualifiers: Default
 SpaceBeforeRangeBasedForLoopColon: true

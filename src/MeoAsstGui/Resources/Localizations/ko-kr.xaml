@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespaces:MeoAsstGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="BaseSettings">기반시설 설정</system:String>
@@ -374,6 +375,7 @@
     <system:String x:Key="QQgroup4">QQ그룹4</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
+    <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>
     <system:String x:Key="Issue">문제 피드백</system:String>
     <!--  About  -->
 
