@@ -105,10 +105,39 @@ namespace asst
             log(level::error, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void log_with_custom_level(level lv, Args&&... args)
+        void log(level lv, Args&&... args)
         {
-            log(lv, std::forward<Args>(args)...);
+            std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
+
+            constexpr int buff_len = 128;
+            char buff[buff_len] = { 0 };
+#ifdef _WIN32
+#ifdef _MSC_VER
+            sprintf_s(buff, buff_len,
+#else  // ! _MSC_VER
+            sprintf(buff,
+#endif // END _MSC_VER
+                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), _getpid(),
+                      ::GetCurrentThreadId());
+#else  // ! _WIN32
+            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), getpid(),
+                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
+#endif // END _WIN32
+
+            if (!m_ofs || !m_ofs.is_open()) {
+                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            }
+#ifdef ASST_DEBUG
+            stream_put_line(m_ofs, buff, args...);
+#else
+            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
+#endif
+
+#ifdef ASST_DEBUG
+            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
+#endif
         }
+
         void flush()
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
@@ -148,40 +177,6 @@ namespace asst
             trace("Built at", __DATE__, __TIME__);
             trace("Working Path", m_directory);
             trace("-----------------------------");
-        }
-
-        template <typename... Args>
-        void log(level lv, Args&&... args)
-        {
-            std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
-
-            constexpr int buff_len = 128;
-            char buff[buff_len] = { 0 };
-#ifdef _WIN32
-#ifdef _MSC_VER
-            sprintf_s(buff, buff_len,
-#else  // ! _MSC_VER
-            sprintf(buff,
-#endif // END _MSC_VER
-                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), _getpid(),
-                      ::GetCurrentThreadId());
-#else  // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), getpid(),
-                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
-#endif // END _WIN32
-
-            if (!m_ofs || !m_ofs.is_open()) {
-                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-            }
-#ifdef ASST_DEBUG
-            stream_put_line(m_ofs, buff, args...);
-#else
-            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
-#endif
-
-#ifdef ASST_DEBUG
-            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
-#endif
         }
 
         template <typename Stream, typename T, typename Enable = void>
