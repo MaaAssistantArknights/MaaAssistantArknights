@@ -167,7 +167,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
     Rect enlarged_roi = roi;
     if (with_enlarge) {
-        enlarged_roi = Rect(roi.x - 7, roi.y - 3, roi.width + 14, roi.height + 6);
+        enlarged_roi = Rect(roi.x - 20, roi.y - 5, roi.width + 40, roi.height + 10);
     }
     analyzer.set_roi(enlarged_roi);
 
@@ -235,13 +235,13 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
                 break;
             }
         }
-        if (in && !has_white) {
+        if (in && !has_white) { // leave
             i_left = i;
             in = false;
             spacing = 0;
             contours.emplace_back(i_left, i_right + 1); // range 是前闭后开的
         }
-        else if (!in && has_white) {
+        else if (!in && has_white) { // enter
             i_right = i;
             in = true;
         }
@@ -260,15 +260,35 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         return 0;
     }
 
-    // 前面的 split 算法经过了大量的测试集验证，分割效果一切正常
-    // 后来发现不需要 split 了（为了优化识别速度），但是这个算法不太敢动，怕出问题
-    // 所以这里保留前面的 split 算法，直接取两侧端点。（反正前面跑几个循环也费不了多长时间）
+    cv::Rect y_bounding_rect;
+    for (int i = 0; i < contours.size(); ++i) {
+        if (y_bounding_rect.empty()) {
+            auto temp = cv::boundingRect(bin(cv::Range::all(), contours.at(i)));
+            if (temp.height > 10) {
+                y_bounding_rect = temp;
+            }
+            else {
+                continue;
+            }
+        }
+        auto left_elem_rect = cv::boundingRect(bin(cv::Range::all(), contours.back()));
+        if (std::abs(left_elem_rect.height - y_bounding_rect.height) > 2 ||
+            std::abs(left_elem_rect.y - y_bounding_rect.y) > 1 || left_elem_rect.width > 12) {
+            contours.pop_back();
+        }
+        else {
+            break;
+        }
+    }
+
     int far_left = contours.back().start;
     int far_right = contours.front().end;
 
     OcrWithPreprocessImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
-    analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
+    Rect ocr_roi(quantity_roi.x + far_left, quantity_roi.y + y_bounding_rect.y, far_right - far_left,
+                 y_bounding_rect.height);
+    analyzer.set_roi(ocr_roi);
     analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
