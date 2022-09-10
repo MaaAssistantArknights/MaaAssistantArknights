@@ -90,6 +90,7 @@ namespace asst
                     if (!m_is_first) {
 #ifdef ASST_DEBUG
                         stream_put<true>(m_ofs, m_sep.str);
+                        stream_put<true>(std::cout, m_sep.str);
 #else
                         stream_put<false>(m_ofs, m_sep.str);
 #endif
@@ -99,6 +100,7 @@ namespace asst
                     }
 #ifdef ASST_DEBUG
                     stream_put<true>(m_ofs, std::forward<T>(arg));
+                    stream_put<true>(std::cout, std::forward<T>(arg));
 #else
                     stream_put<false>(m_ofs, std::forward<T>(arg));
 #endif
