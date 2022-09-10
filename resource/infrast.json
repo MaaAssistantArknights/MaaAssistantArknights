@@ -10,7 +10,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05；基建内深海猎人干员获得特殊加成（与部分技能有特殊叠加规则）"
                 ],
                 "efficient": {
-                    "all": 0.04
+                    "all": 0.05
                 },
                 "name": [
                     "集群狩猎·α"
@@ -22,7 +22,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05；基建内深海猎人干员获得特殊加成（与部分技能有特殊叠加规则）"
                 ],
                 "efficient": {
-                    "all": 0.04
+                    "all": 0.05
                 },
                 "name": [
                     "集群狩猎·β"
@@ -142,12 +142,12 @@
                 "desc": [
                     "进驻控制中枢时，每有1个深海猎人干员进驻在宿舍以外的设施，则自身心情每小时消耗+0.5；反之则自身心情每小时恢复+0.5，如果进驻在宿舍内的深海猎人干员为满心情，则额外+0.5"
                 ],
-                "efficient": {
-                    "all": 0.01
-                },
                 "name": [
                     "潮汐守望"
                 ],
+                "efficient": {
+                    "all": -0.01
+                },
                 "template": "Bskill_ctrl_cost_aegir.png"
             },
             "bskill_ctrl_cost_bd1": {
@@ -239,7 +239,7 @@
                     "公事公办"
                 ],
                 "efficient": {
-                    "all": 0.05
+                    "all": 0.04
                 },
                 "template": "Bskill_ctrl_lonely.png"
             },
@@ -2408,7 +2408,10 @@
                 "name": [
                     "违约索赔·α"
                 ],
-                "template": "Bskill_tra_against.png"
+                "template": "Bskill_tra_against.png",
+                "efficient": {
+                    "Money": 47
+                }
             },
             "bskill_tra_against2": {
                 "desc": [
@@ -2417,7 +2420,11 @@
                 "name": [
                     "违约索赔·β"
                 ],
-                "template": "Bskill_tra_against2.png"
+                "template": "Bskill_tra_against2.png",
+                "efficient": {
+                    "Money": 0,
+                    "Money_Doc": "精 2 但书 真实效率是 93.8，但是吃赤金非常快，正常玩家吃不消。如需要的话可自行修改"
+                }
             },
             "bskill_tra_bd_n1": {
                 "desc": [

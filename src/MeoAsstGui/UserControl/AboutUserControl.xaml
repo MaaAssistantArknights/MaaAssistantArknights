@@ -91,7 +91,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md"
+                NavigateUri="{DynamicResource HelpUri}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Help}" />
             </Hyperlink>

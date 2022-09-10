@@ -369,10 +369,10 @@ namespace asst::utils
 #endif
 
     template <typename _ = void>
-    inline std::string ansi_to_utf8(const std::string& ansi_str)
+    inline std::string ansi_to_utf8(std::string_view ansi_str)
     {
 #ifdef _WIN32
-        const char* src_str = ansi_str.c_str();
+        const char* src_str = ansi_str.data();
         int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, nullptr, 0);
         const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
         auto wstr = new wchar_t[wstr_length];
@@ -394,15 +394,15 @@ namespace asst::utils
         return strTemp;
 #else // Don't fucking use gbk in linux!
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
-        return ansi_str;
+        return std::string(ansi_str);
 #endif
     }
 
     template <typename _ = void>
-    inline std::string utf8_to_ansi(const std::string& utf8_str)
+    inline std::string utf8_to_ansi(std::string_view utf8_str)
     {
 #ifdef _WIN32
-        const char* src_str = utf8_str.c_str();
+        const char* src_str = utf8_str.data();
         int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
         const std::size_t wsz_ansi_length = static_cast<std::size_t>(len) + 1U;
         auto wsz_ansi = new wchar_t[wsz_ansi_length];
@@ -424,15 +424,15 @@ namespace asst::utils
         return strTemp;
 #else // Don't fucking use gbk in linux!
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
-        return utf8_str;
+        return std::string(utf8_str);
 #endif
     }
 
     template <typename _ = void>
-    inline std::string utf8_to_unicode_escape(const std::string& utf8_str)
+    inline std::string utf8_to_unicode_escape(std::string_view utf8_str)
     {
 #ifdef _WIN32
-        const char* src_str = utf8_str.c_str();
+        const char* src_str = utf8_str.data();
         int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
         const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
         auto wstr = new wchar_t[wstr_length];
@@ -461,7 +461,7 @@ namespace asst::utils
         return unicode_escape_str;
 #else
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
-        return utf8_str;
+        return std::string(utf8_str);
 #endif
     }
 

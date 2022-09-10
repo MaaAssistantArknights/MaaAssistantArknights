@@ -8718,7 +8718,7 @@
             100
         ]
     },
-    "DeoptMatchData": {
+    "DepotMatchData": {
         "template": "empty.png",
         "templThreshold": 0.6,
         "roi": [
@@ -8733,7 +8733,7 @@
             255
         ]
     },
-    "DeoptBaseRect": {
+    "DepotBaseRect": {
         "template": "empty.png",
         "roi": [
             0,
@@ -8742,18 +8742,28 @@
             150
         ]
     },
-    "DeoptQuantity": {
+    "DepotQuantity": {
         "template": "empty.png",
-        "templThreshold": 3,
+        "templThreshold": 5,
         "templThreshold_Doc": "这里用来作为字间距阈值",
+        "specialThreshold": 120,
+        "specialThreshold_Doc": "背景色亮度值上限",
         "roi": [
             36,
             69,
             47,
             20
         ],
+        "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
-            150,
+            0,
+            180
+        ],
+        "specificRect_Doc": "拿来做S、V通道的范围",
+        "specificRect": [
+            0,
+            35,
+            125,
             255
         ]
     },

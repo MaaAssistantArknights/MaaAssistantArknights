@@ -46,18 +46,28 @@ Talk is cheap. Show me the pictures!
 ![image](https://user-images.githubusercontent.com/99072975/181417872-563afc09-e610-45f5-8762-dbf69018a329.png)
 
 
+
 ## Download
 
-***First time use? Please download `MaaBundle-vX.Y.Z.zip`***
+***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
+
+***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
+
+***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
 
 [Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+
+Try fastgit mirror if the download speed is slow:
+
+[Fastgit Mirror Stable](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[Fastgit Mirror Development](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## How to Use
 
 ### Basic Settings
 
-1. Follow the [Emulator Support](docs/en-us/1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
+1. Please refer to [Emulator Supports](docs/en-us/1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
 3. Enjoy it!
 
@@ -67,8 +77,9 @@ See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
 
 - The program crashes immediately when I try to run it.
 - Connection error/not knowing how to fill in ADB path.
-- Wrong recognition/program freezes after starting
-- Custom connection settings
+- Wrong recognition/program freezes after starting.
+- Custom connection settings.
+- Download speed is too slow, or the mirror site is not accessible.
 
 Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 
@@ -128,7 +139,8 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 ### Windows
 
-Open `MeoAssistantArknights.sln` with Visual Studio 2022. All settings have been configured properly.
+- Open `MeoAssistantArknights.sln` with Visual Studio 2022. All settings have been configured properly.
+- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](docs/en-us/2.2-CONTRIBUTING.md#using-clang-format-in-visual-studio).
 
 ### Linux/MacOS
 
@@ -142,14 +154,22 @@ Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 - [Dart interface](src/dart/)
 - [Java interface](src/Java/Maaj): [Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/): [HTTP api](src/Rust)
+- [HTTP interface](src/Java/Maaj/Readme.md)
 - [Integration Documentation](docs/en-us/3.1-INTEGRATION.md)
 - [Callback Schema](docs/en-us/3.2-CALLBACK_SCHEMA.md)
 - [Task Schema](docs/en-us/3.4-TASK_SCHEMA.md)
 - [Copilot Schema](docs/en-us/3.3-COPILOT_SCHEMA.md)
 
+### Issue Bot
+
+- Add labels with `Add {LABEL_NAME}`, and remove with `Remove {LABEL_NAME}`.
+- Add `fixed` tag to the issue with `close #{ISSUE_NUMBER}` or `fix #{ISSUE_NUMBER}` in the comments.
+
+Please refer to [Issue Bot Usage](docs/en-us/2.3-ISSUE_BOT_USAGE.md) for more details.
+
 ### For Novice Users of GitHub
 
-[Contributing](docs/en-us/2.2-CONTRIBUTING.md)
+[Development](docs/en-us/2.2-DEVELOPMENT.md#introduction-to-github-pull-request-flow)
 
 ## Disclaimer
 

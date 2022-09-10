@@ -96,6 +96,7 @@
         <CheckBox
             Grid.Row="4"
             Grid.ColumnSpan="3"
+            Margin="15"
             VerticalAlignment="Center"
             IsChecked="{Binding RetryOnDisconnected}"
             Content="{DynamicResource RetryOnDisconnected}"

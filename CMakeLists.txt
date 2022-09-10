@@ -20,6 +20,12 @@ add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/W4;/WX>")
 add_compile_options("$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall;-Wextra;-Wpedantic>")
 
 add_definitions(-DASST_DLL_EXPORTS)
+if(WIN32)
+    #注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
+    add_definitions(
+        -D_UNICODE
+        -DUNICODE)
+endif()
 
 include_directories(include 3rdparty/include)
 aux_source_directory(src/MeoAssistant SRC)
