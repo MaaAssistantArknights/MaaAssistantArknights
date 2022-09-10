@@ -145,6 +145,9 @@
                 "name": [
                     "潮汐守望"
                 ],
+                "efficient": {
+                    "all": -0.01
+                },
                 "template": "Bskill_ctrl_cost_aegir.png"
             },
             "bskill_ctrl_cost_bd1": {
