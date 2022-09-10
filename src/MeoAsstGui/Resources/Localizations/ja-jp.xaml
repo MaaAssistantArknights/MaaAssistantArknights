@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespaces:MeoAsstGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
@@ -145,7 +146,7 @@
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
-    <system:String x:Key="CustomStageCodeTip">ステージの原名と番号（4-10、6-16など）の両方がサポートされています。</system:String>
+    <system:String x:Key="CustomStageCodeTip">ステージ名と番号（例：4-10、6-16など）の両方がサポートされています。</system:String>
 
     <system:String x:Key="ADBTip">ヒント：接続時に自動的に検出されますが、エラーが発生した場合は変更を試みることができます。通常は自分で入力する必要はありません。</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
@@ -246,8 +247,8 @@
     <!--  スタート  -->
 
     <!--  公開求人認識  -->
-    <system:String x:Key="Recognition">公開求人認識</system:String>
-    <system:String x:Key="RecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください～</system:String>
+    <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください～</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
@@ -255,8 +256,18 @@
     <system:String x:Key="AutoSelectLevel6Tags">星6タグを自動的に選択する</system:String>
     <system:String x:Key="BeganToRecruit">認識開始</system:String>
 
+    <!--  仓库识别  -->
+    <system:String x:Key="DepotRecognition">倉庫アイテム認識 Alpha</system:String>
+    <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
+    <system:String x:Key="BeganToDepotRecognition">認識開始</system:String>
+    <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
+    <system:String x:Key="ExportToLolicon">导出至明日方舟工具箱</system:String>
+    <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
+    <!--  仓库识别  -->
+
     <!--  ログ  -->
     <system:String x:Key="Identifying">認識中……</system:String>
+    <system:String x:Key="IdentificationCompleted">認識完了</system:String>
     <!--  ログ  -->
     <!--  公開求人認識  -->
 
@@ -374,6 +385,7 @@
     <system:String x:Key="QQgroup4">グループ4</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
+    <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/ja-jp/1.2-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F.md</uri:Uri>
     <system:String x:Key="Issue">フィードバック</system:String>
     <!--  About  -->
 

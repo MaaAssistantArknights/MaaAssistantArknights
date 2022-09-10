@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespaces:MeoAsstGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
@@ -384,6 +385,7 @@
     <system:String x:Key="QQgroup4">QQ group 4</system:String>
     <system:String x:Key="QQgroupfull">(Full)</system:String>
     <system:String x:Key="Help">Q&amp;A</system:String>
+    <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>
     <system:String x:Key="Issue">Issue</system:String>
     <!--  AboutUser  -->
 
