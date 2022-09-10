@@ -394,7 +394,7 @@ namespace asst::utils
         return strTemp;
 #else // Don't fucking use gbk in linux!
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
-        return ansi_str;
+        return std::string(ansi_str);
 #endif
     }
 
@@ -424,7 +424,7 @@ namespace asst::utils
         return strTemp;
 #else // Don't fucking use gbk in linux!
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
-        return utf8_str;
+        return std::string(utf8_str);
 #endif
     }
 
@@ -461,7 +461,7 @@ namespace asst::utils
         return unicode_escape_str;
 #else
         ASST_STATIC_ASSERT_FALSE("Workaround for windows, not implemented in other OS yet.", _);
-        return utf8_str;
+        return std::string(utf8_str);
 #endif
     }
 
