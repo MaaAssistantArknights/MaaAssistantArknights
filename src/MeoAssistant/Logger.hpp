@@ -128,14 +128,14 @@ namespace asst
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
 #ifdef ASST_DEBUG
-            stream_put_line(m_ofs, buff, args...);
+#ifdef _WIN32
+            constexpr bool ansi = true;
 #else
-            stream_put_line<false>(m_ofs, buff, std::forward<Args>(args)...);
+            constexpr bool ansi = false;
 #endif
-
-#ifdef ASST_DEBUG
-            stream_put_line<true>(std::cout, buff, std::forward<Args>(args)...);
+            stream_put_line<ansi>(std::cout, buff, args...);
 #endif
+            stream_put_line(m_ofs, buff, std::forward<Args>(args)...);
         }
 
         void flush()
