@@ -67,27 +67,27 @@ namespace asst
         {};
         static constexpr _endl endl {};
 
-        class FlagLogger
+        class LogStream
         {
         public:
-            FlagLogger(std::mutex& mtx, std::ofstream& ofs) : trace_lock(mtx), m_ofs(ofs) {}
+            LogStream(std::mutex& mtx, std::ofstream& ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
             template <typename... Args>
-            FlagLogger(std::mutex& mtx, std::ofstream& ofs, Args&&... buff) : trace_lock(mtx), m_ofs(ofs)
+            LogStream(std::mutex& mtx, std::ofstream& ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
             {
                 (*this << ... << std::forward<Args>(buff));
             }
 
             template <typename T>
-            FlagLogger& operator<<(T&& arg)
+            LogStream& operator<<(T&& arg)
             {
-                if constexpr (std::same_as<separator, std::remove_cvref_t<T>>) {
+                if constexpr (std::same_as<separator, std::decay_t<T>>) {
                     m_sep = std::forward<T>(arg);
                 }
-                else if constexpr (std::same_as<_endl, std::remove_cvref_t<T>>) {
+                else if constexpr (std::same_as<_endl, std::decay_t<T>>) {
                     m_ofs << std::endl;
                 }
                 else {
-                    if (!is_first) {
+                    if (!m_is_first) {
 #ifdef ASST_DEBUG
                         stream_put<true>(m_ofs, m_sep.str);
 #else
@@ -95,7 +95,7 @@ namespace asst
 #endif
                     }
                     else {
-                        is_first = false;
+                        m_is_first = false;
                     }
 #ifdef ASST_DEBUG
                     stream_put<true>(m_ofs, std::forward<T>(arg));
@@ -120,7 +120,7 @@ namespace asst
             template <bool ToAnsi, typename Stream, typename T>
             static Stream& stream_put(Stream& s, T&& v)
             {
-                if constexpr (std::same_as<std::filesystem::path, std::remove_cvref_t<T>>) {
+                if constexpr (std::same_as<std::filesystem::path, std::decay_t<T>>) {
                     if constexpr (ToAnsi)
                         s << utils::utf8_to_ansi(utils::path_to_utf8_string(std::forward<T>(v)));
                     else
@@ -160,9 +160,9 @@ namespace asst
                 }
             }
 
-            bool is_first = true;
+            bool m_is_first = true;
             separator m_sep { " " };
-            std::unique_lock<std::mutex> trace_lock;
+            std::unique_lock<std::mutex> m_trace_lock;
             std::ofstream& m_ofs;
         };
 
@@ -208,10 +208,26 @@ namespace asst
             log(level::error, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        void log(level lv, Args&&... args)
+        inline void log(level lv, Args&&... args)
         {
-            std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
+            log(lv, std::forward<Args>(args)...);
+        }
 
+        void flush()
+        {
+            std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
+            if (m_ofs.is_open()) {
+                m_ofs.close();
+            }
+        }
+
+        template <typename T>
+        LogStream operator<<(T&& arg)
+        {
+            level lv = level::trace;
+            if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
+                lv = std::forward<Logger::level>(arg);
+            }
             constexpr int buff_len = 128;
             char buff[buff_len] = { 0 };
 #ifdef _WIN32
@@ -230,56 +246,12 @@ namespace asst
             if (!m_ofs || !m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
-#ifdef ASST_DEBUG
-#ifdef _WIN32
-            constexpr bool ansi = true;
-#else
-            constexpr bool ansi = false;
-#endif
-            stream_put_line<ansi>(std::cout, buff, args...);
-#endif
-            stream_put_line(m_ofs, buff, std::forward<Args>(args)...);
-        }
 
-        void flush()
-        {
-            std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
-            if (m_ofs.is_open()) {
-                m_ofs.close();
-            }
-        }
-
-        template <typename T>
-        FlagLogger operator<<(T&& arg)
-        {
-            std::string_view level_str = "TRC";
-            if constexpr (std::same_as<Logger::level, std::remove_cvref_t<T>>) {
-                level_str = arg.str;
-            }
-            constexpr int buff_len = 128;
-            char buff[buff_len] = { 0 };
-#ifdef _WIN32
-#ifdef _MSC_VER
-            sprintf_s(buff, buff_len,
-#else  // ! _MSC_VER
-            sprintf(buff,
-#endif // END _MSC_VER
-                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level_str.data(), _getpid(),
-                      ::GetCurrentThreadId());
-#else  // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level_str.data(), getpid(),
-                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
-#endif // END _WIN32
-
-            if (!m_ofs || !m_ofs.is_open()) {
-                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-            }
-
-            if constexpr (std::same_as<Logger::level, std::remove_cvref_t<T>>) {
-                return FlagLogger(m_trace_mutex, m_ofs, buff);
+            if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
+                return LogStream(m_trace_mutex, m_ofs, buff);
             }
             else {
-                return FlagLogger(m_trace_mutex, m_ofs, buff, arg);
+                return LogStream(m_trace_mutex, m_ofs, buff, arg);
             }
         }
 
@@ -314,12 +286,6 @@ namespace asst
             trace("Built at", __DATE__, __TIME__);
             trace("Working Path", m_directory);
             trace("-----------------------------");
-        }
-
-        template <typename... Args>
-        void log(std::string_view level, Args&&... args)
-        {
-            ((*this << Logger::level(level)) << ... << std::forward<Args>(args)) << endl;
         }
 
         inline static std::filesystem::path m_directory;
