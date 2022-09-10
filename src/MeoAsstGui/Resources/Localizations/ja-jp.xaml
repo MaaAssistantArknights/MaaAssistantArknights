@@ -255,21 +255,21 @@
     <system:String x:Key="AutoSelectLevel5Tags">星5タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">星6タグを自動的に選択する</system:String>
     <system:String x:Key="BeganToRecruit">認識開始</system:String>
+    <!--  公開求人認識  -->
 
-    <!--  仓库识别  -->
+    <!--  倉庫アイテム認識  -->
     <system:String x:Key="DepotRecognition">倉庫アイテム認識 Alpha</system:String>
-    <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
+    <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版ですので、使用する前に認識結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depotフォルダを作業パスに圧縮して、issueを提出してください。</system:String>
     <system:String x:Key="BeganToDepotRecognition">認識開始</system:String>
-    <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
-    <system:String x:Key="ExportToLolicon">导出至明日方舟工具箱</system:String>
-    <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
-    <!--  仓库识别  -->
+    <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
+    <system:String x:Key="ExportToLolicon">Loliconへ出力</system:String>
+    <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
+    <!--  倉庫アイテム認識  -->
 
     <!--  ログ  -->
     <system:String x:Key="Identifying">認識中……</system:String>
     <system:String x:Key="IdentificationCompleted">認識完了</system:String>
     <!--  ログ  -->
-    <!--  公開求人認識  -->
 
     <!--  自動戦闘  -->
     <system:String x:Key="Copilot">自動戦闘</system:String>
@@ -283,15 +283,6 @@
 
     <system:String x:Key="CopilotJSONSharing">攻略ファイル・シェアステーション</system:String>
     <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String><!--Where use it?-->
-
-    <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot tool alpha</system:String>
-    <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版ですので、使用する前に認識結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depot フォルダを作業パスに圧縮して、issue を提出してください。</system:String>
-    <system:String x:Key="BeganToDepotRecognition">認識開始</system:String>
-    <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
-    <system:String x:Key="ExportToLolicon">Loliconへ出力</system:String>
-    <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
-    <!--  Depot Recognition  -->
 
     <!--  ログ  -->
     <system:String x:Key="CopilotTip">ヒント：</system:String>
