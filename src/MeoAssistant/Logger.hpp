@@ -63,10 +63,6 @@ namespace asst
             std::string_view str;
         };
 
-        struct _endl
-        {};
-        static constexpr _endl endl {};
-
         class LogStream
         {
         public:
@@ -76,15 +72,19 @@ namespace asst
             {
                 (*this << ... << std::forward<Args>(buff));
             }
+            ~LogStream()
+            {
+                m_ofs << std::endl;
+#ifdef ASST_DEBUG
+                std::cout << std::endl;
+#endif
+            }
 
             template <typename T>
             LogStream& operator<<(T&& arg)
             {
                 if constexpr (std::same_as<separator, std::decay_t<T>>) {
                     m_sep = std::forward<T>(arg);
-                }
-                else if constexpr (std::same_as<_endl, std::decay_t<T>>) {
-                    m_ofs << std::endl;
                 }
                 else {
                     if (!m_is_first) {
@@ -210,7 +210,7 @@ namespace asst
         template <typename... Args>
         inline void log(level lv, Args&&... args)
         {
-            log(lv, std::forward<Args>(args)...);
+            ((*this << lv) << ... << std::forward<Args>(args));
         }
 
         void flush()
