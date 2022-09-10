@@ -20,9 +20,13 @@ namespace asst
     public:
         struct separator
         {
-            separator() = default;
+            constexpr separator() = default;
+            constexpr separator(const separator&) = default;
+            constexpr separator(separator&&) noexcept = default;
             constexpr explicit separator(std::string_view s) noexcept : str(s) {}
-            separator& operator=(std::string_view s) noexcept
+            constexpr separator& operator=(const separator&) = default;
+            constexpr separator& operator=(separator&&) noexcept = default;
+            constexpr separator& operator=(std::string_view s) noexcept
             {
                 str = s;
                 return *this;
@@ -33,6 +37,28 @@ namespace asst
             static const separator tab;
             static const separator newline;
             static const separator comma;
+
+            std::string_view str;
+        };
+
+        struct level
+        {
+            constexpr level(const level&) = default;
+            constexpr level(level&&) noexcept = default;
+            constexpr explicit level(std::string_view s) noexcept : str(s) {}
+            constexpr level& operator=(const level&) = default;
+            constexpr level& operator=(level&&) noexcept = default;
+            constexpr level& operator=(std::string_view s) noexcept
+            {
+                str = s;
+                return *this;
+            }
+
+            static const level debug;
+            static const level trace;
+            static const level info;
+            static const level warn;
+            static const level error;
 
             std::string_view str;
         };
@@ -54,39 +80,34 @@ namespace asst
         inline void debug([[maybe_unused]] Args&&... args)
         {
 #ifdef ASST_DEBUG
-            std::string_view level = "DEB";
-            log(level, std::forward<Args>(args)...);
+            log(level::debug, std::forward<Args>(args)...);
 #endif
         }
 
         template <typename... Args>
         inline void trace(Args&&... args)
         {
-            std::string_view level = "TRC";
-            log(level, std::forward<Args>(args)...);
+            log(level::trace, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void info(Args&&... args)
         {
-            std::string_view level = "INF";
-            log(level, std::forward<Args>(args)...);
+            log(level::info, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void warn(Args&&... args)
         {
-            std::string_view level = "WRN";
-            log(level, std::forward<Args>(args)...);
+            log(level::warn, std::forward<Args>(args)...);
         }
         template <typename... Args>
         inline void error(Args&&... args)
         {
-            std::string_view level = "ERR";
-            log(level, std::forward<Args>(args)...);
+            log(level::error, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        inline void log_with_custom_level(std::string_view level, Args&&... args)
+        inline void log_with_custom_level(level lv, Args&&... args)
         {
-            log(level, std::forward<Args>(args)...);
+            log(lv, std::forward<Args>(args)...);
         }
         void flush()
         {
@@ -96,7 +117,7 @@ namespace asst
             }
         }
 
-    protected:
+    private:
         friend class SingletonHolder<Logger>;
 
         Logger()
@@ -105,7 +126,6 @@ namespace asst
             log_init_info();
         }
 
-    private:
         void check_filesize_and_remove() const
         {
             constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
@@ -131,7 +151,7 @@ namespace asst
         }
 
         template <typename... Args>
-        void log(std::string_view level, Args&&... args)
+        void log(level lv, Args&&... args)
         {
             std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
 
@@ -143,10 +163,10 @@ namespace asst
 #else  // ! _MSC_VER
             sprintf(buff,
 #endif // END _MSC_VER
-                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level.data(), _getpid(),
+                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), _getpid(),
                       ::GetCurrentThreadId());
 #else  // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), level.data(), getpid(),
+            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), getpid(),
                     (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
 #endif // END _WIN32
 
@@ -268,6 +288,12 @@ namespace asst
     inline const Logger::separator Logger::separator::tab("\t");
     inline const Logger::separator Logger::separator::newline("\n");
     inline const Logger::separator Logger::separator::comma(",");
+
+    inline const Logger::level Logger::level::debug("DBG");
+    inline const Logger::level Logger::level::trace("TRC");
+    inline const Logger::level Logger::level::info("INF");
+    inline const Logger::level Logger::level::warn("WRN");
+    inline const Logger::level Logger::level::error("ERR");
 
     class LoggerAux
     {

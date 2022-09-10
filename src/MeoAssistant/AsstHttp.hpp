@@ -23,7 +23,7 @@ namespace asst::http
         std::string_view m_body;
         std::unordered_map<std::string_view, std::string_view> m_headers;
 
-        bool _analyze_status_line(const std::string_view& status_line)
+        bool _analyze_status_line(std::string_view status_line)
         {
             size_t _word_count = 0;
             for (const auto& word : utils::string_split(status_line, " ")) {
@@ -57,7 +57,7 @@ namespace asst::http
             m_last_error = "status line too short";
             return false;
         }
-        bool _analyze_headers_line(const std::string_view& status_line)
+        bool _analyze_headers_line(std::string_view status_line)
         {
             size_t _colon_pos = status_line.find(':');
             if (_colon_pos == status_line.npos) {
@@ -123,7 +123,7 @@ namespace asst::http
         std::string_view protocol_version() const noexcept { return m_protocol_version; }
         std::string_view status_code_info() const noexcept { return m_status_code_info; }
         std::string_view body() const noexcept { return m_body; }
-        std::optional<std::string_view> find_header(const std::string_view& key) const
+        std::optional<std::string_view> find_header(std::string_view key) const
         {
             if (auto iter = m_headers.find(key); iter != m_headers.cend()) {
                 return iter->second;
