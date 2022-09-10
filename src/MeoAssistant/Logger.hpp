@@ -145,29 +145,33 @@ namespace asst
         }
 
         template <typename Stream, typename T, typename Enable = void>
-        static constexpr bool has_stream_insertion_operator = false;
+        struct has_stream_insertion_operator : std::false_type
+        {};
 
         template <typename Stream, typename T>
-        static constexpr bool has_stream_insertion_operator<
-            Stream, T, std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>> = true;
-
-        template <bool ToAnsi, typename Stream>
-        static Stream& stream_put(Stream& s, std::filesystem::path&& v)
-        {
-            return stream_put<ToAnsi>(s, asst::utils::path_to_utf8_string(v));
-        }
+        struct has_stream_insertion_operator<Stream, T,
+                                             std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
+            : std::true_type
+        {};
 
         template <bool ToAnsi, typename Stream, typename T>
         static Stream& stream_put(Stream& s, T&& v)
         {
-            if constexpr (std::is_constructible_v<std::string, T>) {
+            if constexpr (std::same_as<std::filesystem::path, std::remove_cvref_t<T>>) {
+                if constexpr (ToAnsi)
+                    s << utils::utf8_to_ansi(utils::path_to_utf8_string(std::forward<T>(v)));
+                else
+                    s << utils::path_to_utf8_string(std::forward<T>(v));
+                return s;
+            }
+            if constexpr (std::convertible_to<T, std::string_view>) {
                 if constexpr (ToAnsi)
                     s << utils::utf8_to_ansi(std::forward<T>(v));
                 else
-                    s << std::string(std::forward<T>(v));
+                    s << std::forward<T>(v);
                 return s;
             }
-            else if constexpr (has_stream_insertion_operator<Stream, T>) {
+            else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
                 s << std::forward<T>(v);
                 return s;
             }
