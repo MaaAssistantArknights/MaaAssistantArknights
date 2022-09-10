@@ -196,5 +196,5 @@ void AsstLog(const char* level, const char* message)
         std::cerr << "Not inited" << std::endl;
         return;
     }
-    asst::Log.log_with_custom_level(level, message);
+    asst::Log.log(asst::Logger::level(level), message);
 }
