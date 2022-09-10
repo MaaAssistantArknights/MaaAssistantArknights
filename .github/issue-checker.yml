@@ -162,6 +162,11 @@ labels:
     "[Dd]uplicate of\\s*\\[?`?#\\d+"
   mode:
     issue_comment: [add]
+- name: outdated
+  regexes:
+    "[Ss]uperseded by"
+  mode:
+    issue_comment: [add]
 - name: incomplete
   regexes:
   - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|\
