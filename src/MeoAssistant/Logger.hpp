@@ -66,18 +66,27 @@ namespace asst
         class LogStream
         {
         public:
-            LogStream(std::mutex& mtx, std::ofstream& ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
-            template <typename... Args>
-            LogStream(std::mutex& mtx, std::ofstream& ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
+            LogStream(std::mutex& mtx, std::ostream& ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
+            template <typename stream_t, typename... Args>
+            requires std::convertible_to<stream_t&, std::ostream&>
+            LogStream(std::mutex& mtx, stream_t& ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
             {
                 (*this << ... << std::forward<Args>(buff));
             }
+            LogStream(LogStream&& _other) noexcept
+                : m_is_first(_other.m_is_first), _moved(_other._moved), m_trace_lock(std::move(_other.m_trace_lock)),
+                  m_sep(std::move(_other.m_sep)), m_ofs(_other.m_ofs)
+            {
+                _other._moved = true;
+            }
+            LogStream(const LogStream&) = delete;
+            LogStream& operator=(LogStream&&) = delete;
+            LogStream& operator=(const LogStream&) = delete;
+            
             ~LogStream()
             {
-                m_ofs << std::endl;
-#ifdef ASST_DEBUG
-                std::cout << std::endl;
-#endif
+                if (!_moved)
+                    m_ofs << std::endl;
             }
 
             template <typename T>
@@ -90,7 +99,6 @@ namespace asst
                     if (!m_is_first) {
 #ifdef ASST_DEBUG
                         stream_put<true>(m_ofs, m_sep.str);
-                        stream_put<true>(std::cout, m_sep.str);
 #else
                         stream_put<false>(m_ofs, m_sep.str);
 #endif
@@ -100,7 +108,6 @@ namespace asst
                     }
 #ifdef ASST_DEBUG
                     stream_put<true>(m_ofs, std::forward<T>(arg));
-                    stream_put<true>(std::cout, std::forward<T>(arg));
 #else
                     stream_put<false>(m_ofs, std::forward<T>(arg));
 #endif
@@ -163,9 +170,10 @@ namespace asst
             }
 
             bool m_is_first = true;
+            bool _moved = false;
             separator m_sep { " " };
             std::unique_lock<std::mutex> m_trace_lock;
-            std::ofstream& m_ofs;
+            std::ostream& m_ofs;
         };
 
     public:
@@ -223,8 +231,22 @@ namespace asst
             }
         }
 
+        class LogStreams {
+            std::vector<LogStream> m_ofss;
+        public:
+            template<typename... Args>
+            LogStreams(Args&&... args) {
+                (m_ofss.emplace_back(std::forward<Args>(args)), ...);
+            }
+            template<typename T>
+            LogStreams& operator<<(T&& x) {
+                for (auto& ofs : m_ofss) ofs << x;
+                return *this;
+            }
+        };
+        
         template <typename T>
-        LogStream operator<<(T&& arg)
+        LogStreams operator<<(T&& arg)
         {
             level lv = level::trace;
             if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
@@ -250,10 +272,18 @@ namespace asst
             }
 
             if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
-                return LogStream(m_trace_mutex, m_ofs, buff);
+#ifdef ASST_DEBUG
+                return { LogStream(m_trace_mutex, m_ofs, buff), LogStream(m_debug_mutex, std::cout, buff) };
+#else
+                return { LogStream(m_trace_mutex, m_ofs, buff) };
+#endif
             }
             else {
-                return LogStream(m_trace_mutex, m_ofs, buff, arg);
+#ifdef ASST_DEBUG
+                return { LogStream(m_trace_mutex, m_ofs, buff, arg), LogStream(m_debug_mutex, std::cout, buff, arg) };
+#else
+                return { LogStream(m_trace_mutex, m_ofs, buff, arg) };
+#endif
             }
         }
 
@@ -295,6 +325,7 @@ namespace asst
         std::filesystem::path m_log_path = m_directory / "asst.log";
         std::filesystem::path m_log_bak_path = m_directory / "asst.bak.log";
         std::mutex m_trace_mutex;
+        std::mutex m_debug_mutex;
         std::ofstream m_ofs;
     };
 
