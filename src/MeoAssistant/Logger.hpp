@@ -15,6 +15,9 @@
 
 namespace asst
 {
+    template <typename Stream, typename T>
+    concept has_lessless_operator = requires { std::declval<Stream&>() << std::declval<T>(); };
+
     class Logger : public SingletonHolder<Logger>
     {
     public:
@@ -63,30 +66,22 @@ namespace asst
             std::string_view str;
         };
 
+        template <typename stream_t>
         class LogStream
         {
         public:
-            LogStream(std::mutex& mtx, std::ostream& ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
-            template <typename stream_t, typename... Args>
-            requires std::convertible_to<stream_t&, std::ostream&>
-            LogStream(std::mutex& mtx, stream_t& ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
+            LogStream(std::mutex& mtx, stream_t ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
+            template <typename... Args>
+            LogStream(std::mutex& mtx, stream_t ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
             {
                 (*this << ... << std::forward<Args>(buff));
             }
-            LogStream(LogStream&& _other) noexcept
-                : m_is_first(_other.m_is_first), _moved(_other._moved), m_trace_lock(std::move(_other.m_trace_lock)),
-                  m_sep(std::move(_other.m_sep)), m_ofs(_other.m_ofs)
-            {
-                _other._moved = true;
-            }
+            LogStream(LogStream&&) = delete;
             LogStream(const LogStream&) = delete;
             LogStream& operator=(LogStream&&) = delete;
             LogStream& operator=(const LogStream&) = delete;
 
-            ~LogStream()
-            {
-                if (!_moved) m_ofs << std::endl;
-            }
+            ~LogStream() { m_ofs << std::endl; }
 
             template <typename T>
             LogStream& operator<<(T&& arg)
@@ -115,16 +110,6 @@ namespace asst
             }
 
         private:
-            template <typename Stream, typename T, typename Enable = void>
-            struct has_stream_insertion_operator : std::false_type
-            {};
-
-            template <typename Stream, typename T>
-            struct has_stream_insertion_operator<Stream, T,
-                                                 std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-                : std::true_type
-            {};
-
             template <bool ToAnsi, typename Stream, typename T>
             static Stream& stream_put(Stream& s, T&& v)
             {
@@ -142,7 +127,7 @@ namespace asst
                         s << std::forward<T>(v);
                     return s;
                 }
-                else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+                else if constexpr (has_lessless_operator<Stream, T>) {
                     s << std::forward<T>(v);
                     return s;
                 }
@@ -169,11 +154,22 @@ namespace asst
             }
 
             bool m_is_first = true;
-            bool _moved = false;
             separator m_sep { " " };
             std::unique_lock<std::mutex> m_trace_lock;
-            std::ostream& m_ofs;
+            stream_t m_ofs;
         };
+
+        template <typename stream_t>
+        LogStream(std::mutex&, stream_t&) -> LogStream<stream_t&>;
+
+        template <typename stream_t, typename... Args>
+        LogStream(std::mutex&, stream_t&, Args&&...) -> LogStream<stream_t&>;
+
+        template <typename stream_t>
+        LogStream(std::mutex&, stream_t&&) -> LogStream<stream_t>;
+
+        template <typename stream_t, typename... Args>
+        LogStream(std::mutex&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
     public:
         virtual ~Logger() override { flush(); }
@@ -230,27 +226,40 @@ namespace asst
             }
         }
 
-        class LogStreams
+        class ostreams
         {
-            std::vector<LogStream> m_ofss;
+            std::vector<std::ostream*> m_ofss;
 
         public:
+            ostreams(ostreams&&) = default;
+            ostreams(const ostreams&) = default;
+            ostreams& operator=(ostreams&&) = default;
+            ostreams& operator=(const ostreams&) = default;
+
             template <typename... Args>
-            LogStreams(Args&&... args)
+            requires(std::convertible_to<std::remove_cvref_t<Args>&, std::ostream&> && ...)
+            ostreams(Args&... args)
             {
-                (m_ofss.emplace_back(std::forward<Args>(args)), ...);
+                (m_ofss.push_back(&args), ...);
             }
             template <typename T>
-            LogStreams& operator<<(T&& x)
+            requires has_lessless_operator<std::ostream, T>
+            ostreams& operator<<(T&& x)
             {
-                for (auto& ofs : m_ofss)
-                    ofs << x;
+                for (std::ostream* ofs : m_ofss)
+                    (*ofs) << std::forward<T>(x);
+                return *this;
+            }
+            ostreams& operator<<(std::ostream& (*pf)(std::ostream&))
+            {
+                for (std::ostream* ofs : m_ofss)
+                    (*ofs) << pf;
                 return *this;
             }
         };
 
         template <typename T>
-        LogStreams operator<<(T&& arg)
+        auto operator<<(T&& arg)
         {
             level lv = level::trace;
             if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
@@ -277,16 +286,16 @@ namespace asst
 
             if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
 #ifdef ASST_DEBUG
-                return { LogStream(m_trace_mutex, m_ofs, buff), LogStream(m_debug_mutex, std::cout, buff) };
+                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, buff);
 #else
-                return { LogStream(m_trace_mutex, m_ofs, buff) };
+                return LogStream(m_trace_mutex, m_ofs, buff);
 #endif
             }
             else {
 #ifdef ASST_DEBUG
-                return { LogStream(m_trace_mutex, m_ofs, buff, arg), LogStream(m_debug_mutex, std::cout, buff, arg) };
+                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, buff, arg);
 #else
-                return { LogStream(m_trace_mutex, m_ofs, buff, arg) };
+                return LogStream(m_trace_mutex, m_ofs, buff, arg);
 #endif
             }
         }
@@ -329,7 +338,6 @@ namespace asst
         std::filesystem::path m_log_path = m_directory / "asst.log";
         std::filesystem::path m_log_bak_path = m_directory / "asst.bak.log";
         std::mutex m_trace_mutex;
-        std::mutex m_debug_mutex;
         std::ofstream m_ofs;
     };
 
