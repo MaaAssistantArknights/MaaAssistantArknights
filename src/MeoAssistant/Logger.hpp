@@ -82,11 +82,10 @@ namespace asst
             LogStream(const LogStream&) = delete;
             LogStream& operator=(LogStream&&) = delete;
             LogStream& operator=(const LogStream&) = delete;
-            
+
             ~LogStream()
             {
-                if (!_moved)
-                    m_ofs << std::endl;
+                if (!_moved) m_ofs << std::endl;
             }
 
             template <typename T>
@@ -231,20 +230,25 @@ namespace asst
             }
         }
 
-        class LogStreams {
+        class LogStreams
+        {
             std::vector<LogStream> m_ofss;
+
         public:
-            template<typename... Args>
-            LogStreams(Args&&... args) {
+            template <typename... Args>
+            LogStreams(Args&&... args)
+            {
                 (m_ofss.emplace_back(std::forward<Args>(args)), ...);
             }
-            template<typename T>
-            LogStreams& operator<<(T&& x) {
-                for (auto& ofs : m_ofss) ofs << x;
+            template <typename T>
+            LogStreams& operator<<(T&& x)
+            {
+                for (auto& ofs : m_ofss)
+                    ofs << x;
                 return *this;
             }
         };
-        
+
         template <typename T>
         LogStreams operator<<(T&& arg)
         {
