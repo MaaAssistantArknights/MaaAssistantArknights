@@ -15,6 +15,41 @@
 
 namespace asst
 {
+    template <typename Stream, typename T>
+    concept has_stream_insertion_operator = requires { std::declval<Stream&>() << std::declval<T>(); };
+
+    class ostreams
+    {
+        std::vector<std::ostream*> m_ofss;
+
+    public:
+        ostreams(ostreams&&) = default;
+        ostreams(const ostreams&) = default;
+        ostreams& operator=(ostreams&&) = default;
+        ostreams& operator=(const ostreams&) = default;
+
+        template <typename... Args>
+        requires(std::convertible_to<std::remove_cvref_t<Args>&, std::ostream&> && ...)
+        ostreams(Args&... args)
+        {
+            (m_ofss.emplace_back(&args), ...);
+        }
+        template <typename T>
+        requires has_stream_insertion_operator<std::ostream, T>
+        ostreams& operator<<(T&& x)
+        {
+            for (std::ostream* ofs : m_ofss)
+                (*ofs) << std::forward<T>(x);
+            return *this;
+        }
+        ostreams& operator<<(std::ostream& (*pf)(std::ostream&))
+        {
+            for (std::ostream* ofs : m_ofss)
+                (*ofs) << pf;
+            return *this;
+        }
+    };
+
     class Logger : public SingletonHolder<Logger>
     {
     public:
@@ -63,22 +98,22 @@ namespace asst
             std::string_view str;
         };
 
+        template <typename stream_t>
         class LogStream
         {
         public:
-            LogStream(std::mutex& mtx, std::ofstream& ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
+            LogStream(std::mutex& mtx, stream_t ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
             template <typename... Args>
-            LogStream(std::mutex& mtx, std::ofstream& ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
+            LogStream(std::mutex& mtx, stream_t ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
             {
                 (*this << ... << std::forward<Args>(buff));
             }
-            ~LogStream()
-            {
-                m_ofs << std::endl;
-#ifdef ASST_DEBUG
-                std::cout << std::endl;
-#endif
-            }
+            LogStream(LogStream&&) = delete;
+            LogStream(const LogStream&) = delete;
+            LogStream& operator=(LogStream&&) = delete;
+            LogStream& operator=(const LogStream&) = delete;
+
+            ~LogStream() { m_ofs << std::endl; }
 
             template <typename T>
             LogStream& operator<<(T&& arg)
@@ -107,16 +142,6 @@ namespace asst
             }
 
         private:
-            template <typename Stream, typename T, typename Enable = void>
-            struct has_stream_insertion_operator : std::false_type
-            {};
-
-            template <typename Stream, typename T>
-            struct has_stream_insertion_operator<Stream, T,
-                                                 std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-                : std::true_type
-            {};
-
             template <bool ToAnsi, typename Stream, typename T>
             static Stream& stream_put(Stream& s, T&& v)
             {
@@ -134,7 +159,7 @@ namespace asst
                         s << std::forward<T>(v);
                     return s;
                 }
-                else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
+                else if constexpr (has_stream_insertion_operator<Stream, T>) {
                     s << std::forward<T>(v);
                     return s;
                 }
@@ -163,8 +188,20 @@ namespace asst
             bool m_is_first = true;
             separator m_sep { " " };
             std::unique_lock<std::mutex> m_trace_lock;
-            std::ofstream& m_ofs;
+            stream_t m_ofs;
         };
+
+        template <typename stream_t>
+        LogStream(std::mutex&, stream_t&) -> LogStream<stream_t&>;
+
+        template <typename stream_t, typename... Args>
+        LogStream(std::mutex&, stream_t&, Args&&...) -> LogStream<stream_t&>;
+
+        template <typename stream_t>
+        LogStream(std::mutex&, stream_t&&) -> LogStream<stream_t>;
+
+        template <typename stream_t, typename... Args>
+        LogStream(std::mutex&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
     public:
         virtual ~Logger() override { flush(); }
@@ -222,7 +259,7 @@ namespace asst
         }
 
         template <typename T>
-        LogStream operator<<(T&& arg)
+        auto operator<<(T&& arg)
         {
             level lv = level::trace;
             if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
@@ -248,10 +285,18 @@ namespace asst
             }
 
             if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
+#ifdef ASST_DEBUG
+                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, buff);
+#else
                 return LogStream(m_trace_mutex, m_ofs, buff);
+#endif
             }
             else {
+#ifdef ASST_DEBUG
+                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, buff, arg);
+#else
                 return LogStream(m_trace_mutex, m_ofs, buff, arg);
+#endif
             }
         }
 
