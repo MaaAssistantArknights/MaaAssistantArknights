@@ -1,6 +1,27 @@
 #if __has_include(<unistd.h>)
+#include "AsstPlatform.h"
 #include "AsstPlatformPosix.h"
 #include "AsstUtils.hpp"
+
+#include <cstdlib>
+
+static size_t get_page_size()
+{
+    return (size_t)sysconf(_SC_PAGESIZE);
+}
+
+const size_t asst::platform::page_size = get_page_size();
+
+void* asst::platform::aligned_alloc(size_t len, size_t align)
+{
+    return aligned_alloc(len, align);
+}
+
+void asst::platform::aligned_free(void* ptr)
+{
+    free(ptr);
+}
+
 std::string asst::utils::callcmd(const std::string& cmdline)
 {
     constexpr int PipeBuffSize = 4096;

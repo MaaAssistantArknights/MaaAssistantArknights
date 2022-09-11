@@ -1,5 +1,6 @@
 #include "Controller.h"
 #include "AsstConf.h"
+#include "AsstPlatform.h"
 
 #ifdef _WIN32
 #include "AsstPlatformWin32.h"
@@ -59,17 +60,6 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     }
     m_support_socket = false;
 #endif
-
-    m_pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
-    if (!m_pipe_buffer) {
-        throw "controller pipe buffer allocated failed";
-    }
-    if (m_support_socket) {
-        m_socket_buffer = std::make_unique<char[]>(SocketBuffSize);
-        if (!m_socket_buffer) {
-            throw "controller socket buffer allocated failed";
-        }
-    }
 
     m_cmd_thread = std::thread(&Controller::pipe_working_proc, this);
 }
@@ -204,6 +194,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 
     std::string pipe_data;
     std::string sock_data;
+    asst::platform::single_page_buffer<char> pipe_buffer;
+    std::optional<asst::platform::single_page_buffer<char>> sock_buffer;
 
     auto start_time = steady_clock::now();
 
@@ -212,7 +204,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     DWORD err = 0;
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
-    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize,
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, (DWORD)pipe_buffer.size(),
                                              true, false)) {
         err = GetLastError();
         Log.error("CreateOverlappablePipe failed, err", err);
@@ -247,17 +239,21 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     bool socket_eof = false;
 
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
-    (void)ReadFile(pipe_parent_read, m_pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+    (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
 
     OVERLAPPED sockov {};
     SOCKET client_socket = INVALID_SOCKET;
+    std::unique_lock<std::mutex> socket_lock;
 
     if (recv_by_socket) {
+        // acquire socket accept lock
+        socket_lock = std::unique_lock<std::mutex>(m_socket_mutex);
+        sock_buffer = asst::platform::single_page_buffer<char>();
         sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
         client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         DWORD dummy;
-        if (!m_AcceptEx(m_server_sock, client_socket, m_socket_buffer.get(),
-                        SocketBuffSize - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
+        if (!m_AcceptEx(m_server_sock, client_socket, sock_buffer.value().get(),
+                        (DWORD)sock_buffer.value().size() - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
                         sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
             err = WSAGetLastError();
             if (err == ERROR_IO_PENDING) {
@@ -308,8 +304,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             // pipe read
             DWORD len = 0;
             if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
-                pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + len);
-                (void)ReadFile(pipe_parent_read, m_pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + len);
+                (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
             }
             else {
                 err = GetLastError();
@@ -323,9 +319,11 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 // AcceptEx, client_socker is connected and first chunk of data is received
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
+                    // unlock after accept
+                    socket_lock.unlock();
                     accept_pending = false;
                     if (recv_by_socket)
-                        sock_data.insert(sock_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + len);
+                        sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + len);
 
                     if (len == 0) {
                         socket_eof = true;
@@ -337,24 +335,25 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                         sockov = {};
                         sockov.hEvent = event;
 
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
-                                       nullptr, &sockov);
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.value().get(),
+                                       (DWORD)sock_buffer.value().size(), nullptr, &sockov);
                     }
                 }
+
             }
             else {
                 // ReadFile
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &len, FALSE)) {
                     if (recv_by_socket)
-                        sock_data.insert(sock_data.end(), m_socket_buffer.get(), m_socket_buffer.get() + len);
+                        sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + len);
                     if (len == 0) {
                         socket_eof = true;
                         closesocket(client_socket);
                     }
                     else {
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), m_socket_buffer.get(), PipeBuffSize,
-                                       nullptr, &sockov);
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.value().get(),
+                                       (DWORD)sock_buffer.value().size(), nullptr, &sockov);
                     }
                 }
                 else {
@@ -403,11 +402,11 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         // parent process
         std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
-            ssize_t read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
+            ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
 
             while (read_num > 0) {
-                pipe_data.insert(pipe_data.end(), m_pipe_buffer.get(), m_pipe_buffer.get() + read_num);
-                read_num = read(m_pipe_out[PIPE_READ], m_pipe_buffer.get(), PipeBuffSize);
+                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
+                read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
             };
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
     }
