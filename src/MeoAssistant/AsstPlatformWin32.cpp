@@ -1,4 +1,5 @@
 #ifdef _WIN32
+#include "AsstPlatform.h"
 #include "AsstPlatformWin32.h"
 
 #include <atomic>
@@ -7,6 +8,25 @@
 
 #include "AsstUtils.hpp"
 #include "Logger.hpp"
+
+static size_t get_page_size()
+{
+    SYSTEM_INFO sysInfo {};
+    GetSystemInfo(&sysInfo);
+    return sysInfo.dwPageSize;
+}
+
+const size_t asst::platform::page_size = get_page_size();
+
+void* asst::platform::aligned_alloc(size_t len, size_t align)
+{
+    return _aligned_malloc(len, align);
+}
+
+void asst::platform::aligned_free(void* ptr)
+{
+    _aligned_free(ptr);
+}
 
 bool asst::win32::CreateOverlappablePipe(HANDLE* read, HANDLE* write, SECURITY_ATTRIBUTES* secattr_read,
                                          SECURITY_ATTRIBUTES* secattr_write, DWORD bufsize, bool overlapped_read,
