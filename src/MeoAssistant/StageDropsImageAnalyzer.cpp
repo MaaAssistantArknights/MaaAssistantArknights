@@ -248,15 +248,15 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
         // prefer gradient in vertical direction, make value of those pixels positive
         cv::sqrt(pdy.mul(pdy) - std::pow(std::tan(angle), 2.) * pdx.mul(pdx), temp);
 
-        // cropping after derivatives, not before
-        temp(utils::make_rect<cv::Rect>(task_ptr->roi)).convertTo(preprocessed_roi, CV_8U, 255);
+        temp.convertTo(preprocessed_roi, CV_8U, 255);
 
         // filling small gaps
         cv::dilate(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
         // line must be thick enough
         cv::erode(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 2 }));
 
-        cv::cvtColor(preprocessed_roi, preprocessed_roi, cv::COLOR_BGR2GRAY);
+        // cropping after derivatives, dilation, and erosion
+        cv::cvtColor(preprocessed_roi(utils::make_rect<cv::Rect>(task_ptr->roi)), preprocessed_roi, cv::COLOR_BGR2GRAY);
     }
 
     cv::Mat preprocessed_bin;
