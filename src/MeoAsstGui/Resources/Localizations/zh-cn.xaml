@@ -180,6 +180,7 @@
     <system:String x:Key="CloseEmulator">关闭模拟器</system:String>
     <system:String x:Key="ExitMAAAndCloseEmulator">退出并关闭模拟器</system:String>
     <system:String x:Key="Hibernate">休眠*</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">退出并关闭模拟器并休眠*</system:String>
     <system:String x:Key="Shutdown">关机*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>

@@ -125,7 +125,7 @@
                     TextWrapping="Wrap" />
                 <ComboBox
                     Grid.Column="1"
-                    Width="120"
+                    Width="155"
                     Margin="5"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ActionAfterCompletedList}"
