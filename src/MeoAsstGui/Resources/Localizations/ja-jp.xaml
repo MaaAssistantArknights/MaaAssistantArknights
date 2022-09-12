@@ -180,6 +180,7 @@
     <system:String x:Key="CloseEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="ExitMAAAndCloseEmulator">MAAとエミュレータを終了する</system:String>
     <system:String x:Key="Hibernate">休止状態にする*</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる*</system:String>
     <system:String x:Key="Shutdown">シャットダウン*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String><!--分かりやすく動作開始でも良い気はする-->
