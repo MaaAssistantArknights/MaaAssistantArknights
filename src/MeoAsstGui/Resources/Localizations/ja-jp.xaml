@@ -259,7 +259,7 @@
 
     <!--  倉庫アイテム認識  -->
     <system:String x:Key="DepotRecognition">倉庫アイテム認識 Alpha</system:String>
-    <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版ですので、使用する前に認識結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depotフォルダを作業パスに圧縮して、issueを提出してください。</system:String>
+    <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。倉庫を開いた後、素材のタブを選択してから認識を行い、結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depotフォルダを作業パスに圧縮して、issueを提出してください。</system:String>
     <system:String x:Key="BeganToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
     <system:String x:Key="ExportToLolicon">Loliconへ出力</system:String>
