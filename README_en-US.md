@@ -37,11 +37,12 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 - Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata)
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
-- **New feature! Importing JSON task file for auto-battle!** [Video](https://www.bilibili.com/video/BV14u411673q/)
+- Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV14u411673q/)
+- New feature: Depot recognition! Supports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
 
 Talk is cheap. Show me the pictures!  
 
-![image](https://user-images.githubusercontent.com/99072975/181417856-0fb1ac8b-c0f6-4c67-904c-1c3ea2c309a8.png)
+![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
 ![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png)
 ![image](https://user-images.githubusercontent.com/99072975/181417872-563afc09-e610-45f5-8762-dbf69018a329.png)
 
