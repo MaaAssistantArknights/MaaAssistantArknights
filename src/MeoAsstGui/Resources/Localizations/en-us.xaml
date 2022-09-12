@@ -180,6 +180,7 @@
     <system:String x:Key="CloseEmulator">Close Emulator</system:String>
     <system:String x:Key="ExitMAAAndCloseEmulator">Exit and Close Emulator</system:String>
     <system:String x:Key="Hibernate">Hibernate*</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">Exit and Close Emulator and Hibernate*</system:String>
     <system:String x:Key="Shutdown">Shutdown*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>

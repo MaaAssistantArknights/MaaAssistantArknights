@@ -180,6 +180,7 @@
     <system:String x:Key="CloseEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="ExitMAAAndCloseEmulator">MAA와 에뮬레이터를 종료</system:String>
     <system:String x:Key="Hibernate">하이버네이션*</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">退出并关闭模拟器并休眠*</system:String>
     <system:String x:Key="Shutdown">컴퓨터를 종료*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>

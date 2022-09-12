@@ -180,6 +180,7 @@
     <system:String x:Key="CloseEmulator">💃💃🍸</system:String>
     <system:String x:Key="ExitMAAAndCloseEmulator">🍺🍷🍸🍸🍷</system:String>
     <system:String x:Key="Hibernate">💃🍷</system:String>
+    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">退出并关闭模拟器并休眠*</system:String>
     <system:String x:Key="Shutdown">🍷🍷</system:String>
 
     <system:String x:Key="LinkStart">🍻🍻🍻🍺🍸💃</system:String>
