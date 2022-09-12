@@ -16,6 +16,14 @@ labels:
   - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)roguelike(?:`|)|肉[鸽鴿]|集成战略|rogue|ローグ)'
   - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)roguelike(?:`|)|^(?![\\s\\S]*(?:\
     (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)roguelike(?:`|))))[\\s\\S]*$)"
+- name: "module: drop"
+  regexes:
+  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)drop(?:`|)|掉落物?识别)'
+  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)drop(?:`|)|^(?![\\s\\S]*(?:\
+    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)drop(?:`|))))[\\s\\S]*$)"
+  disabled-if:
+  - "module: copilot"
+  - "module: roguelike"
 - name: "module: fight"
   regexes:
   - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)fight(?:`|)|刷图|刷理智|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|[戰戦][鬥闘]|fight|battle)'
@@ -23,6 +31,7 @@ labels:
     (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)fight(?:`|))))[\\s\\S]*$)"
   disabled-if:
   - "module: copilot"
+  - "module: drop"
   - "module: roguelike"
 - name: "module: infrast"
   regexes:
