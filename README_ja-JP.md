@@ -36,15 +36,15 @@ MAAは、MAA Assistant Arknightsです。
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション（現在JPは未対応）
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データアップロード
 - 戦友訪問、FP収集、買い物、デイリーレワード収集、ワンクリックして全自動操作！（現在JPは未対応）
-- 統合戦略自動作戦、オペレーターとレベルの自動認識
-- **新機能！作業JSONファイルをインポートし、自動操作することも可能！** [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)
+- 統合戦略自動作戦、オペレーターとレベルの自動認識（現在JPはベータ対応）
+- 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)（現在JP未対応/中文）
+- **新機能！倉庫のアイテム認識機能（アルファ）** [Arkplanner](https://penguin-stats.io/planner)/[周回計画表](https://ark-nights.com/settings)と[Lolicon](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
 
 見ればわかる！  
 
-![image](https://user-images.githubusercontent.com/18511905/182035584-ba5e6db5-6fc5-4b5a-8393-faea22c0a81b.png)
-![image](https://user-images.githubusercontent.com/18511905/182035787-faad4560-b7e5-4ce3-bb8a-b1c65778337b.png)
-![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
-
+![image](https://user-images.githubusercontent.com/63186641/189558712-8f88f84b-fc60-4638-940a-23af0a868436.png)
+![image](https://user-images.githubusercontent.com/63186641/189559879-cfaa825c-c2fe-43de-83e2-854ca99000a9.png)
+<!--JP未対応のため一旦隠す  [image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)  -->
 
 
 ## ダウンロードリンク
@@ -75,23 +75,27 @@ MAAは、MAA Assistant Arknightsです。
 
 ## よくある質問
 
-- 起動するとき、ソフトウェアがクラッシュする
-- 接続エラー、adbパスがわからない場合
-- 認識エラー、またはオペレーション開始したあとで反応がない
-- カスタムポート設定について
+- 起動する際にソフトウェアがクラッシュする。
+- 接続エラー、adbパスがわからない場合。
+- 認識エラー、またはオペレーション開始した後に反応がない。
+- カスタムポート設定について。
 
 [よくある質問](docs/ja-jp/1.2-よくある質問.md)を参照してください。
 
 ## サーバーに応じてサポートされる機能
 
 - アメリカサーバー 
-  作戦、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。[README](resource/global/YoStarEN/readme.md)を参照してください。
+  作戦、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。
+  <br>サポート内容については[README](resource/global/YoStarEN/readme.md)を参照してください。
 - 日本サーバー 
-  作戦、自動公開求人、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。[README](resource/global/YoStarJP/readme.md)を参照してください。
+  作戦、自動公開求人、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。
+  <br>サポート内容については[README](resource/global/YoStarJP/readme.md)を参照してください。
 - 韓国サーバー 
-  基本的な作戦機能がサポートされている。[README](resource/global/YoStarKR/readme.md)を参照してください。
+  基本的な作戦機能のみサポートされている。
+  <br>サポート内容については[README](resource/global/YoStarKR/readme.md)を参照してください。
 - TXWYサーバー  
-  基本的な作戦、自動公開求人、公開求人認識の機能がサポートされている。[README](resource/global/txwy/readme.md)を参照してください。
+  基本的な作戦、自動公開求人、公開求人認識の機能がサポートされている。
+  <br>サポート内容については[README](resource/global/txwy/readme.md)を参照してください。
 
 海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。~~いっしょにMAAの開発に協力しましょう~~
 
@@ -179,8 +183,8 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 [ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動作戦JSON作業シェア：<https://www.prts.plus>、[QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)、[QQグループ2（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)、[QQグループ3（満員）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)、[QQグループ4](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
-[ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングすることばかりです～  
+[ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。
 [アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
 [開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
-ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください～　それは私たちにとって最高のサポートです！
+ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！
