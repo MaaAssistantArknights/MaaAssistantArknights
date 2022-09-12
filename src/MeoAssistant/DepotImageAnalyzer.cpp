@@ -281,9 +281,13 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         }
     }
 
+    if (contours.size() == 0) {
+        return 0;
+    }
+    
     int far_left = contours.back().start;
     int far_right = contours.front().end;
-
+    
     OcrWithPreprocessImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     Rect ocr_roi(quantity_roi.x + far_left, quantity_roi.y + y_bounding_rect.y, far_right - far_left,
