@@ -1,8 +1,8 @@
 #pragma once
 
-#include <utility>
-#include <type_traits>
 #include <new>
+#include <type_traits>
+#include <utility>
 
 namespace asst::platform
 {
