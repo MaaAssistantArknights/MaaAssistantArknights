@@ -204,8 +204,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     DWORD err = 0;
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
-    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, (DWORD)pipe_buffer.size(),
-                                             true, false)) {
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit,
+                                             (DWORD)pipe_buffer.size(), true, false)) {
         err = GetLastError();
         Log.error("CreateOverlappablePipe failed, err", err);
         return std::nullopt;
@@ -339,7 +339,6 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                                        (DWORD)sock_buffer.value().size(), nullptr, &sockov);
                     }
                 }
-
             }
             else {
                 // ReadFile

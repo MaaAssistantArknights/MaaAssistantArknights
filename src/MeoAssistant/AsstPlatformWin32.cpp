@@ -1,6 +1,6 @@
 #ifdef _WIN32
-#include "AsstPlatform.h"
 #include "AsstPlatformWin32.h"
+#include "AsstPlatform.h"
 
 #include <atomic>
 #include <format>
