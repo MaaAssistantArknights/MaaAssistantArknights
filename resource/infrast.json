@@ -2422,8 +2422,7 @@
                 ],
                 "template": "Bskill_tra_against2.png",
                 "efficient": {
-                    "Money": 0,
-                    "Money_Doc": "精 2 但书 真实效率是 93.8，但是吃赤金非常快，正常玩家吃不消。如需要的话可自行修改"
+                    "Money": 93.8
                 }
             },
             "bskill_tra_bd_n1": {
