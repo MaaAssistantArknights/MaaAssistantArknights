@@ -256,10 +256,6 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         }
     }
 
-    if (contours.empty()) {
-        return 0;
-    }
-
     cv::Rect y_bounding_rect;
     for (int i = 0; i < contours.size(); ++i) {
         if (y_bounding_rect.empty()) {
@@ -280,14 +276,12 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
             break;
         }
     }
-
-    if (contours.size() == 0) {
+    if (contours.empty()) {
         return 0;
     }
-    
     int far_left = contours.back().start;
     int far_right = contours.front().end;
-    
+
     OcrWithPreprocessImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     Rect ocr_roi(quantity_roi.x + far_left, quantity_roi.y + y_bounding_rect.y, far_right - far_left,
