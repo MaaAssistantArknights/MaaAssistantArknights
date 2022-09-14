@@ -171,7 +171,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage1}"
                         SelectedValuePath="Value"
-                        Visibility="{Binding NotCustomStageCode, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                        Visibility="{c:Binding !CustomStageCode}" />
                     <TextBox
                         Height="30"
                         Margin="0,6"

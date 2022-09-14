@@ -1429,24 +1429,18 @@ namespace MeoAsstGui
 
         private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use custom stage code.
+        /// </summary>
         public bool CustomStageCode
         {
             get => _customStageCode;
             set
             {
                 SetAndNotify(ref _customStageCode, value);
-                NotCustomStageCode = !value;
                 var settingsModel = _container.Get<SettingsViewModel>();
                 AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
             }
-        }
-
-        private bool _notCustomStageCode = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
-
-        public bool NotCustomStageCode
-        {
-            get => _notCustomStageCode;
-            set => SetAndNotify(ref _notCustomStageCode, value);
         }
 
         private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
