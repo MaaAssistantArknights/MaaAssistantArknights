@@ -72,7 +72,6 @@ namespace MeoAsstGui
         /// <summary>
         /// Determine whether the stage associated activity is closed
         /// </summary>
-        /// <param name="dayOfWeek">Current day of week</param>
         /// <returns>Whether activity is closed</returns>
         public bool IsActivityClosed()
         {
