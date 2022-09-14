@@ -43,6 +43,7 @@
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
                     <ListBox
+                        x:Name="TaskList"
                         Grid.Row="0"
                         Width="190"
                         MinHeight="220"
@@ -62,7 +63,7 @@
                                     <CheckBox
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
-                                        IsHitTestVisible="{Binding Path=DataContext.Idle}" />
+                                        IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
