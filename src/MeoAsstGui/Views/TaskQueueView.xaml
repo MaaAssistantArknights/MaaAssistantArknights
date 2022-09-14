@@ -117,7 +117,6 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
-                    Margin="5"
                     Padding="5,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -126,7 +125,7 @@
                     TextWrapping="Wrap" />
                 <ComboBox
                     Grid.Column="1"
-                    Width="155"
+                    Width="160"
                     Margin="5"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ActionAfterCompletedList}"
