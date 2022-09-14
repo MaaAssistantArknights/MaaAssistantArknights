@@ -936,7 +936,7 @@ namespace MeoAsstGui
                     {
                         string resultContent = string.Empty;
                         JArray result_array = (JArray)subTaskDetails["result"];
-                        int level = (int)subTaskDetails["level"];
+                        /* int level = (int)subTaskDetails["level"]; */
                         foreach (var combs in result_array)
                         {
                             int tag_level = (int)combs["level"];
@@ -1243,6 +1243,7 @@ namespace MeoAsstGui
         /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
+        /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_trust_enabled, bool originium_shard_auto_replenishment)
         {

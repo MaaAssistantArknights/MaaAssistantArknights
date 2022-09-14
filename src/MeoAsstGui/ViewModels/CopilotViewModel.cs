@@ -37,9 +37,7 @@ namespace MeoAsstGui
     /// </summary>
     public class CopilotViewModel : Screen
     {
-#pragma warning disable IDE0052 // 删除未读的私有成员
         private readonly IWindowManager _windowManager;
-#pragma warning restore IDE0052 // 删除未读的私有成员
         private readonly IContainer _container;
 
         /// <summary>
