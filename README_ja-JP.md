@@ -42,7 +42,7 @@ MAAは、MAA Assistant Arknightsです。
 
 UIを見れば使い方もすぐ分かる！  
 
-![image](https://user-images.githubusercontent.com/63186641/189661673-30b088b5-ffd2-4ee5-ab14-ee5c696b244d.png)
+![image](https://user-images.githubusercontent.com/74226084/190089010-d98052b1-fc42-4428-91e5-bb8fdf450e43.png)
 ![image](https://user-images.githubusercontent.com/63186641/189559879-cfaa825c-c2fe-43de-83e2-854ca99000a9.png)
 <!--JP未対応のため一旦隠す  [image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)  -->
 
