@@ -1702,6 +1702,9 @@ namespace MeoAsstGui
 
         private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use custom stage code.
+        /// </summary>
         public bool CustomStageCode
         {
             get => _customStageCode;
