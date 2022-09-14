@@ -34,13 +34,13 @@ MAAは、MAA Assistant Arknightsです。
 
 - 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.io/)へデータアップロード（ドロップ認識はJPも対応予定）
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション（現在JPは未対応）
-- 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データアップロード
-- 戦友訪問、FP収集、買い物、デイリーレワード収集、ワンクリックして全自動操作！（現在JPは未対応）
-- 統合戦略自動作戦、オペレーターとレベルの自動認識（現在JPはベータ対応）
+- 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データのアップロード
+- 戦友訪問、FP収集、買い物、デイリーリワード収集、ワンクリックして全自動操作！（現在JPは未対応）
+- 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集！（現在JPはベータ対応）
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)（現在JP未対応/中文）
-- **新機能！倉庫のアイテム認識機能（アルファ）** [Arkplanner](https://penguin-stats.io/planner)/[周回計画表](https://ark-nights.com/settings)と[Lolicon](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
+- **新機能！倉庫のアイテム認識機能（アルファ）** [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
 
-見ればわかる！  
+UIを見れば使い方もすぐ分かる！  
 
 ![image](https://user-images.githubusercontent.com/63186641/189661673-30b088b5-ffd2-4ee5-ab14-ee5c696b244d.png)
 ![image](https://user-images.githubusercontent.com/63186641/189559879-cfaa825c-c2fe-43de-83e2-854ca99000a9.png)
@@ -72,6 +72,13 @@ MAAは、MAA Assistant Arknightsです。
 3. ゲームスタート！
 
 詳しいマニュアルは[MAA使用説明書](docs/ja-jp/1.1-詳細な説明.md)を参照してください。
+
+起動時に日本語になっていない場合は下記を参考に切り替えてください。
+- `设置` - `界面设置` - `语言` - `日本語`
+-  `設定` - `介面設定` - `語言` - `日本語`
+-  `Settings` - `GUI` - `Language` - `日本語`
+-  `설정` - `UI 설정` - `언어` - `日本語`
+
 
 ## よくある質問
 
