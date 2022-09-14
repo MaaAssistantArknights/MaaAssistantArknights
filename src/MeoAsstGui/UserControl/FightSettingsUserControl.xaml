@@ -93,7 +93,7 @@
                         Content="{DynamicResource AssignedMaterial}"
                         IsChecked="{Binding IsSpecifiedDrops}"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
-                    <Grid Height="42" Visibility="{Binding IsSpecifiedDrops, Converter={StaticResource Boolean2VisibilityConverter}}">
+                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -127,7 +127,7 @@
                         InputMethod.IsInputMethodEnabled="False"
                         Text="{Binding DropsQuantity}"
                         TextType="Int"
-                        Visibility="{Binding IsSpecifiedDrops, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                        Visibility="{c:Binding IsSpecifiedDrops}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="2">
@@ -146,7 +146,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{Binding AlternateStageDisplay, Converter={StaticResource Boolean2VisibilityConverter}}">
+                    <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
                         <TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
@@ -171,7 +171,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage1}"
                         SelectedValuePath="Value"
-                        Visibility="{Binding NotCustomStageCode, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                        Visibility="{c:Binding !CustomStageCode}" />
                     <TextBox
                         Height="30"
                         Margin="0,6"
@@ -180,7 +180,7 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage1}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{Binding CustomStageCode, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                        Visibility="{c:Binding CustomStageCode}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -191,7 +191,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage2}"
                         SelectedValuePath="Value"
-                        Visibility="{Binding AlternateStageDisplay, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                        Visibility="{c:Binding AlternateStageDisplay}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -202,7 +202,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
-                        Visibility="{Binding AlternateStageDisplay, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                        Visibility="{c:Binding AlternateStageDisplay}" />
                 </StackPanel>
             </Grid>
 
