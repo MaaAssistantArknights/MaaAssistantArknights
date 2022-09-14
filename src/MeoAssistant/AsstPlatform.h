@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <new>
 #include <type_traits>
 #include <utility>
@@ -24,7 +25,7 @@ namespace asst::platform
             if (!_ptr) throw std::bad_alloc();
         }
 
-        single_page_buffer(nullptr_t) {}
+        explicit single_page_buffer(std::nullptr_t) {}
 
         ~single_page_buffer()
         {
@@ -35,8 +36,8 @@ namespace asst::platform
         single_page_buffer(const single_page_buffer&) = delete;
         single_page_buffer& operator=(const single_page_buffer&) = delete;
 
-        inline single_page_buffer(single_page_buffer&& other) { std::swap(_ptr, other._ptr); }
-        inline single_page_buffer& operator=(single_page_buffer&& other)
+        inline single_page_buffer(single_page_buffer&& other) noexcept { std::swap(_ptr, other._ptr); }
+        inline single_page_buffer& operator=(single_page_buffer&& other) noexcept
         {
             if (_ptr) {
                 aligned_free(reinterpret_cast<void*>(_ptr));

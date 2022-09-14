@@ -15,7 +15,6 @@
 #include <chrono>
 #include <cstdint>
 #include <memory>
-#include <regex>
 #include <utility>
 #include <vector>
 
@@ -399,14 +398,13 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     }
     else if (m_child > 0) {
         // parent process
-        std::unique_lock<std::mutex> pipe_lock(m_pipe_mutex);
         do {
-            ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
+            ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
 
             while (read_num > 0) {
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
-                read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), PipeBuffSize);
-            };
+                read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+            }
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
     }
     else {
