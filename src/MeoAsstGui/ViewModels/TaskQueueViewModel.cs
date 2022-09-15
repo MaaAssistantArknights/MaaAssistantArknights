@@ -88,7 +88,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _actionAfterCompleted, value.ToString());
                 string storeValue = ActionType.DoNothing.ToString();
-                if (value != ActionType.Shutdown && value != ActionType.Hibernate)
+                if (value != ActionType.Shutdown && value != ActionType.Hibernate && value != ActionType.ExitMAAAndCloseEmulatorAndHibernate)
                 {
                     storeValue = value.ToString();
                 }
@@ -270,6 +270,7 @@ namespace MeoAsstGui
 
                 // new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAAAndCloseEmulatorAndHibernate"), Value = ActionType.ExitMAAAndCloseEmulatorAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
@@ -1091,6 +1092,11 @@ namespace MeoAsstGui
             Hibernate,
 
             /// <summary>
+            /// Exits MAA and emulator and computer hibernates.
+            /// </summary>
+            ExitMAAAndCloseEmulatorAndHibernate,
+
+            /// <summary>
             /// Computer shutdown.
             /// </summary>
             Shutdown,
@@ -1166,6 +1172,24 @@ namespace MeoAsstGui
 
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                     Process.Start("shutdown.exe", "-h");
+                    break;
+
+                case ActionType.ExitMAAAndCloseEmulatorAndHibernate:
+                    if (!killEumlatorbyWindow())
+                    {
+                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
+                    }
+
+                    // 休眠提示
+                    AddLog(Localization.GetString("HibernatePrompt"), LogColor.Error);
+
+                    // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
+                    Process.Start("shutdown.exe", "-h");
+
+                    // Shutdown 会调用 OnExit 但 Exit 不会
+                    Application.Current.Shutdown();
+
+                    // Environment.Exit(0);
                     break;
 
                 default:
@@ -1405,24 +1429,18 @@ namespace MeoAsstGui
 
         private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use custom stage code.
+        /// </summary>
         public bool CustomStageCode
         {
             get => _customStageCode;
             set
             {
                 SetAndNotify(ref _customStageCode, value);
-                NotCustomStageCode = !value;
                 var settingsModel = _container.Get<SettingsViewModel>();
                 AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
             }
-        }
-
-        private bool _notCustomStageCode = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
-
-        public bool NotCustomStageCode
-        {
-            get => _notCustomStageCode;
-            set => SetAndNotify(ref _notCustomStageCode, value);
         }
 
         private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));

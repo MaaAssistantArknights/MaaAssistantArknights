@@ -142,12 +142,12 @@
                 "desc": [
                     "进驻控制中枢时，每有1个深海猎人干员进驻在宿舍以外的设施，则自身心情每小时消耗+0.5；反之则自身心情每小时恢复+0.5，如果进驻在宿舍内的深海猎人干员为满心情，则额外+0.5"
                 ],
-                "name": [
-                    "潮汐守望"
-                ],
                 "efficient": {
                     "all": -0.01
                 },
+                "name": [
+                    "潮汐守望"
+                ],
                 "template": "Bskill_ctrl_cost_aegir.png"
             },
             "bskill_ctrl_cost_bd1": {
@@ -235,12 +235,12 @@
                 "desc": [
                     "进驻控制中枢时，部分设施内处于工作状态的干员心情每小时恢复+0.1；同时控制中枢内部分技能可以为其他设施内处于工作状态的干员额外提供心情恢复"
                 ],
-                "name": [
-                    "公事公办"
-                ],
                 "efficient": {
                     "all": 0.04
                 },
+                "name": [
+                    "公事公办"
+                ],
                 "template": "Bskill_ctrl_lonely.png"
             },
             "bskill_ctrl_lungmen": {
@@ -2405,26 +2405,25 @@
                 "desc": [
                     "进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+1"
                 ],
+                "efficient": {
+                    "Money": 47
+                },
                 "name": [
                     "违约索赔·α"
                 ],
-                "template": "Bskill_tra_against.png",
-                "efficient": {
-                    "Money": 47
-                }
+                "template": "Bskill_tra_against.png"
             },
             "bskill_tra_against2": {
                 "desc": [
                     "进驻贸易站时，如果下笔赤金订单是违约订单，则赤金交付数额外+2"
                 ],
+                "efficient": {
+                    "Money": 93.8
+                },
                 "name": [
                     "违约索赔·β"
                 ],
-                "template": "Bskill_tra_against2.png",
-                "efficient": {
-                    "Money": 0,
-                    "Money_Doc": "精 2 但书 真实效率是 93.8，但是吃赤金非常快，正常玩家吃不消。如需要的话可自行修改"
-                }
+                "template": "Bskill_tra_against2.png"
             },
             "bskill_tra_bd_n1": {
                 "desc": [
