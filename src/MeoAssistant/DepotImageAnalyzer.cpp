@@ -256,10 +256,6 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         }
     }
 
-    if (contours.empty()) {
-        return 0;
-    }
-
     cv::Rect y_bounding_rect;
     for (int i = 0; i < contours.size(); ++i) {
         if (y_bounding_rect.empty()) {
@@ -280,7 +276,9 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
             break;
         }
     }
-
+    if (contours.empty()) {
+        return 0;
+    }
     int far_left = contours.back().start;
     int far_right = contours.front().end;
 

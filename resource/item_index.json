@@ -1103,6 +1103,14 @@
         "sortId": -10000,
         "usage": "梅什科集团推出的全新商业形式，可以在卡西米尔的免税纪念商店购买纪念品。"
     },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "本周末，龙门近卫局将携手本地流浪动物收容站举办领养活动，希望条件合适的市民朋友可以踊跃参与，给流离失所的小生命一个重获新生的机会。\n当然，没有领养条件的朋友也可以为它们捐助一份营养罐头，我们为每一位捐助者都准备了精美的小礼品。",
+        "icon": "act13mini_token_can.png",
+        "name": "宠物营养罐头",
+        "sortId": -10000,
+        "usage": "龙门市面上常见的宠物营养罐头，实惠美味。只要弹弹罐头上的拉环，就会有一只小可爱向你奔来。"
+    },
     "act13side_prestige_armorless": {
         "classifyType": "NONE",
         "description": null,

@@ -103,11 +103,6 @@ namespace asst
 
         std::minstd_rand m_rand_engine;
 
-        static constexpr int PipeBuffSize = 4 * 1024 * 1024;   // 管道缓冲区大小
-        static constexpr int SocketBuffSize = 4 * 1024 * 1024; // socket 缓冲区大小
-        std::unique_ptr<char[]> m_pipe_buffer = nullptr;
-        std::mutex m_pipe_mutex;
-        std::unique_ptr<char[]> m_socket_buffer = nullptr;
         std::mutex m_socket_mutex;
 #ifdef _WIN32
 

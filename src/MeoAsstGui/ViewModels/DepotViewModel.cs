@@ -1,4 +1,4 @@
-// <copyright file="RecruitViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="DepotViewModel.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json.Linq;
@@ -62,18 +63,28 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _depotResult, value);
         }
 
+        /// <summary>
+        /// Gets or sets the ArkPlanner result.
+        /// </summary>
         public string ArkPlannerResult { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the Lolicon result.
+        /// </summary>
         public string LoliconResult { get; set; } = string.Empty;
 
+        /// <summary>
+        /// parse of depot recognition result
+        /// </summary>
+        /// <param name="details">detailed json-style parameters</param>
+        /// <returns>Success or not</returns>
         public bool Parse(JObject details)
         {
             string result = string.Empty;
             int count = 0;
-            foreach (var item in details["arkplanner"]["object"]["items"])
+            foreach (var item in details["arkplanner"]["object"]["items"].Cast<JObject>())
             {
-                var itemObj = (JObject)item;
-                result += (string)itemObj["name"] + " : " + (int)itemObj["have"] + "\t";
+                result += (string)item["name"] + " : " + (int)item["have"] + "\t";
                 if (++count == 4)
                 {
                     result += "\n";
@@ -98,25 +109,34 @@ namespace MeoAsstGui
 
         private bool _done = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether depot info is parsed.
+        /// </summary>
         public bool Done
         {
             get => _done;
             set => SetAndNotify(ref _done, value);
         }
 
+        /// <summary>
+        /// Export depot info to ArkPlanner.
+        /// </summary>
         public void ExportToArkplanner()
         {
             Clipboard.SetDataObject(ArkPlannerResult);
             DepotInfo = Localization.GetString("CopiedToClipboard");
         }
 
+        /// <summary>
+        /// Export depot info to Lolicon.
+        /// </summary>
         public void ExportToLolicon()
         {
             Clipboard.SetDataObject(LoliconResult);
             DepotInfo = Localization.GetString("CopiedToClipboard");
         }
 
-        private void clear()
+        private void Clear()
         {
             DepotResult = string.Empty;
             ArkPlannerResult = string.Empty;
@@ -144,7 +164,7 @@ namespace MeoAsstGui
             }
 
             DepotInfo = Localization.GetString("Identifying");
-            clear();
+            Clear();
 
             asstProxy.AsstStartDepot();
         }
