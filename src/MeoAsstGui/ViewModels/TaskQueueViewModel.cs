@@ -362,18 +362,17 @@ namespace MeoAsstGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (!CustomStageCode &&
-                        (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
+                    if (!CustomStageCode && (stage1 == null))
                     {
                         Stage1 = string.Empty;
                     }
 
-                    if (stage2 == null || !_stageManager.IsStageOpen(stage2, _curDayOfWeek))
+                    if (stage2 == null)
                     {
                         Stage2 = string.Empty;
                     }
 
-                    if (stage3 == null || !_stageManager.IsStageOpen(stage3, _curDayOfWeek))
+                    if (stage3 == null)
                     {
                         Stage3 = string.Empty;
                     }
