@@ -2070,6 +2070,16 @@
             ],
             "rarity": 6
         },
+        "char_4067_lolxh": {
+            "name": "罗小黑",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ],
+            "rarity": 4
+        },
         "char_411_tomimi": {
             "name": "特米米",
             "profession": "CASTER",
