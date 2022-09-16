@@ -1241,7 +1241,12 @@ bool asst::Controller::release()
     if (m_child)
 #endif
     {
-        return call_command(m_adb.release).has_value();
+        if (m_adb.release.empty()) {
+            return true;
+        }
+        else {
+            return call_command(m_adb.release).has_value();
+        }
     }
 }
 
