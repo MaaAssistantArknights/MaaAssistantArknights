@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <mutex>
 #include <thread>
@@ -20,7 +21,7 @@ namespace asst
 
     class ostreams
     {
-        std::vector<std::ostream*> m_ofss;
+        std::vector<std::reference_wrapper<std::ostream>> m_ofss;
 
     public:
         ostreams(ostreams&&) = default;
@@ -32,20 +33,20 @@ namespace asst
         requires(std::convertible_to<std::remove_cvref_t<Args>&, std::ostream&> && ...)
         ostreams(Args&... args)
         {
-            (m_ofss.emplace_back(&args), ...);
+            (m_ofss.emplace_back(args), ...);
         }
         template <typename T>
         requires has_stream_insertion_operator<std::ostream, T>
         ostreams& operator<<(T&& x)
         {
-            for (std::ostream* ofs : m_ofss)
-                (*ofs) << std::forward<T>(x);
+            for (std::ostream& ofs : m_ofss)
+                ofs << std::forward<T>(x);
             return *this;
         }
         ostreams& operator<<(std::ostream& (*pf)(std::ostream&))
         {
-            for (std::ostream* ofs : m_ofss)
-                (*ofs) << pf;
+            for (std::ostream& ofs : m_ofss)
+                ofs << pf;
             return *this;
         }
     };
