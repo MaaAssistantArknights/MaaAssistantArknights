@@ -323,7 +323,7 @@
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
     <system:String x:Key="ErrorOccurred">Error occurred</system:String>
     <system:String x:Key="HasReturned">Has returned</system:String>
-    <system:String x:Key="DropRecognitionError">Drop recognition error</system:String>
+    <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">abort upload to Penguins statistics</system:String>
     <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
     <system:String x:Key="OnTheMove">operation started</system:String>
@@ -350,9 +350,9 @@
     <system:String x:Key="EmergencyDps">Stage: EmergencyDps</system:String>
     <system:String x:Key="DreadfulFoe">Stage: DreadfulFoe</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
-    <system:String x:Key="Drop">Drop:</system:String>
-    <system:String x:Key="TotalDrop">Total Drop:</system:String>
-    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facilities: </system:String>
+    <system:String x:Key="Drop">Drops:</system:String>
+    <system:String x:Key="TotalDrop">Total Drops:</system:String>
+    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
