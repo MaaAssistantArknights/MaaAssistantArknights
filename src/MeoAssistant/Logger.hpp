@@ -342,17 +342,17 @@ namespace asst
         std::ofstream m_ofs;
     };
 
-    inline const Logger::separator Logger::separator::none;
-    inline const Logger::separator Logger::separator::space(" ");
-    inline const Logger::separator Logger::separator::tab("\t");
-    inline const Logger::separator Logger::separator::newline("\n");
-    inline const Logger::separator Logger::separator::comma(",");
+    inline constexpr Logger::separator Logger::separator::none;
+    inline constexpr Logger::separator Logger::separator::space(" ");
+    inline constexpr Logger::separator Logger::separator::tab("\t");
+    inline constexpr Logger::separator Logger::separator::newline("\n");
+    inline constexpr Logger::separator Logger::separator::comma(",");
 
-    inline const Logger::level Logger::level::debug("DBG");
-    inline const Logger::level Logger::level::trace("TRC");
-    inline const Logger::level Logger::level::info("INF");
-    inline const Logger::level Logger::level::warn("WRN");
-    inline const Logger::level Logger::level::error("ERR");
+    inline constexpr Logger::level Logger::level::debug("DBG");
+    inline constexpr Logger::level Logger::level::trace("TRC");
+    inline constexpr Logger::level Logger::level::info("INF");
+    inline constexpr Logger::level Logger::level::warn("WRN");
+    inline constexpr Logger::level Logger::level::error("ERR");
 
     class LoggerAux
     {
