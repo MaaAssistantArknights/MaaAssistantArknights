@@ -186,7 +186,7 @@ namespace asst
             }
 
             bool m_is_first = true;
-            separator m_sep { " " };
+            separator m_sep = separator::space;
             std::unique_lock<std::mutex> m_trace_lock;
             stream_t m_ofs;
         };
