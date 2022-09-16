@@ -103,11 +103,37 @@ namespace asst
         class LogStream
         {
         public:
-            LogStream(std::mutex& mtx, stream_t ofs) : m_trace_lock(mtx), m_ofs(ofs) {}
-            template <typename... Args>
-            LogStream(std::mutex& mtx, stream_t ofs, Args&&... buff) : m_trace_lock(mtx), m_ofs(ofs)
+            template <typename T>
+            LogStream& operator<<(T&& arg)
             {
-                (*this << ... << std::forward<Args>(buff));
+#ifdef ASST_DEBUG // 这个地方的编码不太好控制，本来应该是 cout 的时候才 Ansi = true 的
+                constexpr bool Ansi = true;
+#else
+                constexpr bool Ansi = false;
+#endif
+                if constexpr (std::same_as<separator, std::remove_cvref_t<T>>) {
+                    m_sep = std::forward<T>(arg);
+                }
+                else {
+                    // 如果是 level，则不输出 separator
+                    if constexpr (!std::same_as<Logger::level, std::remove_cvref_t<T>>) {
+                        stream_put<Ansi>(m_ofs, m_sep.str);
+                    }
+                    stream_put<Ansi>(m_ofs, std::forward<T>(arg));
+                }
+                return *this;
+            }
+
+            template <typename _stream_t = stream_t>
+            LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv) : m_trace_lock(mtx), m_ofs(ofs)
+            {
+                *this << lv;
+            }
+            template <typename _stream_t = stream_t, typename... Args>
+            LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv, Args&&... buff)
+                : m_trace_lock(mtx), m_ofs(ofs)
+            {
+                ((*this << lv) << ... << std::forward<Args>(buff));
             }
             LogStream(LogStream&&) = delete;
             LogStream(const LogStream&) = delete;
@@ -116,41 +142,33 @@ namespace asst
 
             ~LogStream() { m_ofs << std::endl; }
 
-            template <typename T>
-            LogStream& operator<<(T&& arg)
-            {
-                if constexpr (std::same_as<separator, std::decay_t<T>>) {
-                    m_sep = std::forward<T>(arg);
-                }
-                else {
-                    if (!m_is_first) {
-#ifdef ASST_DEBUG
-                        stream_put<true>(m_ofs, m_sep.str);
-#else
-                        stream_put<false>(m_ofs, m_sep.str);
-#endif
-                    }
-                    else {
-                        m_is_first = false;
-                    }
-#ifdef ASST_DEBUG
-                    stream_put<true>(m_ofs, std::forward<T>(arg));
-#else
-                    stream_put<false>(m_ofs, std::forward<T>(arg));
-#endif
-                }
-                return *this;
-            }
-
         private:
             template <bool ToAnsi, typename Stream, typename T>
             static Stream& stream_put(Stream& s, T&& v)
             {
-                if constexpr (std::same_as<std::filesystem::path, std::decay_t<T>>) {
+                if constexpr (std::same_as<std::filesystem::path, std::remove_cvref_t<T>>) {
                     if constexpr (ToAnsi)
                         s << utils::utf8_to_ansi(utils::path_to_utf8_string(std::forward<T>(v)));
                     else
                         s << utils::path_to_utf8_string(std::forward<T>(v));
+                    return s;
+                }
+                else if constexpr (std::same_as<Logger::level, std::remove_cvref_t<T>>) {
+                    constexpr int buff_len = 128;
+                    char buff[buff_len] = { 0 };
+#ifdef _WIN32
+#ifdef _MSC_VER
+                    sprintf_s(buff, buff_len,
+#else  // ! _MSC_VER
+                    sprintf(buff,
+#endif // END _MSC_VER
+                              "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), v.str.data(), _getpid(),
+                              ::GetCurrentThreadId());
+#else  // ! _WIN32
+                    sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), v.str.data(),
+                            getpid(), (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
+#endif // END _WIN32
+                    s << buff;
                     return s;
                 }
                 else if constexpr (std::convertible_to<T, std::string_view>) {
@@ -186,20 +204,19 @@ namespace asst
                 }
             }
 
-            bool m_is_first = true;
             separator m_sep = separator::space;
             std::unique_lock<std::mutex> m_trace_lock;
             stream_t m_ofs;
         };
 
-        template <typename stream_t>
-        LogStream(std::mutex&, stream_t&) -> LogStream<stream_t&>;
+        // template <typename stream_t>
+        // LogStream(std::mutex&, stream_t&) -> LogStream<stream_t&>;
+
+        // template <typename stream_t>
+        // LogStream(std::mutex&, stream_t&&) -> LogStream<stream_t>;
 
         template <typename stream_t, typename... Args>
         LogStream(std::mutex&, stream_t&, Args&&...) -> LogStream<stream_t&>;
-
-        template <typename stream_t>
-        LogStream(std::mutex&, stream_t&&) -> LogStream<stream_t>;
 
         template <typename stream_t, typename... Args>
         LogStream(std::mutex&, stream_t&&, Args&&...) -> LogStream<stream_t>;
@@ -220,41 +237,21 @@ namespace asst
         template <typename T>
         auto operator<<(T&& arg)
         {
-            level lv = level::trace;
-            if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
-                lv = std::forward<T>(arg);
-            }
-            constexpr int buff_len = 128;
-            char buff[buff_len] = { 0 };
-#ifdef _WIN32
-#ifdef _MSC_VER
-            sprintf_s(buff, buff_len,
-#else  // ! _MSC_VER
-            sprintf(buff,
-#endif // END _MSC_VER
-                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), _getpid(),
-                      ::GetCurrentThreadId());
-#else  // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), getpid(),
-                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
-#endif // END _WIN32
-
             if (!m_ofs || !m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
-
-            if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
+            if constexpr (std::same_as<level, std::remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, buff);
+                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, arg);
 #else
-                return LogStream(m_trace_mutex, m_ofs, buff);
+                return LogStream(m_trace_mutex, m_ofs, arg);
 #endif
             }
             else {
 #ifdef ASST_DEBUG
-                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, buff, arg);
+                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, level::trace, arg);
 #else
-                return LogStream(m_trace_mutex, m_ofs, buff, arg);
+                return LogStream(m_trace_mutex, m_ofs, level::trace, arg);
 #endif
             }
         }
