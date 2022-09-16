@@ -217,54 +217,12 @@ namespace asst
             return true;
         }
 
-        template <typename... Args>
-        inline void debug([[maybe_unused]] Args&&... args)
-        {
-#ifdef ASST_DEBUG
-            log(level::debug, std::forward<Args>(args)...);
-#endif
-        }
-
-        template <typename... Args>
-        inline void trace(Args&&... args)
-        {
-            log(level::trace, std::forward<Args>(args)...);
-        }
-        template <typename... Args>
-        inline void info(Args&&... args)
-        {
-            log(level::info, std::forward<Args>(args)...);
-        }
-        template <typename... Args>
-        inline void warn(Args&&... args)
-        {
-            log(level::warn, std::forward<Args>(args)...);
-        }
-        template <typename... Args>
-        inline void error(Args&&... args)
-        {
-            log(level::error, std::forward<Args>(args)...);
-        }
-        template <typename... Args>
-        inline void log(level lv, Args&&... args)
-        {
-            ((*this << lv) << ... << std::forward<Args>(args));
-        }
-
-        void flush()
-        {
-            std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
-            if (m_ofs.is_open()) {
-                m_ofs.close();
-            }
-        }
-
         template <typename T>
         auto operator<<(T&& arg)
         {
             level lv = level::trace;
             if constexpr (std::same_as<Logger::level, std::decay_t<T>>) {
-                lv = std::forward<Logger::level>(arg);
+                lv = std::forward<T>(arg);
             }
             constexpr int buff_len = 128;
             char buff[buff_len] = { 0 };
@@ -298,6 +256,47 @@ namespace asst
 #else
                 return LogStream(m_trace_mutex, m_ofs, buff, arg);
 #endif
+            }
+        }
+
+        template <typename... Args>
+        inline void debug([[maybe_unused]] Args&&... args)
+        {
+#ifdef ASST_DEBUG
+            log(level::debug, std::forward<Args>(args)...);
+#endif
+        }
+        template <typename... Args>
+        inline void trace(Args&&... args)
+        {
+            log(level::trace, std::forward<Args>(args)...);
+        }
+        template <typename... Args>
+        inline void info(Args&&... args)
+        {
+            log(level::info, std::forward<Args>(args)...);
+        }
+        template <typename... Args>
+        inline void warn(Args&&... args)
+        {
+            log(level::warn, std::forward<Args>(args)...);
+        }
+        template <typename... Args>
+        inline void error(Args&&... args)
+        {
+            log(level::error, std::forward<Args>(args)...);
+        }
+        template <typename... Args>
+        inline void log(level lv, Args&&... args)
+        {
+            ((*this << lv) << ... << std::forward<Args>(args));
+        }
+
+        void flush()
+        {
+            std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
+            if (m_ofs.is_open()) {
+                m_ofs.close();
             }
         }
 
