@@ -62,9 +62,9 @@ labels:
   - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)core(?:`|)|^(?![\\s\\S]*(?:\
     (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)core(?:`|))))[\\s\\S]*$)"
 - name: "module: GUI"
-  # 要使得 issue 被打上 GUI 标签，必须明确说明 `图形界面`, `图形化界面`, `GUI` 等
+  # 要使得 issue 被打上 GUI 标签，最好明确说明 `图形界面`, `图形化界面`, `GUI` 等
   regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)GUI(?:`|)|图形化?界面|[Gg]ui|GUI)'
+  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)GUI(?:`|)|软件更新|自动下载|图形化?界面|[Gg]ui|GUI)'
   - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)GUI(?:`|)|^(?![\\s\\S]*(?:\
     (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)GUI(?:`|))))[\\s\\S]*$)"
 - name: ambiguous
@@ -157,13 +157,13 @@ labels:
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)\\s+)|\
     \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
-    https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/[0-9a-z]{40,40})\
+    (?:https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/|)[0-9a-z]{40,40})\
     \\s*fixed|[Ff]ixed (?:in|at|by)\\s*\
     (?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\\s+\
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))|\
     \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
-    https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/[0-9a-z]{40,40})"
+    (?:https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/|)[0-9a-z]{40,40})"
   mode:
     issue_comment: [add]
 - name: duplicate
@@ -179,7 +179,7 @@ labels:
 - name: incomplete
   regexes:
   - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|\
-    \\[Uploading asst(?:.bak|)(?: - 副本|).(?:zip|log)…\\]\\(\\))"
+    \\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\\]\\(\\))"
   - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|^(?![\\s\\S]*(?:\
     (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)[Ii][nm]complete(?:`|))))[\\s\\S]*$)"
   mode:
@@ -189,7 +189,7 @@ labels:
   content: incomplete
   regexes:
   - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|^(?![\\s\\S]*(?:\
-    \\[asst(?:.bak|)(?: - 副本|).(?:zip|log)\\]\\([^\\)]+\\)|\
+    \\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\\]\\([^\\)]+\\)|\
     (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)[Ii][nm]complete(?:`|))))[\\s\\S]*$)"
   mode:
     issues: [remove]
@@ -199,7 +199,7 @@ labels:
 comments:
 - name: Log upload failed
   regexes:
-  - '\[Uploading asst(?:.bak|)(?: - 副本|).(?:zip|log)…\]\(\)'
+  - '\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\)'
   content:
     "你的日志没有上传成功，请重新上传。\n\n\
     Your log did not upload successfully, please re-upload it."
