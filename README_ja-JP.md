@@ -46,7 +46,6 @@ UIを見れば使い方もすぐ分かる！
 ![image](https://user-images.githubusercontent.com/63186641/189559879-cfaa825c-c2fe-43de-83e2-854ca99000a9.png)
 <!--JP未対応のため一旦隠す  [image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)  -->
 
-
 ## ダウンロードリンク
 
 ***初めて使用する場合 `MaaBundle-vX.Y.Z.zip` をダウンロードしてください***
@@ -84,13 +83,13 @@ UIを見れば使い方もすぐ分かる！
 
 ## サーバーに応じてサポートされる機能
 
-- アメリカサーバー 
+- アメリカサーバー  
   作戦、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/YoStarEN/readme.md)を参照してください。
-- 日本サーバー 
+- 日本サーバー  
   作戦、自動公開求人、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/YoStarJP/readme.md)を参照してください。
-- 韓国サーバー 
+- 韓国サーバー  
   基本的な作戦機能のみサポートされている。  
   サポート内容については[README](resource/global/YoStarKR/readme.md)を参照してください。
 - TXWYサーバー  
@@ -170,7 +169,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 詳細については[Issue bot 使用方法](docs/ja-jp/2.3-IssueBot使う方.md)を参照してください。
 
-### 開発に参加したいがGitHubの使い方がよくわかりません。
+### 開発に参加したいがGitHubの使い方がよくわかりません
 
 [Githubプルリクエストのプロセス](docs/ja-jp/2.2-プルリクエスト.md)
 
