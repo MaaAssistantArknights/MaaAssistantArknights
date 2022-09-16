@@ -201,6 +201,8 @@ bool asst::AutoRecruitTask::_run()
 
     static constexpr int slot_retry_limit = 3;
 
+    bool try_use_expedited = m_use_expedited;
+
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
     while (m_cur_times != m_max_times) {
         if (m_force_discard_flag) {
@@ -221,24 +223,27 @@ bool asst::AutoRecruitTask::_run()
         else {
             if (!check_recruit_home_page()) return false;
             Log.info("There is no available start button.");
-            if (!m_use_expedited) return true;
+            if (!try_use_expedited) return true;
         }
 
-        if (m_use_expedited) {
+        if (try_use_expedited) {
             if (need_exit()) return false;
             Log.info("ready to use expedited plan");
             if (recruit_now()) {
                 hire_all();
             }
             else {
+                Log.info("Failed to use expedited plan");
                 // There is a small chance that confirm button were clicked twice and got stuck into the bottom-right
-                // slot. ref: issues/1491
+                // slot. ref: #1491
                 if (check_recruit_home_page()) {
-                    m_force_discard_flag = true;
-                } // ran out of expedited plan?
-                else
+                    // ran out of expedited plan? stop trying
+                    try_use_expedited = false;
+                }
+                else {
                     Log.info("Not in home page after failing to use expedited plan.");
-                return false;
+                    return false;
+                }
             }
         }
     }
