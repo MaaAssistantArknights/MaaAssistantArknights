@@ -1619,8 +1619,6 @@ namespace MeoAsstGui
         }
 
         private string _dropsItem = string.Empty;
-        private bool _isFirstLoadDropItem = true;
-        private long _preSetDropsItemTicks = 0;
 
         /// <summary>
         /// Gets or sets the item of drops.
@@ -1628,37 +1626,7 @@ namespace MeoAsstGui
         public string DropsItem
         {
             get => _dropsItem;
-            set
-            {
-                if (_isFirstLoadDropItem)
-                {
-                    _isFirstLoadDropItem = false;
-                }
-                else
-                {
-                    IsDropDown = true;
-                }
-
-                if (DateTime.Now.Ticks - _preSetDropsItemTicks < 50)
-                {
-                    return;
-                }
-
-                _preSetDropsItemTicks = DateTime.Now.Ticks;
-
-                SetAndNotify(ref _dropsItem, value);
-            }
-        }
-
-        private bool _isDropDown = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether it is dropdown.
-        /// </summary>
-        public bool IsDropDown
-        {
-            get => _isDropDown;
-            set => SetAndNotify(ref _isDropDown, value);
+            set => SetAndNotify(ref _dropsItem, value);
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
