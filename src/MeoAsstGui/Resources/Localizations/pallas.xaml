@@ -234,6 +234,7 @@
     <system:String x:Key="ConnectingToEmulator">🍸🕺🍻💃🕺</system:String>
     <system:String x:Key="UnselectedTask">🍺🍸🍻</system:String>
     <system:String x:Key="Running">🍷🍻🍷🍺</system:String>
+    <system:String x:Key="Stopping">🍷💃🍸</system:String>
     <system:String x:Key="Stopped">💃🍺</system:String>
     <system:String x:Key="UnknownErrorOccurs">🕺🍸🍻🍷</system:String>
     <system:String x:Key="SetSuccessfully">🍸🍸🍺</system:String>
