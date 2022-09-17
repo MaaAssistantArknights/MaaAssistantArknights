@@ -140,14 +140,15 @@
                     Command="{s:Action LinkStart}"
                     Content="{DynamicResource LinkStart}"
                     IsEnabled="{Binding Inited}"
-                    Visibility="{c:Binding Path='Idle or !Inited'}" />
+                    Visibility="{c:Binding Path='(Idle and !Stopping) or !Inited'}" />
                 <Button
                     Width="100"
                     Height="50"
                     Margin="5"
                     Command="{s:Action Stop}"
                     Content="{DynamicResource Stop}"
-                    Visibility="{c:Binding Path='!Idle and Inited'}" />
+                    IsEnabled="{c:Binding Path='!Stopping'}"
+                    Visibility="{c:Binding Path='(!Idle or Stopping) and Inited'}" />
             </Grid>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->

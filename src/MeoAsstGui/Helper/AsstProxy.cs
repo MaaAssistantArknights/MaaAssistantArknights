@@ -371,6 +371,11 @@ namespace MeoAsstGui
                 case "Disconnect":
                     connected = false;
                     mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
+                    if (mainModel.Idle)
+                    {
+                        break;
+                    }
+
                     AsstStop();
 
                     var settingsModel = _container.Get<SettingsViewModel>();
@@ -1002,6 +1007,11 @@ namespace MeoAsstGui
             {
                 foreach (var address in settings.DefaultAddress[settings.ConnectConfig])
                 {
+                    if (settings.Idle)
+                    {
+                        break;
+                    }
+
                     ret = AsstConnect(_handle, settings.AdbPath, address, settings.ConnectConfig);
                     if (ret)
                     {

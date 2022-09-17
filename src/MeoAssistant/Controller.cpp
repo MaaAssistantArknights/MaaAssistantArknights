@@ -263,6 +263,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     }
 
     while (true) {
+        if (need_exit()) {
+            break;
+        }
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
@@ -272,7 +275,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         if (wait_handles.empty()) break;
         auto elapsed = steady_clock::now() - start_time;
         auto wait_time =
-            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 0xFFFFFFFELL : 0LL);
+            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 5LL * 1000 : 0LL);
         if (wait_time < 0) break;
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
@@ -440,7 +443,11 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             reconnect_info["details"]["times"] = i;
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
+            // TODO: 应该有外部中断 sleep 的写法吧？现在只能在开始或者结束 sleep 的时候判断（
             std::this_thread::sleep_for(10s);
+            if (need_exit()) {
+                break;
+            }
             auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* 禁止重连避免无限递归 */);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
@@ -1025,6 +1032,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                                                   });
     };
 
+    if (need_exit()) {
+        return false;
+    }
+
     /* connect */
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
@@ -1047,6 +1058,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
+    }
+
+    if (need_exit()) {
+        return false;
     }
 
     /* get uuid (imei) */
@@ -1073,6 +1088,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         callback(AsstMsg::ConnectionInfo, info);
     }
 
+    if (need_exit()) {
+        return false;
+    }
+
     // 按需获取display ID 信息
     if (!adb_cfg.display_id.empty()) {
         auto display_id_ret = call_command(cmd_replace(adb_cfg.display_id));
@@ -1090,6 +1109,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         display_id = display_id_pipe_str.substr(last + 1);
         // 去掉换行
         display_id.pop_back();
+    }
+
+    if (need_exit()) {
+        return false;
     }
 
     /* display */
@@ -1150,6 +1173,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
     }
 
+    if (need_exit()) {
+        return false;
+    }
+
     /* calc ratio */
     {
         constexpr double DefaultRatio =
@@ -1203,6 +1230,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             if (auto pos = nc_result_str.find(' '); pos != std::string::npos) {
                 nc_address = nc_result_str.substr(0, pos);
             }
+        }
+
+        if (need_exit()) {
+            return false;
         }
 
         auto socket_opt = try_to_init_socket(bind_address);
