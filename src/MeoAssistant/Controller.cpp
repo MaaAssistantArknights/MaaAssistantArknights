@@ -440,7 +440,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
             std::this_thread::sleep_for(10s);
-            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false /* 禁止重连避免无限递归 */);
+            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* 禁止重连避免无限递归 */);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
                 auto& reconnect_str = reconnect_ret.value();
