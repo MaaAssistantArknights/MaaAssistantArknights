@@ -35,6 +35,9 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::InfrastTask::set_params(const json::value& params)
 {
+    int mode = params.get("mode", 0);
+    bool is_custom = static_cast<Mode>(mode) == Mode::Custom;
+
     if (!m_running) {
         auto facility_opt = params.find<json::array>("facility");
         if (!facility_opt) {
@@ -86,28 +89,105 @@ bool asst::InfrastTask::set_params(const json::value& params)
         }
     }
 
-    std::string drones = params.get("drones", "_NotUse");
-    m_mfg_task_ptr->set_uses_of_drone(drones);
-    m_trade_task_ptr->set_uses_of_drone(drones);
+    if (!is_custom) {
+        std::string drones = params.get("drones", "_NotUse");
+        m_mfg_task_ptr->set_uses_of_drone(drones);
+        m_trade_task_ptr->set_uses_of_drone(drones);
 
-    double threshold = params.get("threshold", 0.3);
-    m_info_task_ptr->set_mood_threshold(threshold);
-    m_mfg_task_ptr->set_mood_threshold(threshold);
-    m_trade_task_ptr->set_mood_threshold(threshold);
-    m_power_task_ptr->set_mood_threshold(threshold);
-    m_control_task_ptr->set_mood_threshold(threshold);
-    m_reception_task_ptr->set_mood_threshold(threshold);
-    m_office_task_ptr->set_mood_threshold(threshold);
-    m_dorm_task_ptr->set_mood_threshold(threshold);
+        double threshold = params.get("threshold", 0.3);
+        m_info_task_ptr->set_mood_threshold(threshold);
+        m_mfg_task_ptr->set_mood_threshold(threshold);
+        m_trade_task_ptr->set_mood_threshold(threshold);
+        m_power_task_ptr->set_mood_threshold(threshold);
+        m_control_task_ptr->set_mood_threshold(threshold);
+        m_reception_task_ptr->set_mood_threshold(threshold);
+        m_office_task_ptr->set_mood_threshold(threshold);
+        m_dorm_task_ptr->set_mood_threshold(threshold);
+    }
 
-    bool notstationed_enabled = params.get("notstationed_enabled", false);
-    m_dorm_task_ptr->set_notstationed_enabled(notstationed_enabled);
+    bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
+    m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
 
-    bool trust_enabled = params.get("trust_enabled", true);
-    m_dorm_task_ptr->set_trust_enabled(trust_enabled);
+    bool drom_trust_enabled = params.get("drom_trust_enabled", true);
+    m_dorm_task_ptr->set_trust_enabled(drom_trust_enabled);
 
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
+
+    if (is_custom && !m_running) {
+        std::string filename = params.at("filename").as_string();
+        int index = params.at("index").as_integer();
+
+        return parse_and_set_custom_config(utils::path(filename), index);
+    }
+
+    return true;
+}
+
+bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path& path, int index)
+{
+    LogTraceFunction;
+
+    auto custom_json_opt = json::open(path);
+    if (!custom_json_opt) {
+        Log.error("custom infrast file not exists", path);
+        return false;
+    }
+    auto& custom_json = custom_json_opt.value();
+    Log.trace(__FUNCTION__, "| custom json:", custom_json.to_string());
+
+    auto& all_plans = custom_json.at("plans").as_array();
+    if (index < 0 || index >= all_plans.size()) {
+        Log.error("index is out of range, plans size:", all_plans.size(), ", index:", index);
+        return false;
+    }
+
+    for (const auto& [facility, facility_info] : custom_json.at("rooms").as_object()) {
+        infrast::CustomFacilityConfig facility_config;
+
+        for (const auto& room_info : facility_info.as_array()) {
+            infrast::CustomRoomConfig room_config;
+            room_config.autofill = room_info.get("autofill", false);
+            room_config.product = room_info.get("product", std::string());
+            if (auto opers_opt = room_info.find<json::array>("operators")) {
+                for (const auto& oper_name : opers_opt.value()) {
+                    room_config.names.emplace_back(oper_name.as_string());
+                }
+            }
+            if (auto candidates_opt = room_info.find<json::array>("candidates")) {
+                for (const auto& candidate_name : candidates_opt.value()) {
+                    room_config.candidates.emplace_back(candidate_name.as_string());
+                }
+            }
+            facility_config.emplace_back(std::move(room_config));
+        }
+
+        if (facility == "control") {
+            m_control_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "manufacture") {
+            m_mfg_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "trading") {
+            m_trade_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "power") {
+            m_power_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "meeting") {
+            m_reception_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "hire") {
+            m_office_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "dormitory") {
+            m_dorm_task_ptr->set_custom_config(facility_config);
+        }
+        else {
+            Log.error(__FUNCTION__, "unknown facility", facility);
+            return false;
+        }
+    }
 
     return true;
 }

@@ -20,6 +20,17 @@ bool asst::InfrastControlTask::_run()
         }
         click_clear_button();
 
+        if (is_use_custom_config()) {
+            bool name_select_ret = swipe_and_select_opers_by_name(m_current_room_custom_config.names);
+            if (name_select_ret) {
+                break;
+            }
+            else {
+                swipe_to_the_left_of_operlist();
+                continue;
+            }
+        }
+
         if (!opers_detect_with_swipe()) {
             return false;
         }

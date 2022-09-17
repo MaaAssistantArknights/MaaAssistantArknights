@@ -60,6 +60,15 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
+            if (is_use_custom_config()) {
+                if (m_cur_facility_index < m_custom_config.size()) {
+                    m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
+                }
+                else {
+                    Log.warn("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
+                    break;
+                }
+            }
         }
 
         m_ctrler->click(tab);
@@ -69,22 +78,17 @@ bool asst::InfrastProductionTask::shift_facility_list()
         const auto image = m_ctrler->get_image();
         add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
-            Log.info("no add button, just continue");
+            Log.error("no add button, just continue");
             continue;
         }
-        auto& rect = add_analyzer.get_result().rect;
-        Rect add_button = rect;
+        Rect add_button = add_analyzer.get_result().rect;
         auto& rect_move = add_task_ptr->rect_move;
         if (!rect_move.empty()) {
-            add_button.x += rect_move.x;
-            add_button.y += rect_move.y;
-            add_button.width = rect_move.width;
-            add_button.height = rect_move.height;
+            add_button = add_button.move(rect_move);
         }
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
-
         auto& all_products = InfrastData.get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
@@ -117,6 +121,17 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 return false;
             }
             click_clear_button();
+
+            if (is_use_custom_config()) {
+                bool name_select_ret = swipe_and_select_opers_by_name(m_current_room_custom_config.names);
+                if (name_select_ret) {
+                    break;
+                }
+                else {
+                    swipe_to_the_left_of_operlist(2);
+                    continue;
+                }
+            }
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
@@ -456,11 +471,8 @@ bool asst::InfrastProductionTask::opers_choose()
             return false;
         }
         const auto image = m_ctrler->get_image();
-
         InfrastOperImageAnalyzer oper_analyzer(image);
-
         oper_analyzer.set_facility(facility_name());
-
         if (!oper_analyzer.analyze()) {
             return false;
         }
