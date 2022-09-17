@@ -40,14 +40,10 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
 
 #ifdef _WIN32
 
-    m_support_socket = false;
-    do {
-        if (!WsaHelper::get_instance()()) {
-            Log.error("WSA not supports");
-            break;
-        }
-        m_support_socket = true;
-    } while (false);
+    m_support_socket = WsaHelper::get_instance()();
+    if (!m_support_socket) {
+        Log.error("WSA not supports");
+    }
 
 #else
     int pipe_in_ret = pipe(m_pipe_in);
@@ -76,9 +72,7 @@ asst::Controller::~Controller()
         m_cmd_thread.join();
     }
 
-    if (--m_instance_count) {
-        release();
-    }
+    try_release();
 
 #ifndef _WIN32
     close(m_pipe_in[PIPE_READ]);
@@ -185,7 +179,8 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
+std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket,
+                                                          bool allow_reconnect)
 {
     using namespace std::chrono_literals;
     using namespace std::chrono;
@@ -424,10 +419,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     if (!exit_ret) {
         return recv_by_socket ? sock_data : pipe_data;
     }
-    else if (m_inited) {
-        // 这里用 m_inited 限制了仅递归一层，修改需要注意下
-        m_inited = false;
-
+    else if (allow_reconnect) {
         // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
         json::value reconnect_info = json::object {
             { "uuid", m_uuid },
@@ -448,20 +440,18 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
             std::this_thread::sleep_for(10s);
-            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000);
+            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false /* 禁止重连避免无限递归 */);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
                 auto& reconnect_str = reconnect_ret.value();
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
-                auto recall_ret = call_command(cmd, timeout, recv_by_socket);
+                auto recall_ret = call_command(cmd, timeout, recv_by_socket, false /* 禁止重连避免无限递归 */);
                 if (recall_ret) {
                     // 重连并成功执行了
-                    m_inited = true;
                     reconnect_info["what"] = "Reconnected";
                     callback(AsstMsg::ConnectionInfo, reconnect_info);
-
                     return recall_ret;
                 }
             }
@@ -475,7 +465,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", m_adb.connect },
               } },
         };
-        m_inited = false;
+        try_release(); // 重连失败，释放
         callback(AsstMsg::ConnectionInfo, info);
     }
 
@@ -564,7 +554,7 @@ void asst::Controller::random_delay() const
 
 void asst::Controller::clear_info() noexcept
 {
-    m_inited = false;
+    try_release();
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
@@ -578,7 +568,6 @@ void asst::Controller::clear_info() noexcept
     }
     m_server_started = false;
 #endif
-    --m_instance_count;
 }
 
 int asst::Controller::push_cmd(const std::string& cmd)
@@ -705,7 +694,7 @@ bool asst::Controller::screencap()
     case AdbProperty::ScreencapMethod::UnknownYet: {
         using namespace std::chrono;
         Log.info("Try to find the fastest way to screencap");
-        m_inited = false;
+        try_release(); // 这个地方应该是 inited() == false 的，不会 release，因为 connect 函数调用前会 clear_info
         auto min_cost = milliseconds(LLONG_MAX);
 
         auto start_time = high_resolution_clock::now();
@@ -713,7 +702,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
-                m_inited = true;
+                set_inited();
                 min_cost = duration;
             }
             Log.info("RawByNc cost", duration.count(), "ms");
@@ -728,7 +717,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
-                m_inited = true;
+                set_inited();
                 min_cost = duration;
             }
             Log.info("RawWithGzip cost", duration.count(), "ms");
@@ -743,7 +732,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
-                m_inited = true;
+                set_inited();
                 min_cost = duration;
             }
             Log.info("Encode cost", duration.count(), "ms");
@@ -753,7 +742,7 @@ bool asst::Controller::screencap()
         }
         Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         clear_lf_info();
-        return m_inited;
+        return inited();
     } break;
     case AdbProperty::ScreencapMethod::RawByNc: {
         return screencap(m_adb.screencap_raw_by_nc, decode_raw, true);
@@ -793,7 +782,7 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     }
 
     if (decode_func(data)) [[likely]] {
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) [[unlikely]] {
             Log.info("screencap_end_of_line is LF");
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
         }
@@ -802,31 +791,29 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     else {
         Log.info("data is not empty, but image is empty");
 
-        if (!tried_conversion) {
-            Log.info("try to cvt lf");
-            if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
-                Log.error("skip retry decoding and decode failed!");
-                return false;
-            }
-
-            if (decode_func(data)) {
-                if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
-                    Log.info("screencap_end_of_line is CRLF");
-                }
-                else {
-                    Log.info("screencap_end_of_line is changed to CRLF");
-                }
-                m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
-                return true;
-            }
-            else {
-                Log.error("convert lf and retry decode failed!");
-            }
-        }
-        else { // 已经转换过行尾，再次转换 data 不会变化，不必重试
+        if (tried_conversion) { // 已经转换过行尾，再次转换 data 不会变化，不必重试
             Log.error("skip retry decoding and decode failed!");
+            return false;
         }
-        return false;
+
+        Log.info("try to cvt lf");
+        if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
+            Log.error("no `\\r\\n` found, skip retry decode");
+            return false;
+        }
+        if (!decode_func(data)) {
+            Log.error("convert lf and retry decode failed!");
+            return false;
+        }
+
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+            Log.info("screencap_end_of_line is CRLF");
+        }
+        else {
+            Log.info("screencap_end_of_line is changed to CRLF");
+        }
+        m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
+        return true;
     }
 }
 
@@ -928,10 +915,8 @@ int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool b
 int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay,
                                           bool extra_swipe)
 {
-    int x1 = p1.x;
-    int y1 = p1.y;
-    int x2 = p2.x;
-    int y2 = p2.y;
+    int x1 = p1.x, y1 = p1.y;
+    int x2 = p2.x, y2 = p2.y;
 
     // 起点不能在屏幕外，但是终点可以
     if (x1 < 0 || x1 >= m_width || y1 < 0 || y1 >= m_height) {
@@ -990,7 +975,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
-        m_inited = true;
+        set_inited();
         return true;
     }
 #endif
@@ -1221,9 +1206,30 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 
     // try to find the fastest way
-    screencap();
+    if (!screencap()) {
+        Log.error("Cannot find a proper way to screencap!");
+        return false;
+    }
 
-    ++m_instance_count;
+    return true;
+}
+
+void asst::Controller::set_inited() noexcept
+{
+    if (!m_inited) {
+        m_inited = true;
+        ++m_instance_count;
+    }
+}
+
+bool asst::Controller::try_release()
+{
+    if (m_inited) {
+        m_inited = false;
+        if (!--m_instance_count) { // 所有实例全部释放，才执行最终的 release 函数
+            return release();
+        }
+    }
     return true;
 }
 
@@ -1275,7 +1281,7 @@ cv::Mat asst::Controller::get_image(bool raw)
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     static constexpr int MaxTryCount = 20;
     bool success = false;
-    for (int i = 0; i < MaxTryCount && m_inited; ++i) {
+    for (int i = 0; i < MaxTryCount && inited(); ++i) {
         if (need_exit()) {
             break;
         }
