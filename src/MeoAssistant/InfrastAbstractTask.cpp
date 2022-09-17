@@ -6,9 +6,11 @@
 #include "AsstMsg.h"
 #include "Controller.h"
 #include "InfrastFacilityImageAnalyzer.h"
+#include "InfrastOperImageAnalyzer.h"
 #include "Logger.hpp"
 #include "MatchImageAnalyzer.h"
 #include "OcrImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
 
@@ -16,26 +18,6 @@ asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* call
     : AbstractTask(std::move(callback), callback_arg, std::move(task_chain))
 {
     m_retry_times = TaskRetryTimes;
-}
-
-asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_work_mode(infrast::WorkMode work_mode) noexcept
-{
-    m_work_mode = work_mode;
-    switch (work_mode) {
-    case infrast::WorkMode::Gentle:
-        m_work_mode_name = "Gentle";
-        break;
-    case infrast::WorkMode::Aggressive:
-        m_work_mode_name = "Aggressive";
-        break;
-    case infrast::WorkMode::Extreme:
-        m_work_mode_name = "Extreme";
-        break;
-    default:
-        m_work_mode_name.clear();
-        break;
-    }
-    return *this;
 }
 
 asst::InfrastAbstractTask& asst::InfrastAbstractTask::set_mood_threshold(double mood_thres) noexcept
@@ -71,6 +53,18 @@ std::string asst::InfrastAbstractTask::facility_name() const
     return m_facility_name_cache;
 }
 
+void asst::InfrastAbstractTask::set_custom_config(infrast::CustomFacilityConfig config) noexcept
+{
+    m_custom_config = std::move(config);
+    m_is_custom = true;
+}
+
+void asst::InfrastAbstractTask::clear_custom_config() noexcept
+{
+    m_is_custom = false;
+    m_custom_config.clear();
+}
+
 bool asst::InfrastAbstractTask::on_run_fails()
 {
     LogTraceFunction;
@@ -97,6 +91,15 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     }
 
     m_cur_facility_index = index;
+    if (is_use_custom_config()) {
+        if (m_cur_facility_index < m_custom_config.size()) {
+            m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
+        }
+        else {
+            Log.warn("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
+            return false;
+        }
+    }
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
 
     m_ctrler->click(rect);
@@ -130,6 +133,15 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
     }
 }
 
+bool asst::InfrastAbstractTask::is_use_custom_config()
+{
+    if (!m_is_custom) {
+        return false;
+    }
+    return m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty() &&
+           m_current_room_custom_config.autofill;
+}
+
 void asst::InfrastAbstractTask::await_swipe()
 {
     LogTraceFunction;
@@ -137,6 +149,63 @@ void asst::InfrastAbstractTask::await_swipe()
 
     m_ctrler->wait(m_last_swipe_id);
     sleep(extra_delay);
+}
+
+bool asst::InfrastAbstractTask::swipe_and_select_opers_by_name(std::vector<std::string>& opers_name)
+{
+    LogTraceFunction;
+
+    while (!opers_name.empty()) {
+        if (need_exit()) {
+            return false;
+        }
+        if (select_opers_by_name(opers_name)) {
+            return false;
+        }
+        swipe_of_operlist();
+    }
+
+    return opers_name.empty();
+}
+
+bool asst::InfrastAbstractTask::select_opers_by_name(std::vector<std::string>& opers_name)
+{
+    LogTraceFunction;
+
+    if (opers_name.empty()) {
+        Log.warn("opers_name is empty");
+        return false;
+    }
+
+    const auto image = m_ctrler->get_image();
+    InfrastOperImageAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley &
+                                   InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    if (!oper_analyzer.analyze()) {
+        Log.warn("No oper");
+        return false;
+    }
+    OcrWithPreprocessImageAnalyzer name_analyzer;
+    name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+    for (const auto& oper : oper_analyzer.get_result()) {
+        name_analyzer.set_image(oper.name_img);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
+        const std::string& name = name_analyzer.get_result().front().text;
+        auto iter = std::find(opers_name.begin(), opers_name.end(), name);
+        if (iter == opers_name.end()) {
+            continue;
+        }
+        if (!oper.selected) {
+            m_ctrler->click(oper.rect);
+        }
+        opers_name.erase(iter);
+        if (opers_name.empty()) {
+            break;
+        }
+    }
+    return true;
 }
 
 bool asst::InfrastAbstractTask::click_bottom_left_tab()
