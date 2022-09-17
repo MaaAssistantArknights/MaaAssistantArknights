@@ -736,7 +736,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     body["server"] = m_server;
     body["source"] = "MeoAssistant";
     body["version"] = Version;
-    body["uuid"] = m_yituliu_id;
+    body["uuid"] = /* m_yituliu_id */ m_penguin_id;
 
     if (!m_report_yituliu_task_ptr) {
         m_report_yituliu_task_ptr =
