@@ -28,6 +28,17 @@ std::string asst::InfrastProductionTask::get_uses_of_drone() const noexcept
     return m_uses_of_drones;
 }
 
+void asst::InfrastProductionTask::set_custom_drones_config(infrast::CustomDronesConfig drones_config)
+{
+    m_is_use_custom_drones = true;
+    m_custom_drones_config = std::move(drones_config);
+}
+
+void asst::InfrastProductionTask::clear_custom_drones_config()
+{
+    m_is_use_custom_drones = false;
+}
+
 void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 {
     m_product = std::move(product_name);
@@ -104,12 +115,20 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
 
+        // TODO: if is custom mode, compare cur_product and custom_product;
+
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {
             m_cur_num_of_locked_opers = static_cast<int>(locked_analyzer.get_result().size());
         }
         else {
             m_cur_num_of_locked_opers = 0;
+        }
+
+        // 使用无人机
+        if (m_is_use_custom_drones && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Pre &&
+            m_custom_drones_config.index == m_cur_facility_index) {
+            use_drone();
         }
 
         /* 进入干员选择页面 */
@@ -153,7 +172,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
         click_confirm_button();
 
         // 使用无人机
-        if (cur_product == m_uses_of_drones) {
+        if (m_is_use_custom_drones) {
+            if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
+                m_custom_drones_config.index == m_cur_facility_index) {
+                use_drone();
+            }
+        }
+        else if (cur_product == m_uses_of_drones) {
             if (use_drone()) {
                 m_uses_of_drones = "_Used";
             }
