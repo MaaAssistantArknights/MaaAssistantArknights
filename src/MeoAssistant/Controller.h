@@ -81,11 +81,12 @@ namespace asst
         bool release();
         void set_inited() noexcept;
 
+        void try_to_close_socket() noexcept;
         std::optional<unsigned short> try_to_init_socket(const std::string& local_address);
 
         using DecodeFunc = std::function<bool(std::string_view)>;
         bool screencap();
-        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
+        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket = false);
         void clear_lf_info();
         cv::Mat get_resized_image() const;
 
@@ -110,7 +111,7 @@ namespace asst
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         WSADATA m_wsa_data {};
-        SOCKET m_server_sock = 0ULL;
+        SOCKET m_server_sock = INVALID_SOCKET;
         sockaddr_in m_server_addr {};
         LPFN_ACCEPTEX m_AcceptEx = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_END
