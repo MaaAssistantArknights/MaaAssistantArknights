@@ -1021,7 +1021,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     /* connect */
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
-        auto connect_ret = call_command(m_adb.connect, 60LL * 1000);
+        auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* adb 连接时不允许重试 */);
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
@@ -1040,7 +1040,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     /* get uuid (imei) */
     {
-        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid));
+        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid), 20000, false, false /* adb 连接时不允许重试 */);
         if (!uuid_ret) {
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
