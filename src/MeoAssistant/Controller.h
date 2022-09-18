@@ -35,7 +35,6 @@ namespace asst
         ~Controller();
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
-        bool try_release();
         bool inited() const noexcept;
         void set_exit_flag(bool* flag);
 
@@ -79,7 +78,7 @@ namespace asst
                                                 bool recv_by_socket = false, bool allow_reconnect = true);
         int push_cmd(const std::string& cmd);
         bool release();
-        void set_inited() noexcept;
+        bool set_inited(bool inited);
 
         void try_to_close_socket() noexcept;
         std::optional<unsigned short> try_to_init_socket(const std::string& local_address);

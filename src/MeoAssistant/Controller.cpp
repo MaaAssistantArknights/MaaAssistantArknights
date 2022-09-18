@@ -72,7 +72,7 @@ asst::Controller::~Controller()
         m_cmd_thread.join();
     }
 
-    try_release();
+    set_inited(false);
 
 #ifndef _WIN32
     close(m_pipe_in[PIPE_READ]);
@@ -465,7 +465,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", m_adb.connect },
               } },
         };
-        try_release(); // 重连失败，释放
+        set_inited(false); // 重连失败，释放
         callback(AsstMsg::ConnectionInfo, info);
     }
 
@@ -554,7 +554,7 @@ void asst::Controller::random_delay() const
 
 void asst::Controller::clear_info() noexcept
 {
-    try_release();
+    set_inited(false);
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
@@ -708,7 +708,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
-                set_inited();
+                set_inited(true);
                 min_cost = duration;
             }
             Log.info("RawByNc cost", duration.count(), "ms");
@@ -723,7 +723,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
-                set_inited();
+                set_inited(true);
                 min_cost = duration;
             }
             Log.info("RawWithGzip cost", duration.count(), "ms");
@@ -738,7 +738,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
-                set_inited();
+                set_inited(true);
                 min_cost = duration;
             }
             Log.info("Encode cost", duration.count(), "ms");
@@ -981,7 +981,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
-        set_inited();
+        set_inited(true);
         return true;
     }
 #endif
@@ -1220,19 +1220,21 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     return true;
 }
 
-void asst::Controller::set_inited() noexcept
+bool asst::Controller::set_inited(bool inited)
 {
-    if (!m_inited) {
-        m_inited = true;
+    Log.trace(__FUNCTION__, "|", inited, ", m_inited =", m_inited, ", m_instance_count =", m_instance_count);
+
+    if (inited == m_inited) {
+        return true;
+    }
+    m_inited = inited;
+
+    if (inited) {
         ++m_instance_count;
     }
-}
-
-bool asst::Controller::try_release()
-{
-    if (m_inited) {
-        m_inited = false;
-        if (!--m_instance_count) { // 所有实例全部释放，才执行最终的 release 函数
+    else {
+        // 所有实例全部释放，执行最终的 release 函数
+        if (!--m_instance_count) {
             return release();
         }
     }
@@ -1251,7 +1253,7 @@ bool asst::Controller::release()
             return true;
         }
         else {
-            return call_command(m_adb.release).has_value();
+            return call_command(m_adb.release, 20000, false, false).has_value();
         }
     }
 }
