@@ -73,6 +73,7 @@ asst::Controller::~Controller()
     }
 
     set_inited(false);
+    kill_adb_daemon();
 
 #ifndef _WIN32
     close(m_pipe_in[PIPE_READ]);
@@ -1033,6 +1034,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         if (connect_ret) {
             auto& connect_str = connect_ret.value();
             is_connect_success = connect_str.find("error") == std::string::npos;
+            if (connect_str.find("daemon started successfully") != std::string::npos &&
+                connect_str.find("daemon still not running") == std::string::npos) {
+                m_adb_release = cmd_replace(adb_cfg.release);
+            }
         }
         if (!is_connect_success) {
             json::value info = get_info_json() | json::object {
@@ -1176,7 +1181,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     m_adb.swipe = cmd_replace(adb_cfg.swipe);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
-    m_adb.release = cmd_replace(adb_cfg.release);
+    m_adb_release = m_adb.release = cmd_replace(adb_cfg.release);
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
 
@@ -1239,6 +1244,22 @@ bool asst::Controller::set_inited(bool inited)
         }
     }
     return true;
+}
+
+void asst::Controller::kill_adb_daemon() {
+    if (m_instance_count) return;
+#ifndef _WIN32
+    if (m_child)
+#endif
+    {
+        if (!m_adb_release.empty()) {
+            call_command(m_adb_release, 20000, false, false);
+            m_adb_release.clear();
+        }
+        else if (!m_adb.release.empty()) {
+            call_command(m_adb.release, 20000, false, false);
+        }
+    }
 }
 
 bool asst::Controller::release()
