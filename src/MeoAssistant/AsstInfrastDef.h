@@ -115,6 +115,7 @@ namespace asst::infrast
 
     struct CustomRoomConfig
     {
+        bool skip = false;
         std::vector<std::string> names;
         bool autofill = false;
         std::string product;
@@ -122,4 +123,16 @@ namespace asst::infrast
         int selected = 0;
     };
     using CustomFacilityConfig = std::vector<CustomRoomConfig>;
+
+    struct CustomDronesConfig
+    {
+        enum class Order
+        {
+            Pre,
+            Post,
+        };
+
+        int index = 0;
+        Order order = Order::Pre;
+    };
 } // namespace asst::infrast

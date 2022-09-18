@@ -27,7 +27,6 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
       m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, callback_arg, TaskType))
 {
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" });
-    m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
 
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
@@ -93,6 +92,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
         std::string drones = params.get("drones", "_NotUse");
         m_mfg_task_ptr->set_uses_of_drone(drones);
         m_trade_task_ptr->set_uses_of_drone(drones);
+        m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
 
         double threshold = params.get("threshold", 0.3);
         m_info_task_ptr->set_mood_threshold(threshold);
@@ -148,6 +148,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
         for (const auto& room_info : facility_info.as_array()) {
             infrast::CustomRoomConfig room_config;
+            room_config.skip = facility_info.get("skip", false);
             room_config.autofill = room_info.get("autofill", false);
             room_config.product = room_info.get("product", std::string());
             if (auto opers_opt = room_info.find<json::array>("operators")) {
@@ -211,6 +212,26 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         else {
             m_subtasks.emplace_back(std::move(Fia_task_ptr));
             m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+        }
+    }
+
+    if (auto drones_opt = cur_plan.find<json::object>("drones")) {
+        const auto& drones_json = drones_opt.value();
+
+        infrast::CustomDronesConfig drones_config;
+        drones_config.index = drones_json.get("index", 0);
+        drones_config.order = drones_json.get("order", "pre") == "post" ? infrast::CustomDronesConfig::Order::Post
+                                                                        : infrast::CustomDronesConfig::Order::Pre;
+        std::string room = drones_json.get("room", std::string());
+        if (room == "trading") {
+            m_trade_task_ptr->set_custom_drones_config(std::move(drones_config));
+        }
+        else if (room == "manufacture") {
+            m_mfg_task_ptr->set_custom_drones_config(std::move(drones_config));
+        }
+        else {
+            Log.error("error drones config, unknown room", room);
+            return false;
         }
     }
 
