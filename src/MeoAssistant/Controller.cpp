@@ -694,8 +694,8 @@ bool asst::Controller::screencap()
     case AdbProperty::ScreencapMethod::UnknownYet: {
         using namespace std::chrono;
         Log.info("Try to find the fastest way to screencap");
-        try_release(); // 这个地方应该是 inited() == false 的，不会 release，因为 connect 函数调用前会 clear_info
         auto min_cost = milliseconds(LLONG_MAX);
+        clear_lf_info();
 
         auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started && screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
@@ -742,7 +742,7 @@ bool asst::Controller::screencap()
         }
         Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         clear_lf_info();
-        return inited();
+        return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     } break;
     case AdbProperty::ScreencapMethod::RawByNc: {
         return screencap(m_adb.screencap_raw_by_nc, decode_raw, true);
