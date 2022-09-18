@@ -78,6 +78,7 @@ namespace asst
                                                 bool recv_by_socket = false, bool allow_reconnect = true);
         int push_cmd(const std::string& cmd);
         bool release();
+        void kill_adb_daemon();
         bool set_inited(bool inited);
 
         void try_to_close_socket() noexcept;
@@ -158,6 +159,8 @@ namespace asst
         } m_adb;
 
         std::string m_uuid;
+        inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，
+                                                 // m_adb 并不会存下 release 的命令，但最后仍然需要一次释放。
         std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
         double m_control_scale = 1.0;
         int m_width = 0;
