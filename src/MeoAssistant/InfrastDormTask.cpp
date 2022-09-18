@@ -47,7 +47,7 @@ bool asst::InfrastDormTask::_run()
         click_clear_button();
 
         if (is_use_custom_config()) {
-            swipe_and_select_opers_by_name(m_current_room_custom_config.names);
+            swipe_and_select_custom_opers();
         }
         else {
             opers_choose();
