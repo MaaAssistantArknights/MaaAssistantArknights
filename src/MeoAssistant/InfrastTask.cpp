@@ -141,8 +141,9 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         Log.error("index is out of range, plans size:", all_plans.size(), ", index:", index);
         return false;
     }
+    auto& cur_plan = all_plans.at(index);
 
-    for (const auto& [facility, facility_info] : custom_json.at("rooms").as_object()) {
+    for (const auto& [facility, facility_info] : cur_plan.at("rooms").as_object()) {
         infrast::CustomFacilityConfig facility_config;
 
         for (const auto& room_info : facility_info.as_array()) {
