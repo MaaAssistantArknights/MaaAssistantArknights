@@ -423,7 +423,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     if (!exit_ret) {
         return recv_by_socket ? sock_data : pipe_data;
     }
-    else if (allow_reconnect) {
+    else if (inited() && allow_reconnect) {
         // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
         json::value reconnect_info = json::object {
             { "uuid", m_uuid },
