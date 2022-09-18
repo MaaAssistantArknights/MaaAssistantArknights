@@ -19,6 +19,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -217,6 +218,41 @@
                     FontSize="10"
                     Visibility="{c:Binding Path='!Idle and Inited'}" />
             </StackPanel>
+
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="2" Orientation="Vertical">
+                    <Grid Height="42">
+                        <TextBlock
+                            Margin="10,6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockDefault}"
+                            Text="{DynamicResource CustomInfrastPlan}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Vertical">
+                    <ComboBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{c:Binding Idle}"
+                        ItemsSource="{Binding CustomInfrastPlanList}"
+                        SelectedValue="{Binding CustomInfrastPlanIndex}"
+                        SelectedValuePath="Value"
+                        Visibility="{c:Binding CustomInfrastEnabled}" />
+                </StackPanel>
+            </Grid>
         </Grid>
     </ScrollViewer>
 </UserControl>

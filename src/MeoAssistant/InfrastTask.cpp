@@ -116,7 +116,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     if (is_custom && !m_running) {
         std::string filename = params.at("filename").as_string();
-        int index = params.get("index", 0);
+        int index = params.get("plan_index", 0);
 
         return parse_and_set_custom_config(utils::path(filename), index);
     }
