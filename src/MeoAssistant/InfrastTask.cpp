@@ -219,7 +219,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         const auto& drones_json = drones_opt.value();
 
         infrast::CustomDronesConfig drones_config;
-        drones_config.index = drones_json.get("index", 0);
+        drones_config.index = drones_json.get("index", 1) - 1;
         drones_config.order = drones_json.get("order", "pre") == "post" ? infrast::CustomDronesConfig::Order::Post
                                                                         : infrast::CustomDronesConfig::Order::Pre;
         std::string room = drones_json.get("room", std::string());

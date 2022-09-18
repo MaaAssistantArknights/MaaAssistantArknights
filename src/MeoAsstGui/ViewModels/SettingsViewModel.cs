@@ -610,7 +610,7 @@ namespace MeoAsstGui
                 SetAndNotify(ref _customInfrastEnabled, value);
                 ViewStatusStorage.Set("Infrast.CustomInfrastEnabled", value.ToString());
                 var mainModel = _container.Get<TaskQueueViewModel>();
-                mainModel.CustomInfrastEnabled = true;
+                mainModel.CustomInfrastEnabled = value;
             }
         }
 

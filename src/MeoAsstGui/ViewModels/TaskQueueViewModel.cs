@@ -1497,7 +1497,7 @@ namespace MeoAsstGui
             {
                 if (value != _customInfrastPlanIndex)
                 {
-                    AddLog(CustomInfrastPlanInfoList[value].Name);
+                    AddLog(CustomInfrastPlanInfoList[value].Name, LogColor.Message);
                     if (CustomInfrastPlanInfoList[value].Description != string.Empty)
                     {
                         AddLog(CustomInfrastPlanInfoList[value].Description);
@@ -1522,6 +1522,9 @@ namespace MeoAsstGui
 
         public void RefreshCustonInfrastPlan()
         {
+            CustomInfrastPlanInfoList.Clear();
+            CustomInfrastPlanList.Clear();
+
             if (!CustomInfrastEnabled)
             {
                 return;
@@ -1548,22 +1551,25 @@ namespace MeoAsstGui
                     }
                 }
 
-                var temp_list = new List<GenericCombData<int>>();
                 var plan_list = (JArray)root["plans"];
                 for (int i = 0; i < plan_list.Count; ++i)
                 {
                     var plan = (JObject)plan_list[i];
                     string display = plan.ContainsKey("name") ? plan["name"].ToString() : ("Plan " + ((char)('A' + i)).ToString());
-                    temp_list.Add(new GenericCombData<int> { Display = display, Value = i });
+                    CustomInfrastPlanList.Add(new GenericCombData<int> { Display = display, Value = i });
+                    string desc = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty;
                     CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
                     {
                         Index = i,
                         Name = display,
-                        Description = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty,
+                        Description = desc,
                     });
+                    AddLog(display, LogColor.Message);
+                    if (desc != string.Empty)
+                    {
+                        AddLog(desc);
+                    }
                 }
-
-                CustomInfrastPlanList = new ObservableCollection<GenericCombData<int>>(temp_list);
             }
             catch (Exception)
             {
