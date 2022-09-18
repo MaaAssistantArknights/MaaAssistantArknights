@@ -259,7 +259,7 @@
     <!--  Recruitment Recognition  -->
 
     <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot tool alpha</system:String>
+    <system:String x:Key="DepotRecognition">Depot tool beta</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
     <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
