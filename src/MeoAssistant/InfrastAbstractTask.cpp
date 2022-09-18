@@ -91,7 +91,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     }
 
     m_cur_facility_index = index;
-    if (is_use_custom_config()) {
+    if (m_is_custom) {
         if (m_cur_facility_index < m_custom_config.size()) {
             m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
         }
@@ -138,7 +138,7 @@ bool asst::InfrastAbstractTask::is_use_custom_config()
     if (!m_is_custom) {
         return false;
     }
-    return m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty() &&
+    return !m_current_room_custom_config.names.empty() || !m_current_room_custom_config.candidates.empty() ||
            m_current_room_custom_config.autofill;
 }
 
@@ -159,7 +159,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_opers_by_name(std::vector<std::
         if (need_exit()) {
             return false;
         }
-        if (select_opers_by_name(opers_name)) {
+        if (!select_opers_by_name(opers_name)) {
             return false;
         }
         swipe_of_operlist();
@@ -179,15 +179,16 @@ bool asst::InfrastAbstractTask::select_opers_by_name(std::vector<std::string>& o
 
     const auto image = m_ctrler->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley &
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley |
                                    InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
     }
-    OcrWithPreprocessImageAnalyzer name_analyzer;
-    name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
     for (const auto& oper : oper_analyzer.get_result()) {
+        OcrWithPreprocessImageAnalyzer name_analyzer;
+        name_analyzer.set_replace(ocr_replace);
         name_analyzer.set_image(oper.name_img);
         if (!name_analyzer.analyze()) {
             continue;
