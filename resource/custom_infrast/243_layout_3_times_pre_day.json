@@ -1,6 +1,6 @@
 {
     "title": "243 极限效率，一天三换",
-    "description": "干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n\n作业作者：MistEO\n\n感谢公孙长乐大佬提供数据及方案支持！",
+    "description": "干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n\n作业作者：MistEO\n感谢公孙长乐大佬提供数据及方案支持！",
     "plans": [
         {
             "name": "A+B 组",
@@ -10,7 +10,7 @@
             },
             "drones": {
                 "room": "manufacture",
-                "index": 0
+                "index": 1
             },
             "rooms": {
                 "control": [
@@ -89,7 +89,7 @@
                     },
                     {
                         "operators": [
-                            "炎狱炎榕"
+                            "炎狱炎熔"
                         ]
                     }
                 ],
@@ -133,7 +133,7 @@
             },
             "drones": {
                 "room": "manufacture",
-                "index": 0
+                "index": 1
             },
             "rooms": {
                 "control": [
@@ -212,7 +212,7 @@
                     },
                     {
                         "operators": [
-                            "炎狱炎榕"
+                            "炎狱炎熔"
                         ]
                     }
                 ],
@@ -256,7 +256,7 @@
             },
             "drones": {
                 "room": "manufacture",
-                "index": 0
+                "index": 1
             },
             "rooms": {
                 "control": [
