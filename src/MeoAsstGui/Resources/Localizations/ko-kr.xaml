@@ -234,7 +234,8 @@
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결중...</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없다</system:String>
     <system:String x:Key="Running">실행중...</system:String>
-    <system:String x:Key="Stopped">정지됐다</system:String>
+    <system:String x:Key="Stopping">멎는...</system:String>
+    <system:String x:Key="Stopped">멈췄다</system:String>
     <system:String x:Key="UnknownErrorOccurs">예상치 못한 오류가 발생했습니다</system:String>
     <system:String x:Key="SetSuccessfully">설정 성공</system:String>
     <system:String x:Key="SetFailed">설정 실패</system:String>
