@@ -116,7 +116,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     if (is_custom && !m_running) {
         std::string filename = params.at("filename").as_string();
-        int index = params.at("index").as_integer();
+        int index = params.get("index", 0);
 
         return parse_and_set_custom_config(utils::path(filename), index);
     }
@@ -187,6 +187,30 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         else {
             Log.error(__FUNCTION__, "unknown facility", facility);
             return false;
+        }
+    }
+
+    if (auto Fia_opt = cur_plan.find<json::object>("Fiammetta")) {
+        const auto& Fia_json = Fia_opt.value();
+        auto target_opt = Fia_json.find<std::string>("target");
+        if (!target_opt) {
+            Log.error("Fiammetta target not setted");
+            return false;
+        }
+        const std::string& target = target_opt.value();
+        infrast::CustomFacilityConfig facility_config(1);
+        facility_config.front().names = { target, "菲亚梅塔" };
+
+        auto Fia_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
+        Fia_task_ptr->set_custom_config(std::move(facility_config));
+
+        if (Fia_json.get("order", "pre") != "post") {
+            m_subtasks.insert(m_subtasks.begin(), m_infrast_begin_task_ptr);
+            m_subtasks.insert(m_subtasks.begin() + 1, std::move(Fia_task_ptr));
+        }
+        else {
+            m_subtasks.emplace_back(std::move(Fia_task_ptr));
+            m_subtasks.emplace_back(m_infrast_begin_task_ptr);
         }
     }
 

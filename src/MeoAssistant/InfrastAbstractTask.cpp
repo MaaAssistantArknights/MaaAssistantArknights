@@ -163,7 +163,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers()
         if (!select_custom_opers()) {
             return false;
         }
-        if (m_current_room_custom_config.selected >= max_num_of_opers()) {
+        if (m_current_room_custom_config.selected >= max_num_of_opers() ||
+            (m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty())) {
             break;
         }
         swipe_of_operlist();
@@ -208,6 +209,9 @@ bool asst::InfrastAbstractTask::select_custom_opers()
             if (auto candd_iter = ranges::find(m_current_room_custom_config.candidates, name);
                 candd_iter != m_current_room_custom_config.candidates.end()) {
                 m_current_room_custom_config.candidates.erase(candd_iter);
+            }
+            else {
+                continue;
             }
         }
         else {
