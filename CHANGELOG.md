@@ -1,10 +1,11 @@
-- 新增 基建 自定义排班选项，请参考 [文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.6-%E5%9F%BA%E5%BB%BA%E6%8E%92%E7%8F%AD%E5%8D%8F%E8%AE%AE.md) 编写配置使用 @MistEO @公孙长乐  
+- 新增 基建 自定义排班选项，请参考 [文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.6-%E5%9F%BA%E5%BB%BA%E6%8E%92%E7%8F%AD%E5%8D%8F%E8%AE%AE.md) 编写配置使用 @MistEO [@公孙长乐](https://space.bilibili.com/22606843)  
     _内置了一套顶配 243 作业，在 `resource/custom_infrast/` 中，可参考修改_
 - 新增 刷理智 `OF-F3`, `GT-5` 关卡导航 @ABA2396
 - 重构 连接、截图 部分代码 @zzyyyl
 - 修复 自动公招 加急券的使用问题 @horror-proton
 - 修复 界面 指定材料选择的错误 @ABA2396
 - 修复 界面 备选关卡被重置的问题 @ABA2396
+- 修复 界面 选择基建自定义排班文件时的一些问题 @MistEO
 - 修复 编译问题，整理 项目代码 @horror-proton @zzyyyl
 - 更新 项目文档 @MistEO @zzyyyl
 - Update Japanese translation and documentation. @wallsman @Tastror

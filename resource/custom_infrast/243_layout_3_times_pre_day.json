@@ -10,7 +10,7 @@
             },
             "drones": {
                 "room": "manufacture",
-                "index": 0
+                "index": 1
             },
             "rooms": {
                 "control": [
@@ -133,7 +133,7 @@
             },
             "drones": {
                 "room": "manufacture",
-                "index": 0
+                "index": 1
             },
             "rooms": {
                 "control": [
@@ -256,7 +256,7 @@
             },
             "drones": {
                 "room": "manufacture",
-                "index": 0
+                "index": 1
             },
             "rooms": {
                 "control": [
