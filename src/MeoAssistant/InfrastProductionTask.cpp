@@ -28,6 +28,17 @@ std::string asst::InfrastProductionTask::get_uses_of_drone() const noexcept
     return m_uses_of_drones;
 }
 
+void asst::InfrastProductionTask::set_custom_drones_config(infrast::CustomDronesConfig drones_config)
+{
+    m_is_use_custom_drones = true;
+    m_custom_drones_config = std::move(drones_config);
+}
+
+void asst::InfrastProductionTask::clear_custom_drones_config()
+{
+    m_is_use_custom_drones = false;
+}
+
 void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 {
     m_product = std::move(product_name);
@@ -60,6 +71,15 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
+            if (is_use_custom_config()) {
+                if (m_cur_facility_index < m_custom_config.size()) {
+                    m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
+                }
+                else {
+                    Log.warn("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
+                    break;
+                }
+            }
         }
 
         m_ctrler->click(tab);
@@ -69,22 +89,17 @@ bool asst::InfrastProductionTask::shift_facility_list()
         const auto image = m_ctrler->get_image();
         add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
-            Log.info("no add button, just continue");
+            Log.error("no add button, just continue");
             continue;
         }
-        auto& rect = add_analyzer.get_result().rect;
-        Rect add_button = rect;
+        Rect add_button = add_analyzer.get_result().rect;
         auto& rect_move = add_task_ptr->rect_move;
         if (!rect_move.empty()) {
-            add_button.x += rect_move.x;
-            add_button.y += rect_move.y;
-            add_button.width = rect_move.width;
-            add_button.height = rect_move.height;
+            add_button = add_button.move(rect_move);
         }
 
         /* 识别当前正在造什么 */
         MatchImageAnalyzer product_analyzer(image);
-
         auto& all_products = InfrastData.get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
@@ -100,12 +115,20 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
 
+        // TODO: if is custom mode, compare cur_product and custom_product;
+
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {
             m_cur_num_of_locked_opers = static_cast<int>(locked_analyzer.get_result().size());
         }
         else {
             m_cur_num_of_locked_opers = 0;
+        }
+
+        // 使用无人机
+        if (m_is_use_custom_drones && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Pre &&
+            m_custom_drones_config.index == m_cur_facility_index) {
+            use_drone();
         }
 
         /* 进入干员选择页面 */
@@ -117,6 +140,17 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 return false;
             }
             click_clear_button();
+
+            if (is_use_custom_config()) {
+                bool name_select_ret = swipe_and_select_custom_opers();
+                if (name_select_ret) {
+                    break;
+                }
+                else {
+                    swipe_to_the_left_of_operlist(2);
+                    continue;
+                }
+            }
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
@@ -138,7 +172,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
         click_confirm_button();
 
         // 使用无人机
-        if (cur_product == m_uses_of_drones) {
+        if (m_is_use_custom_drones) {
+            if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
+                m_custom_drones_config.index == m_cur_facility_index) {
+                use_drone();
+            }
+        }
+        else if (cur_product == m_uses_of_drones) {
             if (use_drone()) {
                 m_uses_of_drones = "_Used";
             }
@@ -231,6 +271,14 @@ bool asst::InfrastProductionTask::optimal_calc()
     LogTraceFunction;
     auto& facility_info = InfrastData.get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
+    if (m_is_custom) {
+        cur_max_num_of_opers -= m_current_room_custom_config.selected;
+    }
+    if (cur_max_num_of_opers == 0) {
+        Log.warn("no need select opers");
+        m_optimal_combs.clear();
+        return true;
+    }
 
     std::vector<infrast::SkillsComb> all_available_combs;
     all_available_combs.reserve(m_all_available_opers.size());
@@ -293,8 +341,9 @@ bool asst::InfrastProductionTask::optimal_calc()
         Log.trace("Single comb efficient", max_efficient, " , skills:", log_str);
     }
 
-    // 如果有被锁住的干员，说明当前基建没升满级，组合就不启用
-    if (m_cur_num_of_locked_opers != 0) {
+    // 需要选的人和当前房间最大人数不想等，组合就不启用。
+    // 可能是房间等级没升满，或者是自定义配置提前选了几个人等
+    if (cur_max_num_of_opers != facility_info.max_num_of_opers) {
         m_optimal_combs = std::move(optimal_combs);
         return true;
     }
@@ -456,11 +505,8 @@ bool asst::InfrastProductionTask::opers_choose()
             return false;
         }
         const auto image = m_ctrler->get_image();
-
         InfrastOperImageAnalyzer oper_analyzer(image);
-
         oper_analyzer.set_facility(facility_name());
-
         if (!oper_analyzer.analyze()) {
             return false;
         }

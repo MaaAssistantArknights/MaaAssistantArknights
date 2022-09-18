@@ -46,8 +46,6 @@ Talk is cheap. Show me the pictures!
 ![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png)
 ![image](https://user-images.githubusercontent.com/99072975/181417872-563afc09-e610-45f5-8762-dbf69018a329.png)
 
-
-
 ## Download
 
 ***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
@@ -103,7 +101,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 - Update server: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
 - [Website](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website)
 - [Co-pilot (auto-battle) site](https://www.prts.plus): [frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend), [backend](https://github.com/MaaAssistantArknights/MaaCopilotServer)
- 
+
 ## Acknowledgements
 
 ### Open-source Libraries

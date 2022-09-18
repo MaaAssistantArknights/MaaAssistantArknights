@@ -40,13 +40,11 @@ MAA 的意思是 MAA Assistant Arknights
 - 導入作業 JSON 檔案，自動抄作業！ [影片演示](https://www.bilibili.com/video/BV14u411673q/)
 - 新功能：倉庫辨識！支援導出至 [企鵝物流刷圖規劃器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings)
 
-話不多說，看圖！ 
+話不多說，看圖！  
 
 ![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
 ![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
 ![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
-
-
 
 ## 下載連結
 
@@ -59,7 +57,7 @@ MAA 的意思是 MAA Assistant Arknights
 [穩定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [測試版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
 
-下載太慢？嘗試使用 fastgit 鏡像 
+下載太慢？嘗試使用 fastgit 鏡像  
 
 [fastgit 鏡像穩定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [fastgit 鏡像測試版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)

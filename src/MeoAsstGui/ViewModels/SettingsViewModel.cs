@@ -600,6 +600,50 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _customInfrastEnabled = bool.Parse(ViewStatusStorage.Get("Infrast.CustomInfrastEnabled", false.ToString()));
+
+        public bool CustomInfrastEnabled
+        {
+            get => _customInfrastEnabled;
+            set
+            {
+                SetAndNotify(ref _customInfrastEnabled, value);
+                ViewStatusStorage.Set("Infrast.CustomInfrastEnabled", value.ToString());
+                var mainModel = _container.Get<TaskQueueViewModel>();
+                mainModel.CustomInfrastEnabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Selects infrast config file.
+        /// </summary>
+        public void SelectCustomInfrastFile()
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = Localization.GetString("CustomInfrastFile") + "|*.json",
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                CustomInfrastFile = dialog.FileName;
+            }
+        }
+
+        private string _customInfrastFile = ViewStatusStorage.Get("Infrast.CustomInfrastFile", string.Empty);
+
+        public string CustomInfrastFile
+        {
+            get => _customInfrastFile;
+            set
+            {
+                SetAndNotify(ref _customInfrastFile, value);
+                ViewStatusStorage.Set("Infrast.CustomInfrastFile", value);
+                var mainModel = _container.Get<TaskQueueViewModel>();
+                mainModel.RefreshCustonInfrastPlan();
+            }
+        }
+
         #region 设置页面列表和滚动视图联动绑定
 
         private enum NotifyType

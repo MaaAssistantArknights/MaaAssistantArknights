@@ -38,6 +38,11 @@
     <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
+    <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（Alpha）</system:String>
+    <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
+    <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
+    <system:String x:Key="CustomInfrastTitle">自定义基建配置：</system:String>
+    <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
@@ -235,6 +240,7 @@
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
+    <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出现未知错误</system:String>
     <system:String x:Key="SetSuccessfully">设置成功</system:String>
@@ -259,7 +265,7 @@
     <!--  公招识别  -->
 
     <!--  仓库识别  -->
-    <system:String x:Key="DepotRecognition">仓库识别 Alpha</system:String>
+    <system:String x:Key="DepotRecognition">仓库识别 beta</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="BeganToDepotRecognition">开始识别</system:String>
     <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>

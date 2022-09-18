@@ -371,6 +371,11 @@ namespace MeoAsstGui
                 case "Disconnect":
                     connected = false;
                     mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
+                    if (mainModel.Idle)
+                    {
+                        break;
+                    }
+
                     AsstStop();
 
                     var settingsModel = _container.Get<SettingsViewModel>();
@@ -432,6 +437,10 @@ namespace MeoAsstGui
                     if (taskChain == "Fight")
                     {
                         mainModel.FightTaskRunning = true;
+                    }
+                    else if (taskChain == "Infrast")
+                    {
+                        mainModel.InfrastTaskRunning = true;
                     }
 
                     mainModel.AddLog(Localization.GetString("StartTask") + taskChain);
@@ -905,6 +914,10 @@ namespace MeoAsstGui
                 case "UnsupportedLevel":
                     copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
                     break;
+
+                case "CustomInfrastRoomOperators":
+                    mainModel.AddLog(subTaskDetails["names"].ToString());
+                    break;
             }
         }
 
@@ -1002,6 +1015,11 @@ namespace MeoAsstGui
             {
                 foreach (var address in settings.DefaultAddress[settings.ConnectConfig])
                 {
+                    if (settings.Idle)
+                    {
+                        break;
+                    }
+
                     ret = AsstConnect(_handle, settings.AdbPath, address, settings.ConnectConfig);
                     if (ret)
                     {
@@ -1242,20 +1260,23 @@ namespace MeoAsstGui
         /// </param>
         /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
-        /// <param name="dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
+        /// <param name="dorm_drom_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_trust_enabled, bool originium_shard_auto_replenishment)
+        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+            bool is_custom, string filename, int plan_index)
         {
             var task_params = new JObject();
 
-            // task_params["mode"] = 0;
             task_params["facility"] = new JArray(order);
             task_params["drones"] = uses_of_drones;
             task_params["threshold"] = dorm_threshold;
-            task_params["notstationed_enabled"] = dorm_filter_not_stationed_enabled;
-            task_params["trust_enabled"] = dorm_trust_enabled;
+            task_params["dorm_notstationed_enabled"] = dorm_filter_not_stationed_enabled;
+            task_params["drom_trust_enabled"] = dorm_drom_trust_enabled;
             task_params["replenish"] = originium_shard_auto_replenishment;
+            task_params["mode"] = is_custom ? 10000 : 0;
+            task_params["filename"] = filename;
+            task_params["plan_index"] = plan_index;
             TaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;
             return id != 0;

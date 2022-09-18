@@ -15,6 +15,8 @@ namespace asst
 
         InfrastProductionTask& set_uses_of_drone(std::string uses_of_drones) noexcept;
         std::string get_uses_of_drone() const noexcept;
+        void set_custom_drones_config(infrast::CustomDronesConfig drones_config);
+        void clear_custom_drones_config();
 
     protected:
         bool shift_facility_list();
@@ -35,5 +37,7 @@ namespace asst
         std::vector<infrast::SkillsComb> m_optimal_combs;
         std::vector<Rect> m_facility_list_tabs;
         size_t max_num_of_opers_per_page = 0;
+        bool m_is_use_custom_drones = false;
+        infrast::CustomDronesConfig m_custom_drones_config;
     };
 }
