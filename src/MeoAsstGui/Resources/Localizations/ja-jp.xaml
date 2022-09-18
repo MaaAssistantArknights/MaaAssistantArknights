@@ -36,7 +36,8 @@
     <system:String x:Key="OriginStone">製造所-源石の欠片</system:String>
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
     <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">作業中のオペレーターを宿舎に移動しない</system:String><!--現状動作不明のため対応次第訳修正-->
+    <system:String x:Key="DormFilterNotStationedEnabled">作業中のオペレーターを宿舎に移動しない</system:String>
+    <!--現状動作不明のため対応次第訳修正-->
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片は自動で補充する</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
@@ -134,15 +135,18 @@
     <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入（中国名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
-    <system:String x:Key="Blacklist">ブラックリスト（中国名/セミコロンで区切）</system:String><!--日本語名は未対応？-->
+    <system:String x:Key="HighPriority">優先購入（中国名/セミコロンで区切）</system:String>
+    <!--日本語名は未対応？-->
+    <system:String x:Key="Blacklist">ブラックリスト（中国名/セミコロンで区切）</system:String>
+    <!--日本語名は未対応？-->
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
 
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
-    <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String><!--現状動作内容不明のため翻訳修正候補-->
+    <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
+    <!--現状動作内容不明のため翻訳修正候補-->
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
@@ -183,12 +187,15 @@
     <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる*</system:String>
     <system:String x:Key="Shutdown">シャットダウン*</system:String>
 
-    <system:String x:Key="LinkStart">Link Start!</system:String><!--分かりやすく動作開始でも良い気はする-->
+    <system:String x:Key="LinkStart">Link Start!</system:String>
+    <!--分かりやすく動作開始でも良い気はする-->
     <system:String x:Key="Stop">止める</system:String>
 
     <!--  戦闘設定  -->
-    <system:String x:Key="UseSanityPotion">理性剤使用数</system:String><!--UIの表示バランス大丈夫？-->
-    <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String><!--UIの表示バランス大丈夫？-->
+    <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
+    <!--UIの表示バランス大丈夫？-->
+    <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String>
+    <!--UIの表示バランス大丈夫？-->
     <system:String x:Key="PerformBattles">周回数指定*</system:String>
     <system:String x:Key="AssignedMaterial">素材を限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
@@ -199,12 +206,17 @@
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
-    <system:String x:Key="ClosedStage">イベント終了</system:String><!--動作不明-->
+    <system:String x:Key="ClosedStage">イベント終了</system:String>
+    <!--動作不明-->
     <system:String x:Key="1-7">1-7</system:String>
-    <system:String x:Key="CE-6">龍門幣-6/5(CE-6)</system:String><!--馴染みのあるステージ名での表記-->
-    <system:String x:Key="AP-5">購買資格証-5(AP-5)</system:String><!--馴染みのあるステージ名での表記-->
-    <system:String x:Key="CA-5">アーツ学-5(CA-5)</system:String><!--馴染みのあるステージ名での表記-->
-    <system:String x:Key="LS-6">作戦記録-6/5(LS-6)</system:String><!--馴染みのあるステージ名での表記-->
+    <system:String x:Key="CE-6">龍門幣-6/5(CE-6)</system:String>
+    <!--馴染みのあるステージ名での表記-->
+    <system:String x:Key="AP-5">購買資格証-5(AP-5)</system:String>
+    <!--馴染みのあるステージ名での表記-->
+    <system:String x:Key="CA-5">アーツ学-5(CA-5)</system:String>
+    <!--馴染みのあるステージ名での表記-->
+    <system:String x:Key="LS-6">作戦記録-6/5(LS-6)</system:String>
+    <!--馴染みのあるステージ名での表記-->
 
     <system:String x:Key="PR-A-1">医療/重装SoC・初</system:String>
     <system:String x:Key="PR-A-2">医療/重装SoC・中</system:String>
@@ -259,7 +271,7 @@
     <!--  公開求人認識  -->
 
     <!--  倉庫アイテム認識  -->
-    <system:String x:Key="DepotRecognition">倉庫アイテム認識 Alpha</system:String>
+    <system:String x:Key="DepotRecognition">倉庫アイテム認識 beta</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。倉庫を開いた後、素材のタブを選択してから認識を行い、結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depotフォルダを作業パスに圧縮して、issueを提出してください。</system:String>
     <system:String x:Key="BeganToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
@@ -278,12 +290,14 @@
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
-    <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String><!--現状動作内容不明のため翻訳修正候補-->
+    <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
+    <!--現状動作内容不明のため翻訳修正候補-->
 
     <system:String x:Key="Start">開始</system:String>
 
     <system:String x:Key="CopilotJSONSharing">攻略ファイル・シェアステーション</system:String>
-    <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String><!--Where use it?-->
+    <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String>
+    <!--Where use it?-->
 
     <!--  ログ  -->
     <system:String x:Key="CopilotTip">ヒント：</system:String>
@@ -322,7 +336,8 @@
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
-    <system:String x:Key="HasReturned">戻った</system:String><!--内容不明のため翻訳修正候補-->
+    <system:String x:Key="HasReturned">戻った</system:String>
+    <!--内容不明のため翻訳修正候補-->
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEX">ステージ報酬がないため停止します</system:String>

@@ -152,9 +152,21 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
-bool asst::InfrastAbstractTask::swipe_and_select_custom_opers()
+bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool order_by_skill)
 {
     LogTraceFunction;
+
+    {
+        json::value cb_info = basic_info_with_what("CustomInfrastRoomOperators");
+        auto& details = cb_info["details"];
+        details["names"] = json::array(m_current_room_custom_config.names);
+        details["candidates"] = json::array(m_current_room_custom_config.candidates);
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
+    }
+
+    if (order_by_skill) {
+        ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
+    }
 
     while (true) {
         if (need_exit()) {

@@ -37,7 +37,7 @@ namespace asst
         void async_swipe_of_operlist(bool reverse = false);
         void await_swipe();
         bool is_use_custom_config();
-        bool swipe_and_select_custom_opers();
+        bool swipe_and_select_custom_opers(bool order_by_skill = true);
         bool select_custom_opers();
 
         virtual bool click_bottom_left_tab(); // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）

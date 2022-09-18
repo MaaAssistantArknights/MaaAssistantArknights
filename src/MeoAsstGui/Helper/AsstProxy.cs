@@ -909,6 +909,10 @@ namespace MeoAsstGui
                 case "UnsupportedLevel":
                     copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
                     break;
+
+                case "CustomInfrastRoomOperators":
+                    mainModel.AddLog(subTaskDetails["names"].ToString());
+                    break;
             }
         }
 
