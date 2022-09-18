@@ -5829,6 +5829,17 @@
             "ClueGiveTo1stConfirm"
         ]
     },
+    "InfrastOperListTabSkillUnClicked": {
+        "action": "ClickSelf",
+        "roi": [
+            818,
+            0,
+            128,
+            115
+        ],
+        "templThreshold": 0.7,
+        "rearDelay": 1500
+    },
     "BattleStageName": {
         "algorithm": "OcrDetect",
         "cache": false,

@@ -4,19 +4,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignHeight="300"
+    d:DesignHeight="400"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <ListBox
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ListBox
             Grid.Column="0"
             Width="200"
             Margin="10"
@@ -25,94 +31,122 @@
             ItemsSource="{Binding Path=InfrastItemViewModels}"
             SelectionChanged="{s:Action InfrastOrderSelectionChanged}"
             ToolTip="{DynamicResource LabelSequenceTip}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
                             <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Grid Grid.Column="1" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid Grid.Column="1" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
-                <TextBlock
+                    <TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource DroneUsage}" />
-                <ComboBox
+                    <ComboBox
                     Width="150"
                     Margin="0,5"
                     DisplayMemberPath="Display"
+                    IsEnabled="{c:Binding !CustomInfrastEnabled}"
                     ItemsSource="{Binding UsesOfDronesList}"
                     SelectedValue="{Binding UsesOfDrones}"
                     SelectedValuePath="Value" />
-            </StackPanel>
-            <StackPanel
+                </StackPanel>
+                <StackPanel
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
-                <TextBlock
+                    <TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding DormThresholdLabel}" />
-                <Slider
+                    <Slider
                     Width="200"
                     Margin="0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Maximum="100"
                     Minimum="0"
+                    IsEnabled="{c:Binding !CustomInfrastEnabled}"
                     Value="{Binding DormThreshold}" />
-            </StackPanel>
-            <StackPanel
+                </StackPanel>
+                <StackPanel
                 Grid.Row="2"
                 Grid.RowSpan="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
-                <CheckBox
+                    <CheckBox
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="{DynamicResource DormTrustEnabled}"
                     IsChecked="{Binding DormTrustEnabled}" />
-                <CheckBox
+                    <CheckBox
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsChecked="{Binding DormFilterNotStationedEnabled}">
-                    <TextBlock
+                        <TextBlock
                         MaxWidth="180"
                         Text="{DynamicResource DormFilterNotStationedEnabled}"
                         TextWrapping="Wrap" />
-                </CheckBox>
-                <CheckBox
+                    </CheckBox>
+                    <CheckBox
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsChecked="{Binding OriginiumShardAutoReplenishment}">
-                    <TextBlock
+                        <TextBlock
                         MaxWidth="180"
                         Text="{DynamicResource OriginiumShardAutoReplenishment}"
                         TextWrapping="Wrap" />
-                </CheckBox>
-            </StackPanel>
+                    </CheckBox>
+                </StackPanel>
+            </Grid>
         </Grid>
+        <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="Center">
+            <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding CustomInfrastEnabled}">
+                <TextBlock
+                        MaxWidth="180"
+                        Text="{DynamicResource CustomInfrastEnabled}"
+                        TextWrapping="Wrap" />
+            </CheckBox>
+            <StackPanel Orientation="Horizontal" IsEnabled="{Binding CustomInfrastEnabled}">
+                <TextBox
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{Binding CustomInfrastFile}" />
+                <Button
+                    Width="60"
+                    Height="30"
+                    Margin="10"
+                    Command="{s:Action SelectCustomInfrastFile}"
+                    Content="{DynamicResource Select}" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

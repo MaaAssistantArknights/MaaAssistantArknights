@@ -11,15 +11,15 @@
 #include "ProcessTask.h"
 #include "TaskData.h"
 
-asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool notstationed_enabled) noexcept
+asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept
 {
-    m_notstationed_enabled = notstationed_enabled;
+    m_dorm_notstationed_enabled = dorm_notstationed_enabled;
     return *this;
 }
 
-asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool trust_enabled) noexcept
+asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool drom_trust_enabled) noexcept
 {
-    m_trust_enabled = trust_enabled;
+    m_drom_trust_enabled = drom_trust_enabled;
     return *this;
 }
 
@@ -37,8 +37,8 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
-        Log.trace("m_notstationed_enabled:", m_notstationed_enabled);
-        if (m_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
+        Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
+        if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
             Log.trace("click_filter_menu_not_stationed_button");
             click_filter_menu_not_stationed_button();
             m_if_filter_notstationed_haspressed = true;
@@ -46,12 +46,17 @@ bool asst::InfrastDormTask::_run()
 
         click_clear_button();
 
-        opers_choose();
+        if (is_use_custom_config()) {
+            swipe_and_select_custom_opers(false);
+        }
+        else {
+            opers_choose();
+        }
 
         click_confirm_button();
         click_return_button();
 
-        if (m_finished_stage == 3) { // 不蹭信赖或所有干员满信赖
+        if (m_next_step == NextStep::AllDone) { // 不蹭信赖或所有干员满信赖
             break;
         }
     }
@@ -91,7 +96,7 @@ bool asst::InfrastDormTask::opers_choose()
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
                 // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍
-                if (m_trust_enabled && m_finished_stage > 0 && oper.selected == false &&
+                if (m_drom_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
                     // 获得干员信赖值
                     OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
@@ -114,7 +119,7 @@ bool asst::InfrastDormTask::opers_choose()
                         num_of_fulltrust++;
                     }
                     if (num_of_fulltrust >= 6) { // 所有干员都满信赖了
-                        m_finished_stage = 3;
+                        m_next_step = NextStep::AllDone;
                         Log.trace("num_of_fulltrust:", num_of_fulltrust, ", just return");
                         return true;
                     }
@@ -150,8 +155,8 @@ bool asst::InfrastDormTask::opers_choose()
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                 else if (++num_of_resting > max_num_of_opers()) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    if (m_trust_enabled) {
-                        Log.trace("m_trust_enabled:", m_trust_enabled);
+                    if (m_drom_trust_enabled) {
+                        Log.trace("m_drom_trust_enabled:", m_drom_trust_enabled);
                         if (!m_if_filter_notstationed_haspressed) {
                             Log.trace("click_filter_menu_not_stationed_button");
                             click_filter_menu_not_stationed_button();
@@ -159,11 +164,11 @@ bool asst::InfrastDormTask::opers_choose()
                         }
                         Log.trace("click_sort_by_trust_button");
                         click_sort_by_trust_button();
-                        m_finished_stage = 1; // 选中未进驻标签并按信赖值排序
+                        m_next_step = NextStep::RestDone; // 选中未进驻标签并按信赖值排序
                     }
                     else {
-                        m_finished_stage = 3;
-                        Log.trace("m_trust_enabled:", m_trust_enabled, ", just return");
+                        m_next_step = NextStep::AllDone;
+                        Log.trace("m_drom_trust_enabled:", m_drom_trust_enabled, ", just return");
                         return true;
                     }
                 }
@@ -183,22 +188,22 @@ bool asst::InfrastDormTask::opers_choose()
                 break;
             }
             // 按信赖排序后需要重新识图，中断循环
-            if (m_finished_stage == 1) {
+            if (m_next_step == NextStep::RestDone) {
                 break;
             }
         }
         if (num_of_selected >= max_num_of_opers()) {
             Log.trace("num_of_selected:", num_of_selected, ", just break");
             // 若当前宿舍已满人，则按信赖排序后不需要跳过滑动列表
-            if (m_finished_stage == 1) {
-                m_finished_stage = 2;
+            if (m_next_step == NextStep::RestDone) {
+                m_next_step = NextStep::Trust;
             }
             break;
         }
 
         // 若当前宿舍未满人，则按信赖排序后需要跳过一次滑动列表
-        if (m_finished_stage == 1) {
-            m_finished_stage = 2;
+        if (m_next_step == NextStep::RestDone) {
+            m_next_step = NextStep::Trust;
         }
         else {
             swipe_of_operlist();

@@ -315,6 +315,7 @@ namespace MeoAsstGui
             CheckAndUpdateDayOfWeek();
             UpdateDatePrompt();
             UpdateStageList(true);
+            RefreshCustonInfrastPlan();
         }
 
         private StageManager _stageManager;
@@ -862,8 +863,8 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var order = settings.GetInfrastOrderList();
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendInfrast(order.ToArray(),
-                settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment);
+            return asstProxy.AsstAppendInfrast(order.ToArray(), settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment,
+                settings.CustomInfrastEnabled, settings.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool appendMall()
@@ -1263,6 +1264,7 @@ namespace MeoAsstGui
                 if (value)
                 {
                     FightTaskRunning = false;
+                    InfrastTaskRunning = false;
                 }
             }
         }
@@ -1287,6 +1289,14 @@ namespace MeoAsstGui
         {
             get => _fightTaskRunning;
             set => SetAndNotify(ref _fightTaskRunning, value);
+        }
+
+        private bool _infrastTaskRunning = false;
+
+        public bool InfrastTaskRunning
+        {
+            get => _infrastTaskRunning;
+            set => SetAndNotify(ref _infrastTaskRunning, value);
         }
 
         /*
@@ -1463,6 +1473,102 @@ namespace MeoAsstGui
                 SetAndNotify(ref _customStageCode, value);
                 var settingsModel = _container.Get<SettingsViewModel>();
                 AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
+            }
+        }
+
+        private bool _customInfrastEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Infrast.CustomInfrastEnabled", bool.FalseString));
+
+        public bool CustomInfrastEnabled
+        {
+            get => _customInfrastEnabled;
+            set
+            {
+                SetAndNotify(ref _customInfrastEnabled, value);
+                RefreshCustonInfrastPlan();
+            }
+        }
+
+        private int _customInfrastPlanIndex = Convert.ToInt32(ViewStatusStorage.Get("Infrast.CustomInfrastPlanIndex", "0"));
+
+        public int CustomInfrastPlanIndex
+        {
+            get => _customInfrastPlanIndex;
+            set
+            {
+                if (value != _customInfrastPlanIndex)
+                {
+                    AddLog(CustomInfrastPlanInfoList[value].Name);
+                    if (CustomInfrastPlanInfoList[value].Description != string.Empty)
+                    {
+                        AddLog(CustomInfrastPlanInfoList[value].Description);
+                    }
+                }
+
+                SetAndNotify(ref _customInfrastPlanIndex, value);
+                ViewStatusStorage.Set("Infrast.CustomInfrastPlanIndex", value.ToString());
+            }
+        }
+
+        public ObservableCollection<GenericCombData<int>> CustomInfrastPlanList { get; set; } = new ObservableCollection<GenericCombData<int>>();
+
+        public struct CustomInfrastPlanInfo
+        {
+            public int Index;
+            public string Name;
+            public string Description;
+        }
+
+        public List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; set; } = new List<CustomInfrastPlanInfo>();
+
+        public void RefreshCustonInfrastPlan()
+        {
+            if (!CustomInfrastEnabled)
+            {
+                return;
+            }
+
+            var settingsModel = _container.Get<SettingsViewModel>();
+            if (!File.Exists(settingsModel.CustomInfrastFile))
+            {
+                return;
+            }
+
+            try
+            {
+                string jsonStr = File.ReadAllText(settingsModel.CustomInfrastFile);
+                var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
+
+                if (root.ContainsKey("title"))
+                {
+                    AddLog(Localization.GetString("CustomInfrastTitle"), LogColor.Message);
+                    AddLog(root["title"].ToString(), LogColor.Info);
+                    if (root.ContainsKey("description"))
+                    {
+                        AddLog(root["description"].ToString());
+                    }
+                }
+
+                var temp_list = new List<GenericCombData<int>>();
+                var plan_list = (JArray)root["plans"];
+                for (int i = 0; i < plan_list.Count; ++i)
+                {
+                    var plan = (JObject)plan_list[i];
+                    string display = plan.ContainsKey("name") ? plan["name"].ToString() : ("Plan " + ((char)('A' + i)).ToString());
+                    temp_list.Add(new GenericCombData<int> { Display = display, Value = i });
+                    CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
+                    {
+                        Index = i,
+                        Name = display,
+                        Description = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty,
+                    });
+                }
+
+                CustomInfrastPlanList = new ObservableCollection<GenericCombData<int>>(temp_list);
+            }
+            catch (Exception)
+            {
+                AddLog(Localization.GetString("CustomInfrastFileParseFailed"), LogColor.Error);
+                return;
             }
         }
 
