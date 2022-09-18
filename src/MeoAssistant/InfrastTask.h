@@ -16,7 +16,12 @@ namespace asst
 
     class InfrastTask final : public PackageTask
     {
-    public:
+        enum class Mode
+        {
+            Default = 0,
+            Custom = 10000,
+        };
+
     public:
         InfrastTask(const AsstCallback& callback, void* callback_arg);
         virtual ~InfrastTask() override = default;
@@ -26,6 +31,8 @@ namespace asst
         static constexpr const char* TaskType = "Infrast";
 
     private:
+        bool parse_and_set_custom_config(const std::filesystem::path& path, int index);
+
         std::shared_ptr<ProcessTask> m_infrast_begin_task_ptr = nullptr;
         std::shared_ptr<InfrastInfoTask> m_info_task_ptr = nullptr;
         std::shared_ptr<InfrastMfgTask> m_mfg_task_ptr = nullptr;

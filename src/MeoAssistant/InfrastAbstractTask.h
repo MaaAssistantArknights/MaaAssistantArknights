@@ -11,13 +11,15 @@ namespace asst
         InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain);
 
         virtual ~InfrastAbstractTask() override = default;
-        InfrastAbstractTask& set_work_mode(infrast::WorkMode work_mode) noexcept;
         InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;
 
         virtual json::value basic_info() const override;
         virtual std::string facility_name() const;
         virtual size_t max_num_of_facilities() const noexcept { return 1ULL; }
         virtual size_t max_num_of_opers() const noexcept { return 1ULL; }
+
+        void set_custom_config(infrast::CustomFacilityConfig config) noexcept;
+        void clear_custom_config() noexcept;
 
         static constexpr int OperSelectRetryTimes = 3;
         static constexpr int TaskRetryTimes = 3;
@@ -34,6 +36,9 @@ namespace asst
         void swipe_of_operlist(bool reverse = false);
         void async_swipe_of_operlist(bool reverse = false);
         void await_swipe();
+        bool is_use_custom_config();
+        bool swipe_and_select_custom_opers(bool order_by_skill = true);
+        bool select_custom_opers();
 
         virtual bool click_bottom_left_tab(); // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
         virtual bool click_clear_button();         // 点击干员选择页面的“清空选择”按钮
@@ -42,10 +47,13 @@ namespace asst
         virtual bool click_confirm_button();                   // 点击干员选择页面的“确认”按钮
 
         int m_last_swipe_id = 0;
-        infrast::WorkMode m_work_mode = infrast::WorkMode::Aggressive;
-        std::string m_work_mode_name = "Aggressive";
+        const std::string m_work_mode_name =
+            "Aggressive"; // 历史遗留问题，之前是分工作模式的，后来发现其他模式都不好用，就全删了只保留了这一个
         double m_mood_threshold = 0;
         mutable std::string m_facility_name_cache;
         int m_cur_facility_index = 0;
+        bool m_is_custom = false;
+        infrast::CustomFacilityConfig m_custom_config;
+        infrast::CustomRoomConfig m_current_room_custom_config;
     };
 }
