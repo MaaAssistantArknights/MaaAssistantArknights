@@ -21,7 +21,7 @@ bool asst::InfrastControlTask::_run()
         click_clear_button();
 
         if (is_use_custom_config()) {
-            bool name_select_ret = swipe_and_select_opers_by_name(m_current_room_custom_config.names);
+            bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
                 break;
             }

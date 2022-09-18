@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "AsstMsg.h"
+#include "AsstRanges.hpp"
 #include "Controller.h"
 #include "InfrastFacilityImageAnalyzer.h"
 #include "InfrastOperImageAnalyzer.h"
@@ -139,7 +140,7 @@ bool asst::InfrastAbstractTask::is_use_custom_config()
         return false;
     }
     return !m_current_room_custom_config.names.empty() || !m_current_room_custom_config.candidates.empty() ||
-           m_current_room_custom_config.autofill;
+           !m_current_room_custom_config.autofill;
 }
 
 void asst::InfrastAbstractTask::await_swipe()
@@ -151,28 +152,31 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
-bool asst::InfrastAbstractTask::swipe_and_select_opers_by_name(std::vector<std::string>& opers_name)
+bool asst::InfrastAbstractTask::swipe_and_select_custom_opers()
 {
     LogTraceFunction;
 
-    while (!opers_name.empty()) {
+    while (true) {
         if (need_exit()) {
             return false;
         }
-        if (!select_opers_by_name(opers_name)) {
+        if (!select_custom_opers()) {
             return false;
+        }
+        if (m_current_room_custom_config.selected >= max_num_of_opers()) {
+            break;
         }
         swipe_of_operlist();
     }
 
-    return opers_name.empty();
+    return m_current_room_custom_config.names.empty();
 }
 
-bool asst::InfrastAbstractTask::select_opers_by_name(std::vector<std::string>& opers_name)
+bool asst::InfrastAbstractTask::select_custom_opers()
 {
     LogTraceFunction;
 
-    if (opers_name.empty()) {
+    if (m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty()) {
         Log.warn("opers_name is empty");
         return false;
     }
@@ -194,15 +198,25 @@ bool asst::InfrastAbstractTask::select_opers_by_name(std::vector<std::string>& o
             continue;
         }
         const std::string& name = name_analyzer.get_result().front().text;
-        auto iter = std::find(opers_name.begin(), opers_name.end(), name);
-        if (iter == opers_name.end()) {
+
+        if (auto iter = ranges::find(m_current_room_custom_config.names, name);
+            iter != m_current_room_custom_config.names.end()) {
+            m_current_room_custom_config.names.erase(iter);
+        }
+        else if (max_num_of_opers() - m_current_room_custom_config.selected >
+                 m_current_room_custom_config.names.size()) { // names中的数量，比剩余的空位多，就可以选备选的
+            if (auto candd_iter = ranges::find(m_current_room_custom_config.candidates, name);
+                candd_iter != m_current_room_custom_config.candidates.end()) {
+                m_current_room_custom_config.candidates.erase(candd_iter);
+            }
+        }
+        else {
             continue;
         }
         if (!oper.selected) {
             m_ctrler->click(oper.rect);
         }
-        opers_name.erase(iter);
-        if (opers_name.empty()) {
+        if (++m_current_room_custom_config.selected >= max_num_of_opers()) {
             break;
         }
     }

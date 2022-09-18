@@ -123,7 +123,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             click_clear_button();
 
             if (is_use_custom_config()) {
-                bool name_select_ret = swipe_and_select_opers_by_name(m_current_room_custom_config.names);
+                bool name_select_ret = swipe_and_select_custom_opers();
                 if (name_select_ret) {
                     break;
                 }
@@ -246,6 +246,14 @@ bool asst::InfrastProductionTask::optimal_calc()
     LogTraceFunction;
     auto& facility_info = InfrastData.get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
+    if (m_is_custom) {
+        cur_max_num_of_opers -= m_current_room_custom_config.selected;
+    }
+    if (cur_max_num_of_opers == 0) {
+        Log.warn("no need select opers");
+        m_optimal_combs.clear();
+        return true;
+    }
 
     std::vector<infrast::SkillsComb> all_available_combs;
     all_available_combs.reserve(m_all_available_opers.size());
@@ -308,8 +316,9 @@ bool asst::InfrastProductionTask::optimal_calc()
         Log.trace("Single comb efficient", max_efficient, " , skills:", log_str);
     }
 
-    // 如果有被锁住的干员，说明当前基建没升满级，组合就不启用
-    if (m_cur_num_of_locked_opers != 0) {
+    // 需要选的人和当前房间最大人数不想等，组合就不启用。
+    // 可能是房间等级没升满，或者是自定义配置提前选了几个人等
+    if (cur_max_num_of_opers != facility_info.max_num_of_opers) {
         m_optimal_combs = std::move(optimal_combs);
         return true;
     }

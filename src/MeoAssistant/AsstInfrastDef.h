@@ -119,6 +119,7 @@ namespace asst::infrast
         bool autofill = false;
         std::string product;
         std::vector<std::string> candidates;
+        int selected = 0;
     };
     using CustomFacilityConfig = std::vector<CustomRoomConfig>;
 } // namespace asst::infrast
