@@ -235,6 +235,7 @@
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
+    <system:String x:Key="Stopping">動作停止中……</system:String><!-- need help -->
     <system:String x:Key="Stopped">動作停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
     <system:String x:Key="SetSuccessfully">設定に成功しました</system:String>

@@ -40,14 +40,10 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
 
 #ifdef _WIN32
 
-    m_support_socket = false;
-    do {
-        if (!WsaHelper::get_instance()()) {
-            Log.error("WSA not supports");
-            break;
-        }
-        m_support_socket = true;
-    } while (false);
+    m_support_socket = WsaHelper::get_instance()();
+    if (!m_support_socket) {
+        Log.error("WSA not supports");
+    }
 
 #else
     int pipe_in_ret = pipe(m_pipe_in);
@@ -76,9 +72,8 @@ asst::Controller::~Controller()
         m_cmd_thread.join();
     }
 
-    if (--m_instance_count) {
-        release();
-    }
+    set_inited(false);
+    kill_adb_daemon();
 
 #ifndef _WIN32
     close(m_pipe_in[PIPE_READ]);
@@ -185,7 +180,8 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket)
+std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket,
+                                                          bool allow_reconnect)
 {
     using namespace std::chrono_literals;
     using namespace std::chrono;
@@ -267,6 +263,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     }
 
     while (true) {
+        if (need_exit()) {
+            break;
+        }
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
@@ -276,7 +275,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         if (wait_handles.empty()) break;
         auto elapsed = steady_clock::now() - start_time;
         auto wait_time =
-            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 0xFFFFFFFELL : 0LL);
+            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 5LL * 1000 : 0LL);
         if (wait_time < 0) break;
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
@@ -424,10 +423,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     if (!exit_ret) {
         return recv_by_socket ? sock_data : pipe_data;
     }
-    else if (m_inited) {
-        // 这里用 m_inited 限制了仅递归一层，修改需要注意下
-        m_inited = false;
-
+    else if (inited() && allow_reconnect) {
         // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
         json::value reconnect_info = json::object {
             { "uuid", m_uuid },
@@ -447,21 +443,23 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             reconnect_info["details"]["times"] = i;
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
+            // TODO: 应该有外部中断 sleep 的写法吧？现在只能在开始或者结束 sleep 的时候判断（
             std::this_thread::sleep_for(10s);
-            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000);
+            if (need_exit()) {
+                break;
+            }
+            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* 禁止重连避免无限递归 */);
             bool is_reconnect_success = false;
             if (reconnect_ret) {
                 auto& reconnect_str = reconnect_ret.value();
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
-                auto recall_ret = call_command(cmd, timeout, recv_by_socket);
+                auto recall_ret = call_command(cmd, timeout, recv_by_socket, false /* 禁止重连避免无限递归 */);
                 if (recall_ret) {
                     // 重连并成功执行了
-                    m_inited = true;
                     reconnect_info["what"] = "Reconnected";
                     callback(AsstMsg::ConnectionInfo, reconnect_info);
-
                     return recall_ret;
                 }
             }
@@ -475,7 +473,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", m_adb.connect },
               } },
         };
-        m_inited = false;
+        set_inited(false); // 重连失败，释放
         callback(AsstMsg::ConnectionInfo, info);
     }
 
@@ -564,21 +562,13 @@ void asst::Controller::random_delay() const
 
 void asst::Controller::clear_info() noexcept
 {
-    m_inited = false;
+    set_inited(false);
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
     m_height = 0;
     m_control_scale = 1.0;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
-#ifdef _WIN32
-    if (m_server_sock) {
-        ::closesocket(m_server_sock);
-        m_server_sock = 0U;
-    }
-    m_server_started = false;
-#endif
-    --m_instance_count;
 }
 
 int asst::Controller::push_cmd(const std::string& cmd)
@@ -591,14 +581,27 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return static_cast<int>(++m_push_id);
 }
 
+void asst::Controller::try_to_close_socket() noexcept
+{
+#ifdef _WIN32
+    if (m_server_sock != INVALID_SOCKET) {
+        ::closesocket(m_server_sock);
+        m_server_sock = INVALID_SOCKET;
+    }
+    m_server_started = false;
+#endif
+}
+
 std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address)
 {
     LogTraceFunction;
 
 #ifdef _WIN32
-    m_server_sock = ::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (m_server_sock == INVALID_SOCKET) {
-        return std::nullopt;
+        m_server_sock = ::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (m_server_sock == INVALID_SOCKET) {
+            return std::nullopt;
+        }
     }
 
     DWORD dummy;
@@ -705,15 +708,15 @@ bool asst::Controller::screencap()
     case AdbProperty::ScreencapMethod::UnknownYet: {
         using namespace std::chrono;
         Log.info("Try to find the fastest way to screencap");
-        m_inited = false;
         auto min_cost = milliseconds(LLONG_MAX);
+        clear_lf_info();
 
         auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started && screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
-                m_inited = true;
+                set_inited(true);
                 min_cost = duration;
             }
             Log.info("RawByNc cost", duration.count(), "ms");
@@ -728,7 +731,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
-                m_inited = true;
+                set_inited(true);
                 min_cost = duration;
             }
             Log.info("RawWithGzip cost", duration.count(), "ms");
@@ -743,7 +746,7 @@ bool asst::Controller::screencap()
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
-                m_inited = true;
+                set_inited(true);
                 min_cost = duration;
             }
             Log.info("Encode cost", duration.count(), "ms");
@@ -753,7 +756,7 @@ bool asst::Controller::screencap()
         }
         Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         clear_lf_info();
-        return m_inited;
+        return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     } break;
     case AdbProperty::ScreencapMethod::RawByNc: {
         return screencap(m_adb.screencap_raw_by_nc, decode_raw, true);
@@ -793,7 +796,7 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     }
 
     if (decode_func(data)) [[likely]] {
-        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) [[unlikely]] {
             Log.info("screencap_end_of_line is LF");
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
         }
@@ -802,31 +805,29 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     else {
         Log.info("data is not empty, but image is empty");
 
-        if (!tried_conversion) {
-            Log.info("try to cvt lf");
-            if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
-                Log.error("skip retry decoding and decode failed!");
-                return false;
-            }
-
-            if (decode_func(data)) {
-                if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
-                    Log.info("screencap_end_of_line is CRLF");
-                }
-                else {
-                    Log.info("screencap_end_of_line is changed to CRLF");
-                }
-                m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
-                return true;
-            }
-            else {
-                Log.error("convert lf and retry decode failed!");
-            }
-        }
-        else { // 已经转换过行尾，再次转换 data 不会变化，不必重试
+        if (tried_conversion) { // 已经转换过行尾，再次转换 data 不会变化，不必重试
             Log.error("skip retry decoding and decode failed!");
+            return false;
         }
-        return false;
+
+        Log.info("try to cvt lf");
+        if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
+            Log.error("no `\\r\\n` found, skip retry decode");
+            return false;
+        }
+        if (!decode_func(data)) {
+            Log.error("convert lf and retry decode failed!");
+            return false;
+        }
+
+        if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
+            Log.info("screencap_end_of_line is CRLF");
+        }
+        else {
+            Log.info("screencap_end_of_line is changed to CRLF");
+        }
+        m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
+        return true;
     }
 }
 
@@ -928,10 +929,8 @@ int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool b
 int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay,
                                           bool extra_swipe)
 {
-    int x1 = p1.x;
-    int y1 = p1.y;
-    int x2 = p2.x;
-    int y2 = p2.y;
+    int x1 = p1.x, y1 = p1.y;
+    int x2 = p2.x, y2 = p2.y;
 
     // 起点不能在屏幕外，但是终点可以
     if (x1 < 0 || x1 >= m_width || y1 < 0 || y1 >= m_height) {
@@ -990,7 +989,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
-        m_inited = true;
+        set_inited(true);
         return true;
     }
 #endif
@@ -1033,15 +1032,23 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                                                   });
     };
 
+    if (need_exit()) {
+        return false;
+    }
+
     /* connect */
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
-        auto connect_ret = call_command(m_adb.connect, 60LL * 1000);
+        auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* adb 连接时不允许重试 */);
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
             auto& connect_str = connect_ret.value();
             is_connect_success = connect_str.find("error") == std::string::npos;
+            if (connect_str.find("daemon started successfully") != std::string::npos &&
+                connect_str.find("daemon still not running") == std::string::npos) {
+                m_adb_release = cmd_replace(adb_cfg.release);
+            }
         }
         if (!is_connect_success) {
             json::value info = get_info_json() | json::object {
@@ -1053,9 +1060,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
     }
 
+    if (need_exit()) {
+        return false;
+    }
+
     /* get uuid (imei) */
     {
-        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid));
+        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid), 20000, false, false /* adb 连接时不允许重试 */);
         if (!uuid_ret) {
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
@@ -1077,6 +1088,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         callback(AsstMsg::ConnectionInfo, info);
     }
 
+    if (need_exit()) {
+        return false;
+    }
+
     // 按需获取display ID 信息
     if (!adb_cfg.display_id.empty()) {
         auto display_id_ret = call_command(cmd_replace(adb_cfg.display_id));
@@ -1094,6 +1109,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         display_id = display_id_pipe_str.substr(last + 1);
         // 去掉换行
         display_id.pop_back();
+    }
+
+    if (need_exit()) {
+        return false;
     }
 
     /* display */
@@ -1154,6 +1173,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
     }
 
+    if (need_exit()) {
+        return false;
+    }
+
     /* calc ratio */
     {
         constexpr double DefaultRatio =
@@ -1185,7 +1208,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     m_adb.swipe = cmd_replace(adb_cfg.swipe);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
-    m_adb.release = cmd_replace(adb_cfg.release);
+    m_adb_release = m_adb.release = cmd_replace(adb_cfg.release);
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
 
@@ -1209,6 +1232,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             }
         }
 
+        if (need_exit()) {
+            return false;
+        }
+
         auto socket_opt = try_to_init_socket(bind_address);
         if (socket_opt) {
             nc_port = socket_opt.value();
@@ -1221,21 +1248,54 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 
     // try to find the fastest way
-    screencap();
+    if (!screencap()) {
+        Log.error("Cannot find a proper way to screencap!");
+        return false;
+    }
 
-    ++m_instance_count;
     return true;
+}
+
+bool asst::Controller::set_inited(bool inited)
+{
+    Log.trace(__FUNCTION__, "|", inited, ", m_inited =", m_inited, ", m_instance_count =", m_instance_count);
+
+    if (inited == m_inited) {
+        return true;
+    }
+    m_inited = inited;
+
+    if (inited) {
+        ++m_instance_count;
+    }
+    else {
+        // 所有实例全部释放，执行最终的 release 函数
+        if (!--m_instance_count) {
+            return release();
+        }
+    }
+    return true;
+}
+
+void asst::Controller::kill_adb_daemon() {
+    if (m_instance_count) return;
+#ifndef _WIN32
+    if (m_child)
+#endif
+    {
+        if (!m_adb_release.empty()) {
+            call_command(m_adb_release, 20000, false, false);
+            m_adb_release.clear();
+        }
+        else if (!m_adb.release.empty()) {
+            call_command(m_adb.release, 20000, false, false);
+        }
+    }
 }
 
 bool asst::Controller::release()
 {
-#ifdef _WIN32
-    if (m_server_sock) {
-        m_server_started = false;
-        ::closesocket(m_server_sock);
-        m_server_sock = 0U;
-    }
-#endif
+    try_to_close_socket();
 
 #ifndef _WIN32
     if (m_child)
@@ -1245,7 +1305,7 @@ bool asst::Controller::release()
             return true;
         }
         else {
-            return call_command(m_adb.release).has_value();
+            return call_command(m_adb.release, 20000, false, false).has_value();
         }
     }
 }
@@ -1275,7 +1335,7 @@ cv::Mat asst::Controller::get_image(bool raw)
     // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
     static constexpr int MaxTryCount = 20;
     bool success = false;
-    for (int i = 0; i < MaxTryCount && m_inited; ++i) {
+    for (int i = 0; i < MaxTryCount && inited(); ++i) {
         if (need_exit()) {
             break;
         }

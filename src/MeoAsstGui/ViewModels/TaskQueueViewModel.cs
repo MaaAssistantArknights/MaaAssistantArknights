@@ -624,6 +624,13 @@ namespace MeoAsstGui
                 return asstProxy.AsstConnect(ref errMsg, true);
             });
             bool caught = await task;
+
+            // 一般是点了“停止”按钮了
+            if (Idle)
+            {
+                return;
+            }
+
             if (!caught)
             {
                 AddLog(errMsg, LogColor.Error);
@@ -732,12 +739,18 @@ namespace MeoAsstGui
         /// <summary>
         /// Stops.
         /// </summary>
-        public void Stop()
+        public async void Stop()
         {
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstStop();
+            Idle = true; // 提前将 Idle 置为 true
+            Stopping = true;
+            AddLog(Localization.GetString("Stopping"));
+            var task = Task.Run(() =>
+            {
+                return _container.Get<AsstProxy>().AsstStop();
+            });
+            await task;
             AddLog(Localization.GetString("Stopped"));
-            Idle = true;
+            Stopping = false;
         }
 
         private bool appendStart()
@@ -1252,6 +1265,17 @@ namespace MeoAsstGui
                     FightTaskRunning = false;
                 }
             }
+        }
+
+        private bool _stopping = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether `stop` is awaiting.
+        /// </summary>
+        public bool Stopping
+        {
+            get => _stopping;
+            set => SetAndNotify(ref _stopping, value);
         }
 
         private bool _fightTaskRunning = false;

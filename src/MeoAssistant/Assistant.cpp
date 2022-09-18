@@ -62,12 +62,19 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    stop(false);
+    // 仍有任务进行，connect 前需要 stop
+    if (!m_thread_idle) {
+        return false;
+    }
+
+    m_thread_idle = false;
 
     bool ret = m_ctrler->connect(adb_path, address, config.empty() ? "General" : config);
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
+
+    m_thread_idle = true;
     return ret;
 }
 

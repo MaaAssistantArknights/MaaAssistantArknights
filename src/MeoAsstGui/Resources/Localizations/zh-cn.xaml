@@ -235,6 +235,7 @@
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
+    <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出现未知错误</system:String>
     <system:String x:Key="SetSuccessfully">设置成功</system:String>
