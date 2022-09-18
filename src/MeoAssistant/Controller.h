@@ -35,7 +35,6 @@ namespace asst
         ~Controller();
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
-        bool release();
         bool inited() const noexcept;
         void set_exit_flag(bool* flag);
 
@@ -76,14 +75,18 @@ namespace asst
         bool need_exit() const;
         void pipe_working_proc();
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
-                                                bool recv_by_socket = false);
+                                                bool recv_by_socket = false, bool allow_reconnect = true);
         int push_cmd(const std::string& cmd);
+        bool release();
+        void kill_adb_daemon();
+        bool set_inited(bool inited);
 
+        void try_to_close_socket() noexcept;
         std::optional<unsigned short> try_to_init_socket(const std::string& local_address);
 
         using DecodeFunc = std::function<bool(std::string_view)>;
         bool screencap();
-        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_nc = false);
+        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket = false);
         void clear_lf_info();
         cv::Mat get_resized_image() const;
 
@@ -108,7 +111,7 @@ namespace asst
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         WSADATA m_wsa_data {};
-        SOCKET m_server_sock = 0ULL;
+        SOCKET m_server_sock = INVALID_SOCKET;
         sockaddr_in m_server_addr {};
         LPFN_ACCEPTEX m_AcceptEx = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_END
@@ -156,6 +159,8 @@ namespace asst
         } m_adb;
 
         std::string m_uuid;
+        inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，
+                                                 // m_adb 并不会存下 release 的命令，但最后仍然需要一次释放。
         std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
         double m_control_scale = 1.0;
         int m_width = 0;

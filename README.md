@@ -46,8 +46,6 @@ MAA 的意思是 MAA Assistant Arknights
 ![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
 ![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
 
-
-
 ## 下载地址
 
 ***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***

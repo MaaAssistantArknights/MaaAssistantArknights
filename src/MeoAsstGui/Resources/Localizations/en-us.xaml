@@ -235,6 +235,7 @@
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator...</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running...</system:String>
+    <system:String x:Key="Stopping">Stopping...</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
@@ -259,7 +260,7 @@
     <!--  Recruitment Recognition  -->
 
     <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot tool alpha</system:String>
+    <system:String x:Key="DepotRecognition">Depot tool beta</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
     <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
@@ -323,7 +324,7 @@
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
     <system:String x:Key="ErrorOccurred">Error occurred</system:String>
     <system:String x:Key="HasReturned">Has returned</system:String>
-    <system:String x:Key="DropRecognitionError">Drop recognition error</system:String>
+    <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">abort upload to Penguins statistics</system:String>
     <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
     <system:String x:Key="OnTheMove">operation started</system:String>
@@ -350,9 +351,9 @@
     <system:String x:Key="EmergencyDps">Stage: EmergencyDps</system:String>
     <system:String x:Key="DreadfulFoe">Stage: DreadfulFoe</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
-    <system:String x:Key="Drop">Drop:</system:String>
-    <system:String x:Key="TotalDrop">Total Drop:</system:String>
-    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facilities: </system:String>
+    <system:String x:Key="Drop">Drops:</system:String>
+    <system:String x:Key="TotalDrop">Total Drops:</system:String>
+    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>

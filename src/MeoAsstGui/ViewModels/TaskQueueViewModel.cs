@@ -315,6 +315,7 @@ namespace MeoAsstGui
             CheckAndUpdateDayOfWeek();
             UpdateDatePrompt();
             UpdateStageList(true);
+            RefreshCustonInfrastPlan();
         }
 
         private StageManager _stageManager;
@@ -362,18 +363,17 @@ namespace MeoAsstGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (!CustomStageCode &&
-                        (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
+                    if (!CustomStageCode && (stage1 == null))
                     {
                         Stage1 = string.Empty;
                     }
 
-                    if (stage2 == null || !_stageManager.IsStageOpen(stage2, _curDayOfWeek))
+                    if (stage2 == null)
                     {
                         Stage2 = string.Empty;
                     }
 
-                    if (stage3 == null || !_stageManager.IsStageOpen(stage3, _curDayOfWeek))
+                    if (stage3 == null)
                     {
                         Stage3 = string.Empty;
                     }
@@ -625,6 +625,13 @@ namespace MeoAsstGui
                 return asstProxy.AsstConnect(ref errMsg, true);
             });
             bool caught = await task;
+
+            // 一般是点了“停止”按钮了
+            if (Idle)
+            {
+                return;
+            }
+
             if (!caught)
             {
                 AddLog(errMsg, LogColor.Error);
@@ -733,12 +740,18 @@ namespace MeoAsstGui
         /// <summary>
         /// Stops.
         /// </summary>
-        public void Stop()
+        public async void Stop()
         {
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstStop();
+            Idle = true; // 提前将 Idle 置为 true
+            Stopping = true;
+            AddLog(Localization.GetString("Stopping"));
+            var task = Task.Run(() =>
+            {
+                return _container.Get<AsstProxy>().AsstStop();
+            });
+            await task;
             AddLog(Localization.GetString("Stopped"));
-            Idle = true;
+            Stopping = false;
         }
 
         private bool appendStart()
@@ -850,8 +863,8 @@ namespace MeoAsstGui
             var settings = _container.Get<SettingsViewModel>();
             var order = settings.GetInfrastOrderList();
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendInfrast(order.ToArray(),
-                settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment);
+            return asstProxy.AsstAppendInfrast(order.ToArray(), settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment,
+                settings.CustomInfrastEnabled, settings.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool appendMall()
@@ -1251,8 +1264,20 @@ namespace MeoAsstGui
                 if (value)
                 {
                     FightTaskRunning = false;
+                    InfrastTaskRunning = false;
                 }
             }
+        }
+
+        private bool _stopping = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether `stop` is awaiting.
+        /// </summary>
+        public bool Stopping
+        {
+            get => _stopping;
+            set => SetAndNotify(ref _stopping, value);
         }
 
         private bool _fightTaskRunning = false;
@@ -1264,6 +1289,14 @@ namespace MeoAsstGui
         {
             get => _fightTaskRunning;
             set => SetAndNotify(ref _fightTaskRunning, value);
+        }
+
+        private bool _infrastTaskRunning = false;
+
+        public bool InfrastTaskRunning
+        {
+            get => _infrastTaskRunning;
+            set => SetAndNotify(ref _infrastTaskRunning, value);
         }
 
         /*
@@ -1440,6 +1473,102 @@ namespace MeoAsstGui
                 SetAndNotify(ref _customStageCode, value);
                 var settingsModel = _container.Get<SettingsViewModel>();
                 AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
+            }
+        }
+
+        private bool _customInfrastEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Infrast.CustomInfrastEnabled", bool.FalseString));
+
+        public bool CustomInfrastEnabled
+        {
+            get => _customInfrastEnabled;
+            set
+            {
+                SetAndNotify(ref _customInfrastEnabled, value);
+                RefreshCustonInfrastPlan();
+            }
+        }
+
+        private int _customInfrastPlanIndex = Convert.ToInt32(ViewStatusStorage.Get("Infrast.CustomInfrastPlanIndex", "0"));
+
+        public int CustomInfrastPlanIndex
+        {
+            get => _customInfrastPlanIndex;
+            set
+            {
+                if (value != _customInfrastPlanIndex)
+                {
+                    AddLog(CustomInfrastPlanInfoList[value].Name);
+                    if (CustomInfrastPlanInfoList[value].Description != string.Empty)
+                    {
+                        AddLog(CustomInfrastPlanInfoList[value].Description);
+                    }
+                }
+
+                SetAndNotify(ref _customInfrastPlanIndex, value);
+                ViewStatusStorage.Set("Infrast.CustomInfrastPlanIndex", value.ToString());
+            }
+        }
+
+        public ObservableCollection<GenericCombData<int>> CustomInfrastPlanList { get; set; } = new ObservableCollection<GenericCombData<int>>();
+
+        public struct CustomInfrastPlanInfo
+        {
+            public int Index;
+            public string Name;
+            public string Description;
+        }
+
+        public List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; set; } = new List<CustomInfrastPlanInfo>();
+
+        public void RefreshCustonInfrastPlan()
+        {
+            if (!CustomInfrastEnabled)
+            {
+                return;
+            }
+
+            var settingsModel = _container.Get<SettingsViewModel>();
+            if (!File.Exists(settingsModel.CustomInfrastFile))
+            {
+                return;
+            }
+
+            try
+            {
+                string jsonStr = File.ReadAllText(settingsModel.CustomInfrastFile);
+                var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
+
+                if (root.ContainsKey("title"))
+                {
+                    AddLog(Localization.GetString("CustomInfrastTitle"), LogColor.Message);
+                    AddLog(root["title"].ToString(), LogColor.Info);
+                    if (root.ContainsKey("description"))
+                    {
+                        AddLog(root["description"].ToString());
+                    }
+                }
+
+                var temp_list = new List<GenericCombData<int>>();
+                var plan_list = (JArray)root["plans"];
+                for (int i = 0; i < plan_list.Count; ++i)
+                {
+                    var plan = (JObject)plan_list[i];
+                    string display = plan.ContainsKey("name") ? plan["name"].ToString() : ("Plan " + ((char)('A' + i)).ToString());
+                    temp_list.Add(new GenericCombData<int> { Display = display, Value = i });
+                    CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
+                    {
+                        Index = i,
+                        Name = display,
+                        Description = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty,
+                    });
+                }
+
+                CustomInfrastPlanList = new ObservableCollection<GenericCombData<int>>(temp_list);
+            }
+            catch (Exception)
+            {
+                AddLog(Localization.GetString("CustomInfrastFileParseFailed"), LogColor.Error);
+                return;
             }
         }
 
@@ -1620,8 +1749,6 @@ namespace MeoAsstGui
         }
 
         private string _dropsItem = string.Empty;
-        private bool _isFirstLoadDropItem = true;
-        private long _preSetDropsItemTicks = 0;
 
         /// <summary>
         /// Gets or sets the item of drops.
@@ -1629,37 +1756,7 @@ namespace MeoAsstGui
         public string DropsItem
         {
             get => _dropsItem;
-            set
-            {
-                if (_isFirstLoadDropItem)
-                {
-                    _isFirstLoadDropItem = false;
-                }
-                else
-                {
-                    IsDropDown = true;
-                }
-
-                if (DateTime.Now.Ticks - _preSetDropsItemTicks < 50)
-                {
-                    return;
-                }
-
-                _preSetDropsItemTicks = DateTime.Now.Ticks;
-
-                SetAndNotify(ref _dropsItem, value);
-            }
-        }
-
-        private bool _isDropDown = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether it is dropdown.
-        /// </summary>
-        public bool IsDropDown
-        {
-            get => _isDropDown;
-            set => SetAndNotify(ref _isDropDown, value);
+            set => SetAndNotify(ref _dropsItem, value);
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
