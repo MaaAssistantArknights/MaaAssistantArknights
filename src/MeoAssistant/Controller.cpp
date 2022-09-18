@@ -561,13 +561,6 @@ void asst::Controller::clear_info() noexcept
     m_height = 0;
     m_control_scale = 1.0;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
-#ifdef _WIN32
-    if (m_server_sock) {
-        ::closesocket(m_server_sock);
-        m_server_sock = 0U;
-    }
-    m_server_started = false;
-#endif
 }
 
 int asst::Controller::push_cmd(const std::string& cmd)
@@ -580,14 +573,27 @@ int asst::Controller::push_cmd(const std::string& cmd)
     return static_cast<int>(++m_push_id);
 }
 
+void asst::Controller::try_to_close_socket() noexcept
+{
+#ifdef _WIN32
+    if (m_server_sock != INVALID_SOCKET) {
+        ::closesocket(m_server_sock);
+        m_server_sock = INVALID_SOCKET;
+    }
+    m_server_started = false;
+#endif
+}
+
 std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address)
 {
     LogTraceFunction;
 
 #ifdef _WIN32
-    m_server_sock = ::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (m_server_sock == INVALID_SOCKET) {
-        return std::nullopt;
+        m_server_sock = ::socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (m_server_sock == INVALID_SOCKET) {
+            return std::nullopt;
+        }
     }
 
     DWORD dummy;
@@ -1235,13 +1241,7 @@ bool asst::Controller::try_release()
 
 bool asst::Controller::release()
 {
-#ifdef _WIN32
-    if (m_server_sock) {
-        m_server_started = false;
-        ::closesocket(m_server_sock);
-        m_server_sock = 0U;
-    }
-#endif
+    try_to_close_socket();
 
 #ifndef _WIN32
     if (m_child)
