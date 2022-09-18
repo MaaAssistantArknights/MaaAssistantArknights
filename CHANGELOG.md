@@ -1,10 +1,10 @@
-- 更新 `好久不见` 活动关卡数据 @MistEO
-- 新增 完成后 退出并关闭模拟器并休眠 界面选项 @Hydrogina
-- 优化 基建 精 2 `但书` 效率计算 @MistEO
-- 修复 掉落识别 偶现识别错误 @horror-proton
-- 修复 仓库识别 偶现崩溃问题 @xRosemary
-- 修复 截图时潜在的数据竞争问题 @dantmnf
-- 修复 编译问题，优化 项目代码 @zzyyyl @horror-proton
-- 更新 详细说明 文档 @MistEO
+- 新增 基建 自定义排班选项，请参考 [文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.6-%E5%9F%BA%E5%BB%BA%E6%8E%92%E7%8F%AD%E5%8D%8F%E8%AE%AE.md) 编写配置使用 @MistEO @公孙长乐  
+    _内置了一套顶配 243 作业，在 `resource/custom_infrast/` 中，可参考修改_
+- 新增 刷理智 `OF-F3`, `GT-5` 关卡导航 @ABA2396
+- 重构 连接、截图 部分代码 @zzyyyl
+- 修复 自动公招 加急券的使用问题 @horror-proton
+- 修复 界面 指定材料选择的错误 @ABA2396
+- 修复 界面 备选关卡被重置的问题 @ABA2396
+- 修复 编译问题，整理 项目代码 @horror-proton @zzyyyl
+- 更新 项目文档 @MistEO @zzyyyl
 - Update Japanese translation and documentation. @wallsman @Tastror
-- Update English and Traditional Chinese documentation. @LYZhelloworld
