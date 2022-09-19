@@ -114,8 +114,7 @@
                         Loaded="{s:Action DropsList_Loaded}"
                         ItemsSource="{Binding DropsList}"
                         SelectedValue="{Binding DropsItemId}"
-                        SelectedValuePath="Value"
-                        Text="{Binding DropsItem}" />
+                        SelectedValuePath="Value" />
 
                     <hc:TextBox
                         Width="60"
