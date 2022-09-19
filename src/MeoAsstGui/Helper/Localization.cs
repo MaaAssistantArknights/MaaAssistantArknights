@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.ConstrainedExecution;
 using System.Windows;
 using System.Windows.Input;
 
@@ -63,21 +64,27 @@ namespace MeoAsstGui
             }
         }
 
-        private static readonly string culture = ViewStatusStorage.Get("GUI.Localization", DefaultLanguage);
+        private static readonly string _culture = ViewStatusStorage.Get("GUI.Localization", DefaultLanguage);
 
         /// <summary>
         /// Loads localizations.
         /// </summary>
         public static void Load()
         {
-            // var cultureInfo = new CultureInfo(culture);
-            // Thread.CurrentThread.CurrentUICulture = cultureInfo;
-            // Thread.CurrentThread.CurrentCulture = cultureInfo;
-            var dictionary = new ResourceDictionary
+            var culureList = new string[] { "zh-cn", "en-us", _culture, };
+            foreach (var cur in culureList)
             {
-                Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative),
-            };
-            Application.Current.Resources.MergedDictionaries[0] = dictionary;
+                var dictionary = new ResourceDictionary
+                {
+                    Source = new Uri($@"Resources\Localizations\{cur}.xaml", UriKind.Relative),
+                };
+                Application.Current.Resources.MergedDictionaries.Add(dictionary);
+
+                if (cur == _culture)
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -88,24 +95,27 @@ namespace MeoAsstGui
         /// <returns>The string.</returns>
         public static string GetString(string key, string culture = null)
         {
-            if (string.IsNullOrEmpty(culture))
-            {
-                culture = Localization.culture;
-            }
-
-            var culureList = new string[] { culture, "en-us", "zh-cn", };
-            foreach (var curCulutre in culureList)
+            if (!string.IsNullOrEmpty(culture))
             {
                 var dictionary = new ResourceDictionary
                 {
-                    Source = new Uri($@"Resources\Localizations\{curCulutre}.xaml", UriKind.Relative),
+                    Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative),
                 };
                 if (dictionary.Contains(key))
                 {
-                    return dictionary[key] as string;
+                    return dictionary[key].ToString();
                 }
             }
 
+            var dictList = Application.Current.Resources.MergedDictionaries;
+            for (int i = dictList.Count - 1; i >= 0; --i)
+            {
+                var dict = dictList[i];
+                if (dict.Contains(key))
+                {
+                    return dict[key].ToString();
+                }
+            }
             return $"{{{{ {key} }}}}";
         }
     }
