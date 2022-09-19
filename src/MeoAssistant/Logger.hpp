@@ -44,17 +44,17 @@ namespace asst
     template <typename T>
     struct from_reference_wrapper<std::reference_wrapper<T>>
     {
-        using type = typename from_reference_wrapper<T&>::type;
+        typedef from_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct from_reference_wrapper<std::reference_wrapper<T>&>
     {
-        using type = typename from_reference_wrapper<T&>::type;
+        typedef from_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct from_reference_wrapper<std::reference_wrapper<T>&&>
     {
-        using type = typename from_reference_wrapper<T&>::type;
+        typedef from_reference_wrapper<T&>::type type;
     };
     template <typename T>
     using from_reference_wrapper_t = typename from_reference_wrapper<T>::type;
@@ -73,17 +73,17 @@ namespace asst
     template <typename T>
     struct to_reference_wrapper<std::reference_wrapper<T>>
     {
-        using type = typename to_reference_wrapper<T&>::type;
+        typedef to_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct to_reference_wrapper<std::reference_wrapper<T>&>
     {
-        using type = typename to_reference_wrapper<T&>::type;
+        typedef to_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct to_reference_wrapper<std::reference_wrapper<T>&&>
     {
-        using type = typename to_reference_wrapper<T&>::type;
+        typedef to_reference_wrapper<T&>::type type;
     };
     template <typename T>
     using to_reference_wrapper_t = typename to_reference_wrapper<T>::type;
@@ -91,7 +91,7 @@ namespace asst
     template <typename T>
     struct remove_cvref
     {
-        typedef std::remove_cvref_t<from_reference_wrapper_t<T>> type;
+        typedef std::remove_cvref_t<from_reference_wrapper_t<std::remove_cvref_t<T>>> type;
     };
     template <typename T>
     using remove_cvref_t = typename remove_cvref<T>::type;
@@ -99,12 +99,7 @@ namespace asst
     template <typename T>
     constexpr from_reference_wrapper_t<T> convert_reference_wrapper(T&& x)
     {
-        if constexpr (is_reference_wrapper_v<T>) {
-            return convert_reference_wrapper(x.get());
-        }
-        else {
-            return x;
-        }
+        return x;
     }
 
     class toansi_ostream
