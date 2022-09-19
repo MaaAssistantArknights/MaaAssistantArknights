@@ -229,6 +229,9 @@ bool ProcessTask::_run()
             bool sub_ret = ProcessTask(*this, { sub }).run();
             if (!sub_ret && !m_cur_task_ptr->sub_error_ignored) {
                 Log.error("Sub error and not ignored", sub);
+                // 子任务如果失败了，一定已经经历过子任务自己的 m_retry_times 次重试了
+                // 这时候即使再重试父任务也没有意义，直接把父任务也跟着报错出去
+                m_cur_retry = m_retry_times;
                 return false;
             }
         }
