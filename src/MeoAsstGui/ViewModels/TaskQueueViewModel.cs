@@ -1719,11 +1719,6 @@ namespace MeoAsstGui
                     continue;
                 }
 
-                if (val == _dropsItemId)
-                {
-                    _dropsItem = dis;
-                }
-
                 AllDrops.Add(new CombData { Display = dis, Value = val });
             }
 
@@ -1752,17 +1747,6 @@ namespace MeoAsstGui
                 SetAndNotify(ref _dropsItemId, value);
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
-        }
-
-        private string _dropsItem = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the item of drops.
-        /// </summary>
-        public string DropsItem
-        {
-            get => _dropsItem;
-            set => SetAndNotify(ref _dropsItem, value);
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
