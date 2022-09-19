@@ -131,6 +131,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
             use_drone();
         }
 
+        if (is_use_custom_config() && m_current_room_custom_config.skip) {
+            Log.info("skip this room");
+            continue;
+        }
+
         /* 进入干员选择页面 */
         m_ctrler->click(add_button);
         sleep(add_task_ptr->rear_delay);

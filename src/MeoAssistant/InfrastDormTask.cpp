@@ -29,6 +29,10 @@ bool asst::InfrastDormTask::_run()
         if (need_exit()) {
             return false;
         }
+        if (is_use_custom_config() && m_current_room_custom_config.skip) {
+            Log.info("skip this room");
+            continue;
+        }
         // 进不去说明设施数量不够
         if (!enter_facility(m_cur_facility_index)) {
             break;
