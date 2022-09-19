@@ -189,11 +189,6 @@ bool asst::InfrastAbstractTask::select_custom_opers()
 {
     LogTraceFunction;
 
-    if (m_current_room_custom_config.skip) {
-        Log.info("skip this room");
-        return true;
-    }
-
     if (m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty()) {
         Log.warn("opers_name is empty");
         return false;

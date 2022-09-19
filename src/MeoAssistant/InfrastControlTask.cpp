@@ -1,12 +1,17 @@
 #include "InfrastControlTask.h"
 
+#include "Logger.hpp"
+
 bool asst::InfrastControlTask::_run()
 {
     m_all_available_opers.clear();
 
     // 控制中枢只能造这一个
     set_product("MoodAddition");
-
+    if (is_use_custom_config() && m_current_room_custom_config.skip) {
+        Log.info("skip this room");
+        return true;
+    }
     if (!enter_facility()) {
         return false;
     }
