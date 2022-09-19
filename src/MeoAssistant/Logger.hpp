@@ -19,9 +19,132 @@ namespace asst
     template <typename Stream, typename T>
     concept has_stream_insertion_operator = requires { std::declval<Stream&>() << std::declval<T>(); };
 
+    // is_reference_wrapper
+    template <typename T>
+    struct is_reference_wrapper : std::false_type
+    {};
+    template <typename T>
+    struct is_reference_wrapper<std::reference_wrapper<T>> : std::true_type
+    {};
+    template <typename T>
+    struct is_reference_wrapper<std::reference_wrapper<T>&> : std::true_type
+    {};
+    template <typename T>
+    struct is_reference_wrapper<std::reference_wrapper<T>&&> : std::true_type
+    {};
+    template <typename T>
+    inline constexpr bool is_reference_wrapper_v = is_reference_wrapper<T>::value;
+
+    // from_reference_wrapper
+    template <typename T>
+    struct from_reference_wrapper
+    {
+        typedef T type;
+    };
+    template <typename T>
+    struct from_reference_wrapper<std::reference_wrapper<T>>
+    {
+        using type = typename from_reference_wrapper<T&>::type;
+    };
+    template <typename T>
+    struct from_reference_wrapper<std::reference_wrapper<T>&>
+    {
+        using type = typename from_reference_wrapper<T&>::type;
+    };
+    template <typename T>
+    struct from_reference_wrapper<std::reference_wrapper<T>&&>
+    {
+        using type = typename from_reference_wrapper<T&>::type;
+    };
+    template <typename T>
+    using from_reference_wrapper_t = typename from_reference_wrapper<T>::type;
+
+    // to_reference_wrapper
+    template <typename T>
+    struct to_reference_wrapper
+    {
+        typedef T type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<T&>
+    {
+        typedef std::reference_wrapper<T> type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<std::reference_wrapper<T>>
+    {
+        using type = typename to_reference_wrapper<T&>::type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<std::reference_wrapper<T>&>
+    {
+        using type = typename to_reference_wrapper<T&>::type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<std::reference_wrapper<T>&&>
+    {
+        using type = typename to_reference_wrapper<T&>::type;
+    };
+    template <typename T>
+    using to_reference_wrapper_t = typename to_reference_wrapper<T>::type;
+
+    template <typename T>
+    struct remove_cvref
+    {
+        typedef std::remove_cvref_t<from_reference_wrapper_t<T>> type;
+    };
+    template <typename T>
+    using remove_cvref_t = typename remove_cvref<T>::type;
+
+    template <typename T>
+    constexpr from_reference_wrapper_t<T> convert_reference_wrapper(T&& x)
+    {
+        if constexpr (is_reference_wrapper_v<T>) {
+            return convert_reference_wrapper(x.get());
+        }
+        else {
+            return x;
+        }
+    }
+
+    class toansi_ostream
+    {
+        std::reference_wrapper<std::ostream> m_ofs;
+
+    public:
+        toansi_ostream(toansi_ostream&&) = default;
+        toansi_ostream(const toansi_ostream&) = default;
+        toansi_ostream& operator=(toansi_ostream&&) = default;
+        toansi_ostream& operator=(const toansi_ostream&) = default;
+
+        toansi_ostream(std::ostream& stream) : m_ofs(stream) {}
+
+        toansi_ostream(std::reference_wrapper<std::ostream> stream) : m_ofs(stream) {}
+
+        template <typename T>
+        requires has_stream_insertion_operator<std::ostream, T>
+        toansi_ostream& operator<<(T&& v)
+        {
+            if constexpr (std::convertible_to<T, std::string_view>) {
+                m_ofs.get() << utils::utf8_to_ansi(std::forward<T>(v));
+            }
+            else {
+                m_ofs.get() << std::forward<T>(v);
+            }
+            return *this;
+        }
+
+        toansi_ostream& operator<<(std::ostream& (*pf)(std::ostream&))
+        {
+            m_ofs.get() << pf;
+            return *this;
+        }
+    };
+
+    template <typename... Args>
     class ostreams
     {
-        std::vector<std::reference_wrapper<std::ostream>> m_ofss;
+        std::tuple<Args...> m_ofss;
 
     public:
         ostreams(ostreams&&) = default;
@@ -29,27 +152,35 @@ namespace asst
         ostreams& operator=(ostreams&&) = default;
         ostreams& operator=(const ostreams&) = default;
 
-        template <typename... Args>
-        requires(std::convertible_to<std::remove_cvref_t<Args>&, std::ostream&> && ...)
-        ostreams(Args&... args)
-        {
-            (m_ofss.emplace_back(args), ...);
-        }
+        ostreams(Args&&... args) : m_ofss(std::forward<Args>(args)...) {}
+
         template <typename T>
         requires has_stream_insertion_operator<std::ostream, T>
         ostreams& operator<<(T&& x)
         {
-            for (std::ostream& ofs : m_ofss)
-                ofs << std::forward<T>(x);
+            streams_put(m_ofss, x, std::index_sequence_for<Args...> {});
             return *this;
         }
+        template <typename Tuple, typename T, size_t... Is>
+        static void streams_put(Tuple& t, T&& x, std::index_sequence<Is...>)
+        {
+            ((convert_reference_wrapper(std::get<Is>(t)) << std::forward<T>(x)), ...);
+        }
+
         ostreams& operator<<(std::ostream& (*pf)(std::ostream&))
         {
-            for (std::ostream& ofs : m_ofss)
-                ofs << pf;
+            streams_put(m_ofss, pf, std::index_sequence_for<Args...> {});
             return *this;
         }
+        template <typename Tuple, size_t... Is>
+        static void streams_put(Tuple& t, std::ostream& (*pf)(std::ostream&), std::index_sequence<Is...>)
+        {
+            ((convert_reference_wrapper(std::get<Is>(t)) << pf), ...);
+        }
     };
+
+    template <typename... Args>
+    ostreams(Args&&...) -> ostreams<to_reference_wrapper_t<Args>...>;
 
     class Logger : public SingletonHolder<Logger>
     {
@@ -106,20 +237,15 @@ namespace asst
             template <typename T>
             LogStream& operator<<(T&& arg)
             {
-#ifdef ASST_DEBUG // 这个地方的编码不太好控制，本来应该是 cout 的时候才 Ansi = true 的
-                constexpr bool Ansi = true;
-#else
-                constexpr bool Ansi = false;
-#endif
-                if constexpr (std::same_as<separator, std::remove_cvref_t<T>>) {
+                if constexpr (std::same_as<separator, remove_cvref_t<T>>) {
                     m_sep = std::forward<T>(arg);
                 }
                 else {
                     // 如果是 level，则不输出 separator
-                    if constexpr (!std::same_as<Logger::level, std::remove_cvref_t<T>>) {
-                        stream_put<Ansi>(m_ofs, m_sep.str);
+                    if constexpr (!std::same_as<Logger::level, remove_cvref_t<T>>) {
+                        stream_put(m_ofs, m_sep.str);
                     }
-                    stream_put<Ansi>(m_ofs, std::forward<T>(arg));
+                    stream_put(m_ofs, std::forward<T>(arg));
                 }
                 return *this;
             }
@@ -143,17 +269,13 @@ namespace asst
             ~LogStream() { m_ofs << std::endl; }
 
         private:
-            template <bool ToAnsi, typename Stream, typename T>
+            template <typename Stream, typename T>
             static Stream& stream_put(Stream& s, T&& v)
             {
-                if constexpr (std::same_as<std::filesystem::path, std::remove_cvref_t<T>>) {
-                    if constexpr (ToAnsi)
-                        s << utils::utf8_to_ansi(utils::path_to_utf8_string(std::forward<T>(v)));
-                    else
-                        s << utils::path_to_utf8_string(std::forward<T>(v));
-                    return s;
+                if constexpr (std::same_as<std::filesystem::path, remove_cvref_t<T>>) {
+                    s << utils::path_to_utf8_string(std::forward<T>(v));
                 }
-                else if constexpr (std::same_as<Logger::level, std::remove_cvref_t<T>>) {
+                else if constexpr (std::same_as<Logger::level, remove_cvref_t<T>>) {
                     constexpr int buff_len = 128;
                     char buff[buff_len] = { 0 };
 #ifdef _WIN32
@@ -169,29 +291,22 @@ namespace asst
                             getpid(), (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
 #endif // END _WIN32
                     s << buff;
-                    return s;
                 }
                 else if constexpr (std::convertible_to<T, std::string_view>) {
-                    if constexpr (ToAnsi)
-                        s << utils::utf8_to_ansi(std::forward<T>(v));
-                    else
-                        s << std::forward<T>(v);
-                    return s;
+                    s << std::forward<T>(v);
                 }
                 else if constexpr (has_stream_insertion_operator<Stream, T>) {
                     s << std::forward<T>(v);
-                    return s;
                 }
                 else if constexpr (ranges::input_range<T>) {
                     s << "[";
-                    std::string_view comma {};
+                    std::string_view comma_space {};
                     for (const auto& elem : std::forward<T>(v)) {
-                        s << comma;
-                        stream_put<ToAnsi>(s, elem);
-                        comma = ", ";
+                        s << comma_space;
+                        stream_put(s, elem);
+                        comma_space = ", ";
                     }
                     s << "]";
-                    return s;
                 }
                 else {
                     ASST_STATIC_ASSERT_FALSE(
@@ -200,8 +315,8 @@ namespace asst
                         "\t2. those can be inserted to stream with operator<< directly;\n"
                         "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
                         Stream, T);
-                    return s;
                 }
+                return s;
             }
 
             separator m_sep = separator::space;
@@ -240,16 +355,16 @@ namespace asst
             if (!m_ofs || !m_ofs.is_open()) {
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
-            if constexpr (std::same_as<level, std::remove_cvref_t<T>>) {
+            if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, arg);
+                return LogStream(m_trace_mutex, ostreams { toansi_ostream(std::cout), m_ofs }, arg);
 #else
                 return LogStream(m_trace_mutex, m_ofs, arg);
 #endif
             }
             else {
 #ifdef ASST_DEBUG
-                return LogStream(m_trace_mutex, ostreams { std::cout, m_ofs }, level::trace, arg);
+                return LogStream(m_trace_mutex, ostreams { toansi_ostream(std::cout), m_ofs }, level::trace, arg);
 #else
                 return LogStream(m_trace_mutex, m_ofs, level::trace, arg);
 #endif
