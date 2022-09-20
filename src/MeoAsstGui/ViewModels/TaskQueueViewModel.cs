@@ -978,11 +978,11 @@ namespace MeoAsstGui
                         return killEmulator();
                     }
 
-                    return true;
+                    return killEmulator();
                 }
                 else
                 {
-                    return true;
+                    return killEmulator();
                 }
             }
             else
