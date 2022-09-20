@@ -51,7 +51,7 @@ bool asst::InfrastDormTask::_run()
         click_clear_button();
 
         if (is_use_custom_config()) {
-            swipe_and_select_custom_opers(false);
+            swipe_and_select_custom_opers(true);
         }
         else {
             opers_choose();
