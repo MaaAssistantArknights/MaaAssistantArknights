@@ -22,9 +22,6 @@ bool asst::InfrastOfficeTask::_run()
         if (need_exit()) {
             return false;
         }
-        if (!opers_detect_with_swipe()) {
-            return false;
-        }
         if (is_use_custom_config()) {
             bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
@@ -36,6 +33,9 @@ bool asst::InfrastOfficeTask::_run()
             }
         }
 
+        if (!opers_detect_with_swipe()) {
+            return false;
+        }
         optimal_calc();
         if (!opers_choose()) {
             m_all_available_opers.clear();
