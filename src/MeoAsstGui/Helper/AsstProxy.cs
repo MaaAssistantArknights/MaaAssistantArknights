@@ -746,6 +746,10 @@ namespace MeoAsstGui
                     mainModel.AddLog(Localization.GetString("ThisFacility") + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
                     break;
 
+                case "ProductIncorrect":
+                    mainModel.AddLog(Localization.GetString("ProductIncorrect"), LogColor.Error);
+                    break;
+
                 case "RecruitTagsDetected":
                     {
                         JArray tags = (JArray)subTaskDetails["tags"];
