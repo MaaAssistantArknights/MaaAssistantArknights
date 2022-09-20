@@ -115,10 +115,21 @@ namespace asst::infrast
 
     struct CustomRoomConfig
     {
+        enum class Product
+        {
+            Unknown,
+            BattleRecord,
+            PureGold,
+            Dualchip,
+            OriginiumShard,
+            LMD,
+            Orundum,
+        };
+
         bool skip = false;
         std::vector<std::string> names;
         bool autofill = false;
-        std::string product;
+        Product product = Product::Unknown;
         std::vector<std::string> candidates;
         int selected = 0;
     };
@@ -135,4 +146,5 @@ namespace asst::infrast
         int index = 0;
         Order order = Order::Pre;
     };
+
 } // namespace asst::infrast

@@ -29,6 +29,10 @@ bool asst::InfrastDormTask::_run()
         if (need_exit()) {
             return false;
         }
+        if (is_use_custom_config() && m_current_room_custom_config.skip) {
+            Log.info("skip this room");
+            continue;
+        }
         // 进不去说明设施数量不够
         if (!enter_facility(m_cur_facility_index)) {
             break;
@@ -47,11 +51,9 @@ bool asst::InfrastDormTask::_run()
         click_clear_button();
 
         if (is_use_custom_config()) {
-            swipe_and_select_custom_opers(false);
+            swipe_and_select_custom_opers(true);
         }
-        else {
-            opers_choose();
-        }
+        opers_choose();
 
         click_confirm_button();
         click_return_button();
@@ -65,7 +67,7 @@ bool asst::InfrastDormTask::_run()
 
 bool asst::InfrastDormTask::opers_choose()
 {
-    size_t num_of_selected = 0;
+    size_t num_of_selected = m_is_custom ? m_current_room_custom_config.selected : 0;
     size_t num_of_fulltrust = 0;
 
     while (num_of_selected < max_num_of_opers()) {

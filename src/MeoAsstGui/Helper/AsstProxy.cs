@@ -447,6 +447,11 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.TaskChainCompleted:
+                    if (taskChain == "Infrast")
+                    {
+                        mainModel.IncreaseCustomInfrastPlanIndex();
+                    }
+
                     mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
                     if (taskChain == "Copilot")
                     {
@@ -739,6 +744,10 @@ namespace MeoAsstGui
 
                 case "EnterFacility":
                     mainModel.AddLog(Localization.GetString("ThisFacility") + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
+                    break;
+
+                case "ProductIncorrect":
+                    mainModel.AddLog(Localization.GetString("ProductIncorrect"), LogColor.Error);
                     break;
 
                 case "RecruitTagsDetected":
@@ -1110,12 +1119,17 @@ namespace MeoAsstGui
         /// <param name="max_times">指定次数。</param>
         /// <param name="drops_item_id">指定掉落 ID。</param>
         /// <param name="drops_item_quantity">指定掉落数量。</param>
+        /// <param name="is_main_fight">是否是主任务，决定c#侧是否记录任务id</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
+        public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity, bool is_main_fight = true)
         {
             var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
             TaskId id = AsstAppendTaskWithEncoding("Fight", task_params);
-            _latestTaskId[TaskType.Fight] = id;
+            if (is_main_fight)
+            {
+                _latestTaskId[TaskType.Fight] = id;
+            }
+
             return id != 0;
         }
 
@@ -1262,6 +1276,9 @@ namespace MeoAsstGui
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dorm_drom_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
+        /// <param name="is_custom"></param>
+        /// <param name="filename"></param>
+        /// <param name="plan_index"></param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)

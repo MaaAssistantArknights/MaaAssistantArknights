@@ -43,6 +43,7 @@
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle">自定义基建配置：</system:String>
     <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
+    <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自动保存为下个计划</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
@@ -54,6 +55,7 @@
     <system:String x:Key="Compatible">兼容模式</system:String>
 
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
+    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，第一层商店后直接退出</system:String>
@@ -199,6 +201,8 @@
     <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
+    <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
+    <system:String x:Key="NoUse">不选择</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
@@ -359,6 +363,7 @@
     <system:String x:Key="Drop">本次掉落：</system:String>
     <system:String x:Key="TotalDrop">掉落统计：</system:String>
     <system:String x:Key="ThisFacility">当前设施：</system:String>
+    <system:String x:Key="ProductIncorrect">产物与配置不相符</system:String>
     <system:String x:Key="RecruitingResults">公招识别结果：</system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了哦！</system:String>

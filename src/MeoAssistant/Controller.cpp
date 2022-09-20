@@ -1277,7 +1277,8 @@ bool asst::Controller::set_inited(bool inited)
     return true;
 }
 
-void asst::Controller::kill_adb_daemon() {
+void asst::Controller::kill_adb_daemon()
+{
     if (m_instance_count) return;
 #ifndef _WIN32
     if (m_child)

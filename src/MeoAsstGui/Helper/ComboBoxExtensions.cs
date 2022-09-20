@@ -107,18 +107,6 @@ namespace MeoAsstGui.Helper
                     targetComboBox.Tag = SelectionTag;
                 }
             };
-
-            targetComboBox.LostFocus += (o, args) =>
-            {
-                // reset text to the corresponding display text of selected item
-                var text = targetComboBox.SelectedItem?.ToString();
-                if (targetComboBox.Text != text)
-                {
-                    targetComboBox.Tag = SelectionTag;
-                    targetComboBox.Text = text;
-                    targetComboBox.Items.Filter = item => true;
-                }
-            };
         }
     }
 }

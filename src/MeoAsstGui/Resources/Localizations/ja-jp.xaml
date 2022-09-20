@@ -39,6 +39,11 @@
     <system:String x:Key="DormFilterNotStationedEnabled">作業中のオペレーターを宿舎に移動しない</system:String>
     <!--現状動作不明のため対応次第訳修正-->
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片は自動で補充する</system:String>
+    <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（Alpha）</system:String>
+    <system:String x:Key="CustomInfrastFile">基地構成ファイルの指定</system:String>
+    <system:String x:Key="CustomInfrastFileParseFailed">基地構成ファイルのパースエラー！</system:String>
+    <system:String x:Key="CustomInfrastTitle">基地構成ファイルの設定：</system:String>
+    <system:String x:Key="CustomInfrastPlan">基地計画</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
