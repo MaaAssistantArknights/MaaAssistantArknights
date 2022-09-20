@@ -49,6 +49,7 @@
     <system:String x:Key="Compatible">Compatible Mode</system:String>
 
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
+    <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">Get candles, pass levels as more as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Deposit coins, exit after shop in the first level</system:String>
