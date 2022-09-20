@@ -43,15 +43,31 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 {
     m_product = std::move(product_name);
 
-    if (m_is_custom && m_current_room_custom_config.product != infrast::CustomRoomConfig::Product::Unknown) {
-        // TODO: parse product_name, and compare with config.product
-        // if not same, callback an error message
+    {
+        json::value callback_info = basic_info_with_what("ProductOfFacility");
+        callback_info["details"]["product"] = m_product;
+        // 该回调注册了插件 DronesForShamareTaskPlugin
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
     }
 
-    json::value callback_info = basic_info_with_what("ProductOfFacility");
-    callback_info["details"]["product"] = m_product;
-    // 该回调注册了插件 DronesForShamareTaskPlugin
-    callback(AsstMsg::SubTaskExtraInfo, callback_info);
+    if (m_is_custom && m_current_room_custom_config.product != infrast::CustomRoomConfig::Product::Unknown) {
+        static const std::unordered_map<std::string, infrast::CustomRoomConfig::Product> ProductMap = {
+            { "CombatRecord", infrast::CustomRoomConfig::Product::BattleRecord },
+            { "PureGold", infrast::CustomRoomConfig::Product::PureGold },
+            { "OriginStone", infrast::CustomRoomConfig::Product::OriginiumShard },
+            { "Chip", infrast::CustomRoomConfig::Product::Dualchip },
+            { "Money", infrast::CustomRoomConfig::Product::LMD },
+            { "SyntheticJade", infrast::CustomRoomConfig::Product::Orundum },
+        };
+        if (auto iter = ProductMap.find(m_product); iter != ProductMap.cend()) {
+            bool is_same_product = iter->second == m_current_room_custom_config.product;
+            if (!is_same_product) {
+                json::value callback_info = basic_info_with_what("ProductIncorrect");
+                callback_info["details"]["product"] = m_product;
+                callback(AsstMsg::SubTaskExtraInfo, callback_info);
+            }
+        }
+    }
 }
 
 bool asst::InfrastProductionTask::shift_facility_list()
@@ -119,8 +135,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         set_product(cur_product);
-
-        // TODO: if is custom mode, compare cur_product and custom_product;
 
         locked_analyzer.set_image(image);
         if (locked_analyzer.analyze()) {
