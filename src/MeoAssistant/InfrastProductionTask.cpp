@@ -43,6 +43,11 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
 {
     m_product = std::move(product_name);
 
+    if (m_is_custom && m_current_room_custom_config.product != infrast::CustomRoomConfig::Product::Unknown) {
+        // TODO: parse product_name, and compare with config.product
+        // if not same, callback an error message
+    }
+
     json::value callback_info = basic_info_with_what("ProductOfFacility");
     callback_info["details"]["product"] = m_product;
     // 该回调注册了插件 DronesForShamareTaskPlugin
