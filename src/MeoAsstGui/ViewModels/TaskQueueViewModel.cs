@@ -1406,11 +1406,9 @@ namespace MeoAsstGui
                     {
                         return Stage3;
                     }
-
-                    return string.Empty;
                 }
 
-                return IsStageOpen(Stage1) ? Stage1 : string.Empty;
+                return Stage1;
             }
         }
 
