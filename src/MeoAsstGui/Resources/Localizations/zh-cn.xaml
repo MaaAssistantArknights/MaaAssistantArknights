@@ -55,7 +55,8 @@
     <system:String x:Key="Compatible">兼容模式</system:String>
 
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
-
+    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
+    
     <system:String x:Key="RoguelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，第一层商店后直接退出</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>

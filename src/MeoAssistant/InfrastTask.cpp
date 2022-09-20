@@ -93,17 +93,17 @@ bool asst::InfrastTask::set_params(const json::value& params)
         m_mfg_task_ptr->set_uses_of_drone(drones);
         m_trade_task_ptr->set_uses_of_drone(drones);
         m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
-
-        double threshold = params.get("threshold", 0.3);
-        m_info_task_ptr->set_mood_threshold(threshold);
-        m_mfg_task_ptr->set_mood_threshold(threshold);
-        m_trade_task_ptr->set_mood_threshold(threshold);
-        m_power_task_ptr->set_mood_threshold(threshold);
-        m_control_task_ptr->set_mood_threshold(threshold);
-        m_reception_task_ptr->set_mood_threshold(threshold);
-        m_office_task_ptr->set_mood_threshold(threshold);
-        m_dorm_task_ptr->set_mood_threshold(threshold);
     }
+
+    double threshold = params.get("threshold", 0.3);
+    m_info_task_ptr->set_mood_threshold(threshold);
+    m_mfg_task_ptr->set_mood_threshold(threshold);
+    m_trade_task_ptr->set_mood_threshold(threshold);
+    m_power_task_ptr->set_mood_threshold(threshold);
+    m_control_task_ptr->set_mood_threshold(threshold);
+    m_reception_task_ptr->set_mood_threshold(threshold);
+    m_office_task_ptr->set_mood_threshold(threshold);
+    m_dorm_task_ptr->set_mood_threshold(threshold);
 
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
