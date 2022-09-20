@@ -93,17 +93,17 @@ bool asst::InfrastTask::set_params(const json::value& params)
         m_mfg_task_ptr->set_uses_of_drone(drones);
         m_trade_task_ptr->set_uses_of_drone(drones);
         m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
-
-        double threshold = params.get("threshold", 0.3);
-        m_info_task_ptr->set_mood_threshold(threshold);
-        m_mfg_task_ptr->set_mood_threshold(threshold);
-        m_trade_task_ptr->set_mood_threshold(threshold);
-        m_power_task_ptr->set_mood_threshold(threshold);
-        m_control_task_ptr->set_mood_threshold(threshold);
-        m_reception_task_ptr->set_mood_threshold(threshold);
-        m_office_task_ptr->set_mood_threshold(threshold);
-        m_dorm_task_ptr->set_mood_threshold(threshold);
     }
+
+    double threshold = params.get("threshold", 0.3);
+    m_info_task_ptr->set_mood_threshold(threshold);
+    m_mfg_task_ptr->set_mood_threshold(threshold);
+    m_trade_task_ptr->set_mood_threshold(threshold);
+    m_power_task_ptr->set_mood_threshold(threshold);
+    m_control_task_ptr->set_mood_threshold(threshold);
+    m_reception_task_ptr->set_mood_threshold(threshold);
+    m_office_task_ptr->set_mood_threshold(threshold);
+    m_dorm_task_ptr->set_mood_threshold(threshold);
 
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
@@ -148,9 +148,27 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
         for (const auto& room_info : facility_info.as_array()) {
             infrast::CustomRoomConfig room_config;
-            room_config.skip = facility_info.get("skip", false);
+            room_config.skip = room_info.get("skip", false);
             room_config.autofill = room_info.get("autofill", false);
-            room_config.product = room_info.get("product", std::string());
+            static std::unordered_map<std::string, infrast::CustomRoomConfig::Product> ProductNames = {
+                { "Battle Record", infrast::CustomRoomConfig::Product::BattleRecord },
+                { "Pure Gold", infrast::CustomRoomConfig::Product::PureGold },
+                { "Dualchip", infrast::CustomRoomConfig::Product::Dualchip },
+                { "Originium Shard", infrast::CustomRoomConfig::Product::OriginiumShard },
+                { "LMD", infrast::CustomRoomConfig::Product::LMD },
+                { "Orundum", infrast::CustomRoomConfig::Product::Orundum },
+            };
+            std::string product = room_info.get("product", std::string());
+            if (!product.empty()) {
+                if (auto iter = ProductNames.find(product); iter != ProductNames.cend()) {
+                    room_config.product = iter->second;
+                }
+                else {
+                    Log.error("Unknown product", product);
+                    return false;
+                }
+            }
+
             if (auto opers_opt = room_info.find<json::array>("operators")) {
                 for (const auto& oper_name : opers_opt.value()) {
                     room_config.names.emplace_back(oper_name.as_string());

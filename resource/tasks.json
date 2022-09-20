@@ -1741,6 +1741,14 @@
             [
                 "布亍",
                 "布丁"
+            ],
+            [
+                "野素",
+                "野鬃"
+            ],
+            [
+                "野繁",
+                "野鬃"
             ]
         ]
     },
@@ -5839,6 +5847,31 @@
         ],
         "templThreshold": 0.7,
         "rearDelay": 1500
+    },
+    "InfrastOperListTabWorkStatusUnClicked": {
+        "action": "ClickSelf",
+        "roi": [
+            719,
+            0,
+            158,
+            119
+        ],
+        "templThreshold": 0.7,
+        "rearDelay": 1500
+    },
+    "InfrastOperListTabMoodDoubleClick": {
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            131,
+            117
+        ],
+        "templThreshold": 0.7,
+        "maxTimes": 2,
+        "next": [
+            "InfrastOperListTabMoodDoubleClick"
+        ]
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",

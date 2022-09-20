@@ -152,7 +152,7 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
-bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool order_by_skill)
+bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order)
 {
     LogTraceFunction;
 
@@ -164,9 +164,13 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool order_by_skil
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
     }
 
-    if (order_by_skill) {
+    if (!is_dorm_order) {
         ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
     }
+
+    std::vector<std::string> opers_order = m_current_room_custom_config.names;
+    opers_order.insert(opers_order.end(), m_current_room_custom_config.candidates.cbegin(),
+                       m_current_room_custom_config.candidates.cend());
 
     while (true) {
         if (need_exit()) {
@@ -182,17 +186,26 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool order_by_skil
         swipe_of_operlist();
     }
 
+    // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
+    // 因为后面autofill要按工作状态排序，所以直接按工作状态排序好了
+    // 然后滑动到最左边，清空一下，在走后面的识别+按序点击逻辑
+    if (is_dorm_order) {
+        ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
+    }
+    else {
+        ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
+    }
+    swipe_to_the_left_of_operlist(2);
+    click_clear_button();
+
+    order_opers_selection(opers_order);
+
     return m_current_room_custom_config.names.empty();
 }
 
 bool asst::InfrastAbstractTask::select_custom_opers()
 {
     LogTraceFunction;
-
-    if (m_current_room_custom_config.skip) {
-        Log.info("skip this room");
-        return true;
-    }
 
     if (m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty()) {
         Log.warn("opers_name is empty");
@@ -207,6 +220,7 @@ bool asst::InfrastAbstractTask::select_custom_opers()
         Log.warn("No oper");
         return false;
     }
+    oper_analyzer.sort_by_loc();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
     for (const auto& oper : oper_analyzer.get_result()) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
@@ -242,6 +256,50 @@ bool asst::InfrastAbstractTask::select_custom_opers()
         }
     }
     return true;
+}
+
+void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::string>& names)
+{
+    LogTraceFunction;
+
+    if (names.empty()) {
+        Log.warn("names is empty");
+        return;
+    }
+
+    const auto image = m_ctrler->get_image();
+    InfrastOperImageAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley |
+                                   InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    if (!oper_analyzer.analyze()) {
+        Log.warn("No oper");
+        return;
+    }
+    oper_analyzer.sort_by_loc();
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+
+    std::vector<TextRect> page_result;
+    for (const auto& oper : oper_analyzer.get_result()) {
+        OcrWithPreprocessImageAnalyzer name_analyzer;
+        name_analyzer.set_replace(ocr_replace);
+        name_analyzer.set_image(oper.name_img);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
+        TextRect tr = name_analyzer.get_result().front();
+        tr.rect = oper.rect;
+        page_result.emplace_back(std::move(tr));
+    }
+
+    for (const std::string& name : names) {
+        auto iter = ranges::find_if(page_result, [&name](const TextRect& tr) { return tr.text == name; });
+        if (iter != page_result.cend()) {
+            m_ctrler->click(iter->rect);
+        }
+        else {
+            Log.error("name not in this page", name);
+        }
+    }
 }
 
 bool asst::InfrastAbstractTask::click_bottom_left_tab()

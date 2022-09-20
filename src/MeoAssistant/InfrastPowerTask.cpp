@@ -1,8 +1,8 @@
 #include "InfrastPowerTask.h"
 
-#include "Controller.h"
-
 #include "AsstRanges.hpp"
+#include "Controller.h"
+#include "Logger.hpp"
 
 bool asst::InfrastPowerTask::_run()
 {
@@ -14,6 +14,10 @@ bool asst::InfrastPowerTask::_run()
     for (; m_cur_facility_index != static_cast<int>(max_num_of_facilities()); ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
+        }
+        if (is_use_custom_config() && m_current_room_custom_config.skip) {
+            Log.info("skip this room");
+            continue;
         }
         swipe_to_the_left_of_main_ui();
 

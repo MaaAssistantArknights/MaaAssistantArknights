@@ -33,7 +33,7 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("StageSNReturnFlag", 0)
         .set_ignore_error(false);
 
-    m_stage_navigation_task_ptr->set_enable(false);
+    m_stage_navigation_task_ptr->set_enable(false).set_ignore_error(false);
 
     // 开始战斗任务
     m_fight_task_ptr->set_tasks({ "FightBegin" })

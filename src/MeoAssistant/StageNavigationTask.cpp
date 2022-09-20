@@ -16,6 +16,7 @@ void asst::StageNavigationTask::set_stage_name(std::string stage_name)
 bool asst::StageNavigationTask::_run()
 {
     LogTraceFunction;
+    m_cur_retry = m_retry_times;
 
     // 已有关卡优先使用 tasks.json 中的逻辑
     if (Task.get(m_stage_name)) {
