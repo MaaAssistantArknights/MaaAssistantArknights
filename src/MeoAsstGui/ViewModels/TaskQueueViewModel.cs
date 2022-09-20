@@ -1535,6 +1535,24 @@ namespace MeoAsstGui
             }
         }
 
+        public void IncreaseCustomInfrastPlanIndex()
+        {
+            if (!CustomInfrastEnabled)
+            {
+                return;
+            }
+
+            AddLog(Localization.GetString("CustomInfrastPlanIndexAutoSwitch"), LogColor.Message);
+            if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count - 1)
+            {
+                CustomInfrastPlanIndex = 0;
+            }
+            else
+            {
+                ++CustomInfrastPlanIndex;
+            }
+        }
+
         public ObservableCollection<GenericCombData<int>> CustomInfrastPlanList { get; set; } = new ObservableCollection<GenericCombData<int>>();
 
         public struct CustomInfrastPlanInfo

@@ -43,6 +43,7 @@
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle">自定义基建配置：</system:String>
     <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
+    <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自动保存为下个计划</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
