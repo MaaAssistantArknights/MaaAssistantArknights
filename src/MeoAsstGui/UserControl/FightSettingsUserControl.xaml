@@ -155,6 +155,27 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
+                    <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
+                        <!--a placeholder-->
+                        <TextBlock
+                            Margin="10,6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockDefault}"
+                            Text=""
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                    <Grid Height="42">
+                        <TextBlock
+                            Margin="10,6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlockDefault}"
+                            Text="{DynamicResource RemainingSanityStage}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
                 </StackPanel>
                 <StackPanel
                     Grid.Row="2"
@@ -202,6 +223,26 @@
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
                         Visibility="{c:Binding AlternateStageDisplay}" />
+                    <ComboBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        ItemsSource="{Binding RemainingSanityStageList}"
+                        SelectedValue="{Binding RemainingSanityStage}"
+                        SelectedValuePath="Value"
+                        Visibility="{c:Binding !CustomStageCode}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding RemainingSanityStage}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode}" />
                 </StackPanel>
             </Grid>
 

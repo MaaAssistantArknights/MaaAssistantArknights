@@ -309,13 +309,19 @@ namespace MeoAsstGui
             }
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
+
             _stageManager = new StageManager();
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
+
+            // It's Cur/Last option
+            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
 
             InitDrops();
             CheckAndUpdateDayOfWeek();
             UpdateDatePrompt();
             UpdateStageList(true);
             RefreshCustonInfrastPlan();
+
         }
 
         private StageManager _stageManager;
@@ -802,7 +808,13 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            bool mainFightRet = asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            if (!mainFightRet || RemainingSanityStage == string.Empty)
+            {
+                return mainFightRet;
+            }
+
+            return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
         }
 
         /// <summary>
@@ -1363,6 +1375,8 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _stageList, value);
         }
 
+        public ObservableCollection<CombData> RemainingSanityStageList { get; set; } = new ObservableCollection<CombData>();
+
         /// <summary>
         /// Gets the stage.
         /// </summary>
@@ -1473,6 +1487,18 @@ namespace MeoAsstGui
                 SetAndNotify(ref _customStageCode, value);
                 var settingsModel = _container.Get<SettingsViewModel>();
                 AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
+            }
+        }
+
+        private string _remainingSanityStage = ViewStatusStorage.Get("Fight.RemainingSanityStage", string.Empty);
+
+        public string RemainingSanityStage
+        {
+            get => _remainingSanityStage;
+            set
+            {
+                SetAndNotify(ref _remainingSanityStage, value);
+                ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
             }
         }
 
