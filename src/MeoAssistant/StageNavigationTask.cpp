@@ -19,7 +19,7 @@ bool asst::StageNavigationTask::_run()
 
     // 已有关卡优先使用 tasks.json 中的逻辑
     if (Task.get(m_stage_name)) {
-        return ProcessTask(*this, { m_stage_name }).run();
+        return ProcessTask(*this, { m_stage_name }).set_retry_times(RetryTimesDefault).run();
     }
 
     return chapter_wayfinding() && swipe_and_find_stage();
