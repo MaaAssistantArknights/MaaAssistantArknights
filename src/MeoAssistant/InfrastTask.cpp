@@ -148,7 +148,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
         for (const auto& room_info : facility_info.as_array()) {
             infrast::CustomRoomConfig room_config;
-            room_config.skip = facility_info.get("skip", false);
+            room_config.skip = room_info.get("skip", false);
             room_config.autofill = room_info.get("autofill", false);
             static std::unordered_map<std::string, infrast::CustomRoomConfig::Product> ProductNames = {
                 { "Battle Record", infrast::CustomRoomConfig::Product::BattleRecord },
