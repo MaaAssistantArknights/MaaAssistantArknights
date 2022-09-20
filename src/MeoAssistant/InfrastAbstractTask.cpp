@@ -202,6 +202,7 @@ bool asst::InfrastAbstractTask::select_custom_opers()
         Log.warn("No oper");
         return false;
     }
+    oper_analyzer.sort_by_loc();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
     for (const auto& oper : oper_analyzer.get_result()) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
