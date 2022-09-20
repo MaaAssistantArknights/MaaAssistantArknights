@@ -447,6 +447,11 @@ namespace MeoAsstGui
                     break;
 
                 case AsstMsg.TaskChainCompleted:
+                    if (taskChain == "Infrast")
+                    {
+                        mainModel.IncreaseCustomInfrastPlanIndex();
+                    }
+
                     mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
                     if (taskChain == "Copilot")
                     {
