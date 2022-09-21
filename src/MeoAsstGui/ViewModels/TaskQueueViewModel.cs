@@ -628,7 +628,7 @@ namespace MeoAsstGui
             string errMsg = string.Empty;
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg, true);
+                return asstProxy.AsstConnect(ref errMsg);
             });
             bool caught = await task;
 
@@ -641,6 +641,7 @@ namespace MeoAsstGui
             if (!caught)
             {
                 AddLog(errMsg, LogColor.Error);
+                AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
                 var settingsModel = _container.Get<SettingsViewModel>();
                 var subtask = Task.Run(() =>
                 {

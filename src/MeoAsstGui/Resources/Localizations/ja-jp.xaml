@@ -160,7 +160,7 @@
     <system:String x:Key="ADBTip">ヒント：接続時に自動的に検出されますが、エラーが発生した場合は変更を試みることができます。通常は自分で入力する必要はありません。</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
-    <system:String x:Key="ConnectionAddressTip">初めて使用した際に自動で記入されますが、問題があれば手動で修正してください。</system:String>
+    <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="RetryOnDisconnected">adb再接続失敗時にエミュレータを自動で再起動</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
