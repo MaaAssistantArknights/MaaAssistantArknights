@@ -134,13 +134,11 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
     }
 }
 
-bool asst::InfrastAbstractTask::is_use_custom_config()
+bool asst::InfrastAbstractTask::is_use_custom_opers()
 {
-    if (!m_is_custom) {
-        return false;
-    }
-    return !m_current_room_custom_config.names.empty() || !m_current_room_custom_config.candidates.empty() ||
-           !m_current_room_custom_config.autofill;
+    return m_is_custom && 
+        (!m_current_room_custom_config.names.empty() 
+            || !m_current_room_custom_config.candidates.empty());
 }
 
 void asst::InfrastAbstractTask::await_swipe()
