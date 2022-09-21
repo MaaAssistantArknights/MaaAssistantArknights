@@ -988,9 +988,8 @@ namespace MeoAsstGui
         /// 连接模拟器。
         /// </summary>
         /// <param name="error">具体的连接错误。</param>
-        /// <param name="first_try">是否为第一次尝试。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstConnect(ref string error, bool first_try = false)
+        public bool AsstConnect(ref string error)
         {
             if (!LoadGlobalResource())
             {
@@ -999,28 +998,29 @@ namespace MeoAsstGui
             }
 
             var settings = _container.Get<SettingsViewModel>();
-            if (connected
+
+            settings.TryToSetBlueStacksHyperVAddress();
+
+            if (!settings.AutoDetectConnection
+                && connected
                 && connectedAdb == settings.AdbPath
                 && connectedAddress == settings.ConnectAddress)
             {
                 return true;
             }
 
-            if (settings.AdbPath == string.Empty ||
-                settings.ConnectAddress == string.Empty)
+            if (settings.AutoDetectConnection)
             {
-                if (!settings.RefreshAdbConfig(ref error))
+                if (!settings.DetectAdbConfig(ref error))
                 {
                     return false;
                 }
             }
 
-            settings.TryToSetBlueStacksHyperVAddress();
-
             bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
 
             // 尝试默认的备选端口
-            if (!ret)
+            if (!ret && settings.AutoDetectConnection)
             {
                 foreach (var address in settings.DefaultAddress[settings.ConnectConfig])
                 {
@@ -1038,16 +1038,13 @@ namespace MeoAsstGui
                 }
             }
 
-            if (!ret)
+            if (ret)
             {
-                if (first_try)
-                {
-                    error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator");
-                }
-                else
-                {
-                    error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("CheckSettings");
-                }
+                settings.AutoDetectConnection = false;
+            }
+            else
+            {
+                error = Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("CheckSettings");
             }
 
             return ret;
