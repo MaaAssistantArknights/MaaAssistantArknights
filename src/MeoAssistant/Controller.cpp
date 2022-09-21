@@ -274,6 +274,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
         if (wait_handles.empty()) break;
         auto elapsed = steady_clock::now() - start_time;
+        // TODO: 这里目前是隔 5000ms 判断一次，应该可以加一个 wait_handle 来判断外部中断（need_exit）
         auto wait_time =
             (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 5LL * 1000 : 0LL);
         if (wait_time < 0) break;
@@ -419,6 +420,11 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
         Log.trace("output:", Logger::separator::newline, pipe_data);
     }
+    // 直接 return，避免走到下面的 else if 里的 set_inited(false) 关闭 adb 连接，
+    // 导致停止后再开始任务还需要重连一次
+    if (need_exit()) {
+        return std::nullopt;
+    }
 
     if (!exit_ret) {
         return recv_by_socket ? sock_data : pipe_data;
@@ -443,12 +449,15 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             reconnect_info["details"]["times"] = i;
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
-            // TODO: 应该有外部中断 sleep 的写法吧？现在只能在开始或者结束 sleep 的时候判断（
+            // TODO: 也许 WIN32 可以用 WaitForSingleObjectEx 做一个允许外部打断的 sleep
             std::this_thread::sleep_for(10s);
             if (need_exit()) {
                 break;
             }
             auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* 禁止重连避免无限递归 */);
+            if (need_exit()) {
+                break;
+            }
             bool is_reconnect_success = false;
             if (reconnect_ret) {
                 auto& reconnect_str = reconnect_ret.value();
