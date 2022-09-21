@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <mutex>
 #include <thread>
@@ -15,6 +16,167 @@
 
 namespace asst
 {
+    template <typename Stream, typename T>
+    concept has_stream_insertion_operator = requires { std::declval<Stream&>() << std::declval<T>(); };
+
+    // is_reference_wrapper
+    template <typename T>
+    struct is_reference_wrapper : std::false_type
+    {};
+    template <typename T>
+    struct is_reference_wrapper<std::reference_wrapper<T>> : std::true_type
+    {};
+    template <typename T>
+    struct is_reference_wrapper<std::reference_wrapper<T>&> : std::true_type
+    {};
+    template <typename T>
+    struct is_reference_wrapper<std::reference_wrapper<T>&&> : std::true_type
+    {};
+    template <typename T>
+    inline constexpr bool is_reference_wrapper_v = is_reference_wrapper<T>::value;
+
+    // from_reference_wrapper
+    template <typename T>
+    struct from_reference_wrapper
+    {
+        typedef T type;
+    };
+    template <typename T>
+    struct from_reference_wrapper<std::reference_wrapper<T>>
+    {
+        typedef from_reference_wrapper<T&>::type type;
+    };
+    template <typename T>
+    struct from_reference_wrapper<std::reference_wrapper<T>&>
+    {
+        typedef from_reference_wrapper<T&>::type type;
+    };
+    template <typename T>
+    struct from_reference_wrapper<std::reference_wrapper<T>&&>
+    {
+        typedef from_reference_wrapper<T&>::type type;
+    };
+    template <typename T>
+    using from_reference_wrapper_t = typename from_reference_wrapper<T>::type;
+
+    // to_reference_wrapper
+    template <typename T>
+    struct to_reference_wrapper
+    {
+        typedef T type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<T&>
+    {
+        typedef std::reference_wrapper<T> type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<std::reference_wrapper<T>>
+    {
+        typedef to_reference_wrapper<T&>::type type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<std::reference_wrapper<T>&>
+    {
+        typedef to_reference_wrapper<T&>::type type;
+    };
+    template <typename T>
+    struct to_reference_wrapper<std::reference_wrapper<T>&&>
+    {
+        typedef to_reference_wrapper<T&>::type type;
+    };
+    template <typename T>
+    using to_reference_wrapper_t = typename to_reference_wrapper<T>::type;
+
+    template <typename T>
+    struct remove_cvref
+    {
+        typedef std::remove_cvref_t<from_reference_wrapper_t<std::remove_cvref_t<T>>> type;
+    };
+    template <typename T>
+    using remove_cvref_t = typename remove_cvref<T>::type;
+
+    template <typename T>
+    constexpr from_reference_wrapper_t<T> convert_reference_wrapper(T&& x)
+    {
+        return x;
+    }
+
+    class toansi_ostream
+    {
+        std::reference_wrapper<std::ostream> m_ofs;
+
+    public:
+        toansi_ostream(toansi_ostream&&) = default;
+        toansi_ostream(const toansi_ostream&) = default;
+        toansi_ostream& operator=(toansi_ostream&&) = default;
+        toansi_ostream& operator=(const toansi_ostream&) = default;
+
+        toansi_ostream(std::ostream& stream) : m_ofs(stream) {}
+
+        toansi_ostream(std::reference_wrapper<std::ostream> stream) : m_ofs(stream) {}
+
+        template <typename T>
+        requires has_stream_insertion_operator<std::ostream, T>
+        toansi_ostream& operator<<(T&& v)
+        {
+            if constexpr (std::convertible_to<T, std::string_view>) {
+                m_ofs.get() << utils::utf8_to_ansi(std::forward<T>(v));
+            }
+            else {
+                m_ofs.get() << std::forward<T>(v);
+            }
+            return *this;
+        }
+
+        toansi_ostream& operator<<(std::ostream& (*pf)(std::ostream&))
+        {
+            m_ofs.get() << pf;
+            return *this;
+        }
+    };
+
+    template <typename... Args>
+    class ostreams
+    {
+        std::tuple<Args...> m_ofss;
+
+    public:
+        ostreams(ostreams&&) = default;
+        ostreams(const ostreams&) = default;
+        ostreams& operator=(ostreams&&) = default;
+        ostreams& operator=(const ostreams&) = default;
+
+        ostreams(Args&&... args) : m_ofss(std::forward<Args>(args)...) {}
+
+        template <typename T>
+        requires has_stream_insertion_operator<std::ostream, T>
+        ostreams& operator<<(T&& x)
+        {
+            streams_put(m_ofss, x, std::index_sequence_for<Args...> {});
+            return *this;
+        }
+        template <typename Tuple, typename T, size_t... Is>
+        static void streams_put(Tuple& t, T&& x, std::index_sequence<Is...>)
+        {
+            ((convert_reference_wrapper(std::get<Is>(t)) << std::forward<T>(x)), ...);
+        }
+
+        ostreams& operator<<(std::ostream& (*pf)(std::ostream&))
+        {
+            streams_put(m_ofss, pf, std::index_sequence_for<Args...> {});
+            return *this;
+        }
+        template <typename Tuple, size_t... Is>
+        static void streams_put(Tuple& t, std::ostream& (*pf)(std::ostream&), std::index_sequence<Is...>)
+        {
+            ((convert_reference_wrapper(std::get<Is>(t)) << pf), ...);
+        }
+    };
+
+    template <typename... Args>
+    ostreams(Args&&...) -> ostreams<to_reference_wrapper_t<Args>...>;
+
     class Logger : public SingletonHolder<Logger>
     {
     public:
@@ -63,6 +225,112 @@ namespace asst
             std::string_view str;
         };
 
+        template <typename stream_t>
+        class LogStream
+        {
+        public:
+            template <typename T>
+            LogStream& operator<<(T&& arg)
+            {
+                if constexpr (std::same_as<separator, remove_cvref_t<T>>) {
+                    m_sep = std::forward<T>(arg);
+                }
+                else {
+                    // 如果是 level，则不输出 separator
+                    if constexpr (!std::same_as<Logger::level, remove_cvref_t<T>>) {
+                        stream_put(m_ofs, m_sep.str);
+                    }
+                    stream_put(m_ofs, std::forward<T>(arg));
+                }
+                return *this;
+            }
+
+            template <typename _stream_t = stream_t>
+            LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv) : m_trace_lock(mtx), m_ofs(ofs)
+            {
+                *this << lv;
+            }
+            template <typename _stream_t = stream_t, typename... Args>
+            LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv, Args&&... buff)
+                : m_trace_lock(mtx), m_ofs(ofs)
+            {
+                ((*this << lv) << ... << std::forward<Args>(buff));
+            }
+            LogStream(LogStream&&) = delete;
+            LogStream(const LogStream&) = delete;
+            LogStream& operator=(LogStream&&) = delete;
+            LogStream& operator=(const LogStream&) = delete;
+
+            ~LogStream() { m_ofs << std::endl; }
+
+        private:
+            template <typename Stream, typename T>
+            static Stream& stream_put(Stream& s, T&& v)
+            {
+                if constexpr (std::same_as<std::filesystem::path, remove_cvref_t<T>>) {
+                    s << utils::path_to_utf8_string(std::forward<T>(v));
+                }
+                else if constexpr (std::same_as<Logger::level, remove_cvref_t<T>>) {
+                    constexpr int buff_len = 128;
+                    char buff[buff_len] = { 0 };
+#ifdef _WIN32
+#ifdef _MSC_VER
+                    sprintf_s(buff, buff_len,
+#else  // ! _MSC_VER
+                    sprintf(buff,
+#endif // END _MSC_VER
+                              "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), v.str.data(), _getpid(),
+                              ::GetCurrentThreadId());
+#else  // ! _WIN32
+                    sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), v.str.data(),
+                            getpid(), (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
+#endif // END _WIN32
+                    s << buff;
+                }
+                else if constexpr (std::convertible_to<T, std::string_view>) {
+                    s << std::forward<T>(v);
+                }
+                else if constexpr (has_stream_insertion_operator<Stream, T>) {
+                    s << std::forward<T>(v);
+                }
+                else if constexpr (ranges::input_range<T>) {
+                    s << "[";
+                    std::string_view comma_space {};
+                    for (const auto& elem : std::forward<T>(v)) {
+                        s << comma_space;
+                        stream_put(s, elem);
+                        comma_space = ", ";
+                    }
+                    s << "]";
+                }
+                else {
+                    ASST_STATIC_ASSERT_FALSE(
+                        "unsupported type, one of the following expected\n"
+                        "\t1. those can be converted to string;\n"
+                        "\t2. those can be inserted to stream with operator<< directly;\n"
+                        "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
+                        Stream, T);
+                }
+                return s;
+            }
+
+            separator m_sep = separator::space;
+            std::unique_lock<std::mutex> m_trace_lock;
+            stream_t m_ofs;
+        };
+
+        // template <typename stream_t>
+        // LogStream(std::mutex&, stream_t&) -> LogStream<stream_t&>;
+
+        // template <typename stream_t>
+        // LogStream(std::mutex&, stream_t&&) -> LogStream<stream_t>;
+
+        template <typename stream_t, typename... Args>
+        LogStream(std::mutex&, stream_t&, Args&&...) -> LogStream<stream_t&>;
+
+        template <typename stream_t, typename... Args>
+        LogStream(std::mutex&, stream_t&&, Args&&...) -> LogStream<stream_t>;
+
     public:
         virtual ~Logger() override { flush(); }
 
@@ -76,6 +344,28 @@ namespace asst
             return true;
         }
 
+        template <typename T>
+        auto operator<<(T&& arg)
+        {
+            if (!m_ofs || !m_ofs.is_open()) {
+                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            }
+            if constexpr (std::same_as<level, remove_cvref_t<T>>) {
+#ifdef ASST_DEBUG
+                return LogStream(m_trace_mutex, ostreams { toansi_ostream(std::cout), m_ofs }, arg);
+#else
+                return LogStream(m_trace_mutex, m_ofs, arg);
+#endif
+            }
+            else {
+#ifdef ASST_DEBUG
+                return LogStream(m_trace_mutex, ostreams { toansi_ostream(std::cout), m_ofs }, level::trace, arg);
+#else
+                return LogStream(m_trace_mutex, m_ofs, level::trace, arg);
+#endif
+            }
+        }
+
         template <typename... Args>
         inline void debug([[maybe_unused]] Args&&... args)
         {
@@ -83,7 +373,6 @@ namespace asst
             log(level::debug, std::forward<Args>(args)...);
 #endif
         }
-
         template <typename... Args>
         inline void trace(Args&&... args)
         {
@@ -105,42 +394,14 @@ namespace asst
             log(level::error, std::forward<Args>(args)...);
         }
         template <typename... Args>
-        void log(level lv, Args&&... args)
+        inline void log(level lv, Args&&... args)
         {
-            std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
-
-            constexpr int buff_len = 128;
-            char buff[buff_len] = { 0 };
-#ifdef _WIN32
-#ifdef _MSC_VER
-            sprintf_s(buff, buff_len,
-#else  // ! _MSC_VER
-            sprintf(buff,
-#endif // END _MSC_VER
-                      "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), _getpid(),
-                      ::GetCurrentThreadId());
-#else  // ! _WIN32
-            sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), lv.str.data(), getpid(),
-                    (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
-#endif // END _WIN32
-
-            if (!m_ofs || !m_ofs.is_open()) {
-                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-            }
-#ifdef ASST_DEBUG
-#ifdef _WIN32
-            constexpr bool ansi = true;
-#else
-            constexpr bool ansi = false;
-#endif
-            stream_put_line<ansi>(std::cout, buff, args...);
-#endif
-            stream_put_line(m_ofs, buff, std::forward<Args>(args)...);
+            ((*this << lv) << ... << std::forward<Args>(args));
         }
 
         void flush()
         {
-            std::unique_lock<std::mutex> trace_lock(m_trace_mutex);
+            std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
             if (m_ofs.is_open()) {
                 m_ofs.close();
             }
@@ -179,97 +440,6 @@ namespace asst
             trace("-----------------------------");
         }
 
-        template <typename Stream, typename T, typename Enable = void>
-        struct has_stream_insertion_operator : std::false_type
-        {};
-
-        template <typename Stream, typename T>
-        struct has_stream_insertion_operator<Stream, T,
-                                             std::void_t<decltype(std::declval<Stream&>() << std::declval<T>())>>
-            : std::true_type
-        {};
-
-        template <bool ToAnsi, typename Stream, typename T>
-        static Stream& stream_put(Stream& s, T&& v)
-        {
-            if constexpr (std::same_as<std::filesystem::path, std::remove_cvref_t<T>>) {
-                if constexpr (ToAnsi)
-                    s << utils::utf8_to_ansi(utils::path_to_utf8_string(std::forward<T>(v)));
-                else
-                    s << utils::path_to_utf8_string(std::forward<T>(v));
-                return s;
-            }
-            else if constexpr (std::convertible_to<T, std::string_view>) {
-                if constexpr (ToAnsi)
-                    s << utils::utf8_to_ansi(std::forward<T>(v));
-                else
-                    s << std::forward<T>(v);
-                return s;
-            }
-            else if constexpr (has_stream_insertion_operator<Stream, T>::value) {
-                s << std::forward<T>(v);
-                return s;
-            }
-            else if constexpr (ranges::input_range<T>) {
-                s << "[";
-                std::string_view comma {};
-                for (const auto& elem : std::forward<T>(v)) {
-                    s << comma;
-                    stream_put<ToAnsi>(s, elem);
-                    comma = ", ";
-                }
-                s << "]";
-                return s;
-            }
-            else {
-                ASST_STATIC_ASSERT_FALSE(
-                    "unsupported type, one of the following expected\n"
-                    "\t1. those can be converted to string;\n"
-                    "\t2. those can be inserted to stream with operator<< directly;\n"
-                    "\t3. container or nested container containing 1. 2. or 3. and iterable with range-based for",
-                    Stream, T);
-            }
-        }
-
-        template <bool ToAnsi, typename Stream, typename... Args>
-        struct stream_put_line_impl;
-
-        template <bool ToAnsi, typename Stream>
-        struct stream_put_line_impl<ToAnsi, Stream>
-        {
-            static constexpr Stream& apply(Stream& s, const separator&)
-            {
-                s << std::endl;
-                return s;
-            }
-        };
-
-        template <bool ToAnsi, typename Stream, typename First, typename... Rest>
-        struct stream_put_line_impl<ToAnsi, Stream, First, Rest...>
-        {
-            static constexpr Stream& apply(Stream& s, [[maybe_unused]] const separator& sep, First&& f, Rest&&... rs)
-            {
-                if constexpr (std::same_as<std::decay_t<First>, separator>) {
-                    stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, std::forward<First>(f),
-                                                                         std::forward<Rest>(rs)...);
-                }
-                else {
-                    s << sep.str;
-                    stream_put<ToAnsi>(s, std::forward<First>(f));
-                    stream_put_line_impl<ToAnsi, Stream, Rest...>::apply(s, sep, std::forward<Rest>(rs)...);
-                }
-                return s;
-            }
-        };
-
-        template <bool ToAnsi = false, typename Stream, typename First, typename... Args>
-        Stream& stream_put_line(Stream& s, First&& a0, Args&&... args)
-        {
-            stream_put<ToAnsi>(s, std::forward<First>(a0));
-            stream_put_line_impl<ToAnsi, Stream, Args...>::apply(s, separator::space, std::forward<Args>(args)...);
-            return s;
-        }
-
         inline static std::filesystem::path m_directory;
 
         std::filesystem::path m_log_path = m_directory / "asst.log";
@@ -278,17 +448,17 @@ namespace asst
         std::ofstream m_ofs;
     };
 
-    inline const Logger::separator Logger::separator::none;
-    inline const Logger::separator Logger::separator::space(" ");
-    inline const Logger::separator Logger::separator::tab("\t");
-    inline const Logger::separator Logger::separator::newline("\n");
-    inline const Logger::separator Logger::separator::comma(",");
+    inline constexpr Logger::separator Logger::separator::none;
+    inline constexpr Logger::separator Logger::separator::space(" ");
+    inline constexpr Logger::separator Logger::separator::tab("\t");
+    inline constexpr Logger::separator Logger::separator::newline("\n");
+    inline constexpr Logger::separator Logger::separator::comma(",");
 
-    inline const Logger::level Logger::level::debug("DBG");
-    inline const Logger::level Logger::level::trace("TRC");
-    inline const Logger::level Logger::level::info("INF");
-    inline const Logger::level Logger::level::warn("WRN");
-    inline const Logger::level Logger::level::error("ERR");
+    inline constexpr Logger::level Logger::level::debug("DBG");
+    inline constexpr Logger::level Logger::level::trace("TRC");
+    inline constexpr Logger::level Logger::level::info("INF");
+    inline constexpr Logger::level Logger::level::warn("WRN");
+    inline constexpr Logger::level Logger::level::error("ERR");
 
     class LoggerAux
     {
@@ -319,6 +489,11 @@ namespace asst
 #define _CatVarNameWithLine(Var) _Cat(Var, __LINE__)
 
 #define Log Logger::get_instance()
+#define LogDebug Log << Logger::level::debug
+#define LogTrace Log << Logger::level::trace
+#define LogInfo Log << Logger::level::info
+#define LogWarn Log << Logger::level::warn
+#define LogError Log << Logger::level::error
 #define LogTraceScope LoggerAux _CatVarNameWithLine(_func_aux_)
 #define LogTraceFunction LogTraceScope(__FUNCTION__)
 #define LogTraceFunctionWithArgs // how to do this?, like LogTraceScope(__FUNCTION__, __FUNCTION_ALL_ARGS__)
