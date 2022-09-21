@@ -1426,6 +1426,18 @@ namespace MeoAsstGui
 
         /* 连接设置 */
 
+        private bool _autoDetectConnection = bool.Parse(ViewStatusStorage.Get("Connect.AutoDetect", true.ToString()));
+
+        public bool AutoDetectConnection
+        {
+            get => _autoDetectConnection;
+            set
+            {
+                SetAndNotify(ref _autoDetectConnection, value);
+                ViewStatusStorage.Set("Connect.AutoDetect", value.ToString());
+            }
+        }
+
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
         /// <summary>
@@ -1508,7 +1520,7 @@ namespace MeoAsstGui
         /// </summary>
         /// <param name="error">Errors when doing this operation.</param>
         /// <returns>Whether the operation is successful.</returns>
-        public bool RefreshAdbConfig(ref string error)
+        public bool DetectAdbConfig(ref string error)
         {
             var adapter = new WinAdapter();
             List<string> emulators;

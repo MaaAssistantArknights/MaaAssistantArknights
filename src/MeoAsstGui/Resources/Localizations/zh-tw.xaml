@@ -151,7 +151,7 @@
     <system:String x:Key="ADBTip">小提示：這裡會自動檢測的，若出現問題可再嘗試修改，否則不需要自行填寫</system:String>
     <system:String x:Key="ADBPath">adb 路徑 (相對/絕對)</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
-    <system:String x:Key="ConnectionAddressTip">第一次使用會自動填寫，若遇到問題可嘗試手動修改</system:String>
+    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="RetryOnDisconnected">adb 重連失敗時自動重啟模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重啟模擬器，使用後台定時任務且設置任務完成關閉模擬器時必須勾選</system:String>

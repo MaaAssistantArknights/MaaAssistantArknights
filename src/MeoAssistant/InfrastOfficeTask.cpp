@@ -10,7 +10,7 @@ bool asst::InfrastOfficeTask::_run()
 
     // 办公室只能造这一个
     set_product("HR");
-    if (is_use_custom_config() && m_current_room_custom_config.skip) {
+    if (m_is_custom && m_current_room_custom_config.skip) {
         Log.info("skip this room");
         return true;
     }
@@ -22,7 +22,7 @@ bool asst::InfrastOfficeTask::_run()
         if (need_exit()) {
             return false;
         }
-        if (is_use_custom_config()) {
+        if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
                 break;

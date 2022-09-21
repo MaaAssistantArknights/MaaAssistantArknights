@@ -142,6 +142,12 @@ bool asst::InfrastReceptionTask::send_clue()
 bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
+
+    if (m_is_custom && m_current_room_custom_config.skip) {
+        Log.info("skip this room");
+        return true;
+    }
+
     const auto image = m_ctrler->get_image();
     MatchImageAnalyzer add_analyzer(image);
 
@@ -171,7 +177,7 @@ bool asst::InfrastReceptionTask::shift()
         }
         click_clear_button();
 
-        if (is_use_custom_config()) {
+        if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
                 break;

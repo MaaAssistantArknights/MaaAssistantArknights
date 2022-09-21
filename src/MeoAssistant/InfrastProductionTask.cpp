@@ -92,7 +92,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-            if (is_use_custom_config()) {
+            if (is_use_custom_opers()) {
                 if (m_cur_facility_index < m_custom_config.size()) {
                     m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
                 }
@@ -165,7 +165,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
             click_clear_button();
 
-            if (is_use_custom_config()) {
+            if (is_use_custom_opers()) {
                 bool name_select_ret = swipe_and_select_custom_opers();
                 if (name_select_ret) {
                     break;
@@ -471,10 +471,10 @@ bool asst::InfrastProductionTask::optimal_calc()
         if (cur_combs.size() < cur_max_num_of_opers) {
             // 允许外部的话，就把单个干员凑进来
             if (group.allow_external) {
-                for (size_t i = cur_combs.size(); i != cur_max_num_of_opers; ++i) {
-                    size_t index = i - cur_combs.size();
-                    cur_combs.emplace_back(cur_available_opers.at(index));
-                    cur_efficient += cur_available_opers.at(index).efficient.at(m_product);
+                for (size_t index = 0; index < cur_max_num_of_opers - cur_combs.size(); ++index) {
+                    const auto& comb = cur_available_opers.at(index);
+                    cur_combs.emplace_back(comb);
+                    cur_efficient += comb.efficient.at(m_product);
                 }
             }
             else { // 否则这个组合人不够，就不可用了

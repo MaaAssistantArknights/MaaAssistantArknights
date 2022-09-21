@@ -29,7 +29,7 @@ bool asst::InfrastDormTask::_run()
         if (need_exit()) {
             return false;
         }
-        if (is_use_custom_config() && m_current_room_custom_config.skip) {
+        if (m_is_custom && m_current_room_custom_config.skip) {
             Log.info("skip this room");
             continue;
         }
@@ -41,6 +41,12 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
+        click_clear_button();
+
+        if (is_use_custom_opers()) {
+            swipe_and_select_custom_opers(true);
+        }
+
         Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
         if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
             Log.trace("click_filter_menu_not_stationed_button");
@@ -48,12 +54,9 @@ bool asst::InfrastDormTask::_run()
             m_if_filter_notstationed_haspressed = true;
         }
 
-        click_clear_button();
-
-        if (is_use_custom_config()) {
-            swipe_and_select_custom_opers(true);
+        if (!m_is_custom || m_current_room_custom_config.autofill) {
+            opers_choose();
         }
-        opers_choose();
 
         click_confirm_button();
         click_return_button();
