@@ -2991,7 +2991,7 @@
                 ]
             },
             {
-                "allowExternal": true,
+                "allowExternal": false,
                 "desc": "巫恋组",
                 "necessary": [
                     {
