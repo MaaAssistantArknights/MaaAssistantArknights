@@ -38,7 +38,7 @@ namespace asst
         void await_swipe();
         bool is_use_custom_opers();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
-        bool select_custom_opers();
+        bool select_custom_opers(std::vector<std::string>& partial_result);
         void order_opers_selection(const std::vector<std::string>& names);
 
         virtual bool click_bottom_left_tab(); // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
