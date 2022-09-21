@@ -136,9 +136,8 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
 
 bool asst::InfrastAbstractTask::is_use_custom_opers()
 {
-    return m_is_custom && 
-        (!m_current_room_custom_config.names.empty() 
-            || !m_current_room_custom_config.candidates.empty());
+    return m_is_custom &&
+           (!m_current_room_custom_config.names.empty() || !m_current_room_custom_config.candidates.empty());
 }
 
 void asst::InfrastAbstractTask::await_swipe()
@@ -170,17 +169,30 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     opers_order.insert(opers_order.end(), m_current_room_custom_config.candidates.cbegin(),
                        m_current_room_custom_config.candidates.cend());
 
+    std::vector<std::string> pre_partial_result;
+    bool retried = false;
     while (true) {
         if (need_exit()) {
             return false;
         }
-        if (!select_custom_opers()) {
+        std::vector<std::string> partial_result;
+        if (!select_custom_opers(partial_result)) {
             return false;
         }
         if (m_current_room_custom_config.selected >= max_num_of_opers() ||
             (m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty())) {
             break;
         }
+        if (partial_result == pre_partial_result) {
+            Log.warn("partial result is not changed, reset the page");
+            if (retried) {
+                Log.error("already retring");
+                break;
+            }
+            swipe_to_the_left_of_operlist(2);
+            retried = true;
+        }
+        pre_partial_result = partial_result;
         swipe_of_operlist();
     }
 
@@ -208,7 +220,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     return m_current_room_custom_config.names.empty();
 }
 
-bool asst::InfrastAbstractTask::select_custom_opers()
+bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& partial_result)
 {
     LogTraceFunction;
 
@@ -226,6 +238,8 @@ bool asst::InfrastAbstractTask::select_custom_opers()
         return false;
     }
     oper_analyzer.sort_by_loc();
+    partial_result.clear();
+
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
     for (const auto& oper : oper_analyzer.get_result()) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
@@ -235,6 +249,7 @@ bool asst::InfrastAbstractTask::select_custom_opers()
             continue;
         }
         const std::string& name = name_analyzer.get_result().front().text;
+        partial_result.emplace_back(name);
 
         if (auto iter = ranges::find(m_current_room_custom_config.names, name);
             iter != m_current_room_custom_config.names.end()) {
