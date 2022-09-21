@@ -15,7 +15,7 @@ namespace asst
 {
     class OcrPack final : public SingletonHolder<OcrPack>, public AbstractResource
     {
-        static constexpr size_t MaxBoxSize = 128;
+        static constexpr size_t MaxBoxSize = 256;
 
     public:
         virtual ~OcrPack() override;
