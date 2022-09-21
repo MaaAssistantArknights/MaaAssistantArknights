@@ -1317,6 +1317,7 @@ bool asst::Controller::release()
             return true;
         }
         else {
+            m_adb_release.clear();
             return call_command(m_adb.release, 20000, false, false).has_value();
         }
     }
