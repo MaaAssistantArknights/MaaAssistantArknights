@@ -384,7 +384,7 @@ namespace MeoAsstGui
                         if (settingsModel.RetryOnDisconnected)
                         {
                             mainModel.AddLog(Localization.GetString("TryToStartEmulator"), LogColor.Error);
-                            mainModel.killEmulator();
+                            mainModel.KillEmulator();
                             await Task.Delay(3000);
                             mainModel.Stop();
                             mainModel.LinkStart();

@@ -951,7 +951,7 @@ namespace MeoAsstGui
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
         }
 
-        [DllImport("user32.dll", EntryPoint = "FindWindow")]
+        [DllImport("User32.dll", EntryPoint = "FindWindow")]
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -961,7 +961,7 @@ namespace MeoAsstGui
         /// Kills emulator by Window hwnd.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool killEumlatorbyWindow()
+        public bool KillEumlatorbyWindow()
         {
             IntPtr hwnd;
             int pid = 0;
@@ -975,7 +975,6 @@ namespace MeoAsstGui
                 "BlueStacks App Player",
                 "BlueStacks",
             };
-            Process emulator;
             foreach (string i in windowname)
             {
                 hwnd = FindWindow(null, i);
@@ -993,6 +992,7 @@ namespace MeoAsstGui
                     break;
                 }
 
+                Process emulator;
                 try
                 {
                     emulator = Process.GetProcessById(pid);
@@ -1019,21 +1019,21 @@ namespace MeoAsstGui
 
                 // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
                 // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
-                killEmulator();
+                KillEmulator();
 
                 // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
                 return true;
             }
             while (false);
 
-            return killEmulator();
+            return KillEmulator();
         }
 
         /// <summary>
         /// Kills emulator.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool killEmulator()
+        public bool KillEmulator()
         {
             int pid = 0;
             string port;
@@ -1180,7 +1180,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulator:
-                    if (!killEumlatorbyWindow())
+                    if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
@@ -1188,7 +1188,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
-                    if (!killEumlatorbyWindow())
+                    if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
@@ -1226,7 +1226,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitMAAAndCloseEmulatorAndHibernate:
-                    if (!killEumlatorbyWindow())
+                    if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
