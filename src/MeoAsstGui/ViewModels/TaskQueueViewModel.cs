@@ -965,7 +965,16 @@ namespace MeoAsstGui
         {
             IntPtr hwnd;
             int pid = 0;
-            var windowname = new[] { "BlueStacks App Player", "BlueStacks", "明日方舟 - MuMu模拟器", "夜神模拟器", "逍遥模拟器", "明日方舟" };
+            var windowname = new[]
+            {
+                "明日方舟",
+                "夜神模拟器",
+                "逍遥模拟器",
+                "雷电模拟器(64)",
+                "明日方舟 - MuMu模拟器",
+                "BlueStacks App Player",
+                "BlueStacks",
+            };
             Process emulator;
             foreach (string i in windowname)
             {
@@ -977,21 +986,45 @@ namespace MeoAsstGui
                 }
             }
 
-            if (pid != 0)
+            do
             {
-                emulator = Process.GetProcessById(pid);
-                emulator.CloseMainWindow();
-                if (!emulator.HasExited)
+                if (pid == 0)
                 {
-                    try
-                    {
-                        emulator.Kill();
-                    }
-                    catch
-                    {
-                    }
+                    break;
                 }
+
+                try
+                {
+                    emulator = Process.GetProcessById(pid);
+                    emulator.CloseMainWindow();
+                }
+                catch
+                {
+                    break;
+                }
+
+                if (emulator.HasExited)
+                {
+                    break;
+                }
+
+                try
+                {
+                    emulator.Kill();
+                }
+                catch
+                {
+                    break;
+                }
+
+                // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
+                // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
+                killEmulator();
+
+                // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
+                return true;
             }
+            while (false);
 
             return killEmulator();
         }
