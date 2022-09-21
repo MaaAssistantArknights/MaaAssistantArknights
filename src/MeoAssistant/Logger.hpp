@@ -44,17 +44,17 @@ namespace asst
     template <typename T>
     struct from_reference_wrapper<std::reference_wrapper<T>>
     {
-        typedef from_reference_wrapper<T&>::type type;
+        typedef typename from_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct from_reference_wrapper<std::reference_wrapper<T>&>
     {
-        typedef from_reference_wrapper<T&>::type type;
+        typedef typename from_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct from_reference_wrapper<std::reference_wrapper<T>&&>
     {
-        typedef from_reference_wrapper<T&>::type type;
+        typedef typename from_reference_wrapper<T&>::type type;
     };
     template <typename T>
     using from_reference_wrapper_t = typename from_reference_wrapper<T>::type;
@@ -73,17 +73,17 @@ namespace asst
     template <typename T>
     struct to_reference_wrapper<std::reference_wrapper<T>>
     {
-        typedef to_reference_wrapper<T&>::type type;
+        typedef typename to_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct to_reference_wrapper<std::reference_wrapper<T>&>
     {
-        typedef to_reference_wrapper<T&>::type type;
+        typedef typename to_reference_wrapper<T&>::type type;
     };
     template <typename T>
     struct to_reference_wrapper<std::reference_wrapper<T>&&>
     {
-        typedef to_reference_wrapper<T&>::type type;
+        typedef typename to_reference_wrapper<T&>::type type;
     };
     template <typename T>
     using to_reference_wrapper_t = typename to_reference_wrapper<T>::type;
