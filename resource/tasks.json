@@ -469,6 +469,135 @@
             120
         ]
     },
+    "NL-10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "NL-Open"
+        ],
+        "next": [
+            "StageNL-10",
+            "SwipeToStageNL-10"
+        ]
+    },
+    "NL-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "NL-Open"
+        ],
+        "next": [
+            "StageNL-9",
+            "SwipeToStageNL-9"
+        ]
+    },
+    "NL-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "NL-Open"
+        ],
+        "next": [
+            "StageNL-8",
+            "SwipeToStageNL-8"
+        ]
+    },
+    "NL-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "长夜临光",
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "NLChapterToNL"
+        ]
+    },
+    "NLChapterToNL": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "大骑士岭"
+        ],
+        "rearDelay": 2000,
+        "next": [
+            "NLChapterToNL",
+            "SwipeToTheRight"
+        ]
+    },
+    "SwipeToStageNL-10": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageNL-10",
+            "SwipeToStageNL-10"
+        ]
+    },
+    "SwipeToStageNL-9": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageNL-9",
+            "SwipeToStageNL-9"
+        ]
+    },
+    "SwipeToStageNL-8": {
+        "algorithm": "JustReturn",
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageNL-8",
+            "SwipeToStageNL-8"
+        ]
+    },
+    "StageNL-10": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "NL-10"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageNL-9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "NL-9"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageNL-8": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "NL-8"
+        ],
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
     "GT-5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
