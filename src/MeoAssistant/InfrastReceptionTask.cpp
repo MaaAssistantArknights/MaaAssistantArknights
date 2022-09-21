@@ -142,6 +142,12 @@ bool asst::InfrastReceptionTask::send_clue()
 bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
+
+    if (m_is_custom && m_current_room_custom_config.skip) {
+        Log.info("skip this room");
+        return true;
+    }
+
     const auto image = m_ctrler->get_image();
     MatchImageAnalyzer add_analyzer(image);
 

@@ -8,7 +8,7 @@ bool asst::InfrastControlTask::_run()
 
     // 控制中枢只能造这一个
     set_product("MoodAddition");
-    if (is_use_custom_config() && m_current_room_custom_config.skip) {
+    if (m_is_custom && m_current_room_custom_config.skip) {
         Log.info("skip this room");
         return true;
     }
