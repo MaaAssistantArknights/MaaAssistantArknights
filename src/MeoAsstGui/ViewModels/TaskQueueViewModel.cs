@@ -989,20 +989,11 @@ namespace MeoAsstGui
                     }
                     catch
                     {
-                        return killEmulator();
                     }
+                }
+            }
 
-                    return true;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return killEmulator();
-            }
+            return killEmulator();
         }
 
         /// <summary>
