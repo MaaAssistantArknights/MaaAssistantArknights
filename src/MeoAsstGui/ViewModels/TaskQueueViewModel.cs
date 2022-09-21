@@ -148,6 +148,8 @@ namespace MeoAsstGui
                 UpdateStageList(false);
             }
 
+            refreshCustomInfrastPlanIndexByPeriod();
+
             int intMinute = DateTime.Now.Minute;
 
             if (intMinute != 0 || Idle == false)
@@ -321,7 +323,6 @@ namespace MeoAsstGui
             UpdateDatePrompt();
             UpdateStageList(true);
             RefreshCustonInfrastPlan();
-
         }
 
         private StageManager _stageManager;
@@ -628,7 +629,7 @@ namespace MeoAsstGui
             string errMsg = string.Empty;
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg, true);
+                return asstProxy.AsstConnect(ref errMsg);
             });
             bool caught = await task;
 
@@ -641,6 +642,7 @@ namespace MeoAsstGui
             if (!caught)
             {
                 AddLog(errMsg, LogColor.Error);
+                AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
                 var settingsModel = _container.Get<SettingsViewModel>();
                 var subtask = Task.Run(() =>
                 {
@@ -949,7 +951,7 @@ namespace MeoAsstGui
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
         }
 
-        [DllImport("user32.dll", EntryPoint = "FindWindow")]
+        [DllImport("User32.dll", EntryPoint = "FindWindow")]
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -959,12 +961,20 @@ namespace MeoAsstGui
         /// Kills emulator by Window hwnd.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool killEumlatorbyWindow()
+        public bool KillEumlatorbyWindow()
         {
             IntPtr hwnd;
             int pid = 0;
-            var windowname = new[] { "BlueStacks App Player", "BlueStacks", "明日方舟 - MuMu模拟器", "夜神模拟器", "逍遥模拟器", "明日方舟" };
-            Process emulator;
+            var windowname = new[]
+            {
+                "明日方舟",
+                "夜神模拟器",
+                "逍遥模拟器",
+                "雷电模拟器(64)",
+                "明日方舟 - MuMu模拟器",
+                "BlueStacks App Player",
+                "BlueStacks",
+            };
             foreach (string i in windowname)
             {
                 hwnd = FindWindow(null, i);
@@ -975,39 +985,55 @@ namespace MeoAsstGui
                 }
             }
 
-            if (pid != 0)
+            do
             {
-                emulator = Process.GetProcessById(pid);
-                emulator.CloseMainWindow();
-                if (!emulator.HasExited)
+                if (pid == 0)
                 {
-                    try
-                    {
-                        emulator.Kill();
-                    }
-                    catch
-                    {
-                        return killEmulator();
-                    }
+                    break;
+                }
 
-                    return true;
-                }
-                else
+                Process emulator;
+                try
                 {
-                    return true;
+                    emulator = Process.GetProcessById(pid);
+                    emulator.CloseMainWindow();
                 }
+                catch
+                {
+                    break;
+                }
+
+                if (emulator.HasExited)
+                {
+                    break;
+                }
+
+                try
+                {
+                    emulator.Kill();
+                }
+                catch
+                {
+                    break;
+                }
+
+                // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
+                // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
+                KillEmulator();
+
+                // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
+                return true;
             }
-            else
-            {
-                return killEmulator();
-            }
+            while (false);
+
+            return KillEmulator();
         }
 
         /// <summary>
         /// Kills emulator.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool killEmulator()
+        public bool KillEmulator()
         {
             int pid = 0;
             string port;
@@ -1154,7 +1180,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulator:
-                    if (!killEumlatorbyWindow())
+                    if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
@@ -1162,7 +1188,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
-                    if (!killEumlatorbyWindow())
+                    if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
@@ -1200,7 +1226,7 @@ namespace MeoAsstGui
                     break;
 
                 case ActionType.ExitMAAAndCloseEmulatorAndHibernate:
-                    if (!killEumlatorbyWindow())
+                    if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
                     }
@@ -1521,33 +1547,24 @@ namespace MeoAsstGui
             {
                 if (value != _customInfrastPlanIndex)
                 {
-                    AddLog(CustomInfrastPlanInfoList[value].Name, LogColor.Message);
-                    if (CustomInfrastPlanInfoList[value].Description != string.Empty)
+                    var plan = CustomInfrastPlanInfoList[value];
+                    AddLog(plan.Name, LogColor.Message);
+
+                    foreach (var period in plan.PeriodList)
                     {
-                        AddLog(CustomInfrastPlanInfoList[value].Description);
+                        AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
+                            period.BeginHour, period.BeginMinute,
+                            period.EndHour, period.EndMinute));
+                    }
+
+                    if (plan.Description != string.Empty)
+                    {
+                        AddLog(plan.Description);
                     }
                 }
 
                 SetAndNotify(ref _customInfrastPlanIndex, value);
                 ViewStatusStorage.Set("Infrast.CustomInfrastPlanIndex", value.ToString());
-            }
-        }
-
-        public void IncreaseCustomInfrastPlanIndex()
-        {
-            if (!CustomInfrastEnabled)
-            {
-                return;
-            }
-
-            AddLog(Localization.GetString("CustomInfrastPlanIndexAutoSwitch"), LogColor.Message);
-            if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count - 1)
-            {
-                CustomInfrastPlanIndex = 0;
-            }
-            else
-            {
-                ++CustomInfrastPlanIndex;
             }
         }
 
@@ -1558,14 +1575,28 @@ namespace MeoAsstGui
             public int Index;
             public string Name;
             public string Description;
+
+            // 有效时间段
+            public struct Period
+            {
+                public int BeginHour;
+                public int BeginMinute;
+                public int EndHour;
+                public int EndMinute;
+            }
+
+            public List<Period> PeriodList;
         }
 
         public List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; set; } = new List<CustomInfrastPlanInfo>();
+
+        private bool _customInfrastPlanHasPeriod = false;
 
         public void RefreshCustonInfrastPlan()
         {
             CustomInfrastPlanInfoList.Clear();
             CustomInfrastPlanList.Clear();
+            _customInfrastPlanHasPeriod = false;
 
             if (!CustomInfrastEnabled)
             {
@@ -1600,23 +1631,107 @@ namespace MeoAsstGui
                     string display = plan.ContainsKey("name") ? plan["name"].ToString() : ("Plan " + ((char)('A' + i)).ToString());
                     CustomInfrastPlanList.Add(new GenericCombData<int> { Display = display, Value = i });
                     string desc = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty;
+
+                    AddLog(display, LogColor.Message);
+
+                    var periodList = new List<CustomInfrastPlanInfo.Period>();
+                    if (plan.ContainsKey("period"))
+                    {
+                        var periodArray = (JArray)plan["period"];
+                        foreach (var periodJson in periodArray)
+                        {
+                            var period = default(CustomInfrastPlanInfo.Period);
+                            string beginTime = periodJson[0].ToString();
+                            var beginSplited = beginTime.Split(':');
+                            period.BeginHour = int.Parse(beginSplited[0]);
+                            period.BeginMinute = int.Parse(beginSplited[1]);
+
+                            string endTime = periodJson[1].ToString();
+                            var endSplited = endTime.Split(':');
+                            period.EndHour = int.Parse(endSplited[0]);
+                            period.EndMinute = int.Parse(endSplited[1]);
+                            periodList.Add(period);
+                            AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
+                                period.BeginHour, period.BeginMinute,
+                                period.EndHour, period.EndMinute));
+                        }
+
+                        if (periodList.Count != 0)
+                        {
+                            _customInfrastPlanHasPeriod = true;
+                        }
+                    }
+
+                    if (desc != string.Empty)
+                    {
+                        AddLog(desc);
+                    }
+
                     CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
                     {
                         Index = i,
                         Name = display,
                         Description = desc,
+                        PeriodList = periodList,
                     });
-                    AddLog(display, LogColor.Message);
-                    if (desc != string.Empty)
-                    {
-                        AddLog(desc);
-                    }
                 }
             }
             catch (Exception)
             {
                 AddLog(Localization.GetString("CustomInfrastFileParseFailed"), LogColor.Error);
                 return;
+            }
+
+            refreshCustomInfrastPlanIndexByPeriod();
+        }
+
+        private void refreshCustomInfrastPlanIndexByPeriod()
+        {
+            if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod)
+            {
+                return;
+            }
+
+            var now = DateTime.Now;
+            int hour = now.Hour;
+            int minute = now.Minute;
+
+            foreach (var plan in CustomInfrastPlanInfoList)
+            {
+                bool hit = false;
+                foreach (var period in plan.PeriodList)
+                {
+                    if (period.BeginHour <= hour && period.BeginMinute <= minute &&
+                        hour <= period.EndHour && minute <= period.EndMinute)
+                    {
+                        CustomInfrastPlanIndex = plan.Index;
+                        hit = true;
+                        break;
+                    }
+                }
+
+                if (hit)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void IncreaseCustomInfrastPlanIndex()
+        {
+            if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod)
+            {
+                return;
+            }
+
+            AddLog(Localization.GetString("CustomInfrastPlanIndexAutoSwitch"), LogColor.Message);
+            if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count - 1)
+            {
+                CustomInfrastPlanIndex = 0;
+            }
+            else
+            {
+                ++CustomInfrastPlanIndex;
             }
         }
 

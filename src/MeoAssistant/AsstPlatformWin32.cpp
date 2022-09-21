@@ -164,7 +164,7 @@ std::string asst::utils::callcmd(const std::string& cmdline)
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
     (void)ReadFile(pipe_parent_read, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
 
-    while (1) {
+    while (true) {
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
@@ -181,7 +181,9 @@ std::string asst::utils::callcmd(const std::string& cmdline)
         else {
             // something bad happened
             err = GetLastError();
-            throw std::system_error(std::error_code(err, std::system_category()));
+            // throw std::system_error(std::error_code(err, std::system_category()));
+            Log.error(__FUNCTION__, "A fatal error occurred", err);
+            break;
         }
 
         if (signaled_object == process_info.hProcess) {
@@ -208,7 +210,9 @@ std::string asst::utils::callcmd(const std::string& cmdline)
     CloseHandle(process_info.hProcess);
     CloseHandle(process_info.hThread);
     CloseHandle(pipe_parent_read);
-    CloseHandle(pipeov.hEvent);
+    if (pipeov.hEvent) {
+        CloseHandle(pipeov.hEvent);
+    }
     return pipe_str;
 }
 

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -24,14 +25,15 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock
+        <CheckBox
             Grid.Row="0"
-            Grid.ColumnSpan="3"
-            Margin="10"
-            Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource ADBTip}"
-            TextWrapping="Wrap" />
+            Grid.ColumnSpan="2"
+            Margin="15"
+            VerticalAlignment="Center"
+            IsChecked="{Binding AutoDetectConnection}"
+            Content="{DynamicResource AutoDetectConnection}"
+            ToolTip="{DynamicResource AutoDetectConnectionTip}"
+            HorizontalAlignment="Center" />
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
@@ -46,6 +48,7 @@
             Width="250"
             Height="30"
             Margin="10"
+            IsEnabled="{c:Binding !AutoDetectConnection}"
             Text="{Binding AdbPath}" />
         <Button
             Grid.Row="1"
@@ -53,6 +56,7 @@
             Width="60"
             Height="30"
             Margin="10"
+            IsEnabled="{c:Binding !AutoDetectConnection}"
             HorizontalAlignment="Left"
             Command="{s:Action SelectFile}"
             Content="{DynamicResource Select}" />
@@ -71,6 +75,7 @@
             Width="250"
             Height="30"
             Margin="10"
+            IsEnabled="{c:Binding !AutoDetectConnection}"
             Text="{Binding ConnectAddress}"
             ToolTip="{DynamicResource ConnectionAddressTip}" />
 
@@ -89,13 +94,14 @@
             Height="30"
             Margin="10"
             DisplayMemberPath="Display"
+            IsEnabled="{c:Binding !AutoDetectConnection}"
             ItemsSource="{Binding ConnectConfigList}"
             SelectedValue="{Binding ConnectConfig}"
             SelectedValuePath="Value" />
 
         <CheckBox
             Grid.Row="4"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="2"
             Margin="15"
             VerticalAlignment="Center"
             IsChecked="{Binding RetryOnDisconnected}"
