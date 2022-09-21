@@ -8,6 +8,7 @@ namespace asst
     public:
         using InfrastProductionTask::InfrastProductionTask;
         virtual ~InfrastReceptionTask() override = default;
+        virtual size_t max_num_of_opers() const noexcept override { return 2ULL; }
 
     protected:
         virtual bool _run() override;
