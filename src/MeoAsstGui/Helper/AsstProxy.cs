@@ -925,7 +925,18 @@ namespace MeoAsstGui
                     break;
 
                 case "CustomInfrastRoomOperators":
-                    mainModel.AddLog(subTaskDetails["names"].ToString());
+                    string nameStr = string.Empty;
+                    foreach (var name in subTaskDetails["names"])
+                    {
+                        nameStr += name.ToString() + ", ";
+                    }
+
+                    if (nameStr != string.Empty)
+                    {
+                        nameStr = nameStr.Remove(nameStr.Length - 2);
+                    }
+
+                    mainModel.AddLog(nameStr.ToString());
                     break;
             }
         }
