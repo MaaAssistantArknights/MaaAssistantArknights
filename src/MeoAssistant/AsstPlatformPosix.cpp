@@ -14,7 +14,7 @@ const size_t asst::platform::page_size = get_page_size();
 
 void* asst::platform::aligned_alloc(size_t len, size_t align)
 {
-    return aligned_alloc(len, align);
+    return ::aligned_alloc(len, align);
 }
 
 void asst::platform::aligned_free(void* ptr)
