@@ -36,7 +36,7 @@ namespace asst
         void swipe_of_operlist(bool reverse = false);
         void async_swipe_of_operlist(bool reverse = false);
         void await_swipe();
-        bool is_use_custom_config();
+        bool is_use_custom_opers();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
         bool select_custom_opers();
         void order_opers_selection(const std::vector<std::string>& names);

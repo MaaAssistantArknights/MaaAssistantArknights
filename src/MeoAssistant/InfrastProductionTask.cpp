@@ -92,7 +92,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-            if (is_use_custom_config()) {
+            if (is_use_custom_opers()) {
                 if (m_cur_facility_index < m_custom_config.size()) {
                     m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
                 }
@@ -165,7 +165,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
             click_clear_button();
 
-            if (is_use_custom_config()) {
+            if (is_use_custom_opers()) {
                 bool name_select_ret = swipe_and_select_custom_opers();
                 if (name_select_ret) {
                     break;
