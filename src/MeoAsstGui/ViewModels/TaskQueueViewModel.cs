@@ -1652,7 +1652,7 @@ namespace MeoAsstGui
                             period.EndMinute = int.Parse(endSplited[1]);
                             periodList.Add(period);
                             AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
-                                period.BeginHour, period.BeginMinute, 
+                                period.BeginHour, period.BeginMinute,
                                 period.EndHour, period.EndMinute));
                         }
 
