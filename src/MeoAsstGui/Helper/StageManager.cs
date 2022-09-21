@@ -30,12 +30,12 @@ namespace MeoAsstGui
         /// </summary>
         public StageManager()
         {
-            // var sideStory = new StageActivityInfo()
-            // {
-            //    Tip = "SideStory「理想城：长夏狂欢季」活动",
-            //    UtcExpireTime = new DateTime(2022, 9, 1, 4, 0, 0).AddHours(-8),
-            //    IsResourceCollection = false,
-            // };
+            var sideStory = new StageActivityInfo()
+            {
+                Tip = "SideStory「长夜临光」复刻活动",
+                UtcExpireTime = new DateTime(2022, 10, 6, 4, 0, 0).AddHours(-8),
+                IsResourceCollection = false,
+            };
             var resourceCollection = new StageActivityInfo()
             {
                 Tip = "「夏日嘉年华」，“资源收集”限时全天开放",
@@ -45,10 +45,10 @@ namespace MeoAsstGui
 
             _stages = new Dictionary<string, StageInfo>
             {
-                // SideStory「理想城：长夏狂欢季」活动
-                // { "IC-9", new StageInfo { Display = "IC-9", Value = "IC-9", Activity = sideStory } },
-                // { "IC-8", new StageInfo { Display = "IC-8", Value = "IC-8", Activity = sideStory } },
-                // { "IC-7", new StageInfo { Display = "IC-7", Value = "IC-7", Activity = sideStory } },
+                // SideStory「长夜临光」复刻活动
+                // { "NL-10", new StageInfo { Display = "NL-10", Value = "NL-10", Activity = sideStory } },
+                // { "NL-9", new StageInfo { Display = "NL-9", Value = "NL-9", Activity = sideStory } },
+                // { "NL-8", new StageInfo { Display = "NL-8", Value = "NL-8", Activity = sideStory } },
 
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
