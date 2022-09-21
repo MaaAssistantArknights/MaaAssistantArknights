@@ -51,7 +51,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     fcntl(m_pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
 
     if (pipe_in_ret < 0 || pipe_out_ret < 0) {
-        throw "controller pipe created failed";
+        Log.error(__FUNCTION__, "controller pipe created failed", pipe_in_ret, pipe_out_ret);
     }
     m_support_socket = false;
 #endif
@@ -293,7 +293,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         else {
             // something bad happened
             err = GetLastError();
-            throw std::system_error(std::error_code(err, std::system_category()));
+            // throw std::system_error(std::error_code(err, std::system_category()));
+            Log.error(__FUNCTION__, "A fatal error occurred", err);
+            break;
         }
 
         if (signaled_object == process_info.hProcess) {
