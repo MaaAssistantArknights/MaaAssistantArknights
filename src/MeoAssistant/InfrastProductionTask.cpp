@@ -50,7 +50,7 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
         callback(AsstMsg::SubTaskExtraInfo, callback_info);
     }
 
-    if (m_is_custom && m_current_room_custom_config.product != infrast::CustomRoomConfig::Product::Unknown) {
+    if (m_is_custom && current_room_config().product != infrast::CustomRoomConfig::Product::Unknown) {
         static const std::unordered_map<std::string, infrast::CustomRoomConfig::Product> ProductMap = {
             { "CombatRecord", infrast::CustomRoomConfig::Product::BattleRecord },
             { "PureGold", infrast::CustomRoomConfig::Product::PureGold },
@@ -60,7 +60,7 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
             { "SyntheticJade", infrast::CustomRoomConfig::Product::Orundum },
         };
         if (auto iter = ProductMap.find(m_product); iter != ProductMap.cend()) {
-            bool is_same_product = iter->second == m_current_room_custom_config.product;
+            bool is_same_product = iter->second == current_room_config().product;
             if (!is_same_product) {
                 json::value callback_info = basic_info_with_what("ProductIncorrect");
                 callback_info["details"]["product"] = m_product;
@@ -94,7 +94,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
             if (m_is_custom) {
                 if (m_cur_facility_index < m_custom_config.size()) {
-                    m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
+                    current_room_config() = m_custom_config.at(m_cur_facility_index);
                 }
                 else {
                     Log.warn("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
@@ -150,7 +150,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             use_drone();
         }
 
-        if (m_is_custom && m_current_room_custom_config.skip) {
+        if (m_is_custom && current_room_config().skip) {
             Log.info("skip this room");
             continue;
         }
@@ -296,7 +296,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     auto& facility_info = InfrastData.get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
     if (m_is_custom) {
-        cur_max_num_of_opers -= m_current_room_custom_config.selected;
+        cur_max_num_of_opers -= current_room_config().selected;
     }
     if (cur_max_num_of_opers == 0) {
         Log.warn("no need select opers");
