@@ -189,6 +189,7 @@
                             "火神",
                             "刻俄柏"
                         ],
+                        "sort": true,
                         "product": "Battle Record"
                     },
                     {
@@ -281,7 +282,8 @@
                             "泡泡",
                             "火神",
                             "刻俄柏"
-                        ]
+                        ],
+                        "sort": true
                     },
                     {
                         "operators": [
