@@ -219,7 +219,9 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         const std::string& target = target_opt.value();
         infrast::CustomFacilityConfig facility_config(1);
-        facility_config.front().names = { target, "菲亚梅塔" };
+        auto& room_config = facility_config.front();
+        room_config.names = { target, "菲亚梅塔" };
+        room_config.sort = true;
 
         auto Fia_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
         Fia_task_ptr->set_custom_config(std::move(facility_config));
