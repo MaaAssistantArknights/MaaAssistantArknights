@@ -46,9 +46,9 @@ namespace MeoAsstGui
             _stages = new Dictionary<string, StageInfo>
             {
                 // SideStory「长夜临光」复刻活动
-                // { "NL-10", new StageInfo { Display = "NL-10", Value = "NL-10", Activity = sideStory } },
-                // { "NL-9", new StageInfo { Display = "NL-9", Value = "NL-9", Activity = sideStory } },
-                // { "NL-8", new StageInfo { Display = "NL-8", Value = "NL-8", Activity = sideStory } },
+                { "NL-10", new StageInfo { Display = "NL-10", Value = "NL-10", Activity = sideStory } },
+                { "NL-9", new StageInfo { Display = "NL-9", Value = "NL-9", Activity = sideStory } },
+                { "NL-8", new StageInfo { Display = "NL-8", Value = "NL-8", Activity = sideStory } },
 
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },

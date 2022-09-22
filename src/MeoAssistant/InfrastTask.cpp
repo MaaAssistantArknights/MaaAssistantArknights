@@ -150,6 +150,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             infrast::CustomRoomConfig room_config;
             room_config.skip = room_info.get("skip", false);
             room_config.autofill = room_info.get("autofill", false);
+            room_config.sort = room_info.get("sort", false);
             static std::unordered_map<std::string, infrast::CustomRoomConfig::Product> ProductNames = {
                 { "Battle Record", infrast::CustomRoomConfig::Product::BattleRecord },
                 { "Pure Gold", infrast::CustomRoomConfig::Product::PureGold },

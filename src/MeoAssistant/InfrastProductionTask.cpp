@@ -471,7 +471,8 @@ bool asst::InfrastProductionTask::optimal_calc()
         if (cur_combs.size() < cur_max_num_of_opers) {
             // 允许外部的话，就把单个干员凑进来
             if (group.allow_external) {
-                for (size_t index = 0; index < cur_max_num_of_opers - cur_combs.size(); ++index) {
+                size_t substitutes = cur_max_num_of_opers - cur_combs.size();
+                for (size_t index = 0; index < substitutes; ++index) {
                     const auto& comb = cur_available_opers.at(index);
                     cur_combs.emplace_back(comb);
                     cur_efficient += comb.efficient.at(m_product);
