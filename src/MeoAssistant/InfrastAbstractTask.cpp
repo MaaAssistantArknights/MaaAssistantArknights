@@ -171,6 +171,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
 
     std::vector<std::string> pre_partial_result;
     bool retried = false;
+    bool pre_result_no_changes = false;
+    int swipe_times = 0;
     while (true) {
         if (need_exit()) {
             return false;
@@ -184,16 +186,26 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
             break;
         }
         if (partial_result == pre_partial_result) {
-            Log.warn("partial result is not changed, reset the page");
-            if (retried) {
-                Log.error("already retring");
-                break;
+            if (pre_result_no_changes) {
+                Log.warn("partial result is not changed, reset the page");
+                if (retried) {
+                    Log.error("already retring");
+                    break;
+                }
+                swipe_to_the_left_of_operlist(swipe_times / 5 + 1);
+                swipe_times = 0;
+                retried = true;
             }
-            swipe_to_the_left_of_operlist(5);
-            retried = true;
+            else {
+                pre_result_no_changes = true;
+            }
+        }
+        else {
+            pre_result_no_changes = false;
         }
         pre_partial_result = partial_result;
         swipe_of_operlist();
+        ++swipe_times;
     }
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
@@ -209,7 +221,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     if (m_current_room_custom_config.sort) {
         // 如果只选了一个人或不用自动填充，则不需要滑动回去，也不需要排序
         if (m_current_room_custom_config.selected > 1 || m_current_room_custom_config.autofill) {
-            swipe_to_the_left_of_operlist(2);
+            swipe_to_the_left_of_operlist(swipe_times / 5 + 1);
+            swipe_times = 0;
 
             // 如果只选了一个人没必要排序
             if (m_current_room_custom_config.selected > 1) {
