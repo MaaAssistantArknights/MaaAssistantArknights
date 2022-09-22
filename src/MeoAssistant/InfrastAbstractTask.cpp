@@ -58,9 +58,6 @@ std::string asst::InfrastAbstractTask::facility_name() const
 void asst::InfrastAbstractTask::set_custom_config(infrast::CustomFacilityConfig config) noexcept
 {
     m_custom_config = std::move(config);
-    if (!m_custom_config.empty()) {
-        m_current_room_custom_config = m_custom_config.front();
-    }
     m_is_custom = true;
 }
 
@@ -68,8 +65,22 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
 {
     m_is_custom = false;
     m_custom_config.clear();
-    infrast::CustomRoomConfig empty;
-    std::swap(m_current_room_custom_config, empty);
+}
+
+asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config()
+{
+    static infrast::CustomRoomConfig empty;
+    if (!m_is_custom) {
+        return empty;
+    }
+
+    if (m_cur_facility_index < m_custom_config.size()) {
+        return m_custom_config[m_cur_facility_index];
+    }
+    else {
+        Log.error("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
+        return empty;
+    }
 }
 
 bool asst::InfrastAbstractTask::on_run_fails()
@@ -98,19 +109,10 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     }
 
     m_cur_facility_index = index;
-    if (m_is_custom) {
-        if (m_cur_facility_index < m_custom_config.size()) {
-            m_current_room_custom_config = m_custom_config.at(m_cur_facility_index);
-        }
-        else {
-            Log.warn("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
-            return false;
-        }
-    }
+
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
 
     m_ctrler->click(rect);
-
     const auto enter_task_ptr = Task.get("InfrastEnterFacility");
     sleep(enter_task_ptr->rear_delay);
 
@@ -142,8 +144,7 @@ void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
 
 bool asst::InfrastAbstractTask::is_use_custom_opers()
 {
-    return m_is_custom &&
-           (!m_current_room_custom_config.names.empty() || !m_current_room_custom_config.candidates.empty());
+    return m_is_custom && (!current_room_config().names.empty() || !current_room_config().candidates.empty());
 }
 
 void asst::InfrastAbstractTask::await_swipe()
@@ -162,8 +163,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     {
         json::value cb_info = basic_info_with_what("CustomInfrastRoomOperators");
         auto& details = cb_info["details"];
-        details["names"] = json::array(m_current_room_custom_config.names);
-        details["candidates"] = json::array(m_current_room_custom_config.candidates);
+        details["names"] = json::array(current_room_config().names);
+        details["candidates"] = json::array(current_room_config().candidates);
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
     }
 
@@ -171,9 +172,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
     }
 
-    std::vector<std::string> opers_order = m_current_room_custom_config.names;
-    opers_order.insert(opers_order.end(), m_current_room_custom_config.candidates.cbegin(),
-                       m_current_room_custom_config.candidates.cend());
+    std::vector<std::string> opers_order = current_room_config().names;
+    opers_order.insert(opers_order.end(), current_room_config().candidates.cbegin(),
+                       current_room_config().candidates.cend());
 
     std::vector<std::string> pre_partial_result;
     bool retried = false;
@@ -187,8 +188,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         if (!select_custom_opers(partial_result)) {
             return false;
         }
-        if (m_current_room_custom_config.selected >= max_num_of_opers() ||
-            (m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty())) {
+        if (current_room_config().selected >= max_num_of_opers() ||
+            (current_room_config().names.empty() && current_room_config().candidates.empty())) {
             break;
         }
         if (partial_result == pre_partial_result) {
@@ -224,24 +225,24 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
     }
 
-    if (m_current_room_custom_config.sort || m_current_room_custom_config.autofill) {
+    if (current_room_config().sort || current_room_config().autofill) {
         swipe_to_the_left_of_operlist(swipe_times / 5 + 1);
         swipe_times = 0;
     }
     // 如果只选了一个人没必要排序
-    if (m_current_room_custom_config.sort && m_current_room_custom_config.selected > 1) {
+    if (current_room_config().sort && current_room_config().selected > 1) {
         click_clear_button();
         order_opers_selection(opers_order);
     }
 
-    return m_current_room_custom_config.names.empty();
+    return current_room_config().names.empty();
 }
 
 bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& partial_result)
 {
     LogTraceFunction;
 
-    if (m_current_room_custom_config.names.empty() && m_current_room_custom_config.candidates.empty()) {
+    if (current_room_config().names.empty() && current_room_config().candidates.empty()) {
         Log.warn("opers_name is empty");
         return false;
     }
@@ -268,15 +269,14 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         const std::string& name = name_analyzer.get_result().front().text;
         partial_result.emplace_back(name);
 
-        if (auto iter = ranges::find(m_current_room_custom_config.names, name);
-            iter != m_current_room_custom_config.names.end()) {
-            m_current_room_custom_config.names.erase(iter);
+        if (auto iter = ranges::find(current_room_config().names, name); iter != current_room_config().names.end()) {
+            current_room_config().names.erase(iter);
         }
-        else if (max_num_of_opers() - m_current_room_custom_config.selected >
-                 m_current_room_custom_config.names.size()) { // names中的数量，比剩余的空位多，就可以选备选的
-            if (auto candd_iter = ranges::find(m_current_room_custom_config.candidates, name);
-                candd_iter != m_current_room_custom_config.candidates.end()) {
-                m_current_room_custom_config.candidates.erase(candd_iter);
+        else if (max_num_of_opers() - current_room_config().selected >
+                 current_room_config().names.size()) { // names中的数量，比剩余的空位多，就可以选备选的
+            if (auto candd_iter = ranges::find(current_room_config().candidates, name);
+                candd_iter != current_room_config().candidates.end()) {
+                current_room_config().candidates.erase(candd_iter);
             }
             else {
                 continue;
@@ -288,7 +288,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         if (!oper.selected) {
             m_ctrler->click(oper.rect);
         }
-        if (++m_current_room_custom_config.selected >= max_num_of_opers()) {
+        if (++current_room_config().selected >= max_num_of_opers()) {
             break;
         }
     }

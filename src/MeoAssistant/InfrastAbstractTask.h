@@ -37,6 +37,7 @@ namespace asst
         void async_swipe_of_operlist(bool reverse = false);
         void await_swipe();
         bool is_use_custom_opers();
+        infrast::CustomRoomConfig& current_room_config();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
         bool select_custom_opers(std::vector<std::string>& partial_result);
         void order_opers_selection(const std::vector<std::string>& names);
@@ -55,6 +56,5 @@ namespace asst
         int m_cur_facility_index = 0;
         bool m_is_custom = false;
         infrast::CustomFacilityConfig m_custom_config;
-        infrast::CustomRoomConfig m_current_room_custom_config;
     };
 }
