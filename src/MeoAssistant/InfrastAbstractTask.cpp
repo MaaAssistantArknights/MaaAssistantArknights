@@ -224,19 +224,16 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
     }
 
-    if (m_current_room_custom_config.sort) {
-        // 如果只选了一个人或不用自动填充，则不需要滑动回去，也不需要排序
-        if (m_current_room_custom_config.selected > 1 || m_current_room_custom_config.autofill) {
-            swipe_to_the_left_of_operlist(swipe_times / 5 + 1);
-            swipe_times = 0;
+    if (m_current_room_custom_config.sort || m_current_room_custom_config.autofill) {
+        swipe_to_the_left_of_operlist(swipe_times / 5 + 1);
+        swipe_times = 0;
+    }
+    // 如果只选了一个人没必要排序
+    if (m_current_room_custom_config.sort && m_current_room_custom_config.autofill &&
+        m_current_room_custom_config.selected > 1) {
+        click_clear_button();
 
-            // 如果只选了一个人没必要排序
-            if (m_current_room_custom_config.selected > 1) {
-                click_clear_button();
-
-                order_opers_selection(opers_order);
-            }
-        }
+        order_opers_selection(opers_order);
     }
 
     return m_current_room_custom_config.names.empty();
