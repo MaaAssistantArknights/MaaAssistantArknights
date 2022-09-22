@@ -47894,13 +47894,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 144000,
@@ -47924,13 +47930,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 189000,
@@ -47954,13 +47966,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 121000,
@@ -47984,13 +48002,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 172000,
@@ -48014,13 +48038,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 197000,
@@ -48044,13 +48074,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 150000,
@@ -48074,13 +48110,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 175000,
@@ -48104,13 +48146,19 @@
                 "openTime": 1647331200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1664478000000,
+                "exist": true,
+                "openTime": 1663311600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1664535600000,
+                "exist": true,
+                "openTime": 1663347600000
             }
         },
         "minClearTime": 206000,
@@ -58276,85 +58324,6 @@
             "ko": "BW-1",
             "zh": "BW-1"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -58372,9 +58341,6 @@
             }
         },
         "minClearTime": 173000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_01",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
@@ -58388,85 +58354,6 @@
             "ko": "BW-2",
             "zh": "BW-2"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -58484,9 +58371,6 @@
             }
         },
         "minClearTime": 140000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_02",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
@@ -58500,85 +58384,6 @@
             "ko": "BW-3",
             "zh": "BW-3"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -58596,9 +58401,6 @@
             }
         },
         "minClearTime": 173000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_03",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
@@ -58612,85 +58414,6 @@
             "ko": "BW-4",
             "zh": "BW-4"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -58708,9 +58431,6 @@
             }
         },
         "minClearTime": 163000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_04",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
@@ -58724,101 +58444,6 @@
             "ko": "BW-5",
             "zh": "BW-5"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30052"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "3003"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30012"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30032"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -58836,9 +58461,6 @@
             }
         },
         "minClearTime": 176000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_05",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
@@ -58852,109 +58474,6 @@
             "ko": "BW-6",
             "zh": "BW-6"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2001"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2002"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30052"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -58972,9 +58491,6 @@
             }
         },
         "minClearTime": 175000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_06",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
@@ -58988,133 +58504,6 @@
             "ko": "BW-7",
             "zh": "BW-7"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30033"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2001"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2002"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2003"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30023"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30043"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30083"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "31023"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -59132,9 +58521,6 @@
             }
         },
         "minClearTime": 214000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_07",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
@@ -59148,133 +58534,6 @@
             "ko": "BW-8",
             "zh": "BW-8"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30093"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30032"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30033"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30052"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30053"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30093"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30103"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "31033"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "31043"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "31053"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1663790400000,
@@ -59292,9 +58551,6 @@
             }
         },
         "minClearTime": 189000,
-        "recognitionOnly": [
-            "act13mini_token_can"
-        ],
         "stageId": "act13mini_08",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"

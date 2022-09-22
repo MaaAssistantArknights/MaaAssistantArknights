@@ -1,16 +1,5 @@
-- 新增 自定义基建 `period` 字段实现 @MistEO
-- 新增 自定义基建 153 极限效率作业 @ABA2396 [@公孙长乐](https://space.bilibili.com/22606843)
-- 优化 界面 检测连接的逻辑，新增了一个开关选项 @MistEO
-- 优化 连接 在某些情况下耗时过长的问题 @zzyyyl
-- 修复 基建 组合不可用时的效率计算错误 @MistEO
-- 修复 自定义基建 找不到人时卡住的问题 @MistEO
-- 修复 自定义基建 会清空单人设施的问题 @MistEO
-- 修复 自定义基建 `skip` 字段不生效问题 @MistEO
-- 修复 自定义基建 宿舍始终 `autofill` 的问题 @MistEO
-- 修复 自定义基建 会客室少人的问题 @MistEO
-- 修复 任务完成后 模拟器进程关不全的问题 @Hydrogina @zzyyyl
-- 修复 偶现执行命令时候崩溃问题 @MistEO @zzyyyl
-- 修复 Linux 下无限递归的问题 @horror-proton
-- 优化 界面 输出及样式 @MistEO
-- 重构 日志 类 @zzyyyl @horror-proton
-- 整理 项目代码 @zzyyyl @MistEO
+- 更新 `长夜临光` 活动 关卡导航、资源 @ABA2396 @zzyyyl
+- 新增 自定义基建 `sort` 字段，判断是否排序干员，默认关闭，请参考文档/示例使用 @MistEO
+- 修复 自定义基建 找不到人时的滑动操作 @MistEO
+- 修复 基建 组合干员不足时的计算逻辑 @MistEO
+- 优化 项目 格式化脚本 @zzyyyl
