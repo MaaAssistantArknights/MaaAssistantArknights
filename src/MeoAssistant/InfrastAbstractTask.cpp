@@ -1,5 +1,6 @@
 #include "InfrastAbstractTask.h"
 
+#include <algorithm>
 #include <regex>
 #include <utility>
 
@@ -57,6 +58,9 @@ std::string asst::InfrastAbstractTask::facility_name() const
 void asst::InfrastAbstractTask::set_custom_config(infrast::CustomFacilityConfig config) noexcept
 {
     m_custom_config = std::move(config);
+    if (!m_custom_config.empty()) {
+        m_current_room_custom_config = m_custom_config.front();
+    }
     m_is_custom = true;
 }
 
@@ -64,6 +68,8 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
 {
     m_is_custom = false;
     m_custom_config.clear();
+    infrast::CustomRoomConfig empty;
+    std::swap(m_current_room_custom_config, empty);
 }
 
 bool asst::InfrastAbstractTask::on_run_fails()
