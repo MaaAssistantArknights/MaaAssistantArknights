@@ -132,6 +132,7 @@ namespace asst::infrast
         Product product = Product::Unknown;
         std::vector<std::string> candidates;
         int selected = 0;
+        bool sort = false;
     };
     using CustomFacilityConfig = std::vector<CustomRoomConfig>;
 
