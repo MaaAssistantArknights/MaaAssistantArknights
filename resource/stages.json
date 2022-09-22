@@ -58554,5 +58554,877 @@
         "stageId": "act13mini_08",
         "stageType": "ACTIVITY",
         "zoneId": "act13mini_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "NL-1",
+        "code_i18n": {
+            "en": "NL-1",
+            "ja": "NL-1",
+            "ko": "NL-1",
+            "zh": "NL-1"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 158000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_01_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "NL-2",
+        "code_i18n": {
+            "en": "NL-2",
+            "ja": "NL-2",
+            "ko": "NL-2",
+            "zh": "NL-2"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 163000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_02_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "NL-3",
+        "code_i18n": {
+            "en": "NL-3",
+            "ja": "NL-3",
+            "ko": "NL-3",
+            "zh": "NL-3"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 169000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_03_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "NL-4",
+        "code_i18n": {
+            "en": "NL-4",
+            "ja": "NL-4",
+            "ko": "NL-4",
+            "zh": "NL-4"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 153000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_04_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "NL-5",
+        "code_i18n": {
+            "en": "NL-5",
+            "ja": "NL-5",
+            "ko": "NL-5",
+            "zh": "NL-5"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 201000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_05_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "NL-6",
+        "code_i18n": {
+            "en": "NL-6",
+            "ja": "NL-6",
+            "ko": "NL-6",
+            "zh": "NL-6"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 175000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_06_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "NL-7",
+        "code_i18n": {
+            "en": "NL-7",
+            "ja": "NL-7",
+            "ko": "NL-7",
+            "zh": "NL-7"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 179000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_07_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 18,
+        "code": "NL-8",
+        "code_i18n": {
+            "en": "NL-8",
+            "ja": "NL-8",
+            "ko": "NL-8",
+            "zh": "NL-8"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 204000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_08_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 18,
+        "code": "NL-9",
+        "code_i18n": {
+            "en": "NL-9",
+            "ja": "NL-9",
+            "ko": "NL-9",
+            "zh": "NL-9"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 198000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_09_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
+    },
+    {
+        "apCost": 18,
+        "code": "NL-10",
+        "code_i18n": {
+            "en": "NL-10",
+            "ja": "NL-10",
+            "ko": "NL-10",
+            "zh": "NL-10"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30073"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1664654400000,
+                "exist": true,
+                "openTime": 1663833600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 105000,
+        "recognitionOnly": [
+            "act13side_token_model_rep_1"
+        ],
+        "stageId": "act13side_10_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act13sre_zone1"
     }
 ]
