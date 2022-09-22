@@ -189,7 +189,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
                 Log.error("already retring");
                 break;
             }
-            swipe_to_the_left_of_operlist(2);
+            swipe_to_the_left_of_operlist(5);
             retried = true;
         }
         pre_partial_result = partial_result;
@@ -205,15 +205,18 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     else {
         ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
     }
-    // 如果只选了一个人或不用自动填充，则不需要滑动回去，也不需要排序
-    if (m_current_room_custom_config.selected > 1 || m_current_room_custom_config.autofill) {
-        swipe_to_the_left_of_operlist(2);
 
-        // 如果只选了一个人没必要排序
-        if (m_current_room_custom_config.selected > 1) {
-            click_clear_button();
+    if (m_current_room_custom_config.sort) {
+        // 如果只选了一个人或不用自动填充，则不需要滑动回去，也不需要排序
+        if (m_current_room_custom_config.selected > 1 || m_current_room_custom_config.autofill) {
+            swipe_to_the_left_of_operlist(2);
 
-            order_opers_selection(opers_order);
+            // 如果只选了一个人没必要排序
+            if (m_current_room_custom_config.selected > 1) {
+                click_clear_button();
+
+                order_opers_selection(opers_order);
+            }
         }
     }
 

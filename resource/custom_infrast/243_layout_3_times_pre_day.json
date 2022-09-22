@@ -31,6 +31,7 @@
                             "龙舌兰",
                             "柏喙"
                         ],
+                        "sort": true,
                         "product": "LMD"
                     },
                     {
@@ -49,6 +50,7 @@
                             "稀音",
                             "帕拉斯"
                         ],
+                        "sort": true,
                         "product": "Battle Record"
                     },
                     {
@@ -154,6 +156,7 @@
                             "龙舌兰",
                             "柏喙"
                         ],
+                        "sort": true,
                         "product": "LMD"
                     },
                     {
@@ -172,6 +175,7 @@
                             "稀音",
                             "帕拉斯"
                         ],
+                        "sort": true,
                         "product": "Battle Record"
                     },
                     {
