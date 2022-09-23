@@ -1083,6 +1083,7 @@ namespace MeoAsstGui
             StartUp,
             CloseDown,
             Fight,
+            FightRemainingSanity,
             Recruit,
             Infrast,
             Visit,
@@ -1137,6 +1138,10 @@ namespace MeoAsstGui
             {
                 _latestTaskId[TaskType.Fight] = id;
             }
+            else
+            {
+                _latestTaskId[TaskType.FightRemainingSanity] = id;
+            }
 
             return id != 0;
         }
@@ -1151,10 +1156,22 @@ namespace MeoAsstGui
         /// <param name="drops_item_id">指定掉落 ID。</param>
         /// <param name="drops_item_quantity">指定掉落数量。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstSetFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
+        public bool AsstSetFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity, bool is_main_fight = true)
         {
+            var type = is_main_fight ? TaskType.Fight : TaskType.FightRemainingSanity;
+            if (!_latestTaskId.ContainsKey(type))
+            {
+                return false;
+            }
+
+            var id = _latestTaskId[type];
+            if (id == 0)
+            {
+                return false;
+            }
+
             var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
-            return AsstSetTaskParamsWithEncoding(_latestTaskId.TryGetValue(TaskType.Fight, out var task_id) ? task_id : 0, task_params);
+            return AsstSetTaskParamsWithEncoding(id, task_params);
         }
 
         /// <summary>
@@ -1264,6 +1281,24 @@ namespace MeoAsstGui
             return id != 0;
         }
 
+        private JObject SerializeInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+            bool is_custom, string filename, int plan_index)
+        {
+            var task_params = new JObject();
+
+            task_params["facility"] = new JArray(order);
+            task_params["drones"] = uses_of_drones;
+            task_params["threshold"] = dorm_threshold;
+            task_params["dorm_notstationed_enabled"] = dorm_filter_not_stationed_enabled;
+            task_params["drom_trust_enabled"] = dorm_drom_trust_enabled;
+            task_params["replenish"] = originium_shard_auto_replenishment;
+            task_params["mode"] = is_custom ? 10000 : 0;
+            task_params["filename"] = filename;
+            task_params["plan_index"] = plan_index;
+
+            return task_params;
+        }
+
         /// <summary>
         /// 基建换班。
         /// </summary>
@@ -1288,23 +1323,40 @@ namespace MeoAsstGui
         /// <param name="filename"></param>
         /// <param name="plan_index"></param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+        public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold,
+            bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)
         {
-            var task_params = new JObject();
-
-            task_params["facility"] = new JArray(order);
-            task_params["drones"] = uses_of_drones;
-            task_params["threshold"] = dorm_threshold;
-            task_params["dorm_notstationed_enabled"] = dorm_filter_not_stationed_enabled;
-            task_params["drom_trust_enabled"] = dorm_drom_trust_enabled;
-            task_params["replenish"] = originium_shard_auto_replenishment;
-            task_params["mode"] = is_custom ? 10000 : 0;
-            task_params["filename"] = filename;
-            task_params["plan_index"] = plan_index;
+            var task_params = SerializeInfrastTaskParams(
+                order, uses_of_drones, dorm_threshold,
+                dorm_filter_not_stationed_enabled, dorm_drom_trust_enabled, originium_shard_auto_replenishment,
+                is_custom, filename, plan_index);
             TaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;
             return id != 0;
+        }
+
+        public bool AsstSetInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold,
+            bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+            bool is_custom, string filename, int plan_index)
+        {
+            var type = TaskType.Infrast;
+            if (!_latestTaskId.ContainsKey(type))
+            {
+                return false;
+            }
+
+            var id = _latestTaskId[type];
+            if (id == 0)
+            {
+                return false;
+            }
+
+            var task_params = SerializeInfrastTaskParams(
+                order, uses_of_drones, dorm_threshold,
+                dorm_filter_not_stationed_enabled, dorm_drom_trust_enabled, originium_shard_auto_replenishment,
+                is_custom, filename, plan_index);
+            return AsstSetTaskParamsWithEncoding(id, task_params);
         }
 
         /// <summary>

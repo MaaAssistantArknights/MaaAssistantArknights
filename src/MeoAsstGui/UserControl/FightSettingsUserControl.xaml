@@ -19,7 +19,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -245,21 +244,7 @@
                         Visibility="{c:Binding CustomStageCode}" />
                 </StackPanel>
             </Grid>
-
-            <StackPanel Grid.Row="3">
-                <Button
-                    Height="30"
-                    Margin="0,6"
-                    Padding="14,2"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Center"
-                    Command="{s:Action SetParams}"
-                    Content="{DynamicResource Amend}"
-                    FontSize="10"
-                    Visibility="{c:Binding Path='!Idle and Inited'}" />
-            </StackPanel>
-
-            <Grid Grid.Row="4">
+            <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
@@ -286,7 +271,7 @@
                         Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
-                        IsHitTestVisible="{c:Binding Idle}"
+                        IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
                         ItemsSource="{Binding CustomInfrastPlanList}"
                         SelectedValue="{Binding CustomInfrastPlanIndex}"
                         SelectedValuePath="Value"
