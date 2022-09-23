@@ -12,4 +12,4 @@
 - 修复 偶现执行命令时候崩溃问题 @MistEO @zzyyyl
 - 修复 Linux 下连接时无限递归卡住的问题 @horror-proton
 - 修复 编译问题，整理 项目代码 @horror-proton @zzyyyl
-- 更新 界面 翻译及文档 @MistEO @wallsman @Tastror
+- 更新 界面 翻译及文档 @MistEO @wallsman @Tastror @LYZhelloworld
