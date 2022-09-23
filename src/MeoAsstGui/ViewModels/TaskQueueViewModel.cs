@@ -88,7 +88,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _actionAfterCompleted, value.ToString());
                 string storeValue = ActionType.DoNothing.ToString();
-                if (value != ActionType.Shutdown && value != ActionType.Hibernate && value != ActionType.ExitMAAAndCloseEmulatorAndHibernate)
+                if (value != ActionType.Shutdown && value != ActionType.Hibernate && value != ActionType.ExitEmulatorAndSelfAndHibernate)
                 {
                     storeValue = value.ToString();
                 }
@@ -266,13 +266,13 @@ namespace MeoAsstGui
             {
                 new GenericCombData<ActionType> { Display = Localization.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new GenericCombData<ActionType> { Display = Localization.GetString("ExitArknights"), Value = ActionType.StopGame },
-                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAA"), Value = ActionType.ExitSelf },
-                new GenericCombData<ActionType> { Display = Localization.GetString("CloseEmulator"), Value = ActionType.ExitEmulator },
-                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAAAndCloseEmulator"), Value = ActionType.ExitEmulatorAndSelf },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitSelf"), Value = ActionType.ExitSelf },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
 
                 // new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
-                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAAAndCloseEmulatorAndHibernate"), Value = ActionType.ExitMAAAndCloseEmulatorAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
@@ -1152,7 +1152,7 @@ namespace MeoAsstGui
             /// <summary>
             /// Exits MAA and emulator and computer hibernates.
             /// </summary>
-            ExitMAAAndCloseEmulatorAndHibernate,
+            ExitEmulatorAndSelfAndHibernate,
 
             /// <summary>
             /// Computer shutdown.
@@ -1189,7 +1189,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulator:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
                     }
 
                     break;
@@ -1197,7 +1197,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulatorAndSelf:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
                     }
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
@@ -1232,10 +1232,10 @@ namespace MeoAsstGui
                     Process.Start("shutdown.exe", "-h");
                     break;
 
-                case ActionType.ExitMAAAndCloseEmulatorAndHibernate:
+                case ActionType.ExitEmulatorAndSelfAndHibernate:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
                     }
 
                     // 休眠提示

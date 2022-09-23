@@ -175,12 +175,12 @@
 
     <system:String x:Key="Then">完成後</system:String>
     <system:String x:Key="DoNothing">無動作</system:String>
-    <system:String x:Key="ExitArknights">退出明日方舟</system:String>
-    <system:String x:Key="ExitMAA">退出 MAA</system:String>
-    <system:String x:Key="CloseEmulator">關閉模擬器</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulator">退出並關閉模擬器</system:String>
+    <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
+    <system:String x:Key="ExitSelf">退出 MAA</system:String>
+    <system:String x:Key="ExitEmulator">退出 模擬器</system:String>
+    <system:String x:Key="ExitEmulatorAndSelf">退出 MAA 和 模擬器</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，並休眠*</system:String>
     <system:String x:Key="Hibernate">休眠*</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">退出並關閉模擬器並休眠*</system:String>
     <system:String x:Key="Shutdown">關機*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -241,7 +241,7 @@
     <system:String x:Key="SetSuccessfully">設定成功</system:String>
     <system:String x:Key="SetFailed">設定失敗</system:String>
     <system:String x:Key="CloseArknightsFailed">關閉遊戲失敗</system:String>
-    <system:String x:Key="CloseEmulatorFailed">模擬器關閉失敗</system:String>
+    <system:String x:Key="ExitEmulatorFailed">模擬器關閉失敗</system:String>
     <system:String x:Key="AboutToShutdown">已刷完，即將關機，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>

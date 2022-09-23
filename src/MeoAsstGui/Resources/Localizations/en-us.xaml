@@ -44,7 +44,7 @@
     <system:String x:Key="CustomInfrastTitle">ase Configuration:</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
-    
+
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
@@ -184,11 +184,11 @@
     <system:String x:Key="Then">Then</system:String>
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
-    <system:String x:Key="ExitMAA">Exit MAA</system:String>
-    <system:String x:Key="CloseEmulator">Close Emulator</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulator">Exit and Close Emulator</system:String>
+    <system:String x:Key="ExitSelf">Exit MAA</system:String>
+    <system:String x:Key="ExitEmulator">Close Emulator</system:String>
+    <system:String x:Key="ExitEmulatorAndSelf">Exit and Close Emulator</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, and Hibernate*</system:String>
     <system:String x:Key="Hibernate">Hibernate*</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">Exit and Close Emulator and Hibernate*</system:String>
     <system:String x:Key="Shutdown">Shutdown*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -251,7 +251,7 @@
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
     <system:String x:Key="SetFailed">Setting failed</system:String>
     <system:String x:Key="CloseArknightsFailed">Shutdown Arknights failed</system:String>
-    <system:String x:Key="CloseEmulatorFailed">Shutdown emulator failed</system:String>
+    <system:String x:Key="ExitEmulatorFailed">Shutdown emulator failed</system:String>
     <system:String x:Key="AboutToShutdown">All tasks are completed shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
