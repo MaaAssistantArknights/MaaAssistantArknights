@@ -1,10 +1,15 @@
 - 更新 `长夜临光` 活动 关卡导航、资源 @ABA2396 @MistEO
-- 新增 自定义基建 `sort` 字段，判断是否排序干员，默认关闭，请参考文档/示例使用 @MistEO
-- 修复 自定义基建 `skip` 字段对类型中第一个房间不生效问题 @MistEO
-- 修复 自定义基建 找不到人时的滑动操作 @MistEO
-- 修复 自定义基建 不对菲亚梅塔排序的问题 @MistEO
-- 修复 自定义基建 宿舍 `autofill` 不生效的问题 @MistEO
-- 修复 自定义基建 内置作业 `sort` 字段错误 @ABA2396
+- 新增 基建 自定义排班选项，请参考 [文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.6-%E5%9F%BA%E5%BB%BA%E6%8E%92%E7%8F%AD%E5%8D%8F%E8%AE%AE.md) 编写配置使用 @MistEO [@公孙长乐](https://space.bilibili.com/22606843)  
+    _内置了两套顶配作业，在 `resource/custom_infrast/` 中，可参考修改_
+- 新增 `剩余理智` 选项，`备用关卡` 逻辑将逐步与之融合 @MistEO
+- 新增 刷理智 `OF-F3`, `GT-5` 关卡导航 @ABA2396
+- 重构 连接、截图、日志 部分代码 @zzyyyl @horror-proton
+- 优化 界面 检测连接的逻辑，新增了一个开关选项 @MistEO
 - 修复 基建 组合干员不足时的计算逻辑 @MistEO
-- 修复 刷理智 剩余理智即使不选择也会去刷 `NL-10` 的问题 @MistEO
-- 优化 项目 格式化脚本 @zzyyyl
+- 修复 自动公招 加急券的使用问题 @horror-proton
+- 修复 界面 指定材料、关卡导航、备选关卡逻辑错误 @ABA2396 @et2012 @MistEO
+- 修复 任务完成后 模拟器进程关不全的问题 @Hydrogina @zzyyyl
+- 修复 偶现执行命令时候崩溃问题 @MistEO @zzyyyl
+- 修复 Linux 下连接时无限递归卡住的问题 @horror-proton
+- 修复 编译问题，整理 项目代码 @horror-proton @zzyyyl
+- 更新 界面 翻译及文档 @MistEO @wallsman @Tastror
