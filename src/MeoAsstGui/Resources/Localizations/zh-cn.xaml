@@ -38,7 +38,7 @@
     <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
-    <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（Alpha）</system:String>
+    <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle">自定义基建配置：</system:String>
