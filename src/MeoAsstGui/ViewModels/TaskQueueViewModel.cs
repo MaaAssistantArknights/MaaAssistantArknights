@@ -822,7 +822,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Sets parameters.
         /// </summary>
-        public void SetParams()
+        public void SetFightParams()
         {
             int medicine = 0;
             if (UseMedicine)
@@ -861,15 +861,22 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            bool isSet = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-            if (isSet)
-            {
-                AddLog(Localization.GetString("SetSuccessfully"), LogColor.Message);
-            }
-            else
-            {
-                AddLog(Localization.GetString("SetFailed"), LogColor.Error);
-            }
+            asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+        }
+
+        public void SetFightRemainingSanityParams()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+        }
+
+        public void SetInfrastParams()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var order = settings.GetInfrastOrderList();
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetInfrastTaskParams(order.ToArray(), settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment,
+                settings.CustomInfrastEnabled, settings.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool appendInfrast()
@@ -1449,6 +1456,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stage1, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage1", value);
                 UpdateDatePrompt();
             }
@@ -1465,6 +1473,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stage2, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
                 UpdateDatePrompt();
             }
@@ -1481,6 +1490,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stage3, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage3", value);
                 UpdateDatePrompt();
             }
@@ -1522,6 +1532,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _remainingSanityStage, value);
+                SetFightRemainingSanityParams();
                 ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
             }
         }
@@ -1564,6 +1575,7 @@ namespace MeoAsstGui
                 }
 
                 SetAndNotify(ref _customInfrastPlanIndex, value);
+                SetInfrastParams();
                 ViewStatusStorage.Set("Infrast.CustomInfrastPlanIndex", value.ToString());
             }
         }
@@ -1751,6 +1763,7 @@ namespace MeoAsstGui
                     UseStone = false;
                 }
 
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
             }
         }
@@ -1766,6 +1779,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _medicineNumber, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             }
         }
@@ -1785,6 +1799,8 @@ namespace MeoAsstGui
                 {
                     UseMedicine = true;
                 }
+
+                SetFightParams();
             }
         }
 
@@ -1799,6 +1815,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
             }
         }
@@ -1811,7 +1828,11 @@ namespace MeoAsstGui
         public bool HasTimesLimited
         {
             get => _hasTimesLimited;
-            set => SetAndNotify(ref _hasTimesLimited, value);
+            set
+            {
+                SetAndNotify(ref _hasTimesLimited, value);
+                SetFightParams();
+            }
         }
 
         private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
@@ -1825,6 +1846,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _maxTimes, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
             }
         }
@@ -1842,6 +1864,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Enable", value.ToString());
             }
         }
@@ -1902,6 +1925,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _dropsItemId, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
         }
@@ -1917,6 +1941,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _dropsQuantity, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
             }
         }
