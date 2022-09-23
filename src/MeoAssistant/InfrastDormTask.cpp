@@ -29,7 +29,7 @@ bool asst::InfrastDormTask::_run()
         if (need_exit()) {
             return false;
         }
-        if (m_is_custom && m_current_room_custom_config.skip) {
+        if (m_is_custom && current_room_config().skip) {
             Log.info("skip this room");
             continue;
         }
@@ -54,7 +54,7 @@ bool asst::InfrastDormTask::_run()
             m_if_filter_notstationed_haspressed = true;
         }
 
-        if (!m_is_custom || m_current_room_custom_config.autofill) {
+        if (!m_is_custom || current_room_config().autofill) {
             opers_choose();
         }
 
@@ -70,7 +70,7 @@ bool asst::InfrastDormTask::_run()
 
 bool asst::InfrastDormTask::opers_choose()
 {
-    size_t num_of_selected = m_is_custom ? m_current_room_custom_config.selected : 0;
+    size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
 
     while (num_of_selected < max_num_of_opers()) {
