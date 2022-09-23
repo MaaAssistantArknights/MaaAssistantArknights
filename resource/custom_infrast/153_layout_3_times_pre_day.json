@@ -10,7 +10,8 @@
             },
             "drones": {
                 "room": "trading",
-                "index": 1
+                "index": 1,
+                "order": "post"
             },
             "rooms": {
                 "control": [
@@ -134,7 +135,8 @@
             },
             "drones": {
                 "room": "trading",
-                "index": 1
+                "index": 1,
+                "order": "post"
             },
             "rooms": {
                 "control": [
@@ -251,7 +253,8 @@
             "description": "次高效替补 2 班\n下次换班请在约4小时后进行",
             "drones": {
                 "room": "trading",
-                "index": 1
+                "index": 1,
+                "order": "post"
             },
             "rooms": {
                 "control": [
