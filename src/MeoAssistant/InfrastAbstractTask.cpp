@@ -94,28 +94,29 @@ bool asst::InfrastAbstractTask::on_run_fails()
 
 bool asst::InfrastAbstractTask::enter_facility(int index)
 {
-    const auto image = m_ctrler->get_image();
+    LogTraceFunction;
 
-    InfrastFacilityImageAnalyzer analyzer(image);
+    if (m_is_custom && index >= m_custom_config.size()) {
+        Log.warn("index is lager than config size", index, m_custom_config.size());
+        return false;
+    }
+
+    InfrastFacilityImageAnalyzer analyzer(m_ctrler->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
-
     if (!analyzer.analyze()) {
-        Log.trace("result is empty");
+        Log.info("result is empty");
         return false;
     }
     Rect rect = analyzer.get_rect(facility_name(), index);
     if (rect.empty()) {
-        Log.trace("facility index is out of range");
+        Log.info("facility index is out of range");
         return false;
     }
-
+    m_ctrler->click(rect);
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-
-    m_ctrler->click(rect);
-    const auto enter_task_ptr = Task.get("InfrastEnterFacility");
-    sleep(enter_task_ptr->rear_delay);
+    sleep(Task.get("InfrastEnterFacility")->rear_delay);
 
     return true;
 }
