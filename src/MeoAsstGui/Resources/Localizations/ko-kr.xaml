@@ -176,9 +176,9 @@
     <system:String x:Key="Then">완료 후</system:String>
     <system:String x:Key="DoNothing">아무것도 하지 않는다</system:String>
     <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
-    <system:String x:Key="ExitMAA">MAA를 종료</system:String>
-    <system:String x:Key="CloseEmulator">에뮬레이터를 종료</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulator">MAA와 에뮬레이터를 종료</system:String>
+    <system:String x:Key="ExitSelf">MAA를 종료</system:String>
+    <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
+    <system:String x:Key="ExitEmulatorAndSelf">MAA와 에뮬레이터를 종료</system:String>
     <system:String x:Key="Hibernate">하이버네이션*</system:String>
     <system:String x:Key="Shutdown">컴퓨터를 종료*</system:String>
 
@@ -240,7 +240,7 @@
     <system:String x:Key="SetSuccessfully">설정 성공</system:String>
     <system:String x:Key="SetFailed">설정 실패</system:String>
     <system:String x:Key="CloseArknightsFailed">게임 종료 실패</system:String>
-    <system:String x:Key="CloseEmulatorFailed">에뮬레이터 종료 실패</system:String>
+    <system:String x:Key="ExitEmulatorFailed">에뮬레이터 종료 실패</system:String>
     <system:String x:Key="AboutToShutdown">작업 완료했습니다, 운영 체제가 곧 중료됩니다. 취소하시겠습니까?</system:String>
     <system:String x:Key="ShutdownPrompt">공지</system:String>
     <system:String x:Key="HibernatePrompt">작업 완료했습니다, 곧 하이버네이션됩니다.</system:String>
