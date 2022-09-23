@@ -6,7 +6,7 @@
             "name": "A+B 组",
             "description": "最高效率长班\n下次换班请在约16小时后进行",
             "Fiammetta": {
-                "target": "龙舌兰"
+                "target": "巫恋"
             },
             "drones": {
                 "room": "trading",
@@ -131,7 +131,7 @@
             "name": "A+Y 组",
             "description": "次高效替补 1 班\n下次换班请在约4小时后进行",
             "Fiammetta": {
-                "target": "巫恋"
+                "target": "龙舌兰"
             },
             "drones": {
                 "room": "trading",
