@@ -357,9 +357,8 @@ labels:
 
 # `translation required`
 - name: translation required
-  # 不符合 commitizen 的 PR
   content: translation required
-  regexes: '(?:(?:(?:[\\u3040-\\u30ff]|[㍿㍐])[^`]*){10,})'
+  regexes: '(?:(?:(?:[\u3040-\u30ff]|[㍿㍐])[^`]*){10,})'
   mode:
     pull_request_target:
     issues:
