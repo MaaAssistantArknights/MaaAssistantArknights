@@ -344,7 +344,7 @@ labels:
 - name: pr-documentation
   # 不符合 commitizen 的 PR
   content: documentation
-  regexes: '^docs?[\:\.\(\,])'
+  regexes: '^docs?[\:\.\(\,]'
   mode:
     pull_request_target:
   skip-if:
