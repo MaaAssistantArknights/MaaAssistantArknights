@@ -3856,10 +3856,10 @@
     "CreditStoreFailed": {
         "action": "DoNothing",
         "roi": [
-            76,
-            44,
-            144,
-            127
+            0,
+            45,
+            216,
+            124
         ],
         "next": [
             "CreditStoreOcr"
