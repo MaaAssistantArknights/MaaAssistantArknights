@@ -19,6 +19,8 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        bool m_save_credit_enabled = true;         // 设置是否防止信用值溢出
+        std::string creditOcr();
 
         std::vector<std::string> m_shopping_list;
         bool m_is_white_list = false;
