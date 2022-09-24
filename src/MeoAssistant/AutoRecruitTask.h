@@ -45,6 +45,7 @@ namespace asst
         bool hire_all(const cv::Mat&);
         bool hire_all();
         bool initialize_dirty_slot_info(const cv::Mat&);
+        std::vector<std::string> get_tags_name(std::vector<std::string> ids);
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
         void upload_result(const json::value& details);

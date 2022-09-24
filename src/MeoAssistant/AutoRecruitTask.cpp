@@ -357,9 +357,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         bool has_robot_tag = false;
 
         json::value info = basic_info();
-        std::vector<json::value> tag_json_vector;
-        ranges::transform(tags, std::back_inserter(tag_json_vector), std::mem_fn(&TextRect::text));
-        info["details"]["tags"] = json::array(tag_json_vector);
+        std::vector<std::string> tag_name_vector;
+        ranges::transform(tags, std::back_inserter(tag_name_vector), std::mem_fn(&TextRect::text));
+        info["details"]["tags"] = json::array(get_tags_name(tag_name_vector));
 
         // tags result
         {
@@ -375,7 +375,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             has_special_tag = true;
             json::value cb_info = info;
             cb_info["what"] = "RecruitSpecialTag";
-            cb_info["details"]["tag"] = *special_iter;
+            cb_info["details"]["tag"] = RecruitData.get_tag_name(*special_iter);
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -386,7 +386,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             has_robot_tag = true;
             json::value cb_info = info;
             cb_info["what"] = "RecruitSpecialTag";
-            cb_info["details"]["tag"] = *robot_iter;
+            cb_info["details"]["tag"] = RecruitData.get_tag_name(*robot_iter);
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -436,12 +436,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             std::vector<json::value> result_json_vector;
             for (const auto& comb : result_vec) {
                 json::value comb_json;
-
-                std::vector<json::value> tags_json_vector;
-                for (const std::string& tag : comb.tags) {
-                    tags_json_vector.emplace_back(tag);
-                }
-                comb_json["tags"] = json::array(std::move(tags_json_vector));
+                comb_json["tags"] = json::array(get_tags_name(comb.tags));
 
                 std::vector<json::value> opers_json_vector;
                 for (const RecruitOperInfo& oper_info : ranges::reverse_view(comb.opers)) { // print reversely
@@ -573,7 +568,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object { { "tags", json::array(final_combination.tags) } };
+            cb_info["details"] = json::object { { "tags", json::array(get_tags_name(final_combination.tags)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -680,6 +675,15 @@ bool asst::AutoRecruitTask::hire_all()
     }
     Log.info("Dirty slots are", m_dirty_slots);
     return true;
+}
+
+std::vector<std::string> asst::AutoRecruitTask::get_tags_name(std::vector<std::string> ids)
+{
+    std::vector<std::string> names;
+    for (const std::string& id : ids) {
+        names.emplace_back(RecruitData.get_tag_name(id));
+    }
+    return names;
 }
 
 void asst::AutoRecruitTask::upload_result(const json::value& details)

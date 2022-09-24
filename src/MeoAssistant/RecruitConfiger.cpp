@@ -6,30 +6,33 @@
 
 #include "Logger.hpp"
 
+std::string asst::RecruitConfiger::get_tag_name(const std::string& id) const noexcept
+{
+    auto iter = m_all_tags_name.find(id);
+    if (iter == m_all_tags_name.cend()) {
+        return "Unknown tag";
+    }
+    return iter->second;
+}
+
 bool asst::RecruitConfiger::parse(const json::value& json)
 {
     clear();
 
-    for (const json::value& oper : json.as_array()) {
+    for (const json::value& oper : json.at("operators").as_array()) {
         RecruitOperInfo oper_temp;
         oper_temp.name = oper.at("name").as_string();
-        oper_temp.type = oper.at("type").as_string();
-        m_all_types.emplace(oper_temp.type);
-        // 职业类型也作为tag之一，加上"干员"两个字
-        std::string type_as_tag = oper_temp.type + "干员";
-        oper_temp.tags.emplace(type_as_tag);
-        m_all_tags.emplace(std::move(type_as_tag));
 
-        oper_temp.level = oper.at("level").as_integer();
-        oper_temp.sex = oper.get("sex", "unknown");
+        oper_temp.level = oper.at("rarity").as_integer();
         for (const json::value& tag_value : oper.at("tags").as_array()) {
             std::string tag = tag_value.as_string();
             oper_temp.tags.emplace(tag);
             m_all_tags.emplace(std::move(tag));
         }
-        oper_temp.hidden = oper.get("hidden", false);
-        oper_temp.name_en = oper.get("name-en", "unknown");
         m_all_opers.emplace_back(std::move(oper_temp));
+    }
+    for (const auto& [id, name] : json.at("tags").as_object()) {
+        m_all_tags_name.emplace(id, name);
     }
 
     // 按干员等级排个序
@@ -44,5 +47,5 @@ void asst::RecruitConfiger::clear()
 
     m_all_opers.clear();
     m_all_tags.clear();
-    m_all_types.clear();
+    m_all_tags_name.clear();
 }
