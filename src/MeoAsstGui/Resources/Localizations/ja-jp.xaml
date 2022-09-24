@@ -206,6 +206,8 @@
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
+    <system:String x:Key="RemainingSanityStage">余剰理性の消費方法</system:String>
+    <system:String x:Key="NoUse">使用しない</system:String>
     <system:String x:Key="Amend">設定の変更</system:String>
 
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
