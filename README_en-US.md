@@ -127,6 +127,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 - Operators and infrastructure data: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)
 - Stage data: [Penguin Stats](https://penguin-stats.io/)
 - Gamedata and resources: [Arknights Bot Resource](https://github.com/yuanyan3060/Arknights-Bot-Resource)
+- Gamedata: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)
 
 ### Contributors
 
