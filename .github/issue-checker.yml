@@ -1,156 +1,424 @@
 default-mode:
-  pull_request_target: [add, remove]
-  issues: [add, remove]
-  issue_comment: [add]
+  add:
+  remove: [pull_request_target, issues]
 labels:
-# <!-- [Aa]dd `LABEL` --> 可以强制加上一个 label
-# <!-- [Ss]kip `LABEL` --> 或 <!-- [Rr]emove `LABEL` --> 可以强制去掉一个 label
-# Add 的优先级比 Remove 高
-- name: "module: copilot"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)copilot(?:`|)|自动(?:作战|战斗|编队)|作业|自動[戰戦][鬥闘]|作業|[Cc]opilot)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)copilot(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)copilot(?:`|))))[\\s\\S]*$)"
-- name: "module: roguelike"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)roguelike(?:`|)|肉[鸽鴿]|集成战略|[Rr]ogue|ローグ)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)roguelike(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)roguelike(?:`|))))[\\s\\S]*$)"
-- name: "module: drop"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)drop(?:`|)|掉落物?识别)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)drop(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)drop(?:`|))))[\\s\\S]*$)"
-  disabled-if:
-  - "module: copilot"
-  - "module: roguelike"
-- name: "module: fight"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)fight(?:`|)|刷图|刷理智|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|[戰戦][鬥闘]|[Ff]ight|[Bb]attle|[Aa]nihilation)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)fight(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)fight(?:`|))))[\\s\\S]*$)"
-  disabled-if:
-  - "module: copilot"
-  - "module: drop"
-  - "module: roguelike"
-- name: "module: infrast"
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)infrast(?:`|)|\
-    基建|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|[Ii]nfrast|[Dd]orm)"
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)infrast(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)infrast(?:`|))))[\\s\\S]*$)"
-- name: "module: depot"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)depot(?:`|)|仓库识别|仓库检测|仓检|[Dd]epot)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)depot(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)depot(?:`|))))[\\s\\S]*$)"
-- name: "module: others"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)others(?:`|)|信用|拜访|登录|开始唤醒|[Vv]isit|[Ll]ogin|[Ss]tartup)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)others(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)others(?:`|))))[\\s\\S]*$)"
-- name: "module: recruit"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)recruit(?:`|)|公招|招募|公開(?:募集|求人)|[Rr]ecruit)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)recruit(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)recruit(?:`|))))[\\s\\S]*$)"
-  disabled-if:
-  - "module: roguelike"
-- name: "module: core"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)core(?:`|))'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)core(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)core(?:`|))))[\\s\\S]*$)"
-- name: "module: GUI"
-  # 要使得 issue 被打上 GUI 标签，最好明确说明 `图形界面`, `图形化界面`, `GUI` 等
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:module: |)GUI(?:`|)|软件更新|自动下载|图形化?界面|[Gg]ui|GUI)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:module: |)GUI(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Mm]odule |)[Ll]abels?|(?:`|)(?:module: |)GUI(?:`|))))[\\s\\S]*$)"
-- name: ambiguous
-  # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
-  mode:
-    issues: [add, remove]
-    issue_comment: [remove]
-  disabled-if:
-  - "module: copilot"
-  - "module: core"
-  - "module: depot"
-  - "module: fight"
-  - "module: GUI"
-  - "module: infrast"
-  - "module: others"
-  - "module: recruit"
-  - "module: roguelike"
-- name: release
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)release(?:`|)|Release v(?:\d)+\.(?:\d)+\.(?:\d)+)'
-  - "(?:[Aa]dd (?:`|)(?:label |)release(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)release(?:`|))))[\\s\\S]*$)"
-  mode:
-    pull_request_target: [add, remove]
-- name: pr-ambiguous
-  content: ambiguous
-  # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)ambiguous(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)ambiguous(?:`|))))[\\s\\S]*$)"
-  - "^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rfc|style|test)[\\:\\.\\(\\,]|[Mm]erge|[Rr]evert)"
-  mode:
-    pull_request_target: [add, remove]
-  disabled-if:
-  - "release"
-- name: pr-documentation
-  content: documentation
-  # 不符合上面任何一个的分类并且（如果是PR）不符合 commitizen
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)documentation(?:`|)|^docs?[\:\.\(\,])'
-  - "(?:[Aa]dd (?:`|)(?:label |)documentation(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)documentation(?:`|))))[\\s\\S]*$)"
-  mode:
-    pull_request_target: [add, remove]
-  disabled-if:
-  - "release"
-- name: translation required
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)translation required(?:`|)|(?:(?:[\\u3040-\\u30ff]|[㍿㍐])[^`]*){10,})"
-  - "(?:[Aa]dd (?:`|)(?:label |)translation required(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)translation required(?:`|))))[\\s\\S]*$)"
-  mode:
-    pull_request_target: [add, remove]
-    issues: [add, remove]
-- name: "Client: JP"
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)JP(?:`|)|日(?:文|语|本|)服|\
-    [Yy]o[Ss]tar\\-?(?:JP|jp)|(?:JP|jp)[\\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))"
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)JP(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Cc]lient |)[Ll]abels?|(?:`|)(?:Client: |)JP(?:`|))))[\\s\\S]*$)"
-- name: "Client: EN"
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)EN(?:`|)|英(?:文|语|)服|国际服|美服|\
-    [Yy]o[Ss]tar\\-?(?:EN|en)|(?:EN|en)[\\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))"
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)EN(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Cc]lient |)[Ll]abels?|(?:`|)(?:Client: |)EN(?:`|))))[\\s\\S]*$)"
-- name: "Client: KR"
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)KR(?:`|)|韩(?:文|语|国|)服|\
-    [Yy]o[Ss]tar\\-?(?:KR|kr)|(?:KR|kr)[\\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))"
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)KR(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Cc]lient |)[Ll]abels?|(?:`|)(?:Client: |)KR(?:`|))))[\\s\\S]*$)"
-- name: "Client: ZH_TW"
-  regexes:
-  - '(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)ZH_TW(?:`|)|繁中服|台(?:湾|灣|)服|繁体中文服|(?:龙|龍)成|天下网游|txwy)'
-  - "(?:[Aa]dd (?:`|)(?:label |)(?:Client: |)ZH_TW(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)(?:[Cc]lient |)[Ll]abels?|(?:`|)(?:Client: |)ZH_TW(?:`|))))[\\s\\S]*$)"
+# <!-- [Ss]kip `LABEL` --> 跳过一个 label
+# <!-- [Rr]emove `LABEL` --> 去掉一个 label
+
+# skip and remove
+- name: skip all
+  content:
+  regexes: '[Ss]kip (?:[Aa]ll |)[Ll]abels?'
+- name: remove all
+  content:
+  regexes: '[Rr]emove (?:[Aa]ll |)[Ll]abels?'
+- name: skip module
+  content:
+  regexes: '[Ss]kip [Mm]odule [Ll]abels?'
+- name: remove module
+  content:
+  regexes: '[Rr]emove [Mm]odule [Ll]abels?'
+- name: skip client
+  content:
+  regexes: '[Ss]kip [Cc]lient [Ll]abels?'
+- name: remove client
+  content:
+  regexes: '[Rr]emove [Cc]lient [Ll]abels?'
+- name: skip copilot
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)copilot(?:`|)'
+- name: remove copilot
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)copilot(?:`|)'
+- name: skip core
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)core(?:`|)'
+- name: remove core
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)core(?:`|)'
+- name: skip depot
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)depot(?:`|)'
+- name: remove depot
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)depot(?:`|)'
+- name: skip drop
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)drop(?:`|)'
+- name: remove drop
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)drop(?:`|)'
+- name: skip fight
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)fight(?:`|)'
+- name: remove fight
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)fight(?:`|)'
+- name: skip GUI
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)GUI(?:`|)'
+- name: remove GUI
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)GUI(?:`|)'
+- name: skip infrast
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)infrast(?:`|)'
+- name: remove infrast
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)infrast(?:`|)'
+- name: skip others
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)others(?:`|)'
+- name: remove others
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)others(?:`|)'
+- name: skip recruit
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)recruit(?:`|)'
+- name: remove recruit
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)recruit(?:`|)'
+- name: skip roguelike
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)roguelike(?:`|)'
+- name: remove roguelike
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)roguelike(?:`|)'
+- name: skip ambiguous
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)ambiguous(?:`|)'
+- name: remove ambiguous
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)ambiguous(?:`|)'
+- name: skip release
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)release(?:`|)'
+- name: remove release
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)release(?:`|)'
+- name: skip documentation
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)documentation(?:`|)'
+- name: remove documentation
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)documentation(?:`|)'
+- name: skip translation required
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)translation required(?:`|)'
+- name: remove translation required
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)translation required(?:`|)'
+- name: skip client-JP
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: JP(?:`|)'
+- name: remove client-JP
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: JP(?:`|)'
+- name: skip client-EN
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: EN(?:`|)'
+- name: remove client-EN
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: EN(?:`|)'
+- name: skip client-KR
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: KR(?:`|)'
+- name: remove client-KR
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: KR(?:`|)'
+- name: skip client-ZH_TW
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: ZH_TW(?:`|)'
+- name: remove client-ZH_TW
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: ZH_TW(?:`|)'
+- name: skip incomplete
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)incomplete(?:`|)'
+- name: remove incomplete
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)incomplete(?:`|)'
+
+# `MAA Team`
 - name: MAA Team
   mode:
-    pull_request_target: [add]
-    issues: [add]
+    add: [pull_request_target, issues]
   author_association:
   - "MEMBER"
+
+# `module: infrast`
+- name: infrast
+  content: "module: infrast"
+  regexes:
+    "(?:基建|换班|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|[Ii]nfrast|[Dd]orm)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip infrast
+  remove-if:
+  - remove all
+  - remove module
+  - remove infrast
+
+# `module: copilot`
+- name: copilot1
+  content: "module: copilot"
+  regexes: '(?:自动(?:作战|战斗|编队)|自動[戰戦][鬥闘]|[Cc]opilot)'
+  mode: add
+  skip-if:
+  - skip all
+  - skip module
+  - skip copilot
+  remove-if:
+  - remove all
+  - remove module    
+  - remove copilot
+- name: copilot2
+  content: "module: copilot"
+  regexes: '(?:作[业業])'
+  skip-if:
+  - skip all
+  - skip module
+  - skip copilot
+  - copilot1
+  - infrast
+  remove-if:
+  - remove all
+  - remove module    
+  - remove copilot
+
+# `module: roguelike`
+- name: roguelike
+  content: "module: roguelike"
+  regexes:
+    "(?:肉[鸽鴿]|集成战略|[Rr]ogue|ローグ)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip roguelike
+  remove-if:
+  - remove all
+  - remove module
+  - remove roguelike
+
+# `module: drop`
+- name: drop
+  content: "module: drop"
+  regexes:
+    "(?:掉落物?识别)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip drop
+  remove-if:
+  - remove all
+  - remove module
+  - remove drop
+
+# `module: fight`
+- name: fight
+  content: "module: fight"
+  regexes:
+    "(?:刷图|刷理智|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|[戰戦][鬥闘]|[Ff]ight|[Bb]attle|[Aa]nihilation)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip fight
+  - copilot1
+  - copilot2
+  - drop
+  - roguelike
+  remove-if:
+  - remove all
+  - remove module
+  - remove fight
+
+# `module: depot`
+- name: depot
+  content: "module: depot"
+  regexes:
+    "(?:仓库识别|仓库检测|仓检|[Dd]epot)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip depot
+  remove-if:
+  - remove all
+  - remove module
+  - remove depot
+
+# `module: others`
+- name: others
+  content: "module: others"
+  regexes:
+    "(?:信用|拜访|登录|开始唤醒|[Vv]isit|[Ll]ogin|[Ss]tartup)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip others
+  remove-if:
+  - remove all
+  - remove module
+  - remove others
+
+# `module: recruit`
+- name: recruit
+  content: "module: recruit"
+  regexes:
+    "(?:公招|招募|公開(?:募集|求人)|[Rr]ecruit)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip recruit
+  - roguelike
+  remove-if:
+  - remove all
+  - remove module
+  - remove recruit
+
+# `module: recruit`
+- name: GUI
+  content: "module: GUI"
+  regexes:
+    "(?:软件更新|自动下载|图形化?界面|[Gg]ui|GUI)"
+  skip-if:
+  - skip all
+  - skip module
+  - skip GUI
+  remove-if:
+  - remove all
+  - remove module
+  - remove GUI
+
+# `ambiguous`
+- name: ambiguous
+  # 不符合上面任何一个的分类的 issue
+  content: ambiguous
+  mode:
+    issues:
+    issue_comment: remove
+  skip-if:
+  - skip all
+  - skip ambiguous
+  remove-if:
+  - remove all
+  - remove ambiguous
+  - copilot1
+  - copilot2
+  - core
+  - depot
+  - drop
+  - fight
+  - GUI
+  - infrast
+  - others
+  - recruit
+  - roguelike
+- name: pr-ambiguous
+  # 不符合 commitizen 的 PR
+  content: ambiguous
+  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Mm]erge|[Rr]evert|[Rr]lease)'
+  mode:
+    pull_request_target:
+  skip-if:
+  - skip all
+  - skip ambiguous
+  remove-if:
+  - remove all
+  - remove ambiguous
+
+# `release`
+- name: release
+  content: release
+  regexes: 'Release v(?:\d)+\.(?:\d)+\.(?:\d)+'
+  mode:
+    pull_request_target:
+  skip-if:
+  - skip all
+  - skip release
+  remove-if:
+  - remove all
+  - remove release
+
+# `documentation`
+- name: pr-documentation
+  # 不符合 commitizen 的 PR
+  content: documentation
+  regexes: '^docs?[\:\.\(\,])'
+  mode:
+    pull_request_target:
+  skip-if:
+  - skip all
+  - skip documentation
+  - release
+  remove-if:
+  - remove all
+  - remove documentation
+
+# `translation required`
+- name: translation required
+  # 不符合 commitizen 的 PR
+  content: translation required
+  regexes: '(?:(?:(?:[\\u3040-\\u30ff]|[㍿㍐])[^`]*){10,})'
+  mode:
+    pull_request_target:
+    issues:
+  skip-if:
+  - skip all
+  - skip translation required
+  remove-if:
+  - remove all
+  - remove translation required
+
+# `Client: JP`
+- name: "Client: JP"
+  regexes: '(?:日[文语本]?服|[Yy]o[Ss]tar\-?(?:JP|jp)|(?:JP|jp)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-JP
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-JP
+
+# `Client: EN`
+- name: "Client: EN"
+  regexes: '(?:英[文语]?服|国际服|美服|[Yy]o[Ss]tar\-?(?:EN|en)|(?:EN|en)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-EN
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-EN
+
+# `Client: KR`
+- name: "Client: KR"
+  regexes: '(?:韩[文语国]?服|[Yy]o[Ss]tar\-?(?:KR|kr)|(?:KR|kr)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-KR
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-KR
+
+# `Client: ZH_TW`
+- name: "Client: ZH_TW"
+  regexes: '(?:繁中服|台(?:湾|灣|)服|繁体中文服|[龙龍]成|天下网游|txwy)'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-ZH_TW
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-ZH_TW
+
+# `fixed`
 - name: fixed
   regexes:
   - "(?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
@@ -165,37 +433,50 @@ labels:
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
     (?:https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/|)[0-9a-z]{40,40})"
   mode:
-    issue_comment: [add]
+    issue_comment: add
+
+# `duplicate`
 - name: duplicate
   regexes:
     "[Dd]uplicate of\\s*\\[?`?#\\d+"
   mode:
-    issue_comment: [add]
+    issue_comment: add
+
+# `outdated`
 - name: outdated
   regexes:
     "[Ss]uperseded by"
   mode:
-    issue_comment: [add]
+    issue_comment: add
+
+# `incomplete`
 - name: incomplete
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|\
-    \\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\\]\\(\\))"
-  - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|^(?![\\s\\S]*(?:\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)[Ii][nm]complete(?:`|))))[\\s\\S]*$)"
-  mode:
-    issues: [add]
-    issue_comment: [add]
-- name: complete!
   content: incomplete
-  regexes:
-  - "(?:[Aa]dd (?:`|)(?:label |)[Ii][nm]complete(?:`|)|^(?![\\s\\S]*(?:\
-    \\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\\]\\([^\\)]+\\)|\
-    (?:[Rr]emove|[Ss]kip) (?:(?:[Aa]ll |)[Ll]abels?|(?:`|)[Ii][nm]complete(?:`|))))[\\s\\S]*$)"
+  regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))'
   mode:
-    issues: [remove]
-    issue_comment: [remove]
-  disabled-if:
-    incomplete
+    add: [issues, issue_comment]
+  skip-if:
+  - skip all
+  - skip incomplete
+  remove-if:
+  - remove all
+  - remove incomplete
+- name: complete
+  content:
+  regexes: '(?:\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\]\([^\)]+\))'
+- name: remove incomplete
+  content: incomplete
+  mode:
+    remove: [issues, issue_comment]
+  skip-if:
+  - skip all
+  - skip incomplete
+  - incomplete
+  remove-if:
+  - remove all
+  - remove incomplete
+  - complete
+
 comments:
 - name: Log upload failed
   regexes:
@@ -203,19 +484,13 @@ comments:
   content:
     "你的日志没有上传成功，请重新上传。\n\n\
     Your log did not upload successfully, please re-upload it."
-  mode:
-    pull_request_target: [add]
-    issues: [add]
-    issue_comment: [add]
+  mode: add
 - name: Upload failed
   regexes:
   - "^[^`]*(`[^`]+`[^`]*)*\\[Uploading[^\\]]*…\\]\\(\\)"
   content:
     "你有一些文件没有上传成功，请重新上传。\n\n\
     You have some files that did not upload successfully, please re-upload them."
-  mode:
-    pull_request_target: [add]
-    issues: [add]
-    issue_comment: [add]
-  disabled-if:
+  mode: add
+  skip-if:
   - "Log upload failed"
