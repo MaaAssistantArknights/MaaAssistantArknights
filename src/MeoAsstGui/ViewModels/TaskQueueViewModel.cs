@@ -904,7 +904,7 @@ namespace MeoAsstGui
                 black_list[i] = black_list[i].Trim();
             }
 
-            return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list);
+            return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list, settings.CreditSaveCreditEnabled);
         }
 
         private bool appendRecruit()

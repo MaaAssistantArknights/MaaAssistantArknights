@@ -948,6 +948,25 @@ namespace MeoAsstGui
             }
         }
 
+        private string _creditSaveCreditEnabled = ViewStatusStorage.Get("Mall.CreditSaveCreditEnabled", true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether save credit is enabled.
+        /// </summary>
+        public bool CreditSaveCreditEnabled
+        {
+            get
+            {
+                return bool.Parse(_creditSaveCreditEnabled);
+            }
+
+            set
+            {
+                SetAndNotify(ref _creditSaveCreditEnabled, value.ToString());
+                ViewStatusStorage.Set("Mall.CreditSaveCreditEnabled", value.ToString());
+            }
+        }
+
         /* 定时设置 */
 
         private bool _timer1 = ViewStatusStorage.Get("Timer.Timer1", bool.FalseString) == bool.TrueString;

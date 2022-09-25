@@ -16,12 +16,19 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <CheckBox
-            Margin="10"
+            Margin="-200,10,10,10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Block.TextAlignment="Center"
             Content="{DynamicResource SocialPtShop}"
             IsChecked="{Binding CreditShopping}" />
+        <CheckBox
+            Margin="200,10,10,10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Block.TextAlignment="Center"
+            Content="{DynamicResource SaveCreditEnabled}"
+            IsChecked="{Binding CreditSaveCreditEnabled}" />
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"

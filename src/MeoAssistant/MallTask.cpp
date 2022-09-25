@@ -21,6 +21,9 @@ asst::MallTask::MallTask(const AsstCallback& callback, void* callback_arg)
 bool asst::MallTask::set_params(const json::value& params)
 {
     bool shopping = params.get("shopping", true);
+    bool save_credit_enabled = params.get("save_credit_enabled", true);
+    m_shopping_first_task_ptr->set_save_credit_enabled(false);
+    m_shopping_task_ptr->set_save_credit_enabled(save_credit_enabled);
 
     if (shopping) {
         if (auto buy_first_opt = params.find<json::array>("buy_first")) {
