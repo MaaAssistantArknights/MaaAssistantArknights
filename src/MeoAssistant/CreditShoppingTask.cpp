@@ -22,6 +22,12 @@ void asst::CreditShoppingTask::set_white_list(std::vector<std::string> black_lis
     m_is_white_list = true;
 }
 
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_save_credit_enabled(bool save_credit_enabled) noexcept
+{
+    m_save_credit_enabled = save_credit_enabled;
+    return *this;
+}
+
 std::string asst::CreditShoppingTask::credit_ocr()
 {
     cv::Mat credit_image = m_ctrler->get_image();
@@ -117,7 +123,7 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
 
         if (credit_ocr_enabled) {
             std::string credit = credit_ocr();
-            if (credit == "" || std::stoi(credit) <= 300) {//信用值不再溢出，停止购物
+            if (credit == "" || std::stoi(credit) <= m_max_credit) {//信用值不再溢出，停止购物
                 break;
             }
         }
@@ -137,7 +143,7 @@ bool asst::CreditShoppingTask::_run()
 
         std::string credit = credit_ocr();
 
-        if (credit != "" && std::stoi(credit) > 300) {//信用值溢出
+        if (credit != "" && std::stoi(credit) > m_max_credit) {//信用值溢出
             if (!credit_shopping(false, true)) {
                 return false;
             }

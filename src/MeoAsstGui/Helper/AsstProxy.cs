@@ -1230,13 +1230,15 @@ namespace MeoAsstGui
         /// <param name="with_shopping">是否购物。</param>
         /// <param name="first_list">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
+        /// <param name="save_credit_enabled">是否在信用溢出时无视黑名单</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool with_shopping, string[] first_list, string[] blacklist)
+        public bool AsstAppendMall(bool with_shopping, string[] first_list, string[] blacklist, bool save_credit_enabled)
         {
             var task_params = new JObject();
             task_params["shopping"] = with_shopping;
             task_params["buy_first"] = new JArray { first_list };
             task_params["blacklist"] = new JArray { blacklist };
+            task_params["save_credit_enabled"] = save_credit_enabled;
             TaskId id = AsstAppendTaskWithEncoding("Mall", task_params);
             _latestTaskId[TaskType.Mall] = id;
             return id != 0;
