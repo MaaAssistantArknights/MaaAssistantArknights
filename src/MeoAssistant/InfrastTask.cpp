@@ -172,12 +172,22 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
             if (auto opers_opt = room_info.find<json::array>("operators")) {
                 for (const auto& oper_name : opers_opt.value()) {
-                    room_config.names.emplace_back(oper_name.as_string());
+                    std::string name = oper_name.as_string();
+                    if (name.empty()) {
+                        Log.warn("operators.name is empty");
+                        continue;
+                    }
+                    room_config.names.emplace_back(std::move(name));
                 }
             }
             if (auto candidates_opt = room_info.find<json::array>("candidates")) {
                 for (const auto& candidate_name : candidates_opt.value()) {
-                    room_config.candidates.emplace_back(candidate_name.as_string());
+                    std::string name = candidate_name.as_string();
+                    if (name.empty()) {
+                        Log.warn("operators.candidates is empty");
+                        continue;
+                    }
+                    room_config.candidates.emplace_back(std::move(name));
                 }
             }
             facility_config.emplace_back(std::move(room_config));
