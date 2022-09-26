@@ -17,13 +17,13 @@ namespace asst
         void set_black_list(std::vector<std::string> black_list);
         void set_white_list(std::vector<std::string> white_list);
 
-        CreditShoppingTask& set_save_credit_enabled(bool save_credit_enabled) noexcept;
+        CreditShoppingTask& set_force_shopping_if_credit_full(bool force_shopping_if_credit_full) noexcept;
 
     protected:
         virtual bool _run() override;
-        bool m_save_credit_enabled = true;         // 设置是否防止信用值溢出
+        bool m_force_shopping_if_credit_full = true;         // 设置是否防止信用值溢出
         int m_max_credit = 300;
-        std::string credit_ocr();
+        int credit_ocr();
         bool credit_shopping(bool white_list_enabled, bool credit_ocr_enabled);
 
         std::vector<std::string> m_shopping_list;
