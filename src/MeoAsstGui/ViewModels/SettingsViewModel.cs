@@ -948,22 +948,22 @@ namespace MeoAsstGui
             }
         }
 
-        private string _creditSaveCreditEnabled = ViewStatusStorage.Get("Mall.CreditSaveCreditEnabled", true.ToString());
+        private string _creditForceShoppingIfCreditFull = ViewStatusStorage.Get("Mall.CreditForceShoppingIfCreditFull", true.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether save credit is enabled.
         /// </summary>
-        public bool CreditSaveCreditEnabled
+        public bool CreditForceShoppingIfCreditFull
         {
             get
             {
-                return bool.Parse(_creditSaveCreditEnabled);
+                return bool.Parse(_creditForceShoppingIfCreditFull);
             }
 
             set
             {
-                SetAndNotify(ref _creditSaveCreditEnabled, value.ToString());
-                ViewStatusStorage.Set("Mall.CreditSaveCreditEnabled", value.ToString());
+                SetAndNotify(ref _creditForceShoppingIfCreditFull, value.ToString());
+                ViewStatusStorage.Set("Mall.CreditForceShoppingIfCreditFull", value.ToString());
             }
         }
 

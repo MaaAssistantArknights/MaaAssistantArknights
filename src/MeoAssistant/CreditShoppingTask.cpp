@@ -22,13 +22,13 @@ void asst::CreditShoppingTask::set_white_list(std::vector<std::string> black_lis
     m_is_white_list = true;
 }
 
-asst::CreditShoppingTask& asst::CreditShoppingTask::set_save_credit_enabled(bool save_credit_enabled) noexcept
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit_full(bool force_shopping_if_credit_full) noexcept
 {
-    m_save_credit_enabled = save_credit_enabled;
+    m_force_shopping_if_credit_full = force_shopping_if_credit_full;
     return *this;
 }
 
-std::string asst::CreditShoppingTask::credit_ocr()
+int asst::CreditShoppingTask::credit_ocr()
 {
     cv::Mat credit_image = m_ctrler->get_image();
     OcrImageAnalyzer credit_analyzer(credit_image);
@@ -37,18 +37,18 @@ std::string asst::CreditShoppingTask::credit_ocr()
 
     if (!credit_analyzer.analyze()) {
         Log.trace("ERROR:!credit_analyzer.analyze():");
-        return "";
+        return -1;
     }
 
     std::string credit = credit_analyzer.get_result().front().text;
 
     if (credit.empty() || !ranges::all_of(credit, [](char c) -> bool { return std::isdigit(c); })) {
-        return "";
+        return -1;
     }
 
     Log.trace("credit:", credit);
 
-    return credit;
+    return std::stoi(credit);
 }
 
 bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
@@ -122,8 +122,8 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         sleep(rare_delay);
 
         if (credit_ocr_enabled) {
-            std::string credit = credit_ocr();
-            if (credit == "" || std::stoi(credit) <= m_max_credit) {//信用值不再溢出，停止购物
+            int credit = credit_ocr();
+            if (credit <0 || credit <= m_max_credit) {//信用值不再溢出，停止购物
                 break;
             }
         }
@@ -139,11 +139,11 @@ bool asst::CreditShoppingTask::_run()
         return false;
     }
 
-    if (m_save_credit_enabled && !m_is_white_list) {//识别信用值，防止信用值溢出
+    if (m_force_shopping_if_credit_full && !m_is_white_list) {//识别信用值，防止信用值溢出
 
-        std::string credit = credit_ocr();
+        int credit = credit_ocr();
 
-        if (credit != "" && std::stoi(credit) > m_max_credit) {//信用值溢出
+        if (credit >= 0 && credit > m_max_credit) {//信用值溢出
             if (!credit_shopping(false, true)) {
                 return false;
             }
