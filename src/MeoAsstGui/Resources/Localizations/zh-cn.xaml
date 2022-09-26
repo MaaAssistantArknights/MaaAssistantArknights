@@ -144,7 +144,7 @@
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
-    <system:String x:Key="SaveCreditEnabled">信用溢出时无视黑名单</system:String>
+    <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
 
     <system:String x:Key="DroneUsage">无人机用途</system:String>
 
