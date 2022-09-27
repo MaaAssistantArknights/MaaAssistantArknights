@@ -933,7 +933,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstListNew", "招聘许可；龙门币");
+        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstListNew", Localization.GetString("HighPriorityDefault"));
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -948,7 +948,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackListNew", "碳；家具");
+        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackListNew", Localization.GetString("BlacklistDefault"));
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.

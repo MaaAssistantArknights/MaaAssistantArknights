@@ -85,9 +85,9 @@ Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 ## Supports for overseas clients
 
 - Global(EN) Client  
-  Supports basic features like Combat, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
+  Supports basic features like Combat, Credit Shopping, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
 - JP Client  
-  Supports basic features like Combat, Auto Recruiting, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
+  Supports basic features like Combat, Credit Shopping, Auto Recruiting, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
 - KR Client  
   Supports basic features like Combat, etc.  See also [README](resource/global/YoStarKR/readme.md)
 - ZH_CHT Client  

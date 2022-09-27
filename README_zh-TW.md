@@ -85,9 +85,9 @@ MAA 的意思是 MAA Assistant Arknights
 ## 外服支援
 
 - 國際服（美服）  
-  支援基本的刷理智、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarEN/readme.md)
+  支援基本的刷理智、信用購物、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarEN/readme.md)
 - 日服  
-  支援基本的刷理智、自動公招、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarJP/readme.md)
+  支援基本的刷理智、信用購物、自動公招、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarJP/readme.md)
 - 韓服  
   支援基本的刷理智功能，請參考 [說明](resource/global/YoStarKR/readme.md)
 - 繁中服  
