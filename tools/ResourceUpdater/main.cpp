@@ -655,7 +655,18 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
         if (is_useless) {
             continue;
         }
-        for (auto n : string_split((string_split(s, "\n") | filter(not_empty)).front(), "/") | filter(not_empty)) {
+#if 0
+        std::string_view s1 = (string_split(s, "\n") | filter(not_empty)).front();
+#else
+        std::string_view s1;
+        if (auto s_splited = string_split(s, "\n") | filter(not_empty); !s_splited.empty()) {
+            s1 = s_splited.front();
+        }
+        else {
+            continue;
+        }
+#endif
+        for (auto n : string_split(s1, "/") | filter(not_empty)) {
             std::string name(n);
             trim(name);
             chars_list.emplace_back(name);
