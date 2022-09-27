@@ -286,6 +286,25 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
         else if (wait_result == WAIT_TIMEOUT) {
             if (wait_time == 0) {
+                std::vector<std::string> handle_string {};
+                for (auto handle : wait_handles) {
+                    if (handle == process_info.hProcess) {
+                        handle_string.emplace_back("process_info.hProcess");
+                    }
+                    else if (handle == pipeov.hEvent) {
+                        handle_string.emplace_back("pipeov.hEvent");
+                    }
+                    else if (recv_by_socket && handle == sockov.hEvent) {
+                        handle_string.emplace_back("sockov.hEvent");
+                    }
+                    else {
+                        handle_string.emplace_back("UnknownHandle");
+                    }
+                }
+                Log.warn("Wait handles:", handle_string, "timeout.");
+                if (process_running) {
+                    TerminateProcess(process_info.hProcess, 0);
+                }
                 break;
             }
             continue;
