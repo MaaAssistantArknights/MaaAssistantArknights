@@ -133,7 +133,7 @@
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
-    <system:String x:Key="RoguelikeAdditionalResource">ミヅキローグ設定</system:String>
+    <system:String x:Key="RoguelikeAdditionalResource">ミヅキのローグライクで使用する場合はチェック</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
