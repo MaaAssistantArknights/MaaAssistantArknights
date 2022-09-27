@@ -505,10 +505,10 @@
     "NL-Open": {
         "action": "ClickSelf",
         "roi": [
-            614,
-            69,
-            313,
-            237
+            471,
+            0,
+            530,
+            711
         ],
         "next": [
             "NLChapterToNL"
