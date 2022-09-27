@@ -3,8 +3,8 @@
 #include <unordered_set>
 
 #ifdef _MSC_VER
-#pragma warning( push )
-#pragma warning( disable: 5054 )
+#pragma warning(push)
+#pragma warning(disable : 5054)
 #elif defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-enum-enum-conversion"
@@ -15,25 +15,72 @@
 #endif
 #include <opencv2/opencv.hpp>
 #ifdef _MSC_VER
-#pragma warning( pop )
+#pragma warning(pop)
 #elif defined(__clang__)
 #pragma clang diagnostic pop
 #elif defined(__GNUC__)
 #pragma GCC diagnostic pop
 #endif
-#include <ranges>
 #include <meojson/json.hpp>
+#include <ranges>
+
+std::string ReplaceAll(std::string str, const std::string& from, const std::string& to)
+{
+    size_t start_pos = 0;
+    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return str;
+}
+
+std::vector<std::string> Split(const std::string& str, const std::string& delim)
+{
+    std::vector<std::string> tokens;
+    size_t prev = 0, pos = 0;
+    do {
+        pos = str.find(delim, prev);
+        if (pos == std::string::npos) pos = str.length();
+        std::string token = str.substr(prev, pos - prev);
+        if (!token.empty()) {
+            tokens.push_back(token);
+        }
+        prev = pos + delim.length();
+    } while (pos < str.length() && prev < str.length());
+    return tokens;
+}
+
+static inline void ltrim(std::string& s)
+{
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) { return !std::isspace(ch); }));
+}
+
+// trim from end (in place)
+static inline void rtrim(std::string& s)
+{
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(std::string& s)
+{
+    ltrim(s);
+    rtrim(s);
+}
 
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
 
 bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
-bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, const std::filesystem::path& solution_dir);
+bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir,
+                              const std::filesystem::path& solution_dir);
 
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
-bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file);
+bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file,
+                                                       const std::filesystem::path& en_file);
 bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -44,7 +91,8 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
     std::string git_cmd;
     if (!std::filesystem::exists(input_dir)) {
-        git_cmd = "git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" + input_dir.string() + "\"";
+        git_cmd = "git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" +
+                  input_dir.string() + "\"";
     }
     else {
         git_cmd = "git -C \"" + input_dir.string() + "\" pull";
@@ -68,10 +116,9 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* Update levels.json from Arknights-Bot-Resource*/
     std::cout << "------------Update levels.json------------" << std::endl;
-    if (!std::filesystem::copy_file(
-        input_dir / "levels.json",
-        third_resource_dir / "Arknights-Tile-Pos" / "levels.json",
-        std::filesystem::copy_options::overwrite_existing)) {
+    if (!std::filesystem::copy_file(input_dir / "levels.json",
+                                    third_resource_dir / "Arknights-Tile-Pos" / "levels.json",
+                                    std::filesystem::copy_options::overwrite_existing)) {
         std::cerr << "update levels.json failed" << std::endl;
         return -1;
     }
@@ -94,24 +141,61 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     ///* Update roguelike recruit data from Arknights-Bot-Resource*/
-    //std::cout << "------------Update roguelike recruit data------------" << std::endl;
-    //if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
-    //    std::cerr << "Update roguelike recruit data failed" << std::endl;
-    //    return -1;
-    //}
+    // std::cout << "------------Update roguelike recruit data------------" << std::endl;
+    // if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
+    //     std::cerr << "Update roguelike recruit data failed" << std::endl;
+    //     return -1;
+    // }
 
     /* Update stage.json from Penguin Stats*/
     std::cout << "------------Update stage.json------------" << std::endl;
-    if (!update_stages_data(cur_path, solution_dir / "resource")) {
+    if (!update_stages_data(cur_path, resource_dir)) {
         std::cerr << "Update stages data failed" << std::endl;
         return -1;
     }
 
     /* Update battle chars info from Arknights-Bot-Resource*/
     std::cout << "------------Update battle chars info------------" << std::endl;
-    if (!update_battle_chars_info(input_dir, solution_dir / "resource")) {
+    if (!update_battle_chars_info(input_dir, resource_dir)) {
         std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
+    }
+
+    /* Git update ArknightsGameData */
+    std::cout << "------------Update ArknightsGameData------------" << std::endl;
+    const std::filesystem::path game_data_dir = cur_path / "ArknightsGameData";
+
+    if (!std::filesystem::exists(game_data_dir)) {
+        git_cmd =
+            "git clone https://github.com/Kengxxiao/ArknightsGameData.git --depth=1 \"" + game_data_dir.string() + "\"";
+    }
+    else {
+        git_cmd = "git -C \"" + game_data_dir.string() + "\" pull";
+    }
+    git_ret = system(git_cmd.c_str());
+    if (git_ret != 0) {
+        std::cout << "git cmd failed" << std::endl;
+        return -1;
+    }
+
+    /* Update recruitment data from ArknightsGameData*/
+    std::cout << "------------Update recruitment data------------" << std::endl;
+    if (!update_recruitment_data(game_data_dir / "zh_CN" / "gamedata" / "excel", resource_dir / "recruitment.json",
+                                 true)) {
+        std::cerr << "Update recruitment data failed" << std::endl;
+        return -1;
+    }
+
+    std::unordered_map<std::string, std::string> recruitment_dirs = {
+        { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" }, { "zh_TW", "txwy" }
+    };
+    for (const auto& [in, out] : recruitment_dirs) {
+        std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
+        if (!update_recruitment_data(game_data_dir / in / "gamedata" / "excel",
+                                     resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
+            std::cerr << "Update recruitment data failed" << std::endl;
+            return -1;
+        }
     }
 
     std::cout << "------------All success------------" << std::endl;
@@ -146,10 +230,10 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
             "2023recruitment10",
             "2024recruitment10",
             "2025recruitment10",
-            "uni_set_"              // 家具组合包
+            "uni_set_" // 家具组合包
         };
         static const std::vector<std::string> BlackListSuffix = {
-            "_rep_1",               // 复刻活动的活动代币
+            "_rep_1", // 复刻活动的活动代币
         };
 
         bool is_blacklist = false;
@@ -324,15 +408,9 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
         // 为了兼容老版本的字段 orz
         static const std::unordered_map<std::string, std::string> RoomTypeMapping = {
-            {       "POWER",        "Power"     },
-            {       "CONTROL",      "Control"   },
-            {       "DORMITORY",    "Dorm"      },
-            {       "WORKSHOP",     ""          },
-            {       "MANUFACTURE",  "Mfg"       },
-            {       "TRADING",      "Trade"     },
-            {       "MEETING",      "Reception" },
-            {       "HIRE",         "Office"    },
-            {       "TRAINING",     ""          },
+            { "POWER", "Power" },       { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },
+            { "WORKSHOP", "" },         { "MANUFACTURE", "Mfg" }, { "TRADING", "Trade" },
+            { "MEETING", "Reception" }, { "HIRE", "Office" },     { "TRAINING", "" },
         };
 
         std::string room_type = RoomTypeMapping.at(raw_room_type);
@@ -412,12 +490,7 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         }
         const std::string& stem = entry.path().stem().string();
 
-        const std::vector<std::string> BlackList = {
-            "[style]",
-            "bskill_dorm",
-            "bskill_train",
-            "bskill_ws"
-        };
+        const std::vector<std::string> BlackList = { "[style]", "bskill_dorm", "bskill_train", "bskill_ws" };
 
         bool is_blacklist = false;
         for (const auto& bl : BlackList) {
@@ -456,11 +529,14 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
     return true;
 }
 
-bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, const std::filesystem::path& solution_dir)
+bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir,
+                              const std::filesystem::path& solution_dir)
 {
     std::string python_cmd;
-    std::filesystem::path python_file = solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
-    python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" + output_dir.string() + "\"";
+    std::filesystem::path python_file =
+        solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
+    python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" +
+                 output_dir.string() + "\"";
     int python_ret = system(python_cmd.c_str());
     if (python_ret != 0) {
         return false;
@@ -468,7 +544,8 @@ bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std:
     return true;
 }
 
-bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file, const std::filesystem::path& en_file)
+bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file,
+                                                       const std::filesystem::path& en_file)
 {
     auto ch_opt = json::open(ch_file);
     auto en_opt = json::open(en_file);
@@ -528,16 +605,16 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     json::value result;
     auto& range = result["ranges"].as_object();
     for (auto& [id, range_data] : range_json.as_object()) {
-        if (int direction = range_data["direction"].as_integer();
-            direction != 1) {
+        if (int direction = range_data["direction"].as_integer(); direction != 1) {
             // 现在都是 1，朝右的，以后不知道会不会改，加个warning，真遇到再说
-            std::cout << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction) << std::endl;
+            std::cout << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction)
+                      << std::endl;
         }
         json::array points;
         for (auto& grids : range_data["grids"].as_array()) {
             int x = grids["col"].as_integer();
             int y = grids["row"].as_integer();
-            points.emplace_back(json::array{ x, y });
+            points.emplace_back(json::array { x, y });
         }
         range.emplace(id, std::move(points));
     }
@@ -550,17 +627,13 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
         char_new_data["name"] = name;
         if (name == "阿米娅") {
             char_new_data["profession"] = "WARRIOR";
-            char_new_data["rangeId"] = json::array{
-                "1-1",
-                "1-1",
-                "1-1"
-            };
+            char_new_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
         }
         else {
             char_new_data["profession"] = char_data["profession"];
 
             const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
-            char_new_data["rangeId"] = json::array{
+            char_new_data["rangeId"] = json::array {
                 default_range,
                 char_data.get("phases", 1, "rangeId", default_range),
                 char_data.get("phases", 2, "rangeId", default_range),
@@ -573,6 +646,133 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
+    ofs << result.format(true) << std::endl;
+
+    return true;
+}
+
+bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
+{
+    const auto& recruitment_file = input_dir / "gacha_table.json";
+    const auto& operators_file = input_dir / "character_table.json";
+
+    auto recruitment_opt = json::open(recruitment_file);
+    auto operatros_opt = json::open(operators_file);
+
+    if (!recruitment_opt || !operatros_opt) {
+        std::cerr << "Failed to parse recruitment or operators file" << std::endl;
+        return false;
+    }
+
+    std::vector<std::string> chars_list;
+    std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
+    remove_xml(recruitment_details);
+    auto splited = Split(ReplaceAll(recruitment_details, "\\n", ""), "★");
+    bool is_useless = true;
+    for (const auto& s : splited) {
+        if (s.find("Lancet-2") != std::string::npos) {
+            is_useless = false;
+        }
+        if (is_useless) {
+            continue;
+        }
+        for (const auto& n : Split(Split(s, "\n")[0], "/")) {
+            std::string name = n;
+            trim(name);
+            chars_list.emplace_back(name);
+        }
+    }
+
+    struct RecruitmentInfo
+    {
+        int rarity = 0;
+        std::vector<std::string> tags;
+    };
+
+    static std::unordered_map</*id*/ std::string, RecruitmentInfo> base_chars_info;
+
+    std::unordered_map</*name*/ std::string, /*id*/ std::string> chars_id_list;
+
+    for (auto& [id, char_data] : operatros_opt->as_object()) {
+        if (is_base) {
+            RecruitmentInfo info;
+            info.rarity = char_data["rarity"].as_integer() + 1;
+            for (const auto& tag : char_data["tagList"].as_array()) {
+                info.tags.emplace_back(tag.as_string());
+            }
+            std::string position = char_data["position"].as_string();
+            if (position == "MELEE") {
+                info.tags.emplace_back("近战位");
+            }
+            else if (position == "RANGED") {
+                info.tags.emplace_back("远程位");
+            }
+            else {
+                continue;
+            }
+            if (info.rarity == 5) {
+                info.tags.emplace_back("资深干员");
+            }
+            else if (info.rarity == 6) {
+                info.tags.emplace_back("高级资深干员");
+            }
+
+            static const std::unordered_map<std::string, std::string> RoleMap = {
+                { "CASTER", "术师干员" }, { "MEDIC", "医疗干员" },   { "PIONEER", "先锋干员" },
+                { "SNIPER", "狙击干员" }, { "SPECIAL", "特种干员" }, { "SUPPORT", "辅助干员" },
+                { "TANK", "重装干员" },   { "WARRIOR", "近卫干员" },
+            };
+            auto role_iter = RoleMap.find(char_data["profession"].as_string());
+            if (role_iter == RoleMap.cend()) {
+                continue;
+            }
+            info.tags.emplace_back(role_iter->second);
+            base_chars_info.insert_or_assign(id, std::move(info));
+        }
+        chars_id_list.insert_or_assign(char_data["name"].as_string(), id);
+    }
+
+    json::value result;
+    auto& opers = result["operators"];
+    for (const std::string& name : chars_list) {
+        auto id_iter = chars_id_list.find(name);
+        if (id_iter == chars_id_list.cend()) {
+            std::cerr << "Failed to find char: " << name << std::endl;
+            return false;
+        }
+
+        const std::string& id = id_iter->second;
+        auto info_iter = base_chars_info.find(id);
+        if (info_iter == base_chars_info.cend()) {
+            std::cerr << "Failed to find char's info: " << id << name << std::endl;
+            return false;
+        }
+
+        opers.array_emplace(json::object { { "id", id },
+                                           { "name", name },
+                                           { "rarity", info_iter->second.rarity },
+                                           { "tags", json::array(info_iter->second.tags) } });
+    }
+
+    static std::unordered_map</*id*/ int, /*tag*/ std::string> base_tags_name;
+    std::unordered_map</*id*/ int, /*tag*/ std::string> tags_name;
+
+    for (const auto& tag_json : recruitment_opt->at("gachaTags").as_array()) {
+        int id = tag_json.at("tagId").as_integer();
+        std::string name = tag_json.at("tagName").as_string();
+        if (is_base) {
+            base_tags_name.insert_or_assign(id, name);
+        }
+        tags_name.insert_or_assign(id, name);
+    }
+
+    auto& tags = result["tags"];
+    for (const auto& [id, tag] : tags_name) {
+        std::string base_name = base_tags_name.at(id);
+        tags.object_emplace(base_name, tag);
+    }
+
+    std::ofstream ofs(output, std::ios::out);
     ofs << result.format(true) << std::endl;
 
     return true;

@@ -176,9 +176,9 @@
     <system:String x:Key="Then">💃🕺</system:String>
     <system:String x:Key="DoNothing">🍻💃</system:String>
     <system:String x:Key="ExitArknights">🍸🍺🍸🍸</system:String>
-    <system:String x:Key="ExitMAA">🍷🍻🕺🍷</system:String>
-    <system:String x:Key="CloseEmulator">💃💃🍸</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulator">🍺🍷🍸🍸🍷</system:String>
+    <system:String x:Key="ExitSelf">🍷🍻🕺🍷</system:String>
+    <system:String x:Key="ExitEmulator">💃💃🍸</system:String>
+    <system:String x:Key="ExitEmulatorAndSelf">🍺🍷🍸🍸🍷</system:String>
     <system:String x:Key="Hibernate">💃🍷</system:String>
     <system:String x:Key="Shutdown">🍷🍷</system:String>
 
@@ -240,7 +240,7 @@
     <system:String x:Key="SetSuccessfully">🍸🍸🍺</system:String>
     <system:String x:Key="SetFailed">🍺🍷🕺</system:String>
     <system:String x:Key="CloseArknightsFailed">🍻🍷🍺🍻</system:String>
-    <system:String x:Key="CloseEmulatorFailed">🍷🍻🕺🍷</system:String>
+    <system:String x:Key="ExitEmulatorFailed">🍷🍻🕺🍷</system:String>
     <system:String x:Key="AboutToShutdown">🍸🍻🍻🍸🍷🍺🍸🍸</system:String>
     <system:String x:Key="ShutdownPrompt">🍷🍻</system:String>
     <system:String x:Key="HibernatePrompt">🍺💃🍺🍻🍻</system:String>

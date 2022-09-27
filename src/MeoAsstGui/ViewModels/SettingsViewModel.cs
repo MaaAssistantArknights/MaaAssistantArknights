@@ -177,6 +177,9 @@ namespace MeoAsstGui
             RoguelikeSquadList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
+                new CombData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
+                new CombData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
+                new CombData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
                 new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
                 new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
                 new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
@@ -777,6 +780,18 @@ namespace MeoAsstGui
 
         /* 肉鸽设置 */
 
+        private bool _roguelikeAdditionalResource = Convert.ToBoolean(ViewStatusStorage.Get("Roguelike.Addition", false.ToString()));
+
+        public bool RoguelikeAdditionalResourceEnabled
+        {
+            get => _roguelikeAdditionalResource;
+            set
+            {
+                SetAndNotify(ref _roguelikeAdditionalResource, value);
+                ViewStatusStorage.Set("Roguelike.Addition", value.ToString());
+            }
+        }
+
         private string _roguelikeMode = ViewStatusStorage.Get("Roguelike.Mode", "0");
 
         /// <summary>
@@ -918,7 +933,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstListNew", "招聘许可；龙门币");
+        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstListNew", Localization.GetString("HighPriorityDefault"));
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -933,7 +948,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackListNew", "碳；家具");
+        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackListNew", Localization.GetString("BlacklistDefault"));
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.
@@ -945,6 +960,25 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _creditBlackList, value);
                 ViewStatusStorage.Set("Mall.CreditBlackListNew", value);
+            }
+        }
+
+        private string _creditForceShoppingIfCreditFull = ViewStatusStorage.Get("Mall.CreditForceShoppingIfCreditFull", true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether save credit is enabled.
+        /// </summary>
+        public bool CreditForceShoppingIfCreditFull
+        {
+            get
+            {
+                return bool.Parse(_creditForceShoppingIfCreditFull);
+            }
+
+            set
+            {
+                SetAndNotify(ref _creditForceShoppingIfCreditFull, value.ToString());
+                ViewStatusStorage.Set("Mall.CreditForceShoppingIfCreditFull", value.ToString());
             }
         }
 
@@ -1502,7 +1536,7 @@ namespace MeoAsstGui
         private readonly Dictionary<string, List<string>> _defaultAddress = new Dictionary<string, List<string>>
         {
             { "General", new List<string> { string.Empty } },
-            { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5554" } },
+            { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
             { "MuMuEmulator", new List<string> { "127.0.0.1:7555" } },
             { "LDPlayer", new List<string> { "emulator-5554", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
             { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },

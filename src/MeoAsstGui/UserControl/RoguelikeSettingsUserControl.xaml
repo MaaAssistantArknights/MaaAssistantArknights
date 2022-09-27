@@ -17,6 +17,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical">
+            <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource RoguelikeAdditionalResource}"
+                    IsChecked="{Binding RoguelikeAdditionalResourceEnabled}" />
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"

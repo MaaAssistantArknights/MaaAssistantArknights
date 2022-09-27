@@ -889,6 +889,15 @@
                 ],
                 "template": "Bskill_man_originium2.png"
             },
+            "bskill_man_skill_change": {
+                "desc": [
+                    "进驻制造站时，当前制造站内所有莱茵科技类、红松骑士团类技能也全都视作标准化类技能"
+                ],
+                "name": [
+                    "意识兼容"
+                ],
+                "template": "Bskill_man_skill_change.png"
+            },
             "bskill_man_skill_spd": {
                 "desc": [
                     "进驻制造站时，当前制造站内每个标准化类技能为自身+5%的生产力"

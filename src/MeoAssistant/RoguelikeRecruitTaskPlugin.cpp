@@ -49,7 +49,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // 干员名字的识别位置
     std::unordered_map<std::string, Rect> last_oper_rects;
 
-    constexpr int SwipeTimes = 5;
+    constexpr int SwipeTimes = 3;
     int i = 0;
 
     // 翻页找出所有候选干员
@@ -161,8 +161,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
 
         // 每列4个干员，未滑动时可以显示2列，滑动后至少可以显示1列
-        const auto oper_count = oper_list.size();
-        if ((i == 0 && oper_count < 8) || oper_count < 4) {
+        const size_t oper_count = oper_list.size();
+        if ((i == 0 && oper_count < 8) || (oper_count != 4 && oper_count != 8)) {
             Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- stop swiping");
             break;
         }
@@ -179,7 +179,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 如果划动过，先划回最左边
         if (i != 0) {
-            swipe_to_the_left_of_operlist(i / 2 + 1);
+            swipe_to_the_left_of_operlist(i / 5 + 1);
         }
 
         auto image = m_ctrler->get_image();

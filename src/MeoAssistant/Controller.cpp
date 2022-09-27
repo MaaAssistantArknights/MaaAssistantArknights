@@ -258,6 +258,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 Log.trace("AcceptEx failed, err:", err);
                 accept_pending = false;
                 socket_eof = true;
+                closesocket(client_socket);
             }
         }
     }
@@ -286,6 +287,25 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
         else if (wait_result == WAIT_TIMEOUT) {
             if (wait_time == 0) {
+                std::vector<std::string> handle_string {};
+                for (auto handle : wait_handles) {
+                    if (handle == process_info.hProcess) {
+                        handle_string.emplace_back("process_info.hProcess");
+                    }
+                    else if (handle == pipeov.hEvent) {
+                        handle_string.emplace_back("pipeov.hEvent");
+                    }
+                    else if (recv_by_socket && handle == sockov.hEvent) {
+                        handle_string.emplace_back("sockov.hEvent");
+                    }
+                    else {
+                        handle_string.emplace_back("UnknownHandle");
+                    }
+                }
+                Log.warn("Wait handles:", handle_string, "timeout.");
+                if (process_running) {
+                    TerminateProcess(process_info.hProcess, 0);
+                }
                 break;
             }
             continue;
@@ -359,6 +379,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 else {
                     // err = GetLastError();
                     socket_eof = true;
+                    closesocket(client_socket);
                 }
             }
         }
@@ -420,7 +441,10 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     Log.info("Call `", cmd, "` ret", exit_ret, ", cost", duration, "ms , stdout size:", pipe_data.size(),
              ", socket size:", sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("output:", Logger::separator::newline, pipe_data);
+        Log.trace("stdout output:", Logger::separator::newline, pipe_data);
+    }
+    if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
+        Log.trace("socket output:", Logger::separator::newline, sock_data);
     }
     // 直接 return，避免走到下面的 else if 里的 set_inited(false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
@@ -1298,9 +1322,6 @@ void asst::Controller::kill_adb_daemon()
         if (!m_adb_release.empty()) {
             call_command(m_adb_release, 20000, false, false);
             m_adb_release.clear();
-        }
-        else if (!m_adb.release.empty()) {
-            call_command(m_adb.release, 20000, false, false);
         }
     }
 }

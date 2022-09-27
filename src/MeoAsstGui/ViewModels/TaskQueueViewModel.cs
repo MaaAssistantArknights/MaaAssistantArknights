@@ -88,7 +88,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _actionAfterCompleted, value.ToString());
                 string storeValue = ActionType.DoNothing.ToString();
-                if (value != ActionType.Shutdown && value != ActionType.Hibernate && value != ActionType.ExitMAAAndCloseEmulatorAndHibernate)
+                if (value != ActionType.Shutdown && value != ActionType.Hibernate && value != ActionType.ExitEmulatorAndSelfAndHibernate)
                 {
                     storeValue = value.ToString();
                 }
@@ -266,13 +266,13 @@ namespace MeoAsstGui
             {
                 new GenericCombData<ActionType> { Display = Localization.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new GenericCombData<ActionType> { Display = Localization.GetString("ExitArknights"), Value = ActionType.StopGame },
-                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAA"), Value = ActionType.ExitSelf },
-                new GenericCombData<ActionType> { Display = Localization.GetString("CloseEmulator"), Value = ActionType.ExitEmulator },
-                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAAAndCloseEmulator"), Value = ActionType.ExitEmulatorAndSelf },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitSelf"), Value = ActionType.ExitSelf },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
 
                 // new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
+                new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
-                new GenericCombData<ActionType> { Display = Localization.GetString("ExitMAAAndCloseEmulatorAndHibernate"), Value = ActionType.ExitMAAAndCloseEmulatorAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
@@ -822,7 +822,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Sets parameters.
         /// </summary>
-        public void SetParams()
+        public void SetFightParams()
         {
             int medicine = 0;
             if (UseMedicine)
@@ -861,15 +861,22 @@ namespace MeoAsstGui
             }
 
             var asstProxy = _container.Get<AsstProxy>();
-            bool isSet = asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-            if (isSet)
-            {
-                AddLog(Localization.GetString("SetSuccessfully"), LogColor.Message);
-            }
-            else
-            {
-                AddLog(Localization.GetString("SetFailed"), LogColor.Error);
-            }
+            asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+        }
+
+        public void SetFightRemainingSanityParams()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+        }
+
+        public void SetInfrastParams()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var order = settings.GetInfrastOrderList();
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetInfrastTaskParams(order.ToArray(), settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment,
+                settings.CustomInfrastEnabled, settings.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool appendInfrast()
@@ -897,7 +904,7 @@ namespace MeoAsstGui
                 black_list[i] = black_list[i].Trim();
             }
 
-            return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list);
+            return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list, settings.CreditForceShoppingIfCreditFull);
         }
 
         private bool appendRecruit()
@@ -1145,7 +1152,7 @@ namespace MeoAsstGui
             /// <summary>
             /// Exits MAA and emulator and computer hibernates.
             /// </summary>
-            ExitMAAAndCloseEmulatorAndHibernate,
+            ExitEmulatorAndSelfAndHibernate,
 
             /// <summary>
             /// Computer shutdown.
@@ -1182,7 +1189,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulator:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
                     }
 
                     break;
@@ -1190,7 +1197,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulatorAndSelf:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
                     }
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
@@ -1225,10 +1232,10 @@ namespace MeoAsstGui
                     Process.Start("shutdown.exe", "-h");
                     break;
 
-                case ActionType.ExitMAAAndCloseEmulatorAndHibernate:
+                case ActionType.ExitEmulatorAndSelfAndHibernate:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("CloseEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
                     }
 
                     // 休眠提示
@@ -1449,6 +1456,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stage1, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage1", value);
                 UpdateDatePrompt();
             }
@@ -1465,6 +1473,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stage2, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
                 UpdateDatePrompt();
             }
@@ -1481,6 +1490,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stage3, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage3", value);
                 UpdateDatePrompt();
             }
@@ -1522,6 +1532,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _remainingSanityStage, value);
+                SetFightRemainingSanityParams();
                 ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
             }
         }
@@ -1564,6 +1575,7 @@ namespace MeoAsstGui
                 }
 
                 SetAndNotify(ref _customInfrastPlanIndex, value);
+                SetInfrastParams();
                 ViewStatusStorage.Set("Infrast.CustomInfrastPlanIndex", value.ToString());
             }
         }
@@ -1751,6 +1763,7 @@ namespace MeoAsstGui
                     UseStone = false;
                 }
 
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
             }
         }
@@ -1766,6 +1779,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _medicineNumber, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             }
         }
@@ -1785,6 +1799,8 @@ namespace MeoAsstGui
                 {
                     UseMedicine = true;
                 }
+
+                SetFightParams();
             }
         }
 
@@ -1799,6 +1815,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _stoneNumber, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
             }
         }
@@ -1811,7 +1828,11 @@ namespace MeoAsstGui
         public bool HasTimesLimited
         {
             get => _hasTimesLimited;
-            set => SetAndNotify(ref _hasTimesLimited, value);
+            set
+            {
+                SetAndNotify(ref _hasTimesLimited, value);
+                SetFightParams();
+            }
         }
 
         private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
@@ -1825,6 +1846,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _maxTimes, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
             }
         }
@@ -1842,6 +1864,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Enable", value.ToString());
             }
         }
@@ -1902,6 +1925,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _dropsItemId, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
         }
@@ -1917,6 +1941,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _dropsQuantity, value);
+                SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
             }
         }
