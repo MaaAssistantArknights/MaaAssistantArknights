@@ -82,12 +82,14 @@ namespace asst
     class RecruitConfiger final : public SingletonHolder<RecruitConfiger>, public AbstractConfiger
     {
     public:
+        using TagId = std::string;
+    public:
         virtual ~RecruitConfiger() override = default;
         static constexpr int CorrectNumberOfTags = 5;
 
         const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
         const std::vector<RecruitOperInfo>& get_all_opers() const noexcept { return m_all_opers; }
-        std::string get_tag_name(const std::string& id) const noexcept;
+        std::string get_tag_name(const TagId& id) const noexcept;
 
     protected:
         virtual bool parse(const json::value& json) override;
@@ -96,7 +98,7 @@ namespace asst
 
         std::unordered_set<std::string> m_all_tags;
         std::vector<RecruitOperInfo> m_all_opers;
-        std::unordered_map<std::string, std::string> m_all_tags_name;
+        std::unordered_map<TagId, std::string> m_all_tags_name;
     };
     inline static auto& RecruitData = RecruitConfiger::get_instance();
 } // namespace asst

@@ -6,7 +6,7 @@
 
 #include "Logger.hpp"
 
-std::string asst::RecruitConfiger::get_tag_name(const std::string& id) const noexcept
+std::string asst::RecruitConfiger::get_tag_name(const TagId& id) const noexcept
 {
     auto iter = m_all_tags_name.find(id);
     if (iter == m_all_tags_name.cend()) {
