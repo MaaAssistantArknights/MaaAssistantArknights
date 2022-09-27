@@ -5,25 +5,25 @@
 
 asst::MallTask::MallTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
-      m_mall_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
-      m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
-      m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType))
+    m_mall_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
+    m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
+    m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
+    m_shopping_force_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType))
 {
     m_mall_task_ptr->set_tasks({ "MallBegin" });
     m_shopping_first_task_ptr->set_enable(false).set_retry_times(1);
     m_shopping_task_ptr->set_enable(false).set_retry_times(1);
+    m_shopping_force_task_ptr->set_enable(false).set_retry_times(1);
 
     m_subtasks.emplace_back(m_mall_task_ptr);
     m_subtasks.emplace_back(m_shopping_first_task_ptr);
     m_subtasks.emplace_back(m_shopping_task_ptr);
+    m_subtasks.emplace_back(m_shopping_force_task_ptr);
 }
 
 bool asst::MallTask::set_params(const json::value& params)
 {
     bool shopping = params.get("shopping", true);
-    bool force_shopping_if_credit_full = params.get("force_shopping_if_credit_full", true);
-    m_shopping_first_task_ptr->set_force_shopping_if_credit_full(false);
-    m_shopping_task_ptr->set_force_shopping_if_credit_full(force_shopping_if_credit_full);
 
     if (shopping) {
         if (auto buy_first_opt = params.find<json::array>("buy_first")) {
@@ -56,10 +56,24 @@ bool asst::MallTask::set_params(const json::value& params)
         }
 
         m_shopping_task_ptr->set_enable(true);
+
+        m_shopping_first_task_ptr->set_force_shopping_if_credit_full(false);
+        m_shopping_task_ptr->set_force_shopping_if_credit_full(false);
+        bool force_shopping_if_credit_full = params.get("force_shopping_if_credit_full", true);
+
+        if (force_shopping_if_credit_full) {
+            m_shopping_force_task_ptr->set_enable(true);
+            m_shopping_force_task_ptr->set_force_shopping_if_credit_full(true);
+        }
+        else {
+            m_shopping_force_task_ptr->set_enable(false);
+            m_shopping_force_task_ptr->set_force_shopping_if_credit_full(false);
+        }
     }
     else {
         m_shopping_first_task_ptr->set_enable(false);
         m_shopping_task_ptr->set_enable(false);
+        m_shopping_force_task_ptr->set_enable(false);
     }
     return true;
 }
