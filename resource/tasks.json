@@ -504,16 +504,11 @@
     },
     "NL-Open": {
         "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "长夜临光",
-            "复刻"
-        ],
         "roi": [
-            0,
-            500,
-            500,
-            150
+            614,
+            69,
+            313,
+            237
         ],
         "next": [
             "NLChapterToNL"
