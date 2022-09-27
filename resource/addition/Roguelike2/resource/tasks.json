@@ -170,7 +170,6 @@
     "Roguelike1StageDreadfulFoe": {
         "Doc": "险路恶敌（boss关卡）",
         "action": "ClickSelf",
-        "templThreshold": 0.95,
         "cache": false,
         "roi": [
             0,
