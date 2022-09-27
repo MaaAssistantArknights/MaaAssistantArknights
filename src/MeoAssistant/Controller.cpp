@@ -258,6 +258,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 Log.trace("AcceptEx failed, err:", err);
                 accept_pending = false;
                 socket_eof = true;
+                closesocket(client_socket);
             }
         }
     }
@@ -378,6 +379,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 else {
                     // err = GetLastError();
                     socket_eof = true;
+                    closesocket(client_socket);
                 }
             }
         }
