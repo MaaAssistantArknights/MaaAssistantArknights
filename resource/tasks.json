@@ -7081,12 +7081,13 @@
         "next": [
             "Roguelike1ChooseDifficulty",
             "Roguelike1Start",
-            "Roguelike1StageCambatDpsEnter",
-            "Roguelike1StageEmergencyDpsEnter",
-            "Roguelike1StageEncounterEnter",
-            "Roguelike1StageTraderEnter",
-            "Roguelike1StageDreadfulFoeEnter",
-            "Roguelike1StageSafeHouseEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
@@ -7189,7 +7190,8 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm"
         ]
     },
     "Roguelike1LastReward": {
@@ -7333,7 +7335,8 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm"
         ]
     },
     "Roguelike1CloseCollection": {
@@ -7572,7 +7575,8 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm"
         ]
     },
     "Roguelike1StageTrader": {
@@ -7594,7 +7598,8 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm"
         ]
     },
     "Roguelike1StageTraderEnter": {
@@ -7725,8 +7730,17 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm"
         ]
+    },
+    "Roguelike2RegionalCommissioning": {
+        "template": "empty.png",
+        "templThreshold": 2.0
+    },
+    "Roguelike2DiceConfirm": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike1StageSafeHouseEnter": {
         "action": "ClickSelf",
@@ -7928,7 +7942,9 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
         ]
     },
     "Roguelike1StageEncounter": {
@@ -7950,7 +7966,9 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
         ]
     },
     "Roguelike1StageBoons": {
@@ -7972,7 +7990,9 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
         ]
     },
     "Roguelike1StageEncounterEnter": {
@@ -8121,7 +8141,9 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8157,7 +8179,9 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8194,7 +8218,9 @@
             "Roguelike1StageBoons",
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
-            "Roguelike1StageDreadfulFoe"
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8506,6 +8532,8 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1TraderRandomShopping",
@@ -8542,6 +8570,8 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -8729,7 +8759,7 @@
             504,
             163,
             480,
-            167
+            267
         ],
         "next": [
             "Roguelike1StageTrader",
@@ -8739,6 +8769,8 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm",
             "Roguelike1ClickToStartPoint"
         ]
     },
@@ -8773,6 +8805,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm",
             "TodaysSuppliesToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
