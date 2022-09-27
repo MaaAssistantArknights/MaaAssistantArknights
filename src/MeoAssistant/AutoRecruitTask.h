@@ -1,11 +1,12 @@
 #pragma once
 #include "AbstractTask.h"
 
-#include "AsstTypes.h"
-
 #include <optional>
 #include <set>
 #include <vector>
+
+#include "AsstTypes.h"
+#include "RecruitConfiger.h"
 
 namespace asst
 {
@@ -45,7 +46,7 @@ namespace asst
         bool hire_all(const cv::Mat&);
         bool hire_all();
         bool initialize_dirty_slot_info(const cv::Mat&);
-        std::vector<std::string> get_tags_name(std::vector<std::string> ids);
+        std::vector<std::string> get_tag_names(const std::vector<RecruitConfiger::TagId>& ids) const;
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
         void upload_result(const json::value& details);

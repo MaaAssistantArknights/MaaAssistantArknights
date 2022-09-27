@@ -359,7 +359,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         json::value info = basic_info();
         std::vector<std::string> tag_name_vector;
         ranges::transform(tags, std::back_inserter(tag_name_vector), std::mem_fn(&TextRect::text));
-        info["details"]["tags"] = json::array(get_tags_name(tag_name_vector));
+        info["details"]["tags"] = json::array(get_tag_names(tag_name_vector));
 
         // tags result
         {
@@ -436,7 +436,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             std::vector<json::value> result_json_vector;
             for (const auto& comb : result_vec) {
                 json::value comb_json;
-                comb_json["tags"] = json::array(get_tags_name(comb.tags));
+                comb_json["tags"] = json::array(get_tag_names(comb.tags));
 
                 std::vector<json::value> opers_json_vector;
                 for (const RecruitOperInfo& oper_info : ranges::reverse_view(comb.opers)) { // print reversely
@@ -568,7 +568,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object { { "tags", json::array(get_tags_name(final_combination.tags)) } };
+            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_combination.tags)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -677,9 +677,9 @@ bool asst::AutoRecruitTask::hire_all()
     return true;
 }
 
-std::vector<std::string> asst::AutoRecruitTask::get_tags_name(std::vector<std::string> ids)
+std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<RecruitConfiger::TagId>& ids) const
 {
-    std::vector<std::string> names;
+    std::vector<RecruitConfiger::TagId> names;
     for (const std::string& id : ids) {
         names.emplace_back(RecruitData.get_tag_name(id));
     }
