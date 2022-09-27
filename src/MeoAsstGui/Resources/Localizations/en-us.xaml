@@ -144,6 +144,8 @@
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
+    <system:String x:Key="HighPriorityDefault">Recruitment Permit;LMD</system:String>
+    <system:String x:Key="BlacklistDefault">Carbon;Furniture Part</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credit overflow</system:String>
 

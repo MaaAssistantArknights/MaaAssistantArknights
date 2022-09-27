@@ -9,7 +9,8 @@
 - 刷理智（仅支持选择`当前关卡`）
 - 使用理智药恢复理智
 - 使用源石恢复理智
-- 刷理智指定
+- 刷理智指定次数
+- 信用购物（使用英文商品名）
 - 访问好友
 - 领取日常奖励
 - 公招计算
@@ -25,6 +26,7 @@ Now supports:
 - Restore with potion
 - Restore with Originite
 - Set the max number of auto battles
+- Credit Shopping (with English trade names)
 - Friends visit
 - Award collect
 - Recruitment calculate

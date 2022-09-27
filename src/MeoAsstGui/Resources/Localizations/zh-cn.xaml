@@ -147,6 +147,8 @@
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
+    <system:String x:Key="HighPriorityDefault">招聘许可；龙门币</system:String>
+    <system:String x:Key="BlacklistDefault">碳；家具</system:String>
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
 
