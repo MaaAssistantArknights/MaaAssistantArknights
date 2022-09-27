@@ -524,3 +524,12 @@ namespace asst::utils
         }
     }
 } // namespace asst::utils
+
+namespace std::ranges
+{
+    template <typename R>
+    inline constexpr bool enable_view<asst::utils::string_split_view<R>> = enable_view<std::basic_string_view<R>>;
+    template <typename R>
+    inline constexpr bool enable_borrowed_range<asst::utils::string_split_view<R>> =
+        enable_borrowed_range<std::basic_string_view<R>>;
+}
