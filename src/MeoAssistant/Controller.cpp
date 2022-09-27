@@ -1302,9 +1302,6 @@ void asst::Controller::kill_adb_daemon()
             call_command(m_adb_release, 20000, false, false);
             m_adb_release.clear();
         }
-        else if (!m_adb.release.empty()) {
-            call_command(m_adb.release, 20000, false, false);
-        }
     }
 }
 
