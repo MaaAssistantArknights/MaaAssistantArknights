@@ -23,6 +23,30 @@
             "Roguelike2DiceConfirm"
         ]
     },
+    "Roguelike1StageBoons": {
+        "Doc": "古堡馈赠（随机奖励）",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "templThreshold": 0.95,
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
+        ]
+    },
     "Roguelike1StageCambatDps": {
         "Doc": "普通作战",
         "action": "ClickSelf",
@@ -96,6 +120,79 @@
             "Roguelike2RegionalCommissioning",
             "Roguelike2DiceConfirm"
         ]
+    },
+    "Roguelike1StageTrader": {
+        "Doc": "诡意行商（交易所）",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "templThreshold": 0.95,
+        "next": [
+            "Roguelike1StageTraderEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm"
+        ]
+    },
+    "Roguelike1StageSafeHouse": {
+        "Doc": "安全的角落",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "templThreshold": 0.95,
+        "next": [
+            "Roguelike1StageSafeHouseEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2DiceConfirm"
+        ]
+    },
+    "Roguelike1StageDreadfulFoe": {
+        "Doc": "险路恶敌（boss关卡）",
+        "action": "ClickSelf",
+        "templThreshold": 0.95,
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "next": [
+            "Roguelike1StageDreadfulFoeEnter",
+            "Roguelike1StageEmergencyDpsEnter",
+            "Roguelike1StageCambatDpsEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2RegionalCommissioning",
+            "Roguelike2DiceConfirm"
+        ],
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
     "Roguelike2DiceConfirm": {
         "Doc": "骰子的确认按钮",
