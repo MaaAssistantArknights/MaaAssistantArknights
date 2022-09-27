@@ -4026,6 +4026,16 @@
             110
         ]
     },
+    "CreditShop-CreditOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            1147,
+            26,
+            57,
+            27
+        ]
+    },
     "CreditShop-ProductName": {
         "algorithm": "OcrDetect",
         "text": [],
