@@ -420,7 +420,10 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     Log.info("Call `", cmd, "` ret", exit_ret, ", cost", duration, "ms , stdout size:", pipe_data.size(),
              ", socket size:", sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        Log.trace("output:", Logger::separator::newline, pipe_data);
+        Log.trace("stdout output:", Logger::separator::newline, pipe_data);
+    }
+    if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
+        Log.trace("socket output:", Logger::separator::newline, sock_data);
     }
     // 直接 return，避免走到下面的 else if 里的 set_inited(false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
