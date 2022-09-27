@@ -21,6 +21,12 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         int elite = match_elite(rect);
         int level = match_level(rect);
 
+        if (level == 0) {
+            // 要么就是识别错了，要么这个干员希望不够，是灰色的
+            // 主要用于忽略后面灰色的这种情况
+            continue;
+        }
+
         BattleRecruitOperInfo info;
         info.rect = rect;
         info.name = name;
