@@ -67,6 +67,7 @@
     <system:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</system:String>
     <system:String x:Key="IS2NewSquad2">（ミヅキ）物尽其用分队</system:String>
     <system:String x:Key="IS2NewSquad3">（ミヅキ）以人为本分队</system:String>
+    <!--追加されているため先行対応-->
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
