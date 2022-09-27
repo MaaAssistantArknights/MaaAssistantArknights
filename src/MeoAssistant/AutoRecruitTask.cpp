@@ -680,7 +680,7 @@ bool asst::AutoRecruitTask::hire_all()
 std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<RecruitConfiger::TagId>& ids) const
 {
     std::vector<RecruitConfiger::TagId> names;
-    for (const std::string& id : ids) {
+    for (const RecruitConfiger::TagId& id : ids) {
         names.emplace_back(RecruitData.get_tag_name(id));
     }
     return names;
