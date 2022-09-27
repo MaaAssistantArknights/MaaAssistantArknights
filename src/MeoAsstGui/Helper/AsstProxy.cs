@@ -162,18 +162,37 @@ namespace MeoAsstGui
         }
 
         private string _curResource = "_Unloaded";
+        private bool _additionalLoaded = false;
+
+        public bool LoadAdditionalResource()
+        {
+            if (_additionalLoaded)
+            {
+                return true;
+            }
+
+            var settingsModel = _container.Get<SettingsViewModel>();
+            if (settingsModel.RoguelikeAdditionalResourceEnabled)
+            {
+                _additionalLoaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\");
+                return _additionalLoaded;
+            }
+            return true;
+        }
 
         /// <summary>
         /// 加载全局资源。
         /// </summary>
         /// <returns>是否成功。</returns>
-        public bool LoadGlobalResource()
+        public bool LoadResource()
         {
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.ClientType == _curResource)
             {
                 return true;
             }
+
+            _additionalLoaded = false;
 
             bool loaded = true;
             if (settingsModel.ClientType == string.Empty
@@ -201,16 +220,18 @@ namespace MeoAsstGui
                     && AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
             }
 
-            if (loaded)
+            if (!loaded)
             {
-                if (settingsModel.ClientType == string.Empty)
-                {
-                    _curResource = "Official";
-                }
-                else
-                {
-                    _curResource = settingsModel.ClientType;
-                }
+                return false;
+            }
+
+            if (settingsModel.ClientType == string.Empty)
+            {
+                _curResource = "Official";
+            }
+            else
+            {
+                _curResource = settingsModel.ClientType;
             }
 
             return loaded;
@@ -221,7 +242,8 @@ namespace MeoAsstGui
         /// </summary>
         public void Init()
         {
-            bool loaded = LoadGlobalResource();
+            bool loaded = LoadResource();
+            loaded &= LoadAdditionalResource();
 
             _handle = AsstCreateEx(_callback, IntPtr.Zero);
 
@@ -1002,9 +1024,9 @@ namespace MeoAsstGui
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (!LoadGlobalResource())
+            if (!LoadResource() || !LoadAdditionalResource())
             {
-                error = "Load Global Resource Failed";
+                error = "Load Resource Failed";
                 return false;
             }
 

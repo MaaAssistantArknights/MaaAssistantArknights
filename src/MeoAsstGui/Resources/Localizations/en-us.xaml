@@ -130,6 +130,7 @@
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
+    <system:String x:Key="RoguelikeAdditionalResource">For Mizuki</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stop after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stop after investing N times</system:String>
