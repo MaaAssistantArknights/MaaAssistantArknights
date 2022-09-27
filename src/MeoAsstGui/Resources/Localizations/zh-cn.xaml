@@ -65,6 +65,9 @@
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
+    <system:String x:Key="IS2NewSquad1">心胜于物分队</system:String>
+    <system:String x:Key="IS2NewSquad2">物尽其用分队</system:String>
+    <system:String x:Key="IS2NewSquad3">以人为本分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
     <system:String x:Key="SupportSquad">后勤分队</system:String>
@@ -130,6 +133,7 @@
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
+    <system:String x:Key="RoguelikeAdditionalResource">For Mizuki</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
@@ -143,7 +147,10 @@
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
+    <system:String x:Key="HighPriorityDefault">招聘许可；龙门币</system:String>
+    <system:String x:Key="BlacklistDefault">碳；家具</system:String>
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
+    <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
 
     <system:String x:Key="DroneUsage">无人机用途</system:String>
 
@@ -183,12 +190,12 @@
 
     <system:String x:Key="Then">完成后</system:String>
     <system:String x:Key="DoNothing">无动作</system:String>
-    <system:String x:Key="ExitArknights">退出明日方舟</system:String>
-    <system:String x:Key="ExitMAA">退出 MAA</system:String>
-    <system:String x:Key="CloseEmulator">关闭模拟器</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulator">退出并关闭模拟器</system:String>
+    <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
+    <system:String x:Key="ExitSelf">退出 MAA</system:String>
+    <system:String x:Key="ExitEmulator">退出 模拟器</system:String>
+    <system:String x:Key="ExitEmulatorAndSelf">退出 MAA 和 模拟器</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，并休眠*</system:String>
     <system:String x:Key="Hibernate">休眠*</system:String>
-    <system:String x:Key="ExitMAAAndCloseEmulatorAndHibernate">退出并关闭模拟器并休眠*</system:String>
     <system:String x:Key="Shutdown">关机*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -251,7 +258,7 @@
     <system:String x:Key="SetSuccessfully">设置成功</system:String>
     <system:String x:Key="SetFailed">设置失败</system:String>
     <system:String x:Key="CloseArknightsFailed">关闭游戏失败</system:String>
-    <system:String x:Key="CloseEmulatorFailed">模拟器关闭失败</system:String>
+    <system:String x:Key="ExitEmulatorFailed">模拟器关闭失败</system:String>
     <system:String x:Key="AboutToShutdown">已刷完，即将关机，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即将休眠</system:String>

@@ -235,6 +235,56 @@
             ]
         ]
     },
+    "Mall": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "Store"
+        ],
+        "roi": [
+            640,
+            360,
+            640,
+            360
+        ],
+        "next": [
+            "CreditStoreOcr",
+            "Mall",
+            "ReturnToMallCloseAnno",
+            "TodaysSuppliesToMall"
+        ]
+    },
+    "CreditStoreOcr": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Credit Store"
+        ],
+        "roi": [
+            1000,
+            0,
+            280,
+            300
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "CollectCredit",
+            "CreditStoreFailed",
+            "Stop"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Insufficient Credit",
+            "Unable to"
+        ],
+        "roi": [
+            940,
+            60,
+            339,
+            110
+        ]
+    },
     "Award": {
         "template": "Task.png",
         "action": "ClickSelf",

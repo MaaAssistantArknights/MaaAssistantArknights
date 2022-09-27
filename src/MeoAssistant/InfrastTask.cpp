@@ -172,12 +172,22 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
             if (auto opers_opt = room_info.find<json::array>("operators")) {
                 for (const auto& oper_name : opers_opt.value()) {
-                    room_config.names.emplace_back(oper_name.as_string());
+                    std::string name = oper_name.as_string();
+                    if (name.empty()) {
+                        Log.warn("operators.name is empty");
+                        continue;
+                    }
+                    room_config.names.emplace_back(std::move(name));
                 }
             }
             if (auto candidates_opt = room_info.find<json::array>("candidates")) {
                 for (const auto& candidate_name : candidates_opt.value()) {
-                    room_config.candidates.emplace_back(candidate_name.as_string());
+                    std::string name = candidate_name.as_string();
+                    if (name.empty()) {
+                        Log.warn("operators.candidates is empty");
+                        continue;
+                    }
+                    room_config.candidates.emplace_back(std::move(name));
                 }
             }
             facility_config.emplace_back(std::move(room_config));
@@ -210,14 +220,22 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
     }
 
-    if (auto Fia_opt = cur_plan.find<json::object>("Fiammetta")) {
-        const auto& Fia_json = Fia_opt.value();
-        auto target_opt = Fia_json.find<std::string>("target");
-        if (!target_opt) {
-            Log.error("Fiammetta target not setted");
-            return false;
+    do {
+        auto Fia_opt = cur_plan.find<json::object>("Fiammetta");
+        if (!Fia_opt) {
+            break;
         }
-        const std::string& target = target_opt.value();
+        const auto& Fia_json = Fia_opt.value();
+        bool enable = Fia_json.get("enable", true);
+        if (!enable) {
+            break;
+        }
+        std::string target = Fia_json.get("target", std::string());
+        if (target.empty()) {
+            Log.warn("Fiammetta's target is unsetted or empty");
+            break;
+        }
+        Log.trace("Fiammetta's target:", target);
         infrast::CustomFacilityConfig facility_config(1);
         auto& room_config = facility_config.front();
         room_config.names = { target, "菲亚梅塔" };
@@ -234,17 +252,28 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             m_subtasks.emplace_back(std::move(Fia_task_ptr));
             m_subtasks.emplace_back(m_infrast_begin_task_ptr);
         }
-    }
+    } while (false);
 
-    if (auto drones_opt = cur_plan.find<json::object>("drones")) {
+    do {
+        auto drones_opt = cur_plan.find<json::object>("drones");
+        if (!drones_opt) {
+            break;
+        }
         const auto& drones_json = drones_opt.value();
-
+        bool enable = drones_json.get("enable", true);
+        if (!enable) {
+            break;
+        }
         infrast::CustomDronesConfig drones_config;
         drones_config.index = drones_json.get("index", 1) - 1;
         drones_config.order = drones_json.get("order", "pre") == "post" ? infrast::CustomDronesConfig::Order::Post
                                                                         : infrast::CustomDronesConfig::Order::Pre;
         std::string room = drones_json.get("room", std::string());
-        if (room == "trading") {
+        if (room.empty()) {
+            Log.warn("drones room is unsetted or empty");
+            break;
+        }
+        else if (room == "trading") {
             m_trade_task_ptr->set_custom_drones_config(std::move(drones_config));
         }
         else if (room == "manufacture") {
@@ -254,7 +283,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             Log.error("error drones config, unknown room", room);
             return false;
         }
-    }
+    } while (false);
 
     return true;
 }

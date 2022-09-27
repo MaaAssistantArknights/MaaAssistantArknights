@@ -84,10 +84,10 @@ UIを見れば使い方もすぐ分かる！
 ## サーバーに応じてサポートされる機能
 
 - アメリカサーバー  
-  作戦、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
+  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/YoStarEN/readme.md)を参照してください。
 - 日本サーバー  
-  作戦、自動公開求人、戦友訪問、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
+  作戦、自動公開求人、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/YoStarJP/readme.md)を参照してください。
 - 韓国サーバー  
   基本的な作戦機能のみサポートされている。  
@@ -129,7 +129,8 @@ UIを見れば使い方もすぐ分かる！
 - ~~公開求人データ：[アークナイツツール](https://www.bigfun.cn/tools/aktools/hr)~~
 - オペレーターおよび基地データ：[PRTSアークナイツ中国語WIKI](http://prts.wiki/)
 - ステージデータ：[PenguinStatsデータ統計](https://penguin-stats.io/)
-- ゲームデータとリソース：[アークナイツbotリソース](https://github.com/yuanyan3060/Arknights-Bot-Resource)
+- ゲームのデータとリソース：[アークナイツbotリソース](https://github.com/yuanyan3060/Arknights-Bot-Resource)
+- ゲームデータ：[アークナイツのゲームデータ](https://github.com/Kengxxiao/ArknightsGameData)
 
 ### 貢献/協力者
 

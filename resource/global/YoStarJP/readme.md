@@ -12,6 +12,7 @@
 - 刷理智指定次数
 - 自动公招
 - 访问好友
+- 信用商店（使用日文输入商品名）
 - 领取日常奖励
 - 公招计算
 - 无限刷肉鸽（测试功能）
@@ -28,6 +29,7 @@ Supported features:
 - Set the max number of auto battles
 - Auto recruiting
 - Visiting friend's infrastructure
+- Credit Shopping (with Japanese trade names)
 - Collecting daily quest awards
 - Recruitment calculate
 - Auto Roguelike (beta)
@@ -44,6 +46,7 @@ Supported features:
 - 自動戦闘の最大回数を指定する
 - 自動公開求人
 - 戦友訪問
+- FP交換所 (with Japanese trade names)
 - デイリーリクエストのアワードを収集する
 - 公開求人の計算
 - 自動統合戦略（ベータ版）

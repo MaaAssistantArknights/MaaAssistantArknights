@@ -131,7 +131,7 @@
             "name": "A+Y 组",
             "description": "次高效替补 1 班\n下次换班请在约4小时后进行",
             "Fiammetta": {
-                "target": "柏喙"
+                "target": "龙舌兰"
             },
             "drones": {
                 "room": "manufacture",
@@ -256,9 +256,6 @@
         {
             "name": "B+Y 组",
             "description": "次高效替补 2 班\n下次换班请在约4小时后进行",
-            "Fiammetta": {
-                "target": "龙舌兰"
-            },
             "drones": {
                 "room": "manufacture",
                 "index": 1
@@ -278,10 +275,11 @@
                 "trading": [
                     {
                         "operators": [
-                            "孑",
-                            "银灰",
-                            "崖心"
+                            "巫恋",
+                            "龙舌兰",
+                            "卡夫卡"
                         ],
+                        "sort": true,
                         "product": "LMD"
                     },
                     {
