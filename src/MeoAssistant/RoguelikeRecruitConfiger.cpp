@@ -4,8 +4,6 @@
 
 #include <meojson/json.hpp>
 
-#include "Logger.hpp"
-
 const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfiger::get_oper_info(const std::string& name) const noexcept
 
 {
@@ -44,10 +42,8 @@ bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
     return true;
 }
 
-void asst::RecruitConfiger::clear()
+void asst::RoguelikeRecruitConfiger::clear()
 {
-    LogTraceFunction;
-
     m_all_opers.clear();
     m_ordered_all_opers_name.clear();
 }

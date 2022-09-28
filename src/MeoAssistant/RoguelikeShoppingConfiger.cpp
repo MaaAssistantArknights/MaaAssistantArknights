@@ -41,9 +41,7 @@ bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
     return true;
 }
 
-void asst::RecruitConfiger::clear()
+void asst::RoguelikeShoppingConfiger::clear()
 {
-    LogTraceFunction;
-
     m_goods.clear();
 }
