@@ -411,6 +411,9 @@
     <ClInclude Include="AsstPlatform.h">
       <Filter>头文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeDebugTaskPlugin.h">
+      <Filter>头文件\Task\Plugin\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller.cpp">
@@ -688,6 +691,9 @@
     </ClCompile>
     <ClCompile Include="AsstPlatformWin32.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RoguelikeDebugTaskPlugin.cpp">
+      <Filter>源文件\Task\Plugin\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
