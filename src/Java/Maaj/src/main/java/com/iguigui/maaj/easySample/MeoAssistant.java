@@ -34,7 +34,7 @@ public interface MeoAssistant extends StdCallLibrary {
     boolean AsstConnect(Pointer handle, String adb, String host, String config);
 
     //添加任务链
-    //参考集成文档 https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/%E9%9B%86%E6%88%90%E6%96%87%E6%A1%A3.md
+    //参考集成文档 https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.1-%E9%9B%86%E6%88%90%E6%96%87%E6%A1%A3.md
     int AsstAppendTask(Pointer handle, String type, String params);
 
     //运行时修改参数
