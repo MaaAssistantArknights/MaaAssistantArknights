@@ -34,6 +34,8 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
 
 bool asst::InfrastTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     int mode = params.get("mode", 0);
     bool is_custom = static_cast<Mode>(mode) == Mode::Custom;
 
@@ -118,7 +120,17 @@ bool asst::InfrastTask::set_params(const json::value& params)
         std::string filename = params.at("filename").as_string();
         int index = params.get("plan_index", 0);
 
-        return parse_and_set_custom_config(utils::path(filename), index);
+        try {
+            return parse_and_set_custom_config(utils::path(filename), index);
+        }
+        catch (const json::exception& e) {
+            Log.error("Json parse failed", utils::path(filename), e.what());
+            return false;
+        }
+        catch (const std::exception& e) {
+            Log.error("Json parse failed", utils::path(filename), e.what());
+            return false;
+        }
     }
 
     return true;

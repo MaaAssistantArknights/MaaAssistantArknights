@@ -25,11 +25,11 @@ bool asst::AbstractConfiger::load(const std::filesystem::path& path)
     try {
         return parse(root);
     }
-    catch (json::exception& e) {
+    catch (const json::exception& e) {
         Log.error("Json parse failed", path, e.what());
         return false;
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         Log.error("Json parse failed", path, e.what());
         return false;
     }
