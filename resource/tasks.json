@@ -7098,6 +7098,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
@@ -7201,6 +7202,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -7346,6 +7348,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -7586,6 +7589,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -7609,6 +7613,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -7741,16 +7746,24 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm"
         ]
     },
-    "Roguelike2RegionalCommissioning": {
+    "Roguelike2StageRegionalCommissioning": {
         "template": "empty.png",
-        "templThreshold": 2.0
+        "templThreshold": 2.0,
+        "templThreshold_Doc": "means disbaled"
+    },
+    "Roguelike2StageGambling": {
+        "template": "empty.png",
+        "templThreshold": 2.0,
+        "templThreshold_Doc": "means disbaled"
     },
     "Roguelike2DiceConfirm": {
         "template": "empty.png",
-        "templThreshold": 2.0
+        "templThreshold": 2.0,
+        "templThreshold_Doc": "means disbaled"
     },
     "Roguelike1StageSafeHouseEnter": {
         "action": "ClickSelf",
@@ -7953,7 +7966,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -7977,7 +7992,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -8001,7 +8018,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -8152,7 +8171,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
@@ -8190,7 +8211,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
@@ -8229,10 +8252,17 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
+    },
+    "Roguelike2StageDreadfulFoe-5": {
+        "template": "empty.png",
+        "templThreshold": 2.0,
+        "templThreshold_Doc": "means disbaled"
     },
     "Roguelike1StageDreadfulFoeEnter": {
         "action": "ClickSelf",
@@ -8542,7 +8572,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
@@ -8571,6 +8603,7 @@
             "Roguelike1GetDrop3",
             "Roguelike1GetDropSelect",
             "Roguelike1GetDropRecruit",
+            "Roguelike2GetDropBox",
             "Roguelike1GetDropCompleted",
             "Roguelike1GetDropLeave",
             "Roguelike1StageTrader",
@@ -8580,7 +8613,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
@@ -8644,6 +8679,11 @@
             "Roguelike1ClickToDrops"
         ]
     },
+    "Roguelike2GetDropBox": {
+        "template": "empty.png",
+        "templThreshold": 2.0,
+        "templThreshold_Doc": "means disbaled"
+    },
     "Roguelike1GetDropRecruit": {
         "Doc": "招募券，白色的“招募”按钮",
         "action": "ClickSelf",
@@ -8662,6 +8702,7 @@
             "Roguelike1GetDrop3",
             "Roguelike1GetDropSelect",
             "Roguelike1GetDropRecruit",
+            "Roguelike2GetDropBox",
             "Roguelike1GetDropCompleted",
             "Roguelike1GetDropLeave"
         ]
@@ -8724,6 +8765,12 @@
             50,
             50
         ],
+        "roi": [
+            488,
+            206,
+            302,
+            289
+        ],
         "rearDelay": 3000,
         "next": [
             "Roguelike1GetDrop1",
@@ -8731,6 +8778,7 @@
             "Roguelike1GetDrop3",
             "Roguelike1GetDropSelect",
             "Roguelike1GetDropRecruit",
+            "Roguelike2GetDropBox",
             "Roguelike1ChooseOperFlag",
             "Roguelike1ClickToDrops"
         ]
@@ -8779,7 +8827,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm",
             "Roguelike1ClickToStartPoint"
         ]
@@ -8815,6 +8865,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm",
             "TodaysSuppliesToRoguelike1",
             "TerminalToRoguelike1",
