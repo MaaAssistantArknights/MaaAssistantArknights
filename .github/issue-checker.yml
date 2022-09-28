@@ -317,7 +317,7 @@ labels:
 - name: pr-ambiguous
   # 不符合 commitizen 的 PR
   content: ambiguous
-  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Mm]erge|[Rr]evert|[Rr]lease)'
+  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Mm]erge|[Rr]evert|[Rr]elease)'
   mode:
     pull_request_target:
   skip-if:
