@@ -19,7 +19,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -43,7 +45,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -68,7 +72,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -93,11 +99,13 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
-    "Roguelike2RegionalCommissioning": {
+    "Roguelike2StageRegionalCommissioning": {
         "Doc": "地区委托（随机奖励）",
         "action": "ClickSelf",
         "cache": false,
@@ -117,7 +125,61 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2DiceConfirm"
+        ]
+    },
+    "Roguelike2StageGambling": {
+        "Doc": "骰子关卡",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "templThreshold": 0.95,
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2DiceConfirm"
+        ]
+    },
+    "Roguelike2StageDreadfulFoe-5": {
+        "Doc": "第五层的boss关卡",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            53,
+            1280,
+            554
+        ],
+        "templThreshold": 0.95,
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -141,6 +203,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -164,6 +227,7 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm"
         ]
     },
@@ -188,7 +252,9 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
@@ -213,8 +279,46 @@
             "Roguelike1StageCambatDps",
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
-            "Roguelike2RegionalCommissioning",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
             "Roguelike2DiceConfirm"
+        ]
+    },
+    "Roguelike2GetDropBox": {
+        "Doc": "漂流密匣“打开”按钮",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            471,
+            1280,
+            157
+        ],
+        "templThreshold": 0.85,
+        "rearDelay": 1000,
+        "next": [
+            "Roguelike1DropsFlag",
+            "Roguelike2GetDropBoxSelect",
+            "Roguelike1ChooseOperFlag"
+        ]
+    },
+    "Roguelike2GetDropBoxSelect": {
+        "Doc": "漂流密匣-锤子砸开“选择”按钮",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            830,
+            438,
+            276,
+            140
+        ],
+        "templThreshold": 0.85,
+        "rearDelay": 1000,
+        "next": [
+            "Roguelike1DropsFlag",
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1ClickToDrops"
         ]
     }
 }

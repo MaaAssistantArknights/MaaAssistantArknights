@@ -4,6 +4,8 @@
 
 bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
 {
+    clear();
+
     for (const auto& goods_json : json.as_array()) {
         std::string name = goods_json.at("name").as_string();
 
@@ -37,4 +39,9 @@ bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
         m_goods.emplace_back(std::move(goods));
     }
     return true;
+}
+
+void asst::RoguelikeShoppingConfiger::clear()
+{
+    m_goods.clear();
 }

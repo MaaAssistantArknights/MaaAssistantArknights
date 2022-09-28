@@ -191,10 +191,15 @@ void asst::AbstractTask::click_return_button()
     ProcessTask(*this, { "Return" }).run();
 }
 
-void asst::AbstractTask::save_image()
+bool asst::AbstractTask::save_img(const std::string& dirname)
 {
+    auto image = m_ctrler->get_image();
+    if (image.empty()) {
+        return false;
+    }
+
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
-    std::filesystem::create_directory("debug");
-    asst::imwrite("debug/" + stem + "_raw.png", m_ctrler->get_image());
+    std::filesystem::create_directories(dirname);
+    return asst::imwrite(dirname + stem + "_raw.png", image);
 }

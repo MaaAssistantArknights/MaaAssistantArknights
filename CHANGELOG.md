@@ -1,11 +1,9 @@
-- 新增支持 水月肉鸽 @MistEO @zzyyyl @橘可可
-- Support credit shopping for JP and EN clients @MistEO
-- 新增 信用购物 信用溢出时无视黑名单选项 @Hydrogina
-- 优化 界面 参数设置，改为实时生效，移除“修改”按钮 @MistEO
-- 优化 自定义基建 内置作业 @MistEO @ABA2396
-- 优化 自定义基建 参数读取逻辑 @MistEO
-- 优化 肉鸽 选人逻辑 @MistEO
-- 修复 活动关卡导航卡住的问题 @ABA2396
-- 修复 连接问题 @zzyyyl
-- 更新 界面翻译及文档 @MistEO @wallsman @Tastror
-- 优化 Issue Checker @zzyyyl
+- 新增 水月肉鸽 卡住时，自动保存截图到 `debug/roguelike/` @MistEO  
+    汇报 bug 请附上其中的图片，感谢~
+- 优化 水月肉鸽 部分地图部署位置 @nightofknife
+- 优化 水月肉鸽 招募及藏品优先级 @zzyyyl
+- 修复 水月肉鸽 亿点点卡住的 bug @MistEO
+- 修复 截图出错时的重试机制 @MistEO
+- 更新 界面翻译及文档 @wallsman @Tastror
+- 更新 QQ 五群链接 @ABA2396 @MistEO
+- 修复 编译错误 @horror-proton
