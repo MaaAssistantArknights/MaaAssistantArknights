@@ -85,8 +85,9 @@ namespace asst
         std::optional<unsigned short> try_to_init_socket(const std::string& local_address);
 
         using DecodeFunc = std::function<bool(std::string_view)>;
-        bool screencap();
-        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket = false);
+        bool screencap(bool allow_reconnect = false);
+        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket = false,
+                       bool allow_reconnect = false);
         void clear_lf_info();
         cv::Mat get_resized_image() const;
 
