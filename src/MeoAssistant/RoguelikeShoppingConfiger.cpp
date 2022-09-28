@@ -4,6 +4,8 @@
 
 bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
 {
+    clear();
+
     for (const auto& goods_json : json.as_array()) {
         std::string name = goods_json.at("name").as_string();
 
