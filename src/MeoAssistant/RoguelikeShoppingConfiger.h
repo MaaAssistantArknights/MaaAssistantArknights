@@ -28,6 +28,8 @@ namespace asst
     private:
         virtual bool parse(const json::value& json) override;
 
+        void clear();
+
         std::vector<RoguelikeGoods> m_goods;
     };
 
