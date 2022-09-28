@@ -43,3 +43,11 @@ bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
 
     return true;
 }
+
+void asst::RecruitConfiger::clear()
+{
+    LogTraceFunction;
+
+    m_all_opers.clear();
+    m_ordered_all_opers_name.clear();
+}
