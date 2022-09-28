@@ -46,10 +46,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool with_formation = params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
 
-    std::string filename = std::move(filename_opt.value());
-#ifdef _WIN32
-    filename = utils::utf8_to_ansi(filename);
-#endif //  _WIN32
-
-    return Copilot.load(filename);
+    const std::string& filename =filename_opt.value();
+    return Copilot.load(utils::path(filename));
 }
