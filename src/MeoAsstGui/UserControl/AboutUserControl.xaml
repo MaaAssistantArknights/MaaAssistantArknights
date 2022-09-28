@@ -83,6 +83,14 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource QQgroup4}" />
             </Hyperlink>
+            <TextBlock Text="{DynamicResource QQgroupfull}" />
+            <Hyperlink
+                Click="Hyperlink_Click"
+                Cursor="Hand"
+                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=To6b6H6m"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource QQgroup5}" />
+            </Hyperlink>
         </TextBlock>
         <TextBlock
             Margin="5"
