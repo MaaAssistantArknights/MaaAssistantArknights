@@ -15,6 +15,8 @@ body:
         required: true
       - label: 我已查看最新测试版本的更新内容，并未提及该 bug 已被修复的情况
         required: true
+      - label: 我上传的游戏画面截图是模拟器自带的截图工具（或通过 adb）截取的原图
+        required: false
   - type: textarea
     id: describe
     attributes:
@@ -37,7 +39,7 @@ body:
       label: 截图
       description: |
         如果有，添加屏幕截图以帮助解释你的问题，包括但不限于 MAA 软件截图、游戏画面截图
-        若是识别相关问题，请帮忙提供模拟器自带的截图工具截取的原图（或通过 adb 截取原图）
+        **若是识别相关问题，请帮忙提供模拟器自带的截图工具截取的原图（或通过 adb 截取原图）**
     validations:
       required: false
   - type: textarea

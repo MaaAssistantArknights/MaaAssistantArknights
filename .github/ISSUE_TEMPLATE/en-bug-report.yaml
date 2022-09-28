@@ -27,6 +27,10 @@ body:
           I have checked the latest beta update and there is no mention
           of the bug being fixed.
         required: true
+      - label: >-
+          The screenshots I've uploaded are the original ones taken by
+          the emulator's own screenshot tool (or via adb).
+        required: false
   - type: textarea
     id: describe
     attributes:
@@ -55,9 +59,9 @@ body:
         including but not limited to screenshots of MAA software,
         screenshots of game screens.
 
-        If the problem is recognition related, please help by providing
-        the original image taken by the emulator's own screenshot tool
-        (or via adb).
+        **If the problem is recognition related, please help by providing**
+        **the original image taken by the emulator's own screenshot tool**
+        **(or via adb).**
     validations:
       required: false
   - type: textarea
