@@ -34,6 +34,8 @@ namespace asst
     protected:
         virtual bool parse(const json::value& json) override;
 
+        void clear();
+
         std::unordered_map<std::string, RoguelikeOperInfo> m_all_opers;
         std::vector<std::string> m_ordered_all_opers_name;
     };

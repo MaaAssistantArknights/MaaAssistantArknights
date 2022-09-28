@@ -18,7 +18,7 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     try {
         m_tile_calculator = std::make_unique<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, path);
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());
         return false;
     }

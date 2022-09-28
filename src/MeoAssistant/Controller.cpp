@@ -693,7 +693,7 @@ void asst::Controller::wait(unsigned id) const noexcept
     }
 }
 
-bool asst::Controller::screencap()
+bool asst::Controller::screencap(bool allow_reconnect)
 {
     // if (true) {
     //     m_inited = true;
@@ -762,7 +762,7 @@ bool asst::Controller::screencap()
         clear_lf_info();
 
         start_time = high_resolution_clock::now();
-        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip)) {
+        if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect)) {
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
@@ -777,7 +777,7 @@ bool asst::Controller::screencap()
         clear_lf_info();
 
         start_time = high_resolution_clock::now();
-        if (screencap(m_adb.screencap_encode, decode_encode)) {
+        if (screencap(m_adb.screencap_encode, decode_encode, allow_reconnect)) {
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
@@ -794,26 +794,27 @@ bool asst::Controller::screencap()
         return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     } break;
     case AdbProperty::ScreencapMethod::RawByNc: {
-        return screencap(m_adb.screencap_raw_by_nc, decode_raw, true);
+        return screencap(m_adb.screencap_raw_by_nc, decode_raw, true, allow_reconnect);
     } break;
     case AdbProperty::ScreencapMethod::RawWithGzip: {
-        return screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip);
+        return screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect);
     } break;
     case AdbProperty::ScreencapMethod::Encode: {
-        return screencap(m_adb.screencap_encode, decode_encode);
+        return screencap(m_adb.screencap_encode, decode_encode, allow_reconnect);
     } break;
     }
 
     return false;
 }
 
-bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket)
+bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket,
+                                 bool allow_reconnect)
 {
     if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
 
-    auto ret = call_command(cmd, 20000, by_socket);
+    auto ret = call_command(cmd, 20000, by_socket, allow_reconnect);
 
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.error("data is empty!");
@@ -1378,7 +1379,10 @@ cv::Mat asst::Controller::get_image(bool raw)
             break;
         }
     }
-    if (!success && !need_exit()) {
+    while (!success && !need_exit()) {
+        if (screencap(true)) {
+            break;
+        }
         Log.error(__FUNCTION__, "screencap failed!");
         json::value info = json::object {
             { "uuid", m_uuid },
@@ -1390,6 +1394,8 @@ cv::Mat asst::Controller::get_image(bool raw)
 
         const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
         m_cache_image = cv::Mat(d_size, CV_8UC3);
+
+        break;
     }
 
     if (raw) {

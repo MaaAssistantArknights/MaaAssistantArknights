@@ -37,7 +37,7 @@
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
     <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">作業中のオペレーターを宿舎に移動しない</system:String>
-    <!--現状動作不明のため対応次第訳修正-->
+    <!--  現状動作不明のため対応次第訳修正  -->
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片は自動で補充する</system:String>
     <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（Alpha）</system:String>
     <system:String x:Key="CustomInfrastFile">基地構成ファイルの指定</system:String>
@@ -64,6 +64,10 @@
     <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
+    <system:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</system:String>
+    <system:String x:Key="IS2NewSquad2">（ミヅキ）物尽其用分队</system:String>
+    <system:String x:Key="IS2NewSquad3">（ミヅキ）以人为本分队</system:String>
+    <!--追加されているため先行対応-->
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -129,6 +133,7 @@
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
+    <system:String x:Key="RoguelikeAdditionalResource">ミヅキのローグライクで使用する場合はチェック</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -140,12 +145,10 @@
     <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入（OCR/セミコロンで区切）</system:String>
-    <!--日本語名は未対応？-->
-    <system:String x:Key="Blacklist">ブラックリスト（OCR/セミコロンで区切）</system:String>
-    <system:String x:Key="HighPriorityDefault">求人票；龍門幣</system:String>
-    <system:String x:Key="BlacklistDefault">炭素材；家具</system:String>
-    <!--日本語名は未対応？-->
+    <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
+    <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
+    <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
+    <system:String x:Key="BlacklistDefault">炭素材;家具</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
@@ -153,7 +156,7 @@
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
-    <!--現状動作内容不明のため翻訳修正候補-->
+    <!--  現状動作内容不明のため翻訳修正候補  -->
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
@@ -195,14 +198,14 @@
     <system:String x:Key="Shutdown">シャットダウン*</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
-    <!--分かりやすく動作開始でも良い気はする-->
+    <!--  分かりやすく動作開始でも良い気はする  -->
     <system:String x:Key="Stop">止める</system:String>
 
     <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
-    <!--UIの表示バランス大丈夫？-->
+    <!--  UIの表示バランス大丈夫？  -->
     <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String>
-    <!--UIの表示バランス大丈夫？-->
+    <!--  UIの表示バランス大丈夫？  -->
     <system:String x:Key="PerformBattles">周回数指定*</system:String>
     <system:String x:Key="AssignedMaterial">素材を限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
@@ -216,16 +219,16 @@
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
     <system:String x:Key="ClosedStage">イベント終了</system:String>
-    <!--動作不明-->
+    <!--  動作不明  -->
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5(CE-6)</system:String>
-    <!--馴染みのあるステージ名での表記-->
+    <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="AP-5">購買資格証-5(AP-5)</system:String>
-    <!--馴染みのあるステージ名での表記-->
+    <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="CA-5">アーツ学-5(CA-5)</system:String>
-    <!--馴染みのあるステージ名での表記-->
+    <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="LS-6">作戦記録-6/5(LS-6)</system:String>
-    <!--馴染みのあるステージ名での表記-->
+    <!--  馴染みのあるステージ名での表記  -->
 
     <system:String x:Key="PR-A-1">医療/重装SoC・初</system:String>
     <system:String x:Key="PR-A-2">医療/重装SoC・中</system:String>
@@ -257,7 +260,7 @@
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
-    <!-- need help -->
+    <!--  need help  -->
     <system:String x:Key="Stopped">動作停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
     <system:String x:Key="SetSuccessfully">設定に成功しました</system:String>
@@ -302,13 +305,13 @@
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
-    <!--現状動作内容不明のため翻訳修正候補-->
+    <!--  現状動作内容不明のため翻訳修正候補  -->
 
     <system:String x:Key="Start">開始</system:String>
 
     <system:String x:Key="CopilotJSONSharing">攻略ファイル・シェアステーション</system:String>
     <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String>
-    <!--Where use it?-->
+    <!--  Where use it?  -->
 
     <!--  ログ  -->
     <system:String x:Key="CopilotTip">ヒント：</system:String>
@@ -348,7 +351,7 @@
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
     <system:String x:Key="HasReturned">戻った</system:String>
-    <!--内容不明のため翻訳修正候補-->
+    <!--  内容不明のため翻訳修正候補  -->
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEX">ステージ報酬がないため停止します</system:String>
@@ -410,6 +413,7 @@
     <system:String x:Key="QQgroup2">グループ2</system:String>
     <system:String x:Key="QQgroup3">グループ3</system:String>
     <system:String x:Key="QQgroup4">グループ4</system:String>
+    <system:String x:Key="QQgroup5">グループ5</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/ja-jp/1.2-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F.md</uri:Uri>

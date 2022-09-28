@@ -1,5 +1,59 @@
 [
     {
+        "stage_name": "蓄水池",
+        "replacement_home": [
+            [
+                6,
+                4
+            ]
+        ]
+    },
+    {
+        "stage_name": "共生",
+        "replacement_home": [
+            [
+                4,
+                4
+            ]
+        ]
+    },
+    {
+        "stage_name": "无声呼号",
+        "replacement_home": [
+            [
+                3,
+                2
+            ]
+        ]
+    },
+    {
+        "stage_name": "海神的信者",
+        "replacement_home": [
+            [
+                5,
+                2
+            ]
+        ]
+    },
+    {
+        "stage_name": "征兆",
+        "replacement_home": [
+            [
+                3,
+                3
+            ]
+        ]
+    },
+    {
+        "stage_name": "除暴安良",
+        "replacement_home": [
+            [
+                4,
+                3
+            ]
+        ]
+    },
+    {
         "stage_name": "巡逻队",
         "replacement_home": [
             [
