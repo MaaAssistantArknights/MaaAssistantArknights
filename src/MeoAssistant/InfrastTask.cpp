@@ -137,7 +137,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
     Log.trace(__FUNCTION__, "| custom json:", custom_json.to_string());
 
     auto& all_plans = custom_json.at("plans").as_array();
-    if (index < 0 || index >= all_plans.size()) {
+    if (index < 0 || index >= int(all_plans.size())) {
         Log.error("index is out of range, plans size:", all_plans.size(), ", index:", index);
         return false;
     }
