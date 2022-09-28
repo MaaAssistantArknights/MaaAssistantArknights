@@ -64,6 +64,10 @@
     <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
+    <system:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</system:String>
+    <system:String x:Key="IS2NewSquad2">（ミヅキ）物尽其用分队</system:String>
+    <system:String x:Key="IS2NewSquad3">（ミヅキ）以人为本分队</system:String>
+    <!--追加されているため先行対応-->
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -129,6 +133,7 @@
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
+    <system:String x:Key="RoguelikeAdditionalResource">ミヅキのローグライクで使用する場合はチェック</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -140,12 +145,10 @@
     <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="HighPriority">優先購入（OCR/セミコロンで区切）</system:String>
-    <!--日本語名は未対応？-->
-    <system:String x:Key="Blacklist">ブラックリスト（OCR/セミコロンで区切）</system:String>
-    <system:String x:Key="HighPriorityDefault">求人票；龍門幣</system:String>
-    <system:String x:Key="BlacklistDefault">炭素材；家具</system:String>
-    <!--日本語名は未対応？-->
+    <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
+    <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
+    <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
+    <system:String x:Key="BlacklistDefault">炭素材;家具</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
