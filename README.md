@@ -93,13 +93,13 @@ MAA 的意思是 MAA Assistant Arknights
 - 繁中服  
   支持基本的刷理智、自动公招、公招识别功能，请参考 [说明](resource/global/txwy/readme.md)
 
-由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，~~或加入我们一起建设 MAA~~
+由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！
 
 ## 主要关联项目
 
 - 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
-- 更新服务器：[MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- 官网 <https://maa.plus>：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
+- 数据服务器：[MaaGameDataServer](https://github.com/MaaAssistantArknights/MaaGameDataServer)
+- 官网 [maa.plus](https://maa.plus)：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
 - 作业分享站 [prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)，[后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
 
 ## 致谢
@@ -153,8 +153,8 @@ MAA 的意思是 MAA Assistant Arknights
 - [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/cli.go)（已停止维护 orz）
 - [Dart 接口](src/dart/)
 - [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 接口](src/Java/Maaj/Readme.md)
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
-- [HTTP 接口](src/Java/Maaj/Readme.md)
 - [集成文档](docs/3.1-集成文档.md)
 - [回调消息协议](docs/3.2-回调消息协议.md)
 - [任务流程协议](docs/3.4-任务流程协议.md)
