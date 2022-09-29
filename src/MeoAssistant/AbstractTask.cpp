@@ -201,5 +201,7 @@ bool asst::AbstractTask::save_img(const std::string& dirname)
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directories(dirname);
-    return asst::imwrite(dirname + stem + "_raw.png", image);
+    std::string full_path = dirname + stem + "_raw.png";
+    Log.trace("Save image", full_path);
+    return asst::imwrite(full_path, image);
 }

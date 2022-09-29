@@ -71,7 +71,9 @@ bool asst::AbstractImageAnalyzer::save_img(const std::string& dirname)
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
     std::filesystem::create_directories(dirname);
-    bool ret = asst::imwrite(dirname + stem + "_raw.png", m_image);
+    std::string full_path = dirname + stem + "_raw.png";
+    Log.trace("Save image", full_path);
+    bool ret = asst::imwrite(full_path, m_image);
 
 #ifdef ASST_DEBUG
     asst::imwrite(dirname + stem + "_draw.png", m_image_draw);
