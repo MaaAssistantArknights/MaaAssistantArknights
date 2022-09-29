@@ -34,6 +34,7 @@ namespace asst
         std::shared_ptr<TaskInfo> m_cur_task_ptr = nullptr;
         std::vector<std::string> m_raw_tasks_name;
         std::vector<std::string> m_cur_tasks_name;
+        std::string m_pre_task_name;
         std::unordered_map<std::string, int> m_rear_delay;
         std::unordered_map<std::string, int> m_times_limit;
         std::unordered_map<std::string, int> m_exec_times;
