@@ -2,6 +2,8 @@
 #include <fstream>
 #include <unordered_set>
 
+#include "Utils/AsstUtils.hpp"
+
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 5054)
@@ -22,33 +24,6 @@
 #pragma GCC diagnostic pop
 #endif
 #include <meojson/json.hpp>
-#include <ranges>
-
-std::string ReplaceAll(std::string str, const std::string& from, const std::string& to)
-{
-    size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
-    }
-    return str;
-}
-
-std::vector<std::string> Split(const std::string& str, const std::string& delim)
-{
-    std::vector<std::string> tokens;
-    size_t prev = 0, pos = 0;
-    do {
-        pos = str.find(delim, prev);
-        if (pos == std::string::npos) pos = str.length();
-        std::string token = str.substr(prev, pos - prev);
-        if (!token.empty()) {
-            tokens.push_back(token);
-        }
-        prev = pos + delim.length();
-    } while (pos < str.length() && prev < str.length());
-    return tokens;
-}
 
 static inline void ltrim(std::string& s)
 {
@@ -403,7 +378,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     // 这里面有些是手动修改的，要保留
     json::value& root = old_json;
     std::unordered_set<std::string> rooms;
-    for (auto& buff_obj : buffs | std::views::values) {
+    for (auto& buff_obj : buffs | asst::views::values) {
         std::string raw_room_type = static_cast<std::string>(buff_obj["roomType"]);
 
         // 为了兼容老版本的字段 orz
@@ -653,6 +628,8 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
 {
+    using namespace asst::utils;
+    using asst::ranges::find_if, asst::views::filter;
     const auto& recruitment_file = input_dir / "gacha_table.json";
     const auto& operators_file = input_dir / "character_table.json";
 
@@ -667,17 +644,30 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     std::vector<std::string> chars_list;
     std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
     remove_xml(recruitment_details);
-    auto splited = Split(ReplaceAll(recruitment_details, "\\n", ""), "★");
+    _string_replace_all(recruitment_details, "\\n", "");
+    auto splited = string_split(recruitment_details, "★");
     bool is_useless = true;
-    for (const auto& s : splited) {
-        if (s.find("Lancet-2") != std::string::npos) {
+    auto not_empty = [](std::string_view str) -> bool { return !str.empty(); };
+    for (auto s : splited | filter(not_empty)) {
+        if (s.find("Lancet-2") != std::string_view::npos) {
             is_useless = false;
         }
         if (is_useless) {
             continue;
         }
-        for (const auto& n : Split(Split(s, "\n")[0], "/")) {
-            std::string name = n;
+#if 0
+        std::string_view s1 = (string_split(s, "\n") | filter(not_empty)).front();
+#else
+        std::string_view s1;
+        if (auto s_splited = string_split(s, "\n") | filter(not_empty); !s_splited.empty()) {
+            s1 = s_splited.front();
+        }
+        else {
+            continue;
+        }
+#endif
+        for (auto n : string_split(s1, "/") | filter(not_empty)) {
+            std::string name(n);
             trim(name);
             chars_list.emplace_back(name);
         }
@@ -710,7 +700,10 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
             else {
                 continue;
             }
-            if (info.rarity == 5) {
+            if (info.rarity == 1) {
+                info.tags.emplace_back("支援机械");
+            }
+            else if (info.rarity == 5) {
                 info.tags.emplace_back("资深干员");
             }
             else if (info.rarity == 6) {
