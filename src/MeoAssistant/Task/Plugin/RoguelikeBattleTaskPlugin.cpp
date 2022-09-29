@@ -6,18 +6,18 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Utils/AsstImageIo.hpp"
-#include "Resource/BattleDataConfiger.h"
-#include "ImageAnalyzer/BattleImageAnalyzer.h"
+#include "../Sub/ProcessTask.h"
 #include "Controller.h"
-#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/BattleImageAnalyzer.h"
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
-#include "../Sub/ProcessTask.h"
+#include "Resource/BattleDataConfiger.h"
 #include "Resource/RoguelikeCopilotConfiger.h"
+#include "Resource/TilePack.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
-#include "Resource/TilePack.h"
+#include "Utils/AsstImageIo.hpp"
+#include "Utils/Logger.hpp"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

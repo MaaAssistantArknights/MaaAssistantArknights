@@ -6,11 +6,11 @@
 #include "Utils/NoWarningCV.h"
 
 #include "General/HashImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 #include "General/MatchImageAnalyzer.h"
 #include "General/MultiMatchImageAnalyzer.h"
 #include "General/OcrWithFlagTemplImageAnalyzer.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
 {

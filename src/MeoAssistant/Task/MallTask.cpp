@@ -5,10 +5,10 @@
 
 asst::MallTask::MallTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
-    m_mall_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
-    m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
-    m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
-    m_shopping_force_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType))
+      m_mall_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
+      m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
+      m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
+      m_shopping_force_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType))
 {
     m_mall_task_ptr->set_tasks({ "MallBegin" });
     m_shopping_first_task_ptr->set_enable(false).set_retry_times(1);

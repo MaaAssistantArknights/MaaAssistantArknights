@@ -1,11 +1,11 @@
 #include "CopilotTask.h"
 
-#include "Utils/AsstUtils.hpp"
+#include "Resource/CopilotConfiger.h"
 #include "Sub/BattleFormationTask.h"
 #include "Sub/BattleProcessTask.h"
-#include "Resource/CopilotConfiger.h"
-#include "Utils/Logger.hpp"
 #include "Sub/ProcessTask.h"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
@@ -46,6 +46,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool with_formation = params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
 
-    const std::string& filename =filename_opt.value();
+    const std::string& filename = filename_opt.value();
     return Copilot.load(utils::path(filename));
 }

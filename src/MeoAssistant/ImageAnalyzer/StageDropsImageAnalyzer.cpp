@@ -4,14 +4,14 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Utils/AsstImageIo.hpp"
-#include "Utils/AsstUtils.hpp"
-#include "Resource/ItemConfiger.h"
-#include "Utils/Logger.hpp"
 #include "General/MatchImageAnalyzer.h"
 #include "General/OcrWithPreprocessImageAnalyzer.h"
+#include "Resource/ItemConfiger.h"
 #include "Resource/StageDropsConfiger.h"
 #include "TaskData.h"
+#include "Utils/AsstImageIo.hpp"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 #include <numbers>
 

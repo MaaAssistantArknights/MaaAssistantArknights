@@ -7,15 +7,15 @@
 
 #include "Controller.h"
 #include "ImageAnalyzer/General/HashImageAnalyzer.h"
-#include "Resource/InfrastConfiger.h"
-#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/MultiMatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
 #include "ProcessTask.h"
+#include "Resource/InfrastConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std::string uses_of_drones) noexcept
 {

@@ -4,17 +4,17 @@
 #include <regex>
 #include <utility>
 
-#include "Utils/AsstMsg.h"
-#include "Utils/AsstRanges.hpp"
 #include "Controller.h"
-#include "ImageAnalyzer/InfrastFacilityImageAnalyzer.h"
-#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastFacilityImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
+#include "Utils/AsstMsg.h"
+#include "Utils/AsstRanges.hpp"
+#include "Utils/Logger.hpp"
 
 asst::InfrastAbstractTask::InfrastAbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
     : AbstractTask(std::move(callback), callback_arg, std::move(task_chain))

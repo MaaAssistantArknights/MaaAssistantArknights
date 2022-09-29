@@ -9,12 +9,12 @@
 #include "Utils/NoWarningCV.h"
 
 #include "../Plugin/AbstractTaskPlugin.h"
+#include "Controller.h"
+#include "ProcessTask.h"
+#include "Resource/GeneralConfiger.h"
 #include "Utils/AsstImageIo.hpp"
 #include "Utils/AsstUtils.hpp"
-#include "Controller.h"
-#include "Resource/GeneralConfiger.h"
 #include "Utils/Logger.hpp"
-#include "ProcessTask.h"
 
 using namespace asst;
 

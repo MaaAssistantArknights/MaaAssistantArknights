@@ -2,9 +2,9 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Controller.h"
 #include "Utils/AsstImageIo.hpp"
 #include "Utils/AsstUtils.hpp"
-#include "Controller.h"
 #include "Utils/Logger.hpp"
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)

@@ -3,13 +3,13 @@
 #include <regex>
 
 #include "Controller.h"
-#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept
 {

@@ -1,7 +1,7 @@
 #include "InfrastPowerTask.h"
 
-#include "Utils/AsstRanges.hpp"
 #include "Controller.h"
+#include "Utils/AsstRanges.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::InfrastPowerTask::_run()

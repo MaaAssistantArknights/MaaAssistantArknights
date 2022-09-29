@@ -2,11 +2,11 @@
 
 #include "Utils/AsstRanges.hpp"
 
-#include "Controller.h"
-#include "Utils/Logger.hpp"
 #include "../Sub/ProcessTask.h"
+#include "Controller.h"
 #include "ImageAnalyzer/RoguelikeFormationImageAnalyzer.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

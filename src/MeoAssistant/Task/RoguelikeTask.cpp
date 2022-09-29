@@ -1,6 +1,5 @@
 #include "RoguelikeTask.h"
 
-#include "Sub/ProcessTask.h"
 #include "Plugin/RoguelikeBattleTaskPlugin.h"
 #include "Plugin/RoguelikeControlTaskPlugin.h"
 #include "Plugin/RoguelikeCustomStartTaskPlugin.h"
@@ -10,6 +9,7 @@
 #include "Plugin/RoguelikeResetTaskPlugin.h"
 #include "Plugin/RoguelikeShoppingTaskPlugin.h"
 #include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
+#include "Sub/ProcessTask.h"
 
 #include "Utils/Logger.hpp"
 

@@ -5,13 +5,13 @@
 
 #include <meojson/json.hpp>
 
-#include "Utils/AsstUtils.hpp"
 #include "Controller.h"
-#include "Resource/GeneralConfiger.h"
-#include "Utils/Logger.hpp"
 #include "ImageAnalyzer/ProcessTaskImageAnalyzer.h"
+#include "Resource/GeneralConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 using namespace asst;
 

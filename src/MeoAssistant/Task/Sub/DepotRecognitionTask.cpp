@@ -6,10 +6,10 @@
 
 #include "Controller.h"
 #include "ImageAnalyzer/DepotImageAnalyzer.h"
-#include "Resource/GeneralConfiger.h"
-#include "Utils/Logger.hpp"
 #include "ProcessTask.h"
+#include "Resource/GeneralConfiger.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::DepotRecognitionTask::_run()
 {

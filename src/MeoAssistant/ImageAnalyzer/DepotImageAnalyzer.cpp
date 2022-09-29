@@ -2,12 +2,12 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Utils/AsstUtils.hpp"
-#include "Resource/ItemConfiger.h"
-#include "Utils/Logger.hpp"
 #include "General/MatchImageAnalyzer.h"
 #include "General/OcrWithPreprocessImageAnalyzer.h"
+#include "Resource/ItemConfiger.h"
 #include "TaskData.h"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 bool asst::DepotImageAnalyzer::analyze()
 {

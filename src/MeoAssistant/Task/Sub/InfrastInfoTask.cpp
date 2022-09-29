@@ -2,8 +2,8 @@
 
 #include "Controller.h"
 #include "ImageAnalyzer/InfrastFacilityImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 #include "RuntimeStatus.h"
+#include "Utils/Logger.hpp"
 
 bool asst::InfrastInfoTask::_run()
 {

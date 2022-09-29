@@ -23,7 +23,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
-        bool m_force_shopping_if_credit_full = false;         // 设置是否防止信用值溢出
+        bool m_force_shopping_if_credit_full = false; // 设置是否防止信用值溢出
         int credit_ocr();
         bool credit_shopping(bool white_list_enabled, bool credit_ocr_enabled);
 

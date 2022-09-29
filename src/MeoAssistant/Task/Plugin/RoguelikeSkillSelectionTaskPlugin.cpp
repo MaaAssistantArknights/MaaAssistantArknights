@@ -1,8 +1,8 @@
 #include "RoguelikeSkillSelectionTaskPlugin.h"
 
 #include "Controller.h"
-#include "Resource/RoguelikeRecruitConfiger.h"
 #include "ImageAnalyzer/RoguelikeSkillSelectionImageAnalyzer.h"
+#include "Resource/RoguelikeRecruitConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 

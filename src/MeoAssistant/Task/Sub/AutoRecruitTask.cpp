@@ -1,15 +1,15 @@
 #include "AutoRecruitTask.h"
 
 #include "Controller.h"
-#include "Resource/GeneralConfiger.h"
-#include "Utils/Logger.hpp"
 #include "ImageAnalyzer/General/MultiMatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrImageAnalyzer.h"
-#include "ProcessTask.h"
-#include "Resource/RecruitConfiger.h"
 #include "ImageAnalyzer/RecruitImageAnalyzer.h"
+#include "ProcessTask.h"
 #include "ReportDataTask.h"
+#include "Resource/GeneralConfiger.h"
+#include "Resource/RecruitConfiger.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 #include "Utils/AsstRanges.hpp"
 #include <algorithm>

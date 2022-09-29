@@ -3,6 +3,7 @@
 #include "Utils/Logger.hpp"
 
 #include "Plugin/DronesForShamareTaskPlugin.h"
+#include "Plugin/ReplenishOriginiumShardTaskPlugin.h"
 #include "Sub/InfrastControlTask.h"
 #include "Sub/InfrastDormTask.h"
 #include "Sub/InfrastInfoTask.h"
@@ -12,7 +13,6 @@
 #include "Sub/InfrastReceptionTask.h"
 #include "Sub/InfrastTradeTask.h"
 #include "Sub/ProcessTask.h"
-#include "Plugin/ReplenishOriginiumShardTaskPlugin.h"
 
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),

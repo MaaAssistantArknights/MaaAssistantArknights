@@ -2,13 +2,13 @@
 
 #include "Utils/AsstRanges.hpp"
 
-#include "Resource/BattleDataConfiger.h"
 #include "Controller.h"
-#include "Resource/CopilotConfiger.h"
-#include "Utils/Logger.hpp"
 #include "ImageAnalyzer/General/OcrWithFlagTemplImageAnalyzer.h"
 #include "ProcessTask.h"
+#include "Resource/BattleDataConfiger.h"
+#include "Resource/CopilotConfiger.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 void asst::BattleFormationTask::set_stage_name(std::string name)
 {

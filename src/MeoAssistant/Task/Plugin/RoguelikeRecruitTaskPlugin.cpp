@@ -1,12 +1,12 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
-#include "Controller.h"
-#include "Utils/Logger.hpp"
 #include "../Sub/ProcessTask.h"
-#include "Resource/RoguelikeRecruitConfiger.h"
+#include "Controller.h"
 #include "ImageAnalyzer/RoguelikeRecruitImageAnalyzer.h"
+#include "Resource/RoguelikeRecruitConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

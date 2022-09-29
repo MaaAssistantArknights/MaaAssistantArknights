@@ -22,7 +22,8 @@ void asst::CreditShoppingTask::set_white_list(std::vector<std::string> black_lis
     m_is_white_list = true;
 }
 
-asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit_full(bool force_shopping_if_credit_full) noexcept
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit_full(
+    bool force_shopping_if_credit_full) noexcept
 {
     m_force_shopping_if_credit_full = force_shopping_if_credit_full;
     return *this;
@@ -122,11 +123,10 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
 
         if (credit_ocr_enabled) {
             int credit = credit_ocr();
-            if (credit <= MaxCredit) {//信用值不再溢出，停止购物
+            if (credit <= MaxCredit) { // 信用值不再溢出，停止购物
                 break;
             }
         }
-
     }
 
     return true;
@@ -134,15 +134,16 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
 
 bool asst::CreditShoppingTask::_run()
 {
-    Log.trace("CreditShopping: m_is_white_list:", m_is_white_list, " m_force_shopping_if_credit_full: ", m_force_shopping_if_credit_full);
+    Log.trace("CreditShopping: m_is_white_list:", m_is_white_list,
+              " m_force_shopping_if_credit_full: ", m_force_shopping_if_credit_full);
 
     if (!m_force_shopping_if_credit_full) {
         return credit_shopping(true, false);
     }
     else {
-        int credit = credit_ocr();//识别信用值，防止信用值溢出
+        int credit = credit_ocr(); // 识别信用值，防止信用值溢出
 
-        if (credit > MaxCredit) {//信用值溢出
+        if (credit > MaxCredit) { // 信用值溢出
             return credit_shopping(false, true);
         }
     }

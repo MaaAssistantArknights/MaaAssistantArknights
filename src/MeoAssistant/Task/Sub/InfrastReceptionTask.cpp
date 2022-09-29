@@ -3,12 +3,12 @@
 #include "Utils/AsstRanges.hpp"
 
 #include "Controller.h"
+#include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/InfrastClueImageAnalyzer.h"
 #include "ImageAnalyzer/InfrastClueVacancyImageAnalyzer.h"
-#include "Utils/Logger.hpp"
-#include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::InfrastReceptionTask::_run()
 {

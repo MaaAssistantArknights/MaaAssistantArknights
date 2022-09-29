@@ -4,11 +4,11 @@
 #include "Utils/NoWarningCV.h"
 
 #include "General/HashImageAnalyzer.h"
-#include "Resource/InfrastConfiger.h"
-#include "InfrastSmileyImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 #include "General/MatchImageAnalyzer.h"
+#include "InfrastSmileyImageAnalyzer.h"
+#include "Resource/InfrastConfiger.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::InfrastOperImageAnalyzer::analyze()
 {
