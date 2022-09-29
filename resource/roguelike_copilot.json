@@ -8,7 +8,7 @@
                     4
                 ],
                 "direction_Doc1": "优先朝向，但并不代表绝对是这个方向（算法自行判断）",
-                "Direction_Doc2": "不填默认 none，即没有推荐方向，完全由算法自行判断",
+                "direction_Doc2": "不填默认 none，即没有推荐方向，完全由算法自行判断",
                 "direction_Doc3": "none / left / right / up / down / 无 / 上 / 下 / 左 / 右",
                 "direction": "left"
             }
