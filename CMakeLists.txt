@@ -29,6 +29,7 @@ if (MSVC)
 endif ()
 
 include_directories(include)
+include_directories(src/MeoAssistant)
 
 file(GLOB_RECURSE maa_src src/MeoAssistant/*.cpp)
 
