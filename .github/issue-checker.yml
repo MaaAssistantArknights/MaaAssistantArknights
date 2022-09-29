@@ -160,33 +160,6 @@ labels:
   - remove module
   - remove infrast
 
-# `module: copilot`
-- name: copilot1
-  content: "module: copilot"
-  regexes: '(?:自动(?:作战|战斗|编队)|自動[戰戦][鬥闘]|[Cc]opilot)'
-  mode: add
-  skip-if:
-  - skip all
-  - skip module
-  - skip copilot
-  remove-if:
-  - remove all
-  - remove module    
-  - remove copilot
-- name: copilot2
-  content: "module: copilot"
-  regexes: '(?:作[业業])'
-  skip-if:
-  - skip all
-  - skip module
-  - skip copilot
-  - copilot1
-  - infrast
-  remove-if:
-  - remove all
-  - remove module    
-  - remove copilot
-
 # `module: roguelike`
 - name: roguelike
   content: "module: roguelike"
@@ -200,6 +173,35 @@ labels:
   - remove all
   - remove module
   - remove roguelike
+
+# `module: copilot`
+- name: copilot1
+  content: "module: copilot"
+  regexes: '(?:自动(?:作战|战斗|编队)|自動[戰戦][鬥闘]|[Cc]opilot)'
+  mode: add
+  skip-if:
+  - skip all
+  - skip module
+  - skip copilot
+  - roguelike
+  remove-if:
+  - remove all
+  - remove module    
+  - remove copilot
+- name: copilot2
+  content: "module: copilot"
+  regexes: '(?:作[业業])'
+  skip-if:
+  - skip all
+  - skip module
+  - skip copilot
+  - copilot1
+  - infrast
+  - roguelike
+  remove-if:
+  - remove all
+  - remove module    
+  - remove copilot
 
 # `module: drop`
 - name: drop

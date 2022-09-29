@@ -2,22 +2,22 @@
 
 #include <filesystem>
 
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
-#include "BattleDataConfiger.h"
-#include "CopilotConfiger.h"
-#include "GeneralConfiger.h"
-#include "InfrastConfiger.h"
-#include "ItemConfiger.h"
-#include "OcrPack.h"
-#include "RecruitConfiger.h"
-#include "RoguelikeCopilotConfiger.h"
-#include "RoguelikeRecruitConfiger.h"
-#include "RoguelikeShoppingConfiger.h"
-#include "StageDropsConfiger.h"
+#include "Resource/BattleDataConfiger.h"
+#include "Resource/CopilotConfiger.h"
+#include "Resource/GeneralConfiger.h"
+#include "Resource/InfrastConfiger.h"
+#include "Resource/ItemConfiger.h"
+#include "Resource/OcrPack.h"
+#include "Resource/RecruitConfiger.h"
+#include "Resource/RoguelikeCopilotConfiger.h"
+#include "Resource/RoguelikeRecruitConfiger.h"
+#include "Resource/RoguelikeShoppingConfiger.h"
+#include "Resource/StageDropsConfiger.h"
+#include "Resource/TemplResource.h"
+#include "Resource/TilePack.h"
 #include "TaskData.h"
-#include "TemplResource.h"
-#include "TilePack.h"
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {

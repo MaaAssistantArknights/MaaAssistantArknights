@@ -115,6 +115,7 @@
     },
     "RecruitTags": {
         "algorithm": "OcrDetect",
+        "fullMatch": true,
         "text": [],
         "roi": [
             375,

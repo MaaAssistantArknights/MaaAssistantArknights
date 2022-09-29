@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,9 +175,10 @@ namespace MeoAsstGui
             var settingsModel = _container.Get<SettingsViewModel>();
             if (settingsModel.RoguelikeAdditionalResourceEnabled)
             {
-                _additionalLoaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\");
+                _additionalLoaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\");
                 return _additionalLoaded;
             }
+
             return true;
         }
 
@@ -204,20 +206,20 @@ namespace MeoAsstGui
                     return true;
                 }
 
-                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory());
+                loaded = AsstLoadResource(Directory.GetCurrentDirectory());
             }
             else if (_curResource == "Official" || _curResource == "Bilibili")
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
-                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
+                loaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
             }
             else
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
-                loaded = AsstLoadResource(System.IO.Directory.GetCurrentDirectory())
-                    && AsstLoadResource(System.IO.Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
+                loaded = AsstLoadResource(Directory.GetCurrentDirectory())
+                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
             }
 
             if (!loaded)
@@ -242,6 +244,10 @@ namespace MeoAsstGui
         /// </summary>
         public void Init()
         {
+            // TODO: 屎山.jpg，过几个版本再把这两行删了
+            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_recruit.json");
+            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_shopping.json");
+
             bool loaded = LoadResource();
             loaded &= LoadAdditionalResource();
 
