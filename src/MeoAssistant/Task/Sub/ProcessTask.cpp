@@ -63,6 +63,7 @@ asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_n
 {
     m_cur_retry = 0;
     m_raw_tasks_name = std::move(tasks_name);
+    m_pre_task_name.clear();
     return *this;
 }
 
@@ -86,6 +87,10 @@ bool ProcessTask::_run()
         if (need_exit()) {
             return false;
         }
+        if (m_cur_task_ptr && m_pre_task_name != m_cur_task_ptr->name) {
+            m_pre_task_name = m_cur_task_ptr->name;
+        }
+
         json::value info = basic_info();
         info["details"] = json::object {
             { "to_be_recognized", json::array(m_cur_tasks_name) },
@@ -266,7 +271,8 @@ bool asst::ProcessTask::on_run_fails()
 
 json::value asst::ProcessTask::basic_info() const
 {
-    return AbstractTask::basic_info() | json::object { { "first", json::array(m_raw_tasks_name) } };
+    return AbstractTask::basic_info() |
+           json::object { { "first", json::array(m_raw_tasks_name) }, { "pre_task", m_pre_task_name } };
 }
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
