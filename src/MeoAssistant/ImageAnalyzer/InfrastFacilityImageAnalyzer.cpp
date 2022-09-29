@@ -1,10 +1,10 @@
 #include "InfrastFacilityImageAnalyzer.h"
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AsstUtils.hpp"
-#include "Logger.hpp"
-#include "MultiMatchImageAnalyzer.h"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
+#include "General/MultiMatchImageAnalyzer.h"
 #include "TaskData.h"
 
 bool asst::InfrastFacilityImageAnalyzer::analyze()

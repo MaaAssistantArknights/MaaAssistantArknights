@@ -1,13 +1,13 @@
 #include "CreditShopImageAnalyzer.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AsstUtils.hpp"
-#include "MatchImageAnalyzer.h"
-#include "MultiMatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
+#include "Utils/AsstUtils.hpp"
+#include "General/MatchImageAnalyzer.h"
+#include "General/MultiMatchImageAnalyzer.h"
+#include "General/OcrImageAnalyzer.h"
 #include "TaskData.h"
 
 void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)

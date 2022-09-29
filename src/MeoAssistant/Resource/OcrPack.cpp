@@ -2,15 +2,15 @@
 
 #include <filesystem>
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 #include <PaddleOCR/paddle_ocr.h>
 
-#include "AsstUtils.hpp"
-#include "Logger.hpp"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 #ifdef _WIN32
-#include "AsstPlatformWin32.h"
-#include "SafeWindows.h"
+#include "Utils/AsstPlatformWin32.h"
+#include "Utils/SafeWindows.h"
 #include <format>
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp);
 #else

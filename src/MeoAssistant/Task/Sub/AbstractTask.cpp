@@ -6,14 +6,14 @@
 #include <thread>
 #include <utility>
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AbstractTaskPlugin.h"
-#include "AsstImageIo.hpp"
-#include "AsstUtils.hpp"
+#include "../Plugin/AbstractTaskPlugin.h"
+#include "Utils/AsstImageIo.hpp"
+#include "Utils/AsstUtils.hpp"
 #include "Controller.h"
-#include "GeneralConfiger.h"
-#include "Logger.hpp"
+#include "Resource/GeneralConfiger.h"
+#include "Utils/Logger.hpp"
 #include "ProcessTask.h"
 
 using namespace asst;

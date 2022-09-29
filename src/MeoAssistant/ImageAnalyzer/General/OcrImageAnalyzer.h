@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "AsstTypes.h"
+#include "Utils/AsstTypes.h"
 
 namespace asst
 {

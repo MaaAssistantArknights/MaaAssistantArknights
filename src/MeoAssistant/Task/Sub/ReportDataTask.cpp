@@ -1,8 +1,8 @@
 #include "ReportDataTask.h"
 
-#include "AsstUtils.hpp"
-#include "GeneralConfiger.h"
-#include "Logger.hpp"
+#include "Utils/AsstUtils.hpp"
+#include "Resource/GeneralConfiger.h"
+#include "Utils/Logger.hpp"
 
 #include <meojson/json.hpp>
 

@@ -1,11 +1,11 @@
 #include "CopilotTask.h"
 
-#include "AsstUtils.hpp"
-#include "BattleFormationTask.h"
-#include "BattleProcessTask.h"
-#include "CopilotConfiger.h"
-#include "Logger.hpp"
-#include "ProcessTask.h"
+#include "Utils/AsstUtils.hpp"
+#include "Sub/BattleFormationTask.h"
+#include "Sub/BattleProcessTask.h"
+#include "Resource/CopilotConfiger.h"
+#include "Utils/Logger.hpp"
+#include "Sub/ProcessTask.h"
 
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),

@@ -1,17 +1,17 @@
 #include "RoguelikeTask.h"
 
-#include "ProcessTask.h"
-#include "RoguelikeBattleTaskPlugin.h"
-#include "RoguelikeControlTaskPlugin.h"
-#include "RoguelikeCustomStartTaskPlugin.h"
-#include "RoguelikeDebugTaskPlugin.h"
-#include "RoguelikeFormationTaskPlugin.h"
-#include "RoguelikeRecruitTaskPlugin.h"
-#include "RoguelikeResetTaskPlugin.h"
-#include "RoguelikeShoppingTaskPlugin.h"
-#include "RoguelikeSkillSelectionTaskPlugin.h"
+#include "Sub/ProcessTask.h"
+#include "Plugin/RoguelikeBattleTaskPlugin.h"
+#include "Plugin/RoguelikeControlTaskPlugin.h"
+#include "Plugin/RoguelikeCustomStartTaskPlugin.h"
+#include "Plugin/RoguelikeDebugTaskPlugin.h"
+#include "Plugin/RoguelikeFormationTaskPlugin.h"
+#include "Plugin/RoguelikeRecruitTaskPlugin.h"
+#include "Plugin/RoguelikeResetTaskPlugin.h"
+#include "Plugin/RoguelikeShoppingTaskPlugin.h"
+#include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
 
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),

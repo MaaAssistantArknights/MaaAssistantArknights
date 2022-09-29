@@ -7,7 +7,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "AsstTypes.h"
+#include "Utils/AsstTypes.h"
 
 namespace asst
 {

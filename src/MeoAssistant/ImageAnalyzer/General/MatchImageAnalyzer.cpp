@@ -1,11 +1,11 @@
 #include "MatchImageAnalyzer.h"
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AsstUtils.hpp"
-#include "Logger.hpp"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 #include "TaskData.h"
-#include "TemplResource.h"
+#include "Resource/TemplResource.h"
 
 asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name,
                                              double templ_thres)

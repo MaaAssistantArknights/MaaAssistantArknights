@@ -1,12 +1,12 @@
 #include "InfrastReceptionTask.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 
 #include "Controller.h"
-#include "InfrastClueImageAnalyzer.h"
-#include "InfrastClueVacancyImageAnalyzer.h"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastClueImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastClueVacancyImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
 

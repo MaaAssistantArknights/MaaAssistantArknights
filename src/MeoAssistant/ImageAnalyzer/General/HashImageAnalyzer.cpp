@@ -1,9 +1,9 @@
 #include "HashImageAnalyzer.h"
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AsstUtils.hpp"
-#include "Logger.hpp"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 bool asst::HashImageAnalyzer::analyze()
 {

@@ -1,14 +1,14 @@
 #include "TaskData.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 #include <algorithm>
 
 #include <meojson/json.hpp>
 
-#include "AsstTypes.h"
-#include "GeneralConfiger.h"
-#include "Logger.hpp"
-#include "TemplResource.h"
+#include "Utils/AsstTypes.h"
+#include "Resource/GeneralConfiger.h"
+#include "Utils/Logger.hpp"
+#include "Resource/TemplResource.h"
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {

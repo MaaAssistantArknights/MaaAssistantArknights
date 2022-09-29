@@ -2,7 +2,7 @@
 
 #include <meojson/json.hpp>
 
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
 std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfiger::get_stage_data(
     const std::string& stage_name) const

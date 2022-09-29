@@ -1,7 +1,7 @@
 #include "MallTask.h"
 
-#include "CreditShoppingTask.h"
-#include "ProcessTask.h"
+#include "Sub/CreditShoppingTask.h"
+#include "Sub/ProcessTask.h"
 
 asst::MallTask::MallTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),

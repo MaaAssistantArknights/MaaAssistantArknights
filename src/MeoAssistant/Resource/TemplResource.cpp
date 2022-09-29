@@ -4,10 +4,10 @@
 #include <filesystem>
 #include <string_view>
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AsstImageIo.hpp"
-#include "Logger.hpp"
+#include "Utils/AsstImageIo.hpp"
+#include "Utils/Logger.hpp"
 
 void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept
 {

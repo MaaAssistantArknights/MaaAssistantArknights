@@ -1,12 +1,12 @@
 #pragma once
 
 #include "AbstractResource.h"
-#include "SingletonHolder.hpp"
+#include "Utils/SingletonHolder.hpp"
 
 #include <unordered_map>
 #include <unordered_set>
 
-#include "NoWarningCVMat.h"
+#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {

@@ -4,11 +4,11 @@
 #include <vector>
 
 #include "Controller.h"
-#include "CreditShopImageAnalyzer.h"
-#include "MatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
+#include "ImageAnalyzer/CreditShopImageAnalyzer.h"
+#include "ImageAnalyzer/General/MatchImageAnalyzer.h"
+#include "ImageAnalyzer/General/OcrImageAnalyzer.h"
 #include "TaskData.h"
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
 void asst::CreditShoppingTask::set_black_list(std::vector<std::string> black_list)
 {

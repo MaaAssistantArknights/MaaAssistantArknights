@@ -1,11 +1,11 @@
 #pragma once
 
 #ifdef _WIN32
-#include "SafeWindows.h"
+#include "Utils/SafeWindows.h"
 #include <mswsock.h>
 #endif
 
-#include "AsstConf.h"
+#include "Utils/AsstConf.h"
 
 #include <atomic>
 #include <condition_variable>
@@ -18,11 +18,11 @@
 #include <string>
 #include <thread>
 
-#include "NoWarningCVMat.h"
+#include "Utils/NoWarningCVMat.h"
 
-#include "AsstMsg.h"
-#include "AsstTypes.h"
-#include "SingletonHolder.hpp"
+#include "Utils/AsstMsg.h"
+#include "Utils/AsstTypes.h"
+#include "Utils/SingletonHolder.hpp"
 
 namespace asst
 {

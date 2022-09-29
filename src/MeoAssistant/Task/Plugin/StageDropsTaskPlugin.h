@@ -6,7 +6,7 @@
 
 #include <meojson/json.hpp>
 
-#include "StageDropsConfiger.h"
+#include "Resource/StageDropsConfiger.h"
 
 namespace asst
 {

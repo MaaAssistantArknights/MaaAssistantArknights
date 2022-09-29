@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
+#include "General/AbstractImageAnalyzer.h"
 
 namespace asst
 {

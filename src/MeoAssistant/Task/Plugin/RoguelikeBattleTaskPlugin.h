@@ -4,9 +4,9 @@
 
 #include "AbstractTaskPlugin.h"
 #include "AsstBattleDef.h"
-#include "AsstTypes.h"
-#include "BattleImageAnalyzer.h"
-#include "TilePack.h"
+#include "Utils/AsstTypes.h"
+#include "ImageAnalyzer/BattleImageAnalyzer.h"
+#include "Resource/TilePack.h"
 
 namespace asst
 {

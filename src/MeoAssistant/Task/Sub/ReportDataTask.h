@@ -1,8 +1,8 @@
 #pragma once
 
 #include "AbstractTask.h"
-#include "AsstHttp.hpp"
-#include "AsstUtils.hpp"
+#include "Utils/AsstHttp.hpp"
+#include "Utils/AsstUtils.hpp"
 
 #include <cctype>
 #include <future>

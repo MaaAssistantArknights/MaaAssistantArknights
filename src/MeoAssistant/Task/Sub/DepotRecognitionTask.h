@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-#include "DepotImageAnalyzer.h"
+#include "ImageAnalyzer/DepotImageAnalyzer.h"
 
 namespace asst
 {

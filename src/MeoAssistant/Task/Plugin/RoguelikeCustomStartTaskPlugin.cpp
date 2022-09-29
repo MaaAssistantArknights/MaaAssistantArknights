@@ -1,10 +1,10 @@
 #include "RoguelikeCustomStartTaskPlugin.h"
 
-#include "BattleDataConfiger.h"
+#include "Resource/BattleDataConfiger.h"
 #include "Controller.h"
-#include "Logger.hpp"
-#include "OcrImageAnalyzer.h"
-#include "ProcessTask.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/General/OcrImageAnalyzer.h"
+#include "../Sub/ProcessTask.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 
