@@ -4067,6 +4067,7 @@
     },
     "RecruitTags": {
         "algorithm": "OcrDetect",
+        "fullMatch": true,
         "text": [],
         "roi": [
             375,
@@ -7203,7 +7204,9 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1LastReward": {
@@ -7247,6 +7250,10 @@
         "next": [
             "Roguelike1LastRewardConfirm"
         ]
+    },
+    "Roguelike2LastReward4": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike1LastRewardRand": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
@@ -7317,7 +7324,7 @@
         "roi": [
             0,
             153,
-            365,
+            1280,
             532
         ],
         "next": [
@@ -7337,6 +7344,7 @@
             "Roguelike1LastReward",
             "Roguelike1LastReward2",
             "Roguelike1LastReward3",
+            "Roguelike2LastReward4",
             "Roguelike1LastRewardRand",
             "Roguelike1Team3",
             "Roguelike1CloseCollection",
@@ -7349,7 +7357,9 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1CloseCollection": {
@@ -7365,6 +7375,7 @@
             "Roguelike1LastReward",
             "Roguelike1LastReward2",
             "Roguelike1LastReward3",
+            "Roguelike2LastReward4",
             "Roguelike1LastRewardRand",
             "Roguelike1Team3"
         ]
@@ -7590,7 +7601,9 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageTrader": {
@@ -7614,7 +7627,9 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageTraderEnter": {
@@ -7747,7 +7762,9 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2StageRegionalCommissioning": {
@@ -7969,8 +7986,18 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
+    },
+    "Roguelike2CloseCollectionContinue": {
+        "template": "empty.png",
+        "templThreshold": 2.0
+    },
+    "Roguelike2CloseCollectionClose": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike1StageEncounter": {
         "Doc": "不期而遇（随机奖励）",
@@ -7995,7 +8022,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageBoons": {
@@ -8021,7 +8050,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageEncounterEnter": {
@@ -8052,7 +8083,9 @@
         "preDelay": 500,
         "templThreshold": 0.99,
         "next": [
-            "Roguelike1StageEncounterLeaveConfirm"
+            "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1StageEncounterLeave": {
@@ -8067,7 +8100,9 @@
         "preDelay": 500,
         "templThreshold": 0.97,
         "next": [
-            "Roguelike1StageEncounterLeaveConfirm"
+            "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1StageEncounterUnknown": {
@@ -8082,7 +8117,9 @@
         "templThreshold": 0.9,
         "preDelay": 1500,
         "next": [
-            "Roguelike1StageEncounterLeaveConfirm"
+            "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterUnknown",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike1StageEncounterLeaveConfirm": {
@@ -8174,7 +8211,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8214,7 +8253,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8255,7 +8296,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8576,6 +8619,8 @@
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
             "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1TraderRandomShopping",
@@ -8617,6 +8662,8 @@
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
             "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -8721,7 +8768,8 @@
         "next": [
             "Roguelike1GetDropSelectRecruit",
             "Roguelike1GetDropSelectReward",
-            "Roguelike1ChooseOperFlag"
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropCompleted"
         ]
     },
     "Roguelike1GetDropSelectRecruit": {
@@ -8831,6 +8879,8 @@
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
             "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
             "Roguelike1ClickToStartPoint"
         ]
     },
@@ -8867,6 +8917,8 @@
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
             "TodaysSuppliesToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",

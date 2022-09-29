@@ -22,7 +22,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageBoons": {
@@ -48,7 +50,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageCambatDps": {
@@ -75,7 +79,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageEmergencyDps": {
@@ -102,7 +108,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2StageRegionalCommissioning": {
@@ -128,7 +136,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2StageGambling": {
@@ -154,7 +164,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2StageDreadfulFoe-5": {
@@ -180,7 +192,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageTrader": {
@@ -204,7 +218,9 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageSafeHouse": {
@@ -228,7 +244,9 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageDreadfulFoe": {
@@ -255,7 +273,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -282,7 +302,9 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
-            "Roguelike2DiceConfirm"
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2GetDropBox": {
@@ -319,6 +341,79 @@
             "Roguelike1DropsFlag",
             "Roguelike1ChooseOperFlag",
             "Roguelike1ClickToDrops"
+        ]
+    },
+    "Roguelike2LastReward4": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            174,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "Roguelike1LastRewardConfirm"
+        ]
+    },
+    "Roguelike2CloseCollectionContinue": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            549,
+            440,
+            123,
+            130
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
+        ]
+    },
+    "Roguelike2CloseCollectionClose": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            572,
+            434,
+            144,
+            141
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
         ]
     }
 }
