@@ -1,12 +1,12 @@
 #include "RoguelikeSkillSelectionTaskPlugin.h"
 
 #include "Controller.h"
-#include "RoguelikeRecruitConfiger.h"
-#include "RoguelikeSkillSelectionImageAnalyzer.h"
+#include "Resource/RoguelikeRecruitConfiger.h"
+#include "ImageAnalyzer/RoguelikeSkillSelectionImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
 bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

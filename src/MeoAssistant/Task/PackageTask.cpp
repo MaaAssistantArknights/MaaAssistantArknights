@@ -1,7 +1,7 @@
 #include "PackageTask.h"
 
-#include "GeneralConfiger.h"
-#include "Logger.hpp"
+#include "Resource/GeneralConfiger.h"
+#include "Utils/Logger.hpp"
 
 bool asst::PackageTask::run()
 {

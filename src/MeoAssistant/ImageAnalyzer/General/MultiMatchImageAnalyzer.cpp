@@ -1,13 +1,13 @@
 #include "MultiMatchImageAnalyzer.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 #include <utility>
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 #include "TaskData.h"
-#include "TemplResource.h"
+#include "Resource/TemplResource.h"
 
 asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name,
                                                        double templ_thres)

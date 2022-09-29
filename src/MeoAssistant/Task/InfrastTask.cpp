@@ -1,18 +1,18 @@
 #include "InfrastTask.h"
 
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
-#include "DronesForShamareTaskPlugin.h"
-#include "InfrastControlTask.h"
-#include "InfrastDormTask.h"
-#include "InfrastInfoTask.h"
-#include "InfrastMfgTask.h"
-#include "InfrastOfficeTask.h"
-#include "InfrastPowerTask.h"
-#include "InfrastReceptionTask.h"
-#include "InfrastTradeTask.h"
-#include "ProcessTask.h"
-#include "ReplenishOriginiumShardTaskPlugin.h"
+#include "Plugin/DronesForShamareTaskPlugin.h"
+#include "Sub/InfrastControlTask.h"
+#include "Sub/InfrastDormTask.h"
+#include "Sub/InfrastInfoTask.h"
+#include "Sub/InfrastMfgTask.h"
+#include "Sub/InfrastOfficeTask.h"
+#include "Sub/InfrastPowerTask.h"
+#include "Sub/InfrastReceptionTask.h"
+#include "Sub/InfrastTradeTask.h"
+#include "Sub/ProcessTask.h"
+#include "Plugin/ReplenishOriginiumShardTaskPlugin.h"
 
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),

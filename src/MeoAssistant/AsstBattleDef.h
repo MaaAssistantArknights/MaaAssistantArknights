@@ -4,9 +4,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "NoWarningCVMat.h"
+#include "Utils/NoWarningCVMat.h"
 
-#include "AsstTypes.h"
+#include "Utils/AsstTypes.h"
 
 namespace asst
 {

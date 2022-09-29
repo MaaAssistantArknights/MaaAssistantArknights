@@ -5,8 +5,8 @@
 #include <set>
 #include <vector>
 
-#include "AsstTypes.h"
-#include "RecruitConfiger.h"
+#include "Utils/AsstTypes.h"
+#include "Resource/RecruitConfiger.h"
 
 namespace asst
 {

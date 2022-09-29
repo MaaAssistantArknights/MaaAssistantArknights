@@ -1,18 +1,18 @@
 #include "InfrastProductionTask.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 #include <algorithm>
 
 #include <calculator/calculator.hpp>
 
 #include "Controller.h"
-#include "HashImageAnalyzer.h"
-#include "InfrastConfiger.h"
-#include "InfrastOperImageAnalyzer.h"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
-#include "MultiMatchImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "ImageAnalyzer/General/HashImageAnalyzer.h"
+#include "Resource/InfrastConfiger.h"
+#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/General/MatchImageAnalyzer.h"
+#include "ImageAnalyzer/General/MultiMatchImageAnalyzer.h"
+#include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"

@@ -1,28 +1,28 @@
 #include "Assistant.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 
 #include <meojson/json.hpp>
 
-#include "AsstUtils.hpp"
+#include "Utils/AsstUtils.hpp"
 #include "Controller.h"
-#include "GeneralConfiger.h"
-#include "Logger.hpp"
+#include "Resource/GeneralConfiger.h"
+#include "Utils/Logger.hpp"
 #include "RuntimeStatus.h"
 
-#include "AwardTask.h"
-#include "CloseDownTask.h"
-#include "CopilotTask.h"
-#include "DepotTask.h"
-#include "FightTask.h"
-#include "InfrastTask.h"
-#include "MallTask.h"
-#include "RecruitTask.h"
-#include "RoguelikeTask.h"
-#include "StartUpTask.h"
-#include "VisitTask.h"
+#include "Task/AwardTask.h"
+#include "Task/CloseDownTask.h"
+#include "Task/CopilotTask.h"
+#include "Task/DepotTask.h"
+#include "Task/FightTask.h"
+#include "Task/InfrastTask.h"
+#include "Task/MallTask.h"
+#include "Task/RecruitTask.h"
+#include "Task/RoguelikeTask.h"
+#include "Task/StartUpTask.h"
+#include "Task/VisitTask.h"
 #ifdef ASST_DEBUG
-#include "DebugTask.h"
+#include "Task/DebugTask.h"
 #endif
 
 using namespace asst;

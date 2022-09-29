@@ -1,7 +1,7 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
+#include "General/AbstractImageAnalyzer.h"
 
-#include "AsstInfrastDef.h"
+#include "Utils/AsstInfrastDef.h"
 
 namespace asst
 {

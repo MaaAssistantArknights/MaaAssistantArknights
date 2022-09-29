@@ -1,24 +1,24 @@
 #include "BattleProcessTask.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 #include <chrono>
 #include <future>
 #include <thread>
 
-#include "AsstRanges.hpp"
-#include "NoWarningCV.h"
+#include "Utils/AsstRanges.hpp"
+#include "Utils/NoWarningCV.h"
 
-#include "BattleImageAnalyzer.h"
+#include "ImageAnalyzer/BattleImageAnalyzer.h"
 #include "Controller.h"
-#include "CopilotConfiger.h"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "Resource/CopilotConfiger.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/General/MatchImageAnalyzer.h"
+#include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
-#include "TilePack.h"
+#include "Resource/TilePack.h"
 
-#include "AsstImageIo.hpp"
+#include "Utils/AsstImageIo.hpp"
 
 void asst::BattleProcessTask::set_stage_name(std::string name)
 {

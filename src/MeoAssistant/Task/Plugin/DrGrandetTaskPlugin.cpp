@@ -1,8 +1,8 @@
 #include "DrGrandetTaskPlugin.h"
 
 #include "Controller.h"
-#include "Logger.hpp"
-#include "OcrImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/General/OcrImageAnalyzer.h"
 #include "TaskData.h"
 
 #include <regex>

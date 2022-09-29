@@ -1,7 +1,7 @@
 #include "DronesForShamareTaskPlugin.h"
 
-#include "InfrastProductionTask.h"
-#include "ProcessTask.h"
+#include "../Sub/InfrastProductionTask.h"
+#include "../Sub/ProcessTask.h"
 
 bool asst::DronesForShamareTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

@@ -1,11 +1,11 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
+#include "General/AbstractImageAnalyzer.h"
 
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "AsstTypes.h"
+#include "Utils/AsstTypes.h"
 
 namespace asst
 {

@@ -1,11 +1,11 @@
 #include "AbstractImageAnalyzer.h"
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AsstImageIo.hpp"
-#include "AsstUtils.hpp"
+#include "Utils/AsstImageIo.hpp"
+#include "Utils/AsstUtils.hpp"
 #include "Controller.h"
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
     : m_image(image), m_roi(empty_rect_to_full(Rect(), image))

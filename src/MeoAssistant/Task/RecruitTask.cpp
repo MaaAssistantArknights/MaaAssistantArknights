@@ -1,7 +1,7 @@
 #include "RecruitTask.h"
 
-#include "AutoRecruitTask.h"
-#include "ProcessTask.h"
+#include "Sub/AutoRecruitTask.h"
+#include "Sub/ProcessTask.h"
 
 asst::RecruitTask::RecruitTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),

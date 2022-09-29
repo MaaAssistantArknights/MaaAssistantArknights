@@ -1,10 +1,10 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
 #include "Controller.h"
-#include "Logger.hpp"
-#include "ProcessTask.h"
-#include "RoguelikeRecruitConfiger.h"
-#include "RoguelikeRecruitImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "../Sub/ProcessTask.h"
+#include "Resource/RoguelikeRecruitConfiger.h"
+#include "ImageAnalyzer/RoguelikeRecruitImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 

@@ -1,9 +1,9 @@
 #include "Controller.h"
-#include "AsstConf.h"
-#include "AsstPlatform.h"
+#include "Utils/AsstConf.h"
+#include "Utils/AsstPlatform.h"
 
 #ifdef _WIN32
-#include "AsstPlatformWin32.h"
+#include "Utils/AsstPlatformWin32.h"
 #include <ws2tcpip.h>
 #else
 #include <fcntl.h>
@@ -18,7 +18,7 @@
 #include <utility>
 #include <vector>
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -29,9 +29,9 @@
 #pragma warning(pop)
 #endif
 
-#include "AsstTypes.h"
-#include "GeneralConfiger.h"
-#include "Logger.hpp"
+#include "Utils/AsstTypes.h"
+#include "Resource/GeneralConfiger.h"
+#include "Utils/Logger.hpp"
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())

@@ -1,6 +1,6 @@
 #include "BattleDataConfiger.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 #include <meojson/json.hpp>
 
 bool asst::BattleDataConfiger::parse(const json::value& json)

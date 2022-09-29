@@ -1,7 +1,7 @@
 #include "DepotTask.h"
 
-#include "DepotRecognitionTask.h"
-#include "ProcessTask.h"
+#include "Sub/DepotRecognitionTask.h"
+#include "Sub/ProcessTask.h"
 
 asst::DepotTask::DepotTask(AsstCallback callback, void* callback_arg)
     : PackageTask(std::move(callback), callback_arg, TaskType)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractConfigerWithTempl.h"
+#include "Resource/AbstractConfigerWithTempl.h"
 
 #include <memory>
 #include <unordered_map>

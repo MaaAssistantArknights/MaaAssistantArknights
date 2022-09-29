@@ -3,10 +3,10 @@
 #include <regex>
 #include <utility>
 
-#include "AsstUtils.hpp"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
+#include "General/MatchImageAnalyzer.h"
+#include "General/OcrImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 

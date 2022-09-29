@@ -2,7 +2,7 @@
 
 #include <meojson/json.hpp>
 
-#include "Logger.hpp"
+#include "Utils/Logger.hpp"
 
 bool asst::CopilotConfiger::parse(const json::value& json)
 {

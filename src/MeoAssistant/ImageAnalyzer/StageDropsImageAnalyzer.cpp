@@ -1,16 +1,16 @@
 #include "StageDropsImageAnalyzer.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "AsstImageIo.hpp"
-#include "AsstUtils.hpp"
-#include "ItemConfiger.h"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
-#include "StageDropsConfiger.h"
+#include "Utils/AsstImageIo.hpp"
+#include "Utils/AsstUtils.hpp"
+#include "Resource/ItemConfiger.h"
+#include "Utils/Logger.hpp"
+#include "General/MatchImageAnalyzer.h"
+#include "General/OcrWithPreprocessImageAnalyzer.h"
+#include "Resource/StageDropsConfiger.h"
 #include "TaskData.h"
 
 #include <numbers>

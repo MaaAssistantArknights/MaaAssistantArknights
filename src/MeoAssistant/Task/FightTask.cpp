@@ -2,11 +2,11 @@
 
 #include <utility>
 
-#include "DrGrandetTaskPlugin.h"
-#include "GameCrashRestartTaskPlugin.h"
-#include "ProcessTask.h"
-#include "StageDropsTaskPlugin.h"
-#include "StageNavigationTask.h"
+#include "Plugin/DrGrandetTaskPlugin.h"
+#include "Plugin/GameCrashRestartTaskPlugin.h"
+#include "Sub/ProcessTask.h"
+#include "Plugin/StageDropsTaskPlugin.h"
+#include "Sub/StageNavigationTask.h"
 
 asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
     : PackageTask(std::move(callback), callback_arg, TaskType),

@@ -1,13 +1,13 @@
 #include "InfrastOperImageAnalyzer.h"
 
-#include "AsstRanges.hpp"
-#include "NoWarningCV.h"
+#include "Utils/AsstRanges.hpp"
+#include "Utils/NoWarningCV.h"
 
-#include "HashImageAnalyzer.h"
-#include "InfrastConfiger.h"
+#include "General/HashImageAnalyzer.h"
+#include "Resource/InfrastConfiger.h"
 #include "InfrastSmileyImageAnalyzer.h"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "General/MatchImageAnalyzer.h"
 #include "TaskData.h"
 
 bool asst::InfrastOperImageAnalyzer::analyze()

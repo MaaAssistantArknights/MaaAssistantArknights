@@ -3,8 +3,8 @@
 #include <regex>
 #include <unordered_map>
 
-#include "Logger.hpp"
-#include "OcrPack.h"
+#include "Utils/Logger.hpp"
+#include "Resource/OcrPack.h"
 #include "TaskData.h"
 
 bool asst::OcrImageAnalyzer::analyze()

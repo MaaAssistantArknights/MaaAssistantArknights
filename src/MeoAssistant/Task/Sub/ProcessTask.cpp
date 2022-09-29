@@ -5,11 +5,11 @@
 
 #include <meojson/json.hpp>
 
-#include "AsstUtils.hpp"
+#include "Utils/AsstUtils.hpp"
 #include "Controller.h"
-#include "GeneralConfiger.h"
-#include "Logger.hpp"
-#include "ProcessTaskImageAnalyzer.h"
+#include "Resource/GeneralConfiger.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/ProcessTaskImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 

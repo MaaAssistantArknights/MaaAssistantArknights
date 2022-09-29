@@ -1,9 +1,9 @@
 #include "RecruitImageAnalyzer.h"
 
-#include "MatchImageAnalyzer.h"
-#include "MultiMatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
-#include "RecruitConfiger.h"
+#include "General/MatchImageAnalyzer.h"
+#include "General/MultiMatchImageAnalyzer.h"
+#include "General/OcrImageAnalyzer.h"
+#include "Resource/RecruitConfiger.h"
 #include "TaskData.h"
 
 bool asst::RecruitImageAnalyzer::analyze()

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AbstractResource.h"
-#include "AsstTypes.h"
+#include "Utils/AsstTypes.h"
 
 #include <memory>
 

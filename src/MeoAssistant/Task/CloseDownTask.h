@@ -1,6 +1,6 @@
 #pragma once
 #include "PackageTask.h"
-#include "StopGameTaskPlugin.h"
+#include "Plugin/StopGameTaskPlugin.h"
 
 namespace asst
 {

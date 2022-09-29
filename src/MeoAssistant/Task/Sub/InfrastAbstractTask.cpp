@@ -4,15 +4,15 @@
 #include <regex>
 #include <utility>
 
-#include "AsstMsg.h"
-#include "AsstRanges.hpp"
+#include "Utils/AsstMsg.h"
+#include "Utils/AsstRanges.hpp"
 #include "Controller.h"
-#include "InfrastFacilityImageAnalyzer.h"
-#include "InfrastOperImageAnalyzer.h"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
-#include "OcrImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastFacilityImageAnalyzer.h"
+#include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/General/MatchImageAnalyzer.h"
+#include "ImageAnalyzer/General/OcrImageAnalyzer.h"
+#include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
 

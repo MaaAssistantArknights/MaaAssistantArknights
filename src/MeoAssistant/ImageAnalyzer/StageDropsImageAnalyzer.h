@@ -1,6 +1,6 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
-#include "StageDropsConfiger.h"
+#include "General/AbstractImageAnalyzer.h"
+#include "Resource/StageDropsConfiger.h"
 
 namespace asst
 {

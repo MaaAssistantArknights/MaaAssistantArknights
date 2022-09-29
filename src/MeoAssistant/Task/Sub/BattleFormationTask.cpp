@@ -1,12 +1,12 @@
 #include "BattleFormationTask.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 
-#include "BattleDataConfiger.h"
+#include "Resource/BattleDataConfiger.h"
 #include "Controller.h"
-#include "CopilotConfiger.h"
-#include "Logger.hpp"
-#include "OcrWithFlagTemplImageAnalyzer.h"
+#include "Resource/CopilotConfiger.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/General/OcrWithFlagTemplImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
 

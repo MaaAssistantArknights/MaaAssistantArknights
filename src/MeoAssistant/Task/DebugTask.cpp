@@ -2,14 +2,14 @@
 
 #include <filesystem>
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-// #include "RoguelikeSkillSelectionTaskPlugin.h"
+// #include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
 
-#include "AsstImageIo.hpp"
-#include "DepotImageAnalyzer.h"
-#include "Logger.hpp"
-#include "StageDropsImageAnalyzer.h"
+#include "Utils/AsstImageIo.hpp"
+#include "ImageAnalyzer/DepotImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/StageDropsImageAnalyzer.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType)

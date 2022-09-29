@@ -1,15 +1,15 @@
 #include "BattleImageAnalyzer.h"
 
-#include "AsstRanges.hpp"
+#include "Utils/AsstRanges.hpp"
 #include <algorithm>
 
-#include "NoWarningCV.h"
+#include "Utils/NoWarningCV.h"
 
-#include "HashImageAnalyzer.h"
-#include "Logger.hpp"
-#include "MatchImageAnalyzer.h"
-#include "MultiMatchImageAnalyzer.h"
-#include "OcrWithFlagTemplImageAnalyzer.h"
+#include "General/HashImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "General/MatchImageAnalyzer.h"
+#include "General/MultiMatchImageAnalyzer.h"
+#include "General/OcrWithFlagTemplImageAnalyzer.h"
 #include "TaskData.h"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
