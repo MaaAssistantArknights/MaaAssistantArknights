@@ -1,12 +1,12 @@
 #include "RoguelikeCustomStartTaskPlugin.h"
 
-#include "Resource/BattleDataConfiger.h"
-#include "Controller.h"
-#include "Utils/Logger.hpp"
-#include "ImageAnalyzer/General/OcrImageAnalyzer.h"
 #include "../Sub/ProcessTask.h"
+#include "Controller.h"
+#include "ImageAnalyzer/General/OcrImageAnalyzer.h"
+#include "Resource/BattleDataConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

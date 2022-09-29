@@ -4,8 +4,8 @@
 
 #include "Plugin/DrGrandetTaskPlugin.h"
 #include "Plugin/GameCrashRestartTaskPlugin.h"
-#include "Sub/ProcessTask.h"
 #include "Plugin/StageDropsTaskPlugin.h"
+#include "Sub/ProcessTask.h"
 #include "Sub/StageNavigationTask.h"
 
 asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)

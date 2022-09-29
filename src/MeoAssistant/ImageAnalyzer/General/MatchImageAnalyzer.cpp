@@ -2,10 +2,10 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Resource/TemplResource.h"
+#include "TaskData.h"
 #include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
-#include "TaskData.h"
-#include "Resource/TemplResource.h"
 
 asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name,
                                              double templ_thres)

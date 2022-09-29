@@ -4,16 +4,16 @@
 #include <regex>
 #include <thread>
 
-#include "Utils/AsstUtils.hpp"
-#include "Controller.h"
-#include "Resource/ItemConfiger.h"
-#include "Utils/Logger.hpp"
 #include "../Sub/ProcessTask.h"
 #include "../Sub/ReportDataTask.h"
-#include "RuntimeStatus.h"
-#include "Resource/StageDropsConfiger.h"
+#include "Controller.h"
 #include "ImageAnalyzer/StageDropsImageAnalyzer.h"
+#include "Resource/ItemConfiger.h"
+#include "Resource/StageDropsConfiger.h"
+#include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 #include "Utils/Version.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const

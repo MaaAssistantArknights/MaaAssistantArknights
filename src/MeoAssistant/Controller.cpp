@@ -29,8 +29,8 @@
 #pragma warning(pop)
 #endif
 
-#include "Utils/AsstTypes.h"
 #include "Resource/GeneralConfiger.h"
+#include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)

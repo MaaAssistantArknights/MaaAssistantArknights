@@ -3,10 +3,10 @@
 #include <regex>
 
 #include "Controller.h"
-#include "Utils/Logger.hpp"
 #include "ImageAnalyzer/General/OcrImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 void asst::StageNavigationTask::set_stage_name(std::string stage_name)
 {

@@ -3,12 +3,12 @@
 #include <regex>
 #include <utility>
 
-#include "Utils/AsstUtils.hpp"
-#include "Utils/Logger.hpp"
 #include "General/MatchImageAnalyzer.h"
 #include "General/OcrImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
     : AbstractImageAnalyzer(image), m_tasks_name(std::move(tasks_name))

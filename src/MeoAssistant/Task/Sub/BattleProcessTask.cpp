@@ -8,15 +8,15 @@
 #include "Utils/AsstRanges.hpp"
 #include "Utils/NoWarningCV.h"
 
-#include "ImageAnalyzer/BattleImageAnalyzer.h"
 #include "Controller.h"
-#include "Resource/CopilotConfiger.h"
-#include "Utils/Logger.hpp"
+#include "ImageAnalyzer/BattleImageAnalyzer.h"
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "TaskData.h"
+#include "Resource/CopilotConfiger.h"
 #include "Resource/TilePack.h"
+#include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 #include "Utils/AsstImageIo.hpp"
 

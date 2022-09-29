@@ -5,10 +5,10 @@
 
 #include <meojson/json.hpp>
 
-#include "Utils/AsstTypes.h"
 #include "Resource/GeneralConfiger.h"
-#include "Utils/Logger.hpp"
 #include "Resource/TemplResource.h"
+#include "Utils/AsstTypes.h"
+#include "Utils/Logger.hpp"
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {

@@ -1,9 +1,9 @@
 #include "RoguelikeRecruitImageAnalyzer.h"
 
-#include "Utils/Logger.hpp"
 #include "General/MatchImageAnalyzer.h"
 #include "General/OcrWithFlagTemplImageAnalyzer.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {

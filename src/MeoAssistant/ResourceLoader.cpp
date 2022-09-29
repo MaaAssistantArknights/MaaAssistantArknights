@@ -15,9 +15,9 @@
 #include "Resource/RoguelikeRecruitConfiger.h"
 #include "Resource/RoguelikeShoppingConfiger.h"
 #include "Resource/StageDropsConfiger.h"
-#include "TaskData.h"
 #include "Resource/TemplResource.h"
 #include "Resource/TilePack.h"
+#include "TaskData.h"
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {

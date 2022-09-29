@@ -83,6 +83,7 @@ namespace asst
     {
     public:
         using TagId = std::string;
+
     public:
         virtual ~RecruitConfiger() override = default;
         static constexpr int CorrectNumberOfTags = 5;

@@ -7,9 +7,9 @@
 #include <meojson/json.hpp>
 
 #include "Assistant.h"
+#include "ResourceLoader.h"
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
-#include "ResourceLoader.h"
 #include "Utils/Version.h"
 
 static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);

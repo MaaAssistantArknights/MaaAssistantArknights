@@ -3,9 +3,9 @@
 #include <regex>
 #include <unordered_map>
 
-#include "Utils/Logger.hpp"
 #include "Resource/OcrPack.h"
 #include "TaskData.h"
+#include "Utils/Logger.hpp"
 
 bool asst::OcrImageAnalyzer::analyze()
 {

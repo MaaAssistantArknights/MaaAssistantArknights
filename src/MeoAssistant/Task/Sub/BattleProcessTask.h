@@ -2,9 +2,9 @@
 #include "AbstractTask.h"
 
 #include "AsstBattleDef.h"
-#include "Utils/AsstTypes.h"
 #include "ImageAnalyzer/BattleImageAnalyzer.h"
 #include "Resource/TilePack.h"
+#include "Utils/AsstTypes.h"
 
 namespace asst
 {
