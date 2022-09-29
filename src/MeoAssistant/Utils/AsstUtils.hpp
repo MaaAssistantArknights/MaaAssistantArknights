@@ -524,3 +524,18 @@ namespace asst::utils
         }
     }
 } // namespace asst::utils
+
+#if defined(ASST_USE_RANGES_RANGE_V3) || defined(ASST_USE_RANGES_STL)
+#ifdef ASST_USE_RANGES_RANGE_V3
+namespace ::ranges
+#else // ASST_USE_RANGES_STL
+namespace std::ranges
+#endif
+{
+    template <typename R>
+    inline constexpr bool enable_view<asst::utils::string_split_view<R>> = enable_view<std::basic_string_view<R>>;
+    template <typename R>
+    inline constexpr bool enable_borrowed_range<asst::utils::string_split_view<R>> =
+        enable_borrowed_range<std::basic_string_view<R>>;
+}
+#endif
