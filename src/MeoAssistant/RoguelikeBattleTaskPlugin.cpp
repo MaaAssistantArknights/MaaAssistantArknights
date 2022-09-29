@@ -142,10 +142,10 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         m_homes = opt->replacement_home;
         std::string log_str = "[ ";
         for (auto& home : m_homes) {
-            if (!m_normal_tile_info.contains(home)) {
-                Log.error("No replacement home point", home.x, home.y);
+            if (!m_normal_tile_info.contains(home.location)) {
+                Log.error("No replacement home point", home.location.x, home.location.y);
             }
-            log_str += "( " + std::to_string(home.x) + ", " + std::to_string(home.y) + " ), ";
+            log_str += "( " + std::to_string(home.location.x) + ", " + std::to_string(home.location.y) + " ), ";
         }
         log_str += "]";
         Log.info("replacement home:", log_str);
@@ -153,7 +153,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     else {
         for (const auto& [loc, side] : m_normal_tile_info) {
             if (side.key == TilePack::TileKey::Home) {
-                m_homes.emplace_back(loc);
+                m_homes.emplace_back(ReplacementHome { loc, BattleDeployDirection::None });
             }
         }
     }
@@ -388,6 +388,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_opers_used = false;
     m_pre_hp = 0;
     m_homes.clear();
+    m_blacklist_location.clear();
     decltype(m_key_kills) empty;
     m_key_kills.swap(empty);
     m_cur_home_index = 0;
@@ -574,8 +575,16 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     }
 
     Point home(5, 5); // 实在找不到家门了，随便取个点当家门用算了，一般是地图的中间
+    Point recommended_direction;
     if (m_cur_home_index < m_homes.size()) {
-        home = m_homes.at(m_cur_home_index);
+        const auto& rp_home = m_homes.at(m_cur_home_index);
+        home = rp_home.location;
+        static const std::unordered_map<BattleDeployDirection, Point> direction_map = {
+            { BattleDeployDirection::Up, Point::up() },     { BattleDeployDirection::Down, Point::down() },
+            { BattleDeployDirection::Left, Point::down() }, { BattleDeployDirection::Right, Point::down() },
+            { BattleDeployDirection::None, Point() },
+        };
+        recommended_direction = direction_map.at(rp_home.direction);
     }
 
     auto comp_dist = [&](const Point& lhs, const Point& rhs) -> bool {
@@ -590,7 +599,8 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     // 把所有可用的点按距离排个序
     std::vector<Point> available_locations;
     for (const auto& [loc, tile] : m_normal_tile_info) {
-        if ((tile.buildable == buildable_type || tile.buildable == Loc::All) && !m_used_tiles.contains(loc)) {
+        if ((tile.buildable == buildable_type || tile.buildable == Loc::All) && !m_used_tiles.contains(loc) &&
+            !m_blacklist_location.contains(loc)) {
             available_locations.emplace_back(loc);
         }
     }
@@ -620,7 +630,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     int min_dist = std::abs(near_loc.x - home.x) + std::abs(near_loc.y - home.y);
 
     for (const auto& loc : available_locations) {
-        auto cur_result = calc_best_direction_and_score(loc, oper);
+        auto cur_result = calc_best_direction_and_score(loc, oper, recommended_direction);
         // 离得远的要扣分
         constexpr int DistWeights = -1050;
         int extra_dist = std::abs(loc.x - home.x) + std::abs(loc.y - home.y) - min_dist;
@@ -639,7 +649,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
 }
 
 std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction_and_score(
-    Point loc, const BattleRealTimeOper& oper)
+    Point loc, const BattleRealTimeOper& oper, Point recommended_direction)
 {
     LogTraceFunction;
 
@@ -649,7 +659,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     }
     Point home_loc(5, 5);
     if (m_cur_home_index < m_homes.size()) {
-        home_loc = m_homes.at(m_cur_home_index);
+        home_loc = m_homes.at(m_cur_home_index).location;
     }
 
     auto sgn = [](const int& x) -> int {
@@ -665,6 +675,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     else {
         base_direction.x = sgn(loc.x - home_loc.x);
     }
+    Point home_direction(-base_direction.x, -base_direction.y);
     // 医疗反着算
     if (oper.role == BattleRole::Medic) {
         base_direction = -base_direction;
@@ -750,7 +761,17 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
             }
         }
 
-        if (direction == base_direction) score += 50;
+        if (direction == base_direction) {
+            score += 300;
+        }
+
+        if (oper.role != BattleRole::Medic && direction == home_direction) {
+            score -= 500;
+        }
+
+        if (oper.role != BattleRole::Medic && direction == recommended_direction) {
+            score += 2000;
+        }
 
         if (score > max_score) {
             max_score = score;

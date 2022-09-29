@@ -48,7 +48,8 @@ namespace asst
 
         // 计算摆放干员的朝向
         // 返回滑动的方向、得分
-        std::pair<Point, int> calc_best_direction_and_score(Point loc, const BattleRealTimeOper& oper);
+        std::pair<Point, int> calc_best_direction_and_score(Point loc, const BattleRealTimeOper& oper,
+                                                            Point recommended_direction);
 
         bool m_opers_used = false;
         int m_pre_hp = 0;
@@ -57,7 +58,8 @@ namespace asst
 
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
-        std::vector<Point> m_homes;
+        std::vector<ReplacementHome> m_homes;
+        std::unordered_set<Point> m_blacklist_location;
         std::queue<int> m_key_kills;
         size_t m_cur_home_index = 0;
         std::unordered_map<Point, std::string> m_used_tiles;

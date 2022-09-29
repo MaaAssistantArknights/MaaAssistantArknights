@@ -107,10 +107,17 @@ namespace asst
         bool cooling = false;
     };
 
+    struct ReplacementHome
+    {
+        Point location;
+        BattleDeployDirection direction;
+    };
+
     struct RoguelikeBattleData
     {
         std::string stage_name;
-        std::vector<Point> replacement_home;
+        std::vector<ReplacementHome> replacement_home;
+        std::unordered_set<Point> blacklist_location;
         std::vector<int> key_kills;
     };
 
