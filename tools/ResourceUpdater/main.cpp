@@ -700,7 +700,10 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
             else {
                 continue;
             }
-            if (info.rarity == 5) {
+            if (info.rarity == 1) {
+                info.tags.emplace_back("支援机械");
+            }
+            else if (info.rarity == 5) {
                 info.tags.emplace_back("资深干员");
             }
             else if (info.rarity == 6) {
