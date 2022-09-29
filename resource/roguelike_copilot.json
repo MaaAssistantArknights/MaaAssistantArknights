@@ -41,17 +41,17 @@
         "stage_name": "海窟沙暴",
         "replacement_home": [
             {
-                "location":[
-                [
+                "location": [
                     3,
                     4
                 ],
-                [
+                "direction": "up"
+            },
+            {
+                "location": [
                     4,
                     4
-                ]
-
-                ], 
+                ],
                 "direction": "up"
             }
         ]
@@ -111,7 +111,7 @@
                 "location": [
                     5,
                     2
-                ], 
+                ],
                 "direction": "up"
             }
         ]
