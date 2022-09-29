@@ -7,8 +7,8 @@
 #include <queue>
 #include <thread>
 
-#include "AsstMsg.h"
-#include "AsstTypes.h"
+#include "Utils/AsstMsg.h"
+#include "Utils/AsstTypes.h"
 
 typedef unsigned char uchar;
 

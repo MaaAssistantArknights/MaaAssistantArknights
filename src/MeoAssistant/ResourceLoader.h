@@ -1,12 +1,12 @@
 #pragma once
 
-#include "AbstractResource.h"
-#include "SingletonHolder.hpp"
+#include "Resource/AbstractResource.h"
+#include "Utils/SingletonHolder.hpp"
 
 #include <filesystem>
 
-#include "AbstractConfigerWithTempl.h"
-#include "TemplResource.h"
+#include "Resource/AbstractConfigerWithTempl.h"
+#include "Resource/TemplResource.h"
 
 namespace asst
 {
