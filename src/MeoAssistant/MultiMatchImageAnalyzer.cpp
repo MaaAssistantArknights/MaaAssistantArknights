@@ -21,7 +21,7 @@ bool asst::MultiMatchImageAnalyzer::analyze()
 
     const cv::Mat templ = TemplResource::get_instance().get_templ(m_templ_name);
     if (templ.empty()) {
-        Log.error("templ is empty!");
+        Log.error("templ is empty!", m_templ_name);
         return false;
     }
 
