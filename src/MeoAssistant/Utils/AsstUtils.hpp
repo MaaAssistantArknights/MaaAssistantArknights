@@ -527,7 +527,7 @@ namespace asst::utils
 
 #if defined(ASST_USE_RANGES_RANGE_V3) || defined(ASST_USE_RANGES_STL)
 #ifdef ASST_USE_RANGES_RANGE_V3
-namespace ::ranges
+namespace ranges
 #else // ASST_USE_RANGES_STL
 namespace std::ranges
 #endif
