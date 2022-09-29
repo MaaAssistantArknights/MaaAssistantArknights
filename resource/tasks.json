@@ -8767,7 +8767,8 @@
         "next": [
             "Roguelike1GetDropSelectRecruit",
             "Roguelike1GetDropSelectReward",
-            "Roguelike1ChooseOperFlag"
+            "Roguelike1ChooseOperFlag",
+            "Roguelike1GetDropCompleted"
         ]
     },
     "Roguelike1GetDropSelectRecruit": {
