@@ -24,6 +24,12 @@
             "promote_priority": 600
         },
         {
+            "name": "百炼嘉维尔",
+            "skill": 2,
+            "recruit_priority": 800,
+            "promote_priority": 750
+        },
+        {
             "name": "艾丽妮",
             "skill": 1,
             "recruit_priority": 800,
@@ -44,6 +50,12 @@
         },
         {
             "name": "羽毛笔",
+            "skill": 1,
+            "recruit_priority": 600,
+            "promote_priority": 550
+        },
+        {
+            "name": "海沫",
             "skill": 1,
             "recruit_priority": 600,
             "promote_priority": 550
@@ -428,6 +440,13 @@
         },
         {
             "name": "预备干员-后勤",
+            "skill": 0,
+            "recruit_priority": 5,
+            "promote_priority": 0,
+            "is_alternate": true
+        },
+        {
+            "name": "预备干员-重装",
             "skill": 0,
             "recruit_priority": 5,
             "promote_priority": 0,
