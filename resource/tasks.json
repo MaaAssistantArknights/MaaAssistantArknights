@@ -7151,7 +7151,7 @@
             254,
             248
         ],
-        "rearDelay": 500,
+        "rearDelay": 2000,
         "next": [
             "Roguelike1Recruit1",
             "Roguelike1InitalDrop",
