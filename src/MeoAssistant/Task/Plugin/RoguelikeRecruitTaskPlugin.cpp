@@ -49,11 +49,14 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // 干员名字的识别位置
     std::unordered_map<std::string, Rect> last_oper_rects;
 
-    constexpr int SwipeTimes = 3;
+    constexpr int SwipeTimes = 4;
     int i = 0;
-
+    std::unordered_set<std::string> pre_oper_names;
     // 翻页找出所有候选干员
     for (; i != SwipeTimes; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
@@ -66,15 +69,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             break;
         }
 
-        std::string oper_names = "";
+        std::unordered_set<std::string> oper_names;
         const auto& oper_list = analyzer.get_result();
         bool stop_swipe = false;
 
         for (const auto& oper_info : oper_list) {
-            if (!oper_names.empty()) {
-                oper_names += ", ";
-            }
-            oper_names += oper_info.name;
+            oper_names.emplace(oper_info.name);
 
             // 查询上次识别位置
             const auto& rect_it = last_oper_rects.find(oper_info.name);
@@ -166,6 +166,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- stop swiping");
             break;
         }
+        if (pre_oper_names == oper_names) {
+            Log.trace(__FUNCTION__, "| Oper list not changed, stop swiping");
+            break;
+        }
+        pre_oper_names = std::move(oper_names);
 
         // 向右滑动
         Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
@@ -236,7 +241,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         is_rtl = (selected_oper->page_index * 2) >= i;
         if (!is_rtl) {
             // 从左往右需要先划回最左边
-            swipe_to_the_left_of_operlist(i / 2 + 1);
+            swipe_to_the_left_of_operlist(i / 5 + 1);
         }
     }
 
@@ -248,9 +253,12 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
     LogTraceFunction;
 
     constexpr int SwipeTimes = 5;
-    std::vector<std::string> pre_oper_names;
+    std::unordered_set<std::string> pre_oper_names;
     int i = 0;
     for (; i != SwipeTimes; ++i) {
+        if (need_exit()) {
+            return false;
+        }
         auto image = m_ctrler->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
 
@@ -260,8 +268,9 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
             auto it = ranges::find_if(
                 chars, [&](const BattleRecruitOperInfo& oper) -> bool { return oper.name == char_name; });
 
-            std::vector<std::string> oper_names;
-            ranges::transform(chars, std::back_inserter(oper_names), std::mem_fn(&BattleRecruitOperInfo::name));
+            std::unordered_set<std::string> oper_names;
+            ranges::transform(chars, std::inserter(oper_names, oper_names.end()),
+                              std::mem_fn(&BattleRecruitOperInfo::name));
             Log.info(__FUNCTION__, "| Oper list:", oper_names);
 
             if (it != chars.cend()) {
