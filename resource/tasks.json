@@ -8114,7 +8114,7 @@
             320,
             580
         ],
-        "templThreshold": 0.9,
+        "templThreshold": 0.91,
         "preDelay": 1500,
         "next": [
             "Roguelike1StageEncounterLeaveConfirm",
