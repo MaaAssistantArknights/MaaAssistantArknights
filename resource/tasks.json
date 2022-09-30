@@ -7919,9 +7919,6 @@
             234,
             204
         ],
-        "exceededNext": [
-            "Roguelike1ExitThenAbandon"
-        ],
         "next": [
             "Roguelike1StageTraderLeaveConfirm",
             "Roguelike1StageTraderLeave"
@@ -7976,6 +7973,10 @@
             295,
             203
         ],
+        "exceededNext": [
+            "Roguelike2DiceConfirmThenAbandon",
+            "Roguelike1ExitThenAbandon"
+        ],
         "next": [
             "Roguelike1StageTrader",
             "Roguelike1StageSafeHouse",
@@ -7992,6 +7993,10 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
         ]
+    },
+    "Roguelike2DiceConfirmThenAbandon": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike2CloseCollectionContinue": {
         "template": "empty.png",
