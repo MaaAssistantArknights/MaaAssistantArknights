@@ -247,7 +247,8 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
 {
     LogTraceFunction;
 
-    constexpr int SwipeTimes = 10;
+    constexpr int SwipeTimes = 5;
+    std::vector<std::string> pre_oper_names;
     int i = 0;
     for (; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
@@ -259,19 +260,19 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
             auto it = ranges::find_if(
                 chars, [&](const BattleRecruitOperInfo& oper) -> bool { return oper.name == char_name; });
 
-            std::string oper_names = "";
-            for (const auto& oper : chars) {
-                if (!oper_names.empty()) {
-                    oper_names += ", ";
-                }
-                oper_names += oper.name;
-            }
+            std::vector<std::string> oper_names;
+            ranges::transform(chars, std::back_inserter(oper_names), std::mem_fn(&BattleRecruitOperInfo::name));
             Log.info(__FUNCTION__, "| Oper list:", oper_names);
 
             if (it != chars.cend()) {
                 select_oper(*it);
                 return true;
             }
+            if (pre_oper_names == oper_names) {
+                Log.trace(__FUNCTION__, "| Oper list not changed, stop swiping");
+                break;
+            }
+            pre_oper_names = std::move(oper_names);
         }
 
         // 没识别到目标干员，可能不在这一页，继续划动
@@ -284,7 +285,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
-    swipe_to_the_left_of_operlist();
+    swipe_to_the_left_of_operlist(i / 5 + 1);
     return false;
 }
 
