@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -55,7 +56,25 @@ namespace MeoAsstGui
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
         {
-            System.IO.Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+
+            // 清理日志文件
+            var log_path = "gui.log";
+            var backup_log_path = "gui.bak.log";
+            if (File.Exists(log_path))
+            {
+                var fileInfo = new FileInfo(log_path);
+                if (fileInfo.Length > 1024 * 1024 * 16 /*16M*/)
+                {
+                    if (File.Exists(backup_log_path))
+                    {
+                        File.Delete(backup_log_path);
+                    }
+
+                    File.Move(log_path, backup_log_path);
+                }
+            }
+
             base.OnStart();
             ViewStatusStorage.Load();
             Localization.Load();

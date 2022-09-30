@@ -464,9 +464,9 @@ namespace MeoAsstGui
         /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = LogColor.Trace, string weight = "Regular")
         {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
-
-            // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
+            var log = new LogItemViewModel(content, color, weight);
+            LogItemViewModels.Add(log);
+            File.AppendAllText("gui.log", log.Time + ' ' + log.Content + "\n");
         }
 
         /// <summary>
@@ -475,6 +475,7 @@ namespace MeoAsstGui
         public void ClearLog()
         {
             LogItemViewModels.Clear();
+            File.AppendAllText("gui.log", "\n");
         }
 
         /// <summary>
