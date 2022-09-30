@@ -313,7 +313,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike1ClickToDrops"
         ]
     },
     "Roguelike2GetDropBox": {
@@ -367,6 +368,7 @@
     },
     "Roguelike2CloseCollectionContinue": {
         "action": "ClickSelf",
+        "templThreshold": 0.85,
         "cache": false,
         "roi": [
             549,
@@ -393,12 +395,14 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike1DropsFlag"
         ]
     },
     "Roguelike2CloseCollectionClose": {
         "action": "ClickSelf",
         "cache": false,
+        "templThreshold": 0.85,
         "roi": [
             572,
             434,
@@ -424,7 +428,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike1DropsFlag"
         ]
     },
     "Roguelike2CommissionedMissionCompleted": {

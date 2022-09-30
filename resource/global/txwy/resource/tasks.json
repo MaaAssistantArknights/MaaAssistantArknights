@@ -139,8 +139,7 @@
         "action": "ClickSelf",
         "rearDelay": 500,
         "text": [
-            "開始招.*",
-            "開始招募"
+            "開始招"
         ],
         "roi": [
             0,
@@ -155,7 +154,7 @@
         "rearDelay": 500,
         "cache": false,
         "text": [
-            "立即招.*"
+            "立即招"
         ],
         "roi": [
             0,
