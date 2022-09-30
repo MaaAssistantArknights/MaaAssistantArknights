@@ -22,6 +22,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -50,6 +51,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -79,6 +81,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -108,6 +111,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -136,6 +140,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -164,6 +169,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -192,6 +198,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -273,6 +280,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -302,6 +310,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -381,6 +390,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -411,6 +421,41 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose"
+        ]
+    },
+    "Roguelike2CommissionedMissionCompleted": {
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            600,
+            50,
+            50
+        ],
+        "rearDelay": 1000,
+        "cache": false,
+        "roi": [
+            519,
+            202,
+            282,
+            154
+        ],
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
