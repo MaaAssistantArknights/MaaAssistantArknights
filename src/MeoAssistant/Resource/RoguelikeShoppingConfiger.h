@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "AsstBattleDef.h"
+#include "Utils/AsstBattleDef.h"
 
 namespace asst
 {

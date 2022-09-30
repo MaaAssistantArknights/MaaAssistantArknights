@@ -662,9 +662,6 @@
     <ClInclude Include="Assistant.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="AsstBattleDef.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>源文件</Filter>
     </ClInclude>
@@ -676,6 +673,9 @@
     </ClInclude>
     <ClInclude Include="TaskData.h">
       <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\AsstBattleDef.h">
+      <Filter>源文件\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
