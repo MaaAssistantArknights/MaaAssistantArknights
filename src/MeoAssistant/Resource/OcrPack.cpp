@@ -9,8 +9,8 @@
 #include "Utils/Logger.hpp"
 
 #ifdef _WIN32
-#include "Utils/AsstPlatformWin32.h"
-#include "Utils/SafeWindows.h"
+#include "Utils/Platform/AsstPlatformWin32.h"
+#include "Utils/Platform/SafeWindows.h"
 #include <format>
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp);
 #else
