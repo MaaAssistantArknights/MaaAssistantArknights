@@ -22,7 +22,6 @@
     <ClInclude Include="..\..\include\AsstCaller.h" />
     <ClInclude Include="..\..\include\AsstPort.h" />
     <ClInclude Include="Assistant.h" />
-    <ClInclude Include="AsstBattleDef.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ImageAnalyzer\BattleImageAnalyzer.h" />
     <ClInclude Include="ImageAnalyzer\CreditShopImageAnalyzer.h" />
@@ -113,6 +112,7 @@
     <ClInclude Include="Task\Sub\ReportDataTask.h" />
     <ClInclude Include="Task\Sub\StageNavigationTask.h" />
     <ClInclude Include="Task\VisitTask.h" />
+    <ClInclude Include="Utils\AsstBattleDef.h" />
     <ClInclude Include="Utils\AsstConf.h" />
     <ClInclude Include="Utils\AsstHttp.hpp" />
     <ClInclude Include="Utils\AsstImageIo.hpp" />
