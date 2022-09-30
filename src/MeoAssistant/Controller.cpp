@@ -1,9 +1,9 @@
 #include "Controller.h"
 #include "Utils/AsstConf.h"
-#include "Utils/AsstPlatform.h"
+#include "Utils/Platform/AsstPlatform.h"
 
 #ifdef _WIN32
-#include "Utils/AsstPlatformWin32.h"
+#include "Utils/Platform/AsstPlatformWin32.h"
 #include <ws2tcpip.h>
 #else
 #include <fcntl.h>
