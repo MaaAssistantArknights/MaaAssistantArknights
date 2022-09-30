@@ -1,6 +1,13 @@
-- 更新 可爱牛牛图标！非常感谢 @vie 太太~
-- 优化 水月肉鸽 干员部署及朝向 @MistEO @nightofknife
-- 修复 水月肉鸽 绝大部分已知的卡住问题 @MistEO
-- 修复 公招 忽略 `支援机械` 的问题 @zzyyyl @horror-proton
-- 重构 项目目录结构 @zzyyyl @horror-proton
-- 优化 项目资源更新工具 @zzyyyl
+- 新增 水月肉鸽 `万象追忆` 模式，请手动进入棘刺页后再开始 @MistEO
+- 新增 界面日志 保存至 `gui.log` @zzyyyl
+- 优化 肉鸽 刷源石锭选项，改为进入第二层后再退出 @MistEO
+- 优化 公招 Tag 匹配逻辑 @horror-proton @zzyyyl
+- 优化 自定义基建 内置 243 作业 @筱竹聽雨
+- 降低 肉鸽 桃金娘 招募优先级 @MistEO
+- 修复 水月肉鸽 绝大部分已知卡死问题 @MistEO
+- 修复 水月肉鸽 干员朝向问题 @MistEO
+- 修复 基建 清空按钮不生效导致的换班失败问题 @MistEO
+- 修复 截图逻辑错误 @zzyyyl
+- 修复 编译错误 @horror-proton
+- 整理 项目目录结构 @MistEO
+- Update translations for JSON in JP docs @LYZhelloworld @wallsman
