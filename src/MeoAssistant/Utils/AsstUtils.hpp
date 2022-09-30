@@ -9,7 +9,7 @@
 #include <string>
 
 #ifdef _WIN32
-#include "SafeWindows.h"
+#include "Platform/SafeWindows.h"
 #else
 #include <ctime>
 #include <fcntl.h>

@@ -6,8 +6,8 @@
 #include <format>
 #include <mbctype.h>
 
-#include "AsstUtils.hpp"
-#include "Logger.hpp"
+#include "Utils/AsstUtils.hpp"
+#include "Utils/Logger.hpp"
 
 static size_t get_page_size()
 {
