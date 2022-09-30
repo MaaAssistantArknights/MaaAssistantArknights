@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-#include "AsstBattleDef.h"
+#include "Utils/AsstBattleDef.h"
 #include "Utils/AsstTypes.h"
 
 namespace asst

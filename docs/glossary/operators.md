@@ -179,11 +179,11 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 战车|Tachanka|Tachanka|Tachanka
 桑葚|Mulberry|マルベリー|멀베리
 赤冬|Akafuyu|アカフユ|아카후유
-夜半|||
+夜半|Blacknight|ブラックナイト|
 绮良|Kirara|キララ|키라라
 龙舌兰|Tequila|テキーラ|테킬라
 蚀清|Corroserum|コロセラム|코로세럼
-夏栎|||
+夏栎|Quercus|クエルクス|
 野鬃|Wild Mane|ワイルドメイン|와일드메인
 Sharp|Sharp|Sharp|Sharp
 Pith|Pith|Pith|Pith
@@ -191,14 +191,14 @@ Touch|Touch|Touch|Touch
 Stormeye|Stormeye|Stormeye|Stormeye
 暮落|Shalem|シャレム|샬렘
 炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼거토리
-寒芒克洛丝|||
+寒芒克洛丝|Kroos the keen Glint|寒芒クルース|
 濯尘芙蓉|||
 承曦格雷伊|||
 耶拉|Kjera|イェラ|쉐라
-风丸|||
+风丸|Kazemaru|カゼマル|
 九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
 暮落|Shalem|シャレム|샬렘
-见行者|||
+见行者|Enforcer|エンフォーサー|
 洛洛|||
 埃拉托|||
 海蒂|||
@@ -231,15 +231,15 @@ W|W|W|W
 山|Mountain|マウンテン|마운틴
 安洁莉娜|Angelina|アンジェリーナ|안젤리나
 棘刺|Thorns|ソーンズ|쏜즈
-菲亚梅塔|||
+菲亚梅塔|Fiammetta|フィアメッタ|
 泥岩|Mudrock|マドロック|머드락
-老鲤|||
+老鲤|Lee|リー|
 空弦|Archetto|アルケット|아르케토
 黑|Schwarz|シュヴァルツ|슈바르츠
 史尔特尔|Surtr|スルト|수르트
 铃兰|Suzuran|スズラン|스즈란
 嵯峨|Saga|サガ|사가
-澄闪|||
+澄闪|Goldenglow|ゴールデングロー|
 迷迭香|Rosmontis|ロスモンティス|로즈몬티스
 温蒂|Weedy|ウィーディ|위디
 森蚺|Eunectes|ユーネクテス|유넥티스
@@ -260,7 +260,7 @@ W|W|W|W
 刻俄柏|Ceobe|ケオベ|케오베
 年|Nian|ニェン|니엔
 夕|Dusk|シー|시
-令|||
+令|Ling|リィン|
 艾丽妮|||
 号角|||
 流明|||

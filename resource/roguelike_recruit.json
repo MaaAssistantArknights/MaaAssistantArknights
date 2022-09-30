@@ -145,7 +145,7 @@
         {
             "name": "桃金娘",
             "skill": 1,
-            "recruit_priority": 200,
+            "recruit_priority": 190,
             "promote_priority": 550
         },
         {

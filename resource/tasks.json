@@ -5024,13 +5024,13 @@
         "rearDelay": 1000
     },
     "InfrastClearButton": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            430,
-            655,
-            150,
-            40
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            370,
+            592,
+            275,
+            128
         ],
         "rearDelay": 1000
     },
@@ -7151,7 +7151,7 @@
             254,
             248
         ],
-        "rearDelay": 500,
+        "rearDelay": 2000,
         "next": [
             "Roguelike1Recruit1",
             "Roguelike1InitalDrop",
@@ -7359,7 +7359,8 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2MapObject"
         ]
     },
     "Roguelike1CloseCollection": {
@@ -7405,6 +7406,10 @@
         "next": [
             "Roguelike1RecruitMain"
         ]
+    },
+    "Roguelike2MapObject": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike1RecruitMain": {
         "action": "ClickSelf",
@@ -7792,6 +7797,7 @@
             221
         ],
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -7918,9 +7924,6 @@
             234,
             204
         ],
-        "exceededNext": [
-            "Roguelike1ExitThenAbandon"
-        ],
         "next": [
             "Roguelike1StageTraderLeaveConfirm",
             "Roguelike1StageTraderLeave"
@@ -7975,6 +7978,10 @@
             295,
             203
         ],
+        "exceededNext": [
+            "Roguelike2DiceConfirmThenAbandon",
+            "Roguelike1ExitThenAbandon"
+        ],
         "next": [
             "Roguelike1StageTrader",
             "Roguelike1StageSafeHouse",
@@ -7986,10 +7993,15 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
         ]
+    },
+    "Roguelike2DiceConfirmThenAbandon": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike2CloseCollectionContinue": {
         "template": "empty.png",
@@ -8022,6 +8034,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -8050,6 +8063,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -8065,6 +8079,7 @@
             221
         ],
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -8114,12 +8129,12 @@
             320,
             580
         ],
-        "templThreshold": 0.9,
+        "templThreshold": 0.91,
         "preDelay": 1500,
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterLeaveConfirm",
-            "Roguelike1StageEncounterUnknown",
-            "Roguelike1ChooseOperFlag"
+            "Roguelike1StageEncounterUnknown"
         ]
     },
     "Roguelike1StageEncounterLeaveConfirm": {
@@ -8133,10 +8148,10 @@
         ],
         "rearDelay": 1000,
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
-            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageEmergencyDpsEnter",
@@ -8182,6 +8197,7 @@
             50
         ],
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -8211,6 +8227,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -8253,6 +8270,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -8296,6 +8314,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
@@ -8618,6 +8637,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
@@ -8661,13 +8681,14 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
-            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1EnterAfterRecruit",
             "Roguelike1StageTraderLeave",
@@ -8878,6 +8899,7 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2StageRegionalCommissioning",
             "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
@@ -8895,6 +8917,10 @@
         "next": [
             "Roguelike1ClickToStartPoint"
         ]
+    },
+    "Roguelike2CommissionedMissionCompleted": {
+        "templThreshold": 2.0,
+        "template": "empty.png"
     },
     "Roguelike1ClickToStartPoint": {
         "algorithm": "JustReturn",

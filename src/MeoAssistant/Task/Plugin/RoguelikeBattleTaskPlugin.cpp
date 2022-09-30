@@ -149,6 +149,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         }
         log_str += "]";
         Log.info("replacement home:", log_str);
+        m_blacklist_location = opt->blacklist_location;
     }
     else {
         for (const auto& [loc, side] : m_normal_tile_info) {
@@ -581,7 +582,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         home = rp_home.location;
         static const std::unordered_map<BattleDeployDirection, Point> direction_map = {
             { BattleDeployDirection::Up, Point::up() },     { BattleDeployDirection::Down, Point::down() },
-            { BattleDeployDirection::Left, Point::down() }, { BattleDeployDirection::Right, Point::down() },
+            { BattleDeployDirection::Left, Point::left() }, { BattleDeployDirection::Right, Point::right() },
             { BattleDeployDirection::None, Point() },
         };
         recommended_direction = direction_map.at(rp_home.direction);
@@ -734,10 +735,11 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
             using TileKey = TilePack::TileKey;
             // 战斗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
-                { TileKey::Invalid, 0 },  { TileKey::Forbidden, 0 },  { TileKey::Wall, 500 },
-                { TileKey::Road, 1000 },  { TileKey::Home, 500 },     { TileKey::EnemyHome, 1000 },
-                { TileKey::Floor, 1000 }, { TileKey::Hole, 0 },       { TileKey::Telin, 700 },
-                { TileKey::Telout, 800 }, { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
+                { TileKey::Invalid, 0 },    { TileKey::Forbidden, 0 },  { TileKey::Wall, 500 },
+                { TileKey::Road, 1000 },    { TileKey::Home, 500 },     { TileKey::EnemyHome, 1000 },
+                { TileKey::Floor, 1000 },   { TileKey::Hole, 0 },       { TileKey::Telin, 700 },
+                { TileKey::Telout, 800 },   { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
+                { TileKey::DeepSea, 1000 }, { TileKey::Fence, 800 },
             };
             // 治疗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
@@ -745,6 +747,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
                 { TileKey::Road, 1000 }, { TileKey::Home, 0 },       { TileKey::EnemyHome, 0 },
                 { TileKey::Floor, 0 },   { TileKey::Hole, 0 },       { TileKey::Telin, 0 },
                 { TileKey::Telout, 0 },  { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
+                { TileKey::DeepSea, 0 }, { TileKey::Fence, 1000 },
             };
 
             switch (oper.role) {

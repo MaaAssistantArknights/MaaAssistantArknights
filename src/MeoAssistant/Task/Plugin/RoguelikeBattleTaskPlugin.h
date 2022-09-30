@@ -3,9 +3,9 @@
 #include <queue>
 
 #include "AbstractTaskPlugin.h"
-#include "AsstBattleDef.h"
 #include "ImageAnalyzer/BattleImageAnalyzer.h"
 #include "Resource/TilePack.h"
+#include "Utils/AsstBattleDef.h"
 #include "Utils/AsstTypes.h"
 
 namespace asst
