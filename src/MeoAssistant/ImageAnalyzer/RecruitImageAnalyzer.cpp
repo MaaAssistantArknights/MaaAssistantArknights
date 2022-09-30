@@ -24,12 +24,9 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     if (!analyzer_inited) {
         tags_analyzer.set_task_info("RecruitTags");
         auto& all_tags_set = RecruitData.get_all_tags();
-        std::vector<std::string> all_tags_vec;
-        all_tags_vec.assign(all_tags_set.begin(), all_tags_set.end());
-        // 把因为“资深干员”是“高级资深干员”的子串，把“高级资深干员”放到最前面，免得先被“资深干员”匹配上了
-        ranges::sort(all_tags_vec, std::greater<> {}, std::mem_fn(&std::string::length));
-
-        tags_analyzer.set_required(std::move(all_tags_vec));
+  
+        // 已经 fullMatch，不会再把 `支援机械` 匹配成 `支援`、`高级资深干员` 匹配成 `资深干员` 了，因此不必再排序。
+        tags_analyzer.set_required(std::vector(all_tags_set.begin(), all_tags_set.end()));
         analyzer_inited = true;
     }
 
