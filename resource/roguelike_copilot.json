@@ -138,28 +138,19 @@
                     3
                 ],
                 "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    1
+                ],
+                "direction": "right"
             }
         ],
         "blacklist_location": [
             [
                 4,
                 2
-            ],
-            [
-                1,
-                3
-            ],
-            [
-                1,
-                3
-            ],
-            [
-                2,
-                3
-            ],
-            [
-                3,
-                3
             ]
         ]
     },
