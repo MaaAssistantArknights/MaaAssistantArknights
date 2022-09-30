@@ -18,19 +18,12 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #endif
-#ifndef _MSC_VER
-#include <cxxabi.h>
-#endif
 
-// delete instantiation of template with message, when static_assert(false, Message) does not work
-#define ASST_STATIC_ASSERT_FALSE(Message, ...) static_assert(::asst::utils::always_false<__VA_ARGS__>, Message);
+#include "Meta.hpp"
 
 namespace asst::utils
 {
     using os_string = std::filesystem::path::string_type;
-    template <typename... Unused>
-    constexpr bool always_false = false;
-
     template <typename char_t = char>
     using pair_of_string_view = std::pair<std::basic_string_view<char_t>, std::basic_string_view<char_t>>;
 
@@ -495,25 +488,6 @@ namespace asst::utils
     }
 
     std::string callcmd(const std::string& cmdline);
-
-    inline std::string demangle(const char* name_from_typeid)
-    {
-#ifndef _MSC_VER
-        int status = 0;
-        std::size_t size = 0;
-        char* p = abi::__cxa_demangle(name_from_typeid, NULL, &size, &status);
-        if (!p) return name_from_typeid;
-        std::string result(p);
-        std::free(p);
-        return result;
-#else
-        std::string_view temp(name_from_typeid);
-        if (temp.substr(0, 6) == "class ") return std::string(temp.substr(6));
-        if (temp.substr(0, 7) == "struct ") return std::string(temp.substr(7));
-        if (temp.substr(0, 5) == "enum ") return std::string(temp.substr(5));
-        return std::string(temp);
-#endif
-    }
 
     namespace path_literals
     {
