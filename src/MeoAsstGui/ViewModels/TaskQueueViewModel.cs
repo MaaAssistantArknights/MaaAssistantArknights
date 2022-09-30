@@ -312,14 +312,15 @@ namespace MeoAsstGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
+            InitDrops();
+            CheckAndUpdateDayOfWeek();
+            
             _stageManager = new StageManager();
-            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
 
             // It's Cur/Last option
             RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
-
-            InitDrops();
-            CheckAndUpdateDayOfWeek();
+            
             UpdateDatePrompt();
             UpdateStageList(true);
             RefreshCustonInfrastPlan();
