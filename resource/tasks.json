@@ -7792,6 +7792,7 @@
             221
         ],
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -8065,6 +8066,7 @@
             221
         ],
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -8117,9 +8119,9 @@
         "templThreshold": 0.91,
         "preDelay": 1500,
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterLeaveConfirm",
-            "Roguelike1StageEncounterUnknown",
-            "Roguelike1ChooseOperFlag"
+            "Roguelike1StageEncounterUnknown"
         ]
     },
     "Roguelike1StageEncounterLeaveConfirm": {
@@ -8133,10 +8135,10 @@
         ],
         "rearDelay": 1000,
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
-            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageEmergencyDpsEnter",
@@ -8182,6 +8184,7 @@
             50
         ],
         "next": [
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
@@ -8664,10 +8667,10 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
+            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown",
-            "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1EnterAfterRecruit",
             "Roguelike1StageTraderLeave",
