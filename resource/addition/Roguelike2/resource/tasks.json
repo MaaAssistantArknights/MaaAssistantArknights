@@ -460,5 +460,21 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
         ]
+    },
+    "Roguelike2DiceConfirmThenAbandon": {
+        "Doc": "骰子的确认按钮",
+        "action": "ClickSelf",
+        "template": "Roguelike2DiceConfirm.png",
+        "cache": false,
+        "roi": [
+            551,
+            577,
+            174,
+            143
+        ],
+        "templThreshold": 0.95,
+        "next": [
+            "Roguelike1ExitThenAbandon"
+        ]
     }
 }
