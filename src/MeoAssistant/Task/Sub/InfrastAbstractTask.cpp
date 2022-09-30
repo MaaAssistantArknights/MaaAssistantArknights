@@ -354,8 +354,33 @@ bool asst::InfrastAbstractTask::click_clear_button()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastClearButton" });
-    return task.run();
+    for (int i = 0; i != 5; ++i) {
+        if (need_exit()) {
+            return false;
+        }
+        bool ret = ProcessTask(*this, { "InfrastClearButton" }).run();
+        // 有可能点快了，清空按钮刚刚出来，实际点上去还不生效，就点了
+        // 所以多识别一次，如果没清掉就再清一下
+        if (ret) {
+            InfrastOperImageAnalyzer analyzer(m_ctrler->get_image());
+            analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley |
+                                      InfrastOperImageAnalyzer::ToBeCalced::Selected);
+            if (!analyzer.analyze()) {
+                return false;
+            }
+            size_t selected_count =
+                ranges::count_if(analyzer.get_result(), [](const infrast::Oper& info) { return info.selected; });
+            Log.info(__FUNCTION__, "after clear, selected_count = ", selected_count);
+            if (selected_count == 0) {
+                break;
+            }
+        }
+        else {
+            Log.error(__FUNCTION__, "clear failed");
+            return false;
+        }
+    }
+    return true;
 }
 
 bool asst::InfrastAbstractTask::click_sort_by_trust_button()

@@ -5024,13 +5024,13 @@
         "rearDelay": 1000
     },
     "InfrastClearButton": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            430,
-            655,
-            150,
-            40
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            370,
+            592,
+            275,
+            128
         ],
         "rearDelay": 1000
     },
