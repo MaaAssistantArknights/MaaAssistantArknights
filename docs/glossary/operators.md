@@ -195,7 +195,7 @@ Stormeye|Stormeye|Stormeye|Stormeye
 濯尘芙蓉|||
 承曦格雷伊|||
 耶拉|Kjera|イェラ|쉐라
-风丸|Kzemaru|カゼマル|
+风丸|Kazemaru|カゼマル|
 九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
 暮落|Shalem|シャレム|샬렘
 见行者|Enforcer|エンフォーサー|
