@@ -49,7 +49,8 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(c
         { "tile_start", TileKey::EnemyHome },     { "tile_floor", TileKey::Floor },
         { "tile_hole", TileKey::Hole },           { "tile_telin", TileKey::Telin },
         { "tile_telout", TileKey::Telout },       { "tile_volcano", TileKey::Volcano },
-        { "tile_healing", TileKey::Healing },
+        { "tile_healing", TileKey::Healing },     { "tile_deepsea", TileKey::DeepSea },
+        { "tile_fence", TileKey::Fence },
     };
 
     for (size_t y = 0; y < pos.size(); ++y) {

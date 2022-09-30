@@ -9,6 +9,19 @@ namespace asst
     class ProcessTask : public AbstractTask
     {
     public:
+        enum class TimesLimitType
+        {
+            Pre,
+            Post,
+        };
+
+        struct TimesLimitData
+        {
+            int times = 0;
+            TimesLimitType type = TimesLimitType::Pre;
+        };
+
+    public:
         using AbstractTask::AbstractTask;
         ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name);
         ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept;
@@ -19,7 +32,7 @@ namespace asst
 
         ProcessTask& set_task_delay(int delay) noexcept;
         ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
-        ProcessTask& set_times_limit(std::string name, int limit);
+        ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
         ProcessTask& set_rear_delay(std::string name, int delay);
 
     protected:
@@ -36,7 +49,7 @@ namespace asst
         std::vector<std::string> m_cur_tasks_name;
         std::string m_pre_task_name;
         std::unordered_map<std::string, int> m_rear_delay;
-        std::unordered_map<std::string, int> m_times_limit;
+        std::unordered_map<std::string, TimesLimitData> m_times_limit;
         std::unordered_map<std::string, int> m_exec_times;
         static constexpr int TaskDelayUnsetted = -1;
         int m_task_delay = TaskDelayUnsetted;

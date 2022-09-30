@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractTaskPlugin.h"
 
-#include "AsstBattleDef.h"
+#include "Utils/AsstBattleDef.h"
 
 namespace asst
 {

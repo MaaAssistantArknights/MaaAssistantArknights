@@ -67,9 +67,9 @@ asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_n
     return *this;
 }
 
-ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit)
+ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit, TimesLimitType type)
 {
-    m_times_limit[std::move(name)] = limit;
+    m_times_limit[std::move(name)] = TimesLimitData { limit, type };
     return *this;
 }
 
@@ -136,16 +136,19 @@ bool ProcessTask::_run()
         int& exec_times = m_exec_times[cur_name];
 
         int max_times = m_cur_task_ptr->max_times;
+        TimesLimitType limit_type = TimesLimitType::Pre;
         if (auto iter = m_times_limit.find(cur_name); iter != m_times_limit.cend()) {
-            max_times = iter->second;
+            max_times = iter->second.times;
+            limit_type = iter->second.type;
         }
 
-        if (exec_times >= max_times) {
+        if (limit_type == TimesLimitType::Pre && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
             info["details"] = json::object {
                 { "task", cur_name },
                 { "exec_times", exec_times },
                 { "max_times", max_times },
+                { "limit_type", "pre" },
             };
             Log.info("exec times exceeded the limit", info.to_string());
             callback(AsstMsg::SubTaskExtraInfo, info);
@@ -242,6 +245,21 @@ bool ProcessTask::_run()
         }
 
         callback(AsstMsg::SubTaskCompleted, info);
+
+        if (limit_type == TimesLimitType::Post && exec_times >= max_times) {
+            info["what"] = "ExceededLimit";
+            info["details"] = json::object {
+                { "task", cur_name },
+                { "exec_times", exec_times },
+                { "max_times", max_times },
+                { "limit_type", "post" },
+            };
+            Log.info("exec times exceeded the limit", info.to_string());
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            m_cur_tasks_name = m_cur_task_ptr->exceeded_next;
+            sleep(m_task_delay);
+            continue;
+        }
 
         if (m_cur_task_ptr->next.empty()) {
             need_stop = true;

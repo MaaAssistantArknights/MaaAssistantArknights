@@ -180,8 +180,8 @@ void asst::Controller::pipe_working_proc()
     }
 }
 
-std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool recv_by_socket,
-                                                          bool allow_reconnect)
+std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool allow_reconnect,
+                                                          bool recv_by_socket)
 {
     using namespace std::chrono_literals;
     using namespace std::chrono;
@@ -480,7 +480,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             if (need_exit()) {
                 break;
             }
-            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* 禁止重连避免无限递归 */);
+            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false /* 禁止重连避免无限递归 */);
             if (need_exit()) {
                 break;
             }
@@ -490,7 +490,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
-                auto recall_ret = call_command(cmd, timeout, recv_by_socket, false /* 禁止重连避免无限递归 */);
+                auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
                 if (recall_ret) {
                     // 重连并成功执行了
                     reconnect_info["what"] = "Reconnected";
@@ -747,7 +747,8 @@ bool asst::Controller::screencap(bool allow_reconnect)
         clear_lf_info();
 
         auto start_time = high_resolution_clock::now();
-        if (m_support_socket && m_server_started && screencap(m_adb.screencap_raw_by_nc, decode_raw, true)) {
+        if (m_support_socket && m_server_started &&
+            screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true)) {
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
@@ -794,7 +795,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
         return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     } break;
     case AdbProperty::ScreencapMethod::RawByNc: {
-        return screencap(m_adb.screencap_raw_by_nc, decode_raw, true, allow_reconnect);
+        return screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true);
     } break;
     case AdbProperty::ScreencapMethod::RawWithGzip: {
         return screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect);
@@ -807,14 +808,14 @@ bool asst::Controller::screencap(bool allow_reconnect)
     return false;
 }
 
-bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket,
-                                 bool allow_reconnect)
+bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect,
+                                 bool by_socket)
 {
     if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
 
-    auto ret = call_command(cmd, 20000, by_socket, allow_reconnect);
+    auto ret = call_command(cmd, 20000, allow_reconnect, by_socket);
 
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.error("data is empty!");
@@ -1075,7 +1076,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     /* connect */
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
-        auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false, false /* adb 连接时不允许重试 */);
+        auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
         // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
@@ -1102,7 +1103,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     /* get uuid (imei) */
     {
-        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid), 20000, false, false /* adb 连接时不允许重试 */);
+        auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid), 20000, false /* adb 连接时不允许重试 */);
         if (!uuid_ret) {
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
@@ -1321,7 +1322,7 @@ void asst::Controller::kill_adb_daemon()
 #endif
     {
         if (!m_adb_release.empty()) {
-            call_command(m_adb_release, 20000, false, false);
+            call_command(m_adb_release, 20000, false);
             m_adb_release.clear();
         }
     }
@@ -1340,7 +1341,7 @@ bool asst::Controller::release()
         }
         else {
             m_adb_release.clear();
-            return call_command(m_adb.release, 20000, false, false).has_value();
+            return call_command(m_adb.release, 20000, false).has_value();
         }
     }
 }
