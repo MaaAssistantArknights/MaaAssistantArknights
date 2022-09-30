@@ -243,7 +243,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto image = m_ctrler->get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
-
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
     oper_analyzer.set_facility(facility_name());
 
     if (!oper_analyzer.analyze()) {
@@ -531,6 +531,7 @@ bool asst::InfrastProductionTask::opers_choose()
         }
         const auto image = m_ctrler->get_image();
         InfrastOperImageAnalyzer oper_analyzer(image);
+        oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
         oper_analyzer.set_facility(facility_name());
         if (!oper_analyzer.analyze()) {
             return false;
