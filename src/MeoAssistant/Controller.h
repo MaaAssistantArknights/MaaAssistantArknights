@@ -75,7 +75,7 @@ namespace asst
         bool need_exit() const;
         void pipe_working_proc();
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
-                                                bool recv_by_socket = false, bool allow_reconnect = true);
+                                                bool allow_reconnect = true, bool recv_by_socket = false);
         int push_cmd(const std::string& cmd);
         bool release();
         void kill_adb_daemon();
@@ -86,8 +86,8 @@ namespace asst
 
         using DecodeFunc = std::function<bool(std::string_view)>;
         bool screencap(bool allow_reconnect = false);
-        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool by_socket = false,
-                       bool allow_reconnect = false);
+        bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect = false,
+                       bool by_socket = false);
         void clear_lf_info();
         cv::Mat get_resized_image() const;
 
