@@ -6,6 +6,7 @@
 #include <thread>
 #include <utility>
 
+#include "Utils/Demangle.hpp"
 #include "Utils/NoWarningCV.h"
 
 #include "../Plugin/AbstractTaskPlugin.h"
