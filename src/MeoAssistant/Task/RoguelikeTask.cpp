@@ -50,7 +50,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     case 0:
         break;
     case 1:
-        m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
+        m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeaveConfirm", 0,
+                                              ProcessTask::TimesLimitType::Post);
         break;
     case 2:
         [[unlikely]] m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
