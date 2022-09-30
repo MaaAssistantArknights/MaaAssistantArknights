@@ -7940,7 +7940,8 @@
         ],
         "next": [
             "Roguelike1ExitThenAbandon",
-            "Roguelike1Abandon"
+            "Roguelike1Abandon",
+            "Roguelike2DiceConfirmThenAbandon"
         ]
     },
     "Roguelike1Abandon": {
