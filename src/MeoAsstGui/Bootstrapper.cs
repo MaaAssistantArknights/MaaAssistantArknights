@@ -64,7 +64,7 @@ namespace MeoAsstGui
             if (File.Exists(log_path))
             {
                 var fileInfo = new FileInfo(log_path);
-                if (fileInfo.Length > 1024 * 1024 * 16 /*16M*/)
+                if (fileInfo.Length > 128 * 1024 /*128K*/)
                 {
                     if (File.Exists(backup_log_path))
                     {
