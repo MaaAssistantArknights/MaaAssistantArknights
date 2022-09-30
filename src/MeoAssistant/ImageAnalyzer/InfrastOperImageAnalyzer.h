@@ -33,7 +33,7 @@ namespace asst
         auto get_result() const noexcept -> const std::vector<infrast::Oper>& { return m_result; }
         int get_num_of_opers_with_skills() const noexcept { return m_num_of_opers_with_skills; }
         void set_facility(std::string facility) noexcept { m_facility = std::move(facility); }
-        void set_to_be_calced(int to_be_calced) noexcept { m_to_be_calced = to_be_calced; }
+        void set_to_be_calced(int to_be_calced) noexcept { m_to_be_calced = to_be_calced | Smiley; }
 
         static constexpr int MaxNumOfSkills = 2; // 单个干员最多有几个基建技能
 
@@ -50,7 +50,7 @@ namespace asst
 
         std::string m_facility;
         std::vector<infrast::Oper> m_result;
-        int m_to_be_calced = All;
+        int m_to_be_calced = Smiley;
         int m_num_of_opers_with_skills = 0;
     };
 } // namespace asst

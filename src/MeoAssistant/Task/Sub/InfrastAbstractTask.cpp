@@ -252,8 +252,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     const auto image = m_ctrler->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley |
-                                   InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -309,8 +308,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
 
     const auto image = m_ctrler->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley |
-                                   InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return;
@@ -363,8 +361,7 @@ bool asst::InfrastAbstractTask::click_clear_button()
         // 所以多识别一次，如果没清掉就再清一下
         if (ret) {
             InfrastOperImageAnalyzer analyzer(m_ctrler->get_image());
-            analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Smiley |
-                                      InfrastOperImageAnalyzer::ToBeCalced::Selected);
+            analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
             if (!analyzer.analyze()) {
                 return false;
             }
