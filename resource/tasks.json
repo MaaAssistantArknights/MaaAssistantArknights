@@ -7359,7 +7359,8 @@
             "Roguelike2StageDreadfulFoe-5",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2MapObject"
         ]
     },
     "Roguelike1CloseCollection": {
@@ -7405,6 +7406,10 @@
         "next": [
             "Roguelike1RecruitMain"
         ]
+    },
+    "Roguelike2MapObject": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike1RecruitMain": {
         "action": "ClickSelf",

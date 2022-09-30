@@ -476,5 +476,18 @@
         "next": [
             "Roguelike1ExitThenAbandon"
         ]
+    },
+    "Roguelike2MapObject": {
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            257,
+            488,
+            189,
+            123
+        ],
+        "next": [
+            "Roguelike1RecruitOther"
+        ]
     }
 }
