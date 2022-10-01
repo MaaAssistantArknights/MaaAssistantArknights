@@ -184,7 +184,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 如果划动过，先划回最左边
         if (i != 0) {
-            swipe_to_the_left_of_operlist(i / 5 + 1);
+            swipe_to_the_left_of_operlist(i / 3 + 1);
         }
 
         auto image = m_ctrler->get_image();
@@ -196,7 +196,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         const auto& oper_list = analyzer.get_result();
 
-        // 可能是晋升界面，随便选个精二的
+        // 可能有临时招募的精二的，不要白不要
         for (const auto& info : oper_list) {
             if (info.elite != 2) {
                 continue;
@@ -206,18 +206,18 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             return true;
         }
 
-        // 仍然没选，随便选个精一 50 以上的
-        for (const auto& info : oper_list) {
-            if (info.elite == 0 || (info.elite == 1 && info.level < 50)) {
-                continue;
-            }
-            Log.trace(__FUNCTION__, "| Choose random elite 1:", info.name, info.elite, info.level);
-            recruit_oper(info);
-            return true;
-        }
+        //// 仍然没选，随便选个精一 50 以上的
+        // for (const auto& info : oper_list) {
+        //     if (info.elite == 0 || (info.elite == 1 && info.level < 50)) {
+        //         continue;
+        //     }
+        //     Log.trace(__FUNCTION__, "| Choose random elite 1:", info.name, info.elite, info.level);
+        //     recruit_oper(info);
+        //     return true;
+        // }
 
         Log.trace(__FUNCTION__, "| Did not choose oper");
-        return false;
+        return true;
     }
 
     // 选择优先级最高的干员
@@ -241,7 +241,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         is_rtl = (selected_oper->page_index * 2) >= i;
         if (!is_rtl) {
             // 从左往右需要先划回最左边
-            swipe_to_the_left_of_operlist(i / 5 + 1);
+            swipe_to_the_left_of_operlist(i / 3 + 1);
         }
     }
 
@@ -294,7 +294,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
-    swipe_to_the_left_of_operlist(i / 5 + 1);
+    swipe_to_the_left_of_operlist(i / 3 + 1);
     return false;
 }
 

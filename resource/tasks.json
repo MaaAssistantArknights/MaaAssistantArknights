@@ -4737,7 +4737,7 @@
         "specificRect": [
             1080,
             200,
-            100,
+            200,
             300
         ],
         "preDelay": 300,
@@ -4751,7 +4751,7 @@
         "specificRect": [
             400,
             200,
-            100,
+            200,
             300
         ]
     },
@@ -7100,6 +7100,14 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel",
+            "Roguelike2CloseEvent",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
@@ -7204,9 +7212,13 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     },
     "Roguelike1LastReward": {
@@ -7357,9 +7369,13 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel",
             "Roguelike2MapObject"
         ]
     },
@@ -7606,9 +7622,13 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     },
     "Roguelike1StageTrader": {
@@ -7632,9 +7652,13 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     },
     "Roguelike1StageTraderEnter": {
@@ -7767,9 +7791,13 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     },
     "Roguelike2StageRegionalCommissioning": {
@@ -7997,7 +8025,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     },
     "Roguelike2DiceConfirmThenAbandon": {
@@ -8038,7 +8067,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     },
     "Roguelike1StageBoons": {
@@ -8067,7 +8097,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     },
     "Roguelike1StageEncounterEnter": {
@@ -8231,7 +8262,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8274,7 +8306,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8318,7 +8351,8 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose"
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8505,8 +8539,13 @@
             "Roguelike1MissionFailedFlag2",
             "Roguelike1GamePassSkip1",
             "Roguelike1GamePassTheEndConfirm",
-            "Roguelike1GamePass"
+            "Roguelike1GamePass",
+            "Roguelike2NextLevel"
         ]
+    },
+    "Roguelike2NextLevel": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike1GamePassSkip1": {
         "action": "ClickSelf",
@@ -8642,6 +8681,7 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1TraderRandomShopping",
@@ -8686,6 +8726,7 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
@@ -8693,8 +8734,13 @@
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1EnterAfterRecruit",
             "Roguelike1StageTraderLeave",
+            "Roguelike2CloseEvent",
             "Roguelike1DialogSkip"
         ]
+    },
+    "Roguelike2CloseEvent": {
+        "template": "empty.png",
+        "templateThreshold": 2.0
     },
     "Roguelike1GetDrop1": {
         "Doc": "源石锭，绿色的“拿走”按钮",
@@ -8904,6 +8950,7 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel",
             "Roguelike1ClickToStartPoint"
         ]
     },
@@ -8943,9 +8990,13 @@
             "Roguelike1StageEmergencyDps",
             "Roguelike1StageDreadfulFoe",
             "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel",
             "TodaysSuppliesToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",

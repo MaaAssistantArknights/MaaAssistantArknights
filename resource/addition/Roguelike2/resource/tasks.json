@@ -368,7 +368,7 @@
     },
     "Roguelike2CloseCollectionContinue": {
         "action": "ClickSelf",
-        "templThreshold": 0.85,
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             549,
@@ -396,13 +396,14 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike1DropsFlag"
+            "Roguelike1DropsFlag",
+            "Roguelike2CloseEvent"
         ]
     },
     "Roguelike2CloseCollectionClose": {
         "action": "ClickSelf",
         "cache": false,
-        "templThreshold": 0.85,
+        "templThreshold": 0.9,
         "roi": [
             572,
             434,
@@ -412,6 +413,35 @@
         "maskRange": [
             100,
             255
+        ],
+        "next": [
+            "Roguelike1StageEncounterEnter",
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
+            "Roguelike1DropsFlag",
+            "Roguelike2CloseEvent"
+        ]
+    },
+    "Roguelike2CloseEvent": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            567,
+            584,
+            145,
+            136
         ],
         "next": [
             "Roguelike1StageEncounterEnter",
@@ -493,6 +523,43 @@
         ],
         "next": [
             "Roguelike1RecruitOther"
+        ]
+    },
+    "Roguelike2NextLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "天光海岸",
+            "离岸孤岛",
+            "波涛略地",
+            "隐秘温床",
+            "失尘岩洞",
+            "幽海丛林",
+            "绀碧摇篮"
+        ],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ],
+        "next": [
+            "Roguelike1StageTrader",
+            "Roguelike1StageSafeHouse",
+            "Roguelike1StageEncounter",
+            "Roguelike1StageBoons",
+            "Roguelike1StageCambatDps",
+            "Roguelike1StageEmergencyDps",
+            "Roguelike1StageDreadfulFoe",
+            "Roguelike2StageDreadfulFoe-5",
+            "Roguelike2StageRegionalCommissioning",
+            "Roguelike2StageGambling",
+            "Roguelike2CommissionedMissionCompleted",
+            "Roguelike2DiceConfirm",
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
+            "Roguelike2NextLevel"
         ]
     }
 }
