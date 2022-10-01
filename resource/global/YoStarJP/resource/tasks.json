@@ -1910,5 +1910,15 @@
             ]
         ],
         "preDelay": 1000
+    },
+    "Roguelike1RecruitLevel": {
+        "template": "empty.png",
+        "Doc": "日服的等级字体比国服大一圈，要改roi",
+        "roi": [
+            -172,
+            -1,
+            18,
+            12
+        ]
     }
 }
