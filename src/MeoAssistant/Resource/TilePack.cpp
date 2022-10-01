@@ -46,11 +46,12 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(c
     static const std::unordered_map<std::string, TileKey> TileKeyMapping = {
         { "tile_forbidden", TileKey::Forbidden }, { "tile_wall", TileKey::Wall },
         { "tile_road", TileKey::Road },           { "tile_end", TileKey::Home },
-        { "tile_start", TileKey::EnemyHome },     { "tile_floor", TileKey::Floor },
-        { "tile_hole", TileKey::Hole },           { "tile_telin", TileKey::Telin },
-        { "tile_telout", TileKey::Telout },       { "tile_volcano", TileKey::Volcano },
-        { "tile_healing", TileKey::Healing },     { "tile_deepsea", TileKey::DeepSea },
-        { "tile_fence", TileKey::Fence },
+        { "tile_start", TileKey::EnemyHome },     { "tile_flystart", TileKey::Airport },
+        { "tile_floor", TileKey::Floor },         { "tile_hole", TileKey::Hole },
+        { "tile_telin", TileKey::Telin },         { "tile_telout", TileKey::Telout },
+        { "tile_grass", TileKey::Grass },         { "tile_deepsea", TileKey::DeepSea },
+        { "tile_deepwater", TileKey::DeepSea },   { "tile_volcano", TileKey::Volcano },
+        { "tile_healing", TileKey::Healing },     { "tile_fence", TileKey::Fence },
     };
 
     for (size_t y = 0; y < pos.size(); ++y) {
