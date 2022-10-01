@@ -8744,7 +8744,8 @@
     },
     "Roguelike2CloseEvent": {
         "template": "empty.png",
-        "templateThreshold": 2.0
+        "templThreshold": 2.0,
+        "templThreshold_Doc": "means disabled"
     },
     "Roguelike1GetDrop1": {
         "Doc": "源石锭，绿色的“拿走”按钮",
@@ -8971,8 +8972,9 @@
         ]
     },
     "Roguelike2CommissionedMissionCompleted": {
+        "template": "empty.png",
         "templThreshold": 2.0,
-        "template": "empty.png"
+        "templThreshold_Doc": "means disabled"
     },
     "Roguelike1ClickToStartPoint": {
         "algorithm": "JustReturn",
