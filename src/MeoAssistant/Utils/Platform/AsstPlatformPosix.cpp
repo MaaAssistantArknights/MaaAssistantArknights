@@ -1,9 +1,11 @@
 #if __has_include(<unistd.h>)
 #include "AsstPlatformPosix.h"
 #include "AsstPlatform.h"
-#include "Utils/AsstUtils.hpp"
 
 #include <cstdlib>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 static size_t get_page_size()
 {
@@ -22,7 +24,7 @@ void asst::platform::aligned_free(void* ptr)
     free(ptr);
 }
 
-std::string asst::utils::callcmd(const std::string& cmdline)
+std::string asst::platform::callcmd(const std::string& cmdline)
 {
     constexpr int PipeBuffSize = 4096;
     std::string pipe_str;
