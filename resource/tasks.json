@@ -1942,11 +1942,16 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "StartButton2",
             "ReturnToTerminal",
             "Terminal",
             "CloseAnno",
             "StageSNReturnToTerminal",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "PRTS3-Stop",
+            "PRTS-Stop",
+            "PRTS2-Stop",
+            "EndOfAction-Stop"
         ]
     },
     "FightBegin": {
@@ -1957,6 +1962,7 @@
             "UsePrts",
             "UsePrts-StageSN",
             "StartButton1",
+            "StartButton2",
             "PRTS3",
             "PRTS",
             "PRTS2",
@@ -2325,6 +2331,9 @@
             220,
             340
         ],
+        "exceededNext": [
+            "Stop"
+        ],
         "next": [
             "PRTS3",
             "PRTS",
@@ -2359,6 +2368,22 @@
             "WaitAfterPRTS"
         ]
     },
+    "PRTS-Stop": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "角色"
+        ],
+        "roi": [
+            900,
+            500,
+            380,
+            150
+        ],
+        "action": "DoNothing",
+        "next": [
+            "Stop"
+        ]
+    },
     "PRTS2": {
         "algorithm": "OcrDetect",
         "text": [
@@ -2380,6 +2405,22 @@
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
+        ]
+    },
+    "PRTS2-Stop": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "接管"
+        ],
+        "roi": [
+            324,
+            579,
+            219,
+            141
+        ],
+        "action": "DoNothing",
+        "next": [
+            "Stop"
         ]
     },
     "PRTS3": {
@@ -2404,6 +2445,23 @@
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
+        ]
+    },
+    "PRTS3-Stop": {
+        "action": "DoNothing",
+        "template": "BattleOfficiallyBegin.png",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "Stop"
         ]
     },
     "WaitAfterPRTS": {
@@ -2486,6 +2544,19 @@
         ],
         "next": [
             "ClickCorner"
+        ]
+    },
+    "EndOfAction-Stop": {
+        "template": "EndOfAction.png",
+        "roi": [
+            11,
+            357,
+            153,
+            143
+        ],
+        "action": "DoNothing",
+        "next": [
+            "Stop"
         ]
     },
     "EndOfActionAnnihilation": {
