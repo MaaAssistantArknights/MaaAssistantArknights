@@ -6997,6 +6997,10 @@
             372,
             500
         ],
+        "maskRange": [
+            1,
+            255
+        ],
         "next": [
             "Roguelike1TodoEnter",
             "Roguelike1Begin"
