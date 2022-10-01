@@ -7107,6 +7107,7 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
             "Roguelike2NextLevel",
+            "Roguelike2CloseEvent",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
@@ -8733,8 +8734,13 @@
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1EnterAfterRecruit",
             "Roguelike1StageTraderLeave",
+            "Roguelike2CloseEvent",
             "Roguelike1DialogSkip"
         ]
+    },
+    "Roguelike2CloseEvent": {
+        "template": "empty.png",
+        "templateThreshold": 2.0
     },
     "Roguelike1GetDrop1": {
         "Doc": "源石锭，绿色的“拿走”按钮",
