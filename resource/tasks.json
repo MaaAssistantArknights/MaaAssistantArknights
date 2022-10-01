@@ -7807,17 +7807,17 @@
     "Roguelike2StageRegionalCommissioning": {
         "template": "empty.png",
         "templThreshold": 2.0,
-        "templThreshold_Doc": "means disbaled"
+        "templThreshold_Doc": "means disabled"
     },
     "Roguelike2StageGambling": {
         "template": "empty.png",
         "templThreshold": 2.0,
-        "templThreshold_Doc": "means disbaled"
+        "templThreshold_Doc": "means disabled"
     },
     "Roguelike2DiceConfirm": {
         "template": "empty.png",
         "templThreshold": 2.0,
-        "templThreshold_Doc": "means disbaled"
+        "templThreshold_Doc": "means disabled"
     },
     "Roguelike1StageSafeHouseEnter": {
         "action": "ClickSelf",
@@ -8363,7 +8363,7 @@
     "Roguelike2StageDreadfulFoe-5": {
         "template": "empty.png",
         "templThreshold": 2.0,
-        "templThreshold_Doc": "means disbaled"
+        "templThreshold_Doc": "means disabled"
     },
     "Roguelike1StageDreadfulFoeEnter": {
         "action": "ClickSelf",
@@ -8801,7 +8801,7 @@
     "Roguelike2GetDropBox": {
         "template": "empty.png",
         "templThreshold": 2.0,
-        "templThreshold_Doc": "means disbaled"
+        "templThreshold_Doc": "means disabled"
     },
     "Roguelike1GetDropRecruit": {
         "Doc": "招募券，白色的“招募”按钮",
