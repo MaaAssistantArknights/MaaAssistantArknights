@@ -67,7 +67,7 @@ static std::string get_ansi_short_path(const std::filesystem::path& path)
     return result;
 }
 
-std::string asst::utils::path_to_crt_string(const std::filesystem::path& path)
+std::string asst::platform::path_to_crt_string(const std::filesystem::path& path)
 {
     // UCRT may use UTF-8 encoding while ANSI code page is still some other MBCS encoding
     // so we use CRT wcstombs instead of WideCharToMultiByte
@@ -86,7 +86,7 @@ std::string asst::utils::path_to_crt_string(const std::filesystem::path& path)
     }
 }
 
-std::string asst::utils::path_to_ansi_string(const std::filesystem::path& path)
+std::string asst::platform::path_to_ansi_string(const std::filesystem::path& path)
 {
     // UCRT may use UTF-8 encoding while ANSI code page is still some other MBCS encoding
     // so we use CRT wcstombs instead of WideCharToMultiByte
@@ -104,15 +104,15 @@ std::string asst::utils::path_to_ansi_string(const std::filesystem::path& path)
     }
 }
 
-asst::utils::os_string asst::utils::to_osstring(const std::string& utf8_str)
+asst::platform::os_string asst::platform::to_osstring(const std::string& utf8_str)
 {
     int len = MultiByteToWideChar(CP_UTF8, 0, utf8_str.c_str(), (int)utf8_str.size(), nullptr, 0);
-    asst::utils::os_string result(len, 0);
+    os_string result(len, 0);
     MultiByteToWideChar(CP_UTF8, 0, utf8_str.c_str(), (int)utf8_str.size(), &result[0], len);
     return result;
 }
 
-std::string asst::utils::from_osstring(const asst::utils::os_string& os_str)
+std::string asst::platform::from_osstring(const os_string& os_str)
 {
     int len = WideCharToMultiByte(CP_UTF8, 0, os_str.c_str(), (int)os_str.size(), nullptr, 0, nullptr, nullptr);
     std::string result(len, 0);
@@ -120,7 +120,7 @@ std::string asst::utils::from_osstring(const asst::utils::os_string& os_str)
     return result;
 }
 
-std::string asst::utils::callcmd(const std::string& cmdline)
+std::string asst::platform::callcmd(const std::string& cmdline)
 {
     constexpr int PipeBuffSize = 4096;
     auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
@@ -146,7 +146,7 @@ std::string asst::utils::callcmd(const std::string& cmdline)
     PROCESS_INFORMATION process_info = { nullptr };
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-    auto cmdline_osstr = asst::utils::to_osstring(cmdline);
+    auto cmdline_osstr = to_osstring(cmdline);
     BOOL create_ret =
         CreateProcessW(nullptr, &cmdline_osstr[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
@@ -282,7 +282,7 @@ HANDLE asst::win32::OpenDirectory(const std::filesystem::path& path, BOOL bReadW
 
 bool asst::win32::SetDirectoryReparsePoint(const std::filesystem::path& link, const std::filesystem::path& target)
 {
-    auto normtarget = asst::utils::path(asst::utils::string_replace_all(target.native(), L"/", L"\\"));
+    auto normtarget = asst::platform::path(asst::utils::string_replace_all(target.native(), L"/", L"\\"));
 
     auto nttarget = L"\\GLOBAL??\\" + std::filesystem::absolute(normtarget).native();
     if (nttarget.back() != L'\\') nttarget.push_back(L'\\');

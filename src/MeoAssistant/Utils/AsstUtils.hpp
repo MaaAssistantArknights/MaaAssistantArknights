@@ -8,22 +8,20 @@
 #include <sstream>
 #include <string>
 
+#include "Platform/AsstPlatform.h"
+
 #ifdef _WIN32
 #include "Platform/SafeWindows.h"
 #else
 #include <ctime>
 #include <fcntl.h>
-#include <memory.h>
 #include <sys/time.h>
-#include <sys/wait.h>
-#include <unistd.h>
 #endif
 
 #include "Meta.hpp"
 
 namespace asst::utils
 {
-    using os_string = std::filesystem::path::string_type;
     template <typename char_t = char>
     using pair_of_string_view = std::pair<std::basic_string_view<char_t>, std::basic_string_view<char_t>>;
 
@@ -292,74 +290,20 @@ namespace asst::utils
         return buff;
     }
 
+    using os_string = platform::os_string;
+
 #ifdef _WIN32
     static_assert(std::same_as<os_string, std::wstring>);
-    os_string to_osstring(const std::string& utf8_str);
-    std::string from_osstring(const os_string& os_str);
 #else
     static_assert(std::same_as<os_string, std::string>);
-    inline os_string to_osstring(const std::string& utf8_str)
-    {
-        return utf8_str;
-    }
-    inline std::string from_osstring(const os_string& os_str)
-    {
-        return os_str;
-    }
 #endif
 
-    inline std::filesystem::path path(const os_string& os_str)
-    {
-        return std::filesystem::path(os_str);
-    }
-
-#ifdef _WIN32
-    // Allow construct a path from utf8-string in win32
-    inline std::filesystem::path path(const std::string& utf8_str)
-    {
-        return std::filesystem::path(to_osstring(utf8_str));
-    }
-#endif
-
-#ifdef _WIN32
-
-    std::string path_to_crt_string(const std::filesystem::path& path);
-
-    std::string path_to_ansi_string(const std::filesystem::path& path);
-
-    inline std::string path_to_utf8_string(const std::filesystem::path& path)
-    {
-        return from_osstring(path.native());
-    }
-
-    inline std::string path_to_crt_string(const std::string& utf8_path)
-    {
-        return path_to_crt_string(path(utf8_path));
-    }
-
-    inline std::string path_to_ansi_string(const std::string& utf8_path)
-    {
-        return path_to_crt_string(path(utf8_path));
-    }
-
-#else
-
-    inline std::string path_to_utf8_string(const std::filesystem::path& path)
-    {
-        return path.native();
-    }
-
-    inline std::string path_to_ansi_string(const std::filesystem::path& path)
-    {
-        return path.native();
-    }
-
-    inline std::string path_to_crt_string(const std::filesystem::path& path)
-    {
-        return path.native();
-    }
-
-#endif
+    using platform::from_osstring;
+    using platform::path;
+    using platform::path_to_ansi_string;
+    using platform::path_to_crt_string;
+    using platform::path_to_utf8_string;
+    using platform::to_osstring;
 
     template <typename _ = void>
     inline std::string ansi_to_utf8(std::string_view ansi_str)
@@ -487,7 +431,7 @@ namespace asst::utils
         return str;
     }
 
-    std::string callcmd(const std::string& cmdline);
+    using platform::callcmd;
 
     namespace path_literals
     {
