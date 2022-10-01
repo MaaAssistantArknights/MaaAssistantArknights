@@ -1,12 +1,11 @@
 #include "TaskData.h"
 
-#include "Utils/AsstRanges.hpp"
 #include <algorithm>
-
 #include <meojson/json.hpp>
 
 #include "Resource/GeneralConfiger.h"
 #include "Resource/TemplResource.h"
+#include "Utils/AsstRanges.hpp"
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
@@ -15,11 +14,56 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
     return m_templ_required;
 }
 
+#ifdef ASST_DEBUG
+// 为了解决类似 beddc7c828126c678391e0b4da288db6d2c2d58a 导致的问题，加载的时候做一个语法检查
+// 主要是处理是否包含未知键值的问题
+bool asst::TaskData::syntax_check(std::string_view task_name, const json::value& json)
+{
+    static const std::unordered_set<std::string> allowed_key = {
+        "algorithm",    "template",
+        "text",         "action",
+        "sub",          "subErrorIgnored",
+        "next",         "maxTimes",
+        "exceededNext", "onErrorNext",
+        "preDelay",     "rearDelay",
+        "roi",          "cache",
+        "rectMove",     "reduceOtherTimes",
+        "specificRect", "templThreshold",
+        "maskRange",    "fullMatch",
+        "ocrReplace",
+
+        "hash",         "specialThreshold",
+        "threshold",
+    };
+    auto is_doc = [&](std::string_view key) {
+        return key.find("Doc") != std::string_view::npos || key.find("doc") != std::string_view::npos;
+    };
+    bool validity = true;
+    // TODO: 之后也许还要对 key-value 联合检查，task_json 先留着
+    for (const auto& [name, task_json] : json.as_object()) {
+        if (!allowed_key.contains(name) && !is_doc(name)) {
+            Log.error(task_name, "has unknown key:", name);
+            validity = false;
+        }
+    }
+    return validity;
+}
+#endif
+
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
 
     auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
+#ifdef ASST_DEBUG
+    {
+        bool validity = true;
+        for (const auto& [name, task_json] : json.as_object()) {
+            validity &= syntax_check(name, task_json);
+        }
+        if (!validity) return false;
+    }
+#endif
     for (const auto& [name, task_json] : json.as_object()) {
         std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
         ranges::transform(algorithm_str, algorithm_str.begin(), to_lower);

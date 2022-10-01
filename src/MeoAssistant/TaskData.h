@@ -43,7 +43,9 @@ namespace asst
 
     protected:
         virtual bool parse(const json::value& json) override;
-
+#ifdef ASST_DEBUG
+        bool syntax_check(std::string_view task_name, const json::value& json);
+#endif
         std::unordered_map<std::string, std::shared_ptr<TaskInfo>> m_all_tasks_info;
         std::unordered_set<std::string> m_templ_required;
     };
