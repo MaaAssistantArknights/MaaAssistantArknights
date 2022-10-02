@@ -1946,11 +1946,7 @@
             "Terminal",
             "CloseAnno",
             "StageSNReturnToTerminal",
-            "TodaysSupplies",
-            "PRTS3",
-            "PRTS",
-            "PRTS2",
-            "EndOfAction"
+            "TodaysSupplies"
         ]
     },
     "FightBegin": {
@@ -2871,8 +2867,7 @@
             "Terminal"
         ]
     },
-    "LastBattle": {
-        "Doc": "当前或上次作战",
+    "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
@@ -2880,6 +2875,11 @@
             "StartButton1",
             "UsePrts",
             "UsePrts-StageSN",
+            "ReturnToTerminal",
+            "Terminal",
+            "CloseAnno",
+            "StageSNReturnToTerminal",
+            "TodaysSupplies",
             "PRTS3",
             "PRTS",
             "PRTS2",
