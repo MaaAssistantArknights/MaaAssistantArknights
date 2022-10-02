@@ -656,5 +656,18 @@
             "Roguelike2CloseCollectionClose",
             "Roguelike2NextLevel"
         ]
+    },
+    "Roguelike2DataTraceback": {
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            56,
+            277,
+            243,
+            152
+        ],
+        "next": [
+            "Roguelike1ClickToStartPoint"
+        ]
     }
 }
