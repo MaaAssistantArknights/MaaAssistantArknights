@@ -359,8 +359,8 @@ void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_ti
 void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(ProcessTaskAction action)
 {
     LogTraceFunction;
-    static Rect right_rect = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->specific_rect; // 780, 200, 100, 300
-    static Rect left_rect = Task.get("RoguelikeRecruitSlowlySwipeLeftRect")->specific_rect;   // 360, 200, 100, 300
+    static Rect right_rect = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->specific_rect; // 980, 200, 100, 300
+    static Rect left_rect = Task.get("RoguelikeRecruitSlowlySwipeLeftRect")->specific_rect;   // 560, 200, 100, 300
     static int duration = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->pre_delay;
     static int extra_delay = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->rear_delay;
 
