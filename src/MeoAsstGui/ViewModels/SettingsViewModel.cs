@@ -963,7 +963,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _creditForceShoppingIfCreditFull = ViewStatusStorage.Get("Mall.CreditForceShoppingIfCreditFull", true.ToString());
+        private string _creditForceShoppingIfCreditFull = ViewStatusStorage.Get("Mall.CreditForceShoppingIfCreditFull", false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether save credit is enabled.
