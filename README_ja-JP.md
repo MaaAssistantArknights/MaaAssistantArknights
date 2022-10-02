@@ -153,7 +153,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 - [Cインターフェース](include/AsstCaller.h)：[統合例](tools/TestCaller/main.cpp)
 - [Pythonインターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
-- [Golangインターフェース](src/Golang/maa/)：[統合例](src/Golang/cli.go)（メンテナンスが停止しました orz）
+- [Golangインターフェース](src/Golang/MaaAssistantArknights/)：[統合例](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dartインターフェース](src/dart/)
 - [Javaインターフェース](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[統合例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)

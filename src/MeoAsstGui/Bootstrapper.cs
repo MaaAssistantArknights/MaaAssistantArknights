@@ -114,6 +114,7 @@ namespace MeoAsstGui
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
             // 抛异常了，可以打些日志
+            File.AppendAllText("gui.err.log", DateTime.Now.ToString() + ' ' + e.Exception.ToString() + '\n');
         }
     }
 }

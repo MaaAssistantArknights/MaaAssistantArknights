@@ -225,18 +225,19 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         return true;
     }
     // 如果已经放了一些人了，就不要再有费就下了
-    if (m_used_tiles.size() >= std::max(m_homes.size(), static_cast<size_t>(2))) {
-        size_t available_count = 0;
-        size_t not_cooling_count = 0;
-        for (const auto& oper : opers) {
-            if (oper.available) {
-                available_count += 1;
-            }
-            if (!oper.cooling) {
-                not_cooling_count += 1;
-            }
+    size_t available_count = 0;
+    size_t cooling_count = 0;
+    for (const auto& oper : opers) {
+        if (oper.available) {
+            available_count += 1;
         }
+        if (oper.cooling) {
+            cooling_count += 1;
+        }
+    }
+    if (m_used_tiles.size() >= std::max(m_homes.size(), static_cast<size_t>(2))) {
         // 超过一半的人费用都没好，那就不下人
+        size_t not_cooling_count = opers.size() - cooling_count;
         if (available_count <= not_cooling_count / 2) {
             Log.trace("already used", m_used_tiles.size(), ", now_total", opers.size(), ", available", available_count,
                       ", not_cooling", not_cooling_count);
@@ -318,7 +319,22 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     // 计算最优部署位置及方向
-    const auto& [placed_loc, direction] = calc_best_plan(opt_oper);
+    auto best_plan = calc_best_plan(opt_oper);
+
+    // 格子放满了
+    if (best_plan.placed == Point::zero() && best_plan.direction == Point::zero()) {
+        Log.info("Tiles full");
+        if (cooling_count) {
+            Log.info("has cooling, clear and re-calc");
+            m_used_tiles.clear();
+            best_plan = calc_best_plan(opt_oper);
+        }
+        else {
+            return true;
+        }
+    }
+
+    const auto& [placed_loc, direction] = best_plan;
 
     // 将干员拖动到场上
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
@@ -335,6 +351,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     Point end_point = placed_point + (direction * coeff);
 
     m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
+
+    if (opt_oper.role == BattleRole::Drone) {
+        ProcessTask(*this, { "BattleCancelSelection" }).run();
+    }
 
     m_used_tiles.emplace(placed_loc, oper_name);
     m_opers_used = true;
@@ -607,12 +627,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     }
     if (available_locations.empty()) {
         Log.error("No available locations");
-        if (m_used_tiles.empty()) {
-            Log.error("No used tiles");
-            return {};
-        }
-        m_used_tiles.clear();
-        return calc_best_plan(oper);
+        return {};
     }
 
     ranges::sort(available_locations, comp_dist);
@@ -737,17 +752,19 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
             static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
                 { TileKey::Invalid, 0 },    { TileKey::Forbidden, 0 },  { TileKey::Wall, 500 },
                 { TileKey::Road, 1000 },    { TileKey::Home, 500 },     { TileKey::EnemyHome, 1000 },
-                { TileKey::Floor, 1000 },   { TileKey::Hole, 0 },       { TileKey::Telin, 700 },
-                { TileKey::Telout, 800 },   { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
-                { TileKey::DeepSea, 1000 }, { TileKey::Fence, 800 },
+                { TileKey::Airport, 1000 }, { TileKey::Floor, 1000 },   { TileKey::Hole, 0 },
+                { TileKey::Telin, 700 },    { TileKey::Telout, 800 },   { TileKey::Grass, 500 },
+                { TileKey::DeepSea, 1000 }, { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
+                { TileKey::Fence, 800 },
             };
             // 治疗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
-                { TileKey::Invalid, 0 }, { TileKey::Forbidden, 0 },  { TileKey::Wall, 1000 },
-                { TileKey::Road, 1000 }, { TileKey::Home, 0 },       { TileKey::EnemyHome, 0 },
-                { TileKey::Floor, 0 },   { TileKey::Hole, 0 },       { TileKey::Telin, 0 },
-                { TileKey::Telout, 0 },  { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
-                { TileKey::DeepSea, 0 }, { TileKey::Fence, 1000 },
+                { TileKey::Invalid, 0 },  { TileKey::Forbidden, 0 },  { TileKey::Wall, 1000 },
+                { TileKey::Road, 1000 },  { TileKey::Home, 0 },       { TileKey::EnemyHome, 0 },
+                { TileKey::Airport, 0 },  { TileKey::Floor, 0 },      { TileKey::Hole, 0 },
+                { TileKey::Telin, 0 },    { TileKey::Telout, 0 },     { TileKey::Grass, 500 },
+                { TileKey::DeepSea, 0 },  { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
+                { TileKey::Fence, 1000 },
             };
 
             switch (oper.role) {

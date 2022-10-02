@@ -1,12 +1,11 @@
 #include "TaskData.h"
 
-#include "Utils/AsstRanges.hpp"
 #include <algorithm>
-
 #include <meojson/json.hpp>
 
 #include "Resource/GeneralConfiger.h"
 #include "Resource/TemplResource.h"
+#include "Utils/AsstRanges.hpp"
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
 
@@ -20,23 +19,20 @@ bool asst::TaskData::parse(const json::value& json)
     LogTraceFunction;
 
     auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
+#ifdef ASST_DEBUG
+    {
+        bool validity = true;
+        for (const auto& [name, task_json] : json.as_object()) {
+            validity &= syntax_check(name, task_json);
+        }
+        if (!validity) return false;
+    }
+#endif
     for (const auto& [name, task_json] : json.as_object()) {
         std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
         ranges::transform(algorithm_str, algorithm_str.begin(), to_lower);
-        auto algorithm = AlgorithmType::Invalid;
-        if (algorithm_str == "matchtemplate") {
-            algorithm = AlgorithmType::MatchTemplate;
-        }
-        else if (algorithm_str == "justreturn") {
-            algorithm = AlgorithmType::JustReturn;
-        }
-        else if (algorithm_str == "ocrdetect") {
-            algorithm = AlgorithmType::OcrDetect;
-        }
-        else if (algorithm_str == "hash") {
-            algorithm = AlgorithmType::Hash;
-        }
-        else {
+        auto algorithm = get_algorithm_type(algorithm_str);
+        if (algorithm == AlgorithmType::Invalid) [[unlikely]] {
             Log.error("Unknown algorithm", algorithm_str);
             return false;
         }
@@ -96,34 +92,8 @@ bool asst::TaskData::parse(const json::value& json)
         task_info_ptr->name = name;
         std::string action = task_json.get("action", "donothing");
         ranges::transform(action, action.begin(), to_lower);
-        if (action == "clickself") {
-            task_info_ptr->action = ProcessTaskAction::ClickSelf;
-        }
-        else if (action == "clickrand") {
-            task_info_ptr->action = ProcessTaskAction::ClickRand;
-        }
-        else if (action == "donothing" || action.empty()) {
-            task_info_ptr->action = ProcessTaskAction::DoNothing;
-        }
-        else if (action == "stop") {
-            task_info_ptr->action = ProcessTaskAction::Stop;
-        }
-        else if (action == "clickrect") {
-            task_info_ptr->action = ProcessTaskAction::ClickRect;
-        }
-        else if (action == "swipetotheleft") {
-            task_info_ptr->action = ProcessTaskAction::SwipeToTheLeft;
-        }
-        else if (action == "swipetotheright") {
-            task_info_ptr->action = ProcessTaskAction::SwipeToTheRight;
-        }
-        else if (action == "slowlyswipetotheleft") {
-            task_info_ptr->action = ProcessTaskAction::SlowlySwipeToTheLeft;
-        }
-        else if (action == "slowlyswipetotheright") {
-            task_info_ptr->action = ProcessTaskAction::SlowlySwipeToTheRight;
-        }
-        else {
+        task_info_ptr->action = get_action_type(action);
+        if (task_info_ptr->action == ProcessTaskAction::Invalid) [[unlikely]] {
             Log.error("Unknown action:", action, ", Task:", name);
             return false;
         }
@@ -209,3 +179,173 @@ bool asst::TaskData::parse(const json::value& json)
 #endif
     return true;
 }
+
+#ifdef ASST_DEBUG
+// 为了解决类似 beddc7c828126c678391e0b4da288db6d2c2d58a 导致的问题，加载的时候做一个语法检查
+// 主要是处理是否包含未知键值的问题
+bool asst::TaskData::syntax_check(std::string_view task_name, const json::value& task_json)
+{
+    static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
+        { AlgorithmType::Invalid,
+          {
+              "algorithm",
+              "template",
+              "text",
+              "action",
+              "sub",
+              "subErrorIgnored",
+              "next",
+              "maxTimes",
+              "exceededNext",
+              "onErrorNext",
+              "preDelay",
+              "rearDelay",
+              "roi",
+              "cache",
+              "rectMove",
+              "reduceOtherTimes",
+              "templThreshold",
+              "maskRange",
+              "fullMatch",
+              "ocrReplace",
+              "hash",
+              "specialThreshold",
+              "threshold",
+          } },
+        { AlgorithmType::MatchTemplate,
+          {
+              "algorithm",
+              "template",
+              "action",
+              "sub",
+              "subErrorIgnored",
+              "next",
+              "maxTimes",
+              "exceededNext",
+              "onErrorNext",
+              "preDelay",
+              "rearDelay",
+              "roi",
+              "cache",
+              "rectMove",
+              "reduceOtherTimes",
+
+              "templThreshold",
+              "maskRange",
+          } },
+        { AlgorithmType::OcrDetect,
+          {
+              "algorithm",
+              "text",
+              "action",
+              "sub",
+              "subErrorIgnored",
+              "next",
+              "maxTimes",
+              "exceededNext",
+              "onErrorNext",
+              "preDelay",
+              "rearDelay",
+              "roi",
+              "cache",
+              "rectMove",
+              "reduceOtherTimes",
+
+              "fullMatch",
+              "ocrReplace",
+          } },
+        { AlgorithmType::JustReturn,
+          {
+              "algorithm",
+              "action",
+              "sub",
+              "subErrorIgnored",
+              "next",
+              "maxTimes",
+              "exceededNext",
+              "onErrorNext",
+              "preDelay",
+              "rearDelay",
+              "reduceOtherTimes",
+          } },
+        { AlgorithmType::Hash,
+          {
+              "algorithm",
+              "action",
+              "sub",
+              "subErrorIgnored",
+              "next",
+              "maxTimes",
+              "exceededNext",
+              "onErrorNext",
+              "preDelay",
+              "rearDelay",
+              "roi",
+              "cache",
+              "rectMove",
+              "reduceOtherTimes",
+
+              "hash",
+              "maskRange",
+              "specialThreshold",
+              "threshold",
+          } },
+    };
+
+    static const std::unordered_map<ProcessTaskAction, std::unordered_set<std::string>> allowed_key_under_action = {
+        { ProcessTaskAction::ClickRect,
+          {
+              "specificRect",
+          } },
+    };
+
+    auto is_doc = [&](std::string_view key) {
+        return key.find("Doc") != std::string_view::npos || key.find("doc") != std::string_view::npos;
+    };
+
+    // 兜底策略，如果某个 key ("xxx") 不符合规范（可能是代码中使用到的参数，而不是任务流程）
+    // 需要加一个注释 ("xxx_Doc") 就能过 syntax_check.
+    auto has_doc = [&](const std::string& key) -> bool {
+        return task_json.find(key + "_Doc") || task_json.find(key + "_doc");
+    };
+
+    bool validity = true;
+
+    // 获取 algorithm
+    std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
+    auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
+    ranges::transform(algorithm_str, algorithm_str.begin(), to_lower);
+    auto algorithm = get_algorithm_type(algorithm_str);
+    if (algorithm == AlgorithmType::Invalid) [[unlikely]] {
+        Log.error(task_name, "has unknown algorithm:", algorithm_str);
+        validity = false;
+    }
+
+    std::string action_str = task_json.get("action", "donothing");
+    ranges::transform(action_str, action_str.begin(), to_lower);
+    auto action = get_action_type(action_str);
+    if (action == ProcessTaskAction::Invalid) [[unlikely]] {
+        Log.error(task_name, "has unknown action:", algorithm_str);
+        validity = false;
+    }
+
+    std::unordered_set<std::string> allowed_key {};
+    if (allowed_key_under_algorithm.contains(algorithm)) {
+        decltype(allowed_key) tmp = allowed_key_under_algorithm.at(algorithm);
+        allowed_key.merge(tmp);
+    }
+    if (allowed_key_under_action.contains(action)) {
+        decltype(allowed_key) tmp = allowed_key_under_action.at(action);
+        allowed_key.merge(tmp);
+    }
+
+    // TODO: 之后也许还要对 key-value 联合检查，json 先留着
+    for (const auto& [name, json] : task_json.as_object()) {
+        if (!allowed_key.contains(name) && !is_doc(name) && !has_doc(name)) {
+            Log.error(task_name, "has unknown key:", name);
+            validity = false;
+        }
+    }
+    return validity;
+}
+#endif
