@@ -2872,11 +2872,18 @@
         ]
     },
     "LastBattle": {
+        "Doc": "当前或上次作战",
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
             "GoLastBattle",
-            "StartButton1"
+            "StartButton1",
+            "UsePrts",
+            "UsePrts-StageSN",
+            "PRTS3",
+            "PRTS",
+            "PRTS2",
+            "EndOfAction"
         ]
     },
     "GoLastBattle": {
