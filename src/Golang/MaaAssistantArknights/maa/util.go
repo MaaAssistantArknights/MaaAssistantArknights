@@ -1,13 +1,14 @@
 package maa
 
-import "C"
 import (
-	"errors"
 	"syscall"
 	"unsafe"
 )
 
-var FalseError = errors.New("maa return false")
+const (
+	offset = 1 //char 1 byte
+	null   = 0 //end of c string is 0
+)
 
 func UintPtrFromString(s string) (uintptr, error) {
 	p, err := syscall.BytePtrFromString(s)
@@ -16,25 +17,23 @@ func UintPtrFromString(s string) (uintptr, error) {
 	}
 	return uintptr(unsafe.Pointer(p)), nil
 }
+
 func CharPtr2String(r uintptr) string {
-	if r==0{
+	if r == 0 {
 		return ""
 	}
-	p := (*byte)(unsafe.Pointer(r))
 	data := make([]byte, 0)
-	for *p != 0 {
+	for p := (*byte)(unsafe.Pointer(r)); *p != null; p = (*byte)(unsafe.Pointer(r)) {
 		data = append(data, *p)
-		r += unsafe.Sizeof(byte(0))
-		p = (*byte)(unsafe.Pointer(r))
+		r += offset
 	}
-	name := string(data)
-	return name
+	return string(data)
 }
 
 func UintPtrFromBool(b bool) uintptr {
-	if b{
+	if b {
 		return 1
-	}else {
+	} else {
 		return 0
 	}
 }
