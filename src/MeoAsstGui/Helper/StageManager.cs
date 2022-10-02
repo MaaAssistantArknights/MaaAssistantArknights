@@ -33,7 +33,7 @@ namespace MeoAsstGui
             var sideStory = new StageActivityInfo()
             {
                 Tip = "SideStory「长夜临光」复刻活动",
-                UtcExpireTime = new DateTime(2022, 10, 6, 4, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2022, 10, 2, 4, 0, 0).AddHours(-8),
                 IsResourceCollection = false,
             };
             var resourceCollection = new StageActivityInfo()

@@ -127,6 +127,7 @@ namespace asst
         BattleRole role;
         std::array<std::string, 3> ranges;
         int rarity = 0;
+        bool with_direction = true;
     };
 
     struct BattleRecruitOperInfo

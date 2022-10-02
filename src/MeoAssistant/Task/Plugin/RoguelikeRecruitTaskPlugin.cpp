@@ -254,6 +254,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
 
     constexpr int SwipeTimes = 5;
     std::unordered_set<std::string> pre_oper_names;
+    bool has_been_same = false;
     int i = 0;
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
@@ -278,10 +279,18 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
                 return true;
             }
             if (pre_oper_names == oper_names) {
-                Log.trace(__FUNCTION__, "| Oper list not changed, stop swiping");
-                break;
+                if (has_been_same) {
+                    Log.trace(__FUNCTION__, "| Oper list not changed for three times, stop swiping");
+                    break;
+                }
+                else {
+                    has_been_same = true;
+                }
             }
-            pre_oper_names = std::move(oper_names);
+            else {
+                has_been_same = false;
+                pre_oper_names = std::move(oper_names);
+            }
         }
 
         // 没识别到目标干员，可能不在这一页，继续划动
