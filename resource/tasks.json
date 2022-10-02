@@ -1946,7 +1946,11 @@
             "Terminal",
             "CloseAnno",
             "StageSNReturnToTerminal",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "PRTS3",
+            "PRTS",
+            "PRTS2",
+            "EndOfAction"
         ]
     },
     "FightBegin": {
