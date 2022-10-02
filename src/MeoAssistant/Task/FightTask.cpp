@@ -2,11 +2,14 @@
 
 #include <utility>
 
+#include "TaskData.h"
+
 #include "Plugin/DrGrandetTaskPlugin.h"
 #include "Plugin/GameCrashRestartTaskPlugin.h"
 #include "Plugin/StageDropsTaskPlugin.h"
 #include "Sub/ProcessTask.h"
 #include "Sub/StageNavigationTask.h"
+#include "Utils/AsstRanges.hpp"
 
 asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
     : PackageTask(std::move(callback), callback_arg, TaskType),
@@ -26,12 +29,12 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("PRTS", 0)
         .set_times_limit("PRTS2", 0)
         .set_times_limit("EndOfAction", 0)
-        .set_ignore_error(false);
-    m_start_up_task_ptr->set_retry_times(5);
+        .set_ignore_error(false)
+        .set_retry_times(5);
 
     // 进入上次战斗
-    m_last_battle_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "PRTS3", "PRTS", "PRTS2", "EndOfAction", "GoLastBattle" });
-    m_last_battle_task_ptr->set_times_limit("StartButton1", 0)
+    m_last_battle_task_ptr->set_tasks({ "LastBattle" })
+        .set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
@@ -40,8 +43,8 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("PRTS", 0)
         .set_times_limit("PRTS2", 0)
         .set_times_limit("EndOfAction", 0)
-        .set_ignore_error(false);
-    m_last_battle_task_ptr->set_retry_times(5);
+        .set_ignore_error(false)
+        .set_retry_times(5);
 
     m_stage_navigation_task_ptr->set_enable(false).set_ignore_error(false);
 
@@ -88,7 +91,10 @@ bool asst::FightTask::set_params(const json::value& params)
 
     if (!m_running) {
         if (stage.empty()) {
-            m_start_up_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "StageBegin" });
+            // m_start_up_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "StageBegin" });
+            std::vector<std::string> tasks = { "UsePrts", "UsePrts-StageSN", "StartButton1" };
+            ranges::copy(Task.get("StageBegin")->next, std::back_inserter(tasks));
+            m_start_up_task_ptr->set_tasks(std::move(tasks));
             m_last_battle_task_ptr->set_enable(true);
             m_stage_navigation_task_ptr->set_enable(false);
         }
