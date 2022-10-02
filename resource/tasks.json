@@ -4569,7 +4569,7 @@
         ]
     },
     "InfrastSkillsUpper": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "roi": [
             400,
             280,
@@ -4578,7 +4578,7 @@
         ]
     },
     "InfrastSkillsLower": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "roi": [
             400,
             560,
@@ -4780,9 +4780,10 @@
     },
     "InfrastOperMoodProgressBar": {
         "template": "empty.png",
+        "templThreshold_Doc": "这里的templThreshold，作为进度条最小灰度阈值使用",
         "templThreshold": 160,
+        "specialThreshold_Doc": "这里的specialThreshold作为进度条相邻点最大变化阈值使用",
         "specialThreshold": 20,
-        "Doc": "这里的templThreshold，作为进度条最小灰度阈值使用；specialThreshold作为进度条相邻点最大变化阈值使用。懒得重新弄个字段了",
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             21,
@@ -6396,7 +6397,7 @@
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
-        "action": "ClickSelf",
+        "action": "ClickRect",
         "specificRect": [
             150,
             0,
@@ -6518,7 +6519,7 @@
         ]
     },
     "BattleOperClickRange": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "rectMove": [
             -45,
             6,
@@ -6561,7 +6562,7 @@
         ]
     },
     "BattleOperRoleRange": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "rectMove": [
             -41,
             6,
@@ -7595,7 +7596,6 @@
         ]
     },
     "Roguelike1RecruitWithoutButton": {
-        "template": "RecruitSkipWithoutButton.png",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -8535,6 +8535,7 @@
     },
     "Roguelike1SkillSelectionMove1": {
         "algorithm": "JustReturn",
+        "rectMove_Doc": "技能1相对flag的坐标",
         "rectMove": [
             180,
             -40,
@@ -8544,6 +8545,7 @@
     },
     "Roguelike1SkillSelectionMove2": {
         "algorithm": "JustReturn",
+        "rectMove_Doc": "技能2相对flag的坐标",
         "rectMove": [
             240,
             -40,
@@ -8553,6 +8555,7 @@
     },
     "Roguelike1SkillSelectionMove3": {
         "algorithm": "JustReturn",
+        "rectMove_Doc": "技能3相对flag的坐标",
         "rectMove": [
             300,
             -40,

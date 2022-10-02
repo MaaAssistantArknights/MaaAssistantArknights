@@ -86,7 +86,7 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
     const Rect skill_rect_move = Task.get("InfrastSkills")->rect_move;
     const Rect name_rect_move = Task.get("InfrastOperNameOcr")->rect_move;
     const Rect facility_rect_move = Task.get("InfrastOperFacilityOcr")->rect_move;
-    const Rect prg_rect_move = Task.get("InfrastOperMoodProgressBar")->roi;
+    const Rect prg_rect_move = Task.get("InfrastOperMoodProgressBar")->rect_move;
     const std::vector<Rect> all_rect_move = { skill_rect_move, name_rect_move, facility_rect_move, prg_rect_move };
 
     InfrastSmileyImageAnalyzer smiley_analyzer(m_image);
