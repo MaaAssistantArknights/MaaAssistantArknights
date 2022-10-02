@@ -1942,7 +1942,6 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "StartButton2",
             "ReturnToTerminal",
             "Terminal",
             "CloseAnno",
@@ -1959,7 +1958,6 @@
             "UsePrts",
             "UsePrts-StageSN",
             "StartButton1",
-            "StartButton2",
             "PRTS3",
             "PRTS",
             "PRTS2",

@@ -25,7 +25,7 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_ignore_error(false);
 
     // 进入上次战斗
-    m_last_battle_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "StartButton2", "PRTS3-Stop", "PRTS-Stop", "PRTS2-Stop", "EndOfAction-Stop", "LastBattle" });
+    m_last_battle_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "PRTS3-Stop", "PRTS-Stop", "PRTS2-Stop", "EndOfAction-Stop", "LastBattle" });
     m_last_battle_task_ptr->set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
