@@ -328,7 +328,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             Log.info("has cooling, clear and re-calc");
             m_used_tiles.clear();
             best_plan = calc_best_plan(opt_oper);
-        } else {
+        }
+        else {
             return true;
         }
     }
