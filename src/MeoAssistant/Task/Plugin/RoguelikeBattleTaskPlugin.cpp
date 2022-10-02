@@ -336,6 +336,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
 
+    if (opt_oper.role == BattleRole::Drone) {
+        ProcessTask(*this, { "BattleCancelSelection" }).run();
+    }
+
     m_used_tiles.emplace(placed_loc, oper_name);
     m_opers_used = true;
     ++m_cur_home_index;
