@@ -4569,7 +4569,7 @@
         ]
     },
     "InfrastSkillsUpper": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "roi": [
             400,
             280,
@@ -4578,7 +4578,7 @@
         ]
     },
     "InfrastSkillsLower": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "roi": [
             400,
             560,
@@ -6519,7 +6519,7 @@
         ]
     },
     "BattleOperClickRange": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "rectMove": [
             -45,
             6,
@@ -6562,7 +6562,7 @@
         ]
     },
     "BattleOperRoleRange": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "rectMove": [
             -41,
             6,
@@ -8501,6 +8501,7 @@
     },
     "Roguelike1SkillSelectionMove1": {
         "algorithm": "JustReturn",
+        "rectMove_Doc": "技能1相对flag的坐标",
         "rectMove": [
             180,
             -40,
@@ -8510,6 +8511,7 @@
     },
     "Roguelike1SkillSelectionMove2": {
         "algorithm": "JustReturn",
+        "rectMove_Doc": "技能2相对flag的坐标",
         "rectMove": [
             240,
             -40,
@@ -8519,6 +8521,7 @@
     },
     "Roguelike1SkillSelectionMove3": {
         "algorithm": "JustReturn",
+        "rectMove_Doc": "技能3相对flag的坐标",
         "rectMove": [
             300,
             -40,

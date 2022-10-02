@@ -267,8 +267,6 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "preDelay",
               "rearDelay",
               "reduceOtherTimes",
-
-              "roi", "rectMove",
           } },
         { AlgorithmType::Hash,
           {
