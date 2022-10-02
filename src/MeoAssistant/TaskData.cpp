@@ -328,7 +328,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
         Log.error(task_name, "has unknown action:", algorithm_str);
         validity = false;
     }
-    
+
     std::unordered_set<std::string> allowed_key {};
     if (allowed_key_under_algorithm.contains(algorithm)) {
         decltype(allowed_key) tmp = allowed_key_under_algorithm.at(algorithm);
