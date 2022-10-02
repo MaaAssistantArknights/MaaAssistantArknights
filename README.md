@@ -150,7 +150,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 - [C 接口](include/AsstCaller.h)：[集成示例](tools/TestCaller/main.cpp)
 - [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
-- [Golang 接口](src/Golang/maa/)：[集成示例](src/Golang/MaaAssistantArknights/maa/mma.go)
+- [Golang 接口](src/Golang/MaaAssistantArknights/)：[集成示例](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dart 接口](src/dart/)
 - [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Java HTTP 接口](src/Java/Maaj/Readme.md)
