@@ -57,7 +57,7 @@
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、できるだけクリアする</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、1階旅商人に出会った後止める</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、2階に到着後止める</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
