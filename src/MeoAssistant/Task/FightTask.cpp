@@ -22,16 +22,26 @@ asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
         .set_times_limit("StageSNReturnFlag", 0)
+        .set_times_limit("PRTS3", 0)
+        .set_times_limit("PRTS", 0)
+        .set_times_limit("PRTS2", 0)
+        .set_times_limit("EndOfAction", 0)
         .set_ignore_error(false);
+    m_start_up_task_ptr->set_retry_times(5);
 
     // 进入上次战斗
-    m_last_battle_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "PRTS3-Stop", "PRTS-Stop", "PRTS2-Stop", "EndOfAction-Stop", "LastBattle" });
+    m_last_battle_task_ptr->set_tasks({ "UsePrts", "UsePrts-StageSN", "StartButton1", "PRTS3", "PRTS", "PRTS2", "EndOfAction", "GoLastBattle" });
     m_last_battle_task_ptr->set_times_limit("StartButton1", 0)
         .set_times_limit("StartButton2", 0)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
         .set_times_limit("StageSNReturnFlag", 0)
+        .set_times_limit("PRTS3", 0)
+        .set_times_limit("PRTS", 0)
+        .set_times_limit("PRTS2", 0)
+        .set_times_limit("EndOfAction", 0)
         .set_ignore_error(false);
+    m_last_battle_task_ptr->set_retry_times(5);
 
     m_stage_navigation_task_ptr->set_enable(false).set_ignore_error(false);
 
