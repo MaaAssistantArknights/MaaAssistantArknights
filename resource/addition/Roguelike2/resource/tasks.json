@@ -459,7 +459,8 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike1DropsFlag"
+            "Roguelike1DropsFlag",
+            "Roguelike2CloseEvent"
         ]
     },
     "Roguelike2CommissionedMissionCompleted": {
