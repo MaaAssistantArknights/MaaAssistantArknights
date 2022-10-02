@@ -6574,15 +6574,33 @@
             25
         ]
     },
-    "BattleOperRoleCaster": {},
-    "BattleOperRoleMedic": {},
-    "BattleOperRolePioneer": {},
-    "BattleOperRoleSniper": {},
-    "BattleOperRoleSpecial": {},
-    "BattleOperRoleSupport": {},
-    "BattleOperRoleTank": {},
-    "BattleOperRoleWarrior": {},
-    "BattleOperRoleDrone": {},
+    "BattleOperRoleCaster": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRoleMedic": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRolePioneer": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRoleSniper": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRoleSpecial": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRoleSupport": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRoleTank": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRoleWarrior": {
+        "templThreshold": 0.75
+    },
+    "BattleOperRoleDrone": {
+        "templThreshold": 0.75
+    },
     "BattleOperCostRange": {
         "algorithm": "Hash",
         "hash": [],
