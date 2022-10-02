@@ -7989,8 +7989,13 @@
         "next": [
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
-            "Roguelike2DiceConfirmThenAbandon"
+            "Roguelike2DiceConfirmThenAbandon",
+            "Roguelike2DataTraceback"
         ]
+    },
+    "Roguelike2DataTraceback": {
+        "template": "empty.png",
+        "templThreshold": 2.0
     },
     "Roguelike1Abandon": {
         "action": "ClickSelf",
