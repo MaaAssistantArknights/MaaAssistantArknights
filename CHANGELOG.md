@@ -1,17 +1,13 @@
-- 新增 水月肉鸽 支持 `追忆映射` 模式，请手动进入棘刺页后再开始 @MistEO
-- 新增 界面日志 保存至 `gui.log` @zzyyyl
-- 优化 肉鸽 刷源石锭选项，改为进入第二层后再退出 @MistEO
-- 优化 公招 Tag 匹配逻辑 @horror-proton @zzyyyl
-- 优化 自定义基建 内置 243 作业 @筱竹聽雨
-- 优化 水月肉鸽 招募逻辑，不再招募不在需求列表中且非精二的干员 @MistEO
-- 降低 肉鸽 桃金娘 招募优先级 @MistEO
-- 修复 水月肉鸽 绝大部分已知卡死问题 @MistEO
-- 修复 水月肉鸽 骑士事件卡死问题 @MistEO
-- 修复 水月肉鸽 获取战利品时卡死问题 @MistEO
-- 修复 水月肉鸽 干员朝向问题 @MistEO
-- 修复 基建 清空按钮不生效导致的换班失败问题 @MistEO
-- 修复 繁中服 自动公招错误 @horror-proton
-- 修复 截图逻辑错误 @zzyyyl
-- 修复 编译错误 @horror-proton
-- 整理 项目目录结构 @MistEO
-- Update translations for JSON in JP docs @LYZhelloworld @wallsman
+- 新增 刷理智 支持从 战斗中、战斗结束画面 开始，优化部分流程 @DavidWang19 @zzyyyl
+- 修复 水月肉鸽 全部已知的卡住问题 @MistEO
+- 修复 水月肉鸽 战斗中偶尔会点开宝箱的问题 @MistEO
+- 修复 肉鸽 没有更多高台位时仍不断尝试部署的问题 @MistEO
+- 修复 肉鸽 部分地块评分 @zzyyyl
+- 修复 肉鸽 日服招募错误 @zzyyyl
+- 修复 傀影肉鸽 不能正常进行的问题 @zzyyyl
+- 修复 刷理智 活动关卡导航 @ABA2396
+- 优化 GUI 日志打印 @zzyyyl
+- 优化 GUI 肉鸽策略文本描述 @DavidWang19
+- 新增 Golang 接口 @yilin2020
+- 新增 自定义基建 json schema @martinwang2002
+- 新增 配置文件语法检查，修复一些错误 @zzyyyl
