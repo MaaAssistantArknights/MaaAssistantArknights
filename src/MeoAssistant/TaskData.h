@@ -106,4 +106,4 @@ namespace asst
     };
 
     inline static auto& Task = TaskData::get_instance();
-}
+} // namespace asst
