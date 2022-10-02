@@ -43,6 +43,7 @@ namespace asst
         static constexpr Point down() { return { 0, 1 }; }
         static constexpr Point left() { return { -1, 0 }; }
         static constexpr Point up() { return { 0, -1 }; }
+        static constexpr Point zero() { return { 0, 0 }; }
         int x = 0;
         int y = 0;
 
