@@ -10,9 +10,6 @@ asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
       m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {
     m_start_up_task_ptr->set_tasks({ "StartUp" })
-        .set_times_limit("Terminal@ReturnTo", 0)
-        .set_times_limit("Terminal@Main", 0)
-        .set_times_limit("EndOfAction", 0)
         .set_task_delay(1000)
         .set_retry_times(30);
     m_subtasks.emplace_back(m_start_game_task_ptr);
