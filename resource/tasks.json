@@ -7521,6 +7521,11 @@
             "Roguelike1ChooseOperConfirm"
         ]
     },
+    "Roguelike1RecruitSwipeMaxTime": {
+        "template": "empty.png",
+        "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
+        "maxTimes": 4
+    },
     "Roguelike1RecruitOcrFlag": {
         "roi": [
             525,
