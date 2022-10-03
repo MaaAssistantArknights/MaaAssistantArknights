@@ -620,8 +620,9 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     // 把所有可用的点按距离排个序
     std::vector<Point> available_locations;
     for (const auto& [loc, tile] : m_normal_tile_info) {
-        if ((tile.buildable == buildable_type || tile.buildable == Loc::All) && !m_used_tiles.contains(loc) &&
-            !m_blacklist_location.contains(loc)) {
+        if ((tile.buildable == buildable_type || tile.buildable == Loc::All) &&
+            tile.key != TilePack::TileKey::DeepSea && // 水上要先放板子才能放人，肉鸽里也没板子，那就当作不可放置
+            !m_used_tiles.contains(loc) && !m_blacklist_location.contains(loc)) {
             available_locations.emplace_back(loc);
         }
     }
