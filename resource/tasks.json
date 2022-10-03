@@ -1993,7 +1993,7 @@
             "Terminal@ReturnTo",
             "Terminal@Main",
             "Terminal@CloseAnno",
-            "Terminal@StageSNReturnTo",
+            "Terminal@FromStageSN",
             "Terminal@TodaysSupplies"
         ]
     },
@@ -2090,11 +2090,11 @@
             80
         ],
         "next": [
-            "ReturnTo",
             "Main",
+            "ReturnTo",
             "ReturnToConfirm",
             "CloseAnno",
-            "StageSNReturnTo",
+            "FromStageSN",
             "TodaysSupplies"
         ]
     },
@@ -2111,8 +2111,9 @@
             "ReturnTo",
             "Main",
             "CloseAnno",
-            "StageSNReturnTo",
-            "TodaysSupplies"
+            "FromStageSN",
+            "TodaysSupplies",
+            "ReturnToConfirm"
         ]
     },
     "UsePrts": {
@@ -2226,7 +2227,7 @@
             "Stop"
         ]
     },
-    "StageSNReturnToFriends": {
+    "Visit@FromStageSN": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",
         "cache": false,
@@ -2243,70 +2244,10 @@
             35
         ],
         "next": [
-            "ReturnToFriends"
+            "Visit@ReturnTo"
         ]
     },
-    "StageSNReturnToInfrast": {
-        "template": "StageSNReturnFlag.png",
-        "action": "ClickRect",
-        "cache": false,
-        "roi": [
-            284,
-            509,
-            242,
-            141
-        ],
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
-        "next": [
-            "ReturnToInfrast"
-        ]
-    },
-    "StageSNReturnToMall": {
-        "template": "StageSNReturnFlag.png",
-        "action": "ClickRect",
-        "cache": false,
-        "roi": [
-            284,
-            509,
-            242,
-            141
-        ],
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
-        "next": [
-            "ReturnToMall"
-        ]
-    },
-    "StageSNReturnToRoguelike1": {
-        "template": "StageSNReturnFlag.png",
-        "action": "ClickRect",
-        "cache": false,
-        "roi": [
-            284,
-            509,
-            242,
-            141
-        ],
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
-        "next": [
-            "ReturnToRoguelike1"
-        ]
-    },
-    "StageSNReturnTo": {
+    "FromStageSN": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",
         "cache": false,
@@ -2835,13 +2776,14 @@
             "Main",
             "CloseAnno",
             "ReturnTo",
-            "StageSNReturnTo",
+            "FromStageSN",
             "TodaysSupplies"
         ]
     },
     "Main": {
         "Doc": "base_task: Main",
-        "template": "empty.png"
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
     },
     "Terminal@Main": {
         "template": "Terminal.png",
@@ -2900,7 +2842,7 @@
             "Terminal@ReturnTo",
             "Terminal@Main",
             "Terminal@CloseAnno",
-            "Terminal@StageSNReturnTo",
+            "Terminal@FromStageSN",
             "Terminal@TodaysSupplies",
             "PRTS3",
             "PRTS",
@@ -2937,7 +2879,7 @@
             "Recruit@Main",
             "Recruit@ReturnTo",
             "Recruit@CloseAnno",
-            "Recruit@StageSNReturnTo",
+            "Recruit@FromStageSN",
             "Recruit@TodaysSupplies"
         ]
     },
@@ -3311,7 +3253,7 @@
             "DailyTask",
             "WeeklyTask",
             "Award@CloseAnno",
-            "Award@StageSNReturnTo",
+            "Award@FromStageSN",
             "Award@TodaysSupplies"
         ]
     },
@@ -3420,96 +3362,19 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Friends",
+            "Visit@Main",
             "FriendsList",
             "StartToVisit",
             "VisitNext",
             "VisitNextBlack",
-            "ReturnToFriends",
-            "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends",
-            "TodaysSuppliesToVisit"
+            "Visit@ReturnTo",
+            "Visit@CloseAnno",
+            "Visit@FromStageSN",
+            "Visit@TodaysSupplies"
         ]
     },
-    "TodaysSuppliesToVisit": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "今日配给"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "ReturnToFriendsCloseAnno",
-            "Friends"
-        ]
-    },
-    "ReturnToFriends": {
-        "template": "Return.png",
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            0,
-            180,
-            80
-        ],
-        "next": [
-            "Friends",
-            "ReturnToFriends",
-            "ReturnToFriendsConfirm",
-            "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends",
-            "TodaysSuppliesToVisit"
-        ]
-    },
-    "ReturnToFriendsConfirm": {
-        "template": "PopupConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
-        "next": [
-            "Friends",
-            "ReturnToFriends",
-            "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends",
-            "TodaysSuppliesToVisit",
-            "ReturnToFriendsConfirm"
-        ]
-    },
-    "ReturnToFriendsCloseAnno": {
-        "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            200
-        ],
-        "next": [
-            "Friends",
-            "ReturnToFriends",
-            "ReturnToFriendsCloseAnno",
-            "StageSNReturnToFriends",
-            "TodaysSuppliesToVisit"
-        ]
-    },
-    "Friends": {
+    "Visit@Main": {
+        "template": "Friends.png",
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
@@ -3520,9 +3385,9 @@
         ],
         "next": [
             "FriendsList",
-            "Friends",
-            "ReturnToFriendsCloseAnno",
-            "TodaysSuppliesToVisit"
+            "Visit@Main",
+            "Visit@CloseAnno",
+            "Visit@TodaysSupplies"
         ]
     },
     "FriendsList": {
@@ -3551,7 +3416,7 @@
         ],
         "action": "DoNothing",
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "StartToVisit": {
@@ -3608,92 +3473,14 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "ReturnToMall",
-            "Mall",
-            "ReturnToMallCloseAnno",
-            "StageSNReturnToMall",
-            "TodaysSuppliesToMall"
+            "Mall@ReturnTo",
+            "Mall@Main",
+            "Mall@CloseAnno",
+            "Mall@FromStageSN",
+            "Mall@TodaysSupplies"
         ]
     },
-    "TodaysSuppliesToMall": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "今日配给"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "ReturnToMallCloseAnno",
-            "Mall"
-        ]
-    },
-    "ReturnToMall": {
-        "template": "Return.png",
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            0,
-            180,
-            80
-        ],
-        "next": [
-            "Mall",
-            "ReturnToMallConfirm",
-            "ReturnToMall",
-            "ReturnToMallCloseAnno",
-            "StageSNReturnToMall",
-            "TodaysSuppliesToMall"
-        ]
-    },
-    "ReturnToMallConfirm": {
-        "template": "PopupConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
-        "next": [
-            "ReturnToMall",
-            "Mall",
-            "ReturnToMallCloseAnno",
-            "StageSNReturnToMall",
-            "TodaysSuppliesToMall",
-            "ReturnToMallConfirm"
-        ]
-    },
-    "ReturnToMallCloseAnno": {
-        "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            200
-        ],
-        "next": [
-            "Mall",
-            "ReturnToMallCloseAnno",
-            "ReturnToMall",
-            "StageSNReturnToMall",
-            "TodaysSuppliesToMall"
-        ]
-    },
-    "Mall": {
+    "Mall@Main": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -3707,9 +3494,9 @@
         ],
         "next": [
             "CreditStoreOcr",
-            "Mall",
-            "ReturnToMallCloseAnno",
-            "TodaysSuppliesToMall"
+            "Mall@Main",
+            "Mall@CloseAnno",
+            "Mall@TodaysSupplies"
         ]
     },
     "CreditStoreOcr": {
@@ -3799,7 +3586,7 @@
             140
         ],
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "VisitNextBlack": {
@@ -3811,59 +3598,10 @@
             130
         ],
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
-    "ReturnToHome": {
-        "template": "Return.png",
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            0,
-            180,
-            80
-        ],
-        "next": [
-            "HomeFlag",
-            "ReturnToHome",
-            "ReturnToHomeConfirm",
-            "ReturnToHomeCloseAnno"
-        ]
-    },
-    "ReturnToHomeConfirm": {
-        "template": "PopupConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
-        "next": [
-            "HomeFlag",
-            "ReturnToHome",
-            "ReturnToHomeCloseAnno",
-            "ReturnToHomeConfirm"
-        ]
-    },
-    "ReturnToHomeCloseAnno": {
-        "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            200
-        ],
-        "next": [
-            "HomeFlag",
-            "ReturnToHome",
-            "ReturnToHomeCloseAnno"
-        ]
-    },
-    "HomeFlag": {
+    "Home@Main": {
         "template": "Terminal.png",
         "action": "Stop",
         "roi": [
@@ -4103,39 +3841,16 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "EnterInfrast",
+            "Infrast@Main",
             "InfrastEnteredFlag",
             "InfrastNotification",
-            "ReturnToInfrast",
-            "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast",
-            "TodaysSuppliesToInfrast"
+            "Infrast@ReturnTo",
+            "Infrast@CloseAnno",
+            "Infrast@FromStageSN",
+            "Infrast@TodaysSupplies"
         ]
     },
-    "TodaysSuppliesToInfrast": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "今日配给"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "ReturnToInfrast",
-            "EnterInfrast"
-        ]
-    },
-    "ReturnToInfrast": {
+    "Infrast@ReturnTo": {
         "template": "Return.png",
         "templThreshold": 0.7,
         "roi": [
@@ -4146,17 +3861,17 @@
         ],
         "action": "ClickSelf",
         "next": [
-            "EnterInfrast",
+            "Infrast@Main",
             "InfrastNotification",
             "InfrastEnteredFlag",
-            "ReturnToInfrast",
-            "ReturnToInfrastConfirm",
-            "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast",
-            "TodaysSuppliesToInfrast"
+            "Infrast@ReturnTo",
+            "Infrast@ReturnToConfirm",
+            "Infrast@CloseAnno",
+            "Infrast@FromStageSN",
+            "Infrast@TodaysSupplies"
         ]
     },
-    "ReturnToInfrastConfirm": {
+    "Infrast@ReturnToConfirm": {
         "template": "PopupConfirm.png",
         "action": "ClickSelf",
         "roi": [
@@ -4166,17 +3881,17 @@
             160
         ],
         "next": [
-            "EnterInfrast",
+            "Infrast@Main",
             "InfrastNotification",
             "InfrastEnteredFlag",
-            "ReturnToInfrast",
-            "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast",
-            "TodaysSuppliesToInfrast",
-            "ReturnToInfrastConfirm"
+            "Infrast@ReturnTo",
+            "Infrast@CloseAnno",
+            "Infrast@FromStageSN",
+            "Infrast@TodaysSupplies",
+            "Infrast@ReturnToConfirm"
         ]
     },
-    "ReturnToInfrastCloseAnno": {
+    "Infrast@CloseAnno": {
         "template": "CloseAnno.png",
         "action": "ClickSelf",
         "cache": false,
@@ -4187,13 +3902,13 @@
             200
         ],
         "next": [
-            "EnterInfrast",
+            "Infrast@Main",
             "InfrastNotification",
             "InfrastEnteredFlag",
-            "ReturnToInfrast",
-            "ReturnToInfrastCloseAnno",
-            "StageSNReturnToInfrast",
-            "TodaysSuppliesToInfrast"
+            "Infrast@ReturnTo",
+            "Infrast@CloseAnno",
+            "Infrast@FromStageSN",
+            "Infrast@TodaysSupplies"
         ]
     },
     "Return": {
@@ -4201,7 +3916,8 @@
         "templThreshold": 0.7,
         "rearDelay": 2000
     },
-    "EnterInfrast": {
+    "Infrast@Main": {
+        "template": "EnterInfrast.png",
         "roi": [
             900,
             540,
@@ -4211,9 +3927,9 @@
         "action": "ClickSelf",
         "next": [
             "InfrastEnteredFlag",
-            "EnterInfrast",
-            "ReturnToInfrastCloseAnno",
-            "TodaysSuppliesToInfrast"
+            "Infrast@Main",
+            "Infrast@CloseAnno",
+            "Infrast@TodaysSupplies"
         ],
         "rearDelay": 5000
     },
@@ -6813,7 +6529,7 @@
             30
         ]
     },
-    "StartToWakeUpToRoguelike1": {
+    "Roguelike1@StartToWakeUp": {
         "template": "StartToWakeUp.png",
         "action": "ClickSelf",
         "roi": [
@@ -6823,14 +6539,14 @@
             100
         ],
         "next": [
-            "StartToWakeUpToRoguelike1",
-            "StartUpConnectingToRoguelike1",
-            "TerminalToRoguelike1",
-            "CloseAnnoToRoguelike1",
-            "TodaysSuppliesToRoguelike1"
+            "Roguelike1@StartToWakeUp",
+            "Roguelike1@StartUpConnecting",
+            "Roguelike1@Main",
+            "Roguelike1@CloseAnno",
+            "Roguelike1@TodaysSupplies"
         ]
     },
-    "StartUpConnectingToRoguelike1": {
+    "Roguelike1@StartUpConnecting": {
         "template": "StartUpConnectingFlag.png",
         "action": "DoNothing",
         "roi": [
@@ -6840,53 +6556,14 @@
             85
         ],
         "next": [
-            "StartToWakeUpToRoguelike1",
-            "StartUpConnectingToRoguelike1",
-            "TerminalToRoguelike1",
-            "CloseAnnoToRoguelike1",
-            "TodaysSuppliesToRoguelike1"
+            "Roguelike1@StartToWakeUp",
+            "Roguelike1@StartUpConnecting",
+            "Roguelike1@Main",
+            "Roguelike1@CloseAnno",
+            "Roguelike1@TodaysSupplies"
         ]
     },
-    "TodaysSuppliesToRoguelike1": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "今日配给"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "CloseAnnoToRoguelike1",
-            "TerminalToRoguelike1"
-        ]
-    },
-    "CloseAnnoToRoguelike1": {
-        "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            200
-        ],
-        "next": [
-            "TerminalToRoguelike1",
-            "CloseAnnoToRoguelike1",
-            "TodaysSuppliesToRoguelike1"
-        ]
-    },
-    "TerminalToRoguelike1": {
+    "Roguelike1@Main": {
         "template": "Terminal.png",
         "action": "ClickSelf",
         "roi": [
@@ -6896,8 +6573,8 @@
             120
         ],
         "next": [
-            "TerminalToRoguelike1",
-            "CloseAnnoToRoguelike1",
+            "Roguelike1@Main",
+            "Roguelike1@CloseAnno",
             "Roguelike1TodoEnter",
             "IntegratedStrategies"
         ],
@@ -6951,7 +6628,7 @@
             "Roguelike1Begin"
         ]
     },
-    "ReturnToRoguelike1": {
+    "Roguelike1@ReturnTo": {
         "template": "Return.png",
         "templThreshold": 0.7,
         "cache": false,
@@ -6967,31 +6644,14 @@
             "Roguelike1Start",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
-            "TerminalToRoguelike1",
-            "ReturnToRoguelike1",
-            "ReturnToRoguelike1Confirm",
-            "CloseAnnoToRoguelike1",
-            "StageSNReturnToRoguelike1"
+            "Roguelike1@Main",
+            "Roguelike1@ReturnTo",
+            "Roguelike1@ReturnToConfirm",
+            "Roguelike1@CloseAnno",
+            "Roguelike1@FromStageSN"
         ]
     },
-    "ReturnToRoguelike1Confirm": {
-        "template": "PopupConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
-        "next": [
-            "TerminalToRoguelike1",
-            "ReturnToRoguelike1",
-            "CloseAnnoToRoguelike1",
-            "StageSNReturnToRoguelike1",
-            "ReturnToRoguelike1Confirm"
-        ]
-    },
-    "OfflineConfirmToRoguelike1": {
+    "Roguelike1@OfflineConfirm": {
         "template": "OfflineConfirm.png",
         "action": "ClickSelf",
         "roi": [
@@ -7005,10 +6665,10 @@
             255
         ],
         "next": [
-            "CloseAnnoToRoguelike1",
-            "StartToWakeUpToRoguelike1",
-            "StartUpConnectingToRoguelike1",
-            "OfflineConfirmToRoguelike1"
+            "Roguelike1@CloseAnno",
+            "Roguelike1@StartToWakeUp",
+            "Roguelike1@StartUpConnecting",
+            "Roguelike1@OfflineConfirm"
         ]
     },
     "Roguelike1Begin": {
@@ -7036,17 +6696,17 @@
             "Roguelike2NextLevel",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
-            "TodaysSuppliesToRoguelike1",
-            "TerminalToRoguelike1",
-            "CloseAnnoToRoguelike1",
+            "Roguelike1@TodaysSupplies",
+            "Roguelike1@Main",
+            "Roguelike1@CloseAnno",
             "Roguelike1TodoEnter",
             "Roguelike1Continue",
-            "ReturnToRoguelike1",
-            "ReturnToRoguelike1Confirm",
-            "OfflineConfirmToRoguelike1",
-            "StartToWakeUpToRoguelike1",
-            "StartUpConnectingToRoguelike1",
-            "StageSNReturnToRoguelike1"
+            "Roguelike1@ReturnTo",
+            "Roguelike1@ReturnToConfirm",
+            "Roguelike1@OfflineConfirm",
+            "Roguelike1@StartToWakeUp",
+            "Roguelike1@StartUpConnecting",
+            "Roguelike1@FromStageSN"
         ]
     },
     "Roguelike1Continue": {
@@ -8662,12 +8322,12 @@
             "Roguelike1TraderRandomShopping",
             "Roguelike1StageTraderLeave",
             "Roguelike1DropsFlag",
-            "TodaysSuppliesToRoguelike1",
-            "TerminalToRoguelike1",
-            "CloseAnnoToRoguelike1",
-            "OfflineConfirmToRoguelike1",
-            "StartToWakeUpToRoguelike1",
-            "StartUpConnectingToRoguelike1",
+            "Roguelike1@TodaysSupplies",
+            "Roguelike1@Main",
+            "Roguelike1@CloseAnno",
+            "Roguelike1@OfflineConfirm",
+            "Roguelike1@StartToWakeUp",
+            "Roguelike1@StartUpConnecting",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -8979,16 +8639,16 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
             "Roguelike1GamePass",
-            "TodaysSuppliesToRoguelike1",
-            "TerminalToRoguelike1",
-            "CloseAnnoToRoguelike1",
+            "Roguelike1@TodaysSupplies",
+            "Roguelike1@Main",
+            "Roguelike1@CloseAnno",
             "Roguelike1TodoEnter",
             "Roguelike1Continue",
-            "ReturnToRoguelike1",
-            "ReturnToRoguelike1Confirm",
-            "OfflineConfirmToRoguelike1",
-            "StartToWakeUpToRoguelike1",
-            "StartUpConnectingToRoguelike1",
+            "Roguelike1@ReturnTo",
+            "Roguelike1@ReturnToConfirm",
+            "Roguelike1@OfflineConfirm",
+            "Roguelike1@StartToWakeUp",
+            "Roguelike1@StartUpConnecting",
             "Roguelike1ClickToStartPoint"
         ]
     },
