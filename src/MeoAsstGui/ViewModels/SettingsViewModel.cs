@@ -780,6 +780,7 @@ namespace MeoAsstGui
 
         /* 肉鸽设置 */
 
+        // TODO: 什么时候把 UI 改成下拉框了就把这个删了用 RoguelikeIndex
         private bool _roguelikeAdditionalResource = Convert.ToBoolean(ViewStatusStorage.Get("Roguelike.Addition", false.ToString()));
 
         public bool RoguelikeAdditionalResourceEnabled
@@ -789,6 +790,7 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _roguelikeAdditionalResource, value);
                 ViewStatusStorage.Set("Roguelike.Addition", value.ToString());
+                RoguelikeIndex = value ? 2 : 1;
             }
         }
 
@@ -809,6 +811,33 @@ namespace MeoAsstGui
                     RoguelikeInvestmentEnabled = true;
                 }
             }
+        }
+
+        /*
+        // TODO: 下面的代码才比较合理，等什么时候改了 UI 再用
+        private string _roguelikeIndex = ViewStatusStorage.Get("Roguelike.Index", "1");
+
+        /// <summary>
+        /// Gets or sets the roguelike index.
+        /// </summary>
+        public int RoguelikeIndex
+        {
+            get => int.Parse(_roguelikeIndex);
+            set
+            {
+                SetAndNotify(ref _roguelikeIndex, value.ToString());
+                ViewStatusStorage.Set("Roguelike.Index", value.ToString());
+            }
+        }
+        */
+
+        /// <summary>
+        /// Gets or sets the roguelike index.
+        /// </summary>
+        public int RoguelikeIndex
+        {
+            get => RoguelikeAdditionalResourceEnabled ? 2 : 1;
+            set => RoguelikeAdditionalResourceEnabled = value == 2;
         }
 
         private string _roguelikeSquad = ViewStatusStorage.Get("Roguelike.Squad", string.Empty);

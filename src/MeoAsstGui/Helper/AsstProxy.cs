@@ -165,7 +165,11 @@ namespace MeoAsstGui
         private string _curResource = "_Unloaded";
         private bool _additionalLoaded = false;
 
-        public bool LoadAdditionalResource()
+        /// <summary>
+        /// 加载肉鸽资源。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool LoadRoguelikeResource()
         {
             if (_additionalLoaded)
             {
@@ -173,13 +177,9 @@ namespace MeoAsstGui
             }
 
             var settingsModel = _container.Get<SettingsViewModel>();
-            if (settingsModel.RoguelikeAdditionalResourceEnabled)
-            {
-                _additionalLoaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\");
-                return _additionalLoaded;
-            }
-
-            return true;
+            _additionalLoaded = AsstLoadResource(
+                Directory.GetCurrentDirectory() + "\\resource\\Roguelike" + settingsModel.RoguelikeIndex + "\\");
+            return _additionalLoaded;
         }
 
         /// <summary>
@@ -245,11 +245,17 @@ namespace MeoAsstGui
         public void Init()
         {
             // TODO: 屎山.jpg，过几个版本再把这两行删了
-            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_recruit.json");
-            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_shopping.json");
+            try
+            {
+                File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_recruit.json");
+                File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_shopping.json");
+            }
+            catch
+            {
+            }
 
             bool loaded = LoadResource();
-            loaded &= LoadAdditionalResource();
+            loaded &= LoadRoguelikeResource();
 
             _handle = AsstCreateEx(_callback, IntPtr.Zero);
 
@@ -1030,7 +1036,7 @@ namespace MeoAsstGui
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (!LoadResource() || !LoadAdditionalResource())
+            if (!LoadResource() || !LoadRoguelikeResource())
             {
                 error = "Load Resource Failed";
                 return false;
@@ -1420,9 +1426,10 @@ namespace MeoAsstGui
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <param name="roguelike_index">第几个肉鸽。1: 傀影; 2: 水月</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char)
+            string squad, string roles, string core_char, int roguelike_index)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
@@ -1430,6 +1437,7 @@ namespace MeoAsstGui
             task_params["investment_enabled"] = investment_enabled;
             task_params["investments_count"] = invests;
             task_params["stop_when_investment_full"] = stop_when_full;
+            task_params["index"] = roguelike_index;
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;

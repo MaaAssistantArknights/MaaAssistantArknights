@@ -379,7 +379,7 @@
             "name": "灵知",
             "skill": 3,
             "alternate_skill": 1,
-            "recruit_priority": 10,
+            "recruit_priority": 50,
             "promote_priority": 500
         },
         {
@@ -393,7 +393,7 @@
             "name": "铃兰",
             "skill": 3,
             "alternate_skill": 2,
-            "recruit_priority": 10,
+            "recruit_priority": 20,
             "promote_priority": 300
         },
         {
@@ -406,7 +406,7 @@
         {
             "name": "浊心斯卡蒂",
             "skill": 2,
-            "recruit_priority": 10,
+            "recruit_priority": 30,
             "promote_priority": 500
         },
         {

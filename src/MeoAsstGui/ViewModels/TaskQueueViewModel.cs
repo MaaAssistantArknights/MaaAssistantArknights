@@ -956,7 +956,7 @@ namespace MeoAsstGui
             return asstProxy.AsstAppendRoguelike(
                 mode, settings.RoguelikeStartsCount,
                 settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
-                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
+                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeIndex);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
