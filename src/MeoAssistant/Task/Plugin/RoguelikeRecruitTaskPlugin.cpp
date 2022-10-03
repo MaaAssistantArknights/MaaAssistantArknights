@@ -49,7 +49,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // 干员名字的识别位置
     std::unordered_map<std::string, Rect> last_oper_rects;
 
-    constexpr int SwipeTimes = 4;
+    int SwipeTimes = Task.get("Roguelike1RecruitSwipeMaxTime")->max_times;
     int i = 0;
     std::unordered_set<std::string> pre_oper_names;
     // 翻页找出所有候选干员
