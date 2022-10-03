@@ -33,6 +33,10 @@ namespace asst
                 task_info_ptr = std::make_shared<TaskInfo>(*base_ptr);
                 break;
             }
+            task_info_ptr->reduce_other_times = {};
+            for (const std::string& reduce_other_times : base_ptr->reduce_other_times) {
+                task_info_ptr->reduce_other_times.emplace_back(task_prefix + reduce_other_times);
+            }
             task_info_ptr->on_error_next = {};
             for (const std::string& on_error_next : base_ptr->on_error_next) {
                 task_info_ptr->on_error_next.emplace_back(task_prefix + on_error_next);
@@ -59,19 +63,17 @@ namespace asst
         {
             auto it = m_all_tasks_info.find(name);
             if (it == m_all_tasks_info.cend()) {
-                if (size_t name_split_pos = name.find('@');
-                    name_split_pos == std::string::npos) {
+                if (size_t name_split_pos = name.find('@'); name_split_pos == std::string::npos) [[unlikely]] {
                     return nullptr;
                 }
                 else {
                     size_t name_len = name_split_pos + 1;
-                    std::string base_task_name = std::string(name, name_len);
-                    std::string derived_task_name = std::string(name, 0, name_len);
-                    if (auto base_task_iter = get(base_task_name);
-                        base_task_iter != nullptr) {
+                    std::string base_task_name = name.substr(name_len);
+                    std::string derived_task_name = name.substr(0, name_len);
+                    if (auto base_task_iter = get(base_task_name); base_task_iter != nullptr) {
                         if (auto task_info_ptr = generate_task_info(base_task_iter, derived_task_name);
                             task_info_ptr != nullptr) {
-                            m_all_tasks_info[name] = task_info_ptr;
+                            m_all_tasks_info.emplace(name, task_info_ptr);
                             if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
                                 return task_info_ptr;
                             }
