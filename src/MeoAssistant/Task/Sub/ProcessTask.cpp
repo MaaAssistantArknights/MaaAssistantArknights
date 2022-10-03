@@ -137,9 +137,21 @@ bool ProcessTask::_run()
 
         int max_times = m_cur_task_ptr->max_times;
         TimesLimitType limit_type = TimesLimitType::Pre;
-        if (auto iter = m_times_limit.find(cur_name); iter != m_times_limit.cend()) {
-            max_times = iter->second.times;
-            limit_type = iter->second.type;
+        {
+            std::string_view cur_base_name = cur_name;
+            while (true) {
+                if (auto iter = m_times_limit.find(cur_base_name.data()); iter != m_times_limit.cend()) {
+                    max_times = iter->second.times;
+                    limit_type = iter->second.type;
+                    break;
+                }
+                if (size_t at_pos = cur_base_name.find('@'); at_pos == std::string::npos) {
+                    break;
+                }
+                else {
+                    cur_base_name = cur_base_name.substr(at_pos + 1);
+                }
+            }
         }
 
         if (limit_type == TimesLimitType::Pre && exec_times >= max_times) {
