@@ -8917,7 +8917,8 @@
             "Roguelike1GetDropSelectRecruit",
             "Roguelike1GetDropSelectReward",
             "Roguelike1ChooseOperFlag",
-            "Roguelike1GetDropCompleted"
+            "Roguelike1GetDropCompleted",
+            "Roguelike1GetDropSelect"
         ]
     },
     "Roguelike1GetDropSelectRecruit": {
