@@ -118,7 +118,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
         m_roi.height = m_image.rows - m_roi.y;
     }
 
-    cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
+    cv::Mat image_roi = m_image(make_rect<cv::Rect>(m_roi));
     if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
         Log.error("templ size is too large", m_templ_name, "image_roi size:", image_roi.cols, image_roi.rows,
                   "templ size:", templ.cols, templ.rows);

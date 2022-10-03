@@ -73,7 +73,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
         cv::Scalar rand_color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
         int index = 0;
         for (const MatchRect& mr : cur_facility_result) {
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(mr.rect), rand_color, 2);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(mr.rect), rand_color, 2);
             cv::Point text_point(mr.rect.x + 2, mr.rect.y + mr.rect.height / 2);
             cv::putText(m_image_draw, task_name + std::to_string(index++), text_point, 1, 1, cv::Scalar(0, 0, 255), 1);
         }
