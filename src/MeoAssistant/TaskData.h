@@ -14,33 +14,82 @@ namespace asst
 
     class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigerWithTempl
     {
+    private:
+        std::shared_ptr<TaskInfo> generate_task_info(const std::shared_ptr<TaskInfo>& base_ptr,
+                                                     const std::string& task_prefix) const
+        {
+            std::shared_ptr<TaskInfo> task_info_ptr;
+            switch (base_ptr->algorithm) {
+            case AlgorithmType::MatchTemplate:
+                task_info_ptr = std::make_shared<MatchTaskInfo>(*std::dynamic_pointer_cast<MatchTaskInfo>(base_ptr));
+                break;
+            case AlgorithmType::OcrDetect:
+                task_info_ptr = std::make_shared<OcrTaskInfo>(*std::dynamic_pointer_cast<OcrTaskInfo>(base_ptr));
+                break;
+            case AlgorithmType::Hash:
+                task_info_ptr = std::make_shared<HashTaskInfo>(*std::dynamic_pointer_cast<HashTaskInfo>(base_ptr));
+                break;
+            default:
+                task_info_ptr = std::make_shared<TaskInfo>(*base_ptr);
+                break;
+            }
+            task_info_ptr->on_error_next = {};
+            for (const std::string& on_error_next : base_ptr->on_error_next) {
+                task_info_ptr->on_error_next.emplace_back(task_prefix + on_error_next);
+            }
+            task_info_ptr->exceeded_next = {};
+            for (const std::string& exceeded_next : base_ptr->exceeded_next) {
+                task_info_ptr->exceeded_next.emplace_back(task_prefix + exceeded_next);
+            }
+            task_info_ptr->next = {};
+            for (const std::string& next : base_ptr->next) {
+                task_info_ptr->next.emplace_back(task_prefix + next);
+            }
+            return task_info_ptr;
+        }
+
     public:
         virtual ~TaskData() override = default;
         virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override;
 
-        template <typename TargetTaskInfoType>
-        requires std::derived_from<TargetTaskInfoType, TaskInfo> &&
-                 (!std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo and not same as TaskInfo
-        std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
-        {
-            auto it = m_all_tasks_info.find(name);
-            if (it == m_all_tasks_info.cend()) {
-                return nullptr;
-            }
-
-            return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
-        }
-
         template <typename TargetTaskInfoType = TaskInfo>
-        requires std::same_as<TargetTaskInfoType, TaskInfo> // Parameter must be a TaskInfo
+        requires (std::derived_from<TargetTaskInfoType, TaskInfo> ||
+                  std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
         std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
         {
             auto it = m_all_tasks_info.find(name);
             if (it == m_all_tasks_info.cend()) {
+                if (size_t name_split_pos = name.find('@');
+                    name_split_pos == std::string::npos) {
+                    return nullptr;
+                }
+                else {
+                    size_t name_len = name_split_pos + 1;
+                    std::string base_task_name = std::string(name, name_len);
+                    std::string derived_task_name = std::string(name, 0, name_len);
+                    if (auto base_task_iter = get(base_task_name);
+                        base_task_iter != nullptr) {
+                        if (auto task_info_ptr = generate_task_info(base_task_iter, derived_task_name);
+                            task_info_ptr != nullptr) {
+                            m_all_tasks_info[name] = task_info_ptr;
+                            if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
+                                return task_info_ptr;
+                            }
+                            else {
+                                return std::dynamic_pointer_cast<TargetTaskInfoType>(task_info_ptr);
+                            }
+                        }
+                    }
+                }
                 return nullptr;
             }
 
-            return it->second;
+            if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
+                return it->second;
+            }
+            else {
+                return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
+            }
         }
 
     protected:
