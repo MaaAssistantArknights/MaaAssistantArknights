@@ -37,13 +37,15 @@ namespace asst
         bool try_possible_skill(const cv::Mat& image);
         bool check_key_kills(const cv::Mat& image);
         bool wait_start();
+        bool cancel_oper_selection();
+
+        std::vector<Point> available_locations(BattleRole role);
 
         struct DeployInfo
         {
             Point placed;
             Point direction;
         };
-
         DeployInfo calc_best_plan(const BattleRealTimeOper& oper);
 
         // 计算摆放干员的朝向
