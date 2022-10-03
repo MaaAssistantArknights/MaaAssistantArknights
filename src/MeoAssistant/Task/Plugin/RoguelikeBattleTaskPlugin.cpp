@@ -395,9 +395,7 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
         auto& tile_info = m_normal_tile_info[loc];
         auto& type = tile_info.buildable;
         if (type == Loc::Melee || type == Loc::All) {
-            if (!retreat(tile_info.pos)) {
-                continue;
-            }
+            retreat(tile_info.pos);
         }
     }
 }
