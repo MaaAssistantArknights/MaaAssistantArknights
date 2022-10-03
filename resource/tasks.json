@@ -1939,10 +1939,10 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
-            "Terminal",
-            "CloseAnno",
-            "TodaysSupplies",
-            "ReturnToTerminal",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
+            "Terminal@TodaysSupplies",
+            "Terminal@ReturnTo",
             "OfflineConfirm",
             "EndOfAction",
             "StageSNFlag"
@@ -1963,10 +1963,10 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
-            "Terminal",
-            "CloseAnno",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
             "OfflineConfirm",
-            "TodaysSupplies"
+            "Terminal@TodaysSupplies"
         ]
     },
     "Annihilation": {
@@ -1990,11 +1990,11 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "ReturnToTerminal",
-            "Terminal",
-            "CloseAnno",
-            "StageSNReturnToTerminal",
-            "TodaysSupplies"
+            "Terminal@ReturnTo",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
+            "Terminal@StageSNReturnTo",
+            "Terminal@TodaysSupplies"
         ]
     },
     "FightBegin": {
@@ -2036,10 +2036,10 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
-            "Terminal",
-            "CloseAnno",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
             "OfflineConfirm",
-            "TodaysSupplies"
+            "Terminal@TodaysSupplies"
         ]
     },
     "StartUpConnectingFlag": {
@@ -2055,10 +2055,10 @@
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "StartUpConnectingFlag",
-            "Terminal",
-            "CloseAnno",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
             "OfflineConfirm",
-            "TodaysSupplies"
+            "Terminal@TodaysSupplies"
         ]
     },
     "StartLoginBServer": {
@@ -2073,13 +2073,13 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
-            "Terminal",
-            "CloseAnno",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
             "OfflineConfirm",
-            "TodaysSupplies"
+            "Terminal@TodaysSupplies"
         ]
     },
-    "ReturnToTerminal": {
+    "ReturnTo": {
         "template": "Return.png",
         "templThreshold": 0.7,
         "action": "ClickSelf",
@@ -2090,14 +2090,15 @@
             80
         ],
         "next": [
-            "ReturnToTerminal",
-            "Terminal",
-            "ReturnToTerminalConfirm",
+            "ReturnTo",
+            "Main",
+            "ReturnToConfirm",
             "CloseAnno",
-            "StageSNReturnToTerminal"
+            "StageSNReturnTo",
+            "TodaysSupplies"
         ]
     },
-    "ReturnToTerminalConfirm": {
+    "ReturnToConfirm": {
         "template": "PopupConfirm.png",
         "action": "ClickSelf",
         "roi": [
@@ -2107,11 +2108,11 @@
             160
         ],
         "next": [
-            "ReturnToTerminal",
-            "Terminal",
+            "ReturnTo",
+            "Main",
             "CloseAnno",
-            "StageSNReturnToTerminal",
-            "ReturnToTerminalConfirm"
+            "StageSNReturnTo",
+            "TodaysSupplies"
         ]
     },
     "UsePrts": {
@@ -2225,26 +2226,6 @@
             "Stop"
         ]
     },
-    "StageSNReturnToAward": {
-        "template": "StageSNReturnFlag.png",
-        "action": "ClickRect",
-        "cache": false,
-        "roi": [
-            284,
-            509,
-            242,
-            141
-        ],
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
-        "next": [
-            "ReturnToAward"
-        ]
-    },
     "StageSNReturnToFriends": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",
@@ -2345,7 +2326,7 @@
             "ReturnToRoguelike1"
         ]
     },
-    "StageSNReturnToTerminal": {
+    "StageSNReturnTo": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",
         "cache": false,
@@ -2362,7 +2343,7 @@
             35
         ],
         "next": [
-            "ReturnToTerminal"
+            "ReturnTo"
         ]
     },
     "StartButton2": {
@@ -2590,9 +2571,9 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
-            "Terminal",
-            "CloseAnno",
-            "TodaysSupplies",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
+            "Terminal@TodaysSupplies",
             "OfflineConfirm"
         ]
     },
@@ -2833,13 +2814,13 @@
             255
         ],
         "next": [
-            "CloseAnno",
+            "Terminal@CloseAnno",
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "OfflineConfirmImpl",
-            "TodaysSupplies"
+            "Terminal@TodaysSupplies"
         ]
     },
     "StartToWakeUp": {
@@ -2855,10 +2836,10 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
-            "Terminal",
-            "CloseAnno",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
             "OfflineConfirm",
-            "TodaysSupplies"
+            "Terminal@TodaysSupplies"
         ]
     },
     "CloseAnno": {
@@ -2871,12 +2852,19 @@
             200
         ],
         "next": [
-            "Terminal",
+            "Main",
             "CloseAnno",
+            "ReturnTo",
+            "StageSNReturnTo",
             "TodaysSupplies"
         ]
     },
-    "Terminal": {
+    "Main": {
+        "Doc": "base_task: Main",
+        "template": "empty.png"
+    },
+    "Terminal@Main": {
+        "template": "Terminal.png",
         "action": "ClickSelf",
         "roi": [
             880,
@@ -2885,15 +2873,15 @@
             120
         ],
         "exceededNext": [
-            "TodaysSupplies",
-            "CloseAnno",
+            "Terminal@TodaysSupplies",
+            "Terminal@CloseAnno",
             "Stop"
         ],
         "next": [
             "GoLastBattle",
-            "Terminal",
-            "CloseAnno",
-            "TodaysSupplies",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
+            "Terminal@TodaysSupplies",
             "Stop"
         ],
         "rearDelay": 3000
@@ -2918,7 +2906,7 @@
         ],
         "next": [
             "CloseAnno",
-            "Terminal"
+            "Main"
         ]
     },
     "LastOrCurBattleBegin": {
@@ -2929,11 +2917,11 @@
             "StartButton1",
             "UsePrts",
             "UsePrts-StageSN",
-            "ReturnToTerminal",
-            "Terminal",
-            "CloseAnno",
-            "StageSNReturnToTerminal",
-            "TodaysSupplies",
+            "Terminal@ReturnTo",
+            "Terminal@Main",
+            "Terminal@CloseAnno",
+            "Terminal@StageSNReturnTo",
+            "Terminal@TodaysSupplies",
             "PRTS3",
             "PRTS",
             "PRTS2",
@@ -3414,40 +3402,17 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "ReturnToAward",
-            "Award",
+            "Award@ReturnTo",
+            "Award@Main",
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "ReturnToAwardCloseAnno",
-            "StageSNReturnToAward",
-            "TodaysSuppliesToAward"
+            "Award@CloseAnno",
+            "Award@StageSNReturnTo",
+            "Award@TodaysSupplies"
         ]
     },
-    "TodaysSuppliesToAward": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "今日配给"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "ReturnToAwardCloseAnno",
-            "Award"
-        ]
-    },
-    "Award": {
+    "Award@Main": {
         "template": "Task.png",
         "action": "ClickSelf",
         "roi": [
@@ -3460,9 +3425,9 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "Award",
-            "ReturnToAwardCloseAnno",
-            "TodaysSuppliesToAward"
+            "Award@Main",
+            "Award@CloseAnno",
+            "Award@TodaysSupplies"
         ]
     },
     "ReceiveAward": {
@@ -3546,61 +3511,6 @@
         "next": [
             "ReceiveAward",
             "Stop"
-        ]
-    },
-    "ReturnToAward": {
-        "template": "Return.png",
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            0,
-            180,
-            80
-        ],
-        "next": [
-            "Award",
-            "ReturnToAward",
-            "ReturnToAwardConfirm",
-            "ReturnToAwardCloseAnno",
-            "StageSNReturnToAward",
-            "TodaysSuppliesToAward"
-        ]
-    },
-    "ReturnToAwardConfirm": {
-        "template": "PopupConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
-        "next": [
-            "Award",
-            "ReturnToAward",
-            "ReturnToAwardCloseAnno",
-            "StageSNReturnToAward",
-            "TodaysSuppliesToAward",
-            "ReturnToAwardConfirm"
-        ]
-    },
-    "ReturnToAwardCloseAnno": {
-        "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            200
-        ],
-        "next": [
-            "Award",
-            "ReturnToAwardCloseAnno",
-            "ReturnToAward",
-            "StageSNReturnToAward",
-            "TodaysSuppliesToAward"
         ]
     },
     "VisitBegin": {
