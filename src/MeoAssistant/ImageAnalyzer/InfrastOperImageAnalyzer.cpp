@@ -115,13 +115,13 @@ void asst::InfrastOperImageAnalyzer::oper_detect()
             }
 
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(smiley_rect), cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(smiley_rect), cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
 
             infrast::Oper oper;
             oper.smiley = smiley;
-            oper.name_img = m_image(utils::make_rect<cv::Rect>(smiley_rect.move(name_rect_move)));
-            oper.facility_img = m_image(utils::make_rect<cv::Rect>(smiley_rect.move(facility_rect_move)));
+            oper.name_img = m_image(make_rect<cv::Rect>(smiley_rect.move(name_rect_move)));
+            oper.facility_img = m_image(make_rect<cv::Rect>(smiley_rect.move(facility_rect_move)));
             m_result.emplace_back(std::move(oper));
         }
     }
@@ -162,7 +162,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
         Rect roi = rect_move;
         roi.x += oper.smiley.rect.x;
         roi.y += oper.smiley.rect.y;
-        cv::Mat prg_image = m_image(utils::make_rect<cv::Rect>(roi));
+        cv::Mat prg_image = m_image(make_rect<cv::Rect>(roi));
         cv::Mat prg_gray;
         cv::cvtColor(prg_image, prg_gray, cv::COLOR_BGR2GRAY);
 
@@ -246,12 +246,12 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             cv::circle(mask, cv::Point(radius, radius), radius, cv::Scalar(255, 255, 255), -1);
         }
 
-        cv::Mat all_skills_img = m_image(utils::make_rect<cv::Rect>(roi));
+        cv::Mat all_skills_img = m_image(make_rect<cv::Rect>(roi));
         std::string log_str = "[ ";
         for (int i = 0; i != MaxNumOfSkills; ++i) {
             int x = i * skill_width + spacing * i;
             Rect skill_rect_in_roi(x, 0, skill_width, roi.height);
-            cv::Mat skill_image = all_skills_img(utils::make_rect<cv::Rect>(skill_rect_in_roi));
+            cv::Mat skill_image = all_skills_img(make_rect<cv::Rect>(skill_rect_in_roi));
 
             // 过滤掉亮度阈值不够的，说明是暗的技能（不是当前设施的技能）
             cv::Mat skill_gray;
@@ -265,7 +265,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             skill_rect.y += roi.y;
 
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(skill_rect), cv::Scalar(0, 255, 0), 2);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(skill_rect), cv::Scalar(0, 255, 0), 2);
 #endif
 
             // 针对裁剪出来的每个技能进行识别
@@ -329,7 +329,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             std::string skill_id = most_confident_skills.id;
             log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
 #ifdef ASST_DEBUG
-            cv::Mat skill_mat = m_image(utils::make_rect<cv::Rect>(skill_rect));
+            cv::Mat skill_mat = m_image(make_rect<cv::Rect>(skill_rect));
 #endif
             oper.skills.emplace(std::move(most_confident_skills));
         }
@@ -352,7 +352,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
         selected_rect.x += oper.smiley.rect.x;
         selected_rect.y += oper.smiley.rect.y;
 
-        cv::Mat roi = m_image(utils::make_rect<cv::Rect>(selected_rect));
+        cv::Mat roi = m_image(make_rect<cv::Rect>(selected_rect));
         cv::Mat hsv, bin;
         cv::cvtColor(roi, hsv, cv::COLOR_BGR2HSV);
         std::vector<cv::Mat> channels;

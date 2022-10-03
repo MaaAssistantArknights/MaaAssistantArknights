@@ -67,7 +67,7 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
     const auto& base_rect = base_item_info.rect;
     const auto& [base_x, base_y, base_w, base_h] = base_rect;
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(base_rect), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(base_rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
     // 每个材料之间有间隔，这里 高度 * 2 的 roi, 一定有一个完整的材料 + 一个不完整的材料。
@@ -77,7 +77,7 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
     pos = match_item(vertical_rect, vertical_item_info, pos + 1);
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(vertical_item_info.rect), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(vertical_item_info.rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
     // 宽度 * 2，同上
@@ -86,8 +86,7 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
     pos = match_item(horizontal_roi, horizontal_item_info, pos + 1);
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(horizontal_item_info.rect), cv::Scalar(0, 0, 255),
-                  2);
+    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(horizontal_item_info.rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
     const int horizontal_spacing = horizontal_item_info.rect.x - (base_x + base_w);
@@ -101,7 +100,7 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
             }
             m_all_items_roi.emplace_back(item_roi);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(item_roi), cv::Scalar(0, 255, 0), 2);
+            cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(item_roi), cv::Scalar(0, 255, 0), 2);
 #endif
         }
     }
@@ -206,7 +205,7 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
 
     Rect quantity_roi = roi.move(task_ptr->roi);
-    cv::Mat quantity_img = m_image_resized(utils::make_rect<cv::Rect>(quantity_roi));
+    cv::Mat quantity_img = m_image_resized(make_rect<cv::Rect>(quantity_roi));
     cv::Mat hsv;
     cv::cvtColor(quantity_img, hsv, cv::COLOR_BGR2HSV);
 
@@ -298,7 +297,7 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
     const auto& result = analyzer.get_result().front();
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, utils::make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
+    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
     cv::putText(m_image_draw_resized, result.text, cv::Point(result.rect.x, result.rect.y - 5),
                 cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
 #endif

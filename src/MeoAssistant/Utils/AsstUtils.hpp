@@ -280,12 +280,6 @@ namespace asst::utils
 #endif
     }
 
-    template <typename RetTy, typename ArgType>
-    constexpr inline RetTy make_rect(const ArgType& rect)
-    {
-        return RetTy { rect.x, rect.y, rect.width, rect.height };
-    }
-
     inline std::string load_file_without_bom(const std::filesystem::path& path)
     {
         std::ifstream ifs(path, std::ios::in);

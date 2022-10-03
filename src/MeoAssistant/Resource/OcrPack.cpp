@@ -132,7 +132,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 
         TextRect tr { score, rect, text };
 #ifdef ASST_DEBUG
-        cv::rectangle(draw, utils::make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
 #endif
         raw_result.emplace_back(tr);
         if (trim) {
@@ -162,7 +162,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         return pred(tr);
     };
     Log.trace("OcrPack::recognize | roi:", roi);
-    cv::Mat roi_img = image(utils::make_rect<cv::Rect>(roi));
+    cv::Mat roi_img = image(make_rect<cv::Rect>(roi));
     return recognize(roi_img, rect_cor, without_det, trim);
 }
 

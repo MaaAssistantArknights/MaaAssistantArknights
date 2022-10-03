@@ -21,7 +21,7 @@ bool asst::InfrastClueVacancyImageAnalyzer::analyze()
         Rect rect = analyzer.get_result().rect;
         Log.trace("has", clue_vacancy, suffix);
 #ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
         cv::putText(m_image_draw, suffix, cv::Point(rect.x, rect.y + 1), 0, 1, cv::Scalar(0, 0, 255), 2);
 #endif
         m_clue_vacancy.emplace(suffix, rect);
