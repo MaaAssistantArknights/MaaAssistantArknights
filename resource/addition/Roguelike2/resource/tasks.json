@@ -483,7 +483,8 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
             "Roguelike1DropsFlag",
-            "Roguelike2CloseEvent"
+            "Roguelike2CloseEvent",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike2CloseCollectionClose": {
@@ -519,7 +520,8 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
             "Roguelike1DropsFlag",
-            "Roguelike2CloseEvent"
+            "Roguelike2CloseEvent",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike2CloseEvent": {
