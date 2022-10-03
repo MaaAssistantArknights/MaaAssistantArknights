@@ -2286,26 +2286,6 @@
             "ReturnToMall"
         ]
     },
-    "StageSNReturnToRecruit": {
-        "template": "StageSNReturnFlag.png",
-        "action": "ClickRect",
-        "cache": false,
-        "roi": [
-            284,
-            509,
-            242,
-            141
-        ],
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
-        "next": [
-            "ReturnToRecruit"
-        ]
-    },
     "StageSNReturnToRoguelike1": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",
@@ -2954,92 +2934,15 @@
         "action": "DoNothing",
         "next": [
             "RecruitFlag",
-            "Recruit",
-            "ReturnToRecruit",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit",
-            "TodaysSuppliesToRecruit"
+            "Recruit@Main",
+            "Recruit@ReturnTo",
+            "Recruit@CloseAnno",
+            "Recruit@StageSNReturnTo",
+            "Recruit@TodaysSupplies"
         ]
     },
-    "TodaysSuppliesToRecruit": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "今日配给"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "ReturnToRecruitCloseAnno",
-            "Recruit"
-        ]
-    },
-    "ReturnToRecruit": {
-        "template": "Return.png",
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            0,
-            180,
-            80
-        ],
-        "next": [
-            "Recruit",
-            "ReturnToRecruit",
-            "ReturnToRecruitConfirm",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit",
-            "TodaysSuppliesToRecruit"
-        ]
-    },
-    "ReturnToRecruitConfirm": {
-        "template": "PopupConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
-        "next": [
-            "Recruit",
-            "ReturnToRecruit",
-            "ReturnToRecruitCloseAnno",
-            "StageSNReturnToRecruit",
-            "TodaysSuppliesToRecruit",
-            "ReturnToRecruitConfirm"
-        ]
-    },
-    "ReturnToRecruitCloseAnno": {
-        "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            200
-        ],
-        "next": [
-            "Recruit",
-            "ReturnToRecruitCloseAnno",
-            "ReturnToRecruit",
-            "StageSNReturnToRecruit",
-            "TodaysSuppliesToRecruit"
-        ]
-    },
-    "Recruit": {
+    "Recruit@Main": {
+        "template": "Recruit.png",
         "action": "ClickSelf",
         "roi": [
             900,
@@ -3071,7 +2974,7 @@
         ],
         "next": [
             "RecruitBeginLoading",
-            "Recruit",
+            "Recruit@Main",
             "RecruitBegin"
         ]
     },
