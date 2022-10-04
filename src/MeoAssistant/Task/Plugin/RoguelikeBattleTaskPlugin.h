@@ -1,6 +1,7 @@
 #pragma once
 
 #include <queue>
+#include <stack>
 
 #include "AbstractTaskPlugin.h"
 #include "ImageAnalyzer/BattleImageAnalyzer.h"
@@ -27,6 +28,8 @@ namespace asst
 
         void wait_for_start();
         bool get_stage_info();
+        bool battle_pause();
+        std::string get_oper_name(const BattleRealTimeOper& oper, int click_delay);
         bool auto_battle();
         void all_melee_retreat();
         bool speed_up();
@@ -54,17 +57,29 @@ namespace asst
                                                             Point recommended_direction);
 
         bool m_opers_used = false;
+        bool m_is_cur_urgent = false;
+        int m_last_not_urgent = -1;
         int m_pre_hp = 0;
         int m_kills = 0;
         int m_total_kills = 0;
+        size_t m_homes_count = 0;
+        size_t m_cur_home_index = 0;
 
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::vector<ReplacementHome> m_homes;
+        std::vector<bool> m_wait_melee;
+        std::vector<bool> m_wait_medic;
+        std::vector<bool> m_indeed_no_medic;
+        std::unordered_map<Point, size_t> m_melee_for_home_index;
+        std::unordered_map<Point, std::vector<size_t>> m_medic_for_home_index;
+        std::stack<size_t> m_next_urgent_index;
+        std::vector<int> m_index_count;
         std::unordered_set<Point> m_blacklist_location;
+        std::unordered_set<std::string> m_retreated_opers;
         std::queue<int> m_key_kills;
-        size_t m_cur_home_index = 0;
         std::unordered_map<Point, std::string> m_used_tiles;
+        std::unordered_map<std::string, Point> m_opers_in_field;
         std::unordered_map<std::string, int64_t> m_restore_status;
 
         std::string m_stage_name;
