@@ -203,24 +203,6 @@ bool asst::RoguelikeBattleTaskPlugin::battle_pause()
     return ProcessTask(*this, { "BattlePause" }).run();
 }
 
-std::string asst::RoguelikeBattleTaskPlugin::get_oper_name(const BattleRealTimeOper& oper, int click_delay)
-{
-    m_ctrler->click(oper.rect);
-    sleep(click_delay);
-
-    OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
-    oper_name_analyzer.set_task_info("BattleOperName");
-    oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-
-    std::string oper_name = "Unknown";
-    if (oper_name_analyzer.analyze()) {
-        oper_name_analyzer.sort_result_by_score();
-        oper_name = oper_name_analyzer.get_result().front().text;
-    }
-    return oper_name;
-    // 此时仍在点按干员状态
-}
-
 bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
     LogTraceFunction;
@@ -275,10 +257,33 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         m_retreated_opers.clear();
         if (cooling_count > 0) {
             battle_pause();
+            battle_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
         }
-        for (const auto& oper : opers) {
+        Rect cur_rect;
+        for (size_t i = 0; i != opers.size(); ++i) {
+            const auto& cur_oper = battle_analyzer.get_opers();
+            size_t offset = opers.size() > cur_oper.size() ? opers.size() - cur_oper.size() : 0;
+            const auto& oper = cur_oper.at(i - offset);
+            cur_rect = oper.rect;
             if (oper.cooling) {
-                const std::string oper_name = get_oper_name(oper, use_oper_task_ptr->pre_delay);
+                m_ctrler->click(cur_rect);
+                sleep(use_oper_task_ptr->pre_delay);
+                const cv::Mat& new_image = m_ctrler->get_image();
+
+                OcrWithPreprocessImageAnalyzer oper_name_analyzer(new_image);
+                oper_name_analyzer.set_task_info("BattleOperName");
+                oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+
+                std::string oper_name = "Unknown";
+                if (oper_name_analyzer.analyze()) {
+                    oper_name_analyzer.sort_result_by_score();
+                    oper_name = oper_name_analyzer.get_result().front().text;
+                }
+
+                battle_analyzer.set_image(new_image);
+                battle_analyzer.analyze();
+                battle_analyzer.sort_opers_by_cost();
+
                 if (oper_name != "Unknown") {
                     m_retreated_opers.emplace(oper_name);
                     if (!ret_copy.contains(oper_name)) {
@@ -303,10 +308,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                         }
                     }
                 }
-                m_ctrler->click(oper.rect);
             }
         }
         if (cooling_count > 0) {
+            m_ctrler->click(cur_rect);
             battle_pause();
         }
     }
@@ -398,7 +403,18 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         return true;
     }
 
-    opt_oper.name = get_oper_name(opt_oper, use_oper_task_ptr->pre_delay);
+    m_ctrler->click(opt_oper.rect);
+    sleep(use_oper_task_ptr->pre_delay);
+
+    OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
+    oper_name_analyzer.set_task_info("BattleOperName");
+    oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+
+    opt_oper.name = "Unknown";
+    if (oper_name_analyzer.analyze()) {
+        oper_name_analyzer.sort_result_by_score();
+        opt_oper.name = oper_name_analyzer.get_result().front().text;
+    }
 
     // 计算最优部署位置及方向
     const auto& [placed_loc, direction] = calc_best_plan(opt_oper);
