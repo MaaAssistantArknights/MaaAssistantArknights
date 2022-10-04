@@ -7142,8 +7142,8 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike2CloseEvent",
+            "Roguelike2NextLevel",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
@@ -7255,8 +7255,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1LastReward": {
@@ -7415,7 +7414,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike2MapObject"
         ]
     },
@@ -7673,8 +7671,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageTrader": {
@@ -7845,8 +7842,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2StageRegionalCommissioning": {
@@ -8081,8 +8077,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2DiceConfirmThenAbandon": {
@@ -8367,8 +8362,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8614,8 +8608,7 @@
             "Roguelike1MissionFailedFlag2",
             "Roguelike1GamePassSkip1",
             "Roguelike1GamePassTheEndConfirm",
-            "Roguelike1GamePass",
-            "Roguelike2NextLevel"
+            "Roguelike1GamePass"
         ]
     },
     "Roguelike2NextLevel": {
@@ -8759,7 +8752,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1TraderRandomShopping",
@@ -8806,7 +8798,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
