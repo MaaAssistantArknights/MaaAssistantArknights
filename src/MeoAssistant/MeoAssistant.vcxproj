@@ -118,6 +118,7 @@
     <ClInclude Include="Utils\AsstImageIo.hpp" />
     <ClInclude Include="Utils\AsstInfrastDef.h" />
     <ClInclude Include="Utils\AsstMsg.h" />
+    <ClInclude Include="Utils\StringMisc.hpp" />
     <ClInclude Include="Utils\Platform\AsstPlatform.h" />
     <ClInclude Include="Utils\Platform\AsstPlatformPosix.h" />
     <ClInclude Include="Utils\Platform\AsstPlatformWin32.h" />
