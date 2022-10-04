@@ -8645,7 +8645,8 @@
         "next": [
             "Roguelike1GamePassSkip2",
             "Roguelike1GamePassTheEndConfirm",
-            "Roguelike1GamePass"
+            "Roguelike1GamePass",
+            "Roguelike2DataTraceback"
         ]
     },
     "Roguelike1GamePassSkip2": {
@@ -8676,10 +8677,10 @@
     "Roguelike1GamePass": {
         "cache": false,
         "roi": [
-            455,
+            400,
             0,
-            376,
-            249
+            500,
+            300
         ],
         "next": [
             "Roguelike1ClickToStartPoint"
@@ -9033,7 +9034,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike1ClickToStartPoint"
         ]
     },
@@ -9082,7 +9082,7 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
+            "Roguelike1GamePass",
             "TodaysSuppliesToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
