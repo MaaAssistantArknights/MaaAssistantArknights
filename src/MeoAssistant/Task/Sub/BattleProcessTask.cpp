@@ -192,16 +192,12 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
         m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
 
-        // 干员特别多的时候，任意干员被点开，都会导致下方的干员图标被裁剪和移动。所以这里需要重新识别一下
+        // 直接点击点开干员详细信息的位置即可恢复到之前analyse的图片状态
         Log.trace(__FUNCTION__, "ready to analyze oper again");
-        oper_analyzer.set_image(image);
-        oper_analyzer.analyze();
+        m_ctrler->click(cur_rect);
     }
 
     draw_future.wait();
-
-    m_ctrler->click(cur_rect);
-    sleep(click_delay);
     battle_pause();
 
     return true;
