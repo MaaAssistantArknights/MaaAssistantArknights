@@ -7705,8 +7705,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageTraderEnter": {
@@ -8126,8 +8125,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageBoons": {
@@ -8158,8 +8156,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageEncounterEnter": {
@@ -8325,8 +8322,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8418,8 +8414,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },

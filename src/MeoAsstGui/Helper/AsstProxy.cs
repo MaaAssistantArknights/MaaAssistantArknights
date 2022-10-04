@@ -692,6 +692,7 @@ namespace MeoAsstGui
                         break;
 
                     case "Roguelike1StageDreadfulFoe":
+                    case "Roguelike2StageDreadfulFoe-5Enter":
                         mainModel.AddLog(Localization.GetString("DreadfulFoe"));
                         break;
 
