@@ -69,8 +69,24 @@
         ],
         "blacklist_location": [
             [
-                5,
+                6,
                 5
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                3,
+                3
+            ],
+            [
+                4,
+                3
+            ],
+            [
+                5,
+                3
             ]
         ]
     },
@@ -87,8 +103,24 @@
         ],
         "blacklist_location": [
             [
-                5,
+                6,
                 5
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                3,
+                3
+            ],
+            [
+                4,
+                3
+            ],
+            [
+                5,
+                3
             ]
         ]
     },
@@ -97,7 +129,7 @@
         "replacement_home": [
             {
                 "location": [
-                    3,
+                    2,
                     2
                 ],
                 "direction": "right"
@@ -109,10 +141,10 @@
         "replacement_home": [
             {
                 "location": [
-                    5,
+                    6,
                     2
                 ],
-                "direction": "up"
+                "direction": "left"
             }
         ]
     },
@@ -127,6 +159,48 @@
                 ],
                 "direction": "right"
             }
+        ]
+    },
+    {
+        "stage_name": "巢穴",
+        "blacklist_location": [
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                2,
+                5
+            ]
+        ]
+    },
+    {
+        "stage_name": "狩猎场",
+        "blacklist_location": [
+            [
+                2,
+                3
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                2,
+                5
+            ],
+            [
+                2,
+                6
+            ],
+            [
+                2,
+                2
+            ]
         ]
     },
     {
