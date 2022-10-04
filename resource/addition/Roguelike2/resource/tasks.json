@@ -9,7 +9,7 @@
             1280,
             554
         ],
-        "templThreshold": 0.95,
+        "templThreshold": 0.96,
         "next": [
             "Roguelike1StageEncounterEnter",
             "Roguelike1StageTrader",
