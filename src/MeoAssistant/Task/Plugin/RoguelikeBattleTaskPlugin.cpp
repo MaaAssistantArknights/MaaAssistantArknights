@@ -546,7 +546,7 @@ bool asst::RoguelikeBattleTaskPlugin::cancel_oper_selection()
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(BattleRole role)
 {
     LogTraceFunction;
-    
+
     auto buildable_type = Loc::All;
     switch (role) {
     case BattleRole::Medic:
