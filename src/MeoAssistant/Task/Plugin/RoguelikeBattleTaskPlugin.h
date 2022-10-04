@@ -29,7 +29,6 @@ namespace asst
         void wait_for_start();
         bool get_stage_info();
         bool battle_pause();
-        std::string get_oper_name(const BattleRealTimeOper& oper, int click_delay);
         bool auto_battle();
         void all_melee_retreat();
         bool speed_up();
