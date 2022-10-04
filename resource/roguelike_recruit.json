@@ -12,60 +12,84 @@
     ],
     "Warrior": [
         {
-            "name": "帕拉斯",
-            "skill": 1,
-            "recruit_priority": 900,
-            "promote_priority": 850
-        },
-        {
             "name": "Sharp",
             "skill": 1,
-            "recruit_priority": 650,
-            "promote_priority": 600
-        },
-        {
-            "name": "百炼嘉维尔",
-            "skill": 2,
-            "recruit_priority": 800,
-            "promote_priority": 750
-        },
-        {
-            "name": "艾丽妮",
-            "skill": 1,
-            "recruit_priority": 800,
-            "promote_priority": 750
-        },
-        {
-            "name": "煌",
-            "skill": 2,
-            "recruit_priority": 700,
+            "recruit_priority": 1000,
             "promote_priority": 650
         },
         {
-            "name": "山",
-            "skill": 2,
-            "skill_usage": 2,
-            "recruit_priority": 700,
+            "name": "海沫",
+            "skill": 1,
+            "recruit_priority": 950,
             "promote_priority": 650
         },
         {
             "name": "羽毛笔",
             "skill": 1,
-            "recruit_priority": 600,
+            "recruit_priority": 950,
+            "promote_priority": 650
+        },
+        {
+            "name": "百炼嘉维尔",
+            "skill": 3,
+            "alternate_skill": 1,
+            "recruit_priority": 900,
+            "promote_priority": 650
+        },
+        {
+            "name": "棘刺",
+            "skill": 3,
+            "alternate_skill": 1,
+            "recruit_priority": 780,
+            "promote_priority": 1000
+        },
+        {
+            "name": "山",
+            "skill": 2,
+            "skill_usage": 2,
+            "recruit_priority": 750,
             "promote_priority": 550
         },
         {
-            "name": "海沫",
-            "skill": 1,
-            "recruit_priority": 600,
-            "promote_priority": 550
+            "name": "玛恩纳",
+            "skill": 3,
+            "alternate_skill": 2,
+            "recruit_priority": 750,
+            "promote_priority": 700
+        },
+        {
+            "name": "煌",
+            "skill": 2,
+            "alternate_skill": 1,
+            "recruit_priority": 750,
+            "promote_priority": 640
         },
         {
             "name": "银灰",
             "skill": 3,
-            "alternate_skill": 1,
-            "recruit_priority": 500,
+            "alternate_skill": 2,
+            "recruit_priority": 750,
             "promote_priority": 800
+        },
+        {
+            "name": "艾丽妮",
+            "skill": 3,
+            "alternate_skill": 1,
+            "recruit_priority": 750,
+            "promote_priority": 750
+        },
+        {
+            "name": "陈",
+            "skill": 3,
+            "alternate_skill": 1,
+            "recruit_priority": 750,
+            "promote_priority": 700
+        },
+        {
+            "name": "帕拉斯",
+            "skill": 1,
+            "recruit_priority": 400,
+            "promote_priority": 600
         },
         {
             "name": "陈",
@@ -98,13 +122,6 @@
             "promote_priority": 400
         },
         {
-            "name": "棘刺",
-            "skill": 3,
-            "alternate_skill": 1,
-            "recruit_priority": 350,
-            "promote_priority": 1000
-        },
-        {
             "name": "柏喙",
             "skill": 2,
             "recruit_priority": 350,
@@ -130,12 +147,37 @@
         }
     ],
     "Pioneer": [
+		{
+		    "name": "郁金香",
+		    "skill": 1,
+		    "recruit_priority": 1000,
+		    "promote_priority": 500
+		},
         {
             "name": "风笛",
             "skill": 2,
             "recruit_priority": 600,
             "promote_priority": 500
         },
+		{
+		    "name": "推进之王",
+		    "skill": 2,
+		    "recruit_priority": 600,
+		    "promote_priority": 500
+		},
+		{
+		    "name": "嵯峨",
+		    "skill": 2,
+			 "skill_usage": 1,
+		    "recruit_priority": 600,
+		    "promote_priority": 500
+		},
+		{
+		    "name": "焰尾",
+		    "skill": 2,
+		    "recruit_priority": 600,
+		    "promote_priority": 500
+		},
         {
             "name": "芬",
             "skill": 1,
@@ -145,6 +187,7 @@
         {
             "name": "桃金娘",
             "skill": 1,
+			 "skill_usage": 1,
             "recruit_priority": 190,
             "promote_priority": 550
         },
@@ -168,6 +211,18 @@
             "recruit_priority": 800,
             "promote_priority": 650
         },
+		{
+		    "name": "瑕光",
+		    "skill": 1,
+		    "recruit_priority": 200,
+		    "promote_priority": 100
+		},
+		{
+		    "name": "临光",
+		    "skill": 1,
+		    "recruit_priority": 400,
+		    "promote_priority": 1
+		},
         {
             "name": "斑点",
             "skill": 1,
@@ -183,30 +238,68 @@
     ],
     "Sniper": [
         {
-            "name": "假日威龙陈",
+            "name": "能天使",
             "skill": 3,
             "alternate_skill": 1,
             "recruit_priority": 900,
+            "promote_priority": 850
+        },
+        {
+            "name": "空弦",
+            "skill": 1,
+            "recruit_priority": 890,
+            "promote_priority": 600
+        },
+        {
+            "name": "假日威龙陈",
+            "skill": 3,
+            "alternate_skill": 1,
+            "recruit_priority": 790,
             "promote_priority": 900
         },
         {
             "name": "Stormeye",
             "skill": 1,
-            "recruit_priority": 750,
+            "recruit_priority": 1000,
             "promote_priority": 650
         },
         {
-            "name": "能天使",
+            "name": "鸿雪",
+            "skill": 3,
+            "alternate_skill": 2,
+            "recruit_priority": 700,
+            "promote_priority": 650
+        },
+        {
+            "name": "黑",
             "skill": 3,
             "alternate_skill": 1,
             "recruit_priority": 700,
             "promote_priority": 650
         },
         {
-            "name": "空弦",
-            "skill": 1,
+            "name": "远牙",
+            "skill": 2,
+            "recruit_priority": 700,
+            "promote_priority": 650
+        },
+        {
+            "name": "早露",
+            "skill": 2,
             "recruit_priority": 650,
-            "promote_priority": 600
+            "promote_priority": 650
+        },
+        {
+            "name": "白金",
+            "skill": 2,
+            "recruit_priority": 550,
+            "promote_priority": 650
+        },
+        {
+            "name": "蓝毒",
+            "skill": 1,
+            "recruit_priority": 550,
+            "promote_priority": 650
         },
         {
             "name": "克洛丝",
@@ -228,6 +321,12 @@
         }
     ],
     "Caster": [
+		{
+		    "name": "Pith",
+		    "skill": 1,
+		    "recruit_priority": 1000,
+		    "promote_priority": 600
+		},
         {
             "name": "澄闪",
             "skill": 3,
@@ -236,22 +335,61 @@
             "promote_priority": 800
         },
         {
-            "name": "Pith",
-            "skill": 1,
-            "recruit_priority": 600,
-            "promote_priority": 600
-        },
-        {
             "name": "艾雅法拉",
             "skill": 2,
             "recruit_priority": 600,
             "promote_priority": 600
         },
+		{
+		    "name": "异客",
+		    "skill": 3,
+			"alternate_skill": 2,
+		    "recruit_priority": 500,
+		    "promote_priority": 550
+		},
+		{
+		    "name": "刻俄柏",
+		    "skill": 2,
+		    "recruit_priority": 500,
+		    "promote_priority": 550
+		},
+		{
+		    "name": "夕",
+		    "skill": 3,
+			"alternate_skill": 1,
+		    "recruit_priority": 450,
+		    "promote_priority": 500
+		},
+		{
+		    "name": "莫斯提马",
+		    "skill": 3,
+			"alternate_skill": 1,
+		    "recruit_priority": 440,
+		    "promote_priority": 490
+		},
+		{
+		    "name": "伊芙利特",
+		    "skill": 2,
+		    "recruit_priority": 450,
+		    "promote_priority": 500
+		},
+		{
+		    "name": "黑键",
+		    "skill": 2,
+		    "recruit_priority": 440,
+		    "promote_priority": 490
+		},
+		{
+		    "name": "卡涅利安",
+		    "skill": 2,
+		    "recruit_priority": 440,
+		    "promote_priority": 490
+		},
         {
             "name": "阿米娅",
             "skill": 1,
-            "recruit_priority": 500,
-            "promote_priority": 500
+            "recruit_priority": 400,
+            "promote_priority": 400
         },
         {
             "name": "史都华德",
@@ -274,9 +412,23 @@
             "promote_priority": 700
         },
         {
-            "name": "风丸",
+            "name": "砾",
             "skill": 2,
             "recruit_priority": 550,
+            "promote_priority": 650
+        },
+
+        {
+            "name": "风丸",
+            "skill": 2,
+            "recruit_priority": 540,
+            "promote_priority": 640
+        },
+        {
+            "name": "老鲤",
+            "skill": 3,
+            "alternate_skill": 1,
+            "recruit_priority": 530,
             "promote_priority": 650
         },
         {
@@ -313,6 +465,12 @@
     ],
     "Medic": [
         {
+            "name": "Touch",
+            "skill": 1,
+            "recruit_priority": 1000,
+            "promote_priority": 500
+        },
+        {
             "name": "凯尔希",
             "skill": 3,
             "alternate_skill": 2,
@@ -320,16 +478,16 @@
             "promote_priority": 600
         },
         {
-            "name": "Touch",
+            "name": "蜜莓",
             "skill": 1,
-            "recruit_priority": 600,
-            "promote_priority": 500
+            "recruit_priority": 700,
+            "promote_priority": 560
         },
         {
-            "name": "夜莺",
-            "skill": 2,
-            "recruit_priority": 550,
-            "promote_priority": 450
+            "name": "桑葚",
+            "skill": 1,
+            "recruit_priority": 600,
+            "promote_priority": 400
         },
         {
             "name": "白面鸮",
@@ -338,27 +496,28 @@
             "promote_priority": 450
         },
         {
-            "name": "桑葚",
-            "skill": 1,
-            "recruit_priority": 500,
-            "promote_priority": 400
+            "name": "流明",
+            "skill": 3,
+            "alternate_skill": 1,
+            "recruit_priority": 300,
+            "promote_priority": 350
         },
         {
-            "name": "蜜莓",
-            "skill": 1,
-            "recruit_priority": 700,
-            "promote_priority": 1
+            "name": "夜莺",
+            "skill": 2,
+            "recruit_priority": 450,
+            "promote_priority": 450
         },
         {
             "name": "苏苏洛",
             "skill": 2,
-            "recruit_priority": 500,
+            "recruit_priority": 400,
             "promote_priority": 400
         },
         {
             "name": "调香师",
             "skill": 1,
-            "recruit_priority": 700,
+            "recruit_priority": 420,
             "promote_priority": 650
         },
         {
@@ -379,7 +538,27 @@
             "name": "灵知",
             "skill": 3,
             "alternate_skill": 1,
-            "recruit_priority": 10,
+            "recruit_priority": 20,
+            "promote_priority": 500
+        },
+        {
+            "name": "铃兰",
+            "skill": 3,
+            "alternate_skill": 2,
+            "recruit_priority": 19,
+            "promote_priority": 300
+        },
+        {
+            "name": "安洁莉娜",
+            "skill": 3,
+            "alternate_skill": 2,
+            "recruit_priority": 18,
+            "promote_priority": 200
+        },
+        {
+            "name": "浊心斯卡蒂",
+            "skill": 2,
+            "recruit_priority": 17,
             "promote_priority": 500
         },
         {
@@ -388,26 +567,6 @@
             "alternate_skill": 1,
             "recruit_priority": 10,
             "promote_priority": 900
-        },
-        {
-            "name": "铃兰",
-            "skill": 3,
-            "alternate_skill": 2,
-            "recruit_priority": 10,
-            "promote_priority": 300
-        },
-        {
-            "name": "安洁莉娜",
-            "skill": 3,
-            "alternate_skill": 2,
-            "recruit_priority": 10,
-            "promote_priority": 200
-        },
-        {
-            "name": "浊心斯卡蒂",
-            "skill": 2,
-            "recruit_priority": 10,
-            "promote_priority": 500
         },
         {
             "name": "梓兰",
