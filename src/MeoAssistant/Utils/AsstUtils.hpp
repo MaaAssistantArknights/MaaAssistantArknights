@@ -419,13 +419,7 @@ namespace asst::utils
         ifs.close();
         std::string str = iss.str();
 
-        static constexpr char _Bom[] = {
-            static_cast<char>(0xEF),
-            static_cast<char>(0xBB),
-            static_cast<char>(0xBF),
-        };
-
-        if (str.starts_with(_Bom)) {
+        if (str.starts_with("\xEF\xBB\xBF")) {
             str.assign(str.begin() + 3, str.end());
         }
         return str;
