@@ -1,13 +1,9 @@
-- 新增 刷理智 支持从 战斗中、战斗结束画面 开始，优化部分流程 @DavidWang19 @zzyyyl
-- 修复 水月肉鸽 全部已知的卡住问题 @MistEO
-- 修复 水月肉鸽 战斗中偶尔会点开宝箱的问题 @MistEO
-- 修复 肉鸽 没有更多高台位时仍不断尝试部署的问题 @MistEO
-- 修复 肉鸽 部分地块评分 @zzyyyl
-- 修复 肉鸽 日服招募错误 @zzyyyl
-- 修复 傀影肉鸽 不能正常进行的问题 @zzyyyl
-- 修复 刷理智 活动关卡导航 @ABA2396
-- 优化 GUI 日志打印 @zzyyyl
-- 优化 GUI 肉鸽策略文本描述 @DavidWang19
-- 新增 Golang 接口 @yilin2020
-- 新增 自定义基建 json schema @martinwang2002
-- 新增 配置文件语法检查，修复一些错误 @zzyyyl
+- 优化 肉鸽 招募优先级 @WWPXX233
+- 优化 肉鸽 部分地图部署位置 @nightofknife
+- 修复 肉鸽 无位置部署时，会点开干员一直慢速运行的问题 @MistEO
+- 修复 水月肉鸽 在以下界面卡住的问题：选择战利品、招募干员、`风雨际会`节点、`紧急运输`节点、第五层 Boss 关卡、战利品选择界面、通关界面 @MistEO
+- 修复 水月肉鸽 往水上放干员的问题 @zzyyyl
+- 修复 刷理智 EX 关卡不能自动停止的问题 @zzyyyl
+- 修复 自定义基建 配置错误时的日志打印 @horror-proton
+- 重构 Utils 工具类 @horror-proton
+- 新增 [牛牛也能看懂的 PR 教程文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/2.4-%E7%BA%AF%E7%BD%91%E9%A1%B5%E7%AB%AFPR%E6%95%99%E7%A8%8B.md) @MistEO

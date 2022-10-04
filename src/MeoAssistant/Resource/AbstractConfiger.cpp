@@ -10,7 +10,8 @@ bool asst::AbstractConfiger::load(const std::filesystem::path& path)
     LogTraceFunction;
     Log.info("load", path);
 
-    if (!std::filesystem::exists(path)) {
+    if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
+        Log.error("file does not exist", path);
         return false;
     }
 

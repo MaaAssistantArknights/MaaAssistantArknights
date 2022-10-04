@@ -261,7 +261,10 @@
         ],
         "templThreshold": 0.95,
         "next": [
-            "Roguelike1StageEncounterEnter",
+            "Roguelike2StageDreadfulFoe-5Enter",
+            "Roguelike1StageDreadfulFoeEnter",
+            "Roguelike1StageEmergencyDpsEnter",
+            "Roguelike1StageCambatDpsEnter",
             "Roguelike1StageTrader",
             "Roguelike1StageSafeHouse",
             "Roguelike2StageWindAndRain",
@@ -278,6 +281,19 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose"
+        ]
+    },
+    "Roguelike2StageDreadfulFoe-5Enter": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1036,
+            371,
+            223,
+            223
+        ],
+        "next": [
+            "Roguelike1QuickFormation"
         ]
     },
     "Roguelike1StageTrader": {
@@ -483,7 +499,8 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
             "Roguelike1DropsFlag",
-            "Roguelike2CloseEvent"
+            "Roguelike2CloseEvent",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike2CloseCollectionClose": {
@@ -519,7 +536,8 @@
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
             "Roguelike1DropsFlag",
-            "Roguelike2CloseEvent"
+            "Roguelike2CloseEvent",
+            "Roguelike1ChooseOperFlag"
         ]
     },
     "Roguelike2CloseEvent": {
@@ -653,8 +671,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2DataTraceback": {

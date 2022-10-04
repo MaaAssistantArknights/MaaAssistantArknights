@@ -118,16 +118,18 @@
     <ClInclude Include="Utils\AsstImageIo.hpp" />
     <ClInclude Include="Utils\AsstInfrastDef.h" />
     <ClInclude Include="Utils\AsstMsg.h" />
-    <ClInclude Include="Utils\AsstPlatform.h" />
-    <ClInclude Include="Utils\AsstPlatformPosix.h" />
-    <ClInclude Include="Utils\AsstPlatformWin32.h" />
+    <ClInclude Include="Utils\Platform\AsstPlatform.h" />
+    <ClInclude Include="Utils\Platform\AsstPlatformPosix.h" />
+    <ClInclude Include="Utils\Platform\AsstPlatformWin32.h" />
     <ClInclude Include="Utils\AsstRanges.hpp" />
     <ClInclude Include="Utils\AsstTypes.h" />
     <ClInclude Include="Utils\AsstUtils.hpp" />
+    <ClInclude Include="Utils\Demangle.hpp" />
+    <ClInclude Include="Utils\Meta.hpp" />
     <ClInclude Include="Utils\Logger.hpp" />
     <ClInclude Include="Utils\NoWarningCV.h" />
     <ClInclude Include="Utils\NoWarningCVMat.h" />
-    <ClInclude Include="Utils\SafeWindows.h" />
+    <ClInclude Include="Utils\Platform\SafeWindows.h" />
     <ClInclude Include="Utils\SingletonHolder.hpp" />
     <ClInclude Include="Utils\Version.h" />
   </ItemGroup>
@@ -222,8 +224,8 @@
     <ClCompile Include="Task\Sub\ReportDataTask.cpp" />
     <ClCompile Include="Task\Sub\StageNavigationTask.cpp" />
     <ClCompile Include="Task\VisitTask.cpp" />
-    <ClCompile Include="Utils\AsstPlatformPosix.cpp" />
-    <ClCompile Include="Utils\AsstPlatformWin32.cpp" />
+    <ClCompile Include="Utils\Platform\AsstPlatformPosix.cpp" />
+    <ClCompile Include="Utils\Platform\AsstPlatformWin32.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

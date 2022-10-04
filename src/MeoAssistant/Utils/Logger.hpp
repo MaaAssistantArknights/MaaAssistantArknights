@@ -11,6 +11,7 @@
 
 #include "AsstRanges.hpp"
 #include "AsstUtils.hpp"
+#include "Meta.hpp"
 #include "SingletonHolder.hpp"
 #include "Version.h"
 

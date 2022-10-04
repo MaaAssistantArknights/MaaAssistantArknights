@@ -140,9 +140,14 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 {
     LogTraceFunction;
 
+    if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
+        Log.error("custom infrast file does not exist:", path);
+        return false;
+    }
+
     auto custom_json_opt = json::open(path);
     if (!custom_json_opt) {
-        Log.error("custom infrast file not exists", path);
+        Log.error("failed to open json file:", path);
         return false;
     }
     auto& custom_json = custom_json_opt.value();
