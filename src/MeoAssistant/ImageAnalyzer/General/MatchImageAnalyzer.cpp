@@ -17,6 +17,9 @@ bool asst::MatchImageAnalyzer::analyze()
     const cv::Mat templ = m_templ_name.empty() ? m_templ : TemplResource::get_instance().get_templ(m_templ_name);
     if (templ.empty()) {
         Log.error("templ is empty!", m_templ_name);
+#ifdef ASST_DEBUG
+        throw std::runtime_error("templ is empty: " + m_templ_name);
+#endif
         return false;
     }
     return match_templ(templ);
