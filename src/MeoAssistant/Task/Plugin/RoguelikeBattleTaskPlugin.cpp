@@ -158,6 +158,18 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
         }
     }
+    m_homes_count = m_homes.size();
+    m_wait_melee.assign(m_homes_count, true);
+    m_wait_medic.assign(m_homes_count, true);
+    m_indeed_no_medic.assign(m_homes_count, false);
+    // 认为开局时未在所有路线放干员时为紧急状态，并把路线压入栈
+    // 由于开局路线设为0，故0不需要被压入栈
+    m_cur_home_index = 0;
+    m_is_cur_urgent = true;
+    for (size_t index = m_homes_count - 1; index > 0; index--) {
+        m_next_urgent_index.push(index);
+    }
+    m_index_count.assign(m_homes_count, 0);
     if (opt && !opt->key_kills.empty()) {
         std::string log_str = "[ ";
         for (const auto& kills : opt->key_kills) {
@@ -184,6 +196,29 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     }
 
     return calced;
+}
+
+bool asst::RoguelikeBattleTaskPlugin::battle_pause()
+{
+    return ProcessTask(*this, { "BattlePause" }).run();
+}
+
+std::string asst::RoguelikeBattleTaskPlugin::get_oper_name(const BattleRealTimeOper& oper, int click_delay)
+{
+    m_ctrler->click(oper.rect);
+    sleep(click_delay);
+
+    OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
+    oper_name_analyzer.set_task_info("BattleOperName");
+    oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+
+    std::string oper_name = "Unknown";
+    if (oper_name_analyzer.analyze()) {
+        oper_name_analyzer.sort_result_by_score();
+        oper_name = oper_name_analyzer.get_result().front().text;
+    }
+    return oper_name;
+    // 此时仍在点按干员状态
 }
 
 bool asst::RoguelikeBattleTaskPlugin::auto_battle()
@@ -224,24 +259,79 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (opers.empty()) {
         return true;
     }
-    // 如果已经放了一些人了，就不要再有费就下了
+
     size_t available_count = 0;
     size_t cooling_count = 0;
+    std::vector<size_t> new_urgent;
+    std::vector<std::string> cooling_opers;
+    const auto use_oper_task_ptr = Task.get("BattleUseOper");
     for (const auto& oper : opers) {
-        if (oper.available) {
-            available_count += 1;
+        if (oper.cooling) cooling_count++;
+        if (oper.available) available_count++;
+    }
+    // 如果发现有新撤退的或者新转好cd的，就更新m_retreated_opers
+    if (cooling_count != m_retreated_opers.size()) {
+        const decltype(m_retreated_opers) ret_copy(m_retreated_opers);
+        m_retreated_opers.clear();
+        if (cooling_count > 0) {
+            battle_pause();
         }
-        if (oper.cooling) {
-            cooling_count += 1;
+        for (const auto& oper : opers) {
+            if (oper.cooling) {
+                const std::string oper_name = get_oper_name(oper, use_oper_task_ptr->pre_delay);
+                if (oper_name != "Unknown") {
+                    m_retreated_opers.emplace(oper_name);
+                    if (!ret_copy.contains(oper_name)) {
+                        if (auto iter = m_opers_in_field.find(oper_name); iter != m_opers_in_field.end()) {
+                            Log.info(oper_name, "retreated");
+                            if (auto del_pos_melee = m_melee_for_home_index.find(iter->second);
+                                del_pos_melee != m_melee_for_home_index.end()) {
+                                m_wait_melee[del_pos_melee->second] = true;
+                                new_urgent.emplace_back(del_pos_melee->second);
+                                m_melee_for_home_index.erase(del_pos_melee);
+                            }
+                            else if (auto del_pos_medic = m_medic_for_home_index.find(iter->second);
+                                     del_pos_medic != m_medic_for_home_index.end()) {
+                                for (const size_t& home_index : del_pos_medic->second) {
+                                    m_wait_medic[home_index] = true;
+                                }
+                                m_medic_for_home_index.erase(del_pos_medic);
+                            }
+                            m_melee_for_home_index.erase(iter->second);
+                            m_used_tiles.erase(iter->second);
+                            m_opers_in_field.erase(iter);
+                        }
+                    }
+                }
+                m_ctrler->click(oper.rect);
+            }
+        }
+        if (cooling_count > 0) {
+            battle_pause();
         }
     }
-    if (m_used_tiles.size() >= std::max(m_homes.size(), static_cast<size_t>(2))) {
-        // 超过一半的人费用都没好，那就不下人
-        size_t not_cooling_count = opers.size() - cooling_count;
-        if (available_count <= not_cooling_count / 2) {
-            Log.trace("already used", m_used_tiles.size(), ", now_total", opers.size(), ", available", available_count,
-                      ", not_cooling", not_cooling_count);
-            return true;
+    if (new_urgent.empty()) {
+        if ((!m_is_cur_urgent) || m_index_count[m_cur_home_index] == 0) {
+            if (m_used_tiles.size() >= 2) {
+                // 超过一半的人费用都没好，且没有紧急情况，那就不下人
+                size_t not_cooling_count = opers.size() - cooling_count;
+                if (available_count <= not_cooling_count / 2) {
+                    Log.trace("already used", m_used_tiles.size(), ", now_total", opers.size(), ", available",
+                              available_count, ", not_cooling", not_cooling_count);
+                    return true;
+                }
+            }
+        }
+    }
+    else {
+        // 出现新的紧急情况，立即切到这条线路，并把其他紧急情况压入栈
+        Log.info("New urgent situation detected");
+        if (m_is_cur_urgent) {
+            m_next_urgent_index.push(m_cur_home_index);
+        }
+        m_cur_home_index = new_urgent.at(0);
+        for (size_t i = 1; i < new_urgent.size(); ++i) {
+            m_next_urgent_index.push(new_urgent.at(i));
         }
     }
 
@@ -249,32 +339,29 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
         BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
     };
-    const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     // 点击当前最合适的干员
     BattleRealTimeOper opt_oper;
     bool oper_found = false;
 
-    // 一个人都没有的时候，先下个地面单位（如果有的话）
+    // 对于每个蓝门，先下个地面单位（如果有的话）
     // 第二个人下奶（如果有的话）
-    bool wait_melee = false;
-    bool wait_medic = false;
+    bool has_melee = false;
+    bool has_medic = false;
     if (m_used_tiles.empty() || m_used_tiles.size() == 1) {
         for (const auto& op : opers) {
-            if (m_used_tiles.empty()) {
-                if (op.role == BattleRole::Warrior || op.role == BattleRole::Pioneer || op.role == BattleRole::Tank) {
-                    wait_melee = true;
-                }
+            if ((op.role == BattleRole::Warrior || op.role == BattleRole::Pioneer || op.role == BattleRole::Tank) && (!op.cooling)) {
+                has_melee = true;
             }
-            else if (m_used_tiles.size() == 1 && m_homes.size() == 1) {
-                if (op.role == BattleRole::Medic) {
-                    wait_medic = true;
-                }
+            else if (op.role == BattleRole::Medic && (!op.cooling)) {
+                has_medic = true;
             }
         }
     }
 
+    bool wait_melee = m_wait_melee[m_cur_home_index] && has_melee;
+    bool wait_medic = m_wait_medic[m_cur_home_index] && has_medic;
     for (auto role : RoleOrder) {
         if (wait_melee) {
             if (role != BattleRole::Warrior && role != BattleRole::Pioneer && role != BattleRole::Tank) {
@@ -304,32 +391,14 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (!oper_found) {
         return true;
     }
-
+    
     // 预计算干员是否有点地方放
     if (available_locations(opt_oper.role).empty()) {
         Log.info("Tiles full");
-        if (cooling_count) {
-            Log.info("has cooling, clear and re-calc");
-            m_used_tiles.clear();
-        }
-        else {
-            return true;
-        }
+        return true;
     }
 
-    m_ctrler->click(opt_oper.rect);
-    sleep(use_oper_task_ptr->pre_delay);
-
-    OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
-    oper_name_analyzer.set_task_info("BattleOperName");
-    oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-
-    std::string oper_name = "Unknown";
-    if (oper_name_analyzer.analyze()) {
-        oper_name_analyzer.sort_result_by_score();
-        oper_name = oper_name_analyzer.get_result().front().text;
-        opt_oper.name = oper_name;
-    }
+    opt_oper.name = get_oper_name(opt_oper, use_oper_task_ptr->pre_delay);
 
     // 计算最优部署位置及方向
     const auto& [placed_loc, direction] = calc_best_plan(opt_oper);
@@ -354,9 +423,50 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         cancel_oper_selection();
     }
 
-    m_used_tiles.emplace(placed_loc, oper_name);
+    m_used_tiles.emplace(placed_loc, opt_oper.name);
+    m_opers_in_field.emplace(opt_oper.name, placed_loc);
     m_opers_used = true;
-    ++m_cur_home_index;
+    if (wait_melee) {
+        m_wait_melee[m_cur_home_index] = false;
+        m_melee_for_home_index.emplace(placed_loc, m_cur_home_index);
+    }
+    else if (wait_medic) {
+        // 两次轮到wait_medic的轮次时仍没有医疗干员奶当前位置，即认为奶不到
+        if (m_wait_medic[m_cur_home_index]) {
+            m_indeed_no_medic[m_cur_home_index] = false;
+        }
+        else {
+            if (m_indeed_no_medic[m_cur_home_index]) {
+                m_wait_medic[m_cur_home_index] = false;
+            }
+            else {
+                m_indeed_no_medic[m_cur_home_index] = true;
+            }
+        }
+    }
+    // 第一次在这条路线上放近战干员时，应当保证有一半干员费用转好
+    m_index_count[m_cur_home_index]++;
+    // 如果有紧急需要部署的路线，那么下一条路线设为它
+    if (m_next_urgent_index.empty()) {
+        if (m_last_not_urgent != -1) {
+            // 从上一次不是紧急的下一条路线开始
+            m_cur_home_index = static_cast<size_t>(m_last_not_urgent) + 1;
+            m_last_not_urgent = -1;
+        }
+        else {
+            ++m_cur_home_index;
+        }
+        m_is_cur_urgent = false;
+    }
+    else {
+        if (m_last_not_urgent == -1) {
+            m_last_not_urgent = static_cast<int>(m_cur_home_index);
+        }
+        m_is_cur_urgent = true;
+        m_cur_home_index = m_next_urgent_index.top();
+        Log.info("Enter urgent situtation, to path", m_cur_home_index);
+        m_next_urgent_index.pop();
+    }
 
     return true;
 }
@@ -405,13 +515,26 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_opers_used = false;
     m_pre_hp = 0;
     m_homes.clear();
+    m_homes_count = 0;
+    m_wait_melee.clear();
+    m_wait_medic.clear();
+    m_indeed_no_medic.clear();
+    m_melee_for_home_index.clear();
+    m_medic_for_home_index.clear();
+    decltype(m_next_urgent_index) empty_stack;
+    m_next_urgent_index.swap(empty_stack);
+    m_is_cur_urgent = false;
+    m_last_not_urgent = -1;
+    m_index_count.clear();
     m_blacklist_location.clear();
-    decltype(m_key_kills) empty;
-    m_key_kills.swap(empty);
+    m_retreated_opers.clear();
+    decltype(m_key_kills) empty_queue;
+    m_key_kills.swap(empty_queue);
     m_cur_home_index = 0;
     m_stage_name.clear();
     m_side_tile_info.clear();
     m_used_tiles.clear();
+    m_opers_in_field.clear();
     m_kills = 0;
     m_total_kills = 0;
 
@@ -594,13 +717,13 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(Ba
 asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(
     const BattleRealTimeOper& oper)
 {
-    if (m_cur_home_index >= m_homes.size()) {
+    if (m_cur_home_index >= m_homes_count) {
         m_cur_home_index = 0;
     }
 
     Point home(5, 5); // 实在找不到家门了，随便取个点当家门用算了，一般是地图的中间
     Point recommended_direction;
-    if (m_cur_home_index < m_homes.size()) {
+    if (m_cur_home_index < m_homes_count) {
         const auto& rp_home = m_homes.at(m_cur_home_index);
         home = rp_home.location;
         static const std::unordered_map<BattleDeployDirection, Point> direction_map = {
@@ -663,11 +786,11 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     LogTraceFunction;
 
     // 根据家门的方向计算一下大概的朝向
-    if (m_cur_home_index >= m_homes.size()) {
+    if (m_cur_home_index >= m_homes_count) {
         m_cur_home_index = 0;
     }
     Point home_loc(5, 5);
-    if (m_cur_home_index < m_homes.size()) {
+    if (m_cur_home_index < m_homes_count) {
         home_loc = m_homes.at(m_cur_home_index).location;
     }
 
@@ -794,6 +917,26 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         // rotate relative attack range counterclockwise
         for (Point& point : right_attack_range)
             point = { point.y, -point.x };
+    }
+
+    // 如果是医疗干员，判断覆盖范围内有无第一次放置的干员
+    if (oper.role == BattleRole::Medic) {
+        for (const Point& direction : { Point::down(), Point::right(), Point::up(), Point::left() }) {
+            if (direction == opt_direction) break;
+            for (Point& point : right_attack_range)
+                point = { point.y, -point.x };
+        }
+        std::vector<size_t> contain_index;
+        for (const Point& relative_pos : right_attack_range) {
+            Point absolute_pos = loc + relative_pos;
+            if (auto iter = m_melee_for_home_index.find(absolute_pos); iter != m_melee_for_home_index.end()) {
+                m_wait_medic[iter->second] = false;
+                contain_index.emplace_back(iter->second);
+            }
+        }
+        if (!contain_index.empty()) {
+            m_medic_for_home_index.emplace(loc, std::move(contain_index));
+        }
     }
 
     return std::make_pair(opt_direction, max_score);
