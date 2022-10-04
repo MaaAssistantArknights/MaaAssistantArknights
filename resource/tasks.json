@@ -7142,8 +7142,8 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike2CloseEvent",
+            "Roguelike2NextLevel",
             "Roguelike1ExitThenAbandon",
             "Roguelike1Abandon",
             "TodaysSuppliesToRoguelike1",
@@ -7255,8 +7255,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1LastReward": {
@@ -7415,7 +7414,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike2MapObject"
         ]
     },
@@ -7520,6 +7518,11 @@
         "next": [
             "Roguelike1ChooseOperConfirm"
         ]
+    },
+    "Roguelike1RecruitSwipeMaxTime": {
+        "template": "empty.png",
+        "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
+        "maxTimes": 4
     },
     "Roguelike1RecruitOcrFlag": {
         "roi": [
@@ -7668,8 +7671,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageTrader": {
@@ -7700,8 +7702,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageTraderEnter": {
@@ -7841,8 +7842,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2StageRegionalCommissioning": {
@@ -8077,8 +8077,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike2DiceConfirmThenAbandon": {
@@ -8121,8 +8120,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageBoons": {
@@ -8153,8 +8151,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ]
     },
     "Roguelike1StageEncounterEnter": {
@@ -8320,8 +8317,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8366,8 +8362,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8413,8 +8408,7 @@
             "Roguelike2CommissionedMissionCompleted",
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
-            "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel"
+            "Roguelike2CloseCollectionClose"
         ],
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错"
     },
@@ -8614,8 +8608,7 @@
             "Roguelike1MissionFailedFlag2",
             "Roguelike1GamePassSkip1",
             "Roguelike1GamePassTheEndConfirm",
-            "Roguelike1GamePass",
-            "Roguelike2NextLevel"
+            "Roguelike1GamePass"
         ]
     },
     "Roguelike2NextLevel": {
@@ -8645,7 +8638,8 @@
         "next": [
             "Roguelike1GamePassSkip2",
             "Roguelike1GamePassTheEndConfirm",
-            "Roguelike1GamePass"
+            "Roguelike1GamePass",
+            "Roguelike2DataTraceback"
         ]
     },
     "Roguelike1GamePassSkip2": {
@@ -8676,10 +8670,10 @@
     "Roguelike1GamePass": {
         "cache": false,
         "roi": [
-            455,
+            400,
             0,
-            376,
-            249
+            500,
+            300
         ],
         "next": [
             "Roguelike1ClickToStartPoint"
@@ -8758,7 +8752,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterSpecialClose",
             "Roguelike1TraderRandomShopping",
@@ -8805,7 +8798,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterFree",
             "Roguelike1StageEncounterLeave",
@@ -8917,7 +8909,8 @@
             "Roguelike1GetDropSelectRecruit",
             "Roguelike1GetDropSelectReward",
             "Roguelike1ChooseOperFlag",
-            "Roguelike1GetDropCompleted"
+            "Roguelike1GetDropCompleted",
+            "Roguelike1GetDropSelect"
         ]
     },
     "Roguelike1GetDropSelectRecruit": {
@@ -9032,7 +9025,6 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
             "Roguelike1ClickToStartPoint"
         ]
     },
@@ -9081,7 +9073,7 @@
             "Roguelike2DiceConfirm",
             "Roguelike2CloseCollectionContinue",
             "Roguelike2CloseCollectionClose",
-            "Roguelike2NextLevel",
+            "Roguelike1GamePass",
             "TodaysSuppliesToRoguelike1",
             "TerminalToRoguelike1",
             "CloseAnnoToRoguelike1",
@@ -9101,15 +9093,15 @@
         "text": [],
         "ocrReplace": [
             [
-                "^.*-EX-.*$",
+                "^.+-EX-?\\d+$",
                 "_INVALID_"
             ],
             [
-                "^.*-S-.*$",
+                "^.+-S-?\\d+$",
                 "_INVALID_"
             ],
             [
-                "^.*-MO-.*$",
+                "^.+-MO-?\\d+$",
                 "_INVALID_"
             ]
         ],

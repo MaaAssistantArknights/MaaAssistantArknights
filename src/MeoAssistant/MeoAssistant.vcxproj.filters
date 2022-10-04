@@ -298,10 +298,10 @@
     <ClCompile Include="Task\DepotTask.cpp">
       <Filter>源文件\Task</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\AsstPlatformPosix.cpp">
+    <ClCompile Include="Utils\Platform\AsstPlatformPosix.cpp">
       <Filter>源文件\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\AsstPlatformWin32.cpp">
+    <ClCompile Include="Utils\Platform\AsstPlatformWin32.cpp">
       <Filter>源文件\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
@@ -608,7 +608,7 @@
     <ClInclude Include="Task\RoguelikeTask.h">
       <Filter>源文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\SafeWindows.h">
+    <ClInclude Include="Utils\Platform\SafeWindows.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Version.h">
@@ -641,16 +641,22 @@
     <ClInclude Include="Utils\AsstMsg.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\AsstPlatform.h">
+    <ClInclude Include="Utils\Platform\AsstPlatform.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\AsstPlatformPosix.h">
+    <ClInclude Include="Utils\Platform\AsstPlatformPosix.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\AsstPlatformWin32.h">
+    <ClInclude Include="Utils\Platform\AsstPlatformWin32.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\AsstTypes.h">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Meta.hpp">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Demangle.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\NoWarningCV.h">

@@ -304,6 +304,19 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (!oper_found) {
         return true;
     }
+
+    // 预计算干员是否有点地方放
+    if (available_locations(opt_oper.role).empty()) {
+        Log.info("Tiles full");
+        if (cooling_count) {
+            Log.info("has cooling, clear and re-calc");
+            m_used_tiles.clear();
+        }
+        else {
+            return true;
+        }
+    }
+
     m_ctrler->click(opt_oper.rect);
     sleep(use_oper_task_ptr->pre_delay);
 
@@ -319,22 +332,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     // 计算最优部署位置及方向
-    auto best_plan = calc_best_plan(opt_oper);
-
-    // 格子放满了
-    if (best_plan.placed == Point::zero() && best_plan.direction == Point::zero()) {
-        Log.info("Tiles full");
-        if (cooling_count) {
-            Log.info("has cooling, clear and re-calc");
-            m_used_tiles.clear();
-            best_plan = calc_best_plan(opt_oper);
-        }
-        else {
-            return true;
-        }
-    }
-
-    const auto& [placed_loc, direction] = best_plan;
+    const auto& [placed_loc, direction] = calc_best_plan(opt_oper);
 
     // 将干员拖动到场上
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
@@ -353,7 +351,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
 
     if (opt_oper.role == BattleRole::Drone) {
-        ProcessTask(*this, { "BattleCancelSelection" }).run();
+        cancel_oper_selection();
     }
 
     m_used_tiles.emplace(placed_loc, oper_name);
@@ -397,9 +395,7 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
         auto& tile_info = m_normal_tile_info[loc];
         auto& type = tile_info.buildable;
         if (type == Loc::Melee || type == Loc::All) {
-            if (!retreat(tile_info.pos)) {
-                continue;
-            }
+            retreat(tile_info.pos);
         }
     }
 }
@@ -459,7 +455,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         sleep(Task.get("BattleUseOper")->pre_delay);
         bool ret = ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(2).run();
         if (!ret) {
-            ProcessTask(*this, { "BattleCancelSelection" }).set_retry_times(0).run();
+            cancel_oper_selection();
         }
         used |= ret;
         if (usage == BattleSkillUsage::Once) {
@@ -542,24 +538,17 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
     return true;
 }
 
-// asst::Rect asst::RoguelikeBattleTaskPlugin::get_placed_by_cv()
-//{
-//     BattlePerspectiveImageAnalyzer placed_analyzer(m_ctrler->get_image());
-
-//    placed_analyzer.set_src_homes(m_home_cache);
-//    if (!placed_analyzer.analyze()) {
-//        return Rect();
-//    }
-//    Point nearest_point = placed_analyzer.get_nearest_point();
-//    Rect placed_rect(nearest_point.x, nearest_point.y, 1, 1);
-//    return placed_rect;
-//}
-
-asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(
-    const BattleRealTimeOper& oper)
+bool asst::RoguelikeBattleTaskPlugin::cancel_oper_selection()
 {
+    return ProcessTask(*this, { "BattleCancelSelection" }).run();
+}
+
+std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(BattleRole role)
+{
+    LogTraceFunction;
+
     auto buildable_type = Loc::All;
-    switch (oper.role) {
+    switch (role) {
     case BattleRole::Medic:
     case BattleRole::Support:
     case BattleRole::Sniper:
@@ -591,6 +580,20 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         break;
     }
 
+    std::vector<Point> result;
+    for (const auto& [loc, tile] : m_normal_tile_info) {
+        if ((tile.buildable == buildable_type || tile.buildable == Loc::All) &&
+            tile.key != TilePack::TileKey::DeepSea && // 水上要先放板子才能放人，肉鸽里也没板子，那就当作不可放置
+            !m_used_tiles.contains(loc) && !m_blacklist_location.contains(loc)) {
+            result.emplace_back(loc);
+        }
+    }
+    return result;
+}
+
+asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(
+    const BattleRealTimeOper& oper)
+{
     if (m_cur_home_index >= m_homes.size()) {
         m_cur_home_index = 0;
     }
@@ -617,35 +620,25 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         return lhs_dist == rhs_dist ? lhs_y_dist < rhs_y_dist : lhs_dist < rhs_dist;
     };
 
-    // 把所有可用的点按距离排个序
-    std::vector<Point> available_locations;
-    for (const auto& [loc, tile] : m_normal_tile_info) {
-        if ((tile.buildable == buildable_type || tile.buildable == Loc::All) && !m_used_tiles.contains(loc) &&
-            !m_blacklist_location.contains(loc)) {
-            available_locations.emplace_back(loc);
-        }
-    }
-    if (available_locations.empty()) {
-        Log.error("No available locations");
-        return {};
-    }
+    std::vector<Point> available_loc = available_locations(oper.role);
 
-    ranges::sort(available_locations, comp_dist);
+    // 把所有可用的点按距离排个序
+    ranges::sort(available_loc, comp_dist);
 
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
     constexpr int CalcPointCount = 4;
-    if (available_locations.size() > CalcPointCount) {
-        available_locations.erase(available_locations.begin() + CalcPointCount, available_locations.end());
+    if (available_loc.size() > CalcPointCount) {
+        available_loc.erase(available_loc.begin() + CalcPointCount, available_loc.end());
     }
 
     Point best_location;
     Point best_direction;
     int max_score = INT_MIN;
 
-    const auto& near_loc = available_locations.at(0);
+    const auto& near_loc = available_loc.at(0);
     int min_dist = std::abs(near_loc.x - home.x) + std::abs(near_loc.y - home.y);
 
-    for (const auto& loc : available_locations) {
+    for (const auto& loc : available_loc) {
         auto cur_result = calc_best_direction_and_score(loc, oper, recommended_direction);
         // 离得远的要扣分
         constexpr int DistWeights = -1050;
