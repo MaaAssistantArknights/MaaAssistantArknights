@@ -163,7 +163,7 @@
                         "operators": [
                             "孑",
                             "银灰",
-                            "但书"
+                            "崖心"
                         ],
                         "product": "LMD"
                     }
@@ -177,6 +177,9 @@
                         ],
                         "sort": true,
                         "product": "Battle Record"
+                    },
+                    {
+                        "skip": true
                     },
                     {
                         "operators": [
@@ -195,6 +198,9 @@
                         "product": "Pure Gold"
                     },
                     {
+                        "skip": true
+                    },
+                    {
                         "operators": [
                             "水月",
                             "海沫",
@@ -211,6 +217,9 @@
                         ]
                     },
                     {
+                        "skip": true
+                    },
+                    {
                         "operators": [
                             "雷蛇"
                         ]
@@ -219,6 +228,9 @@
                         "operators": [
                             "炎狱炎熔"
                         ]
+                    },
+                    {
+                        "skip": true
                     }
                 ],
                 "hire": [
@@ -294,14 +306,6 @@
                 "manufacture": [
                     {
                         "operators": [
-                            "远牙",
-                            "野鬃",
-                            "灰毫"
-                        ],
-                        "product": "Battle Record"
-                    },
-                    {
-                        "operators": [
                             "食铁兽",
                             "断罪者",
                             "槐琥"
@@ -310,12 +314,14 @@
                     },
                     {
                         "operators": [
-                            "水月",
-                            "海沫",
-                            "多萝西"
+                            "远牙",
+                            "野鬃",
+                            "灰毫"
                         ],
-                        "sort": true,
-                        "product": "Pure Gold"
+                        "product": "Battle Record"
+                    },
+                    {
+                        "skip": true
                     },
                     {
                         "operators": [
@@ -323,7 +329,19 @@
                             "至简",
                             "迷迭香"
                         ],
+                        "sort": true,
                         "product": "Pure Gold"
+                    },
+                    {
+                        "operators": [
+                            "水月",
+                            "海沫",
+                            "多萝西"
+                        ],
+                        "product": "Pure Gold"
+                    },
+                    {
+                        "skip": true
                     }
                 ],
                 "power": [
@@ -334,12 +352,15 @@
                     },
                     {
                         "operators": [
-                            "澄闪"
+                            "雷蛇"
                         ]
                     },
                     {
+                        "skip": true
+                    },
+                    {
                         "operators": [
-                            "雷蛇"
+                            "澄闪"
                         ]
                     }
                 ],
