@@ -124,7 +124,7 @@ namespace asst::utils
             _iterator() = default;
 
             constexpr _iterator(string_split_view& prev, string_iter curr, base_string_view next) noexcept
-                : _pre { std::addressof(prev) }, _cur { std::move(curr) }, _nxt { std::move(next) }
+                : _pre(std::addressof(prev)), _cur(curr), _nxt(next)
             {}
 
             [[nodiscard]] constexpr string_iter base() const noexcept { return _cur; }
@@ -148,15 +148,15 @@ namespace asst::utils
 
                 if (size_t _len = _pre->_pat.length(); !_len) {
                     auto _beg = _cur + 1;
-                    _nxt = { std::move(_beg), std::move(_beg) };
+                    _nxt = { _beg, _beg };
                 }
                 else if (const auto _pos = base_string_view(_cur, _end).find(_pre->_pat);
                          _pos == base_string_view::npos) {
-                    _nxt = { std::move(_end), std::move(_end) };
+                    _nxt = { _end, _end };
                 }
                 else {
                     auto _beg = _cur + _pos;
-                    _nxt = { std::move(_beg), _beg + _pre->_pat.length() };
+                    _nxt = { _beg, _beg + _pre->_pat.length() };
                 }
 
                 return *this;
@@ -197,7 +197,6 @@ namespace asst::utils
         {}
 
         [[nodiscard]] constexpr const base_string_view& base() const noexcept { return _rng; }
-        [[nodiscard]] constexpr base_string_view&& base() noexcept { return std::move(_rng); }
 
         [[nodiscard]] constexpr auto begin()
         {
@@ -206,14 +205,14 @@ namespace asst::utils
             if (_nxt.empty()) {
                 if (size_t _len = _pat.length(); !_len) {
                     auto _cur = _beg + 1;
-                    _nxt = { std::move(_cur), std::move(_cur) };
+                    _nxt = { _cur, _cur };
                 }
                 else if (const auto _pos = _rng.find(_pat); _pos == base_string_view::npos) {
-                    _nxt = { std::move(_end), std::move(_end) };
+                    _nxt = { _end, _end };
                 }
                 else {
                     auto _cur = _beg + _pos;
-                    _nxt = { std::move(_cur), _cur + _pat.length() };
+                    _nxt = { _cur, _cur + _pat.length() };
                 }
             }
             return _iterator { *this, _beg, _nxt };
