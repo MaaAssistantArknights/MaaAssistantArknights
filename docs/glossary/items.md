@@ -66,9 +66,9 @@ D32钢|D32 Steel|D32鋼|D32강
 
 中文|English|日本語|한국어
 ---|---|---|---
-技巧概要·卷1|Skill Summary - 1|アーツ学I|스킬개론 제1권
-技巧概要·卷2|Skill Summary - 2|アーツ学II|스킬개론 제2권
-技巧概要·卷3|Skill Summary - 3|アーツ学III|스킬개론 제3권
+技巧概要·卷1|Skill Summary - 1|アーツ学Ⅰ|스킬개론 제1권
+技巧概要·卷2|Skill Summary - 2|アーツ学Ⅱ|스킬개론 제2권
+技巧概要·卷3|Skill Summary - 3|アーツ学Ⅲ|스킬개론 제3권
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -118,8 +118,8 @@ D32钢|D32 Steel|D32鋼|D32강
 加急许可|Expedited Plan|緊急招集票|즉시 완료 허가증
 寻访凭证|Headhunting Permit|スカウト券|헤드헌팅 허가증
 十连寻访凭证|Ten-roll Headhunting Permit|10回スカウト券|헤드헌팅 10회 허가증
-公开招募★3兑换券·I|★3 Recruitment Exchange Voucher I|公開求人★3指名券I|공개 모집 ★3 교환권·I
-公开招募★4兑换券·I|★4 Recruitment Exchange Voucher I|公開求人★4指名券I|공개 모집 ★4 교환권·I
+公开招募★3兑换券·I|★3 Recruitment Exchange Voucher I|公開求人★3指名券 I|공개 모집 ★3 교환권·I
+公开招募★4兑换券·I|★4 Recruitment Exchange Voucher I|公開求人★4指名券 I|공개 모집 ★4 교환권·I
 预约干员随机4选1|Preregister to get 1 of 4 Operators randomly||
 干员兑换券|Operator Voucher|オペレーター指名券|오퍼레이터 교환권
 资深干员特训邀请函|Senior Operator Training Invitation Letter|★5特訓招待状|특별 채용 훈련 초대장
