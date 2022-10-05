@@ -14,7 +14,7 @@
         {
             "name": "Sharp",
             "skill": 1,
-            "recruit_priority": 1000,
+            "recruit_priority": 990,
             "promote_priority": 650
         },
         {
@@ -34,7 +34,7 @@
             "skill": 3,
             "alternate_skill": 1,
             "recruit_priority": 900,
-            "promote_priority": 650
+            "promote_priority": 750
         },
         {
             "name": "棘刺",
@@ -144,7 +144,7 @@
         {
             "name": "郁金香",
             "skill": 1,
-            "recruit_priority": 1000,
+            "recruit_priority": 990,
             "promote_priority": 600
         },
         {
@@ -246,7 +246,7 @@
         {
             "name": "Stormeye",
             "skill": 1,
-            "recruit_priority": 1000,
+            "recruit_priority": 900,
             "promote_priority": 650
         },
         {
@@ -254,7 +254,7 @@
             "skill": 3,
             "alternate_skill": 1,
             "recruit_priority": 900,
-            "promote_priority": 850
+            "promote_priority": 1000
         },
         {
             "name": "空弦",
@@ -267,7 +267,7 @@
             "skill": 3,
             "alternate_skill": 1,
             "recruit_priority": 790,
-            "promote_priority": 900
+            "promote_priority": 1000
         },
         {
             "name": "鸿雪",
@@ -336,7 +336,7 @@
         {
             "name": "Pith",
             "skill": 1,
-            "recruit_priority": 1000,
+            "recruit_priority": 900,
             "promote_priority": 600
         },
         {
@@ -344,7 +344,7 @@
             "skill": 3,
             "alternate_skill": 2,
             "recruit_priority": 700,
-            "promote_priority": 800
+            "promote_priority": 1000
         },
         {
             "name": "艾雅法拉",
@@ -493,7 +493,7 @@
             "name": "蜜莓",
             "skill": 1,
             "recruit_priority": 700,
-            "promote_priority": 560
+            "promote_priority": 610
         },
         {
             "name": "桑葚",
