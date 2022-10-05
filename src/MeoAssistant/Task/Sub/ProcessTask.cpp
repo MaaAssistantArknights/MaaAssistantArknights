@@ -138,9 +138,9 @@ bool ProcessTask::_run()
         int max_times = m_cur_task_ptr->max_times;
         TimesLimitType limit_type = TimesLimitType::Pre;
         {
-            std::string_view cur_base_name = cur_name;
+            std::string cur_base_name = cur_name;
             while (true) {
-                if (auto iter = m_times_limit.find(cur_base_name.data()); iter != m_times_limit.cend()) {
+                if (auto iter = m_times_limit.find(cur_base_name); iter != m_times_limit.cend()) {
                     max_times = iter->second.times;
                     limit_type = iter->second.type;
                     break;
