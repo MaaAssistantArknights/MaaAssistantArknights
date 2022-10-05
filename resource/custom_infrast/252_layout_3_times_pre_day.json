@@ -89,8 +89,7 @@
                         ]
                     },
                     {
-                        "operators": [],
-                      "autofill":true
+                        "autofill": true
                     }
                 ],
                 "hire": [
@@ -208,8 +207,7 @@
                         ]
                     },
                     {
-                        "operators": [],
-                        "autofill":true
+                        "autofill": true
                     },
                     {
                         "operators": [
@@ -328,8 +326,7 @@
                         ]
                     },
                     {
-                        "operators": [],
-                      "autofill":true
+                        "autofill": true
                     },
                     {
                         "operators": [
