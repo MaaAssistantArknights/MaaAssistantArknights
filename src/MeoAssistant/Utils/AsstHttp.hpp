@@ -26,7 +26,10 @@ namespace asst::http
         bool _analyze_status_line(std::string_view status_line)
         {
             size_t _word_count = 0;
-            for (const auto& word : utils::string_split(status_line, " ")) {
+            for (std::string_view word :
+                 views::split(status_line, ' ') | views::transform([&](const auto& rng) -> std::string_view {
+                     return utils::make_string_view(rng);
+                 })) {
                 ++_word_count;
                 if (_word_count == 1) {
                     if (!_accepted_protocol_version.contains(word)) {
@@ -78,10 +81,14 @@ namespace asst::http
         requires std::is_constructible_v<std::string, Args...>
         Response(Args&&... args) : m_raw_data(std::forward<Args>(args)...)
         {
+            constexpr std::string_view delim = "\r\n";
             std::string_view this_view = m_raw_data;
             bool _is_status_line = true;
             bool _is_data_line = false;
-            for (const auto& line : utils::string_split(this_view, "\r\n")) {
+            for (std::string_view line :
+                 views::split(this_view, delim) | views::transform([&](const auto& rng) -> std::string_view {
+                     return utils::make_string_view(rng);
+                 })) {
                 // status
                 if (_is_status_line) {
                     if (!_analyze_status_line(line)) {
