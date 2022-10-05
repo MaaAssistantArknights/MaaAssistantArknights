@@ -184,18 +184,12 @@
                         "product": "Battle Record"
                     },
                     {
-                        "skip": true
-                    },
-                    {
                         "operators": [
                             "清流",
                             "温蒂",
                             "森蚺"
                         ],
                         "product": "Pure Gold"
-                    },
-                    {
-                        "skip": true
                     },
                     {
                         "operators": [
@@ -214,8 +208,8 @@
                         ]
                     },
                     {
-                        "operators": []
-                      "autofill":true
+                        "operators": [],
+                        "autofill":true
                     },
                     {
                         "operators": [
@@ -302,9 +296,6 @@
                         "product": "Battle Record"
                     },
                     {
-                        "skip": true
-                    },
-                    {
                         "operators": [
                             "红云",
                             "稀音",
@@ -328,9 +319,6 @@
                             "刻俄柏"
                         ],
                         "product": "Pure Gold"
-                    },
-                    {
-                        "skip": true
                     }
                 ],
                 "power": [
@@ -340,7 +328,7 @@
                         ]
                     },
                     {
-                        "operators": []
+                        "operators": [],
                       "autofill":true
                     },
                     {
