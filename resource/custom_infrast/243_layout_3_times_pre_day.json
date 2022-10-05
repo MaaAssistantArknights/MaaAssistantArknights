@@ -179,9 +179,6 @@
                         "product": "Battle Record"
                     },
                     {
-                        "skip": true
-                    },
-                    {
                         "operators": [
                             "远牙",
                             "野鬃",
@@ -196,9 +193,6 @@
                             "森蚺"
                         ],
                         "product": "Pure Gold"
-                    },
-                    {
-                        "skip": true
                     },
                     {
                         "operators": [
@@ -217,9 +211,6 @@
                         ]
                     },
                     {
-                        "skip": true
-                    },
-                    {
                         "operators": [
                             "雷蛇"
                         ]
@@ -228,9 +219,6 @@
                         "operators": [
                             "炎狱炎熔"
                         ]
-                    },
-                    {
-                        "skip": true
                     }
                 ],
                 "hire": [
@@ -321,9 +309,6 @@
                         "product": "Battle Record"
                     },
                     {
-                        "skip": true
-                    },
-                    {
                         "operators": [
                             "砾",
                             "至简",
@@ -339,10 +324,7 @@
                             "多萝西"
                         ],
                         "product": "Pure Gold"
-                    },
-                    {
-                        "skip": true
-                    },
+                    }
                 ],
                 "power": [
                     {
@@ -354,9 +336,6 @@
                         "operators": [
                             "雷蛇"
                         ]
-                    },
-                    {
-                        "skip": true
                     },
                     {
                         "operators": [
