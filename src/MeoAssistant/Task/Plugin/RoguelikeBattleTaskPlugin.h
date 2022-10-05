@@ -49,6 +49,7 @@ namespace asst
             Point placed;
             Point direction;
         };
+        BattleAttackRange get_attack_range(const BattleRealTimeOper& oper);
         DeployInfo calc_best_plan(const BattleRealTimeOper& oper);
 
         // 计算摆放干员的朝向
