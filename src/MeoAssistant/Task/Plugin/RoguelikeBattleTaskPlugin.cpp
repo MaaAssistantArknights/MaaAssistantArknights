@@ -743,6 +743,52 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(Ba
     return result;
 }
 
+asst::BattleAttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(const BattleRealTimeOper& oper)
+{
+    int64_t elite = m_status->get_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name).value_or(0);
+    BattleAttackRange right_attack_range = BattleData.get_range(oper.name, elite);
+
+    if (right_attack_range == BattleDataConfiger::EmptyRange) {
+        switch (oper.role) {
+        case BattleRole::Support:
+            right_attack_range = {
+                Point(-1, -1), Point(0, -1), Point(1, -1), Point(2, -1), //
+                Point(-1, 0),  Point(0, 0),  Point(1, 0),  Point(2, 0),  //
+                Point(-1, 1),  Point(0, 1),  Point(1, 1),  Point(2, 1),  //
+            };
+            break;
+        case BattleRole::Caster:
+            right_attack_range = {
+                Point(0, -1), Point(1, -1), Point(2, -1),              //
+                Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0), //
+                Point(0, 1),  Point(1, 1),  Point(2, 1),               //
+            };
+            break;
+        case BattleRole::Medic:
+        case BattleRole::Sniper:
+            right_attack_range = {
+                Point(0, -1), Point(1, -1), Point(2, -1), Point(3, -1), //
+                Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0),  //
+                Point(0, 1),  Point(1, 1),  Point(2, 1),  Point(3, 1),  //
+            };
+            break;
+        case BattleRole::Warrior:
+            right_attack_range = { Point(0, 0), Point(1, 0), Point(2, 0) };
+            break;
+        case BattleRole::Special:
+        case BattleRole::Tank:
+        case BattleRole::Pioneer:
+        case BattleRole::Drone:
+            right_attack_range = { Point(0, 0), Point(1, 0) };
+            break;
+        default:
+            break;
+        }
+    }
+
+    return right_attack_range;
+}
+
 asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(
     const BattleRealTimeOper& oper)
 {
@@ -809,11 +855,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
 
     // 如果是医疗干员，判断覆盖范围内有无第一次放置的干员
     if (oper.role == BattleRole::Medic) {
-        BattleAttackRange right_attack_range = {
-            Point(0, -1), Point(1, -1), Point(2, -1), Point(3, -1), //
-            Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0),  //
-            Point(0, 1),  Point(1, 1),  Point(2, 1),  Point(3, 1),  //
-        };
+        BattleAttackRange right_attack_range = get_attack_range(oper);
         for (const Point& direction : { Point::right(), Point::up(), Point::left(), Point::down() }) {
             if (direction == best_direction) break;
             for (Point& point : right_attack_range)
@@ -868,47 +910,8 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         base_direction = -base_direction;
     }
 
-    int64_t elite = m_status->get_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name).value_or(0);
     // 按朝右算，后面根据方向做转换
-    BattleAttackRange right_attack_range = BattleData.get_range(oper.name, elite);
-
-    if (right_attack_range == BattleDataConfiger::EmptyRange) {
-        switch (oper.role) {
-        case BattleRole::Support:
-            right_attack_range = {
-                Point(-1, -1), Point(0, -1), Point(1, -1), Point(2, -1), //
-                Point(-1, 0),  Point(0, 0),  Point(1, 0),  Point(2, 0),  //
-                Point(-1, 1),  Point(0, 1),  Point(1, 1),  Point(2, 1),  //
-            };
-            break;
-        case BattleRole::Caster:
-            right_attack_range = {
-                Point(0, -1), Point(1, -1), Point(2, -1),              //
-                Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0), //
-                Point(0, 1),  Point(1, 1),  Point(2, 1),               //
-            };
-            break;
-        case BattleRole::Medic:
-        case BattleRole::Sniper:
-            right_attack_range = {
-                Point(0, -1), Point(1, -1), Point(2, -1), Point(3, -1), //
-                Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0),  //
-                Point(0, 1),  Point(1, 1),  Point(2, 1),  Point(3, 1),  //
-            };
-            break;
-        case BattleRole::Warrior:
-            right_attack_range = { Point(0, 0), Point(1, 0), Point(2, 0) };
-            break;
-        case BattleRole::Special:
-        case BattleRole::Tank:
-        case BattleRole::Pioneer:
-        case BattleRole::Drone:
-            right_attack_range = { Point(0, 0), Point(1, 0) };
-            break;
-        default:
-            break;
-        }
-    }
+    BattleAttackRange right_attack_range = get_attack_range(oper);
 
     int max_score = 0;
     Point opt_direction;
