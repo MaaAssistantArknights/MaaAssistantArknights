@@ -309,11 +309,12 @@ namespace asst::utils
     {
 #ifdef _WIN32
         const char* src_str = ansi_str.data();
-        int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, nullptr, 0);
+        const int byte_len = static_cast<int>(ansi_str.length() * sizeof(char));
+        int len = MultiByteToWideChar(CP_ACP, 0, src_str, byte_len, nullptr, 0);
         const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
         auto wstr = new wchar_t[wstr_length];
         memset(wstr, 0, sizeof(wstr[0]) * wstr_length);
-        MultiByteToWideChar(CP_ACP, 0, src_str, -1, wstr, len);
+        MultiByteToWideChar(CP_ACP, 0, src_str, byte_len, wstr, len);
 
         len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, nullptr, 0, nullptr, nullptr);
         const std::size_t str_length = static_cast<std::size_t>(len) + 1;
@@ -339,11 +340,12 @@ namespace asst::utils
     {
 #ifdef _WIN32
         const char* src_str = utf8_str.data();
-        int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
+        const int byte_len = static_cast<int>(utf8_str.length() * sizeof(char));
+        int len = MultiByteToWideChar(CP_UTF8, 0, src_str, byte_len, nullptr, 0);
         const std::size_t wsz_ansi_length = static_cast<std::size_t>(len) + 1U;
         auto wsz_ansi = new wchar_t[wsz_ansi_length];
         memset(wsz_ansi, 0, sizeof(wsz_ansi[0]) * wsz_ansi_length);
-        MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wsz_ansi, len);
+        MultiByteToWideChar(CP_UTF8, 0, src_str, byte_len, wsz_ansi, len);
 
         len = WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, nullptr, 0, nullptr, nullptr);
         const std::size_t sz_ansi_length = static_cast<std::size_t>(len) + 1;
