@@ -19,6 +19,7 @@ namespace asst
         bool use_clue();
         bool proc_clue_vacancy();
         bool unlock_clue_exchange();
+        bool back_to_reception_main();
         bool send_clue();
         bool shift();
     };

@@ -20,16 +20,19 @@ bool asst::InfrastReceptionTask::_run()
 
     close_end_of_clue_exchange();
 
+    // 防止送线索把可以填入的送了
+    proc_clue_vacancy();
+    if (unlock_clue_exchange()) {
+        proc_clue_vacancy();
+    }
+    back_to_reception_main();
+
     get_clue();
     if (need_exit()) {
         return false;
     }
     use_clue();
-    if (need_exit()) {
-        return false;
-    }
-    click_return_button();
-    click_bottom_left_tab();
+    back_to_reception_main();
     if (need_exit()) {
         return false;
     }
@@ -130,6 +133,12 @@ bool asst::InfrastReceptionTask::unlock_clue_exchange()
 {
     ProcessTask task(*this, { "UnlockClues" });
     task.set_retry_times(2);
+    return task.run();
+}
+
+bool asst::InfrastReceptionTask::back_to_reception_main()
+{
+    ProcessTask task(*this, { "BackToReceptionMain" });
     return task.run();
 }
 
