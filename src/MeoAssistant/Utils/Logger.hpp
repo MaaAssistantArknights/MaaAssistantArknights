@@ -15,6 +15,10 @@
 #include "SingletonHolder.hpp"
 #include "Version.h"
 
+#if defined (__APPLE__) || defined (__linux__)
+#include <unistd.h>
+#endif
+
 namespace asst
 {
     template <typename Stream, typename T>
