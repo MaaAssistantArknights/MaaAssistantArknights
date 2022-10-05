@@ -5,6 +5,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <sstream>
 #include <string>
 
@@ -25,28 +26,21 @@ namespace asst::utils
     template <typename char_t = char>
     using pair_of_string_view = std::pair<std::basic_string_view<char_t>, std::basic_string_view<char_t>>;
 
-    template <std::contiguous_iterator It, std::sized_sentinel_for<It> End,
-              typename Ret = std::basic_string_view<std::remove_cvref_t<std::iter_value_t<It>>>>
-    requires(!std::convertible_to<End, typename Ret::size_type>)
-    inline Ret make_string_view(It beg, End end)
-    {
-        return { std::to_address(beg), static_cast<typename Ret::size_type>(end - beg) };
-    }
-
-    template <std::contiguous_iterator It, typename Sz,
-              typename Ret = std::basic_string_view<std::remove_cvref_t<std::iter_value_t<It>>>>
-    requires(std::convertible_to<Sz, typename Ret::size_type>)
-    inline Ret make_string_view(It beg, Sz cnt)
-    {
-        return { std::to_address(beg), static_cast<typename Ret::size_type>(cnt) };
-    }
-    
-    template <ranges::range Rng>
-    requires(requires(Rng rng) { make_string_view(rng.begin(), rng.end()); })
+#ifdef ASST_USE_RANGES_RANGE_V3
+    // workaround for P2210R2
+    template <ranges::forward_range Rng>
+    requires(requires(Rng rng) { std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng)); })
     inline auto make_string_view(Rng rng)
     {
-        return make_string_view(rng.begin(), rng.end());
+        return std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng));
     }
+#else
+    template <ranges::contiguous_range Rng>
+    inline auto make_string_view(Rng rng)
+    {
+        return std::basic_string_view(rng.begin(), rng.end());
+    }
+#endif
 
     template <typename char_t>
     inline void _string_replace_all(std::basic_string<char_t>& str, std::basic_string_view<char_t> old_value,
