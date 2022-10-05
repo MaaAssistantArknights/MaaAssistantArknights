@@ -1859,7 +1859,7 @@
             [
                 "罗比塔",
                 "罗比菈塔"
-            ],           
+            ],
             [
                 "惊垫",
                 "惊蛰"
@@ -7691,6 +7691,7 @@
             "Roguelike1StageTraderLeave",
             "Roguelike1DropsFlag",
             "Roguelike1ChooseOperFlag",
+            "Roguelike2DiceConfirm",
             "Roguelike1RecruitWithoutButton"
         ]
     },
