@@ -202,14 +202,17 @@
                                 Foreground="Gray"
                                 Style="{StaticResource TextBlockDefault}"
                                 Text="{Binding Time}"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Top" />
                             <TextBlock
                                 Width="135"
+                                Margin="0,5"
                                 FontWeight="{Binding Weight}"
                                 Foreground="{Binding Color}"
                                 Style="{StaticResource TextBlockDefault}"
                                 Text="{Binding Content}"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Top" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
