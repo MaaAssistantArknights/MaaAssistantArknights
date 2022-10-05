@@ -50,6 +50,11 @@ else ()
     target_include_directories(MeoAssistant PRIVATE ${ZLIB_INCLUDE_DIRS})
     target_link_libraries(MeoAssistant ${ZLIB_LIBRARY})
 
+    if (CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+        find_package(range-v3 REQUIRED)
+        target_link_libraries(MeoAssistant range-v3::range-v3)
+    endif ()
+
     target_link_libraries(MeoAssistant ppocr paddle_inference protobuf cryptopp gflags glog utf8proc xxhash iomp5 mkldnn mklml_intel)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -idirafter ${PROJECT_SOURCE_DIR}/3rdparty/include")
