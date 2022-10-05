@@ -244,6 +244,12 @@
     ],
     "Sniper": [
         {
+            "name": "Stormeye",
+            "skill": 1,
+            "recruit_priority": 1000,
+            "promote_priority": 650
+        },
+        {
             "name": "能天使",
             "skill": 3,
             "alternate_skill": 1,
@@ -253,8 +259,8 @@
         {
             "name": "空弦",
             "skill": 1,
-            "recruit_priority": 890,
-            "promote_priority": 600
+            "recruit_priority": 800,
+            "promote_priority": 800
         },
         {
             "name": "假日威龙陈",
@@ -262,12 +268,6 @@
             "alternate_skill": 1,
             "recruit_priority": 790,
             "promote_priority": 900
-        },
-        {
-            "name": "Stormeye",
-            "skill": 1,
-            "recruit_priority": 1000,
-            "promote_priority": 650
         },
         {
             "name": "鸿雪",
@@ -350,7 +350,7 @@
             "name": "艾雅法拉",
             "skill": 2,
             "recruit_priority": 600,
-            "promote_priority": 600
+            "promote_priority": 700
         },
         {
             "name": "异客",
