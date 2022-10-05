@@ -259,7 +259,7 @@
             1280,
             554
         ],
-        "templThreshold": 0.95,
+        "templThreshold": 0.85,
         "next": [
             "Roguelike2StageDreadfulFoe-5Enter",
             "Roguelike1StageDreadfulFoeEnter",
