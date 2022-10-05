@@ -145,32 +145,32 @@
             "name": "郁金香",
             "skill": 1,
             "recruit_priority": 1000,
-            "promote_priority": 500
+            "promote_priority": 600
         },
         {
             "name": "风笛",
             "skill": 2,
             "recruit_priority": 600,
-            "promote_priority": 500
+            "promote_priority": 610
         },
         {
             "name": "推进之王",
             "skill": 2,
             "recruit_priority": 600,
-            "promote_priority": 500
+            "promote_priority": 610
         },
         {
             "name": "嵯峨",
             "skill": 2,
             "skill_usage": 1,
             "recruit_priority": 600,
-            "promote_priority": 500
+            "promote_priority": 610
         },
         {
             "name": "焰尾",
             "skill": 2,
             "recruit_priority": 600,
-            "promote_priority": 500
+            "promote_priority": 610
         },
         {
             "name": "德克萨斯",
@@ -575,8 +575,28 @@
             "name": "令",
             "skill": 3,
             "alternate_skill": 1,
-            "recruit_priority": 10,
+            "recruit_priority": 0,
             "promote_priority": 900
+        },
+        {
+            "name": "铃兰",
+            "skill": 3,
+            "alternate_skill": 2,
+            "recruit_priority": 0,
+            "promote_priority": 300
+        },
+        {
+            "name": "安洁莉娜",
+            "skill": 3,
+            "alternate_skill": 2,
+            "recruit_priority": 0,
+            "promote_priority": 200
+        },
+        {
+            "name": "浊心斯卡蒂",
+            "skill": 2,
+            "recruit_priority": 0,
+            "promote_priority": 500
         },
         {
             "name": "梓兰",
