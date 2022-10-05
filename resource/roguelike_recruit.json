@@ -572,26 +572,6 @@
             "promote_priority": 500
         },
         {
-            "name": "铃兰",
-            "skill": 3,
-            "alternate_skill": 2,
-            "recruit_priority": 19,
-            "promote_priority": 300
-        },
-        {
-            "name": "安洁莉娜",
-            "skill": 3,
-            "alternate_skill": 2,
-            "recruit_priority": 18,
-            "promote_priority": 200
-        },
-        {
-            "name": "浊心斯卡蒂",
-            "skill": 2,
-            "recruit_priority": 17,
-            "promote_priority": 500
-        },
-        {
             "name": "令",
             "skill": 3,
             "alternate_skill": 1,
