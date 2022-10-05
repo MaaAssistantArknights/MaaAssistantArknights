@@ -158,18 +158,17 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
         }
     }
-    m_homes_count = m_homes.size();
-    m_wait_melee.assign(m_homes_count, true);
-    m_wait_medic.assign(m_homes_count, true);
-    m_indeed_no_medic.assign(m_homes_count, false);
+    m_wait_melee.assign(m_homes.size(), true);
+    m_wait_medic.assign(m_homes.size(), true);
+    m_indeed_no_medic.assign(m_homes.size(), false);
     // 认为开局时未在所有路线放干员时为紧急状态，并把路线压入栈
     // 由于开局路线设为0，故0不需要被压入栈
     m_cur_home_index = 0;
     m_is_cur_urgent = true;
-    for (size_t index = m_homes_count - 1; index > 0; index--) {
+    for (size_t index = m_homes.size() - 1; index > 0; index--) {
         m_next_urgent_index.push(index);
     }
-    m_index_count.assign(m_homes_count, 0);
+    m_index_count.assign(m_homes.size(), 0);
     if (opt && !opt->key_kills.empty()) {
         std::string log_str = "[ ";
         for (const auto& kills : opt->key_kills) {
@@ -224,6 +223,17 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     //     }
     // }
 
+    // 将存在于场上超过35s召唤物所在的地块重新设为可用
+    Time_Point now_time = std::chrono::system_clock::now();
+    while ((!m_need_clear_tiles.empty()) && m_need_clear_tiles.top().placed_time < now_time) {
+        const auto& placed_loc = m_need_clear_tiles.top().placed_loc;
+        if (auto iter = m_used_tiles.find(placed_loc); iter != m_used_tiles.end()) {
+            m_opers_in_field.erase(iter->second);
+            m_used_tiles.erase(iter);
+        }        
+        m_need_clear_tiles.pop();
+    }
+
     const cv::Mat& image = m_ctrler->get_image();
     if (try_possible_skill(image)) {
         return true;
@@ -237,7 +247,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     battle_analyzer.sort_opers_by_cost();
-    const auto& opers = battle_analyzer.get_opers();
+    const auto opers = battle_analyzer.get_opers();
     if (opers.empty()) {
         return true;
     }
@@ -260,12 +270,12 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             battle_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
         }
         Rect cur_rect;
-        for (size_t i = 0; i != opers.size(); ++i) {
-            const auto& cur_oper = battle_analyzer.get_opers();
-            size_t offset = opers.size() > cur_oper.size() ? opers.size() - cur_oper.size() : 0;
-            const auto& oper = cur_oper.at(i - offset);
-            cur_rect = oper.rect;
-            if (oper.cooling) {
+        for (size_t i = 0; i < opers.size(); ++i) {
+            const auto& cur_opers = battle_analyzer.get_opers();
+            size_t offset = opers.size() > cur_opers.size() ? opers.size() - cur_opers.size() : 0;
+            const auto& oper = cur_opers.at(i - offset);
+            if (oper.cooling && oper.role != BattleRole::Drone) {
+                cur_rect = oper.rect;
                 m_ctrler->click(cur_rect);
                 sleep(use_oper_task_ptr->pre_delay);
                 const cv::Mat& new_image = m_ctrler->get_image();
@@ -302,7 +312,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                                 }
                                 m_medic_for_home_index.erase(del_pos_medic);
                             }
-                            m_melee_for_home_index.erase(iter->second);
                             m_used_tiles.erase(iter->second);
                             m_opers_in_field.erase(iter);
                         }
@@ -437,6 +446,9 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     if (opt_oper.role == BattleRole::Drone) {
         cancel_oper_selection();
+        now_time = std::chrono::system_clock::now();
+        const std::chrono::seconds drone_in_field_time(35);
+        m_need_clear_tiles.emplace(now_time + drone_in_field_time, placed_loc);
     }
 
     m_used_tiles.emplace(placed_loc, opt_oper.name);
@@ -531,7 +543,6 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_opers_used = false;
     m_pre_hp = 0;
     m_homes.clear();
-    m_homes_count = 0;
     m_wait_melee.clear();
     m_wait_medic.clear();
     m_indeed_no_medic.clear();
@@ -544,6 +555,8 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_index_count.clear();
     m_blacklist_location.clear();
     m_retreated_opers.clear();
+    decltype(m_need_clear_tiles) empty_heap;
+    m_need_clear_tiles.swap(empty_heap);
     decltype(m_key_kills) empty_queue;
     m_key_kills.swap(empty_queue);
     m_cur_home_index = 0;
@@ -733,13 +746,13 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(Ba
 asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::calc_best_plan(
     const BattleRealTimeOper& oper)
 {
-    if (m_cur_home_index >= m_homes_count) {
+    if (m_cur_home_index >= m_homes.size()) {
         m_cur_home_index = 0;
     }
 
     Point home(5, 5); // 实在找不到家门了，随便取个点当家门用算了，一般是地图的中间
     Point recommended_direction;
-    if (m_cur_home_index < m_homes_count) {
+    if (m_cur_home_index < m_homes.size()) {
         const auto& rp_home = m_homes.at(m_cur_home_index);
         home = rp_home.location;
         static const std::unordered_map<BattleDeployDirection, Point> direction_map = {
@@ -793,6 +806,32 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
             best_direction = cur_result.first;
         }
     }
+
+    // 如果是医疗干员，判断覆盖范围内有无第一次放置的干员
+    if (oper.role == BattleRole::Medic) {
+        BattleAttackRange right_attack_range = {
+            Point(0, -1), Point(1, -1), Point(2, -1), Point(3, -1), //
+            Point(0, 0),  Point(1, 0),  Point(2, 0),  Point(3, 0),  //
+            Point(0, 1),  Point(1, 1),  Point(2, 1),  Point(3, 1),  //
+        };
+        for (const Point& direction : { Point::right(), Point::up(), Point::left(), Point::down() }) {
+            if (direction == best_direction) break;
+            for (Point& point : right_attack_range)
+                point = { point.y, -point.x };
+        }
+        std::vector<size_t> contain_index;
+        for (const Point& relative_pos : right_attack_range) {
+            Point absolute_pos = best_location + relative_pos;
+            if (auto iter = m_melee_for_home_index.find(absolute_pos); iter != m_melee_for_home_index.end()) {
+                m_wait_medic[iter->second] = false;
+                contain_index.emplace_back(iter->second);
+            }
+        }
+        if (!contain_index.empty()) {
+            m_medic_for_home_index.emplace(best_location, std::move(contain_index));
+        }
+    }
+
     return { best_location, best_direction };
 }
 
@@ -802,11 +841,11 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
     LogTraceFunction;
 
     // 根据家门的方向计算一下大概的朝向
-    if (m_cur_home_index >= m_homes_count) {
+    if (m_cur_home_index >= m_homes.size()) {
         m_cur_home_index = 0;
     }
     Point home_loc(5, 5);
-    if (m_cur_home_index < m_homes_count) {
+    if (m_cur_home_index < m_homes.size()) {
         home_loc = m_homes.at(m_cur_home_index).location;
     }
 
@@ -933,26 +972,6 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
         // rotate relative attack range counterclockwise
         for (Point& point : right_attack_range)
             point = { point.y, -point.x };
-    }
-
-    // 如果是医疗干员，判断覆盖范围内有无第一次放置的干员
-    if (oper.role == BattleRole::Medic) {
-        for (const Point& direction : { Point::down(), Point::right(), Point::up(), Point::left() }) {
-            if (direction == opt_direction) break;
-            for (Point& point : right_attack_range)
-                point = { point.y, -point.x };
-        }
-        std::vector<size_t> contain_index;
-        for (const Point& relative_pos : right_attack_range) {
-            Point absolute_pos = loc + relative_pos;
-            if (auto iter = m_melee_for_home_index.find(absolute_pos); iter != m_melee_for_home_index.end()) {
-                m_wait_medic[iter->second] = false;
-                contain_index.emplace_back(iter->second);
-            }
-        }
-        if (!contain_index.empty()) {
-            m_medic_for_home_index.emplace(loc, std::move(contain_index));
-        }
     }
 
     return std::make_pair(opt_direction, max_score);
