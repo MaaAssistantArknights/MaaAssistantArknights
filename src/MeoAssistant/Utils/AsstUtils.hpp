@@ -34,11 +34,25 @@ namespace asst::utils
     {
         return std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng));
     }
+
+    template <std::forward_iterator It, std::sized_sentinel_for<It> End>
+    requires(requires(It beg, End end) { std::basic_string_view(std::addressof(*beg), std::distance(beg, end)); })
+    inline auto make_string_view(It beg, End end)
+    {
+        return std::basic_string_view(std::addressof(*beg), std::distance(beg, end));
+    }
 #else
     template <ranges::contiguous_range Rng>
     inline auto make_string_view(Rng rng)
     {
         return std::basic_string_view(rng.begin(), rng.end());
+    }
+
+    template <std::contiguous_iterator It, std::sized_sentinel_for<It> End>
+    requires(requires(It beg, End end) { std::basic_string_view(beg, end); })
+    inline auto make_string_view(It beg, End end)
+    {
+        return std::basic_string_view(beg, end);
     }
 #endif
 
@@ -132,7 +146,7 @@ namespace asst::utils
         time_t nowtime = tv.tv_sec;
         struct tm* tm_info = localtime(&nowtime);
         strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
-        sprintf(buff, "%s.%03ld", buff, tv.tv_usec / 1000);
+        sprintf(buff, "%s.%03ld", buff, static_cast<long int>(tv.tv_usec / 1000));
 #endif // END _WIN32
         return buff;
     }
