@@ -628,8 +628,15 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
 {
-    using namespace asst::utils;
-    using asst::ranges::find_if, asst::views::filter;
+    using asst::ranges::find_if, asst::ranges::range;
+    using asst::views::filter, asst::views::split, asst::views::transform, asst::views::drop_while;
+    using asst::utils::_string_replace_all;
+
+    auto not_empty = []<range Rng>(Rng str) -> bool { return !str.empty(); };
+    auto make_string_view = []<range Rng>(Rng str) -> std::string_view {
+        return asst::utils::make_string_view(str);
+    };
+
     const auto& recruitment_file = input_dir / "gacha_table.json";
     const auto& operators_file = input_dir / "character_table.json";
 
@@ -645,28 +652,19 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
     remove_xml(recruitment_details);
     _string_replace_all(recruitment_details, "\\n", "");
-    auto splited = string_split(recruitment_details, "★");
-    bool is_useless = true;
-    auto not_empty = [](std::string_view str) -> bool { return !str.empty(); };
-    for (auto s : splited | filter(not_empty)) {
-        if (s.find("Lancet-2") != std::string_view::npos) {
-            is_useless = false;
-        }
-        if (is_useless) {
-            continue;
-        }
-#if 0
-        std::string_view s1 = (string_split(s, "\n") | filter(not_empty)).front();
-#else
-        std::string_view s1;
-        if (auto s_splited = string_split(s, "\n") | filter(not_empty); !s_splited.empty()) {
-            s1 = s_splited.front();
-        }
-        else {
-            continue;
-        }
-#endif
-        for (auto n : string_split(s1, "/") | filter(not_empty)) {
+    constexpr std::string_view star_delim = "★";
+
+    auto items =
+        // 按照 ★ 分割
+        recruitment_details | split(star_delim) | filter(not_empty) | transform(make_string_view) |
+        // 忽略 Lancet-2 之前的东西
+        drop_while([&](std::string_view str) { return str.find("Lancet-2") == std::string_view::npos; }) |
+        // 按照 \n 分割，若非空则取第一个元素
+        transform([&](auto str) { return str | split('\n') | filter(not_empty); }) | filter(not_empty) |
+        transform([&](auto strs) { return make_string_view(strs.front()); });
+
+    for (std::string_view s : items) {
+        for (std::string_view n : s | split('/') | filter(not_empty) | transform(make_string_view)) {
             std::string name(n);
             trim(name);
             chars_list.emplace_back(name);
