@@ -233,8 +233,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     }
     // 如果只选了一个人没必要排序
     if (room_config.sort && room_config.selected > 1) {
-        click_clear_button();
         order_opers_selection(opers_order);
+        click_clear_button();
     }
 
     return room_config.names.empty();
