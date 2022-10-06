@@ -150,6 +150,8 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         log_str += "]";
         Log.info("replacement home:", log_str);
         m_blacklist_location = opt->blacklist_location;
+        m_stage_use_dice = opt->use_dice_stage;
+        m_role_order = opt->role_order;
     }
     else {
         for (const auto& [loc, side] : m_normal_tile_info) {
@@ -157,6 +159,10 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
                 m_homes.emplace_back(ReplacementHome { loc, BattleDeployDirection::None });
             }
         }
+        m_role_order = {
+            BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
+            BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
+        };
     }
     m_wait_melee.assign(m_homes.size(), true);
     m_wait_medic.assign(m_homes.size(), true);
@@ -223,12 +229,12 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     //     }
     // }
 
-    // 将存在于场上超过35s召唤物所在的地块重新设为可用
+    // 将存在于场上超过限时的召唤物所在的地块重新设为可用
     Time_Point now_time = std::chrono::system_clock::now();
     while ((!m_need_clear_tiles.empty()) && m_need_clear_tiles.top().placed_time < now_time) {
         const auto& placed_loc = m_need_clear_tiles.top().placed_loc;
         if (auto iter = m_used_tiles.find(placed_loc); iter != m_used_tiles.end()) {
-            m_opers_in_field.erase(iter->second);
+            m_opers_in_field.erase((iter->second).first);
             m_used_tiles.erase(iter);
         }        
         m_need_clear_tiles.pop();
@@ -247,9 +253,14 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     battle_analyzer.sort_opers_by_cost();
-    const auto opers = battle_analyzer.get_opers();
+    auto opers = battle_analyzer.get_opers();
     if (opers.empty()) {
         return true;
+    }
+    battle_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+
+    if (m_cur_home_index >= m_homes.size()) {
+        m_cur_home_index = 0;
     }
 
     size_t available_count = 0;
@@ -257,9 +268,26 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     std::vector<size_t> new_urgent;
     std::vector<std::string> cooling_opers;
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
-    for (const auto& oper : opers) {
+    bool has_dice = false;
+    BattleRealTimeOper dice;
+    for (auto& oper : opers) {
         if (oper.cooling) cooling_count++;
         if (oper.available) available_count++;
+        if (oper.role == BattleRole::Drone) {
+            if (!m_dice_image.empty()) {
+                MatchImageAnalyzer dice_analyzer(image);
+                dice_analyzer.set_templ(m_dice_image);
+                if (dice_analyzer.analyze()) {
+                    has_dice = true;
+                    oper.name = "骰子";
+                    dice = oper;
+                }
+            }
+        }
+    }
+    bool can_use_dice = m_stage_use_dice && has_dice;
+    if (!can_use_dice) {
+        m_use_dice = false;
     }
     // 如果发现有新撤退的或者新转好cd的，就更新m_retreated_opers
     if (cooling_count != m_retreated_opers.size()) {
@@ -267,7 +295,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         m_retreated_opers.clear();
         if (cooling_count > 0) {
             battle_pause();
-            battle_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
         }
         Rect cur_rect;
         for (size_t i = 0; i < opers.size(); ++i) {
@@ -343,86 +370,141 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         if (m_is_cur_urgent) {
             m_next_urgent_index.push(m_cur_home_index);
         }
+        else {
+            m_last_not_urgent = static_cast<int>(m_cur_home_index);
+        }
         m_cur_home_index = new_urgent.at(0);
         for (size_t i = 1; i < new_urgent.size(); ++i) {
             m_next_urgent_index.push(new_urgent.at(i));
         }
+        if (can_use_dice) {
+            // 先放骰子，再放近战
+            m_use_dice = true;
+            m_next_urgent_index.push(new_urgent.at(0));
+        }
     }
 
-    static const std::array<BattleRole, 9> RoleOrder = {
-        BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
-        BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
-    };
+    
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     // 点击当前最合适的干员
     BattleRealTimeOper opt_oper;
     bool oper_found = false;
 
-    // 对于每个蓝门，先下个地面单位（如果有的话）
-    // 第二个人下奶（如果有的话）
     bool has_melee = false;
     bool has_medic = false;
-    if (m_used_tiles.empty() || m_used_tiles.size() == 1) {
+    bool wait_melee = m_wait_melee[m_cur_home_index];
+    bool wait_medic = m_wait_medic[m_cur_home_index];
+    if (m_use_dice) {
+        opt_oper = std::move(dice);
+        oper_found = true;
+        if (available_locations(opt_oper.role).empty()) {
+            Log.info("Tiles full");
+            return true;
+        }
+    }
+    else {
+        // 对于每个蓝门，先下个地面单位（如果有的话）
+        // 第二个人下奶（如果有的话）
         for (const auto& op : opers) {
-            if ((op.role == BattleRole::Warrior || op.role == BattleRole::Pioneer || op.role == BattleRole::Tank) && (!op.cooling)) {
+            if ((op.role == BattleRole::Warrior || op.role == BattleRole::Pioneer || op.role == BattleRole::Tank) &&
+                (!op.cooling)) {
                 has_melee = true;
             }
             else if (op.role == BattleRole::Medic && (!op.cooling)) {
                 has_medic = true;
             }
         }
-    }
 
-    bool wait_melee = m_wait_melee[m_cur_home_index] && has_melee;
-    bool wait_medic = m_wait_medic[m_cur_home_index] && has_medic;
-    for (auto role : RoleOrder) {
-        if (wait_melee) {
-            if (role != BattleRole::Warrior && role != BattleRole::Pioneer && role != BattleRole::Tank) {
-                continue;
+        wait_melee &= has_melee;
+        wait_medic &= has_medic;
+        for (auto role : m_role_order) {
+            if (wait_melee) {
+                if (role != BattleRole::Warrior && role != BattleRole::Pioneer && role != BattleRole::Tank) {
+                    continue;
+                }
             }
-        }
-        else if (wait_medic) {
-            if (role != BattleRole::Medic) {
-                continue;
+            else if (wait_medic) {
+                if (role != BattleRole::Medic) {
+                    continue;
+                }
             }
-        }
 
-        for (const auto& oper : opers) {
-            if (!oper.available) {
-                continue;
+            for (const auto& oper : opers) {
+                if (!oper.available) {
+                    continue;
+                }
+                if (oper.name == "骰子") {
+                    continue;
+                }
+                if (oper.role == role) {
+                    opt_oper = oper;
+                    oper_found = true;
+                    break;
+                }
             }
-            if (oper.role == role) {
-                opt_oper = oper;
-                oper_found = true;
+            if (oper_found) {
                 break;
             }
         }
-        if (oper_found) {
-            break;
+        if (!oper_found) {
+            return true;
         }
-    }
-    if (!oper_found) {
-        return true;
-    }
-    
-    // 预计算干员是否有点地方放
-    if (available_locations(opt_oper.role).empty()) {
-        Log.info("Tiles full");
-        return true;
-    }
 
-    m_ctrler->click(opt_oper.rect);
-    sleep(use_oper_task_ptr->pre_delay);
+        // 预计算干员是否有点地方放
+        if (available_locations(opt_oper.role).empty()) {
+            Log.info("Tiles full");
+            return true;
+        }
 
-    OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
-    oper_name_analyzer.set_task_info("BattleOperName");
-    oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+        if (m_first_deploy) {
+            m_first_deploy = false;
+            battle_pause();
+            Rect cur_rect;
+            for (size_t i = 0; i < opers.size(); ++i) {
+                const auto& cur_opers = battle_analyzer.get_opers();
+                size_t offset = opers.size() > cur_opers.size() ? opers.size() - cur_opers.size() : 0;
+                const auto& oper = cur_opers.at(i - offset);
+                if (oper.role == BattleRole::Drone) {
+                    cur_rect = oper.rect;
+                    m_ctrler->click(cur_rect);
+                    sleep(use_oper_task_ptr->pre_delay);
+                    const cv::Mat& new_image = m_ctrler->get_image();
 
-    opt_oper.name = "Unknown";
-    if (oper_name_analyzer.analyze()) {
-        oper_name_analyzer.sort_result_by_score();
-        opt_oper.name = oper_name_analyzer.get_result().front().text;
+                    OcrWithPreprocessImageAnalyzer oper_name_analyzer(new_image);
+                    oper_name_analyzer.set_task_info("BattleOperName");
+                    oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+
+                    battle_analyzer.set_image(new_image);
+                    battle_analyzer.analyze();
+                    battle_analyzer.sort_opers_by_cost();
+
+                    if (!oper_name_analyzer.analyze()) continue;
+                    oper_name_analyzer.sort_result_by_score();
+                    if (oper_name_analyzer.get_result().front().text == "骰子") {
+                        m_dice_image = opers.at(i).avatar;
+                        break;
+                    }
+                }
+            }
+            if (!cur_rect.empty()) {
+                m_ctrler->click(cur_rect);
+            }
+            battle_pause();
+        }
+        
+        m_ctrler->click(opt_oper.rect);
+        sleep(use_oper_task_ptr->pre_delay);
+
+        OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
+        oper_name_analyzer.set_task_info("BattleOperName");
+        oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+
+        opt_oper.name = "Unknown";
+        if (oper_name_analyzer.analyze()) {
+            oper_name_analyzer.sort_result_by_score();
+            opt_oper.name = oper_name_analyzer.get_result().front().text;
+        }
     }
 
     // 计算最优部署位置及方向
@@ -447,11 +529,16 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (opt_oper.role == BattleRole::Drone) {
         cancel_oper_selection();
         now_time = std::chrono::system_clock::now();
-        const std::chrono::seconds drone_in_field_time(35);
-        m_need_clear_tiles.emplace(now_time + drone_in_field_time, placed_loc);
+        if (opt_oper.name == "骰子") {
+            m_need_clear_tiles.emplace(now_time + std::chrono::seconds(20), placed_loc);
+        }
+        else {
+            m_need_clear_tiles.emplace(now_time + std::chrono::seconds(35), placed_loc);
+        }
     }
 
-    m_used_tiles.emplace(placed_loc, opt_oper.name);
+    Log.info("Try to deploy oper", opt_oper.name);
+    m_used_tiles.emplace(placed_loc, std::make_pair(opt_oper.name, opt_oper.role));
     m_opers_in_field.emplace(opt_oper.name, placed_loc);
     m_opers_used = true;
     if (wait_melee) {
@@ -566,6 +653,10 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_opers_in_field.clear();
     m_kills = 0;
     m_total_kills = 0;
+    m_use_dice = false;
+    m_stage_use_dice = true;
+    m_dice_image = cv::Mat();
+    m_first_deploy = true;
 
     for (auto& [key, status] : m_restore_status) {
         m_status->set_number(key, status);
@@ -585,8 +676,8 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
     MatchImageAnalyzer analyzer(image);
     analyzer.set_task_info(task_ptr);
     bool used = false;
-    for (auto& [loc, name] : m_used_tiles) {
-        std::string status_key = "RoguelikeSkillUsage-" + name;
+    for (auto& [loc, oper_pair] : m_used_tiles) {
+        std::string status_key = "RoguelikeSkillUsage-" + oper_pair.first;
         auto usage = BattleSkillUsage::Possibly;
         auto usage_opt = m_status->get_number(status_key);
         if (usage_opt) {
@@ -823,6 +914,10 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     // 把所有可用的点按距离排个序
     ranges::sort(available_loc, comp_dist);
 
+    if (oper.name == "骰子") {
+        return { available_loc.back(), Point::right() };
+    }
+
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
     constexpr int CalcPointCount = 4;
     if (available_loc.size() > CalcPointCount) {
@@ -943,7 +1038,7 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
 
             switch (oper.role) {
             case BattleRole::Medic:
-                if (m_used_tiles.contains(absolute_pos)) // 根据哪个方向上人多决定朝向哪
+                if (m_used_tiles.contains(absolute_pos) && m_used_tiles[absolute_pos].second != BattleRole::Drone) // 根据哪个方向上人多决定朝向哪
                     score += 10000;
                 if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
                     score += TileKeyMedicWeights.at(iter->second.key);
