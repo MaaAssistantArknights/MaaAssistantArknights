@@ -33,8 +33,14 @@ def click_and_crop(event, x, y, flags, param):
         cv2.rectangle(draw, refPt[0], refPt[1], (0, 255, 0), 2)
         cv2.imshow("image", draw)
 
-std_width :int = 1280
-std_height :int = 720
+
+print("Usage:\n"
+      "Put the 16:9 images under ./src, and run this script. It will be auto converted to 720p.\n"
+      "Drag mouse to select ROI, press 'S' to save, press 'Q' to quit.\n"
+      "The cropped images will be saved in ./dst\n")
+
+std_width: int = 1280
+std_height: int = 720
 std_ratio = std_width / std_height
 
 cv2.namedWindow("image")
@@ -44,17 +50,17 @@ for filename in os.listdir("./src"):
     if not filename.endswith(".png"):
         continue
 
-    print(filename)
+    print("src:", filename)
     image = cv2.imread("./src/" + filename)
-    
+
     cur_ratio = image.shape[1] / image.shape[0]
 
-    if cur_ratio >= std_ratio: # 说明是宽屏或默认16:9，按照高度计算缩放
-        dsize_width :int = (int)(cur_ratio * std_height)
-        dsize_height :int= std_height
+    if cur_ratio >= std_ratio:  # 说明是宽屏或默认16:9，按照高度计算缩放
+        dsize_width: int = (int)(cur_ratio * std_height)
+        dsize_height: int = std_height
     else:                       # 否则可能是偏正方形的屏幕，按宽度计算
-        dsize_width :int = std_width
-        dsize_height :int = std_width / cur_ratio;
+        dsize_width: int = std_width
+        dsize_height: int = std_width / cur_ratio
 
     dsize = (dsize_width, dsize_height)
     image = cv2.resize(image, dsize)
@@ -69,30 +75,34 @@ for filename in os.listdir("./src"):
 
     # 如果参考点列表里有俩个点，则裁剪区域并展示
     if len(refPt) == 2:
+        if refPt[0][0] > refPt[1][0] or refPt[0][1] > refPt[1][1]:
+            refPt[0], refPt[1] = refPt[1], refPt[0]
         left = refPt[0][0]
         right = refPt[1][0]
         top = refPt[0][1]
         bottom = refPt[1][1]
 
         roi = image[top:bottom, left:right]
-        
+
         horizontal_expansion = 100
         vertical_expansion = 100
 
-        filename_x :int = (int)(left - horizontal_expansion / 2)
+        filename_x: int = (int)(left - horizontal_expansion / 2)
         if filename_x < 0:
             filename_x = 0
-        filename_y :int = (int)(top - vertical_expansion / 2)
+        filename_y: int = (int)(top - vertical_expansion / 2)
         if filename_y < 0:
             filename_y = 0
-        filename_w :int = (right - left) + horizontal_expansion
+        filename_w: int = (right - left) + horizontal_expansion
         if filename_x + filename_w > dsize_width:
             filename_w = dsize_width - filename_x
-        filename_h : int = (bottom - top) + vertical_expansion
+        filename_h: int = (bottom - top) + vertical_expansion
         if filename_y + filename_h > dsize_height:
             filename_h = dsize_height - filename_y
-        
-        dst_filename :str = f'{filename}_{filename_x},{filename_y},{filename_w},{filename_h}.png'
+        print(
+            f"real roi: {left}, {top}, {right - left}, {bottom - top}, amplified roi: {filename_x}, {filename_y}, {filename_w}, {filename_h}")
+
+        dst_filename: str = f'{filename}_{filename_x},{filename_y},{filename_w},{filename_h}.png'
 
         print('dst:', dst_filename)
         cv2.imwrite('./dst/' + dst_filename, roi)
