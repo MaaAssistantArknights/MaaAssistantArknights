@@ -49,7 +49,7 @@ namespace asst::http
                     m_status_code = std::atoi(word.data());
                 }
                 else {
-                    m_status_code_info = std::string_view(word.begin(), status_line.end());
+                    m_status_code_info = utils::make_string_view(word.begin(), status_line.end());
                     return true;
                 }
             }
@@ -109,7 +109,7 @@ namespace asst::http
                 }
                 // data
                 else {
-                    m_body = std::string_view(line.begin(), this_view.end());
+                    m_body = utils::make_string_view(line.begin(), this_view.end());
                     return;
                 }
             }
