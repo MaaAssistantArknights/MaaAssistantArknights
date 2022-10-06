@@ -71,12 +71,17 @@ namespace asst
 
         bool m_opers_used = false;
         bool m_is_cur_urgent = false;
+        bool m_stage_use_dice = true;
+        bool m_use_dice = false;
+        bool m_first_deploy = true;
         int m_last_not_urgent = -1;
         int m_pre_hp = 0;
         int m_kills = 0;
         int m_total_kills = 0;
         size_t m_cur_home_index = 0;
+        cv::Mat m_dice_image;
 
+        std::array<BattleRole, 9> m_role_order;
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::vector<ReplacementHome> m_homes;
@@ -90,7 +95,7 @@ namespace asst
         std::unordered_set<Point> m_blacklist_location;
         std::unordered_set<std::string> m_retreated_opers;
         std::queue<int> m_key_kills;
-        std::unordered_map<Point, std::string> m_used_tiles;
+        std::unordered_map<Point, std::pair<std::string, BattleRole>> m_used_tiles;
         std::unordered_map<std::string, Point> m_opers_in_field;
         std::unordered_map<std::string, int64_t> m_restore_status;
         std::priority_queue<DroneTile> m_need_clear_tiles;
