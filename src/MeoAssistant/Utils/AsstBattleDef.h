@@ -119,6 +119,8 @@ namespace asst
         std::vector<ReplacementHome> replacement_home;
         std::unordered_set<Point> blacklist_location;
         std::vector<int> key_kills;
+        std::array<BattleRole, 9> role_order;
+        bool use_dice_stage = true;
     };
 
     struct BattleCharData

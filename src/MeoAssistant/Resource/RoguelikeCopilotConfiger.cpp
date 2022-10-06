@@ -60,6 +60,50 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
                 data.key_kills.emplace_back(static_cast<int>(key_kill));
             }
         }
+        if (auto opt = stage_info.find<bool>("not_use_dice")) {
+            data.use_dice_stage = (!opt.value());
+        }
+        constexpr int RoleNumber = 9;
+        static const std::array<BattleRole, RoleNumber> RoleOrder = {
+            BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
+            BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
+        };
+        static const std::unordered_map<std::string, BattleRole> NameToRole = {
+            { "caster", BattleRole::Caster }, { "medic", BattleRole::Medic },   { "pioneer", BattleRole::Pioneer },
+            { "sniper", BattleRole::Sniper }, { "special", BattleRole::Special }, { "support", BattleRole::Support },
+            { "tank", BattleRole::Tank },   { "warrior", BattleRole::Warrior }, { "drone", BattleRole::Drone }
+        };
+        auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
+        if (auto opt = stage_info.find<json::array>("role_order")) {
+            std::unordered_set<BattleRole> specified_role;
+            std::vector<BattleRole> role_order_vec;
+            bool is_legal = true;
+            for (size_t i = 0; i < opt.value().size(); ++i) {
+                std::string role_name = static_cast<std::string>(opt.value().at(i));
+                ranges::transform(role_name, role_name.begin(), to_lower);
+                auto iter = NameToRole.find(role_name);
+                if (iter == NameToRole.end()) {
+                    is_legal = false;
+                    break;
+                }
+                specified_role.emplace(iter->second);
+                role_order_vec.emplace_back(iter->second);
+            }
+            for (const auto& role : RoleOrder) {
+                if (!specified_role.contains(role)) {
+                    role_order_vec.emplace_back(role);
+                }
+            }
+            if (is_legal) {
+                std::move(role_order_vec.begin(), role_order_vec.end(), data.role_order.begin());
+            }
+            else {
+                data.role_order = RoleOrder;
+            }
+        }
+        else {
+            data.role_order = RoleOrder;
+        }
         m_stage_data.emplace(std::move(stage_name), std::move(data));
     }
     return true;
