@@ -1931,6 +1931,40 @@ namespace MeoAsstGui
             }
         }
 
+        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", string.Empty);
+
+        /// <summary>
+        /// Gets or sets the item Name of drops.
+        /// </summary>
+        public string DropsItemName
+        {
+            get => _dropsItemName;
+            set
+            {
+                SetAndNotify(ref _dropsItemName, value);
+                SetFightParams();
+                ViewStatusStorage.Set("MainFunction.Drops.ItemName", DropsItemName);
+            }
+        }
+
+        public void DropsListDropDownClosed()
+        {
+            foreach (var item in DropsList)
+            {
+                if (item.Value == DropsItemId)
+                {
+                    if (DropsItemName != item.Display)
+                    {
+                        DropsItemName = "请选择材料";
+                    }
+
+                    return;
+                }
+            }
+
+            DropsItemName = "请选择材料";
+        }
+
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
 
         /// <summary>
