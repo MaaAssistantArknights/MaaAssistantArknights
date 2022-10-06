@@ -794,7 +794,7 @@ namespace MeoAsstGui
         private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Roguelike1");
 
         /// <summary>
-        /// Gets or sets the Rroguelike theme.
+        /// Gets or sets the Roguelike theme.
         /// </summary>
         public string RoguelikeTheme
         {
