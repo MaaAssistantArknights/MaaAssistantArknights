@@ -35,7 +35,7 @@ def click_and_crop(event, x, y, flags, param):
 
 
 print("Usage:\n"
-      "Put the 16:9 images under ./src, and run this script. It will be auto converted to 720p.\n"
+      "Put the 16:9 images under ./src, and run this script, it will be auto converted to 720p.\n"
       "Drag mouse to select ROI, press 'S' to save, press 'Q' to quit.\n"
       "The cropped images will be saved in ./dst\n")
 
@@ -104,7 +104,7 @@ for filename in os.listdir("./src"):
 
         dst_filename: str = f'{filename}_{filename_x},{filename_y},{filename_w},{filename_h}.png'
 
-        print('dst:', dst_filename)
+        print('dst:', dst_filename, "\n")
         cv2.imwrite('./dst/' + dst_filename, roi)
 
     refPt = []
