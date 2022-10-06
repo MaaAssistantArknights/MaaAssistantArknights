@@ -17,12 +17,22 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical">
-            <CheckBox
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <TextBlock
                     Margin="10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource RoguelikeAdditionalResource}"
-                    IsChecked="{Binding RoguelikeAdditionalResourceEnabled}" />
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource RoguelikeTheme}" />
+                <ComboBox
+                    Width="100"
+                    IsHitTestVisible="{Binding Idle}"
+                    ItemsSource="{Binding RoguelikeThemeList}"
+                    SelectedValue="{Binding RoguelikeTheme}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
+
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
@@ -43,9 +53,7 @@
                     SelectedValuePath="Value" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Center">
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock
                         HorizontalAlignment="Center"
                         Style="{StaticResource TextBlockDefault}"
@@ -67,9 +75,7 @@
                     VerticalAlignment="Center"
                     Content="{DynamicResource InvestmentEnabled}"
                     IsChecked="{Binding RoguelikeInvestmentEnabled}" />
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock
                         Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource GoldTimesLimit}"
