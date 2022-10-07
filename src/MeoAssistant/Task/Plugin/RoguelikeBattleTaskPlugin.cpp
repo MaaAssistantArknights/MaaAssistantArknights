@@ -142,11 +142,12 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         m_homes = opt->replacement_home;
         auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
         auto invalid_homes_pos =
-            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); });
+            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
+            views::transform(&Point::to_string);
         if (!invalid_homes_pos.empty()) {
             Log.error("No replacement homes point:", invalid_homes_pos);
         }
-        Log.info("replacement home:", homes_pos);
+        Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
         m_blacklist_location = opt->blacklist_location;
         m_stage_use_dice = opt->use_dice_stage;
         m_role_order = opt->role_order;
@@ -330,7 +331,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             if (ret_copy.contains(oper_name)) {
                 continue;
             }
-            if (auto iter = m_opers_in_field.find(oper_name); iter == m_opers_in_field.end()) {
+            auto iter = m_opers_in_field.find(oper_name);
+            if (iter == m_opers_in_field.end()) {
                 continue;
             }
 
