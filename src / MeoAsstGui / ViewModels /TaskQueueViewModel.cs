@@ -979,7 +979,7 @@ namespace MeoAsstGui
                 "夜神模拟器",
                 "逍遥模拟器",
                 "雷电模拟器(64)",
-                "雷电模拟器",
+                "雷电模拟器", 
                 "明日方舟 - MuMu模拟器",
                 "BlueStacks App Player",
                 "BlueStacks",
