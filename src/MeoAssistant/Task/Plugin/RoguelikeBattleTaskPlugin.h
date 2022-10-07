@@ -102,4 +102,4 @@ namespace asst
 
         std::string m_stage_name;
     };
-}
+} // namespace asst
