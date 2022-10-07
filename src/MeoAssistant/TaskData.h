@@ -61,36 +61,38 @@ namespace asst
                  std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
         std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
         {
-            auto it = m_all_tasks_info.find(name);
-            if (it == m_all_tasks_info.cend()) {
-                if (size_t name_split_pos = name.find('@'); name_split_pos == std::string::npos) [[unlikely]] {
-                    return nullptr;
+            if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) [[likely]] {
+                if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
+                    return it->second;
                 }
                 else {
-                    size_t name_len = name_split_pos + 1;
-                    std::string base_task_name = name.substr(name_len);
-                    std::string derived_task_name = name.substr(0, name_len);
-                    if (auto base_task_iter = get(base_task_name); base_task_iter != nullptr) {
-                        if (auto task_info_ptr = generate_task_info(base_task_iter, derived_task_name);
-                            task_info_ptr != nullptr) {
-                            m_all_tasks_info.emplace(name, task_info_ptr);
-                            if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
-                                return task_info_ptr;
-                            }
-                            else {
-                                return std::dynamic_pointer_cast<TargetTaskInfoType>(task_info_ptr);
-                            }
-                        }
-                    }
+                    return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
                 }
+            }
+
+            if (size_t name_split_pos = name.find('@'); name_split_pos == std::string::npos) [[unlikely]] {
                 return nullptr;
             }
 
+            size_t name_len = name_split_pos + 1;
+            auto base_task_iter = get(name.substr(name_len));
+            if (base_task_iter == nullptr) [[unlikely]] {
+                return nullptr;
+            }
+
+            std::string derived_task_name = name.substr(0, name_len);
+            auto task_info_ptr = generate_task_info(base_task_iter, derived_task_name);
+            if (task_info_ptr == nullptr) [[unlikely]] {
+                return nullptr;
+            }
+
+            m_all_tasks_info.emplace(name, task_info_ptr);
+
             if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
-                return it->second;
+                return task_info_ptr;
             }
             else {
-                return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
+                return std::dynamic_pointer_cast<TargetTaskInfoType>(task_info_ptr);
             }
         }
 
