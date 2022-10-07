@@ -67,7 +67,7 @@
         {
             "name": "拉普兰德",
             "skill": 2,
-            "recruit_priority":750,
+            "recruit_priority": 750,
             "promote_priority": 750
         },
         {
@@ -429,7 +429,6 @@
             "recruit_priority": 400,
             "promote_priority": 400
         },
-
         {
             "name": "风丸",
             "skill": 2,
