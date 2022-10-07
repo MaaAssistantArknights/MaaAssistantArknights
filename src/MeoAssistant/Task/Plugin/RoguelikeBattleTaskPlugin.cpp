@@ -159,6 +159,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
                 m_homes.emplace_back(ReplacementHome { loc, BattleDeployDirection::None });
             }
         }
+        m_stage_use_dice = true;
         m_role_order = {
             BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
             BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
@@ -301,70 +302,63 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             const auto& cur_opers = battle_analyzer.get_opers();
             size_t offset = opers.size() > cur_opers.size() ? opers.size() - cur_opers.size() : 0;
             const auto& oper = cur_opers.at(i - offset);
-            if (oper.cooling && oper.role != BattleRole::Drone) {
-                cur_rect = oper.rect;
-                m_ctrler->click(cur_rect);
-                sleep(use_oper_task_ptr->pre_delay);
-                const cv::Mat& new_image = m_ctrler->get_image();
-
-                OcrWithPreprocessImageAnalyzer oper_name_analyzer(new_image);
-                oper_name_analyzer.set_task_info("BattleOperName");
-                oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-
-                std::string oper_name = "Unknown";
-                if (oper_name_analyzer.analyze()) {
-                    oper_name_analyzer.sort_result_by_score();
-                    oper_name = oper_name_analyzer.get_result().front().text;
-                }
-
-                battle_analyzer.set_image(new_image);
-                battle_analyzer.analyze();
-                battle_analyzer.sort_opers_by_cost();
-
-                if (oper_name != "Unknown") {
-                    m_retreated_opers.emplace(oper_name);
-                    if (!ret_copy.contains(oper_name)) {
-                        if (auto iter = m_opers_in_field.find(oper_name); iter != m_opers_in_field.end()) {
-                            Log.info(oper_name, "retreated");
-                            if (auto del_pos_melee = m_melee_for_home_index.find(iter->second);
-                                del_pos_melee != m_melee_for_home_index.end()) {
-                                m_wait_melee[del_pos_melee->second] = true;
-                                new_urgent.emplace_back(del_pos_melee->second);
-                                m_melee_for_home_index.erase(del_pos_melee);
-                            }
-                            else if (auto del_pos_medic = m_medic_for_home_index.find(iter->second);
-                                     del_pos_medic != m_medic_for_home_index.end()) {
-                                for (const size_t& home_index : del_pos_medic->second) {
-                                    m_wait_medic[home_index] = true;
-                                }
-                                m_medic_for_home_index.erase(del_pos_medic);
-                            }
-                            m_used_tiles.erase(iter->second);
-                            m_opers_in_field.erase(iter);
-                        }
-                    }
-                }
+            if ((!oper.cooling) || oper.role == BattleRole::Drone) {
+                continue;
             }
+            cur_rect = oper.rect;
+            m_ctrler->click(cur_rect);
+            sleep(use_oper_task_ptr->pre_delay);
+            const cv::Mat& new_image = m_ctrler->get_image();
+
+            OcrWithPreprocessImageAnalyzer oper_name_analyzer(new_image);
+            oper_name_analyzer.set_task_info("BattleOperName");
+            oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+
+            std::string oper_name = "Unknown";
+            if (oper_name_analyzer.analyze()) {
+                oper_name_analyzer.sort_result_by_score();
+                oper_name = oper_name_analyzer.get_result().front().text;
+            }
+
+            battle_analyzer.set_image(new_image);
+            battle_analyzer.analyze();
+            battle_analyzer.sort_opers_by_cost();
+
+            if (oper_name == "Unknown") {
+                continue;
+            }
+            m_retreated_opers.emplace(oper_name);
+
+            if (ret_copy.contains(oper_name)) {
+                continue;
+            }
+            if (auto iter = m_opers_in_field.find(oper_name); iter == m_opers_in_field.end()) {
+                continue;
+            }
+
+            Log.info(oper_name, "retreated");
+            if (auto del_pos_melee = m_melee_for_home_index.find(iter->second);
+                del_pos_melee != m_melee_for_home_index.end()) {
+                m_wait_melee[del_pos_melee->second] = true;
+                new_urgent.emplace_back(del_pos_melee->second);
+                m_melee_for_home_index.erase(del_pos_melee);
+            }
+            else if (auto del_pos_medic = m_medic_for_home_index.find(iter->second);
+                     del_pos_medic != m_medic_for_home_index.end()) {
+                for (const size_t& home_index : del_pos_medic->second) {
+                    m_wait_medic[home_index] = true;
+                }
+                m_medic_for_home_index.erase(del_pos_medic);
+            }
+            m_used_tiles.erase(iter->second);
+            m_opers_in_field.erase(iter);
         }
         if (cooling_count > 0) {
             m_ctrler->click(cur_rect);
             battle_pause();
         }
     }
-    if (new_urgent.empty()) {
-        if ((!m_is_cur_urgent) || m_index_count[m_cur_home_index] == 0) {
-            if (m_used_tiles.size() >= 2) {
-                // 超过一半的人费用都没好，且没有紧急情况，那就不下人
-                size_t not_cooling_count = opers.size() - cooling_count;
-                if (available_count <= not_cooling_count / 2) {
-                    Log.trace("already used", m_used_tiles.size(), ", now_total", opers.size(), ", available",
-                              available_count, ", not_cooling", not_cooling_count);
-                    return true;
-                }
-            }
-        }
-    }
-    else {
+    if (!new_urgent.empty()) {
         // 出现新的紧急情况，立即切到这条线路，并把其他紧急情况压入栈
         Log.info("New urgent situation detected");
         if (m_is_cur_urgent) {
@@ -381,6 +375,15 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             // 先放骰子，再放近战
             m_use_dice = true;
             m_next_urgent_index.push(new_urgent.at(0));
+        }
+    }
+    else if ((!m_is_cur_urgent || m_index_count[m_cur_home_index] == 0) && m_used_tiles.size() >= 2) {
+        // 超过一半的人费用都没好，且没有紧急情况，那就不下人
+        size_t not_cooling_count = opers.size() - cooling_count;
+        if (available_count <= not_cooling_count / 2) {
+            Log.trace("already used", m_used_tiles.size(), ", now_total", opers.size(), ", available", available_count,
+                      ", not_cooling", not_cooling_count);
+            return true;
         }
     }
 
