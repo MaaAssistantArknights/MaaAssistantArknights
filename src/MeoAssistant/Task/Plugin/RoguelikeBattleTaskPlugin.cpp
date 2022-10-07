@@ -140,15 +140,13 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
     if (opt && !opt->replacement_home.empty()) {
         m_homes = opt->replacement_home;
-        std::string log_str = "[ ";
-        for (auto& home : m_homes) {
-            if (!m_normal_tile_info.contains(home.location)) {
-                Log.error("No replacement home point", home.location.x, home.location.y);
-            }
-            log_str += "( " + std::to_string(home.location.x) + ", " + std::to_string(home.location.y) + " ), ";
+        auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
+        auto invalid_homes_pos =
+            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); });
+        if (!invalid_homes_pos.empty()) {
+            Log.error("No replacement homes point:", invalid_homes_pos);
         }
-        log_str += "]";
-        Log.info("replacement home:", log_str);
+        Log.info("replacement home:", homes_pos);
         m_blacklist_location = opt->blacklist_location;
         m_stage_use_dice = opt->use_dice_stage;
         m_role_order = opt->role_order;
