@@ -8258,6 +8258,10 @@
             180,
             700
         ],
+        "maskRange": [
+            5,
+            255
+        ],
         "preDelay": 500,
         "templThreshold": 0.99,
         "next": [
@@ -8276,6 +8280,10 @@
             0,
             180,
             700
+        ],
+        "maskRange": [
+            5,
+            255
         ],
         "preDelay": 500,
         "templThreshold": 0.97,
