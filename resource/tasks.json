@@ -2110,7 +2110,8 @@
             "ReturnToTerminal",
             "Terminal",
             "CloseAnno",
-            "StageSNReturnToTerminal"
+            "StageSNReturnToTerminal",
+            "ReturnToTerminalConfirm"
         ]
     },
     "UsePrts": {
@@ -2798,7 +2799,8 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
-            "BServerPrivacyPolicy"
+            "BServerPrivacyPolicy",
+            "OfflineConfirmAfterBattle"
         ]
     },
     "OfflineConfirm": {
@@ -3023,7 +3025,8 @@
             "ReturnToRecruit",
             "ReturnToRecruitCloseAnno",
             "StageSNReturnToRecruit",
-            "TodaysSuppliesToRecruit"
+            "TodaysSuppliesToRecruit",
+            "ReturnToRecruitConfirm"
         ]
     },
     "ReturnToRecruitCloseAnno": {
@@ -3574,7 +3577,8 @@
             "ReturnToAward",
             "ReturnToAwardCloseAnno",
             "StageSNReturnToAward",
-            "TodaysSuppliesToAward"
+            "TodaysSuppliesToAward",
+            "ReturnToAwardConfirm"
         ]
     },
     "ReturnToAwardCloseAnno": {
@@ -3666,7 +3670,8 @@
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
             "StageSNReturnToFriends",
-            "TodaysSuppliesToVisit"
+            "TodaysSuppliesToVisit",
+            "ReturnToFriendsConfirm"
         ]
     },
     "ReturnToFriendsCloseAnno": {
@@ -3849,7 +3854,8 @@
             "Mall",
             "ReturnToMallCloseAnno",
             "StageSNReturnToMall",
-            "TodaysSuppliesToMall"
+            "TodaysSuppliesToMall",
+            "ReturnToMallConfirm"
         ]
     },
     "ReturnToMallCloseAnno": {
@@ -4020,7 +4026,8 @@
         "next": [
             "HomeFlag",
             "ReturnToHome",
-            "ReturnToHomeCloseAnno"
+            "ReturnToHomeCloseAnno",
+            "ReturnToHomeConfirm"
         ]
     },
     "ReturnToHomeCloseAnno": {
@@ -4175,6 +4182,8 @@
             650,
             160
         ],
+        "preDelay": 500,
+        "rearDelay": 500,
         "next": [
             "RecruitLoading",
             "SleepThenStop"
@@ -4346,7 +4355,8 @@
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
             "StageSNReturnToInfrast",
-            "TodaysSuppliesToInfrast"
+            "TodaysSuppliesToInfrast",
+            "ReturnToInfrastConfirm"
         ]
     },
     "ReturnToInfrastCloseAnno": {
@@ -7160,7 +7170,8 @@
             "TerminalToRoguelike1",
             "ReturnToRoguelike1",
             "CloseAnnoToRoguelike1",
-            "StageSNReturnToRoguelike1"
+            "StageSNReturnToRoguelike1",
+            "ReturnToRoguelike1Confirm"
         ]
     },
     "OfflineConfirmToRoguelike1": {
