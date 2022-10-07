@@ -6548,40 +6548,6 @@
             30
         ]
     },
-    "Roguelike1@StartToWakeUp": {
-        "template": "StartToWakeUp.png",
-        "action": "ClickSelf",
-        "roi": [
-            520,
-            460,
-            240,
-            100
-        ],
-        "next": [
-            "Roguelike1@StartToWakeUp",
-            "Roguelike1@StartUpConnecting",
-            "Roguelike1@Main",
-            "Roguelike1@CloseAnno",
-            "Roguelike1@TodaysSupplies"
-        ]
-    },
-    "Roguelike1@StartUpConnecting": {
-        "template": "StartUpConnectingFlag.png",
-        "action": "DoNothing",
-        "roi": [
-            0,
-            635,
-            450,
-            85
-        ],
-        "next": [
-            "Roguelike1@StartToWakeUp",
-            "Roguelike1@StartUpConnecting",
-            "Roguelike1@Main",
-            "Roguelike1@CloseAnno",
-            "Roguelike1@TodaysSupplies"
-        ]
-    },
     "Roguelike1@Main": {
         "template": "Terminal.png",
         "action": "ClickSelf",
@@ -6668,26 +6634,6 @@
             "Roguelike1@ReturnToConfirm",
             "Roguelike1@CloseAnno",
             "Roguelike1@FromStageSN"
-        ]
-    },
-    "Roguelike1@OfflineConfirm": {
-        "template": "OfflineConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            310,
-            409,
-            648,
-            165
-        ],
-        "maskRange": [
-            100,
-            255
-        ],
-        "next": [
-            "Roguelike1@CloseAnno",
-            "Roguelike1@StartToWakeUp",
-            "Roguelike1@StartUpConnecting",
-            "Roguelike1@OfflineConfirm"
         ]
     },
     "Roguelike1Begin": {
