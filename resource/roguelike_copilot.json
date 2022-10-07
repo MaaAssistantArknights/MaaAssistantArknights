@@ -24,10 +24,10 @@
                 1
             ]
         ],
-        "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子",
+        "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子，不写默认false",
         "not_use_dice": false,
         "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
-        "role_order": [ "warrior", "pioneer", "medical", "tank", "sniper", "caster", "support", "special", "drone" ]
+        "role_order": ["warrior", "pioneer", "medic", "tank", "sniper", "caster", "support", "special", "drone"]
     },
     {
         "stage_name": "虫群横行",
