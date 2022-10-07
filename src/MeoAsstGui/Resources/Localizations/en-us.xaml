@@ -7,9 +7,9 @@
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
-    <system:String x:Key="RoguelikeSettings">Roguelike</system:String>
-    <system:String x:Key="RecruitingSettings">Recruiting</system:String>
-    <system:String x:Key="MallSettings">Mall</system:String>
+    <system:String x:Key="RoguelikeSettings">I.S.</system:String>
+    <system:String x:Key="RecruitingSettings">Recruit</system:String>
+    <system:String x:Key="MallSettings">Credit Store</system:String>
     <system:String x:Key="OtherCombatSettings">Combat</system:String>
     <system:String x:Key="ConnectionSettings">Connection</system:String>
     <system:String x:Key="StartupSettings">Startup</system:String>
@@ -57,6 +57,8 @@
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
 
+    <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeStrategyCandle">Get candles, pass levels as more as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Deposit coins, exit after arriving at the second level</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
@@ -133,7 +135,7 @@
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
-    <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
+    <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stop after starting N times</system:String>
