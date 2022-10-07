@@ -27,7 +27,17 @@
         "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子",
         "not_use_dice": false,
         "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
-        "role_order": [ "warrior", "pioneer", "medic", "tank", "sniper", "caster", "support", "special", "drone" ]
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "medic",
+            "tank",
+            "sniper",
+            "caster",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "虫群横行",
@@ -52,9 +62,7 @@
                     4
                 ],
                 "direction": "right"
-
             }
-
         ],
         "blacklist_location": [
             [
@@ -62,7 +70,17 @@
                 1
             ]
         ],
-        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "射手部队",
@@ -162,7 +180,17 @@
                 1
             ]
         ],
-        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "海神的信者",
@@ -443,7 +471,17 @@
                 4
             ]
         ],
-        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "精酿杀手",
@@ -522,13 +560,21 @@
                 3
             ]
         ],
-        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "大君遗脉",
-        "replacement_home": [
-
-        ],
+        "replacement_home": [],
         "blacklist_location": [
             [
                 9,
@@ -808,7 +854,17 @@
                 4
             ]
         ],
-        "role_order": [ "sniper", "caster", "warrior", "pioneer", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "sniper",
+            "caster",
+            "warrior",
+            "pioneer",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "海窟沙暴",
@@ -991,12 +1047,21 @@
                 6
             ]
         ],
-        "role_order": [ "sniper", "caster", "warrior", "pioneer", "medical", "support", "tank", "special", "drone" ]
+        "role_order": [
+            "sniper",
+            "caster",
+            "warrior",
+            "pioneer",
+            "medic",
+            "support",
+            "tank",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "机械之灾",
-        "replacement_home": [
-        ]
+        "replacement_home": []
     },
     {
         "stage_name": "育生池",
@@ -1056,7 +1121,17 @@
                 "direction": "right"
             }
         ],
-        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "蔓延",
@@ -1426,7 +1501,17 @@
                 "direction": "left"
             }
         ],
-        "role_order": [ "sniper", "caster", "warrior", "pioneer", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "sniper",
+            "caster",
+            "warrior",
+            "pioneer",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "好梦在何方",
@@ -1467,7 +1552,17 @@
                 "direction": "left"
             }
         ],
-        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ]
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ]
     },
     {
         "stage_name": "纠错",
@@ -1650,7 +1745,17 @@
                 "direction": "up"
             }
         ],
-        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ],
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
+        ],
         "blacklist_location": [
             [
                 6,
