@@ -679,7 +679,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
     analyzer.set_task_info(task_ptr);
     bool used = false;
     for (auto& [loc, oper_pair] : m_used_tiles) {
-        std::string status_key = "RoguelikeSkillUsage-" + oper_pair.first;
+        std::string status_key = RuntimeStatus::RoguelikeSkillUsagePrefix + oper_pair.first;
         auto usage = BattleSkillUsage::Possibly;
         auto usage_opt = m_status->get_number(status_key);
         if (usage_opt) {

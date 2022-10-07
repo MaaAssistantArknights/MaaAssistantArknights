@@ -37,6 +37,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         recruited = true;
     };
 
+    bool team_full_without_rookie = m_status->get_number(RuntimeStatus::RoguelikeTeamFullWithoutRookie).value_or(0);
+    Log.info("team_full_without_rookie", team_full_without_rookie);
+
     // 编队信息 (已有角色)
     std::string str_chars_info =
         m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
@@ -112,22 +115,26 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
                     // 预备干员可以重复招募
-                    priority = recruit_info.recruit_priority;
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
+                                                        : recruit_info.recruit_priority;
                 }
                 else {
                     // 干员待晋升
-                    priority = recruit_info.promote_priority;
+                    priority = team_full_without_rookie ? recruit_info.promote_priority_when_team_full
+                                                        : recruit_info.promote_priority;
                 }
             }
             else {
                 // 干员待招募，检查练度
                 if (oper_info.elite == 2) {
                     // TODO: 招募时已精二 (随机提升或对应分队) => promoted_priority
-                    priority = recruit_info.recruit_priority;
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
+                                                        : recruit_info.recruit_priority;
                 }
                 else if (oper_info.elite == 1 && oper_info.level >= 50) {
                     // 精一50级以上
-                    priority = recruit_info.recruit_priority;
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
+                                                        : recruit_info.recruit_priority;
                 }
                 else {
                     // 精一50级以下，默认不招募
@@ -137,7 +144,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 优先级为0，可能练度不够被忽略
-            if (priority == 0) {
+            if (priority <= 0) {
                 continue;
             }
 
@@ -311,11 +318,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 {
     LogTraceFunction;
 
-    auto core_opt = m_status->get_str("RoguelikeCoreChar");
+    auto core_opt = m_status->get_str(RuntimeStatus::RoguelikeCoreChar);
     if (!core_opt || core_opt->empty()) {
         return false;
     }
-    m_status->set_str("RoguelikeCoreChar", "");
+    m_status->set_str(RuntimeStatus::RoguelikeCoreChar, "");
     return check_char(core_opt.value());
 }
 
