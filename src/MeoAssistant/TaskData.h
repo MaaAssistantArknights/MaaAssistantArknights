@@ -18,8 +18,8 @@ namespace asst
     class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigerWithTempl
     {
     private:
-        std::shared_ptr<TaskInfo> generate_task_info(const std::shared_ptr<TaskInfo>& base_ptr,
-                                                     const std::string& task_prefix) const
+        static std::shared_ptr<TaskInfo> generate_task_info(const std::shared_ptr<TaskInfo>& base_ptr,
+                                                            const std::string& task_prefix)
         {
             std::shared_ptr<TaskInfo> task_info_ptr;
             switch (base_ptr->algorithm) {
@@ -88,7 +88,7 @@ namespace asst
                 }
             }
 
-            size_t at_pos = name.find('@'); 
+            size_t at_pos = name.find('@');
             if (at_pos == std::string::npos) [[unlikely]] {
                 return nullptr;
             }
