@@ -185,9 +185,10 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
             matched_item_id = item_id;
             matched_index = index;
         }
-        // 匹配到了任一结果后，再往后匹配四个。
+        // 匹配到了任一结果后，再往后匹配几个。
         // 因为有些相邻的材料长得很像（同一种类的）
-        if (matched_index != NPos && ++extra_count >= 4) {
+        constexpr size_t MaxExtraMatch = 8;
+        if (matched_index != NPos && ++extra_count >= MaxExtraMatch) {
             break;
         }
     }

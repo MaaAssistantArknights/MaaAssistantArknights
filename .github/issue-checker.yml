@@ -293,6 +293,18 @@ labels:
   - remove GUI
 
 # `ambiguous`
+- name: pr-ambiguous
+  # 不符合 commitizen 的 PR
+  content: ambiguous
+  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Mm]erge|[Rr]evert|[Rr]elease)'
+  mode:
+    pull_request_target:
+  skip-if:
+  - skip all
+  - skip ambiguous
+  remove-if:
+  - remove all
+  - remove ambiguous
 - name: ambiguous
   # 不符合上面任何一个的分类的 issue
   content: ambiguous
@@ -300,6 +312,7 @@ labels:
     issues:
     issue_comment: remove
   skip-if:
+  - pr-ambiguous
   - skip all
   - skip ambiguous
   remove-if:
@@ -316,18 +329,6 @@ labels:
   - others
   - recruit
   - roguelike
-- name: pr-ambiguous
-  # 不符合 commitizen 的 PR
-  content: ambiguous
-  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Mm]erge|[Rr]evert|[Rr]elease)'
-  mode:
-    pull_request_target:
-  skip-if:
-  - skip all
-  - skip ambiguous
-  remove-if:
-  - remove all
-  - remove ambiguous
 
 # `release`
 - name: release
@@ -426,20 +427,20 @@ labels:
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)\\s+)|\
     \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
-    (?:https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/|)[0-9a-z]{40,40})\
+    (?:https?\\://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{40})\
     \\s*fixed|[Ff]ixed (?:in|at|by)\\s*\
     (?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\\s+\
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))|\
     \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
     v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
-    (?:https?\\://[^/\\s]+/[^/\\s]+/[^/\\s]+/commit/|)[0-9a-z]{40,40})"
+    (?:https?\\://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{40})"
   mode:
     issue_comment: add
 
 # `duplicate`
 - name: duplicate
   regexes:
-    "[Dd]uplicate of\\s*\\[?`?#\\d+"
+    "[Dd]uplicate of\\s*\\[?`?(?:https?\\://(?:[^/\\s]+/){3}issues/|#)\\d+"
   mode:
     issue_comment: add
 
@@ -454,8 +455,7 @@ labels:
 - name: incomplete
   content: incomplete
   regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))'
-  mode:
-    add: [issues, issue_comment]
+  mode: add
   skip-if:
   - skip all
   - skip incomplete
@@ -467,8 +467,7 @@ labels:
   regexes: '(?:\[asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)\]\([^\)]+\))'
 - name: remove incomplete
   content: incomplete
-  mode:
-    remove: [issues, issue_comment]
+  mode: remove
   skip-if:
   - skip all
   - skip incomplete

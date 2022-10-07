@@ -2114,7 +2114,8 @@
             "ReturnToTerminal",
             "Terminal",
             "CloseAnno",
-            "StageSNReturnToTerminal"
+            "StageSNReturnToTerminal",
+            "ReturnToTerminalConfirm"
         ]
     },
     "UsePrts": {
@@ -2802,7 +2803,8 @@
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
-            "BServerPrivacyPolicy"
+            "BServerPrivacyPolicy",
+            "OfflineConfirmAfterBattle"
         ]
     },
     "OfflineConfirm": {
@@ -2829,6 +2831,10 @@
             409,
             648,
             165
+        ],
+        "maskRange": [
+            100,
+            255
         ],
         "next": [
             "CloseAnno",
@@ -3027,7 +3033,8 @@
             "ReturnToRecruit",
             "ReturnToRecruitCloseAnno",
             "StageSNReturnToRecruit",
-            "TodaysSuppliesToRecruit"
+            "TodaysSuppliesToRecruit",
+            "ReturnToRecruitConfirm"
         ]
     },
     "ReturnToRecruitCloseAnno": {
@@ -3578,7 +3585,8 @@
             "ReturnToAward",
             "ReturnToAwardCloseAnno",
             "StageSNReturnToAward",
-            "TodaysSuppliesToAward"
+            "TodaysSuppliesToAward",
+            "ReturnToAwardConfirm"
         ]
     },
     "ReturnToAwardCloseAnno": {
@@ -3670,7 +3678,8 @@
             "ReturnToFriends",
             "ReturnToFriendsCloseAnno",
             "StageSNReturnToFriends",
-            "TodaysSuppliesToVisit"
+            "TodaysSuppliesToVisit",
+            "ReturnToFriendsConfirm"
         ]
     },
     "ReturnToFriendsCloseAnno": {
@@ -3853,7 +3862,8 @@
             "Mall",
             "ReturnToMallCloseAnno",
             "StageSNReturnToMall",
-            "TodaysSuppliesToMall"
+            "TodaysSuppliesToMall",
+            "ReturnToMallConfirm"
         ]
     },
     "ReturnToMallCloseAnno": {
@@ -4024,7 +4034,8 @@
         "next": [
             "HomeFlag",
             "ReturnToHome",
-            "ReturnToHomeCloseAnno"
+            "ReturnToHomeCloseAnno",
+            "ReturnToHomeConfirm"
         ]
     },
     "ReturnToHomeCloseAnno": {
@@ -4179,6 +4190,8 @@
             650,
             160
         ],
+        "preDelay": 500,
+        "rearDelay": 500,
         "next": [
             "RecruitLoading",
             "SleepThenStop"
@@ -4350,7 +4363,8 @@
             "ReturnToInfrast",
             "ReturnToInfrastCloseAnno",
             "StageSNReturnToInfrast",
-            "TodaysSuppliesToInfrast"
+            "TodaysSuppliesToInfrast",
+            "ReturnToInfrastConfirm"
         ]
     },
     "ReturnToInfrastCloseAnno": {
@@ -5622,6 +5636,16 @@
         ],
         "next": [
             "CloseCluePageThenSendClue"
+        ]
+    },
+    "BackToReceptionMain": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            280,
+            96,
+            130,
+            32
         ]
     },
     "CloseCluePageThenSendClue": {
@@ -7154,7 +7178,8 @@
             "TerminalToRoguelike1",
             "ReturnToRoguelike1",
             "CloseAnnoToRoguelike1",
-            "StageSNReturnToRoguelike1"
+            "StageSNReturnToRoguelike1",
+            "ReturnToRoguelike1Confirm"
         ]
     },
     "OfflineConfirmToRoguelike1": {
@@ -7165,6 +7190,10 @@
             409,
             648,
             165
+        ],
+        "maskRange": [
+            100,
+            255
         ],
         "next": [
             "CloseAnnoToRoguelike1",
@@ -8233,10 +8262,16 @@
             180,
             700
         ],
+        "maskRange": [
+            5,
+            255
+        ],
         "preDelay": 500,
         "templThreshold": 0.99,
         "next": [
             "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterFree",
             "Roguelike1ChooseOperFlag"
         ]
@@ -8250,10 +8285,16 @@
             180,
             700
         ],
+        "maskRange": [
+            5,
+            255
+        ],
         "preDelay": 500,
         "templThreshold": 0.97,
         "next": [
             "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterLeave",
             "Roguelike1ChooseOperFlag"
         ]
@@ -8272,6 +8313,8 @@
         "next": [
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown"
         ]
     },

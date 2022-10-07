@@ -36,6 +36,7 @@ namespace asst
 
     protected:
         virtual bool parse(const json::value& json) override;
+        void clear();
 
         // key：材料编号Id，value：材料名（zh，utf8）
         std::unordered_map<std::string, std::string> m_item_name;

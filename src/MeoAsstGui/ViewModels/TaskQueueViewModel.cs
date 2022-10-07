@@ -979,6 +979,7 @@ namespace MeoAsstGui
                 "夜神模拟器",
                 "逍遥模拟器",
                 "雷电模拟器(64)",
+                "雷电模拟器",
                 "明日方舟 - MuMu模拟器",
                 "BlueStacks App Player",
                 "BlueStacks",
@@ -1955,14 +1956,14 @@ namespace MeoAsstGui
                 {
                     if (DropsItemName != item.Display)
                     {
-                        DropsItemName = "请选择材料";
+                        DropsItemName = Localization.GetString("NotSelected");
                     }
 
                     return;
                 }
             }
 
-            DropsItemName = "请选择材料";
+            DropsItemName = Localization.GetString("NotSelected");
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");

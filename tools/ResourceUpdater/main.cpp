@@ -43,7 +43,8 @@ static inline void trim(std::string& s)
     rtrim(s);
 }
 
-bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir,
+                       bool with_imgs = true);
 bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
 
 bool update_infrast_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
@@ -81,13 +82,6 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto solution_dir = std::filesystem::current_path().parent_path().parent_path();
     const auto resource_dir = solution_dir / "resource";
     const auto third_resource_dir = solution_dir / "3rdparty" / "resource";
-
-    /* Update items template and json  from Arknights-Bot-Resource*/
-    std::cout << "------------Update items template and json------------" << std::endl;
-    if (!update_items_data(input_dir, resource_dir)) {
-        std::cerr << "Update items data failed" << std::endl;
-        return -1;
-    }
 
     /* Update levels.json from Arknights-Bot-Resource*/
     std::cout << "------------Update levels.json------------" << std::endl;
@@ -161,10 +155,10 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    std::unordered_map<std::string, std::string> recruitment_dirs = {
+    std::unordered_map<std::string, std::string> global_dirs = {
         { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" }, { "zh_TW", "txwy" }
     };
-    for (const auto& [in, out] : recruitment_dirs) {
+    for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
         if (!update_recruitment_data(game_data_dir / in / "gamedata" / "excel",
                                      resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
@@ -173,11 +167,26 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
+    /* Update items template and json  from Arknights-Bot-Resource*/
+    std::cout << "------------Update items template and json------------" << std::endl;
+    if (!update_items_data(input_dir, resource_dir)) {
+        std::cerr << "Update items data failed" << std::endl;
+        return -1;
+    }
+    /* Update items global json from ArknightsGameData*/
+    for (const auto& [in, out] : global_dirs) {
+        std::cout << "------------Update items json for " << out << "------------" << std::endl;
+        if (!update_items_data(game_data_dir / in, resource_dir / "global" / out / "resource", false)) {
+            std::cerr << "Update items json failed" << std::endl;
+            return -1;
+        }
+    }
+
     std::cout << "------------All success------------" << std::endl;
     return 0;
 }
 
-bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, bool with_imgs)
 {
     const auto input_json_path = input_dir / "gamedata" / "excel" / "item_table.json";
 
@@ -233,7 +242,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
         }
 
         auto input_icon_path = input_dir / "item" / (item_info["iconId"].as_string() + ".png");
-        if (!std::filesystem::exists(input_icon_path)) {
+        if (with_imgs && !std::filesystem::exists(input_icon_path)) {
             std::cout << input_icon_path << " not exist" << std::endl;
             continue;
         }
@@ -247,9 +256,10 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
         output["sortId"] = item_info["sortId"];
         output["classifyType"] = item_info["classifyType"];
 
-        static const auto output_icon_path = output_dir / "template" / "items";
-
-        cvt_single_item_template(input_icon_path, output_icon_path / output_filename);
+        if (with_imgs) {
+            static const auto output_icon_path = output_dir / "template" / "items";
+            cvt_single_item_template(input_icon_path, output_icon_path / output_filename);
+        }
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
@@ -629,13 +639,11 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
 {
     using asst::ranges::find_if, asst::ranges::range;
-    using asst::views::filter, asst::views::split, asst::views::transform, asst::views::drop_while;
     using asst::utils::_string_replace_all;
+    using asst::views::filter, asst::views::split, asst::views::transform, asst::views::drop_while;
 
     auto not_empty = []<range Rng>(Rng str) -> bool { return !str.empty(); };
-    auto make_string_view = []<range Rng>(Rng str) -> std::string_view {
-        return asst::utils::make_string_view(str);
-    };
+    auto make_string_view = []<range Rng>(Rng str) -> std::string_view { return asst::utils::make_string_view(str); };
 
     const auto& recruitment_file = input_dir / "gacha_table.json";
     const auto& operators_file = input_dir / "character_table.json";
