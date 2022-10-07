@@ -817,14 +817,14 @@
                     3,
                     4
                 ],
-                "direction": "left"
+                "direction": "up"
             },
             {
                 "location": [
                     4,
                     4
                 ],
-                "direction": "right"
+                "direction": "up"
             },
             {
                 "location": [
@@ -863,12 +863,28 @@
                 1
             ],
             [
+                3,
+                1
+            ],
+            [
+                4,
+                1
+            ],
+            [
+                5,
+                1
+            ],
+            [
                 2,
                 2
             ],
             [
-                8,
-                4
+                5,
+                2
+            ],
+            [
+                5,
+                3
             ]
         ]
     },
