@@ -159,7 +159,7 @@ namespace asst
         explicit operator Rect() const noexcept { return rect; }
         std::string to_string() const
         {
-            return "[ " + text + " : " + rect.to_string() + ", score: " + std::to_string(score) + " ]";
+            return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
         }
         explicit operator std::string() const { return to_string(); }
 
@@ -189,7 +189,10 @@ namespace asst
         explicit operator Rect() const noexcept { return rect; }
         MatchRect& operator=(const MatchRect&) = default;
         MatchRect& operator=(MatchRect&&) noexcept = default;
-        std::string to_string() const { return "[ " + rect.to_string() + ", score: " + std::to_string(score) + " ]"; }
+        std::string to_string() const
+        {
+            return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
+        }
         explicit operator std::string() const { return to_string(); }
 
         double score = 0.0;
