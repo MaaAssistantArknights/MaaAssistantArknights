@@ -236,7 +236,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         if (auto iter = m_used_tiles.find(placed_loc); iter != m_used_tiles.end()) {
             m_opers_in_field.erase((iter->second).first);
             m_used_tiles.erase(iter);
-        }        
+        }
         m_need_clear_tiles.pop();
     }
 
@@ -384,7 +384,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         }
     }
 
-    
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     // 点击当前最合适的干员
@@ -492,7 +491,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             }
             battle_pause();
         }
-        
+
         m_ctrler->click(opt_oper.rect);
         sleep(use_oper_task_ptr->pre_delay);
 
@@ -1038,7 +1037,8 @@ std::pair<asst::Point, int> asst::RoguelikeBattleTaskPlugin::calc_best_direction
 
             switch (oper.role) {
             case BattleRole::Medic:
-                if (m_used_tiles.contains(absolute_pos) && m_used_tiles[absolute_pos].second != BattleRole::Drone) // 根据哪个方向上人多决定朝向哪
+                if (m_used_tiles.contains(absolute_pos) &&
+                    m_used_tiles[absolute_pos].second != BattleRole::Drone) // 根据哪个方向上人多决定朝向哪
                     score += 10000;
                 if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
                     score += TileKeyMedicWeights.at(iter->second.key);
