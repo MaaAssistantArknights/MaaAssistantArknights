@@ -5,6 +5,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <sstream>
 #include <string>
 
@@ -24,6 +25,36 @@ namespace asst::utils
 {
     template <typename char_t = char>
     using pair_of_string_view = std::pair<std::basic_string_view<char_t>, std::basic_string_view<char_t>>;
+
+#ifdef ASST_USE_RANGES_RANGE_V3
+    // workaround for P2210R2
+    template <ranges::forward_range Rng>
+    requires(requires(Rng rng) { std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng)); })
+    inline auto make_string_view(Rng rng)
+    {
+        return std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng));
+    }
+
+    template <std::forward_iterator It, std::sized_sentinel_for<It> End>
+    requires(requires(It beg, End end) { std::basic_string_view(std::addressof(*beg), std::distance(beg, end)); })
+    inline auto make_string_view(It beg, End end)
+    {
+        return std::basic_string_view(std::addressof(*beg), std::distance(beg, end));
+    }
+#else
+    template <ranges::contiguous_range Rng>
+    inline auto make_string_view(Rng rng)
+    {
+        return std::basic_string_view(rng.begin(), rng.end());
+    }
+
+    template <std::contiguous_iterator It, std::sized_sentinel_for<It> End>
+    requires(requires(It beg, End end) { std::basic_string_view(beg, end); })
+    inline auto make_string_view(It beg, End end)
+    {
+        return std::basic_string_view(beg, end);
+    }
+#endif
 
     template <typename char_t>
     inline void _string_replace_all(std::basic_string<char_t>& str, std::basic_string_view<char_t> old_value,
@@ -95,176 +126,6 @@ namespace asst::utils
         return str;
     }
 
-    // 延迟求值的 string_split，分隔符可以为字符或字符串
-    template <typename char_t>
-    class string_split_view : public ranges::view_interface<string_split_view<char_t>>
-    {
-    private:
-        using base_string_view = std::basic_string_view<char_t>;
-        using base_string = std::basic_string<char_t>;
-        using string_iter = typename base_string_view::const_iterator;
-        base_string_view _rng {};
-        base_string_view _pat {};
-        base_string_view _nxt {};
-
-        class _iterator
-        {
-        private:
-            string_split_view* _pre = nullptr;
-            string_iter _cur = {};
-            base_string_view _nxt = {};
-            bool _trailing_empty = false;
-
-        public:
-            using iterator_concept = std::forward_iterator_tag;
-            using iterator_category = std::input_iterator_tag;
-            using value_type = base_string_view;
-            using difference_type = typename base_string_view::difference_type;
-
-            _iterator() = default;
-
-            constexpr _iterator(string_split_view& prev, string_iter curr, base_string_view next) noexcept
-                : _pre { std::addressof(prev) }, _cur { std::move(curr) }, _nxt { std::move(next) }
-            {}
-
-            [[nodiscard]] constexpr string_iter base() const noexcept { return _cur; }
-
-            [[nodiscard]] constexpr value_type operator*() const noexcept { return { _cur, _nxt.cbegin() }; }
-
-            constexpr _iterator& operator++()
-            {
-                auto _end = _pre->_rng.cend();
-
-                if (_cur = _nxt.cbegin(); _cur == _end) {
-                    _trailing_empty = false;
-                    return *this;
-                }
-
-                if (_cur = _nxt.cend(); _cur == _end) {
-                    _trailing_empty = true;
-                    _nxt = { _cur, _cur };
-                    return *this;
-                }
-
-                if (size_t _len = _pre->_pat.length(); !_len) {
-                    auto _beg = _cur + 1;
-                    _nxt = { std::move(_beg), std::move(_beg) };
-                }
-                else if (const auto _pos = base_string_view(_cur, _end).find(_pre->_pat);
-                         _pos == base_string_view::npos) {
-                    _nxt = { std::move(_end), std::move(_end) };
-                }
-                else {
-                    auto _beg = _cur + _pos;
-                    _nxt = { std::move(_beg), _beg + _pre->_pat.length() };
-                }
-
-                return *this;
-            }
-
-            constexpr _iterator operator++(int)
-            {
-                auto _tmp = *this;
-                ++*this;
-                return _tmp;
-            }
-
-            friend constexpr bool operator==(const _iterator& _lhs, const _iterator& _rhs) noexcept
-            {
-                return _lhs._cur == _rhs._cur && _lhs._trailing_empty == _rhs._trailing_empty;
-            }
-        };
-
-    public:
-        string_split_view() = default;
-
-        template <typename rng_t, typename pat_t>
-        requires std::convertible_to<pat_t, base_string_view>
-        constexpr string_split_view(rng_t&& rang, pat_t&& patt) noexcept
-            : _rng(std::forward<rng_t>(rang)), _pat(std::forward<pat_t>(patt))
-        {}
-
-        template <typename rng_t>
-        constexpr string_split_view(rng_t&&, char_t&&)
-        {
-            // 摆烂辣！解决不了临时变量导致 _pat 悬垂的问题
-            ASST_STATIC_ASSERT_FALSE("please use `views::split` instead ^_^", rng_t);
-        }
-
-        template <typename rng_t>
-        constexpr string_split_view(rng_t&& rang, const char_t& elem) noexcept
-            : _rng(std::forward<rng_t>(rang)), _pat(&elem, 1)
-        {}
-
-        [[nodiscard]] constexpr const base_string_view& base() const noexcept { return _rng; }
-        [[nodiscard]] constexpr base_string_view&& base() noexcept { return std::move(_rng); }
-
-        [[nodiscard]] constexpr auto begin()
-        {
-            const auto _beg = _rng.cbegin(), _end = _rng.cend();
-
-            if (_nxt.empty()) {
-                if (size_t _len = _pat.length(); !_len) {
-                    auto _cur = _beg + 1;
-                    _nxt = { std::move(_cur), std::move(_cur) };
-                }
-                else if (const auto _pos = _rng.find(_pat); _pos == base_string_view::npos) {
-                    _nxt = { std::move(_end), std::move(_end) };
-                }
-                else {
-                    auto _cur = _beg + _pos;
-                    _nxt = { std::move(_cur), _cur + _pat.length() };
-                }
-            }
-            return _iterator { *this, _beg, _nxt };
-        }
-
-        [[nodiscard]] constexpr auto end() { return _iterator { *this, _rng.cend(), {} }; }
-    };
-
-    template <ranges::range str_t, class pat_t>
-    string_split_view(str_t, pat_t) -> string_split_view<typename str_t::value_type>;
-
-    template <class str_t, class pat_t>
-    string_split_view(str_t*, pat_t) -> string_split_view<typename std::remove_cv<str_t>::type>;
-
-    struct _string_split_fn
-    {
-        template <ranges::range str_t, class pat_t>
-        [[nodiscard]] constexpr auto operator()(str_t&& _str, pat_t&& _pat) const
-            noexcept(noexcept(string_split_view(std::forward<str_t>(_str), std::forward<pat_t>(_pat))))
-        requires requires { string_split_view(static_cast<str_t&&>(_str), static_cast<pat_t&&>(_pat)); }
-        {
-            return string_split_view(std::forward<str_t>(_str), std::forward<pat_t>(_pat));
-        }
-    };
-
-    inline constexpr _string_split_fn string_split;
-
-    // // 以低内存开销拆分一个字符串；注意当 src 析构后，返回值将失效
-    // template <typename str_t, typename char_t = typename str_t::value_type, typename delimiter_t>
-    // requires std::convertible_to<str_t, std::basic_string_view<char_t>> &&
-    //          std::convertible_to<delimiter_t, std::basic_string_view<char_t>>
-    // inline std::vector<std::basic_string_view<char_t>> string_split(const str_t& src, delimiter_t delimiter,
-    //                                                                 size_t split_count = -1)
-    // {
-    //     std::basic_string_view<char_t> delimiter_view = delimiter;
-    //     std::basic_string_view<char_t> str = src;
-    //     typename std::basic_string<char_t>::size_type pos1 = 0;
-    //     typename std::basic_string<char_t>::size_type pos2 = str.find(delimiter_view);
-    //     std::vector<std::basic_string_view<char_t>> result;
-
-    //     while (split_count-- && pos2 != str.npos) {
-    //         result.emplace_back(str.substr(pos1, pos2 - pos1));
-
-    //         pos1 = pos2 + delimiter_view.length();
-    //         pos2 = str.find(delimiter_view, pos1);
-    //     }
-    //     if (pos1 != str.length()) result.emplace_back(str.substr(pos1));
-
-    //     return result;
-    // }
-
     inline std::string get_format_time()
     {
         char buff[128] = { 0 };
@@ -285,7 +146,7 @@ namespace asst::utils
         time_t nowtime = tv.tv_sec;
         struct tm* tm_info = localtime(&nowtime);
         strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
-        sprintf(buff, "%s.%03ld", buff, tv.tv_usec / 1000);
+        sprintf(buff, "%s.%03ld", buff, static_cast<long int>(tv.tv_usec / 1000));
 #endif // END _WIN32
         return buff;
     }
@@ -310,11 +171,12 @@ namespace asst::utils
     {
 #ifdef _WIN32
         const char* src_str = ansi_str.data();
-        int len = MultiByteToWideChar(CP_ACP, 0, src_str, -1, nullptr, 0);
+        const int byte_len = static_cast<int>(ansi_str.length() * sizeof(char));
+        int len = MultiByteToWideChar(CP_ACP, 0, src_str, byte_len, nullptr, 0);
         const std::size_t wstr_length = static_cast<std::size_t>(len) + 1U;
         auto wstr = new wchar_t[wstr_length];
         memset(wstr, 0, sizeof(wstr[0]) * wstr_length);
-        MultiByteToWideChar(CP_ACP, 0, src_str, -1, wstr, len);
+        MultiByteToWideChar(CP_ACP, 0, src_str, byte_len, wstr, len);
 
         len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, nullptr, 0, nullptr, nullptr);
         const std::size_t str_length = static_cast<std::size_t>(len) + 1;
@@ -340,11 +202,12 @@ namespace asst::utils
     {
 #ifdef _WIN32
         const char* src_str = utf8_str.data();
-        int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, nullptr, 0);
+        const int byte_len = static_cast<int>(utf8_str.length() * sizeof(char));
+        int len = MultiByteToWideChar(CP_UTF8, 0, src_str, byte_len, nullptr, 0);
         const std::size_t wsz_ansi_length = static_cast<std::size_t>(len) + 1U;
         auto wsz_ansi = new wchar_t[wsz_ansi_length];
         memset(wsz_ansi, 0, sizeof(wsz_ansi[0]) * wsz_ansi_length);
-        MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wsz_ansi, len);
+        MultiByteToWideChar(CP_UTF8, 0, src_str, byte_len, wsz_ansi, len);
 
         len = WideCharToMultiByte(CP_ACP, 0, wsz_ansi, -1, nullptr, 0, nullptr, nullptr);
         const std::size_t sz_ansi_length = static_cast<std::size_t>(len) + 1;
@@ -436,18 +299,3 @@ namespace asst::utils
         }
     }
 } // namespace asst::utils
-
-#if defined(ASST_USE_RANGES_RANGE_V3) || defined(ASST_USE_RANGES_STL)
-#ifdef ASST_USE_RANGES_RANGE_V3
-namespace ranges
-#else // ASST_USE_RANGES_STL
-namespace std::ranges
-#endif
-{
-    template <typename R>
-    inline constexpr bool enable_view<asst::utils::string_split_view<R>> = enable_view<std::basic_string_view<R>>;
-    template <typename R>
-    inline constexpr bool enable_borrowed_range<asst::utils::string_split_view<R>> =
-        enable_borrowed_range<std::basic_string_view<R>>;
-}
-#endif

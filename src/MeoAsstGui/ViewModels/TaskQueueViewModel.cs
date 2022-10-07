@@ -979,6 +979,7 @@ namespace MeoAsstGui
                 "夜神模拟器",
                 "逍遥模拟器",
                 "雷电模拟器(64)",
+                "雷电模拟器",
                 "明日方舟 - MuMu模拟器",
                 "BlueStacks App Player",
                 "BlueStacks",
@@ -1929,6 +1930,40 @@ namespace MeoAsstGui
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
             }
+        }
+
+        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", string.Empty);
+
+        /// <summary>
+        /// Gets or sets the item Name of drops.
+        /// </summary>
+        public string DropsItemName
+        {
+            get => _dropsItemName;
+            set
+            {
+                SetAndNotify(ref _dropsItemName, value);
+                SetFightParams();
+                ViewStatusStorage.Set("MainFunction.Drops.ItemName", DropsItemName);
+            }
+        }
+
+        public void DropsListDropDownClosed()
+        {
+            foreach (var item in DropsList)
+            {
+                if (item.Value == DropsItemId)
+                {
+                    if (DropsItemName != item.Display)
+                    {
+                        DropsItemName = Localization.GetString("NotSelected");
+                    }
+
+                    return;
+                }
+            }
+
+            DropsItemName = Localization.GetString("NotSelected");
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");

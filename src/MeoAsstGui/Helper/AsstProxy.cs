@@ -173,9 +173,9 @@ namespace MeoAsstGui
             }
 
             var settingsModel = _container.Get<SettingsViewModel>();
-            if (settingsModel.RoguelikeAdditionalResourceEnabled)
+            if (settingsModel.RoguelikeTheme != "Roguelike1")
             {
-                _additionalLoaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\");
+                _additionalLoaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\addition\\" + settingsModel.RoguelikeTheme + "\\");
                 return _additionalLoaded;
             }
 
