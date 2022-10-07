@@ -5620,6 +5620,16 @@
             "CloseCluePageThenSendClue"
         ]
     },
+    "BackToReceptionMain": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            280,
+            96,
+            130,
+            32
+        ]
+    },
     "CloseCluePageThenSendClue": {
         "template": "CloseCluePage.png",
         "action": "ClickSelf",
