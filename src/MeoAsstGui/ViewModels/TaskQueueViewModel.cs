@@ -1955,14 +1955,14 @@ namespace MeoAsstGui
                 {
                     if (DropsItemName != item.Display)
                     {
-                        DropsItemName = "请选择材料";
+                        DropsItemName = Localization.GetString("NotSelected");
                     }
 
                     return;
                 }
             }
 
-            DropsItemName = "请选择材料";
+            DropsItemName = Localization.GetString("NotSelected");
         }
 
         private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
