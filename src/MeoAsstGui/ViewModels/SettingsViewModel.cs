@@ -176,8 +176,8 @@ namespace MeoAsstGui
 
             RoguelikeThemeList = new List<CombData>
             {
-                new CombData { Display = "Phantom", Value = "Roguelike1" },
-                new CombData { Display = "Mizuki", Value = "Roguelike2" },
+                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Roguelike1" },
+                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Roguelike2" },
             };
 
             RoguelikeSquadList = new List<CombData>
