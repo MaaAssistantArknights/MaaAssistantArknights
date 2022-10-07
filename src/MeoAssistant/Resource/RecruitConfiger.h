@@ -33,7 +33,7 @@ namespace asst
             else
                 return std::strong_ordering::equal;
 #else
-            return rhs.name <=> lhs.name;                               // decrement order (print reversely)
+            return rhs.name <=> lhs.name; // decrement order (print reversely)
 #endif
         }
 
