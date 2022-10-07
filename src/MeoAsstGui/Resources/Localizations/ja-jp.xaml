@@ -44,6 +44,7 @@
     <system:String x:Key="CustomInfrastFileParseFailed">基地構成ファイルのパースエラー！</system:String>
     <system:String x:Key="CustomInfrastTitle">基地構成ファイルの設定：</system:String>
     <system:String x:Key="CustomInfrastPlan">基地計画</system:String>
+    <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
@@ -55,6 +56,7 @@
     <system:String x:Key="Compatible">互換モード</system:String>
 
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
+    <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">キャンドルを集めて、できるだけクリアする</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、2階に到着後止める</system:String>
@@ -67,7 +69,7 @@
     <system:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</system:String>
     <system:String x:Key="IS2NewSquad2">（ミヅキ）物尽其用分队</system:String>
     <system:String x:Key="IS2NewSquad3">（ミヅキ）以人为本分队</system:String>
-    <!--追加されているため先行対応-->
+    <!--  追加されているため先行対応  -->
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -133,7 +135,8 @@
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
-    <system:String x:Key="RoguelikeAdditionalResource">ミヅキのローグライクで使用する場合はチェック</system:String>
+    <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
+    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -150,6 +153,7 @@
     <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
     <system:String x:Key="BlacklistDefault">炭素材;家具</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
+    <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credit overflow</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
 
@@ -162,7 +166,8 @@
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip">ステージ名と番号（例：4-10、6-16など）の両方がサポートされています。</system:String>
 
-    <system:String x:Key="ADBTip">ヒント：接続時に自動的に検出されますが、エラーが発生した場合は変更を試みることができます。通常は自分で入力する必要はありません。</system:String>
+    <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
+    <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</system:String>
@@ -215,9 +220,9 @@
     <system:String x:Key="NoUse">使用しない</system:String>
     <system:String x:Key="Amend">設定の変更</system:String>
 
+    <system:String x:Key="DefaultStage">現在/前回</system:String>
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
-    <system:String x:Key="DefaultStage">現在/前回</system:String>
     <system:String x:Key="ClosedStage">イベント終了</system:String>
     <!--  動作不明  -->
     <system:String x:Key="1-7">1-7</system:String>
@@ -382,6 +387,7 @@
     <system:String x:Key="Drop">ドロップ：</system:String>
     <system:String x:Key="TotalDrop">ドロップ統計：</system:String>
     <system:String x:Key="ThisFacility">現在の施設：</system:String>
+    <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="RecruitingResults">公開求人の認識結果：</system:String>
     <system:String x:Key="RecruitingTips">公開求人ヒント</system:String>
     <system:String x:Key="RecruitmentOfStar">公開求人で星{0}が出ました！</system:String>

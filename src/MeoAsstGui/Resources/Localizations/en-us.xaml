@@ -65,6 +65,9 @@
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>
+    <system:String x:Key="IS2NewSquad1">Mind over matter(to be updated)</system:String>
+    <system:String x:Key="IS2NewSquad2">The best use of(to be updated)</system:String>
+    <system:String x:Key="IS2NewSquad3">people oriented(to be updated)</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>

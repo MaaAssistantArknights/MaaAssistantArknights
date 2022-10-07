@@ -38,6 +38,12 @@
     <system:String x:Key="DormTrustEnabled">宿舍空餘位置蹭信賴</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不將已進駐的幹員放入宿舍</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
+    <system:String x:Key="CustomInfrastEnabled">啓用自定義基建配置（beta）</system:String>
+    <system:String x:Key="CustomInfrastFile">自定義基建配置文件</system:String>
+    <system:String x:Key="CustomInfrastFileParseFailed">自定義基建配置文件解析錯誤！</system:String>
+    <system:String x:Key="CustomInfrastTitle">自定義基建配置：</system:String>
+    <system:String x:Key="CustomInfrastPlan">基建計劃</system:String>
+    <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自動保存爲下個計劃</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
@@ -49,6 +55,7 @@
     <system:String x:Key="Compatible">相容模式</system:String>
 
     <system:String x:Key="DormThreshold">基建工作心情閾值</system:String>
+    <system:String x:Key="InfrastThresholdTip">若啓用自定義換班，該字段僅針對 autofill 的房間有效</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">刷蠟燭，盡可能穩定的打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
@@ -58,6 +65,9 @@
     <system:String x:Key="StartingCoreCharTip">僅支持單個幹員中文名，不填寫則默認選擇</system:String>
 
     <system:String x:Key="DefaultSquad">默認分隊</system:String>
+    <system:String x:Key="IS2NewSquad1">心勝於物分隊</system:String>
+    <system:String x:Key="IS2NewSquad2">物盡其用分隊</system:String>
+    <system:String x:Key="IS2NewSquad3">以人爲本分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集羣分隊</system:String>
     <system:String x:Key="SupportSquad">後勤分隊</system:String>
@@ -123,6 +133,8 @@
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
+    <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
+    <system:String x:Key="RoguelikeChangedTip">肉鴿設置已更改，是否現在重啓 MAA 以應用設置？</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
@@ -136,6 +148,8 @@
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分号分隔</system:String>
+    <system:String x:Key="HighPriorityDefault">招聘許可；龍門幣</system:String>
+    <system:String x:Key="BlacklistDefault">碳；傢俱</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
 
@@ -149,7 +163,8 @@
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
     <system:String x:Key="CustomStageCodeTip">支持所有主線關卡名 + 原列表中的關卡名（如 4-10、6-16 等）</system:String>
 
-    <system:String x:Key="ADBTip">小提示：這裡會自動檢測的，若出現問題可再嘗試修改，否則不需要自行填寫</system:String>
+    <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
+    <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="ADBPath">adb 路徑 (相對/絕對)</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
@@ -195,6 +210,8 @@
     <system:String x:Key="Quantity">刷取數量</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
+    <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
+    <system:String x:Key="NoUse">不選擇</system:String>
     <system:String x:Key="Amend">修改</system:String>
 
     <!--<system:String x:Key="CurrentStage">當前關卡</system:String>
@@ -258,11 +275,21 @@
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自動選擇 6 星 Tags</system:String>
     <system:String x:Key="BeganToRecruit">開始辨識</system:String>
+    <!--  公招辨識  -->
+
+    <!--  倉庫識別  -->
+    <system:String x:Key="DepotRecognition">倉庫識別 beta</system:String>
+    <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 文件夾後向我們提交 issue ~</system:String>
+    <system:String x:Key="BeganToDepotRecognition">開始識別</system:String>
+    <system:String x:Key="ExportToArkplanner">導出至企鵝物流刷圖規劃</system:String>
+    <system:String x:Key="ExportToLolicon">導出至明日方舟工具箱</system:String>
+    <system:String x:Key="CopiedToClipboard">已複製到剪切板</system:String>
+    <!--  倉庫識別  -->
 
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
+    <system:String x:Key="IdentificationCompleted">識別完成</system:String>
     <!--  日誌  -->
-    <!--  公招辨識  -->
 
     <!--  自動戰鬥  -->
     <system:String x:Key="Copilot">自動戰鬥</system:String>
@@ -345,6 +372,7 @@
     <system:String x:Key="Drop">本次掉落：</system:String>
     <system:String x:Key="TotalDrop">掉落統計：</system:String>
     <system:String x:Key="ThisFacility">當前設施：</system:String>
+    <system:String x:Key="ProductIncorrect">產物與配置不相符</system:String>
     <system:String x:Key="RecruitingResults">公招辨識結果：</system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了喔！</system:String>

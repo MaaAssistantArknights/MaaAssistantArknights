@@ -38,6 +38,12 @@
     <system:String x:Key="DormTrustEnabled">기숙사 남은 자리 사용 신뢰감 증가</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">이미 들어온 간부는 숙소에 넣지 않는다</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지 늄 조 각 자동 완성 상품</system:String>
+    <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
+    <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
+    <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
+    <system:String x:Key="CustomInfrastTitle">ase Configuration:</system:String>
+    <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
+    <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="BlueStacks">블루스택</system:String>
@@ -49,6 +55,7 @@
     <system:String x:Key="Compatible">호환 모드</system:String>
 
     <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
+    <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
 
     <system:String x:Key="RoguelikeStrategyCandle">통합전략: 촛불 우선</system:String>
     <system:String x:Key="RoguelikeStrategyGold">통합전략: 오리지늄 주괴 우선</system:String>
@@ -58,6 +65,9 @@
     <system:String x:Key="StartingCoreCharTip">개별 간부의 중국어 이름만 지원하며, 기입하지 않으면 기본 선택입니다</system:String>
 
     <system:String x:Key="DefaultSquad">묵인</system:String>
+    <system:String x:Key="IS2NewSquad1">Mind over matter(to be updated)</system:String>
+    <system:String x:Key="IS2NewSquad2">The best use of(to be updated)</system:String>
+    <system:String x:Key="IS2NewSquad3">people oriented(to be updated)</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
@@ -123,6 +133,8 @@
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="AdditionCommand">추가 명령</system:String>
 
+    <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
+    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
@@ -136,7 +148,10 @@
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (세미콜론으로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (세미콜론으로 구분)</system:String>
+    <system:String x:Key="HighPriorityDefault">Recruitment Permit;LMD</system:String>
+    <system:String x:Key="BlacklistDefault">Carbon;Furniture Part</system:String>
     <system:String x:Key="Drink">술 한잔은 어떻습니까🍷? 박사님</system:String>
+    <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credit overflow</system:String>
 
     <system:String x:Key="DroneUsage">드런 용법</system:String>
 
@@ -148,7 +163,8 @@
     <system:String x:Key="CustomStageCode">레벨 코드를 수동으로 입력</system:String>
     <system:String x:Key="CustomStageCodeTip">모든 메인라인 레벨 이름 + 원래 목록의 레벨 이름 지원(예: 4-10, 6-16 등)</system:String>
 
-    <system:String x:Key="ADBTip">팁: 여기에서 자동으로 감지됩니다. 오류가 있는 경우 다시 수정을 시도할 수 있습니다. 그렇지 않으면 직접 입력할 필요가 없습니다.</system:String>
+    <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
+    <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제가 있으면 수동으로 수정하십시오</system:String>
@@ -179,6 +195,7 @@
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">MAA와 에뮬레이터를 종료</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, and Hibernate*</system:String>
     <system:String x:Key="Hibernate">하이버네이션*</system:String>
     <system:String x:Key="Shutdown">컴퓨터를 종료*</system:String>
 
@@ -193,6 +210,8 @@
     <system:String x:Key="Quantity">드롭 수</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">참조</system:String>
+    <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
+    <system:String x:Key="NoUse">No Use</system:String>
     <system:String x:Key="Amend">수정</system:String>
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
@@ -256,11 +275,21 @@
     <system:String x:Key="AutoSelectLevel5Tags">★ 5 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">★ 6 태그를 자동 선택</system:String>
     <system:String x:Key="BeganToRecruit">인식 시작</system:String>
+    <!--  공개모집 인식  -->
+
+    <!--  Depot Recognition  -->
+    <system:String x:Key="DepotRecognition">Depot tool beta</system:String>
+    <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
+    <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
+    <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
+    <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
+    <system:String x:Key="CopiedToClipboard">Copied to clipboard</system:String>
+    <!--  Depot Recognition  -->
 
     <!--  로그  -->
     <system:String x:Key="Identifying">인식중...</system:String>
+    <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
     <!--  로그  -->
-    <!--  공개모집 인식  -->
 
     <!--  자동 작전  -->
     <system:String x:Key="Copilot">자동 작전</system:String>
@@ -343,6 +372,7 @@
     <system:String x:Key="Drop">드롭:</system:String>
     <system:String x:Key="TotalDrop">드롭 통계:</system:String>
     <system:String x:Key="ThisFacility">이 시설:</system:String>
+    <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="RecruitingResults">공개모집 인식 결과:</system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
     <system:String x:Key="RecruitmentOfStar">★ {0} 모집했습니다!</system:String>
