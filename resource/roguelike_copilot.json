@@ -24,7 +24,7 @@
                 1
             ]
         ],
-        "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子，不写默认false",
+        "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子",
         "not_use_dice": false,
         "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
         "role_order": [ "warrior", "pioneer", "medic", "tank", "sniper", "caster", "support", "special", "drone" ]
@@ -442,7 +442,8 @@
                 4,
                 4
             ]
-        ]
+        ],
+        "role_order": [ "warrior", "pioneer", "sniper", "caster", "medical", "tank", "support", "special", "drone" ]
     },
     {
         "stage_name": "精酿杀手",
@@ -989,7 +990,8 @@
                 8,
                 6
             ]
-        ]
+        ],
+        "role_order": [ "sniper", "caster", "warrior", "pioneer", "medical", "support", "tank", "special", "drone" ]
     },
     {
         "stage_name": "机械之灾",
@@ -1345,6 +1347,20 @@
             {
                 "location": [
                     5,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    6,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    7,
                     3
                 ],
                 "direction": "left"
