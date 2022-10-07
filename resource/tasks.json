@@ -8152,6 +8152,19 @@
             30
         ]
     },
+    "Roguelike1SkillSelectionTeamFull": {
+        "cache": false,
+        "roi": [
+            135,
+            22,
+            1032,
+            668
+        ],
+        "maskRange": [
+            200,
+            255
+        ]
+    },
     "Roguelike1StartAction": {
         "template": "Roguelike1StartAction.png",
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
