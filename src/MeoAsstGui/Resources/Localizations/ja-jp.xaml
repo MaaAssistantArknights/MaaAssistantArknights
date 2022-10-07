@@ -420,6 +420,7 @@
     <system:String x:Key="QQgroup3">グループ3</system:String>
     <system:String x:Key="QQgroup4">グループ4</system:String>
     <system:String x:Key="QQgroup5">グループ5</system:String>
+    <system:String x:Key="QQgroup6">グループ6</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/ja-jp/1.2-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F.md</uri:Uri>
