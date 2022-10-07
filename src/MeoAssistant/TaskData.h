@@ -56,7 +56,7 @@ namespace asst
                         task_list.emplace_back(base);
                     }
                     else {
-                        task_list.emplace_back(task_prefix + base);
+                        task_list.emplace_back(task_prefix + "@" + base);
                     }
                 }
             };
