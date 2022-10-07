@@ -8243,6 +8243,8 @@
         "templThreshold": 0.99,
         "next": [
             "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterFree",
             "Roguelike1ChooseOperFlag"
         ]
@@ -8260,6 +8262,8 @@
         "templThreshold": 0.97,
         "next": [
             "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterUnknown",
             "Roguelike1StageEncounterLeave",
             "Roguelike1ChooseOperFlag"
         ]
@@ -8278,6 +8282,8 @@
         "next": [
             "Roguelike1ChooseOperFlag",
             "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterLeave",
             "Roguelike1StageEncounterUnknown"
         ]
     },
