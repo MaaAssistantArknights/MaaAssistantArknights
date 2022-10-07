@@ -2828,6 +2828,10 @@
             648,
             165
         ],
+        "maskRange": [
+            100,
+            255
+        ],
         "next": [
             "CloseAnno",
             "StartToWakeUp",
@@ -7182,6 +7186,10 @@
             409,
             648,
             165
+        ],
+        "maskRange": [
+            100,
+            255
         ],
         "next": [
             "CloseAnnoToRoguelike1",
