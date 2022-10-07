@@ -292,11 +292,11 @@ namespace asst
 #endif // END _WIN32
                     s << buff;
                 }
-                else if constexpr (std::convertible_to<T, std::string_view>) {
-                    s << std::forward<T>(v);
-                }
                 else if constexpr (has_stream_insertion_operator<Stream, T>) {
                     s << std::forward<T>(v);
+                }
+                else if constexpr (std::constructible_from<std::string, T>) {
+                    s << std::string(std::forward<T>(v));
                 }
                 else if constexpr (ranges::input_range<T>) {
                     s << "[";
