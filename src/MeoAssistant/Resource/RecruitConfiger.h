@@ -25,7 +25,16 @@ namespace asst
         friend std::strong_ordering operator<=>(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
         {
             if (lhs.level != rhs.level) return lhs.level <=> rhs.level; // increment order
-            return rhs.name <=> lhs.name;                               // decrement order (print reversely)
+#ifdef __clang__
+            if (rhs.name < lhs.name)
+                return std::strong_ordering::less;
+            else if (rhs.name > lhs.name)
+                return std::strong_ordering::greater;
+            else
+                return std::strong_ordering::equal;
+#else
+            return rhs.name <=> lhs.name; // decrement order (print reversely)
+#endif
         }
 
         friend bool operator==(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)

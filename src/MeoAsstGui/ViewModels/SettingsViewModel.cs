@@ -174,6 +174,12 @@ namespace MeoAsstGui
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
             };
 
+            RoguelikeThemeList = new List<CombData>
+            {
+                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Roguelike1" },
+                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Roguelike2" },
+            };
+
             RoguelikeSquadList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
@@ -445,6 +451,11 @@ namespace MeoAsstGui
         /// Gets or sets the list of uses of drones.
         /// </summary>
         public List<CombData> UsesOfDronesList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of roguelike lists.
+        /// </summary>
+        public List<CombData> RoguelikeThemeList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of roguelike modes.
@@ -780,15 +791,37 @@ namespace MeoAsstGui
 
         /* 肉鸽设置 */
 
-        private bool _roguelikeAdditionalResource = Convert.ToBoolean(ViewStatusStorage.Get("Roguelike.Addition", false.ToString()));
+        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Roguelike1");
 
-        public bool RoguelikeAdditionalResourceEnabled
+        /// <summary>
+        /// Gets or sets the Roguelike theme.
+        /// </summary>
+        public string RoguelikeTheme
         {
-            get => _roguelikeAdditionalResource;
+            get => _roguelikeTheme;
             set
             {
-                SetAndNotify(ref _roguelikeAdditionalResource, value);
-                ViewStatusStorage.Set("Roguelike.Addition", value.ToString());
+                if (value == _roguelikeTheme)
+                {
+                    return;
+                }
+
+                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
+                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
+                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
+                System.Windows.Forms.MessageBoxManager.Register();
+                var result = MessageBox.Show(
+                    Localization.GetString("RoguelikeChangedTip"),
+                    Localization.GetString("Tip"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+                System.Windows.Forms.MessageBoxManager.Unregister();
+                SetAndNotify(ref _roguelikeTheme, value);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                    System.Windows.Forms.Application.Restart();
+                }
             }
         }
 

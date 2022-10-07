@@ -108,10 +108,12 @@
                         Margin="0,6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
+                        DropDownClosed="{s:Action DropsListDropDownClosed}"
                         IsEditable="True"
                         IsTextSearchEnabled="False"
-                        Loaded="{s:Action DropsList_Loaded}"
+                        Text="{Binding DropsItemName}"
                         ItemsSource="{Binding DropsList}"
+                        Loaded="{s:Action DropsList_Loaded}"
                         SelectedValue="{Binding DropsItemId}"
                         SelectedValuePath="Value" />
 
@@ -155,7 +157,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
                     <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
-                        <!--a placeholder-->
+                        <!--  a placeholder  -->
                         <TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
@@ -251,14 +253,15 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="2" Orientation="Vertical">
                     <Grid Height="42">
-                        <TextBlock Visibility="{c:Binding CustomInfrastEnabled}"
+                        <TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource CustomInfrastPlan}"
                             TextAlignment="Center"
-                            TextWrapping="Wrap" />
+                            TextWrapping="Wrap"
+                            Visibility="{c:Binding CustomInfrastEnabled}" />
                     </Grid>
                 </StackPanel>
                 <StackPanel

@@ -60,6 +60,8 @@ namespace MeoAsstGui.Helper
                     targetComboBox.SelectedItem = null;
                     targetComboBox.Text = string.Empty;
                 }
+
+                targetComboBox.IsDropDownOpen = true;
             };
 
             targetTextBox.TextChanged += (o, args) =>
@@ -95,8 +97,6 @@ namespace MeoAsstGui.Helper
 
                     targetTextBox.SelectionStart = targetTextBox.Text.Length;
                 }
-
-                targetComboBox.IsDropDownOpen = true;
             };
 
             targetComboBox.SelectionChanged += (o, args) =>

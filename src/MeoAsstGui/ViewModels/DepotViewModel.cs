@@ -85,7 +85,7 @@ namespace MeoAsstGui
             foreach (var item in details["arkplanner"]["object"]["items"].Cast<JObject>())
             {
                 result += (string)item["name"] + " : " + (int)item["have"] + "\t";
-                if (++count == 4)
+                if (++count == 3)
                 {
                     result += "\n";
                     count = 0;

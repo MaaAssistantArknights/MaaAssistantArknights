@@ -1,9 +1,13 @@
-- 优化 肉鸽 招募优先级 @WWPXX233
-- 优化 肉鸽 部分地图部署位置 @nightofknife
-- 修复 肉鸽 无位置部署时，会点开干员一直慢速运行的问题 @MistEO
-- 修复 水月肉鸽 在以下界面卡住的问题：选择战利品、招募干员、`风雨际会`节点、`紧急运输`节点、第五层 Boss 关卡、战利品选择界面、通关界面 @MistEO
-- 修复 水月肉鸽 往水上放干员的问题 @zzyyyl
-- 修复 刷理智 EX 关卡不能自动停止的问题 @zzyyyl
-- 修复 自定义基建 配置错误时的日志打印 @horror-proton
-- 重构 Utils 工具类 @horror-proton
-- 新增 [牛牛也能看懂的 PR 教程文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/2.4-%E7%BA%AF%E7%BD%91%E9%A1%B5%E7%AB%AFPR%E6%95%99%E7%A8%8B.md) @MistEO
+- 新增 水月肉鸽 及其月度小队支持，请在设置中选择“肉鸽主题” @MistEO @ABA2396
+- 新增 自定义基建 内置 153 三换、243 四换 作业，并修复 243 三换作业的问题 @545426 @anywugn
+- 优化 肉鸽 干员招募、技能优先级 @WWPXX233
+- 优化 界面显示 @nightofknife @ABA2396
+- 修复 水月肉鸽 部分卡住问题 @MistEO
+- 修复 macOS 下编译错误 @hguandl
+- 修复 潜在的崩溃问题 @MistEO @zzyyyl
+- 修复 雷电模拟器 “退出模拟器” 卡死的问题 @only562
+- 优化 Utils 工具类 @zzyyyl @horror-proton
+- 优化 ROI 脚本 @MistEO
+- Use different material resource files for different clients, fix deopot recognition errors and localize them @MistEO
+- Fix the name recognition of operators @wallsman @nightofknife @zzyyyl @ABA2396
+- Update Documentation @MistEO @wallsman @ABA2396
