@@ -157,12 +157,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
     }
 #endif
 
-    std::string log_str = "[ ";
-    for (const auto& res : m_result) {
-        log_str += res.rect.to_string() + " : " + std::to_string(res.score) + "; ";
-    }
-    log_str += "]";
-    Log.trace("multi_match_templ | ", m_templ_name, log_str, "roi:", m_roi.to_string());
+    Log.trace("multi_match_templ | ", m_templ_name, "result:", m_result, "roi:", m_roi);
 
     if (!m_result.empty()) {
         return true;
