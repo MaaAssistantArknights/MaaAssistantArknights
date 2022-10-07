@@ -32,7 +32,7 @@
         {
             "name": "百炼嘉维尔",
             "skill": 3,
-            "alternate_skill": 1,
+            "alternate_skill": 2,
             "recruit_priority": 900,
             "promote_priority": 750
         },
@@ -87,7 +87,7 @@
         {
             "name": "陈",
             "skill": 3,
-            "alternate_skill": 1,
+            "alternate_skill": 2,
             "recruit_priority": 750,
             "promote_priority": 700
         },
@@ -209,7 +209,7 @@
             "name": "塞雷娅",
             "skill": 2,
             "recruit_priority": 800,
-            "promote_priority": 650
+            "promote_priority": 760
         },
         {
             "name": "瑕光",
