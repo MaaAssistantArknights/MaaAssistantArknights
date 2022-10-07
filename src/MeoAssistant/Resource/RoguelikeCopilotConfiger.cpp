@@ -2,6 +2,7 @@
 
 #include <meojson/json.hpp>
 
+#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfiger::get_stage_data(
@@ -60,42 +61,80 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
                 data.key_kills.emplace_back(static_cast<int>(key_kill));
             }
         }
-        if (auto opt = stage_info.find<bool>("not_use_dice")) {
-            data.use_dice_stage = (!opt.value());
-        }
+        data.use_dice_stage = !stage_info.get("not_use_dice", false);
+
         constexpr int RoleNumber = 9;
-        static const std::array<BattleRole, RoleNumber> RoleOrder = {
+        static constexpr std::array<BattleRole, RoleNumber> RoleOrder = {
             BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
             BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
         };
         static const std::unordered_map<std::string, BattleRole> NameToRole = {
-            { "caster", BattleRole::Caster }, { "medic", BattleRole::Medic },   { "pioneer", BattleRole::Pioneer },
-            { "sniper", BattleRole::Sniper }, { "special", BattleRole::Special }, { "support", BattleRole::Support },
-            { "tank", BattleRole::Tank },   { "warrior", BattleRole::Warrior }, { "drone", BattleRole::Drone }
+            { "warrior", BattleRole::Warrior }, { "WARRIOR", BattleRole::Warrior },
+            { "Warrior", BattleRole::Warrior }, { "近卫", BattleRole::Warrior },
+
+            { "pioneer", BattleRole::Pioneer }, { "PIONEER", BattleRole::Pioneer },
+            { "Pioneer", BattleRole::Pioneer }, { "先锋", BattleRole::Pioneer },
+
+            { "medic", BattleRole::Medic },     { "MEDIC", BattleRole::Medic },
+            { "Medic", BattleRole::Medic },     { "医疗", BattleRole::Medic },
+
+            { "tank", BattleRole::Tank },       { "TANK", BattleRole::Tank },
+            { "Tank", BattleRole::Tank },       { "重装", BattleRole::Tank },
+
+            { "sniper", BattleRole::Sniper },   { "SNIPER", BattleRole::Sniper },
+            { "Sniper", BattleRole::Sniper },   { "狙击", BattleRole::Sniper },
+
+            { "caster", BattleRole::Caster },   { "CASTER", BattleRole::Caster },
+            { "Caster", BattleRole::Caster },   { "术师", BattleRole::Caster },
+
+            { "support", BattleRole::Support }, { "SUPPORT", BattleRole::Support },
+            { "Support", BattleRole::Support }, { "辅助", BattleRole::Support },
+
+            { "special", BattleRole::Special }, { "SPECIAL", BattleRole::Special },
+            { "Special", BattleRole::Special }, { "特种", BattleRole::Special },
+
+            { "drone", BattleRole::Drone },     { "DRONE", BattleRole::Drone },
+            { "Drone", BattleRole::Drone },     { "无人机", BattleRole::Drone },
         };
         auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
         if (auto opt = stage_info.find<json::array>("role_order")) {
+            const auto& raw_roles = opt.value();
+            using views::filter, views::transform;
             std::unordered_set<BattleRole> specified_role;
-            std::vector<BattleRole> role_order_vec;
+            std::vector<BattleRole> role_order;
             bool is_legal = true;
-            for (size_t i = 0; i < opt.value().size(); ++i) {
-                std::string role_name = static_cast<std::string>(opt.value().at(i));
-                ranges::transform(role_name, role_name.begin(), to_lower);
+            if (ranges::find_if_not(raw_roles | views::all, std::mem_fn(&json::value::is_string)) != raw_roles.end()) {
+                Log.error("BattleRole should be string");
+                return false;
+            }
+            auto roles = raw_roles | filter(&json::value::is_string) | transform(&json::value::as_string) |
+                         transform([&](std::string name) {
+                             ranges::for_each(name, to_lower);
+                             return std::move(name);
+                         });
+            for (const std::string& role_name : roles) {
                 auto iter = NameToRole.find(role_name);
-                if (iter == NameToRole.end()) {
+                if (iter == NameToRole.end()) [[unlikely]] {
+                    Log.error("Unknown BattleRole:", role_name);
+                    is_legal = false;
+                    break;
+                }
+                if (specified_role.contains(iter->second)) [[unlikely]] {
+                    Log.error("Duplicated BattleRole:", role_name);
                     is_legal = false;
                     break;
                 }
                 specified_role.emplace(iter->second);
-                role_order_vec.emplace_back(iter->second);
+                role_order.emplace_back(iter->second);
             }
-            for (const auto& role : RoleOrder) {
-                if (!specified_role.contains(role)) {
-                    role_order_vec.emplace_back(role);
+            if (is_legal) [[likely]] {
+                ranges::copy(RoleOrder | filter([&](BattleRole role) { return !specified_role.contains(role); }),
+                             std::back_inserter(role_order));
+                if (role_order.size() != RoleNumber) [[unlikely]] {
+                    Log.error("Unexpected role_order size:", role_order.size());
+                    return false;
                 }
-            }
-            if (is_legal) {
-                std::move(role_order_vec.begin(), role_order_vec.end(), data.role_order.begin());
+                ranges::move(role_order, data.role_order.begin());
             }
             else {
                 data.role_order = RoleOrder;
