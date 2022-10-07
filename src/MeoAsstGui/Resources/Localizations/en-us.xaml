@@ -405,6 +405,7 @@
     <system:String x:Key="QQgroup3">QQ group 3</system:String>
     <system:String x:Key="QQgroup4">QQ group 4</system:String>
     <system:String x:Key="QQgroup5">QQ group 5</system:String>
+    <system:String x:Key="QQgroup6">QQ group 6</system:String>
     <system:String x:Key="QQgroupfull">(Full)</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>

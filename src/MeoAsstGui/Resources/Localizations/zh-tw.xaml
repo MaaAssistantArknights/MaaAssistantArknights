@@ -405,6 +405,7 @@
     <system:String x:Key="QQgroup3">三群</system:String>
     <system:String x:Key="QQgroup4">四群</system:String>
     <system:String x:Key="QQgroup5">五群</system:String>
+    <system:String x:Key="QQgroup6">六群</system:String>
     <system:String x:Key="QQgroupfull">(已滿)</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/zh-tw/1.2-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C.md</uri:Uri>

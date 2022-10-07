@@ -405,6 +405,7 @@
     <system:String x:Key="QQgroup3">QQ그룹3</system:String>
     <system:String x:Key="QQgroup4">QQ그룹4</system:String>
     <system:String x:Key="QQgroup5">QQ그룹5</system:String>
+    <system:String x:Key="QQgroup6">QQ그룹6</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>
