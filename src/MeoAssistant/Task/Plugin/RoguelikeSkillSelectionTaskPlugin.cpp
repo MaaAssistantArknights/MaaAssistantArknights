@@ -33,6 +33,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         return false;
     }
 
+    bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         if (name.empty()) {
             continue;
@@ -47,8 +48,20 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
             Log.info(__FUNCTION__, name, " select main skill:", oper_info.skill);
             m_ctrler->click(skill_vec.at(oper_info.skill - 1));
         }
-        m_status->set_number("RoguelikeSkillUsage-" + name, static_cast<int>(oper_info.skill_usage));
+        constexpr int RookieStd = 200;
+        if (oper_info.promote_priority < RookieStd) {
+            has_rookie = true;
+        }
+        m_status->set_number(RuntimeStatus::RoguelikeSkillUsagePrefix + name, static_cast<int>(oper_info.skill_usage));
     }
 
+    if (analyzer.get_team_full() && !has_rookie) {
+        Log.info("Team full and no rookie");
+        m_status->set_number(RuntimeStatus::RoguelikeTeamFullWithoutRookie, 1);
+    }
+    else {
+        Log.info("Team not full or has rookie");
+        m_status->set_number(RuntimeStatus::RoguelikeTeamFullWithoutRookie, 0);
+    }
     return true;
 }

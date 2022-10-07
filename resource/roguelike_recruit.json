@@ -15,7 +15,12 @@
             "name": "Sharp",
             "skill": 1,
             "recruit_priority": 990,
-            "promote_priority": 650
+            "recruit_priority_when_team_full": 890,
+            "recruit_priority_when_team_full_Doc": "不填默认 recruit_priority - 100",
+            "promote_priority": 650,
+            "promote_priority_when_team_full": 750,
+            "promote_priority_when_team_full_Doc": "不填默认 promote_priority + 100",
+            "Doc": "编队满了且编队内所有干员 promote_priority 均大于200，才会走两个 when_team_full 的逻辑"
         },
         {
             "name": "海沫",
