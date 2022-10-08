@@ -396,6 +396,7 @@
             143
         ],
         "templThreshold": 0.95,
+        "rearDelay": 1000,
         "next": [
             "Roguelike1StageEncounterEnter",
             "Roguelike1StageTrader",

@@ -34,6 +34,10 @@ class Asst:
             Asst.__libpath = pathlib.Path(path) / 'MeoAssistant.dll'
             os.environ["PATH"] += os.pathsep + str(path)
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
+        if platform.system().lower() == 'darwin':
+            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.dylib'
+            os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
+            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         else:
             Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.so'
             os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)

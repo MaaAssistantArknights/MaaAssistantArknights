@@ -1706,27 +1706,22 @@ namespace MeoAsstGui
                 return;
             }
 
-            var now = DateTime.Now;
-            int hour = now.Hour;
-            int minute = now.Minute;
+            bool timeLess(int lHour, int lMin, int rHour, int rMin)
+            {
+                return (lHour != rHour) ? (lHour < rHour) : (lMin < rMin);
+            }
 
+            var now = DateTime.Now;
             foreach (var plan in CustomInfrastPlanInfoList)
             {
-                bool hit = false;
                 foreach (var period in plan.PeriodList)
                 {
-                    if (period.BeginHour <= hour && period.BeginMinute <= minute &&
-                        hour <= period.EndHour && minute <= period.EndMinute)
+                    if (timeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
+                        timeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))
                     {
                         CustomInfrastPlanIndex = plan.Index;
-                        hit = true;
-                        break;
+                        return;
                     }
-                }
-
-                if (hit)
-                {
-                    break;
                 }
             }
         }

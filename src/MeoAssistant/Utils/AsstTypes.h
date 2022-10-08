@@ -38,7 +38,8 @@ namespace asst
         Point& operator=(Point&&) noexcept = default;
         Point operator-() const noexcept { return { -x, -y }; }
         bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
-        std::string to_string() const { return "[ " + std::to_string(x) + ", " + std::to_string(y) + " ]"; }
+        std::string to_string() const { return "(" + std::to_string(x) + ", " + std::to_string(y) + ")"; }
+        explicit operator std::string() const { return to_string(); }
         static constexpr Point right() { return { 1, 0 }; }
         static constexpr Point down() { return { 0, 1 }; }
         static constexpr Point left() { return { -1, 0 }; }
@@ -115,11 +116,11 @@ namespace asst
         }
         Rect& operator=(const Rect&) noexcept = default;
         Rect& operator=(Rect&&) noexcept = default;
-        bool empty() const noexcept { return width == 0 || height == 0; }
         bool operator==(const Rect& rhs) const noexcept
         {
             return x == rhs.x && y == rhs.y && width == rhs.width && height == rhs.height;
         }
+        bool empty() const noexcept { return width == 0 || height == 0; }
         bool include(const Rect& rhs) const noexcept
         {
             return x <= rhs.x && y <= rhs.y && (x + width) >= (rhs.x + rhs.width) &&
@@ -134,6 +135,7 @@ namespace asst
             return "[ " + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(width) + ", " +
                    std::to_string(height) + " ]";
         }
+        explicit operator std::string() const { return to_string(); }
         Rect move(Rect move) const { return { x + move.x, y + move.y, move.width, move.height }; }
 
         int x = 0;
@@ -150,13 +152,16 @@ namespace asst
         TextRect(TextRect&&) noexcept = default;
         TextRect(double score, const Rect& rect, const std::string& text) : score(score), rect(rect), text(text) {}
 
-        explicit operator std::string() const noexcept { return text; }
-        explicit operator Rect() const noexcept { return rect; }
-        std::string to_string() const { return text + " : " + rect.to_string() + ", score: " + std::to_string(score); }
         TextRect& operator=(const TextRect&) = default;
         TextRect& operator=(TextRect&&) noexcept = default;
         bool operator==(const TextRect& rhs) const noexcept { return text == rhs.text && rect == rhs.rect; }
         bool operator==(const std::string& rhs) const noexcept { return text == rhs; }
+        explicit operator Rect() const noexcept { return rect; }
+        std::string to_string() const
+        {
+            return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
+        }
+        explicit operator std::string() const { return to_string(); }
 
         double score = 0.0;
         Rect rect;
@@ -184,6 +189,11 @@ namespace asst
         explicit operator Rect() const noexcept { return rect; }
         MatchRect& operator=(const MatchRect&) = default;
         MatchRect& operator=(MatchRect&&) noexcept = default;
+        std::string to_string() const
+        {
+            return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
+        }
+        explicit operator std::string() const { return to_string(); }
 
         double score = 0.0;
         Rect rect;

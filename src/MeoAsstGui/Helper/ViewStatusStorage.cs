@@ -98,6 +98,7 @@ namespace MeoAsstGui
                 return false;
             }
 
+            BakeUpDaily();
             return true;
         }
 
@@ -146,6 +147,36 @@ namespace MeoAsstGui
             catch (Exception)
             {
                 return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Backs up configuration daily. (#2145)
+        /// </summary>
+        /// <param name="num">The number of backup files.</param>
+        /// <returns>Whether the operation is successful.</returns>
+        public static bool BakeUpDaily(int num = 2)
+        {
+            if (File.Exists(_configBakFilename) && DateTime.Now.Date != new FileInfo(_configBakFilename).LastWriteTime.Date && num > 0)
+            {
+                try
+                {
+                    for (; num > 1; num--)
+                    {
+                        if (File.Exists(string.Concat(_configBakFilename, num - 1)))
+                        {
+                            File.Copy(string.Concat(_configBakFilename, num - 1), string.Concat(_configBakFilename, num), true);
+                        }
+                    }
+
+                    File.Copy(_configBakFilename, string.Concat(_configBakFilename, num), true);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
 
             return true;
