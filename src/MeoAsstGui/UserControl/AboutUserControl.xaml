@@ -41,18 +41,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Style="{StaticResource TextBlockDefault}">
-            <Hyperlink
-                Click="Hyperlink_Click"
-                NavigateUri="https://prts.plus/"
-                TextDecorations="None">
-                <TextBlock Text="{DynamicResource PrtsPlus}" />
-            </Hyperlink>
-        </TextBlock>
-        <TextBlock
-            Margin="5"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
             <TextBlock Text="{DynamicResource QQgroup}" />
             <Hyperlink
                 Click="Hyperlink_Click"
@@ -138,6 +126,18 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
+                NavigateUri="https://t.me/+Mgc2Zngr-hs3ZjU1"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource Telegram}" />
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock
+            Margin="5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}">
+            <Hyperlink
+                Click="Hyperlink_Click"
                 NavigateUri="{DynamicResource HelpUri}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Help}" />
@@ -153,6 +153,42 @@
                 NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Issue}" />
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock
+            Margin="5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}">
+            <Hyperlink
+                Click="Hyperlink_Click"
+                NavigateUri="https://prts.plus/"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource PrtsPlus}" />
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock
+            Margin="5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}">
+            <Hyperlink
+                Click="Hyperlink_Click"
+                NavigateUri="https://map.ark-nights.com/areas?coord_override=maa"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource MapPrts}" />
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock
+            Margin="5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}">
+            <Hyperlink
+                Click="Hyperlink_Click"
+                NavigateUri="https://yituliu.site/riicCal/"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource CustomInfrastGenerator}" />
             </Hyperlink>
         </TextBlock>
     </StackPanel>

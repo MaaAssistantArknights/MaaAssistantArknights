@@ -1,10 +1,38 @@
-- 修复 水月肉鸽 晋升收藏品不招人的问题 @MistEO
-- 修复 水月肉鸽 点到收藏品界面卡死的问题 @MistEO
+- 更新 可爱牛牛图标！非常感谢 vie 太太~
+- 新增 水月肉鸽 及其月度小队支持，优化并修复肉鸽部分逻辑 @MistEO @zzyyyl @nightofknife @WWPXX233  
+    请进入设置中选择 `水月` / `傀影` 主题  
+- 新增 肉鸽 卡住时，会自动保存截图到 `debug/roguelike/`，汇报 bug 请附上其中的图片，感谢~ @MistEO
+- 新增 界面日志 保存至 `gui.log` @zzyyyl
+- 新增 信用购物 信用溢出时无视黑名单选项 @Hydrogina
+- 新增 刷理智 支持从 战斗中、战斗结束画面 开始，优化部分流程 @DavidWang19 @zzyyyl
+- 新增并优化 自定义基建 部分内置作业 @MistEO @ABA2396 @545426 @anywugn
+- 优化 肉鸽 刷源石锭选项，改为进入第二层后再退出 @MistEO
+- 优化 自定义基建 参数读取逻辑，新增支持 `enable` 参数 @MistEO @horror-proton
+- 优化 界面 参数设置，改为实时生效，移除“修改”按钮 @MistEO
+- 优化 界面 布局及样式 @DavidWang19 @zzyyyl @ABA2396 @MistEO
+- 优化 公招 Tag 匹配逻辑 @horror-proton @zzyyyl
+- 修复 公招 忽略 支援机械 的问题 @zzyyyl @horror-proton
+- 修复 公招 上传、识别错误 @horror-proton
+- 修复 基建 清空按钮不生效导致的换班失败问题 @MistEO
+- 修复 刷理智 EX 关卡不能自动停止的问题 @zzyyyl
+- 修复 刷理智 活动关卡导航卡住的问题 @ABA2396
 - 修复 信用商店 网络不佳时卡住的问题 @MistEO
-- 修复 自定义基建 `period` 时间错位的问题 @MistEO
-- 新增 自定义基建 333 搓玉方案内置作业 @nightofknife
-- 新增 macOS VisionOCR 编译参数 @hguandl
+- 修复 连接问题及截图错误 @zzyyyl @MistEO
+- 修复 自定义基建 period 时间错位的问题 @MistEO
+- 修复 雷电模拟器 “退出模拟器” 卡死的问题 @only562
+- 修复 macOS 下的编译错误 @hguandl @horror-proton
+- 新增 Golang 接口 @yilin2020
+- 新增 自定义基建 json schema @martinwang2002
+- 新增 配置文件语法检查，修复一些错误 @zzyyyl
 - 新增 gui.json 每日额外备份机制 @moomiji
-- 优化 Utils 类 @zzyyyl
-- 更新 加群链接 @ABA2396
+- 更新 界面翻译及文档 @MistEO @wallsman @Tastror
+- 重构 项目目录结构 @zzyyyl @horror-proton @MistEO
+- 重构 Utils 工具类 @horror-proton @zzyyyl
+- 优化 项目资源更新工具 @MistEO @zzyyyl
+- 优化 ROI 脚本 @MistEO
+- 优化 Issue Checker @zzyyyl
+- Use different material resource files for different clients, fix depot recognition errors and localize them @MistEO
+- Fix the name recognition of operators @wallsman @nightofknife @zzyyyl @ABA2396
+- Update documentation @MistEO @wallsman @ABA2396 @LYZhelloworld
+- Support credit shopping for JP and EN clients @MistEO
 - Update recruit types, use tag id in penguin stats payload @horror-proton
