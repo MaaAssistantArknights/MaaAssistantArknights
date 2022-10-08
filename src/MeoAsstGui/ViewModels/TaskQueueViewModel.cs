@@ -1710,23 +1710,28 @@ namespace MeoAsstGui
             int hour = now.Hour;
             int minute = now.Minute;
 
+            bool timeLess(int lHour, int lMin, int rHour, int rMin)
+            {
+                if (lHour != rHour)
+                {
+                    return lHour < rHour;
+                }
+                else
+                {
+                    return lMin < rMin;
+                }
+            }
+
             foreach (var plan in CustomInfrastPlanInfoList)
             {
-                bool hit = false;
                 foreach (var period in plan.PeriodList)
                 {
-                    if (period.BeginHour <= hour && period.BeginMinute <= minute &&
-                        hour <= period.EndHour && minute <= period.EndMinute)
+                    if (timeLess(period.BeginHour, period.BeginMinute, hour, minute) &&
+                        timeLess(hour, minute, period.EndHour, period.EndMinute))
                     {
                         CustomInfrastPlanIndex = plan.Index;
-                        hit = true;
-                        break;
+                        return;
                     }
-                }
-
-                if (hit)
-                {
-                    break;
                 }
             }
         }
