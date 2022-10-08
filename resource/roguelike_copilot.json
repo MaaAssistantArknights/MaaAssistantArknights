@@ -37,7 +37,11 @@
             "support",
             "special",
             "drone"
-        ]
+        ],
+        "stop_melee_deploy_num_Doc": "部署10000个近战单位后开始部署远程单位，填写此项后必须填写deploy_ranged_num项",
+        "stop_melee_deploy_num": 10000,
+        "deploy_ranged_num_Doc": "部署0个远程单位后恢复正常部署逻辑",
+        "deploy_ranged_num": 0
     },
     {
         "stage_name": "虫群横行",
