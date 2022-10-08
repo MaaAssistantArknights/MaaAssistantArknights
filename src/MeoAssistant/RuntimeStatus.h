@@ -37,7 +37,10 @@ namespace asst
         static inline const std::string RoguelikeCharLevelPrefix = "RoguelikeLevel-";
         static inline const std::string RoguelikeCharRarityPrefix = "RoguelikeRarity-";
         static inline const std::string RoguelikeCharOverview = "RoguelikeOverview";
+        static inline const std::string RoguelikeCoreChar = "RoguelikeCoreChar";
         static inline const std::string RoguelikeTraderNoLongerBuy = "RoguelikeNoLongerBuy";
+        static inline const std::string RoguelikeSkillUsagePrefix = "RoguelikeSkillUsage-";
+        static inline const std::string RoguelikeTeamFullWithoutRookie = "RoguelikeTeamFullWithoutRookie";
 
     private:
         std::unordered_map<std::string, int64_t> m_number;

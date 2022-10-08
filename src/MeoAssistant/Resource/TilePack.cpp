@@ -35,7 +35,7 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(c
 
     bool ret = m_tile_calculator->run(stage_code, side, pos, tiles);
 
-    Log.trace("After tiles cacl run");
+    Log.trace("After tiles calc run");
     if (!ret) {
         Log.info("Tiles calc error!");
         return {};
