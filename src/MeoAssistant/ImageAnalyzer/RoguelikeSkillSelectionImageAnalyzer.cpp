@@ -2,6 +2,7 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "General/MatchImageAnalyzer.h"
 #include "General/MultiMatchImageAnalyzer.h"
 #include "General/OcrWithPreprocessImageAnalyzer.h"
 #include "Resource/RoguelikeRecruitConfiger.h"
@@ -40,6 +41,8 @@ bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
         m_result.emplace(std::move(name), std::move(skills));
     }
 
+    team_full_analyze();
+
     return !m_result.empty();
 }
 
@@ -73,4 +76,11 @@ std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyz
         result.emplace_back(roi.move(Task.get(task_name)->rect_move));
     }
     return result;
+}
+
+void asst::RoguelikeSkillSelectionImageAnalyzer::team_full_analyze()
+{
+    MatchImageAnalyzer analyzer(m_image);
+    analyzer.set_task_info("Roguelike1SkillSelectionTeamFull");
+    m_team_full = !analyzer.analyze();
 }

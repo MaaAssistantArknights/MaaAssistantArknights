@@ -131,6 +131,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 
     sleep(Task.get("Roguelike1Custom-HijackCoChar")->pre_delay);
 
-    m_status->set_str("RoguelikeCoreChar", char_name);
+    m_status->set_str(RuntimeStatus::RoguelikeCoreChar, char_name);
     return true;
 }
