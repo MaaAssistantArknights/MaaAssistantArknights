@@ -105,8 +105,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     }
 
     std::vector<TextRect> result;
-    std::string log_str_raw;
-    std::string log_str_proc;
+    std::vector<TextRect> raw_result;
 
 #ifdef ASST_DEBUG
     cv::Mat draw = image.clone();
@@ -121,10 +120,8 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
             int* box = m_boxes_buffer + i * 8;
             int x_collect[4] = { *(box + 0), *(box + 2), *(box + 4), *(box + 6) };
             int y_collect[4] = { *(box + 1), *(box + 3), *(box + 5), *(box + 7) };
-            int left = static_cast<int>(*std::min_element(x_collect, x_collect + 4));
-            int right = static_cast<int>(*std::max_element(x_collect, x_collect + 4));
-            int top = static_cast<int>(*std::min_element(y_collect, y_collect + 4));
-            int bottom = static_cast<int>(*std::max_element(y_collect, y_collect + 4));
+            auto [left, right] = ranges::minmax(x_collect);
+            auto [top, bottom] = ranges::minmax(y_collect);
             rect = Rect(left, top, right - left, bottom - top);
         }
         std::string text(*(m_strs_buffer + i));
@@ -137,15 +134,14 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 #ifdef ASST_DEBUG
         cv::rectangle(draw, utils::make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
 #endif
-        log_str_raw += tr.to_string() + ", ";
+        raw_result.emplace_back(tr);
         if (!pred || pred(tr)) {
-            log_str_proc += tr.to_string() + ", ";
             result.emplace_back(std::move(tr));
         }
     }
 
-    Log.trace("OcrPack::recognize | raw : ", log_str_raw);
-    Log.trace("OcrPack::recognize | proc : ", log_str_proc);
+    Log.trace("OcrPack::recognize | raw:", raw_result);
+    Log.trace("OcrPack::recognize | proc:", result);
     return result;
 }
 
@@ -162,7 +158,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         }
         return pred(tr);
     };
-    Log.trace("OcrPack::recognize | roi : ", roi.to_string());
+    Log.trace("OcrPack::recognize | roi:", roi);
     cv::Mat roi_img = image(utils::make_rect<cv::Rect>(roi));
     return recognize(roi_img, rect_cor, without_det);
 }
