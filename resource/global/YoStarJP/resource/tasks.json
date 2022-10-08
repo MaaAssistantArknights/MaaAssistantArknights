@@ -94,7 +94,7 @@
             140
         ],
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "NoFriends": {
@@ -110,7 +110,7 @@
         ],
         "action": "DoNothing",
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "RecruitTags": {

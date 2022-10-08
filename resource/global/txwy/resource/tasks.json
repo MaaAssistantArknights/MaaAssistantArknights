@@ -92,7 +92,7 @@
         ],
         "next": [
             "Recruit@CloseAnno",
-            "Recruit"
+            "Recruit@Main"
         ]
     },
     "RecruitBeginLoading": {
@@ -110,7 +110,7 @@
         ],
         "next": [
             "RecruitBeginLoading",
-            "Recruit",
+            "Recruit@Main",
             "RecruitBegin"
         ]
     },
