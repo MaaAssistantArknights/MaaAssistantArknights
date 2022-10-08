@@ -323,6 +323,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         Rect cur_rect;
         for (size_t i = 0; i < opers.size(); ++i) {
             const auto& cur_opers = battle_analyzer.get_opers();
+            if (cur_opers.empty()) {
+                // 只会在战斗结束时发生，战斗结束后cur_opers为空，导致访问越界
+                return true;
+            }
             size_t offset = opers.size() > cur_opers.size() ? opers.size() - cur_opers.size() : 0;
             const auto& oper = cur_opers.at(i - offset);
             if ((!oper.cooling) || oper.role == BattleRole::Drone) {
@@ -439,13 +443,17 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     else {
         // 对于每个蓝门，先下个地面单位（如果有的话）
         // 第二个人下奶（如果有的话）
+        bool has_ranged = false;
         for (const auto& op : opers) {
-            if ((op.role == BattleRole::Warrior || op.role == BattleRole::Pioneer || op.role == BattleRole::Tank) &&
-                (!op.cooling)) {
+            const auto role_type = get_role_type(op.role);
+            if (role_type == BattleRoleType::Melee && (!op.cooling)) {
                 has_melee = true;
             }
-            else if (op.role == BattleRole::Medic && (!op.cooling)) {
-                has_medic = true;
+            else if (role_type == BattleRoleType::Ranged && (!op.cooling)) {
+                has_ranged = true;
+                if (op.role == BattleRole::Medic && (!op.cooling)) {
+                    has_medic = true;
+                }
             }
         }
 
@@ -453,6 +461,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         wait_medic &= has_medic;
         if (force_need_ranged) {
             Log.info("RANGED ROLE IS NEEDED UNDER FORCE");
+            if (!has_ranged) {
+                m_has_finished_deploy_ranged = true;
+                Log.info("FORCE RANGED OPER DEPLOY END");
+                return true;
+            }
         }
         for (auto role : m_role_order) {
             const auto role_type = get_role_type(role);
@@ -488,10 +501,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             }
         }
         if (!oper_found) {
-            if (force_need_ranged) {
-                m_has_finished_deploy_ranged = true;
-                Log.info("FORCE RANGED OPER DEPLOY END");
-            }
             return true;
         }
 
@@ -511,6 +520,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             Rect cur_rect;
             for (size_t i = 0; i < opers.size(); ++i) {
                 const auto& cur_opers = battle_analyzer.get_opers();
+                if (cur_opers.empty()) {
+                    // 只会在战斗结束时发生，战斗结束后cur_opers为空，导致访问越界
+                    return true;
+                }
                 size_t offset = opers.size() > cur_opers.size() ? opers.size() - cur_opers.size() : 0;
                 const auto& oper = cur_opers.at(i - offset);
                 if (oper.role == BattleRole::Drone) {
@@ -596,7 +609,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
     if (force_need_ranged) {
         m_has_deployed_ranged_num++;
-        if (m_has_deployed_melee_num >= m_deploy_ranged_num) {
+        if (m_has_deployed_ranged_num >= m_deploy_ranged_num) {
             m_has_finished_deploy_ranged = true;
             Log.info("FORCE RANGED OPER DEPLOY END");
         }
