@@ -37,7 +37,11 @@
             "support",
             "special",
             "drone"
-        ]
+        ],
+        "stop_melee_deploy_num_Doc": "部署10000个近战单位后开始部署远程单位，填写此项后必须填写deploy_ranged_num项",
+        "stop_melee_deploy_num": 10000,
+        "deploy_ranged_num_Doc": "部署0个远程单位后恢复正常部署逻辑",
+        "deploy_ranged_num": 0
     },
     {
         "stage_name": "虫群横行",
@@ -613,24 +617,58 @@
             },
             {
                 "location": [
-                    2,
-                    4
-                ],
-                "direction": "left"
-            },
-            {
-                "location": [
-                    6,
+                    1,
                     3
                 ],
-                "direction": "down"
+                "direction": "up"
             }
         ],
         "blacklist_location": [
             [
+                4,
+                4
+            ],
+            [
+                4,
+                5
+            ],
+            [
                 2,
                 3
+            ],
+            [
+                6,
+                3
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                5,
+                5
+            ],
+            [
+                2,
+                4
+            ],
+            [
+                1,
+                4
             ]
+        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 1,
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "caster",
+            "medic",
+            "tank",
+            "support",
+            "special",
+            "drone"
         ]
     },
     {
@@ -762,7 +800,9 @@
                 2,
                 4
             ]
-        ]
+        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 1
     },
     {
         "stage_name": "领地意识",
@@ -852,6 +892,10 @@
             [
                 7,
                 4
+            ],
+            [
+                1,
+                4
             ]
         ],
         "role_order": [
@@ -864,7 +908,9 @@
             "support",
             "special",
             "drone"
-        ]
+        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 3
     },
     {
         "stage_name": "海窟沙暴",
@@ -1085,14 +1131,14 @@
                     3,
                     2
                 ],
-                "direction": "right"
+                "direction": "none"
             },
             {
                 "location": [
                     4,
                     2
                 ],
-                "direction": "right"
+                "direction": "none"
             },
             {
                 "location": [
@@ -1119,7 +1165,47 @@
                     1
                 ],
                 "direction": "right"
+            },
+            {
+                "location": [
+                    10,
+                    5
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    9,
+                    6
+                ],
+                "direction": "none"
             }
+        ],
+        "blacklist_location": [
+            [
+                6,
+                1
+            ],
+            [
+                9,
+                2
+            ],
+            [
+                7,
+                3
+            ],
+            [
+                5,
+                3
+            ],
+            [
+                3,
+                5
+            ],
+            [
+                1,
+                2
+            ]
         ],
         "role_order": [
             "warrior",
@@ -1131,7 +1217,9 @@
             "support",
             "special",
             "drone"
-        ]
+        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 2
     },
     {
         "stage_name": "蔓延",
@@ -1467,6 +1555,19 @@
                 7,
                 2
             ]
+        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 1,
+        "role_order": [
+            "warrior",
+            "pioneer",
+            "sniper",
+            "medic",
+            "tank",
+            "caster",
+            "support",
+            "special",
+            "drone"
         ]
     },
     {
