@@ -28,6 +28,10 @@ bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
             info.name = name;
             info.recruit_priority = oper_info.get("recruit_priority", 0);
             info.promote_priority = oper_info.get("promote_priority", 0);
+            info.recruit_priority_when_team_full =
+                oper_info.get("recruit_priority_when_team_full", info.recruit_priority - 100);
+            info.promote_priority_when_team_full =
+                oper_info.get("promote_priority_when_team_full", info.promote_priority + 100);
             info.is_alternate = oper_info.get("is_alternate", false);
             info.skill = oper_info.at("skill").as_integer();
             info.alternate_skill = oper_info.get("alternate_skill", 0);

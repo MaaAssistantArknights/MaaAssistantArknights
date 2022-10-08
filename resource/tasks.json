@@ -1927,6 +1927,10 @@
             [
                 "限星",
                 "陨星"
+            ],
+            [
+                "般子",
+                "骰子"
             ]
         ]
     },
@@ -6074,6 +6078,10 @@
         "template": "empty.png",
         "templThreshold": 0.6
     },
+    "DiceAvatarMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.8
+    },
     "BattleKillsFlag": {
         "roi": [
             150,
@@ -8146,6 +8154,19 @@
             -40,
             30,
             30
+        ]
+    },
+    "Roguelike1SkillSelectionTeamFull": {
+        "cache": false,
+        "roi": [
+            135,
+            22,
+            1032,
+            668
+        ],
+        "maskRange": [
+            200,
+            255
         ]
     },
     "Roguelike1StartAction": {
