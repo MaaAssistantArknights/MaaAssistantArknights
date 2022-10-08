@@ -102,19 +102,19 @@ void asst::MatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexcept
 bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
 {
     if (m_roi.x < 0) {
-        Log.warn("roi is out of range", m_roi.to_string());
+        Log.warn("roi is out of range", m_roi);
         m_roi.x = 0;
     }
     if (m_roi.y < 0) {
-        Log.warn("roi is out of range", m_roi.to_string());
+        Log.warn("roi is out of range", m_roi);
         m_roi.y = 0;
     }
     if (m_roi.x + m_roi.width > m_image.cols) {
-        Log.warn("roi is out of range", m_roi.to_string());
+        Log.warn("roi is out of range", m_roi);
         m_roi.width = m_image.cols - m_roi.x;
     }
     if (m_roi.y + m_roi.height > m_image.rows) {
-        Log.warn("roi is out of range", m_roi.to_string());
+        Log.warn("roi is out of range", m_roi);
         m_roi.height = m_image.rows - m_roi.y;
     }
 
@@ -148,8 +148,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
         max_val = 0;
     }
     if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
-        Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect.to_string(),
-                  "roi:", m_roi.to_string());
+        Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
     }
 
     if (m_templ_thres <= max_val && max_val < 2.0) {
