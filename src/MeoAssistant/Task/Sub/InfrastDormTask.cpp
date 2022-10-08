@@ -41,10 +41,11 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
-        click_clear_button();
-
         if (is_use_custom_opers()) {
             swipe_and_select_custom_opers(true);
+        }
+        else {
+            click_clear_button(); // 宿舍若未指定干员，则清空后按照原约定逻辑选择干员
         }
 
         Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);

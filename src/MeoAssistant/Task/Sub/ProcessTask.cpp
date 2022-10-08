@@ -135,12 +135,7 @@ bool ProcessTask::_run()
 
         int& exec_times = m_exec_times[cur_name];
 
-        int max_times = m_cur_task_ptr->max_times;
-        TimesLimitType limit_type = TimesLimitType::Pre;
-        if (auto iter = m_times_limit.find(cur_name); iter != m_times_limit.cend()) {
-            max_times = iter->second.times;
-            limit_type = iter->second.type;
-        }
+        auto [max_times, limit_type] = calc_time_limit();
 
         if (limit_type == TimesLimitType::Pre && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
@@ -285,6 +280,21 @@ bool asst::ProcessTask::on_run_fails()
 
     set_tasks(m_cur_task_ptr->on_error_next);
     return run();
+}
+
+std::pair<int, asst::ProcessTask::TimesLimitType> asst::ProcessTask::calc_time_limit() const
+{
+    // eg. "C@B@A" 的 max_times 取 "C@B@A", "B@A", "A" 中有 max_times 定义的最靠前者
+    for (std::string cur_base_name = m_cur_task_ptr->name;;) {
+        if (auto iter = m_times_limit.find(cur_base_name); iter != m_times_limit.cend()) {
+            return { iter->second.times, iter->second.type };
+        }
+        size_t at_pos = cur_base_name.find('@');
+        if (at_pos == std::string::npos) {
+            return { m_cur_task_ptr->max_times, TimesLimitType::Pre };
+        }
+        cur_base_name = cur_base_name.substr(at_pos + 1);
+    }
 }
 
 json::value asst::ProcessTask::basic_info() const

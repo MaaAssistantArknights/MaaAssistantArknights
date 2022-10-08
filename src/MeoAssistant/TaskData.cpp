@@ -170,7 +170,7 @@ bool asst::TaskData::parse(const json::value& json)
 #ifdef ASST_DEBUG
     for (const auto& [name, task] : m_all_tasks_info) {
         for (const auto& next : task->next) {
-            if (m_all_tasks_info.find(next) == m_all_tasks_info.cend()) {
+            if (get(next) == nullptr) {
                 Log.error(name, "'s next", next, "is null");
                 return false;
             }

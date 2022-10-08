@@ -94,7 +94,7 @@
             140
         ],
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "NoFriends": {
@@ -110,7 +110,7 @@
         ],
         "action": "DoNothing",
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "RecruitTags": {
@@ -253,8 +253,8 @@
         "next": [
             "CreditStoreOcr",
             "Mall",
-            "ReturnToMallCloseAnno",
-            "TodaysSuppliesToMall"
+            "Mall@CloseAnno",
+            "Mall@TodaysSupplies"
         ]
     },
     "CreditStoreOcr": {
