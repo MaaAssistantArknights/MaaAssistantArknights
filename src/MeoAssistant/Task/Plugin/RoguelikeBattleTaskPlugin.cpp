@@ -620,7 +620,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         // 不改变当前index，直接进入下一步
         return true;
     }
-    
+
     if (wait_melee) {
         m_wait_melee[m_cur_home_index] = false;
         m_melee_for_home_index.emplace(placed_loc, m_cur_home_index);

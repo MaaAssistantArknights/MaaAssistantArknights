@@ -57,7 +57,7 @@
             "skill_usage": 2,
             "recruit_priority": 750,
             "promote_priority": 550,
-            "promote_priority_when_team_full":750
+            "promote_priority_when_team_full": 750
         },
         {
             "name": "玛恩纳",
@@ -65,7 +65,7 @@
             "alternate_skill": 2,
             "recruit_priority": 750,
             "promote_priority": 700,
-            "promote_priority_when_team_full":750
+            "promote_priority_when_team_full": 750
         },
         {
             "name": "煌",
@@ -73,14 +73,14 @@
             "alternate_skill": 1,
             "recruit_priority": 750,
             "promote_priority": 640,
-            "promote_priority_when_team_full":750
+            "promote_priority_when_team_full": 750
         },
         {
             "name": "拉普兰德",
             "skill": 2,
             "recruit_priority": 750,
             "promote_priority": 750,
-            "promote_priority_when_team_full":800
+            "promote_priority_when_team_full": 800
         },
         {
             "name": "银灰",
@@ -88,7 +88,7 @@
             "alternate_skill": 1,
             "recruit_priority": 750,
             "promote_priority": 800,
-            "promote_priority_when_team_full":800
+            "promote_priority_when_team_full": 800
         },
         {
             "name": "艾丽妮",
@@ -376,7 +376,7 @@
             "skill": 2,
             "recruit_priority": 600,
             "promote_priority": 700,
-            "promote_priority_when_team_full":1000
+            "promote_priority_when_team_full": 1000
         },
         {
             "name": "异客",

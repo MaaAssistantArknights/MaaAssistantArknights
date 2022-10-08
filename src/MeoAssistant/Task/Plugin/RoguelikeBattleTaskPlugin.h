@@ -27,7 +27,12 @@ namespace asst
     protected:
         virtual bool _run() override;
 
-        enum class BattleRoleType {Melee, Ranged, Other};
+        enum class BattleRoleType
+        {
+            Melee,
+            Ranged,
+            Other
+        };
         BattleRoleType get_role_type(const BattleRole& role);
 
         void wait_for_start();
