@@ -1,13 +1,10 @@
-- 新增 水月肉鸽 及其月度小队支持，请在设置中选择“肉鸽主题” @MistEO @ABA2396
-- 新增 自定义基建 内置 153 三换、243 四换 作业，并修复 243 三换作业的问题 @545426 @anywugn
-- 优化 肉鸽 干员招募、技能优先级 @WWPXX233
-- 优化 界面显示 @nightofknife @ABA2396
-- 修复 水月肉鸽 部分卡住问题 @MistEO
-- 修复 macOS 下编译错误 @hguandl
-- 修复 潜在的崩溃问题 @MistEO @zzyyyl
-- 修复 雷电模拟器 “退出模拟器” 卡死的问题 @only562
-- 优化 Utils 工具类 @zzyyyl @horror-proton
-- 优化 ROI 脚本 @MistEO
-- Use different material resource files for different clients, fix deopot recognition errors and localize them @MistEO
-- Fix the name recognition of operators @wallsman @nightofknife @zzyyyl @ABA2396
-- Update Documentation @MistEO @wallsman @ABA2396
+- 修复 水月肉鸽 晋升收藏品不招人的问题 @MistEO
+- 修复 水月肉鸽 点到收藏品界面卡死的问题 @MistEO
+- 修复 信用商店 网络不佳时卡住的问题 @MistEO
+- 修复 自定义基建 `period` 时间错位的问题 @MistEO
+- 新增 自定义基建 333 搓玉方案内置作业 @nightofknife
+- 新增 macOS VisionOCR 编译参数 @hguandl
+- 新增 gui.json 每日额外备份机制 @moomiji
+- 优化 Utils 类 @zzyyyl
+- 更新 加群链接 @ABA2396
+- Update recruit types, use tag id in penguin stats payload @horror-proton

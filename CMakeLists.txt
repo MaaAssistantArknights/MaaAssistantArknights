@@ -55,7 +55,17 @@ else ()
         target_link_libraries(MeoAssistant range-v3::range-v3)
     endif ()
 
-    target_link_libraries(MeoAssistant ppocr paddle_inference protobuf cryptopp gflags glog utf8proc xxhash iomp5 mkldnn mklml_intel)
+    if (APPLE)
+        add_subdirectory(3rdparty/VisionOCR)
+        target_link_libraries(MeoAssistant
+            vnocr
+            "-framework CoreFoundation"
+            "-framework CoreGraphics"
+            "-framework Vision"
+        )
+    else ()
+        target_link_libraries(MeoAssistant ppocr paddle_inference protobuf cryptopp gflags glog utf8proc xxhash iomp5 mkldnn mklml_intel)
+    endif (APPLE)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -idirafter ${PROJECT_SOURCE_DIR}/3rdparty/include")
 endif ()
