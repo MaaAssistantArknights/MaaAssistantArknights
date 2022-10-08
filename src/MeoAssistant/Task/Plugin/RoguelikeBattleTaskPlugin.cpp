@@ -294,17 +294,21 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     bool has_dice = false;
     BattleRealTimeOper dice;
-    for (auto& oper : opers) {
+    for (const auto& oper : opers) {
         if (oper.cooling) cooling_count++;
         if (oper.available) available_count++;
+    }
+    for (auto& oper : opers) {
         if (oper.role == BattleRole::Drone) {
             if (!m_dice_image.empty()) {
-                MatchImageAnalyzer dice_analyzer(image);
+                MatchImageAnalyzer dice_analyzer(oper.avatar);
+                dice_analyzer.set_task_info("DiceAvatarMatch");
                 dice_analyzer.set_templ(m_dice_image);
                 if (dice_analyzer.analyze()) {
                     has_dice = true;
                     oper.name = "骰子";
                     dice = oper;
+                    break;
                 }
             }
         }
