@@ -23,7 +23,6 @@ bool asst::InfrastControlTask::_run()
         if (need_exit()) {
             return false;
         }
-        click_clear_button();
 
         if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
@@ -35,6 +34,8 @@ bool asst::InfrastControlTask::_run()
                 continue;
             }
         }
+
+        click_clear_button();
 
         if (!opers_detect_with_swipe()) {
             return false;
