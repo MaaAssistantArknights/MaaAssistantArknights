@@ -41,7 +41,7 @@
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
-    <system:String x:Key="CustomInfrastTitle">ase Configuration:</system:String>
+    <system:String x:Key="CustomInfrastTitle">Base Configuration:</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
 
