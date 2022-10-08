@@ -251,8 +251,8 @@
         "next": [
             "CreditStoreOcr",
             "Mall",
-            "ReturnToMallCloseAnno",
-            "TodaysSuppliesToMall"
+            "Mall@CloseAnno",
+            "Mall@TodaysSupplies"
         ]
     },
     "CreditStoreOcr": {
