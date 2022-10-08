@@ -287,8 +287,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         m_cur_home_index = 0;
     }
 
-    size_t available_count = 0;
-    size_t cooling_count = 0;
+    int available_count = 0;
+    int cooling_count = 0;
     std::vector<size_t> new_urgent;
     std::vector<std::string> cooling_opers;
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
@@ -313,13 +313,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (!can_use_dice) {
         m_use_dice = false;
     }
-    // 如果发现有新撤退的或者新转好cd的，就更新m_retreated_opers
-    if (cooling_count != m_retreated_opers.size()) {
-        const decltype(m_retreated_opers) ret_copy(m_retreated_opers);
-        m_retreated_opers.clear();
-        if (cooling_count > 0) {
-            battle_pause();
-        }
+    // 如果发现有新撤退，就更新m_retreated_opers
+    // 如果发现有新转好的，只更新m_last_cooling_count，在部署时从set中删去
+    if (cooling_count > m_last_cooling_count) {
+        battle_pause();
+        int remain_add = cooling_count - m_last_cooling_count;
         Rect cur_rect;
         for (size_t i = 0; i < opers.size(); ++i) {
             const auto& cur_opers = battle_analyzer.get_opers();
@@ -354,9 +352,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             if (oper_name == "Unknown") {
                 continue;
             }
-            m_retreated_opers.emplace(oper_name);
 
-            if (ret_copy.contains(oper_name)) {
+            if (m_retreated_opers.contains(oper_name)) {
                 continue;
             }
             auto iter = m_opers_in_field.find(oper_name);
@@ -385,12 +382,14 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                 m_used_tiles.erase(del_pos_tiles);
             }
             m_opers_in_field.erase(iter);
+            m_retreated_opers.emplace(oper_name);
+            remain_add--;
+            if (!remain_add) break;
         }
-        if (cooling_count > 0) {
-            m_ctrler->click(cur_rect);
-            battle_pause();
-        }
+        m_ctrler->click(cur_rect);
+        battle_pause();
     }
+    m_last_cooling_count = cooling_count;
     if (!new_urgent.empty()) {
         // 出现新的紧急情况，立即切到这条线路，并把其他紧急情况压入栈
         Log.info("New urgent situation detected");
@@ -604,6 +603,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     m_opers_used = true;
     m_used_tiles.emplace(placed_loc, std::make_pair(opt_oper.name, opt_oper.role));
     m_opers_in_field.emplace(opt_oper.name, placed_loc);
+    m_retreated_opers.erase(opt_oper.name);
     if (get_role_type(opt_oper.role) == BattleRoleType::Melee) {
         m_has_deployed_melee_num++;
     }
@@ -737,6 +737,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_has_deployed_melee_num = 0;
     m_has_deployed_ranged_num = 0;
     m_has_finished_deploy_ranged = false;
+    m_last_cooling_count = 0;
 
     for (auto& [key, status] : m_restore_status) {
         m_status->set_number(key, status);
