@@ -49,8 +49,10 @@ namespace asst
         std::vector<std::string> get_tag_names(const std::vector<RecruitConfiger::TagId>& ids) const;
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
-        void upload_result(const json::value& details);
-        void upload_to_penguin(const json::value& details);
+        template <typename Rng>
+        void upload_result(const Rng& tag_ids, const json::value& details);
+        template <typename Rng>
+        void upload_to_penguin(Rng&& tag_ids);
         void upload_to_yituliu(const json::value& details);
         static void report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
         static void report_yituliu_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
