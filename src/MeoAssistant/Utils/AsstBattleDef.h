@@ -121,6 +121,8 @@ namespace asst
         std::vector<int> key_kills;
         std::array<BattleRole, 9> role_order;
         bool use_dice_stage = true;
+        int stop_melee_deploy_num = INT_MAX;
+        int deploy_ranged_num = 0;
     };
 
     struct BattleCharData

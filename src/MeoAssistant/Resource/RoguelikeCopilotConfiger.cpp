@@ -63,6 +63,12 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
         }
         data.use_dice_stage = !stage_info.get("not_use_dice", false);
 
+        data.stop_melee_deploy_num = stage_info.get("stop_melee_deploy_num", INT_MAX);
+        data.deploy_ranged_num = stage_info.get("deploy_ranged_num", 0);
+        if (data.deploy_ranged_num == 0) {
+            data.stop_melee_deploy_num = INT_MAX;
+        }
+
         constexpr int RoleNumber = 9;
         static constexpr std::array<BattleRole, RoleNumber> RoleOrder = {
             BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,

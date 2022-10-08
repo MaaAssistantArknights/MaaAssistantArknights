@@ -151,6 +151,8 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         m_blacklist_location = opt->blacklist_location;
         m_stage_use_dice = opt->use_dice_stage;
         m_role_order = opt->role_order;
+        m_stop_melee_deploy_num = opt->stop_melee_deploy_num;
+        m_deploy_ranged_num = opt->deploy_ranged_num;
     }
     else {
         for (const auto& [loc, side] : m_normal_tile_info) {
@@ -174,7 +176,6 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     for (size_t index = m_homes.size() - 1; index > 0; index--) {
         m_next_urgent_index.push(index);
     }
-    m_index_count.assign(m_homes.size(), 0);
     if (opt && !opt->key_kills.empty()) {
         std::string log_str = "[ ";
         for (const auto& kills : opt->key_kills) {
@@ -208,6 +209,28 @@ bool asst::RoguelikeBattleTaskPlugin::battle_pause()
     return ProcessTask(*this, { "BattlePause" }).run();
 }
 
+asst::RoguelikeBattleTaskPlugin::BattleRoleType asst::RoguelikeBattleTaskPlugin::get_role_type(const BattleRole& role)
+{
+    switch (role) {
+    case BattleRole::Medic:
+    case BattleRole::Support:
+    case BattleRole::Sniper:
+    case BattleRole::Caster:
+        return BattleRoleType::Ranged;
+        break;
+    case BattleRole::Pioneer:
+    case BattleRole::Warrior:
+    case BattleRole::Tank:
+        return BattleRoleType::Melee;
+        break;
+    case BattleRole::Special:
+    case BattleRole::Drone:
+    default:
+        return BattleRoleType::Other;
+        break;
+    }
+}
+
 bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
     LogTraceFunction;
@@ -234,6 +257,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     while ((!m_need_clear_tiles.empty()) && m_need_clear_tiles.top().placed_time < now_time) {
         const auto& placed_loc = m_need_clear_tiles.top().placed_loc;
         if (auto iter = m_used_tiles.find(placed_loc); iter != m_used_tiles.end()) {
+            Log.info("Drone at location (", placed_loc.x, ",", placed_loc.y, ") is recognized as retreated");
             m_opers_in_field.erase((iter->second).first);
             m_used_tiles.erase(iter);
         }
@@ -263,8 +287,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         m_cur_home_index = 0;
     }
 
-    size_t available_count = 0;
-    size_t cooling_count = 0;
+    int available_count = 0;
+    int cooling_count = 0;
     std::vector<size_t> new_urgent;
     std::vector<std::string> cooling_opers;
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
@@ -289,16 +313,18 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (!can_use_dice) {
         m_use_dice = false;
     }
-    // 如果发现有新撤退的或者新转好cd的，就更新m_retreated_opers
-    if (cooling_count != m_retreated_opers.size()) {
-        const decltype(m_retreated_opers) ret_copy(m_retreated_opers);
-        m_retreated_opers.clear();
-        if (cooling_count > 0) {
-            battle_pause();
-        }
+    // 如果发现有新撤退，就更新m_retreated_opers
+    // 如果发现有新转好的，只更新m_last_cooling_count，在部署时从set中删去
+    if (cooling_count > m_last_cooling_count) {
+        battle_pause();
+        int remain_add = cooling_count - m_last_cooling_count;
         Rect cur_rect;
         for (size_t i = 0; i < opers.size(); ++i) {
             const auto& cur_opers = battle_analyzer.get_opers();
+            if (cur_opers.empty()) {
+                // 只会在战斗结束时发生，战斗结束后cur_opers为空，导致访问越界
+                return true;
+            }
             size_t offset = opers.size() > cur_opers.size() ? opers.size() - cur_opers.size() : 0;
             const auto& oper = cur_opers.at(i - offset);
             if ((!oper.cooling) || oper.role == BattleRole::Drone) {
@@ -326,9 +352,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             if (oper_name == "Unknown") {
                 continue;
             }
-            m_retreated_opers.emplace(oper_name);
 
-            if (ret_copy.contains(oper_name)) {
+            if (m_retreated_opers.contains(oper_name)) {
                 continue;
             }
             auto iter = m_opers_in_field.find(oper_name);
@@ -350,14 +375,21 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                 }
                 m_medic_for_home_index.erase(del_pos_medic);
             }
-            m_used_tiles.erase(iter->second);
+            if (auto del_pos_tiles = m_used_tiles.find(iter->second); del_pos_tiles != m_used_tiles.end()) {
+                if (get_role_type(del_pos_tiles->second.second) == BattleRoleType::Melee) {
+                    m_has_deployed_melee_num--;
+                }
+                m_used_tiles.erase(del_pos_tiles);
+            }
             m_opers_in_field.erase(iter);
+            m_retreated_opers.emplace(oper_name);
+            remain_add--;
+            if (!remain_add) break;
         }
-        if (cooling_count > 0) {
-            m_ctrler->click(cur_rect);
-            battle_pause();
-        }
+        m_ctrler->click(cur_rect);
+        battle_pause();
     }
+    m_last_cooling_count = cooling_count;
     if (!new_urgent.empty()) {
         // 出现新的紧急情况，立即切到这条线路，并把其他紧急情况压入栈
         Log.info("New urgent situation detected");
@@ -377,7 +409,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             m_next_urgent_index.push(new_urgent.at(0));
         }
     }
-    else if ((!m_is_cur_urgent || m_index_count[m_cur_home_index] == 0) && m_used_tiles.size() >= 2) {
+    else if ((!m_is_cur_urgent) && m_used_tiles.size() >= 2) {
         // 超过一半的人费用都没好，且没有紧急情况，那就不下人
         size_t not_cooling_count = opers.size() - cooling_count;
         if (available_count <= not_cooling_count / 2) {
@@ -397,6 +429,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     bool has_medic = false;
     bool wait_melee = m_wait_melee[m_cur_home_index];
     bool wait_medic = m_wait_medic[m_cur_home_index];
+    bool force_need_ranged =
+        (!m_has_finished_deploy_ranged) && (m_has_deployed_melee_num >= m_stop_melee_deploy_num) && (!m_use_dice);
     if (m_use_dice) {
         opt_oper = std::move(dice);
         oper_found = true;
@@ -408,27 +442,43 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     else {
         // 对于每个蓝门，先下个地面单位（如果有的话）
         // 第二个人下奶（如果有的话）
+        bool has_ranged = false;
         for (const auto& op : opers) {
-            if ((op.role == BattleRole::Warrior || op.role == BattleRole::Pioneer || op.role == BattleRole::Tank) &&
-                (!op.cooling)) {
+            const auto role_type = get_role_type(op.role);
+            if (role_type == BattleRoleType::Melee && (!op.cooling)) {
                 has_melee = true;
             }
-            else if (op.role == BattleRole::Medic && (!op.cooling)) {
-                has_medic = true;
+            else if (role_type == BattleRoleType::Ranged && (!op.cooling)) {
+                has_ranged = true;
+                if (op.role == BattleRole::Medic && (!op.cooling)) {
+                    has_medic = true;
+                }
             }
         }
 
         wait_melee &= has_melee;
         wait_medic &= has_medic;
-        for (auto role : m_role_order) {
-            if (wait_melee) {
-                if (role != BattleRole::Warrior && role != BattleRole::Pioneer && role != BattleRole::Tank) {
-                    continue;
-                }
+        if (force_need_ranged) {
+            Log.info("RANGED ROLE IS NEEDED UNDER FORCE");
+            if (!has_ranged) {
+                m_has_finished_deploy_ranged = true;
+                Log.info("FORCE RANGED OPER DEPLOY END");
+                return true;
             }
-            else if (wait_medic) {
-                if (role != BattleRole::Medic) {
-                    continue;
+        }
+        for (auto role : m_role_order) {
+            const auto role_type = get_role_type(role);
+            if (force_need_ranged) {
+                if (role_type != BattleRoleType::Ranged) continue;
+            }
+            else {
+                if (wait_melee) {
+                    if (role_type != BattleRoleType::Melee) continue;
+                }
+                else if (wait_medic) {
+                    if (role != BattleRole::Medic) {
+                        continue;
+                    }
                 }
             }
 
@@ -456,6 +506,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         // 预计算干员是否有点地方放
         if (available_locations(opt_oper.role).empty()) {
             Log.info("Tiles full");
+            if (force_need_ranged) {
+                m_has_finished_deploy_ranged = true;
+                Log.info("FORCE RANGED OPER DEPLOY END");
+            }
             return true;
         }
 
@@ -465,6 +519,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             Rect cur_rect;
             for (size_t i = 0; i < opers.size(); ++i) {
                 const auto& cur_opers = battle_analyzer.get_opers();
+                if (cur_opers.empty()) {
+                    // 只会在战斗结束时发生，战斗结束后cur_opers为空，导致访问越界
+                    return true;
+                }
                 size_t offset = opers.size() > cur_opers.size() ? opers.size() - cur_opers.size() : 0;
                 const auto& oper = cur_opers.at(i - offset);
                 if (oper.role == BattleRole::Drone) {
@@ -485,6 +543,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                     oper_name_analyzer.sort_result_by_score();
                     if (oper_name_analyzer.get_result().front().text == "骰子") {
                         m_dice_image = opers.at(i).avatar;
+                        Log.info("Dice detected");
                         break;
                     }
                 }
@@ -523,10 +582,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     sleep(use_oper_task_ptr->rear_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
-    constexpr int coeff = 500;
-    Point end_point = placed_point + (direction * coeff);
-
-    m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
+    if (direction != Point::zero()) {
+        constexpr int coeff = 500;
+        Point end_point = placed_point + (direction * coeff);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
+    }
 
     if (opt_oper.role == BattleRole::Drone) {
         cancel_oper_selection();
@@ -540,9 +600,23 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     Log.info("Try to deploy oper", opt_oper.name);
+    m_opers_used = true;
     m_used_tiles.emplace(placed_loc, std::make_pair(opt_oper.name, opt_oper.role));
     m_opers_in_field.emplace(opt_oper.name, placed_loc);
-    m_opers_used = true;
+    m_retreated_opers.erase(opt_oper.name);
+    if (get_role_type(opt_oper.role) == BattleRoleType::Melee) {
+        m_has_deployed_melee_num++;
+    }
+    if (force_need_ranged) {
+        m_has_deployed_ranged_num++;
+        if (m_has_deployed_ranged_num >= m_deploy_ranged_num) {
+            m_has_finished_deploy_ranged = true;
+            Log.info("FORCE RANGED OPER DEPLOY END");
+        }
+        // 不改变当前index，直接进入下一步
+        return true;
+    }
+    
     if (wait_melee) {
         m_wait_melee[m_cur_home_index] = false;
         m_melee_for_home_index.emplace(placed_loc, m_cur_home_index);
@@ -561,8 +635,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             }
         }
     }
-    // 第一次在这条路线上放近战干员时，应当保证有一半干员费用转好
-    m_index_count[m_cur_home_index]++;
+
     // 如果有紧急需要部署的路线，那么下一条路线设为它
     if (m_next_urgent_index.empty()) {
         if (m_last_not_urgent != -1) {
@@ -581,9 +654,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         }
         m_is_cur_urgent = true;
         m_cur_home_index = m_next_urgent_index.top();
-        Log.info("Enter urgent situtation, to path", m_cur_home_index);
+        Log.info("Enter urgent situtation");
         m_next_urgent_index.pop();
     }
+    Log.info("To path", m_cur_home_index);
 
     return true;
 }
@@ -641,7 +715,6 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_next_urgent_index.swap(empty_stack);
     m_is_cur_urgent = false;
     m_last_not_urgent = -1;
-    m_index_count.clear();
     m_blacklist_location.clear();
     m_retreated_opers.clear();
     decltype(m_need_clear_tiles) empty_heap;
@@ -659,6 +732,12 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_stage_use_dice = true;
     m_dice_image = cv::Mat();
     m_first_deploy = true;
+    m_stop_melee_deploy_num = INT_MAX;
+    m_deploy_ranged_num = 0;
+    m_has_deployed_melee_num = 0;
+    m_has_deployed_ranged_num = 0;
+    m_has_finished_deploy_ranged = false;
+    m_last_cooling_count = 0;
 
     for (auto& [key, status] : m_restore_status) {
         m_status->set_number(key, status);
@@ -793,34 +872,16 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(Ba
     LogTraceFunction;
 
     auto buildable_type = Loc::All;
-    switch (role) {
-    case BattleRole::Medic:
-    case BattleRole::Support:
-    case BattleRole::Sniper:
-    case BattleRole::Caster:
+    const auto role_type = get_role_type(role);
+    switch (role_type) {
+    case BattleRoleType::Ranged:
         buildable_type = Loc::Ranged;
         break;
-    case BattleRole::Pioneer:
-    case BattleRole::Warrior:
-    case BattleRole::Tank:
+    case BattleRoleType::Melee:
         buildable_type = Loc::Melee;
         break;
-    case BattleRole::Special:
-    case BattleRole::Drone:
+    case BattleRoleType::Other:
     default:
-        //// 特种和无人机，有的只能放地面，有的又只能放高台，不好判断
-        //// 笨办法，都试试，总有一次能成的
-        //{
-        //    static Loc static_loc = Loc::Melee;
-        //    loc = static_loc;
-        //    if (static_loc == Loc::Melee) {
-        //        static_loc = Loc::Ranged;
-        //    }
-        //    else {
-        //        static_loc = Loc::Melee;
-        //    }
-        //}
-        // 大部分无人机都是可以摆在地上的，摆烂了
         buildable_type = Loc::Melee;
         break;
     }
@@ -917,7 +978,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     ranges::sort(available_loc, comp_dist);
 
     if (oper.name == "骰子") {
-        return { available_loc.back(), Point::right() };
+        return { available_loc.back(), Point::zero() };
     }
 
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
