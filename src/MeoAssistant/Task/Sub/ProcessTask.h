@@ -6,7 +6,7 @@
 namespace asst
 {
     // 流程任务，按照配置文件里的设置的流程运行
-    class ProcessTask : public AbstractTask
+    class ProcessTask final : public AbstractTask
     {
     public:
         enum class TimesLimitType
@@ -40,6 +40,7 @@ namespace asst
         virtual bool on_run_fails() override;
         virtual json::value basic_info() const override;
 
+        std::pair<int, TimesLimitType> calc_time_limit() const;
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
         void exec_slowly_swipe_task(ProcessTaskAction action);
