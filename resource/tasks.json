@@ -7593,6 +7593,8 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "Roguelike2CloseCollectionContinue",
+            "Roguelike2CloseCollectionClose",
             "Roguelike1ChooseOperConfirm"
         ]
     },
