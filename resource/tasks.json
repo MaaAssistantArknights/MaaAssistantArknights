@@ -4074,17 +4074,50 @@
     },
     "CreditShop-BuyIt": {
         "template": "BuyIt.png",
+        "action": "ClickSelf",
         "roi": [
             800,
             500,
             250,
             150
         ],
-        "preDelay": 500,
-        "rearDelay": 1500
+        "next": [
+            "CreditShop-Bought",
+            "CreditShop-BuyIt-Loading",
+            "CreditShop-NoMoney"
+        ]
+    },
+    "CreditShop-BuyIt-Loading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "CreditShop-Bought",
+            "CreditShop-BuyIt-Loading"
+        ]
+    },
+    "CreditShop-Bought": {
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "roi": [
+            544,
+            0,
+            210,
+            201
+        ]
     },
     "CreditShop-NoMoney": {
         "algorithm": "OcrDetect",
+        "cache": false,
         "text": [
             "信用不足",
             "无法购买"

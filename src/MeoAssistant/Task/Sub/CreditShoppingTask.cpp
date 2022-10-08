@@ -7,6 +7,7 @@
 #include "ImageAnalyzer/CreditShopImageAnalyzer.h"
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrImageAnalyzer.h"
+#include "ProcessTask.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -77,50 +78,14 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         }
         m_ctrler->click(commodity);
 
-        static int pre_delay = 1000;
-        static int rare_delay = 1000;
+        ProcessTask(*this, { "CreditShop-BuyIt" }).run();
 
-        sleep(pre_delay);
-
-        // “购买商品”按钮
-        static Rect buy_it_rect;
-        if (buy_it_rect.empty()) {
-            const auto buy_it_task_ptr = Task.get("CreditShop-BuyIt");
-
-            const cv::Mat buy_image = m_ctrler->get_image();
-            MatchImageAnalyzer buy_it_analyzer(buy_image);
-
-            buy_it_analyzer.set_task_info(buy_it_task_ptr);
-            if (!buy_it_analyzer.analyze()) {
-                // 没识别到“购买商品”按钮，不应该出现这种情况，TODO 报错
-                return false;
-            }
-            buy_it_rect = buy_it_analyzer.get_result().rect;
-            pre_delay = buy_it_task_ptr->pre_delay;
-            rare_delay = buy_it_task_ptr->rear_delay;
+        if (ProcessTask(*this, { "CreditShop-NoMoney" }).set_retry_times(0).run()) {
+            break;
         }
-
         if (need_exit()) {
             return false;
         }
-        m_ctrler->click(buy_it_rect);
-        sleep(rare_delay);
-
-        // 识别是否信用不足无法购买
-        const cv::Mat prompt_image = m_ctrler->get_image();
-
-        OcrImageAnalyzer prompt_analyzer(prompt_image);
-
-        prompt_analyzer.set_task_info("CreditShop-NoMoney");
-        if (prompt_analyzer.analyze()) {
-            click_return_button();
-            break;
-        }
-
-        // 这里随便点一下都行，把购买完弹出来物品的界面取消掉
-        m_ctrler->click(buy_it_rect);
-        sleep(rare_delay);
-
         if (credit_ocr_enabled) {
             int credit = credit_ocr();
             if (credit <= MaxCredit) { // 信用值不再溢出，停止购物
