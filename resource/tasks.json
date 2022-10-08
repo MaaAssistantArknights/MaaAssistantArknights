@@ -2185,7 +2185,7 @@
             "TodaysSupplies"
         ]
     },
-    "StartUp@AfterEndOfAction": {
+    "StartUp@ClickCorner": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -2569,7 +2569,7 @@
             "FightMissionFailed"
         ],
         "next": [
-            "AfterEndOfAction"
+            "ClickCorner"
         ]
     },
     "EndOfActionAnnihilation": {
@@ -2586,14 +2586,14 @@
         ],
         "action": "DoNothing",
         "next": [
-            "AfterEndOfAction"
+            "ClickCorner"
         ]
     },
     "StageDrops": {
         "algorithm": "JustReturn",
         "preDelay": 5000
     },
-    "AfterEndOfAction": {
+    "ClickCorner": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -6703,7 +6703,7 @@
             "Roguelike1@ReturnToConfirm",
             "Roguelike1@OfflineConfirm",
             "Roguelike1@StartToWakeUp",
-            "Roguelike1@StartUpConnecting",
+            "Roguelike1@StartUpConnectingFlag",
             "Roguelike1@FromStageSN"
         ]
     },
@@ -8319,7 +8319,7 @@
             "Roguelike1@CloseAnno",
             "Roguelike1@OfflineConfirm",
             "Roguelike1@StartToWakeUp",
-            "Roguelike1@StartUpConnecting",
+            "Roguelike1@StartUpConnectingFlag",
             "Roguelike1ClickToDrops"
         ]
     },
@@ -8640,7 +8640,7 @@
             "Roguelike1@ReturnToConfirm",
             "Roguelike1@OfflineConfirm",
             "Roguelike1@StartToWakeUp",
-            "Roguelike1@StartUpConnecting",
+            "Roguelike1@StartUpConnectingFlag",
             "Roguelike1ClickToStartPoint"
         ]
     },
