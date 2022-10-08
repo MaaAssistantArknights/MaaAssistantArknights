@@ -72,7 +72,7 @@
         ],
         "action": "Stop"
     },
-    "TodaysSuppliesToRecruit": {
+    "Recruit@TodaysSupplies": {
         "algorithm": "OcrDetect",
         "text": [
             "今日配給"
@@ -91,7 +91,7 @@
             150
         ],
         "next": [
-            "ReturnToRecruitCloseAnno",
+            "Recruit@CloseAnno",
             "Recruit"
         ]
     },
