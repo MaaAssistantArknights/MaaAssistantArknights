@@ -158,6 +158,7 @@ void asst::InfrastAbstractTask::await_swipe()
     sleep(extra_delay);
 }
 
+/// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
 bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order)
 {
     LogTraceFunction;
@@ -174,6 +175,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     if (!is_dorm_order) {
         ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
     }
+
+    click_clear_button();   //先排序后清空，加速干员变化不大时的选择速度
 
     std::vector<std::string> opers_order = room_config.names;
     opers_order.insert(opers_order.end(), room_config.candidates.cbegin(), room_config.candidates.cend());

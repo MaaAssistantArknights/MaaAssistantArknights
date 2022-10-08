@@ -163,7 +163,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
             if (need_exit()) {
                 return false;
             }
-            click_clear_button();
 
             if (is_use_custom_opers()) {
                 bool name_select_ret = swipe_and_select_custom_opers();
@@ -175,6 +174,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     continue;
                 }
             }
+
+            click_clear_button();
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {
