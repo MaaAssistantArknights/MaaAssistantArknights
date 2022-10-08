@@ -687,5 +687,49 @@
         "next": [
             "Roguelike1ClickToStartPoint"
         ]
+    },
+    "Roguelike1StageEncounterFree": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            700
+        ],
+        "maskRange": [
+            5,
+            255
+        ],
+        "preDelay": 500,
+        "next": [
+            "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1StageEncounterUnknown",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1ChooseOperFlag"
+        ]
+    },
+    "Roguelike1StageEncounterLeave": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1100,
+            0,
+            180,
+            700
+        ],
+        "maskRange": [
+            5,
+            255
+        ],
+        "preDelay": 500,
+        "next": [
+            "Roguelike1StageEncounterLeaveConfirm",
+            "Roguelike1StageEncounterFree",
+            "Roguelike1StageEncounterUnknown",
+            "Roguelike1StageEncounterLeave",
+            "Roguelike1ChooseOperFlag"
+        ]
     }
 }
