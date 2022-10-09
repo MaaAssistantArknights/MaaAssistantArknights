@@ -125,6 +125,14 @@ namespace asst
         int deploy_ranged_num = 0;
     };
 
+    enum class BattleOperPosition
+    {
+        None,
+        Melee,
+        Ranged,
+        All,
+    };
+
     struct BattleCharData
     {
         std::string name;
@@ -132,6 +140,7 @@ namespace asst
         std::array<std::string, 3> ranges;
         int rarity = 0;
         bool with_direction = true;
+        BattleOperPosition position = BattleOperPosition::None;
     };
 
     struct BattleRecruitOperInfo

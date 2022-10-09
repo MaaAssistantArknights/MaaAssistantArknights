@@ -625,6 +625,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
             };
         }
         char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
+        char_new_data["position"] = char_data["position"];
 
         chars.emplace(id, std::move(char_new_data));
     }

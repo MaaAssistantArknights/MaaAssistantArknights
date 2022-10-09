@@ -16,6 +16,9 @@ namespace asst
         using Loc = asst::TilePack::BuildableType;
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
+        inline static const std::string Dice = "骰子";
+        inline static const std::string UnknownName = "Unknown";
+
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
         virtual ~RoguelikeBattleTaskPlugin() override = default;
@@ -27,13 +30,15 @@ namespace asst
     protected:
         virtual bool _run() override;
 
-        enum class BattleRoleType
-        {
-            Melee,
-            Ranged,
-            Other
-        };
-        BattleRoleType get_role_type(const BattleRole& role);
+        // 有些特殊的角色，他的职业并不一定和正常的位置相对应，比如“掠风”是地面辅助
+        // get_role_position 可以仅知道干员职业的情况下，大概猜测一下位置
+        // get_oper_position 可以在已知干员名的时候获得准确的位置
+        BattleOperPosition get_role_position(const BattleRole& role);
+        BattleOperPosition get_oper_position(const std::string& name);
+
+        std::vector<Point> available_locations(BattleRole role);
+        std::vector<Point> available_locations(Loc type);
+        std::vector<Point> available_locations(const std::string& name);
 
         void wait_for_start();
         bool get_stage_info();
@@ -49,8 +54,6 @@ namespace asst
         bool check_key_kills(const cv::Mat& image);
         bool wait_start();
         bool cancel_oper_selection();
-
-        std::vector<Point> available_locations(BattleRole role);
 
         struct DeployInfo
         {
@@ -108,7 +111,7 @@ namespace asst
         std::unordered_set<Point> m_blacklist_location;
         std::set<std::string> m_retreated_opers;
         std::queue<int> m_key_kills;
-        std::unordered_map<Point, std::pair<std::string, BattleRole>> m_used_tiles;
+        std::unordered_map<Point, std::string> m_used_tiles;
         std::unordered_map<std::string, Point> m_opers_in_field;
         std::unordered_map<std::string, int64_t> m_restore_status;
         std::priority_queue<DroneTile> m_need_clear_tiles;
