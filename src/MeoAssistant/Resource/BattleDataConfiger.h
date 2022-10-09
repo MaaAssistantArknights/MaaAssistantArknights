@@ -31,6 +31,15 @@ namespace asst
             return iter->second.rarity;
         }
 
+        BattleOperPosition get_position(const std::string& name) const
+        {
+            auto iter = m_chars.find(name);
+            if (iter == m_chars.cend()) {
+                return BattleOperPosition::None;
+            }
+            return iter->second.position;
+        }
+
         static inline const BattleAttackRange& EmptyRange { { 0, 0 } };
 
         const BattleAttackRange& get_range(const std::string& name, size_t index) const
@@ -63,4 +72,4 @@ namespace asst
         std::unordered_map<std::string, BattleAttackRange> m_ranges;
     };
     inline static auto& BattleData = BattleDataConfiger::get_instance();
-}
+} // namespace asst
