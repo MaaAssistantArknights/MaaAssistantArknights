@@ -6212,7 +6212,7 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialThreshold": 800,
+        "specialThreshold": 810,
         "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
