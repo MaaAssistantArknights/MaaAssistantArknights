@@ -23,6 +23,14 @@
         ],
         "maxTimes": 2
     },
+    "Delay1000ms": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "rearDelay": 1000,
+        "next": [
+            "DoNothing"
+        ]
+    },
     "DoNothing": {
         "algorithm": "JustReturn",
         "action": "DoNothing"
@@ -50,8 +58,11 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
-            "SwipeToTheRight",
-            "StageThemeChapter3ToEpisode10"
+            "StageThemeChapter4ToChapter3",
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter3ToEpisode9",
+            "StageThemeEpisode9ToEpisode10"
         ]
     },
     "Episode9": {
@@ -59,9 +70,10 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
-            "SwipeToTheRight",
-            "StageThemeChapter3ToEpisode10",
-            "StageThemeEpisode10ToEpisode9"
+            "StageThemeChapter4ToChapter3",
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter3ToEpisode9"
         ]
     },
     "Episode8": {
@@ -69,9 +81,12 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter2ToEpisode4",
+            "StageThemeEpisode4ToEpisode8"
         ]
     },
     "Episode7": {
@@ -79,10 +94,12 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode7"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter2ToEpisode4",
+            "StageThemeEpisode4ToEpisode7"
         ]
     },
     "Episode6": {
@@ -90,10 +107,12 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode6"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter2ToEpisode4",
+            "StageThemeEpisode4ToEpisode6"
         ]
     },
     "Episode5": {
@@ -101,10 +120,12 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode5"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter2ToEpisode4",
+            "StageThemeEpisode4ToEpisode5"
         ]
     },
     "Episode4": {
@@ -112,10 +133,11 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode4"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter2ToEpisode4"
         ]
     },
     "Episode3": {
@@ -123,9 +145,13 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
             "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter1ToEpisode0",
+            "StageThemeEpisode0ToEpisode3"
         ]
     },
     "Episode2": {
@@ -133,10 +159,13 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
             "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3",
-            "StageThemeEpisode3ToEpisode2"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter1ToEpisode0",
+            "StageThemeEpisode0ToEpisode2"
         ]
     },
     "Episode1": {
@@ -144,10 +173,13 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
             "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3",
-            "StageThemeEpisode3ToEpisode1"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter1ToEpisode0",
+            "StageThemeEpisode0ToEpisode1"
         ]
     },
     "Episode0": {
@@ -155,10 +187,12 @@
         "action": "DoNothing",
         "sub": [
             "StageTheme",
+            "StageThemeChapter4ToChapter3",
             "StageThemeChapter3ToChapter2",
             "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3",
-            "StageThemeEpisode3ToEpisode0"
+            "Delay1000ms",
+            "SwipeToTheLeft",
+            "StageThemeChapter1ToEpisode0"
         ]
     },
     "StageTheme": {
@@ -172,17 +206,16 @@
         "action": "ClickSelf"
     },
     "StageThemeChapter4ToChapter3": {
-        "doc": "还没用上",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
             "残阳"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            14,
+            17,
+            439,
+            681
         ]
     },
     "StageThemeChapter3ToChapter2": {
@@ -192,10 +225,10 @@
             "幻灭"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            14,
+            17,
+            439,
+            681
         ]
     },
     "StageThemeChapter2ToChapter1": {
@@ -205,89 +238,70 @@
             "觉醒"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
-        ],
-        "next": [
-            "SwipeToTheRight"
+            14,
+            17,
+            439,
+            681
         ]
     },
-    "StageThemeChapter3ToEpisode10": {
+    "StageThemeChapter3ToEpisode9": {
         "action": "ClickSelf",
         "roi": [
-            771,
-            133,
-            369,
-            276
+            730,
+            130,
+            438,
+            441
         ]
     },
-    "StageThemeEpisode10ToEpisode9": {
+    "StageThemeEpisode9ToEpisode10": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "9"
+            "10"
         ],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            1102,
+            574,
+            166,
+            146
         ],
         "next": [
-            "StageThemeEpisode10ToEpisode9",
+            "StageThemeEpisode9ToEpisode10",
             "DoNothing"
         ],
         "rearDelay": 500
     },
-    "StageThemeChapter2ToEpisode8": {
+    "StageThemeChapter2ToEpisode4": {
         "action": "ClickSelf",
         "roi": [
-            777,
-            135,
-            339,
-            289
+            729,
+            128,
+            441,
+            443
         ]
     },
-    "StageThemeEpisode8ToEpisode7": {
+    "StageThemeEpisode4ToEpisode8": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "7"
-        ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
-        "next": [
-            "StageThemeEpisode8ToEpisode7",
-            "DoNothing"
-        ],
-        "rearDelay": 500
-    },
-    "StageThemeEpisode8ToEpisode6": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
+            "8",
             "7",
-            "6"
+            "6",
+            "5"
         ],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            1102,
+            574,
+            166,
+            146
         ],
         "next": [
-            "StageThemeEpisode8ToEpisode6",
+            "StageThemeEpisode4ToEpisode8",
             "DoNothing"
         ],
         "rearDelay": 500
     },
-    "StageThemeEpisode8ToEpisode5": {
+    "StageThemeEpisode4ToEpisode7": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -296,66 +310,84 @@
             "5"
         ],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            1102,
+            574,
+            166,
+            146
         ],
         "next": [
-            "StageThemeEpisode8ToEpisode5",
+            "StageThemeEpisode4ToEpisode7",
             "DoNothing"
         ],
         "rearDelay": 500
     },
-    "StageThemeEpisode8ToEpisode4": {
+    "StageThemeEpisode4ToEpisode6": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "7",
             "6",
-            "5",
-            "4"
+            "5"
         ],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            1102,
+            574,
+            166,
+            146
         ],
         "next": [
-            "StageThemeEpisode8ToEpisode4",
+            "StageThemeEpisode4ToEpisode6",
             "DoNothing"
         ],
         "rearDelay": 500
     },
-    "StageThemeChapter1ToEpisode3": {
+    "StageThemeEpisode4ToEpisode5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "5"
+        ],
+        "roi": [
+            1102,
+            574,
+            166,
+            146
+        ],
+        "next": [
+            "StageThemeEpisode4ToEpisode5",
+            "DoNothing"
+        ],
+        "rearDelay": 500
+    },
+    "StageThemeChapter1ToEpisode0": {
         "action": "ClickSelf",
         "roi": [
-            781,
-            136,
-            332,
-            333
+            730,
+            132,
+            440,
+            438
         ]
     },
-    "StageThemeEpisode3ToEpisode2": {
+    "StageThemeEpisode0ToEpisode3": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "2"
+            "3",
+            "2",
+            "1"
         ],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            1102,
+            574,
+            166,
+            146
         ],
         "next": [
-            "StageThemeEpisode3ToEpisode2",
+            "StageThemeEpisode0ToEpisode3",
             "DoNothing"
         ],
         "rearDelay": 500
     },
-    "StageThemeEpisode3ToEpisode1": {
+    "StageThemeEpisode0ToEpisode2": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -363,33 +395,31 @@
             "1"
         ],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            1102,
+            574,
+            166,
+            146
         ],
         "next": [
-            "StageThemeEpisode3ToEpisode1",
+            "StageThemeEpisode0ToEpisode2",
             "DoNothing"
         ],
         "rearDelay": 500
     },
-    "StageThemeEpisode3ToEpisode0": {
+    "StageThemeEpisode0ToEpisode1": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "0",
-            "o",
-            "O"
+            "1"
         ],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            1102,
+            574,
+            166,
+            146
         ],
         "next": [
-            "StageThemeEpisode3ToEpisode0",
+            "StageThemeEpisode0ToEpisode1",
             "DoNothing"
         ],
         "rearDelay": 500
