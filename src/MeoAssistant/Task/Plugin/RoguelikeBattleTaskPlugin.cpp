@@ -153,6 +153,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         m_role_order = opt->role_order;
         m_stop_melee_deploy_num = opt->stop_melee_deploy_num;
         m_deploy_ranged_num = opt->deploy_ranged_num;
+        m_force_deploy_direction = opt->force_deploy_direction;
     }
     else {
         for (const auto& [loc, side] : m_normal_tile_info) {
@@ -227,6 +228,7 @@ asst::BattleOperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(cons
     case BattleRole::Drone:
     default:
         // 暂时都当地面处理
+        // drone不能被认为是纯粹近战，否则在需要部署真正近战来阻挡时会部署费低的drone
         return BattleOperPosition::Melee;
         break;
     }
@@ -315,7 +317,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (cooling_count > m_last_cooling_count) {
         battle_pause();
         int remain_add = cooling_count - m_last_cooling_count;
-        Rect cur_rect;
         for (size_t i = 0; i < opers.size(); ++i) {
             const auto& cur_opers = battle_analyzer.get_opers();
             if (cur_opers.empty()) {
@@ -327,8 +328,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             if ((!oper.cooling) || oper.role == BattleRole::Drone) {
                 continue;
             }
-            cur_rect = oper.rect;
-            m_ctrler->click(cur_rect);
+            m_ctrler->click(oper.rect);
             sleep(use_oper_task_ptr->pre_delay);
             const cv::Mat& new_image = m_ctrler->get_image();
 
@@ -383,8 +383,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             remain_add--;
             if (!remain_add) break;
         }
-        m_ctrler->click(cur_rect);
         battle_pause();
+        cancel_oper_selection();
     }
     m_last_cooling_count = cooling_count;
     if (!new_urgent.empty()) {
@@ -447,7 +447,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             }
             else if (role_type == BattleOperPosition::Ranged && (!op.cooling)) {
                 has_ranged = true;
-                if (op.role == BattleRole::Medic && (!op.cooling)) {
+                if (op.role == BattleRole::Medic) {
                     has_medic = true;
                 }
             }
@@ -545,10 +545,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                     }
                 }
             }
+            battle_pause();
             if (clicked_drone) {
                 cancel_oper_selection();
             }
-            battle_pause();
         }
 
         m_ctrler->click(opt_oper.rect);
@@ -589,6 +589,12 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                     return true;
                 }
             }
+        }
+
+        if (opt_oper.name == Dice) {
+            // 在drone被认为是近战时必须加上
+            cancel_oper_selection();
+            return true;
         }
     }
 
@@ -762,6 +768,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_has_deployed_ranged_num = 0;
     m_has_finished_deploy_ranged = false;
     m_last_cooling_count = 0;
+    m_force_deploy_direction.clear();
 
     for (auto& [key, status] : m_restore_status) {
         m_status->set_number(key, status);
@@ -1002,14 +1009,14 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
 
     Point home(5, 5); // 实在找不到家门了，随便取个点当家门用算了，一般是地图的中间
     Point recommended_direction;
+    static const std::unordered_map<BattleDeployDirection, Point> direction_map = {
+        { BattleDeployDirection::Up, Point::up() },     { BattleDeployDirection::Down, Point::down() },
+        { BattleDeployDirection::Left, Point::left() }, { BattleDeployDirection::Right, Point::right() },
+        { BattleDeployDirection::None, Point() },
+    };
     if (m_cur_home_index < m_homes.size()) {
         const auto& rp_home = m_homes.at(m_cur_home_index);
         home = rp_home.location;
-        static const std::unordered_map<BattleDeployDirection, Point> direction_map = {
-            { BattleDeployDirection::Up, Point::up() },     { BattleDeployDirection::Down, Point::down() },
-            { BattleDeployDirection::Left, Point::left() }, { BattleDeployDirection::Right, Point::right() },
-            { BattleDeployDirection::None, Point() },
-        };
         recommended_direction = direction_map.at(rp_home.direction);
     }
 
@@ -1059,6 +1066,13 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
             max_score = cur_result.second + extra_dist_score;
             best_location = loc;
             best_direction = cur_result.first;
+        }
+    }
+
+    // 强制变化为确定的攻击方向
+    if (auto iter = m_force_deploy_direction.find(best_location); iter != m_force_deploy_direction.end()) {
+        if (iter->second.role.contains(oper.role)) {
+            best_direction = direction_map.at(iter->second.direction);
         }
     }
 

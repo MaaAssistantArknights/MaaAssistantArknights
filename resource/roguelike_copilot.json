@@ -41,7 +41,27 @@
         "stop_melee_deploy_num_Doc": "部署10000个近战单位后开始部署远程单位，填写此项后必须填写deploy_ranged_num项",
         "stop_melee_deploy_num": 10000,
         "deploy_ranged_num_Doc": "部署0个远程单位后恢复正常部署逻辑",
-        "deploy_ranged_num": 0
+        "deploy_ranged_num": 0,
+        "force_deploy_direction_Doc": "这些点对某些职业强制部署方向",
+        "force_deploy_direction": [
+            {
+                "location": [
+                    1,
+                    1
+                ],
+                "role_Doc": "填入的职业适用强制方向",
+                "role": [ "warrior", "pioneer" ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    3,
+                    1
+                ],
+                "role": [ "sniper" ],
+                "direction": "left"
+            }
+        ]
     },
     {
         "stage_name": "虫群横行",

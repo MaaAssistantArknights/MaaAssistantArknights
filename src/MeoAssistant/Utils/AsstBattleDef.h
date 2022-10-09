@@ -113,11 +113,18 @@ namespace asst
         BattleDeployDirection direction;
     };
 
+    struct ForceDeployDirection
+    {
+        BattleDeployDirection direction;
+        std::unordered_set<BattleRole> role;
+    };
+
     struct RoguelikeBattleData
     {
         std::string stage_name;
         std::vector<ReplacementHome> replacement_home;
         std::unordered_set<Point> blacklist_location;
+        std::unordered_map<Point, ForceDeployDirection> force_deploy_direction;
         std::vector<int> key_kills;
         std::array<BattleRole, 9> role_order;
         bool use_dice_stage = true;
