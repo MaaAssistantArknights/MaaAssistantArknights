@@ -40,13 +40,17 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 
 static bool inited = false;
 
+bool AsstSetUserDir(const char* path)
+{
+    return asst::utils::UserDir::get_instance().set(path);
+}
+
 bool AsstLoadResource(const char* path)
 {
-    auto working_path = asst::utils::path(path);
-    if (!inited) {
-        asst::Logger::set_directory(working_path);
+    if (auto& user_dir = asst::utils::UserDir::get_instance(); user_dir.empty()) {
+        user_dir.set(path);
     }
-    inited = asst::ResourceLoader::get_instance().load(working_path / asst::utils::path("resource"));
+    inited = asst::ResourceLoader::get_instance().load(asst::utils::path(path) / asst::utils::path("resource"));
     return inited;
 }
 
