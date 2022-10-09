@@ -2175,10 +2175,6 @@
             648,
             165
         ],
-        "maskRange": [
-            100,
-            255
-        ],
         "next": [
             "CloseAnno",
             "StartToWakeUp",
