@@ -115,6 +115,7 @@ namespace asst
         std::unordered_map<std::string, Point> m_opers_in_field;
         std::unordered_map<std::string, int64_t> m_restore_status;
         std::priority_queue<DroneTile> m_need_clear_tiles;
+        std::unordered_map<Point, ForceDeployDirection> m_force_deploy_direction;
 
         std::string m_stage_name;
     };
