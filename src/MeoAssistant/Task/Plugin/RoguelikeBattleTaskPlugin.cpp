@@ -563,6 +563,9 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             oper_name_analyzer.sort_result_by_score();
             opt_oper.name = oper_name_analyzer.get_result().front().text;
         }
+        if (opt_oper.name == "阿米娅" && opt_oper.role == BattleRole::Warrior) {
+            opt_oper.name = "阿米娅-WARRIOR";
+        }
 
         if (opt_oper.name != UnknownName) {
             auto real_position = get_oper_position(opt_oper.name);

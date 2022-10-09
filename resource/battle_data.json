@@ -3,11 +3,11 @@
         "char_002_amiya": {
             "name": "阿米娅",
             "position": "RANGED",
-            "profession": "WARRIOR",
+            "profession": "CASTER",
             "rangeId": [
-                "1-1",
-                "1-1",
-                "1-1"
+                "3-6",
+                "3-1",
+                "3-1"
             ],
             "rarity": 5
         },
@@ -54,6 +54,17 @@
                 "1-1"
             ],
             "rarity": 6
+        },
+        "char_1001_amiya2": {
+            "name": "阿米娅-WARRIOR",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
         },
         "char_1011_lava2": {
             "name": "炎狱炎熔",
