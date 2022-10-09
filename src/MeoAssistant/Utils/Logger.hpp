@@ -339,15 +339,15 @@ namespace asst
     public:
         virtual ~Logger() override { flush(); }
 
-        static bool set_directory(const std::filesystem::path& dir)
-        {
-            if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
-                return false;
-            }
-            m_directory = dir;
+        //static bool set_directory(const std::filesystem::path& dir)
+        //{
+        //    if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
+        //        return false;
+        //    }
+        //    m_directory = dir;
 
-            return true;
-        }
+        //    return true;
+        //}
 
         template <typename T>
         auto operator<<(T&& arg)
@@ -416,6 +416,7 @@ namespace asst
         friend class SingletonHolder<Logger>;
 
         Logger()
+            : m_directory(utils::UserDir::get_instance().get())
         {
             check_filesize_and_remove();
             log_init_info();
@@ -441,11 +442,11 @@ namespace asst
             trace("MeoAssistant Process Start");
             trace("Version", asst::Version);
             trace("Built at", __DATE__, __TIME__);
-            trace("Working Path", m_directory);
+            trace("User Dir", m_directory);
             trace("-----------------------------");
         }
 
-        inline static std::filesystem::path m_directory;
+        std::filesystem::path m_directory;
 
         std::filesystem::path m_log_path = m_directory / "asst.log";
         std::filesystem::path m_log_bak_path = m_directory / "asst.bak.log";
