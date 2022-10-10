@@ -38,11 +38,10 @@
             "special",
             "drone"
         ],
-        "force_air_defense_when_deploy_blocking_num_Doc": "场上每有10000个阻挡单位就强制部署1个对空单位（填不填写均不影响正常部署逻辑）",
-        "force_air_defense_when_deploy_blocking_num": [
-            10000,
-            1
-        ],
+        "stop_melee_deploy_num_Doc": "部署10000个近战单位后开始部署远程单位，填写此项后必须填写deploy_ranged_num项",
+        "stop_melee_deploy_num": 10000,
+        "deploy_ranged_num_Doc": "部署0个远程单位后恢复正常部署逻辑",
+        "deploy_ranged_num": 0,
         "force_deploy_direction_Doc": "这些点对某些职业强制部署方向",
         "force_deploy_direction": [
             {
@@ -595,6 +594,30 @@
             "support",
             "special",
             "drone"
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    1,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            }
         ]
     },
     {
@@ -617,6 +640,24 @@
                 9,
                 4
             ]
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    4,
+                    4
+                ],
+                "role": [ "warrior", "pioneer" ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    3,
+                    4
+                ],
+                "role": [ "warrior", "pioneer" ],
+                "direction": "right"
+            }
         ]
     },
     {
@@ -678,10 +719,8 @@
                 4
             ]
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            1
-        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 1,
         "role_order": [
             "warrior",
             "pioneer",
@@ -728,6 +767,19 @@
                     3
                 ],
                 "direction": "left"
+            }
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    6,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
             }
         ]
     },
@@ -776,6 +828,65 @@
                 4,
                 2
             ]
+        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 2,
+        "force_deploy_direction": [
+            {
+                "location": [
+                    7,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    8,
+                    2
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    2
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    6,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            }
         ]
     },
     {
@@ -824,10 +935,8 @@
                 4
             ]
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            1
-        ]
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 1
     },
     {
         "stage_name": "领地意识",
@@ -934,9 +1043,31 @@
             "special",
             "drone"
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            3
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 3,
+        "force_deploy_direction": [
+            {
+                "location": [
+                    1,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            }
         ]
     },
     {
@@ -1174,6 +1305,41 @@
                 ],
                 "direction": "none"
             }
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    3,
+                    2
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "down"
+            },
+            {
+                "location": [
+                    4,
+                    2
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "down"
+            },
+            {
+                "location": [
+                    5,
+                    2
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "down"
+            }
         ]
     },
     {
@@ -1341,9 +1507,31 @@
             "special",
             "drone"
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            2
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 2,
+        "force_deploy_direction": [
+            {
+                "location": [
+                    5,
+                    1
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    9,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            }
         ]
     },
     {
@@ -1693,10 +1881,8 @@
                 2
             ]
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            1
-        ],
+        "stop_melee_deploy_num": 2,
+        "deploy_ranged_num": 1,
         "role_order": [
             "warrior",
             "pioneer",
@@ -1707,6 +1893,41 @@
             "support",
             "special",
             "drone"
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    5,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    6,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    7,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            }
         ]
     },
     {
@@ -1751,6 +1972,41 @@
             "support",
             "special",
             "drone"
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    6,
+                    5
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    9,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            }
         ]
     },
     {
@@ -2017,6 +2273,653 @@
                 7,
                 5
             ]
+        ]
+    },
+    {
+        "stage_name": "与虫为伴",
+        "replacement_home": [
+            {
+                "location": [
+                    5,
+                    4
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    4,
+                    4
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    3,
+                    4
+                ],
+                "direction": "up"
+            }
+        ]
+    },
+    {
+        "stage_name": "驯兽小屋",
+        "replacement_home": [
+            {
+                "location": [
+                    7,
+                    3
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    7,
+                    4
+                ],
+                "direction": "none"
+            }
+        ],
+        "blacklist_location": [
+            [
+                6,
+                4
+            ],
+            [
+                7,
+                4
+            ],
+            [
+                8,
+                4
+            ],
+            [
+                8,
+                5
+            ],
+            [
+                7,
+                5
+            ]
+        ]
+    },
+    {
+        "stage_name": "礼炮小队",
+        "replacement_home": [
+            {
+                "location": [
+                    2,
+                    3
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    3
+                ],
+                "direction": "none"
+            }
+        ],
+        "stop_melee_deploy_num": 1,
+        "deploy_ranged_num": 1
+    },
+    {
+        "stage_name": "意外",
+        "replacement_home": [
+            {
+                "location": [
+                    5,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    6,
+                    3
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    7,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    7,
+                    2
+                ],
+                "direction": "left"
+            }
+        ]
+    },
+    {
+        "stage_name": "死斗",
+        "replacement_home": [
+            {
+                "location": [
+                    1,
+                    5
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    2,
+                    4
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    3,
+                    4
+                ],
+                "direction": "up"
+            }
+        ],
+        "blacklist_location": [
+            [
+                4,
+                2
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                1,
+                3
+            ],
+            [
+                1,
+                4
+            ]
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    2,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    3,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    4,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "up"
+            }
+        ]
+    },
+    {
+        "stage_name": "压轴登场",
+        "replacement_home": [
+            {
+                "location": [
+                    3,
+                    3
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    2,
+                    3
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    2,
+                    4
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    1,
+                    2
+                ],
+                "direction": "right"
+            }
+        ]
+    },
+    {
+        "stage_name": "巡逻队",
+        "replacement_home": [
+            {
+                "location": [
+                    2,
+                    4
+                ],
+                "direction": "lift"
+            },
+            {
+                "location": [
+                    2,
+                    3
+                ],
+                "direction": "lift"
+            },
+            {
+                "location": [
+                    1,
+                    2
+                ],
+                "direction": "down"
+            },
+            {
+                "location": [
+                    2,
+                    2
+                ],
+                "direction": "down"
+            },
+            {
+                "location": [
+                    3,
+                    2
+                ],
+                "direction": "down"
+            }
+        ]
+    },
+    {
+        "stage_name": "落魄骑士",
+        "replacement_home": [
+            {
+                "location": [
+                    2,
+                    3
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    3
+                ],
+                "direction": "none"
+            }
+        ]
+    },
+    {
+        "stage_name": "分赃不均",
+        "replacement_home": [
+            {
+                "location": [
+                    1,
+                    3
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    2,
+                    3
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    1,
+                    4
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    4,
+                    2
+                ],
+                "direction": "down"
+            }
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    1,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    4,
+                    2
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            }
+        ]
+    },
+    {
+        "stage_name": "先来后到",
+        "replacement_home": [
+            {
+                "location": [
+                    7,
+                    1
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    6,
+                    1
+                ],
+                "direction": "left"
+            }
+        ]
+    },
+    {
+        "stage_name": "似曾相识",
+        "replacement_home": [
+            {
+                "location": [
+                    4,
+                    4
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    5,
+                    4
+                ],
+                "direction": "left"
+            }
+        ]
+    },
+    {
+        "stage_name": "从众效应",
+        "replacement_home": [
+            {
+                "location": [
+                    2,
+                    3
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    3,
+                    4
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    4,
+                    4
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    5,
+                    4
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    6,
+                    3
+                ],
+                "direction": "none"
+            }
+        ]
+    },
+    {
+        "stage_name": "首演",
+        "replacement_home": [
+            {
+                "location": [
+                    8,
+                    4
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    4
+                ],
+                "direction": "left"
+            }
+        ],
+        "blacklist_location": [
+            [
+                1,
+                1
+            ],
+            [
+                1,
+                5
+            ],
+            [
+                2,
+                5
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                3,
+                2
+            ],
+            [
+                4,
+                2
+            ],
+            [
+                4,
+                4
+            ],
+            [
+                5,
+                2
+            ],
+            [
+                5,
+                4
+            ],
+            [
+                3,
+                3
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                5,
+                3
+            ],
+            [
+                7,
+                1
+            ],
+            [
+                6,
+                5
+            ],
+            [
+                7,
+                5
+            ]
+        ]
+    },
+    {
+        "stage_name": "感化",
+        "replacement_home": [
+            {
+                "location": [
+                    5,
+                    1
+                ],
+                "direction": "down"
+            },
+            {
+                "location": [
+                    5,
+                    2
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    3,
+                    1
+                ],
+                "direction": "down"
+            },
+            {
+                "location": [
+                    7,
+                    1
+                ],
+                "direction": "down"
+            }
+        ],
+        "blacklist_location": [
+            [
+                4,
+                3
+            ],
+            [
+                5,
+                3
+            ],
+            [
+                4,
+                4
+            ],
+            [
+                6,
+                4
+            ],
+            [
+                2,
+                5
+            ],
+            [
+                3,
+                5
+            ],
+            [
+                4,
+                5
+            ],
+            [
+                6,
+                5
+            ],
+            [
+                7,
+                5
+            ],
+            [
+                8,
+                5
+            ]
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    3,
+                    1
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "down"
+            },
+            {
+                "location": [
+                    7,
+                    1
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "down"
+            }
+        ]
+    },
+    {
+        "stage_name": "雕匠与石像",
+        "replacement_home": [
+            {
+                "location": [
+                    8,
+                    2
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    8,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    2
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    4
+                ],
+                "direction": "left"
+            }
         ]
     }
 ]
