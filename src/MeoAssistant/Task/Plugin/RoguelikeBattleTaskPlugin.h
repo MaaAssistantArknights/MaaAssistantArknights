@@ -90,12 +90,25 @@ namespace asst
         int m_pre_hp = 0;
         int m_kills = 0;
         int m_total_kills = 0;
-        int m_stop_blocking_deploy_num = INT_MAX;
-        int m_has_deployed_blocking_num = 0;
-        int m_deploy_ranged_num = 0;
-        int m_has_deployed_ranged_num = 0;
+        struct
+        {
+            int stop_blocking_deploy_num = INT_MAX;
+            int has_deployed_blocking_num = 0;
+            int deploy_air_defense_num = 0;
+            int has_deployed_air_defense_num = 0;
+            bool has_finished_deploy_air_defense = false;
+
+            void clear() noexcept
+            {
+                stop_blocking_deploy_num = INT_MAX;
+                deploy_air_defense_num = 0;
+                has_deployed_blocking_num = 0;
+                has_deployed_air_defense_num = 0;
+                has_finished_deploy_air_defense = false;
+            }
+        } m_force_air_defense;
+
         int m_last_cooling_count = 0;
-        bool m_has_finished_deploy_air_defense = false;
         size_t m_cur_home_index = 0;
         cv::Mat m_dice_image;
 

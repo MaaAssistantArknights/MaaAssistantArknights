@@ -151,8 +151,8 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         m_blacklist_location = opt->blacklist_location;
         m_stage_use_dice = opt->use_dice_stage;
         m_role_order = opt->role_order;
-        m_stop_blocking_deploy_num = opt->stop_deploy_blocking_num;
-        m_deploy_ranged_num = opt->force_deploy_air_defense_num;
+        m_force_air_defense.stop_blocking_deploy_num = opt->stop_deploy_blocking_num;
+        m_force_air_defense.deploy_air_defense_num = opt->force_deploy_air_defense_num;
         m_force_deploy_direction = opt->force_deploy_direction;
     }
     else {
@@ -394,7 +394,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             }
             if (auto del_pos_tiles = m_used_tiles.find(iter->second); del_pos_tiles != m_used_tiles.end()) {
                 if (m_normal_tile_info[del_pos_tiles->first].buildable == BattleLocationType::Melee) {
-                    m_has_deployed_blocking_num--;
+                    m_force_air_defense.has_deployed_blocking_num--;
                 }
                 m_used_tiles.erase(del_pos_tiles);
             }
@@ -446,8 +446,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     bool has_medic = false;
     bool wait_blocking = m_wait_blocking[m_cur_home_index];
     bool wait_medic = m_wait_medic[m_cur_home_index];
-    bool force_need_air_defense = (!m_has_finished_deploy_air_defense) &&
-                                  (m_has_deployed_blocking_num >= m_stop_blocking_deploy_num) && (!m_use_dice);
+    bool force_need_air_defense =
+        (!m_force_air_defense.has_finished_deploy_air_defense) &&
+        (m_force_air_defense.has_deployed_blocking_num >= m_force_air_defense.stop_blocking_deploy_num) &&
+        (!m_use_dice);
     if (m_use_dice) {
         opt_oper = std::move(dice);
         oper_found = true;
@@ -481,7 +483,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         if (force_need_air_defense) {
             Log.info("RANGED ROLE IS NEEDED UNDER FORCE");
             if (!has_air_defense) {
-                m_has_finished_deploy_air_defense = true;
+                m_force_air_defense.has_finished_deploy_air_defense = true;
                 Log.info("FORCE RANGED OPER DEPLOY END");
                 return true;
             }
@@ -527,7 +529,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         if (available_locations(opt_oper.role).empty()) {
             Log.info("Tiles full");
             if (force_need_air_defense) {
-                m_has_finished_deploy_air_defense = true;
+                m_force_air_defense.has_finished_deploy_air_defense = true;
                 Log.info("FORCE RANGED OPER DEPLOY END");
             }
             return true;
@@ -650,12 +652,12 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     m_opers_in_field.emplace(opt_oper.name, placed_loc);
     m_retreated_opers.erase(opt_oper.name);
     if (get_role_position(opt_oper.role) == BattleOperPosition::Blocking) {
-        m_has_deployed_blocking_num++;
+        m_force_air_defense.has_deployed_blocking_num++;
     }
     if (force_need_air_defense) {
-        m_has_deployed_ranged_num++;
-        if (m_has_deployed_ranged_num >= m_deploy_ranged_num) {
-            m_has_finished_deploy_air_defense = true;
+        m_force_air_defense.has_deployed_air_defense_num++;
+        if (m_force_air_defense.has_deployed_air_defense_num >= m_force_air_defense.deploy_air_defense_num) {
+            m_force_air_defense.has_finished_deploy_air_defense = true;
             Log.info("FORCE RANGED OPER DEPLOY END");
         }
         // 不改变当前index，直接进入下一步
@@ -777,11 +779,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_stage_use_dice = true;
     m_dice_image = cv::Mat();
     m_first_deploy = true;
-    m_stop_blocking_deploy_num = INT_MAX;
-    m_deploy_ranged_num = 0;
-    m_has_deployed_blocking_num = 0;
-    m_has_deployed_ranged_num = 0;
-    m_has_finished_deploy_air_defense = false;
+    m_force_air_defense.clear();
     m_last_cooling_count = 0;
     m_force_deploy_direction.clear();
 
