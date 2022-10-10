@@ -38,10 +38,11 @@
             "special",
             "drone"
         ],
-        "stop_melee_deploy_num_Doc": "部署10000个近战单位后开始部署远程单位，填写此项后必须填写deploy_ranged_num项",
-        "stop_melee_deploy_num": 10000,
-        "deploy_ranged_num_Doc": "部署0个远程单位后恢复正常部署逻辑",
-        "deploy_ranged_num": 0,
+        "force_air_defense_when_deploy_blocking_num_Doc": "场上每有10000个阻挡单位就强制部署1个对空单位（填不填写均不影响正常部署逻辑）",
+        "force_air_defense_when_deploy_blocking_num": [
+            10000,
+            1
+        ],
         "force_deploy_direction_Doc": "这些点对某些职业强制部署方向",
         "force_deploy_direction": [
             {
@@ -719,8 +720,10 @@
                 4
             ]
         ],
-        "stop_melee_deploy_num": 2,
-        "deploy_ranged_num": 1,
+        "force_air_defense_when_deploy_blocking_num": [
+            2,
+            1
+        ],
         "role_order": [
             "warrior",
             "pioneer",
@@ -829,8 +832,10 @@
                 2
             ]
         ],
-        "stop_melee_deploy_num": 2,
-        "deploy_ranged_num": 2,
+        "force_air_defense_when_deploy_blocking_num": [
+            2,
+            2
+        ],
         "force_deploy_direction": [
             {
                 "location": [
@@ -935,8 +940,10 @@
                 4
             ]
         ],
-        "stop_melee_deploy_num": 2,
-        "deploy_ranged_num": 1
+        "force_air_defense_when_deploy_blocking_num": [
+            2,
+            1
+        ]
     },
     {
         "stage_name": "领地意识",
@@ -1043,8 +1050,10 @@
             "special",
             "drone"
         ],
-        "stop_melee_deploy_num": 2,
-        "deploy_ranged_num": 3,
+        "force_air_defense_when_deploy_blocking_num": [
+            2,
+            3
+        ],
         "force_deploy_direction": [
             {
                 "location": [
@@ -1507,8 +1516,10 @@
             "special",
             "drone"
         ],
-        "stop_melee_deploy_num": 2,
-        "deploy_ranged_num": 2,
+        "force_air_defense_when_deploy_blocking_num": [
+            2,
+            2
+        ],
         "force_deploy_direction": [
             {
                 "location": [
@@ -1881,8 +1892,10 @@
                 2
             ]
         ],
-        "stop_melee_deploy_num": 2,
-        "deploy_ranged_num": 1,
+        "force_air_defense_when_deploy_blocking_num": [
+            2,
+            1
+        ],
         "role_order": [
             "warrior",
             "pioneer",
@@ -2360,8 +2373,10 @@
                 "direction": "none"
             }
         ],
-        "stop_melee_deploy_num": 1,
-        "deploy_ranged_num": 1
+        "force_air_defense_when_deploy_blocking_num": [
+            1,
+            1
+        ]
     },
     {
         "stage_name": "意外",
