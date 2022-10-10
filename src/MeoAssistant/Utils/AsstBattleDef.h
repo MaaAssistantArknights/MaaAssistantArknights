@@ -128,16 +128,24 @@ namespace asst
         std::vector<int> key_kills;
         std::array<BattleRole, 9> role_order;
         bool use_dice_stage = true;
-        int stop_melee_deploy_num = INT_MAX;
-        int deploy_ranged_num = 0;
+        int stop_deploy_blocking_num = INT_MAX;
+        int force_deploy_air_defense_num = 0;
     };
 
     enum class BattleOperPosition
     {
         None,
-        Melee,
-        Ranged,
-        All,
+        Blocking,   // 阻挡单位
+        AirDefense, // 对空单位
+    };
+
+    enum class BattleLocationType
+    {
+        Invalid = -1,
+        None = 0,
+        Melee = 1,
+        Ranged = 2,
+        All = 3
     };
 
     struct BattleCharData
@@ -147,7 +155,7 @@ namespace asst
         std::array<std::string, 3> ranges;
         int rarity = 0;
         bool with_direction = true;
-        BattleOperPosition position = BattleOperPosition::None;
+        BattleLocationType location_type = BattleLocationType::None;
     };
 
     struct BattleRecruitOperInfo

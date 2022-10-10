@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AbstractResource.h"
+#include "Utils/AsstBattleDef.h"
 #include "Utils/AsstTypes.h"
 
 #include <memory>
@@ -15,14 +16,6 @@ namespace asst
     class TilePack final : public SingletonHolder<TilePack>, public AbstractResource
     {
     public:
-        enum class BuildableType
-        {
-            Invalid = -1,
-            None = 0,
-            Melee = 1,
-            Ranged = 2,
-            All = 3
-        };
         enum class HeightType
         {
             Invalid = -1,
@@ -52,7 +45,7 @@ namespace asst
 
         struct TileInfo
         {
-            BuildableType buildable = BuildableType::Invalid;
+            BattleLocationType buildable = BattleLocationType::Invalid;
             HeightType height = HeightType::Invalid;
             TileKey key = TileKey::Invalid;
             Point pos; // 像素坐标

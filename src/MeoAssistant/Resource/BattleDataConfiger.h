@@ -31,13 +31,13 @@ namespace asst
             return iter->second.rarity;
         }
 
-        BattleOperPosition get_position(const std::string& name) const
+        BattleLocationType get_location_type(const std::string& name) const
         {
             auto iter = m_chars.find(name);
             if (iter == m_chars.cend()) {
-                return BattleOperPosition::None;
+                return BattleLocationType::Invalid;
             }
-            return iter->second.position;
+            return iter->second.location_type;
         }
 
         static inline const BattleAttackRange& EmptyRange { { 0, 0 } };
