@@ -238,11 +238,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 
     OVERLAPPED sockov {};
     SOCKET client_socket = INVALID_SOCKET;
-    std::unique_lock<std::mutex> socket_lock;
 
     if (recv_by_socket) {
-        // acquire socket accept lock
-        socket_lock = std::unique_lock<std::mutex>(m_socket_mutex);
         sock_buffer = asst::platform::single_page_buffer<char>();
         sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
         client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -341,7 +338,6 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
                     // unlock after accept
-                    socket_lock.unlock();
                     accept_pending = false;
                     if (recv_by_socket)
                         sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + len);
