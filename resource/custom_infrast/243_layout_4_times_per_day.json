@@ -1,6 +1,6 @@
 {
     "title": "顶配版243，极限效率，一天四换",
-    "description": "在内置版243一天三换基础上，做到了007但书+007巫恋+007龙舌兰，最大化肥鸭效率\n远山可换见行者，自行添加skip字段可以提高效率，宿舍如果无法满员可以手动添加固定干员或者勾选挂信赖\n\n作业作者：OCEANUS\n感谢公孙长乐大佬提供数据及方案支持！",
+    "description": "请不要直接在原文件上修改，更新会覆盖\n在内置版243一天三换基础上，做到了007但书+007巫恋+007龙舌兰，最大化肥鸭效率\n远山可换见行者，自行添加skip字段可以提高效率，添加period可以配合自启动实现自动化，宿舍如果无法满员可以手动添加固定干员或者勾选空余位置蹭信赖\n\n作业作者：OCEANUS\n感谢公孙长乐大佬提供数据及方案支持！",
     "plans": [
         {
             "name": "A+B 组 前8小时",
@@ -113,9 +113,9 @@
                 "dormitory": [
                     {
                         "operators": [
-                            "爱丽丝",
-                            "车尔尼",
                             "菲亚梅塔"
+                            
+                            
                         ],
                         "autofill": true
                     },
@@ -126,14 +126,13 @@
                         "autofill": true
                     },
                     {
-                        "operators": [
-                            "杜林"
-                        ],
+                        
                         "autofill": true
                     },
                     {
                         "operators": [
-                            "夜莺"
+                            "爱丽丝",
+                            "车尔尼"
                         ],
                         "autofill": true
                     }
@@ -142,7 +141,7 @@
         },
         {
             "name": "A+B 组 后8小时",
-            "description": "最高效率长班，中途用一次肥鸭，同时清体力\n下次换班在8小时后进行",
+            "description": "最高效率长班，中途用一次肥鸭，同时清体力,skip掉宿舍避免不满人\n下次换班在8小时后进行",
             "Fiammetta": {
                 "target": "龙舌兰"
             },
@@ -251,9 +250,10 @@
                 "dormitory": [
                     {
                         "operators": [
-                            "爱丽丝",
-                            "车尔尼",
-                            "菲亚梅塔"
+                            "菲亚梅塔",
+                            "夜莺",
+                            "闪灵"
+                            
                         ],
                         "autofill": true
                     },
@@ -261,19 +261,23 @@
                         "operators": [
                             "流明"
                         ],
-                        "autofill": true
+                        "autofill": true,
+                        "skip": true
                     },
                     {
                         "operators": [
                             "杜林"
                         ],
-                        "autofill": true
+                        "autofill": true,
+                        "skip": true
                     },
                     {
                         "operators": [
-                            "夜莺"
+                            "爱丽丝",
+                            "车尔尼"
                         ],
-                        "autofill": true
+                        "autofill": true,
+                        "skip": true
                     }
                 ]
             }
@@ -389,9 +393,10 @@
                 "dormitory": [
                     {
                         "operators": [
-                            "爱丽丝",
-                            "车尔尼",
-                            "菲亚梅塔"
+                            "菲亚梅塔",
+                            "夜莺",
+                            "闪灵"
+                            
                         ],
                         "autofill": true
                     },
@@ -403,13 +408,16 @@
                     },
                     {
                         "operators": [
-                            "杜林"
+                            "杜林",
+                            "蜜莓"
                         ],
                         "autofill": true
                     },
                     {
                         "operators": [
-                            "夜莺"
+                            "爱丽丝",
+                            "车尔尼",
+                            "黑"
                         ],
                         "autofill": true
                     }
@@ -498,7 +506,7 @@
                     },
                     {
                         "operators": [
-                            "雷蛇"
+                            "正义骑士号"
                         ]
                     },
                     {
@@ -525,9 +533,8 @@
                 "dormitory": [
                     {
                         "operators": [
-                            "爱丽丝",
-                            "车尔尼",
                             "菲亚梅塔"
+                            
                         ],
                         "autofill": true
                     },
@@ -539,18 +546,20 @@
                     },
                     {
                         "operators": [
-                            "杜林"
+                            
                         ],
                         "autofill": true
                     },
                     {
                         "operators": [
-                            "夜莺"
+                            "爱丽丝",
+                            "车尔尼"
                         ],
                         "autofill": true
                     }
                 ]
             }
         }
+        
     ]
 }
