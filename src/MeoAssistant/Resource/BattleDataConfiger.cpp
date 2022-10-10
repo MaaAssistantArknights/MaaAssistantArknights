@@ -29,18 +29,18 @@ bool asst::BattleDataConfiger::parse(const json::value& json)
             data.ranges.at(i) = ranges_json.at(i).as_string();
         }
 
-        static const std::unordered_map<std::string, BattleOperPosition> PositionMap = {
-            { "NONE", BattleOperPosition::None },
-            { "MELEE", BattleOperPosition::Melee },
-            { "RANGED", BattleOperPosition::Ranged },
-            { "ALL", BattleOperPosition::All },
+        static const std::unordered_map<std::string, BattleLocationType> PositionMap = {
+            { "NONE", BattleLocationType::None },
+            { "MELEE", BattleLocationType::Melee },
+            { "RANGED", BattleLocationType::Ranged },
+            { "ALL", BattleLocationType::All },
         };
         if (auto iter = PositionMap.find(char_data_json.at("position").as_string()); iter == PositionMap.cend()) {
             Log.warn("Unknown position", char_data_json.at("position").as_string());
-            data.position = BattleOperPosition::None;
+            data.location_type = BattleLocationType::Invalid;
         }
         else {
-            data.position = iter->second;
+            data.location_type = iter->second;
         }
 
         m_chars.emplace(std::move(name), std::move(data));

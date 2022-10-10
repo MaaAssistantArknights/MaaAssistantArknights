@@ -13,7 +13,6 @@ namespace asst
 {
     class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin
     {
-        using Loc = asst::TilePack::BuildableType;
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
         inline static const std::string Dice = "骰子";
@@ -33,12 +32,14 @@ namespace asst
         // 有些特殊的角色，他的职业并不一定和正常的位置相对应，比如“掠风”是地面辅助
         // get_role_position 可以仅知道干员职业的情况下，大概猜测一下位置
         // get_oper_position 可以在已知干员名的时候获得准确的位置
-        BattleOperPosition get_role_position(const BattleRole& role);
-        BattleOperPosition get_oper_position(const std::string& name);
+        BattleLocationType get_role_location_type(const BattleRole& role);
+        BattleLocationType get_oper_location_type(const std::string& name);
 
         std::vector<Point> available_locations(BattleRole role);
-        std::vector<Point> available_locations(Loc type);
         std::vector<Point> available_locations(const std::string& name);
+        std::vector<Point> available_locations(BattleLocationType type);
+
+        BattleOperPosition get_role_position(const BattleRole& role);
 
         void wait_for_start();
         bool get_stage_info();
@@ -89,12 +90,12 @@ namespace asst
         int m_pre_hp = 0;
         int m_kills = 0;
         int m_total_kills = 0;
-        int m_stop_melee_deploy_num = INT_MAX;
-        int m_has_deployed_melee_num = 0;
+        int m_stop_blocking_deploy_num = INT_MAX;
+        int m_has_deployed_blocking_num = 0;
         int m_deploy_ranged_num = 0;
         int m_has_deployed_ranged_num = 0;
         int m_last_cooling_count = 0;
-        bool m_has_finished_deploy_ranged = false;
+        bool m_has_finished_deploy_air_defense = false;
         size_t m_cur_home_index = 0;
         cv::Mat m_dice_image;
 
@@ -102,10 +103,10 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::vector<ReplacementHome> m_homes;
-        std::vector<bool> m_wait_melee;
+        std::vector<bool> m_wait_blocking;
         std::vector<bool> m_wait_medic;
         std::vector<bool> m_indeed_no_medic;
-        std::unordered_map<Point, size_t> m_melee_for_home_index;
+        std::unordered_map<Point, size_t> m_blocking_for_home_index;
         std::unordered_map<Point, std::vector<size_t>> m_medic_for_home_index;
         std::stack<size_t> m_next_urgent_index;
         std::unordered_set<Point> m_blacklist_location;
