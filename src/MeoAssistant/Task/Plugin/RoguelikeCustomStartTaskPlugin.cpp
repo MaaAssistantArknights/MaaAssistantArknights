@@ -16,6 +16,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
     auto roguelike_name_opt = m_status->get_properties("roguelike_name");
     if (!roguelike_name_opt) {
+        Log.error("Roguelike name doesn't exist!");
         return false;
     }
     const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";

@@ -5,8 +5,8 @@
 #include "../Sub/ProcessTask.h"
 #include "Controller.h"
 #include "ImageAnalyzer/RoguelikeFormationImageAnalyzer.h"
-#include "TaskData.h"
 #include "RuntimeStatus.h"
+#include "TaskData.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -17,6 +17,7 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
 
     auto roguelike_name_opt = m_status->get_properties("roguelike_name");
     if (!roguelike_name_opt) {
+        Log.error("Roguelike name doesn't exist!");
         return false;
     }
     const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
