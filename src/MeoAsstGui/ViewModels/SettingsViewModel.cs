@@ -801,27 +801,8 @@ namespace MeoAsstGui
             get => _roguelikeTheme;
             set
             {
-                if (value == _roguelikeTheme)
-                {
-                    return;
-                }
-
-                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
-                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
-                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
-                System.Windows.Forms.MessageBoxManager.Register();
-                var result = MessageBox.Show(
-                    Localization.GetString("RoguelikeChangedTip"),
-                    Localization.GetString("Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                System.Windows.Forms.MessageBoxManager.Unregister();
                 SetAndNotify(ref _roguelikeTheme, value);
-                if (result == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
-                }
+                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
             }
         }
 

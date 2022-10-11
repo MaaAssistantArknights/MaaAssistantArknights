@@ -134,7 +134,6 @@
     <system:String x:Key="AdditionCommand">🍺🕺🍷💃🍺</system:String>
 
     <system:String x:Key="RoguelikeTheme">🍷🍸💃🍷🍻</system:String>
-    <system:String x:Key="RoguelikeChangedTip">🍸🍷🍻💃💃🍻🍷🍻🍺🍺🍸🍻💃🕺🍺🍺🍻🍸🍸🍷🍺🍸💃🕺🍺🍸</system:String>
     <system:String x:Key="Strategy">🍻🍸🍻</system:String>
     <system:String x:Key="StartTimesLimit">🍸🍺🍺🍸🍻🍺🍷🍻🍻🍻🍸🍸🍷🍺</system:String>
     <system:String x:Key="GoldTimesLimit">🍺🕺💃🍻🍷🍷🍻🍸🍺🍸🍻🍺🍻💃🕺</system:String>
