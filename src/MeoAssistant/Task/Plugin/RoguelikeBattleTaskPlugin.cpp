@@ -100,48 +100,46 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     bool calced = false;
 
-    static const std::string RoguelikeCode = "ISW-NO";
-    if (m_stage_name.empty()) {
-        const auto stage_name_task_ptr = Task.get("BattleStageName");
-        sleep(stage_name_task_ptr->pre_delay);
+    const auto stage_name_task_ptr = Task.get("BattleStageName");
+    sleep(stage_name_task_ptr->pre_delay);
 
-        constexpr int StageNameRetryTimes = 50;
-        for (int i = 0; i != StageNameRetryTimes; ++i) {
-            cv::Mat image = m_ctrler->get_image();
-            OcrWithPreprocessImageAnalyzer name_analyzer(image);
+    constexpr int StageNameRetryTimes = 50;
+    for (int i = 0; i != StageNameRetryTimes; ++i) {
+        if (need_exit()) {
+            return false;
+        }
+        std::this_thread::yield();
 
-            name_analyzer.set_task_info(stage_name_task_ptr);
-            if (!name_analyzer.analyze()) {
+        OcrWithPreprocessImageAnalyzer name_analyzer(m_ctrler->get_image());
+        name_analyzer.set_task_info(stage_name_task_ptr);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
+        name_analyzer.sort_result_by_score();
+        const std::string& text = name_analyzer.get_result().front().text;
+
+        static const std::vector<std::string> RoguelikeStageCode = { "ISW-NO", "ISW-DF", "ISW-DU", "ISW-SP",
+                                                                     std::string() };
+        TilePack::LevelKey stage_key;
+        stage_key.name = text;
+
+        for (const std::string& code : RoguelikeStageCode) {
+            stage_key.code = code;
+            auto side_info = Tile.calc(stage_key, true);
+            if (side_info.empty()) {
                 continue;
             }
+            m_stage_name = text;
 
-            for (const auto& tr : name_analyzer.get_result()) {
-                TilePack::LevelKey stage_key;
-                stage_key.code = RoguelikeCode;
-                stage_key.name = tr.text;
-                auto side_info = Tile.calc(stage_key, true);
-                if (side_info.empty()) {
-                    continue;
-                }
-                m_stage_name = tr.text;
-                m_side_tile_info = std::move(side_info);
-                m_normal_tile_info = Tile.calc(stage_key, false);
-                calced = true;
-                break;
-            }
-            if (calced) {
-                break;
-            }
-            std::this_thread::yield();
+            m_side_tile_info = std::move(side_info);
+            m_normal_tile_info = Tile.calc(stage_key, false);
+            calced = true;
+            break;
         }
-    }
-    else {
-        TilePack::LevelKey stage_key;
-        stage_key.code = RoguelikeCode;
-        stage_key.name = m_stage_name;
-        m_side_tile_info = Tile.calc(stage_key, true);
-        m_normal_tile_info = Tile.calc(stage_key, false);
-        calced = true;
+
+        if (calced) {
+            break;
+        }
     }
 
     auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
@@ -909,7 +907,12 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         m_total_kills = kills_analyzer.get_total_kills();
     }
 
-    asst::imwrite("map/" + m_stage_name + ".png", image);
+    if (!m_stage_name.empty()) {
+        asst::imwrite("map/" + m_stage_name + ".png", image);
+    }
+    else {
+        Log.error("stage name is empty");
+    }
     return true;
 }
 
