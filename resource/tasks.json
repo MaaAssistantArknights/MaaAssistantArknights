@@ -7097,7 +7097,14 @@
             26,
             120,
             23
-        ]
+        ],
+        "specificRect": [
+            100,
+            0,
+            0,
+            0
+        ],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用"
     },
     "Roguelike1RecruitElite0": {
         "roi": [
@@ -8118,10 +8125,17 @@
         "text": [],
         "roi": [
             210,
-            10,
+            8,
             120,
-            22
-        ]
+            20
+        ],
+        "specificRect": [
+            100,
+            0,
+            0,
+            0
+        ],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用"
     },
     "Roguelike1SkillSelectionMove1": {
         "algorithm": "JustReturn",

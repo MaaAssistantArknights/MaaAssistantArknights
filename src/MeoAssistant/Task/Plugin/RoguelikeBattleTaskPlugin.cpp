@@ -100,48 +100,46 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     bool calced = false;
 
-    static const std::string RoguelikeCode = "ISW-NO";
-    if (m_stage_name.empty()) {
-        const auto stage_name_task_ptr = Task.get("BattleStageName");
-        sleep(stage_name_task_ptr->pre_delay);
+    const auto stage_name_task_ptr = Task.get("BattleStageName");
+    sleep(stage_name_task_ptr->pre_delay);
 
-        constexpr int StageNameRetryTimes = 50;
-        for (int i = 0; i != StageNameRetryTimes; ++i) {
-            cv::Mat image = m_ctrler->get_image();
-            OcrWithPreprocessImageAnalyzer name_analyzer(image);
+    constexpr int StageNameRetryTimes = 50;
+    for (int i = 0; i != StageNameRetryTimes; ++i) {
+        if (need_exit()) {
+            return false;
+        }
+        std::this_thread::yield();
 
-            name_analyzer.set_task_info(stage_name_task_ptr);
-            if (!name_analyzer.analyze()) {
+        OcrWithPreprocessImageAnalyzer name_analyzer(m_ctrler->get_image());
+        name_analyzer.set_task_info(stage_name_task_ptr);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
+        name_analyzer.sort_result_by_score();
+        const std::string& text = name_analyzer.get_result().front().text;
+
+        static const std::vector<std::string> RoguelikeStageCode = { "ISW-NO", "ISW-DF", "ISW-DU", "ISW-SP",
+                                                                     std::string() };
+        TilePack::LevelKey stage_key;
+        stage_key.name = text;
+
+        for (const std::string& code : RoguelikeStageCode) {
+            stage_key.code = code;
+            auto side_info = Tile.calc(stage_key, true);
+            if (side_info.empty()) {
                 continue;
             }
+            m_stage_name = text;
 
-            for (const auto& tr : name_analyzer.get_result()) {
-                TilePack::LevelKey stage_key;
-                stage_key.code = RoguelikeCode;
-                stage_key.name = tr.text;
-                auto side_info = Tile.calc(stage_key, true);
-                if (side_info.empty()) {
-                    continue;
-                }
-                m_stage_name = tr.text;
-                m_side_tile_info = std::move(side_info);
-                m_normal_tile_info = Tile.calc(stage_key, false);
-                calced = true;
-                break;
-            }
-            if (calced) {
-                break;
-            }
-            std::this_thread::yield();
+            m_side_tile_info = std::move(side_info);
+            m_normal_tile_info = Tile.calc(stage_key, false);
+            calced = true;
+            break;
         }
-    }
-    else {
-        TilePack::LevelKey stage_key;
-        stage_key.code = RoguelikeCode;
-        stage_key.name = m_stage_name;
-        m_side_tile_info = Tile.calc(stage_key, true);
-        m_normal_tile_info = Tile.calc(stage_key, false);
-        calced = true;
+
+        if (calced) {
+            break;
+        }
     }
 
     auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
@@ -266,6 +264,64 @@ asst::BattleOperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(cons
     }
 }
 
+void asst::RoguelikeBattleTaskPlugin::set_position_full(const BattleLocationType& loc_type, bool full)
+{
+    switch (loc_type) {
+    case BattleLocationType::Melee:
+        m_melee_full = full;
+        break;
+    case BattleLocationType::Ranged:
+        m_ranged_full = full;
+        break;
+    case BattleLocationType::All:
+        m_melee_full = full;
+        m_ranged_full = full;
+        break;
+    case BattleLocationType::Invalid:
+    case BattleLocationType::None:
+    default:
+        break;
+    }
+}
+
+void asst::RoguelikeBattleTaskPlugin::set_position_full(const Point& point, bool full)
+{
+    if (auto tile_iter = m_normal_tile_info.find(point); tile_iter != m_normal_tile_info.end()) {
+        set_position_full(tile_iter->second.buildable, full);
+    }
+}
+
+void asst::RoguelikeBattleTaskPlugin::set_position_full(const BattleRole& role, bool full)
+{
+    set_position_full(get_role_location_type(role), full);
+}
+
+void asst::RoguelikeBattleTaskPlugin::set_position_full(const std::string& name, bool full)
+{
+    set_position_full(get_oper_location_type(name), full);
+}
+
+bool asst::RoguelikeBattleTaskPlugin::get_position_full(const BattleRole& role)
+{
+    const auto& loc_type = get_role_location_type(role);
+    switch (loc_type) {
+    case BattleLocationType::Melee:
+        return m_melee_full;
+        break;
+    case BattleLocationType::Ranged:
+        return m_ranged_full;
+        break;
+    case BattleLocationType::All:
+        return m_melee_full && m_ranged_full;
+        break;
+    case BattleLocationType::Invalid:
+    case BattleLocationType::None:
+    default:
+        break;
+    }
+    return false;
+}
+
 bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 {
     LogTraceFunction;
@@ -276,6 +332,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         const auto& placed_loc = m_need_clear_tiles.top().placed_loc;
         if (auto iter = m_used_tiles.find(placed_loc); iter != m_used_tiles.end()) {
             Log.info("Drone at location (", placed_loc.x, ",", placed_loc.y, ") is recognized as retreated");
+            set_position_full(placed_loc, false);
             m_opers_in_field.erase(iter->second);
             m_used_tiles.erase(iter);
         }
@@ -405,6 +462,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                 }
                 m_used_tiles.erase(del_pos_tiles);
             }
+            set_position_full(iter->second, false);
             m_opers_in_field.erase(iter);
             m_retreated_opers.emplace(oper_name);
             remain_add--;
@@ -460,7 +518,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (m_use_dice) {
         opt_oper = std::move(dice);
         oper_found = true;
-        if (available_locations(opt_oper.role).empty()) {
+        if (available_locations(BattleLocationType::Melee).empty()) {
+            m_melee_full = true;
             Log.info("Tiles full");
             return true;
         }
@@ -511,6 +570,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                 }
             }
 
+            if (get_position_full(role)) {
+                continue;
+            }
+
             for (const auto& oper : opers) {
                 if (!oper.available) {
                     continue;
@@ -534,6 +597,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
         // 预计算干员是否有点地方放
         if (available_locations(opt_oper.role).empty()) {
+            set_position_full(opt_oper.role, true);
             Log.info("Tiles full");
             if (force_need_air_defense) {
                 m_force_air_defense.has_finished_deploy_air_defense = true;
@@ -604,6 +668,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             if (real_loc_type != BattleLocationType::All && real_loc_type != get_role_location_type(opt_oper.role)) {
                 // 重新计算干员是否有地方放
                 if (available_locations(opt_oper.name).empty()) {
+                    set_position_full(opt_oper.name, true);
                     Log.info("re-calc available loc, Tiles full");
                     // TODO: 这里可能存在一个问题：
                     // 如果有地面位置，但没高台位置了，尝试“高台先锋”这种职业时
@@ -789,6 +854,8 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_force_air_defense.clear();
     m_last_cooling_count = 0;
     m_force_deploy_direction.clear();
+    m_melee_full = false;
+    m_ranged_full = false;
 
     for (auto& [key, status] : m_restore_status) {
         m_status->set_number(key, status);
@@ -909,7 +976,12 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         m_total_kills = kills_analyzer.get_total_kills();
     }
 
-    asst::imwrite("map/" + m_stage_name + ".png", image);
+    if (!m_stage_name.empty()) {
+        asst::imwrite("map/" + m_stage_name + ".png", image);
+    }
+    else {
+        Log.error("stage name is empty");
+    }
     return true;
 }
 
