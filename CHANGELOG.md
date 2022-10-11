@@ -1,3 +1,12 @@
+- 更新 主线 `淬火尘霾` 关卡资源 @MistEO
 - 重写并大幅优化 肉鸽 自动战斗、招募逻辑 @DavidWang19 @WWPXX233 @MistEO @zzyyyl
 - 重构 JSON 流程任务 @zzyyyl
+- 优化 肉鸽 与通常职业部署位置不同的干员的部署 @MistEO
 - 优化 自定义基建 换班速度 @fearlessxjdx
+- 修复 自定义基建 内置作业错误 @anywugn
+- 修复 自定义基建 period 不能准时开始的问题 @NonXZhu
+- 修复 基建 会客室 不领取线索的问题 @MistEO
+- 修复 肉鸽 部分卡住问题 @MistEO
+- 修复 重连时死锁问题 @MistEO
+- 新增 AsstSetUserDir 接口 @MistEO
+- 新增 Debug 文件打包 @dantmnf
