@@ -21,18 +21,17 @@ bool asst::InfrastReceptionTask::_run()
     close_end_of_clue_exchange();
 
     // 防止送线索把可以填入的送了
-    proc_clue_vacancy();
-    if (unlock_clue_exchange()) {
-        proc_clue_vacancy();
-    }
+    use_clue();
     back_to_reception_main();
 
     get_clue();
     if (need_exit()) {
         return false;
     }
+
     use_clue();
     back_to_reception_main();
+
     if (need_exit()) {
         return false;
     }
