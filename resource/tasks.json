@@ -8210,10 +8210,10 @@
             155
         ],
         "next": [
+            "Roguelike2DataTraceback",
             "Roguelike1GamePassSkip2",
             "Roguelike1GamePassTheEndConfirm",
-            "Roguelike1GamePass",
-            "Roguelike2DataTraceback"
+            "Roguelike1GamePass"
         ]
     },
     "Roguelike1GamePassSkip2": {
@@ -8226,7 +8226,8 @@
         ],
         "next": [
             "Roguelike1GamePassTheEndConfirm",
-            "Roguelike1GamePass"
+            "Roguelike1GamePass",
+            "Roguelike1ClickToStartPoint"
         ]
     },
     "Roguelike1GamePassTheEndConfirm": {
