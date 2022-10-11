@@ -56,6 +56,12 @@ namespace asst
         bool wait_start();
         bool cancel_oper_selection();
 
+        void set_position_full(const BattleLocationType& loc_type, bool full);
+        void set_position_full(const Point& point, bool full);
+        void set_position_full(const BattleRole& role, bool full);
+        void set_position_full(const std::string& name, bool full);
+        bool get_position_full(const BattleRole& role);
+
         struct DeployInfo
         {
             Point placed;
@@ -86,6 +92,8 @@ namespace asst
         bool m_stage_use_dice = true;
         bool m_use_dice = false;
         bool m_first_deploy = true;
+        bool m_melee_full = false;
+        bool m_ranged_full = false;
         int m_last_not_urgent = -1;
         int m_pre_hp = 0;
         int m_kills = 0;
