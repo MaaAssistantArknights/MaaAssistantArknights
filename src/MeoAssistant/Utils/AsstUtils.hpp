@@ -127,6 +127,13 @@ namespace asst::utils
         return str;
     }
 
+    inline void string_trim(std::string& s)
+    {
+        auto not_space = [](unsigned char c) { return !std::isspace(c); };
+        s.erase(ranges::find_if(s | views::reverse, not_space).base(), s.end());
+        s.erase(s.begin(), ranges::find_if(s, not_space));
+    }
+
     inline std::string get_format_time()
     {
         char buff[128] = { 0 };
@@ -306,7 +313,7 @@ namespace asst::utils
         bool empty() const noexcept { return user_dir_.empty(); }
         const std::filesystem::path& get() const noexcept { return user_dir_; }
         bool set(const char* dir)
-        { 
+        {
             auto temp = path(dir);
             if (!std::filesystem::exists(temp) || !std::filesystem::is_directory(temp)) {
                 return false;
@@ -314,6 +321,7 @@ namespace asst::utils
             user_dir_ = temp;
             return true;
         }
+
     private:
         std::filesystem::path user_dir_;
     };

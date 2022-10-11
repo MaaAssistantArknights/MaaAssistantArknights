@@ -87,7 +87,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
 }
 
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
-                                                     bool without_det)
+                                                     bool without_det, bool trim)
 {
     size_t size = 0;
 
@@ -135,6 +135,9 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         cv::rectangle(draw, utils::make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
 #endif
         raw_result.emplace_back(tr);
+        if (trim) {
+            utils::string_trim(tr.text);
+        }
         if (!pred || pred(tr)) {
             result.emplace_back(std::move(tr));
         }
@@ -146,7 +149,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 }
 
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi,
-                                                     const asst::TextRectProc& pred, bool without_det)
+                                                     const asst::TextRectProc& pred, bool without_det, bool trim)
 {
     auto rect_cor = [&roi, &pred, &without_det](TextRect& tr) -> bool {
         if (without_det) {
@@ -160,7 +163,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     };
     Log.trace("OcrPack::recognize | roi:", roi);
     cv::Mat roi_img = image(utils::make_rect<cv::Rect>(roi));
-    return recognize(roi_img, rect_cor, without_det);
+    return recognize(roi_img, rect_cor, without_det, trim);
 }
 
 #ifdef _WIN32
