@@ -1663,6 +1663,14 @@
         "sortId": 60106,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
+    "randomMaterial_7": {
+        "classifyType": "CONSUME",
+        "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
+        "icon": "randomMaterial_7.png",
+        "name": "罗德岛物资补给IV",
+        "sortId": 60107,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "为回到重要岗位的人特别准备的徽记，会在其熟悉工作的过程中逐步发放。",
