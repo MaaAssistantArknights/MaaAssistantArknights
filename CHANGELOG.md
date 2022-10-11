@@ -6,7 +6,11 @@
 - 修复 自定义基建 内置作业错误 @anywugn
 - 修复 自定义基建 period 不能准时开始的问题 @NonXZhu
 - 修复 基建 会客室 不领取线索的问题 @MistEO
-- 修复 肉鸽 部分卡住问题 @MistEO
-- 修复 重连时死锁问题 @MistEO
+- 修复 刷理智 指定次数 计算错误的问题 @zzyyyl
+- 修复 肉鸽 战斗中摆烂不上干员的问题 @DavidWang19
+- 修复 肉鸽 进入关卡后直接崩溃的问题 @MistEO
+- 修复 肉鸽 “排异反应” 干员无法识别的问题 @MistEO
+- 修复 肉鸽 部分界面卡住的问题 @MistEO
+- 修复 重连时死锁继而崩溃的问题 @MistEO
 - 新增 AsstSetUserDir 接口 @MistEO
 - 新增 Debug 文件打包 @dantmnf
