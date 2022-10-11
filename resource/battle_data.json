@@ -607,6 +607,7 @@
         },
         "char_157_dagda": {
             "name": "达格达",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -2289,6 +2290,7 @@
         },
         "char_4062_totter": {
             "name": "铅踝",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "4-4",
@@ -2332,6 +2334,7 @@
         },
         "char_4071_peper": {
             "name": "明椒",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "y-1",
@@ -2342,6 +2345,7 @@
         },
         "char_4072_ironmn": {
             "name": "白铁",
+            "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
                 "1-1",
@@ -3265,6 +3269,7 @@
         },
         "token_10027_ironmn_pile1": {
             "name": "白铁™多功能平台",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -3275,6 +3280,7 @@
         },
         "token_10027_ironmn_pile2": {
             "name": "白铁™多功能平台",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -3285,6 +3291,7 @@
         },
         "token_10027_ironmn_pile3": {
             "name": "铁钳号·原型机",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "3-13",
@@ -4197,6 +4204,7 @@
         },
         "trap_086_larva": {
             "name": "“汲营枯枝” ",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-5",
@@ -4207,6 +4215,7 @@
         },
         "trap_087_allady": {
             "name": "阿勒黛的卫护",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -4261,6 +4270,7 @@
         },
         "trap_093_tbattbc": {
             "name": "钳兽壳粉",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -4271,6 +4281,7 @@
         },
         "trap_094_tbpsnc": {
             "name": "高效泡打粉",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -4281,6 +4292,7 @@
         },
         "trap_095_tbsmmc": {
             "name": "芳香精油",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
