@@ -13,9 +13,10 @@ bool asst::RoguelikeDebugTaskPlugin::verify(AsstMsg msg, const json::value& deta
     }
 
     std::string task = details.get("details", "task", std::string());
-    if (msg == AsstMsg::SubTaskStart && details.get("subtask", std::string()) == "ProcessTask" &&
-        task == "Roguelike1ExitThenAbandon") {
-        return true;
+    if (msg == AsstMsg::SubTaskStart && details.get("subtask", std::string()) == "ProcessTask") {
+        if (task == "Roguelike1ExitThenAbandon" || task == "Roguelike1GamePass") {
+            return true;
+        }
     }
 
     return false;
