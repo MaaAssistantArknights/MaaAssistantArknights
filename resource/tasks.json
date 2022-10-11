@@ -5223,7 +5223,8 @@
             96,
             130,
             32
-        ]
+        ],
+        "rearDelay": 2000
     },
     "CloseCluePageThenSendClue": {
         "template": "CloseCluePage.png",
