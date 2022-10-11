@@ -100,6 +100,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
 
     bool calced = false;
 
+    static const std::string RoguelikeCode = "ISW-NO";
     if (m_stage_name.empty()) {
         const auto stage_name_task_ptr = Task.get("BattleStageName");
         sleep(stage_name_task_ptr->pre_delay);
@@ -115,13 +116,16 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
             }
 
             for (const auto& tr : name_analyzer.get_result()) {
-                auto side_info = Tile.calc(tr.text, true);
+                TilePack::LevelKey stage_key;
+                stage_key.code = RoguelikeCode;
+                stage_key.name = tr.text;
+                auto side_info = Tile.calc(stage_key, true);
                 if (side_info.empty()) {
                     continue;
                 }
                 m_stage_name = tr.text;
                 m_side_tile_info = std::move(side_info);
-                m_normal_tile_info = Tile.calc(m_stage_name, false);
+                m_normal_tile_info = Tile.calc(stage_key, false);
                 calced = true;
                 break;
             }
@@ -132,8 +136,11 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         }
     }
     else {
-        m_side_tile_info = Tile.calc(m_stage_name, true);
-        m_normal_tile_info = Tile.calc(m_stage_name, false);
+        TilePack::LevelKey stage_key;
+        stage_key.code = RoguelikeCode;
+        stage_key.name = m_stage_name;
+        m_side_tile_info = Tile.calc(stage_key, true);
+        m_normal_tile_info = Tile.calc(stage_key, false);
         calced = true;
     }
 

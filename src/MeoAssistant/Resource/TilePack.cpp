@@ -25,23 +25,16 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     return m_tile_calculator != nullptr;
 }
 
-std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const std::string& stage_code,
-                                                                               bool side) const
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(
+    const std::vector<std::vector<cv::Point2d>>& pos, const std::vector<std::vector<Map::Tile>>& tiles)
 {
+    using namespace asst;
+    using TileKey = asst::TilePack::TileKey;
+    using TileInfo = asst::TilePack::TileInfo;
+
     LogTraceFunction;
 
-    std::vector<std::vector<cv::Point2d>> pos;
-    std::vector<std::vector<Map::Tile>> tiles;
-
-    bool ret = m_tile_calculator->run(stage_code, side, pos, tiles);
-
-    Log.trace("After tiles calc run");
-    if (!ret) {
-        Log.info("Tiles calc error!");
-        return {};
-    }
-
-    std::unordered_map<asst::Point, asst::TilePack::TileInfo> dst;
+    std::unordered_map<asst::Point, TileInfo> dst;
 
     static const std::unordered_map<std::string, TileKey> TileKeyMapping = {
         { "tile_forbidden", TileKey::Forbidden }, { "tile_wall", TileKey::Wall },
@@ -65,14 +58,49 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(c
             }
             else {
                 key = TileKey::Invalid;
-                Log.error("Unknown tile type:", tile.tileKey);
+                Log.warn("Unknown tile type:", tile.tileKey);
             }
 
             Point loc(static_cast<int>(x), static_cast<int>(y));
-            dst.emplace(loc, TileInfo { static_cast<BuildableType>(tile.buildableType),
-                                        static_cast<HeightType>(tile.heightType), key,
+            dst.emplace(loc, TileInfo { static_cast<TilePack::BuildableType>(tile.buildableType),
+                                        static_cast<TilePack::HeightType>(tile.heightType), key,
                                         Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)), loc });
         }
     }
     return dst;
+}
+
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const std::string& any_key,
+                                                                               bool side) const
+{
+    LogTraceFunction;
+
+    std::vector<std::vector<cv::Point2d>> pos;
+    std::vector<std::vector<Map::Tile>> tiles;
+
+    bool ret = m_tile_calculator->run(any_key, side, pos, tiles);
+
+    if (!ret) {
+        Log.info("Tiles calc error!");
+        return {};
+    }
+
+    return proc_data(pos, tiles);
+}
+
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const LevelKey& key, bool side) const
+{
+    LogTraceFunction;
+
+    std::vector<std::vector<cv::Point2d>> pos;
+    std::vector<std::vector<Map::Tile>> tiles;
+
+    bool ret = m_tile_calculator->run(key, side, pos, tiles);
+
+    if (!ret) {
+        Log.info("Tiles calc error!");
+        return {};
+    }
+
+    return proc_data(pos, tiles);
 }
