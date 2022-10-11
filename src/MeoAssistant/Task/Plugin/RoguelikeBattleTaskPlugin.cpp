@@ -230,9 +230,9 @@ asst::BattleLocationType asst::RoguelikeBattleTaskPlugin::get_role_location_type
     case BattleRole::Warrior:
     case BattleRole::Tank:
     case BattleRole::Special:
+    case BattleRole::Drone:
         return BattleLocationType::Melee;
         break;
-    case BattleRole::Drone:
     default:
         return BattleLocationType::None;
         break;
