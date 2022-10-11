@@ -193,6 +193,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     std::optional<asst::platform::single_page_buffer<char>> sock_buffer;
 
     auto start_time = steady_clock::now();
+    std::unique_lock<std::mutex> callcmd_lock(m_callcmd_mutex);
 
 #ifdef _WIN32
 
@@ -337,7 +338,6 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 // AcceptEx, client_socker is connected and first chunk of data is received
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
-                    // unlock after accept
                     accept_pending = false;
                     if (recv_by_socket)
                         sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + len);
@@ -432,6 +432,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         return std::nullopt;
     }
 #endif
+
+    callcmd_lock.unlock();
 
     auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
     Log.info("Call `", cmd, "` ret", exit_ret, ", cost", duration, "ms , stdout size:", pipe_data.size(),

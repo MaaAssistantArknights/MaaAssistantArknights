@@ -106,6 +106,8 @@ namespace asst
         void* m_callback_arg = nullptr;
 
         std::minstd_rand m_rand_engine;
+
+        std::mutex m_callcmd_mutex;
 #ifdef _WIN32
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
