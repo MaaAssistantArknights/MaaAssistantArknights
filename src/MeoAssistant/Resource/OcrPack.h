@@ -23,9 +23,9 @@ namespace asst
         virtual bool load(const std::filesystem::path& path) override;
 
         std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr,
-                                        bool without_det = false);
+                                        bool without_det = false, bool trim = true);
         std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr,
-                                        bool without_det = false);
+                                        bool without_det = false, bool trim = true);
 
     private:
         friend class SingletonHolder<OcrPack>;
