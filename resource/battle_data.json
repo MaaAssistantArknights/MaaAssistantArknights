@@ -2,16 +2,18 @@
     "chars": {
         "char_002_amiya": {
             "name": "阿米娅",
-            "profession": "WARRIOR",
+            "position": "RANGED",
+            "profession": "CASTER",
             "rangeId": [
-                "1-1",
-                "1-1",
-                "1-1"
+                "3-6",
+                "3-1",
+                "3-1"
             ],
             "rarity": 5
         },
         "char_003_kalts": {
             "name": "凯尔希",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -22,6 +24,7 @@
         },
         "char_009_12fce": {
             "name": "12F",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -32,6 +35,7 @@
         },
         "char_010_chen": {
             "name": "陈",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -42,6 +46,7 @@
         },
         "char_017_huang": {
             "name": "煌",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -50,8 +55,20 @@
             ],
             "rarity": 6
         },
+        "char_1001_amiya2": {
+            "name": "阿米娅-WARRIOR",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_1011_lava2": {
             "name": "炎狱炎熔",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -62,6 +79,7 @@
         },
         "char_1012_skadi2": {
             "name": "浊心斯卡蒂",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "x-4",
@@ -72,6 +90,7 @@
         },
         "char_1013_chen2": {
             "name": "假日威龙陈",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-4",
@@ -82,6 +101,7 @@
         },
         "char_1014_nearl2": {
             "name": "耀骑士临光",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -92,6 +112,7 @@
         },
         "char_101_sora": {
             "name": "空",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "x-4",
@@ -102,6 +123,7 @@
         },
         "char_1021_kroos2": {
             "name": "寒芒克洛丝",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -112,6 +134,7 @@
         },
         "char_1023_ghost2": {
             "name": "归溟幽灵鲨",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -122,6 +145,7 @@
         },
         "char_1024_hbisc2": {
             "name": "濯尘芙蓉",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -132,6 +156,7 @@
         },
         "char_1026_gvial2": {
             "name": "百炼嘉维尔",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -142,6 +167,7 @@
         },
         "char_1027_greyy2": {
             "name": "承曦格雷伊",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -152,6 +178,7 @@
         },
         "char_102_texas": {
             "name": "德克萨斯",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -162,6 +189,7 @@
         },
         "char_103_angel": {
             "name": "能天使",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -172,6 +200,7 @@
         },
         "char_106_franka": {
             "name": "芙兰卡",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -182,6 +211,7 @@
         },
         "char_107_liskam": {
             "name": "雷蛇",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "2-2",
@@ -192,6 +222,7 @@
         },
         "char_108_silent": {
             "name": "赫默",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -202,6 +233,7 @@
         },
         "char_109_fmout": {
             "name": "远山",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -212,6 +244,7 @@
         },
         "char_110_deepcl": {
             "name": "深海色",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "3-6",
@@ -222,6 +255,7 @@
         },
         "char_112_siege": {
             "name": "推进之王",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -232,6 +266,7 @@
         },
         "char_113_cqbw": {
             "name": "W",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -242,6 +277,7 @@
         },
         "char_115_headbr": {
             "name": "凛冬",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -252,6 +288,7 @@
         },
         "char_117_myrrh": {
             "name": "末药",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -262,6 +299,7 @@
         },
         "char_118_yuki": {
             "name": "白雪",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -272,6 +310,7 @@
         },
         "char_120_hibisc": {
             "name": "芙蓉",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -282,6 +321,7 @@
         },
         "char_121_lava": {
             "name": "炎熔",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -292,6 +332,7 @@
         },
         "char_122_beagle": {
             "name": "米格鲁",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -302,6 +343,7 @@
         },
         "char_123_fang": {
             "name": "芬",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -312,6 +354,7 @@
         },
         "char_124_kroos": {
             "name": "克洛丝",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -322,6 +365,7 @@
         },
         "char_126_shotst": {
             "name": "流星",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -332,6 +376,7 @@
         },
         "char_127_estell": {
             "name": "艾丝黛尔",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -342,6 +387,7 @@
         },
         "char_128_plosis": {
             "name": "白面鸮",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "y-1",
@@ -352,6 +398,7 @@
         },
         "char_129_bluep": {
             "name": "蓝毒",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -362,6 +409,7 @@
         },
         "char_130_doberm": {
             "name": "杜宾",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-2",
@@ -372,6 +420,7 @@
         },
         "char_131_flameb": {
             "name": "炎客",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -382,6 +431,7 @@
         },
         "char_133_mm": {
             "name": "梅",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -392,6 +442,7 @@
         },
         "char_134_ifrit": {
             "name": "伊芙利特",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "4-1",
@@ -402,6 +453,7 @@
         },
         "char_135_halo": {
             "name": "星源",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -412,6 +464,7 @@
         },
         "char_136_hsguma": {
             "name": "星熊",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "1-1",
@@ -422,6 +475,7 @@
         },
         "char_137_brownb": {
             "name": "猎蜂",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -432,6 +486,7 @@
         },
         "char_140_whitew": {
             "name": "拉普兰德",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -442,6 +497,7 @@
         },
         "char_141_nights": {
             "name": "夜烟",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -452,6 +508,7 @@
         },
         "char_143_ghost": {
             "name": "幽灵鲨",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -462,6 +519,7 @@
         },
         "char_144_red": {
             "name": "红",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -472,6 +530,7 @@
         },
         "char_145_prove": {
             "name": "普罗旺斯",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-3",
@@ -482,6 +541,7 @@
         },
         "char_147_shining": {
             "name": "闪灵",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -492,6 +552,7 @@
         },
         "char_148_nearl": {
             "name": "临光",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -502,6 +563,7 @@
         },
         "char_149_scave": {
             "name": "清道夫",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -512,6 +574,7 @@
         },
         "char_150_snakek": {
             "name": "蛇屠箱",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -522,6 +585,7 @@
         },
         "char_151_myrtle": {
             "name": "桃金娘",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -532,6 +596,7 @@
         },
         "char_155_tiger": {
             "name": "因陀罗",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -542,6 +607,7 @@
         },
         "char_157_dagda": {
             "name": "达格达",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -552,6 +618,7 @@
         },
         "char_158_milu": {
             "name": "守林人",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -562,6 +629,7 @@
         },
         "char_159_peacok": {
             "name": "断罪者",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -572,6 +640,7 @@
         },
         "char_163_hpsts": {
             "name": "火神",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -582,6 +651,7 @@
         },
         "char_164_nightm": {
             "name": "夜魔",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -592,6 +662,7 @@
         },
         "char_166_skfire": {
             "name": "天火",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -602,6 +673,7 @@
         },
         "char_171_bldsk": {
             "name": "华法琳",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -612,6 +684,7 @@
         },
         "char_172_svrash": {
             "name": "银灰",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -622,6 +695,7 @@
         },
         "char_173_slchan": {
             "name": "崖心",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "2-2",
@@ -632,6 +706,7 @@
         },
         "char_174_slbell": {
             "name": "初雪",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -642,6 +717,7 @@
         },
         "char_179_cgbird": {
             "name": "夜莺",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "y-1",
@@ -652,6 +728,7 @@
         },
         "char_180_amgoat": {
             "name": "艾雅法拉",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -662,6 +739,7 @@
         },
         "char_181_flower": {
             "name": "调香师",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "y-1",
@@ -672,6 +750,7 @@
         },
         "char_183_skgoat": {
             "name": "地灵",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -682,6 +761,7 @@
         },
         "char_185_frncat": {
             "name": "慕斯",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -692,6 +772,7 @@
         },
         "char_187_ccheal": {
             "name": "嘉维尔",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -702,6 +783,7 @@
         },
         "char_188_helage": {
             "name": "赫拉格",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -712,6 +794,7 @@
         },
         "char_190_clour": {
             "name": "红云",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -722,6 +805,7 @@
         },
         "char_192_falco": {
             "name": "翎羽",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -732,6 +816,7 @@
         },
         "char_193_frostl": {
             "name": "霜叶",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -742,6 +827,7 @@
         },
         "char_195_glassb": {
             "name": "真理",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -752,6 +838,7 @@
         },
         "char_196_sunbr": {
             "name": "古米",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -762,6 +849,7 @@
         },
         "char_197_poca": {
             "name": "早露",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "4-4",
@@ -772,6 +860,7 @@
         },
         "char_198_blackd": {
             "name": "讯使",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -782,6 +871,7 @@
         },
         "char_199_yak": {
             "name": "角峰",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -792,6 +882,7 @@
         },
         "char_2013_cerber": {
             "name": "刻俄柏",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -802,6 +893,7 @@
         },
         "char_2014_nian": {
             "name": "年",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "1-1",
@@ -812,6 +904,7 @@
         },
         "char_2015_dusk": {
             "name": "夕",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -822,6 +915,7 @@
         },
         "char_201_moeshd": {
             "name": "可颂",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -832,6 +926,7 @@
         },
         "char_2023_ling": {
             "name": "令",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "3-6",
@@ -842,6 +937,7 @@
         },
         "char_202_demkni": {
             "name": "塞雷娅",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -852,6 +948,7 @@
         },
         "char_204_platnm": {
             "name": "白金",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -862,6 +959,7 @@
         },
         "char_206_gnosis": {
             "name": "灵知",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -872,6 +970,7 @@
         },
         "char_208_melan": {
             "name": "玫兰莎",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -882,6 +981,7 @@
         },
         "char_209_ardign": {
             "name": "卡缇",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -892,6 +992,7 @@
         },
         "char_210_stward": {
             "name": "史都华德",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -902,6 +1003,7 @@
         },
         "char_211_adnach": {
             "name": "安德切尔",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -912,6 +1014,7 @@
         },
         "char_212_ansel": {
             "name": "安赛尔",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -922,6 +1025,7 @@
         },
         "char_213_mostma": {
             "name": "莫斯提马",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -932,6 +1036,7 @@
         },
         "char_214_kafka": {
             "name": "卡夫卡",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -942,6 +1047,7 @@
         },
         "char_215_mantic": {
             "name": "狮蝎",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "y-1",
@@ -952,6 +1058,7 @@
         },
         "char_218_cuttle": {
             "name": "安哲拉",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -962,6 +1069,7 @@
         },
         "char_219_meteo": {
             "name": "陨星",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -972,6 +1080,7 @@
         },
         "char_220_grani": {
             "name": "格拉尼",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -982,6 +1091,7 @@
         },
         "char_222_bpipe": {
             "name": "风笛",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -992,6 +1102,7 @@
         },
         "char_225_haak": {
             "name": "阿",
+            "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
                 "3-1",
@@ -1002,6 +1113,7 @@
         },
         "char_226_hmau": {
             "name": "吽",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1012,6 +1124,7 @@
         },
         "char_230_savage": {
             "name": "暴行",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1022,6 +1135,7 @@
         },
         "char_235_jesica": {
             "name": "杰西卡",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -1032,6 +1146,7 @@
         },
         "char_236_rope": {
             "name": "暗索",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "2-2",
@@ -1042,6 +1157,7 @@
         },
         "char_237_gravel": {
             "name": "砾",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1052,6 +1168,7 @@
         },
         "char_240_wyvern": {
             "name": "香草",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -1062,6 +1179,7 @@
         },
         "char_241_panda": {
             "name": "食铁兽",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1072,6 +1190,7 @@
         },
         "char_242_otter": {
             "name": "梅尔",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "3-6",
@@ -1082,6 +1201,7 @@
         },
         "char_243_waaifu": {
             "name": "槐琥",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1092,6 +1212,7 @@
         },
         "char_248_mgllan": {
             "name": "麦哲伦",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "3-6",
@@ -1102,6 +1223,7 @@
         },
         "char_250_phatom": {
             "name": "傀影",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1112,6 +1234,7 @@
         },
         "char_252_bibeak": {
             "name": "柏喙",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1122,6 +1245,7 @@
         },
         "char_253_greyy": {
             "name": "格雷伊",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -1132,6 +1256,7 @@
         },
         "char_254_vodfox": {
             "name": "巫恋",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1142,6 +1267,7 @@
         },
         "char_258_podego": {
             "name": "波登可",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1152,6 +1278,7 @@
         },
         "char_260_durnar": {
             "name": "坚雷",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1162,6 +1289,7 @@
         },
         "char_261_sddrag": {
             "name": "苇草",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -1172,6 +1300,7 @@
         },
         "char_263_skadi": {
             "name": "斯卡蒂",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1182,6 +1311,7 @@
         },
         "char_264_f12yin": {
             "name": "山",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1192,6 +1322,7 @@
         },
         "char_265_sophia": {
             "name": "鞭刃",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-2",
@@ -1202,6 +1333,7 @@
         },
         "char_271_spikes": {
             "name": "芳汀",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -1212,6 +1344,7 @@
         },
         "char_272_strong": {
             "name": "孑",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1222,6 +1355,7 @@
         },
         "char_274_astesi": {
             "name": "星极",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1232,6 +1366,7 @@
         },
         "char_275_breeze": {
             "name": "微风",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "y-1",
@@ -1242,6 +1377,7 @@
         },
         "char_277_sqrrel": {
             "name": "阿消",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1252,6 +1388,7 @@
         },
         "char_278_orchid": {
             "name": "梓兰",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1262,6 +1399,7 @@
         },
         "char_279_excu": {
             "name": "送葬人",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-4",
@@ -1272,6 +1410,7 @@
         },
         "char_281_popka": {
             "name": "泡普卡",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1282,6 +1421,7 @@
         },
         "char_282_catap": {
             "name": "空爆",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -1292,6 +1432,7 @@
         },
         "char_283_midn": {
             "name": "月见夜",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -1302,6 +1443,7 @@
         },
         "char_284_spot": {
             "name": "斑点",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1312,6 +1454,7 @@
         },
         "char_285_medic2": {
             "name": "Lancet-2",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -1322,6 +1465,7 @@
         },
         "char_286_cast3": {
             "name": "Castle-3",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1332,6 +1476,7 @@
         },
         "char_289_gyuki": {
             "name": "缠丸",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1342,6 +1487,7 @@
         },
         "char_290_vigna": {
             "name": "红豆",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -1352,6 +1498,7 @@
         },
         "char_291_aglina": {
             "name": "安洁莉娜",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1362,6 +1509,7 @@
         },
         "char_293_thorns": {
             "name": "棘刺",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -1372,6 +1520,7 @@
         },
         "char_294_ayer": {
             "name": "断崖",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -1382,6 +1531,7 @@
         },
         "char_298_susuro": {
             "name": "苏苏洛",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -1392,6 +1542,7 @@
         },
         "char_300_phenxi": {
             "name": "菲亚梅塔",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -1402,6 +1553,7 @@
         },
         "char_301_cutter": {
             "name": "刻刀",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1412,6 +1564,7 @@
         },
         "char_302_glaze": {
             "name": "安比尔",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -1422,6 +1575,7 @@
         },
         "char_304_zebra": {
             "name": "暴雨",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1432,6 +1586,7 @@
         },
         "char_306_leizi": {
             "name": "惊蛰",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -1442,6 +1597,7 @@
         },
         "char_308_swire": {
             "name": "诗怀雅",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-2",
@@ -1452,6 +1608,7 @@
         },
         "char_311_mudrok": {
             "name": "泥岩",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "1-1",
@@ -1462,6 +1619,7 @@
         },
         "char_322_lmlee": {
             "name": "老鲤",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1472,6 +1630,7 @@
         },
         "char_325_bison": {
             "name": "拜松",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1482,6 +1641,7 @@
         },
         "char_326_glacus": {
             "name": "格劳克斯",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1492,6 +1652,7 @@
         },
         "char_328_cammou": {
             "name": "卡达",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -1502,6 +1663,7 @@
         },
         "char_332_archet": {
             "name": "空弦",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -1512,6 +1674,7 @@
         },
         "char_333_sidero": {
             "name": "铸铁",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1522,6 +1685,7 @@
         },
         "char_336_folivo": {
             "name": "稀音",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "3-6",
@@ -1532,6 +1696,7 @@
         },
         "char_337_utage": {
             "name": "宴",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1542,6 +1707,7 @@
         },
         "char_338_iris": {
             "name": "爱丽丝",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-13",
@@ -1552,6 +1718,7 @@
         },
         "char_340_shwaz": {
             "name": "黑",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-3",
@@ -1562,6 +1729,7 @@
         },
         "char_343_tknogi": {
             "name": "月禾",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1572,6 +1740,7 @@
         },
         "char_344_beewax": {
             "name": "蜜蜡",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "x-4",
@@ -1582,6 +1751,7 @@
         },
         "char_345_folnic": {
             "name": "亚叶",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -1592,6 +1762,7 @@
         },
         "char_346_aosta": {
             "name": "奥斯塔",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-4",
@@ -1602,6 +1773,7 @@
         },
         "char_347_jaksel": {
             "name": "杰克",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1612,6 +1784,7 @@
         },
         "char_348_ceylon": {
             "name": "锡兰",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -1622,6 +1795,7 @@
         },
         "char_349_chiave": {
             "name": "贾维",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -1632,6 +1806,7 @@
         },
         "char_350_surtr": {
             "name": "史尔特尔",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1642,6 +1817,7 @@
         },
         "char_355_ethan": {
             "name": "伊桑",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "y-1",
@@ -1652,6 +1828,7 @@
         },
         "char_356_broca": {
             "name": "布洛卡",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1662,6 +1839,7 @@
         },
         "char_358_lisa": {
             "name": "铃兰",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1672,6 +1850,7 @@
         },
         "char_362_saga": {
             "name": "嵯峨",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -1682,6 +1861,7 @@
         },
         "char_363_toddi": {
             "name": "熔泉",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "4-4",
@@ -1692,6 +1872,7 @@
         },
         "char_365_aprl": {
             "name": "四月",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -1702,6 +1883,7 @@
         },
         "char_366_acdrop": {
             "name": "酸糖",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-3",
@@ -1712,6 +1894,7 @@
         },
         "char_367_swllow": {
             "name": "灰喉",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -1722,6 +1905,7 @@
         },
         "char_369_bena": {
             "name": "贝娜",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1732,6 +1916,7 @@
         },
         "char_373_lionhd": {
             "name": "莱恩哈特",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -1742,6 +1927,7 @@
         },
         "char_376_therex": {
             "name": "THRM-EX",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "x-4",
@@ -1752,6 +1938,7 @@
         },
         "char_377_gdglow": {
             "name": "澄闪",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -1762,6 +1949,7 @@
         },
         "char_378_asbest": {
             "name": "石棉",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1772,6 +1960,7 @@
         },
         "char_379_sesa": {
             "name": "慑砂",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -1782,6 +1971,7 @@
         },
         "char_381_bubble": {
             "name": "泡泡",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1792,6 +1982,7 @@
         },
         "char_383_snsant": {
             "name": "雪雉",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "2-2",
@@ -1802,6 +1993,7 @@
         },
         "char_385_finlpp": {
             "name": "清流",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -1812,6 +2004,7 @@
         },
         "char_388_mint": {
             "name": "薄绿",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "x-4",
@@ -1822,6 +2015,7 @@
         },
         "char_391_rosmon": {
             "name": "迷迭香",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -1832,6 +2026,7 @@
         },
         "char_4000_jnight": {
             "name": "正义骑士号",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -1842,6 +2037,7 @@
         },
         "char_4004_pudd": {
             "name": "布丁",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -1852,6 +2048,7 @@
         },
         "char_4009_irene": {
             "name": "艾丽妮",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -1862,6 +2059,7 @@
         },
         "char_400_weedy": {
             "name": "温蒂",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1872,6 +2070,7 @@
         },
         "char_4013_kjera": {
             "name": "耶拉",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -1882,6 +2081,7 @@
         },
         "char_4016_kazema": {
             "name": "风丸",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1892,6 +2092,7 @@
         },
         "char_4019_ncdeer": {
             "name": "九色鹿",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1902,6 +2103,7 @@
         },
         "char_401_elysm": {
             "name": "极境",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -1912,6 +2114,7 @@
         },
         "char_4025_aprot2": {
             "name": "暮落",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -1922,6 +2125,7 @@
         },
         "char_402_tuye": {
             "name": "图耶",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -1932,6 +2136,7 @@
         },
         "char_4032_provs": {
             "name": "但书",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -1942,6 +2147,7 @@
         },
         "char_4036_forcer": {
             "name": "见行者",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -1952,6 +2158,7 @@
         },
         "char_4039_horn": {
             "name": "号角",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "4-5",
@@ -1962,6 +2169,7 @@
         },
         "char_4040_rockr": {
             "name": "洛洛",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -1972,6 +2180,7 @@
         },
         "char_4041_chnut": {
             "name": "褐果",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -1982,6 +2191,7 @@
         },
         "char_4042_lumen": {
             "name": "流明",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -1992,6 +2202,7 @@
         },
         "char_4043_erato": {
             "name": "埃拉托",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "4-4",
@@ -2002,6 +2213,7 @@
         },
         "char_4045_heidi": {
             "name": "海蒂",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "x-4",
@@ -2012,6 +2224,7 @@
         },
         "char_4046_ebnhlz": {
             "name": "黑键",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-13",
@@ -2022,6 +2235,7 @@
         },
         "char_4047_pianst": {
             "name": "车尔尼",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -2032,6 +2246,7 @@
         },
         "char_4048_doroth": {
             "name": "多萝西",
+            "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
                 "3-1",
@@ -2042,6 +2257,7 @@
         },
         "char_4054_malist": {
             "name": "至简",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -2052,6 +2268,7 @@
         },
         "char_4055_bgsnow": {
             "name": "鸿雪",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-3",
@@ -2062,6 +2279,7 @@
         },
         "char_405_absin": {
             "name": "苦艾",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -2072,6 +2290,7 @@
         },
         "char_4062_totter": {
             "name": "铅踝",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "4-4",
@@ -2082,6 +2301,7 @@
         },
         "char_4064_mlynar": {
             "name": "玛恩纳",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-2",
@@ -2092,6 +2312,7 @@
         },
         "char_4066_highmo": {
             "name": "海沫",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-3",
@@ -2102,6 +2323,7 @@
         },
         "char_4067_lolxh": {
             "name": "罗小黑",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-3",
@@ -2112,6 +2334,7 @@
         },
         "char_4071_peper": {
             "name": "明椒",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "y-1",
@@ -2122,6 +2345,7 @@
         },
         "char_4072_ironmn": {
             "name": "白铁",
+            "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
                 "1-1",
@@ -2132,6 +2356,7 @@
         },
         "char_411_tomimi": {
             "name": "特米米",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -2142,6 +2367,7 @@
         },
         "char_415_flint": {
             "name": "燧石",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -2152,6 +2378,7 @@
         },
         "char_416_zumama": {
             "name": "森蚺",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "1-1",
@@ -2162,6 +2389,7 @@
         },
         "char_420_flamtl": {
             "name": "焰尾",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -2172,6 +2400,7 @@
         },
         "char_421_crow": {
             "name": "羽毛笔",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-3",
@@ -2182,6 +2411,7 @@
         },
         "char_422_aurora": {
             "name": "极光",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "1-1",
@@ -2192,6 +2422,7 @@
         },
         "char_423_blemsh": {
             "name": "瑕光",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "1-1",
@@ -2202,6 +2433,7 @@
         },
         "char_426_billro": {
             "name": "卡涅利安",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "x-4",
@@ -2212,6 +2444,7 @@
         },
         "char_430_fartth": {
             "name": "远牙",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-3",
@@ -2222,6 +2455,7 @@
         },
         "char_431_ashlok": {
             "name": "灰毫",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "4-5",
@@ -2232,6 +2466,7 @@
         },
         "char_433_windft": {
             "name": "掠风",
+            "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
                 "1-1",
@@ -2242,6 +2477,7 @@
         },
         "char_436_whispr": {
             "name": "絮雨",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -2252,6 +2488,7 @@
         },
         "char_437_mizuki": {
             "name": "水月",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "y-1",
@@ -2262,6 +2499,7 @@
         },
         "char_440_pinecn": {
             "name": "松果",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "2-4",
@@ -2272,6 +2510,7 @@
         },
         "char_449_glider": {
             "name": "蜜莓",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -2282,6 +2521,7 @@
         },
         "char_451_robin": {
             "name": "罗宾",
+            "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
                 "3-1",
@@ -2292,6 +2532,7 @@
         },
         "char_452_bstalk": {
             "name": "豆苗",
+            "position": "RANGED",
             "profession": "PIONEER",
             "rangeId": [
                 "3-1",
@@ -2302,6 +2543,7 @@
         },
         "char_455_nothin": {
             "name": "乌有",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "1-1",
@@ -2312,6 +2554,7 @@
         },
         "char_456_ash": {
             "name": "灰烬",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -2322,6 +2565,7 @@
         },
         "char_457_blitz": {
             "name": "闪击",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "2-2",
@@ -2332,6 +2576,7 @@
         },
         "char_458_rfrost": {
             "name": "霜华",
+            "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
                 "3-1",
@@ -2342,6 +2587,7 @@
         },
         "char_459_tachak": {
             "name": "战车",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -2352,6 +2598,7 @@
         },
         "char_469_indigo": {
             "name": "深靛",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-13",
@@ -2362,6 +2609,7 @@
         },
         "char_472_pasngr": {
             "name": "异客",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -2372,6 +2620,7 @@
         },
         "char_473_mberry": {
             "name": "桑葚",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-3",
@@ -2382,6 +2631,7 @@
         },
         "char_474_glady": {
             "name": "歌蕾蒂娅",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "2-2",
@@ -2392,6 +2642,7 @@
         },
         "char_475_akafyu": {
             "name": "赤冬",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -2402,6 +2653,7 @@
         },
         "char_476_blkngt": {
             "name": "夜半",
+            "position": "RANGED",
             "profession": "PIONEER",
             "rangeId": [
                 "3-1",
@@ -2412,6 +2664,7 @@
         },
         "char_478_kirara": {
             "name": "绮良",
+            "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
                 "y-1",
@@ -2422,6 +2675,7 @@
         },
         "char_479_sleach": {
             "name": "琴柳",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -2432,6 +2686,7 @@
         },
         "char_484_robrta": {
             "name": "罗比菈塔",
+            "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
                 "1-1",
@@ -2442,6 +2697,7 @@
         },
         "char_485_pallas": {
             "name": "帕拉斯",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "2-2",
@@ -2452,6 +2708,7 @@
         },
         "char_486_takila": {
             "name": "龙舌兰",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-2",
@@ -2462,6 +2719,7 @@
         },
         "char_489_serum": {
             "name": "蚀清",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "4-1",
@@ -2472,6 +2730,7 @@
         },
         "char_492_quercu": {
             "name": "夏栎",
+            "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
                 "y-2",
@@ -2482,6 +2741,7 @@
         },
         "char_496_wildmn": {
             "name": "野鬃",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -2492,6 +2752,7 @@
         },
         "char_497_ctable": {
             "name": "晓歌",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "2-2",
@@ -2502,6 +2763,7 @@
         },
         "char_500_noirc": {
             "name": "黑角",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -2512,6 +2774,7 @@
         },
         "char_501_durin": {
             "name": "杜林",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -2522,6 +2785,7 @@
         },
         "char_502_nblade": {
             "name": "夜刀",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -2532,6 +2796,7 @@
         },
         "char_503_rang": {
             "name": "巡林者",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -2542,6 +2807,7 @@
         },
         "char_504_rguard": {
             "name": "预备干员-近战",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -2552,6 +2818,7 @@
         },
         "char_505_rcast": {
             "name": "预备干员-术师",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "3-6",
@@ -2562,6 +2829,7 @@
         },
         "char_506_rmedic": {
             "name": "预备干员-后勤",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -2572,6 +2840,7 @@
         },
         "char_507_rsnipe": {
             "name": "预备干员-狙击",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -2582,6 +2851,7 @@
         },
         "char_508_aguard": {
             "name": "Sharp",
+            "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
@@ -2592,6 +2862,7 @@
         },
         "char_509_acast": {
             "name": "Pith",
+            "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
                 "2-3",
@@ -2602,6 +2873,7 @@
         },
         "char_510_amedic": {
             "name": "Touch",
+            "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
                 "3-1",
@@ -2612,6 +2884,7 @@
         },
         "char_511_asnipe": {
             "name": "Stormeye",
+            "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
                 "3-1",
@@ -2622,6 +2895,7 @@
         },
         "char_512_aprot": {
             "name": "暮落",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -2632,6 +2906,7 @@
         },
         "char_513_apionr": {
             "name": "郁金香",
+            "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
                 "1-1",
@@ -2642,6 +2917,7 @@
         },
         "char_514_rdfend": {
             "name": "预备干员-重装",
+            "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
                 "0-1",
@@ -2652,6 +2928,7 @@
         },
         "token_10000_silent_healrb": {
             "name": "医疗探机",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "x-4",
@@ -2662,6 +2939,7 @@
         },
         "token_10001_deepcl_tentac": {
             "name": "触手",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2672,6 +2950,7 @@
         },
         "token_10002_kalts_mon3tr": {
             "name": "Mon3tr",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2682,6 +2961,7 @@
         },
         "token_10003_cgbird_bird": {
             "name": "幻影",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2692,6 +2972,7 @@
         },
         "token_10004_otter_motter": {
             "name": "机械水獭",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2702,6 +2983,7 @@
         },
         "token_10005_mgllan_drone1": {
             "name": "龙腾.F",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "x-4",
@@ -2712,6 +2994,7 @@
         },
         "token_10005_mgllan_drone2": {
             "name": "龙腾.L",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2722,6 +3005,7 @@
         },
         "token_10005_mgllan_drone3": {
             "name": "龙腾.A",
+            "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
                 "3-6",
@@ -2732,6 +3016,7 @@
         },
         "token_10006_vodfox_doll": {
             "name": "诅咒娃娃",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "x-4",
@@ -2742,6 +3027,7 @@
         },
         "token_10007_phatom_twin": {
             "name": "镜中虚影",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2752,6 +3038,7 @@
         },
         "token_10008_cqbw_box": {
             "name": "此面向敌",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2762,6 +3049,7 @@
         },
         "token_10009_weedy_cannon": {
             "name": "工程蓄水炮",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "3-2",
@@ -2772,6 +3060,7 @@
         },
         "token_10010_folivo_car": {
             "name": "移动摄影器",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2782,6 +3071,7 @@
         },
         "token_10011_beewax_oblisk": {
             "name": "沙之碑",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2792,6 +3082,7 @@
         },
         "token_10012_rosmon_shield": {
             "name": "迷迭香的战术装备",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2802,6 +3093,7 @@
         },
         "token_10013_robin_mine": {
             "name": "\"夹子\"",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2812,6 +3104,7 @@
         },
         "token_10014_bstalk_crab": {
             "name": "磐蟹护卫队",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2822,6 +3115,7 @@
         },
         "token_10015_dusk_drgn": {
             "name": "\"小自在\"",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "x-5",
@@ -2832,6 +3126,7 @@
         },
         "token_10016_rfrost_mine": {
             "name": "迎宾踏垫",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2842,6 +3137,7 @@
         },
         "token_10017_skadi2_dedant": {
             "name": "斯卡蒂的海嗣",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "x-4",
@@ -2852,6 +3148,7 @@
         },
         "token_10018_robrta_mach": {
             "name": "全自动造型仪",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2862,6 +3159,7 @@
         },
         "token_10019_nearl2_sword": {
             "name": "“耀阳”",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2872,6 +3170,7 @@
         },
         "token_10020_ling_soul1": {
             "name": "“清平”",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2882,6 +3181,7 @@
         },
         "token_10020_ling_soul2": {
             "name": "“逍遥”",
+            "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
                 "3-1",
@@ -2892,6 +3192,7 @@
         },
         "token_10020_ling_soul3": {
             "name": "“弦惊”",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2902,6 +3203,7 @@
         },
         "token_10021_blkngt_hypnos": {
             "name": "眠兽",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "x-5",
@@ -2912,6 +3214,7 @@
         },
         "token_10022_kazema_shadow": {
             "name": "纸偶",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "x-4",
@@ -2922,6 +3225,7 @@
         },
         "token_10023_windft_wrench": {
             "name": "可靠电池",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2932,6 +3236,7 @@
         },
         "token_10024_ebnhlz_rcube": {
             "name": "旧日残影",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2942,6 +3247,7 @@
         },
         "token_10025_doroth_recttp": {
             "name": "共振装置",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -2952,6 +3258,7 @@
         },
         "token_10026_bgsnow_subbow": {
             "name": "“打字机”",
+            "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
                 "3-2",
@@ -2962,6 +3269,7 @@
         },
         "token_10027_ironmn_pile1": {
             "name": "白铁™多功能平台",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2972,6 +3280,7 @@
         },
         "token_10027_ironmn_pile2": {
             "name": "白铁™多功能平台",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -2982,6 +3291,7 @@
         },
         "token_10027_ironmn_pile3": {
             "name": "铁钳号·原型机",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "3-13",
@@ -2992,6 +3302,7 @@
         },
         "trap_001_crate": {
             "name": "障碍物",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3002,6 +3313,7 @@
         },
         "trap_002_emp": {
             "name": "震撼装置",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3012,6 +3324,7 @@
         },
         "trap_003_gate": {
             "name": "闸门",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3022,6 +3335,7 @@
         },
         "trap_005_sensor": {
             "name": "侦测器",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3032,6 +3346,7 @@
         },
         "trap_006_antidr": {
             "name": "干扰装置",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-3",
@@ -3042,6 +3357,7 @@
         },
         "trap_007_ballis": {
             "name": "弩炮",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3052,6 +3368,7 @@
         },
         "trap_008_farm": {
             "name": "指挥终端",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3062,6 +3379,7 @@
         },
         "trap_009_battery": {
             "name": "便携式补给站",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3072,6 +3390,7 @@
         },
         "trap_010_frosts": {
             "name": "源石冰晶",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-1",
@@ -3082,6 +3401,7 @@
         },
         "trap_011_ore": {
             "name": "源石祭坛",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-1",
@@ -3092,6 +3412,7 @@
         },
         "trap_012_mine": {
             "name": "干扰地雷",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3102,6 +3423,7 @@
         },
         "trap_013_blower": {
             "name": "源石流发生装置",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "3-2",
@@ -3112,6 +3434,7 @@
         },
         "trap_014_tower": {
             "name": "L-44\"留声机\"",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-2",
@@ -3122,6 +3445,7 @@
         },
         "trap_015_tree": {
             "name": "巨蕈",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-5",
@@ -3132,6 +3456,7 @@
         },
         "trap_016_peon": {
             "name": "罗德岛临时雇员",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3142,6 +3467,7 @@
         },
         "trap_018_bomb": {
             "name": "轰隆隆先生",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-5",
@@ -3152,6 +3478,7 @@
         },
         "trap_019_electric": {
             "name": "梅什科线圈",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-2",
@@ -3162,6 +3489,7 @@
         },
         "trap_020_roadblock": {
             "name": "道路障碍物",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3172,6 +3500,7 @@
         },
         "trap_021_flame": {
             "name": "能量聚合体",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3182,6 +3511,7 @@
         },
         "trap_022_frosts_friend": {
             "name": "霜星的源石冰晶",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-1",
@@ -3192,6 +3522,7 @@
         },
         "trap_023_ore_friend": {
             "name": "爱国者的源石祭坛",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-1",
@@ -3202,6 +3533,7 @@
         },
         "trap_024_npcsld": {
             "name": "盾卫",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3212,6 +3544,7 @@
         },
         "trap_025_prison": {
             "name": "禁锢装置",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "3-15",
@@ -3222,6 +3555,7 @@
         },
         "trap_026_inverter": {
             "name": "改良型二踢脚",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-5",
@@ -3232,6 +3566,7 @@
         },
         "trap_027_stone": {
             "name": "碎石",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3242,6 +3577,7 @@
         },
         "trap_028_cannon": {
             "name": "脉冲防御模组",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-3",
@@ -3252,6 +3588,7 @@
         },
         "trap_029_poison": {
             "name": "催泪瓦斯控制阀",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3262,6 +3599,7 @@
         },
         "trap_030_factory": {
             "name": "无人机工厂",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3272,6 +3610,7 @@
         },
         "trap_031_sleep": {
             "name": "雪雉的安全起重机",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3282,6 +3621,7 @@
         },
         "trap_032_mound": {
             "name": "土石结构",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3292,6 +3632,7 @@
         },
         "trap_033_sbomb": {
             "name": "高能源石炸弹",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-6",
@@ -3302,6 +3643,7 @@
         },
         "trap_034_machst": {
             "name": "加固装置",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3312,6 +3654,7 @@
         },
         "trap_035_emperor": {
             "name": "大帝",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3322,6 +3665,7 @@
         },
         "trap_036_storm": {
             "name": "沙尘暴",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3332,6 +3676,7 @@
         },
         "trap_037_airsup": {
             "name": "可移动战术机库",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3342,6 +3687,7 @@
         },
         "trap_038_dsbell": {
             "name": "应急救治设施",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-2",
@@ -3352,6 +3698,7 @@
         },
         "trap_039_dstnta": {
             "name": "子代",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3362,6 +3709,7 @@
         },
         "trap_040_canoe": {
             "name": "特制水上平台",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3372,6 +3720,7 @@
         },
         "trap_041_fcanon": {
             "name": "风筝",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3382,6 +3731,7 @@
         },
         "trap_042_tidectrl": {
             "name": "涨潮控制",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3392,6 +3742,7 @@
         },
         "trap_043_dupilr": {
             "name": "破碎支柱",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3402,6 +3753,7 @@
         },
         "trap_044_duruin": {
             "name": "战场废墟",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3412,6 +3764,7 @@
         },
         "trap_045_dublst": {
             "name": "爆破装置",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3422,6 +3775,7 @@
         },
         "trap_046_oxygen": {
             "name": "防水蚀镀膜装置",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3432,6 +3786,7 @@
         },
         "trap_048_neonlamp": {
             "name": "城市霓虹",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-5",
@@ -3442,6 +3797,7 @@
         },
         "trap_049_candle": {
             "name": "骑士之徽",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3452,6 +3808,7 @@
         },
         "trap_050_blizzard": {
             "name": "暴风雪",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3462,6 +3819,7 @@
         },
         "trap_051_vultres": {
             "name": "无主的财富",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3472,6 +3830,7 @@
         },
         "trap_052_slowfd": {
             "name": "失修舞台雾机",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3482,6 +3841,7 @@
         },
         "trap_053_airbomb": {
             "name": "便携气罐",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-4",
@@ -3492,6 +3852,7 @@
         },
         "trap_054_dancdol": {
             "name": "“报幕助手”",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-4",
@@ -3502,6 +3863,7 @@
         },
         "trap_055_tileblock": {
             "name": "封印的地面",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3512,6 +3874,7 @@
         },
         "trap_056_sfsuifire": {
             "name": "丹田",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3522,6 +3885,7 @@
         },
         "trap_057_wpnsts": {
             "name": "“冰淇淋机”",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-1",
@@ -3532,6 +3896,7 @@
         },
         "trap_058_gunctrl": {
             "name": "伦蒂尼姆城防副炮",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3542,6 +3907,7 @@
         },
         "trap_059_peacokfool": {
             "name": "断罪者",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3552,6 +3918,7 @@
         },
         "trap_060_bouncy": {
             "name": "圣徒之手",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3562,6 +3929,7 @@
         },
         "trap_061_creep": {
             "name": "溟痕",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3572,6 +3940,7 @@
         },
         "trap_062_magicstart": {
             "name": "“低音号”",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3582,6 +3951,7 @@
         },
         "trap_063_magicturn": {
             "name": "L-7 “回音壁”",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3592,6 +3962,7 @@
         },
         "trap_064_magiccircle": {
             "name": "“谐振器”",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3602,6 +3973,7 @@
         },
         "trap_065_normbox": {
             "name": "宝箱",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3612,6 +3984,7 @@
         },
         "trap_066_rarebox": {
             "name": "尖刺宝箱",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3622,6 +3995,7 @@
         },
         "trap_067_dice": {
             "name": "骰子",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3632,6 +4006,7 @@
         },
         "trap_068_badbox": {
             "name": "箱形恐鱼",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3642,6 +4017,7 @@
         },
         "trap_069_buffcard": {
             "name": "战备激活阀",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3652,6 +4028,7 @@
         },
         "trap_070_supplycard": {
             "name": "预备区发讯器",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3662,6 +4039,7 @@
         },
         "trap_071_recyclecard": {
             "name": "紧急召回情报箱",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3672,6 +4050,7 @@
         },
         "trap_072_revivecard": {
             "name": "休整区发讯器",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3682,6 +4061,7 @@
         },
         "trap_073_btauntcard": {
             "name": "污染晶石",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-6",
@@ -3692,6 +4072,7 @@
         },
         "trap_074_bbombcard": {
             "name": "聚热晶簇",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3702,6 +4083,7 @@
         },
         "trap_075_bgarmn": {
             "name": "R-31重型动力装甲",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3712,6 +4094,7 @@
         },
         "trap_076_bgarms": {
             "name": "R-31a重型动力装甲",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3722,6 +4105,7 @@
         },
         "trap_077_rmtarmn": {
             "name": "R-11突击动力装甲",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3732,6 +4116,7 @@
         },
         "trap_078_rmtarms": {
             "name": "R-11a突击动力装甲",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3742,6 +4127,7 @@
         },
         "trap_079_allydonq": {
             "name": "猎潮的骑士",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "1-1",
@@ -3752,6 +4138,7 @@
         },
         "trap_080_garage": {
             "name": "自走车出发点",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3762,6 +4149,7 @@
         },
         "trap_081_turngear": {
             "name": "自走车单行道",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3772,6 +4160,7 @@
         },
         "trap_082_salecard": {
             "name": "改派发讯器",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3782,6 +4171,7 @@
         },
         "trap_083_bunker": {
             "name": "掩体",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3792,6 +4182,7 @@
         },
         "trap_084_aidkit": {
             "name": "急救包",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3802,6 +4193,7 @@
         },
         "trap_085_paras": {
             "name": "荧光孢子",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3812,6 +4204,7 @@
         },
         "trap_086_larva": {
             "name": "“汲营枯枝” ",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "x-5",
@@ -3822,6 +4215,7 @@
         },
         "trap_087_allady": {
             "name": "阿勒黛的卫护",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "1-1",
@@ -3832,6 +4226,7 @@
         },
         "trap_088_dice2": {
             "name": "8面骰子",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3842,6 +4237,7 @@
         },
         "trap_089_dice3": {
             "name": "12面骰子",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3852,6 +4248,7 @@
         },
         "trap_090_recodr": {
             "name": "实体程式",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3862,6 +4259,7 @@
         },
         "trap_091_brctrl": {
             "name": "实体程式控制",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3872,6 +4270,7 @@
         },
         "trap_093_tbattbc": {
             "name": "钳兽壳粉",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3882,6 +4281,7 @@
         },
         "trap_094_tbpsnc": {
             "name": "高效泡打粉",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
@@ -3892,6 +4292,7 @@
         },
         "trap_095_tbsmmc": {
             "name": "芳香精油",
+            "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",

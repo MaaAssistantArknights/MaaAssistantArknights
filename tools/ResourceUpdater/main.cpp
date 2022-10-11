@@ -610,24 +610,25 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
         std::string name = char_data["name"].as_string();
 
         char_new_data["name"] = name;
-        if (name == "阿米娅") {
-            char_new_data["profession"] = "WARRIOR";
-            char_new_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
-        }
-        else {
-            char_new_data["profession"] = char_data["profession"];
-
-            const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
-            char_new_data["rangeId"] = json::array {
-                default_range,
-                char_data.get("phases", 1, "rangeId", default_range),
-                char_data.get("phases", 2, "rangeId", default_range),
-            };
-        }
+        char_new_data["profession"] = char_data["profession"];
+        const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
+        char_new_data["rangeId"] = json::array {
+            default_range,
+            char_data.get("phases", 1, "rangeId", default_range),
+            char_data.get("phases", 2, "rangeId", default_range),
+        };
         char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
+        char_new_data["position"] = char_data["position"];
 
         chars.emplace(id, std::move(char_new_data));
     }
+    json::value Amiya_data;
+    Amiya_data["name"] = "阿米娅-WARRIOR";
+    Amiya_data["profession"] = "WARRIOR";
+    Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
+    Amiya_data["rarity"] = 5;
+    Amiya_data["position"] = "MELEE";
+    chars.emplace("char_1001_amiya2", std::move(Amiya_data));
 
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);

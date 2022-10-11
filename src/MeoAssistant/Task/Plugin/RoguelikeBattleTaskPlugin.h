@@ -13,8 +13,10 @@ namespace asst
 {
     class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin
     {
-        using Loc = asst::TilePack::BuildableType;
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
+
+        inline static const std::string Dice = "骰子";
+        inline static const std::string UnknownName = "Unknown";
 
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
@@ -27,13 +29,17 @@ namespace asst
     protected:
         virtual bool _run() override;
 
-        enum class BattleRoleType
-        {
-            Melee,
-            Ranged,
-            Other
-        };
-        BattleRoleType get_role_type(const BattleRole& role);
+        // 有些特殊的角色，他的职业并不一定和正常的位置相对应，比如“掠风”是地面辅助
+        // get_role_position 可以仅知道干员职业的情况下，大概猜测一下位置
+        // get_oper_position 可以在已知干员名的时候获得准确的位置
+        BattleLocationType get_role_location_type(const BattleRole& role);
+        BattleLocationType get_oper_location_type(const std::string& name);
+
+        std::vector<Point> available_locations(BattleRole role);
+        std::vector<Point> available_locations(const std::string& name);
+        std::vector<Point> available_locations(BattleLocationType type);
+
+        BattleOperPosition get_role_position(const BattleRole& role);
 
         void wait_for_start();
         bool get_stage_info();
@@ -49,8 +55,6 @@ namespace asst
         bool check_key_kills(const cv::Mat& image);
         bool wait_start();
         bool cancel_oper_selection();
-
-        std::vector<Point> available_locations(BattleRole role);
 
         struct DeployInfo
         {
@@ -86,12 +90,25 @@ namespace asst
         int m_pre_hp = 0;
         int m_kills = 0;
         int m_total_kills = 0;
-        int m_stop_melee_deploy_num = INT_MAX;
-        int m_has_deployed_melee_num = 0;
-        int m_deploy_ranged_num = 0;
-        int m_has_deployed_ranged_num = 0;
+        struct
+        {
+            int stop_blocking_deploy_num = INT_MAX;
+            int has_deployed_blocking_num = 0;
+            int deploy_air_defense_num = 0;
+            int has_deployed_air_defense_num = 0;
+            bool has_finished_deploy_air_defense = false;
+
+            void clear() noexcept
+            {
+                stop_blocking_deploy_num = INT_MAX;
+                deploy_air_defense_num = 0;
+                has_deployed_blocking_num = 0;
+                has_deployed_air_defense_num = 0;
+                has_finished_deploy_air_defense = false;
+            }
+        } m_force_air_defense;
+
         int m_last_cooling_count = 0;
-        bool m_has_finished_deploy_ranged = false;
         size_t m_cur_home_index = 0;
         cv::Mat m_dice_image;
 
@@ -99,19 +116,20 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::vector<ReplacementHome> m_homes;
-        std::vector<bool> m_wait_melee;
+        std::vector<bool> m_wait_blocking;
         std::vector<bool> m_wait_medic;
         std::vector<bool> m_indeed_no_medic;
-        std::unordered_map<Point, size_t> m_melee_for_home_index;
+        std::unordered_map<Point, size_t> m_blocking_for_home_index;
         std::unordered_map<Point, std::vector<size_t>> m_medic_for_home_index;
         std::stack<size_t> m_next_urgent_index;
         std::unordered_set<Point> m_blacklist_location;
         std::set<std::string> m_retreated_opers;
         std::queue<int> m_key_kills;
-        std::unordered_map<Point, std::pair<std::string, BattleRole>> m_used_tiles;
+        std::unordered_map<Point, std::string> m_used_tiles;
         std::unordered_map<std::string, Point> m_opers_in_field;
         std::unordered_map<std::string, int64_t> m_restore_status;
         std::priority_queue<DroneTile> m_need_clear_tiles;
+        std::unordered_map<Point, ForceDeployDirection> m_force_deploy_direction;
 
         std::string m_stage_name;
     };
