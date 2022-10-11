@@ -15,6 +15,7 @@ extern "C"
     typedef int TaskId;
     typedef void(ASST_CALL* AsstApiCallback)(int msg, const char* detail_json, void* custom_arg);
 
+    bool ASSTAPI AsstSetUserDir(const char* path);
     bool ASSTAPI AsstLoadResource(const char* path);
 
     AsstHandle ASSTAPI AsstCreate();

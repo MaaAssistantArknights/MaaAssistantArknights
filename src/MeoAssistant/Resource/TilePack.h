@@ -1,9 +1,12 @@
 #pragma once
 
 #include "AbstractResource.h"
+#include "Utils/AsstBattleDef.h"
 #include "Utils/AsstTypes.h"
 
 #include <memory>
+
+#include <Arknights-Tile-Pos/TileDef.hpp>
 
 namespace Map
 {
@@ -15,14 +18,9 @@ namespace asst
     class TilePack final : public SingletonHolder<TilePack>, public AbstractResource
     {
     public:
-        enum class BuildableType
-        {
-            Invalid = -1,
-            None = 0,
-            Melee = 1,
-            Ranged = 2,
-            All = 3
-        };
+        using LevelKey = Map::LevelKey;
+
+    public:
         enum class HeightType
         {
             Invalid = -1,
@@ -52,7 +50,7 @@ namespace asst
 
         struct TileInfo
         {
-            BuildableType buildable = BuildableType::Invalid;
+            BattleLocationType buildable = BattleLocationType::Invalid;
             HeightType height = HeightType::Invalid;
             TileKey key = TileKey::Invalid;
             Point pos; // 像素坐标
@@ -64,7 +62,8 @@ namespace asst
 
         virtual bool load(const std::filesystem::path& path) override;
 
-        std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
+        std::unordered_map<Point, TileInfo> calc(const std::string& any_key, bool side) const;
+        std::unordered_map<Point, TileInfo> calc(const LevelKey& key, bool side) const;
 
     private:
         std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;

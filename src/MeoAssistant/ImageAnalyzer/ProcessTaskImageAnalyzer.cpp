@@ -22,6 +22,10 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(const std::shared_ptr<TaskInf
         m_match_analyzer = std::make_unique<MatchImageAnalyzer>(m_image);
     }
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
+    if (match_task_ptr->templ_threshold > 1.0) {
+        Log.trace(match_task_ptr->name, "'s threshold is", match_task_ptr->templ_threshold, ", just skip");
+        return false;
+    }
     m_match_analyzer->set_region_of_appeared(Rect());
     m_match_analyzer->set_task_info(match_task_ptr);
     auto region_opt = m_status->get_rect(match_task_ptr->name);
