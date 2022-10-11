@@ -70,7 +70,8 @@ namespace asst
 
         // 这是下面几个函数的封装
         std::shared_ptr<TaskInfo> generate_task_info(const std::string& name, const json::value&,
-                                                     std::shared_ptr<TaskInfo> default_ptr);
+                                                     std::shared_ptr<TaskInfo> default_ptr,
+                                                     const std::string& task_prefix = "");
 
         std::shared_ptr<TaskInfo> generate_match_task_info(const std::string& name, const json::value&,
                                                            std::shared_ptr<MatchTaskInfo> default_ptr);

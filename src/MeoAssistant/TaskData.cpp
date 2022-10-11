@@ -52,7 +52,7 @@ bool asst::TaskData::parse(const json::value& json)
 
     for (const auto& [name, pos, task_json] : template_task_info) {
         // 可能某个名字里带@的任务不是模板任务特化，只是普通的基类任务，这里最后一个参数可能为 nullptr
-        auto task_info_ptr = generate_task_info(name, task_json, get(name.substr(pos)));
+        auto task_info_ptr = generate_task_info(name, task_json, get(name.substr(pos)), name.substr(0, pos));
         if (task_info_ptr == nullptr) {
             return false;
         }
@@ -74,7 +74,8 @@ bool asst::TaskData::parse(const json::value& json)
 
 std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::string& name,
                                                                    const json::value& task_json,
-                                                                   std::shared_ptr<TaskInfo> default_ptr)
+                                                                   std::shared_ptr<TaskInfo> default_ptr,
+                                                                   const std::string& task_prefix)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_task_info_ptr;
@@ -115,7 +116,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::st
     }
 
     // 不管什么algorithm，都有基础成员（next, roi, 等等）
-    if (!append_base_task_info(task_info_ptr, name, task_json, default_ptr)) {
+    if (!append_base_task_info(task_info_ptr, name, task_json, default_ptr, task_prefix)) {
         return nullptr;
     }
     task_info_ptr->algorithm = algorithm;
