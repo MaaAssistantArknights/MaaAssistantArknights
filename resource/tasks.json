@@ -8131,7 +8131,8 @@
             -40,
             40,
             30
-        ]
+        ],
+        "rearDelay": 200
     },
     "Roguelike1SkillSelectionMove2": {
         "algorithm": "JustReturn",
@@ -8170,6 +8171,7 @@
         "template": "Roguelike1StartAction.png",
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
+        "preDelay": 500,
         "roi": [
             905,
             593,

@@ -33,6 +33,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         return false;
     }
 
+    int delay = Task.get("Roguelike1SkillSelectionMove1")->rear_delay;
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         if (name.empty()) {
@@ -43,10 +44,12 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         if (oper_info.alternate_skill > 0) {
             Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);
             m_ctrler->click(skill_vec.at(oper_info.alternate_skill - 1));
+            sleep(delay);
         }
         if (oper_info.skill > 0) {
             Log.info(__FUNCTION__, name, " select main skill:", oper_info.skill);
             m_ctrler->click(skill_vec.at(oper_info.skill - 1));
+            sleep(delay);
         }
         constexpr int RookieStd = 200;
         if (oper_info.promote_priority < RookieStd) {
