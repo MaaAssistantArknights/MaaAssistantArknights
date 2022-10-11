@@ -113,16 +113,39 @@ namespace asst
         BattleDeployDirection direction;
     };
 
+    struct ForceDeployDirection
+    {
+        BattleDeployDirection direction;
+        std::unordered_set<BattleRole> role;
+    };
+
     struct RoguelikeBattleData
     {
         std::string stage_name;
         std::vector<ReplacementHome> replacement_home;
         std::unordered_set<Point> blacklist_location;
+        std::unordered_map<Point, ForceDeployDirection> force_deploy_direction;
         std::vector<int> key_kills;
         std::array<BattleRole, 9> role_order;
         bool use_dice_stage = true;
-        int stop_melee_deploy_num = INT_MAX;
-        int deploy_ranged_num = 0;
+        int stop_deploy_blocking_num = INT_MAX;
+        int force_deploy_air_defense_num = 0;
+    };
+
+    enum class BattleOperPosition
+    {
+        None,
+        Blocking,   // 阻挡单位
+        AirDefense, // 对空单位
+    };
+
+    enum class BattleLocationType
+    {
+        Invalid = -1,
+        None = 0,
+        Melee = 1,
+        Ranged = 2,
+        All = 3
     };
 
     struct BattleCharData
@@ -132,6 +155,7 @@ namespace asst
         std::array<std::string, 3> ranges;
         int rarity = 0;
         bool with_direction = true;
+        BattleLocationType location_type = BattleLocationType::None;
     };
 
     struct BattleRecruitOperInfo

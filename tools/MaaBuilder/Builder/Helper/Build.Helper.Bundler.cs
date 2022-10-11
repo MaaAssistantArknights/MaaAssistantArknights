@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -98,7 +98,12 @@ public partial class Build
         var include = package.Configuration.Include;
         var exclude = package.Configuration.Exclude;
         var noAvxBundle = package.Configuration.NoAvxBundle;
-        
+
+        if (package.PackageType != "MaaDebugSymbol")
+        {
+            exclude = Enumerable.Concat(exclude, new[] { "*.pdb", "*.lib", "*.exp", "*.exe.config", "*.xml" });
+        }
+
         MoveGlobFiles(buildOutput, tempDir, include, exclude);
 
         if (string.IsNullOrEmpty(noAvxBundle) is false)

@@ -69,5 +69,14 @@
                 "**/PaddleOCR/**"
             ]
         }
+    },
+    {
+        "name_template": "MaaDebugSymbol-{VERSION}",
+        "type": "MaaDebugSymbol",
+        "configuration": {
+            "include": [
+                "**/*.pdb"
+            ]
+        }
     }
 ]
