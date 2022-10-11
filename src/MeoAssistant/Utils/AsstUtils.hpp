@@ -134,6 +134,13 @@ namespace asst::utils
         s.erase(s.begin(), ranges::find_if(s, not_space));
     }
 
+    template <ranges::input_range Rng>
+    requires std::convertible_to<ranges::range_value_t<Rng>, char>
+    void tolowers(Rng& rng)
+    {
+        ranges::transform(rng, rng.begin(), [](char c) -> char { return static_cast<char>(std::tolower(c)); });
+    }
+
     inline std::string get_format_time()
     {
         char buff[128] = { 0 };
