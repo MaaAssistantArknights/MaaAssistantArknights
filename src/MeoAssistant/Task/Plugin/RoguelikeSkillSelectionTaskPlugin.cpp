@@ -14,7 +14,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties("roguelike_name");
+    auto roguelike_name_opt = m_status->get_properties(RuntimeStatus::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;

@@ -43,15 +43,15 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略
 
-    std::string roguelike_name = params.get("name", "Phantom");
+    std::string theme = params.get("theme", "Phantom");
     if (m_status == nullptr) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "| Cannot set roguelike name!");
         return false;
     }
-    m_status->set_properties("roguelike_name", roguelike_name);
-    roguelike_name += "@";
-    m_roguelike_task_ptr->set_tasks({ roguelike_name + "Roguelike@Begin" });
+    m_status->set_properties(RuntimeStatus::RoguelikeTheme, theme);
+    theme += "@";
+    m_roguelike_task_ptr->set_tasks({ theme + "Roguelike@Begin" });
 
     int mode = params.get("mode", 0);
     switch (mode) {
@@ -69,7 +69,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     int number_of_starts = params.get("starts_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit(roguelike_name + "Roguelike@Start", number_of_starts);
+    m_roguelike_task_ptr->set_times_limit(theme + "Roguelike@Start", number_of_starts);
 
     bool investment_enabled = params.get("investment_enabled", true);
     if (!investment_enabled) {
