@@ -1420,10 +1420,10 @@ namespace MeoAsstGui
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
-        /// <param name="roguelike_name">肉鸽名字。["Phantom", "Mizuki"]</param>
+        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki"]</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char, string roguelike_name)
+            string squad, string roles, string core_char, string theme)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
@@ -1431,7 +1431,7 @@ namespace MeoAsstGui
             task_params["investment_enabled"] = investment_enabled;
             task_params["investments_count"] = invests;
             task_params["stop_when_investment_full"] = stop_when_full;
-            task_params["name"] = roguelike_name;
+            task_params["theme"] = theme;
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;
