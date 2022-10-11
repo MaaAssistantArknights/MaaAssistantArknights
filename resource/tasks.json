@@ -2875,9 +2875,8 @@
         ]
     },
     "Main": {
-        "Doc": "base_task: Main",
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
+        "Doc": "base_task",
+        "template": "empty.png"
     },
     "Fight@Main": {
         "template": "Terminal.png",
