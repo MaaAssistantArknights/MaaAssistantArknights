@@ -605,6 +605,16 @@
             ],
             "rarity": 5
         },
+        "char_157_dagda": {
+            "name": "达格达",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_158_milu": {
             "name": "守林人",
             "position": "RANGED",
@@ -2277,6 +2287,16 @@
             ],
             "rarity": 5
         },
+        "char_4062_totter": {
+            "name": "铅踝",
+            "profession": "SNIPER",
+            "rangeId": [
+                "4-4",
+                "4-3",
+                "4-3"
+            ],
+            "rarity": 4
+        },
         "char_4064_mlynar": {
             "name": "玛恩纳",
             "position": "MELEE",
@@ -2309,6 +2329,26 @@
                 "3-12"
             ],
             "rarity": 4
+        },
+        "char_4071_peper": {
+            "name": "明椒",
+            "profession": "MEDIC",
+            "rangeId": [
+                "y-1",
+                "y-2",
+                "y-2"
+            ],
+            "rarity": 5
+        },
+        "char_4072_ironmn": {
+            "name": "白铁",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
         },
         "char_411_tomimi": {
             "name": "特米米",
@@ -3223,6 +3263,36 @@
             ],
             "rarity": 6
         },
+        "token_10027_ironmn_pile1": {
+            "name": "白铁™多功能平台",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
+        "token_10027_ironmn_pile2": {
+            "name": "白铁™多功能平台",
+            "profession": "TOKEN",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
+        "token_10027_ironmn_pile3": {
+            "name": "铁钳号·原型机",
+            "profession": "TOKEN",
+            "rangeId": [
+                "3-13",
+                "3-13",
+                "3-13"
+            ],
+            "rarity": 6
+        },
         "trap_001_crate": {
             "name": "障碍物",
             "position": "NONE",
@@ -4125,6 +4195,26 @@
             ],
             "rarity": 1
         },
+        "trap_086_larva": {
+            "name": "“汲营枯枝” ",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_087_allady": {
+            "name": "阿勒黛的卫护",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
         "trap_088_dice2": {
             "name": "8面骰子",
             "position": "NONE",
@@ -4161,6 +4251,36 @@
         "trap_091_brctrl": {
             "name": "实体程式控制",
             "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_093_tbattbc": {
+            "name": "钳兽壳粉",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_094_tbpsnc": {
+            "name": "高效泡打粉",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_095_tbsmmc": {
+            "name": "芳香精油",
             "profession": "TRAP",
             "rangeId": [
                 "0-1",
