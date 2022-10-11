@@ -1708,7 +1708,7 @@ namespace MeoAsstGui
 
             bool timeLess(int lHour, int lMin, int rHour, int rMin)
             {
-                return (lHour != rHour) ? (lHour < rHour) : (lMin < rMin);
+                return (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
             }
 
             var now = DateTime.Now;

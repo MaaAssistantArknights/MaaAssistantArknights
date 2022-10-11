@@ -107,7 +107,7 @@ namespace asst
 
         std::minstd_rand m_rand_engine;
 
-        std::mutex m_socket_mutex;
+        std::mutex m_callcmd_mutex;
 #ifdef _WIN32
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START

@@ -328,6 +328,7 @@
             "bskill_ctrl_t_spd": {
                 "desc": [
                     "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
+                    "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
                     "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）"
                 ],
                 "efficient": {
@@ -336,7 +337,8 @@
                 "maxNum": 1,
                 "name": [
                     "合作协议",
-                    "大小姐"
+                    "大小姐",
+                    "朝气蓬勃"
                 ],
                 "template": "Bskill_ctrl_t_spd.png"
             },
@@ -1066,6 +1068,15 @@
                 ],
                 "template": "Bskill_man_spd3.png"
             },
+            "bskill_man_spd_add&cost": {
+                "desc": [
+                    "进驻制造站时，当自身心情落差大于12时，生产力+10%，仓库容量+6"
+                ],
+                "name": [
+                    "窗外雪啸"
+                ],
+                "template": "Bskill_man_spd_add&cost.png"
+            },
             "bskill_man_spd_add1": {
                 "desc": [
                     "进驻制造站后，生产力首小时+20%，此后每小时+1%，最终达到+25%",
@@ -1151,6 +1162,15 @@
                     "超感"
                 ],
                 "template": "Bskill_man_spd_bd_n1.png"
+            },
+            "bskill_man_spd_reduce": {
+                "desc": [
+                    "进驻制造站时，生产力+30%，自身每有4点心情落差，生产力-5%"
+                ],
+                "name": [
+                    "模糊视线"
+                ],
+                "template": "Bskill_man_spd_reduce.png"
             },
             "bskill_man_spd_variable11": {
                 "desc": [
@@ -3183,12 +3203,12 @@
         "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441"
     },
     "roomType": [
-        "Control",
-        "Reception",
-        "Power",
+        "Mfg",
         "Trade",
         "Office",
-        "Dorm",
-        "Mfg"
+        "Power",
+        "Control",
+        "Reception",
+        "Dorm"
     ]
 }

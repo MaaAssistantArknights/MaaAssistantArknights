@@ -115,6 +115,7 @@ namespace MeoAsstGui
 
             if (ws == WindowState.Minimized)
             {
+                System.Windows.Application.Current.MainWindow.Show();
                 ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
                 System.Windows.Application.Current.MainWindow.Activate();
                 SetShowInTaskbar(true);
@@ -145,6 +146,7 @@ namespace MeoAsstGui
         private void App_show(object sender, EventArgs e)
         {
             SetShowInTaskbar(true);
+            System.Windows.Application.Current.MainWindow.Show();
             ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
             System.Windows.Application.Current.MainWindow.Activate();
         }
@@ -154,16 +156,28 @@ namespace MeoAsstGui
             if (ws == WindowState.Minimized)
             {
                 SetShowInTaskbar(true);
+                System.Windows.Application.Current.MainWindow.Show();
                 ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
                 System.Windows.Application.Current.MainWindow.Activate();
             }
         }
 
-        private void SetShowInTaskbar(bool state)
+        private void SetShowInTaskbar(bool show)
         {
-            if (_isMinimizeToTaskbar)
+            if (!_isMinimizeToTaskbar || System.Windows.Application.Current.MainWindow is null)
             {
-                System.Windows.Application.Current.MainWindow.ShowInTaskbar = state;
+                return;
+            }
+
+            if (show)
+            {
+                System.Windows.Application.Current.MainWindow.ShowInTaskbar = true;
+                System.Windows.Application.Current.MainWindow.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                System.Windows.Application.Current.MainWindow.ShowInTaskbar = false;
+                System.Windows.Application.Current.MainWindow.Visibility = Visibility.Hidden;
             }
         }
 
