@@ -8,8 +8,8 @@ bool asst::GameCrashRestartTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    if (details.at("details").at("task").as_string() == "RestartGameAndContinueFighting" &&
-        m_status->get_number("LastStartButton2")) {
+    if (details.at("details").at("task").as_string() == "Fight@RestartGameAndContinue" &&
+        m_status->get_number("Fight@LastStartButton2")) {
         return true;
     }
     else {

@@ -22,10 +22,10 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         return false;
     }
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "EndOfAction") {
-        auto pre_time_opt = m_status->get_number("LastStartButton2");
+    if (task == "Fight@EndOfAction") {
+        auto pre_time_opt = m_status->get_number("Fight@LastStartButton2");
         int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
-        auto pre_reg_time_opt = m_status->get_number("LastRecognizeDrops");
+        auto pre_reg_time_opt = m_status->get_number("Fight@LastRecognizeDrops");
         int64_t pre_recognize_time = pre_reg_time_opt ? pre_reg_time_opt.value() : 0;
         if (pre_start_time + RecognitionTimeOffset == pre_recognize_time) {
             Log.info("Recognitions time too close, pass", pre_start_time, pre_recognize_time);
@@ -34,7 +34,7 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         m_is_annihilation = false;
         return true;
     }
-    else if (task == "EndOfActionAnnihilation") {
+    else if (task == "Fight@EndOfActionAnnihilation") {
         m_is_annihilation = true;
         return true;
     }
