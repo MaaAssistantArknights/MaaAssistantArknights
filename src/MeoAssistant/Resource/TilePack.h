@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#include <Arknights-Tile-Pos/TileDef.hpp>
+
 namespace Map
 {
     class TileCalc;
@@ -14,6 +16,8 @@ namespace asst
 {
     class TilePack final : public SingletonHolder<TilePack>, public AbstractResource
     {
+    public:
+        using LevelKey = Map::LevelKey;
     public:
         enum class BuildableType
         {
@@ -64,7 +68,8 @@ namespace asst
 
         virtual bool load(const std::filesystem::path& path) override;
 
-        std::unordered_map<Point, TileInfo> calc(const std::string& stage_code, bool side) const;
+        std::unordered_map<Point, TileInfo> calc(const std::string& any_key, bool side) const;
+        std::unordered_map<Point, TileInfo> calc(const LevelKey& key, bool side) const;
 
     private:
         std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;
