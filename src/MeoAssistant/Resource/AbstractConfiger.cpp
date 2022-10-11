@@ -23,6 +23,10 @@ bool asst::AbstractConfiger::load(const std::filesystem::path& path)
 
     const auto& root = ret.value();
 
+#ifdef ASST_DEBUG
+    // 不捕获异常，可以通过堆栈更直观的看到资源存在的问题
+    return parse(root);
+#else
     try {
         return parse(root);
     }
@@ -34,4 +38,5 @@ bool asst::AbstractConfiger::load(const std::filesystem::path& path)
         Log.error("Json parse failed", path, e.what());
         return false;
     }
+#endif
 }
