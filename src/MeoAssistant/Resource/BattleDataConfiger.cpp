@@ -30,7 +30,7 @@ bool asst::BattleDataConfiger::parse(const json::value& json)
         }
 
         static const std::unordered_map<std::string, BattleLocationType> PositionMap = {
-            { "NONE", BattleLocationType::None },
+            { "NONE", BattleLocationType::All },    // 这种很多都是道具之类的，一般哪都能放
             { "MELEE", BattleLocationType::Melee },
             { "RANGED", BattleLocationType::Ranged },
             { "ALL", BattleLocationType::All },
