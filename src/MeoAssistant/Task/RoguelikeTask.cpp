@@ -17,8 +17,6 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
     : PackageTask(callback, callback_arg, TaskType),
       m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
 {
-    m_roguelike_task_ptr->set_tasks({ "Stop" });
-
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
@@ -60,8 +58,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     case 0:
         break;
     case 1:
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0,
-                                              ProcessTask::TimesLimitType::Post);
+        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         break;
     case 2:
         [[unlikely]] m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
