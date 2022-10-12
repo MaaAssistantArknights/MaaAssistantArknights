@@ -8,6 +8,7 @@
 #include "NoWarningCVMat.h"
 
 #include "AsstUtils.hpp"
+#include "UserDir.hpp"
 
 namespace asst
 {
@@ -31,7 +32,7 @@ namespace asst
     {
         std::filesystem::path absolute_path;
         if (path.is_relative()) [[likely]] {
-            auto& user_dir = utils::UserDir::get_instance().get();
+            const auto& user_dir = UserDir::get_instance().get();
             absolute_path = user_dir / path;
         }
         else {

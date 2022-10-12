@@ -133,6 +133,7 @@
     <ClInclude Include="Utils\NoWarningCVMat.h" />
     <ClInclude Include="Utils\Platform\SafeWindows.h" />
     <ClInclude Include="Utils\SingletonHolder.hpp" />
+    <ClInclude Include="Utils\UserDir.hpp" />
     <ClInclude Include="Utils\Version.h" />
   </ItemGroup>
   <ItemGroup>

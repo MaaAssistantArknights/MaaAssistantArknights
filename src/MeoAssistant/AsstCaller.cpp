@@ -10,6 +10,7 @@
 #include "ResourceLoader.h"
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
+#include "Utils/UserDir.hpp"
 #include "Utils/Version.h"
 
 static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
@@ -42,12 +43,12 @@ static bool inited = false;
 
 bool AsstSetUserDir(const char* path)
 {
-    return asst::utils::UserDir::get_instance().set(path);
+    return asst::UserDir::get_instance().set(path);
 }
 
 bool AsstLoadResource(const char* path)
 {
-    if (auto& user_dir = asst::utils::UserDir::get_instance(); user_dir.empty()) {
+    if (auto& user_dir = asst::UserDir::get_instance(); user_dir.empty()) {
         user_dir.set(path);
     }
     inited = asst::ResourceLoader::get_instance().load(asst::utils::path(path) / asst::utils::path("resource"));
