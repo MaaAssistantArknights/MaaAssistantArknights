@@ -35,7 +35,7 @@ bool asst::TaskData::parse(const json::value& json)
     for (const auto& [name, task_json] : json.as_object()) {
         // 模板任务特化需要等模板任务生成后才能生成
         if (size_t p = name.find('@'); p != std::string::npos) {
-            template_task_info.emplace_back(name, p + 1, task_json);
+            template_task_info.emplace_back(name, p, task_json);
             continue;
         }
 
@@ -52,7 +52,7 @@ bool asst::TaskData::parse(const json::value& json)
 
     for (const auto& [name, pos, task_json] : template_task_info) {
         // 可能某个名字里带@的任务不是模板任务特化，只是普通的基类任务，这里最后一个参数可能为 nullptr
-        auto task_info_ptr = generate_task_info(name, task_json, get(name.substr(pos)), name.substr(0, pos));
+        auto task_info_ptr = generate_task_info(name, task_json, get(name.substr(pos + 1)), name.substr(0, pos));
         if (task_info_ptr == nullptr) {
             return false;
         }
