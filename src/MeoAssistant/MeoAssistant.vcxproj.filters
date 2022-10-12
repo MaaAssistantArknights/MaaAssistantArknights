@@ -686,6 +686,9 @@
     <ClInclude Include="TaskData.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\UserDir.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\AsstBattleDef.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>

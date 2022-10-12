@@ -18,8 +18,6 @@
 #include <sys/time.h>
 #endif
 
-#include "SingletonHolder.hpp"
-
 #include "Locale.hpp"
 #include "Meta.hpp"
 #include "StringMisc.hpp"
@@ -78,22 +76,4 @@ namespace asst::utils
         }
     }
 
-    class UserDir : public SingletonHolder<UserDir>
-    {
-    public:
-        bool empty() const noexcept { return user_dir_.empty(); }
-        const std::filesystem::path& get() const noexcept { return user_dir_; }
-        bool set(const char* dir)
-        {
-            auto temp = path(dir);
-            if (!std::filesystem::exists(temp) || !std::filesystem::is_directory(temp)) {
-                return false;
-            }
-            user_dir_ = temp;
-            return true;
-        }
-
-    private:
-        std::filesystem::path user_dir_;
-    };
 } // namespace asst::utils
