@@ -165,6 +165,14 @@ bool asst::AbstractTask::need_exit() const
 
 void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
+    json::value proced_detail = detail;
+    // TODO 屎山: task 字段需要忽略 @ 和前面的字符，否则回调大改
+    if (std::string task = detail.get("details", "task", std::string()); !task.empty()) {
+        if (size_t pos = task.rfind('@'); pos != std::string::npos) {
+            proced_detail["details"]["task"] = task.substr(pos + 1);
+        }
+    }
+
     for (const TaskPluginPtr& plugin : m_plugins) {
         plugin->set_exit_flag(m_exit_flag);
         plugin->set_ctrler(m_ctrler);
@@ -172,7 +180,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
         plugin->set_status(m_status);
         plugin->set_task_ptr(this);
 
-        if (!plugin->verify(msg, detail)) {
+        if (!plugin->verify(msg, proced_detail)) {
             continue;
         }
 
@@ -183,7 +191,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
         }
     }
     if (m_callback) {
-        m_callback(msg, detail, m_callback_arg);
+        m_callback(msg, proced_detail, m_callback_arg);
     }
 }
 
