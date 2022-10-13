@@ -41,5 +41,82 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:
-          name: artifacts
+          name: MaaBundle-x64-Windows
           path: artifacts
+
+  macos-latest:
+    name: macos-latest
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: 'Install Developer ID Certificate'
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
+          p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+      - name: Cache Homebrew
+        uses: actions/cache@v3
+        with:
+          path: $(brew --prefix)
+          key: ${{ runner.os }}-homebrew-${{ hashFiles('.config/brew/Brewfile') }}
+      - name: Install Dependencies
+        run: |
+            brew update --preinstall
+            brew install ninja range-v3 create-dmg
+      - name: Configure MeoAssistant
+        run: |
+          mkdir build && cd build
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
+      - name: Build libMeoAssistant
+        run: cmake --build build
+      - name: Build MeoAsstMac
+        working-directory: src/MeoAsstMac
+        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MeoAsstMac archive -archivePath MeoAsstMac.xcarchive -configuration Release
+      - name: Export MeoAsstMac
+        working-directory: src/MeoAsstMac
+        run: xcodebuild -exportArchive -archivePath MeoAsstMac.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
+      - name: Create disk image
+        working-directory: src/MeoAsstMac
+        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MeoAsstMac.app 0 120 --hide-extension MeoAsstMac.app --app-drop-link 270 120 MeoAsstMac.dmg Export/MeoAsstMac.app
+      - name: Upload disk image
+        uses: actions/upload-artifact@v1
+        with:
+          name: MaaBundle-darwin
+          path: src/MeoAsstMac/MeoAsstMac.dmg
+
+  macos-release:
+    name: macos-release
+    runs-on: macos-12
+    needs: [windows-latest, macos-latest]
+    steps:
+      - name: 'Setup tag information'
+        run: |
+          GIT_TAG=${GITHUB_REF#refs/*/}
+          echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_ENV
+          echo "APP_DMG=MaaBundle-darwin-${GIT_TAG}.dmg" >> $GITHUB_ENV
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: MaaBundle-darwin
+      - name: 'Verify image'
+        run: |
+          mv MeoAsstMac.dmg $APP_DMG
+          hdiutil verify $APP_DMG
+      - name: 'Notarize image'
+        env:
+          NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
+          NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
+          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
+        run: |
+          xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait $APP_DMG
+          xcrun stapler staple $APP_DMG
+      - name: Upload image to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: '${{ github.workspace }}/${{ env.APP_DMG }}'
+          file_glob: false
+          tag: ${{ env.GIT_TAG }}
+          overwrite: true
