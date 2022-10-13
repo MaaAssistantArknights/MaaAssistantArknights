@@ -617,6 +617,9 @@
     <ClInclude Include="Utils\AsstHttp.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\Platform.hpp">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\AsstImageIo.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
