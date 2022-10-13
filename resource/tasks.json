@@ -7735,8 +7735,7 @@
         ]
     },
     "Roguelike@ChooseOperFlag": {
-        "Doc": "base_task",
-        "template": "empty.png",
+        "template": "Roguelike@ChooseOperConfirm.png",
         "action": "DoNothing",
         "roi": [
             1016,
@@ -7748,9 +7747,6 @@
             "Roguelike@ChooseOper",
             "Roguelike@RecruitCloseGuide"
         ]
-    },
-    "Roguelike@ChooseOperFlag": {
-        "template": "Roguelike@ChooseOperConfirm.png"
     },
     "Roguelike@ChooseOperConfirm": {
         "action": "ClickSelf",
@@ -7921,8 +7917,7 @@
         ]
     },
     "Roguelike@TraderRandomShoppingCancel": {
-        "Doc": "base_task",
-        "template": "empty.png",
+        "template": "Roguelike@StageTraderInvestCancel.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -8478,7 +8473,7 @@
         ]
     },
     "Phantom@Roguelike@StageEmergencyDpsEnter": {},
-    "Phantom@Roguelike@StageDreadfulFoe": {
+    "Roguelike@StageDreadfulFoe": {
         "Doc": "base_task",
         "Doc2": "险路恶敌（boss关卡）",
         "template": "empty.png",
@@ -9920,7 +9915,7 @@
         ]
     },
     "Mizuki@Roguelike@GetDropSelect": {},
-    "Roguelike@GetDropSelectRecruit": {
+    "Mizuki@Roguelike@GetDropSelectRecruit": {
         "template": "Mizuki@Roguelike@GetDropRecruit.png"
     },
     "Mizuki@Roguelike@GetDropSelectReward": {},
