@@ -4,3 +4,6 @@
 [submodule "3rdparty/VisionOCR"]
 	path = 3rdparty/VisionOCR
 	url = https://github.com/hguandl/VisionOCR.git
+[submodule "src/MeoAsstMac"]
+	path = src/MeoAsstMac
+	url = https://github.com/hguandl/MeoAsstMac.git

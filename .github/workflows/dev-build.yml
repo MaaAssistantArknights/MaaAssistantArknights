@@ -73,3 +73,33 @@ jobs:
         with:
           name: artifacts
           path: artifacts
+
+  macos-latest:
+    name: macos-latest
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Cache Homebrew
+        uses: actions/cache@v3
+        with:
+          path: $(brew --prefix)
+          key: ${{ runner.os }}-homebrew-${{ hashFiles('.config/brew/Brewfile') }}
+      - name: Install Dependencies
+        run: |
+            brew update --preinstall
+            brew install ninja range-v3
+      - name: Configure MeoAssistant
+        run: |
+          mkdir build && cd build
+          cmake .. -GNinja -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
+      - name: Build libMeoAssistant
+        run: cmake --build build
+      - name: Build MeoAsstMac
+        working-directory: src/MeoAsstMac
+        run: xcodebuild DEVELOPMENT_TEAM="-" CODE_SIGN_IDENTITY="-" -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MeoAsstMac
+      - uses: actions/upload-artifact@v1
+        with:
+          name: MeoAsstMac
+          path: src/MeoAsstMac/DerivedData/Build/Products/Debug
