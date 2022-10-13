@@ -662,6 +662,9 @@
     <ClInclude Include="Utils\StringMisc.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\Time.hpp">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\Meta.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
