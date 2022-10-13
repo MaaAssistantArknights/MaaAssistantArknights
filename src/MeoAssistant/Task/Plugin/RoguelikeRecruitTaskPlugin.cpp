@@ -14,7 +14,17 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    if (details.at("details").at("task").as_string() == "Roguelike1ChooseOper") {
+    auto roguelike_name_opt = m_status->get_properties("roguelike_name");
+    if (!roguelike_name_opt) {
+        return false;
+    }
+    const auto& roguelike_name = roguelike_name_opt.value() + "@";
+    const std::string& task = details.get("details", "task", "");
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
+    if (task_view == "Roguelike@ChooseOper") {
         return true;
     }
     else {
@@ -52,7 +62,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // 干员名字的识别位置
     std::unordered_map<std::string, Rect> last_oper_rects;
 
-    int SwipeTimes = Task.get("Roguelike1RecruitSwipeMaxTime")->max_times;
+    int SwipeTimes = Task.get("RoguelikeRecruitSwipeMaxTime")->max_times;
     int i = 0;
     std::unordered_set<std::string> pre_oper_names;
     // 翻页找出所有候选干员
@@ -182,7 +192,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         // 向右滑动
         Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
         slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
-        sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
+        sleep(Task.get("RoguelikeCustom-HijackSquad")->rear_delay);
     }
 
     // 没有候选干员，进入后备逻辑
@@ -307,7 +317,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         else {
             slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
         }
-        sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
+        sleep(Task.get("RoguelikeCustom-HijackSquad")->rear_delay);
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
     swipe_to_the_left_of_operlist(i / 3 + 1);

@@ -6,6 +6,7 @@
 #include "Controller.h"
 #include "ImageAnalyzer/RoguelikeFormationImageAnalyzer.h"
 #include "TaskData.h"
+#include "RuntimeStatus.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -14,7 +15,17 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
         return false;
     }
 
-    if (details.at("details").at("task").as_string() == "Roguelike1QuickFormation") {
+    auto roguelike_name_opt = m_status->get_properties("roguelike_name");
+    if (!roguelike_name_opt) {
+        return false;
+    }
+    const auto& roguelike_name = roguelike_name_opt.value() + "@";
+    const std::string& task = details.get("details", "task", "");
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
+    if (task_view == "Roguelike@QuickFormation") {
         return true;
     }
     else {
@@ -50,7 +61,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         reselect = true;
     }
     if (!reselect && select_count != 0) {
-        sleep(Task.get("Roguelike1QuickFormationDelay")->rear_delay);
+        sleep(Task.get("RoguelikeQuickFormationDelay")->rear_delay);
         formation_analyzer.set_image(m_ctrler->get_image());
 
         if (!formation_analyzer.analyze()) {
@@ -76,7 +87,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
 void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 {
     // 清空并退出游戏会自动按等级重新排序
-    ProcessTask(*this, { "Roguelike1QuickFormationClearAndReselect" }).run();
+    ProcessTask(*this, { "RoguelikeQuickFormationClearAndReselect" }).run();
 
     size_t select_count = analyze_and_select();
     // 说明第二页还有

@@ -29,6 +29,10 @@ namespace asst
         void set_str(std::string key, std::string value);
         void clear_str() noexcept;
 
+        std::optional<std::string> get_properties(const std::string& key) const noexcept;
+        void set_properties(std::string key, std::string value);
+        void clear_properties() noexcept;
+
         RuntimeStatus& operator=(const RuntimeStatus& rhs) = delete;
         RuntimeStatus& operator=(RuntimeStatus&& rhs) noexcept = delete;
 
@@ -45,6 +49,7 @@ namespace asst
     private:
         std::unordered_map<std::string, int64_t> m_number;
         std::unordered_map<std::string, Rect> m_rect;
-        std::unordered_map<std::string, std::string> m_string;
+        std::unordered_map<std::string, std::string> m_string;     // 跨任务时会被清理的量
+        std::unordered_map<std::string, std::string> m_properties; // 跨任务时不会清理的量
     };
 }

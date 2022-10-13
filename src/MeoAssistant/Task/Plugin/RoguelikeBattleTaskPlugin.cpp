@@ -25,7 +25,17 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    if (details.at("details").at("task").as_string() == "Roguelike1StartAction") {
+    auto roguelike_name_opt = m_status->get_properties("roguelike_name");
+    if (!roguelike_name_opt) {
+        return false;
+    }
+    const auto& roguelike_name = roguelike_name_opt.value() + "@";
+    const std::string& task = details.get("details", "task", "");
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
+    if (task_view == "Roguelike@StartAction") {
         return true;
     }
     else {
@@ -89,7 +99,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
 void asst::RoguelikeBattleTaskPlugin::wait_for_start()
 {
-    ProcessTask(*this, { "Roguelike1WaitBattleStart" }).set_task_delay(0).set_retry_times(0).run();
+    ProcessTask(*this, { "RoguelikeWaitBattleStart" }).set_task_delay(0).set_retry_times(0).run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
@@ -786,7 +796,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
-    return ProcessTask(*this, { "Roguelike1BattleSpeedUp" }).run();
+    return ProcessTask(*this, { "RoguelikeBattleSpeedUp" }).run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
@@ -809,7 +819,7 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
 
 bool asst::RoguelikeBattleTaskPlugin::abandon()
 {
-    return ProcessTask(*this, { "Roguelike1BattleExitBegin" }).run();
+    return ProcessTask(*this, { "RoguelikeBattleExitBegin" }).run();
 }
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
