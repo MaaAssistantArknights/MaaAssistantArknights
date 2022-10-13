@@ -45,13 +45,23 @@
         "text": [],
         "maxTimes": 10
     },
+    "Episode11": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageTheme",
+            "SwipeToTheRight",
+            "StageThemeChapter3ToEpisode11"
+        ]
+    },
     "Episode10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
             "StageTheme",
             "SwipeToTheRight",
-            "StageThemeChapter3ToEpisode10"
+            "StageThemeChapter3ToEpisode11",
+            "StageThemeEpisode11ToEpisode10"
         ]
     },
     "Episode9": {
@@ -60,8 +70,8 @@
         "sub": [
             "StageTheme",
             "SwipeToTheRight",
-            "StageThemeChapter3ToEpisode10",
-            "StageThemeEpisode10ToEpisode9"
+            "StageThemeChapter3ToEpisode11",
+            "StageThemeEpisode11ToEpisode9"
         ]
     },
     "Episode8": {
@@ -214,19 +224,38 @@
             "SwipeToTheRight"
         ]
     },
-    "StageThemeChapter3ToEpisode10": {
+    "StageThemeChapter3ToEpisode11": {
         "action": "ClickSelf",
         "roi": [
-            771,
-            133,
-            369,
-            276
+            759,
+            147,
+            395,
+            410
         ]
     },
-    "StageThemeEpisode10ToEpisode9": {
+    "StageThemeEpisode11ToEpisode10": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
+            "10"
+        ],
+        "roi": [
+            902,
+            618,
+            161,
+            102
+        ],
+        "next": [
+            "StageThemeEpisode11ToEpisode10",
+            "DoNothing"
+        ],
+        "rearDelay": 500
+    },
+    "StageThemeEpisode11ToEpisode9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "10",
             "9"
         ],
         "roi": [
@@ -236,7 +265,7 @@
             102
         ],
         "next": [
-            "StageThemeEpisode10ToEpisode9",
+            "StageThemeEpisode11ToEpisode9",
             "DoNothing"
         ],
         "rearDelay": 500
