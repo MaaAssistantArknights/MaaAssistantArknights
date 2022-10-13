@@ -1,6 +1,7 @@
 #include "RoguelikeDebugTaskPlugin.h"
 
 #include "Controller.h"
+#include "RuntimeStatus.h"
 
 bool asst::RoguelikeDebugTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -12,9 +13,18 @@ bool asst::RoguelikeDebugTaskPlugin::verify(AsstMsg msg, const json::value& deta
         return true;
     }
 
-    std::string task = details.get("details", "task", std::string());
+    auto roguelike_name_opt = m_status->get_properties("roguelike_name");
+    if (!roguelike_name_opt) {
+        return false;
+    }
+    const auto& roguelike_name = roguelike_name_opt.value() + "@";
+    const std::string& task = details.get("details", "task", "");
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
     if (msg == AsstMsg::SubTaskStart && details.get("subtask", std::string()) == "ProcessTask") {
-        if (task == "Roguelike1ExitThenAbandon" || task == "Roguelike1GamePass") {
+        if (task_view == "Roguelike@ExitThenAbandon" || task_view == "Roguelike@GamePass") {
             return true;
         }
     }

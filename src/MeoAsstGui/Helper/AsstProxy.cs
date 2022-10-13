@@ -163,24 +163,6 @@ namespace MeoAsstGui
         }
 
         private string _curResource = "_Unloaded";
-        private bool _additionalLoaded = false;
-
-        public bool LoadAdditionalResource()
-        {
-            if (_additionalLoaded)
-            {
-                return true;
-            }
-
-            var settingsModel = _container.Get<SettingsViewModel>();
-            if (settingsModel.RoguelikeTheme != "Roguelike1")
-            {
-                _additionalLoaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\addition\\" + settingsModel.RoguelikeTheme + "\\");
-                return _additionalLoaded;
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// 加载全局资源。
@@ -193,8 +175,6 @@ namespace MeoAsstGui
             {
                 return true;
             }
-
-            _additionalLoaded = false;
 
             bool loaded = true;
             if (settingsModel.ClientType == string.Empty
@@ -245,11 +225,13 @@ namespace MeoAsstGui
         public void Init()
         {
             // TODO: 屎山.jpg，过几个版本再把这两行删了
-            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_recruit.json");
-            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_shopping.json");
+            DirectoryInfo dir = new DirectoryInfo(Directory.GetCurrentDirectory() + "\\resource\\addition\\");
+            if (dir.Exists)
+            {
+                dir.Delete(true);
+            }
 
             bool loaded = LoadResource();
-            loaded &= LoadAdditionalResource();
 
             _handle = AsstCreateEx(_callback, IntPtr.Zero);
 
@@ -611,6 +593,23 @@ namespace MeoAsstGui
             if (subTask == "ProcessTask")
             {
                 string taskName = details["details"]["task"].ToString();
+                var replaceNameMap = new Dictionary<string, string>
+                {
+                    { "Phantom@Roguelike@", "Roguelike" },
+                    { "Mizuki@Roguelike@", "Roguelike" },
+                    { "Roguelike@", "Roguelike" },
+                    { "Phantom@", "Roguelike" },
+                    { "Mizuki@", "Roguelike" },
+                };
+
+                foreach (var ignoreName in replaceNameMap)
+                {
+                    if (taskName.StartsWith(ignoreName.Key))
+                    {
+                        taskName = ignoreName.Value + taskName.Substring(ignoreName.Key.Length);
+                    }
+                }
+
                 int execTimes = (int)details["details"]["exec_times"];
 
                 switch (taskName)
@@ -645,62 +644,62 @@ namespace MeoAsstGui
                         break;
 
                     /* 肉鸽相关 */
-                    case "Roguelike1Start":
+                    case "RoguelikeStart":
                         mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
-                    case "Roguelike1StageTraderInvestConfirm":
+                    case "RoguelikeStageTraderInvestConfirm":
                         mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
-                    case "Roguelike1ExitThenAbandon":
+                    case "RoguelikeExitThenAbandon":
                         mainModel.AddLog(Localization.GetString("ExplorationAbandoned"));
                         break;
 
-                    // case "Roguelike1StartAction":
+                    // case "RoguelikeStartAction":
                     //    mainModel.AddLog("开始战斗");
                     //    break;
-                    case "Roguelike1MissionCompletedFlag":
+                    case "RoguelikeMissionCompletedFlag":
                         mainModel.AddLog(Localization.GetString("FightCompleted"));
                         break;
 
-                    case "Roguelike1MissionFailedFlag":
+                    case "RoguelikeMissionFailedFlag":
                         mainModel.AddLog(Localization.GetString("FightFailed"));
                         break;
 
-                    case "Roguelike1StageTraderEnter":
+                    case "RoguelikeStageTraderEnter":
                         mainModel.AddLog(Localization.GetString("Trader"));
                         break;
 
-                    case "Roguelike1StageSafeHouseEnter":
+                    case "RoguelikeStageSafeHouseEnter":
                         mainModel.AddLog(Localization.GetString("SafeHouse"));
                         break;
 
-                    case "Roguelike1StageEncounterEnter":
+                    case "RoguelikeStageEncounterEnter":
                         mainModel.AddLog(Localization.GetString("Encounter"));
                         break;
 
-                    // case "Roguelike1StageBoonsEnter":
+                    // case "RoguelikeStageBoonsEnter":
                     //    mainModel.AddLog("古堡馈赠");
                     //    break;
-                    case "Roguelike1StageCambatDpsEnter":
+                    case "RoguelikeStageCambatDpsEnter":
                         mainModel.AddLog(Localization.GetString("CambatDps"));
                         break;
 
-                    case "Roguelike1StageEmergencyDps":
+                    case "RoguelikeStageEmergencyDps":
                         mainModel.AddLog(Localization.GetString("EmergencyDps"));
                         break;
 
-                    case "Roguelike1StageDreadfulFoe":
-                    case "Roguelike2StageDreadfulFoe-5Enter":
+                    case "RoguelikeStageDreadfulFoe":
+                    case "RoguelikeStageDreadfulFoe-5Enter":
                         mainModel.AddLog(Localization.GetString("DreadfulFoe"));
                         break;
 
-                    case "Roguelike1StageTraderInvestSystemFull":
+                    case "RoguelikeStageTraderInvestSystemFull":
                         mainModel.AddLog(Localization.GetString("UpperLimit"), LogColor.Info);
                         break;
 
-                    case "RestartGameAndContinueFighting":
+                    case "RestartGameAndContinue":
                         mainModel.AddLog(Localization.GetString("GameCrash"), LogColor.Warning);
                         break;
 
@@ -708,7 +707,7 @@ namespace MeoAsstGui
                         mainModel.AddLog(Localization.GetString("GameDrop"), LogColor.Warning);
                         break;
 
-                    case "Roguelike1GamePass":
+                    case "RoguelikeGamePass":
                         mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), LogColor.RareOperator);
                         break;
                 }
@@ -1031,7 +1030,7 @@ namespace MeoAsstGui
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (!LoadResource() || !LoadAdditionalResource())
+            if (!LoadResource())
             {
                 error = "Load Resource Failed";
                 return false;
@@ -1421,9 +1420,10 @@ namespace MeoAsstGui
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <param name="roguelike_name">肉鸽名字。["Phantom", "Mizuki"]</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char)
+            string squad, string roles, string core_char, string roguelike_name)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
@@ -1431,6 +1431,7 @@ namespace MeoAsstGui
             task_params["investment_enabled"] = investment_enabled;
             task_params["investments_count"] = invests;
             task_params["stop_when_investment_full"] = stop_when_full;
+            task_params["name"] = roguelike_name;
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;

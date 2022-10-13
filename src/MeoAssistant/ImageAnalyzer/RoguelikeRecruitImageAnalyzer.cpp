@@ -10,9 +10,9 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
     LogTraceFunction;
 
     OcrWithFlagTemplImageAnalyzer analyzer(m_image);
-    analyzer.set_task_info("Roguelike1RecruitOcrFlag", "Roguelike1RecruitOcr");
+    analyzer.set_task_info("RoguelikeRecruitOcrFlag", "RoguelikeRecruitOcr");
     analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-    analyzer.set_threshold(Task.get("Roguelike1RecruitOcr")->specific_rect.x);
+    analyzer.set_threshold(Task.get("RoguelikeRecruitOcr")->specific_rect.x);
 
     if (!analyzer.analyze()) {
         return false;
@@ -46,9 +46,9 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
     LogTraceFunction;
 
     static const std::unordered_map<std::string, int> EliteTaskName = {
-        { "Roguelike1RecruitElite0", 0 },
-        { "Roguelike1RecruitElite1", 1 },
-        { "Roguelike1RecruitElite2", 2 },
+        { "RoguelikeRecruitElite0", 0 },
+        { "RoguelikeRecruitElite1", 1 },
+        { "RoguelikeRecruitElite2", 2 },
     };
 
     int elite_result = 0;
@@ -76,7 +76,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
 {
     LogTraceFunction;
 
-    auto task_ptr = Task.get("Roguelike1RecruitLevel");
+    auto task_ptr = Task.get("RoguelikeRecruitLevel");
     OcrWithPreprocessImageAnalyzer analyzer(m_image, raw_roi.move(task_ptr->roi));
     auto& replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     analyzer.set_replace(replace);

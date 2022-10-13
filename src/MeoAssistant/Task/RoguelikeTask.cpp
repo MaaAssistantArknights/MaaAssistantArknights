@@ -9,15 +9,15 @@
 #include "Plugin/RoguelikeResetTaskPlugin.h"
 #include "Plugin/RoguelikeShoppingTaskPlugin.h"
 #include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
+#include "RuntimeStatus.h"
 #include "Sub/ProcessTask.h"
-
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
       m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
 {
-    m_roguelike_task_ptr->set_tasks({ "Roguelike1Begin" });
+    m_roguelike_task_ptr->set_tasks({ "Stop" });
 
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
@@ -45,16 +45,26 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略
 
+    std::string roguelike_name = params.get("name", "Phantom");
+    if (m_status == nullptr) {
+        m_roguelike_task_ptr->set_tasks({ "Stop" });
+        Log.error(__FUNCTION__, "| Cannot set roguelike name!");
+        return false;
+    }
+    m_status->set_properties("roguelike_name", roguelike_name);
+    roguelike_name += "@";
+    m_roguelike_task_ptr->set_tasks({ roguelike_name + "Roguelike@Begin" });
+
     int mode = params.get("mode", 0);
     switch (mode) {
     case 0:
         break;
     case 1:
-        m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderLeaveConfirm", 0,
+        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0,
                                               ProcessTask::TimesLimitType::Post);
         break;
     case 2:
-        [[unlikely]] m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestCancel", 0);
+        [[unlikely]] m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
         break;
     default:
         Log.error(__FUNCTION__, "| Unknown mode", mode);
@@ -62,22 +72,22 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     int number_of_starts = params.get("starts_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit("Roguelike1Start", number_of_starts);
+    m_roguelike_task_ptr->set_times_limit(roguelike_name + "Roguelike@Start", number_of_starts);
 
     bool investment_enabled = params.get("investment_enabled", true);
     if (!investment_enabled) {
         // 禁用投资系统，通过 exceededNext 进入商店购买逻辑
-        m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestSystem", 0);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystem", 0);
     }
 
     int number_of_investments = params.get("investments_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestConfirm", number_of_investments);
+    m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", number_of_investments);
 
     bool stop_when_full = params.get("stop_when_investment_full", false);
     if (stop_when_full) {
-        m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestSystemFull", 0);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", 0);
         constexpr int InvestLimit = 999;
-        m_roguelike_task_ptr->set_times_limit("Roguelike1StageTraderInvestConfirm", InvestLimit);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", InvestLimit);
     }
 
     if (auto squad_opt = params.find<std::string>("squad")) {

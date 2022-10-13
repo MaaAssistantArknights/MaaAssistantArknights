@@ -176,8 +176,8 @@ namespace MeoAsstGui
 
             RoguelikeThemeList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Roguelike1" },
-                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Roguelike2" },
+                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
+                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
             };
 
             RoguelikeSquadList = new List<CombData>
@@ -791,7 +791,7 @@ namespace MeoAsstGui
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Roguelike1");
+        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Phantom");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.

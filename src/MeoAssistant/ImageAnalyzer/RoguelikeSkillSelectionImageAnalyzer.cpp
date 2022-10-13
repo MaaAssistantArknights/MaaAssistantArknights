@@ -13,7 +13,7 @@
 bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 {
     MultiMatchImageAnalyzer flag_analyzer(m_image);
-    flag_analyzer.set_task_info("Roguelike1SkillSelectionFlag");
+    flag_analyzer.set_task_info("RoguelikeSkillSelectionFlag");
 
     if (!flag_analyzer.analyze()) {
         return false;
@@ -49,7 +49,7 @@ bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect& roi)
 {
     OcrWithPreprocessImageAnalyzer analyzer;
-    auto name_task_ptr = Task.get<OcrTaskInfo>("Roguelike1SkillSelectionName");
+    auto name_task_ptr = Task.get<OcrTaskInfo>("RoguelikeSkillSelectionName");
     analyzer.set_threshold(name_task_ptr->specific_rect.x);
     analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image);
@@ -66,9 +66,9 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
 std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyze(const Rect& roi)
 {
     static const std::array<std::string, 3> TasksName = {
-        "Roguelike1SkillSelectionMove1",
-        "Roguelike1SkillSelectionMove2",
-        "Roguelike1SkillSelectionMove3",
+        "RoguelikeSkillSelectionMove1",
+        "RoguelikeSkillSelectionMove2",
+        "RoguelikeSkillSelectionMove3",
     };
     std::vector<Rect> result;
     result.reserve(TasksName.size());
@@ -82,6 +82,6 @@ std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyz
 void asst::RoguelikeSkillSelectionImageAnalyzer::team_full_analyze()
 {
     MatchImageAnalyzer analyzer(m_image);
-    analyzer.set_task_info("Roguelike1SkillSelectionTeamFull");
+    analyzer.set_task_info("RoguelikeSkillSelectionTeamFull");
     m_team_full = !analyzer.analyze();
 }

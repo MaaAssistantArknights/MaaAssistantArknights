@@ -14,13 +14,22 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return false;
     }
 
-    static const std::unordered_map<std::string, std::pair<AsstMsg, RoguelikeCustomType>> TaskMap = {
-        { "Roguelike1Recruit1", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Squad } },
-        { "Roguelike1Team3", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Roles } },
-        { "Roguelike1RecruitMain", { AsstMsg::SubTaskStart, RoguelikeCustomType::CoreChar } },
-    };
+    auto roguelike_name_opt = m_status->get_properties("roguelike_name");
+    if (!roguelike_name_opt) {
+        return false;
+    }
+    const auto& roguelike_name = roguelike_name_opt.value() + "@";
     const std::string& task = details.get("details", "task", "");
-    auto it = TaskMap.find(task);
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
+    static const std::unordered_map<std::string_view, std::pair<AsstMsg, RoguelikeCustomType>> TaskMap = {
+        { "Roguelike@Recruit1", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Squad } },
+        { "Roguelike@Team3", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Roles } },
+        { "Roguelike@RecruitMain", { AsstMsg::SubTaskStart, RoguelikeCustomType::CoreChar } },
+    };
+    auto it = TaskMap.find(task_view);
     if (it == TaskMap.cend()) {
         return false;
     }
@@ -70,12 +79,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
         OcrImageAnalyzer analyzer(image);
-        analyzer.set_task_info("Roguelike1Custom-HijackSquad");
+        analyzer.set_task_info("RoguelikeCustom-HijackSquad");
         analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
 
         if (!analyzer.analyze()) {
             ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
-            sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
+            sleep(Task.get("RoguelikeCustom-HijackSquad")->rear_delay);
             continue;
         }
         const auto& rect = analyzer.get_result().front().rect;
@@ -90,7 +99,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
     auto image = m_ctrler->get_image();
     OcrImageAnalyzer analyzer(image);
-    analyzer.set_task_info("Roguelike1Custom-HijackRoles");
+    analyzer.set_task_info("RoguelikeCustom-HijackRoles");
     analyzer.set_required({ m_customs[RoguelikeCustomType::Roles] });
 
     if (!analyzer.analyze()) {
@@ -121,7 +130,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     Log.info("role", role_ocr_name);
     auto image = m_ctrler->get_image();
     OcrImageAnalyzer analyzer(image);
-    analyzer.set_task_info("Roguelike1Custom-HijackCoChar");
+    analyzer.set_task_info("RoguelikeCustom-HijackCoChar");
     analyzer.set_required({ role_ocr_name });
     if (!analyzer.analyze()) {
         return false;
@@ -129,7 +138,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     const auto& role_rect = analyzer.get_result().front().rect;
     m_ctrler->click(role_rect);
 
-    sleep(Task.get("Roguelike1Custom-HijackCoChar")->pre_delay);
+    sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
     m_status->set_str(RuntimeStatus::RoguelikeCoreChar, char_name);
     return true;
