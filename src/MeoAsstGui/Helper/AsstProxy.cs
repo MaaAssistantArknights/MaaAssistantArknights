@@ -593,23 +593,6 @@ namespace MeoAsstGui
             if (subTask == "ProcessTask")
             {
                 string taskName = details["details"]["task"].ToString();
-                var replaceNameMap = new Dictionary<string, string>
-                {
-                    { "Phantom@Roguelike@", "Roguelike" },
-                    { "Mizuki@Roguelike@", "Roguelike" },
-                    { "Roguelike@", "Roguelike" },
-                    { "Phantom@", "Roguelike" },
-                    { "Mizuki@", "Roguelike" },
-                };
-
-                foreach (var ignoreName in replaceNameMap)
-                {
-                    if (taskName.StartsWith(ignoreName.Key))
-                    {
-                        taskName = ignoreName.Value + taskName.Substring(ignoreName.Key.Length);
-                    }
-                }
-
                 int execTimes = (int)details["details"]["exec_times"];
 
                 switch (taskName)
@@ -644,58 +627,58 @@ namespace MeoAsstGui
                         break;
 
                     /* 肉鸽相关 */
-                    case "RoguelikeStart":
+                    case "StartExplore":
                         mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
-                    case "RoguelikeStageTraderInvestConfirm":
+                    case "StageTraderInvestConfirm":
                         mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
-                    case "RoguelikeExitThenAbandon":
+                    case "ExitThenAbandon":
                         mainModel.AddLog(Localization.GetString("ExplorationAbandoned"));
                         break;
 
-                    // case "RoguelikeStartAction":
+                    // case "StartAction":
                     //    mainModel.AddLog("开始战斗");
                     //    break;
-                    case "RoguelikeMissionCompletedFlag":
+                    case "MissionCompletedFlag":
                         mainModel.AddLog(Localization.GetString("FightCompleted"));
                         break;
 
-                    case "RoguelikeMissionFailedFlag":
+                    case "MissionFailedFlag":
                         mainModel.AddLog(Localization.GetString("FightFailed"));
                         break;
 
-                    case "RoguelikeStageTraderEnter":
+                    case "StageTraderEnter":
                         mainModel.AddLog(Localization.GetString("Trader"));
                         break;
 
-                    case "RoguelikeStageSafeHouseEnter":
+                    case "StageSafeHouseEnter":
                         mainModel.AddLog(Localization.GetString("SafeHouse"));
                         break;
 
-                    case "RoguelikeStageEncounterEnter":
+                    case "StageEncounterEnter":
                         mainModel.AddLog(Localization.GetString("Encounter"));
                         break;
 
-                    // case "RoguelikeStageBoonsEnter":
+                    // case "StageBoonsEnter":
                     //    mainModel.AddLog("古堡馈赠");
                     //    break;
-                    case "RoguelikeStageCambatDpsEnter":
+                    case "StageCambatDpsEnter":
                         mainModel.AddLog(Localization.GetString("CambatDps"));
                         break;
 
-                    case "RoguelikeStageEmergencyDps":
+                    case "StageEmergencyDps":
                         mainModel.AddLog(Localization.GetString("EmergencyDps"));
                         break;
 
-                    case "RoguelikeStageDreadfulFoe":
-                    case "RoguelikeStageDreadfulFoe-5Enter":
+                    case "StageDreadfulFoe":
+                    case "StageDreadfulFoe-5Enter":
                         mainModel.AddLog(Localization.GetString("DreadfulFoe"));
                         break;
 
-                    case "RoguelikeStageTraderInvestSystemFull":
+                    case "StageTraderInvestSystemFull":
                         mainModel.AddLog(Localization.GetString("UpperLimit"), LogColor.Info);
                         break;
 
@@ -707,7 +690,7 @@ namespace MeoAsstGui
                         mainModel.AddLog(Localization.GetString("GameDrop"), LogColor.Warning);
                         break;
 
-                    case "RoguelikeGamePass":
+                    case "GamePass":
                         mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), LogColor.RareOperator);
                         break;
                 }
