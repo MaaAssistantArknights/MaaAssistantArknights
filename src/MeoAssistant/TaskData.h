@@ -61,6 +61,8 @@ namespace asst
                 }
             };
 
+            task_info_ptr->name = task_prefix + "@" + base_ptr->name;
+            generate_tasks(task_info_ptr->sub, base_ptr->sub);
             generate_tasks(task_info_ptr->next, base_ptr->next);
             generate_tasks(task_info_ptr->exceeded_next, base_ptr->exceeded_next);
             generate_tasks(task_info_ptr->on_error_next, base_ptr->on_error_next);
