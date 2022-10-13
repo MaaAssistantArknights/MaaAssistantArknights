@@ -26,8 +26,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         task_view.remove_prefix(roguelike_name.length());
     }
     static const std::unordered_map<std::string_view, std::pair<AsstMsg, RoguelikeCustomType>> TaskMap = {
-        { "Roguelike@Recruit1", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Squad } },
-        { "Roguelike@Team3", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Roles } },
+        { "Roguelike@SquadDefault", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Squad } },
+        { "Roguelike@RolesDefault", { AsstMsg::SubTaskCompleted, RoguelikeCustomType::Roles } },
         { "Roguelike@RecruitMain", { AsstMsg::SubTaskStart, RoguelikeCustomType::CoreChar } },
     };
     auto it = TaskMap.find(task_view);
