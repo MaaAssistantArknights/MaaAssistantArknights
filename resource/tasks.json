@@ -7363,7 +7363,7 @@
             137
         ],
         "next": [
-            "Roguelike@Recruit1",
+            "Roguelike@SquadDefault",
             "Roguelike@InitalDrop"
         ]
     },
@@ -7427,7 +7427,7 @@
             533
         ],
         "next": [
-            "Roguelike@Team3",
+            "Roguelike@RolesDefault",
             "Roguelike@CloseCollection"
         ]
     },
@@ -7507,7 +7507,7 @@
         ],
         "rearDelay": 2000
     },
-    "Roguelike@Recruit1": {
+    "Roguelike@SquadDefault": {
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
@@ -7519,7 +7519,7 @@
             532
         ],
         "next": [
-            "Roguelike@RecruitConfirm"
+            "Roguelike@SquadConfirm"
         ]
     },
     "Roguelike@RecruitCloseGuide": {
@@ -7534,7 +7534,7 @@
             "Roguelike@ChooseOperFlag"
         ]
     },
-    "Roguelike@RecruitConfirm": {
+    "Roguelike@SquadConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
@@ -8084,7 +8084,7 @@
         ],
         "rearDelay": 2000,
         "next": [
-            "Roguelike@Recruit1",
+            "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
             "Roguelike@StartExplore"
         ]
@@ -8109,7 +8109,7 @@
             "Roguelike@GamePass"
         ]
     },
-    "Roguelike@Team3": {
+    "Roguelike@RolesDefault": {
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
@@ -8121,10 +8121,10 @@
             529
         ],
         "next": [
-            "Roguelike@TeamConfirm"
+            "Roguelike@RolesConfirm"
         ]
     },
-    "Roguelike@TeamConfirm": {
+    "Roguelike@RolesConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
@@ -8303,7 +8303,7 @@
             "Phantom@Roguelike@LastReward2",
             "Phantom@Roguelike@LastReward3",
             "Phantom@Roguelike@LastRewardRand",
-            "Phantom@Roguelike@Team3"
+            "Phantom@Roguelike@RolesDefault"
         ]
     },
     "Phantom@Roguelike@Continue": {},
@@ -8410,9 +8410,7 @@
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
-    "Phantom@Roguelike@LastRewardConfirm": {
-        "template": "Phantom@Roguelike@RecruitConfirm.png"
-    },
+    "Phantom@Roguelike@LastRewardConfirm": {},
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {
         "roi": [
@@ -8433,14 +8431,15 @@
         ]
     },
     "Phantom@Roguelike@MissionFailedFlag2": {},
-    "Phantom@Roguelike@Recruit1": {},
-    "Phantom@Roguelike@RecruitConfirm": {
+    "Phantom@Roguelike@SquadDefault": {},
+    "Phantom@Roguelike@SquadConfirm": {
+        "template": "Phantom@Roguelike@LastRewardConfirm.png",
         "next": [
             "Phantom@Roguelike@LastReward",
             "Phantom@Roguelike@LastReward2",
             "Phantom@Roguelike@LastReward3",
             "Phantom@Roguelike@LastRewardRand",
-            "Phantom@Roguelike@Team3",
+            "Phantom@Roguelike@RolesDefault",
             "Phantom@Roguelike@CloseCollection",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@StageTrader",
@@ -8619,8 +8618,10 @@
         ]
     },
     "Phantom@Roguelike@StartExplore": {},
-    "Phantom@Roguelike@Team3": {},
-    "Phantom@Roguelike@TeamConfirm": {},
+    "Phantom@Roguelike@RolesDefault": {},
+    "Phantom@Roguelike@RolesConfirm": {
+        "template": "Phantom@Roguelike@LastRewardConfirm"
+    },
     "Phantom@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@Begin": {
@@ -8741,7 +8742,7 @@
             "Mizuki@Roguelike@LastReward3",
             "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastRewardRand",
-            "Mizuki@Roguelike@Team3"
+            "Mizuki@Roguelike@RolesDefault"
         ]
     },
     "Mizuki@Roguelike@CloseCollectionClose": {
@@ -9134,9 +9135,7 @@
             "Mizuki@Roguelike@LastRewardConfirm"
         ]
     },
-    "Mizuki@Roguelike@LastRewardConfirm": {
-        "template": "Mizuki@Roguelike@RecruitConfirm.png"
-    },
+    "Mizuki@Roguelike@LastRewardConfirm": {},
     "Mizuki@Roguelike@LastRewardRand": {},
     "Mizuki@Roguelike@MapObject": {
         "action": "DoNothing",
@@ -9217,15 +9216,16 @@
             "Mizuki@Roguelike@CloseCollectionClose"
         ]
     },
-    "Mizuki@Roguelike@Recruit1": {},
-    "Mizuki@Roguelike@RecruitConfirm": {
+    "Mizuki@Roguelike@SquadDefault": {},
+    "Mizuki@Roguelike@SquadConfirm": {
+        "template": "Mizuki@Roguelike@LastRewardConfirm.png",
         "next": [
             "Mizuki@Roguelike@LastReward",
             "Mizuki@Roguelike@LastReward2",
             "Mizuki@Roguelike@LastReward3",
             "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastRewardRand",
-            "Mizuki@Roguelike@Team3",
+            "Mizuki@Roguelike@RolesDefault",
             "Mizuki@Roguelike@CloseCollection",
             "Mizuki@Roguelike@DialogSkip",
             "Mizuki@Roguelike@StageTrader",
@@ -9661,8 +9661,10 @@
         ]
     },
     "Mizuki@Roguelike@StartExplore": {},
-    "Mizuki@Roguelike@Team3": {},
-    "Mizuki@Roguelike@TeamConfirm": {},
+    "Mizuki@Roguelike@RolesDefault": {},
+    "Mizuki@Roguelike@RolesConfirm": {
+        "template": "Mizuki@Roguelike@LastRewardConfirm"
+    },
     "Mizuki@Roguelike@TodoEnter": {},
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
