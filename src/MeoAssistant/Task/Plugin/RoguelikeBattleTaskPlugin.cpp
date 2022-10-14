@@ -962,12 +962,6 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         std::this_thread::yield();
     }
 
-    std::filesystem::create_directory("map");
-    for (const auto& [loc, info] : m_normal_tile_info) {
-        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
-        cv::putText(image, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
-    }
-
     // 识别一帧总击杀数
     BattleImageAnalyzer kills_analyzer(image);
     kills_analyzer.set_target(BattleImageAnalyzer::Target::Kills);
@@ -977,6 +971,10 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
     }
 
     if (!m_stage_name.empty()) {
+        for (const auto& [loc, info] : m_normal_tile_info) {
+            std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
+            cv::putText(image, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+        }
         asst::imwrite("map/" + m_stage_name + ".png", image);
     }
     else {
