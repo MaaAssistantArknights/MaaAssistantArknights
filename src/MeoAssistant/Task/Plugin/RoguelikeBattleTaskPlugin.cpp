@@ -398,7 +398,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
     // 如果发现有新撤退，就更新m_retreated_opers
     // 如果发现有新转好的，只更新m_last_cooling_count，在部署时从set中删去
-    if (cooling_count > m_last_cooling_count) {
+    if (cooling_count > m_last_cooling_count && !m_first_deploy) {
         battle_pause();
         int remain_add = cooling_count - m_last_cooling_count;
         for (size_t i = 0; i < opers.size(); ++i) {
