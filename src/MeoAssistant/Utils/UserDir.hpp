@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utils/AsstUtils.hpp"
+#include "Utils/Platform.hpp"
 #include "Utils/SingletonHolder.hpp"
 
 namespace asst

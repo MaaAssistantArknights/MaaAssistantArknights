@@ -7,7 +7,6 @@
 #include "General/OcrImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)

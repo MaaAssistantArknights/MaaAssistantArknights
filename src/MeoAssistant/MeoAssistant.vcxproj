@@ -125,7 +125,6 @@
     <ClInclude Include="Utils\Platform\AsstPlatformWin32.h" />
     <ClInclude Include="Utils\AsstRanges.hpp" />
     <ClInclude Include="Utils\AsstTypes.h" />
-    <ClInclude Include="Utils\AsstUtils.hpp" />
     <ClInclude Include="Utils\Platform.hpp" />
     <ClInclude Include="Utils\Locale.hpp" />
     <ClInclude Include="Utils\Demangle.hpp" />

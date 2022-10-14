@@ -1,13 +1,14 @@
 #pragma once
 
 #include <filesystem>
+#include <fstream>
 #include <string>
 #include <vector>
 
 #include "NoWarningCV.h"
 #include "NoWarningCVMat.h"
 
-#include "AsstUtils.hpp"
+#include "Platform.hpp"
 #include "UserDir.hpp"
 
 namespace asst
