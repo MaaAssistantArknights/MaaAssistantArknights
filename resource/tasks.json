@@ -8601,7 +8601,6 @@
         ]
     },
     "Phantom@Roguelike@StageTraderEnter": {},
-    "Phantom@Roguelike@StageTraderInvestSystemFull": {},
     "Phantom@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "exceededNext": [
@@ -9603,7 +9602,6 @@
         ]
     },
     "Mizuki@Roguelike@StageTraderEnter": {},
-    "Mizuki@Roguelike@StageTraderInvestSystemFull": {},
     "Mizuki@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "exceededNext": [
