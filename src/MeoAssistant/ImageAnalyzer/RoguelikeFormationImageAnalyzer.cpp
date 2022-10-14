@@ -4,7 +4,6 @@
 
 #include "General/MultiMatchImageAnalyzer.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeFormationImageAnalyzer::analyze()

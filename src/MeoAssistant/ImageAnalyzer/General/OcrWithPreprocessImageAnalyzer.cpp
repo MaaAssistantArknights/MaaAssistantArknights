@@ -2,8 +2,6 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Utils/AsstUtils.hpp"
-
 bool asst::OcrWithPreprocessImageAnalyzer::analyze()
 {
     m_without_det = true;

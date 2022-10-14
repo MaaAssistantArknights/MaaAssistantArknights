@@ -8,7 +8,6 @@
 #include "General/MultiMatchImageAnalyzer.h"
 #include "General/OcrImageAnalyzer.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 
 void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)
 {

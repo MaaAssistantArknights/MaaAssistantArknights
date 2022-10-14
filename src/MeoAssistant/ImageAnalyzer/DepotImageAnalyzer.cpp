@@ -6,7 +6,6 @@
 #include "General/OcrWithPreprocessImageAnalyzer.h"
 #include "Resource/ItemConfiger.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::DepotImageAnalyzer::analyze()

@@ -3,7 +3,6 @@
 #include "Utils/NoWarningCV.h"
 
 #include "General/MatchImageAnalyzer.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::InfrastClueVacancyImageAnalyzer::analyze()
