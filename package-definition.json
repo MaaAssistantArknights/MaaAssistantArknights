@@ -1,6 +1,6 @@
 [
     {
-        "name_template": "MAA-Win-x64-{VERSION}",
+        "name_template": "MAA-{VERSION}-win-x64",
         "type": "MaaBundle",
         "configuration": {
             "include": [
@@ -9,7 +9,7 @@
         }
     },
     {
-        "name_template": "MAA-OTA-Win-x64-{VERSION}",
+        "name_template": "MAAComponent-OTA-{VERSION}-win-x64",
         "type": "MaaBundleOta",
         "configuration": {
             "include": [
@@ -23,7 +23,7 @@
         }
     },
     {
-        "name_template": "MAA-Core-Win-x64-{VERSION}",
+        "name_template": "MAAComponent-Core-{VERSION}-win-x64",
         "type": "MaaCore",
         "configuration": {
             "include": [
@@ -32,7 +32,7 @@
         }
     },
     {
-        "name_template": "MAA-Dependency-Win-x64-{VERSION}",
+        "name_template": "MAAComponent-Dependency-{VERSION}-win-x64",
         "type": "MaaDependency",
         "configuration": {
             "include": [
@@ -47,7 +47,7 @@
         }
     },
     {
-        "name_template": "MAA-DependencyNoAvx-Win-x64-{VERSION}",
+        "name_template": "MAAComponent-DependencyNoAvx-{VERSION}-win-x64",
         "type": "MaaDependencyNoAvx",
         "configuration": {
             "include": [
@@ -58,7 +58,16 @@
         }
     },
     {
-        "name_template": "MAA-Resource-{VERSION}",
+        "name_template": "MAAComponent-DebugSymbol-{VERSION}-win-x64",
+        "type": "MaaDebugSymbol",
+        "configuration": {
+            "include": [
+                "**/*.pdb"
+            ]
+        }
+    },
+    {
+        "name_template": "MAAComponent-Resource-{VERSION}",
         "type": "MaaResource",
         "configuration": {
             "include": [
@@ -66,15 +75,6 @@
             ],
             "exclude": [
                 "**/PaddleOCR/**"
-            ]
-        }
-    },
-    {
-        "name_template": "MAA-DebugSymbol-Win-x64-{VERSION}",
-        "type": "MaaDebugSymbol",
-        "configuration": {
-            "include": [
-                "**/*.pdb"
             ]
         }
     }
