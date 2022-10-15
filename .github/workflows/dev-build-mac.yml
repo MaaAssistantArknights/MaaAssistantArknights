@@ -28,7 +28,7 @@ jobs:
   macos-latest:
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Cache Homebrew
@@ -49,7 +49,7 @@ jobs:
       - name: Build MeoAsstMac
         working-directory: src/MeoAsstMac
         run: xcodebuild ARCHS="arm64 x86_64" CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MeoAsstMac
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
-          name: MAA-macOS
+          name: MAA-macos
           path: src/MeoAsstMac/DerivedData/Build/Products/Debug
