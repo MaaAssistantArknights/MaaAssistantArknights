@@ -620,9 +620,6 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         if (m_first_deploy) {
             m_first_deploy = false;
             battle_pause();
-            battle_analyzer.set_image(m_ctrler->get_image());
-            battle_analyzer.analyze();
-            battle_analyzer.sort_opers_by_cost();
             bool clicked_drone = false;
             for (size_t i = 0; i < opers.size(); ++i) {
                 const auto& cur_opers = battle_analyzer.get_opers();
