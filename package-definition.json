@@ -1,6 +1,6 @@
 [
     {
-        "name_template": "MaaBundle-{VERSION}",
+        "name_template": "MAA-Win-x64-{VERSION}",
         "type": "MaaBundle",
         "configuration": {
             "include": [
@@ -9,14 +9,13 @@
         }
     },
     {
-        "name_template": "MaaBundle-OTA-{VERSION}",
+        "name_template": "MAA-OTA-Win-x64-{VERSION}",
         "type": "MaaBundleOta",
         "configuration": {
             "include": [
                 "resource/**",
                 "MeoAssistant.dll",
-                "MeoAsstGui.exe",
-                "作业制作器/**"
+                "MeoAsstGui.exe"
             ],
             "exclude": [
                 "**/PaddleOCR/**"
@@ -24,7 +23,7 @@
         }
     },
     {
-        "name_template": "MaaCore-{VERSION}",
+        "name_template": "MAA-Core-Win-x64-{VERSION}",
         "type": "MaaCore",
         "configuration": {
             "include": [
@@ -33,7 +32,7 @@
         }
     },
     {
-        "name_template": "MaaDependency-{VERSION}",
+        "name_template": "MAA-Dependency-Win-x64-{VERSION}",
         "type": "MaaDependency",
         "configuration": {
             "include": [
@@ -48,7 +47,7 @@
         }
     },
     {
-        "name_template": "MaaDependencyNoAvx-{VERSION}",
+        "name_template": "MAA-DependencyNoAvx-Win-x64-{VERSION}",
         "type": "MaaDependencyNoAvx",
         "configuration": {
             "include": [
@@ -59,7 +58,7 @@
         }
     },
     {
-        "name_template": "MaaResource-{VERSION}",
+        "name_template": "MAA-Resource-{VERSION}",
         "type": "MaaResource",
         "configuration": {
             "include": [
@@ -71,7 +70,7 @@
         }
     },
     {
-        "name_template": "MaaDebugSymbol-{VERSION}",
+        "name_template": "MAA-DebugSymbol-Win-x64-{VERSION}",
         "type": "MaaDebugSymbol",
         "configuration": {
             "include": [
