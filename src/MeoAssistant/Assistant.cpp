@@ -119,13 +119,12 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 #undef ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH
 
     auto& json = ret.value();
-    bool enable = json.get("enable", true);
-    ptr->set_enable(enable);
+    ptr->set_exit_flag(&m_thread_idle).set_ctrler(m_ctrler).set_status(m_status).set_enable(json.get("enable", true));
+
     bool params_ret = ptr->set_params(json);
     if (!params_ret) {
         return 0;
     }
-
     std::unique_lock<std::mutex> lock(m_mutex);
 
     ++m_task_id;
@@ -254,8 +253,6 @@ void Assistant::working_proc()
                 { "taskid", id },
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
-
-            task_ptr->set_exit_flag(&m_thread_idle).set_ctrler(m_ctrler).set_status(m_status);
 
             bool ret = task_ptr->run();
             finished_tasks.emplace_back(id);

@@ -176,8 +176,8 @@ namespace MeoAsstGui
 
             RoguelikeThemeList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Roguelike1" },
-                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Roguelike2" },
+                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
+                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
             };
 
             RoguelikeSquadList = new List<CombData>
@@ -791,7 +791,7 @@ namespace MeoAsstGui
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Roguelike1");
+        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Phantom");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -801,27 +801,8 @@ namespace MeoAsstGui
             get => _roguelikeTheme;
             set
             {
-                if (value == _roguelikeTheme)
-                {
-                    return;
-                }
-
-                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
-                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
-                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
-                System.Windows.Forms.MessageBoxManager.Register();
-                var result = MessageBox.Show(
-                    Localization.GetString("RoguelikeChangedTip"),
-                    Localization.GetString("Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                System.Windows.Forms.MessageBoxManager.Unregister();
                 SetAndNotify(ref _roguelikeTheme, value);
-                if (result == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
-                }
+                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
             }
         }
 
