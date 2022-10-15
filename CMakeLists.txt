@@ -6,6 +6,12 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 option(BUILD_TEST "build a demo" OFF)
+option(BUILD_XCFRAMEWORK "build xcframework for macOS app" OFF)
+option(BUILD_UNIVERSAL "build both arm64 and x86_64 on macOS" OFF)
+
+if (BUILD_UNIVERSAL)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif ()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -42,10 +48,6 @@ if (MSVC)
     target_link_libraries(MeoAssistant ws2_32 ${OpenCV} ${PaddleOCR_LIB} ${ZLIB})
     target_include_directories(MeoAssistant PRIVATE 3rdparty/include)
 else ()
-    find_package(OpenCV REQUIRED)
-    target_include_directories(MeoAssistant PRIVATE ${OpenCV_INCLUDE_DIRS})
-    target_link_libraries(MeoAssistant ${OpenCV_LIBS})
-
     find_package(ZLIB REQUIRED)
     target_include_directories(MeoAssistant PRIVATE ${ZLIB_INCLUDE_DIRS})
     target_link_libraries(MeoAssistant ${ZLIB_LIBRARY})
@@ -59,11 +61,13 @@ else ()
         add_subdirectory(3rdparty/VisionOCR)
         target_link_libraries(MeoAssistant
             vnocr
-            "-framework CoreFoundation"
-            "-framework CoreGraphics"
-            "-framework Vision"
+            "-framework Accelerate"
         )
     else ()
+        find_package(OpenCV REQUIRED)
+        target_include_directories(MeoAssistant PRIVATE ${OpenCV_INCLUDE_DIRS})
+        target_link_libraries(MeoAssistant ${OpenCV_LIBS})
+
         target_link_libraries(MeoAssistant ppocr paddle_inference protobuf cryptopp gflags glog utf8proc xxhash iomp5 mkldnn mklml_intel)
     endif (APPLE)
 
@@ -74,3 +78,15 @@ if (BUILD_TEST)
     add_executable(test tools/TestCaller/main.cpp)
     target_link_libraries(test MeoAssistant)
 endif (BUILD_TEST)
+
+if (BUILD_XCFRAMEWORK)
+    add_custom_command(OUTPUT MeoAssistant.xcframework
+        COMMAND rm -rf MeoAssistant.xcframework
+        COMMAND xcodebuild -create-xcframework -library libMeoAssistant.dylib -headers ${PROJECT_SOURCE_DIR}/include -output MeoAssistant.xcframework
+        DEPENDS MeoAssistant
+    )
+
+    add_custom_target(MaaXCFramework ALL
+        DEPENDS MeoAssistant MeoAssistant.xcframework
+    )
+endif (BUILD_XCFRAMEWORK)
