@@ -1,9 +1,8 @@
 name: release-maa-mac
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 jobs:
   macos-latest:
@@ -42,11 +41,16 @@ jobs:
       - name: Create disk image
         working-directory: src/MeoAsstMac
         run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MeoAsstMac.app 0 120 --hide-extension MeoAsstMac.app --app-drop-link 270 120 MeoAsstMac.dmg Export/MeoAsstMac.app
-      - name: Upload disk image
-        uses: actions/upload-artifact@v1
+      - name: Archive debug symbols
+        working-directory: src/MeoAsstMac/MeoAsstMac.xcarchive/dSYMs
+        run: ditto -c -k --keepParent MeoAsstMac.app.dSYM MeoAsstMac.app.dSYM.zip
+      - name: Upload products
+        uses: actions/upload-artifact@v3
         with:
           name: MaaBundle-darwin
-          path: src/MeoAsstMac/MeoAsstMac.dmg
+          path: |
+            src/MeoAsstMac/MeoAsstMac.dmg
+            src/MeoAsstMac/MeoAsstMac.xcarchive/dSYMs/MeoAsstMac.app.dSYM.zip
 
   macos-release:
     name: macos-release
@@ -58,6 +62,7 @@ jobs:
           GIT_TAG=${GITHUB_REF#refs/*/}
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_ENV
           echo "APP_DMG=MaaBundle-darwin-${GIT_TAG}.dmg" >> $GITHUB_ENV
+          echo "APP_SYM=MAA-DebugSymbol-macOS-${GIT_TAG}.zip" >> $GITHUB_ENV
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -65,6 +70,7 @@ jobs:
       - name: 'Verify image'
         run: |
           mv MeoAsstMac.dmg $APP_DMG
+          mv MeoAsstMac.xcarchive/dSYMs/MeoAsstMac.app.dSYM.zip $APP_SYM
           hdiutil verify $APP_DMG
       - name: 'Notarize image'
         env:
@@ -78,7 +84,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: '${{ github.workspace }}/${{ env.APP_DMG }}'
-          file_glob: false
+          file: 'MAA*-macOS-${{ env.GIT_TAG }}*'
+          file_glob: true
           tag: ${{ env.GIT_TAG }}
           overwrite: true
