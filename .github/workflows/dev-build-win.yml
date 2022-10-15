@@ -9,12 +9,12 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_dev-build --host GitHubActions
+#         nuke --generate-configuration GitHubActions_dev-build-win --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: dev-build
+name: dev-build-win
 
 on:
   push:
