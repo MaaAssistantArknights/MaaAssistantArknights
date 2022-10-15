@@ -9,7 +9,7 @@ jobs:
     name: macos-latest
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: 'Install Developer ID Certificate'
@@ -47,7 +47,7 @@ jobs:
       - name: Upload products
         uses: actions/upload-artifact@v3
         with:
-          name: MaaBundle-darwin
+          name: MAA-macos
           path: |
             src/MeoAsstMac/MeoAsstMac.dmg
             src/MeoAsstMac/MeoAsstMac.xcarchive/dSYMs/MeoAsstMac.app.dSYM.zip
@@ -61,12 +61,12 @@ jobs:
         run: |
           GIT_TAG=${GITHUB_REF#refs/*/}
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_ENV
-          echo "APP_DMG=MAA-macOS-${GIT_TAG}.dmg" >> $GITHUB_ENV
-          echo "APP_SYM=MAA-DebugSymbol-macOS-${GIT_TAG}.zip" >> $GITHUB_ENV
+          echo "APP_DMG=MAA-${GIT_TAG}-macos.dmg" >> $GITHUB_ENV
+          echo "APP_SYM=MAAComponent-DebugSymbol-${GIT_TAG}-macos.zip" >> $GITHUB_ENV
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: MAA-macOS
+          name: MAA-macos
       - name: 'Verify image'
         run: |
           mv MeoAsstMac.dmg $APP_DMG
@@ -84,7 +84,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: 'MAA*-macOS-${{ env.GIT_TAG }}*'
+          file: 'MAA*${{ env.GIT_TAG }}-macos*'
           file_glob: true
           tag: ${{ env.GIT_TAG }}
           overwrite: true
