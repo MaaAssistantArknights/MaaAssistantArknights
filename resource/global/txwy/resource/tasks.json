@@ -202,7 +202,7 @@
             "RecruitFlag"
         ]
     },
-    "IntegratedStrategiesToRoguelike1": {
+    "FromIntegratedStrategies": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -215,11 +215,11 @@
             157
         ],
         "next": [
-            "IntegratedStrategiesToRoguelike1",
-            "Roguelike1Begin"
+            "FromIntegratedStrategies",
+            "Begin"
         ]
     },
-    "Roguelike1RecruitLevel": {
+    "RoguelikeRecruitLevel": {
         "template": "empty.png",
         "Doc": "日服的等级字体比国服大一圈，要改roi",
         "roi": [
