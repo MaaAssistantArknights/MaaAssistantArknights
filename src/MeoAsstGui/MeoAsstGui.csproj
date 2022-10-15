@@ -465,7 +465,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\tools" "$(TargetDir)"
-xcopy /e /y /i /c "$(ProjectDir)..\..\tools\CopilotDesinger\copilot-designer-deprecated" "$(TargetDir)\作业制作器"
 xcopy /e /y /i /c "$(ProjectDir)..\..\src\Python" "$(TargetDir)\Python"</PostBuildEvent>
   </PropertyGroup>
 </Project>

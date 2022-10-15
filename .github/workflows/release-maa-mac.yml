@@ -61,12 +61,12 @@ jobs:
         run: |
           GIT_TAG=${GITHUB_REF#refs/*/}
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_ENV
-          echo "APP_DMG=MaaBundle-darwin-${GIT_TAG}.dmg" >> $GITHUB_ENV
+          echo "APP_DMG=MAA-macOS-${GIT_TAG}.dmg" >> $GITHUB_ENV
           echo "APP_SYM=MAA-DebugSymbol-macOS-${GIT_TAG}.zip" >> $GITHUB_ENV
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: MaaBundle-darwin
+          name: MAA-macOS
       - name: 'Verify image'
         run: |
           mv MeoAsstMac.dmg $APP_DMG
