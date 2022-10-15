@@ -48,12 +48,6 @@ UIを見れば使い方もすぐ分かる！
 
 ## ダウンロードリンク
 
-***初めて使用する場合 `MaaBundle-vX.Y.Z.zip` をダウンロードしてください***
-
-***初めて使用する場合 `MaaBundle-vX.Y.Z.zip` をダウンロードしてください***
-
-***初めて使用する場合 `MaaBundle-vX.Y.Z.zip` をダウンロードしてください***
-
 [安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
 

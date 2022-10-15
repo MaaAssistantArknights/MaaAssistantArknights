@@ -51,5 +51,5 @@ jobs:
         run: xcodebuild ARCHS="arm64 x86_64" CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MeoAsstMac
       - uses: actions/upload-artifact@v1
         with:
-          name: MaaBundle-darwin
+          name: MAA-macOS
           path: src/MeoAsstMac/DerivedData/Build/Products/Debug
