@@ -59,3 +59,23 @@ void asst::RuntimeStatus::clear_str() noexcept
 {
     m_string.clear();
 }
+
+std::optional<std::string> asst::RuntimeStatus::get_properties(const std::string& key) const noexcept
+{
+    if (auto iter = m_properties.find(key); iter != m_properties.cend()) {
+        return iter->second;
+    }
+    else {
+        return std::nullopt;
+    }
+}
+
+void asst::RuntimeStatus::set_properties(std::string key, std::string value)
+{
+    m_properties.insert_or_assign(std::move(key), std::move(value));
+}
+
+void asst::RuntimeStatus::clear_properties() noexcept
+{
+    m_properties.clear();
+}

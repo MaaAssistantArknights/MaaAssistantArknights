@@ -1794,7 +1794,7 @@
             "RecruitNowConfirm"
         ]
     },
-    "Roguelike1Custom-HijackSquad": {
+    "RoguelikeCustom-HijackSquad": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1846,7 +1846,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackRoles": {
+    "RoguelikeCustom-HijackRoles": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1874,7 +1874,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackCoChar": {
+    "RoguelikeCustom-HijackCoChar": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1919,7 +1919,7 @@
         ],
         "preDelay": 1000
     },
-    "Roguelike1RecruitLevel": {
+    "RoguelikeRecruitLevel": {
         "template": "empty.png",
         "Doc": "日服的等级字体比国服大一圈，要改roi",
         "roi": [

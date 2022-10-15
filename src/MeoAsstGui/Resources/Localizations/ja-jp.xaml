@@ -136,7 +136,6 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
     <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
-    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>

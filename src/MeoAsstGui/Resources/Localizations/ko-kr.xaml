@@ -134,7 +134,6 @@
     <system:String x:Key="AdditionCommand">추가 명령</system:String>
 
     <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
-    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
