@@ -71,5 +71,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:
-          name: artifacts
+          name: MAA-Win-x64
           path: artifacts
