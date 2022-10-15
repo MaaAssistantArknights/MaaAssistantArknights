@@ -4,6 +4,7 @@
 #include "General/OcrWithFlagTemplImageAnalyzer.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {
@@ -18,9 +19,17 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         return false;
     }
 
+    // using blue channel only when matching level to filter out the yellow ring
+    cv::Mat bbb_image;
+    {
+        cv::Mat blue;
+        cv::extractChannel(m_image, blue, 0);
+        cv::merge(std::array { blue, blue, blue }, bbb_image);
+    }
+
     for (const auto& [_, rect, name] : analyzer.get_result()) {
         int elite = match_elite(rect);
-        int level = match_level(rect);
+        int level = match_level(bbb_image, rect);
 
         if (level == 0) {
             // 要么就是识别错了，要么这个干员希望不够，是灰色的
@@ -72,12 +81,12 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
     return elite_result;
 }
 
-int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
+int asst::RoguelikeRecruitImageAnalyzer::match_level(const cv::Mat& image, const Rect& raw_roi)
 {
     LogTraceFunction;
 
     auto task_ptr = Task.get("RoguelikeRecruitLevel");
-    OcrWithPreprocessImageAnalyzer analyzer(m_image, raw_roi.move(task_ptr->roi));
+    OcrWithPreprocessImageAnalyzer analyzer(image, raw_roi.move(task_ptr->roi));
     auto& replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     analyzer.set_replace(replace);
     analyzer.set_expansion(1);
