@@ -676,7 +676,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
         if (opt_oper.name != UnknownName) {
             auto real_loc_type = get_oper_location_type(opt_oper.name);
-            if (real_loc_type != BattleLocationType::All && real_loc_type != get_role_location_type(opt_oper.role)) {
+            if (real_loc_type != BattleLocationType::Invalid && // 说明名字识别错了
+                real_loc_type != BattleLocationType::All && real_loc_type != get_role_location_type(opt_oper.role)) {
                 // 重新计算干员是否有地方放
                 if (available_locations(opt_oper.name).empty()) {
                     set_position_full(opt_oper.name, true);
