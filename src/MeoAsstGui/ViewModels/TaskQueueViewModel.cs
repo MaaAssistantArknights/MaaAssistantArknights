@@ -949,14 +949,13 @@ namespace MeoAsstGui
         private bool appendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
-            int mode;
-            int.TryParse(settings.RoguelikeMode, out mode);
+            int.TryParse(settings.RoguelikeMode, out var mode);
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(
                 mode, settings.RoguelikeStartsCount,
                 settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
-                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
+                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeTheme);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]

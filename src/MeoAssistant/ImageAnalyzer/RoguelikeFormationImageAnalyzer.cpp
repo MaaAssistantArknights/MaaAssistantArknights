@@ -12,7 +12,7 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
     m_result.clear();
 
     MultiMatchImageAnalyzer opers_analyzer(m_image);
-    opers_analyzer.set_task_info("Roguelike1FormationOper");
+    opers_analyzer.set_task_info("RoguelikeFormationOper");
 
     if (!opers_analyzer.analyze()) {
         return false;
@@ -51,7 +51,7 @@ bool asst::RoguelikeFormationImageAnalyzer::selected_analyze(const Rect& roi)
     cv::Mat hsv;
     cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
 
-    const auto selected_task_ptr = Task.get<MatchTaskInfo>("Roguelike1FormationOperSelected");
+    const auto selected_task_ptr = Task.get<MatchTaskInfo>("RoguelikeFormationOperSelected");
     int h_low = selected_task_ptr->mask_range.first;
     int h_up = selected_task_ptr->mask_range.second;
     int s_low = selected_task_ptr->specific_rect.x;

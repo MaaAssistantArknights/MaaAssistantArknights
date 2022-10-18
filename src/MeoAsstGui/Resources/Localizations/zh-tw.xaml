@@ -134,7 +134,6 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
-    <system:String x:Key="RoguelikeChangedTip">肉鴿設置已更改，是否現在重啓 MAA 以應用設置？</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>

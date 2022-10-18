@@ -48,12 +48,6 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载地址
 
-***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***
-
-***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***
-
-***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***
-
 [稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [测试版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
 

@@ -136,7 +136,6 @@
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
-    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stop after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stop after investing N times</system:String>

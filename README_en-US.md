@@ -48,12 +48,6 @@ Talk is cheap. Show me the pictures!
 
 ## Download
 
-***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
-
-***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
-
-***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
-
 [Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
@@ -150,7 +144,7 @@ Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 
 - [C interface](include/AsstCaller.h): [Integration Example](tools/TestCaller/main.cpp)
 - [Python interface](src/Python/asst.py): [Integration Example](src/Python/sample.py)
-- [Golang interface](src/Golang/MaaAssistantArknights/): [Integration Example](src/Golang/MaaAssistantArknights/maa/maa.go) 
+- [Golang interface](src/Golang/MaaAssistantArknights/): [Integration Example](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dart interface](src/dart/)
 - [Java interface](src/Java/Maaj): [Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/): [HTTP api](src/Rust)

@@ -9,12 +9,12 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_release-maa --host GitHubActions
+#         nuke --generate-configuration GitHubActions_release-maa-win --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: release-maa
+name: release-maa-win
 
 on:
   push:
@@ -26,9 +26,9 @@ jobs:
     name: windows-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             .nuke/temp
@@ -39,7 +39,7 @@ jobs:
         env:
           PUBLISH_GH_PAT: ${{ secrets.PUBLISH_GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
-          name: artifacts
+          name: MAA-win-x64
           path: artifacts
