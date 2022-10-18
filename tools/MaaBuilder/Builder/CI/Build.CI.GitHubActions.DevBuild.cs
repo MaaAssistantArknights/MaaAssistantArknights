@@ -3,7 +3,7 @@ using Nuke.Common.CI.GitHubActions;
 namespace MaaBuilder;
 
 [GitHubActions(
-    name: "dev-build",
+    name: "dev-build-win",
     image: GitHubActionsImage.WindowsLatest,
     OnPushBranchesIgnore = new[] { MasterBranch },
     OnPullRequestBranches = new[] { DevBranch },

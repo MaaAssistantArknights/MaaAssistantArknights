@@ -343,11 +343,11 @@
             "Stop"
         ]
     },
-    "Roguelike1StageTraderInvestSystemFull": {
+    "Roguelike@StageTraderInvestSystemFull": {
         "algorithm": "OcrDetect",
         "cache": false,
         "reduceOtherTimes": [
-            "Roguelike1StageTraderInvestConfirm"
+            "Roguelike@StageTraderInvestConfirm"
         ],
         "text": [
             "Storage full"
@@ -359,7 +359,7 @@
             289
         ],
         "next": [
-            "Roguelike1StageTraderInvestCancel"
+            "Roguelike@StageTraderInvestCancel"
         ]
     },
     "BattleStageName": {
@@ -1527,7 +1527,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackSquad": {
+    "RoguelikeCustom-HijackSquad": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1579,7 +1579,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackRoles": {
+    "RoguelikeCustom-HijackRoles": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1615,7 +1615,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackCoChar": {
+    "RoguelikeCustom-HijackCoChar": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
