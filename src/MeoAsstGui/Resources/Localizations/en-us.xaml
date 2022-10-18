@@ -195,9 +195,9 @@
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
-    <system:String x:Key="ExitEmulator">Close Emulator</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">Exit and Close Emulator</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, and Hibernate*</system:String>
+    <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
+    <system:String x:Key="ExitEmulatorAndSelf">Exit MAA and Emulator</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate*</system:String>
     <system:String x:Key="Hibernate">Hibernate*</system:String>
     <system:String x:Key="Shutdown">Shutdown*</system:String>
 
