@@ -23,6 +23,7 @@ bool asst::InfrastPowerTask::_run()
 
         // 进不去说明设施数量不够
         if (!enter_facility(m_cur_facility_index)) {
+            click_return_button();
             break;
         }
         if (!enter_oper_list_page()) {
