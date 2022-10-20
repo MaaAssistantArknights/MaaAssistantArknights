@@ -135,7 +135,9 @@
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
-    <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
+    <system:String x:Key="RoguelikeTheme">主題</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -152,8 +154,8 @@
     <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
     <system:String x:Key="BlacklistDefault">炭素材;家具</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
-    <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credit overflow</system:String>
-
+    <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
+    
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
 
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
@@ -165,8 +167,8 @@
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip">ステージ名と番号（例：4-10、6-16など）の両方がサポートされています。</system:String>
 
-    <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
-    <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
+    <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
+    <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</system:String>
