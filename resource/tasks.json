@@ -7799,9 +7799,9 @@
         ],
         "next": [
             "Roguelike@ChooseOperFlag",
-            "Roguelike@StageEncounterFree",
-            "Roguelike@StageEncounterLeave",
-            "Roguelike@StageEncounterUnknown",
+            "Roguelike@Free@StageEncounterOption",
+            "Roguelike@Leave@StageEncounterOption",
+            "Roguelike@Unknown@StageEncounterOption",
             "Roguelike@StageEncounterClickToLeave"
         ]
     },
@@ -7818,24 +7818,11 @@
         ],
         "next": [
             "Roguelike@ChooseOperFlag",
-            "Roguelike@StageEncounterFree",
-            "Roguelike@StageEncounterLeave",
-            "Roguelike@StageEncounterUnknown",
+            "Roguelike@Free@StageEncounterOption",
+            "Roguelike@Leave@StageEncounterOption",
+            "Roguelike@Unknown@StageEncounterOption",
             "Roguelike@StageEncounterClickToLeave"
         ]
-    },
-    "Roguelike@StageEncounterFree": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            700
-        ],
-        "preDelay": 500
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
         "action": "ClickSelf",
@@ -7852,7 +7839,7 @@
             "Roguelike@ClickToDrops"
         ]
     },
-    "Roguelike@StageEncounterLeave": {
+    "StageEncounterOption": {
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
@@ -7879,9 +7866,9 @@
         "rearDelay": 1000,
         "next": [
             "Roguelike@ChooseOperFlag",
-            "Roguelike@StageEncounterFree",
-            "Roguelike@StageEncounterLeave",
-            "Roguelike@StageEncounterUnknown",
+            "Roguelike@Free@StageEncounterOption",
+            "Roguelike@Leave@StageEncounterOption",
+            "Roguelike@Unknown@StageEncounterOption",
             "Roguelike@StageEncounterSpecialClose",
             "Roguelike@StageCambatDpsEnter",
             "Roguelike@StageEmergencyDpsEnter",
@@ -7903,19 +7890,6 @@
             "Roguelike@StageEncounterSpecialClose",
             "Roguelike@ClickToDrops"
         ]
-    },
-    "Roguelike@StageEncounterUnknown": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            950,
-            50,
-            320,
-            580
-        ],
-        "preDelay": 1500
     },
     "Roguelike@StageSafeHouse": {
         "Doc": "base_task",
@@ -7943,9 +7917,9 @@
         ],
         "next": [
             "Roguelike@ChooseOperFlag",
-            "Roguelike@StageEncounterFree",
-            "Roguelike@StageEncounterLeave",
-            "Roguelike@StageEncounterUnknown",
+            "Roguelike@Free@StageEncounterOption",
+            "Roguelike@Leave@StageEncounterOption",
+            "Roguelike@Unknown@StageEncounterOption",
             "Roguelike@StageEncounterClickToLeave"
         ]
     },
@@ -8296,6 +8270,7 @@
         ]
     },
     "Phantom@Roguelike@NextLevel": {
+        "algorithm": "OcrDetect",
         "text": [
             "迷雾歧途",
             "落阳庭院",
@@ -8402,9 +8377,9 @@
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageDreadfulFoe",
             "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@StageEncounterFree",
-            "Phantom@Roguelike@StageEncounterLeave",
-            "Phantom@Roguelike@StageEncounterUnknown",
+            "Phantom@Roguelike@Free@StageEncounterOption",
+            "Phantom@Roguelike@Leave@StageEncounterOption",
+            "Phantom@Roguelike@Unknown@StageEncounterOption",
             "Phantom@Roguelike@StageEncounterSpecialClose",
             "Phantom@Roguelike@EnterAfterRecruit",
             "Phantom@Roguelike@StageTraderLeave",
@@ -8605,36 +8580,36 @@
         ]
     },
     "Phantom@Roguelike@StageEncounterEnter": {},
-    "Phantom@Roguelike@StageEncounterFree": {
+    "Phantom@Roguelike@Free@StageEncounterOption": {
         "templThreshold": 0.99,
         "next": [
             "Phantom@Roguelike@StageEncounterLeaveConfirm",
-            "Phantom@Roguelike@StageEncounterLeave",
-            "Phantom@Roguelike@StageEncounterUnknown",
-            "Phantom@Roguelike@StageEncounterFree",
+            "Phantom@Roguelike@Leave@StageEncounterOption",
+            "Phantom@Roguelike@Unknown@StageEncounterOption",
+            "Phantom@Roguelike@Free@StageEncounterOption",
             "Phantom@Roguelike@ChooseOperFlag"
         ]
     },
-    "Phantom@Roguelike@StageEncounterLeave": {
+    "Phantom@Roguelike@Leave@StageEncounterOption": {
         "templThreshold": 0.97,
         "next": [
             "Phantom@Roguelike@StageEncounterLeaveConfirm",
-            "Phantom@Roguelike@StageEncounterFree",
-            "Phantom@Roguelike@StageEncounterUnknown",
-            "Phantom@Roguelike@StageEncounterLeave",
+            "Phantom@Roguelike@Free@StageEncounterOption",
+            "Phantom@Roguelike@Unknown@StageEncounterOption",
+            "Phantom@Roguelike@Leave@StageEncounterOption",
             "Phantom@Roguelike@ChooseOperFlag"
         ]
     },
     "Phantom@Roguelike@StageEncounterLeaveConfirm": {},
     "Phantom@Roguelike@StageEncounterSpecialClose": {},
-    "Phantom@Roguelike@StageEncounterUnknown": {
+    "Phantom@Roguelike@Unknown@StageEncounterOption": {
         "templThreshold": 0.91,
         "next": [
             "Phantom@Roguelike@ChooseOperFlag",
             "Phantom@Roguelike@StageEncounterLeaveConfirm",
-            "Phantom@Roguelike@StageEncounterFree",
-            "Phantom@Roguelike@StageEncounterLeave",
-            "Phantom@Roguelike@StageEncounterUnknown"
+            "Phantom@Roguelike@Free@StageEncounterOption",
+            "Phantom@Roguelike@Leave@StageEncounterOption",
+            "Phantom@Roguelike@Unknown@StageEncounterOption"
         ]
     },
     "Phantom@Roguelike@StageSafeHouse": {
@@ -9062,9 +9037,9 @@
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@StageEncounterFree",
-            "Mizuki@Roguelike@StageEncounterLeave",
-            "Mizuki@Roguelike@StageEncounterUnknown",
+            "Mizuki@Roguelike@Free@StageEncounterOption",
+            "Mizuki@Roguelike@Leave@StageEncounterOption",
+            "Mizuki@Roguelike@Unknown@StageEncounterOption",
             "Mizuki@Roguelike@StageEncounterSpecialClose",
             "Mizuki@Roguelike@EnterAfterRecruit",
             "Mizuki@Roguelike@StageTraderLeave",
@@ -9242,6 +9217,7 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@NextLevel": {
+        "algorithm": "OcrDetect",
         "text": [
             "天光海岸",
             "离岸孤岛",
@@ -9517,42 +9493,67 @@
         ]
     },
     "Mizuki@Roguelike@StageEncounterEnter": {},
-    "Mizuki@Roguelike@StageEncounterFree": {
+    "Mizuki@Roguelike@Free@StageEncounterOption": {
         "maskRange": [
             5,
             255
         ],
         "next": [
             "Mizuki@Roguelike@StageEncounterLeaveConfirm",
-            "Mizuki@Roguelike@StageEncounterLeave",
-            "Mizuki@Roguelike@StageEncounterUnknown",
-            "Mizuki@Roguelike@StageEncounterFree",
-            "Mizuki@Roguelike@ChooseOperFlag"
+            "Mizuki@Roguelike@Leave@StageEncounterOption",
+            "Mizuki@Roguelike@Unknown@StageEncounterOption",
+            "Mizuki@Roguelike@Free@StageEncounterOption",
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@Wonderland@StageEncounterOption"
         ]
     },
-    "Mizuki@Roguelike@StageEncounterLeave": {
+    "Mizuki@Roguelike@Leave@StageEncounterOption": {
         "maskRange": [
             5,
             255
         ],
         "next": [
             "Mizuki@Roguelike@StageEncounterLeaveConfirm",
-            "Mizuki@Roguelike@StageEncounterFree",
-            "Mizuki@Roguelike@StageEncounterUnknown",
-            "Mizuki@Roguelike@StageEncounterLeave",
-            "Mizuki@Roguelike@ChooseOperFlag"
+            "Mizuki@Roguelike@Free@StageEncounterOption",
+            "Mizuki@Roguelike@Unknown@StageEncounterOption",
+            "Mizuki@Roguelike@Leave@StageEncounterOption",
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@Wonderland@StageEncounterOption"
         ]
     },
-    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {},
+    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
+        "next": [
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@Free@StageEncounterOption",
+            "Mizuki@Roguelike@Leave@StageEncounterOption",
+            "Mizuki@Roguelike@Unknown@StageEncounterOption",
+            "Mizuki@Roguelike@Unknown@StageEncounterOption",
+            "Mizuki@Roguelike@StageEncounterSpecialClose",
+            "Mizuki@Roguelike@StageCambatDpsEnter",
+            "Mizuki@Roguelike@StageEmergencyDpsEnter",
+            "Mizuki@Roguelike@ClickToDrops"
+        ]
+    },
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
-    "Mizuki@Roguelike@StageEncounterUnknown": {
+    "Mizuki@Roguelike@Unknown@StageEncounterOption": {
         "templThreshold": 0.91,
         "next": [
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@StageEncounterLeaveConfirm",
-            "Mizuki@Roguelike@StageEncounterFree",
-            "Mizuki@Roguelike@StageEncounterLeave",
-            "Mizuki@Roguelike@StageEncounterUnknown"
+            "Mizuki@Roguelike@Free@StageEncounterOption",
+            "Mizuki@Roguelike@Leave@StageEncounterOption",
+            "Mizuki@Roguelike@Unknown@StageEncounterOption",
+            "Mizuki@Roguelike@Wonderland@StageEncounterOption"
+        ]
+    },
+    "Mizuki@Roguelike@Wonderland@StageEncounterOption": {
+        "next": [
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@StageEncounterLeaveConfirm",
+            "Mizuki@Roguelike@Free@StageEncounterOption",
+            "Mizuki@Roguelike@Leave@StageEncounterOption",
+            "Mizuki@Roguelike@Unknown@StageEncounterOption",
+            "Mizuki@Roguelike@Wonderland@StageEncounterOption"
         ]
     },
     "Mizuki@Roguelike@StageGambling": {

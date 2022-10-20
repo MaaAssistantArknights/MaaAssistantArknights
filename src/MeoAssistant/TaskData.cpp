@@ -380,7 +380,6 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "cache",
               "rectMove",
               "reduceOtherTimes",
-
               "templThreshold",
               "maskRange",
           } },
@@ -401,7 +400,6 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "cache",
               "rectMove",
               "reduceOtherTimes",
-
               "fullMatch",
               "ocrReplace",
           } },
@@ -435,7 +433,6 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "cache",
               "rectMove",
               "reduceOtherTimes",
-
               "hash",
               "maskRange",
               "specialThreshold",
