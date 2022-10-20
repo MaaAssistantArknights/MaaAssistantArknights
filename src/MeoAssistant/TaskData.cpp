@@ -63,7 +63,7 @@ bool asst::TaskData::parse(const json::value& json)
     bool some_next_null = false;
     for (const auto& [name, task] : m_all_tasks_info) {
         for (const auto& next : task->next) {
-            if (get(next) == nullptr) {
+            if (get(next, false) == nullptr) {
                 Log.error(name, "'s next", next, "is null");
                 some_next_null = true;
             }

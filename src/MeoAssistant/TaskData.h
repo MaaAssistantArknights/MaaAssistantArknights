@@ -150,7 +150,7 @@ namespace asst
         template <typename TargetTaskInfoType = TaskInfo>
         requires(std::derived_from<TargetTaskInfoType, TaskInfo> ||
                  std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
-        std::shared_ptr<TargetTaskInfoType> get(const std::string& name)
+        std::shared_ptr<TargetTaskInfoType> get(const std::string& name, bool with_emplace = true)
         {
             // 普通 task 或已经生成过的 `@` 型 task
             if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) [[likely]] {
@@ -182,14 +182,16 @@ namespace asst
 
             // tasks 个数超过上限时不再 emplace，返回临时值
             constexpr size_t MAX_TASKS_SIZE = 65535;
-            if (m_all_tasks_info.size() < MAX_TASKS_SIZE) {
-                m_all_tasks_info.emplace(name, task_info_ptr);
-            }
+            if (with_emplace) {
+                if (m_all_tasks_info.size() < MAX_TASKS_SIZE) {
+                    m_all_tasks_info.emplace(name, task_info_ptr);
+                }
 #ifdef ASST_DEBUG
-            else {
-                Log.debug("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
-            }
+                else {
+                    Log.debug("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
+                }
 #endif // ASST_DEBUG
+            }
 
             if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
                 return task_info_ptr;
