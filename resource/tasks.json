@@ -4218,6 +4218,30 @@
             504,
             192,
             187
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "ReplenishToMaxLoading",
+            "Stop"
+        ]
+    },
+    "ReplenishToMaxLoading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "ReplenishToMaxLoading",
+            "Stop"
         ]
     },
     "ShamareThumbnail": {
