@@ -79,14 +79,14 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    int backoff = 10;
+    int backoff = 10 * 1000; // 10s
     http::Response response = report(
         "ReportToPenguinStats", Configer.get_options().penguin_report.cmd_format,
         [](const http::Response& response) -> bool { return response.success(); },
         [&](const http::Response& response) -> bool {
             bool cond = !response.status_code() || response.status_5xx();
             if (cond) {
-                backoff *= 1.5;
+                backoff = static_cast<int>(backoff * 1.5);
                 sleep(backoff);
             }
             return cond;
@@ -114,14 +114,14 @@ void asst::ReportDataTask::report_to_penguin()
 
     new_cmd_format =
         utils::string_replace_all(new_cmd_format, { { "https://penguin-stats.io", "https://penguin-stats.cn" } });
-    backoff = 10;
+    backoff = 10 * 1000; // 10s
     response = report(
         "ReportToPenguinStats", new_cmd_format,
         [](const http::Response& response) -> bool { return response.success(); },
         [&](const http::Response& response) -> bool {
             bool cond = !response.status_code() || response.status_5xx();
             if (cond) {
-                backoff *= 1.5;
+                backoff = static_cast<int>(backoff * 1.5);
                 sleep(backoff);
             }
             return cond;
