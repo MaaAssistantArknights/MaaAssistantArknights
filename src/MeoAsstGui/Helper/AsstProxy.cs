@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -726,25 +727,19 @@ namespace MeoAsstGui
             {
                 case "StageDrops":
                     {
-                        string cur_drops = string.Empty;
-                        JArray drops = (JArray)subTaskDetails["drops"];
-                        foreach (var item in drops)
-                        {
-                            string itemName = item["itemName"].ToString();
-                            int count = (int)item["quantity"];
-                            cur_drops += $"{itemName} : {count}\n";
-                        }
-
-                        cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
-                        mainModel.AddLog(Localization.GetString("Drop") + "\n" + cur_drops);
-
                         string all_drops = string.Empty;
                         JArray statistics = (JArray)subTaskDetails["stats"];
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"].ToString();
-                            int count = (int)item["quantity"];
-                            all_drops += $"{itemName} : {count}\n";
+                            int totalQuantity = (int)item["totalQuantity"];
+                            int addQuantity = (int)item["addQuantity"];
+                            all_drops += $"{itemName} : {totalQuantity}";
+                            if (addQuantity > 0)
+                            {
+                                all_drops += $" (+{addQuantity})";
+                            }
+                            all_drops += "\n";
                         }
 
                         all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
