@@ -6953,6 +6953,18 @@
             "Roguelike@StartExplore"
         ]
     },
+    "Roguelike@NextLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ]
+    },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -8284,9 +8296,6 @@
         ]
     },
     "Phantom@Roguelike@NextLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
         "text": [
             "迷雾歧途",
             "落阳庭院",
@@ -8294,12 +8303,6 @@
             "噩梦之始",
             "血月长廊",
             "渴欲大厅"
-        ],
-        "roi": [
-            522,
-            431,
-            245,
-            144
         ],
         "next": [
             "Phantom@Roguelike@StageTrader",
@@ -9239,9 +9242,6 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@NextLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
         "text": [
             "天光海岸",
             "离岸孤岛",
@@ -9250,12 +9250,6 @@
             "失尘岩洞",
             "幽海丛林",
             "绀碧摇篮"
-        ],
-        "roi": [
-            522,
-            431,
-            245,
-            144
         ],
         "next": [
             "Mizuki@Roguelike@StageTrader",
