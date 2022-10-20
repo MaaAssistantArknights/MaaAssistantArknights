@@ -8261,6 +8261,7 @@
             "Phantom@Roguelike@StageCambatDps",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageDreadfulFoe",
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@ExitThenAbandon",
             "Phantom@Roguelike@Abandon",
             "Phantom@Roguelike@TodaysSupplies",
@@ -8280,6 +8281,34 @@
     "Phantom@Roguelike@ChooseOper": {
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm"
+        ]
+    },
+    "Phantom@Roguelike@NextLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "迷雾歧途",
+            "落阳庭院",
+            "故土残躯",
+            "噩梦之始",
+            "血月长廊",
+            "渴欲大厅"
+        ],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ],
+        "next": [
+            "Phantom@Roguelike@StageTrader",
+            "Phantom@Roguelike@StageSafeHouse",
+            "Phantom@Roguelike@StageEncounter",
+            "Phantom@Roguelike@StageBoons",
+            "Phantom@Roguelike@StageCambatDps",
+            "Phantom@Roguelike@StageEmergencyDps",
+            "Phantom@Roguelike@StageDreadfulFoe"
         ]
     },
     "Phantom@Roguelike@ClickToDrops": {
