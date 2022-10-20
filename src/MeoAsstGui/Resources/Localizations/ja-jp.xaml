@@ -185,7 +185,7 @@
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
-    <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
+    <system:String x:Key="AutoRoguelike">自動ローグ*</system:String>
 
     <system:String x:Key="SelectAll">全て選択</system:String>
     <system:String x:Key="Inverse">逆選択</system:String>
