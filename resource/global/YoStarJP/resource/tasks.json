@@ -46,19 +46,6 @@
             "WaitAfterPRTS"
         ]
     },
-    "EndOfAction": {
-        "Doc": "This task registered the StageDropsTaskPlugin",
-        "roi": [
-            791,
-            410,
-            296,
-            145
-        ],
-        "action": "DoNothing",
-        "next": [
-            "ClickCorner"
-        ]
-    },
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
         "text": [
