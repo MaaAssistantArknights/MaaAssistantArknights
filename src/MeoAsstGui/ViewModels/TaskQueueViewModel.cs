@@ -1700,7 +1700,7 @@ namespace MeoAsstGui
 
         private void refreshCustomInfrastPlanIndexByPeriod()
         {
-            if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod)
+            if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
             {
                 return;
             }
