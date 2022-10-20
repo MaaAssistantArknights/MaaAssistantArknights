@@ -137,15 +137,10 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 {
     LogTraceFunction;
 
-    std::vector<json::value> drops_vec;
+    std::unordered_map<std::string, int> cur_drops_count;
     for (const auto& drop : m_cur_drops) {
-        json::value info;
-        info["itemId"] = drop.item_id;
-        info["quantity"] = drop.quantity;
         m_drop_stats[drop.item_id] += drop.quantity;
-        info["itemName"] = drop.item_name;
-        info["dropType"] = drop.drop_type_name;
-        drops_vec.emplace_back(std::move(info));
+        cur_drops_count.emplace(drop.item_id, drop.quantity);
     }
 
     std::vector<json::value> stats_vec;
@@ -154,7 +149,13 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         info["itemId"] = id;
         const std::string& name = ItemData.get_item_name(id);
         info["itemName"] = name.empty() ? id : name;
-        info["quantity"] = count;
+        info["totalQuantity"] = count;
+        if (auto iter = cur_drops_count.find(id); iter != cur_drops_count.end()) {
+            info["addQuantity"] = iter->second;
+        }
+        else {
+            info["addQuantity"] = 0;
+        }
         stats_vec.emplace_back(std::move(info));
     }
     //// 排个序，数量多的放前面
@@ -167,7 +168,6 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     json::value& details = info["details"];
     details["stars"] = m_stars;
     details["stats"] = json::array(std::move(stats_vec));
-    details["drops"] = json::array(std::move(drops_vec));
     json::value& stage = details["stage"];
     stage["stageCode"] = m_stage_code;
     if (!m_stage_code.empty()) {
