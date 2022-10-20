@@ -182,7 +182,7 @@
     <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">收取信用及購物</system:String>
     <system:String x:Key="Mission">領取日常獎勵</system:String>
-    <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
+    <system:String x:Key="AutoRoguelike">自動肉鴿*</system:String>
 
     <system:String x:Key="SelectAll">全選</system:String>
     <system:String x:Key="Inverse">反選</system:String>

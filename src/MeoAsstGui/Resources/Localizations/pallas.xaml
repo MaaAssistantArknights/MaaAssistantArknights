@@ -182,7 +182,7 @@
     <system:String x:Key="Visiting">🍻🍸🍺🍺🍸</system:String>
     <system:String x:Key="Mall">🍸🍷🍻🕺🍻🍻🍸🍸</system:String>
     <system:String x:Key="Mission">🍸🍻🕺🍷🍷🕺💃</system:String>
-    <system:String x:Key="AutoRoguelike">🍺🍷🍸🍺🕺</system:String>
+    <system:String x:Key="AutoRoguelike">🍺🍷🍸🍺🕺🍸</system:String>
 
     <system:String x:Key="SelectAll">🍺🍺🍺</system:String>
     <system:String x:Key="Inverse">🍻🍸🕺</system:String>
