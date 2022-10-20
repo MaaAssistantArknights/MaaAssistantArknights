@@ -1522,6 +1522,7 @@
         ],
         "action": "ClickSelf",
         "next": [
+            "UsePrts-Annihilation",
             "UsePrts",
             "UsePrts-StageSN",
             "StartButton1"
