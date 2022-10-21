@@ -112,8 +112,7 @@ void asst::ReportDataTask::report_to_penguin()
     }
     Log.info("Re-report to penguin-stats.cn");
 
-    new_cmd_format =
-        utils::string_replace_all(new_cmd_format, { { "https://penguin-stats.io", "https://penguin-stats.cn" } });
+    utils::_string_replace_all(new_cmd_format, "https://penguin-stats.io", "https://penguin-stats.cn");
     backoff = 10 * 1000; // 10s
     response = report(
         "ReportToPenguinStats", new_cmd_format,
