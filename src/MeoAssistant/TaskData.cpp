@@ -58,31 +58,74 @@ bool asst::TaskData::parse(const json::value& json)
             validity &= syntax_check(name, task_json);
         }
 
-        // next 存在性检查
-        // TODO: 这块感觉可以合并到 syntax_check 里
+        std::unordered_map<std::string, std::vector<std::string>> dependency_graph; // "#" 型任务依赖关系 (有向图邻接表)
+        std::unordered_map<std::string, int> checked;                               // 拓扑排序相关的标志
+        static const std::unordered_set<std::string> accepted_type = {
+            "next", "sub", "on_error_next", "exceeded_next", "reduce_other_times",
+        };
+
         for (const auto& [name, task] : m_all_tasks_info) {
-            for (const auto& next : task->next) {
-                size_t pos = next.find('#');
-                if (pos == std::string_view::npos) {
-                    if (get(next, false) == nullptr) {
-                        Log.error(name, "'s next", next, "is null");
+            auto check_and_link = [&](const std::vector<std::string>& task_list, std::string node_name) {
+                for (const auto& task_name : task_list) {
+                    size_t pos = task_name.find('#');
+                    // next、sub 等的存在性检查
+                    if (pos == std::string::npos) {
+                        if (get(task_name, false) == nullptr) {
+                            Log.error(node_name, task_name, "is null");
+                            validity = false;
+                        }
+                        continue;
+                    }
+
+                    std::string other_task_name = task_name.substr(0, pos);
+                    if (get(other_task_name, false) == nullptr) {
+                        Log.error(node_name, task_name, "is null");
                         validity = false;
                     }
-                }
-                else {
-                    if (get(next.substr(0, pos), false) == nullptr) {
-                        Log.error(name, "'s next", next, "is null");
-                        validity = false;
-                    }
-                    static const std::unordered_set<std::string> accepted_type = {
-                        "next", "sub", "on_error_next", "exceeded_next", "reduce_other_times",
-                    };
-                    std::string type = next.substr(pos + 1);
+                    std::string type = task_name.substr(pos + 1);
                     if (!accepted_type.contains(type)) {
-                        Log.error(name, "'s next", next, "has unknown type:", type);
+                        Log.error(node_name, task_name, "has unknown type:", type);
                         validity = false;
                     }
+                    else {
+                        // 建立一条依赖关系 (有向边)
+                        dependency_graph[node_name].emplace_back(task_name);
+                    }
                 }
+            };
+            check_and_link(task->next, name + "#next");
+            check_and_link(task->sub, name + "#sub");
+            check_and_link(task->exceeded_next, name + "#exceeded_next");
+            check_and_link(task->on_error_next, name + "#on_error_next");
+            check_and_link(task->reduce_other_times, name + "#reduce_other_times");
+        }
+
+        // dfs 检查 "#" 型任务是否循环依赖 (有向无环图)
+        auto check_circle = [&](const std::string& x) {
+            std::function<bool(const std::string&)> dfs;
+            dfs = [&](const std::string& x) {
+                checked[x] = -1;
+                for (const auto& y : dependency_graph[x]) {
+                    if (checked[y] == 0) {
+                        if (!dfs(y)) [[unlikely]] {
+                            return false;
+                        }
+                    }
+                    else if (checked[y] < 0) [[unlikely]] {
+                        Log.error("Task", y, "has circular dependency.");
+                        return false;
+                    }
+                }
+                checked[x] = 1;
+                return true;
+            };
+            return dfs(x);
+        };
+
+        for (const auto& name : dependency_graph | views::keys) {
+            if (!checked[name] && !check_circle(name)) {
+                validity = false;
+                break;
             }
         }
 
@@ -503,8 +546,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         allowed_key.merge(tmp);
     }
 
-    // TODO: 之后也许还要对 key-value 联合检查，json 先留着
-    for (const auto& [name, json] : task_json.as_object()) {
+    for (const auto& name : task_json.as_object() | views::keys) {
         if (!allowed_key.contains(name) && !is_doc(name) && !has_doc(name)) {
             Log.error(task_name, "has unknown key:", name);
             validity = false;
