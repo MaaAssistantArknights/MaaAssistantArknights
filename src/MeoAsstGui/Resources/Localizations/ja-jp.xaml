@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">起動設定</system:String>
     <system:String x:Key="ScheduleSettings">スケジュール実行設定</system:String>
     <system:String x:Key="UISettings">UI設定</system:String>
+    <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AboutUs">About</system:String>
 
@@ -112,6 +113,9 @@
     <system:String x:Key="Ok">はい</system:String>
     <system:String x:Key="ManualRestart">後で</system:String>
     <system:String x:Key="Tip">ヒント</system:String>
+
+    <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
 
     <system:String x:Key="LabelSequenceTip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="CheckBoxesNotSaved">このオプション設定は再起動後に保存されません</system:String>
@@ -353,6 +357,8 @@
     <system:String x:Key="StartCombat">戦闘開始：</system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
+    <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
+    <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
     <system:String x:Key="HasReturned">戻った</system:String>
