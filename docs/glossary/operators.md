@@ -88,7 +88,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 深靛|Indigo|インディゴ|인디고
 罗比菈塔|Roberta|ロベルタ|로베르타
 布丁|Pudding|プリン|푸딩
-褐果|||
+褐果|Chestnut|チェストナット|
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -169,7 +169,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 羽毛笔|La Pluma|ラ・プルマ|라 플루마
 极光|Aurora|オーロラ|오로라
 灰毫|Ashlock|アッシュロック|애쉬락
-掠风|||
+掠风||ウインドフリット|
 絮雨|Whisperain|ウィスパーレイン|위스퍼레인
 蜜莓|Honeyberry|ハニーベリー|허니베리
 罗宾|Robin|ロビン|로빈
@@ -199,9 +199,9 @@ Stormeye|Stormeye|Stormeye|Stormeye
 九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
 暮落|Shalem|シャレム|샬렘
 见行者|Enforcer|エンフォーサー|
-洛洛|||
+洛洛|Rockrock|ロックロック|
 埃拉托|||
-海蒂|||
+海蒂|Heidi|ハイディ|
 车尔尼|||
 
 中文|English|日本語|한국어
@@ -256,14 +256,14 @@ W|W|W|W
 浊心斯卡蒂|Skadi the Corrupting Heart|濁心スカジ|스카디 더 커럽팅 하트
 假日威龙陈|Ch'en the Holungday|遊龍チェン|첸 더 홀룽데이
 耀骑士临光|Nearl the Radiant Knight|耀騎士ニアール|니어 더 래디언트 나이트
-归溟幽灵鲨|||
+归溟幽灵鲨|帰溟スペクター||
 刻俄柏|Ceobe|ケオベ|케오베
 年|Nian|ニェン|니엔
 夕|Dusk|シー|시
 令|Ling|リィン|
-艾丽妮|||
-号角|||
-流明|||
+艾丽妮||アイリーニ|
+号角|Horn|ホルン|
+流明||ルーメン|
 黑键|||
 多萝西|||
 
