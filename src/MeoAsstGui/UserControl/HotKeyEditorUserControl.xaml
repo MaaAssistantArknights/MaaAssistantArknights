@@ -16,6 +16,7 @@
              Width="180"
              InputMethod.IsInputMethodEnabled="False"
              PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
+             ToolTip="{DynamicResource HotKeyChangingTip}"
              Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay, TargetNullValue=&lt; not set &gt;}">
         <TextBox.ContextMenu>
             <ContextMenu Visibility="Collapsed" />

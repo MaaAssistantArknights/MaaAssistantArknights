@@ -116,6 +116,7 @@
 
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">Press Backspace/Esc/Delete to clear the current value</system:String>
 
     <system:String x:Key="LabelSequenceTip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="CheckBoxesNotSaved">このオプション設定は再起動後に保存されません</system:String>
