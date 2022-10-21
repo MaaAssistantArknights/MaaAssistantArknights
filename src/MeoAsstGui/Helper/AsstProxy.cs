@@ -732,7 +732,7 @@ namespace MeoAsstGui
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"].ToString();
-                            int totalQuantity = (int)item["totalQuantity"];
+                            int totalQuantity = (int)item["quantity"];
                             int addQuantity = (int)item["addQuantity"];
                             all_drops += $"{itemName} : {totalQuantity}";
                             if (addQuantity > 0)
