@@ -169,7 +169,7 @@ namespace asst
 
             // `@` 前面的字符长度
             size_t name_len = at_pos;
-            auto base_task_iter = get(name.substr(name_len + 1));
+            auto base_task_iter = get(name.substr(name_len + 1), with_emplace);
             if (base_task_iter == nullptr) [[unlikely]] {
                 return nullptr;
             }
