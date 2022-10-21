@@ -114,6 +114,7 @@
 
     <system:String x:Key="HotKeyShowGui">🍻🍷🍺🍺🍷🍺💃🍻🍸💃</system:String>
     <system:String x:Key="HotKeyLinkStart">🍸🕺🍷🍸🍺</system:String>
+    <system:String x:Key="HotKeyChangingTip">🍷🍺🍸🍻💃🍸🍷🍺💃💃💃🍷🍺🕺🍸🍸🍷🍷🍺🍷</system:String>
 
     <system:String x:Key="LabelSequenceTip">🍻🕺🍷🍸🍻🍻🍷🍷</system:String>
     <system:String x:Key="CheckBoxesNotSaved">💃💃🍸🍷🍺🍻🍸🍻🍸🍷🕺🕺</system:String>

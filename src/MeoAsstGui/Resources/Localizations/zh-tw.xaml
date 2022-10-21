@@ -114,6 +114,7 @@
 
     <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">鍵入 退格/Esc/Delete 清除當前熱鍵</system:String>
 
     <system:String x:Key="LabelSequenceTip">標籤順序可拖動</system:String>
     <system:String x:Key="CheckBoxesNotSaved">該選項設定重啟後不保存</system:String>
