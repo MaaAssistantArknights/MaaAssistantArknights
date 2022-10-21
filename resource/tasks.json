@@ -8270,7 +8270,6 @@
         ]
     },
     "Phantom@Roguelike@NextLevel": {
-        "algorithm": "OcrDetect",
         "text": [
             "迷雾歧途",
             "落阳庭院",
@@ -9217,7 +9216,6 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@NextLevel": {
-        "algorithm": "OcrDetect",
         "text": [
             "天光海岸",
             "离岸孤岛",

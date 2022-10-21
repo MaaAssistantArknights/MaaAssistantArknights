@@ -255,7 +255,7 @@ namespace asst
         }
 
 #ifdef ASST_DEBUG
-        bool syntax_check(std::string_view task_name, const json::value& task_json);
+        bool syntax_check(const std::string& task_name, const json::value& task_json);
 #endif
 
     protected:

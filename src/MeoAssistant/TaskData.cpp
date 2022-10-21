@@ -19,16 +19,6 @@ bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
 
-#ifdef ASST_DEBUG
-    // 语法检查
-    {
-        bool validity = true;
-        for (const auto& [name, task_json] : json.as_object()) {
-            validity &= syntax_check(name, task_json);
-        }
-        if (!validity) return false;
-    }
-#endif
     // <任务名, 模板任务标志位置, 任务参数ref>
     std::vector<std::tuple<std::string, size_t, std::reference_wrapper<const json::value>>> template_task_info {};
 
@@ -60,17 +50,26 @@ bool asst::TaskData::parse(const json::value& json)
     }
 
 #ifdef ASST_DEBUG
-    bool some_next_null = false;
-    for (const auto& [name, task] : m_all_tasks_info) {
-        for (const auto& next : task->next) {
-            if (get(next, false) == nullptr) {
-                Log.error(name, "'s next", next, "is null");
-                some_next_null = true;
+    {
+        bool validity = true;
+
+        // 语法检查
+        for (const auto& [name, task_json] : json.as_object()) {
+            validity &= syntax_check(name, task_json);
+        }
+
+        // next 存在性检查
+        // TODO: 这块感觉可以合并到 syntax_check 里
+        for (const auto& [name, task] : m_all_tasks_info) {
+            for (const auto& next : task->next) {
+                if (get(next, false) == nullptr) {
+                    Log.error(name, "'s next", next, "is null");
+                    validity = false;
+                }
             }
         }
-    }
-    if (some_next_null) {
-        return false;
+
+        if (!validity) return false;
     }
 #endif
     return true;
@@ -334,7 +333,7 @@ bool asst::TaskData::append_base_task_info(std::shared_ptr<TaskInfo> task_info_p
 #ifdef ASST_DEBUG
 // 为了解决类似 beddc7c828126c678391e0b4da288db6d2c2d58a 导致的问题，加载的时候做一个语法检查
 // 主要是处理是否包含未知键值的问题
-bool asst::TaskData::syntax_check(std::string_view task_name, const json::value& task_json)
+bool asst::TaskData::syntax_check(const std::string& task_name, const json::value& task_json)
 {
     static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
         { AlgorithmType::Invalid,
@@ -458,22 +457,22 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
     };
 
     bool validity = true;
+    if (!m_all_tasks_info.contains(task_name)) {
+        Log.error("TaskData::syntax_check | Task", task_name, "has not been generated.");
+        return false;
+    }
 
     // 获取 algorithm
-    std::string algorithm_str = task_json.get("algorithm", "matchtemplate");
-    auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
-    ranges::transform(algorithm_str, algorithm_str.begin(), to_lower);
-    auto algorithm = get_algorithm_type(algorithm_str);
+    auto algorithm = m_all_tasks_info[task_name]->algorithm;
     if (algorithm == AlgorithmType::Invalid) [[unlikely]] {
-        Log.error(task_name, "has unknown algorithm:", algorithm_str);
+        Log.error(task_name, "has unknown algorithm.");
         validity = false;
     }
 
-    std::string action_str = task_json.get("action", "donothing");
-    ranges::transform(action_str, action_str.begin(), to_lower);
-    auto action = get_action_type(action_str);
+    // 获取 action
+    auto action = m_all_tasks_info[task_name]->action;
     if (action == ProcessTaskAction::Invalid) [[unlikely]] {
-        Log.error(task_name, "has unknown action:", algorithm_str);
+        Log.error(task_name, "has unknown action.");
         validity = false;
     }
 
