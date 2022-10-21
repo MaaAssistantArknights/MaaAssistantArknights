@@ -256,7 +256,7 @@ W|W|W|W
 浊心斯卡蒂|Skadi the Corrupting Heart|濁心スカジ|스카디 더 커럽팅 하트
 假日威龙陈|Ch'en the Holungday|遊龍チェン|첸 더 홀룽데이
 耀骑士临光|Nearl the Radiant Knight|耀騎士ニアール|니어 더 래디언트 나이트
-归溟幽灵鲨|帰溟スペクター||
+归溟幽灵鲨||帰溟スペクター|
 刻俄柏|Ceobe|ケオベ|케오베
 年|Nian|ニェン|니엔
 夕|Dusk|シー|시
