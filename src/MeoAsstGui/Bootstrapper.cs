@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using GlobalHotKey;
+using MeoAsstGui.MaaHotKeys;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Stylet;
 using StyletIoC;
@@ -90,6 +92,9 @@ namespace MeoAsstGui
             builder.Bind<DepotViewModel>().ToSelf().InSingletonScope();
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
             builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
+            builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
+            builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
+            builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
         }
 
         /// <inheritdoc/>

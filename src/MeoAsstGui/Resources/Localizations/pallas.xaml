@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">🍻🍻🍷🕺🍸</system:String>
     <system:String x:Key="ScheduleSettings">🍷🍻🍺🍻🍸</system:String>
     <system:String x:Key="UISettings">🕺🍺🍸🍻🍺</system:String>
+    <system:String x:Key="HotKeySettings">🍻🍷🕺🕺🍷</system:String>
     <system:String x:Key="UpdateSettings">🍻🍸🍸💃🍺</system:String>
     <system:String x:Key="AboutUs">🍸💃🍻🍻🍷</system:String>
 
@@ -110,6 +111,9 @@
     <system:String x:Key="Ok">🍻🍷🍻</system:String>
     <system:String x:Key="ManualRestart">🕺🍸🍷</system:String>
     <system:String x:Key="Tip">💃🍷🕺</system:String>
+
+    <system:String x:Key="HotKeyShowGui">🍻🍷🍺🍺🍷🍺💃🍻🍸💃</system:String>
+    <system:String x:Key="HotKeyLinkStart">🍸🕺🍷🍸🍺</system:String>
 
     <system:String x:Key="LabelSequenceTip">🍻🕺🍷🍸🍻🍻🍷🍷</system:String>
     <system:String x:Key="CheckBoxesNotSaved">💃💃🍸🍷🍺🍻🍸🍻🍸🍷🕺🕺</system:String>
@@ -339,6 +343,8 @@
     <system:String x:Key="StartCombat">🍸🕺🕺🍸🍺🍻</system:String>
     <system:String x:Key="CompleteCombat">🍺🍺🍷🍻💃</system:String>
     <system:String x:Key="AllTasksComplete">💃💃🍺🍸🍻🍸🕺🍸🍻</system:String>
+    <system:String x:Key="BackgroundLinkStarted">🍻🍷🍸🕺🍸🍻</system:String>
+    <system:String x:Key="BackgroundLinkStopped">💃💃🍸🕺🍸🍻</system:String>
     <system:String x:Key="FailedToOpenClient">🍻🍺🍷🕺🕺🍺🍷🍸🕺💃🍷🍸🍺🕺🍻🍻</system:String>
     <system:String x:Key="ErrorOccurred">🍺🍺🍺🍻🍺</system:String>
     <system:String x:Key="HasReturned">🍻🍺🍷🍷</system:String>
