@@ -137,8 +137,8 @@ bool asst::InfrastReceptionTask::unlock_clue_exchange()
 
 bool asst::InfrastReceptionTask::back_to_reception_main()
 {
-    ProcessTask task(*this, { "BackToReceptionMain" });
-    return task.run();
+    ProcessTask(*this, { "EndOfClueExchange" }).set_retry_times(0).run();
+    return ProcessTask(*this, { "BackToReceptionMain" }).run();
 }
 
 bool asst::InfrastReceptionTask::send_clue()
