@@ -25,7 +25,18 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    if (details.at("details").at("task").as_string() == "Roguelike1StartAction") {
+    auto roguelike_name_opt = m_status->get_properties(RuntimeStatus::RoguelikeTheme);
+    if (!roguelike_name_opt) {
+        Log.error("Roguelike name doesn't exist!");
+        return false;
+    }
+    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string& task = details.get("details", "task", "");
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
+    if (task_view == "Roguelike@StartAction") {
         return true;
     }
     else {
@@ -59,7 +70,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         if (!auto_battle() && m_opers_used) {
             break;
         }
-        if (std::chrono::steady_clock::now() - start_time > 5min) {
+        if (std::chrono::steady_clock::now() - start_time > 8min) {
             timeout = true;
             break;
         }
@@ -74,7 +85,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
             if (!auto_battle()) {
                 break;
             }
-            if (std::chrono::steady_clock::now() - start_time > 1min) {
+            if (std::chrono::steady_clock::now() - start_time > 2min) {
                 Log.info("Timeout again, abandon!");
                 abandon();
                 break;
@@ -89,7 +100,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
 void asst::RoguelikeBattleTaskPlugin::wait_for_start()
 {
-    ProcessTask(*this, { "Roguelike1WaitBattleStart" }).set_task_delay(0).set_retry_times(0).run();
+    ProcessTask(*this, { "RoguelikeWaitBattleStart" }).set_task_delay(0).set_retry_times(0).run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
@@ -398,7 +409,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
     // 如果发现有新撤退，就更新m_retreated_opers
     // 如果发现有新转好的，只更新m_last_cooling_count，在部署时从set中删去
-    if (cooling_count > m_last_cooling_count) {
+    if (cooling_count > m_last_cooling_count && !m_first_deploy) {
         battle_pause();
         int remain_add = cooling_count - m_last_cooling_count;
         for (size_t i = 0; i < opers.size(); ++i) {
@@ -665,7 +676,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
         if (opt_oper.name != UnknownName) {
             auto real_loc_type = get_oper_location_type(opt_oper.name);
-            if (real_loc_type != BattleLocationType::All && real_loc_type != get_role_location_type(opt_oper.role)) {
+            if (real_loc_type != BattleLocationType::Invalid && // 说明名字识别错了
+                real_loc_type != BattleLocationType::All && real_loc_type != get_role_location_type(opt_oper.role)) {
                 // 重新计算干员是否有地方放
                 if (available_locations(opt_oper.name).empty()) {
                     set_position_full(opt_oper.name, true);
@@ -783,7 +795,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
 bool asst::RoguelikeBattleTaskPlugin::speed_up()
 {
-    return ProcessTask(*this, { "Roguelike1BattleSpeedUp" }).run();
+    return ProcessTask(*this, { "RoguelikeBattleSpeedUp" }).run();
 }
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
@@ -806,7 +818,7 @@ bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
 
 bool asst::RoguelikeBattleTaskPlugin::abandon()
 {
-    return ProcessTask(*this, { "Roguelike1BattleExitBegin" }).run();
+    return ProcessTask(*this, { "RoguelikeBattleExitBegin" }).run();
 }
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
@@ -962,12 +974,6 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         std::this_thread::yield();
     }
 
-    std::filesystem::create_directory("map");
-    for (const auto& [loc, info] : m_normal_tile_info) {
-        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
-        cv::putText(image, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
-    }
-
     // 识别一帧总击杀数
     BattleImageAnalyzer kills_analyzer(image);
     kills_analyzer.set_target(BattleImageAnalyzer::Target::Kills);
@@ -977,6 +983,10 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
     }
 
     if (!m_stage_name.empty()) {
+        for (const auto& [loc, info] : m_normal_tile_info) {
+            std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
+            cv::putText(image, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+        }
         asst::imwrite("map/" + m_stage_name + ".png", image);
     }
     else {

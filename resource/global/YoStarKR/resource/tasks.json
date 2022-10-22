@@ -4,6 +4,7 @@
         "text": [
             "작전개시"
         ],
+        "cache": false,
         "preDelay": 500,
         "roi": [
             1000,
@@ -21,7 +22,8 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "AnnihilationConfirm"
         ]
     },
     "PRTS": {

@@ -144,17 +144,17 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         if (oper.rect.x + oper.rect.width >= m_image.cols) {
             oper.rect.width = m_image.cols - oper.rect.x;
         }
-        oper.avatar = m_image(utils::make_rect<cv::Rect>(oper.rect));
+        oper.avatar = m_image(make_rect<cv::Rect>(oper.rect));
 
         Rect available_rect = flag_mrect.rect.move(avlb_move);
         oper.available = oper_available_analyze(available_rect);
 
 #ifdef ASST_DEBUG
         if (oper.available) {
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 255, 0), 2);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 255, 0), 2);
         }
         else {
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 0, 255), 2);
         }
 #endif
 
@@ -223,7 +223,7 @@ bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
 {
     const auto cooling_task_ptr = Task.get<MatchTaskInfo>("BattleOperCooling");
 
-    auto img_roi = m_image(utils::make_rect<cv::Rect>(roi));
+    auto img_roi = m_image(make_rect<cv::Rect>(roi));
     cv::Mat hsv;
     cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
     int h_low = cooling_task_ptr->mask_range.first;
@@ -276,7 +276,7 @@ int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
     }
 
     cv::Mat hsv;
-    cv::cvtColor(m_image(utils::make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
+    cv::cvtColor(m_image(make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
     cv::Mat bin;
     cv::inRange(hsv, range_lower, range_upper, bin);
     hash_analyzer.set_image(bin);
@@ -302,7 +302,7 @@ int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
 bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
 {
     cv::Mat hsv;
-    cv::cvtColor(m_image(utils::make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
+    cv::cvtColor(m_image(make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
     cv::Scalar avg = cv::mean(hsv);
     Log.trace("oper available, mean", avg[2]);
 
@@ -349,7 +349,7 @@ bool asst::BattleImageAnalyzer::home_analyze()
     m_homes.emplace_back(home_rect);
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(home_rect), cv::Scalar(0, 255, 0), 5);
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(home_rect), cv::Scalar(0, 255, 0), 5);
 #endif
 
     return true;
@@ -386,7 +386,7 @@ bool asst::BattleImageAnalyzer::hp_analyze()
         }
     }
     Rect roi_rect = flag_analyzer.get_result().rect.move(flag_task_ptr->rect_move);
-    cv::Mat roi = m_image(utils::make_rect<cv::Rect>(roi_rect));
+    cv::Mat roi = m_image(make_rect<cv::Rect>(roi_rect));
 
     static const std::array<std::string, 10> NumName = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
     static bool inited = false;

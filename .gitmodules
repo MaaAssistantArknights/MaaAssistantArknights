@@ -3,4 +3,7 @@
 	url = https://github.com/MaaAssistantArknights/MaaTestSet.git
 [submodule "3rdparty/VisionOCR"]
 	path = 3rdparty/VisionOCR
-	url = https://github.com/hguandl/VisionOCR.git
+	url = https://github.com/MaaAssistantArknights/VisionOCR.git
+[submodule "src/MeoAsstMac"]
+	path = src/MeoAsstMac
+	url = https://github.com/MaaAssistantArknights/MeoAsstMac.git

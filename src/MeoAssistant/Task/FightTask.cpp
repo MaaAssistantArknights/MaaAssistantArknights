@@ -84,6 +84,7 @@ bool asst::FightTask::set_params(const json::value& params)
             m_stage_navigation_task_ptr->set_stage_name(stage);
             m_stage_navigation_task_ptr->set_enable(true);
         }
+        m_stage_drops_plugin_ptr->set_server(server);
     }
 
     m_fight_task_ptr->set_times_limit("MedicineConfirm", medicine)

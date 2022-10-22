@@ -103,7 +103,7 @@ const std::vector<asst::MatchRect>& asst::MultiMatchImageAnalyzer::get_result() 
 bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
 {
     cv::Mat matched;
-    cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
+    cv::Mat image_roi = m_image(make_rect<cv::Rect>(m_roi));
 
     if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
         Log.error("templ size is too large", m_templ_name, "image_roi size:", image_roi.cols, image_roi.rows,
@@ -151,7 +151,7 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
 
 #ifdef ASST_DEBUG
     for (const auto& rect : m_result) {
-        cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(rect.rect), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(rect.rect), cv::Scalar(0, 0, 255), 2);
         cv::putText(m_image_draw, std::to_string(rect.score), cv::Point(rect.rect.x, rect.rect.y), 1, 1,
                     cv::Scalar(0, 0, 255));
     }

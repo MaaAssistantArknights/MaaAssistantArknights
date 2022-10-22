@@ -144,6 +144,12 @@ namespace asst
         int height = 0;
     };
 
+    template <typename To, typename From>
+    inline constexpr To make_rect(const From& rect)
+    {
+        return To { rect.x, rect.y, rect.width, rect.height };
+    }
+
     struct TextRect
     {
         TextRect() = default;

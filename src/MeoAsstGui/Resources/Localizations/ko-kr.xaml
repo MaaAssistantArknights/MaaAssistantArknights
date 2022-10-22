@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">스타트업 설정</system:String>
     <system:String x:Key="ScheduleSettings">예정된 작업 설정</system:String>
     <system:String x:Key="UISettings">UI 설정</system:String>
+    <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">소프트웨어 업데이트</system:String>
     <system:String x:Key="AboutUs">소개</system:String>
 
@@ -111,6 +112,10 @@
     <system:String x:Key="ManualRestart">나중에 재부팅</system:String>
     <system:String x:Key="Tip">힌트</system:String>
 
+    <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">Press Backspace/Esc/Delete to clear the current value</system:String>
+
     <system:String x:Key="LabelSequenceTip">레이블의 순서는 드래그하여 변경할 수 있습니다</system:String>
     <system:String x:Key="CheckBoxesNotSaved">재시작 후 변경 사항이 저장되지 않습니다</system:String>
     <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
@@ -134,7 +139,9 @@
     <system:String x:Key="AdditionCommand">추가 명령</system:String>
 
     <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
-    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
+    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
@@ -183,7 +190,7 @@
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">상점</system:String>
     <system:String x:Key="Mission">일일 퀘스트 보상을 수집</system:String>
-    <system:String x:Key="AutoRoguelike">통합전략</system:String>
+    <system:String x:Key="AutoRoguelike">통합전략*</system:String>
 
     <system:String x:Key="SelectAll">모두 선택</system:String>
     <system:String x:Key="Inverse">역을 선택</system:String>
@@ -212,7 +219,7 @@
     <system:String x:Key="StageSelect2">참조</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
-    <system:String x:Key="Amend">수정</system:String>
+    <!--<system:String x:Key="Amend">수정</system:String>-->
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
     <system:String x:Key="LastBattle">이전 작전</system:String>-->
@@ -339,6 +346,8 @@
     <system:String x:Key="StartCombat">작전 시작:</system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
+    <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
+    <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 구성 파일을 확인하십시오.</system:String>
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
     <system:String x:Key="HasReturned">반환했습니다</system:String>
@@ -399,6 +408,8 @@
     <system:String x:Key="Website">MAA 공식 웹사이트</system:String>
     <system:String x:Key="Github">소스 코드: GitHub</system:String>
     <system:String x:Key="PrtsPlus">자동 작전 작업 공유 웹사이트</system:String>
+    <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
+    <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
     <system:String x:Key="QQgroup">QQ그룹:</system:String>
     <system:String x:Key="QQgroup1">QQ그룹1</system:String>
     <system:String x:Key="QQgroup2">QQ그룹2</system:String>
@@ -407,6 +418,7 @@
     <system:String x:Key="QQgroup5">QQ그룹5</system:String>
     <system:String x:Key="QQgroup6">QQ그룹6</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
+    <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>
     <system:String x:Key="Issue">문제 피드백</system:String>

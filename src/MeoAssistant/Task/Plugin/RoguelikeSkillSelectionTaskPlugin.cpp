@@ -14,7 +14,18 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (details.at("details").at("task").as_string() == "Roguelike1StartAction") {
+    auto roguelike_name_opt = m_status->get_properties(RuntimeStatus::RoguelikeTheme);
+    if (!roguelike_name_opt) {
+        Log.error("Roguelike name doesn't exist!");
+        return false;
+    }
+    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string& task = details.get("details", "task", "");
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
+    if (task_view == "Roguelike@StartAction") {
         return true;
     }
     else {
@@ -33,7 +44,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         return false;
     }
 
-    int delay = Task.get("Roguelike1SkillSelectionMove1")->rear_delay;
+    int delay = Task.get("RoguelikeSkillSelectionMove1")->rear_delay;
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         if (name.empty()) {

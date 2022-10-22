@@ -25,8 +25,8 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     return m_tile_calculator != nullptr;
 }
 
-std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(
-    const std::vector<std::vector<cv::Point2d>>& pos, const std::vector<std::vector<Map::Tile>>& tiles)
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(const std::vector<std::vector<cv::Point2d>>& pos,
+                                                                    const std::vector<std::vector<Map::Tile>>& tiles)
 {
     using namespace asst;
     using TileKey = asst::TilePack::TileKey;

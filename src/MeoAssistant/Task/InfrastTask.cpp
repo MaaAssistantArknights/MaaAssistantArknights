@@ -253,19 +253,31 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             break;
         }
         Log.trace("Fiammetta's target:", target);
+
+        static const std::string FiaName = "菲亚梅塔";
+
+        // 如果肥鸭在换班前就在宿舍的第二个位置，直接换并不会让她的技能生效（位置没变，还在第二个位置）
+        // 所以强制给他换个顺序
+        infrast::CustomFacilityConfig pre_facility_config(1);
+        auto& pre_room_config = pre_facility_config.front();
+        pre_room_config.names = { target };
+        pre_room_config.sort = true;
+        auto pre_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
+        pre_task_ptr->set_custom_config(std::move(pre_facility_config));
+
         infrast::CustomFacilityConfig facility_config(1);
         auto& room_config = facility_config.front();
-        room_config.names = { target, "菲亚梅塔" };
+        room_config.names = { target, FiaName };
         room_config.sort = true;
 
         auto Fia_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
         Fia_task_ptr->set_custom_config(std::move(facility_config));
 
         if (Fia_json.get("order", "pre") != "post") {
-            m_subtasks.insert(m_subtasks.begin(), m_infrast_begin_task_ptr);
-            m_subtasks.insert(m_subtasks.begin() + 1, std::move(Fia_task_ptr));
+            m_subtasks.insert(m_subtasks.begin(), { m_infrast_begin_task_ptr, pre_task_ptr, Fia_task_ptr });
         }
         else {
+            m_subtasks.emplace_back(std::move(pre_task_ptr));
             m_subtasks.emplace_back(std::move(Fia_task_ptr));
             m_subtasks.emplace_back(m_infrast_begin_task_ptr);
         }
