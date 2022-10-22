@@ -22,9 +22,10 @@
 - 修复 战斗 干员名识别错误 @zzyyyl @MistEO
 - 修复 基建 搓玉补货后不换人的问题 @MistEO
 - 修复 基建 发电站数量不为 3 时后续操作错误 @MistEO
+- 修复 手动终止任务 提示出错的问题 @LittleFall
 - 优化 界面 功能显示 @zzyyyl @DavidWang19
 - 支持 企鹅物流 退避策略，优化上传重试机制 @MistEO
 - 更新 CI 包名 @MistEO @hguandl @horror-proton
 - 重构 任务参数及解析逻辑 @zzyyyl @horror-proton @MistEO @zzyyyl
 - 重构 Utils 类 @horror-proton @zzyyyl
-- Update Translations and Docs. @ABA2396 @DavidWang19 @wallsman @JiHongYuan
+- Update Translations and Docs. @ABA2396 @DavidWang19 @wallsman @JiHongYuan @Yanstory
