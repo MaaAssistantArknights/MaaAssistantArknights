@@ -62,9 +62,26 @@ bool asst::TaskData::parse(const json::value& json)
         // TODO: 这块感觉可以合并到 syntax_check 里
         for (const auto& [name, task] : m_all_tasks_info) {
             for (const auto& next : task->next) {
-                if (get(next, false) == nullptr) {
-                    Log.error(name, "'s next", next, "is null");
-                    validity = false;
+                size_t pos = next.find('#');
+                if (pos == std::string_view::npos) {
+                    if (get(next, false) == nullptr) {
+                        Log.error(name, "'s next", next, "is null");
+                        validity = false;
+                    }
+                }
+                else {
+                    if (get(next.substr(0, pos), false) == nullptr) {
+                        Log.error(name, "'s next", next, "is null");
+                        validity = false;
+                    }
+                    static const std::unordered_set<std::string> accepted_type = {
+                        "next", "sub", "on_error_next", "exceeded_next", "reduce_other_times",
+                    };
+                    std::string type = next.substr(pos + 1);
+                    if (!accepted_type.contains(type)) {
+                        Log.error(name, "'s next", next, "has unknown type:", type);
+                        validity = false;
+                    }
                 }
             }
         }
