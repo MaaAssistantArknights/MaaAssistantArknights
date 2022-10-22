@@ -18,49 +18,10 @@ namespace asst
     class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigerWithTempl
     {
     private:
-        std::shared_ptr<MatchTaskInfo> _default_match_task_info()
-        {
-            auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-            match_task_info_ptr->templ_name = "__INVALID__";
-            match_task_info_ptr->templ_threshold = TemplThresholdDefault;
-            match_task_info_ptr->special_threshold = 0;
-
-            return match_task_info_ptr;
-        }
-
-        std::shared_ptr<OcrTaskInfo> _default_ocr_task_info()
-        {
-            auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
-            ocr_task_info_ptr->full_match = false;
-
-            return ocr_task_info_ptr;
-        }
-
-        std::shared_ptr<HashTaskInfo> _default_hash_task_info()
-        {
-            auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
-            hash_task_info_ptr->dist_threshold = 0;
-            hash_task_info_ptr->bound = true;
-
-            return hash_task_info_ptr;
-        }
-
-        std::shared_ptr<TaskInfo> _default_task_info()
-        {
-            auto task_info_ptr = std::make_shared<TaskInfo>();
-            task_info_ptr->algorithm = AlgorithmType::MatchTemplate;
-            task_info_ptr->action = ProcessTaskAction::DoNothing;
-            task_info_ptr->cache = true;
-            task_info_ptr->max_times = INT_MAX;
-            task_info_ptr->pre_delay = 0;
-            task_info_ptr->rear_delay = 0;
-            task_info_ptr->roi = Rect();
-            task_info_ptr->sub_error_ignored = false;
-            task_info_ptr->rect_move = Rect();
-            task_info_ptr->specific_rect = Rect();
-
-            return task_info_ptr;
-        }
+        std::shared_ptr<MatchTaskInfo> _default_match_task_info();
+        std::shared_ptr<OcrTaskInfo> _default_ocr_task_info();
+        std::shared_ptr<HashTaskInfo> _default_hash_task_info();
+        std::shared_ptr<TaskInfo> _default_task_info();
 
         // 从模板任务生成
         const std::shared_ptr<MatchTaskInfo> default_match_task_info_ptr = _default_match_task_info();
@@ -71,7 +32,7 @@ namespace asst
         // 这是下面几个函数的封装
         std::shared_ptr<TaskInfo> generate_task_info(const std::string& name, const json::value&,
                                                      std::shared_ptr<TaskInfo> default_ptr,
-                                                     const std::string& task_prefix = "");
+                                                     std::string_view task_prefix = "");
 
         std::shared_ptr<TaskInfo> generate_match_task_info(const std::string& name, const json::value&,
                                                            std::shared_ptr<MatchTaskInfo> default_ptr);
@@ -82,10 +43,10 @@ namespace asst
         // TaskInfo 的基础成员
         bool append_base_task_info(std::shared_ptr<TaskInfo> task_info_ptr, const std::string& name,
                                    const json::value& task_json, std::shared_ptr<TaskInfo> default_ptr,
-                                   std::string task_prefix = "");
+                                   std::string_view task_prefix = "");
 
         static std::vector<std::string> append_prefix(const std::vector<std::string>& base_task_list,
-                                                      const std::string& task_prefix)
+                                                      std::string_view task_prefix)
         {
             if (task_prefix.empty()) {
                 return base_task_list;
@@ -108,7 +69,7 @@ namespace asst
                     task_list.emplace_back(base);
                 }
                 else {
-                    task_list.emplace_back(task_prefix + "@" + base);
+                    task_list.emplace_back(std::string(task_prefix) + "@" + base);
                 }
             }
             return task_list;
