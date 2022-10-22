@@ -7027,18 +7027,6 @@
             "Roguelike@StartExplore"
         ]
     },
-    "Roguelike@NextLevel": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "text": [],
-        "roi": [
-            522,
-            431,
-            245,
-            144
-        ]
-    },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -7611,6 +7599,18 @@
             "Roguelike@ClickToStartPoint"
         ]
     },
+    "Roguelike@NextLevel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ]
+    },
     "Roguelike@QuickFormation": {
         "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
         "action": "ClickSelf",
@@ -7625,21 +7625,6 @@
         ],
         "rearDelay": 2000
     },
-    "Roguelike@SquadDefault": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            153,
-            1280,
-            532
-        ],
-        "next": [
-            "Roguelike@SquadConfirm"
-        ]
-    },
     "Roguelike@RecruitCloseGuide": {
         "action": "ClickSelf",
         "roi": [
@@ -7650,18 +7635,6 @@
         ],
         "next": [
             "Roguelike@ChooseOperFlag"
-        ]
-    },
-    "Roguelike@SquadConfirm": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            483,
-            1280,
-            200
         ]
     },
     "Roguelike@RecruitMain": {
@@ -7750,6 +7723,63 @@
             "Roguelike@ReturnToConfirm",
             "Roguelike@CloseAnno",
             "Roguelike@FromStageSN"
+        ]
+    },
+    "Roguelike@RolesConfirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            153,
+            1280,
+            529
+        ],
+        "next": [
+            "Roguelike@RecruitMain"
+        ]
+    },
+    "Roguelike@RolesDefault": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            601,
+            153,
+            363,
+            529
+        ],
+        "next": [
+            "Roguelike@RolesConfirm"
+        ]
+    },
+    "Roguelike@SquadConfirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            483,
+            1280,
+            200
+        ]
+    },
+    "Roguelike@SquadDefault": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            153,
+            1280,
+            532
+        ],
+        "next": [
+            "Roguelike@SquadConfirm"
         ]
     },
     "Roguelike@StageBoons": {
@@ -7876,26 +7906,6 @@
             "Roguelike@StageEncounterClickToLeave"
         ]
     },
-    "Roguelike@StageEncounterOptions": {
-        "algorithm": "JustReturn"
-    },
-    "Phantom@Roguelike@StageEncounterOptions": {
-        "next": [
-            "Phantom@Roguelike@StageEncounterOptionFree",
-            "Phantom@Roguelike@StageEncounterOptionLeave",
-            "Phantom@Roguelike@StageEncounterOptionUnknown",
-            "Phantom@Roguelike@ChooseOperFlag"
-        ]
-    },
-    "Mizuki@Roguelike@StageEncounterOptions": {
-        "next": [
-            "Mizuki@Roguelike@StageEncounterOptionFree",
-            "Mizuki@Roguelike@StageEncounterOptionLeave",
-            "Mizuki@Roguelike@StageEncounterOptionUnknown",
-            "Mizuki@Roguelike@StageEncounterOptionWonderland",
-            "Mizuki@Roguelike@ChooseOperFlag"
-        ]
-    },
     "Roguelike@StageEncounterEnter": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -7923,6 +7933,26 @@
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave",
             "Roguelike@DropsFlag",
+            "Roguelike@ClickToDrops"
+        ]
+    },
+    "Roguelike@StageEncounterLeaveConfirm": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1069,
+            0,
+            211,
+            700
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@StageEncounterSpecialClose",
+            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@StageEmergencyDpsEnter",
             "Roguelike@ClickToDrops"
         ]
     },
@@ -7963,25 +7993,8 @@
         "Doc": "base_task",
         "template": "empty.png"
     },
-    "Roguelike@StageEncounterLeaveConfirm": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1069,
-            0,
-            211,
-            700
-        ],
-        "rearDelay": 1000,
-        "next": [
-            "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterSpecialClose",
-            "Roguelike@StageCambatDpsEnter",
-            "Roguelike@StageEmergencyDpsEnter",
-            "Roguelike@ClickToDrops"
-        ]
+    "Roguelike@StageEncounterOptions": {
+        "algorithm": "JustReturn"
     },
     "Roguelike@StageEncounterSpecialClose": {
         "Doc": "base_task",
@@ -8194,24 +8207,6 @@
             203
         ]
     },
-    "Roguelike@StartExplore": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1026,
-            470,
-            254,
-            248
-        ],
-        "rearDelay": 2000,
-        "next": [
-            "Roguelike@SquadDefault",
-            "Roguelike@InitalDrop",
-            "Roguelike@StartExplore"
-        ]
-    },
     "Roguelike@StartAction": {
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
@@ -8232,34 +8227,22 @@
             "Roguelike@GamePass"
         ]
     },
-    "Roguelike@RolesDefault": {
+    "Roguelike@StartExplore": {
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            601,
-            153,
-            363,
-            529
+            1026,
+            470,
+            254,
+            248
         ],
+        "rearDelay": 2000,
         "next": [
-            "Roguelike@RolesConfirm"
-        ]
-    },
-    "Roguelike@RolesConfirm": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            153,
-            1280,
-            529
-        ],
-        "next": [
-            "Roguelike@RecruitMain"
+            "Roguelike@SquadDefault",
+            "Roguelike@InitalDrop",
+            "Roguelike@StartExplore"
         ]
     },
     "Roguelike@TodoEnter": {
@@ -8366,25 +8349,6 @@
     "Phantom@Roguelike@ChooseOper": {
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm"
-        ]
-    },
-    "Phantom@Roguelike@NextLevel": {
-        "text": [
-            "迷雾歧途",
-            "落阳庭院",
-            "故土残躯",
-            "噩梦之始",
-            "血月长廊",
-            "渴欲大厅"
-        ],
-        "next": [
-            "Phantom@Roguelike@StageTrader",
-            "Phantom@Roguelike@StageSafeHouse",
-            "Phantom@Roguelike@StageEncounter",
-            "Phantom@Roguelike@StageBoons",
-            "Phantom@Roguelike@StageCambatDps",
-            "Phantom@Roguelike@StageEmergencyDps",
-            "Phantom@Roguelike@StageDreadfulFoe"
         ]
     },
     "Phantom@Roguelike@ClickToDrops": {
@@ -8529,18 +8493,23 @@
         ]
     },
     "Phantom@Roguelike@MissionFailedFlag2": {},
-    "Phantom@Roguelike@SquadDefault": {},
-    "Phantom@Roguelike@SquadConfirm": {
-        "template": "Phantom@Roguelike@LastRewardConfirm.png",
+    "Phantom@Roguelike@NextLevel": {
+        "text": [
+            "迷雾歧途",
+            "落阳庭院",
+            "故土残躯",
+            "噩梦之始",
+            "血月长廊",
+            "渴欲大厅"
+        ],
         "next": [
-            "Phantom@Roguelike@LastReward",
-            "Phantom@Roguelike@LastReward2",
-            "Phantom@Roguelike@LastReward3",
-            "Phantom@Roguelike@LastRewardRand",
-            "Phantom@Roguelike@RolesDefault",
-            "Phantom@Roguelike@CloseCollection",
-            "Phantom@Roguelike@DialogSkip",
-            "Phantom@Roguelike@NextLevel#next"
+            "Phantom@Roguelike@StageTrader",
+            "Phantom@Roguelike@StageSafeHouse",
+            "Phantom@Roguelike@StageEncounter",
+            "Phantom@Roguelike@StageBoons",
+            "Phantom@Roguelike@StageCambatDps",
+            "Phantom@Roguelike@StageEmergencyDps",
+            "Phantom@Roguelike@StageDreadfulFoe"
         ]
     },
     "Phantom@Roguelike@RecruitMain": {
@@ -8560,6 +8529,24 @@
             "Phantom@Roguelike@RecruitWithoutButton"
         ]
     },
+    "Phantom@Roguelike@RolesConfirm": {
+        "template": "Phantom@Roguelike@LastRewardConfirm"
+    },
+    "Phantom@Roguelike@RolesDefault": {},
+    "Phantom@Roguelike@SquadConfirm": {
+        "template": "Phantom@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "Phantom@Roguelike@LastReward",
+            "Phantom@Roguelike@LastReward2",
+            "Phantom@Roguelike@LastReward3",
+            "Phantom@Roguelike@LastRewardRand",
+            "Phantom@Roguelike@RolesDefault",
+            "Phantom@Roguelike@CloseCollection",
+            "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@NextLevel#next"
+        ]
+    },
+    "Phantom@Roguelike@SquadDefault": {},
     "Phantom@Roguelike@StageBoons": {
         "templThreshold": 0.85,
         "next": [
@@ -8603,17 +8590,25 @@
         ]
     },
     "Phantom@Roguelike@StageEncounterEnter": {},
+    "Phantom@Roguelike@StageEncounterLeaveConfirm": {},
     "Phantom@Roguelike@StageEncounterOptionFree": {
         "templThreshold": 0.99
     },
     "Phantom@Roguelike@StageEncounterOptionLeave": {
         "templThreshold": 0.97
     },
-    "Phantom@Roguelike@StageEncounterLeaveConfirm": {},
-    "Phantom@Roguelike@StageEncounterSpecialClose": {},
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.91
     },
+    "Phantom@Roguelike@StageEncounterOptions": {
+        "next": [
+            "Phantom@Roguelike@StageEncounterOptionFree",
+            "Phantom@Roguelike@StageEncounterOptionLeave",
+            "Phantom@Roguelike@StageEncounterOptionUnknown",
+            "Phantom@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterSpecialClose": {},
     "Phantom@Roguelike@StageSafeHouse": {
         "templThreshold": 0.85,
         "next": [
@@ -8640,10 +8635,6 @@
         ]
     },
     "Phantom@Roguelike@StartExplore": {},
-    "Phantom@Roguelike@RolesDefault": {},
-    "Phantom@Roguelike@RolesConfirm": {
-        "template": "Phantom@Roguelike@LastRewardConfirm"
-    },
     "Phantom@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@Begin": {
@@ -9046,22 +9037,6 @@
             "Mizuki@Roguelike@CloseCollectionClose"
         ]
     },
-    "Mizuki@Roguelike@SquadDefault": {},
-    "Mizuki@Roguelike@SquadConfirm": {
-        "template": "Mizuki@Roguelike@LastRewardConfirm.png",
-        "next": [
-            "Mizuki@Roguelike@LastReward",
-            "Mizuki@Roguelike@LastReward2",
-            "Mizuki@Roguelike@LastReward3",
-            "Mizuki@Roguelike@LastReward4",
-            "Mizuki@Roguelike@LastRewardRand",
-            "Mizuki@Roguelike@RolesDefault",
-            "Mizuki@Roguelike@CloseCollection",
-            "Mizuki@Roguelike@DialogSkip",
-            "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@Roguelike@MapObject"
-        ]
-    },
     "Mizuki@Roguelike@RecruitMain": {
         "template": "Mizuki@Roguelike@Recruit.png"
     },
@@ -9080,6 +9055,26 @@
             "Mizuki@Roguelike@RecruitWithoutButton"
         ]
     },
+    "Mizuki@Roguelike@RolesConfirm": {
+        "template": "Mizuki@Roguelike@LastRewardConfirm"
+    },
+    "Mizuki@Roguelike@RolesDefault": {},
+    "Mizuki@Roguelike@SquadConfirm": {
+        "template": "Mizuki@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "Mizuki@Roguelike@LastReward",
+            "Mizuki@Roguelike@LastReward2",
+            "Mizuki@Roguelike@LastReward3",
+            "Mizuki@Roguelike@LastReward4",
+            "Mizuki@Roguelike@LastRewardRand",
+            "Mizuki@Roguelike@RolesDefault",
+            "Mizuki@Roguelike@CloseCollection",
+            "Mizuki@Roguelike@DialogSkip",
+            "Mizuki@Roguelike@NextLevel#next",
+            "Mizuki@Roguelike@MapObject"
+        ]
+    },
+    "Mizuki@Roguelike@SquadDefault": {},
     "Mizuki@Roguelike@StageBoons": {
         "templThreshold": 0.95,
         "next": [
@@ -9173,6 +9168,7 @@
         ]
     },
     "Mizuki@Roguelike@StageEncounterEnter": {},
+    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {},
     "Mizuki@Roguelike@StageEncounterOptionFree": {
         "maskRange": [
             5,
@@ -9185,12 +9181,20 @@
             255
         ]
     },
-    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {},
-    "Mizuki@Roguelike@StageEncounterSpecialClose": {},
     "Mizuki@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.91
     },
     "Mizuki@Roguelike@StageEncounterOptionWonderland": {},
+    "Mizuki@Roguelike@StageEncounterOptions": {
+        "next": [
+            "Mizuki@Roguelike@StageEncounterOptionFree",
+            "Mizuki@Roguelike@StageEncounterOptionLeave",
+            "Mizuki@Roguelike@StageEncounterOptionUnknown",
+            "Mizuki@Roguelike@StageEncounterOptionWonderland",
+            "Mizuki@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Mizuki@Roguelike@StageEncounterSpecialClose": {},
     "Mizuki@Roguelike@StageGambling": {
         "Doc": "骰子关卡",
         "action": "ClickSelf",
@@ -9290,10 +9294,6 @@
         ]
     },
     "Mizuki@Roguelike@StartExplore": {},
-    "Mizuki@Roguelike@RolesDefault": {},
-    "Mizuki@Roguelike@RolesConfirm": {
-        "template": "Mizuki@Roguelike@LastRewardConfirm"
-    },
     "Mizuki@Roguelike@TodoEnter": {},
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
