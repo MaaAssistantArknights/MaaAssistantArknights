@@ -142,8 +142,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
                                                         : recruit_info.recruit_priority;
                 }
-                else if (oper_info.elite == 1 && oper_info.level >= 50) {
+                else if (oper_info.elite == 1 && (oper_info.level >= 50 || oper_info.level == 0)) {
                     // 精一50级以上
+                    // 等级是 0 一般是识别错了，多发生于外服，一般都是一错全错，先凑合着招一个吧，比不招人强 orz
                     priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
                                                         : recruit_info.recruit_priority;
                 }
