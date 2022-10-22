@@ -2956,7 +2956,7 @@
             "RecruitBegin"
         ]
     },
-    "RecruitBeginLoading": {
+    "Loading": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "text": [
@@ -2968,7 +2968,10 @@
             600,
             300,
             120
-        ],
+        ]
+    },
+    "RecruitBeginLoading": {
+        "baseTask": "Loading",
         "next": [
             "RecruitBeginLoading",
             "Recruit@Main",
@@ -2993,18 +2996,7 @@
         ]
     },
     "RecruitFinishLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
+        "baseTask": "Loading",
         "next": [
             "RecruitFinishLoading",
             "RecruitFinish",
@@ -3694,18 +3686,7 @@
         ]
     },
     "CreditShop-BuyIt-Loading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
+        "baseTask": "Loading",
         "next": [
             "CreditShop-Bought",
             "CreditShop-BuyIt-Loading"
@@ -3841,18 +3822,7 @@
         ]
     },
     "RecruitLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
+        "baseTask": "Loading",
         "next": [
             "RecruitLoading",
             "SleepThenStop"
@@ -3916,18 +3886,7 @@
         ]
     },
     "RecruitConfirmLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
+        "baseTask": "Loading",
         "next": [
             "RecruitConfirmLoading",
             "RecruitFlag"
@@ -3948,14 +3907,6 @@
     },
     "Infrast@ReturnTo": {
         "template": "Return.png",
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            0,
-            180,
-            80
-        ],
-        "action": "ClickSelf",
         "next": [
             "Infrast@Main",
             "InfrastNotification",
@@ -3969,13 +3920,6 @@
     },
     "Infrast@ReturnToConfirm": {
         "template": "PopupConfirm.png",
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
         "next": [
             "Infrast@Main",
             "InfrastNotification",
@@ -3989,14 +3933,6 @@
     },
     "Infrast@CloseAnno": {
         "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1100,
-            0,
-            180,
-            200
-        ],
         "next": [
             "Infrast@Main",
             "InfrastNotification",
@@ -4163,18 +4099,7 @@
         ]
     },
     "DroneConfirmLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
+        "baseTask": "Loading",
         "next": [
             "DroneConfirmLoading",
             "DeliverableOrder",
@@ -4230,18 +4155,7 @@
         ]
     },
     "ReplenishToMaxLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
+        "baseTask": "Loading",
         "rearDelay": 1000,
         "next": [
             "ReplenishToMaxLoading",
@@ -4712,7 +4626,6 @@
     },
     "InfrastSortByTrustButton": {
         "action": "ClickSelf",
-        "template": "InfrastSortByTrustButton.png",
         "cache": false,
         "roi": [
             1000,
@@ -4724,7 +4637,6 @@
     },
     "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
-        "template": "InfrastFilterMenu.png",
         "cache": false,
         "roi": [
             1050,
@@ -4740,7 +4652,6 @@
     },
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
-        "template": "InfrastFilterMenuNotStationedButton.png",
         "templThreshold": 0.85,
         "cache": false,
         "roi": [
@@ -4756,7 +4667,6 @@
     },
     "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
         "action": "DoNothing",
-        "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
         "cache": false,
         "roi": [
             300,
@@ -4816,7 +4726,6 @@
     },
     "InfrastFilterMenuConfirmButton": {
         "action": "ClickSelf",
-        "template": "InfrastFilterMenuConfirmButton.png",
         "cache": false,
         "roi": [
             870,
@@ -5525,18 +5434,7 @@
         ]
     },
     "ClueGiveLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
+        "baseTask": "Loading",
         "next": [
             "ClueGiveLoading",
             "SelectClue",
@@ -5849,7 +5747,9 @@
         ],
         "rearDelay": 500
     },
-    "BattleQuickFormationRole-All": {
+    "BattleQuickFormationRole": {
+        "Doc": "base_task",
+        "template": "empty.png",
         "action": "ClickSelf",
         "roi": [
             1163,
@@ -5864,125 +5764,32 @@
         ],
         "rearDelay": 500
     },
+    "BattleQuickFormationRole-All": {
+        "baseTask": "BattleQuickFormationRole"
+    },
     "BattleQuickFormationRole-Pioneer": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Warrior": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Tank": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Caster": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Medic": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Sniper": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Special": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Support": {
-        "action": "ClickSelf",
-        "roi": [
-            1155,
-            41,
-            125,
-            679
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [
-            100,
-            255
-        ],
-        "rearDelay": 500
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormation-OperNameFlag": {
         "templThreshold": 0.95,
@@ -6074,7 +5881,9 @@
         "action": "ClickSelf",
         "rearDelay": 1000
     },
-    "BattleStartNormal": {
+    "BattleStart": {
+        "Doc": "base_task",
+        "template": "empty.png",
         "action": "ClickSelf",
         "roi": [
             989,
@@ -6083,26 +5892,15 @@
             374
         ],
         "rearDelay": 2000
+    },
+    "BattleStartNormal": {
+        "baseTask": "BattleStart"
     },
     "BattleStartRaid": {
-        "action": "ClickSelf",
-        "roi": [
-            989,
-            318,
-            232,
-            374
-        ],
-        "rearDelay": 2000
+        "baseTask": "BattleStart"
     },
     "BattleStartExercise": {
-        "action": "ClickSelf",
-        "roi": [
-            989,
-            318,
-            232,
-            374
-        ],
-        "rearDelay": 2000
+        "baseTask": "BattleStart"
     },
     "BattleStartSimulation": {
         "action": "ClickSelf",
