@@ -19,34 +19,65 @@ bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
 
-    // <任务名, 模板任务标志位置, 任务参数ref>
-    std::vector<std::tuple<std::string, size_t, std::reference_wrapper<const json::value>>> template_task_info {};
+    const auto& json_obj = json.as_object();
 
-    for (const auto& [name, task_json] : json.as_object()) {
-        // 模板任务特化需要等模板任务生成后才能生成
-        if (size_t p = name.find('@'); p != std::string::npos) {
-            template_task_info.emplace_back(name, p, task_json);
-            continue;
+    {
+        std::unordered_map<std::string, bool> to_be_generated;
+        for (const std::string& name : json_obj | views::keys) {
+            to_be_generated[name] = true;
         }
 
-        std::shared_ptr<TaskInfo> task_info_ptr = generate_task_info(name, task_json, nullptr);
-        if (task_info_ptr == nullptr) {
-            return false;
-        }
-        m_all_tasks_info[name] = task_info_ptr;
-    }
+        auto generate_task_and_its_base = [&](const std::string& name) -> bool {
+            auto generate_task = [&](const std::string& name, std::string_view prefix,
+                                     std::shared_ptr<TaskInfo> base_ptr, const json::value& task_json) {
+                auto task_info_ptr = generate_task_info(name, task_json, base_ptr, prefix);
+                if (task_info_ptr == nullptr) {
+                    return false;
+                }
+                to_be_generated[name] = false;
+                m_all_tasks_info[name] = task_info_ptr;
+                return true;
+            };
+            std::function<bool(const std::string&, bool)> generate_fun;
+            // must_true 若为真，那么 return false 了就是炸了。
+            // 否则可能只是某个 B@A 的任务没定义 A（这不是少见现象，例如 Roguelike@Abandon）
+            generate_fun = [&](const std::string& name, bool must_true) -> bool {
+                if (!to_be_generated[name]) {
+                    // 已生成（它是之前加载过的某个资源的 base）
+                    if (m_all_tasks_info.contains(name)) {
+                        return true;
+                    }
+                    // 不在 json 内且未生成（例如生成 C@B@A 时没有定义 B@A，而是定义了 A）
+                    if (size_t p = name.find('@'); p != std::string::npos) {
+                        return generate_fun(name.substr(p + 1), must_true);
+                    }
+                    // 例如 Roguelike@Abandon 在这里如果 must_true = true，会报 `Unknown task: Abandon`
+                    if (must_true) {
+                        Log.error("Unknown task:", name);
+                    }
+                    return false;
+                }
+                const json::value& task_json = json_obj.at(name);
+                if (auto opt = task_json.find<std::string>("baseTask")) {
+                    std::string base = opt.value();
+                    return generate_fun(base, must_true) && generate_task(name, "", get(base, false), task_json);
+                }
 
-    // 短任务在前，因为模板任务特化一定比模板任务长
-    ranges::sort(template_task_info,
-                 [](const auto& l, const auto& r) { return std::get<0>(l).length() < std::get<0>(r).length(); });
+                if (size_t p = name.find('@'); p != std::string::npos) {
+                    if (std::string base = name.substr(p + 1); generate_fun(base, false)) {
+                        return generate_task(name, name.substr(0, p), get(base, false), task_json);
+                    }
+                    // 这类任务有点多，非必要不输出（
+                    // Log.debug("Task", name, "based on unknown task, just use task_json.");
+                }
+                return generate_task(name, "", nullptr, task_json);
+            };
+            return generate_fun(name, true);
+        };
 
-    for (const auto& [name, pos, task_json] : template_task_info) {
-        // 可能某个名字里带@的任务不是模板任务特化，只是普通的基类任务，这里最后一个参数可能为 nullptr
-        auto task_info_ptr = generate_task_info(name, task_json, get(name.substr(pos + 1)), name.substr(0, pos));
-        if (task_info_ptr == nullptr) {
-            return false;
+        for (const std::string& name : json_obj | views::keys) {
+            generate_task_and_its_base(name);
         }
-        m_all_tasks_info[name] = task_info_ptr;
     }
 
 #ifdef ASST_DEBUG
@@ -54,7 +85,7 @@ bool asst::TaskData::parse(const json::value& json)
         bool validity = true;
 
         // 语法检查
-        for (const auto& [name, task_json] : json.as_object()) {
+        for (const auto& [name, task_json] : json_obj) {
             validity &= syntax_check(name, task_json);
         }
 
@@ -138,10 +169,11 @@ bool asst::TaskData::parse(const json::value& json)
 std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::string& name,
                                                                    const json::value& task_json,
                                                                    std::shared_ptr<TaskInfo> default_ptr,
-                                                                   const std::string& task_prefix)
+                                                                   std::string_view task_prefix)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_task_info_ptr;
+        task_prefix = "";
     }
 
     // 获取 algorithm 并按照 algorithm 生成 TaskInfo
@@ -287,7 +319,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_hash_task_info([[maybe_
 
 bool asst::TaskData::append_base_task_info(std::shared_ptr<TaskInfo> task_info_ptr, const std::string& name,
                                            const json::value& task_json, std::shared_ptr<TaskInfo> default_ptr,
-                                           std::string task_prefix)
+                                           std::string_view task_prefix)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_task_info_ptr;
@@ -388,6 +420,50 @@ bool asst::TaskData::append_base_task_info(std::shared_ptr<TaskInfo> task_info_p
         task_info_ptr->specific_rect = default_ptr->specific_rect;
     }
     return true;
+}
+
+std::shared_ptr<asst::MatchTaskInfo> asst::TaskData::_default_match_task_info()
+{
+    auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
+    match_task_info_ptr->templ_name = "__INVALID__";
+    match_task_info_ptr->templ_threshold = TemplThresholdDefault;
+    match_task_info_ptr->special_threshold = 0;
+
+    return match_task_info_ptr;
+}
+
+std::shared_ptr<asst::OcrTaskInfo> asst::TaskData::_default_ocr_task_info()
+{
+    auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
+    ocr_task_info_ptr->full_match = false;
+
+    return ocr_task_info_ptr;
+}
+
+std::shared_ptr<asst::HashTaskInfo> asst::TaskData::_default_hash_task_info()
+{
+    auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
+    hash_task_info_ptr->dist_threshold = 0;
+    hash_task_info_ptr->bound = true;
+
+    return hash_task_info_ptr;
+}
+
+std::shared_ptr<asst::TaskInfo> asst::TaskData::_default_task_info()
+{
+    auto task_info_ptr = std::make_shared<TaskInfo>();
+    task_info_ptr->algorithm = AlgorithmType::MatchTemplate;
+    task_info_ptr->action = ProcessTaskAction::DoNothing;
+    task_info_ptr->cache = true;
+    task_info_ptr->max_times = INT_MAX;
+    task_info_ptr->pre_delay = 0;
+    task_info_ptr->rear_delay = 0;
+    task_info_ptr->roi = Rect();
+    task_info_ptr->sub_error_ignored = false;
+    task_info_ptr->rect_move = Rect();
+    task_info_ptr->specific_rect = Rect();
+
+    return task_info_ptr;
 }
 
 #ifdef ASST_DEBUG
