@@ -1,9 +1,10 @@
 #pragma once
 
 #include "AsstRanges.hpp"
-#include "AsstUtils.hpp"
+#include "Utils/StringMisc.hpp"
 
 #include <cctype>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
