@@ -58,8 +58,6 @@
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
 
-    <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
-    <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
@@ -141,6 +139,9 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
+    <system:String x:Key="RoguelikeThemeTip">需在集成战略界面将对应主题PIN UP添加到终端</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>

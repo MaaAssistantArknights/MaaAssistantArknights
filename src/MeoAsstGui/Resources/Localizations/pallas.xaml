@@ -139,6 +139,9 @@
     <system:String x:Key="AdditionCommand">🍺🕺🍷💃🍺</system:String>
 
     <system:String x:Key="RoguelikeTheme">🍷🍸💃🍷🍻</system:String>
+    <system:String x:Key="RoguelikeThemeTip">🍷🍸🕺🍺🕺🕺🍸🍸🍻🍻🍷💃🍺🍺💃🍷🍸🍷💃🍷🕺</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">🍺🕺</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">🍷💃</system:String>
     <system:String x:Key="Strategy">🍻🍸🍻</system:String>
     <system:String x:Key="StartTimesLimit">🍸🍺🍺🍸🍻🍺🍷🍻🍻🍻🍸🍸🍷🍺</system:String>
     <system:String x:Key="GoldTimesLimit">🍺🕺💃🍻🍷🍷🍻🍸🍺🍸🍻🍺🍻💃🕺</system:String>
@@ -405,6 +408,8 @@
     <system:String x:Key="Website">🍺🕺🍷🍺🍺🍻🍺</system:String>
     <system:String x:Key="Github">🍸🍺🍻🍸🍸🍺🍸🍻💃🍺</system:String>
     <system:String x:Key="PrtsPlus">🍷🍸🍷🍻🍻🍷🍷🍺🍺🍸🍺</system:String>
+    <system:String x:Key="MapPrts">🍻🍷🍻🍸🍺🍻🍷🍺🍺🍸</system:String>
+    <system:String x:Key="CustomInfrastGenerator">🍸🍺🍷🍸🍺🍺🍸🍻🕺🕺🍻</system:String>
     <system:String x:Key="QQgroup">💃🍺🍷🍺💃</system:String>
     <system:String x:Key="QQgroup1">🍺🍻🍸</system:String>
     <system:String x:Key="QQgroup2">🍷🍷🍷</system:String>
@@ -413,6 +418,7 @@
     <system:String x:Key="QQgroup5">🍻💃💃</system:String>
     <system:String x:Key="QQgroup6">🍻💃🍻</system:String>
     <system:String x:Key="QQgroupfull">🍸🍸🕺🕺🍺</system:String>
+    <system:String x:Key="Telegram">🍷🍷🍷🍺</system:String>
     <system:String x:Key="Help">🍸🍺🍺🍻🍺</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/1.2-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md</uri:Uri>
     <system:String x:Key="Issue">🍷🍷🍻💃🍺</system:String>
