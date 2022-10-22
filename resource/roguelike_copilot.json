@@ -2947,5 +2947,16 @@
                 "direction": "left"
             }
         ]
+    },
+    {
+        "stage_name": "斗兽笼",
+        "replacement_home": [
+            {
+                "location": [
+                    5,
+                    3
+                ]
+            }
+        ]
     }
 ]
