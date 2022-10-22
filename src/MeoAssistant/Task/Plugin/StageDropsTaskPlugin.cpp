@@ -211,6 +211,10 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
 {
     LogTraceFunction;
 
+    if (m_server != "CN" && m_server != "EN") {
+        return;
+    }
+
     json::value cb_info = basic_info();
     cb_info["subtask"] = "ReportToPenguinStats";
 
