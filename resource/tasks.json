@@ -4722,7 +4722,7 @@
         ],
         "rearDelay": 1000
     },
-    "InfrastFilterMenu": {
+    "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenu.png",
         "cache": false,
@@ -4756,6 +4756,52 @@
     },
     "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
         "action": "DoNothing",
+        "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuCancelNotStationed": {
+        "action": "ClickSelf",
+        "template": "InfrastFilterMenu.png",
+        "cache": false,
+        "roi": [
+            1050,
+            0,
+            230,
+            100
+        ],
+        "next": [
+            "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
+            "InfrastFilterMenuCancelNotStationedButton"
+        ],
+        "rearDelay": 1000
+    },
+    "InfrastFilterMenuCancelNotStationedButton": {
+        "action": "DoNothing",
+        "template": "InfrastFilterMenuNotStationedButton.png",
+        "templThreshold": 0.85,
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "rearDelay": 1000,
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked": {
+        "action": "ClickSelf",
         "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
         "cache": false,
         "roi": [
@@ -5700,6 +5746,30 @@
         "next": [
             "InfrastOperListTabMoodDoubleClick"
         ]
+    },
+    "InfrastOperListTabMoodDoubleClickWhenUnclicked": {
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            131,
+            117
+        ],
+        "templThreshold": 0.7,
+        "next": [
+            "InfrastOperListTabMoodClick"
+        ]
+    },
+    "InfrastOperListTabMoodClick": {
+        "template": "InfrastOperListTabMoodDoubleClick.png",
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            131,
+            117
+        ],
+        "templThreshold": 0.7
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",

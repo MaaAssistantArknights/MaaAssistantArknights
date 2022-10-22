@@ -397,7 +397,15 @@ bool asst::InfrastAbstractTask::click_filter_menu_not_stationed_button()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastFilterMenu" });
+    ProcessTask task(*this, { "InfrastFilterMenuNotStationed" });
+    return task.run();
+}
+
+bool asst::InfrastAbstractTask::click_filter_menu_cancel_not_stationed_button()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastFilterMenuCancelNotStationed" });
     return task.run();
 }
 
