@@ -475,6 +475,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::Invalid,
           {
               "algorithm",
+              "baseTask",
               "template",
               "text",
               "action",
@@ -501,6 +502,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::MatchTemplate,
           {
               "algorithm",
+              "baseTask",
               "template",
               "action",
               "sub",
@@ -521,6 +523,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::OcrDetect,
           {
               "algorithm",
+              "baseTask",
               "text",
               "action",
               "sub",
@@ -541,6 +544,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::JustReturn,
           {
               "algorithm",
+              "baseTask",
               "action",
               "sub",
               "subErrorIgnored",
@@ -555,6 +559,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::Hash,
           {
               "algorithm",
+              "baseTask",
               "action",
               "sub",
               "subErrorIgnored",
