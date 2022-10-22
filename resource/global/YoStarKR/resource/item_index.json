@@ -411,7 +411,7 @@
         "classifyType": "MATERIAL",
         "description": "가공할 때 윤활 및 열 흡수 효과가 있어 금속 제품의 완제품 합격률을 한층 더 높여준다.",
         "icon": "31053.png",
-        "name": "중합 적살유",
+        "name": "중합 절삭유",
         "sortId": 100046,
         "usage": "금속 가공에 필수인 공업용 시제. 다양한 강화 용도로 쓰인다."
     },
@@ -838,6 +838,14 @@
         "name": "헤드헌팅 파라미터 모델",
         "sortId": 10101,
         "usage": "신형 모집 협약에서 정한 기간 초과 계약의 처리 수단. 각종 자원으로 교환할 수 있다."
+    },
+    "EXTERMINATION_AGENT": {
+        "classifyType": "NORMAL",
+        "description": "방대한 실전 기록을 바탕으로 정밀한 데이터와 로직 연산, 그리고 시뮬레이션을 통해 PRTS가 섬멸 작전의 대리 지휘를 완벽하게 재현할 수 있게 되었다. 심지어 그 과정을 지켜볼 필요도 없다.",
+        "icon": "EXTERMINATION_AGENT.png",
+        "name": "PRTS 섬멸 작전 대리권",
+        "sortId": 30200,
+        "usage": "PRTS 기능 권한이 탑재된 카드로, 활성화하면 섬멸 작전에서 대리 지휘를 사용할 수 있다."
     },
     "LINKAGE_TKT_GACHA_10_1701": {
         "classifyType": "NORMAL",
@@ -1303,6 +1311,14 @@
         "sortId": 30002,
         "usage": "일시적으로 이성을 회복시켜주는 대량의 응급약. 머릿속에 남아있는 불순물을 전부 없애주지만, 편두통을 유발할 수 있다."
     },
+    "ap_supply_lt_120": {
+        "classifyType": "CONSUME",
+        "description": "“최신 기술로 농축하여 효과가 어느 정도 향상되었지만, 절대 의약품이 아님을 유의하십시오. 본 제품을 사용하여 맑은 정신을 유지해야 할 경우에는, 본 설명을 읽을 시간이 없을 정도로 위급한 상황이어야 합니다. 행운을 빕니다!”",
+        "icon": "ap_supply_lt_120.png",
+        "name": "긴급 이성 강화 회복제",
+        "sortId": 30001,
+        "usage": "일시적으로 이성을 회복시켜주는 대량의 응급약. 새로운 활성 성분이 추가되어 즉시 효과가 나타나며, 생체 리듬의 혼란이 올 수도 있으니 복용하기 전에 주의사항을 자세히 읽어보기 바란다."
+    },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
         "description": "폭음이나 폭식은 전장이 가져다 주는 불안과 스트레스를 해소하여 줄 수 있지만, 건강에는 좋지 않습니다. 본 약품은 당분이 일정량 함유되어 있어, 겉포장은 개봉이 어렵도록 특수 구조를 채택하였습니다. 이번 기회를 빌어 체내에 남은 칼로리를 소모하여 보는 것은 어떨까요? ",
@@ -1335,38 +1351,6 @@
         "sortId": -10000,
         "usage": "옵시디언 페스티벌 주최 측에서 판매한 티켓. 각종 특수 스테이지에 진입할 때 사용된다."
     },
-    "medal_activity_15side_01": {
-        "classifyType": "NONE",
-        "description": "탐색 결과에 대한 일종의 증명과 인정이다.",
-        "icon": "medal_activity_15side_01.png",
-        "name": "“시와 술의 정취”",
-        "sortId": -10000,
-        "usage": "장진주 훈장 세트 중 해당하는 훈장이 개방된다."
-    },
-    "medal_activity_15side_03": {
-        "classifyType": "NONE",
-        "description": "탐색 결과에 대한 일종의 증명과 인정이다.",
-        "icon": "medal_activity_15side_03.png",
-        "name": "“담금질 된 차가운 빛”",
-        "sortId": -10000,
-        "usage": "장진주 훈장 세트 중 해당하는 훈장이 개방된다."
-    },
-    "medal_activity_15side_04": {
-        "classifyType": "NONE",
-        "description": "탐색 결과에 대한 일종의 증명과 인정이다.",
-        "icon": "medal_activity_15side_04.png",
-        "name": "“호탕한 자”",
-        "sortId": -10000,
-        "usage": "장진주 훈장 세트 중 해당하는 훈장이 개방된다."
-    },
-    "medal_activity_15side_05": {
-        "classifyType": "NONE",
-        "description": "탐색 결과에 대한 일종의 증명과 인정이다.",
-        "icon": "medal_activity_15side_05.png",
-        "name": "“뭇 산을 탐방”",
-        "sortId": -10000,
-        "usage": "장진주 훈장 세트 중 해당하는 훈장이 개방된다."
-    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "데이터칩에는 엔지니어링부 오퍼레이터들이 모듈을 제작하기 위해 열심히 분투한 모든 낮과 밤이 기록되어 있다.",
@@ -1380,7 +1364,7 @@
         "description": "누가 꺼낸건지 알 수 없는 돈봉투. 하지만 로도스 아일랜드의 모두에게 희망이 가득하길 바라는 마음만은 진심이다.",
         "icon": "randomDiamondShd_1.png",
         "name": "로도스 아일랜드 상여금",
-        "sortId": 60105,
+        "sortId": 60107,
         "usage": "로도스 아일랜드의 모두에게 나눠주는 세뱃돈. 안에는 랜덤한 액수의 재화와 축복이 담겨있다."
     },
     "randomDiamondShd_2": {
@@ -1388,7 +1372,7 @@
         "description": "누가 꺼낸건지 알 수 없는 돈봉투. 하지만 로도스 아일랜드의 모두에게 희망이 가득하길 바라는 마음만은 진심이다.",
         "icon": "randomDiamondShd_2.png",
         "name": "감사 축제 선물 상자",
-        "sortId": 60106,
+        "sortId": 60108,
         "usage": "로도스 아일랜드의 모두에게 나눠주는 선물 상자. 안에는 랜덤한 액수의 재화와 축제의 기쁨이 담겨있다."
     },
     "randomMaterialRune_0": {
@@ -1500,7 +1484,15 @@
         "description": "로도스 아일랜드가 방방곡곡에서 조달하여 준비한 보급 상자. 하지만 시스템적으로 정리 수납이 잘 되지 않아, 상자에는 각기 다른 자재가 들어가 있다.",
         "icon": "randomMaterial_5.png",
         "name": "로도스 아일랜드 물자 보급 II",
-        "sortId": 60107,
+        "sortId": 60105,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterial_6": {
+        "classifyType": "CONSUME",
+        "description": "로도스 아일랜드가 방방곡곡에서 조달하여 준비한 보급 상자. 하지만 시스템적으로 정리 수납이 잘 되지 않아, 상자에는 각기 다른 자재가 들어가 있다.",
+        "icon": "randomMaterial_6.png",
+        "name": "로도스 아일랜드 물자 보급 III",
+        "sortId": 60106,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "return_credit_token": {

@@ -839,6 +839,14 @@
         "sortId": 10101,
         "usage": "新型採用契約で期限切れになったポイントの処理手段。各種資源と交換できる。"
     },
+    "EXTERMINATION_AGENT": {
+        "classifyType": "NORMAL",
+        "description": "大量の実戦記録に基づき、データ計算、ロジック演習、シナリオシミュレーションを経て、殲滅作戦の自動指揮をする際、PRTSがあなたの戦術を完璧に再現できるようになった。作戦過程に注意を払う必要もない。",
+        "icon": "EXTERMINATION_AGENT.png",
+        "name": "PRTS殲滅代理カード",
+        "sortId": 30200,
+        "usage": "PRTSの機能実行権限を有したカード。使用後、殲滅作戦において自動指揮を実行できる。"
+    },
     "LINKAGE_TKT_GACHA_10_1701": {
         "classifyType": "NORMAL",
         "description": "人材を広く確保するためにドクターの要求に応じて準備した応急手段。このようなスカウトは一定の方向性と時限性及び少々のリスクが伴う。",
@@ -1303,6 +1311,14 @@
         "sortId": 30002,
         "usage": "一時的に理性を維持させるための高用量の応急処置用薬剤。一切の雑念がなくなるが、片頭痛を引き起こす。"
     },
+    "ap_supply_lt_120": {
+        "classifyType": "CONSUME",
+        "description": "現代技術を使用し濃縮した後、本製品の効果はある程度の向上を見せた。くれぐれも薬として使用しないように。緊急に本品を使用して覚醒状態を維持するような状況では、このメッセージを読んでいる暇はないでしょう。ご武運を！",
+        "icon": "ap_supply_lt_120.png",
+        "name": "上級理性回復剤+",
+        "sortId": 30001,
+        "usage": "一時的に理性を維持させるための高用量の濃縮応急処置用薬剤。新たな有効成分が配合され、直ちに効果が表れる。生体リズムの乱れを引き起こす恐れがあり、服用前には説明書をよく読んでおくこと。"
+    },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
         "description": "暴飲暴食は戦場からの解放感によるものだろうが、やはりドクターの健康には良くない。本品には一定の糖分が含まれており、パッケージに特殊な構造を採用しているため成分が分解されづらい。どうかこれでしっかりカロリー補給を。",
@@ -1335,38 +1351,6 @@
         "sortId": -10000,
         "usage": "オブシディアンフェスティバル公式販売チケット。特殊ステージに挑戦するのに必要。"
     },
-    "medal_activity_15side_01": {
-        "classifyType": "NONE",
-        "description": "探索の成果に対する証明と評価。",
-        "icon": "medal_activity_15side_01.png",
-        "name": "「酔吟の興」",
-        "sortId": -10000,
-        "usage": "将進酒勲章シリーズで対応する勲章を獲得する。"
-    },
-    "medal_activity_15side_03": {
-        "classifyType": "NONE",
-        "description": "探索の成果に対する証明と評価。",
-        "icon": "medal_activity_15side_03.png",
-        "name": "「寒芒新たに淬ぐ」",
-        "sortId": -10000,
-        "usage": "将進酒勲章シリーズで対応する勲章を獲得する。"
-    },
-    "medal_activity_15side_04": {
-        "classifyType": "NONE",
-        "description": "探索の成果に対する証明と評価。",
-        "icon": "medal_activity_15side_04.png",
-        "name": "「豪快な者」",
-        "sortId": -10000,
-        "usage": "将進酒勲章シリーズで対応する勲章を獲得する。"
-    },
-    "medal_activity_15side_05": {
-        "classifyType": "NONE",
-        "description": "探索の成果に対する証明と評価。",
-        "icon": "medal_activity_15side_05.png",
-        "name": "「遍く山を尋ねる」",
-        "sortId": -10000,
-        "usage": "将進酒勲章シリーズで対応する勲章を獲得する。"
-    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "データブロックの中にはエンジニア部のオペレーターたちがモジュールを作成するために日夜奮闘した記録が残されている。",
@@ -1380,7 +1364,7 @@
         "description": "一体誰が自腹を切ったのかはわからないが、贈り主がロドスに溢れんばかりの希望を持っているのは明らかだ。",
         "icon": "randomDiamondShd_1.png",
         "name": "お祝いポチ袋",
-        "sortId": 60105,
+        "sortId": 60107,
         "usage": "ロドスの全員に贈られる特別ボーナスが入ったぽち袋。金額はバラバラだが、どの袋にもお祝いの気持ちがたっぷり詰まっている。"
     },
     "randomDiamondShd_2": {
@@ -1388,7 +1372,7 @@
         "description": "一体誰が自腹を切ったのかはわからないが、贈り主がロドスに溢れんばかりの希望を持っているのは明らかだ。",
         "icon": "randomDiamondShd_2.png",
         "name": "感謝祭ギフトボックス",
-        "sortId": 60106,
+        "sortId": 60108,
         "usage": "ロドスの全員に贈られるギフトボックス。入れられた数はランダムだが、それ以上にどの箱にも感謝の気持ちがこれでもかと詰められている。"
     },
     "randomMaterialRune_0": {
@@ -1500,7 +1484,15 @@
         "description": "ロドスが各地から買い集め、貯蔵した素材の補給箱。しかし整理整頓ができていないためか、どの箱になんの素材が入っているのか誰にもわからない。",
         "icon": "randomMaterial_5.png",
         "name": "補給物資・ロドスⅡ",
-        "sortId": 60107,
+        "sortId": 60105,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
+    "randomMaterial_6": {
+        "classifyType": "CONSUME",
+        "description": "ロドスが各地から買い集め、貯蔵した素材の補給箱。しかし整理整頓ができていないためか、どの箱になんの素材が入っているのか誰にもわからない。",
+        "icon": "randomMaterial_6.png",
+        "name": "補給物資・ロドスIII",
+        "sortId": 60106,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "return_credit_token": {
