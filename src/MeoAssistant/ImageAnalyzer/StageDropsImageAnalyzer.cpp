@@ -23,9 +23,10 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stars();
     bool ret = analyze_drops();
 
-    if (!ret) {
+#ifndef ASST_DEBUG
+    if (!ret)
+#endif // ! ASST_DEBUG
         save_img("debug/drops/");
-    }
 
     return ret;
 }
