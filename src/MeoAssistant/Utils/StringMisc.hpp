@@ -73,7 +73,8 @@ namespace asst::utils
 #endif
 
     template <typename StringT>
-    inline constexpr auto string_replace_all(StringT&& src, detail::sv_type<StringT> from, detail::sv_type<StringT> to)
+    [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, detail::sv_type<StringT> from,
+                                                           detail::sv_type<StringT> to)
     {
         std::basic_string result { std::forward<StringT>(src) };
         string_replace_all_in_place(result, from, to);
@@ -81,7 +82,7 @@ namespace asst::utils
     }
 
     template <typename StringT>
-    inline constexpr auto string_replace_all(StringT&& src, const detail::sv_pair<StringT>& replace_pair)
+    [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, const detail::sv_pair<StringT>& replace_pair)
     {
         std::basic_string result { std::forward<StringT>(src) };
         string_replace_all_in_place(result, replace_pair);
@@ -89,8 +90,8 @@ namespace asst::utils
     }
 
     template <typename StringT>
-    inline constexpr auto string_replace_all(StringT&& src,
-                                             std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
+    [[nodiscard]] inline constexpr auto string_replace_all(
+        StringT&& src, std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
     {
         std::basic_string result { std::forward<StringT>(src) };
         for (auto&& [from, to] : replace_pairs) {
@@ -100,7 +101,7 @@ namespace asst::utils
     }
 
     template <typename StringT, typename MapT>
-    [[deprecated]] inline constexpr auto string_replace_all(StringT&& src, MapT&& replace_pairs)
+    [[deprecated]] [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, MapT&& replace_pairs)
     {
         std::basic_string result { std::forward<StringT>(src) };
         for (auto&& [from, to] : replace_pairs) {
