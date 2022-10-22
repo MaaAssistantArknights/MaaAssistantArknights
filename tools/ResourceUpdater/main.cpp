@@ -59,20 +59,25 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
 bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
 
+bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir,
+                                          const std::filesystem::path& tasks_path,
+                                          const std::filesystem::path& base_dir,
+                                          const std::filesystem::path& output_dir);
+
 int main([[maybe_unused]] int argc, char** argv)
 {
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
-    const std::filesystem::path input_dir = cur_path / "Arknights-Bot-Resource";
+    const std::filesystem::path arkbot_res_dir = cur_path / "Arknights-Bot-Resource";
 
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
     std::string git_cmd;
-    if (!std::filesystem::exists(input_dir)) {
+    if (!std::filesystem::exists(arkbot_res_dir)) {
         git_cmd = "git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" +
-                  input_dir.string() + "\"";
+                  arkbot_res_dir.string() + "\"";
     }
     else {
-        git_cmd = "git -C \"" + input_dir.string() + "\" pull";
+        git_cmd = "git -C \"" + arkbot_res_dir.string() + "\" pull";
     }
     int git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
@@ -86,7 +91,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* Update levels.json from Arknights-Bot-Resource*/
     std::cout << "------------Update levels.json------------" << std::endl;
-    if (!std::filesystem::copy_file(input_dir / "levels.json",
+    if (!std::filesystem::copy_file(arkbot_res_dir / "levels.json",
                                     third_resource_dir / "Arknights-Tile-Pos" / "levels.json",
                                     std::filesystem::copy_options::overwrite_existing)) {
         std::cerr << "update levels.json failed" << std::endl;
@@ -94,30 +99,30 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     // 这个 en_levels.json 是自己手动生成放进去的
-    generate_english_roguelike_stage_name_replacement(input_dir / "levels.json", cur_path / "en_levels.json");
+    generate_english_roguelike_stage_name_replacement(arkbot_res_dir / "levels.json", cur_path / "en_levels.json");
 
     /* Update infrast data from Arknights-Bot-Resource*/
     std::cout << "------------Update infrast data------------" << std::endl;
-    if (!update_infrast_data(input_dir, resource_dir)) {
+    if (!update_infrast_data(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update infrast data failed" << std::endl;
         return -1;
     }
 
     /* Update infrast templates from Arknights-Bot-Resource*/
     std::cout << "------------Update infrast templates------------" << std::endl;
-    if (!update_infrast_templates(input_dir / "building_skill", resource_dir / "template" / "infrast")) {
+    if (!update_infrast_templates(arkbot_res_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "Update infrast templates failed" << std::endl;
         return -1;
     }
 
     ///* Update roguelike recruit data from Arknights-Bot-Resource*/
     // std::cout << "------------Update roguelike recruit data------------" << std::endl;
-    // if (!update_roguelike_recruit(input_dir, resource_dir, solution_dir)) {
+    // if (!update_roguelike_recruit(arkbot_res_dir, resource_dir, solution_dir)) {
     //     std::cerr << "Update roguelike recruit data failed" << std::endl;
     //     return -1;
     // }
 
-    /* Update stage.json from Penguin Stats*/
+    /* Update base_name.json from Penguin Stats*/
     std::cout << "------------Update stage.json------------" << std::endl;
     if (!update_stages_data(cur_path, resource_dir)) {
         std::cerr << "Update stages data failed" << std::endl;
@@ -126,7 +131,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* Update battle chars info from Arknights-Bot-Resource*/
     std::cout << "------------Update battle chars info------------" << std::endl;
-    if (!update_battle_chars_info(input_dir, resource_dir)) {
+    if (!update_battle_chars_info(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
     }
@@ -170,7 +175,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* Update items template and json  from Arknights-Bot-Resource*/
     std::cout << "------------Update items template and json------------" << std::endl;
-    if (!update_items_data(input_dir, resource_dir)) {
+    if (!update_items_data(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update items data failed" << std::endl;
         return -1;
     }
@@ -179,6 +184,20 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
         if (!update_items_data(game_data_dir / in, resource_dir / "global" / out / "resource", false)) {
             std::cerr << "Update items json failed" << std::endl;
+            return -1;
+        }
+    }
+
+    for (const auto& [in, out] : global_dirs) {
+        // 台服的gamedata很久没更新了，先不管了
+        // 韩服maa还没支持肉鸽，也不管了
+        if (in == "zh_TW" || in == "ko_KR") {
+            continue;
+        }
+        if (!check_roguelike_replace_for_overseas(game_data_dir / in / "gamedata" / "excel",
+                                                  resource_dir / "global" / out / "resource" / "tasks.json",
+                                                  game_data_dir / "zh_CN" / "gamedata" / "excel", cur_path / in)) {
+            std::cerr << "Update roguelike replace for overseas failed" << std::endl;
             return -1;
         }
     }
@@ -779,6 +798,129 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
 
     std::ofstream ofs(output, std::ios::out);
     ofs << result.format(true) << std::endl;
+
+    return true;
+}
+
+bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir,
+                                          const std::filesystem::path& tasks_path,
+                                          const std::filesystem::path& base_dir,
+                                          const std::filesystem::path& output_dir)
+{
+    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
+    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
+
+    if (base_stage_names.empty() || base_item_names.empty()) {
+        auto rg_opt = json::open(base_dir / "roguelike_topic_table.json");
+        if (!rg_opt) {
+            std::cerr << "Failed to open roguelike_topic_table for" << base_dir << std::endl;
+            return false;
+        }
+        auto& rg_json = rg_opt.value();
+        for (auto&& [id, stage_obj] : rg_json["details"]["rogue_1"]["stages"].as_object()) {
+            base_stage_names.emplace(id, stage_obj["name"].as_string());
+        }
+        for (auto&& [id, item_obj] : rg_json["details"]["rogue_1"]["items"].as_object()) {
+            base_item_names.emplace(id, item_obj["name"].as_string());
+        }
+    }
+
+    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_char_names;
+    if (base_char_names.empty()) {
+        auto char_opt = json::open(base_dir / "character_table.json");
+        if (!char_opt.has_value()) {
+            std::cerr << "Failed to open character_table for" << base_dir << std::endl;
+            return false;
+        }
+
+        auto& char_json = char_opt.value();
+        for (auto&& [id, char_obj] : char_json.as_object()) {
+            base_char_names.emplace(id, char_obj["name"].as_string());
+        }
+    }
+
+    auto rg_opt = json::open(input_dir / "roguelike_topic_table.json");
+    if (!rg_opt) {
+        std::cerr << "Failed to open roguelike_topic_table for " << input_dir << std::endl;
+        return false;
+    }
+
+    std::unordered_map</*id*/ std::string, /*name*/ std::string> stage_names;
+    std::unordered_map</*id*/ std::string, /*name*/ std::string> item_names;
+
+    auto& rg_json = rg_opt.value();
+    for (auto&& [id, stage_obj] : rg_json["details"]["rogue_1"]["stages"].as_object()) {
+        stage_names.emplace(id, stage_obj["name"].as_string());
+    }
+    for (auto&& [id, item_obj] : rg_json["details"]["rogue_1"]["items"].as_object()) {
+        item_names.emplace(id, item_obj["name"].as_string());
+    }
+
+    std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
+    auto char_opt = json::open(input_dir / "character_table.json");
+    if (!char_opt.has_value()) {
+        std::cerr << "Failed to open character_table for " << input_dir << std::endl;
+        return false;
+    }
+
+    auto& char_json = char_opt.value();
+    for (auto&& [id, char_obj] : char_json.as_object()) {
+        char_names.emplace(id, char_obj["name"].as_string());
+    }
+
+    auto task_opt = json::open(tasks_path);
+    if (!task_opt) {
+        std::cerr << "Failed to open tasks file: " << tasks_path << std::endl;
+        return false;
+    }
+    auto& task_json = task_opt.value();
+
+    auto proc = [&input_dir](json::array& replace_array, const std::unordered_map<std::string, std::string>& base_map,
+                             const std::unordered_map<std::string, std::string>& cur_map) {
+        std::unordered_map<std::string, std::string> exists_replace;
+        for (const auto& replace : replace_array) {
+            exists_replace.emplace(replace.as_array()[1], replace.as_array()[0]);
+        }
+
+        for (const auto& [id, base_name] : base_map) {
+            // 国服有，但是外服还没有这个关的，跳过
+            if (!cur_map.contains(id)) {
+                continue;
+            }
+            // 国服和外服都有，但是名字一样的，跳过
+            const std::string name = cur_map.at(id);
+            if (base_name == name) {
+                continue;
+            }
+            // 之前手动写的替换，跳过
+            if (exists_replace.contains(base_name)) {
+                continue;
+            }
+            std::cout << "Roguelike add new field: " << base_name << ", " << input_dir << std::endl;
+            replace_array.emplace_back(json::array { name, base_name });
+        }
+    };
+    std::filesystem::create_directories(output_dir);
+
+    {
+        auto& stage_arr = task_json["BattleStageName"]["ocrReplace"].as_array();
+        proc(stage_arr, base_stage_names, stage_names);
+        std::ofstream ofs(output_dir / "stage.json", std::ios::out);
+        ofs << stage_arr.format(true) << std::endl;
+    }
+
+    {
+        auto& chars_arr = task_json["CharsNameOcrReplace"]["ocrReplace"].as_array();
+        proc(chars_arr, base_char_names, char_names);
+        std::ofstream ofs(output_dir / "chars.json", std::ios::out);
+        ofs << chars_arr.format(true) << std::endl;
+    }
+    {
+        auto& shopping_arr = task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array();
+        proc(shopping_arr, base_item_names, item_names);
+        std::ofstream ofs(output_dir / "shopping.json", std::ios::out);
+        ofs << shopping_arr.format(true) << std::endl;
+    }
 
     return true;
 }
