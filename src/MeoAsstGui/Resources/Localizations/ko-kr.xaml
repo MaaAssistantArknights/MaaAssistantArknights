@@ -219,7 +219,7 @@
     <system:String x:Key="StageSelect2">참조</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
-    <system:String x:Key="Amend">수정</system:String>
+    <!--<system:String x:Key="Amend">수정</system:String>-->
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
     <system:String x:Key="LastBattle">이전 작전</system:String>-->
