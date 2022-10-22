@@ -16,8 +16,8 @@ int main([[maybe_unused]] int argc, char** argv)
     bool loaded = AsstLoadResource(cur_path.string().c_str());
 
     // 增量更新国际服的资源
-    //const auto en_path = cur_path / "resource" / "global" / "YoStarEN";
-    //loaded &= AsstLoadResource(en_path.string().c_str());
+    // const auto en_path = cur_path / "resource" / "global" / "YoStarEN";
+    // loaded &= AsstLoadResource(en_path.string().c_str());
 
     if (!loaded) {
         std::cout << "load resource failed" << std::endl;
@@ -29,8 +29,11 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "create failed" << std::endl;
         return -1;
     }
-
+#ifndef ASST_DEBUG
     bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", nullptr);
+#else
+    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG");
+#endif
     if (!connected) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
@@ -39,64 +42,69 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
+#ifndef ASST_DEBUG
+
     /* 详细参数可参考 docs / 集成文档.md */
+    AsstAppendTask(ptr, "StartUp", nullptr);
 
-    //AsstAppendTask(ptr, "StartUp", nullptr);
+    AsstAppendTask(ptr, "Fight", R"(
+    {
+        "stage": "1-7"
+    }
+    )");
 
-    //AsstAppendTask(ptr, "Fight", R"(
+    AsstAppendTask(ptr, "Recruit", R"(
+    {
+        "select":[4],
+        "confirm":[3,4],
+        "times":4
+    }
+    )");
+
+    AsstAppendTask(ptr, "Infrast", R"(
+    {
+        "facility": ["Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm"],
+        "drones": "Money"
+    }
+    )");
+
+    AsstAppendTask(ptr, "Visit", nullptr);
+
+    AsstAppendTask(ptr, "Mall", R"(
+    {
+        "shopping": true,
+        "buy_first": [
+            "许可"
+        ],
+        "black_list": [
+            "家具",
+            "碳"
+        ]
+    }
+    )");
+
+    AsstAppendTask(ptr, "Award", nullptr);
+
+    AsstAppendTask(ptr, "Roguelike", R"(
+{
+    "squad": "突击战术分队",
+    "roles": "先手必胜",
+    "core_char": "棘刺"
+}
+)");
+
+    // AsstAppendTask(ptr, "Copilot", R"(
     //{
-    //    "stage": "1-7"
-    //}
+    //     "stage_name": "如帝国之影",
+    //     "formation": true
+    // }
     //)");
 
-    //AsstAppendTask(ptr, "Recruit", R"(
-    //{
-    //    "select":[4],
-    //    "confirm":[3,4],
-    //    "times":4
-    //}
-    //)");
-
-    //AsstAppendTask(ptr, "Infrast", R"(
-    //{
-    //    "facility": ["Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm"],
-    //    "drones": "Money"
-    //}
-    //)");
-
-    //AsstAppendTask(ptr, "Visit", nullptr);
-
-    //AsstAppendTask(ptr, "Mall", R"(
-    //{
-    //    "shopping": true,
-    //    "buy_first": [
-    //        "许可"
-    //    ],
-    //    "black_list": [
-    //        "家具",
-    //        "碳"
-    //    ]
-    //}
-    //)");
-
-    //AsstAppendTask(ptr, "Award", nullptr);
-
-//    AsstAppendTask(ptr, "Roguelike", R"(
-//{
-//    "squad": "突击战术分队",
-//    "roles": "先手必胜",
-//    "core_char": "棘刺"
-//}
-//)");
-
-    //AsstAppendTask(ptr, "Copilot", R"(
-    //{
-    //    "stage_name": "如帝国之影",
-    //    "formation": true
-    //}
-    //)");
+#else
 
     AsstAppendTask(ptr, "Debug", nullptr);
+
+#endif
 
     AsstStart(ptr);
 
