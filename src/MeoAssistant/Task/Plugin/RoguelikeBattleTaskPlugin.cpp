@@ -70,7 +70,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         if (!auto_battle() && m_opers_used) {
             break;
         }
-        if (std::chrono::steady_clock::now() - start_time > 5min) {
+        if (std::chrono::steady_clock::now() - start_time > 8min) {
             timeout = true;
             break;
         }
@@ -85,7 +85,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
             if (!auto_battle()) {
                 break;
             }
-            if (std::chrono::steady_clock::now() - start_time > 1min) {
+            if (std::chrono::steady_clock::now() - start_time > 2min) {
                 Log.info("Timeout again, abandon!");
                 abandon();
                 break;
