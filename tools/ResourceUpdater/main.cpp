@@ -2,7 +2,8 @@
 #include <fstream>
 #include <unordered_set>
 
-#include "Utils/AsstUtils.hpp"
+#include "Utils/AsstRanges.hpp"
+#include "Utils/StringMisc.hpp"
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -214,7 +215,8 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
             "2023recruitment10",
             "2024recruitment10",
             "2025recruitment10",
-            "uni_set_" // 家具组合包
+            "uni_set_",        // 家具组合包
+            "medal_activity_", // 不知道是个啥
         };
         static const std::vector<std::string> BlackListSuffix = {
             "_rep_1", // 复刻活动的活动代币
@@ -640,7 +642,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
 {
     using asst::ranges::find_if, asst::ranges::range;
-    using asst::utils::_string_replace_all;
+    using asst::utils::string_replace_all_in_place;
     using asst::views::filter, asst::views::split, asst::views::transform, asst::views::drop_while;
 
     auto not_empty = []<range Rng>(Rng str) -> bool { return !str.empty(); };
@@ -660,7 +662,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     std::vector<std::string> chars_list;
     std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
     remove_xml(recruitment_details);
-    _string_replace_all(recruitment_details, "\\n", "");
+    string_replace_all_in_place(recruitment_details, "\\n", "");
     constexpr std::string_view star_delim = "★";
 
     auto items =
@@ -676,6 +678,9 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
         for (std::string_view n : s | split('/') | filter(not_empty) | transform(make_string_view)) {
             std::string name(n);
             trim(name);
+            if (name == "Justice Knight") {
+                name = "'Justice Knight'";
+            }
             chars_list.emplace_back(name);
         }
     }

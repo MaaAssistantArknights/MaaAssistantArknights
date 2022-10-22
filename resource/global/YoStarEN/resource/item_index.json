@@ -839,6 +839,14 @@
         "sortId": 10101,
         "usage": "A new product, born of processing data from expired headhunting contracts; Can be exchanged for certain supplies."
     },
+    "EXTERMINATION_AGENT": {
+        "classifyType": "NORMAL",
+        "description": "Based on a massive volume of live combat records, PRTS can perfectly replicate your tactics to conduct annihilation missions by proxy, using actuarial data processing, logic training, and scenario simulation. You're spared even the need to pay it your full attention.",
+        "icon": "EXTERMINATION_AGENT.png",
+        "name": "PRTS Proxy Annihilation Card",
+        "sortId": 30200,
+        "usage": "A card granting load distribution privileges for PRTS. Once activated, allows PRTS to conduct Annihilation battles as your proxy."
+    },
     "LINKAGE_TKT_GACHA_10_1701": {
         "classifyType": "NORMAL",
         "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
@@ -1303,6 +1311,14 @@
         "sortId": 30002,
         "usage": "A large dose of emergency supplement that will swiftly clear your mind. Possible side effect: migraine."
     },
+    "ap_supply_lt_120": {
+        "classifyType": "CONSUME",
+        "description": "This product's effectiveness has been boosted to a degree thanks to modern concentrative technologies. By no means should it be used as medication. When the situation is so dire that you need it to restore Sanity, you won't have the time to read this. Good luck!",
+        "icon": "ap_supply_lt_120.png",
+        "name": "Emergency Sanity Concentrate",
+        "sortId": 30001,
+        "usage": "A large dose of concentrated emergency supplement used to maintain Sanity. New active ingredients, same instant results. Possible side effect: disruption of biological clock. Please read carefully before administering."
+    },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
         "description": "Although overeating can relieve the anxiety and pressure accumulated on the battlefield, it's not a healthy lifestyle, Doctor. This supplement contains quite a bit of sugar, but the packing is specially designed to be hard to open. Treat it as a kind of exercise and burn some calories.",
@@ -1335,38 +1351,6 @@
         "sortId": -10000,
         "usage": "A ticket to the Obsidian Festival. Can be used to enter special stages."
     },
-    "medal_activity_15side_01": {
-        "classifyType": "NONE",
-        "description": "The proof and recognition of one's achievements in exploration.",
-        "icon": "medal_activity_15side_01.png",
-        "name": "'The Joys of Poetry and Wine'",
-        "sortId": -10000,
-        "usage": "Unlock the corresponding engraved medal in the Invitation to Wine Engraved Medal Set."
-    },
-    "medal_activity_15side_03": {
-        "classifyType": "NONE",
-        "description": "The proof and recognition of one's achievements in exploration.",
-        "icon": "medal_activity_15side_03.png",
-        "name": "'Refreshed in Cold Light'",
-        "sortId": -10000,
-        "usage": "Unlock the corresponding engraved medal in the Invitation to Wine Engraved Medal Set."
-    },
-    "medal_activity_15side_04": {
-        "classifyType": "NONE",
-        "description": "The proof and recognition of one's achievements in exploration.",
-        "icon": "medal_activity_15side_04.png",
-        "name": "'A Bold Individual'",
-        "sortId": -10000,
-        "usage": "Unlock the corresponding engraved medal in the Invitation to Wine Engraved Medal Set."
-    },
-    "medal_activity_15side_05": {
-        "classifyType": "NONE",
-        "description": "The proof and recognition of one's achievements in exploration.",
-        "icon": "medal_activity_15side_05.png",
-        "name": "'Visit the Mountains'",
-        "sortId": -10000,
-        "usage": "Unlock the corresponding engraved medal in the Invitation to Wine Engraved Medal Set."
-    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "The data blocks record the endless nights the Engineering Department toiled away developing the various modules.",
@@ -1380,7 +1364,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_1.png",
         "name": "Half Year Anniversary Red Envelope",
-        "sortId": 60105,
+        "sortId": 60107,
         "usage": "Red envelopes passed out to every member of Rhodes Island. The goods inside may be random, but they are always filled to the brim with blessings."
     },
     "randomDiamondShd_2": {
@@ -1388,7 +1372,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_2.png",
         "name": "Celebratory Box",
-        "sortId": 60106,
+        "sortId": 60108,
         "usage": "Gift boxes distributed to all members of Rhodes Island, random in amount, and full of the joy that comes with celebration."
     },
     "randomMaterialRune_0": {
@@ -1500,7 +1484,15 @@
         "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
         "icon": "randomMaterial_5.png",
         "name": "Rhodes Island Supplies II",
-        "sortId": 60107,
+        "sortId": 60105,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_6": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_6.png",
+        "name": "Rhodes Island Supplies III",
+        "sortId": 60106,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "return_credit_token": {
