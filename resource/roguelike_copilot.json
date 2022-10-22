@@ -51,10 +51,7 @@
                     1
                 ],
                 "role_Doc": "填入的职业适用强制方向",
-                "role": [
-                    "warrior",
-                    "pioneer"
-                ],
+                "role": [ "warrior", "pioneer" ],
                 "direction": "up"
             },
             {
@@ -62,9 +59,7 @@
                     3,
                     1
                 ],
-                "role": [
-                    "sniper"
-                ],
+                "role": [ "sniper" ],
                 "direction": "left"
             }
         ]
@@ -483,6 +478,41 @@
                 "direction": "left"
             }
         ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    8,
+                    2
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    8,
+                    3
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    8,
+                    4
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            }
+        ],
         "blacklist_location": [
             [
                 3,
@@ -588,6 +618,10 @@
             [
                 7,
                 3
+            ],
+            [
+                5,
+                3
             ]
         ],
         "role_order": [
@@ -653,10 +687,7 @@
                     4,
                     4
                 ],
-                "role": [
-                    "warrior",
-                    "pioneer"
-                ],
+                "role": [ "warrior", "pioneer" ],
                 "direction": "left"
             },
             {
@@ -664,10 +695,7 @@
                     3,
                     4
                 ],
-                "role": [
-                    "warrior",
-                    "pioneer"
-                ],
+                "role": [ "warrior", "pioneer" ],
                 "direction": "right"
             }
         ]
@@ -953,7 +981,7 @@
         ],
         "force_air_defense_when_deploy_blocking_num": [
             2,
-            1
+            2
         ]
     },
     {
@@ -1062,8 +1090,8 @@
             "drone"
         ],
         "force_air_defense_when_deploy_blocking_num": [
-            2,
-            3
+            0,
+            1
         ],
         "force_deploy_direction": [
             {
@@ -1160,8 +1188,20 @@
                 2
             ],
             [
+                3,
+                2
+            ],
+            [
+                4,
+                2
+            ],
+            [
                 5,
                 2
+            ],
+            [
+                2,
+                3
             ],
             [
                 5,
@@ -1849,7 +1889,14 @@
         "replacement_home": [
             {
                 "location": [
-                    4,
+                    5,
+                    4
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    6,
                     4
                 ],
                 "direction": "left"
@@ -1857,13 +1904,6 @@
             {
                 "location": [
                     5,
-                    3
-                ],
-                "direction": "left"
-            },
-            {
-                "location": [
-                    6,
                     3
                 ],
                 "direction": "left"
@@ -1888,19 +1928,16 @@
                     4
                 ],
                 "direction": "none"
-            },
-            {
-                "location": [
-                    7,
-                    3
-                ],
-                "direction": "left"
             }
         ],
         "blacklist_location": [
             [
                 7,
                 2
+            ],
+            [
+                7,
+                4
             ]
         ],
         "force_air_defense_when_deploy_blocking_num": [
@@ -1996,6 +2033,10 @@
             "support",
             "special",
             "drone"
+        ],
+        "force_air_defense_when_deploy_blocking_num": [
+            0,
+            2
         ],
         "force_deploy_direction": [
             {
@@ -2232,16 +2273,9 @@
             {
                 "location": [
                     6,
-                    3
-                ],
-                "direction": "up"
-            },
-            {
-                "location": [
-                    6,
                     4
                 ],
-                "direction": "none"
+                "direction": "up"
             },
             {
                 "location": [
@@ -2253,6 +2287,13 @@
             {
                 "location": [
                     7,
+                    5
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    4,
                     5
                 ],
                 "direction": "up"
@@ -2278,25 +2319,168 @@
         ],
         "blacklist_location": [
             [
-                6,
+                2,
+                2
+            ],
+            [
+                2,
+                3
+            ],
+            [
+                2,
                 4
             ],
             [
-                7,
+                2,
+                6
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                1,
+                3
+            ],
+            [
+                1,
                 4
             ],
             [
-                8,
-                4
-            ],
-            [
-                8,
+                1,
                 5
             ],
             [
-                7,
+                2,
+                1
+            ],
+            [
+                2,
                 5
+            ],
+            [
+                3,
+                1
+            ],
+            [
+                3,
+                2
+            ],
+            [
+                3,
+                3
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                3,
+                5
+            ],
+            [
+                3,
+                6
+            ],
+            [
+                4,
+                2
+            ],
+            [
+                8,
+                2
+            ],
+            [
+                5,
+                2
+            ],
+            [
+                7,
+                2
+            ],
+            [
+                4,
+                3
+            ],
+            [
+                5,
+                3
+            ],
+            [
+                7,
+                3
+            ],
+            [
+                9,
+                1
+            ],
+            [
+                10,
+                1
+            ],
+            [
+                10,
+                2
+            ],
+            [
+                10,
+                3
+            ],
+            [
+                10,
+                4
+            ],
+            [
+                10,
+                5
+            ],
+            [
+                9,
+                4
+            ],
+            [
+                9,
+                6
             ]
+        ],
+        "force_deploy_direction": [
+            {
+                "location": [
+                    4,
+                    5
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    1
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    5,
+                    5
+                ],
+                "role": [
+                    "sniper",
+                    "caster"
+                ],
+                "direction": "up"
+            }
         ]
     },
     {
