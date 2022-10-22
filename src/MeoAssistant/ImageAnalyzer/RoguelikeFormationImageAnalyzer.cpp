@@ -4,7 +4,6 @@
 
 #include "General/MultiMatchImageAnalyzer.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeFormationImageAnalyzer::analyze()
@@ -12,7 +11,7 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
     m_result.clear();
 
     MultiMatchImageAnalyzer opers_analyzer(m_image);
-    opers_analyzer.set_task_info("Roguelike1FormationOper");
+    opers_analyzer.set_task_info("RoguelikeFormationOper");
 
     if (!opers_analyzer.analyze()) {
         return false;
@@ -26,10 +25,10 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
 
 #ifdef ASST_DEBUG
         if (oper.selected) {
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 0, 255), 3);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 0, 255), 3);
         }
         else {
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 255, 0), 3);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 255, 0), 3);
         }
 #endif
 
@@ -47,11 +46,11 @@ const std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper>& asst::R
 
 bool asst::RoguelikeFormationImageAnalyzer::selected_analyze(const Rect& roi)
 {
-    cv::Mat img_roi = m_image(utils::make_rect<cv::Rect>(roi));
+    cv::Mat img_roi = m_image(make_rect<cv::Rect>(roi));
     cv::Mat hsv;
     cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
 
-    const auto selected_task_ptr = Task.get<MatchTaskInfo>("Roguelike1FormationOperSelected");
+    const auto selected_task_ptr = Task.get<MatchTaskInfo>("RoguelikeFormationOperSelected");
     int h_low = selected_task_ptr->mask_range.first;
     int h_up = selected_task_ptr->mask_range.second;
     int s_low = selected_task_ptr->specific_rect.x;

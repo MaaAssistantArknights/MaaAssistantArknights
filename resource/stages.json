@@ -8566,6 +8566,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -10113,6 +10121,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -10431,6 +10447,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -10594,6 +10618,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -10912,6 +10944,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -11075,6 +11115,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -11401,6 +11449,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -13461,6 +13517,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -14258,6 +14322,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -14702,6 +14774,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -16647,6 +16727,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -17187,6 +17275,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -21502,6 +21598,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -21955,6 +22059,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -23004,6 +23116,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -23282,6 +23402,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -27154,6 +27282,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -27591,6 +27727,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -28298,6 +28442,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -29680,6 +29832,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -42130,6 +42290,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -42830,6 +42998,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -44134,6 +44310,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -44492,6 +44676,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -51048,13 +51240,13 @@
                 "exist": true
             },
             "JP": {
-                "exist": false
+                "exist": true
             },
             "KR": {
-                "exist": false
+                "exist": true
             },
             "US": {
-                "exist": false
+                "exist": true
             }
         },
         "minClearTime": null,
@@ -51780,13 +51972,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 170000,
@@ -51936,13 +52131,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 170000,
@@ -52108,6 +52306,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -52116,13 +52322,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 158000,
@@ -52288,6 +52497,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -52296,13 +52513,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 158000,
@@ -52388,13 +52608,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 189000,
@@ -52480,13 +52703,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 189000,
@@ -52660,13 +52886,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 180000,
@@ -52840,13 +53069,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 180000,
@@ -52996,13 +53228,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 182000,
@@ -53152,13 +53387,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 182000,
@@ -53316,13 +53554,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 205000,
@@ -53480,13 +53721,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 205000,
@@ -53636,6 +53880,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -53644,13 +53896,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 158000,
@@ -53800,6 +54055,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -53808,13 +54071,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 158000,
@@ -53980,13 +54246,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 180000,
@@ -54152,13 +54421,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 180000,
@@ -54316,13 +54588,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 188000,
@@ -54480,13 +54755,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 188000,
@@ -54652,6 +54930,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -54660,13 +54946,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 212000,
@@ -54832,6 +55121,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -54840,13 +55137,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 212000,
@@ -55004,6 +55304,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -55012,13 +55320,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 191000,
@@ -55176,6 +55487,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31063"
             }
         ],
         "existence": {
@@ -55184,13 +55503,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 191000,
@@ -55364,13 +55686,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 157000,
@@ -55544,13 +55869,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 157000,
@@ -55724,13 +56052,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 177000,
@@ -55904,13 +56235,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 177000,
@@ -55996,13 +56330,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 199000,
@@ -56088,13 +56425,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 199000,
@@ -56244,13 +56584,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 283000,
@@ -56400,13 +56743,16 @@
                 "openTime": 1649923200000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666162800000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1666198800000
             }
         },
         "minClearTime": 283000,
@@ -56955,17 +57301,32 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 0
                 },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
+                "dropType": "NORMAL_DROP"
             },
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 0
+                    "upper": 1
                 },
-                "dropType": "NORMAL_DROP"
+                "dropType": "SPECIAL_DROP",
+                "itemId": "ap_supply_lt_010"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP",
+                "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP"
             },
             {
                 "bounds": {
@@ -56977,9 +57338,10 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 0
+                    "upper": 1
                 },
-                "dropType": "SPECIAL_DROP"
+                "dropType": "FURNITURE",
+                "itemId": "furni"
             }
         ],
         "existence": {
@@ -57013,34 +57375,57 @@
         "dropInfos": [
             {
                 "bounds": {
-                    "lower": 4,
-                    "upper": 4
+                    "lower": 1,
+                    "upper": 1
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "2004"
+                "itemId": "2002"
             },
             {
                 "bounds": {
-                    "lower": 2,
-                    "upper": 2
+                    "lower": 1,
+                    "upper": 1
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "2003"
             },
             {
                 "bounds": {
-                    "lower": 0,
-                    "upper": 1
+                    "lower": 3,
+                    "upper": 3
                 },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
+                "dropType": "NORMAL_DROP",
+                "itemId": "2004"
             },
             {
                 "bounds": {
-                    "lower": 2,
-                    "upper": 2
+                    "lower": 3,
+                    "upper": 3
                 },
                 "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP",
+                "itemId": "ap_supply_lt_010"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP",
+                "itemId": "randomMaterial_7"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP"
             },
             {
                 "bounds": {
@@ -57052,9 +57437,10 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 0
+                    "upper": 1
                 },
-                "dropType": "SPECIAL_DROP"
+                "dropType": "FURNITURE",
+                "itemId": "furni"
             }
         ],
         "existence": {
@@ -63084,7 +63470,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -63092,7 +63478,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -63100,7 +63486,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -63272,7 +63658,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -63280,7 +63666,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -63288,7 +63674,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -64316,7 +64702,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -64324,7 +64710,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -64332,7 +64718,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -64504,7 +64890,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -64512,7 +64898,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -64520,7 +64906,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -64684,7 +65070,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -64692,7 +65078,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -64700,7 +65086,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -64856,7 +65242,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -64864,7 +65250,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -64872,7 +65258,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -66084,7 +66470,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -66092,7 +66478,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -66100,7 +66486,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -66272,7 +66658,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -66280,7 +66666,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -66288,7 +66674,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -67580,7 +67966,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -67588,18 +67974,10 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2003"
             },
             {
                 "bounds": {
@@ -67725,6 +68103,14 @@
                 },
                 "dropType": "SPECIAL_DROP",
                 "itemId": "ap_supply_lt_010"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2003"
             }
         ],
         "existence": {
@@ -67768,7 +68154,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
@@ -67776,7 +68162,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2002"
@@ -67784,7 +68170,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP",
                 "itemId": "2003"
@@ -68098,5 +68484,241 @@
         "stageId": "sub_09-1-2",
         "stageType": "SUB",
         "zoneId": "main_9"
+    },
+    {
+        "apCost": 99,
+        "code": "罗德岛物资补给IV",
+        "code_i18n": {
+            "en": "Rhodes Island Supplies IV",
+            "ja": "補給物資・ロドスⅣ",
+            "ko": "로도스 아일랜드 보급 물자 IV",
+            "zh": "罗德岛物资补给IV"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30063"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30043"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30053"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30073"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30083"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30093"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30103"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31043"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31053"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 22
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31063"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665475200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "randomMaterial_7",
+        "stageType": "ACTIVITY",
+        "zoneId": "gachabox"
     }
 ]

@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
     <system:String x:Key="UISettings">GUI</system:String>
+    <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
 
@@ -57,8 +58,6 @@
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
 
-    <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
-    <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeStrategyCandle">Get candles, pass levels as more as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Deposit coins, exit after arriving at the second level</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
@@ -113,6 +112,10 @@
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
 
+    <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">Press Backspace/Esc/Delete to clear the current value</system:String>
+
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
     <system:String x:Key="NoAutoNavigation">The feature does not automatically navigate to the stage</system:String>
@@ -136,7 +139,9 @@
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
-    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
+    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stop after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stop after investing N times</system:String>
@@ -185,7 +190,7 @@
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>
-    <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
+    <system:String x:Key="AutoRoguelike">Auto I.S.*</system:String>
 
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>
@@ -195,9 +200,9 @@
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
-    <system:String x:Key="ExitEmulator">Close Emulator</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">Exit and Close Emulator</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, and Hibernate*</system:String>
+    <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
+    <system:String x:Key="ExitEmulatorAndSelf">Exit MAA and Emulator</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate*</system:String>
     <system:String x:Key="Hibernate">Hibernate*</system:String>
     <system:String x:Key="Shutdown">Shutdown*</system:String>
 
@@ -214,7 +219,7 @@
     <system:String x:Key="StageSelect2">Alternative</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
-    <system:String x:Key="Amend">Amend</system:String>
+    <!--<system:String x:Key="Amend">Amend</system:String>-->
 
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
@@ -341,6 +346,8 @@
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
+    <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
+    <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
     <system:String x:Key="ErrorOccurred">Error occurred</system:String>
     <system:String x:Key="HasReturned">Has returned</system:String>

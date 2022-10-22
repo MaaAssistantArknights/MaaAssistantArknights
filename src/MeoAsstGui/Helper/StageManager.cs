@@ -49,11 +49,6 @@ namespace MeoAsstGui
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
 
-                // SideStory「长夜临光」复刻活动
-                { "NL-8", new StageInfo { Display = "NL-8", Value = "NL-8", Activity = sideStory } },
-                { "NL-9", new StageInfo { Display = "NL-9", Value = "NL-9", Activity = sideStory } },
-                { "NL-10", new StageInfo { Display = "NL-10", Value = "NL-10", Activity = sideStory } },
-
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
 

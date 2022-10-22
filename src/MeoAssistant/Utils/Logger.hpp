@@ -10,9 +10,12 @@
 #include <utility>
 
 #include "AsstRanges.hpp"
-#include "AsstUtils.hpp"
+#include "Locale.hpp"
 #include "Meta.hpp"
+#include "Platform.hpp"
 #include "SingletonHolder.hpp"
+#include "Time.hpp"
+#include "UserDir.hpp"
 #include "Version.h"
 
 #if defined(__APPLE__) || defined(__linux__)
@@ -339,15 +342,15 @@ namespace asst
     public:
         virtual ~Logger() override { flush(); }
 
-        //static bool set_directory(const std::filesystem::path& dir)
-        //{
-        //    if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
-        //        return false;
-        //    }
-        //    m_directory = dir;
+        // static bool set_directory(const std::filesystem::path& dir)
+        // {
+        //     if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
+        //         return false;
+        //     }
+        //     m_directory = dir;
 
-        //    return true;
-        //}
+        //     return true;
+        // }
 
         template <typename T>
         auto operator<<(T&& arg)
@@ -415,8 +418,7 @@ namespace asst
     private:
         friend class SingletonHolder<Logger>;
 
-        Logger()
-            : m_directory(utils::UserDir::get_instance().get())
+        Logger() : m_directory(UserDir::get_instance().get())
         {
             check_filesize_and_remove();
             log_init_info();

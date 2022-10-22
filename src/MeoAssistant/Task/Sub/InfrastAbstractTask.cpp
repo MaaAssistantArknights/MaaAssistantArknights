@@ -176,7 +176,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
     }
 
-    click_clear_button(); // 先排序后清空，加速干员变化不大时的选择速度
+    if (max_num_of_opers() > 1) {
+        click_clear_button(); // 先排序后清空，加速干员变化不大时的选择速度
+    }
 
     std::vector<std::string> opers_order = room_config.names;
     opers_order.insert(opers_order.end(), room_config.candidates.cbegin(), room_config.candidates.cend());
@@ -395,7 +397,15 @@ bool asst::InfrastAbstractTask::click_filter_menu_not_stationed_button()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastFilterMenu" });
+    ProcessTask task(*this, { "InfrastFilterMenuNotStationed" });
+    return task.run();
+}
+
+bool asst::InfrastAbstractTask::click_filter_menu_cancel_not_stationed_button()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastFilterMenuCancelNotStationed" });
     return task.run();
 }
 

@@ -1,6 +1,6 @@
 [
     {
-        "name_template": "MaaBundle-{VERSION}",
+        "name_template": "MAA-{VERSION}-win-x64",
         "type": "MaaBundle",
         "configuration": {
             "include": [
@@ -9,14 +9,13 @@
         }
     },
     {
-        "name_template": "MaaBundle-OTA-{VERSION}",
+        "name_template": "MAAComponent-OTA-{VERSION}-win-x64",
         "type": "MaaBundleOta",
         "configuration": {
             "include": [
                 "resource/**",
                 "MeoAssistant.dll",
-                "MeoAsstGui.exe",
-                "作业制作器/**"
+                "MeoAsstGui.exe"
             ],
             "exclude": [
                 "**/PaddleOCR/**"
@@ -24,7 +23,7 @@
         }
     },
     {
-        "name_template": "MaaCore-{VERSION}",
+        "name_template": "MAAComponent-Core-{VERSION}-win-x64",
         "type": "MaaCore",
         "configuration": {
             "include": [
@@ -33,7 +32,7 @@
         }
     },
     {
-        "name_template": "MaaDependency-{VERSION}",
+        "name_template": "MAAComponent-Dependency-{VERSION}-win-x64",
         "type": "MaaDependency",
         "configuration": {
             "include": [
@@ -48,7 +47,7 @@
         }
     },
     {
-        "name_template": "MaaDependencyNoAvx-{VERSION}",
+        "name_template": "MAAComponent-DependencyNoAvx-{VERSION}-win-x64",
         "type": "MaaDependencyNoAvx",
         "configuration": {
             "include": [
@@ -59,7 +58,16 @@
         }
     },
     {
-        "name_template": "MaaResource-{VERSION}",
+        "name_template": "MAAComponent-DebugSymbol-{VERSION}-win-x64",
+        "type": "MaaDebugSymbol",
+        "configuration": {
+            "include": [
+                "**/*.pdb"
+            ]
+        }
+    },
+    {
+        "name_template": "MAAComponent-Resource-{VERSION}",
         "type": "MaaResource",
         "configuration": {
             "include": [
@@ -67,15 +75,6 @@
             ],
             "exclude": [
                 "**/PaddleOCR/**"
-            ]
-        }
-    },
-    {
-        "name_template": "MaaDebugSymbol-{VERSION}",
-        "type": "MaaDebugSymbol",
-        "configuration": {
-            "include": [
-                "**/*.pdb"
             ]
         }
     }

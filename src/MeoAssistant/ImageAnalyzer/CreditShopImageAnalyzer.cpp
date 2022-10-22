@@ -8,7 +8,6 @@
 #include "General/MultiMatchImageAnalyzer.h"
 #include "General/OcrImageAnalyzer.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 
 void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)
 {
@@ -85,7 +84,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         }
 
 #ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
         m_need_to_buy.emplace_back(
             commodity, ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text);
@@ -109,7 +108,7 @@ bool asst::CreditShopImageAnalyzer::sold_out_analyze()
         sold_out_analyzer.set_roi(commodity);
         if (sold_out_analyzer.analyze()) {
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255));
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255));
             cv::putText(m_image_draw, "Sold Out", cv::Point(commodity.x, commodity.y), 1, 2, cv::Scalar(255, 0, 0));
 #endif //  ASST_DEBUG
 

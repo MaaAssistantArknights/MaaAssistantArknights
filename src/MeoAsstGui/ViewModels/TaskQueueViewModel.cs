@@ -949,14 +949,13 @@ namespace MeoAsstGui
         private bool appendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
-            int mode;
-            int.TryParse(settings.RoguelikeMode, out mode);
+            int.TryParse(settings.RoguelikeMode, out var mode);
 
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendRoguelike(
                 mode, settings.RoguelikeStartsCount,
                 settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
-                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar);
+                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeTheme);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
@@ -1701,7 +1700,7 @@ namespace MeoAsstGui
 
         private void refreshCustomInfrastPlanIndexByPeriod()
         {
-            if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod)
+            if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
             {
                 return;
             }
@@ -1927,7 +1926,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", string.Empty);
+        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", Localization.GetString("NotSelected"));
 
         /// <summary>
         /// Gets or sets the item Name of drops.

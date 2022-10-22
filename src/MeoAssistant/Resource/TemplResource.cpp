@@ -19,6 +19,9 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     LogTraceFunction;
     Log.info("load", path);
 
+#ifdef ASST_DEBUG
+    bool some_file_not_exists = false;
+#endif
     for (const std::string& filename : m_templs_filename) {
         std::filesystem::path filepath(path / asst::utils::path(filename));
         if (!filepath.has_extension()) {
@@ -33,9 +36,18 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
         }
         else {
             Log.error("Templ load failed, file not exists", filepath);
+#ifdef ASST_DEBUG
+            some_file_not_exists = true;
+#else
             return false;
+#endif
         }
     }
+#ifdef ASST_DEBUG
+    if (some_file_not_exists) {
+        return false;
+    }
+#endif
     m_loaded = true;
     return true;
 }

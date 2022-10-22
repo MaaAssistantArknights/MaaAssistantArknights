@@ -218,6 +218,8 @@ namespace MeoAsstGui
                 return false;
             }
 
+            Directory.Move(Directory.GetCurrentDirectory() + "\\resource", Directory.GetCurrentDirectory() + "\\resource.old");
+
             var uncopiedList = new List<string>();
 
             // 复制新版本的所有文件到当前路径下

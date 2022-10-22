@@ -4,25 +4,34 @@
 #include "General/OcrWithFlagTemplImageAnalyzer.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
     OcrWithFlagTemplImageAnalyzer analyzer(m_image);
-    analyzer.set_task_info("Roguelike1RecruitOcrFlag", "Roguelike1RecruitOcr");
+    analyzer.set_task_info("RoguelikeRecruitOcrFlag", "RoguelikeRecruitOcr");
     analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-    analyzer.set_threshold(Task.get("Roguelike1RecruitOcr")->specific_rect.x);
+    analyzer.set_threshold(Task.get("RoguelikeRecruitOcr")->specific_rect.x);
 
     if (!analyzer.analyze()) {
         return false;
     }
 
+    // using blue channel only when matching level to filter out the yellow ring
+    cv::Mat bbb_image;
+    {
+        cv::Mat blue;
+        cv::extractChannel(m_image, blue, 0);
+        cv::merge(std::array { blue, blue, blue }, bbb_image);
+    }
+
     for (const auto& [_, rect, name] : analyzer.get_result()) {
         int elite = match_elite(rect);
-        int level = match_level(rect);
+        int level = match_level(bbb_image, rect);
 
-        if (level == 0) {
+        if (level < 0) {
             // 要么就是识别错了，要么这个干员希望不够，是灰色的
             // 主要用于忽略后面灰色的这种情况
             continue;
@@ -46,9 +55,9 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
     LogTraceFunction;
 
     static const std::unordered_map<std::string, int> EliteTaskName = {
-        { "Roguelike1RecruitElite0", 0 },
-        { "Roguelike1RecruitElite1", 1 },
-        { "Roguelike1RecruitElite2", 2 },
+        { "RoguelikeRecruitElite0", 0 },
+        { "RoguelikeRecruitElite1", 1 },
+        { "RoguelikeRecruitElite2", 2 },
     };
 
     int elite_result = 0;
@@ -72,18 +81,18 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
     return elite_result;
 }
 
-int asst::RoguelikeRecruitImageAnalyzer::match_level(const Rect& raw_roi)
+int asst::RoguelikeRecruitImageAnalyzer::match_level(const cv::Mat& image, const Rect& raw_roi)
 {
     LogTraceFunction;
 
-    auto task_ptr = Task.get("Roguelike1RecruitLevel");
-    OcrWithPreprocessImageAnalyzer analyzer(m_image, raw_roi.move(task_ptr->roi));
+    auto task_ptr = Task.get("RoguelikeRecruitLevel");
+    OcrWithPreprocessImageAnalyzer analyzer(image, raw_roi.move(task_ptr->roi));
     auto& replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     analyzer.set_replace(replace);
     analyzer.set_expansion(1);
 
     if (!analyzer.analyze()) {
-        return 0;
+        return -1;
     }
 
     const std::string& level = analyzer.get_result().front().text;

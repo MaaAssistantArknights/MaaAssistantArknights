@@ -17,7 +17,7 @@ namespace asst
 
     private:
         int match_elite(const Rect& raw_roi);
-        int match_level(const Rect& raw_roi);
+        static int match_level(const cv::Mat& image, const Rect& raw_roi);
 
         std::vector<BattleRecruitOperInfo> m_result;
     };

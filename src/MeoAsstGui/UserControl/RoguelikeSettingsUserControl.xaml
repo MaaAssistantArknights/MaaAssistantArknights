@@ -26,11 +26,12 @@
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource RoguelikeTheme}" />
                 <ComboBox
-                    Width="100"
+                    Width="110"
                     IsHitTestVisible="{Binding Idle}"
                     ItemsSource="{Binding RoguelikeThemeList}"
                     SelectedValue="{Binding RoguelikeTheme}"
-                    SelectedValuePath="Value" />
+                    SelectedValuePath="Value"
+                    ToolTip="{DynamicResource RoguelikeThemeTip}" />
             </StackPanel>
 
             <StackPanel

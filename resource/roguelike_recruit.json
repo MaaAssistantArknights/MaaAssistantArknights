@@ -184,13 +184,13 @@
         {
             "name": "焰尾",
             "skill": 2,
-            "recruit_priority": 600,
+            "recruit_priority": 700,
             "promote_priority": 610
         },
         {
             "name": "德克萨斯",
             "skill": 2,
-            "recruit_priority": 500,
+            "recruit_priority": 650,
             "promote_priority": 500
         },
         {
@@ -596,8 +596,7 @@
     "Support": [
         {
             "name": "灵知",
-            "skill": 3,
-            "alternate_skill": 1,
+            "skill": 1,
             "recruit_priority": 20,
             "promote_priority": 500,
             "promote_priority_when_team_full": 900

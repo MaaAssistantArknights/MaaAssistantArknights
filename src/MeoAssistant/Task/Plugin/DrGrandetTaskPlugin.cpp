@@ -14,7 +14,7 @@ bool asst::DrGrandetTaskPlugin::verify(AsstMsg msg, const json::value& details) 
     }
 
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "StoneConfirm") {
+    if (task == "Fight@StoneConfirm") {
         return true;
     }
     else {

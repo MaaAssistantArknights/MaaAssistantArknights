@@ -85,7 +85,7 @@ namespace MeoAsstGui.Helper
                     }
 
                     // filter items
-                    if (string.IsNullOrEmpty(searchTerm))
+                    if (string.IsNullOrEmpty(searchTerm) || searchTerm == Localization.GetString("NotSelected"))
                     {
                         targetComboBox.Items.Filter = item => true;
                         targetComboBox.SelectedItem = default;

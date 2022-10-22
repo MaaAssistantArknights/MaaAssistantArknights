@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">启动设置</system:String>
     <system:String x:Key="ScheduleSettings">定时执行</system:String>
     <system:String x:Key="UISettings">界面设置</system:String>
+    <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
 
@@ -57,8 +58,6 @@
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
 
-    <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
-    <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
@@ -113,6 +112,10 @@
     <system:String x:Key="ManualRestart">稍后</system:String>
     <system:String x:Key="Tip">提示</system:String>
 
+    <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>
+
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
     <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
@@ -136,7 +139,9 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
-    <system:String x:Key="RoguelikeChangedTip">肉鸽设置已更改，是否现在重启 MAA 以应用设置？</system:String>
+    <system:String x:Key="RoguelikeThemeTip">需在集成战略界面将对应主题PIN UP添加到终端</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
@@ -185,7 +190,7 @@
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">收取信用及购物</system:String>
     <system:String x:Key="Mission">领取日常奖励</system:String>
-    <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
+    <system:String x:Key="AutoRoguelike">自动肉鸽*</system:String>
 
     <system:String x:Key="SelectAll">全选</system:String>
     <system:String x:Key="Inverse">反选</system:String>
@@ -214,7 +219,7 @@
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不选择</system:String>
-    <system:String x:Key="Amend">修改</system:String>
+    <!--<system:String x:Key="Amend">修改</system:String>-->
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
     <system:String x:Key="LastBattle">上次作战</system:String>-->
@@ -341,6 +346,8 @@
     <system:String x:Key="StartCombat">开始战斗：</system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
+    <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
+    <system:String x:Key="BackgroundLinkStopped">任务终止</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
     <system:String x:Key="ErrorOccurred">出现错误</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
