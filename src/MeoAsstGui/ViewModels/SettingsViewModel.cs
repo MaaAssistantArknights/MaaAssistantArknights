@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using MeoAsstGui.MaaHotKeys;
 using Stylet;
 using StyletIoC;
 
@@ -33,6 +34,7 @@ namespace MeoAsstGui
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
+        private readonly IMaaHotKeyManager _maaHotKeyManager;
 
         [DllImport("MeoAssistant.dll")]
         private static extern IntPtr AsstGetVersion();
@@ -65,6 +67,7 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
+            _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
             DisplayName = Localization.GetString("Settings");
 
             _listTitle.Add(Localization.GetString("BaseSettings"));
@@ -76,6 +79,7 @@ namespace MeoAsstGui
             _listTitle.Add(Localization.GetString("StartupSettings"));
             _listTitle.Add(Localization.GetString("ScheduleSettings"));
             _listTitle.Add(Localization.GetString("UISettings"));
+            _listTitle.Add(Localization.GetString("HotKeySettings"));
             _listTitle.Add(Localization.GetString("UpdateSettings"));
             _listTitle.Add(Localization.GetString("AboutUs"));
 
@@ -1962,6 +1966,36 @@ namespace MeoAsstGui
             {
                 Application.Current.Shutdown();
                 System.Windows.Forms.Application.Restart();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the hotkey: ShowGui.
+        /// </summary>
+        public MaaHotKey HotKeyShowGui
+        {
+            get => _maaHotKeyManager.GetOrNull(MaaHotKeyAction.ShowGui);
+            set => SetHotKey(MaaHotKeyAction.ShowGui, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the hotkey: LinkStart.
+        /// </summary>
+        public MaaHotKey HotKeyLinkStart
+        {
+            get => _maaHotKeyManager.GetOrNull(MaaHotKeyAction.LinkStart);
+            set => SetHotKey(MaaHotKeyAction.LinkStart, value);
+        }
+
+        private void SetHotKey(MaaHotKeyAction action, MaaHotKey value)
+        {
+            if (value != null)
+            {
+                _maaHotKeyManager.TryRegister(action, value);
+            }
+            else
+            {
+                _maaHotKeyManager.Unregister(action);
             }
         }
 

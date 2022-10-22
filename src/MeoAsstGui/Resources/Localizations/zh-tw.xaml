@@ -10,11 +10,12 @@
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
-    <system:String x:Key="OtherCombatSettings">理智設置</system:String>
+    <system:String x:Key="OtherCombatSettings">理智設定</system:String>
     <system:String x:Key="ConnectionSettings">連接設定</system:String>
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
     <system:String x:Key="UISettings">介面設定</system:String>
+    <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
 
@@ -110,6 +111,10 @@
     <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="ManualRestart">稍後</system:String>
     <system:String x:Key="Tip">提示</system:String>
+
+    <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">鍵入 退格/Esc/Delete 清除當前熱鍵</system:String>
 
     <system:String x:Key="LabelSequenceTip">標籤順序可拖動</system:String>
     <system:String x:Key="CheckBoxesNotSaved">該選項設定重啟後不保存</system:String>
@@ -338,6 +343,8 @@
     <system:String x:Key="StartCombat">開始戰鬥：</system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
+    <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
+    <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
     <system:String x:Key="ErrorOccurred">出現錯誤</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
