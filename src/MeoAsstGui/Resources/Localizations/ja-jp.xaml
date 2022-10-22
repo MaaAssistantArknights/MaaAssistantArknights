@@ -225,7 +225,7 @@
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
     <system:String x:Key="NoUse">使用しない</system:String>
-    <system:String x:Key="Amend">設定の変更</system:String>
+    <!--<system:String x:Key="Amend">設定の変更</system:String>-->
 
     <system:String x:Key="DefaultStage">現在/前回</system:String>
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>

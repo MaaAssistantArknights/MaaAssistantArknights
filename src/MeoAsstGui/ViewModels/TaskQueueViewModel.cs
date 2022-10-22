@@ -1926,7 +1926,7 @@ namespace MeoAsstGui
             }
         }
 
-        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", string.Empty);
+        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", Localization.GetString("NotSelected"));
 
         /// <summary>
         /// Gets or sets the item Name of drops.

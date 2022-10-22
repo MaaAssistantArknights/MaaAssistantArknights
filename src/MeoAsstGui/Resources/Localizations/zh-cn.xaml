@@ -219,7 +219,7 @@
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不选择</system:String>
-    <system:String x:Key="Amend">修改</system:String>
+    <!--<system:String x:Key="Amend">修改</system:String>-->
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
     <system:String x:Key="LastBattle">上次作战</system:String>-->

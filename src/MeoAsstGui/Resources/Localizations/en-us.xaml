@@ -219,7 +219,7 @@
     <system:String x:Key="StageSelect2">Alternative</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
-    <system:String x:Key="Amend">Amend</system:String>
+    <!--<system:String x:Key="Amend">Amend</system:String>-->
 
     <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
