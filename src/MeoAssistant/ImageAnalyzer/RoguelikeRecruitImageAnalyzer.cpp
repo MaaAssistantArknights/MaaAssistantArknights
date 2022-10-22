@@ -31,7 +31,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         int elite = match_elite(rect);
         int level = match_level(bbb_image, rect);
 
-        if (level == 0) {
+        if (level < 0) {
             // 要么就是识别错了，要么这个干员希望不够，是灰色的
             // 主要用于忽略后面灰色的这种情况
             continue;
@@ -92,7 +92,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const cv::Mat& image, const
     analyzer.set_expansion(1);
 
     if (!analyzer.analyze()) {
-        return 0;
+        return -1;
     }
 
     const std::string& level = analyzer.get_result().front().text;
