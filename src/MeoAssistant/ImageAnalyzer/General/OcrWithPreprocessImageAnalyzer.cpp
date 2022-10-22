@@ -2,14 +2,12 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Utils/AsstUtils.hpp"
-
 bool asst::OcrWithPreprocessImageAnalyzer::analyze()
 {
     m_without_det = true;
 
     m_roi = empty_rect_to_full(m_roi, m_image);
-    cv::Mat img_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
+    cv::Mat img_roi = m_image(make_rect<cv::Rect>(m_roi));
     cv::Mat img_roi_gray;
     cv::cvtColor(img_roi, img_roi_gray, cv::COLOR_BGR2GRAY);
     cv::Mat bin;
@@ -17,7 +15,7 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     cv::Rect bounding_rect = cv::boundingRect(bin);
     bounding_rect.x += m_roi.x;
     bounding_rect.y += m_roi.y;
-    auto new_roi = utils::make_rect<Rect>(bounding_rect);
+    auto new_roi = make_rect<Rect>(bounding_rect);
 
     if (new_roi.empty()) {
         return false;
@@ -32,7 +30,7 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     }
     OcrImageAnalyzer::set_roi(new_roi);
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
 #endif // ASST_DEBUG
 
     return OcrImageAnalyzer::analyze();

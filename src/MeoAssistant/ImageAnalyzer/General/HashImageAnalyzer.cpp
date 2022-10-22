@@ -2,7 +2,6 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::HashImageAnalyzer::analyze()
@@ -10,7 +9,7 @@ bool asst::HashImageAnalyzer::analyze()
     m_hash_result.clear();
     m_min_dist_name.clear();
 
-    cv::Mat roi = m_image(utils::make_rect<cv::Rect>(m_roi));
+    cv::Mat roi = m_image(make_rect<cv::Rect>(m_roi));
 
     if (m_mask_range.first != 0 || m_mask_range.second != 0) {
         cv::Mat bin;
