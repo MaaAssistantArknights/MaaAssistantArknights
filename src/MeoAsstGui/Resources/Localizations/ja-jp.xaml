@@ -171,7 +171,7 @@
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
-    <system:String x:Key="CustomStageCodeTip">ステージ名と番号（例：4-10、6-16など）の両方がサポートされています。</system:String>
+    <system:String x:Key="CustomStageCodeTip">(Test feature)ステージ名と番号（例：4-10、AP-5など）の両方がサポートされています。The main stage should unlock the last episode of the current chapter</system:String>
 
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
