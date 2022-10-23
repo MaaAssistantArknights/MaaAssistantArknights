@@ -38,11 +38,12 @@
             "special",
             "drone"
         ],
-        "force_air_defense_when_deploy_blocking_num_Doc": "场上每有10000个阻挡单位就强制部署1个对空单位（填不填写均不影响正常部署逻辑）",
-        "force_air_defense_when_deploy_blocking_num": [
-            10000,
-            1
-        ],
+        "force_air_defense_when_deploy_blocking_num_Doc": "场上有10000个阻挡单位时就开始强制部署总共1个对空单位（填不填写均不影响正常部署逻辑），在此期间不禁止部署医疗单位（不写默认false）",
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 10000,
+            "air_defense_num": 1,
+            "ban_medic": false
+        },
         "force_deploy_direction_Doc": "这些点对某些职业强制部署方向",
         "force_deploy_direction": [
             {
@@ -759,10 +760,11 @@
                 4
             ]
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            1
-        ],
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 2,
+            "air_defense_num": 1,
+            "ban_medic": false
+        },
         "role_order": [
             "warrior",
             "pioneer",
@@ -871,10 +873,11 @@
                 2
             ]
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            2
-        ],
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 2,
+            "air_defense_num": 2,
+            "ban_medic": false
+        },
         "force_deploy_direction": [
             {
                 "location": [
@@ -979,10 +982,11 @@
                 4
             ]
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            2
-        ]
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 2,
+            "air_defense_num": 1,
+            "ban_medic": false
+        }
     },
     {
         "stage_name": "领地意识",
@@ -1089,10 +1093,11 @@
             "special",
             "drone"
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            0,
-            1
-        ],
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 0,
+            "air_defense_num": 1,
+            "ban_medic": true
+        },
         "force_deploy_direction": [
             {
                 "location": [
@@ -1548,6 +1553,10 @@
                 5
             ],
             [
+                8,
+                6
+            ],
+            [
                 9,
                 3
             ],
@@ -1567,10 +1576,11 @@
             "special",
             "drone"
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            2
-        ],
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 2,
+            "air_defense_num": 2,
+            "ban_medic": true
+        },
         "force_deploy_direction": [
             {
                 "location": [
@@ -1940,10 +1950,11 @@
                 4
             ]
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            2,
-            1
-        ],
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 2,
+            "air_defense_num": 1,
+            "ban_medic": false
+        },
         "role_order": [
             "warrior",
             "pioneer",
@@ -2034,10 +2045,11 @@
             "special",
             "drone"
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            0,
-            2
-        ],
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 0,
+            "air_defense_num": 2,
+            "ban_medic": true
+        },
         "force_deploy_direction": [
             {
                 "location": [
@@ -2220,7 +2232,81 @@
         ]
     },
     {
+        "stage_name": "异体同心",
+        "replacement_home": [
+            {
+                "location": [
+                    7,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    7,
+                    1
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    6,
+                    4
+                ],
+                "direction": "up"
+            }
+        ]
+    },
+    {
         "stage_name": "永恒安息",
+        "replacement_home": [
+            {
+                "location": [
+                    5,
+                    4
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    5,
+                    3
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    2,
+                    3
+                ],
+                "direction": "none"
+            }
+        ],
+        "blacklist_location": [
+            [
+                6,
+                4
+            ],
+            [
+                7,
+                4
+            ],
+            [
+                8,
+                4
+            ],
+            [
+                8,
+                5
+            ],
+            [
+                7,
+                5
+            ]
+        ]
+    },
+    {
+        "stage_name": "永恒愤怒",
         "replacement_home": [
             {
                 "location": [
@@ -2568,10 +2654,11 @@
                 "direction": "none"
             }
         ],
-        "force_air_defense_when_deploy_blocking_num": [
-            1,
-            1
-        ]
+        "force_air_defense_when_deploy_blocking_num": {
+            "melee_num": 1,
+            "air_defense_num": 1,
+            "ban_medic": false
+        }
     },
     {
         "stage_name": "意外",
