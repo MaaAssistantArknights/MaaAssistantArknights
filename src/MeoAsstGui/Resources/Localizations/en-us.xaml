@@ -248,10 +248,10 @@
     <system:String x:Key="CATip">CA (Skill Summary)</system:String>
     <system:String x:Key="LSTip">LS (Battle Record)</system:String>
     <system:String x:Key="SKTip">SK (Carbon)</system:String>
-    <system:String x:Key="PR-ATip">PR-A（Med/Def Chip）</system:String>
-    <system:String x:Key="PR-BTip">PR-B（Cst/Sni Chip）</system:String>
-    <system:String x:Key="PR-CTip">PR-C（Pio/Sup Chip）</system:String>
-    <system:String x:Key="PR-DTip">PR-D（Grd/Spc Chip）</system:String>
+    <system:String x:Key="PR-ATip">PR-A (Med/Def Chip)</system:String>
+    <system:String x:Key="PR-BTip">PR-B (Cst/Sni Chip)</system:String>
+    <system:String x:Key="PR-CTip">PR-C (Pio/Sup Chip)</system:String>
+    <system:String x:Key="PR-DTip">PR-D (Grd/Spc Chip)</system:String>
     <system:String x:Key="Pormpt1">It's time to complete Annihilation</system:String>
     <system:String x:Key="Pormpt2">Don't forget Annihilation</system:String>
     <!--  FightSettings  -->
