@@ -62,10 +62,18 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
         }
         data.use_dice_stage = !stage_info.get("not_use_dice", false);
 
-        data.stop_deploy_blocking_num = stage_info.get("force_air_defense_when_deploy_blocking_num", 0, INT_MAX);
-        data.force_deploy_air_defense_num = stage_info.get("force_air_defense_when_deploy_blocking_num", 1, 0);
-        if (data.force_deploy_air_defense_num == 0) {
+        if (auto opt = stage_info.find<json::value>("force_air_defense_when_deploy_blocking_num")) {
+            data.stop_deploy_blocking_num = opt.value().get("melee_num", INT_MAX);
+            data.force_deploy_air_defense_num = opt.value().get("air_defense_num", 0);
+            if (data.force_deploy_air_defense_num == 0) {
+                data.stop_deploy_blocking_num = INT_MAX;
+            }
+            data.force_ban_medic = opt.value().get("ban_medic", false);
+        }
+        else {
             data.stop_deploy_blocking_num = INT_MAX;
+            data.force_deploy_air_defense_num = 0;
+            data.force_ban_medic = false;
         }
 
         constexpr int RoleNumber = 9;
