@@ -248,10 +248,10 @@
     <system:String x:Key="CATip">CA (스킬개론)</system:String>
     <system:String x:Key="LSTip">LS (작전기록)</system:String>
     <system:String x:Key="SKTip">SK (탄소)</system:String>
-    <system:String x:Key="PR-ATip">PR-A 메딕/디펜더 칩</system:String>
-    <system:String x:Key="PR-BTip">PR-B 캐스터/스나이퍼 칩</system:String>
-    <system:String x:Key="PR-CTip">PR-C 뱅가드/서포터 칩</system:String>
-    <system:String x:Key="PR-DTip">PR-D 가드/스페셜리스트 칩</system:String>
+    <system:String x:Key="PR-ATip">PR-A (메딕/디펜더 칩)</system:String>
+    <system:String x:Key="PR-BTip">PR-B (캐스터/스나이퍼 칩)</system:String>
+    <system:String x:Key="PR-CTip">PR-C (뱅가드/서포터 칩)</system:String>
+    <system:String x:Key="PR-DTip">PR-D (가드/스페셜리스트 칩)</system:String>
     <system:String x:Key="Pormpt1">월요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
     <!--  작전 설정  -->
