@@ -243,15 +243,15 @@
     <system:String x:Key="Annihilation">剿灭模式</system:String>
 
     <system:String x:Key="TodaysStageTip">今日关卡小提示：</system:String>
-    <system:String x:Key="CETip">货物运送（龙门币）</system:String>
-    <system:String x:Key="APTip">粉碎防御（红票）</system:String>
-    <system:String x:Key="CATip">空中威胁（技能）</system:String>
-    <system:String x:Key="LSTip">战术演习（经验）</system:String>
-    <system:String x:Key="SKTip">资源保障（碳）</system:String>
-    <system:String x:Key="PR-ATip">奶/盾芯片</system:String>
-    <system:String x:Key="PR-BTip">术/狙芯片</system:String>
-    <system:String x:Key="PR-CTip">先/辅芯片</system:String>
-    <system:String x:Key="PR-DTip">近/特芯片</system:String>
+    <system:String x:Key="CETip">CE（龙门币）</system:String>
+    <system:String x:Key="APTip">AP（红票）</system:String>
+    <system:String x:Key="CATip">CA（技能）</system:String>
+    <system:String x:Key="LSTip">LS（经验）</system:String>
+    <system:String x:Key="SKTip">SK（碳）</system:String>
+    <system:String x:Key="PR-ATip">PR-A（奶/盾芯片）</system:String>
+    <system:String x:Key="PR-BTip">PR-B（术/狙芯片）</system:String>
+    <system:String x:Key="PR-CTip">PR-C（先/辅芯片）</system:String>
+    <system:String x:Key="PR-DTip">PR-D（近/特芯片）</system:String>
     <system:String x:Key="Pormpt1">周一了，可以打剿灭了~</system:String>
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
     <!--  战斗设置  -->
