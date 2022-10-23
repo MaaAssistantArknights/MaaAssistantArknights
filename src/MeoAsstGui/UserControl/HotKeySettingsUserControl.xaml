@@ -6,20 +6,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:MeoAsstGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:local="clr-namespace:MeoAsstGui"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignHeight="400"
-    d:DesignWidth="550"
     mc:Ignorable="d">
     <StackPanel
         Margin="10"
         HorizontalAlignment="Center"
         VerticalAlignment="Center">
         <StackPanel
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <TextBlock
@@ -27,10 +25,13 @@
                 Block.TextAlignment="Center"
                 Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource HotKeyShowGui}" />
-            <local:HotKeyEditorUserControl HotKey="{Binding HotKeyShowGui}" Margin="10" HorizontalAlignment="Center" />
+            <local:HotKeyEditorUserControl
+                Margin="10"
+                HorizontalAlignment="Right"
+                HotKey="{Binding HotKeyShowGui}" />
         </StackPanel>
         <StackPanel
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <TextBlock
@@ -38,7 +39,10 @@
                 Block.TextAlignment="Center"
                 Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource HotKeyLinkStart}" />
-            <local:HotKeyEditorUserControl HotKey="{Binding HotKeyLinkStart}" Margin="10" HorizontalAlignment="Center" />
+            <local:HotKeyEditorUserControl
+                Margin="10"
+                HorizontalAlignment="Right"
+                HotKey="{Binding HotKeyLinkStart}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
