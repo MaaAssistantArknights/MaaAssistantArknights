@@ -628,6 +628,13 @@ namespace MeoAsstGui
             return exit_code == 0;
         }
 
+        /// <summary>
+        /// 使用 CSharp 原生方式下载文件
+        /// </summary>
+        /// <param name="url">下载地址</param>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="contentType">HTTP ContentType</param>
+        /// <returns>是否成功</returns>
         private bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null)
         {
             // 创建 Http 请求
@@ -654,20 +661,31 @@ namespace MeoAsstGui
             var responseStream = httpWebResponse.GetResponseStream();
             var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
 
-            // 获取并写入流
-            var byteArray = new byte[1024];
-            var byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
-            while (byteArraySize > 0)
+            bool success = false;
+            try
             {
-                fileStream.Write(byteArray, 0, byteArraySize);
-                byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
+                // 获取并写入流
+                var byteArray = new byte[1024];
+                var byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
+                while (byteArraySize > 0)
+                {
+                    fileStream.Write(byteArray, 0, byteArraySize);
+                    byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
+                }
+                success = true;
+            }
+            catch (Exception info)
+            {
+                Console.WriteLine("Error: " + info.Message);
+            }
+            finally
+            {
+                // 关闭流
+                responseStream.Close();
+                fileStream.Close();
             }
 
-            // 关闭流
-            responseStream.Close();
-            fileStream.Close();
-
-            return true;
+            return success;
         }
 
         private bool isStableVersion()
