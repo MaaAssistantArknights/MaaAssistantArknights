@@ -86,9 +86,10 @@ namespace MeoAsstGui
             InfrastInit();
 
             var trayObj = _container.Get<TrayIcon>();
+            var mainWindowManager = _container.Get<IMainWindowManager>();
             trayObj.SetVisible(UseTray);
-            trayObj.SetMinimizeToTaskbar(MinimizeToTray);
             trayObj.SetSettingsViewModel(this);
+            mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
             Bootstrapper.SetTrayIconInSettingsViewModel(this);
 
             if (Hangover)
@@ -1734,8 +1735,8 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ViewStatusStorage.Set("GUI.MinimizeToTray", value.ToString());
-                var trayObj = _container.Get<TrayIcon>();
-                trayObj.SetMinimizeToTaskbar(value);
+                var mainWindowManager = _container.Get<IMainWindowManager>();
+                mainWindowManager.SetMinimizeToTaskbar(value);
             }
         }
 
