@@ -255,6 +255,21 @@ namespace asst
         return AlgorithmType::Invalid;
     }
 
+    inline std::string enum_to_string(AlgorithmType algo)
+    {
+        static const std::unordered_map<AlgorithmType, std::string> algorithm_map = {
+            { AlgorithmType::Invalid, "Invalid" },
+            { AlgorithmType::JustReturn, "JustReturn" },
+            { AlgorithmType::MatchTemplate, "MatchTemplate" },
+            { AlgorithmType::OcrDetect, "OcrDetect" },
+            { AlgorithmType::Hash, "Hash" },
+        };
+        if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
+
     enum class ProcessTaskAction
     {
         Invalid = 0,
@@ -291,60 +306,28 @@ namespace asst
         }
         return ProcessTaskAction::Invalid;
     }
-}
 
-namespace std
-{
-    inline std::string to_string(asst::AlgorithmType algo)
+    inline std::string enum_to_string(ProcessTaskAction action)
     {
-        static const std::unordered_map<asst::AlgorithmType, std::string> algorithm_map = {
-            { asst::AlgorithmType::Invalid, "Invalid" },
-            { asst::AlgorithmType::JustReturn, "JustReturn" },
-            { asst::AlgorithmType::MatchTemplate, "MatchTemplate" },
-            { asst::AlgorithmType::OcrDetect, "OcrDetect" },
-            { asst::AlgorithmType::Hash, "Hash" },
-        };
-        if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
-            return it->second;
-        }
-        return "Invalid";
-    }
-
-    inline std::string to_string(asst::ProcessTaskAction action)
-    {
-        static const std::unordered_map<asst::ProcessTaskAction, std::string> action_map = {
-            { asst::ProcessTaskAction::Invalid, "Invalid" },
-            { asst::ProcessTaskAction::BasicClick, "BasicClick" },
-            { asst::ProcessTaskAction::ClickSelf, "ClickSelf" },
-            { asst::ProcessTaskAction::ClickRect, "ClickRect" },
-            { asst::ProcessTaskAction::ClickRand, "ClickRand" },
-            { asst::ProcessTaskAction::DoNothing, "DoNothing" },
-            { asst::ProcessTaskAction::Stop, "Stop" },
-            { asst::ProcessTaskAction::BasicSwipe, "BasicSwipe" },
-            { asst::ProcessTaskAction::SwipeToTheLeft, "SwipeToTheLeft" },
-            { asst::ProcessTaskAction::SwipeToTheRight, "SwipeToTheRight" },
-            { asst::ProcessTaskAction::SlowlySwipeToTheLeft, "SlowlySwipeToTheLeft" },
-            { asst::ProcessTaskAction::SlowlySwipeToTheRight, "SlowlySwipeToTheRight" },
+        static const std::unordered_map<ProcessTaskAction, std::string> action_map = {
+            { ProcessTaskAction::Invalid, "Invalid" },
+            { ProcessTaskAction::BasicClick, "BasicClick" },
+            { ProcessTaskAction::ClickSelf, "ClickSelf" },
+            { ProcessTaskAction::ClickRect, "ClickRect" },
+            { ProcessTaskAction::ClickRand, "ClickRand" },
+            { ProcessTaskAction::DoNothing, "DoNothing" },
+            { ProcessTaskAction::Stop, "Stop" },
+            { ProcessTaskAction::BasicSwipe, "BasicSwipe" },
+            { ProcessTaskAction::SwipeToTheLeft, "SwipeToTheLeft" },
+            { ProcessTaskAction::SwipeToTheRight, "SwipeToTheRight" },
+            { ProcessTaskAction::SlowlySwipeToTheLeft, "SlowlySwipeToTheLeft" },
+            { ProcessTaskAction::SlowlySwipeToTheRight, "SlowlySwipeToTheRight" },
         };
         if (auto it = action_map.find(action); it != action_map.end()) {
             return it->second;
         }
         return "Invalid";
     }
-    /*
-    template <typename T>
-    requires requires() { asst::to_string(std::declval<T>()); }
-    std::string to_string(const T& type)
-    {
-        return asst::to_string(type);
-    }
-    template <typename T>
-    requires requires() { std::declval<T>().to_string(); }
-    std::string to_string(const T& type)
-    {
-        return type.to_string();
-    }
-    */
 }
 
 namespace asst
