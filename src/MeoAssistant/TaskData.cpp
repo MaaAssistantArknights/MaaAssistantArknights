@@ -129,6 +129,65 @@ bool asst::TaskData::parse(const json::value& json)
             check_and_link(task->exceeded_next, name + "#exceeded_next");
             check_and_link(task->on_error_next, name + "#on_error_next");
             check_and_link(task->reduce_other_times, name + "#reduce_other_times");
+
+            // 检查是否有 JustReturn 任务不是最后一个任务
+            auto check_justreturn = [&](const std::vector<std::string>& task_list, std::string node_name) {
+                std::function<bool(const std::vector<std::string>&)> generate_tasks;
+                std::unordered_set<std::string> tasks_set {};
+                bool has_justreturn = false;
+                generate_tasks = [&](const std::vector<std::string>& raw_tasks) {
+                    for (const std::string& task : raw_tasks) {
+                        if (tasks_set.contains(task)) [[unlikely]] {
+                            continue;
+                        }
+                        if (has_justreturn) [[unlikely]] {
+                            return false;
+                        }
+
+                        size_t pos = task.find('#');
+                        if (pos == std::string::npos) [[likely]] {
+                            if (auto ptr = get(task, false); ptr != nullptr) {
+                                has_justreturn |= ptr->algorithm == AlgorithmType::JustReturn;
+                            }
+                            tasks_set.emplace(task);
+                            continue;
+                        }
+
+                        std::string other_task_name = task.substr(0, pos);
+                        std::string_view type = std::string_view(task).substr(pos + 1);
+                        auto other_tasklist_ref = get(other_task_name, false);
+                        if (other_tasklist_ref == nullptr) {
+                            continue;
+                        }
+
+#define ASST_PROCESSTASK_GENERATE_TASKS(t)                            \
+    else if (type == #t)                                              \
+    {                                                                 \
+        if (!generate_tasks(other_tasklist_ref->t)) { \
+            return false;                                             \
+        }                                                             \
+    }
+                        if constexpr (false) {}
+                        ASST_PROCESSTASK_GENERATE_TASKS(next)
+                        ASST_PROCESSTASK_GENERATE_TASKS(sub)
+                        ASST_PROCESSTASK_GENERATE_TASKS(on_error_next)
+                        ASST_PROCESSTASK_GENERATE_TASKS(exceeded_next)
+                        ASST_PROCESSTASK_GENERATE_TASKS(reduce_other_times)
+#undef ASST_PROCESSTASK_GENERATE_TASKS
+
+                        tasks_set.emplace(task);
+                    }
+
+                    return true;
+                };
+                if (!generate_tasks(task_list)) {
+                    Log.error(node_name, "has justreturn task that is not the last one");
+                    validity = false;
+                }
+            };
+            check_justreturn(task->next, name + "#next");
+            check_justreturn(task->exceeded_next, name + "#exceeded_next");
+            check_justreturn(task->on_error_next, name + "#on_error_next");
         }
 
         // dfs 检查 "#" 型任务是否循环依赖 (有向无环图)
