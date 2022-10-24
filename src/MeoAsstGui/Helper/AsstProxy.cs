@@ -732,6 +732,7 @@ namespace MeoAsstGui
                             {
                                 all_drops += $" (+{addQuantity})";
                             }
+
                             all_drops += "\n";
                         }
 
