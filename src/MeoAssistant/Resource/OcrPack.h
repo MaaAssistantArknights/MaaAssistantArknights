@@ -30,6 +30,7 @@ namespace asst
 
     protected:
         OcrPack();
+        virtual const std::string model_name() const noexcept = 0;
 
         paddle_ocr_t* m_ocr = nullptr;
 
@@ -42,10 +43,16 @@ namespace asst
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack
     {
         friend class SingletonHolder<WordOcr>;
+
+    protected:
+        virtual const std::string model_name() const noexcept { return "WordOCR"; }
     };
 
     class CharOcr final : public SingletonHolder<CharOcr>, public OcrPack
     {
         friend class SingletonHolder<CharOcr>;
+
+    protected:
+        virtual const std::string model_name() const noexcept { return "CharOCR"; }
     };
 }
