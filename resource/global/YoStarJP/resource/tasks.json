@@ -102,6 +102,21 @@
             "Home@ReturnTo"
         ]
     },
+"StageDrops-Quantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            62,
+            90,
+            46,
+            22
+        ],
+        "maskRange": [
+            200,
+            255
+        ]
+    },
     "RecruitTags": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
