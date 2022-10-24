@@ -2481,9 +2481,9 @@
             340
         ],
         "next": [
-            "PRTS3",
             "PRTS",
             "PRTS2",
+            "PRTS3",
             "EndOfAction",
             "StartButton2",
             "PrtsErrorConfirm",
@@ -2492,52 +2492,6 @@
         ]
     },
     "PRTS": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "角色"
-        ],
-        "roi": [
-            900,
-            500,
-            380,
-            150
-        ],
-        "action": "DoNothing",
-        "rearDelay": 5000,
-        "next": [
-            "PRTS",
-            "PRTS3",
-            "PRTS2",
-            "EndOfAction",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
-        ]
-    },
-    "PRTS2": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "接管"
-        ],
-        "roi": [
-            324,
-            579,
-            219,
-            141
-        ],
-        "action": "DoNothing",
-        "rearDelay": 5000,
-        "next": [
-            "PRTS3",
-            "PRTS2",
-            "PRTS",
-            "EndOfAction",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
-        ]
-    },
-    "PRTS3": {
         "action": "DoNothing",
         "template": "BattleOfficiallyBegin.png",
         "roi": [
@@ -2552,27 +2506,54 @@
         ],
         "rearDelay": 5000,
         "next": [
-            "PRTS3",
             "PRTS",
             "PRTS2",
+            "PRTS3",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
         ]
     },
+    "PRTS2": {
+        "baseTask": "PRTS",
+        "algorithm": "OcrDetect",
+        "text": [
+            "接管"
+        ],
+        "roi": [
+            324,
+            579,
+            219,
+            141
+        ]
+    },
+    "PRTS3": {
+        "baseTask": "PRTS",
+        "algorithm": "OcrDetect",
+        "text": [
+            "角色"
+        ],
+        "roi": [
+            900,
+            500,
+            380,
+            150
+        ]
+    },
     "WaitAfterPRTS": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "PRTS3",
             "PRTS",
             "PRTS2",
+            "PRTS3",
             "EndOfAction",
             "ClickCornerAfterPRTS_1"
         ]
     },
-    "ClickCornerAfterPRTS_1": {
+    "ClickCornerAfterPRTS": {
+        "Doc": "base_task",
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -2590,39 +2571,22 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "OfflineConfirm",
-            "ClickCornerAfterPRTS_2"
-        ]
-    },
-    "ClickCornerAfterPRTS_2": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
-        ],
-        "rearDelay": 3000,
-        "next": [
-            "EndOfAction",
-            "StartButton1",
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "GameStart",
             "StartToWakeUp",
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "OfflineConfirm"
-        ],
+        ]
+    },
+    "ClickCornerAfterPRTS_1": {
+        "baseTask": "ClickCornerAfterPRTS",
+        "next": [
+            "ClickCornerAfterPRTS#next",
+            "ClickCornerAfterPRTS_2"
+        ]
+    },
+    "ClickCornerAfterPRTS_2": {
+        "baseTask": "ClickCornerAfterPRTS",
         "onErrorNext": [
             "RestartGameAndContinue"
         ]
@@ -2814,9 +2778,9 @@
             160
         ],
         "next": [
-            "PRTS3",
             "PRTS",
             "PRTS2",
+            "PRTS3",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartToWakeUp",
