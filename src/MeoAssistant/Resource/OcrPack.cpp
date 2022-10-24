@@ -5,6 +5,7 @@
 #include "Utils/NoWarningCV.h"
 #include <PaddleOCR/paddle_ocr.h>
 
+#include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"
@@ -95,13 +96,14 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     std::vector<uchar> buf;
     cv::imencode(".png", image, buf);
 
+    std::string type = utils::demangle(typeid(*this).name());
     if (!without_det) {
-        Log.trace("Ocr System with", model_name());
+        Log.trace("Ocr System with", type);
         PaddleOcrSystem(m_ocr, buf.data(), buf.size(), false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size,
                         nullptr, nullptr);
     }
     else {
-        Log.trace("Ocr Rec with", model_name());
+        Log.trace("Ocr Rec with", type);
         PaddleOcrRec(m_ocr, buf.data(), buf.size(), m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
     }
 
