@@ -75,9 +75,12 @@ bool asst::OcrImageAnalyzer::analyze()
         m_roi.height = m_image.rows - m_roi.y;
     }
 
-    OcrPack* ocr_ptr = &WordOcr::get_instance();
+    OcrPack* ocr_ptr = nullptr;
     if (m_use_char_model) {
         ocr_ptr = &CharOcr::get_instance();
+    }
+    else {
+        ocr_ptr = &WordOcr::get_instance();
     }
     m_ocr_result = ocr_ptr->recognize(m_image, m_roi, all_pred, m_without_det);
     ocr_ptr = nullptr;
