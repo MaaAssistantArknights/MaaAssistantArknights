@@ -2628,12 +2628,11 @@
     "EndOfAction": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
         "roi": [
-            11,
-            357,
-            153,
-            143
+            0,
+            290,
+            130,
+            60
         ],
-        "action": "DoNothing",
         "reduceOtherTimes": [
             "FightMissionFailed"
         ],
