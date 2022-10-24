@@ -9,6 +9,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "Utils/StringMisc.hpp"
+
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -175,15 +177,6 @@ namespace asst
     };
     using TextRectProc = std::function<bool(TextRect&)>;
 
-    enum class AlgorithmType
-    {
-        Invalid = -1,
-        JustReturn,
-        MatchTemplate,
-        OcrDetect,
-        Hash
-    };
-
     struct MatchRect
     {
         MatchRect() = default;
@@ -238,6 +231,45 @@ namespace std
 
 namespace asst
 {
+    enum class AlgorithmType
+    {
+        Invalid = -1,
+        JustReturn,
+        MatchTemplate,
+        OcrDetect,
+        Hash
+    };
+
+    inline AlgorithmType get_algorithm_type(std::string algorithm_str)
+    {
+        utils::tolowers(algorithm_str);
+        static const std::unordered_map<std::string_view, AlgorithmType> algorithm_map = {
+            { "matchtemplate", AlgorithmType::MatchTemplate },
+            { "justreturn", AlgorithmType::JustReturn },
+            { "ocrdetect", AlgorithmType::OcrDetect },
+            { "hash", AlgorithmType::Hash },
+        };
+        if (algorithm_map.contains(algorithm_str)) {
+            return algorithm_map.at(algorithm_str);
+        }
+        return AlgorithmType::Invalid;
+    }
+
+    inline std::string enum_to_string(AlgorithmType algo)
+    {
+        static const std::unordered_map<AlgorithmType, std::string> algorithm_map = {
+            { AlgorithmType::Invalid, "Invalid" },
+            { AlgorithmType::JustReturn, "JustReturn" },
+            { AlgorithmType::MatchTemplate, "MatchTemplate" },
+            { AlgorithmType::OcrDetect, "OcrDetect" },
+            { AlgorithmType::Hash, "Hash" },
+        };
+        if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
+
     enum class ProcessTaskAction
     {
         Invalid = 0,
@@ -254,6 +286,52 @@ namespace asst
         SlowlySwipeToTheRight = SwipeToTheRight | 8 // 慢慢的往右划一下
     };
 
+    inline ProcessTaskAction get_action_type(std::string action_str)
+    {
+        utils::tolowers(action_str);
+        static const std::unordered_map<std::string, ProcessTaskAction> action_map = {
+            { "clickself", ProcessTaskAction::ClickSelf },
+            { "clickrand", ProcessTaskAction::ClickRand },
+            { "", ProcessTaskAction::DoNothing },
+            { "donothing", ProcessTaskAction::DoNothing },
+            { "stop", ProcessTaskAction::Stop },
+            { "clickrect", ProcessTaskAction::ClickRect },
+            { "swipetotheleft", ProcessTaskAction::SwipeToTheLeft },
+            { "swipetotheright", ProcessTaskAction::SwipeToTheRight },
+            { "slowlyswipetotheleft", ProcessTaskAction::SlowlySwipeToTheLeft },
+            { "slowlyswipetotheright", ProcessTaskAction::SlowlySwipeToTheRight },
+        };
+        if (auto it = action_map.find(action_str); it != action_map.end()) {
+            return it->second;
+        }
+        return ProcessTaskAction::Invalid;
+    }
+
+    inline std::string enum_to_string(ProcessTaskAction action)
+    {
+        static const std::unordered_map<ProcessTaskAction, std::string> action_map = {
+            { ProcessTaskAction::Invalid, "Invalid" },
+            { ProcessTaskAction::BasicClick, "BasicClick" },
+            { ProcessTaskAction::ClickSelf, "ClickSelf" },
+            { ProcessTaskAction::ClickRect, "ClickRect" },
+            { ProcessTaskAction::ClickRand, "ClickRand" },
+            { ProcessTaskAction::DoNothing, "DoNothing" },
+            { ProcessTaskAction::Stop, "Stop" },
+            { ProcessTaskAction::BasicSwipe, "BasicSwipe" },
+            { ProcessTaskAction::SwipeToTheLeft, "SwipeToTheLeft" },
+            { ProcessTaskAction::SwipeToTheRight, "SwipeToTheRight" },
+            { ProcessTaskAction::SlowlySwipeToTheLeft, "SlowlySwipeToTheLeft" },
+            { ProcessTaskAction::SlowlySwipeToTheRight, "SlowlySwipeToTheRight" },
+        };
+        if (auto it = action_map.find(action); it != action_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
+}
+
+namespace asst
+{
     // 任务信息
     struct TaskInfo
     {

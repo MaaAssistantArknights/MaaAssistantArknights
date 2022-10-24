@@ -181,7 +181,6 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::st
     std::shared_ptr<TaskInfo> default_derived_ptr = default_ptr;
     if (auto opt = task_json.find<std::string>("algorithm")) {
         std::string algorithm_str = opt.value();
-        utils::tolowers(algorithm_str);
         algorithm = get_algorithm_type(algorithm_str);
         if (default_ptr->algorithm != algorithm) {
             // 相同 algorithm 时才继承派生类成员
@@ -326,7 +325,6 @@ bool asst::TaskData::append_base_task_info(std::shared_ptr<TaskInfo> task_info_p
     }
     if (auto opt = task_json.find<std::string>("action")) {
         std::string action = opt.value();
-        utils::tolowers(action);
         task_info_ptr->action = get_action_type(action);
         if (task_info_ptr->action == ProcessTaskAction::Invalid) [[unlikely]] {
             Log.error("Unknown action:", action, ", Task:", name);
