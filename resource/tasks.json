@@ -1980,6 +1980,7 @@
             "StartUp@StartUpConnectingFlag",
             "StartUp@StartLoginBServer",
             "StartUp@BServerPrivacyPolicy",
+            "StartUp@Loading2",
             "StartUp@Main",
             "StartUp@CloseAnno",
             "StartUp@TodaysSupplies",
@@ -2004,6 +2005,7 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
+            "Loading2",
             "Main",
             "CloseAnno",
             "TodaysSupplies",
@@ -2036,6 +2038,7 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
+            "Loading2",
             "Main",
             "CloseAnno",
             "OfflineConfirm",
@@ -2055,6 +2058,7 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
+            "Loading2",
             "Main",
             "CloseAnno",
             "OfflineConfirm",
@@ -2073,6 +2077,7 @@
             "StartUpConnectingFlag",
             "StartLoginBServer",
             "BServerPrivacyPolicy",
+            "Loading2",
             "Main",
             "CloseAnno",
             "OfflineConfirm",
@@ -2092,6 +2097,7 @@
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "StartUpConnectingFlag",
+            "Loading2",
             "Main",
             "CloseAnno",
             "OfflineConfirm",
@@ -2149,6 +2155,30 @@
             "Main"
         ]
     },
+    "Loading2": {
+        "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
+        "roi": [
+            480,
+            210,
+            320,
+            280
+        ],
+        "next": [
+            "Loading2",
+            "Main",
+            "ReturnTo",
+            "CloseAnno",
+            "FromStageSN",
+            "TodaysSupplies",
+            "OfflineConfirm",
+            "GameStart",
+            "StartToWakeUp",
+            "StartUpConnectingFlag",
+            "StartLoginBServer",
+            "BServerPrivacyPolicy",
+            "FromStageSN"
+        ]
+    },
     "ReturnTo": {
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -2163,6 +2193,7 @@
             "Main",
             "ReturnTo",
             "ReturnToConfirm",
+            "Loading2",
             "CloseAnno",
             "FromStageSN",
             "TodaysSupplies"
@@ -2180,6 +2211,7 @@
         "next": [
             "ReturnTo",
             "Main",
+            "Loading2",
             "CloseAnno",
             "FromStageSN",
             "TodaysSupplies",
@@ -2871,6 +2903,7 @@
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "ReturnTo",
+            "Loading2",
             "Main",
             "CloseAnno",
             "FromStageSN",
