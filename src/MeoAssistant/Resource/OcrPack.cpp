@@ -93,26 +93,23 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 {
     size_t size = 0;
 
-    std::vector<uchar> buf;
-    cv::imencode(".png", image, buf);
-
-    std::string type = utils::demangle(typeid(*this).name());
+    std::string class_type = utils::demangle(typeid(*this).name());
+    // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
+    // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
+    cv::Mat copied = image.clone();
     if (!without_det) {
-        Log.trace("Ocr System with", type);
-        PaddleOcrSystem(m_ocr, buf.data(), buf.size(), false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size,
-                        nullptr, nullptr);
+        Log.trace("Ocr System with", class_type);
+        PaddleOcrSystemWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, false, m_boxes_buffer,
+                                m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
     }
     else {
-        Log.trace("Ocr Rec with", type);
-        PaddleOcrRec(m_ocr, buf.data(), buf.size(), m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
+        Log.trace("Ocr Rec with", class_type);
+        PaddleOcrRecWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, m_strs_buffer,
+                             m_scores_buffer, &size, nullptr, nullptr);
     }
 
     std::vector<TextRect> result;
     std::vector<TextRect> raw_result;
-
-#ifdef ASST_DEBUG
-    cv::Mat draw = image.clone();
-#endif
 
     for (size_t i = 0; i != size; ++i) {
         // the box rect like ↓
@@ -135,7 +132,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 
         TextRect tr { score, rect, text };
 #ifdef ASST_DEBUG
-        cv::rectangle(draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(copied, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
 #endif
         raw_result.emplace_back(tr);
         if (trim) {
