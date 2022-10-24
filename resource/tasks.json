@@ -4669,6 +4669,7 @@
     },
     "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
+        "template": "InfrastFilterMenu.png",
         "cache": false,
         "roi": [
             1050,
