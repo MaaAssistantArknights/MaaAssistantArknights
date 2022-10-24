@@ -27,6 +27,8 @@ namespace asst
 {
     template <typename Stream, typename T>
     concept has_stream_insertion_operator = requires { std::declval<Stream&>() << std::declval<T>(); };
+    template <typename T>
+    concept enum_could_to_string = requires { asst::enum_to_string(std::declval<T>()); };
 
     // is_reference_wrapper
     template <typename T>
@@ -296,7 +298,7 @@ namespace asst
 #endif // END _WIN32
                     s << buff;
                 }
-                else if constexpr (std::is_enum_v<T>) {
+                else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
                     s << std::to_string(std::forward<T>(v));
                 }
                 else if constexpr (has_stream_insertion_operator<Stream, T>) {
