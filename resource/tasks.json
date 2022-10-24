@@ -3238,8 +3238,8 @@
         ],
         "next": [
             "RecruitingActivitiesRecruitSkip",
-            "RecruitingActivitiesRecruitSkipWithoutButton",
-            "RecruitingActivitiesRecruitNowConfirm"
+            "RecruitingActivitiesRecruitNowConfirm",
+            "RecruitingActivitiesRecruitSkipWithoutButton"
         ]
     },
     "RecruitingActivitiesRecruitSkip": {
@@ -6884,8 +6884,8 @@
             118
         ],
         "next": [
-            "Roguelike@ChooseOper",
-            "Roguelike@RecruitCloseGuide"
+            "Roguelike@RecruitCloseGuide",
+            "Roguelike@ChooseOper"
         ]
     },
     "Roguelike@ClickToDrops": {
@@ -7242,9 +7242,9 @@
         ],
         "rearDelay": 1000,
         "next": [
-            "Roguelike@ClickToDrops",
             "Roguelike@GetDropSelectReward",
-            "Roguelike@ChooseOperFlag"
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@ClickToDrops"
         ]
     },
     "Roguelike@InBattleFlag": {
