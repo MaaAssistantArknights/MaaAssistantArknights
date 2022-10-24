@@ -16,6 +16,7 @@
 #include "Utils/AsstImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Utils/UserDir.hpp"
 
 using namespace asst;
 
@@ -207,10 +208,13 @@ bool asst::AbstractTask::save_img(const std::string& dirname)
         return false;
     }
 
+    auto user_dir = asst::UserDir::get_instance().get();
+    auto outdir = (user_dir / dirname).string();
+
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
-    std::filesystem::create_directories(dirname);
-    std::string full_path = dirname + stem + "_raw.png";
+    std::filesystem::create_directories(outdir);
+    std::string full_path = outdir + stem + "_raw.png";
     Log.trace("Save image", full_path);
     return asst::imwrite(full_path, image);
 }

@@ -7,6 +7,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Utils/Time.hpp"
+#include "Utils/UserDir.hpp"
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
     : m_image(image), m_roi(empty_rect_to_full(Rect(), image))
@@ -69,15 +70,18 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
 
 bool asst::AbstractImageAnalyzer::save_img(const std::string& dirname)
 {
+    auto user_dir = asst::UserDir::get_instance().get();
+    auto outdir = (user_dir / dirname).string();
+
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
-    std::filesystem::create_directories(dirname);
-    std::string full_path = dirname + stem + "_raw.png";
+    std::filesystem::create_directories(outdir);
+    std::string full_path = outdir + stem + "_raw.png";
     Log.trace("Save image", full_path);
     bool ret = asst::imwrite(full_path, m_image);
 
 #ifdef ASST_DEBUG
-    asst::imwrite(dirname + stem + "_draw.png", m_image_draw);
+    asst::imwrite(outdir + stem + "_draw.png", m_image_draw);
 #endif
 
     return ret;
