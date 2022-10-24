@@ -156,10 +156,10 @@ bool ProcessTask::_run()
 
         info["details"] = json::object {
             { "task", cur_name },
-            { "action", static_cast<int>(m_cur_task_ptr->action) },
+            { "action", std::to_string(m_cur_task_ptr->action) },
             { "exec_times", exec_times },
             { "max_times", max_times },
-            { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) },
+            { "algorithm", std::to_string(m_cur_task_ptr->algorithm) },
         };
 
         callback(AsstMsg::SubTaskStart, info);
