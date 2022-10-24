@@ -9,6 +9,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "Utils/StringMisc.hpp"
+
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -175,15 +177,6 @@ namespace asst
     };
     using TextRectProc = std::function<bool(TextRect&)>;
 
-    enum class AlgorithmType
-    {
-        Invalid = -1,
-        JustReturn,
-        MatchTemplate,
-        OcrDetect,
-        Hash
-    };
-
     struct MatchRect
     {
         MatchRect() = default;
@@ -238,6 +231,30 @@ namespace std
 
 namespace asst
 {
+    enum class AlgorithmType
+    {
+        Invalid = -1,
+        JustReturn,
+        MatchTemplate,
+        OcrDetect,
+        Hash
+    };
+
+    inline AlgorithmType get_algorithm_type(std::string algorithm_str)
+    {
+        utils::tolowers(algorithm_str);
+        static const std::unordered_map<std::string_view, AlgorithmType> algorithm_map = {
+            { "matchtemplate", AlgorithmType::MatchTemplate },
+            { "justreturn", AlgorithmType::JustReturn },
+            { "ocrdetect", AlgorithmType::OcrDetect },
+            { "hash", AlgorithmType::Hash },
+        };
+        if (algorithm_map.contains(algorithm_str)) {
+            return algorithm_map.at(algorithm_str);
+        }
+        return AlgorithmType::Invalid;
+    }
+
     enum class ProcessTaskAction
     {
         Invalid = 0,
@@ -254,6 +271,84 @@ namespace asst
         SlowlySwipeToTheRight = SwipeToTheRight | 8 // 慢慢的往右划一下
     };
 
+    inline ProcessTaskAction get_action_type(std::string action_str)
+    {
+        utils::tolowers(action_str);
+        static const std::unordered_map<std::string, ProcessTaskAction> action_map = {
+            { "clickself", ProcessTaskAction::ClickSelf },
+            { "clickrand", ProcessTaskAction::ClickRand },
+            { "", ProcessTaskAction::DoNothing },
+            { "donothing", ProcessTaskAction::DoNothing },
+            { "stop", ProcessTaskAction::Stop },
+            { "clickrect", ProcessTaskAction::ClickRect },
+            { "swipetotheleft", ProcessTaskAction::SwipeToTheLeft },
+            { "swipetotheright", ProcessTaskAction::SwipeToTheRight },
+            { "slowlyswipetotheleft", ProcessTaskAction::SlowlySwipeToTheLeft },
+            { "slowlyswipetotheright", ProcessTaskAction::SlowlySwipeToTheRight },
+        };
+        if (auto it = action_map.find(action_str); it != action_map.end()) {
+            return it->second;
+        }
+        return ProcessTaskAction::Invalid;
+    }
+}
+
+namespace std
+{
+    inline std::string to_string(asst::AlgorithmType algo)
+    {
+        static const std::unordered_map<asst::AlgorithmType, std::string> algorithm_map = {
+            { asst::AlgorithmType::Invalid, "Invalid" },
+            { asst::AlgorithmType::JustReturn, "JustReturn" },
+            { asst::AlgorithmType::MatchTemplate, "MatchTemplate" },
+            { asst::AlgorithmType::OcrDetect, "OcrDetect" },
+            { asst::AlgorithmType::Hash, "Hash" },
+        };
+        if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
+
+    inline std::string to_string(asst::ProcessTaskAction action)
+    {
+        static const std::unordered_map<asst::ProcessTaskAction, std::string> action_map = {
+            { asst::ProcessTaskAction::Invalid, "Invalid" },
+            { asst::ProcessTaskAction::BasicClick, "BasicClick" },
+            { asst::ProcessTaskAction::ClickSelf, "ClickSelf" },
+            { asst::ProcessTaskAction::ClickRect, "ClickRect" },
+            { asst::ProcessTaskAction::ClickRand, "ClickRand" },
+            { asst::ProcessTaskAction::DoNothing, "DoNothing" },
+            { asst::ProcessTaskAction::Stop, "Stop" },
+            { asst::ProcessTaskAction::BasicSwipe, "BasicSwipe" },
+            { asst::ProcessTaskAction::SwipeToTheLeft, "SwipeToTheLeft" },
+            { asst::ProcessTaskAction::SwipeToTheRight, "SwipeToTheRight" },
+            { asst::ProcessTaskAction::SlowlySwipeToTheLeft, "SlowlySwipeToTheLeft" },
+            { asst::ProcessTaskAction::SlowlySwipeToTheRight, "SlowlySwipeToTheRight" },
+        };
+        if (auto it = action_map.find(action); it != action_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
+    /*
+    template <typename T>
+    requires requires() { asst::to_string(std::declval<T>()); }
+    std::string to_string(const T& type)
+    {
+        return asst::to_string(type);
+    }
+    template <typename T>
+    requires requires() { std::declval<T>().to_string(); }
+    std::string to_string(const T& type)
+    {
+        return type.to_string();
+    }
+    */
+}
+
+namespace asst
+{
     // 任务信息
     struct TaskInfo
     {

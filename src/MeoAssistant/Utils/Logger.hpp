@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "AsstRanges.hpp"
+#include "AsstTypes.h"
 #include "Locale.hpp"
 #include "Meta.hpp"
 #include "Platform.hpp"
@@ -294,6 +295,9 @@ namespace asst
                             getpid(), (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
 #endif // END _WIN32
                     s << buff;
+                }
+                else if constexpr (std::is_enum_v<T>) {
+                    s << std::to_string(std::forward<T>(v));
                 }
                 else if constexpr (has_stream_insertion_operator<Stream, T>) {
                     s << std::forward<T>(v);
