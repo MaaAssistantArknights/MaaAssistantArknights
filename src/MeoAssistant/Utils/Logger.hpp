@@ -299,7 +299,7 @@ namespace asst
                     s << buff;
                 }
                 else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
-                    s << std::to_string(std::forward<T>(v));
+                    s << asst::enum_to_string(std::forward<T>(v));
                 }
                 else if constexpr (has_stream_insertion_operator<Stream, T>) {
                     s << std::forward<T>(v);
