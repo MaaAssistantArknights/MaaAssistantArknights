@@ -672,6 +672,7 @@ namespace MeoAsstGui
                     fileStream.Write(byteArray, 0, byteArraySize);
                     byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
                 }
+
                 success = true;
             }
             catch (Exception info)
