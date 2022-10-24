@@ -20,10 +20,12 @@ namespace MeoAsstGui.MaaHotKeys
     public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
     {
         private readonly IContainer _container;
+        private readonly IMainWindowManager _mainWindowManager;
 
         public MaaHotKeyActionHandler(IContainer container)
         {
             _container = container;
+            _mainWindowManager = container.Get<IMainWindowManager>();
         }
 
         public void HandleKeyPressed(MaaHotKeyAction action)
@@ -41,22 +43,7 @@ namespace MeoAsstGui.MaaHotKeys
             }
         }
 
-        protected virtual void HandleShowGui()
-        {
-            if (Application.Current.MainWindow is null)
-            {
-                return;
-            }
-
-            if (Application.Current.MainWindow.WindowState == WindowState.Minimized)
-            {
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
-            }
-            else
-            {
-                Application.Current.MainWindow.WindowState = WindowState.Minimized;
-            }
-        }
+        protected virtual void HandleShowGui() => _mainWindowManager.SwitchWindowState();
 
         protected virtual void HandleLinkStart()
         {
@@ -71,8 +58,7 @@ namespace MeoAsstGui.MaaHotKeys
             {
                 mainModel.LinkStart();
 
-                if (Application.Current.MainWindow == null ||
-                    Application.Current.MainWindow.WindowState != WindowState.Minimized)
+                if (_mainWindowManager.GetWindowState() != WindowState.Minimized)
                 {
                     return;
                 }

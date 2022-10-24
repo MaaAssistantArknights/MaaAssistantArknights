@@ -95,6 +95,7 @@ namespace MeoAsstGui
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
+            builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
         }
 
         /// <inheritdoc/>
