@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <random>
+#include <unordered_set>
 
 #include <meojson/json.hpp>
 
@@ -78,28 +79,35 @@ ProcessTask& asst::ProcessTask::set_rear_delay(std::string name, int delay)
     return *this;
 }
 
-bool ProcessTask::generate_tasks(const std::vector<std::string>& raw_tasks)
+bool ProcessTask::generate_tasks(const std::vector<std::string>& raw_tasks, std::unordered_set<std::string>& tasks_set)
 {
     for (const std::string& task : raw_tasks) {
-        size_t pos = task.find('#');
-        if (pos == std::string_view::npos) {
-            m_cur_tasks_name.emplace_back(task);
+        if (tasks_set.contains(task)) [[unlikely]] {
+            // 对于相同的 task，第一次识别后第二次就不再识别了
             continue;
         }
+
+        size_t pos = task.find('#');
+        if (pos == std::string::npos) [[likely]] {
+            m_cur_tasks_name.emplace_back(task);
+            tasks_set.emplace(task);
+            continue;
+        }
+
         std::string other_task_name = task.substr(0, pos);
-        std::string type = task.substr(pos + 1);
+        std::string_view type = std::string_view(task).substr(pos + 1);
         auto other_tasklist_ref = Task.get(other_task_name);
         if (other_tasklist_ref == nullptr) {
             Log.error(task, "not found");
             continue;
         }
 
-#define ASST_PROCESSTASK_GENERATE_TASKS(t)            \
-    else if (type == #t)                              \
-    {                                                 \
-        if (!generate_tasks(other_tasklist_ref->t)) { \
-            return false;                             \
-        }                                             \
+#define ASST_PROCESSTASK_GENERATE_TASKS(t)                       \
+    else if (type == #t)                                         \
+    {                                                            \
+        if (!generate_tasks(other_tasklist_ref->t, tasks_set)) { \
+            return false;                                        \
+        }                                                        \
     }
         if constexpr (false) {}
         ASST_PROCESSTASK_GENERATE_TASKS(next)
@@ -111,8 +119,10 @@ bool ProcessTask::generate_tasks(const std::vector<std::string>& raw_tasks)
             Log.error("Unknown type", type);
             return false;
         }
-    }
 #undef ASST_PROCESSTASK_GENERATE_TASKS
+
+        tasks_set.emplace(task);
+    }
 
     return true;
 }
@@ -121,8 +131,9 @@ bool ProcessTask::generate_tasks()
 {
     // std::move 后 m_cur_tasks_name 已经为空
     std::vector<std::string> cur_tasks_name = std::move(m_cur_tasks_name);
-    if (!generate_tasks(cur_tasks_name)) [[unlikely]] {
-        Log.error("Generate task failed.");
+    std::unordered_set<std::string> tasks_set {};
+    if (!generate_tasks(cur_tasks_name, tasks_set)) [[unlikely]] {
+        Log.error("Generate task failed. pre_task:", m_pre_task_name);
         m_cur_tasks_name.clear();
         return false;
     }
@@ -134,14 +145,14 @@ bool ProcessTask::_run()
     LogTraceFunction;
 
     while (!m_cur_tasks_name.empty()) {
-        if (!generate_tasks()) {
-            return false;
-        }
         if (need_exit()) {
             return false;
         }
         if (m_cur_task_ptr && m_pre_task_name != m_cur_task_ptr->name) {
             m_pre_task_name = m_cur_task_ptr->name;
+        }
+        if (!generate_tasks()) {
+            return false;
         }
 
         json::value info = basic_info();
