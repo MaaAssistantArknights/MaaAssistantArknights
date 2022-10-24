@@ -90,6 +90,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const cv::Mat& image, const
     auto& replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     analyzer.set_replace(replace);
     analyzer.set_expansion(1);
+    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return -1;
