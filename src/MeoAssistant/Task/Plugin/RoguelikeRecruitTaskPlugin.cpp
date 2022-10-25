@@ -194,7 +194,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         // 向右滑动
         Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
         slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
-        sleep(Task.get("RoguelikeCustom-HijackSquad")->rear_delay);
+        sleep(Task.get("RoguelikeCustom-HijackCoChar")->rear_delay);
     }
 
     // 没有候选干员，进入后备逻辑
@@ -319,7 +319,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         else {
             slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
         }
-        sleep(Task.get("RoguelikeCustom-HijackSquad")->rear_delay);
+        sleep(Task.get("RoguelikeCustom-HijackCoChar")->rear_delay);
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
     swipe_to_the_left_of_operlist(i / 3 + 1);
