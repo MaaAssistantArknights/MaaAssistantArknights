@@ -6776,40 +6776,6 @@
             138
         ]
     },
-    "Begin": {
-        "Doc": "Roguelike base task",
-        "algorithm": "JustReturn"
-    },
-    "FromIntegratedStrategies": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "进入主题"
-        ],
-        "roi": [
-            1006,
-            445,
-            246,
-            157
-        ],
-        "next": [
-            "FromIntegratedStrategies",
-            "Begin"
-        ]
-    },
-    "IntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [
-            963,
-            599,
-            148,
-            121
-        ],
-        "next": [
-            "IntegratedStrategies",
-            "FromIntegratedStrategies"
-        ]
-    },
     "Roguelike@Abandon": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -6836,6 +6802,29 @@
         "next": [
             "Roguelike@MissionFailedFlag2",
             "Roguelike@StartExplore"
+        ]
+    },
+    "Roguelike@Begin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@ChooseDifficulty",
+            "Roguelike@StartExplore",
+            "Roguelike@NextLevel#next",
+            "Roguelike@GetDrops#next",
+            "Roguelike@NextLevel",
+            "Roguelike@ExitThenAbandon",
+            "Roguelike@Abandon",
+            "Roguelike@TodaysSupplies",
+            "Roguelike@Main",
+            "Roguelike@CloseAnno",
+            "Roguelike@TodoEnter",
+            "Roguelike@Continue",
+            "Roguelike@ReturnTo",
+            "Roguelike@ReturnToConfirm",
+            "Roguelike@OfflineConfirm",
+            "Roguelike@StartToWakeUp",
+            "Roguelike@StartUpConnectingFlag",
+            "Roguelike@FromStageSN"
         ]
     },
     "Roguelike@ChooseDifficulty": {
@@ -6897,7 +6886,22 @@
             50,
             50
         ],
-        "rearDelay": 500
+        "rearDelay": 500,
+        "next": [
+            "Roguelike@NextLevel#next",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@StageEncounterSpecialClose",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@DropsFlag",
+            "Roguelike@TodaysSupplies",
+            "Roguelike@Main",
+            "Roguelike@CloseAnno",
+            "Roguelike@OfflineConfirm",
+            "Roguelike@StartToWakeUp",
+            "Roguelike@StartUpConnectingFlag",
+            "Roguelike@ClickToDrops"
+        ]
     },
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
@@ -6908,7 +6912,23 @@
             50,
             50
         ],
-        "rearDelay": 1000
+        "rearDelay": 1000,
+        "next": [
+            "Roguelike@StartExplore",
+            "Roguelike@NextLevel#next",
+            "Roguelike@GamePass",
+            "Roguelike@TodaysSupplies",
+            "Roguelike@Main",
+            "Roguelike@CloseAnno",
+            "Roguelike@TodoEnter",
+            "Roguelike@Continue",
+            "Roguelike@ReturnTo",
+            "Roguelike@ReturnToConfirm",
+            "Roguelike@OfflineConfirm",
+            "Roguelike@StartToWakeUp",
+            "Roguelike@StartUpConnectingFlag",
+            "Roguelike@ClickToStartPoint"
+        ]
     },
     "Roguelike@CloseCollection": {
         "Doc": "base_task",
@@ -6980,7 +7000,10 @@
             202,
             239
         ],
-        "rearDelay": 3000
+        "rearDelay": 3000,
+        "next": [
+            "Roguelike@NextLevel#next"
+        ]
     },
     "Roguelike@ExitThenAbandon": {
         "action": "ClickSelf",
@@ -7002,6 +7025,23 @@
         ],
         "next": [
             "Roguelike@StartAction"
+        ]
+    },
+    "Roguelike@FromIntegratedStrategies": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入主题"
+        ],
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
+        "next": [
+            "Roguelike@FromIntegratedStrategies",
+            "Roguelike@Begin"
         ]
     },
     "Roguelike@GamePass": {
@@ -7069,9 +7109,8 @@
             "Roguelike@GamePass"
         ]
     },
-    "Roguelike@GetDrop1": {
+    "Roguelike@GetDrop": {
         "Doc": "base_task",
-        "Doc2": "源石锭，绿色的“拿走”按钮",
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
@@ -7082,7 +7121,13 @@
             157
         ],
         "templThreshold": 0.85,
-        "rearDelay": 1000,
+        "rearDelay": 1000
+    },
+    "Roguelike@GetDrop1": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@GetDrop",
+        "Doc2": "源石锭，绿色的“拿走”按钮",
         "next": [
             "Roguelike@DropsFlag",
             "Roguelike@ChooseOperFlag"
@@ -7090,18 +7135,9 @@
     },
     "Roguelike@GetDrop2": {
         "Doc": "base_task",
-        "Doc2": "希望，黄色的“拿走”按钮",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            471,
-            1280,
-            157
-        ],
-        "templThreshold": 0.85,
-        "rearDelay": 1000,
+        "baseTask": "Roguelike@GetDrop",
+        "Doc2": "希望，黄色的“拿走”按钮",
         "next": [
             "Roguelike@DropsFlag",
             "Roguelike@ChooseOperFlag",
@@ -7110,18 +7146,9 @@
     },
     "Roguelike@GetDrop3": {
         "Doc": "base_task",
-        "Doc2": "未知的剧目，黄色的“翻开”按钮",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            471,
-            1280,
-            157
-        ],
-        "rearDelay": 1000,
-        "templThreshold": 0.85,
+        "baseTask": "Roguelike@GetDrop",
+        "Doc2": "未知的剧目，黄色的“翻开”按钮",
         "next": [
             "Roguelike@ChooseOperFlag",
             "Roguelike@ClickToDrops"
@@ -7143,7 +7170,12 @@
             302,
             289
         ],
-        "rearDelay": 3000
+        "rearDelay": 3000,
+        "next": [
+            "Roguelike@GetDrops#next",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@ClickToDrops"
+        ]
     },
     "Roguelike@GetDropLeave": {
         "Doc": "base_task",
@@ -7188,7 +7220,13 @@
             1280,
             157
         ],
-        "rearDelay": 1000
+        "rearDelay": 1000,
+        "next": [
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@GetDrops#next",
+            "Roguelike@GetDropCompleted",
+            "Roguelike@GetDropLeave"
+        ]
     },
     "Roguelike@GetDropSelect": {
         "Doc": "base_task",
@@ -7247,6 +7285,10 @@
             "Roguelike@ClickToDrops"
         ]
     },
+    "Roguelike@GetDrops": {
+        "Doc": "base_sharp_task",
+        "algorithm": "JustReturn"
+    },
     "Roguelike@InBattleFlag": {
         "template": "BattleOfficiallyBegin.png",
         "roi": [
@@ -7282,6 +7324,19 @@
         "next": [
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop"
+        ]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "action": "ClickSelf",
+        "roi": [
+            963,
+            599,
+            148,
+            121
+        ],
+        "next": [
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@FromIntegratedStrategies"
         ]
     },
     "Roguelike@LastReward": {
@@ -7394,7 +7449,17 @@
     },
     "Roguelike@MissionFailedFlag": {
         "Doc": "base_task",
-        "template": "empty.png"
+        "template": "empty.png",
+        "roi": [
+            504,
+            163,
+            480,
+            267
+        ],
+        "next": [
+            "Roguelike@NextLevel#next",
+            "Roguelike@ClickToStartPoint"
+        ]
     },
     "Roguelike@MissionFailedFlag2": {
         "Doc": "base_task",
@@ -7469,20 +7534,13 @@
     "Roguelike@RecruitOther": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "templThreshold": 0.6,
-        "cache": false,
+        "baseTask": "Roguelike@RecruitMain",
         "roi": [
             190,
             470,
             900,
             154
-        ],
-        "next": [
-            "Roguelike@ChooseOperFlag",
-            "Roguelike@RecruitCloseGuide"
-        ],
-        "rearDelay": 1000
+        ]
     },
     "Roguelike@RecruitSkip": {
         "template": "RecruitSkip.png",
@@ -7974,6 +8032,9 @@
             447,
             295,
             203
+        ],
+        "next": [
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StartAction": {
@@ -8092,67 +8153,10 @@
         ]
     },
     "Phantom@Roguelike@Abandon": {},
-    "Phantom@Roguelike@Begin": {
-        "algorithm": "JustReturn",
-        "next": [
-            "Phantom@Roguelike@ChooseDifficulty",
-            "Phantom@Roguelike@StartExplore",
-            "Phantom@Roguelike@NextLevel#next",
-            "Phantom@Roguelike@NextLevel",
-            "Phantom@Roguelike@ExitThenAbandon",
-            "Phantom@Roguelike@Abandon",
-            "Phantom@Roguelike@TodaysSupplies",
-            "Phantom@Roguelike@Main",
-            "Phantom@Roguelike@CloseAnno",
-            "Phantom@Roguelike@TodoEnter",
-            "Phantom@Roguelike@Continue",
-            "Phantom@Roguelike@ReturnTo",
-            "Phantom@Roguelike@ReturnToConfirm",
-            "Phantom@Roguelike@OfflineConfirm",
-            "Phantom@Roguelike@StartToWakeUp",
-            "Phantom@Roguelike@StartUpConnectingFlag",
-            "Phantom@Roguelike@FromStageSN"
-        ]
-    },
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm"
-        ]
-    },
-    "Phantom@Roguelike@ClickToDrops": {
-        "next": [
-            "Phantom@Roguelike@NextLevel#next",
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@StageEncounterSpecialClose",
-            "Phantom@Roguelike@TraderRandomShopping",
-            "Phantom@Roguelike@StageTraderLeave",
-            "Phantom@Roguelike@DropsFlag",
-            "Phantom@Roguelike@TodaysSupplies",
-            "Phantom@Roguelike@Main",
-            "Phantom@Roguelike@CloseAnno",
-            "Phantom@Roguelike@OfflineConfirm",
-            "Phantom@Roguelike@StartToWakeUp",
-            "Phantom@Roguelike@StartUpConnectingFlag",
-            "Phantom@Roguelike@ClickToDrops"
-        ]
-    },
-    "Phantom@Roguelike@ClickToStartPoint": {
-        "next": [
-            "Phantom@Roguelike@StartExplore",
-            "Phantom@Roguelike@NextLevel#next",
-            "Phantom@Roguelike@GamePass",
-            "Phantom@Roguelike@TodaysSupplies",
-            "Phantom@Roguelike@Main",
-            "Phantom@Roguelike@CloseAnno",
-            "Phantom@Roguelike@TodoEnter",
-            "Phantom@Roguelike@Continue",
-            "Phantom@Roguelike@ReturnTo",
-            "Phantom@Roguelike@ReturnToConfirm",
-            "Phantom@Roguelike@OfflineConfirm",
-            "Phantom@Roguelike@StartToWakeUp",
-            "Phantom@Roguelike@StartUpConnectingFlag",
-            "Phantom@Roguelike@ClickToStartPoint"
         ]
     },
     "Phantom@Roguelike@CloseCollection": {
@@ -8175,11 +8179,7 @@
     "Phantom@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
         "next": [
-            "Phantom@Roguelike@GetDrop1",
-            "Phantom@Roguelike@GetDrop2",
-            "Phantom@Roguelike@GetDrop3",
-            "Phantom@Roguelike@GetDropSelect",
-            "Phantom@Roguelike@GetDropRecruit",
+            "Phantom@Roguelike@GetDrops#next",
             "Phantom@Roguelike@GetDropCompleted",
             "Phantom@Roguelike@GetDropLeave",
             "Phantom@Roguelike@NextLevel#next",
@@ -8190,11 +8190,7 @@
             "Phantom@Roguelike@DialogSkip"
         ]
     },
-    "Phantom@Roguelike@EnterAfterRecruit": {
-        "next": [
-            "Phantom@Roguelike@NextLevel#next"
-        ]
-    },
+    "Phantom@Roguelike@EnterAfterRecruit": {},
     "Phantom@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
         "next": [
@@ -8214,53 +8210,30 @@
     "Phantom@Roguelike@GetDrop1": {},
     "Phantom@Roguelike@GetDrop2": {},
     "Phantom@Roguelike@GetDrop3": {},
-    "Phantom@Roguelike@GetDropCompleted": {
-        "next": [
-            "Phantom@Roguelike@GetDrop1",
-            "Phantom@Roguelike@GetDrop2",
-            "Phantom@Roguelike@GetDrop3",
-            "Phantom@Roguelike@GetDropSelect",
-            "Phantom@Roguelike@GetDropRecruit",
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@ClickToDrops"
-        ]
-    },
+    "Phantom@Roguelike@GetDropCompleted": {},
     "Phantom@Roguelike@GetDropLeave": {},
-    "Phantom@Roguelike@GetDropRecruit": {
-        "next": [
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@GetDrop1",
-            "Phantom@Roguelike@GetDrop2",
-            "Phantom@Roguelike@GetDrop3",
-            "Phantom@Roguelike@GetDropSelect",
-            "Phantom@Roguelike@GetDropRecruit",
-            "Phantom@Roguelike@GetDropCompleted",
-            "Phantom@Roguelike@GetDropLeave"
-        ]
-    },
+    "Phantom@Roguelike@GetDropRecruit": {},
     "Phantom@Roguelike@GetDropSelect": {},
     "Phantom@Roguelike@GetDropSelectRecruit": {
         "template": "Phantom@Roguelike@GetDropRecruit.png"
     },
     "Phantom@Roguelike@GetDropSelectReward": {},
+    "Phantom@Roguelike@GetDrops": {
+        "next": [
+            "Phantom@Roguelike@GetDrop1",
+            "Phantom@Roguelike@GetDrop2",
+            "Phantom@Roguelike@GetDrop3",
+            "Phantom@Roguelike@GetDropSelect",
+            "Phantom@Roguelike@GetDropRecruit"
+        ]
+    },
     "Phantom@Roguelike@InitalDrop": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
     "Phantom@Roguelike@LastRewardConfirm": {},
     "Phantom@Roguelike@LastRewardRand": {},
-    "Phantom@Roguelike@MissionFailedFlag": {
-        "roi": [
-            504,
-            163,
-            480,
-            267
-        ],
-        "next": [
-            "Phantom@Roguelike@NextLevel#next",
-            "Phantom@Roguelike@ClickToStartPoint"
-        ]
-    },
+    "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
     "Phantom@Roguelike@NextLevel": {
         "text": [
@@ -8360,78 +8333,17 @@
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "exceededNext": [
             "Phantom@Roguelike@ExitThenAbandon"
-        ],
-        "next": [
-            "Phantom@Roguelike@NextLevel#next"
         ]
     },
     "Phantom@Roguelike@StartExplore": {},
     "Phantom@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@Abandon": {},
-    "Mizuki@Roguelike@Begin": {
-        "algorithm": "JustReturn",
-        "next": [
-            "Mizuki@Roguelike@ChooseDifficulty",
-            "Mizuki@Roguelike@StartExplore",
-            "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@Roguelike@CloseEvent",
-            "Mizuki@Roguelike@NextLevel",
-            "Mizuki@Roguelike@ExitThenAbandon",
-            "Mizuki@Roguelike@Abandon",
-            "Mizuki@Roguelike@TodaysSupplies",
-            "Mizuki@Roguelike@Main",
-            "Mizuki@Roguelike@CloseAnno",
-            "Mizuki@Roguelike@TodoEnter",
-            "Mizuki@Roguelike@Continue",
-            "Mizuki@Roguelike@ReturnTo",
-            "Mizuki@Roguelike@ReturnToConfirm",
-            "Mizuki@Roguelike@OfflineConfirm",
-            "Mizuki@Roguelike@StartToWakeUp",
-            "Mizuki@Roguelike@StartUpConnectingFlag",
-            "Mizuki@Roguelike@FromStageSN"
-        ]
-    },
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseOper": {
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm"
-        ]
-    },
-    "Mizuki@Roguelike@ClickToDrops": {
-        "next": [
-            "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@StageEncounterSpecialClose",
-            "Mizuki@Roguelike@TraderRandomShopping",
-            "Mizuki@Roguelike@StageTraderLeave",
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@TodaysSupplies",
-            "Mizuki@Roguelike@Main",
-            "Mizuki@Roguelike@CloseAnno",
-            "Mizuki@Roguelike@OfflineConfirm",
-            "Mizuki@Roguelike@StartToWakeUp",
-            "Mizuki@Roguelike@StartUpConnectingFlag",
-            "Mizuki@Roguelike@ClickToDrops"
-        ]
-    },
-    "Mizuki@Roguelike@ClickToStartPoint": {
-        "next": [
-            "Mizuki@Roguelike@StartExplore",
-            "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@Roguelike@GamePass",
-            "Mizuki@Roguelike@TodaysSupplies",
-            "Mizuki@Roguelike@Main",
-            "Mizuki@Roguelike@CloseAnno",
-            "Mizuki@Roguelike@TodoEnter",
-            "Mizuki@Roguelike@Continue",
-            "Mizuki@Roguelike@ReturnTo",
-            "Mizuki@Roguelike@ReturnToConfirm",
-            "Mizuki@Roguelike@OfflineConfirm",
-            "Mizuki@Roguelike@StartToWakeUp",
-            "Mizuki@Roguelike@StartUpConnectingFlag",
-            "Mizuki@Roguelike@ClickToStartPoint"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -8579,12 +8491,7 @@
     "Mizuki@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
         "next": [
-            "Mizuki@Roguelike@GetDrop1",
-            "Mizuki@Roguelike@GetDrop2",
-            "Mizuki@Roguelike@GetDrop3",
-            "Mizuki@Roguelike@GetDropSelect",
-            "Mizuki@Roguelike@GetDropRecruit",
-            "Mizuki@Roguelike@GetDropBox",
+            "Mizuki@Roguelike@GetDrops#next",
             "Mizuki@Roguelike@GetDropCompleted",
             "Mizuki@Roguelike@GetDropLeave",
             "Mizuki@Roguelike@NextLevel#next",
@@ -8596,11 +8503,7 @@
             "Mizuki@Roguelike@DialogSkip"
         ]
     },
-    "Mizuki@Roguelike@EnterAfterRecruit": {
-        "next": [
-            "Mizuki@Roguelike@NextLevel#next"
-        ]
-    },
+    "Mizuki@Roguelike@EnterAfterRecruit": {},
     "Mizuki@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
         "next": [
@@ -8624,17 +8527,8 @@
     "Mizuki@Roguelike@GetDrop2": {},
     "Mizuki@Roguelike@GetDrop3": {},
     "Mizuki@Roguelike@GetDropBox": {
+        "baseTask": "Mizuki@Roguelike@GetDrop",
         "Doc": "漂流密匣“打开”按钮",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            471,
-            1280,
-            157
-        ],
-        "templThreshold": 0.85,
-        "rearDelay": 1000,
         "next": [
             "Mizuki@Roguelike@DropsFlag",
             "Mizuki@Roguelike@GetDropBoxSelect",
@@ -8659,37 +8553,24 @@
             "Mizuki@Roguelike@ClickToDrops"
         ]
     },
-    "Mizuki@Roguelike@GetDropCompleted": {
-        "next": [
-            "Mizuki@Roguelike@GetDrop1",
-            "Mizuki@Roguelike@GetDrop2",
-            "Mizuki@Roguelike@GetDrop3",
-            "Mizuki@Roguelike@GetDropSelect",
-            "Mizuki@Roguelike@GetDropRecruit",
-            "Mizuki@Roguelike@GetDropBox",
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@ClickToDrops"
-        ]
-    },
+    "Mizuki@Roguelike@GetDropCompleted": {},
     "Mizuki@Roguelike@GetDropLeave": {},
-    "Mizuki@Roguelike@GetDropRecruit": {
-        "next": [
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@GetDrop1",
-            "Mizuki@Roguelike@GetDrop2",
-            "Mizuki@Roguelike@GetDrop3",
-            "Mizuki@Roguelike@GetDropSelect",
-            "Mizuki@Roguelike@GetDropRecruit",
-            "Mizuki@Roguelike@GetDropBox",
-            "Mizuki@Roguelike@GetDropCompleted",
-            "Mizuki@Roguelike@GetDropLeave"
-        ]
-    },
+    "Mizuki@Roguelike@GetDropRecruit": {},
     "Mizuki@Roguelike@GetDropSelect": {},
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "template": "Mizuki@Roguelike@GetDropRecruit.png"
     },
     "Mizuki@Roguelike@GetDropSelectReward": {},
+    "Mizuki@Roguelike@GetDrops": {
+        "next": [
+            "Mizuki@Roguelike@GetDrop1",
+            "Mizuki@Roguelike@GetDrop2",
+            "Mizuki@Roguelike@GetDrop3",
+            "Mizuki@Roguelike@GetDropSelect",
+            "Mizuki@Roguelike@GetDropRecruit",
+            "Mizuki@Roguelike@GetDropBox"
+        ]
+    },
     "Mizuki@Roguelike@InitalDrop": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
@@ -8722,18 +8603,7 @@
             "Mizuki@Roguelike@RecruitOther"
         ]
     },
-    "Mizuki@Roguelike@MissionFailedFlag": {
-        "roi": [
-            504,
-            163,
-            480,
-            267
-        ],
-        "next": [
-            "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@Roguelike@ClickToStartPoint"
-        ]
-    },
+    "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@NextLevel": {
         "text": [
@@ -8901,9 +8771,6 @@
         "exceededNext": [
             "Mizuki@Roguelike@DiceConfirmThenAbandon",
             "Mizuki@Roguelike@ExitThenAbandon"
-        ],
-        "next": [
-            "Mizuki@Roguelike@NextLevel#next"
         ]
     },
     "Mizuki@Roguelike@StageWindAndRain": {
