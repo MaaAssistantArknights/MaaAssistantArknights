@@ -8054,7 +8054,22 @@
             "Roguelike@MissionFailedFlag2",
             "Roguelike@GamePassSkip1",
             "Roguelike@GamePassTheEndConfirm",
-            "Roguelike@GamePass"
+            "Roguelike@GamePass",
+            "Roguelike@StartAction@Loading",
+            "Roguelike@StartAction@Loading2"
+        ]
+    },
+    "Roguelike@StartAction@Loading": {
+        "next": [
+            "Roguelike@StartAction@Loading",
+            "Roguelike@StartAction#next"
+        ]
+    },
+    "Roguelike@StartAction@Loading2": {
+        "template": "Loading2.png",
+        "next": [
+            "Roguelike@StartAction@Loading2",
+            "Roguelike@StartAction#next"
         ]
     },
     "Roguelike@StartExplore": {
