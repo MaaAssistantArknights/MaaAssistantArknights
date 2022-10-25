@@ -441,6 +441,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     OcrWithFlagTemplImageAnalyzer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
     kills_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    kills_analyzer.set_use_char_model(true);
 
     if (!kills_analyzer.analyze()) {
         return false;
@@ -506,6 +507,7 @@ bool asst::BattleImageAnalyzer::cost_analyze()
     OcrWithPreprocessImageAnalyzer cost_analyzer(m_image);
     cost_analyzer.set_task_info("BattleCostData");
     cost_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    cost_analyzer.set_use_char_model(true);
 
     if (!cost_analyzer.analyze()) {
         return false;

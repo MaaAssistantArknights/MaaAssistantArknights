@@ -56,6 +56,7 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
         OcrImageAnalyzer analyzer(m_ctrler->get_image());
         analyzer.set_task_info(task_ptr);
         analyzer.set_required({ m_stage_name });
+        analyzer.set_use_char_model(true);
         if (analyzer.analyze()) {
             m_ctrler->click(analyzer.get_result().front().rect);
             return true;
