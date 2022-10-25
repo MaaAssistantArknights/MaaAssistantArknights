@@ -701,6 +701,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     // 计算最优部署位置及方向
     const auto& [placed_loc, direction] = calc_best_plan(opt_oper);
+    if (placed_loc == Point::zero() && direction == Point::zero()) {
+        Log.info("Tiles full while calc best plan.");
+        cancel_oper_selection();
+        return true;
+    }
 
     // 将干员拖动到场上
     Point placed_point = m_side_tile_info.at(placed_loc).pos;
@@ -1104,6 +1109,11 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     std::vector<Point> available_loc =
         oper.name == UnknownName ? available_locations(oper.role) : available_locations(oper.name);
 
+    if (available_loc.empty()) {
+        Log.error("No available locations");
+        return {};
+    }
+
     // 把所有可用的点按距离排个序
     ranges::sort(available_loc, comp_dist);
 
@@ -1111,20 +1121,15 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
         return { available_loc.back(), Point::zero() };
     }
 
-    // 取距离最近的N个点，计算分数。然后使用得分最高的点
-    constexpr int CalcPointCount = 4;
-    if (available_loc.size() > CalcPointCount) {
-        available_loc.erase(available_loc.begin() + CalcPointCount, available_loc.end());
-    }
-
-    Point best_location;
-    Point best_direction;
+    Point best_location, best_direction;
     int max_score = INT_MIN;
 
-    const auto& near_loc = available_loc.at(0);
+    const auto& near_loc = available_loc.front();
     int min_dist = std::abs(near_loc.x - home.x) + std::abs(near_loc.y - home.y);
 
-    for (const auto& loc : available_loc) {
+    // 取距离最近的N个点，计算分数。然后使用得分最高的点
+    constexpr int CalcPointCount = 4;
+    for (const auto& loc : available_loc | views::take(CalcPointCount)) {
         auto cur_result = calc_best_direction_and_score(loc, oper, recommended_direction);
         // 离得远的要扣分
         constexpr int DistWeights = -1050;
