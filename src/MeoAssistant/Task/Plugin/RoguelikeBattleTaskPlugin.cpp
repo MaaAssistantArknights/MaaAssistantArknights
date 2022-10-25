@@ -995,7 +995,8 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
         asst::imwrite("map/" + m_stage_name + ".png", image);
     }
     else {
-        Log.error("stage name is empty");
+        // 存出来的是带时间戳的文件名
+        kills_analyzer.save_img("map/");
     }
     return true;
 }
