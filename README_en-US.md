@@ -51,11 +51,6 @@ Talk is cheap. Show me the pictures!
 [Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
-Try fastgit mirror if the download speed is slow:
-
-[Fastgit Mirror Stable](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[Fastgit Mirror Development](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
-
 ## How to Use
 
 ### Basic Settings
@@ -73,6 +68,7 @@ See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
 - Wrong recognition/program freezes after starting.
 - Custom connection settings.
 - Download speed is too slow, or the mirror site is not accessible.
+- Download halfway and prompt "login"/"authentication"
 
 Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 
