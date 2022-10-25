@@ -2435,7 +2435,8 @@
             136
         ],
         "next": [
-            "EndOfActionAnnihilation"
+            "EndOfActionAnnihilation",
+            "EndOfAction"
         ]
     },
     "StageSNFlag": {
@@ -2630,7 +2631,7 @@
         "roi": [
             0,
             290,
-            130,
+            70,
             60
         ],
         "reduceOtherTimes": [
