@@ -451,7 +451,7 @@
             "promote_priority_when_team_full": 100
         },
         {
-            "name": "砾",
+            "name": "砾_DELETE",
             "skill": 2,
             "recruit_priority": 400,
             "promote_priority": 400
