@@ -18,13 +18,14 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
+    using tasklist_t = std::vector<std::string>;
 
     const auto& json_obj = json.as_object();
 
     {
-        std::unordered_map<std::string, bool> to_be_generated;
+        std::unordered_map<std::string_view, bool> to_be_generated;
         for (const std::string& name : json_obj | views::keys) {
-            to_be_generated[name] = true;
+            to_be_generated[task_name_view(name)] = true;
         }
 
         auto generate_task_and_its_base = [&](const std::string& name) -> bool {
@@ -34,17 +35,17 @@ bool asst::TaskData::parse(const json::value& json)
                 if (task_info_ptr == nullptr) {
                     return false;
                 }
-                to_be_generated[name] = false;
-                m_all_tasks_info[name] = task_info_ptr;
+                to_be_generated[task_name_view(name)] = false;
+                insert_or_assign_raw_task(name, task_info_ptr);
                 return true;
             };
             std::function<bool(const std::string&, bool)> generate_fun;
             // must_true 若为真，那么 return false 了就是炸了。
             // 否则可能只是某个 B@A 的任务没定义 A（这不是少见现象，例如 Roguelike@Abandon）
             generate_fun = [&](const std::string& name, bool must_true) -> bool {
-                if (!to_be_generated[name]) {
+                if (!to_be_generated[task_name_view(name)]) {
                     // 已生成（它是之前加载过的某个资源的 base）
-                    if (m_all_tasks_info.contains(name)) {
+                    if (m_raw_all_tasks_info.contains(name)) {
                         return true;
                     }
                     // 不在 json 内且未生成（例如生成 C@B@A 时没有定义 B@A，而是定义了 A）
@@ -60,12 +61,12 @@ bool asst::TaskData::parse(const json::value& json)
                 const json::value& task_json = json_obj.at(name);
                 if (auto opt = task_json.find<std::string>("baseTask")) {
                     std::string base = opt.value();
-                    return generate_fun(base, must_true) && generate_task(name, "", get(base, false), task_json);
+                    return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
                 }
 
                 if (size_t p = name.find('@'); p != std::string::npos) {
                     if (std::string base = name.substr(p + 1); generate_fun(base, false)) {
-                        return generate_task(name, name.substr(0, p), get(base, false), task_json);
+                        return generate_task(name, name.substr(0, p), get_raw(base), task_json);
                     }
                     // 这类任务有点多，非必要不输出（
                     // Log.debug("Task", name, "based on unknown task, just use task_json.");
@@ -78,6 +79,80 @@ bool asst::TaskData::parse(const json::value& json)
         for (const std::string& name : json_obj | views::keys) {
             generate_task_and_its_base(name);
         }
+
+        // 生成 # 型任务
+        for (const auto& [name, old_task] : m_raw_all_tasks_info) {
+            bool task_changed = false;
+            auto task_info = _generate_task_info(old_task);
+            auto generate_sharp_task = [&](tasklist_t& new_task_list, const tasklist_t& task_list,
+                                           std::string_view list_type) {
+                new_task_list.clear();
+                std::function<bool(const tasklist_t&)> generate_tasks;
+                std::unordered_set<std::string_view> tasks_set {};
+                generate_tasks = [&](const tasklist_t& raw_tasks) {
+                    for (std::string_view task : raw_tasks) {
+                        if (tasks_set.contains(task)) [[unlikely]] {
+                            task_changed = true;
+                            continue;
+                        }
+
+                        size_t pos = task.find('#');
+                        if (pos == std::string_view::npos) [[likely]] {
+                            new_task_list.emplace_back(task);
+                            tasks_set.emplace(task_name_view(task));
+                            continue;
+                        }
+
+                        task_changed = true;
+                        std::string_view type = task.substr(pos + 1);
+                        auto other_tasklist_ref = get_raw(task.substr(0, pos));
+#define ASST_TASKDATA_GENERATE_TASKS(t)               \
+    else if (type == #t)                              \
+    {                                                 \
+        if (!generate_tasks(other_tasklist_ref->t)) { \
+            return false;                             \
+        }                                             \
+    }
+                        if (other_tasklist_ref == nullptr) {
+                            Log.error("Task", task, "not found");
+                            return false;
+                        }
+                        ASST_TASKDATA_GENERATE_TASKS(next)
+                        ASST_TASKDATA_GENERATE_TASKS(sub)
+                        ASST_TASKDATA_GENERATE_TASKS(on_error_next)
+                        ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
+                        ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
+                        else {
+                            Log.error("Unknown type", type, "in", task);
+                            return false;
+                        }
+#undef ASST_TASKDATA_GENERATE_TASKS
+
+                        tasks_set.emplace(task_name_view(task));
+                    }
+
+                    return true;
+                };
+                if (!generate_tasks(task_list)) {
+                    Log.error(Logger::separator::none, "Generate task_list ", name, "->", list_type, " failed.");
+                    return false;
+                }
+                return true;
+            };
+
+#define ASST_TASKDATA_GENERATE_SHARP_TASK(type)                         \
+    if (!generate_sharp_task(task_info->type, old_task->type, #type)) { \
+        return false;                                                   \
+    }
+            ASST_TASKDATA_GENERATE_SHARP_TASK(next);
+            ASST_TASKDATA_GENERATE_SHARP_TASK(sub);
+            ASST_TASKDATA_GENERATE_SHARP_TASK(exceeded_next);
+            ASST_TASKDATA_GENERATE_SHARP_TASK(on_error_next);
+            ASST_TASKDATA_GENERATE_SHARP_TASK(reduce_other_times);
+#undef ASST_TASKDATA_GENERATE_SHARP_TASK
+
+            insert_or_assign_task(name, task_changed ? task_info : old_task);
+        }
     }
 
 #ifdef ASST_DEBUG
@@ -89,134 +164,40 @@ bool asst::TaskData::parse(const json::value& json)
             validity &= syntax_check(name, task_json);
         }
 
-        std::unordered_map<std::string, std::vector<std::string>> dependency_graph; // "#" 型任务依赖关系 (有向图邻接表)
-        std::unordered_map<std::string, int> checked;                               // 拓扑排序相关的标志
-        static const std::unordered_set<std::string> accepted_type = {
-            "next", "sub", "on_error_next", "exceeded_next", "reduce_other_times",
-        };
-
         for (const auto& [name, task] : m_all_tasks_info) {
-            auto check_and_link = [&](const std::vector<std::string>& task_list, std::string node_name) {
-                for (const auto& task_name : task_list) {
-                    size_t pos = task_name.find('#');
-                    // next、sub 等的存在性检查
-                    if (pos == std::string::npos) {
-                        if (get(task_name, false) == nullptr) {
-                            Log.error(node_name, task_name, "is null");
-                            validity = false;
-                        }
+            auto check_tasklist = [&](const tasklist_t& task_list, std::string_view list_type,
+                                      bool enable_justreturn_check = false) {
+                std::unordered_set<std::string_view> tasks_set {};
+                std::string justreturn_task_name = "";
+                for (const std::string& task_name : task_list) {
+                    if (tasks_set.contains(task_name)) [[unlikely]] {
                         continue;
                     }
-
-                    std::string other_task_name = task_name.substr(0, pos);
-                    if (get(other_task_name, false) == nullptr) {
-                        Log.error(node_name, task_name, "is null");
+                    // 检查是否有 JustReturn 任务不是最后一个任务
+                    if (enable_justreturn_check && !justreturn_task_name.empty()) [[unlikely]] {
+                        Log.error(Logger::separator::none, name, "->", list_type,
+                                  " has a not-final JustReturn task: ", justreturn_task_name);
                         validity = false;
                     }
-                    std::string type = task_name.substr(pos + 1);
-                    if (!accepted_type.contains(type)) {
-                        Log.error(node_name, task_name, "has unknown type:", type);
+
+                    if (auto ptr = get_raw(task_name); ptr == nullptr) {
+                        Log.error(Logger::separator::none, task_name, " in ", name, "->", list_type, " is null");
                         validity = false;
                     }
-                    else {
-                        // 建立一条依赖关系 (有向边)
-                        dependency_graph[node_name].emplace_back(task_name);
+                    else if (ptr->algorithm == AlgorithmType::JustReturn) {
+                        justreturn_task_name = ptr->name;
                     }
+
+                    tasks_set.emplace(task_name_view(task_name));
                 }
-            };
-            check_and_link(task->next, name + "#next");
-            check_and_link(task->sub, name + "#sub");
-            check_and_link(task->exceeded_next, name + "#exceeded_next");
-            check_and_link(task->on_error_next, name + "#on_error_next");
-            check_and_link(task->reduce_other_times, name + "#reduce_other_times");
 
-            // 检查是否有 JustReturn 任务不是最后一个任务
-            auto check_justreturn = [&](const std::vector<std::string>& task_list, std::string node_name) {
-                std::function<bool(const std::vector<std::string>&)> generate_tasks;
-                std::unordered_set<std::string> tasks_set {};
-                bool has_justreturn = false;
-                generate_tasks = [&](const std::vector<std::string>& raw_tasks) {
-                    for (const std::string& task : raw_tasks) {
-                        if (tasks_set.contains(task)) [[unlikely]] {
-                            continue;
-                        }
-                        if (has_justreturn) [[unlikely]] {
-                            return false;
-                        }
-
-                        size_t pos = task.find('#');
-                        if (pos == std::string::npos) [[likely]] {
-                            if (auto ptr = get(task, false); ptr != nullptr) {
-                                has_justreturn |= ptr->algorithm == AlgorithmType::JustReturn;
-                            }
-                            tasks_set.emplace(task);
-                            continue;
-                        }
-
-                        std::string other_task_name = task.substr(0, pos);
-                        std::string_view type = std::string_view(task).substr(pos + 1);
-                        auto other_tasklist_ref = get(other_task_name, false);
-                        if (other_tasklist_ref == nullptr) {
-                            continue;
-                        }
-
-#define ASST_PROCESSTASK_GENERATE_TASKS(t)                            \
-    else if (type == #t)                                              \
-    {                                                                 \
-        if (!generate_tasks(other_tasklist_ref->t)) { \
-            return false;                                             \
-        }                                                             \
-    }
-                        if constexpr (false) {}
-                        ASST_PROCESSTASK_GENERATE_TASKS(next)
-                        ASST_PROCESSTASK_GENERATE_TASKS(sub)
-                        ASST_PROCESSTASK_GENERATE_TASKS(on_error_next)
-                        ASST_PROCESSTASK_GENERATE_TASKS(exceeded_next)
-                        ASST_PROCESSTASK_GENERATE_TASKS(reduce_other_times)
-#undef ASST_PROCESSTASK_GENERATE_TASKS
-
-                        tasks_set.emplace(task);
-                    }
-
-                    return true;
-                };
-                if (!generate_tasks(task_list)) {
-                    Log.error(node_name, "has justreturn task that is not the last one");
-                    validity = false;
-                }
-            };
-            check_justreturn(task->next, name + "#next");
-            check_justreturn(task->exceeded_next, name + "#exceeded_next");
-            check_justreturn(task->on_error_next, name + "#on_error_next");
-        }
-
-        // dfs 检查 "#" 型任务是否循环依赖 (有向无环图)
-        auto check_circle = [&](const std::string& x) {
-            std::function<bool(const std::string&)> dfs;
-            dfs = [&](const std::string& x) {
-                checked[x] = -1;
-                for (const auto& y : dependency_graph[x]) {
-                    if (checked[y] == 0) {
-                        if (!dfs(y)) [[unlikely]] {
-                            return false;
-                        }
-                    }
-                    else if (checked[y] < 0) [[unlikely]] {
-                        Log.error("Task", y, "has circular dependency.");
-                        return false;
-                    }
-                }
-                checked[x] = 1;
                 return true;
             };
-            return dfs(x);
-        };
-
-        for (const auto& name : dependency_graph | views::keys) {
-            if (!checked[name] && !check_circle(name)) {
-                validity = false;
-                break;
-            }
+            check_tasklist(task->next, "next", true);
+            check_tasklist(task->sub, "sub");
+            check_tasklist(task->exceeded_next, "exceeded_next", true);
+            check_tasklist(task->on_error_next, "on_error_next", true);
+            check_tasklist(task->reduce_other_times, "reduce_other_times");
         }
 
         if (!validity) return false;
