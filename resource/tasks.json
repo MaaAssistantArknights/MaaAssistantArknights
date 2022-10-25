@@ -7584,9 +7584,8 @@
             "Roguelike@SquadConfirm"
         ]
     },
-    "Roguelike@StageBoons": {
+    "Roguelike@Stage": {
         "Doc": "base_task",
-        "Doc2": "古堡馈赠（随机奖励）",
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
@@ -7597,101 +7596,76 @@
             554
         ]
     },
+    "Roguelike@StageBoons": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "古堡馈赠（随机奖励）",
+        "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@NextLevel#next"
+        ]
+    },
     "Roguelike@StageCambatDps": {
         "Doc": "base_task",
-        "Doc2": "普通作战",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "普通作战",
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
+        "next": [
+            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@StageEmergencyDpsEnter",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StageCambatDpsEnter": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1036,
-            371,
-            223,
-            223
-        ],
-        "next": [
-            "Roguelike@QuickFormation"
-        ]
+        "baseTask": "Roguelike@StageEnterBattle"
     },
     "Roguelike@StageDreadfulFoe": {
         "Doc": "base_task",
-        "Doc2": "险路恶敌（boss关卡）",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "险路恶敌（boss关卡）",
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
+        "next": [
+            "Roguelike@StageDreadfulFoeEnter",
+            "Roguelike@StageEmergencyDpsEnter",
+            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StageDreadfulFoeEnter": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1036,
-            371,
-            223,
-            223
-        ],
-        "next": [
-            "Roguelike@QuickFormation"
-        ]
+        "baseTask": "Roguelike@StageEnterBattle"
     },
     "Roguelike@StageEmergencyDps": {
         "Doc": "base_task",
-        "Doc2": "紧急作战",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "紧急作战",
+        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
+        "next": [
+            "Roguelike@StageEmergencyDpsEnter",
+            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StageEmergencyDpsEnter": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1036,
-            371,
-            223,
-            223
-        ],
-        "next": [
-            "Roguelike@QuickFormation"
-        ]
+        "baseTask": "Roguelike@StageEnterBattle"
     },
     "Roguelike@StageEncounter": {
         "Doc": "base_task",
-        "Doc2": "不期而遇（随机奖励）",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "不期而遇（随机奖励）",
+        "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StageEncounterClickToLeave": {
@@ -7711,14 +7685,7 @@
     "Roguelike@StageEncounterEnter": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1037,
-            374,
-            221,
-            221
-        ],
+        "baseTask": "Roguelike@StageEnter",
         "next": [
             "Roguelike@StageEncounterOptions#next"
         ]
@@ -7814,30 +7781,40 @@
             "Roguelike@ClickToDrops"
         ]
     },
-    "Roguelike@StageSafeHouse": {
+    "Roguelike@StageEnter": {
         "Doc": "base_task",
-        "Doc2": "安全的角落",
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            0,
-            53,
-            1280,
-            554
+            1035,
+            370,
+            226,
+            225
+        ]
+    },
+    "Roguelike@StageEnterBattle": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@StageEnter",
+        "next": [
+            "Roguelike@QuickFormation"
+        ]
+    },
+    "Roguelike@StageSafeHouse": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "安全的角落",
+        "next": [
+            "Roguelike@StageSafeHouseEnter",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StageSafeHouseEnter": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1037,
-            374,
-            221,
-            221
-        ],
+        "baseTask": "Roguelike@StageEnter",
         "next": [
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterClickToLeave"
@@ -7845,28 +7822,18 @@
     },
     "Roguelike@StageTrader": {
         "Doc": "base_task",
-        "Doc2": "诡意行商（交易所）",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
+        "baseTask": "Roguelike@Stage",
+        "Doc2": "诡意行商（交易所）",
+        "next": [
+            "Roguelike@StageTraderEnter",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StageTraderEnter": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1035,
-            374,
-            226,
-            220
-        ],
+        "baseTask": "Roguelike@StageEnter",
         "rearDelay": 3000,
         "next": [
             "Roguelike@StageTraderInvestSystem",
@@ -8350,46 +8317,16 @@
     },
     "Phantom@Roguelike@SquadDefault": {},
     "Phantom@Roguelike@StageBoons": {
-        "templThreshold": 0.85,
-        "next": [
-            "Phantom@Roguelike@StageEncounterEnter",
-            "Phantom@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageCambatDps": {
-        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": [
-            "Phantom@Roguelike@StageCambatDpsEnter",
-            "Phantom@Roguelike@StageEmergencyDpsEnter",
-            "Phantom@Roguelike@NextLevel#next"
-        ]
-    },
+    "Phantom@Roguelike@StageCambatDps": {},
     "Phantom@Roguelike@StageCambatDpsEnter": {},
-    "Phantom@Roguelike@StageDreadfulFoe": {
-        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": [
-            "Phantom@Roguelike@StageDreadfulFoeEnter",
-            "Phantom@Roguelike@StageEmergencyDpsEnter",
-            "Phantom@Roguelike@StageCambatDpsEnter",
-            "Phantom@Roguelike@NextLevel#next"
-        ]
-    },
+    "Phantom@Roguelike@StageDreadfulFoe": {},
     "Phantom@Roguelike@StageDreadfulFoeEnter": {},
-    "Phantom@Roguelike@StageEmergencyDps": {
-        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": [
-            "Phantom@Roguelike@StageEmergencyDpsEnter",
-            "Phantom@Roguelike@StageCambatDpsEnter",
-            "Phantom@Roguelike@NextLevel#next"
-        ]
-    },
+    "Phantom@Roguelike@StageEmergencyDps": {},
     "Phantom@Roguelike@StageEmergencyDpsEnter": {},
     "Phantom@Roguelike@StageEncounter": {
-        "templThreshold": 0.85,
-        "next": [
-            "Phantom@Roguelike@StageEncounterEnter",
-            "Phantom@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.85
     },
     "Phantom@Roguelike@StageEncounterEnter": {},
     "Phantom@Roguelike@StageEncounterLeaveConfirm": {},
@@ -8412,19 +8349,11 @@
     },
     "Phantom@Roguelike@StageEncounterSpecialClose": {},
     "Phantom@Roguelike@StageSafeHouse": {
-        "templThreshold": 0.85,
-        "next": [
-            "Phantom@Roguelike@StageSafeHouseEnter",
-            "Phantom@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.85
     },
     "Phantom@Roguelike@StageSafeHouseEnter": {},
     "Phantom@Roguelike@StageTrader": {
-        "templThreshold": 0.85,
-        "next": [
-            "Phantom@Roguelike@StageTraderEnter",
-            "Phantom@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.85
     },
     "Phantom@Roguelike@StageTraderEnter": {},
     "Phantom@Roguelike@StageTraderLeaveConfirm": {
@@ -8874,41 +8803,16 @@
     },
     "Mizuki@Roguelike@SquadDefault": {},
     "Mizuki@Roguelike@StageBoons": {
-        "templThreshold": 0.95,
-        "next": [
-            "Mizuki@Roguelike@StageEncounterEnter",
-            "Mizuki@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.95
     },
     "Mizuki@Roguelike@StageCambatDps": {
-        "templThreshold": 0.95,
-        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": [
-            "Mizuki@Roguelike@StageCambatDpsEnter",
-            "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.95
     },
     "Mizuki@Roguelike@StageCambatDpsEnter": {},
-    "Mizuki@Roguelike@StageDreadfulFoe": {
-        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": [
-            "Mizuki@Roguelike@StageDreadfulFoeEnter",
-            "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter",
-            "Mizuki@Roguelike@NextLevel#next"
-        ]
-    },
+    "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
-        ],
+        "baseTask": "Mizuki@Roguelike@Stage",
         "templThreshold": 0.85,
         "next": [
             "Mizuki@Roguelike@StageDreadfulFoe-5Enter",
@@ -8919,39 +8823,16 @@
         ]
     },
     "Mizuki@Roguelike@StageDreadfulFoe-5Enter": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1036,
-            371,
-            223,
-            223
-        ],
-        "next": [
-            "Mizuki@Roguelike@QuickFormation"
-        ]
+        "baseTask": "Mizuki@Roguelike@StageEnter"
     },
     "Mizuki@Roguelike@StageDreadfulFoeEnter": {},
     "Mizuki@Roguelike@StageEmergencyDps": {
-        "templThreshold": 0.95,
-        "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
-        "next": [
-            "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter",
-            "Mizuki@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.95
     },
     "Mizuki@Roguelike@StageEmergencyDpsEnter": {},
     "Mizuki@Roguelike@StageEmergencyTransportation": {
         "Doc": "紧急运输，拒绝可以获取3希望",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
-        ],
+        "baseTask": "Mizuki@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
@@ -8959,11 +8840,7 @@
         ]
     },
     "Mizuki@Roguelike@StageEncounter": {
-        "templThreshold": 0.96,
-        "next": [
-            "Mizuki@Roguelike@StageEncounterEnter",
-            "Mizuki@Roguelike@NextLevel#next"
-        ]
+        "templThreshold": 0.96
     },
     "Mizuki@Roguelike@StageEncounterEnter": {},
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {},
@@ -8995,14 +8872,7 @@
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
     "Mizuki@Roguelike@StageGambling": {
         "Doc": "骰子关卡",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
-        ],
+        "baseTask": "Mizuki@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
@@ -9011,14 +8881,7 @@
     },
     "Mizuki@Roguelike@StageRegionalCommissioning": {
         "Doc": "地区委托（随机奖励）",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
-        ],
+        "baseTask": "Mizuki@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
@@ -9026,43 +8889,11 @@
         ]
     },
     "Mizuki@Roguelike@StageSafeHouse": {
-        "templThreshold": 0.95,
-        "next": [
-            "Mizuki@Roguelike@StageSafeHouseEnter",
-            "Mizuki@Roguelike@StageTrader",
-            "Mizuki@Roguelike@StageSafeHouse",
-            "Mizuki@Roguelike@StageWindAndRain",
-            "Mizuki@Roguelike@StageEmergencyTransportation",
-            "Mizuki@Roguelike@StageEncounter",
-            "Mizuki@Roguelike@StageBoons",
-            "Mizuki@Roguelike@StageCambatDps",
-            "Mizuki@Roguelike@StageEmergencyDps",
-            "Mizuki@Roguelike@StageDreadfulFoe",
-            "Mizuki@Roguelike@StageDreadfulFoe-5",
-            "Mizuki@Roguelike@DiceConfirm",
-            "Mizuki@Roguelike@CloseCollectionContinue",
-            "Mizuki@Roguelike@CloseCollectionClose"
-        ]
+        "templThreshold": 0.95
     },
     "Mizuki@Roguelike@StageSafeHouseEnter": {},
     "Mizuki@Roguelike@StageTrader": {
-        "templThreshold": 0.95,
-        "next": [
-            "Mizuki@Roguelike@StageTraderEnter",
-            "Mizuki@Roguelike@StageTrader",
-            "Mizuki@Roguelike@StageSafeHouse",
-            "Mizuki@Roguelike@StageWindAndRain",
-            "Mizuki@Roguelike@StageEmergencyTransportation",
-            "Mizuki@Roguelike@StageEncounter",
-            "Mizuki@Roguelike@StageBoons",
-            "Mizuki@Roguelike@StageCambatDps",
-            "Mizuki@Roguelike@StageEmergencyDps",
-            "Mizuki@Roguelike@StageDreadfulFoe",
-            "Mizuki@Roguelike@StageDreadfulFoe-5",
-            "Mizuki@Roguelike@DiceConfirm",
-            "Mizuki@Roguelike@CloseCollectionContinue",
-            "Mizuki@Roguelike@CloseCollectionClose"
-        ]
+        "templThreshold": 0.95
     },
     "Mizuki@Roguelike@StageTraderEnter": {},
     "Mizuki@Roguelike@StageTraderLeaveConfirm": {
@@ -9077,14 +8908,7 @@
     },
     "Mizuki@Roguelike@StageWindAndRain": {
         "Doc": "风雨际会，拒绝可以获取4生命值",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            0,
-            53,
-            1280,
-            554
-        ],
+        "baseTask": "Mizuki@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
