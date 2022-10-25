@@ -18,6 +18,8 @@ namespace asst
     class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigerWithTempl
     {
     private:
+        using tasklist_t = std::vector<std::string>;
+
         std::shared_ptr<MatchTaskInfo> _default_match_task_info();
         std::shared_ptr<OcrTaskInfo> _default_ocr_task_info();
         std::shared_ptr<HashTaskInfo> _default_hash_task_info();
@@ -107,14 +109,16 @@ namespace asst
         }
 
         std::string_view task_name_view(std::string_view task_name) { return *m_task_names.emplace(task_name).first; }
-        void insert_or_assign_raw_task(std::string_view task_name, std::shared_ptr<TaskInfo> task_info_ptr)
+        decltype(auto) insert_or_assign_raw_task(std::string_view task_name, std::shared_ptr<TaskInfo> task_info_ptr)
         {
-            m_raw_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
+            return m_raw_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
-        void insert_or_assign_task(std::string_view task_name, std::shared_ptr<TaskInfo> task_info_ptr)
+        decltype(auto) insert_or_assign_task(std::string_view task_name, std::shared_ptr<TaskInfo> task_info_ptr)
         {
-            m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
+            return m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
+        std::optional<std::shared_ptr<TaskInfo>> expend_sharp_task(std::string_view name,
+                                                                   std::shared_ptr<TaskInfo> old_task);
 
     public:
         virtual ~TaskData() override = default;
@@ -135,35 +139,7 @@ namespace asst
                 }
             }
 
-            size_t at_pos = name.find('@');
-            if (at_pos == std::string_view::npos) [[unlikely]] {
-                return nullptr;
-            }
-
-            // `@` 前面的字符长度
-            size_t name_len = at_pos;
-            auto base_task_iter = get(name.substr(name_len + 1));
-            if (base_task_iter == nullptr) [[unlikely]] {
-                return nullptr;
-            }
-
-            std::string_view derived_task_name = name.substr(0, name_len);
-            auto task_info_ptr = _generate_task_info(base_task_iter, derived_task_name);
-            if (task_info_ptr == nullptr) [[unlikely]] {
-                return nullptr;
-            }
-
-            // tasks 个数超过上限时不再 emplace，返回临时值
-            constexpr size_t MAX_TASKS_SIZE = 65535;
-            if (m_all_tasks_info.size() < MAX_TASKS_SIZE) [[likely]] {
-                insert_or_assign_task(name, task_info_ptr);
-            }
-#ifdef ASST_DEBUG
-            else {
-                Log.debug("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
-            }
-#endif // ASST_DEBUG
-
+            auto task_info_ptr = expend_sharp_task(name, get_raw(name)).value_or(nullptr);
             if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
                 return task_info_ptr;
             }
