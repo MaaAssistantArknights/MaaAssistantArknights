@@ -49,12 +49,7 @@ UIを見れば使い方もすぐ分かる！
 ## ダウンロードリンク
 
 [安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
-
-ダウンロードが遅い場合はfastgitミラーを試してみてください  
-
-[fastgitミラー安定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[fastgitミラーベータ版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
+[ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## マニュアル
 
