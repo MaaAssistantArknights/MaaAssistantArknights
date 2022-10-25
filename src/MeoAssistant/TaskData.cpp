@@ -18,7 +18,6 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
-    using tasklist_t = std::vector<std::string>;
 
     const auto& json_obj = json.as_object();
 
@@ -82,76 +81,7 @@ bool asst::TaskData::parse(const json::value& json)
 
         // 生成 # 型任务
         for (const auto& [name, old_task] : m_raw_all_tasks_info) {
-            bool task_changed = false;
-            auto task_info = _generate_task_info(old_task);
-            auto generate_sharp_task = [&](tasklist_t& new_task_list, const tasklist_t& task_list,
-                                           std::string_view list_type) {
-                new_task_list.clear();
-                std::function<bool(const tasklist_t&)> generate_tasks;
-                std::unordered_set<std::string_view> tasks_set {};
-                generate_tasks = [&](const tasklist_t& raw_tasks) {
-                    for (std::string_view task : raw_tasks) {
-                        if (tasks_set.contains(task)) [[unlikely]] {
-                            task_changed = true;
-                            continue;
-                        }
-
-                        size_t pos = task.find('#');
-                        if (pos == std::string_view::npos) [[likely]] {
-                            new_task_list.emplace_back(task);
-                            tasks_set.emplace(task_name_view(task));
-                            continue;
-                        }
-
-                        task_changed = true;
-                        std::string_view type = task.substr(pos + 1);
-                        auto other_tasklist_ref = get_raw(task.substr(0, pos));
-#define ASST_TASKDATA_GENERATE_TASKS(t)               \
-    else if (type == #t)                              \
-    {                                                 \
-        if (!generate_tasks(other_tasklist_ref->t)) { \
-            return false;                             \
-        }                                             \
-    }
-                        if (other_tasklist_ref == nullptr) {
-                            Log.error("Task", task, "not found");
-                            return false;
-                        }
-                        ASST_TASKDATA_GENERATE_TASKS(next)
-                        ASST_TASKDATA_GENERATE_TASKS(sub)
-                        ASST_TASKDATA_GENERATE_TASKS(on_error_next)
-                        ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
-                        ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
-                        else {
-                            Log.error("Unknown type", type, "in", task);
-                            return false;
-                        }
-#undef ASST_TASKDATA_GENERATE_TASKS
-
-                        tasks_set.emplace(task_name_view(task));
-                    }
-
-                    return true;
-                };
-                if (!generate_tasks(task_list)) {
-                    Log.error(Logger::separator::none, "Generate task_list ", name, "->", list_type, " failed.");
-                    return false;
-                }
-                return true;
-            };
-
-#define ASST_TASKDATA_GENERATE_SHARP_TASK(type)                         \
-    if (!generate_sharp_task(task_info->type, old_task->type, #type)) { \
-        return false;                                                   \
-    }
-            ASST_TASKDATA_GENERATE_SHARP_TASK(next);
-            ASST_TASKDATA_GENERATE_SHARP_TASK(sub);
-            ASST_TASKDATA_GENERATE_SHARP_TASK(exceeded_next);
-            ASST_TASKDATA_GENERATE_SHARP_TASK(on_error_next);
-            ASST_TASKDATA_GENERATE_SHARP_TASK(reduce_other_times);
-#undef ASST_TASKDATA_GENERATE_SHARP_TASK
-
-            insert_or_assign_task(name, task_changed ? task_info : old_task);
+            expend_sharp_task(name, old_task);
         }
     }
 
@@ -160,7 +90,7 @@ bool asst::TaskData::parse(const json::value& json)
         bool validity = true;
 
         // 语法检查
-        for (const auto& [name, task_json] : json_obj) {
+        for (const auto& [name, task_json] : json_obj) [[likely]] {
             validity &= syntax_check(name, task_json);
         }
 
@@ -175,13 +105,13 @@ bool asst::TaskData::parse(const json::value& json)
                     }
                     // 检查是否有 JustReturn 任务不是最后一个任务
                     if (enable_justreturn_check && !justreturn_task_name.empty()) [[unlikely]] {
-                        Log.error(Logger::separator::none, name, "->", list_type,
+                        Log.error(name, Logger::separator::none, "->", list_type,
                                   " has a not-final JustReturn task: ", justreturn_task_name);
                         validity = false;
                     }
 
-                    if (auto ptr = get_raw(task_name); ptr == nullptr) {
-                        Log.error(Logger::separator::none, task_name, " in ", name, "->", list_type, " is null");
+                    if (auto ptr = get_raw(task_name); ptr == nullptr) [[unlikely]] {
+                        Log.error(task_name, "in", name, Logger::separator::none, "->", list_type, " is null");
                         validity = false;
                     }
                     else if (ptr->algorithm == AlgorithmType::JustReturn) {
@@ -204,6 +134,95 @@ bool asst::TaskData::parse(const json::value& json)
     }
 #endif
     return true;
+}
+
+std::optional<std::shared_ptr<asst::TaskInfo>> asst::TaskData::expend_sharp_task(std::string_view name,
+                                                                                 std::shared_ptr<TaskInfo> old_task)
+{
+    if (old_task == nullptr) [[unlikely]] {
+        return std::nullopt;
+    }
+    bool task_changed = false;
+    auto task_info = _generate_task_info(old_task);
+    auto expend_sharp_task_list = [&](tasklist_t& new_task_list, const tasklist_t& task_list,
+                                      std::string_view list_type) -> bool {
+        new_task_list.clear();
+        std::function<bool(const tasklist_t&)> generate_tasks;
+        std::unordered_set<std::string_view> tasks_set {};
+        generate_tasks = [&](const tasklist_t& raw_tasks) {
+            for (std::string_view task : raw_tasks) {
+                if (tasks_set.contains(task)) [[unlikely]] {
+                    task_changed = true;
+                    continue;
+                }
+
+                size_t pos = task.find('#');
+                if (pos == std::string_view::npos) [[likely]] {
+                    new_task_list.emplace_back(task);
+                    tasks_set.emplace(task_name_view(task));
+                    continue;
+                }
+
+                task_changed = true;
+                std::string_view type = task.substr(pos + 1);
+                auto other_tasklist_ref = get_raw(task.substr(0, pos));
+#define ASST_TASKDATA_GENERATE_TASKS(t)               \
+    else if (type == #t)                              \
+    {                                                 \
+        if (!generate_tasks(other_tasklist_ref->t)) { \
+            return false;                             \
+        }                                             \
+    }
+                if (other_tasklist_ref == nullptr) [[unlikely]] {
+                    Log.error("Task", task, "not found");
+                    return false;
+                }
+                ASST_TASKDATA_GENERATE_TASKS(next)
+                ASST_TASKDATA_GENERATE_TASKS(sub)
+                ASST_TASKDATA_GENERATE_TASKS(on_error_next)
+                ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
+                ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
+                else [[unlikely]]
+                {
+                    Log.error("Unknown type", type, "in", task);
+                    return false;
+                }
+#undef ASST_TASKDATA_GENERATE_TASKS
+
+                tasks_set.emplace(task_name_view(task));
+            }
+
+            return true;
+        };
+        if (!generate_tasks(task_list)) [[unlikely]] {
+            Log.error("Generate task_list", name, Logger::separator::none, "->", list_type, " failed.");
+            return false;
+        }
+        return true;
+    };
+
+#define ASST_TASKDATA_GENERATE_SHARP_TASK(type)                            \
+    if (!expend_sharp_task_list(task_info->type, old_task->type, #type)) { \
+        return std::nullopt;                                               \
+    }
+    ASST_TASKDATA_GENERATE_SHARP_TASK(next);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(sub);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(exceeded_next);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(on_error_next);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(reduce_other_times);
+#undef ASST_TASKDATA_GENERATE_SHARP_TASK
+
+    // tasks 个数超过上限时不再 emplace，返回临时值
+    constexpr size_t MAX_TASKS_SIZE = 65535;
+    if (m_all_tasks_info.size() < MAX_TASKS_SIZE) [[likely]] {
+        return insert_or_assign_task(name, task_changed ? task_info : old_task).first->second;
+    }
+    else {
+#ifdef ASST_DEBUG
+        Log.debug("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
+#endif // ASST_DEBUG
+        return task_changed ? task_info : old_task;
+    }
 }
 
 std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::string& name,
@@ -512,30 +531,10 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
     static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
         { AlgorithmType::Invalid,
           {
-              "algorithm",
-              "baseTask",
-              "template",
-              "text",
-              "action",
-              "sub",
-              "subErrorIgnored",
-              "next",
-              "maxTimes",
-              "exceededNext",
-              "onErrorNext",
-              "preDelay",
-              "rearDelay",
-              "roi",
-              "cache",
-              "rectMove",
-              "reduceOtherTimes",
-              "templThreshold",
-              "maskRange",
-              "fullMatch",
-              "ocrReplace",
-              "hash",
-              "specialThreshold",
-              "threshold",
+              "algorithm",       "baseTask",  "template",   "text",         "action",           "sub",
+              "subErrorIgnored", "next",      "maxTimes",   "exceededNext", "onErrorNext",      "preDelay",
+              "rearDelay",       "roi",       "cache",      "rectMove",     "reduceOtherTimes", "templThreshold",
+              "maskRange",       "fullMatch", "ocrReplace", "hash",         "specialThreshold", "threshold",
           } },
         { AlgorithmType::MatchTemplate,
           {
@@ -596,24 +595,9 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
           } },
         { AlgorithmType::Hash,
           {
-              "algorithm",
-              "baseTask",
-              "action",
-              "sub",
-              "subErrorIgnored",
-              "next",
-              "maxTimes",
-              "exceededNext",
-              "onErrorNext",
-              "preDelay",
-              "rearDelay",
-              "roi",
-              "cache",
-              "rectMove",
-              "reduceOtherTimes",
-              "hash",
-              "maskRange",
-              "specialThreshold",
+              "algorithm", "baseTask",     "action",           "sub",      "subErrorIgnored", "next",
+              "maxTimes",  "exceededNext", "onErrorNext",      "preDelay", "rearDelay",       "roi",
+              "cache",     "rectMove",     "reduceOtherTimes", "hash",     "maskRange",       "specialThreshold",
               "threshold",
           } },
     };
