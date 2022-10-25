@@ -79,67 +79,6 @@ ProcessTask& asst::ProcessTask::set_rear_delay(std::string name, int delay)
     return *this;
 }
 
-bool ProcessTask::generate_tasks(const std::vector<std::string>& raw_tasks, std::unordered_set<std::string>& tasks_set)
-{
-    for (const std::string& task : raw_tasks) {
-        if (tasks_set.contains(task)) [[unlikely]] {
-            // 对于相同的 task，第一次识别后第二次就不再识别了
-            continue;
-        }
-
-        size_t pos = task.find('#');
-        if (pos == std::string::npos) [[likely]] {
-            m_cur_tasks_name.emplace_back(task);
-            tasks_set.emplace(task);
-            continue;
-        }
-
-        std::string other_task_name = task.substr(0, pos);
-        std::string_view type = std::string_view(task).substr(pos + 1);
-        auto other_tasklist_ref = Task.get(other_task_name);
-        if (other_tasklist_ref == nullptr) {
-            Log.error(task, "not found");
-            continue;
-        }
-
-#define ASST_PROCESSTASK_GENERATE_TASKS(t)                       \
-    else if (type == #t)                                         \
-    {                                                            \
-        if (!generate_tasks(other_tasklist_ref->t, tasks_set)) { \
-            return false;                                        \
-        }                                                        \
-    }
-        if constexpr (false) {}
-        ASST_PROCESSTASK_GENERATE_TASKS(next)
-        ASST_PROCESSTASK_GENERATE_TASKS(sub)
-        ASST_PROCESSTASK_GENERATE_TASKS(on_error_next)
-        ASST_PROCESSTASK_GENERATE_TASKS(exceeded_next)
-        ASST_PROCESSTASK_GENERATE_TASKS(reduce_other_times)
-        else {
-            Log.error("Unknown type", type);
-            return false;
-        }
-#undef ASST_PROCESSTASK_GENERATE_TASKS
-
-        tasks_set.emplace(task);
-    }
-
-    return true;
-}
-
-bool ProcessTask::generate_tasks()
-{
-    // std::move 后 m_cur_tasks_name 已经为空
-    std::vector<std::string> cur_tasks_name = std::move(m_cur_tasks_name);
-    std::unordered_set<std::string> tasks_set {};
-    if (!generate_tasks(cur_tasks_name, tasks_set)) [[unlikely]] {
-        Log.error("Generate task failed. pre_task:", m_pre_task_name);
-        m_cur_tasks_name.clear();
-        return false;
-    }
-    return true;
-}
-
 bool ProcessTask::_run()
 {
     LogTraceFunction;
@@ -150,9 +89,6 @@ bool ProcessTask::_run()
         }
         if (m_cur_task_ptr && m_pre_task_name != m_cur_task_ptr->name) {
             m_pre_task_name = m_cur_task_ptr->name;
-        }
-        if (!generate_tasks()) {
-            return false;
         }
 
         json::value info = basic_info();

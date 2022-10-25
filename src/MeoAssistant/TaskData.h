@@ -76,7 +76,7 @@ namespace asst
         };
         // 运行时动态生成任务
         static std::shared_ptr<TaskInfo> _generate_task_info(const std::shared_ptr<TaskInfo>& base_ptr,
-                                                             const std::string& task_prefix)
+                                                             std::string_view task_prefix = "")
         {
             std::shared_ptr<TaskInfo> task_info_ptr;
             switch (base_ptr->algorithm) {
@@ -94,14 +94,26 @@ namespace asst
                 break;
             }
 
-            task_info_ptr->name = task_prefix + "@" + base_ptr->name;
-            task_info_ptr->sub = append_prefix(base_ptr->sub, task_prefix);
-            task_info_ptr->next = append_prefix(base_ptr->next, task_prefix);
-            task_info_ptr->exceeded_next = append_prefix(base_ptr->exceeded_next, task_prefix);
-            task_info_ptr->on_error_next = append_prefix(base_ptr->on_error_next, task_prefix);
-            task_info_ptr->reduce_other_times = append_prefix(base_ptr->reduce_other_times, task_prefix);
+            if (!task_prefix.empty()) {
+                task_info_ptr->name = std::string(task_prefix) + "@" + base_ptr->name;
+                task_info_ptr->sub = append_prefix(base_ptr->sub, task_prefix);
+                task_info_ptr->next = append_prefix(base_ptr->next, task_prefix);
+                task_info_ptr->exceeded_next = append_prefix(base_ptr->exceeded_next, task_prefix);
+                task_info_ptr->on_error_next = append_prefix(base_ptr->on_error_next, task_prefix);
+                task_info_ptr->reduce_other_times = append_prefix(base_ptr->reduce_other_times, task_prefix);
+            }
 
             return task_info_ptr;
+        }
+
+        std::string_view task_name_view(std::string_view task_name) { return *m_task_names.emplace(task_name).first; }
+        void insert_or_assign_raw_task(std::string_view task_name, std::shared_ptr<TaskInfo> task_info_ptr)
+        {
+            m_raw_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
+        }
+        void insert_or_assign_task(std::string_view task_name, std::shared_ptr<TaskInfo> task_info_ptr)
+        {
+            m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
 
     public:
@@ -111,7 +123,7 @@ namespace asst
         template <typename TargetTaskInfoType = TaskInfo>
         requires(std::derived_from<TargetTaskInfoType, TaskInfo> ||
                  std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
-        std::shared_ptr<TargetTaskInfoType> get(const std::string& name, bool with_emplace = true)
+        std::shared_ptr<TargetTaskInfoType> get(std::string_view name)
         {
             // 普通 task 或已经生成过的 `@` 型 task
             if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) [[likely]] {
@@ -124,18 +136,18 @@ namespace asst
             }
 
             size_t at_pos = name.find('@');
-            if (at_pos == std::string::npos) [[unlikely]] {
+            if (at_pos == std::string_view::npos) [[unlikely]] {
                 return nullptr;
             }
 
             // `@` 前面的字符长度
             size_t name_len = at_pos;
-            auto base_task_iter = get(name.substr(name_len + 1), with_emplace);
+            auto base_task_iter = get(name.substr(name_len + 1));
             if (base_task_iter == nullptr) [[unlikely]] {
                 return nullptr;
             }
 
-            std::string derived_task_name = name.substr(0, name_len);
+            std::string_view derived_task_name = name.substr(0, name_len);
             auto task_info_ptr = _generate_task_info(base_task_iter, derived_task_name);
             if (task_info_ptr == nullptr) [[unlikely]] {
                 return nullptr;
@@ -143,16 +155,14 @@ namespace asst
 
             // tasks 个数超过上限时不再 emplace，返回临时值
             constexpr size_t MAX_TASKS_SIZE = 65535;
-            if (with_emplace) {
-                if (m_all_tasks_info.size() < MAX_TASKS_SIZE) {
-                    m_all_tasks_info.emplace(name, task_info_ptr);
-                }
-#ifdef ASST_DEBUG
-                else {
-                    Log.debug("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
-                }
-#endif // ASST_DEBUG
+            if (m_all_tasks_info.size() < MAX_TASKS_SIZE) [[likely]] {
+                insert_or_assign_task(name, task_info_ptr);
             }
+#ifdef ASST_DEBUG
+            else {
+                Log.debug("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
+            }
+#endif // ASST_DEBUG
 
             if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
                 return task_info_ptr;
@@ -165,13 +175,56 @@ namespace asst
     protected:
         virtual bool parse(const json::value& json) override;
 
+        template <typename TargetTaskInfoType = TaskInfo>
+        requires(std::derived_from<TargetTaskInfoType, TaskInfo> ||
+                 std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
+        std::shared_ptr<TargetTaskInfoType> get_raw(std::string_view name) const
+        {
+            // 普通 task 或已经生成过的 `@` 型 task
+            if (auto it = m_raw_all_tasks_info.find(name); it != m_raw_all_tasks_info.cend()) [[likely]] {
+                if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
+                    return it->second;
+                }
+                else {
+                    return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
+                }
+            }
+
+            size_t at_pos = name.find('@');
+            if (at_pos == std::string_view::npos) [[unlikely]] {
+                return nullptr;
+            }
+
+            // `@` 前面的字符长度
+            size_t name_len = at_pos;
+            auto base_task_iter = get_raw(name.substr(name_len + 1));
+            if (base_task_iter == nullptr) [[unlikely]] {
+                return nullptr;
+            }
+
+            std::string_view derived_task_name = name.substr(0, name_len);
+            auto task_info_ptr = _generate_task_info(base_task_iter, derived_task_name);
+            if (task_info_ptr == nullptr) [[unlikely]] {
+                return nullptr;
+            }
+
+            if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
+                return task_info_ptr;
+            }
+            else {
+                return std::dynamic_pointer_cast<TargetTaskInfoType>(task_info_ptr);
+            }
+        }
+
     private:
 #ifdef ASST_DEBUG
         bool syntax_check(const std::string& task_name, const json::value& task_json);
 #endif
 
     protected:
-        std::unordered_map<std::string, std::shared_ptr<TaskInfo>> m_all_tasks_info;
+        std::unordered_set<std::string> m_task_names;
+        std::unordered_map<std::string_view, std::shared_ptr<TaskInfo>> m_raw_all_tasks_info;
+        std::unordered_map<std::string_view, std::shared_ptr<TaskInfo>> m_all_tasks_info;
         std::unordered_set<std::string> m_templ_required;
     };
 
