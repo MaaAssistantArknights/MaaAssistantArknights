@@ -4666,6 +4666,19 @@
             100,
             70
         ],
+        "next": [
+            "InfrastSortByTrustButtonClickAgain"
+        ]
+    },
+    "InfrastSortByTrustButtonClickAgain": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            100,
+            70
+        ],
         "rearDelay": 1000
     },
     "InfrastFilterMenuNotStationed": {
