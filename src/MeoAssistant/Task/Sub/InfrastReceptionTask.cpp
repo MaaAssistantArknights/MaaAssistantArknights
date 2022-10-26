@@ -15,7 +15,9 @@ bool asst::InfrastReceptionTask::_run()
     m_all_available_opers.clear();
 
     swipe_to_the_right_of_main_ui();
-    enter_facility();
+    if (!enter_facility()){
+        return false;
+    }
     click_bottom_left_tab();
 
     close_end_of_clue_exchange();
