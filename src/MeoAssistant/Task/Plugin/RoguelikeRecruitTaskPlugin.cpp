@@ -4,6 +4,7 @@
 #include "Controller.h"
 #include "ImageAnalyzer/RoguelikeRecruitImageAnalyzer.h"
 #include "Resource/RoguelikeRecruitConfiger.h"
+#include "Resource/BattleDataConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
@@ -33,6 +34,11 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 }
 
+std::string asst::RoguelikeRecruitTaskPlugin::get_oper_role(const std::string& name)
+{
+    return std::to_string(BattleData.get_role(name));
+}
+
 bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
@@ -56,6 +62,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
+    std::string teamroles_str =
+        m_status->get_str(RuntimeStatus::RoguelikeTeamRoles).value_or(json::value().to_string());
+    json::value teamroles = json::parse(teamroles_str).value_or(json::value());
 
     // 候选干员
     std::vector<RoguelikeRecruitInfo> recruit_list;
@@ -153,6 +162,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite,
                               oper_info.level);
                 }
+                int role_num = teamroles.get(get_oper_role(oper_info.name), 0);
+                for (const auto& offset_pair : ranges::reverse_view(recruit_info.recruit_priority_offset)) {
+                    if (role_num >= offset_pair.first) {
+                        priority += offset_pair.second;
+                        break;
+                    }
+                }
             }
 
             // 优先级为0，可能练度不够被忽略
@@ -246,7 +262,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return false;
     }
 
-    auto& char_name = selected_oper->name;
+    std::string char_name = selected_oper->name;
     Log.trace(__FUNCTION__, "| Top priority oper:", char_name, selected_oper->priority, "page",
               selected_oper->page_index, "/", i);
 
@@ -355,6 +371,18 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
         { "level", oper.level },
     };
     m_status->set_str(RuntimeStatus::RoguelikeCharOverview, overview.to_string());
+
+    auto& recruit_info = RoguelikeRecruit.get_oper_info(oper.name);
+    if (recruit_info.name.empty() || recruit_info.is_alternate) {
+        return;
+    }
+    std::string teamroles_str =
+        m_status->get_str(RuntimeStatus::RoguelikeTeamRoles).value_or(json::value().to_string());
+    json::value teamroles = json::parse(teamroles_str).value_or(json::value());
+    std::string role_name = get_oper_role(oper.name);
+    int role_num = teamroles.get(role_name, 0) + 1;
+    teamroles[std::move(role_name)] = role_num;
+    m_status->set_str(RuntimeStatus::RoguelikeTeamRoles, teamroles.to_string());
 }
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)

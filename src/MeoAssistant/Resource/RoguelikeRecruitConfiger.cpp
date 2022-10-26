@@ -37,6 +37,12 @@ bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
             info.alternate_skill = oper_info.get("alternate_skill", 0);
             info.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 1));
             info.alternate_skill_usage = static_cast<BattleSkillUsage>(oper_info.get("alternate_skill_usage", 1));
+            if (auto opt = oper_info.find<json::array>("recruit_priority_offset")) {
+                for (const auto& offset : opt.value()) {
+                    std::pair<int, int> offset_pair = std::make_pair(offset[0].as_integer(), offset[1].as_integer());
+                    info.recruit_priority_offset.emplace_back(offset_pair);
+                }
+            }
 
             m_all_opers.emplace(name, std::move(info));
             m_ordered_all_opers_name.emplace_back(name);
