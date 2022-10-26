@@ -20,11 +20,13 @@ namespace asst
         TaskChainStart,         // 任务链开始
         TaskChainCompleted,     // 任务链完成
         TaskChainExtraInfo,     // 任务链额外信息
+        TaskChainStopped,       // 任务链停止（手动停止）
         /* SubTask Info */
         SubTaskError = 20000, // 原子任务执行/识别错误
         SubTaskStart,         // 原子任务开始
         SubTaskCompleted,     // 原子任务完成
-        SubTaskExtraInfo      // 原子任务额外信息
+        SubTaskExtraInfo,     // 原子任务额外信息
+        SubTaskStopped,       // 原子任务停止（手动停止）
     };
 
     inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
@@ -40,11 +42,13 @@ namespace asst
             { AsstMsg::TaskChainStart, "TaskChainStart" },
             { AsstMsg::TaskChainCompleted, "TaskChainCompleted" },
             { AsstMsg::TaskChainExtraInfo, "TaskChainExtraInfo" },
+            { AsstMsg::TaskChainStopped, "TaskChainStopped" },
             /* SubTask Info */
             { AsstMsg::SubTaskError, "SubTaskError" },
             { AsstMsg::SubTaskStart, "SubTaskStart" },
             { AsstMsg::SubTaskCompleted, "SubTaskCompleted" },
             { AsstMsg::SubTaskExtraInfo, "SubTaskExtraInfo" },
+            { AsstMsg::SubTaskStopped, "SubTaskStopped" },
         };
         return os << _type_name.at(type);
     }

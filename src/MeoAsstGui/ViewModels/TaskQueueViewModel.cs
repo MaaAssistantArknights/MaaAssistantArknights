@@ -751,7 +751,6 @@ namespace MeoAsstGui
         /// </summary>
         public async void Stop()
         {
-            Idle = true; // 提前将 Idle 置为 true
             Stopping = true;
             AddLog(Localization.GetString("Stopping"));
             var task = Task.Run(() =>
@@ -759,7 +758,12 @@ namespace MeoAsstGui
                 return _container.Get<AsstProxy>().AsstStop();
             });
             await task;
+        }
+
+        public void SetStopped()
+        {
             AddLog(Localization.GetString("Stopped"));
+            Idle = true;
             Stopping = false;
         }
 
