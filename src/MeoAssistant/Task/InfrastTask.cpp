@@ -261,7 +261,6 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         infrast::CustomFacilityConfig pre_facility_config(1);
         auto& pre_room_config = pre_facility_config.front();
         pre_room_config.names = { target };
-        pre_room_config.sort = true;
         auto pre_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
         pre_task_ptr->set_custom_config(std::move(pre_facility_config));
 
