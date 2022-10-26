@@ -50,16 +50,13 @@ namespace asst
             if (task_prefix.ends_with('@')) [[unlikely]] {
                 task_prefix.remove_suffix(1);
             }
-            if (task_prefix.empty()) {
+            if (task_prefix.empty()) [[unlikely]] {
                 return task_name;
             }
-            if (task_name.empty()) [[unlikely]] {
+            if (task_name.empty()) {
                 return std::string(task_prefix);
             }
             if (task_name.starts_with('#')) {
-                return std::string(task_prefix) + task_name;
-            }
-            if (task_name.starts_with('@')) [[unlikely]] {
                 return std::string(task_prefix) + task_name;
             }
             return std::string(task_prefix) + '@' + task_name;
