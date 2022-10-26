@@ -1,31 +1,31 @@
 {
     "SlowlySwipeToTheLeft": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft"
+        "action": "SlowlySwipeToTheLeft",
+        "next": [
+            ""
+        ]
     },
     "SlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheRight"
+        "action": "SlowlySwipeToTheRight",
+        "next": [
+            ""
+        ]
     },
     "SwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "SwipeToTheRight",
         "next": [
-            "SwipeToTheRight"
-        ],
-        "maxTimes": 2
+            ""
+        ]
     },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "SwipeToTheLeft",
         "next": [
-            "SwipeToTheLeft"
-        ],
-        "maxTimes": 2
-    },
-    "DoNothing": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
+            ""
+        ]
     },
     "1-7": {
         "algorithm": "JustReturn",
@@ -49,126 +49,132 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "SwipeToTheRight",
-            "StageThemeChapter3ToEpisode11"
+            "StageTheme"
+        ],
+        "next": [
+            "EnterEpisode11",
+            "EnterEpisode11@SwipeToTheRight"
         ]
     },
     "Episode10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "SwipeToTheRight",
-            "StageThemeChapter3ToEpisode11",
-            "StageThemeEpisode11ToEpisode10"
+            "StageTheme"
+        ],
+        "next": [
+            "ToEpisode10@EnterEpisode11",
+            "ToEpisode10@EnterEpisode11@SwipeToTheRight"
         ]
     },
     "Episode9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "SwipeToTheRight",
-            "StageThemeChapter3ToEpisode11",
-            "StageThemeEpisode11ToEpisode9"
+            "StageTheme"
+        ],
+        "next": [
+            "ToEpisode9@EnterEpisode11",
+            "ToEpisode9@EnterEpisode11@SwipeToTheRight"
         ]
     },
     "Episode8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8"
+            "StageTheme"
+        ],
+        "next": [
+            "ToEpisode8@EnterEpisode11",
+            "ToEpisode8@EnterEpisode11@SwipeToTheRight"
         ]
     },
     "Episode7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode7"
+            "ToChapter2@StageTheme"
+        ],
+        "next": [
+            "ToEpisode7@EnterEpisode8",
+            "ToEpisode7@EnterEpisode8@SwipeToTheRight"
         ]
     },
     "Episode6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode6"
+            "ToChapter2@StageTheme"
+        ],
+        "next": [
+            "ToEpisode6@EnterEpisode8",
+            "ToEpisode6@EnterEpisode8@SwipeToTheRight"
         ]
     },
     "Episode5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode5"
+            "ToChapter2@StageTheme"
+        ],
+        "next": [
+            "ToEpisode5@EnterEpisode8",
+            "ToEpisode5@EnterEpisode8@SwipeToTheRight"
         ]
     },
     "Episode4": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "SwipeToTheRight",
-            "StageThemeChapter2ToEpisode8",
-            "StageThemeEpisode8ToEpisode4"
+            "ToChapter2@StageTheme"
+        ],
+        "next": [
+            "ToEpisode4@EnterEpisode8",
+            "ToEpisode4@EnterEpisode8@SwipeToTheRight"
         ]
     },
     "Episode3": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3"
+            "ToChapter1@ToChapter2@StageTheme"
+        ],
+        "next": [
+            "EnterEpisode3",
+            "EnterEpisode3@SwipeToTheRight"
         ]
     },
     "Episode2": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3",
-            "StageThemeEpisode3ToEpisode2"
+            "ToChapter1@ToChapter2@StageTheme"
+        ],
+        "next": [
+            "ToEpisode2@EnterEpisode3",
+            "ToEpisode2@EnterEpisode3@SwipeToTheRight"
         ]
     },
     "Episode1": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3",
-            "StageThemeEpisode3ToEpisode1"
+            "ToChapter1@ToChapter2@StageTheme"
+        ],
+        "next": [
+            "ToEpisode1@EnterEpisode3",
+            "ToEpisode1@EnterEpisode3@SwipeToTheRight"
         ]
     },
     "Episode0": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme",
-            "StageThemeChapter3ToChapter2",
-            "StageThemeChapter2ToChapter1",
-            "StageThemeChapter1ToEpisode3",
-            "StageThemeEpisode3ToEpisode0"
+            "ToChapter1@ToChapter2@StageTheme"
+        ],
+        "next": [
+            "ToEpisode0@EnterEpisode3",
+            "ToEpisode0@EnterEpisode3@SwipeToTheRight"
         ]
     },
     "StageTheme": {
@@ -179,9 +185,12 @@
             300,
             60
         ],
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": [
+            ""
+        ]
     },
-    "StageThemeChapter4ToChapter3": {
+    "ToChapter3": {
         "doc": "还没用上",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -193,9 +202,12 @@
             120,
             80,
             32
+        ],
+        "next": [
+            ""
         ]
     },
-    "StageThemeChapter3ToChapter2": {
+    "ToChapter2": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -206,9 +218,12 @@
             120,
             80,
             32
+        ],
+        "next": [
+            ""
         ]
     },
-    "StageThemeChapter2ToChapter1": {
+    "ToChapter1": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -221,207 +236,152 @@
             32
         ],
         "next": [
-            "SwipeToTheRight"
+            ""
         ]
     },
-    "StageThemeChapter3ToEpisode11": {
+    "EnterEpisode": {
+        "Doc": "base_task",
+        "template": "empty.png",
         "action": "ClickSelf",
         "roi": [
-            759,
-            147,
-            395,
-            410
+            775,
+            175,
+            352,
+            351
+        ],
+        "next": [
+            ""
         ]
     },
-    "StageThemeEpisode11ToEpisode10": {
+    "EnterEpisode11": {
+        "baseTask": "EnterEpisode"
+    },
+    "EnterEpisode8": {
+        "baseTask": "EnterEpisode"
+    },
+    "EnterEpisode3": {
+        "baseTask": "EnterEpisode"
+    },
+    "ToEpisode": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": [
-            "10"
-        ],
+        "text": [],
         "roi": [
             902,
             618,
             161,
             102
         ],
-        "next": [
-            "StageThemeEpisode11ToEpisode10",
-            "DoNothing"
-        ],
         "rearDelay": 500
     },
-    "StageThemeEpisode11ToEpisode9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode10": {
+        "baseTask": "ToEpisode",
+        "text": [
+            "10"
+        ],
+        "next": [
+            "ToEpisode10",
+            "",
+            "Stop"
+        ]
+    },
+    "ToEpisode9": {
+        "baseTask": "ToEpisode",
         "text": [
             "10",
             "9"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode11ToEpisode9",
-            "DoNothing"
-        ],
-        "rearDelay": 500
-    },
-    "StageThemeChapter2ToEpisode8": {
-        "action": "ClickSelf",
-        "roi": [
-            777,
-            135,
-            339,
-            289
+            "ToEpisode9",
+            "",
+            "Stop"
         ]
     },
-    "StageThemeEpisode8ToEpisode7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode7": {
+        "baseTask": "ToEpisode",
         "text": [
             "7"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode8ToEpisode7",
-            "DoNothing"
-        ],
-        "rearDelay": 500
+            "ToEpisode7",
+            "",
+            "Stop"
+        ]
     },
-    "StageThemeEpisode8ToEpisode6": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode6": {
+        "baseTask": "ToEpisode",
         "text": [
             "7",
             "6"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode8ToEpisode6",
-            "DoNothing"
-        ],
-        "rearDelay": 500
+            "ToEpisode6",
+            "",
+            "Stop"
+        ]
     },
-    "StageThemeEpisode8ToEpisode5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode5": {
+        "baseTask": "ToEpisode",
         "text": [
             "7",
             "6",
             "5"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode8ToEpisode5",
-            "DoNothing"
-        ],
-        "rearDelay": 500
+            "ToEpisode5",
+            "",
+            "Stop"
+        ]
     },
-    "StageThemeEpisode8ToEpisode4": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode4": {
+        "baseTask": "ToEpisode",
         "text": [
             "7",
             "6",
             "5",
             "4"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode8ToEpisode4",
-            "DoNothing"
-        ],
-        "rearDelay": 500
-    },
-    "StageThemeChapter1ToEpisode3": {
-        "action": "ClickSelf",
-        "roi": [
-            781,
-            136,
-            332,
-            333
+            "ToEpisode4",
+            "",
+            "Stop"
         ]
     },
-    "StageThemeEpisode3ToEpisode2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode2": {
+        "baseTask": "ToEpisode",
         "text": [
             "2"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode3ToEpisode2",
-            "DoNothing"
-        ],
-        "rearDelay": 500
+            "ToEpisode2",
+            "",
+            "Stop"
+        ]
     },
-    "StageThemeEpisode3ToEpisode1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode1": {
+        "baseTask": "ToEpisode",
         "text": [
             "2",
             "1"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode3ToEpisode1",
-            "DoNothing"
-        ],
-        "rearDelay": 500
+            "ToEpisode1",
+            "",
+            "Stop"
+        ]
     },
-    "StageThemeEpisode3ToEpisode0": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "ToEpisode0": {
+        "baseTask": "ToEpisode",
         "text": [
             "0",
             "o",
             "O"
         ],
-        "roi": [
-            902,
-            618,
-            161,
-            102
-        ],
         "next": [
-            "StageThemeEpisode3ToEpisode0",
-            "DoNothing"
-        ],
-        "rearDelay": 500
+            "ToEpisode0",
+            "",
+            "Stop"
+        ]
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
@@ -1277,128 +1237,97 @@
             80
         ]
     },
-    "CE-6": {
+    "ResourceStages": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
-            "StageResource",
-            "SwipeToTheLeft",
-            "StageCE",
-            "StageCE6"
+            "StageResource"
+        ]
+    },
+    "CE-6": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "CE6@StageCE",
+            "SwipeToTheLeft"
         ]
     },
     "LS-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheLeft",
-            "StageLS",
-            "StageLS6"
+        "baseTask": "ResourceStages",
+        "next": [
+            "LS6@StageLS"
         ]
     },
     "CA-5": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheLeft",
-            "StageCA",
-            "StageCA5"
+        "baseTask": "ResourceStages",
+        "next": [
+            "CA6@StageCA",
+            "SwipeToTheLeft"
         ]
     },
     "AP-5": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheLeft",
-            "StageAP",
-            "StageAP5"
+        "baseTask": "ResourceStages",
+        "next": [
+            "AP6@StageAP",
+            "SwipeToTheLeft"
         ]
     },
     "PR-A-1": {
-        "algorithm": "JustReturn",
+        "baseTask": "ResourceStages",
         "doc": "医疗/重装",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-A",
-            "StagePR-A-1"
+        "next": [
+            "PR-A-1@StagePR-A",
+            "SwipeToTheRight"
         ]
     },
     "PR-A-2": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-A",
-            "StagePR-A-2"
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-A-2@StagePR-A",
+            "SwipeToTheRight"
         ]
     },
     "PR-B-1": {
-        "algorithm": "JustReturn",
+        "baseTask": "ResourceStages",
         "doc": "术士/狙击",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-B",
-            "StagePR-B-1"
+        "next": [
+            "PR-B-1@StagePR-B",
+            "SwipeToTheRight"
         ]
     },
     "PR-B-2": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-B",
-            "StagePR-B-2"
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-B-2@StagePR-B",
+            "SwipeToTheRight"
         ]
     },
     "PR-C-1": {
-        "algorithm": "JustReturn",
+        "baseTask": "ResourceStages",
         "doc": "先锋/辅助",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-C",
-            "StagePR-C-1"
+        "next": [
+            "PR-C-1@StagePR-C",
+            "SwipeToTheRight"
         ]
     },
     "PR-C-2": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-C",
-            "StagePR-C-2"
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-C-2@StagePR-C",
+            "SwipeToTheRight"
         ]
     },
     "PR-D-1": {
-        "algorithm": "JustReturn",
+        "baseTask": "ResourceStages",
         "doc": "近卫/特种",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-D",
-            "StagePR-D-1"
+        "next": [
+            "PR-D-1@StagePR-D",
+            "SwipeToTheRight"
         ]
     },
     "PR-D-2": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheRight",
-            "StagePR-D",
-            "StagePR-D-2"
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-D-2@StagePR-D",
+            "SwipeToTheRight"
         ]
     },
     "StageResource": {
@@ -1411,73 +1340,23 @@
             158
         ]
     },
-    "StageCE": {
+    "Stage": {
+        "Doc": "base_task",
+        "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
+        "cache": false
+    },
+    "StageEntries": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Stage",
         "maskRange": [
             1,
             255
+        ],
+        "next": [
+            "Stage"
         ]
-    },
-    "StageLS": {
-        "action": "ClickSelf",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "StageCA": {
-        "action": "ClickSelf",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "StageAP": {
-        "action": "ClickSelf",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "StagePR-A": {
-        "action": "ClickSelf",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "StagePR-B": {
-        "action": "ClickSelf",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "StagePR-C": {
-        "action": "ClickSelf",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "StagePR-D": {
-        "action": "ClickSelf",
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "AbleToAgent": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
     },
     "UnableToAgent": {
         "action": "SwipeToTheLeft",
@@ -1488,13 +1367,24 @@
             143
         ],
         "next": [
-            "StageCE5",
-            "StageLS5"
+            "Stage"
         ]
     },
-    "StageCE6": {
-        "action": "ClickSelf",
-        "cache": false,
+    "ResourceStageLevel5": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Stage",
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "ResourceStageLevel6": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Stage",
         "roi": [
             936,
             101,
@@ -1503,165 +1393,125 @@
         ],
         "next": [
             "UnableToAgent",
-            "AbleToAgent"
+            "Stop"
         ]
     },
-    "StageLS6": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            936,
-            101,
-            243,
-            143
-        ],
-        "next": [
-            "UnableToAgent",
-            "AbleToAgent"
-        ]
-    },
-    "StageCE5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageLS5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageCA5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageAP5": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StagePR-A-1": {
+    "ChipStageLevel1": {
         "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+        "baseTask": "Stage",
+        "text": [],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "ChipStageLevel2": {
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "text": [],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StageCE": {
+        "baseTask": "StageEntries"
+    },
+    "StageLS": {
+        "baseTask": "StageEntries"
+    },
+    "StageCA": {
+        "baseTask": "StageEntries"
+    },
+    "StageAP": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-A": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-B": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-C": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-D": {
+        "baseTask": "StageEntries"
+    },
+    "CE5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "template": "StageCE5.png"
+    },
+    "CE6@Stage": {
+        "baseTask": "CE5@ResourceStageLevel6",
+        "template": "StageCE6.png"
+    },
+    "LS5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "template": "StageLS5.png"
+    },
+    "LS6@Stage": {
+        "baseTask": "LS5@ResourceStageLevel6",
+        "template": "StageLS6.png"
+    },
+    "CA5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "template": "StageCA5.png"
+    },
+    "AP5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "template": "StageAP5.png"
+    },
+    "PR-A-1@Stage": {
+        "baseTask": "ChipStageLevel1",
         "text": [
             "PR-A-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
         ]
     },
-    "StagePR-A-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "PR-A-2@Stage": {
+        "baseTask": "ChipStageLevel2",
         "text": [
             "PR-A-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
         ]
     },
-    "StagePR-B-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "PR-B-1@Stage": {
+        "baseTask": "ChipStageLevel1",
         "text": [
             "PR-B-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
         ]
     },
-    "StagePR-B-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "PR-B-2@Stage": {
+        "baseTask": "ChipStageLevel2",
         "text": [
             "PR-B-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
         ]
     },
-    "StagePR-C-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "PR-C-1@Stage": {
+        "baseTask": "ChipStageLevel1",
         "text": [
             "PR-C-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
         ]
     },
-    "StagePR-C-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "PR-C-2@Stage": {
+        "baseTask": "ChipStageLevel2",
         "text": [
             "PR-C-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
         ]
     },
-    "StagePR-D-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "PR-D-1@Stage": {
+        "baseTask": "ChipStageLevel1",
         "text": [
             "PR-D-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
         ]
     },
-    "StagePR-D-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "PR-D-2@Stage": {
+        "baseTask": "ChipStageLevel2",
         "text": [
             "PR-D-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
         ]
     },
     "CharsNameOcrReplace": {
@@ -1971,7 +1821,7 @@
             ]
         ]
     },
-    "StartUp": {
+    "StartUpBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
@@ -1981,7 +1831,7 @@
             "StartUp@StartLoginBServer",
             "StartUp@BServerPrivacyPolicy",
             "StartUp@Loading2",
-            "StartUp@Main",
+            "StartUp",
             "StartUp@CloseAnno",
             "StartUp@TodaysSupplies",
             "StartUp@ReturnTo",
@@ -2006,7 +1856,7 @@
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "Loading2",
-            "Main",
+            "",
             "CloseAnno",
             "TodaysSupplies",
             "ReturnTo",
@@ -2039,7 +1889,7 @@
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "Loading2",
-            "Main",
+            "",
             "CloseAnno",
             "OfflineConfirm",
             "TodaysSupplies"
@@ -2059,7 +1909,7 @@
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "Loading2",
-            "Main",
+            "",
             "CloseAnno",
             "OfflineConfirm",
             "TodaysSupplies"
@@ -2078,7 +1928,7 @@
             "StartLoginBServer",
             "BServerPrivacyPolicy",
             "Loading2",
-            "Main",
+            "",
             "CloseAnno",
             "OfflineConfirm",
             "TodaysSupplies"
@@ -2098,13 +1948,13 @@
             "BServerPrivacyPolicy",
             "StartUpConnectingFlag",
             "Loading2",
-            "Main",
+            "",
             "CloseAnno",
             "OfflineConfirm",
             "TodaysSupplies"
         ]
     },
-    "StartUp@Main": {
+    "StartUp": {
         "template": "Terminal.png",
         "action": "Stop",
         "roi": [
@@ -2125,7 +1975,7 @@
             200
         ],
         "next": [
-            "Main",
+            "",
             "CloseAnno",
             "ReturnTo",
             "FromStageSN",
@@ -2152,7 +2002,7 @@
         ],
         "next": [
             "CloseAnno",
-            "Main"
+            ""
         ]
     },
     "Loading": {
@@ -2200,7 +2050,7 @@
             80
         ],
         "next": [
-            "Main",
+            "",
             "ReturnTo",
             "ReturnToConfirm",
             "Loading2",
@@ -2220,7 +2070,7 @@
         ],
         "next": [
             "ReturnTo",
-            "Main",
+            "",
             "Loading2",
             "CloseAnno",
             "FromStageSN",
@@ -2276,7 +2126,7 @@
         ],
         "next": [
             "StartUp@ReturnTo",
-            "StartUp@Main",
+            "StartUp",
             "StartUp@CloseAnno",
             "StartUp@FromStageSN",
             "StartUp@TodaysSupplies",
@@ -2328,14 +2178,14 @@
         "action": "DoNothing",
         "next": [
             "Fight@ReturnTo",
-            "Fight@Main",
+            "Fight",
             "Fight@CloseAnno",
             "Fight@FromStageSN",
             "Fight@TodaysSupplies"
         ]
     },
     "FightBegin": {
-        "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight@Main",
+        "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
@@ -2358,7 +2208,7 @@
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@ReturnTo",
-            "Fight@Main",
+            "Fight",
             "Fight@CloseAnno",
             "Fight@FromStageSN",
             "Fight@TodaysSupplies",
@@ -2878,18 +2728,14 @@
             "BServerPrivacyPolicy",
             "ReturnTo",
             "Loading2",
-            "Main",
+            "",
             "CloseAnno",
             "FromStageSN",
             "TodaysSupplies",
             "OfflineConfirm"
         ]
     },
-    "Main": {
-        "Doc": "base_task",
-        "template": "empty.png"
-    },
-    "Fight@Main": {
+    "Fight": {
         "template": "Terminal.png",
         "action": "ClickSelf",
         "roi": [
@@ -2905,7 +2751,7 @@
         ],
         "next": [
             "Fight@GoLastBattle",
-            "Fight@Main",
+            "Fight",
             "Fight@CloseAnno",
             "Fight@TodaysSupplies",
             "Stop"
@@ -2938,14 +2784,14 @@
         "action": "DoNothing",
         "next": [
             "RecruitFlag",
-            "Recruit@Main",
+            "Recruit",
             "Recruit@ReturnTo",
             "Recruit@CloseAnno",
             "Recruit@FromStageSN",
             "Recruit@TodaysSupplies"
         ]
     },
-    "Recruit@Main": {
+    "Recruit": {
         "template": "Recruit.png",
         "action": "ClickSelf",
         "roi": [
@@ -3271,7 +3117,7 @@
         "action": "DoNothing",
         "next": [
             "Award@ReturnTo",
-            "Award@Main",
+            "Award",
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
@@ -3280,7 +3126,7 @@
             "Award@TodaysSupplies"
         ]
     },
-    "Award@Main": {
+    "Award": {
         "template": "Task.png",
         "action": "ClickSelf",
         "roi": [
@@ -3293,7 +3139,7 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "Award@Main",
+            "Award",
             "Award@CloseAnno",
             "Award@TodaysSupplies"
         ]
@@ -3385,7 +3231,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Visit@Main",
+            "Visit",
             "FriendsList",
             "StartToVisit",
             "VisitNext",
@@ -3396,7 +3242,7 @@
             "Visit@TodaysSupplies"
         ]
     },
-    "Visit@Main": {
+    "Visit": {
         "template": "Friends.png",
         "templThreshold": 0.7,
         "action": "ClickSelf",
@@ -3408,7 +3254,7 @@
         ],
         "next": [
             "FriendsList",
-            "Visit@Main",
+            "Visit",
             "Visit@CloseAnno",
             "Visit@TodaysSupplies"
         ]
@@ -3497,13 +3343,13 @@
         "action": "DoNothing",
         "next": [
             "Mall@ReturnTo",
-            "Mall@Main",
+            "Mall",
             "Mall@CloseAnno",
             "Mall@FromStageSN",
             "Mall@TodaysSupplies"
         ]
     },
-    "Mall@Main": {
+    "Mall": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -3517,7 +3363,7 @@
         ],
         "next": [
             "CreditStoreOcr",
-            "Mall@Main",
+            "Mall",
             "Mall@CloseAnno",
             "Mall@TodaysSupplies"
         ]
@@ -3624,7 +3470,7 @@
             "Home@ReturnTo"
         ]
     },
-    "Home@Main": {
+    "Home": {
         "template": "Terminal.png",
         "action": "Stop",
         "roi": [
@@ -3851,7 +3697,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Infrast@Main",
+            "Infrast",
             "InfrastEnteredFlag",
             "InfrastNotification",
             "Infrast@ReturnTo",
@@ -3863,7 +3709,7 @@
     "Infrast@ReturnTo": {
         "template": "Return.png",
         "next": [
-            "Infrast@Main",
+            "Infrast",
             "InfrastNotification",
             "InfrastEnteredFlag",
             "Infrast@ReturnTo",
@@ -3876,7 +3722,7 @@
     "Infrast@ReturnToConfirm": {
         "template": "PopupConfirm.png",
         "next": [
-            "Infrast@Main",
+            "Infrast",
             "InfrastNotification",
             "InfrastEnteredFlag",
             "Infrast@ReturnTo",
@@ -3889,7 +3735,7 @@
     "Infrast@CloseAnno": {
         "template": "CloseAnno.png",
         "next": [
-            "Infrast@Main",
+            "Infrast",
             "InfrastNotification",
             "InfrastEnteredFlag",
             "Infrast@ReturnTo",
@@ -3910,7 +3756,7 @@
             80
         ]
     },
-    "Infrast@Main": {
+    "Infrast": {
         "template": "EnterInfrast.png",
         "roi": [
             900,
@@ -3921,7 +3767,7 @@
         "action": "ClickSelf",
         "next": [
             "InfrastEnteredFlag",
-            "Infrast@Main",
+            "Infrast",
             "Infrast@CloseAnno",
             "Infrast@TodaysSupplies"
         ],
@@ -6747,7 +6593,7 @@
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodaysSupplies",
-            "Roguelike@Main",
+            "Roguelike",
             "Roguelike@CloseAnno",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
@@ -6827,7 +6673,7 @@
             "Roguelike@StageTraderLeave",
             "Roguelike@DropsFlag",
             "Roguelike@TodaysSupplies",
-            "Roguelike@Main",
+            "Roguelike",
             "Roguelike@CloseAnno",
             "Roguelike@OfflineConfirm",
             "Roguelike@StartToWakeUp",
@@ -6850,7 +6696,7 @@
             "Roguelike@NextLevel#next",
             "Roguelike@GamePass",
             "Roguelike@TodaysSupplies",
-            "Roguelike@Main",
+            "Roguelike",
             "Roguelike@CloseAnno",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
@@ -7351,7 +7197,7 @@
             "Roguelike@LastRewardConfirm"
         ]
     },
-    "Roguelike@Main": {
+    "Roguelike": {
         "template": "Terminal.png",
         "action": "ClickSelf",
         "roi": [
@@ -7361,7 +7207,7 @@
             120
         ],
         "next": [
-            "Roguelike@Main",
+            "Roguelike",
             "Roguelike@CloseAnno",
             "Roguelike@TodoEnter",
             "Roguelike@IntegratedStrategies"
@@ -7510,7 +7356,7 @@
             "Roguelike@StartExplore",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
-            "Roguelike@Main",
+            "Roguelike",
             "Roguelike@ReturnTo",
             "Roguelike@ReturnToConfirm",
             "Roguelike@CloseAnno",
@@ -8967,7 +8813,7 @@
         "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
     },
     "RoguelikeRecruitSwipeMaxTime": {
-        "template": "empty.png",
+        "algorithm": "JustReturn",
         "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
         "maxTimes": 4
     },
