@@ -2155,6 +2155,25 @@
             "Main"
         ]
     },
+    "Loading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "Loading",
+            "#next",
+            ""
+        ]
+    },
     "Loading2": {
         "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
         "roi": [
@@ -2165,18 +2184,8 @@
         ],
         "next": [
             "Loading2",
-            "Main",
-            "ReturnTo",
-            "CloseAnno",
-            "FromStageSN",
-            "TodaysSupplies",
-            "OfflineConfirm",
-            "GameStart",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "FromStageSN"
+            "#next",
+            ""
         ]
     },
     "ReturnTo": {
@@ -2950,29 +2959,7 @@
             255
         ],
         "next": [
-            "RecruitBeginLoading",
-            "RecruitBegin"
-        ]
-    },
-    "Loading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ]
-    },
-    "RecruitBeginLoading": {
-        "baseTask": "Loading",
-        "next": [
-            "RecruitBeginLoading",
-            "Recruit@Main",
+            "RecruitBegin@Loading",
             "RecruitBegin"
         ]
     },
@@ -2987,16 +2974,7 @@
             420
         ],
         "next": [
-            "RecruitFinishLoading",
-            "RecruitFinish",
-            "RecruitSkip",
-            "RecruitSkipWithoutButton"
-        ]
-    },
-    "RecruitFinishLoading": {
-        "baseTask": "Loading",
-        "next": [
-            "RecruitFinishLoading",
+            "RecruitFinish@Loading",
             "RecruitFinish",
             "RecruitSkip",
             "RecruitSkipWithoutButton"
@@ -3679,15 +3657,8 @@
         ],
         "next": [
             "CreditShop-Bought",
-            "CreditShop-BuyIt-Loading",
+            "CreditShop-BuyIt@Loading",
             "CreditShop-NoMoney"
-        ]
-    },
-    "CreditShop-BuyIt-Loading": {
-        "baseTask": "Loading",
-        "next": [
-            "CreditShop-Bought",
-            "CreditShop-BuyIt-Loading"
         ]
     },
     "CreditShop-Bought": {
@@ -3815,14 +3786,7 @@
         "preDelay": 500,
         "rearDelay": 500,
         "next": [
-            "RecruitLoading",
-            "SleepThenStop"
-        ]
-    },
-    "RecruitLoading": {
-        "baseTask": "Loading",
-        "next": [
-            "RecruitLoading",
+            "RecruitRefreshConfirm@Loading",
             "SleepThenStop"
         ]
     },
@@ -3879,14 +3843,7 @@
             80
         ],
         "next": [
-            "RecruitConfirmLoading",
-            "RecruitFlag"
-        ]
-    },
-    "RecruitConfirmLoading": {
-        "baseTask": "Loading",
-        "next": [
-            "RecruitConfirmLoading",
+            "RecruitConfirm@Loading",
             "RecruitFlag"
         ]
     },
@@ -4087,7 +4044,7 @@
             165
         ],
         "next": [
-            "DroneConfirmLoading",
+            "DroneConfirm@Loading",
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
             "DroneAssistMfg"
@@ -4101,15 +4058,6 @@
             498,
             452,
             162
-        ]
-    },
-    "DroneConfirmLoading": {
-        "baseTask": "Loading",
-        "next": [
-            "DroneConfirmLoading",
-            "DeliverableOrder",
-            "DroneAssist-Trade-Stop",
-            "DroneAssistMfg"
         ]
     },
     "DeliverableOrder": {
@@ -4155,15 +4103,7 @@
         ],
         "rearDelay": 1000,
         "next": [
-            "ReplenishToMaxLoading",
-            "Stop"
-        ]
-    },
-    "ReplenishToMaxLoading": {
-        "baseTask": "Loading",
-        "rearDelay": 1000,
-        "next": [
-            "ReplenishToMaxLoading",
+            "ReplenishToMaxConfirm@Loading",
             "Stop"
         ]
     },
@@ -5452,14 +5392,6 @@
             "ClueGiveTo1stConfirm"
         ]
     },
-    "ClueGiveLoading": {
-        "baseTask": "Loading",
-        "next": [
-            "ClueGiveLoading",
-            "SelectClue",
-            "CloseSendClue"
-        ]
-    },
     "ClueGiveTo1st": {
         "template": "ClusCanBeSent.png",
         "action": "DoNothing",
@@ -5488,7 +5420,7 @@
             160
         ],
         "next": [
-            "ClueGiveLoading",
+            "ClueGiveTo1stConfirm@Loading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5521,7 +5453,7 @@
             160
         ],
         "next": [
-            "ClueGiveLoading",
+            "ClueGiveTo2ndConfirm@Loading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5554,7 +5486,7 @@
             160
         ],
         "next": [
-            "ClueGiveLoading",
+            "ClueGiveTo3rdConfirm@Loading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5587,7 +5519,7 @@
             160
         ],
         "next": [
-            "ClueGiveLoading",
+            "ClueGiveTo4thConfirm@Loading",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -8057,19 +7989,6 @@
             "Roguelike@GamePass",
             "Roguelike@StartAction@Loading",
             "Roguelike@StartAction@Loading2"
-        ]
-    },
-    "Roguelike@StartAction@Loading": {
-        "next": [
-            "Roguelike@StartAction@Loading",
-            "Roguelike@StartAction#next"
-        ]
-    },
-    "Roguelike@StartAction@Loading2": {
-        "template": "Loading2.png",
-        "next": [
-            "Roguelike@StartAction@Loading2",
-            "Roguelike@StartAction#next"
         ]
     },
     "Roguelike@StartExplore": {
