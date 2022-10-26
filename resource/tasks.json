@@ -8556,10 +8556,6 @@
             144,
             141
         ],
-        "maskRange": [
-            100,
-            255
-        ],
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
             "Mizuki@Roguelike@NextLevel#next",
