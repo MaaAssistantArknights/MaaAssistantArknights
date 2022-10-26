@@ -28,8 +28,8 @@ bool asst::TaskData::parse(const json::value& json)
         }
 
         auto generate_task_and_its_base = [&](const std::string& name) -> bool {
-            auto generate_task = [&](const std::string& name, std::string_view prefix,
-                                     std::shared_ptr<TaskInfo> base_ptr, const json::value& task_json) {
+            auto generate_task = [&](const std::string& name, std::string_view prefix, taskptr_t base_ptr,
+                                     const json::value& task_json) {
                 auto task_info_ptr = generate_task_info(name, task_json, base_ptr, prefix);
                 if (task_info_ptr == nullptr) {
                     return false;
@@ -105,13 +105,13 @@ bool asst::TaskData::parse(const json::value& json)
                     }
                     // 检查是否有 JustReturn 任务不是最后一个任务
                     if (enable_justreturn_check && !justreturn_task_name.empty()) [[unlikely]] {
-                        Log.error(name, Logger::separator::none, "->", list_type,
-                                  " has a not-final JustReturn task: ", justreturn_task_name);
+                        Log.error((std::string(name) += "->") += list_type,
+                                  "has a not-final JustReturn task:", justreturn_task_name);
                         validity = false;
                     }
 
                     if (auto ptr = get_raw(task_name); ptr == nullptr) [[unlikely]] {
-                        Log.error(task_name, "in", name, Logger::separator::none, "->", list_type, " is null");
+                        Log.error(task_name, "in", (std::string(name) += "->") += list_type, "is null");
                         validity = false;
                     }
                     else if (ptr->algorithm == AlgorithmType::JustReturn) {
@@ -136,8 +136,7 @@ bool asst::TaskData::parse(const json::value& json)
     return true;
 }
 
-std::optional<std::shared_ptr<asst::TaskInfo>> asst::TaskData::expend_sharp_task(std::string_view name,
-                                                                                 std::shared_ptr<TaskInfo> old_task)
+std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::string_view name, taskptr_t old_task)
 {
     if (old_task == nullptr) [[unlikely]] {
         return std::nullopt;
@@ -151,29 +150,41 @@ std::optional<std::shared_ptr<asst::TaskInfo>> asst::TaskData::expend_sharp_task
         std::unordered_set<std::string_view> tasks_set {};
         generate_tasks = [&](const tasklist_t& raw_tasks) {
             for (std::string_view task : raw_tasks) {
+                if (task.empty()) {
+                    task_changed = true;
+#ifdef ASST_DEBUG
+                    Log.trace("Task", name, "has a virtual", list_type, ": ``");
+#endif // ASST_DEBUG
+                    continue;
+                }
                 if (tasks_set.contains(task)) [[unlikely]] {
                     task_changed = true;
                     continue;
                 }
+                tasks_set.emplace(task_name_view(task));
 
                 size_t pos = task.find('#');
                 if (pos == std::string_view::npos) [[likely]] {
                     new_task_list.emplace_back(task);
-                    tasks_set.emplace(task_name_view(task));
                     continue;
                 }
+#ifdef ASST_DEBUG
+                if (pos == 0) [[unlikely]] {
+                    Log.trace("Task", name, "has a virtual", list_type, ":", (std::string("`") += task) += '`');
+                }
+#endif // ASST_DEBUG
 
                 task_changed = true;
                 std::string_view type = task.substr(pos + 1);
-                auto other_tasklist_ref = get_raw(task.substr(0, pos));
-#define ASST_TASKDATA_GENERATE_TASKS(t)               \
-    else if (type == #t)                              \
-    {                                                 \
-        if (!generate_tasks(other_tasklist_ref->t)) { \
-            return false;                             \
-        }                                             \
+                taskptr_t other_task_info_ptr = pos ? get_raw(task.substr(0, pos)) : default_task_info_ptr;
+#define ASST_TASKDATA_GENERATE_TASKS(t)                \
+    else if (type == #t)                               \
+    {                                                  \
+        if (!generate_tasks(other_task_info_ptr->t)) { \
+            return false;                              \
+        }                                              \
     }
-                if (other_tasklist_ref == nullptr) [[unlikely]] {
+                if (other_task_info_ptr == nullptr) [[unlikely]] {
                     Log.error("Task", task, "not found");
                     return false;
                 }
@@ -188,14 +199,12 @@ std::optional<std::shared_ptr<asst::TaskInfo>> asst::TaskData::expend_sharp_task
                     return false;
                 }
 #undef ASST_TASKDATA_GENERATE_TASKS
-
-                tasks_set.emplace(task_name_view(task));
             }
 
             return true;
         };
         if (!generate_tasks(task_list)) [[unlikely]] {
-            Log.error("Generate task_list", name, Logger::separator::none, "->", list_type, " failed.");
+            Log.error("Generate task_list", (std::string(name) += "->") += list_type, "failed.");
             return false;
         }
         return true;
@@ -225,10 +234,8 @@ std::optional<std::shared_ptr<asst::TaskInfo>> asst::TaskData::expend_sharp_task
     }
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::string& name,
-                                                                   const json::value& task_json,
-                                                                   std::shared_ptr<TaskInfo> default_ptr,
-                                                                   std::string_view task_prefix)
+asst::TaskData::taskptr_t asst::TaskData::generate_task_info(const std::string& name, const json::value& task_json,
+                                                             taskptr_t default_ptr, std::string_view task_prefix)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_task_info_ptr;
@@ -237,7 +244,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::st
 
     // 获取 algorithm 并按照 algorithm 生成 TaskInfo
     auto algorithm = default_ptr->algorithm;
-    std::shared_ptr<TaskInfo> default_derived_ptr = default_ptr;
+    taskptr_t default_derived_ptr = default_ptr;
     if (auto opt = task_json.find<std::string>("algorithm")) {
         std::string algorithm_str = opt.value();
         algorithm = get_algorithm_type(algorithm_str);
@@ -246,7 +253,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::st
             default_derived_ptr = nullptr;
         }
     }
-    std::shared_ptr<TaskInfo> task_info_ptr = nullptr;
+    taskptr_t task_info_ptr = nullptr;
     switch (algorithm) {
     case AlgorithmType::MatchTemplate:
         task_info_ptr =
@@ -277,9 +284,9 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_task_info(const std::st
     return task_info_ptr;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_match_task_info(const std::string& name,
-                                                                         const json::value& task_json,
-                                                                         std::shared_ptr<MatchTaskInfo> default_ptr)
+asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(const std::string& name,
+                                                                   const json::value& task_json,
+                                                                   std::shared_ptr<MatchTaskInfo> default_ptr)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_match_task_info_ptr;
@@ -303,28 +310,22 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_match_task_info(const s
     return match_task_info_ptr;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_ocr_task_info([[maybe_unused]] const std::string& name,
-                                                                       const json::value& task_json,
-                                                                       std::shared_ptr<OcrTaskInfo> default_ptr)
+asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]] const std::string& name,
+                                                                 const json::value& task_json,
+                                                                 std::shared_ptr<OcrTaskInfo> default_ptr)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_ocr_task_info_ptr;
     }
     auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
 
-    if (auto opt = task_json.find<json::array>("text")) {
-        for (const json::value& text : opt.value()) {
-            ocr_task_info_ptr->text.emplace_back(text.as_string());
-        }
-    }
-    else {
+    auto array_opt = task_json.find<json::array>("text");
+    ocr_task_info_ptr->text = array_opt ? to_string_list(array_opt.value()) : default_ptr->text;
 #ifdef ASST_DEBUG
-        if (default_ptr->text.empty()) {
-            Log.warn("Ocr task", name, "has implicit empty text.");
-        }
-#endif
-        ocr_task_info_ptr->text = default_ptr->text;
+    if (!array_opt && default_ptr->text.empty()) {
+        Log.warn("Ocr task", name, "has implicit empty text.");
     }
+#endif
 
     ocr_task_info_ptr->full_match = task_json.get("fullMatch", default_ptr->full_match);
     if (auto opt = task_json.find<json::array>("ocrReplace")) {
@@ -338,27 +339,21 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_ocr_task_info([[maybe_u
     return ocr_task_info_ptr;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_hash_task_info([[maybe_unused]] const std::string& name,
-                                                                        const json::value& task_json,
-                                                                        std::shared_ptr<HashTaskInfo> default_ptr)
+asst::TaskData::taskptr_t asst::TaskData::generate_hash_task_info([[maybe_unused]] const std::string& name,
+                                                                  const json::value& task_json,
+                                                                  std::shared_ptr<HashTaskInfo> default_ptr)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_hash_task_info_ptr;
     }
     auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
-    if (auto opt = task_json.find<json::array>("hash")) {
-        for (const json::value& hash : opt.value()) {
-            hash_task_info_ptr->hashes.emplace_back(hash.as_string());
-        }
-    }
-    else {
+    auto array_opt = task_json.find<json::array>("hash");
+    hash_task_info_ptr->hashes = array_opt ? to_string_list(array_opt.value()) : default_ptr->hashes;
 #ifdef ASST_DEBUG
-        if (default_ptr->hashes.empty()) {
-            Log.warn("Hash task", name, "has implicit empty hashes.");
-        }
-#endif
-        hash_task_info_ptr->hashes = default_ptr->hashes;
+    if (!array_opt && default_ptr->hashes.empty()) {
+        Log.warn("Hash task", name, "has implicit empty hashes.");
     }
+#endif
 
     hash_task_info_ptr->dist_threshold = task_json.get("threshold", default_ptr->dist_threshold);
 
@@ -375,8 +370,8 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::generate_hash_task_info([[maybe_
     return hash_task_info_ptr;
 }
 
-bool asst::TaskData::append_base_task_info(std::shared_ptr<TaskInfo> task_info_ptr, const std::string& name,
-                                           const json::value& task_json, std::shared_ptr<TaskInfo> default_ptr,
+bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, const std::string& name,
+                                           const json::value& task_json, taskptr_t default_ptr,
                                            std::string_view task_prefix)
 {
     if (default_ptr == nullptr) {
@@ -393,35 +388,19 @@ bool asst::TaskData::append_base_task_info(std::shared_ptr<TaskInfo> task_info_p
     else {
         task_info_ptr->action = default_ptr->action;
     }
-
     task_info_ptr->cache = task_json.get("cache", default_ptr->cache);
     task_info_ptr->max_times = task_json.get("maxTimes", default_ptr->max_times);
-    if (auto opt = task_json.find<json::array>("exceededNext")) {
-        for (const json::value& exceed_next : opt.value()) {
-            task_info_ptr->exceeded_next.emplace_back(exceed_next.as_string());
-        }
-    }
-    else {
-        task_info_ptr->exceeded_next = append_prefix(default_ptr->exceeded_next, task_prefix);
-    }
-    if (auto opt = task_json.find<json::array>("onErrorNext")) {
-        for (const json::value& on_error_next : opt.value()) {
-            task_info_ptr->on_error_next.emplace_back(on_error_next.as_string());
-        }
-    }
-    else {
-        task_info_ptr->on_error_next = append_prefix(default_ptr->on_error_next, task_prefix);
-    }
+    auto array_opt = task_json.find<json::array>("exceededNext");
+    task_info_ptr->exceeded_next =
+        array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->exceeded_next, task_prefix);
+    array_opt = task_json.find<json::array>("onErrorNext");
+    task_info_ptr->on_error_next =
+        array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->on_error_next, task_prefix);
     task_info_ptr->pre_delay = task_json.get("preDelay", default_ptr->pre_delay);
     task_info_ptr->rear_delay = task_json.get("rearDelay", default_ptr->rear_delay);
-    if (auto opt = task_json.find<json::array>("reduceOtherTimes")) {
-        for (const json::value& reduce : opt.value()) {
-            task_info_ptr->reduce_other_times.emplace_back(reduce.as_string());
-        }
-    }
-    else {
-        task_info_ptr->reduce_other_times = append_prefix(default_ptr->reduce_other_times, task_prefix);
-    }
+    array_opt = task_json.find<json::array>("reduceOtherTimes");
+    task_info_ptr->reduce_other_times =
+        array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->reduce_other_times, task_prefix);
     if (auto opt = task_json.find<json::array>("roi")) {
         auto& roi_arr = *opt;
         int x = static_cast<int>(roi_arr[0]);
@@ -439,26 +418,11 @@ bool asst::TaskData::append_base_task_info(std::shared_ptr<TaskInfo> task_info_p
     else {
         task_info_ptr->roi = default_ptr->roi;
     }
-
-    if (auto opt = task_json.find<json::array>("sub")) {
-        for (const json::value& sub : opt.value()) {
-            task_info_ptr->sub.emplace_back(sub.as_string());
-        }
-    }
-    else {
-        task_info_ptr->sub = append_prefix(default_ptr->sub, task_prefix);
-    }
+    array_opt = task_json.find<json::array>("sub");
+    task_info_ptr->sub = array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->sub, task_prefix);
     task_info_ptr->sub_error_ignored = task_json.get("subErrorIgnored", default_ptr->sub_error_ignored);
-
-    if (auto opt = task_json.find<json::array>("next")) {
-        for (const json::value& next : opt.value()) {
-            task_info_ptr->next.emplace_back(next.as_string());
-        }
-    }
-    else {
-        task_info_ptr->next = append_prefix(default_ptr->next, task_prefix);
-    }
-
+    array_opt = task_json.find<json::array>("next");
+    task_info_ptr->next = array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->next, task_prefix);
     if (auto opt = task_json.find<json::array>("rectMove")) {
         auto& move_arr = opt.value();
         task_info_ptr->rect_move = Rect(move_arr[0].as_integer(), move_arr[1].as_integer(), move_arr[2].as_integer(),
@@ -506,7 +470,7 @@ std::shared_ptr<asst::HashTaskInfo> asst::TaskData::_default_hash_task_info()
     return hash_task_info_ptr;
 }
 
-std::shared_ptr<asst::TaskInfo> asst::TaskData::_default_task_info()
+asst::TaskData::taskptr_t asst::TaskData::_default_task_info()
 {
     auto task_info_ptr = std::make_shared<TaskInfo>();
     task_info_ptr->algorithm = AlgorithmType::MatchTemplate;
