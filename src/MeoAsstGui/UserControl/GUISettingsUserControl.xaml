@@ -32,7 +32,9 @@
                 Margin="10"
                 HorizontalAlignment="Left"
                 Content="{DynamicResource CustomStageCode}"
-                IsChecked="{Binding CustomStageCode}" />
+                IsChecked="{Binding CustomStageCode}"
+                ToolTip="{DynamicResource CustomStageCodeTip}"
+                />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"

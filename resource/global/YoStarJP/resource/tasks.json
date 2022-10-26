@@ -102,6 +102,21 @@
             "Home@ReturnTo"
         ]
     },
+"StageDrops-Quantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            62,
+            90,
+            46,
+            22
+        ],
+        "maskRange": [
+            200,
+            255
+        ]
+    },
     "RecruitTags": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
@@ -1904,10 +1919,6 @@
                 "0"
             ],
             [
-                "ロ",
-                "0"
-            ],
-            [
                 "I",
                 "1"
             ],
@@ -1918,22 +1929,6 @@
             [
                 ":",
                 "1"
-            ],
-            [
-                "ı",
-                "1"
-            ],
-            [
-                "ヨ",
-                "3"
-            ],
-            [
-                "日",
-                "8"
-            ],
-            [
-                "了",
-                "3"
             ]
         ]
     },

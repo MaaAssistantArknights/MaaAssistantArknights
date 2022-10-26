@@ -288,6 +288,7 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
     analyzer.set_roi(ocr_roi);
     analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return 0;

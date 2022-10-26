@@ -49,12 +49,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 下载地址
 
 [稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[测试版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
-
-下载太慢？尝试使用 fastgit 镜像  
-
-[fastgit 镜像稳定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[fastgit 镜像测试版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
+[测试版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用说明
 
@@ -73,6 +68,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 识别错误/任务开始后一直不动、没有反应
 - 如何连接自定义端口
 - 下载速度慢，且镜像站无法打开网页
+- 下载到一半提示“登陆”/“鉴权”
 
 请参考 [常见问题](docs/1.2-常见问题.md)
 

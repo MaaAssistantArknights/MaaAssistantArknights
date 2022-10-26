@@ -14,6 +14,7 @@
 using System;
 using System.Windows;
 using System.Windows.Forms;
+using StyletIoC;
 
 namespace MeoAsstGui
 {
@@ -22,17 +23,18 @@ namespace MeoAsstGui
     /// </summary>
     public partial class TrayIcon
     {
+        private readonly IMainWindowManager _mainWindowManager;
         private readonly NotifyIcon notifyIcon = new NotifyIcon();
         private TaskQueueViewModel taskQueueViewModel;
         private SettingsViewModel settingsViewModel;
-        private WindowState ws; // 记录窗体状态
-        private bool _isMinimizeToTaskbar = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrayIcon"/> class.
         /// </summary>
-        public TrayIcon()
+        /// <param name="container">The IoC container.</param>
+        public TrayIcon(IContainer container)
         {
+            _mainWindowManager = container.Get<IMainWindowManager>();
             InitIcon();
         }
 
@@ -42,7 +44,6 @@ namespace MeoAsstGui
             this.notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
-            System.Windows.Application.Current.MainWindow.StateChanged += MainWindow_StateChanged;
 
             MenuItem startMenu = new MenuItem(Localization.GetString("Farming"));
             startMenu.Click += StartTask;
@@ -93,19 +94,6 @@ namespace MeoAsstGui
             this.settingsViewModel = settingsViewModel;
         }
 
-        private void MainWindow_StateChanged(object sender, EventArgs e)
-        {
-            ws = System.Windows.Application.Current.MainWindow.WindowState;
-            if (ws == WindowState.Minimized)
-            {
-                SetShowInTaskbar(false);
-            }
-            else
-            {
-                SetShowInTaskbar(true);
-            }
-        }
-
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left)
@@ -113,18 +101,7 @@ namespace MeoAsstGui
                 return;
             }
 
-            if (ws == WindowState.Minimized)
-            {
-                System.Windows.Application.Current.MainWindow.Show();
-                ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
-                System.Windows.Application.Current.MainWindow.Activate();
-                SetShowInTaskbar(true);
-            }
-            else
-            {
-                ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Minimized;
-                SetShowInTaskbar(false);
-            }
+            _mainWindowManager.SwitchWindowState();
         }
 
         private void StartTask(object sender, EventArgs e)
@@ -145,40 +122,12 @@ namespace MeoAsstGui
 
         private void App_show(object sender, EventArgs e)
         {
-            SetShowInTaskbar(true);
-            System.Windows.Application.Current.MainWindow.Show();
-            ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
-            System.Windows.Application.Current.MainWindow.Activate();
+            _mainWindowManager.Show();
         }
 
         private void OnNotifyIconDoubleClick(object sender, EventArgs e)
         {
-            if (ws == WindowState.Minimized)
-            {
-                SetShowInTaskbar(true);
-                System.Windows.Application.Current.MainWindow.Show();
-                ws = System.Windows.Application.Current.MainWindow.WindowState = WindowState.Normal;
-                System.Windows.Application.Current.MainWindow.Activate();
-            }
-        }
-
-        private void SetShowInTaskbar(bool show)
-        {
-            if (!_isMinimizeToTaskbar || System.Windows.Application.Current.MainWindow is null)
-            {
-                return;
-            }
-
-            if (show)
-            {
-                System.Windows.Application.Current.MainWindow.ShowInTaskbar = true;
-                System.Windows.Application.Current.MainWindow.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                System.Windows.Application.Current.MainWindow.ShowInTaskbar = false;
-                System.Windows.Application.Current.MainWindow.Visibility = Visibility.Hidden;
-            }
+            _mainWindowManager.Show();
         }
 
         /// <summary>
@@ -188,15 +137,6 @@ namespace MeoAsstGui
         public void SetVisible(bool visible)
         {
             notifyIcon.Visible = visible;
-        }
-
-        /// <summary>
-        /// Sets whether to minimize to taskbar.
-        /// </summary>
-        /// <param name="enable">Whether to minimize to taskbar.</param>
-        public void SetMinimizeToTaskbar(bool enable)
-        {
-            _isMinimizeToTaskbar = enable;
         }
 
         /// <summary>

@@ -91,7 +91,8 @@ void asst::ReportDataTask::report_to_penguin()
                 sleep(backoff);
             }
             return cond;
-        });
+        },
+        false);
 
     auto proc_response_id = [&]() {
         if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
@@ -141,7 +142,8 @@ void asst::ReportDataTask::report_to_yituliu()
 }
 
 asst::http::Response asst::ReportDataTask::report(const std::string& subtask, const std::string& format,
-                                                  HttpResponsePred success_cond, HttpResponsePred retry_cond)
+                                                  HttpResponsePred success_cond, HttpResponsePred retry_cond,
+                                                  bool callback_on_failure)
 {
     LogTraceFunction;
 
@@ -167,15 +169,17 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
         }
     }
 
-    cb_info["why"] = "上报失败";
-    cb_info["details"] = json::object {
-        { "error", response.get_last_error() },
-        { "status_code", response.status_code() },
-        { "status_code_info", std::string(response.status_code_info()) },
-        { "response", std::string(response.body()) },
-    };
+    if (callback_on_failure) {
+        cb_info["why"] = "上报失败";
+        cb_info["details"] = json::object {
+            { "error", response.get_last_error() },
+            { "status_code", response.status_code() },
+            { "status_code_info", std::string(response.status_code_info()) },
+            { "response", std::string(response.body()) },
+        };
 
-    callback(AsstMsg::SubTaskError, cb_info);
+        callback(AsstMsg::SubTaskError, cb_info);
+    }
 
     return response;
 }
