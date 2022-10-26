@@ -42,6 +42,7 @@ namespace asst
         bool select_custom_opers(std::vector<std::string>& partial_result);
         void order_opers_selection(const std::vector<std::string>& names);
 
+        virtual void click_return_button() override;
         virtual bool click_bottom_left_tab(); // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）
         virtual bool click_clear_button();         // 点击干员选择页面的“清空选择”按钮
         virtual bool click_sort_by_trust_button(); // 点击干员选择页面的“按信赖值排序”按钮
