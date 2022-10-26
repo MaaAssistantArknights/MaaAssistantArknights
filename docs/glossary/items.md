@@ -107,7 +107,7 @@ D32钢|D32 Steel|D32鋼|D32강
 中文|English|日本語|한국어
 ---|---|---|---
 应急理智小样|Emergency Sanity Sampler|試供理性回復剤|응급 이성 샘플
-应急理智合剂|Emergency Sanity Potion|初級理性回復剤|응급 이성 회복제
+应急理智合剂|Emergency Sanity Potion|初級理性回復剤+|응급 이성 회복제
 应急理智顶液|Top Emergency Sanity Potion|上級理性回復剤|긴급 이성 회복제
 双人汉堡餐|Burger Set For Two|ハンバーガーセット|햄버거 커플 세트
 咸蛋黄味巧克力|Salted Egg Yolk Flavor Chocolate|塩卵味チョコレート|솔티드 에그 초콜릿
