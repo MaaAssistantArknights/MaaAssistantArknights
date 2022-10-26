@@ -76,7 +76,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::_run()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 {
-    constexpr size_t SwipeTimes = 5;
+    constexpr size_t SwipeTimes = 7;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = m_ctrler->get_image();
         OcrImageAnalyzer analyzer(image);

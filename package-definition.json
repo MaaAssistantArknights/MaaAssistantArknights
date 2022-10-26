@@ -19,7 +19,8 @@
             ],
             "exclude": [
                 "**/PaddleOCR/**"
-            ]
+            ],
+            "exclude_Doc": "v4.6.5-beta.2版本新增了PaddleCharOCR，暂时不放到exclude"
         }
     },
     {
@@ -42,7 +43,8 @@
                 "paddle_inference.dll",
                 "ppocr.dll",
                 "opencv_world453.dll",
-                "**/PaddleOCR/**"
+                "**/PaddleOCR/**",
+                "**/PaddleCharOCR/**"
             ]
         }
     },
@@ -52,7 +54,8 @@
         "configuration": {
             "include": [
                 "opencv_world453.dll",
-                "**/PaddleOCR/**"
+                "**/PaddleOCR/**",
+                "**/PaddleCharOCR/**"
             ],
             "no_avx_bundle": "3rdparty/ppocr_noavx.zip"
         }
@@ -74,7 +77,8 @@
                 "resource/**"
             ],
             "exclude": [
-                "**/PaddleOCR/**"
+                "**/PaddleOCR/**",
+                "**/PaddleCharOCR/**"
             ]
         }
     }

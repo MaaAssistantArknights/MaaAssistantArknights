@@ -78,11 +78,65 @@ ProcessTask& asst::ProcessTask::set_rear_delay(std::string name, int delay)
     return *this;
 }
 
+bool ProcessTask::generate_tasks(const std::vector<std::string>& raw_tasks)
+{
+    for (const std::string& task : raw_tasks) {
+        size_t pos = task.find('#');
+        if (pos == std::string_view::npos) {
+            m_cur_tasks_name.emplace_back(task);
+            continue;
+        }
+        std::string other_task_name = task.substr(0, pos);
+        std::string type = task.substr(pos + 1);
+        auto other_tasklist_ref = Task.get(other_task_name);
+        if (other_tasklist_ref == nullptr) {
+            Log.error(task, "not found");
+            continue;
+        }
+
+#define ASST_PROCESSTASK_GENERATE_TASKS(t)            \
+    else if (type == #t)                              \
+    {                                                 \
+        if (!generate_tasks(other_tasklist_ref->t)) { \
+            return false;                             \
+        }                                             \
+    }
+        if constexpr (false) {}
+        ASST_PROCESSTASK_GENERATE_TASKS(next)
+        ASST_PROCESSTASK_GENERATE_TASKS(sub)
+        ASST_PROCESSTASK_GENERATE_TASKS(on_error_next)
+        ASST_PROCESSTASK_GENERATE_TASKS(exceeded_next)
+        ASST_PROCESSTASK_GENERATE_TASKS(reduce_other_times)
+        else {
+            Log.error("Unknown type", type);
+            return false;
+        }
+    }
+#undef ASST_PROCESSTASK_GENERATE_TASKS
+
+    return true;
+}
+
+bool ProcessTask::generate_tasks()
+{
+    // std::move 后 m_cur_tasks_name 已经为空
+    std::vector<std::string> cur_tasks_name = std::move(m_cur_tasks_name);
+    if (!generate_tasks(cur_tasks_name)) [[unlikely]] {
+        Log.error("Generate task failed.");
+        m_cur_tasks_name.clear();
+        return false;
+    }
+    return true;
+}
+
 bool ProcessTask::_run()
 {
     LogTraceFunction;
 
     while (!m_cur_tasks_name.empty()) {
+        if (!generate_tasks()) {
+            return false;
+        }
         if (need_exit()) {
             return false;
         }
@@ -156,10 +210,10 @@ bool ProcessTask::_run()
 
         info["details"] = json::object {
             { "task", cur_name },
-            { "action", static_cast<int>(m_cur_task_ptr->action) },
+            { "action", enum_to_string(m_cur_task_ptr->action) },
             { "exec_times", exec_times },
             { "max_times", max_times },
-            { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) },
+            { "algorithm", enum_to_string(m_cur_task_ptr->algorithm) },
         };
 
         callback(AsstMsg::SubTaskStart, info);

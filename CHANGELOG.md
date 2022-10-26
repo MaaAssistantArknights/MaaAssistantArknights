@@ -1,31 +1,24 @@
-- 新增 繁中服 肉鸽 初步支持 @KiyuM1n @MistEO
-  由于缺少繁中服肉鸽关卡名数据，目前仅支持了第一层的关卡
-- 新增 macOS 支持，移植界面 @hguandl
-- 新增 界面 热键功能 @gdlcf88
-  可使用 退格 / Esc / Delete 删除热键
-- Support Drops Recognition for EN and JP clients. @MistEO @zzyyyl
-  But it is not entirely accurate at the moment.
-- Support all stages and opers in I.S. for EN and JP clients. @MistEO
-- Support shopping in trader in I.S. for EN and JP clients. @MistEO
-- Update Recruitment data for EN, JP and KR clients. @MistEO
-- 更新 H11 关卡地图数据 @MistEO
-- 优化 基建 宿舍进驻策略 @MistEO
-- 修复 刷理智 指定次数错误 @zzyyyl
-- 修复 刷理智 无法进入第 9/10 章的问题 @ABA2396
-- 修复 肉鸽 战斗中一直点某个干员的问题 @MistEO
-- 修复 肉鸽 战斗中有能天使时崩溃的问题 @MistEO @DavidWang19
-- 修复 肉鸽 关卡名识别错误 @MistEO @zzyyyl
-- 修复 肉鸽 卡在楼层页、误入奇境任务的问题 @MistEO
-- 优化 肉鸽 部分地图部分策略、干员招募策略 @WWPXX233 @MistEO
-- 修复 公招 识别错误 @horror-proton
-- 修复 公招 识别错误后不跳过的问题 @horror-proton
-- 修复 战斗 干员名识别错误 @zzyyyl @MistEO
-- 修复 基建 搓玉补货后不换人的问题 @MistEO
-- 修复 基建 发电站数量不为 3 时后续操作错误 @MistEO
-- 修复 手动终止任务 提示出错的问题 @LittleFall
-- 优化 界面 功能显示 @zzyyyl @DavidWang19
-- 支持 企鹅物流 退避策略，优化上传重试机制 @MistEO
-- 更新 CI 包名 @MistEO @hguandl @horror-proton
-- 重构 任务参数及解析逻辑 @zzyyyl @horror-proton @MistEO @zzyyyl
-- 重构 Utils 类 @horror-proton @zzyyyl
-- Update Translations and Docs. @ABA2396 @DavidWang19 @wallsman @JiHongYuan @Yanstory
+- 新增 繁中服 支持 领取日常奖励 @KiyuM1n
+- 新增 繁中服肉鸽 分队、编队、干员自定义的支持（干员名请使用简中输入），修复大部分已知识别错误 @KiyuM1n @MistEO @lza11111 @horror-proton @Realmajia
+- Open the upload Penguin Stats function for EN and JP clients, and fix drops recognition errors. @MistEO @horror-proton
+- 更新 繁中服 公招数据、仓库识别数据 @MistEO @lza11111
+- 优化 自定义基建 无人机和菲亚同时为 `pre` 时，优先使用无人机 @MistEO
+- 优化 基建 宿舍 `蹭信赖` 功能，改为按从信赖从低到高排序 @MistEO
+- 修复 肉鸽 招募 `砾` 后卡在开始行动界面的问题 ~~直接不招募了~~ @MistEO
+- 修复 肉鸽 `高规格分队` 无法选择的问题 @MistEO
+- 修复 肉鸽 偶现战斗中闪退问题 @zzyyyl
+- 修复 水月肉鸽 `万象追忆录` 卡住的问题 @zzyyyl
+- 修复 下载新版本 失败闪退的问题，优化更新逻辑 @zzyyyl
+- 修复 刷理智 部分关卡跳过掉落识别的问题 @zzyyyl
+- 修复 刷理智 上传企鹅物流错误的问题 @MistEO
+- 修复 基建 进入加载时间过长导致的错误 @zzyyyl
+- 修复 基建 2 发电站任务出错的问题、为识别到会客室时后续任务出错的问题 @lanhao34
+- 修复 基建 偶现返回按钮没点上导致后续任务卡住的问题 @MistEO
+- 修复 热键 不能正常使用的问题 @gdlcf88
+- 修复 界面 手动停止任务时，出现的一些异常 @MistEO
+- 优化 macOS 界面功能、OCR 识别效果 @hguandl
+- 优化 OCR 识别效果及效率，引入新的模型 @MistEO
+- 优化 自定义基建 内置作业 @lhhxxxxx @MistEO
+- 优化 界面 提示及布局 @ABA2396
+- 优化 Task 字段解析逻辑，新增一些语法 @zzyyyl
+- 更新 文档 @ABA2396 @MistEO @wallsman

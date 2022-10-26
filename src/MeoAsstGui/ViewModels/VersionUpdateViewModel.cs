@@ -218,7 +218,13 @@ namespace MeoAsstGui
                 return false;
             }
 
-            Directory.Move(Directory.GetCurrentDirectory() + "\\resource", Directory.GetCurrentDirectory() + "\\resource.old");
+            string resourceDir = Directory.GetCurrentDirectory() + "\\resource";
+            string oldResourceDir = Directory.GetCurrentDirectory() + "\\resource.old";
+            if (Directory.Exists(resourceDir))
+            {
+                CopyFilesRecursively(resourceDir, oldResourceDir);
+                Directory.Delete(resourceDir, true);
+            }
 
             var uncopiedList = new List<string>();
 
@@ -537,37 +543,18 @@ namespace MeoAsstGui
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool DownloadFile(string url, string fileName, string contentType = null, string downloader = null, string saveTo = null)
         {
-            string usedDownloader;
-            string filePath;
+            string fileDir = (saveTo == null) ? Directory.GetCurrentDirectory() : Path.GetFullPath(saveTo);
+            string fileNameWithTemp = fileName + ".temp";
+            string fullFilePath = Path.Combine(fileDir, fileName);
+            string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
+
+            string usedDownloader = downloader ?? (_container.Get<SettingsViewModel>().UseAria2 ? "ARIA2" : "NATIVE");
             bool returned;
-
-            if (saveTo != null)
-            {
-                filePath = Path.GetFullPath(saveTo);
-            }
-            else
-            {
-                filePath = Directory.GetCurrentDirectory();
-            }
-
-            if (downloader != null)
-            {
-                usedDownloader = downloader;
-            }
-            else
-            {
-                usedDownloader = _container.Get<SettingsViewModel>().UseAria2 ? "ARIA2" : "NATIVE";
-            }
-
-            var fileNameWithTemp = fileName + ".temp";
-            var fullFilePath = Path.GetFullPath(filePath + "/" + fileName);
-            var fullFilePathWithTemp = Path.GetFullPath(filePath + "/" + fileNameWithTemp);
-
             try
             {
                 if (usedDownloader == "ARIA2")
                 {
-                    returned = DownloadFileForAria2(url: url, filePath: filePath, fileName: fileNameWithTemp);
+                    returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp);
                 }
                 else
                 {
@@ -583,23 +570,22 @@ namespace MeoAsstGui
 
             if (returned)
             {
-                // 重命名文件
                 File.Copy(fullFilePathWithTemp, fullFilePath, true);
-                File.Delete(fullFilePathWithTemp);
-                return true;
             }
-            else
+
+            // 删除临时文件
+            if (File.Exists(fullFilePathWithTemp))
             {
-                // 删除错误的文件
                 File.Delete(fullFilePathWithTemp);
-                return false;
             }
+
+            return returned;
         }
 
-        private bool DownloadFileForAria2(string url, string filePath, string fileName)
+        private bool DownloadFileForAria2(string url, string saveTo, string fileName)
         {
             var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
-            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + filePath + "\" --out=\"" + fileName + "\" --user-agent=\"" + RequestUserAgent + "\"";
+            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + RequestUserAgent + "\"";
 
             var settings = _container.Get<SettingsViewModel>();
             if (settings.Proxy.Length > 0)
@@ -628,44 +614,36 @@ namespace MeoAsstGui
             return exit_code == 0;
         }
 
+        /// <summary>
+        /// 使用 CSharp 原生方式下载文件
+        /// </summary>
+        /// <param name="url">下载地址</param>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="contentType">HTTP ContentType</param>
+        /// <returns>是否成功</returns>
         private bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null)
         {
             // 创建 Http 请求
             var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
 
             // 设定相关属性
-            var settings = _container.Get<SettingsViewModel>();
             httpWebRequest.Method = "GET";
             httpWebRequest.UserAgent = RequestUserAgent;
-            if (contentType != null)
-            {
-                httpWebRequest.Accept = contentType;
-            }
-
+            httpWebRequest.Accept = contentType;
+            var settings = _container.Get<SettingsViewModel>();
             if (settings.Proxy.Length > 0)
             {
                 httpWebRequest.Proxy = new WebProxy(settings.Proxy);
             }
 
-            // 转换为 HttpWebResponse
-            var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
-
             // 获取输入输出流
-            var responseStream = httpWebResponse.GetResponseStream();
-            var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-
-            // 获取并写入流
-            var byteArray = new byte[1024];
-            var byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
-            while (byteArraySize > 0)
+            using (var responseStream = httpWebRequest.GetResponse().GetResponseStream())
             {
-                fileStream.Write(byteArray, 0, byteArraySize);
-                byteArraySize = responseStream.Read(byteArray, 0, byteArray.Length);
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    responseStream.CopyTo(fileStream);
+                }
             }
-
-            // 关闭流
-            responseStream.Close();
-            fileStream.Close();
 
             return true;
         }
@@ -704,136 +682,147 @@ namespace MeoAsstGui
             return true;
         }
 
+        /*
         // 这个资源文件单独 OTA 功能带来了很多问题，暂时弃用了
         // 改用打 OTA 包的形式来实现增量升级
-        // public bool ResourceOTA(bool force = false)
-        // {
-        //    // 开发版不检查更新
-        //    if (!force && !isStableVersion())
-        //    {
-        //        return false;
-        //    }
+        public bool ResourceOTA(bool force = false)
+        {
+            // 开发版不检查更新
+            if (!force && !isStableVersion())
+            {
+                return false;
+            }
 
-        // const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
-        //    const string repositorie_base = "MaaAssistantArknights/MaaAssistantArknights";
-        //    const string branche_base = "master";
+            const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
+            const string repositorie_base = "MaaAssistantArknights/MaaAssistantArknights";
+            const string branche_base = "master";
 
-        // // cdn接口地址组
-        //    // new string[]
-        //    // {
-        //    //      下载域名地址,
-        //    //      连接地址的参数格式: {0}是文件路径, {1}是 sha 值
-        //    // }
-        //    var down_base_url = new List<string[]>() {
-        //         new string[]{$"https://cdn.jsdelivr.net/gh/{repositorie_base}@" , "{1}/{0}" },
-        //         new string[]{$"https://pd.zwc365.com/seturl/https://raw.githubusercontent.com/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
-        //         new string[]{$"https://cdn.staticaly.com/gh/{repositorie_base}/{branche_base}/" , "{0}?{1}" },
-        //         new string[]{$"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/" , "{0}?{1}" },
-        //    };
+            // cdn接口地址组
+            // new string[]
+            // {
+            //      下载域名地址,
+            //      连接地址的参数格式: {0}是文件路径, {1}是 sha 值
+            // }
+            var down_base_url = new List<string[]>()
+            {
+                new string[] { $"https://cdn.jsdelivr.net/gh/{repositorie_base}@", "{1}/{0}" },
+                new string[] { $"https://pd.zwc365.com/seturl/https://raw.githubusercontent.com/{repositorie_base}/{branche_base}/", "{0}?{1}" },
+                new string[] { $"https://cdn.staticaly.com/gh/{repositorie_base}/{branche_base}/", "{0}?{1}" },
+                new string[] { $"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/", "{0}?{1}" },
+            };
 
-        // // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
-        //    var update_dict = new Dictionary<string, string>()
-        //    {
-        //        { "resource/stages.json" , "resource/stages.json"},
-        //        { "resource/recruit.json", "resource/recruit.json" },
-        //        { "3rdparty/resource/Arknights-Tile-Pos/levels.json" , "resource/Arknights-Tile-Pos/levels.json"},
-        //        { "resource/item_index.json", "resource/item_index.json" }
-        //    };
+            // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
+            var update_dict = new Dictionary<string, string>()
+            {
+                { "resource/stages.json", "resource/stages.json" },
+                { "resource/recruit.json", "resource/recruit.json" },
+                { "3rdparty/resource/Arknights-Tile-Pos/levels.json", "resource/Arknights-Tile-Pos/levels.json" },
+                { "resource/item_index.json", "resource/item_index.json" },
+            };
 
-        // bool updated = false;
-        //    string message = string.Empty;
+            bool updated = false;
+            string message = string.Empty;
 
-        // foreach (var item in update_dict)
-        //    {
-        //        string url = item.Key;
-        //        string filename = item.Value;
+            foreach (var item in update_dict)
+            {
+                string url = item.Key;
+                string filename = item.Value;
 
-        // string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
+                string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
 
-        // string response = RequestApi(req_base_url + url);
-        //        if (string.IsNullOrWhiteSpace(response))
-        //        {
-        //            continue;
-        //        }
-        //        string cloud_sha;
-        //        string cur_message = string.Empty;
-        //        try
-        //        {
-        //            JArray arr = (JArray)JsonConvert.DeserializeObject(response);
-        //            JObject commit_info = (JObject)arr[0];
-        //            cloud_sha = commit_info["sha"].ToString();
-        //            cur_message = commit_info["commit"]["message"].ToString();
-        //        }
-        //        catch (Exception)
-        //        {
-        //            continue;
-        //        }
+                string response = RequestApi(req_base_url + url);
+                if (string.IsNullOrWhiteSpace(response))
+                {
+                    continue;
+                }
 
-        // if (cur_sha == cloud_sha)
-        //        {
-        //            continue;
-        //        }
+                string cloud_sha;
+                string cur_message = string.Empty;
+                try
+                {
+                    JArray arr = (JArray)JsonConvert.DeserializeObject(response);
+                    JObject commit_info = (JObject)arr[0];
+                    cloud_sha = commit_info["sha"].ToString();
+                    cur_message = commit_info["commit"]["message"].ToString();
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
 
-        // bool downloaded = false;
-        //        string tempname = filename + ".tmp";
-        //        foreach (var down_item in down_base_url)
-        //        {
-        //            var download_url = down_item[0];
-        //            var download_args_format = down_item[1];
+                if (cur_sha == cloud_sha)
+                {
+                    continue;
+                }
 
-        // download_url += string.Format(download_args_format, url, cloud_sha);
-        //            if (DownloadFile(download_url, tempname, downloader: "NATIVE"))
-        //            {
-        //                downloaded = true;
-        //                break;
-        //            }
-        //        }
+                bool downloaded = false;
+                string tempname = filename + ".tmp";
+                foreach (var down_item in down_base_url)
+                {
+                    var download_url = down_item[0];
+                    var download_args_format = down_item[1];
 
-        // if (!downloaded)
-        //        {
-        //            continue;
-        //        }
+                    download_url += string.Format(download_args_format, url, cloud_sha);
+                    if (DownloadFile(download_url, tempname, downloader: "NATIVE"))
+                    {
+                        downloaded = true;
+                        break;
+                    }
+                }
 
-        // string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
+                if (!downloaded)
+                {
+                    continue;
+                }
 
-        // try
-        //        {
-        //            JsonConvert.DeserializeObject(tmp);
-        //        }
-        //        catch (Exception)
-        //        {
-        //            continue;
-        //        }
+                string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
 
-        // string src = File.ReadAllText(filename).Replace("\r\n", "\n");
-        //        if (src.Length != tmp.Length)
-        //        {
-        //            File.Copy(tempname, filename, true);
-        //            updated = true;
-        //            message += cur_message + "\n";
-        //        }
-        //        // 保存最新的 sha 到配置文件
-        //        ViewStatusStorage.Set(filename, cloud_sha);
-        //        File.Delete(tempname);
-        //    }
+                try
+                {
+                    JsonConvert.DeserializeObject(tmp);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
 
-        // if (!updated)
-        //    {
-        //        return false;
-        //    }
+                string src = File.ReadAllText(filename).Replace("\r\n", "\n");
+                if (src.Length != tmp.Length)
+                {
+                    File.Copy(tempname, filename, true);
+                    updated = true;
+                    message += cur_message + "\n";
+                }
 
-        // Execute.OnUIThread(() =>
-        //    {
-        //        using (var toast = new ToastNotification("资源已更新"))
-        //        {
-        //            toast.AppendContentText("重启软件生效！")
-        //                .AppendContentText(message)
-        //                .ShowUpdateVersion();
-        //        }
-        //    });
+                // 保存最新的 sha 到配置文件
+                ViewStatusStorage.Set(filename, cloud_sha);
+                File.Delete(tempname);
+            }
 
-        // return true;
-        // }
+            if (!updated)
+            {
+                return false;
+            }
+
+            Execute.OnUIThread(() =>
+            {
+                using (var toast = new ToastNotification("资源已更新"))
+                {
+                    toast.AppendContentText("重启软件生效！")
+                        .AppendContentText(message)
+                        .ShowUpdateVersion();
+                }
+            });
+
+            return true;
+        }
+        */
+
+        /// <summary>
+        /// 复制文件夹内容并覆盖已存在的相同名字的文件
+        /// </summary>
+        /// <param name="sourcePath">源文件夹</param>
+        /// <param name="targetPath">目标文件夹</param>
         private static void CopyFilesRecursively(string sourcePath, string targetPath)
         {
             Directory.CreateDirectory(targetPath);

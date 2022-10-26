@@ -3196,5 +3196,75 @@
                 "《欢欣鼓舞》"
             ]
         ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Normal": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Extra": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Furniture": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Special": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Sanity": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Reward": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
     }
 }

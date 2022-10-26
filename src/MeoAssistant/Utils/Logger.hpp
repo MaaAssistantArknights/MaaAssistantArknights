@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "AsstRanges.hpp"
+#include "AsstTypes.h"
 #include "Locale.hpp"
 #include "Meta.hpp"
 #include "Platform.hpp"
@@ -26,6 +27,8 @@ namespace asst
 {
     template <typename Stream, typename T>
     concept has_stream_insertion_operator = requires { std::declval<Stream&>() << std::declval<T>(); };
+    template <typename T>
+    concept enum_could_to_string = requires { asst::enum_to_string(std::declval<T>()); };
 
     // is_reference_wrapper
     template <typename T>
@@ -294,6 +297,9 @@ namespace asst
                             getpid(), (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
 #endif // END _WIN32
                     s << buff;
+                }
+                else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
+                    s << asst::enum_to_string(std::forward<T>(v));
                 }
                 else if constexpr (has_stream_insertion_operator<Stream, T>) {
                     s << std::forward<T>(v);

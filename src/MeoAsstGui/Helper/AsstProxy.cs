@@ -324,6 +324,7 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainStart:
                 case AsstMsg.TaskChainCompleted:
                 case AsstMsg.TaskChainExtraInfo:
+                case AsstMsg.TaskChainStopped:
                     ProcTaskChainMsg(msg, details);
                     break;
 
@@ -425,11 +426,22 @@ namespace MeoAsstGui
             var settingsModel = _container.Get<SettingsViewModel>();
             var copilotModel = _container.Get<CopilotViewModel>();
 
+            bool isCoplitTaskChain = taskChain == "Copilot";
+
             switch (msg)
             {
+                case AsstMsg.TaskChainStopped:
+                    mainModel.SetStopped();
+                    if (isCoplitTaskChain)
+                    {
+                        copilotModel.Idle = true;
+                    }
+
+                    break;
+
                 case AsstMsg.TaskChainError:
                     mainModel.AddLog(Localization.GetString("TaskError") + taskChain, LogColor.Error);
-                    if (taskChain == "Copilot")
+                    if (isCoplitTaskChain)
                     {
                         copilotModel.Idle = true;
                         copilotModel.AddLog(Localization.GetString("CombatError"), LogColor.Error);
@@ -457,7 +469,7 @@ namespace MeoAsstGui
                     }
 
                     mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
-                    if (taskChain == "Copilot")
+                    if (isCoplitTaskChain)
                     {
                         copilotModel.Idle = true;
                         copilotModel.AddLog(Localization.GetString("CompleteCombat"), LogColor.Info);
@@ -732,6 +744,7 @@ namespace MeoAsstGui
                             {
                                 all_drops += $" (+{addQuantity})";
                             }
+
                             all_drops += "\n";
                         }
 
@@ -1560,6 +1573,11 @@ namespace MeoAsstGui
         /// </summary>
         TaskChainExtraInfo,
 
+        /// <summary>
+        /// 任务链手动停止
+        /// </summary>
+        TaskChainStopped,
+
         /* SubTask Info */
 
         /// <summary>
@@ -1581,6 +1599,11 @@ namespace MeoAsstGui
         /// 原子任务额外信息。
         /// </summary>
         SubTaskExtraInfo,
+
+        /// <summary>
+        /// 原子任务手动停止
+        /// </summary>
+        SubTaskStopped,
     }
 }
 

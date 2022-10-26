@@ -46,13 +46,14 @@ class Asst:
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
-        ret: bool = True;
+        ret: bool = True
         if user_dir:
             ret &= Asst.__lib.AsstSetUserDir(str(user_dir).encode('utf-8'))
 
         ret &= Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
         if incremental_path:
-            ret &= Asst.__lib.AsstLoadResource(str(incremental_path).encode('utf-8'))
+            ret &= Asst.__lib.AsstLoadResource(
+                str(incremental_path).encode('utf-8'))
 
         return ret
 
@@ -226,6 +227,8 @@ class Message(Enum):
 
     TaskChainExtraInfo = auto()
 
+    TaskChainStopped = auto()
+
     SubTaskError = 20000
 
     SubTaskStart = auto()
@@ -233,3 +236,5 @@ class Message(Enum):
     SubTaskCompleted = auto()
 
     SubTaskExtraInfo = auto()
+
+    SubTaskStopped = auto()

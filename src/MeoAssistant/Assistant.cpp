@@ -262,11 +262,15 @@ void Assistant::working_proc()
             }
             lock.unlock();
 
-            // We don't consider a task failed when user stop it.
-            auto msg = ret || m_thread_idle ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError;
+            auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
+                                     : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
             task_callback(msg, callback_json, this);
 
-            if (!m_thread_idle && m_tasks_list.empty()) {
+            if (!m_thread_idle) {
+                continue;
+            }
+
+            if (m_tasks_list.empty()) {
                 callback_json["finished_tasks"] = json::array(finished_tasks);
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
                 finished_tasks.clear();

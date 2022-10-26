@@ -237,6 +237,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
     }
 
+    bool Fia_is_pre = false;
     do {
         auto Fia_opt = cur_plan.find<json::object>("Fiammetta");
         if (!Fia_opt) {
@@ -261,7 +262,6 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         infrast::CustomFacilityConfig pre_facility_config(1);
         auto& pre_room_config = pre_facility_config.front();
         pre_room_config.names = { target };
-        pre_room_config.sort = true;
         auto pre_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
         pre_task_ptr->set_custom_config(std::move(pre_facility_config));
 
@@ -275,11 +275,10 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
         if (Fia_json.get("order", "pre") != "post") {
             m_subtasks.insert(m_subtasks.begin(), { m_infrast_begin_task_ptr, pre_task_ptr, Fia_task_ptr });
+            Fia_is_pre = true;
         }
         else {
-            m_subtasks.emplace_back(std::move(pre_task_ptr));
-            m_subtasks.emplace_back(std::move(Fia_task_ptr));
-            m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+            m_subtasks.insert(m_subtasks.end(), { pre_task_ptr, Fia_task_ptr, m_infrast_begin_task_ptr });
         }
     } while (false);
 
@@ -297,20 +296,39 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         drones_config.index = drones_json.get("index", 1) - 1;
         drones_config.order = drones_json.get("order", "pre") == "post" ? infrast::CustomDronesConfig::Order::Post
                                                                         : infrast::CustomDronesConfig::Order::Pre;
+        bool additional_advance_drones = Fia_is_pre && drones_config.order == infrast::CustomDronesConfig::Order::Pre;
         std::string room = drones_json.get("room", std::string());
         if (room.empty()) {
             Log.warn("drones room is unsetted or empty");
             break;
         }
-        else if (room == "trading") {
-            m_trade_task_ptr->set_custom_drones_config(std::move(drones_config));
-        }
-        else if (room == "manufacture") {
-            m_mfg_task_ptr->set_custom_drones_config(std::move(drones_config));
-        }
-        else {
+        else if (room != "trading" && room != "manufacture") {
             Log.error("error drones config, unknown room", room);
             return false;
+        }
+
+        // 无人机和肥鸭同时为true时，优先使用无人机
+        if (additional_advance_drones) {
+            std::shared_ptr<InfrastProductionTask> drones_only_task_ptr = nullptr;
+            if (room == "trading") {
+                drones_only_task_ptr = std::make_shared<InfrastTradeTask>(m_callback, m_callback_arg, TaskType);
+            }
+            else if (room == "manufacture") {
+                drones_only_task_ptr = std::make_shared<InfrastMfgTask>(m_callback, m_callback_arg, TaskType);
+            }
+
+            drones_only_task_ptr->set_custom_config(
+                infrast::CustomFacilityConfig(drones_config.index + 1, infrast::CustomRoomConfig { .skip = true }));
+            drones_only_task_ptr->set_custom_drones_config(std::move(drones_config));
+            m_subtasks.insert(m_subtasks.begin(), { m_infrast_begin_task_ptr, drones_only_task_ptr });
+        }
+        else {
+            if (room == "trading") {
+                m_trade_task_ptr->set_custom_drones_config(std::move(drones_config));
+            }
+            else if (room == "manufacture") {
+                m_mfg_task_ptr->set_custom_drones_config(std::move(drones_config));
+            }
         }
     } while (false);
 
