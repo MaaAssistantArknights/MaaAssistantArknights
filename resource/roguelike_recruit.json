@@ -20,21 +20,53 @@
             "promote_priority": 650,
             "promote_priority_when_team_full": 750,
             "promote_priority_when_team_full_Doc": "不填默认 promote_priority + 100",
-            "Doc": "编队满了且编队内所有干员 promote_priority 均大于200，才会走两个 when_team_full 的逻辑"
+            "Doc": "编队满了且编队内所有干员 promote_priority 均大于200，才会走两个 when_team_full 的逻辑",
+            "recruit_priority_offset": [
+                [
+                    100,
+                    100
+                ],
+                [
+                    200,
+                    -200
+                ]
+            ],
+            "offset_doc": "队伍内已有100人同职业则权重+100，200人-200，已有数量从小到大"
         },
         {
             "name": "海沫",
             "skill": 1,
-            "recruit_priority": 960,
+            "recruit_priority": 500,
             "promote_priority": 650,
-            "promote_priority_when_team_full": 750
+            "promote_priority_when_team_full": 750,
+            "recruit_priority_offset": [
+                [
+                    0,
+                    600
+                ],
+                [
+                    2,
+                    -500
+                ]
+            ]
         },
         {
             "name": "羽毛笔",
             "skill": 1,
-            "recruit_priority": 950,
+            "recruit_priority": 490,
             "promote_priority": 650,
-            "promote_priority_when_team_full": 750
+            "promote_priority_when_team_full": 750,
+            "recruit_priority_offset": [
+                [
+                    0,
+                    600
+                ],
+                [
+                    2,
+                    -490
+                ]
+            ]
+
         },
         {
             "name": "百炼嘉维尔",
@@ -47,17 +79,37 @@
             "name": "棘刺",
             "skill": 3,
             "alternate_skill": 1,
-            "recruit_priority": 780,
+            "recruit_priority": 800,
             "promote_priority": 1000,
-            "promote_priority_when_team_full": 1200
+            "promote_priority_when_team_full": 1200,
+            "recruit_priority_offset": [
+                [
+                    1,
+                    -780
+                ],
+                [
+                    2,
+                    200
+                ]
+            ]
         },
         {
             "name": "山",
             "skill": 2,
             "skill_usage": 2,
-            "recruit_priority": 750,
+            "recruit_priority": 400,
             "promote_priority": 550,
-            "promote_priority_when_team_full": 750
+            "promote_priority_when_team_full": 750,
+            "recruit_priority_offset": [
+                [
+                    0,
+                    600
+                ],
+                [
+                    2,
+                    -400
+                ]
+            ]
         },
         {
             "name": "玛恩纳",
@@ -65,7 +117,17 @@
             "alternate_skill": 2,
             "recruit_priority": 750,
             "promote_priority": 700,
-            "promote_priority_when_team_full": 750
+            "promote_priority_when_team_full": 750,
+            "recruit_priority_offset": [
+                [
+                    0,
+                    -750
+                ],
+                [
+                    4,
+                    100
+                ]
+            ]
         },
         {
             "name": "煌",
@@ -88,14 +150,30 @@
             "alternate_skill": 1,
             "recruit_priority": 750,
             "promote_priority": 800,
-            "promote_priority_when_team_full": 800
+            "promote_priority_when_team_full": 800,
+            "recruit_priority_offset": [
+                [
+                    3,
+                    100
+                ]
+            ]
         },
         {
             "name": "艾丽妮",
             "skill": 3,
             "alternate_skill": 1,
             "recruit_priority": 750,
-            "promote_priority": 750
+            "promote_priority": 750,
+            "recruit_priority_offset": [
+                [
+                    0,
+                    -750
+                ],
+                [
+                    2,
+                    200
+                ]
+            ]
         },
         {
             "name": "陈",
@@ -321,14 +399,26 @@
             "skill": 2,
             "recruit_priority": 550,
             "promote_priority": 550,
-            "promote_priority_when_team_full": 750
+            "promote_priority_when_team_full": 750,
+            "recruit_priority_offset": [
+                [
+                    2,
+                    -550
+                ]
+            ]
         },
         {
             "name": "蓝毒",
             "skill": 1,
             "recruit_priority": 550,
             "promote_priority": 550,
-            "promote_priority_when_team_full": 750
+            "promote_priority_when_team_full": 750,
+            "recruit_priority_offset": [
+                [
+                    2,
+                    -550
+                ]
+            ]
         },
         {
             "name": "梅",

@@ -81,34 +81,7 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
             BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
             BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
         };
-        static const std::unordered_map<std::string, BattleRole> NameToRole = {
-            { "warrior", BattleRole::Warrior }, { "WARRIOR", BattleRole::Warrior },
-            { "Warrior", BattleRole::Warrior }, { "近卫", BattleRole::Warrior },
-
-            { "pioneer", BattleRole::Pioneer }, { "PIONEER", BattleRole::Pioneer },
-            { "Pioneer", BattleRole::Pioneer }, { "先锋", BattleRole::Pioneer },
-
-            { "medic", BattleRole::Medic },     { "MEDIC", BattleRole::Medic },
-            { "Medic", BattleRole::Medic },     { "医疗", BattleRole::Medic },
-
-            { "tank", BattleRole::Tank },       { "TANK", BattleRole::Tank },
-            { "Tank", BattleRole::Tank },       { "重装", BattleRole::Tank },
-
-            { "sniper", BattleRole::Sniper },   { "SNIPER", BattleRole::Sniper },
-            { "Sniper", BattleRole::Sniper },   { "狙击", BattleRole::Sniper },
-
-            { "caster", BattleRole::Caster },   { "CASTER", BattleRole::Caster },
-            { "Caster", BattleRole::Caster },   { "术师", BattleRole::Caster },
-
-            { "support", BattleRole::Support }, { "SUPPORT", BattleRole::Support },
-            { "Support", BattleRole::Support }, { "辅助", BattleRole::Support },
-
-            { "special", BattleRole::Special }, { "SPECIAL", BattleRole::Special },
-            { "Special", BattleRole::Special }, { "特种", BattleRole::Special },
-
-            { "drone", BattleRole::Drone },     { "DRONE", BattleRole::Drone },
-            { "Drone", BattleRole::Drone },     { "无人机", BattleRole::Drone },
-        };
+        
         auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
         if (auto opt = stage_info.find<json::array>("role_order")) {
             const auto& raw_roles = opt.value();
@@ -126,19 +99,19 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
                              return std::move(name);
                          });
             for (const std::string& role_name : roles) {
-                auto iter = NameToRole.find(role_name);
-                if (iter == NameToRole.end()) [[unlikely]] {
+                const auto role = get_role_type(role_name);
+                if (role == BattleRole::Unknown) [[unlikely]] {
                     Log.error("Unknown BattleRole:", role_name);
                     is_legal = false;
                     break;
                 }
-                if (specified_role.contains(iter->second)) [[unlikely]] {
+                if (specified_role.contains(role)) [[unlikely]] {
                     Log.error("Duplicated BattleRole:", role_name);
                     is_legal = false;
                     break;
                 }
-                specified_role.emplace(iter->second);
-                role_order.emplace_back(iter->second);
+                specified_role.emplace(role);
+                role_order.emplace_back(role);
             }
             if (is_legal) [[likely]] {
                 ranges::copy(RoleOrder | filter([&](BattleRole role) { return !specified_role.contains(role); }),
@@ -173,16 +146,16 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
                     Log.error("Unknown direction");
                     return false;
                 }
-                std::unordered_set<BattleRole> role;
+                std::unordered_set<BattleRole> fd_role;
                 for (auto& role_name : point["role"].as_array()) {
-                    auto iter = NameToRole.find(role_name.as_string());
-                    if (iter == NameToRole.end()) [[unlikely]] {
+                    const auto role = get_role_type(role_name.as_string());
+                    if (role == BattleRole::Unknown) [[unlikely]] {
                         Log.error("Unknown role name:", role_name);
                         return false;
                     }
-                    role.emplace(iter->second);
+                    fd_role.emplace(role);
                 }
-                fd_dir.role = std::move(role);
+                fd_dir.role = std::move(fd_role);
                 data.force_deploy_direction.emplace(location, fd_dir);
             }
         }

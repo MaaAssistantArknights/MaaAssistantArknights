@@ -19,6 +19,7 @@ namespace asst
         int promote_priority = 0;                // 晋升优先级 (0-1000)
         int recruit_priority_when_team_full = 0; // 队伍满时的招募优先级 (0-1000)
         int promote_priority_when_team_full = 0; // 队伍满时的晋升优先级 (0-1000)
+        std::vector<std::pair<int, int>> recruit_priority_offset;
         bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
         int skill = 0;
         int alternate_skill = 0;
