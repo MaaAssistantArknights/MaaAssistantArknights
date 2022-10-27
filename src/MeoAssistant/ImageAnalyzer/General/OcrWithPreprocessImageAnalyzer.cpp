@@ -23,10 +23,10 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     // todo: split
 
     if (m_expansion) {
-        new_roi.x = std::max(new_roi.x - m_expansion, 0);
-        new_roi.y = std::max(new_roi.y - m_expansion, 0);
-        new_roi.width = std::min(new_roi.width + 2 * m_expansion, m_image.cols - new_roi.x);
-        new_roi.height = std::min(new_roi.height + 2 * m_expansion, m_image.rows - new_roi.y);
+        new_roi.x -= m_expansion;
+        new_roi.y -= m_expansion;
+        new_roi.width += 2 * m_expansion;
+        new_roi.height += 2 * m_expansion;
     }
     OcrImageAnalyzer::set_roi(new_roi);
 #ifdef ASST_DEBUG
