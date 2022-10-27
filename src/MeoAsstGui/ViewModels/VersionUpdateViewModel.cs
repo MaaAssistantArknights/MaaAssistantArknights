@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -226,6 +227,26 @@ namespace MeoAsstGui
                 Directory.Delete(resourceDir, true);
             }
 
+            var paddleResourcePaths = new[]
+            {
+                "\\PaddleOCR",
+                "\\PaddleCharOCR",
+                "\\global\\txwy\\resource\\PaddleOCR",
+                "\\global\\YoStarEN\\resource\\PaddleOCR",
+                "\\global\\YoStarJP\\resource\\PaddleOCR",
+                "\\global\\YoStarKR\\resource\\PaddleOCR",
+            };
+
+            foreach (var path in paddleResourcePaths)
+            {
+                string paddleDir = resourceDir + path;
+                string oldPaddleDir = oldResourceDir + path;
+                if (Directory.Exists(paddleDir))
+                {
+                    CopyFilesRecursively(oldPaddleDir, paddleDir);
+                }
+            }
+
             var uncopiedList = new List<string>();
 
             // 复制新版本的所有文件到当前路径下
@@ -418,21 +439,21 @@ namespace MeoAsstGui
             {
                 var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
 
+                _latestJson = null;
                 foreach (var item in releaseArray)
                 {
-                    if ((bool)item["prerelease"])
+                    if (!settings.UpdateBeta && (bool)item["prerelease"])
                     {
-                        if (settings.UpdateBeta)
-                        {
-                            _latestJson = item as JObject;
-                            break;
-                        }
+                        continue;
                     }
-                    else
-                    {
-                        _latestJson = item as JObject;
-                        break;
-                    }
+
+                    _latestJson = item as JObject;
+                    break;
+                }
+
+                if (_latestJson == null)
+                {
+                    return false;
                 }
 
                 _latestVersion = _latestJson["tag_name"].ToString();
@@ -441,10 +462,8 @@ namespace MeoAsstGui
                     return false;
                 }
 
-                Semver.SemVersion curVersionObj;
-                bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out curVersionObj);
-                Semver.SemVersion latestVersionObj;
-                bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out latestVersionObj);
+                bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
+                bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
                 if (curParsed && latestPared)
                 {
                     if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
@@ -457,29 +476,70 @@ namespace MeoAsstGui
                     return false;
                 }
 
-                if (!_latestJson.ContainsKey("assets")
-                    || (_latestJson["assets"] as JArray).Count == 0)
+                if (!_latestJson.ContainsKey("assets") || (_latestJson["assets"] as JArray).Count == 0)
                 {
                     return false;
                 }
 
-                _assetsObject = _latestJson["assets"][0] as JObject;
-                foreach (var curAssets in _latestJson["assets"] as JArray)
+                var releaseAssets = _latestJson["assets"] as JArray;
+                _assetsObject = null;
+                try
                 {
-                    var name = curAssets["name"].ToString();
-                    if (name.ToLower().Contains("ota"))
+                    TimeSpan timeSpan = TimeSpan.FromDays(114);
+                    foreach (var item in releaseArray)
                     {
-                        _assetsObject = curAssets as JObject;
-                        break;
+                        if (item["tag_name"].ToString() == _curVersion)
+                        {
+                            timeSpan = DateTime.Parse(_latestJson["published_at"].ToString())
+                                - DateTime.Parse(item["published_at"].ToString());
+                            break;
+                        }
+                    }
+
+                    // 14天内的版本更新先尝试下OTA
+                    if (timeSpan < TimeSpan.FromDays(14))
+                    {
+                        foreach (var curAssets in releaseAssets)
+                        {
+                            string name = curAssets["name"].ToString().ToLower();
+                            if (name.Contains("ota") && name.Contains("win"))
+                            {
+                                _assetsObject = curAssets as JObject;
+                                break;
+                            }
+                        }
+
+                        if (_assetsObject != null)
+                        {
+                            return true;
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    File.AppendAllText("gui.err.log", DateTime.Now.ToString() + " CheckUpdate | " + e.ToString() + Environment.NewLine);
+                }
+
+                // 其它情况直接下载完整包
+                long maxSize = 0;
+                foreach (var curAssets in releaseAssets)
+                {
+                    var name = curAssets["name"].ToString().ToLower();
+                    long curSize = (long)curAssets["size"];
+                    if (curSize > maxSize && !name.Contains("debug") && name.Contains("win"))
+                    {
+                        maxSize = curSize;
+                        _assetsObject = curAssets as JObject;
+                    }
+                }
+
+                return _assetsObject != null;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                File.AppendAllText("gui.err.log", DateTime.Now.ToString() + " CheckUpdate | " + e.ToString() + Environment.NewLine);
                 return false;
             }
-
-            return true;
         }
 
         /// <summary>
