@@ -255,6 +255,11 @@ namespace MeoAsstGui
             // 复制新版本的所有文件到当前路径下
             foreach (var file in Directory.GetFiles(extractDir))
             {
+                if (file.Contains("paddle_inference.dll") || file.Contains("ppocr.dll"))
+                {
+                    continue;
+                }
+
                 try
                 {
                     File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)), true);
