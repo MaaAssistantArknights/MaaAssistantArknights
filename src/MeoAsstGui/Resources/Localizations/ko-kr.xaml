@@ -417,6 +417,7 @@
     <system:String x:Key="QQgroup4">QQ그룹4</system:String>
     <system:String x:Key="QQgroup5">QQ그룹5</system:String>
     <system:String x:Key="QQgroup6">QQ그룹6</system:String>
+    <system:String x:Key="QQgroup7">QQ그룹7</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>

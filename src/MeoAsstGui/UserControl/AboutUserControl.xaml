@@ -24,6 +24,7 @@
                 <TextBlock Text="{DynamicResource Website}" />
             </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -36,6 +37,7 @@
                 <TextBlock Text="{DynamicResource Github}" />
             </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -80,6 +82,7 @@
             </Hyperlink>
             <TextBlock Text="{DynamicResource QQgroupfull}" />
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -116,9 +119,28 @@
                 Cursor="Hand"
                 NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=K8t6W7HZ"
                 TextDecorations="None">
+                <Hyperlink.Style>
+                    <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
+                        <Setter Property="Foreground" Value="#666" />
+                    </Style>
+                </Hyperlink.Style>
                 <TextBlock Text="{DynamicResource QQgroup6}" />
             </Hyperlink>
+            <TextBlock Text="{DynamicResource QQgroupfull}" />
+            <Hyperlink
+                Click="Hyperlink_Click"
+                Cursor="Hand"
+                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=gGRc2Rlw"
+                TextDecorations="None">
+                <Hyperlink.Style>
+                    <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
+                        <Setter Property="Foreground" Value="#06C" />
+                    </Style>
+                </Hyperlink.Style>
+                <TextBlock Text="{DynamicResource QQgroup7}" />
+            </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -131,6 +153,7 @@
                 <TextBlock Text="{DynamicResource Telegram}" />
             </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -143,6 +166,7 @@
                 <TextBlock Text="{DynamicResource Help}" />
             </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -155,6 +179,7 @@
                 <TextBlock Text="{DynamicResource Issue}" />
             </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -167,6 +192,7 @@
                 <TextBlock Text="{DynamicResource PrtsPlus}" />
             </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
@@ -179,6 +205,7 @@
                 <TextBlock Text="{DynamicResource MapPrts}" />
             </Hyperlink>
         </TextBlock>
+
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"

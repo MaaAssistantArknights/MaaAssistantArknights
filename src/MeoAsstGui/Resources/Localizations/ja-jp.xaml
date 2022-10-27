@@ -432,6 +432,7 @@
     <system:String x:Key="QQgroup4">グループ4</system:String>
     <system:String x:Key="QQgroup5">グループ5</system:String>
     <system:String x:Key="QQgroup6">グループ6</system:String>
+    <system:String x:Key="QQgroup7">グループ7</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
