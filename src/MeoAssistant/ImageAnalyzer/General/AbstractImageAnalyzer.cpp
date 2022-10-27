@@ -9,7 +9,7 @@
 #include "Utils/Time.hpp"
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
-    : m_image(image), m_roi(empty_rect_to_full(Rect(), image))
+    : m_image(image), m_roi(correct_rect(Rect(), image))
 #ifdef ASST_DEBUG
       ,
       m_image_draw(image.clone())
@@ -17,7 +17,7 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
 {}
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi)
-    : m_image(image), m_roi(empty_rect_to_full(roi, image))
+    : m_image(image), m_roi(correct_rect(roi, image))
 #ifdef ASST_DEBUG
       ,
       m_image_draw(image.clone())
@@ -34,12 +34,13 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat image)
 
 void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
 {
-    m_roi = empty_rect_to_full(roi, m_image);
+    m_roi = correct_rect(roi, m_image);
 }
 
-asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, const cv::Mat& image) noexcept
+asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image) noexcept
 {
     if (image.empty()) {
+        Log.error(__FUNCTION__, "image is empty");
         return rect;
     }
     if (rect.empty()) {
@@ -56,12 +57,20 @@ asst::Rect asst::AbstractImageAnalyzer::empty_rect_to_full(const Rect& rect, con
         res.y = image.rows - res.height;
     }
 
+    if (res.x < 0) {
+        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
+        res.x = 0;
+    }
+    if (res.y < 0) {
+        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
+        res.y = 0;
+    }
     if (image.cols < res.x + res.width) {
-        Log.error("roi is out of range", res.to_string());
+        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
         res.width = image.cols - res.x;
     }
     if (image.rows < res.y + res.height) {
-        Log.error("roi is out of range", res.to_string());
+        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
         res.height = image.rows - res.y;
     }
     return res;

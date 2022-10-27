@@ -31,7 +31,7 @@ namespace asst
         bool save_img(const std::string& dirname = "debug/");
 
     protected:
-        static Rect empty_rect_to_full(const Rect& rect, const cv::Mat& image) noexcept;
+        static Rect correct_rect(const Rect& rect, const cv::Mat& image) noexcept;
 
         cv::Mat m_image;
         Rect m_roi;

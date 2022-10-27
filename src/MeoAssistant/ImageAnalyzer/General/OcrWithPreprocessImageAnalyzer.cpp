@@ -6,7 +6,7 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
 {
     m_without_det = true;
 
-    m_roi = empty_rect_to_full(m_roi, m_image);
+    m_roi = correct_rect(m_roi, m_image);
     cv::Mat img_roi = m_image(make_rect<cv::Rect>(m_roi));
     cv::Mat img_roi_gray;
     cv::cvtColor(img_roi, img_roi_gray, cv::COLOR_BGR2GRAY);
@@ -23,10 +23,10 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     // todo: split
 
     if (m_expansion) {
-        new_roi.x -= m_expansion;
-        new_roi.y -= m_expansion;
-        new_roi.width += 2 * m_expansion;
-        new_roi.height += 2 * m_expansion;
+        new_roi.x = std::max(new_roi.x - m_expansion, 0);
+        new_roi.y = std::max(new_roi.y - m_expansion, 0);
+        new_roi.width = std::min(new_roi.width + 2 * m_expansion, m_image.cols - new_roi.x);
+        new_roi.height = std::min(new_roi.height + 2 * m_expansion, m_image.rows - new_roi.y);
     }
     OcrImageAnalyzer::set_roi(new_roi);
 #ifdef ASST_DEBUG
