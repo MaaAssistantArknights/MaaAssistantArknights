@@ -219,31 +219,34 @@ namespace MeoAsstGui
                 return false;
             }
 
-            string resourceDir = Directory.GetCurrentDirectory() + "\\resource";
-            string oldResourceDir = Directory.GetCurrentDirectory() + "\\resource.old";
-            if (Directory.Exists(resourceDir))
+            // TODO: 等 CI 加了文件列表，到时候按照文件列表来，不在列表里的都删了
             {
-                CopyFilesRecursively(resourceDir, oldResourceDir);
-                Directory.Delete(resourceDir, true);
-            }
-
-            var paddleResourcePaths = new[]
-            {
-                "\\PaddleOCR",
-                "\\PaddleCharOCR",
-                "\\global\\txwy\\resource\\PaddleOCR",
-                "\\global\\YoStarEN\\resource\\PaddleOCR",
-                "\\global\\YoStarJP\\resource\\PaddleOCR",
-                "\\global\\YoStarKR\\resource\\PaddleOCR",
-            };
-
-            foreach (var path in paddleResourcePaths)
-            {
-                string paddleDir = resourceDir + path;
-                string oldPaddleDir = oldResourceDir + path;
-                if (Directory.Exists(paddleDir))
+                string resourceDir = Directory.GetCurrentDirectory() + "\\resource";
+                string oldResourceDir = Directory.GetCurrentDirectory() + "\\resource.old";
+                if (Directory.Exists(resourceDir))
                 {
-                    CopyFilesRecursively(oldPaddleDir, paddleDir);
+                    CopyFilesRecursively(resourceDir, oldResourceDir);
+                    Directory.Delete(resourceDir, true);
+                }
+
+                var paddleResourcePaths = new[]
+                {
+                    "\\PaddleOCR",
+                    "\\PaddleCharOCR",
+                    "\\global\\txwy\\resource\\PaddleOCR",
+                    "\\global\\YoStarEN\\resource\\PaddleOCR",
+                    "\\global\\YoStarJP\\resource\\PaddleOCR",
+                    "\\global\\YoStarKR\\resource\\PaddleOCR",
+                };
+
+                foreach (var path in paddleResourcePaths)
+                {
+                    string paddleDir = resourceDir + path;
+                    string oldPaddleDir = oldResourceDir + path;
+                    if (Directory.Exists(paddleDir))
+                    {
+                        CopyFilesRecursively(oldPaddleDir, paddleDir);
+                    }
                 }
             }
 
