@@ -650,7 +650,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
                     if (!oper_name_analyzer.analyze()) continue;
                     oper_name_analyzer.sort_result_by_score();
-                    if (oper_name_analyzer.get_result().front().text == Dice) {
+                    if (oper_name_analyzer.get_result().front().text.find(Dice) != std::string::npos) {
                         m_dice_image = opers.at(i).avatar;
                         Log.info("Dice detected");
                         break;
