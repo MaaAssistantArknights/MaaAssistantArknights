@@ -2183,6 +2183,7 @@
         "template": "Return.png",
         "templThreshold": 0.7,
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             0,
             0,
@@ -7537,15 +7538,6 @@
     },
     "Roguelike@ReturnTo": {
         "template": "Return.png",
-        "templThreshold": 0.7,
-        "cache": false,
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            0,
-            180,
-            80
-        ],
         "next": [
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
