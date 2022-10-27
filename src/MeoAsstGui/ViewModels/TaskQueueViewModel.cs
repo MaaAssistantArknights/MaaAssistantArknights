@@ -635,8 +635,9 @@ namespace MeoAsstGui
             bool caught = await task;
 
             // 一般是点了“停止”按钮了
-            if (Idle)
+            if (Stopping)
             {
+                SetStopped();
                 return;
             }
 
@@ -664,8 +665,9 @@ namespace MeoAsstGui
             }
 
             // 一般是点了“停止”按钮了
-            if (Idle)
+            if (Stopping)
             {
+                SetStopped();
                 return;
             }
 
@@ -729,8 +731,9 @@ namespace MeoAsstGui
             }
 
             // 一般是点了“停止”按钮了
-            if (Idle)
+            if (Stopping)
             {
+                SetStopped();
                 return;
             }
 
@@ -762,9 +765,13 @@ namespace MeoAsstGui
 
         public void SetStopped()
         {
-            AddLog(Localization.GetString("Stopped"));
-            Idle = true;
+            if (!Idle || Stopping)
+            {
+                AddLog(Localization.GetString("Stopped"));
+            }
+
             Stopping = false;
+            Idle = true;
         }
 
         private bool appendStart()
