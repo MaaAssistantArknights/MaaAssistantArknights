@@ -30,7 +30,8 @@ namespace asst
 
     private:
         bool check_core_char();
-        std::string get_oper_role(const std::string& name);
+        BattleRole get_oper_role(const std::string& name);
+        bool is_oper_melee(const std::string& name);
         // 招募指定干员
         //
         // 输入参数:
