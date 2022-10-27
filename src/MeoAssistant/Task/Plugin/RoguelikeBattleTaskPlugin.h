@@ -105,6 +105,7 @@ namespace asst
             int deploy_air_defense_num = 0;
             int has_deployed_air_defense_num = 0;
             bool has_finished_deploy_air_defense = false;
+            bool ban_medic = false;
 
             void clear() noexcept
             {
@@ -113,6 +114,7 @@ namespace asst
                 has_deployed_blocking_num = 0;
                 has_deployed_air_defense_num = 0;
                 has_finished_deploy_air_defense = false;
+                ban_medic = false;
             }
         } m_force_air_defense;
 
