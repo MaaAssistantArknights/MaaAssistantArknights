@@ -3980,7 +3980,14 @@
     "Return": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "rearDelay": 2000
+        "rearDelay": 2000,
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ]
     },
     "Infrast@Main": {
         "template": "EnterInfrast.png",
