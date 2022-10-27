@@ -58,22 +58,7 @@ bool asst::OcrImageAnalyzer::analyze()
         return true;
     };
 
-    if (m_roi.x < 0) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.x = 0;
-    }
-    if (m_roi.y < 0) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.y = 0;
-    }
-    if (m_roi.x + m_roi.width > m_image.cols) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.width = m_image.cols - m_roi.x;
-    }
-    if (m_roi.y + m_roi.height > m_image.rows) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.height = m_image.rows - m_roi.y;
-    }
+    m_roi = correct_rect(m_roi, m_image);
 
     OcrPack* ocr_ptr = nullptr;
     if (m_use_char_model) {
