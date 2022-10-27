@@ -329,7 +329,7 @@
     <!--  자동 작전  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">알 수 없는 오류가 발생했습니다.</system:String>
+    <system:String x:Key="UnknownAbnormal">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하십시오.</system:String>
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 으로 설정해주세요.</system:String>
