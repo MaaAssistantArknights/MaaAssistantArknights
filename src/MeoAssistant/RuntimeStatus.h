@@ -45,6 +45,7 @@ namespace asst
         static inline const std::string RoguelikeTraderNoLongerBuy = "RoguelikeNoLongerBuy";
         static inline const std::string RoguelikeSkillUsagePrefix = "RoguelikeSkillUsage-";
         static inline const std::string RoguelikeTeamFullWithoutRookie = "RoguelikeTeamFullWithoutRookie";
+        static inline const std::string RoguelikeTeamRoles = "RoguelikeTeamRoles";
         static inline const std::string RoguelikeTheme = "RoguelikeTheme";
 
     private:

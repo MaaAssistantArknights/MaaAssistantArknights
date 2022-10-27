@@ -169,6 +169,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         m_role_order = opt->role_order;
         m_force_air_defense.stop_blocking_deploy_num = opt->stop_deploy_blocking_num;
         m_force_air_defense.deploy_air_defense_num = opt->force_deploy_air_defense_num;
+        m_force_air_defense.ban_medic = opt->force_ban_medic;
         m_force_deploy_direction = opt->force_deploy_direction;
     }
     else {
@@ -543,15 +544,18 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             if (op.cooling) {
                 continue;
             }
+            if (op.role == BattleRole::Medic) {
+                has_medic = true;
+            }
             BattleOperPosition position = get_role_position(op.role);
             if (position == BattleOperPosition::Blocking) {
                 has_blocking = true;
             }
             else if (position == BattleOperPosition::AirDefense) {
+                if (m_force_air_defense.ban_medic && op.role == BattleRole::Medic) {
+                    continue;
+                }
                 has_air_defense = true;
-            }
-            if (op.role == BattleRole::Medic) {
-                has_medic = true;
             }
         }
 
@@ -569,6 +573,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             BattleOperPosition position = get_role_position(role);
             if (force_need_air_defense) {
                 if (position != BattleOperPosition::AirDefense) continue;
+                if (m_force_air_defense.ban_medic && role == BattleRole::Medic) continue;
             }
             else {
                 if (wait_blocking) {
