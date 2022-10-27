@@ -95,6 +95,64 @@ namespace asst
         Drone
     };
 
+    inline BattleRole get_role_type(const std::string& role_name)
+    {
+        static const std::unordered_map<std::string, BattleRole> NameToRole = {
+            { "warrior", BattleRole::Warrior }, { "WARRIOR", BattleRole::Warrior },
+            { "Warrior", BattleRole::Warrior }, { "近卫", BattleRole::Warrior },
+
+            { "pioneer", BattleRole::Pioneer }, { "PIONEER", BattleRole::Pioneer },
+            { "Pioneer", BattleRole::Pioneer }, { "先锋", BattleRole::Pioneer },
+
+            { "medic", BattleRole::Medic },     { "MEDIC", BattleRole::Medic },
+            { "Medic", BattleRole::Medic },     { "医疗", BattleRole::Medic },
+
+            { "tank", BattleRole::Tank },       { "TANK", BattleRole::Tank },
+            { "Tank", BattleRole::Tank },       { "重装", BattleRole::Tank },
+
+            { "sniper", BattleRole::Sniper },   { "SNIPER", BattleRole::Sniper },
+            { "Sniper", BattleRole::Sniper },   { "狙击", BattleRole::Sniper },
+
+            { "caster", BattleRole::Caster },   { "CASTER", BattleRole::Caster },
+            { "Caster", BattleRole::Caster },   { "术师", BattleRole::Caster },
+
+            { "support", BattleRole::Support }, { "SUPPORT", BattleRole::Support },
+            { "Support", BattleRole::Support }, { "辅助", BattleRole::Support },
+
+            { "special", BattleRole::Special }, { "SPECIAL", BattleRole::Special },
+            { "Special", BattleRole::Special }, { "特种", BattleRole::Special },
+
+            { "drone", BattleRole::Drone },     { "DRONE", BattleRole::Drone },
+            { "Drone", BattleRole::Drone },     { "无人机", BattleRole::Drone },
+        };
+        if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
+            return iter->second;
+        }
+        return BattleRole::Unknown;
+    }
+}
+
+namespace std
+{
+    inline std::string to_string(const asst::BattleRole& role)
+    {
+        static const std::unordered_map<asst::BattleRole, std::string> RoleToName = {
+            { asst::BattleRole::Warrior, "Warrior" },
+            { asst::BattleRole::Pioneer, "Pioneer" },
+            { asst::BattleRole::Medic, "Medic" },
+            { asst::BattleRole::Tank, "Tank" },
+            { asst::BattleRole::Sniper, "Sniper" },
+            { asst::BattleRole::Caster, "Caster" },
+            { asst::BattleRole::Support, "Support" },
+            { asst::BattleRole::Special, "Special" },
+            { asst::BattleRole::Drone, "Drone" },
+            { asst::BattleRole::Unknown, "Unknown" }
+        };
+        return RoleToName.at(role);
+    }
+}
+
+namespace asst {
     struct BattleRealTimeOper
     {
         int cost = 0;
@@ -130,6 +188,7 @@ namespace asst
         bool use_dice_stage = true;
         int stop_deploy_blocking_num = INT_MAX;
         int force_deploy_air_defense_num = 0;
+        bool force_ban_medic = false;
     };
 
     enum class BattleOperPosition

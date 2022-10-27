@@ -6,7 +6,7 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
 {
     m_without_det = true;
 
-    m_roi = empty_rect_to_full(m_roi, m_image);
+    m_roi = correct_rect(m_roi, m_image);
     cv::Mat img_roi = m_image(make_rect<cv::Rect>(m_roi));
     cv::Mat img_roi_gray;
     cv::cvtColor(img_roi, img_roi_gray, cv::COLOR_BGR2GRAY);

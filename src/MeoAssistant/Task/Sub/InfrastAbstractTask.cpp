@@ -326,6 +326,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
         OcrWithPreprocessImageAnalyzer name_analyzer;
         name_analyzer.set_replace(ocr_replace);
         name_analyzer.set_image(oper.name_img);
+        name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
