@@ -266,7 +266,8 @@ void Assistant::working_proc()
                                      : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
             task_callback(msg, callback_json, this);
 
-            if (!m_thread_idle) {
+            if (m_thread_idle) {
+                finished_tasks.clear();
                 continue;
             }
 
@@ -276,7 +277,7 @@ void Assistant::working_proc()
                 finished_tasks.clear();
             }
 
-            auto delay = Configer.get_options().task_delay;
+            const int delay = Configer.get_options().task_delay;
             lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
         }
