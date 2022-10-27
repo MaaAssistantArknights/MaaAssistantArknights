@@ -329,7 +329,7 @@
     <!--  Copilot  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">Unknown exception occurred</system:String>
+    <system:String x:Key="UnknownAbnormal">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>

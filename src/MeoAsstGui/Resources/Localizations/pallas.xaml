@@ -329,7 +329,7 @@
     <!--  自动战斗  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">🍻🍺🍺🍺🍻🍸🕺</system:String>
+    <system:String x:Key="UnknownAbnormal">🍻🍺🍺🍺🍻🍸🕺🍺🍸🕺🍺🍻🕺🕺🍺🍸🕺🍻🍻🍺</system:String>
     <system:String x:Key="Error">🍻🍻🕺</system:String>
     <system:String x:Key="InitializationError">🍻🍺🍺🕺🍺🍸🍸</system:String>
     <system:String x:Key="ResolutionNotSupported">🍻🍻🍷🍷🍻🍸🍺🍸🍸🍸🕺💃🍷🍻🍺🍻🍺🍻🍻🍷🍺🍸🍻🍷🕺🍷🍻🍺🍷🍻🍷🍻🍻🍸🍷</system:String>

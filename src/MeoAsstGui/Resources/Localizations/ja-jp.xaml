@@ -343,7 +343,7 @@
     <!--  自動戦闘  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">不明な例外が発生しました</system:String>
+    <system:String x:Key="UnknownAbnormal">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</system:String>
