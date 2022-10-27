@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MeoAsstGui.MaaHotKeys;
+using MeoAsstGui.Views;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Stylet;
 using StyletIoC;
@@ -121,6 +122,10 @@ namespace MeoAsstGui
         {
             // 抛异常了，可以打些日志
             File.AppendAllText("gui.err.log", DateTime.Now.ToString() + ' ' + e.Exception.ToString() + '\n');
+
+            var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
+            errorView.ShowDialog();
+            errorView.Pause();
         }
     }
 }
