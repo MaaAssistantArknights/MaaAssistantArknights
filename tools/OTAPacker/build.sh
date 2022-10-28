@@ -29,7 +29,11 @@ while read tag; do
 
     cd $working_dir
 
-    if [[ "$tag" != "$latest_tag" ]]; then
+    if [[ "$tag" == "$latest_tag" ]]; then
+        cd "$latest_tag"/content/
+        find -type f -exec md5sum '{}' \; > ../../md5sum.txt
+        cd $working_dir
+    else
         echo "comparing files $tag...$latest_tag"
         rsync -ancv --delete --info=FLIST0 "$latest_tag"/content/ "$tag"/content/ \
             | grep -v '/$' \
@@ -38,6 +42,8 @@ while read tag; do
 
         echo "installing files"
         mkdir -pv "$tag"/pkg
+
+        install -DCv md5sum.txt "$tag"/pkg
 
         while read file; do
             if [[ $file == "deleting "* ]]; then
