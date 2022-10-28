@@ -354,7 +354,7 @@
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">abort upload to Penguins statistics</system:String>
     <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
-    <system:String x:Key="OnTheMove">operation started</system:String>
+    <system:String x:Key="MissionStart">mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
     <system:String x:Key="StoneUsed">Stone used</system:String>

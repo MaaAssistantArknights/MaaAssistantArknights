@@ -605,7 +605,7 @@ namespace MeoAsstGui
                 {
                     case "StartButton2":
                     case "AnnihilationConfirm":
-                        mainModel.AddLog(Localization.GetString("OnTheMove") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
+                        mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
                     case "MedicineConfirm":
