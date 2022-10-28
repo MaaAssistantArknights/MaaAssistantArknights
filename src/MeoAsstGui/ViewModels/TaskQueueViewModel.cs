@@ -660,6 +660,7 @@ namespace MeoAsstGui
                 {
                     AddLog(errMsg, LogColor.Error);
                     Idle = true;
+                    SetStopped();
                     return;
                 }
             }
@@ -727,6 +728,7 @@ namespace MeoAsstGui
             {
                 AddLog(Localization.GetString("UnselectedTask"));
                 Idle = true;
+                SetStopped();
                 return;
             }
 
