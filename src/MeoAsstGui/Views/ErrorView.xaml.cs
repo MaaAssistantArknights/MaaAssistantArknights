@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
-using Application = System.Windows.Forms.Application;
 
 namespace MeoAsstGui.Views
 {
@@ -28,14 +27,6 @@ namespace MeoAsstGui.Views
 
             var isZhCn = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage) == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Hidden;
-        }
-
-        public void Pause()
-        {
-            while (ShouldExit)
-            {
-                Application.DoEvents();
-            }
         }
 
         protected override void OnClosed(EventArgs e)
