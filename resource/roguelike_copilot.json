@@ -52,7 +52,10 @@
                     1
                 ],
                 "role_Doc": "填入的职业适用强制方向",
-                "role": [ "warrior", "pioneer" ],
+                "role": [
+                    "warrior",
+                    "pioneer"
+                ],
                 "direction": "up"
             },
             {
@@ -60,7 +63,9 @@
                     3,
                     1
                 ],
-                "role": [ "sniper" ],
+                "role": [
+                    "sniper"
+                ],
                 "direction": "left"
             }
         ]
@@ -688,7 +693,10 @@
                     4,
                     4
                 ],
-                "role": [ "warrior", "pioneer" ],
+                "role": [
+                    "warrior",
+                    "pioneer"
+                ],
                 "direction": "left"
             },
             {
@@ -696,7 +704,10 @@
                     3,
                     4
                 ],
-                "role": [ "warrior", "pioneer" ],
+                "role": [
+                    "warrior",
+                    "pioneer"
+                ],
                 "direction": "right"
             }
         ]
