@@ -434,7 +434,7 @@ namespace MeoAsstGui
             { string.Empty, "CN" },
             { "Official", "CN" },
             { "Bilibili", "CN" },
-            { "YoStarEN", "EN" },
+            { "YoStarEN", "US" },
             { "YoStarJP", "JP" },
             { "YoStarKR", "KR" },
             { "txwy", "CN_TW" },
