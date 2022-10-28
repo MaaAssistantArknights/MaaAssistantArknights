@@ -110,7 +110,7 @@
                         600
                     ],
                     [
-                        2,
+                        1,
                         -400
                     ]
                 ]
@@ -166,7 +166,7 @@
             {
                 "name": "艾丽妮",
                 "skill": 3,
-                "alternate_skill": 1,
+                "alternate_skill": 2,
                 "recruit_priority": 750,
                 "promote_priority": 750,
                 "offset_melee": true,
@@ -476,6 +476,12 @@
         ]
     },
     "Caster": {
+        "role_priority_offset": [
+            [
+                3,
+                -1000
+            ]
+        ],
         "opers": [
             {
                 "name": "Pith",
