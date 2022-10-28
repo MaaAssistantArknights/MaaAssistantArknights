@@ -169,7 +169,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 廣告
 
 [用戶交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動戰鬥 JSON 作業分享：<https://www.prts.plus> , [QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已滿）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
+自動戰鬥 JSON 作業分享：<https://www.prts.plus> , [QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已滿）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已滿）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已滿）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)，[QQ 六群（已滿）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)，[QQ 七群](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)  
 [Bilibili 直播間](https://live.bilibili.com/2808861)：每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
 [舟無關技術交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：內捲地獄！  
 [開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
