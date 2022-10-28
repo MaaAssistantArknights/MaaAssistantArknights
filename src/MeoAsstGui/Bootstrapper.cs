@@ -125,7 +125,6 @@ namespace MeoAsstGui
 
             var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
             errorView.ShowDialog();
-            errorView.Pause();
         }
     }
 }
