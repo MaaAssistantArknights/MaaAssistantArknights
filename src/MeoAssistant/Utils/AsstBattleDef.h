@@ -130,29 +130,25 @@ namespace asst
         }
         return BattleRole::Unknown;
     }
-}
+} // namespace asst
 
 namespace std
 {
     inline std::string to_string(const asst::BattleRole& role)
     {
         static const std::unordered_map<asst::BattleRole, std::string> RoleToName = {
-            { asst::BattleRole::Warrior, "Warrior" },
-            { asst::BattleRole::Pioneer, "Pioneer" },
-            { asst::BattleRole::Medic, "Medic" },
-            { asst::BattleRole::Tank, "Tank" },
-            { asst::BattleRole::Sniper, "Sniper" },
-            { asst::BattleRole::Caster, "Caster" },
-            { asst::BattleRole::Support, "Support" },
-            { asst::BattleRole::Special, "Special" },
-            { asst::BattleRole::Drone, "Drone" },
-            { asst::BattleRole::Unknown, "Unknown" }
+            { asst::BattleRole::Warrior, "Warrior" }, { asst::BattleRole::Pioneer, "Pioneer" },
+            { asst::BattleRole::Medic, "Medic" },     { asst::BattleRole::Tank, "Tank" },
+            { asst::BattleRole::Sniper, "Sniper" },   { asst::BattleRole::Caster, "Caster" },
+            { asst::BattleRole::Support, "Support" }, { asst::BattleRole::Special, "Special" },
+            { asst::BattleRole::Drone, "Drone" },     { asst::BattleRole::Unknown, "Unknown" }
         };
         return RoleToName.at(role);
     }
 }
 
-namespace asst {
+namespace asst
+{
     struct BattleRealTimeOper
     {
         int cost = 0;
