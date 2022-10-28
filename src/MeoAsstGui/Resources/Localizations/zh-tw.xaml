@@ -354,7 +354,7 @@
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEX">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="OnTheMove">已開始行動</system:String>
+    <system:String x:Key="MissionStart">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>

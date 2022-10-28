@@ -354,7 +354,7 @@
     <system:String x:Key="DropRecognitionError">🕺💃🍻🕺🍸🍸🍸</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">🍺💃🕺🍷🍸💃🍻🍸🍺</system:String>
     <system:String x:Key="TheEX">🍺🍷🍷🍷💃🍷🕺🍺🍻🍷</system:String>
-    <system:String x:Key="OnTheMove">🍸🍻🍺🍷🍸🍺</system:String>
+    <system:String x:Key="MissionStart">🍸🍻🍺🍷🍸🍺</system:String>
     <system:String x:Key="UnitTime">🍻🕺</system:String>
     <system:String x:Key="MedicineUsed">🍷💃🍸🍻🍷🍻🍷</system:String>
     <system:String x:Key="StoneUsed">🍻🍻🍸🍻🍻🍷</system:String>

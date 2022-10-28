@@ -354,7 +354,7 @@
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">PenguinStats에 업로드 중단</system:String>
     <system:String x:Key="TheEX">EX 스테이지가 중단되었습니다</system:String>
-    <system:String x:Key="OnTheMove">행동이 시작되었습니다</system:String>
+    <system:String x:Key="MissionStart">행동이 시작되었습니다</system:String>
     <system:String x:Key="UnitTime">번</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">오리지늄을 사용했습니다</system:String>
