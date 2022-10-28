@@ -1821,21 +1821,27 @@
             ]
         ]
     },
+    "StartUpThemes": {
+        "algorithm": "JustReturn",
+        "next": [
+            "GameStart",
+            "StartToWakeUp",
+            "StartLoginBServer",
+            "BServerPrivacyPolicy",
+            "StartUpConnectingFlag",
+            "",
+            "CloseAnno",
+            "TodaysSupplies",
+            "OfflineConfirm"
+        ]
+    },
     "StartUpBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "StartUp@GameStart",
-            "StartUp@StartToWakeUp",
-            "StartUp@StartUpConnectingFlag",
-            "StartUp@StartLoginBServer",
-            "StartUp@BServerPrivacyPolicy",
-            "StartUp@Loading2",
-            "StartUp",
-            "StartUp@CloseAnno",
-            "StartUp@TodaysSupplies",
+            "StartUp@StartUpThemes#next",
+            "StartUpBegin@Loading2",
             "StartUp@ReturnTo",
-            "StartUp@OfflineConfirm",
             "StartUp@EndOfAction",
             "StartUp@FromStageSN"
         ]
@@ -1850,17 +1856,9 @@
             100
         ],
         "next": [
-            "GameStart",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "Loading2",
-            "",
-            "CloseAnno",
-            "TodaysSupplies",
-            "ReturnTo",
-            "OfflineConfirm"
+            "StartUpThemes#next",
+            "BServerPrivacyPolicy@Loading2",
+            "ReturnTo"
         ]
     },
     "GameStart": {
@@ -1883,16 +1881,8 @@
             "StartButton2"
         ],
         "next": [
-            "GameStart",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "Loading2",
-            "",
-            "CloseAnno",
-            "OfflineConfirm",
-            "TodaysSupplies"
+            "StartUpThemes#next",
+            "GameStart@Loading2"
         ]
     },
     "StartToWakeUp": {
@@ -1904,15 +1894,8 @@
             100
         ],
         "next": [
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "Loading2",
-            "",
-            "CloseAnno",
-            "OfflineConfirm",
-            "TodaysSupplies"
+            "StartUpThemes#next",
+            "StartToWakeUp@Loading2"
         ]
     },
     "StartLoginBServer": {
@@ -1924,14 +1907,8 @@
             150
         ],
         "next": [
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "Loading2",
-            "",
-            "CloseAnno",
-            "OfflineConfirm",
-            "TodaysSupplies"
+            "StartUpThemes#next",
+            "StartLoginBServer@Loading2"
         ]
     },
     "StartUpConnectingFlag": {
@@ -1943,15 +1920,8 @@
             85
         ],
         "next": [
-            "StartToWakeUp",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "StartUpConnectingFlag",
-            "Loading2",
-            "",
-            "CloseAnno",
-            "OfflineConfirm",
-            "TodaysSupplies"
+            "StartUpThemes#next",
+            "StartUpConnectingFlag@Loading2"
         ]
     },
     "StartUp": {
@@ -1977,8 +1947,6 @@
         "next": [
             "",
             "CloseAnno",
-            "ReturnTo",
-            "FromStageSN",
             "TodaysSupplies"
         ]
     },
@@ -2053,7 +2021,7 @@
             "",
             "ReturnTo",
             "ReturnToConfirm",
-            "Loading2",
+            "ReturnTo@Loading2",
             "CloseAnno",
             "FromStageSN",
             "TodaysSupplies"
@@ -2071,7 +2039,7 @@
         "next": [
             "ReturnTo",
             "",
-            "Loading2",
+            "ReturnToConfirm@Loading2",
             "CloseAnno",
             "FromStageSN",
             "TodaysSupplies",
@@ -2106,11 +2074,8 @@
         ],
         "next": [
             "CloseAnno",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
             "OfflineConfirmImpl",
+            "StartUpThemes#next",
             "TodaysSupplies"
         ]
     },
@@ -2430,11 +2395,7 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
-            "OfflineConfirm"
+            "StartUpThemes#next"
         ]
     },
     "ClickCornerAfterPRTS_1": {
@@ -2642,10 +2603,7 @@
             "PRTS3",
             "PrtsErrorConfirm",
             "OfflineConfirm",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
+            "StartUpThemes#next",
             "OfflineConfirmAfterBattle"
         ]
     },
@@ -2664,11 +2622,8 @@
         "next": [
             "FightMissionFailed",
             "EndOfAction",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
             "OfflineConfirm",
+            "StartUpThemes#next",
             "StartButton1"
         ]
     },
@@ -2686,11 +2641,8 @@
         ],
         "next": [
             "EndOfAction",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
             "OfflineConfirm",
+            "StartUpThemes#next",
             "StartButton1"
         ],
         "maxTimes": 3,
@@ -2721,18 +2673,10 @@
         "action": "DoNothing",
         "rearDelay": 5000,
         "next": [
-            "GameStart",
-            "StartToWakeUp",
-            "StartUpConnectingFlag",
-            "StartLoginBServer",
-            "BServerPrivacyPolicy",
+            "StartUpThemes#next",
+            "RestartGameAndContinue@Loading2",
             "ReturnTo",
-            "Loading2",
-            "",
-            "CloseAnno",
-            "FromStageSN",
-            "TodaysSupplies",
-            "OfflineConfirm"
+            "FromStageSN"
         ]
     },
     "Fight": {
@@ -6592,16 +6536,11 @@
             "Roguelike@NextLevel",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
-            "Roguelike@TodaysSupplies",
-            "Roguelike",
-            "Roguelike@CloseAnno",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
             "Roguelike@ReturnTo",
             "Roguelike@ReturnToConfirm",
-            "Roguelike@OfflineConfirm",
-            "Roguelike@StartToWakeUp",
-            "Roguelike@StartUpConnectingFlag",
+            "Roguelike@StartUpThemes#next",
             "Roguelike@FromStageSN"
         ]
     },
@@ -6672,12 +6611,7 @@
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave",
             "Roguelike@DropsFlag",
-            "Roguelike@TodaysSupplies",
-            "Roguelike",
-            "Roguelike@CloseAnno",
-            "Roguelike@OfflineConfirm",
-            "Roguelike@StartToWakeUp",
-            "Roguelike@StartUpConnectingFlag",
+            "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToDrops"
         ]
     },
@@ -6695,16 +6629,11 @@
             "Roguelike@StartExplore",
             "Roguelike@NextLevel#next",
             "Roguelike@GamePass",
-            "Roguelike@TodaysSupplies",
-            "Roguelike",
-            "Roguelike@CloseAnno",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
             "Roguelike@ReturnTo",
             "Roguelike@ReturnToConfirm",
-            "Roguelike@OfflineConfirm",
-            "Roguelike@StartToWakeUp",
-            "Roguelike@StartUpConnectingFlag",
+            "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToStartPoint"
         ]
     },
