@@ -32,9 +32,9 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 ## Features
 
-- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/)
-- Auto-shifting in the infrastructure, auto efficiency calculation of operators, optimal solution in single facility
-- Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata)
+- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/).
+- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room. (Only CN client is supported now.)
+- Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata).
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV14u411673q/)
@@ -42,9 +42,9 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!  
 
-![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
+![image](https://user-images.githubusercontent.com/18511905/198692842-1ad89bd0-f943-4763-bdd1-c212e09dc832.png)
 ![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png)
-![image](https://user-images.githubusercontent.com/99072975/181417872-563afc09-e610-45f5-8762-dbf69018a329.png)
+![image](https://user-images.githubusercontent.com/18511905/198689839-612f3bfc-c308-4d62-969d-8544764e794d.png)
 
 ## Download
 
