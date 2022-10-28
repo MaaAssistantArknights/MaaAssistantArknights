@@ -332,10 +332,8 @@
     <system:String x:Key="UnknownAbnormal">资源损坏，请重新下载完整安装包</system:String>
     <system:String x:Key="Error">错误</system:String>
     <system:String x:Key="ErrorDetails">信息</system:String>
-    <system:String x:Key="ErrorFeedback">反馈问题</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroup">QQ群</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">704746719</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再次尝试</system:String>

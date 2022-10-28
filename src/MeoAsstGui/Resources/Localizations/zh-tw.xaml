@@ -332,10 +332,8 @@
     <system:String x:Key="UnknownAbnormal">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="Error">錯誤</system:String>
     <system:String x:Key="ErrorDetails">信息</system:String>
-    <system:String x:Key="ErrorFeedback">反饋問題</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">創建 GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroup">QQ群</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">704746719</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反饋問題</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟電腦，或更換模擬器後再次嘗試</system:String>

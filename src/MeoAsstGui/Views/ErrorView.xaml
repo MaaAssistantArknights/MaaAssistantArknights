@@ -20,16 +20,14 @@
         <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource ErrorDetails}" HorizontalAlignment="Left" Margin="115,95,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <TextBox Grid.ColumnSpan="2" Grid.Column="0" x:Name="ErrorDetails" HorizontalAlignment="Left" TextWrapping="Wrap" Background="#FFE6E6E6" BorderThickness="0" Padding="0" Text="{DynamicResource UnknownErrorOccurs}" Margin="140,120,0,0" VerticalAlignment="Top" MaxHeight="150" Width="455" />
 
-        <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource ErrorFeedback}" HorizontalAlignment="Left" Margin="376,300,0,0" VerticalAlignment="Top"/>
         <TextBlock Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="466,300,0,0" VerticalAlignment="Top" Width="129" Height="23">
-            <Hyperlink Name="LinkToCreateGitHubIssue" Click="LinkToCreateGitHubIssue_OnClick" NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new/choose" FontSize="10.667">
+            <Hyperlink Name="LinkToCreateGitHubIssue" Click="Hyperlink_OnClick" NavigateUri="{Binding Source={x:Static local:MaaUrls.GitHubIssues}}" FontSize="10.667">
                 <Run Text="{DynamicResource ErrorFeedbackLinkText}" />
             </Hyperlink>
         </TextBlock>
 
-        <TextBlock x:Name="ErrorQqGroup" Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource ErrorQqGroup}" HorizontalAlignment="Left" Margin="376,326,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="ErrorQqGroupLink" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="466,326,0,0" VerticalAlignment="Top" FontSize="10.667" Width="71">
-            <Hyperlink Name="LinkToJoinQqGroup" Click="LinkToJoinQqGroup_OnClick" NavigateUri="https://jq.qq.com/?k=PYoCP2lS" FontSize="10.667">
+            <Hyperlink Name="LinkToJoinQqGroup" Click="Hyperlink_OnClick" NavigateUri="{Binding Source={x:Static local:MaaUrls.LatestQqGroup}}" FontSize="10.667">
                 <Run Text="{DynamicResource ErrorQqGroupLinkText}" />
             </Hyperlink>
         </TextBlock>

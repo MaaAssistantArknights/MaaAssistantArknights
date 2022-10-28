@@ -332,10 +332,8 @@
     <system:String x:Key="UnknownAbnormal">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
-    <system:String x:Key="ErrorFeedback">Feedback</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroup">QQ Group</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">704746719</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">fails to be obtain emulator resolution . Please restart computer or consider try other emulator</system:String>

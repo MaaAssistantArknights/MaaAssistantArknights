@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Documents;
 using Application = System.Windows.Forms.Application;
 
 namespace MeoAsstGui.Views
@@ -26,7 +27,6 @@ namespace MeoAsstGui.Views
             ShouldExit = shouldExit;
 
             var isZhCn = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage) == "zh-cn";
-            ErrorQqGroup.Visibility = isZhCn ? Visibility.Visible : Visibility.Hidden;
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Hidden;
         }
 
@@ -48,14 +48,9 @@ namespace MeoAsstGui.Views
             base.OnClosed(e);
         }
 
-        private void LinkToCreateGitHubIssue_OnClick(object sender, RoutedEventArgs e)
+        private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
         {
-            Process.Start(LinkToJoinQqGroup.NavigateUri.ToString());
-        }
-
-        private void LinkToJoinQqGroup_OnClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start(LinkToJoinQqGroup.NavigateUri.ToString());
+            Process.Start(((Hyperlink)sender).NavigateUri.AbsoluteUri);
         }
     }
 }
