@@ -5807,10 +5807,10 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [
-            1163,
-            0,
-            117,
-            133
+            1155,
+            41,
+            125,
+            679
         ],
         "templThreshold": 0.7,
         "maskRange": [
@@ -5820,7 +5820,13 @@
         "rearDelay": 500
     },
     "BattleQuickFormationRole-All": {
-        "baseTask": "BattleQuickFormationRole"
+        "baseTask": "BattleQuickFormationRole",
+        "roi": [
+            1163,
+            0,
+            117,
+            133
+        ]
     },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
