@@ -346,10 +346,8 @@
     <system:String x:Key="UnknownAbnormal">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="ErrorDetails">情報</system:String>
-    <system:String x:Key="ErrorFeedback">Feedback</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroup">QQ Group</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">704746719</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。コンピュータを再起動するか、エミュレータを変更してから再試行することをお勧めします</system:String>

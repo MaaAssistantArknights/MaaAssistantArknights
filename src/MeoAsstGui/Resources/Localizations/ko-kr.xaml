@@ -332,10 +332,8 @@
     <system:String x:Key="UnknownAbnormal">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하십시오.</system:String>
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="ErrorDetails">신용</system:String>
-    <system:String x:Key="ErrorFeedback">Feedback</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroup">QQ Group</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">704746719</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 으로 설정해주세요.</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져오지 못했습니다. 컴퓨터를 다시 시작하거나 에뮬레이터를 변경한 후 다시 시도하는 것이 좋습니다.</system:String>

@@ -332,9 +332,7 @@
     <system:String x:Key="UnknownAbnormal">🍻🍺🍺🍺🍻🍸🕺🍺🍸🕺🍺🍻🕺🕺🍺🍸🕺🍻🍻🍺</system:String>
     <system:String x:Key="Error">🍻🍻🕺</system:String>
     <system:String x:Key="ErrorDetails">🍻🍷🍻</system:String>
-    <system:String x:Key="ErrorFeedback">🕺🕺🕺</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">🍺🍻🕺🍺🍸🍻🕺🕺🍸🍻🍷🕺🍷🍻🍺🍷🍻🍷🍷🍻🍺🍸🍷🍷🍻🍻🍸</system:String>
-    <system:String x:Key="ErrorQqGroup">🍺🍻🕺🍸🍻</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">🍸🍷🍻💃🍺🍻🕺🍺🍻🍻</system:String>
     <system:String x:Key="InitializationError">🍻🍺🍺🕺🍺🍸🍸</system:String>
     <system:String x:Key="ResolutionNotSupported">🍻🍻🍷🍷🍻🍸🍺🍸🍸🍸🕺💃🍷🍻🍺🍻🍺🍻🍻🍷🍺🍸🍻🍷🕺🍷🍻🍺🍷🍻🍷🍻🍻🍸🍷</system:String>
