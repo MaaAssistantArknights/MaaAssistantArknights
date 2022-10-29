@@ -243,7 +243,7 @@ namespace MeoAsstGui
                 {
                     string paddleDir = resourceDir + path;
                     string oldPaddleDir = oldResourceDir + path;
-                    if (Directory.Exists(paddleDir))
+                    if (Directory.Exists(oldPaddleDir))
                     {
                         CopyFilesRecursively(oldPaddleDir, paddleDir);
                     }
@@ -891,7 +891,7 @@ namespace MeoAsstGui
         /// </summary>
         /// <param name="sourcePath">源文件夹</param>
         /// <param name="targetPath">目标文件夹</param>
-        private static void CopyFilesRecursively(string sourcePath, string targetPath)
+        public static void CopyFilesRecursively(string sourcePath, string targetPath)
         {
             Directory.CreateDirectory(targetPath);
 
