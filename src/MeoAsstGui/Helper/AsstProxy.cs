@@ -392,6 +392,7 @@ namespace MeoAsstGui
                             mainModel.KillEmulator();
                             await Task.Delay(3000);
                             mainModel.Stop();
+                            mainModel.SetStopped();
                             mainModel.LinkStart();
                         }
                     });
