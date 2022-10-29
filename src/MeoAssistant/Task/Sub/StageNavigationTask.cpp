@@ -49,7 +49,10 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
 {
     LogTraceFunction;
 
-    ProcessTask(*this, { "SwipeToTheRight" }).run();
+    ProcessTask to_right(*this, { "SwipeToTheRight" });
+    for (int i = 0; i < 3; ++i) {
+        to_right.run();
+    }
 
     auto task_ptr = Task.get("EpisodeStageNameOcr");
     for (int i = 0; i < task_ptr->max_times; ++i) {
