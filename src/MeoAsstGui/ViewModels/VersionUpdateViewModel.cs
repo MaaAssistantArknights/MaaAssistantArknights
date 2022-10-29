@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using MeoAsstGui.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -164,7 +165,8 @@ namespace MeoAsstGui
             }
         }
 
-        private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases";
+        private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases";
+        private const string InfoRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
         private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _latestJson;
         private JObject _assetsObject;
@@ -192,7 +194,9 @@ namespace MeoAsstGui
                 }
             });
 
-            string extractDir = Directory.GetCurrentDirectory() + "\\NewVersionExtract";
+            string curDir = Directory.GetCurrentDirectory();
+            string extractDir = Path.Combine(curDir, "NewVersionExtract");
+            string oldFileDir = Path.Combine(curDir, ".old");
 
             // 解压
             try
@@ -219,74 +223,63 @@ namespace MeoAsstGui
                 return false;
             }
 
-            // TODO: 等 CI 加了文件列表，到时候按照文件列表来，不在列表里的都删了
+            string removeListFile = Path.Combine(extractDir, "removelist.txt");
+            if (File.Exists(removeListFile))
             {
-                string resourceDir = Directory.GetCurrentDirectory() + "\\resource";
-                string oldResourceDir = Directory.GetCurrentDirectory() + "\\resource.old";
-                if (Directory.Exists(resourceDir))
+                string[] removeList = File.ReadAllLines(removeListFile);
+                foreach (string file in removeList)
                 {
-                    CopyFilesRecursively(resourceDir, oldResourceDir);
-                    Directory.Delete(resourceDir, true);
-                }
-
-                var paddleResourcePaths = new[]
-                {
-                    "\\PaddleOCR",
-                    "\\PaddleCharOCR",
-                    "\\global\\txwy\\resource\\PaddleOCR",
-                    "\\global\\YoStarEN\\resource\\PaddleOCR",
-                    "\\global\\YoStarJP\\resource\\PaddleOCR",
-                    "\\global\\YoStarKR\\resource\\PaddleOCR",
-                };
-
-                foreach (var path in paddleResourcePaths)
-                {
-                    string paddleDir = resourceDir + path;
-                    string oldPaddleDir = oldResourceDir + path;
-                    if (Directory.Exists(oldPaddleDir))
+                    string path = Path.Combine(curDir, file);
+                    if (File.Exists(path))
                     {
-                        CopyFilesRecursively(oldPaddleDir, paddleDir);
+                        string moveTo = Path.Combine(oldFileDir, file);
+                        if (File.Exists(moveTo))
+                        {
+                            File.Delete(moveTo);
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(moveTo));
+                        }
+
+                        File.Move(path, moveTo);
                     }
                 }
             }
 
-            var uncopiedList = new List<string>();
+            foreach (var dir in Directory.GetDirectories(extractDir, "*", SearchOption.AllDirectories))
+            {
+                Directory.CreateDirectory(dir.Replace(extractDir, curDir));
+                Directory.CreateDirectory(dir.Replace(extractDir, oldFileDir));
+            }
 
             // 复制新版本的所有文件到当前路径下
-            foreach (var file in Directory.GetFiles(extractDir))
+            foreach (var file in Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories))
             {
-                if (file.Contains("paddle_inference.dll") || file.Contains("ppocr.dll"))
+                var fileName = Path.GetFileName(file);
+                if (fileName == "removelist.txt" || fileName == "md5sum.txt")
                 {
                     continue;
                 }
 
-                try
+                string curFileName = file.Replace(extractDir, curDir);
+                if (File.Exists(curFileName))
                 {
-                    File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)), true);
+                    string moveTo = file.Replace(extractDir, oldFileDir);
+                    if (File.Exists(moveTo))
+                    {
+                        File.Delete(moveTo);
+                    }
+
+                    File.Move(curFileName, moveTo);
                 }
-                catch (Exception)
-                {
-                    uncopiedList.Add(file);
-                }
+
+                File.Move(file, curFileName);
             }
 
-            foreach (var directory in Directory.GetDirectories(extractDir))
-            {
-                CopyFilesRecursively(directory, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(directory)));
-            }
-
-            // 程序正在运行中，部分文件是无法覆写的，这里曲线操作下
-            // 先将当前这些文件重命名，然后再把新的复制过来
-            foreach (var oldFile in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.old"))
+            foreach (var oldFile in Directory.GetFiles(curDir, "*.old"))
             {
                 File.Delete(oldFile);
-            }
-
-            foreach (var file in uncopiedList)
-            {
-                string curFileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file));
-                File.Move(curFileName, curFileName + ".old");
-                File.Copy(file, curFileName);
             }
 
             // 操作完了，把解压的文件删了
@@ -491,57 +484,39 @@ namespace MeoAsstGui
 
                 var releaseAssets = _latestJson["assets"] as JArray;
                 _assetsObject = null;
-                try
-                {
-                    TimeSpan timeSpan = TimeSpan.FromDays(114);
-                    foreach (var item in releaseArray)
-                    {
-                        if (item["tag_name"].ToString() == _curVersion)
-                        {
-                            timeSpan = DateTime.Parse(_latestJson["published_at"].ToString())
-                                - DateTime.Parse(item["published_at"].ToString());
-                            break;
-                        }
-                    }
 
-                    // 14天内的版本更新先尝试下OTA
-                    if (timeSpan < TimeSpan.FromDays(14))
-                    {
-                        foreach (var curAssets in releaseAssets)
-                        {
-                            string name = curAssets["name"].ToString().ToLower();
-                            if (name.Contains("ota") && name.Contains("win"))
-                            {
-                                _assetsObject = curAssets as JObject;
-                                break;
-                            }
-                        }
-
-                        if (_assetsObject != null)
-                        {
-                            return true;
-                        }
-                    }
-                }
-                catch (Exception e)
+                var infoRequestUrl = InfoRequestUrl + _latestVersion;
+                var infoResponse = RequestApi(infoRequestUrl);
+                for (int i = 0; infoResponse.Length == 0 && i < RequestRetryMaxTimes; i++)
                 {
-                    File.AppendAllText("gui.err.log", DateTime.Now.ToString() + " CheckUpdate | " + e.ToString() + Environment.NewLine);
+                    infoResponse = RequestApi(infoRequestUrl);
                 }
 
-                // 其它情况直接下载完整包
-                long maxSize = 0;
+                if (infoResponse.Length == 0)
+                {
+                    return false;
+                }
+
+                _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
+
                 foreach (var curAssets in releaseAssets)
                 {
-                    var name = curAssets["name"].ToString().ToLower();
-                    long curSize = (long)curAssets["size"];
-                    if (curSize > maxSize && !name.Contains("debug") && name.Contains("win"))
+                    string name = curAssets["name"].ToString().ToLower();
+                    if (name.Contains("ota") && name.Contains("win") && name.Contains($"{_curVersion}_{_latestVersion}"))
                     {
-                        maxSize = curSize;
                         _assetsObject = curAssets as JObject;
+                        break;
                     }
                 }
 
-                return _assetsObject != null;
+                if (_assetsObject != null)
+                {
+                    return true;
+                }
+
+                var errorView = new ErrorView("Download Failed", "It was not possible to find a suitable OTA file to download.", false);
+                errorView.ShowDialog();
+                return false;
             }
             catch (Exception e)
             {

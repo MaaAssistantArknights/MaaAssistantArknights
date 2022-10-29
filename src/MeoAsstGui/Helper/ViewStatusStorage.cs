@@ -71,25 +71,25 @@ namespace MeoAsstGui
 
                     if (jsonStr.Length <= 2 && File.Exists(_configBakFilename))
                     {
-                        File.Copy(_configBakFilename, _configFilename, true);
-                        jsonStr = File.ReadAllText(_configFilename);
+                        jsonStr = File.ReadAllText(_configBakFilename);
+                        try
+                        {
+                            File.Copy(_configBakFilename, _configFilename, true);
+                        }
+                        catch (Exception e)
+                        {
+                            File.AppendAllText("gui.err.log", DateTime.Now.ToString() + ' ' + e.ToString() + '\n');
+                        }
                     }
 
                     // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
                     _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    if (withRestore && File.Exists(_configBakFilename))
-                    {
-                        File.Copy(_configBakFilename, _configFilename, true);
-                        return Load(false);
-                    }
-                    else
-                    {
-                        _viewStatus = new JObject();
-                        return false;
-                    }
+                    File.AppendAllText("gui.err.log", DateTime.Now.ToString() + ' ' + e.ToString() + '\n');
+                    _viewStatus = new JObject();
+                    return false;
                 }
             }
             else
