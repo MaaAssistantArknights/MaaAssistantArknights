@@ -1,28 +1,16 @@
-- 新增 繁中服肉鸽 分队、编队、干员自定义的支持，修复大部分已知识别错误 @KiyuM1n @MistEO @lza11111 @horror-proton @Realmajia  
-  干员名请使用简中输入
-- 新增 繁中服 支持 领取日常奖励 @KiyuM1n
-- Open the upload Penguin Stats function for EN and JP clients, and fix drops recognition errors. @MistEO @horror-proton
-- 更新 繁中服 公招数据、仓库识别数据 @MistEO @lza11111
-- 优化 自定义基建 无人机和菲亚同时为 `pre` 时，优先使用无人机 @MistEO
-- 优化 基建 宿舍 `蹭信赖` 功能，改为按从信赖从低到高排序 @MistEO
-- 优化 肉鸽 部署及招募逻辑 @DavidWang19 @WWPXX233
-- 修复 肉鸽 招募 `砾` 后卡在开始行动界面的问题 ~~直接不招募了~~ @MistEO
-- 修复 肉鸽 `高规格分队` 无法选择的问题 @MistEO
-- 修复 肉鸽 偶现战斗中闪退问题 @zzyyyl
-- 修复 肉鸽 第二局及之后招募逻辑错误 @DavidWang19
-- 修复 水月肉鸽 `万象追忆录` 卡住的问题 @zzyyyl
-- 修复 下载新版本 失败闪退的问题，优化更新逻辑 @zzyyyl
-- 修复 刷理智 部分关卡跳过掉落识别的问题 @zzyyyl
-- 修复 刷理智 上传企鹅物流错误的问题 @MistEO
-- 修复 基建 进入加载时间过长导致的错误 @zzyyyl
-- 修复 基建 2 发电站任务出错的问题、为识别到会客室时后续任务出错的问题 @lanhao34
-- 修复 基建 偶现返回按钮没点上导致后续任务卡住的问题 @MistEO
-- 修复 热键 不能正常使用的问题 @gdlcf88
-- 修复 界面 手动停止任务时，出现的一些异常 @MistEO @zzyyyl
-- 修复 软件更新 逻辑 @zzyyyl
-- 优化 macOS 界面功能、OCR 识别效果 @hguandl
-- 优化 OCR 识别效果及效率，引入新的模型 @MistEO
-- 优化 自定义基建 内置作业 @lhhxxxxx @MistEO
-- 优化 界面 提示及布局 @ABA2396
-- 优化 Task 字段解析逻辑，新增一些语法 @zzyyyl
-- 更新 文档 @ABA2396 @MistEO @wallsman
+_该版本更新了飞桨 OCR 库，NoAVX 用户请重新下载新的替换包_
+
+- 重构 软件升级 打包及更新逻辑 @horror-proton @zzyyyl @MistEO
+- 重构 Task next 字段逻辑 @zzyyyl
+- 优化 肉鸽 干员招募策略 @DavidWang19 @WWPXX233
+- 优化 肉鸽 中途开始时的编队信息处理 @DavidWang19
+- 优化 界面 报错弹窗提示 @gdlcf88 @Tastror
+- 修复 肉鸽 指定次数不生效的问题 @DavidWang19
+- 修复 肉鸽 不期而遇卡住的问题 @zzyyyl
+- 修复 肉鸽 商店购买招募券后直接卡住的问题 @zzyyyl
+- 修复 自动战斗 自动编队不按职业选择的问题 @zzyyyl
+- 修复 OCR 偶现崩溃问题 @MistEO
+- 修复 台服 公招高资识别错误 @MistEO
+- 修复 界面 停止按钮不可用问题 @zzyyyl @StarWishLXH
+- 修复 界面 材料下拉框不可用问题 @ABA2396
+- 更新 文档 @Yanstory @ABA2396 @MistEO
