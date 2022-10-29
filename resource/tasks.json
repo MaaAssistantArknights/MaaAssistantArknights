@@ -1827,7 +1827,7 @@
             "GameStart",
             "StartToWakeUp",
             "StartLoginBServer",
-            "GamePrivacyPolicy",
+            "BServerPrivacyPolicy",
             "StartUpConnectingFlag",
             "#back",
             "CloseAnno",
@@ -1846,41 +1846,19 @@
             "StartUp@FromStageSN"
         ]
     },
-    "GamePrivacyPolicy": {
-        "Doc": "有时候会在GameStart之前有个隐私政策提示需要点击 `同意`",
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "text": [
-            "隐私政策"
-        ],
-        "roi": [
-            400,
-            0,
-            480,
-            360
-        ],
-        "next": [
-            "GamePrivacyPolicyConfirm",
-            "StartUpThemes#next",
-            "GamePrivacyPolicy@Loading2"
-        ]
-    },
-    "GamePrivacyPolicyConfirm": {
-        "algorithm": "OcrDetect",
+    "BServerPrivacyPolicy": {
+        "Doc": "B服有时候会在GameStart之前有个隐私协议的确认需要点击一下",
         "action": "ClickSelf",
-        "cache": false,
-        "text": [
-            "同意"
-        ],
         "roi": [
-            640,
-            360,
-            360,
-            360
+            700,
+            560,
+            120,
+            100
         ],
         "next": [
-            "GamePrivacyPolicy#next"
+            "StartUpThemes#next",
+            "BServerPrivacyPolicy@Loading2",
+            "ReturnTo"
         ]
     },
     "GameStart": {
