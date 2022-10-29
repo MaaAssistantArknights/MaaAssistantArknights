@@ -7532,12 +7532,24 @@
     "Roguelike@StageEncounterOptionFree": {
         "baseTask": "Roguelike@StageEncounterOption",
         "Doc": "base_task",
-        "template": "empty.png"
+        "template": "empty.png",
+        "next": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionLeave",
+            "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@StageEncounterOptions#next"
+        ]
     },
     "Roguelike@StageEncounterOptionLeave": {
         "baseTask": "Roguelike@StageEncounterOption",
         "Doc": "base_task",
-        "template": "empty.png"
+        "template": "empty.png",
+        "next": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionFree",
+            "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@StageEncounterOptions#next"
+        ]
     },
     "Roguelike@StageEncounterOptionUnknown": {
         "baseTask": "Roguelike@StageEncounterOption",
