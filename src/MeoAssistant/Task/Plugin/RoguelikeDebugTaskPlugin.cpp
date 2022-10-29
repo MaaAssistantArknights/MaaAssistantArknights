@@ -36,5 +36,6 @@ bool asst::RoguelikeDebugTaskPlugin::verify(AsstMsg msg, const json::value& deta
 
 bool asst::RoguelikeDebugTaskPlugin::_run()
 {
-    return save_img("debug/roguelike/");
+    save_img("debug/roguelike/");
+    return true;
 }
