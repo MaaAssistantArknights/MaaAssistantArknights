@@ -437,7 +437,7 @@ namespace MeoAsstGui
             { "YoStarEN", "US" },
             { "YoStarJP", "JP" },
             { "YoStarKR", "KR" },
-            { "txwy", "CN_TW" },
+            { "txwy", "ZH_TW" },
         };
 
         /// <summary>
