@@ -7846,6 +7846,7 @@
         "next": [
             "Roguelike@TraderRandomShoppingConfirm",
             "Roguelike@TraderRandomShoppingCancel",
+            "Roguelike@ChooseOperFlag",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderLeaveConfirm"
         ],
