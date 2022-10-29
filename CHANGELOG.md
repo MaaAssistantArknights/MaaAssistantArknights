@@ -10,7 +10,10 @@ _该版本更新了飞桨 OCR 库，NoAVX 用户请重新下载新的替换包_
 - 修复 肉鸽 商店购买招募券后直接卡住的问题 @zzyyyl
 - 修复 自动战斗 自动编队不按职业选择的问题 @zzyyyl
 - 修复 OCR 偶现崩溃问题 @MistEO
+- 修复 刷理智 关卡导航偶尔滑不到位的问题 @MistEO
+- 修复 肉鸽 刷投资模式不再截图 @MistEO
 - 修复 台服 公招高资识别错误 @MistEO
 - 修复 界面 停止按钮不可用问题 @zzyyyl @StarWishLXH
 - 修复 界面 材料下拉框不可用问题 @ABA2396
+- 更新 mac UI @hguandl
 - 更新 文档 @Yanstory @ABA2396 @MistEO
