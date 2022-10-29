@@ -31,23 +31,23 @@ while read tag; do
 
     if [[ "$tag" == "$latest_tag" ]]; then
         cd "$latest_tag"/content/
-        find -type f -exec md5sum '{}' \; > ../../md5sum.txt
+        find * -type f -exec md5sum '{}' \; > ../md5sum.txt
         cd $working_dir
     else
-        echo "comparing files $tag...$latest_tag"
+        echo "Comparing files $tag...$latest_tag"
         rsync -ancv --delete --info=FLIST0 "$latest_tag"/content/ "$tag"/content/ \
             | grep -v '/$' \
             | head -n -3 \
             | tee "$tag"/files.txt
 
-        echo "installing files"
+        echo "Installing files"
         mkdir -pv "$tag"/pkg
 
-        install -DCv md5sum.txt "$tag"/pkg
+        install -DCv "$latest_tag"/md5sum.txt "$tag"/pkg
 
         while read file; do
             if [[ $file == "deleting "* ]]; then
-                echo ${file#"deleting "} >> "$tag"/pkg/deleted.txt
+                echo ${file#"deleting "} >> "$tag"/pkg/removelist.txt
             else
                 install -DCv "$latest_tag"/content/"$file" "$tag"/pkg/"$file"
             fi
@@ -55,7 +55,7 @@ while read tag; do
 
         echo "Creating zip archive"
         cd "$tag"/pkg
-        zip -q -9 -r "$working_dir"/"${tag}_${latest_tag}.zip" .
+        zip -q -9 -r "$working_dir"/"MAAComponent-OTA-${tag}_${latest_tag}-win-x64.zip" .
         cd $working_dir
     fi
 done < ./releases
