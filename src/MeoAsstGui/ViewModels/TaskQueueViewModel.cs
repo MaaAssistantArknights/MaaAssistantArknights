@@ -660,6 +660,7 @@ namespace MeoAsstGui
                 {
                     AddLog(errMsg, LogColor.Error);
                     Idle = true;
+                    SetStopped();
                     return;
                 }
             }
@@ -727,6 +728,7 @@ namespace MeoAsstGui
             {
                 AddLog(Localization.GetString("UnselectedTask"));
                 Idle = true;
+                SetStopped();
                 return;
             }
 
@@ -1957,9 +1959,11 @@ namespace MeoAsstGui
         {
             foreach (var item in DropsList)
             {
-                if (item.Value == DropsItemId)
+                if (DropsItemName == item.Display)
                 {
-                    if (DropsItemName != item.Display)
+                    DropsItemId = item.Value;
+
+                    if (DropsItemName != item.Display || DropsItemId != item.Value)
                     {
                         DropsItemName = Localization.GetString("NotSelected");
                     }

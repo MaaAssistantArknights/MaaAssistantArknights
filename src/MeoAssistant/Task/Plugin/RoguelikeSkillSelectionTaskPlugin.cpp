@@ -69,6 +69,18 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         m_status->set_number(RuntimeStatus::RoguelikeSkillUsagePrefix + name, static_cast<int>(oper_info.skill_usage));
     }
 
+    if (!m_status->get_str(RuntimeStatus::RoguelikeCharOverview)) {
+        json::value overview;
+        for (const auto& [name, skill_vec] : analyzer.get_result()) {
+            overview[name] = json::object {
+                { "elite", 1 },
+                { "level", 80 },
+                // 不知道是啥等级随便填一个
+            };
+        }
+        m_status->set_str(RuntimeStatus::RoguelikeCharOverview, overview.to_string());
+    }
+
     if (analyzer.get_team_full() && !has_rookie) {
         Log.info("Team full and no rookie");
         m_status->set_number(RuntimeStatus::RoguelikeTeamFullWithoutRookie, 1);

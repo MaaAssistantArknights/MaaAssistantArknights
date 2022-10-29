@@ -329,8 +329,11 @@
     <!--  自动战斗  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">🍻🍺🍺🍺🍻🍸🕺</system:String>
+    <system:String x:Key="UnknownAbnormal">🍻🍺🍺🍺🍻🍸🕺🍺🍸🕺🍺🍻🕺🕺🍺🍸🕺🍻🍻🍺</system:String>
     <system:String x:Key="Error">🍻🍻🕺</system:String>
+    <system:String x:Key="ErrorDetails">🍻🍷🍻</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">🍺🍻🕺🍺🍸🍻🕺🕺🍸🍻🍷🕺🍷🍻🍺🍷🍻🍷🍷🍻🍺🍸🍷🍷🍻🍻🍸</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">🍸🍷🍻💃🍺🍻🕺🍺🍻🍻</system:String>
     <system:String x:Key="InitializationError">🍻🍺🍺🕺🍺🍸🍸</system:String>
     <system:String x:Key="ResolutionNotSupported">🍻🍻🍷🍷🍻🍸🍺🍸🍸🍸🕺💃🍷🍻🍺🍻🍺🍻🍻🍷🍺🍸🍻🍷🕺🍷🍻🍺🍷🍻🍷🍻🍻🍸🍷</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">🍺🍸🍷🍻🍻🍺🍸💃🍷🍸🍸🍸🍷🍸💃🍷🍸🍸🍻🍷🍸🕺🍻🍸🍸🕺🍷🍺🍷🕺</system:String>
@@ -354,7 +357,7 @@
     <system:String x:Key="DropRecognitionError">🕺💃🍻🕺🍸🍸🍸</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">🍺💃🕺🍷🍸💃🍻🍸🍺</system:String>
     <system:String x:Key="TheEX">🍺🍷🍷🍷💃🍷🕺🍺🍻🍷</system:String>
-    <system:String x:Key="OnTheMove">🍸🍻🍺🍷🍸🍺</system:String>
+    <system:String x:Key="MissionStart">🍸🍻🍺🍷🍸🍺</system:String>
     <system:String x:Key="UnitTime">🍻🕺</system:String>
     <system:String x:Key="MedicineUsed">🍷💃🍸🍻🍷🍻🍷</system:String>
     <system:String x:Key="StoneUsed">🍻🍻🍸🍻🍻🍷</system:String>
@@ -417,6 +420,7 @@
     <system:String x:Key="QQgroup4">🍷🍺🍺</system:String>
     <system:String x:Key="QQgroup5">🍻💃💃</system:String>
     <system:String x:Key="QQgroup6">🍻💃🍻</system:String>
+    <system:String x:Key="QQgroup7">🍻💃💃</system:String>
     <system:String x:Key="QQgroupfull">🍸🍸🕺🕺🍺</system:String>
     <system:String x:Key="Telegram">🍷🍷🍷🍺</system:String>
     <system:String x:Key="Help">🍸🍺🍺🍻🍺</system:String>

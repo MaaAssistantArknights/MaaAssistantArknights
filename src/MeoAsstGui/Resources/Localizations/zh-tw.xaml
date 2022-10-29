@@ -329,8 +329,11 @@
     <!--  自動戰鬥  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">出現未知異常</system:String>
+    <system:String x:Key="UnknownAbnormal">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="Error">錯誤</system:String>
+    <system:String x:Key="ErrorDetails">信息</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">創建 GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反饋問題</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟電腦，或更換模擬器後再次嘗試</system:String>
@@ -354,7 +357,7 @@
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEX">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="OnTheMove">已開始行動</system:String>
+    <system:String x:Key="MissionStart">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
@@ -417,6 +420,7 @@
     <system:String x:Key="QQgroup4">四群</system:String>
     <system:String x:Key="QQgroup5">五群</system:String>
     <system:String x:Key="QQgroup6">六群</system:String>
+    <system:String x:Key="QQgroup7">七群</system:String>
     <system:String x:Key="QQgroupfull">(已滿)</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">常見問題</system:String>

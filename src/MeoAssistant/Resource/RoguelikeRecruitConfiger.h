@@ -20,6 +20,7 @@ namespace asst
         int recruit_priority_when_team_full = 0; // 队伍满时的招募优先级 (0-1000)
         int promote_priority_when_team_full = 0; // 队伍满时的晋升优先级 (0-1000)
         std::vector<std::pair<int, int>> recruit_priority_offset;
+        bool offset_melee = false;
         bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
         int skill = 0;
         int alternate_skill = 0;
@@ -32,6 +33,7 @@ namespace asst
         virtual ~RoguelikeRecruitConfiger() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& name) const noexcept;
+        const std::vector<std::pair<int, int>> get_role_info(const BattleRole& role) const noexcept;
         const auto& get_oper_order() const noexcept { return m_ordered_all_opers_name; }
 
     protected:
@@ -40,6 +42,7 @@ namespace asst
         void clear();
 
         std::unordered_map<std::string, RoguelikeOperInfo> m_all_opers;
+        std::unordered_map<BattleRole, std::vector<std::pair<int, int>>> m_role_offset_map;
         std::vector<std::string> m_ordered_all_opers_name;
     };
 

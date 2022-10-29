@@ -343,8 +343,11 @@
     <!--  自動戦闘  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">不明な例外が発生しました</system:String>
+    <system:String x:Key="UnknownAbnormal">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="Error">エラー</system:String>
+    <system:String x:Key="ErrorDetails">情報</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。コンピュータを再起動するか、エミュレータを変更してから再試行することをお勧めします</system:String>
@@ -369,7 +372,7 @@
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEX">ステージ報酬がないため停止します</system:String>
-    <system:String x:Key="OnTheMove">行動開始しました</system:String>
+    <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
@@ -432,6 +435,7 @@
     <system:String x:Key="QQgroup4">グループ4</system:String>
     <system:String x:Key="QQgroup5">グループ5</system:String>
     <system:String x:Key="QQgroup6">グループ6</system:String>
+    <system:String x:Key="QQgroup7">グループ7</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
