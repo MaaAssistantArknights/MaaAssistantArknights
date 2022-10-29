@@ -1247,7 +1247,7 @@
         "baseTask": "ResourceStages",
         "next": [
             "CE6@StageCE",
-            "SwipeToTheLeft"
+            "CE6@StageCE@SwipeToTheLeft"
         ]
     },
     "LS-6": {
@@ -1259,15 +1259,15 @@
     "CA-5": {
         "baseTask": "ResourceStages",
         "next": [
-            "CA6@StageCA",
-            "SwipeToTheLeft"
+            "CA5@StageCA",
+            "CA5@StageCA@SwipeToTheLeft"
         ]
     },
     "AP-5": {
         "baseTask": "ResourceStages",
         "next": [
-            "AP6@StageAP",
-            "SwipeToTheLeft"
+            "AP5@StageAP",
+            "AP5@StageAP@SwipeToTheLeft"
         ]
     },
     "PR-A-1": {
@@ -1275,14 +1275,14 @@
         "doc": "医疗/重装",
         "next": [
             "PR-A-1@StagePR-A",
-            "SwipeToTheRight"
+            "PR-A-1@StagePR-A@SwipeToTheRight"
         ]
     },
     "PR-A-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-A-2@StagePR-A",
-            "SwipeToTheRight"
+            "PR-A-2@StagePR-A@SwipeToTheRight"
         ]
     },
     "PR-B-1": {
@@ -1290,14 +1290,14 @@
         "doc": "术士/狙击",
         "next": [
             "PR-B-1@StagePR-B",
-            "SwipeToTheRight"
+            "PR-B-1@StagePR-B@SwipeToTheRight"
         ]
     },
     "PR-B-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-B-2@StagePR-B",
-            "SwipeToTheRight"
+            "PR-B-2@StagePR-B@SwipeToTheRight"
         ]
     },
     "PR-C-1": {
@@ -1305,14 +1305,14 @@
         "doc": "先锋/辅助",
         "next": [
             "PR-C-1@StagePR-C",
-            "SwipeToTheRight"
+            "PR-C-1@StagePR-C@SwipeToTheRight"
         ]
     },
     "PR-C-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-C-2@StagePR-C",
-            "SwipeToTheRight"
+            "PR-C-2@StagePR-C@SwipeToTheRight"
         ]
     },
     "PR-D-1": {
@@ -1320,14 +1320,14 @@
         "doc": "近卫/特种",
         "next": [
             "PR-D-1@StagePR-D",
-            "SwipeToTheRight"
+            "PR-D-1@StagePR-D@SwipeToTheRight"
         ]
     },
     "PR-D-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-D-2@StagePR-D",
-            "SwipeToTheRight"
+            "PR-D-2@StagePR-D@SwipeToTheRight"
         ]
     },
     "StageResource": {
