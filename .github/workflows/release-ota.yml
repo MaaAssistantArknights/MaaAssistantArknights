@@ -8,7 +8,7 @@ on:
       limit:
         description: 'Number of releases to fetch, 2 at least'
         required: false
-        default: 21
+        default: 51
         type: number
 
 jobs:
