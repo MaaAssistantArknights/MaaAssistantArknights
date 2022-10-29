@@ -41,8 +41,6 @@ namespace asst
         virtual json::value basic_info() const override;
 
         std::pair<int, TimesLimitType> calc_time_limit() const;
-        bool generate_tasks(const std::vector<std::string>& raw_tasks);
-        bool generate_tasks();
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
         void exec_slowly_swipe_task(ProcessTaskAction action);
