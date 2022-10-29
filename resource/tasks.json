@@ -1827,7 +1827,6 @@
             "GameStart",
             "StartToWakeUp",
             "StartLoginBServer",
-            "BServerPrivacyPolicy",
             "StartUpConnectingFlag",
             "#back",
             "CloseAnno",
@@ -1844,21 +1843,6 @@
             "StartUp@ReturnTo",
             "StartUp@EndOfAction",
             "StartUp@FromStageSN"
-        ]
-    },
-    "BServerPrivacyPolicy": {
-        "Doc": "B服有时候会在GameStart之前有个隐私协议的确认需要点击一下",
-        "action": "ClickSelf",
-        "roi": [
-            700,
-            560,
-            120,
-            100
-        ],
-        "next": [
-            "StartUpThemes#next",
-            "BServerPrivacyPolicy@Loading2",
-            "ReturnTo"
         ]
     },
     "GameStart": {
