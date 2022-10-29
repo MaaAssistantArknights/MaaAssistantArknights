@@ -3,28 +3,28 @@
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheLeft",
         "next": [
-            ""
+            "#back"
         ]
     },
     "SlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "SlowlySwipeToTheRight",
         "next": [
-            ""
+            "#back"
         ]
     },
     "SwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "SwipeToTheRight",
         "next": [
-            ""
+            "#back"
         ]
     },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "SwipeToTheLeft",
         "next": [
-            ""
+            "#back"
         ]
     },
     "1-7": {
@@ -187,7 +187,7 @@
         ],
         "action": "ClickSelf",
         "next": [
-            ""
+            "#back"
         ]
     },
     "ToChapter3": {
@@ -204,7 +204,7 @@
             32
         ],
         "next": [
-            ""
+            "#back"
         ]
     },
     "ToChapter2": {
@@ -220,7 +220,7 @@
             32
         ],
         "next": [
-            ""
+            "#back"
         ]
     },
     "ToChapter1": {
@@ -236,7 +236,7 @@
             32
         ],
         "next": [
-            ""
+            "#back"
         ]
     },
     "EnterEpisode": {
@@ -250,7 +250,7 @@
             351
         ],
         "next": [
-            ""
+            "#back"
         ]
     },
     "EnterEpisode11": {
@@ -281,7 +281,7 @@
         ],
         "next": [
             "ToEpisode10",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -293,7 +293,7 @@
         ],
         "next": [
             "ToEpisode9",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -304,7 +304,7 @@
         ],
         "next": [
             "ToEpisode7",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -316,7 +316,7 @@
         ],
         "next": [
             "ToEpisode6",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -329,7 +329,7 @@
         ],
         "next": [
             "ToEpisode5",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -343,7 +343,7 @@
         ],
         "next": [
             "ToEpisode4",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -354,7 +354,7 @@
         ],
         "next": [
             "ToEpisode2",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -366,7 +366,7 @@
         ],
         "next": [
             "ToEpisode1",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -379,7 +379,7 @@
         ],
         "next": [
             "ToEpisode0",
-            "",
+            "#back",
             "Stop"
         ]
     },
@@ -1829,7 +1829,7 @@
             "StartLoginBServer",
             "GamePrivacyPolicy",
             "StartUpConnectingFlag",
-            "",
+            "#back",
             "CloseAnno",
             "TodaysSupplies",
             "OfflineConfirm"
@@ -1967,7 +1967,7 @@
             200
         ],
         "next": [
-            "",
+            "#back",
             "CloseAnno",
             "TodaysSupplies"
         ]
@@ -1992,7 +1992,7 @@
         ],
         "next": [
             "CloseAnno",
-            ""
+            "#back"
         ]
     },
     "Loading": {
@@ -2011,7 +2011,7 @@
         "next": [
             "Loading",
             "#next",
-            ""
+            "#back"
         ]
     },
     "Loading2": {
@@ -2025,7 +2025,7 @@
         "next": [
             "Loading2",
             "#next",
-            ""
+            "#back"
         ]
     },
     "ReturnTo": {
@@ -2040,7 +2040,7 @@
             80
         ],
         "next": [
-            "",
+            "#back",
             "ReturnTo",
             "ReturnToConfirm",
             "ReturnTo@Loading2",
@@ -2060,7 +2060,7 @@
         ],
         "next": [
             "ReturnTo",
-            "",
+            "#back",
             "ReturnToConfirm@Loading2",
             "CloseAnno",
             "FromStageSN",

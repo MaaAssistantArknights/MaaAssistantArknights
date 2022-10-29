@@ -151,11 +151,8 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
         generate_tasks = [&](const tasklist_t& raw_tasks) {
             for (std::string_view task : raw_tasks) {
                 if (task.empty()) {
-                    task_changed = true;
-#ifdef ASST_DEBUG
-                    Log.trace("Task", name, "has a virtual", list_type, ": ``");
-#endif // ASST_DEBUG
-                    continue;
+                    Log.error("Task", name, "has a empty", list_type);
+                    return false;
                 }
                 if (tasks_set.contains(task)) [[unlikely]] {
                     task_changed = true;
@@ -193,6 +190,12 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
                 ASST_TASKDATA_GENERATE_TASKS(on_error_next)
                 ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
                 ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
+                else if (type == "back") {
+                    // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
+                    if (pos) {
+                        new_task_list.emplace_back(task.substr(0, pos));
+                    }
+                }
                 else [[unlikely]]
                 {
                     Log.error("Unknown type", type, "in", task);
