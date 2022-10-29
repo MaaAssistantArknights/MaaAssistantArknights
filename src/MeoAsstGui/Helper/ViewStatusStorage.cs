@@ -128,6 +128,11 @@ namespace MeoAsstGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool Save()
         {
+            if (_released)
+            {
+                return false;
+            }
+
             try
             {
                 var jsonStr = _viewStatus.ToString();
@@ -150,6 +155,14 @@ namespace MeoAsstGui
             }
 
             return true;
+        }
+
+        private static bool _released = false;
+
+        public static void Release()
+        {
+            Save();
+            _released = true;
         }
 
         /// <summary>

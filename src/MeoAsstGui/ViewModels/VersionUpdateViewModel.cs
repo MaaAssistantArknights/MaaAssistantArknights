@@ -288,7 +288,7 @@ namespace MeoAsstGui
 
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             UpdatePackageName = string.Empty;
-            ViewStatusStorage.Save();
+            ViewStatusStorage.Release();
 
             // 重启进程（启动的是更新后的程序了）
             var newProcess = new Process();
