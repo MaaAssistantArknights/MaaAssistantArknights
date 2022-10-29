@@ -168,7 +168,7 @@
             "devices": "[Adb] devices",
             "addressRegex": "(.+)\tdevice",
             "connect": "[Adb] connect [AdbSerial]",
-            "uuid": "[Adb] -s [AdbSerial] shell settings get secure android_id",
+            "uuid": "[Adb] -s [AdbSerial] shell echo 111111",
             "click": "[Adb] -s [AdbSerial] shell input tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input swipe [x1] [y1] [x2] [y2] [duration]",
             "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+",
