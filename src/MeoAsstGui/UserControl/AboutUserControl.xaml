@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
+    xmlns:local="clr-namespace:MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
@@ -19,7 +20,7 @@
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
-                NavigateUri="https://www.maa.plus"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.MaaPlus}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Website}" />
             </Hyperlink>
@@ -32,7 +33,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.GitHub}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Github}" />
             </Hyperlink>
@@ -46,7 +47,7 @@
             <TextBlock Text="{DynamicResource QQgroup}" />
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=xRh6gqQZ"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}, Path=[0]}"
                 TextDecorations="None">
                 <Hyperlink.Style>
                     <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
@@ -58,7 +59,7 @@
             <TextBlock Text="{DynamicResource QQgroupfull}" />
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=u9i2n7Sb"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}, Path=[1]}"
                 TextDecorations="None">
                 <Hyperlink.Style>
                     <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
@@ -71,7 +72,7 @@
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
-                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=mKdOnhWV"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}, Path=[2]}"
                 TextDecorations="None">
                 <Hyperlink.Style>
                     <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
@@ -91,7 +92,7 @@
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
-                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=h6FGp0qD"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}, Path=[3]}"
                 TextDecorations="None">
                 <Hyperlink.Style>
                     <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
@@ -104,7 +105,7 @@
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
-                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=To6b6H6m"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}, Path=[4]}"
                 TextDecorations="None">
                 <Hyperlink.Style>
                     <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
@@ -117,7 +118,7 @@
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
-                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=K8t6W7HZ"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}, Path=[5]}"
                 TextDecorations="None">
                 <Hyperlink.Style>
                     <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
@@ -130,7 +131,7 @@
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
-                NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=gGRc2Rlw"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}, Path=[6]}"
                 TextDecorations="None">
                 <Hyperlink.Style>
                     <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
@@ -148,7 +149,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://t.me/+Mgc2Zngr-hs3ZjU1"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.Telegram}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Telegram}" />
             </Hyperlink>
@@ -174,7 +175,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.GitHubIssues}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Issue}" />
             </Hyperlink>
@@ -187,7 +188,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://prts.plus/"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.PrtsPlus}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource PrtsPlus}" />
             </Hyperlink>
@@ -200,7 +201,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://map.ark-nights.com/areas?coord_override=maa"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.MapPrts}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource MapPrts}" />
             </Hyperlink>
@@ -213,7 +214,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="https://yituliu.site/riicCal/"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.CustomInfrastGenerator}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource CustomInfrastGenerator}" />
             </Hyperlink>
