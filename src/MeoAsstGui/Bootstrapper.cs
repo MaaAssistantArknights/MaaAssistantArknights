@@ -142,7 +142,7 @@ namespace MeoAsstGui
 
             // 注销任务栏图标
             _trayIconInSettingsViewModel.Close();
-            ViewStatusStorage.Save();
+            ViewStatusStorage.Release();
         }
 
         /// <inheritdoc/>
