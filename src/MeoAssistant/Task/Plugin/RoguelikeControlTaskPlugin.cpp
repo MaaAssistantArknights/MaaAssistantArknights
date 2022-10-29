@@ -24,7 +24,7 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@Start" || task_view == "Roguelike@StageTraderInvestConfirm" ||
+    if (task_view == "Roguelike@StartExplore" || task_view == "Roguelike@StageTraderInvestConfirm" ||
         task_view == "Roguelike@StageTraderInvestSystemFull") {
         return true;
     }

@@ -20,7 +20,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
-    m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>()->set_retry_times(0);
+    m_debug_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>()->set_retry_times(0);
 
     m_custom_start_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>();
@@ -41,7 +41,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 0 - 刷蜡烛，尽可能稳定地打更多层数
     // 1 - 刷源石锭，第一层投资完就退出
     // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
-    // 3 - 尝试通关，激进策略
+    // 3 - 尝试通关，激进策略（TODO）
 
     std::string theme = params.get("theme", "Phantom");
     if (m_status == nullptr) {
@@ -56,11 +56,14 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     int mode = params.get("mode", 0);
     switch (mode) {
     case 0:
+        m_debug_task_ptr->set_enable(true);
         break;
     case 1:
+        m_debug_task_ptr->set_enable(false);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         break;
     case 2:
+        m_debug_task_ptr->set_enable(true);
         [[unlikely]] m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
         break;
     default:
@@ -69,7 +72,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     int number_of_starts = params.get("starts_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit(theme + "Roguelike@Start", number_of_starts);
+    m_roguelike_task_ptr->set_times_limit(theme + "Roguelike@StartExplore", number_of_starts);
 
     bool investment_enabled = params.get("investment_enabled", true);
     if (!investment_enabled) {

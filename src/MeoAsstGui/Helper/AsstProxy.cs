@@ -392,6 +392,7 @@ namespace MeoAsstGui
                             mainModel.KillEmulator();
                             await Task.Delay(3000);
                             mainModel.Stop();
+                            mainModel.SetStopped();
                             mainModel.LinkStart();
                         }
                     });
@@ -605,7 +606,7 @@ namespace MeoAsstGui
                 {
                     case "StartButton2":
                     case "AnnihilationConfirm":
-                        mainModel.AddLog(Localization.GetString("OnTheMove") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
+                        mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
                         break;
 
                     case "MedicineConfirm":
@@ -1167,6 +1168,7 @@ namespace MeoAsstGui
         /// <param name="max_times">指定次数。</param>
         /// <param name="drops_item_id">指定掉落 ID。</param>
         /// <param name="drops_item_quantity">指定掉落数量。</param>
+        /// <param name="is_main_fight">是否是主任务，决定c#侧是否记录任务id</param>
         /// <returns>是否成功。</returns>
         public bool AsstSetFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity, bool is_main_fight = true)
         {

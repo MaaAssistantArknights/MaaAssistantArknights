@@ -168,7 +168,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-用户交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已满）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已满）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已满）](https://jq.qq.com/?_wv=1027&amp;k=To6b6H6m)，[QQ 六群](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)  
+用户交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已满）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已满）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已满）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)，[QQ 六群（已满）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)，[QQ 七群](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)  
 自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
 [Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 [舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  

@@ -81,7 +81,7 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
             BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
             BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
         };
-        
+
         auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
         if (auto opt = stage_info.find<json::array>("role_order")) {
             const auto& raw_roles = opt.value();

@@ -329,8 +329,11 @@
     <!--  자동 작전  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">알 수 없는 오류가 발생했습니다.</system:String>
+    <system:String x:Key="UnknownAbnormal">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하십시오.</system:String>
     <system:String x:Key="Error">오류</system:String>
+    <system:String x:Key="ErrorDetails">신용</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 으로 설정해주세요.</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져오지 못했습니다. 컴퓨터를 다시 시작하거나 에뮬레이터를 변경한 후 다시 시도하는 것이 좋습니다.</system:String>
@@ -354,7 +357,7 @@
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">PenguinStats에 업로드 중단</system:String>
     <system:String x:Key="TheEX">EX 스테이지가 중단되었습니다</system:String>
-    <system:String x:Key="OnTheMove">행동이 시작되었습니다</system:String>
+    <system:String x:Key="MissionStart">행동이 시작되었습니다</system:String>
     <system:String x:Key="UnitTime">번</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">오리지늄을 사용했습니다</system:String>
@@ -417,6 +420,7 @@
     <system:String x:Key="QQgroup4">QQ그룹4</system:String>
     <system:String x:Key="QQgroup5">QQ그룹5</system:String>
     <system:String x:Key="QQgroup6">QQ그룹6</system:String>
+    <system:String x:Key="QQgroup7">QQ그룹7</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
