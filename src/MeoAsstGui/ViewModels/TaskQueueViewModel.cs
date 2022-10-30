@@ -284,10 +284,6 @@ namespace MeoAsstGui
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
-                if (task == "AutoRoguelike")
-                {
-                    vm.IsChecked = false;
-                }
 
                 if (!parsed || order < 0)
                 {
@@ -591,6 +587,7 @@ namespace MeoAsstGui
                 {
                     if (item.OriginalName == "AutoRoguelike")
                     {
+                        item.IsChecked = false;
                         continue;
                     }
 
