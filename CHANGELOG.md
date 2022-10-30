@@ -15,5 +15,6 @@ _该版本更新了飞桨 OCR 库，NoAVX 用户请重新下载新的替换包_
 - 修复 台服 公招高资识别错误 @MistEO
 - 修复 界面 停止按钮不可用问题 @zzyyyl @StarWishLXH
 - 修复 界面 材料下拉框不可用问题 @ABA2396
-- 更新 mac UI @hguandl
+- 修复 mac adb 连接方式 @hguandl
+- 更新 mac 支持选择客户端版本 @hguandl
 - 更新 文档 @Yanstory @ABA2396 @MistEO
