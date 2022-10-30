@@ -486,11 +486,6 @@
   <ItemGroup>
     <Resource Include="newlogo.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Images\Warning.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\tools" "$(TargetDir)"
