@@ -1379,6 +1379,21 @@ namespace MeoAsstGui
         }
 
         /* 软件更新设置 */
+        private bool _updateNightly = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateNightly", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to update nightly.
+        /// </summary>
+        public bool UpdateNightly
+        {
+            get => _updateNightly;
+            set
+            {
+                SetAndNotify(ref _updateNightly, value);
+                ViewStatusStorage.Set("VersionUpdate.UpdateNightly", value.ToString());
+            }
+        }
+
         private bool _updateBeta = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
 
         /// <summary>

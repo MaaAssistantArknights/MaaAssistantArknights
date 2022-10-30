@@ -123,6 +123,7 @@
     <system:String x:Key="UpdateAutoCheck">自动检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="UpdateCheckBeta">检查测试版本更新</system:String>
+    <system:String x:Key="UpdateCheckNightly">检查内测版本更新</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
 
