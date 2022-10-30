@@ -329,7 +329,7 @@
     <!--  Copilot  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">The resource is damaged, please download the full package again</system:String>
+    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>

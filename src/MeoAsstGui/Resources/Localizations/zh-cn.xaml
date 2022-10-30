@@ -329,7 +329,7 @@
     <!--  自动战斗  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">资源损坏，请重新下载完整安装包</system:String>
+    <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包</system:String>
     <system:String x:Key="Error">错误</system:String>
     <system:String x:Key="ErrorDetails">信息</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
