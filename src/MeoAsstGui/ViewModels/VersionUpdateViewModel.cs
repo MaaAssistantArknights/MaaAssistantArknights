@@ -464,7 +464,7 @@ namespace MeoAsstGui
                     _latestJson = null;
                     foreach (var item in releaseArray)
                     {
-                        if (!settings.UpdateNightly && isStableVersion(item["tag_name"].ToString()))
+                        if (!settings.UpdateNightly && !isStableVersion(item["tag_name"].ToString()))
                         {
                             continue;
                         }
