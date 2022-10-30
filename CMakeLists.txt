@@ -58,6 +58,7 @@ else ()
     endif ()
 
     if (APPLE)
+        set(CMAKE_OSX_DEPLOYMENT_TARGET 12.0)
         add_subdirectory(3rdparty/VisionOCR)
         target_link_libraries(MeoAssistant
             vnocr
