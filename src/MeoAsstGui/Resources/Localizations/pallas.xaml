@@ -122,7 +122,10 @@
 
     <system:String x:Key="UpdateAutoCheck">🍸🍺🍷🍸🕺🕺🍻</system:String>
     <system:String x:Key="UpdateAutoDownload">🍺🍷🍺🍸🍷🍷🍺🍷</system:String>
-    <system:String x:Key="UpdateCheckBeta">🍻💃🍸🕺🍻🍷🍷🍺🍻</system:String>
+    <system:String x:Key="UpdateCheckStable">🍻💃🍸🕺</system:String>
+    <system:String x:Key="UpdateCheckBeta">🍷🍺🍸🍷</system:String>
+    <system:String x:Key="UpdateCheckNightly">🍸🕺🍷🍺</system:String>
+    <system:String x:Key="UpdateCheck">🕺🍻🍷🍷🍺🍸</system:String>
     <system:String x:Key="DownloadWithAria2">🍸🍻🍺🍻🍸🍻💃🍸🍸🍷🍷🕺🍷🍺</system:String>
     <system:String x:Key="UpdateCheckNow">🍺🍻🍷🍻🕺</system:String>
 

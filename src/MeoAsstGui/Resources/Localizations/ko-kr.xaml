@@ -122,7 +122,10 @@
 
     <system:String x:Key="UpdateAutoCheck">자동 업데이트</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 파일을 자동 업데이트</system:String>
-    <system:String x:Key="UpdateCheckBeta">베타 버전을 자동 업데이트</system:String>
+    <system:String x:Key="UpdateCheckStable">안정적인 버전</system:String>
+    <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
+    <system:String x:Key="UpdateCheckNightly">내부 베타 버전</system:String>
+    <system:String x:Key="UpdateCheck">업데이트에 사용된 버전</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
 
