@@ -8,16 +8,14 @@
         Title="{DynamicResource UnknownErrorOccurs}" Height="400" Width="628" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" Background="#FFE6E6E6" WindowStartupLocation="CenterScreen" Topmost="True">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="0*" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
-        <Image Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,512,270" Width="50" Source="/Resources/Images/Warning.png" Stretch="Uniform" />
 
         <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource Error}" HorizontalAlignment="Left" Margin="115,20,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         <TextBox Grid.ColumnSpan="2" Grid.Column="0" x:Name="Error" HorizontalAlignment="Left" TextWrapping="Wrap" Background="#FFE6E6E6" BorderThickness="0" Padding="0" Text="{DynamicResource UnknownErrorOccurs}" Margin="140,45,0,0" VerticalAlignment="Top" MaxHeight="40" Width="455" />
 
-        <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource ErrorDetails}" HorizontalAlignment="Left" Margin="115,95,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource ErrorDetails}" HorizontalAlignment="Left" Margin="115,95,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         <TextBox Grid.ColumnSpan="2" Grid.Column="0" x:Name="ErrorDetails" HorizontalAlignment="Left" TextWrapping="Wrap" Background="#FFE6E6E6" BorderThickness="0" Padding="0" Text="{DynamicResource UnknownErrorOccurs}" Margin="140,120,0,0" VerticalAlignment="Top" MaxHeight="150" Width="455" />
 
         <TextBlock Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="466,300,0,0" VerticalAlignment="Top" Width="129" Height="23">
