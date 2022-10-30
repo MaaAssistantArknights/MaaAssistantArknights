@@ -8393,7 +8393,7 @@
         ]
     },
     "Mizuki@Roguelike@StageDreadfulFoe-5Enter": {
-        "baseTask": "Mizuki@Roguelike@StageEnter"
+        "baseTask": "Mizuki@Roguelike@StageEnterBattle"
     },
     "Mizuki@Roguelike@StageDreadfulFoeEnter": {},
     "Mizuki@Roguelike@StageEmergencyDps": {
