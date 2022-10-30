@@ -53,7 +53,7 @@
         ],
         "next": [
             "EnterEpisode11",
-            "EnterEpisode11@SwipeToTheRight"
+            "Episode11@SwipeToTheRight"
         ]
     },
     "Episode10": {
@@ -64,7 +64,7 @@
         ],
         "next": [
             "ToEpisode10@EnterEpisode11",
-            "ToEpisode10@EnterEpisode11@SwipeToTheRight"
+            "Episode10@SwipeToTheRight"
         ]
     },
     "Episode9": {
@@ -75,7 +75,7 @@
         ],
         "next": [
             "ToEpisode9@EnterEpisode11",
-            "ToEpisode9@EnterEpisode11@SwipeToTheRight"
+            "Episode9@SwipeToTheRight"
         ]
     },
     "Episode8": {
@@ -86,7 +86,7 @@
         ],
         "next": [
             "ToEpisode8@EnterEpisode11",
-            "ToEpisode8@EnterEpisode11@SwipeToTheRight"
+            "Episode8@SwipeToTheRight"
         ]
     },
     "Episode7": {
@@ -97,7 +97,7 @@
         ],
         "next": [
             "ToEpisode7@EnterEpisode8",
-            "ToEpisode7@EnterEpisode8@SwipeToTheRight"
+            "Episode7@SwipeToTheRight"
         ]
     },
     "Episode6": {
@@ -108,7 +108,7 @@
         ],
         "next": [
             "ToEpisode6@EnterEpisode8",
-            "ToEpisode6@EnterEpisode8@SwipeToTheRight"
+            "Episode6@SwipeToTheRight"
         ]
     },
     "Episode5": {
@@ -119,7 +119,7 @@
         ],
         "next": [
             "ToEpisode5@EnterEpisode8",
-            "ToEpisode5@EnterEpisode8@SwipeToTheRight"
+            "Episode5@SwipeToTheRight"
         ]
     },
     "Episode4": {
@@ -130,7 +130,7 @@
         ],
         "next": [
             "ToEpisode4@EnterEpisode8",
-            "ToEpisode4@EnterEpisode8@SwipeToTheRight"
+            "Episode4@SwipeToTheRight"
         ]
     },
     "Episode3": {
@@ -141,7 +141,7 @@
         ],
         "next": [
             "EnterEpisode3",
-            "EnterEpisode3@SwipeToTheRight"
+            "Episode3@SwipeToTheRight"
         ]
     },
     "Episode2": {
@@ -152,7 +152,7 @@
         ],
         "next": [
             "ToEpisode2@EnterEpisode3",
-            "ToEpisode2@EnterEpisode3@SwipeToTheRight"
+            "Episode2@SwipeToTheRight"
         ]
     },
     "Episode1": {
@@ -163,7 +163,7 @@
         ],
         "next": [
             "ToEpisode1@EnterEpisode3",
-            "ToEpisode1@EnterEpisode3@SwipeToTheRight"
+            "Episode1@SwipeToTheRight"
         ]
     },
     "Episode0": {
@@ -174,7 +174,7 @@
         ],
         "next": [
             "ToEpisode0@EnterEpisode3",
-            "ToEpisode0@EnterEpisode3@SwipeToTheRight"
+            "Episode0@SwipeToTheRight"
         ]
     },
     "StageTheme": {
