@@ -21,7 +21,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv build-ota && cd build-ota
-          ../tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ${{ inputs.limit }}
+          ../tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ${{ inputs.limit || 51 }}
       - name: "Set tag"
         id: set_tag
         run: |
