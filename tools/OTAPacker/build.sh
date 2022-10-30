@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
 source_repo=$1
-limit=${2:-6}
+releases_txt="$2"
 
 ghrepo() {
     gh $@ --repo $source_repo
 }
 
-working_dir=$(pwd)
+working_dir="$(pwd)"
 echo "working_dir: $working_dir"
 
-echo "fetching $limit release info from $source_repo"
-ghrepo release list --limit=$limit | awk '{ print $1 }' | tee releases
+script_dir="$(dirname $(realpath "$0"))"
 
-latest_tag=$(head -n 1 ./releases)
+latest_tag=$(head -n 1 "$releases_txt")
 
 while read tag; do
     (
@@ -31,32 +30,16 @@ while read tag; do
 
     if [[ "$tag" == "$latest_tag" ]]; then
         cd "$latest_tag"/content/
-        find * -type f -exec md5sum '{}' \; > ../md5sum.txt
+        find * -type f -exec md5sum '{}' \; > md5sum.txt
         cd $working_dir
     else
-        echo "Comparing files $tag...$latest_tag"
-        rsync -ancv --delete --info=FLIST0 "$latest_tag"/content/ "$tag"/content/ \
-            | grep -v '/$' \
-            | head -n -3 \
-            | tee "$tag"/files.txt
-
-        echo "Installing files"
+        echo "Comparing and installing files $tag...$latest_tag"
         mkdir -pv "$tag"/pkg
-
-        install -DCv "$latest_tag"/md5sum.txt "$tag"/pkg
-
-        while read file; do
-            if [[ $file == "deleting "* ]]; then
-                echo ${file#"deleting "} >> "$tag"/pkg/removelist.txt
-            else
-                install -DCv "$latest_tag"/content/"$file" "$tag"/pkg/"$file"
-            fi
-        done < "$tag"/files.txt
-
+        "$script_dir"/makeota.sh "$tag"/content "$latest_tag"/content "$tag"/pkg
         echo "Creating zip archive"
         cd "$tag"/pkg
         zip -q -9 -r "$working_dir"/"MAAComponent-OTA-${tag}_${latest_tag}-win-x64.zip" .
         cd $working_dir
     fi
-done < ./releases
+done < "$releases_txt"
 
