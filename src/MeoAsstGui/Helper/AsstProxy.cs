@@ -233,7 +233,7 @@ namespace MeoAsstGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    _windowManager.ShowMessageBox(Localization.GetString("UnknownAbnormal"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
+                    _windowManager.ShowMessageBox(Localization.GetString("ResourceBroken"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
                     Application.Current.Shutdown();
                 });
             }

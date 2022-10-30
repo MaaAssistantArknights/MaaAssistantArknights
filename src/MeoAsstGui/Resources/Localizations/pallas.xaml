@@ -329,7 +329,7 @@
     <!--  自动战斗  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">🍻🍺🍺🍺🍻🍸🕺🍺🍸🕺🍺🍻🕺🕺🍺🍸🕺🍻🍻🍺</system:String>
+    <system:String x:Key="ResourceBroken">🍻🍺🍺🍺🍻🍸🕺🍺🍸🕺🍺🍻🕺🕺🍺🍸🕺🍻🍻🍺</system:String>
     <system:String x:Key="Error">🍻🍻🕺</system:String>
     <system:String x:Key="ErrorDetails">🍻🍷🍻</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">🍺🍻🕺🍺🍸🍻🕺🕺🍸🍻🍷🕺🍷🍻🍺🍷🍻🍷🍷🍻🍺🍸🍷🍷🍻🍻🍸</system:String>

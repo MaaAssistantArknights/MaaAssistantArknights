@@ -343,7 +343,7 @@
     <!--  自動戦闘  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
+    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="ErrorDetails">情報</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
