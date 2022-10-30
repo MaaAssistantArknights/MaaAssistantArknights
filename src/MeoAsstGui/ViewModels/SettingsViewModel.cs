@@ -232,9 +232,9 @@ namespace MeoAsstGui
 
             VersionTypeList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("UpdateCheckStable"), Value = "Stable" },
-                new CombData { Display = Localization.GetString("UpdateCheckBeta"), Value = "Beta" },
                 new CombData { Display = Localization.GetString("UpdateCheckNightly"), Value = "Nightly" },
+                new CombData { Display = Localization.GetString("UpdateCheckBeta"), Value = "Beta" },
+                new CombData { Display = Localization.GetString("UpdateCheckStable"), Value = "Stable" },
             };
 
             LanguageList = new List<CombData>();
