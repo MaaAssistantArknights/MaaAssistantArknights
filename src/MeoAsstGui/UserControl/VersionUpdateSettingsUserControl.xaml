@@ -43,7 +43,7 @@
                         Margin="10"
                         Block.TextAlignment="Center"
                         Style="{StaticResource TextBlockDefault}"
-                        Text="{DynamicResource UpdateCheckNow}" />
+                        Text="{DynamicResource UpdateCheck}" />
                     <ComboBox
                         Width="85"
                         Margin="10"

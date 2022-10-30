@@ -124,8 +124,11 @@
 
     <system:String x:Key="UpdateAutoCheck">アップデートチェック</system:String>
     <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
-    <system:String x:Key="UpdateCheckBeta">ベータ版を使う</system:String>
+    <system:String x:Key="UpdateCheckStable">安定版</system:String>
+    <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
+    <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
+    <system:String x:Key="UpdateCheck">更新版</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
     <system:String x:Key="TimerTip">時間のみを記入（例:15/午後3時に実行する）</system:String>
