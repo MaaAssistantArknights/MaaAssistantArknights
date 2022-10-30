@@ -36,20 +36,23 @@
                     Content="{DynamicResource UpdateAutoDownload}"
                     IsChecked="{Binding AutoDownloadUpdatePackage}"
                     IsEnabled="{Binding UpdateCheck}" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
+                <StackPanel
                     VerticalAlignment="Center"
-                    Content="{DynamicResource UpdateCheckBeta}"
-                    IsChecked="{Binding UpdateBeta}"
-                    IsEnabled="{Binding UpdateCheck}" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource UpdateCheckNightly}"
-                    IsChecked="{Binding UpdateNightly}"
-                    IsEnabled="{Binding UpdateCheck}" />
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="10"
+                        Block.TextAlignment="Center"
+                        Style="{StaticResource TextBlockDefault}"
+                        Text="{DynamicResource UpdateCheckNow}" />
+                    <ComboBox
+                        Width="85"
+                        Margin="10"
+                        DisplayMemberPath="Display"
+                        IsEnabled="{Binding UpdateCheck}"
+                        ItemsSource="{Binding VersionTypeList}"
+                        SelectedValue="{Binding VersionType}"
+                        SelectedValuePath="Value" />
+                </StackPanel>
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"

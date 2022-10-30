@@ -530,8 +530,15 @@ namespace MeoAsstGui
                     return true;
                 }
 
-                var errorView = new ErrorView("Download Failed", "It was not possible to find a suitable OTA file to download.", false);
-                errorView.ShowDialog();
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification("找不到合适的更新文件"))
+                    {
+                        toast.AppendContentText("新版本：" + _latestVersion)
+                            .AppendContentText("请自行下载完整包更新！")
+                            .ShowUpdateVersion();
+                    }
+                });
                 return false;
             }
             catch (Exception e)
