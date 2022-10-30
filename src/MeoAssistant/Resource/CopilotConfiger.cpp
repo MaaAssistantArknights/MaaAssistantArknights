@@ -38,8 +38,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
-
-            battle_actions.groups.emplace(std::move(group_name), std::vector{ std::move(oper) });
+            battle_actions.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
         }
     }
 
