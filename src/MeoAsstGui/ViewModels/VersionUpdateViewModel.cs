@@ -247,6 +247,7 @@ namespace MeoAsstGui
                 }
             }
 
+            Directory.CreateDirectory(oldFileDir);
             foreach (var dir in Directory.GetDirectories(extractDir, "*", SearchOption.AllDirectories))
             {
                 Directory.CreateDirectory(dir.Replace(extractDir, curDir));
