@@ -21,17 +21,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv build-ota && cd build-ota
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 51 }} | awk '{ print $1 }' | tee ./releases
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 51 }} | tee ./release_list.txt
+          echo "prerelease=$([ $(head -n 1 release_list.txt | awk '{ print $2}') = 'Pre-release' ] || echo false && echo true)" >> $GITHUB_ENV
+          cat ./release_list.txt | awk '{ print $1 }' > ./releases
+          echo "release_tag=$(head -n 1 ./releases)" >> $GITHUB_ENV
       - name: "Build OTA"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
           ../tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./releases
-      - name: "Set tag"
-        id: set_tag
-        run: |
-          echo "release_tag=$(head -n 1 build-ota/releases)" >> $GITHUB_ENV
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
         with:
@@ -40,5 +39,6 @@ jobs:
           file_glob: true
           file: build-ota/*.zip
           tag: ${{ env.release_tag }}
+          prerelease: ${{ env.prerelease }}
           overwrite: true
 
