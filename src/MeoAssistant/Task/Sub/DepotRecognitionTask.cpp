@@ -98,7 +98,7 @@ void asst::DepotRecognitionTask::swipe()
     static Rect right_rect = Task.get("DepotTaskSlowlySwipeRightRect")->specific_rect;
     static Rect left_rect = Task.get("DepotTaskSlowlySwipeLeftRect")->specific_rect;
     static int duration = Task.get("DepotTaskSlowlySwipeRightRect")->pre_delay;
-    static int extra_delay = Task.get("DepotTaskSlowlySwipeRightRect")->rear_delay;
+    static int extra_delay = Task.get("DepotTaskSlowlySwipeRightRect")->post_delay;
 
     m_ctrler->swipe(right_rect, left_rect, duration, true, extra_delay, true);
 }

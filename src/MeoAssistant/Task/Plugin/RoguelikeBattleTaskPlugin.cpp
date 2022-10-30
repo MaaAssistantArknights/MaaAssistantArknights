@@ -720,13 +720,13 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));
     m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
-    sleep(use_oper_task_ptr->rear_delay);
+    sleep(use_oper_task_ptr->post_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
     if (direction != Point::zero()) {
         constexpr int coeff = 500;
         Point end_point = placed_point + (direction * coeff);
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay, true, 100);
     }
 
     if (opt_oper.role == BattleRole::Drone) {

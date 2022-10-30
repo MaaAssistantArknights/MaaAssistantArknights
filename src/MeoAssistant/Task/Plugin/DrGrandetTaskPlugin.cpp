@@ -31,7 +31,7 @@ bool asst::DrGrandetTaskPlugin::_run()
         return false;
     }
     auto task_ptr = Task.get("DrGrandetUseOriginiums");
-    int threshold = task_ptr->rear_delay;
+    int threshold = task_ptr->post_delay;
     if (threshold <= cur_ms) {
         return true;
     }
