@@ -47,6 +47,13 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
+                    Content="{DynamicResource UpdateCheckNightly}"
+                    IsChecked="{Binding UpdateNightly}"
+                    IsEnabled="{Binding UpdateCheck}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
                     Content="{DynamicResource DownloadWithAria2}"
                     IsChecked="{Binding UseAria2}"
                     IsEnabled="{Binding UpdateCheck}" />

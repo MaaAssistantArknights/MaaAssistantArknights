@@ -413,14 +413,14 @@ namespace MeoAsstGui
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckUpdate(bool force = false)
         {
-            // 开发版不检查更新
-            if (!force && !isStableVersion())
+            var settings = _container.Get<SettingsViewModel>();
+            if (!settings.UpdateCheck)
             {
                 return false;
             }
 
-            var settings = _container.Get<SettingsViewModel>();
-            if (!settings.UpdateCheck)
+            // 开发版不检查更新
+            if (!settings.UpdateNightly && !force && !isStableVersion())
             {
                 return false;
             }
@@ -444,7 +444,12 @@ namespace MeoAsstGui
                 _latestJson = null;
                 foreach (var item in releaseArray)
                 {
-                    if (!settings.UpdateBeta && (bool)item["prerelease"])
+                    if (!settings.UpdateNightly && isStableVersion(item["tag_name"].ToString()))
+                    {
+                        continue;
+                    }
+
+                    if (!settings.UpdateNightly && !settings.UpdateBeta && (bool)item["prerelease"])
                     {
                         continue;
                     }
@@ -464,18 +469,28 @@ namespace MeoAsstGui
                     return false;
                 }
 
-                bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
-                bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
-                if (curParsed && latestPared)
+                if (settings.UpdateNightly)
                 {
-                    if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
+                    if (_curVersion == _latestVersion)
                     {
                         return false;
                     }
                 }
-                else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
+                else
                 {
-                    return false;
+                    bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
+                    bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
+                    if (curParsed && latestPared)
+                    {
+                        if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
+                    {
+                        return false;
+                    }
                 }
 
                 if (!_latestJson.ContainsKey("assets") || (_latestJson["assets"] as JArray).Count == 0)
@@ -692,7 +707,7 @@ namespace MeoAsstGui
             return true;
         }
 
-        private bool isStableVersion()
+        private bool isStableVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
@@ -701,23 +716,28 @@ namespace MeoAsstGui
             // Release (Local Tag)：{Tag}-Local
             // Debug (Local)：DEBUG VERSION
             // Script Compiled：c{CommitHash[..7]}
-            if (_curVersion == "DEBUG VERSION")
+            if (version == null)
+            {
+                version = _curVersion;
+            }
+
+            if (version == "DEBUG VERSION")
             {
                 return false;
             }
 
-            if (_curVersion.StartsWith("c"))
+            if (version.StartsWith("c"))
             {
                 return false;
             }
 
-            if (_curVersion.Contains("Local"))
+            if (version.Contains("Local"))
             {
                 return false;
             }
 
             var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
-            var match = Regex.Match(_curVersion, pattern);
+            var match = Regex.Match(version, pattern);
             if (match.Success is false)
             {
                 return false;
