@@ -190,7 +190,8 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
                 ASST_TASKDATA_GENERATE_TASKS(on_error_next)
                 ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
                 ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
-                else if (type == "back") {
+                else if (type == "back")
+                {
                     // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
                     if (pos) {
                         new_task_list.emplace_back(task.substr(0, pos));
@@ -400,7 +401,7 @@ bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, const std::s
     task_info_ptr->on_error_next =
         array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->on_error_next, task_prefix);
     task_info_ptr->pre_delay = task_json.get("preDelay", default_ptr->pre_delay);
-    task_info_ptr->rear_delay = task_json.get("rearDelay", default_ptr->rear_delay);
+    task_info_ptr->post_delay = task_json.get("postDelay", default_ptr->post_delay);
     array_opt = task_json.find<json::array>("reduceOtherTimes");
     task_info_ptr->reduce_other_times =
         array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->reduce_other_times, task_prefix);
@@ -481,7 +482,7 @@ asst::TaskData::taskptr_t asst::TaskData::_default_task_info()
     task_info_ptr->cache = true;
     task_info_ptr->max_times = INT_MAX;
     task_info_ptr->pre_delay = 0;
-    task_info_ptr->rear_delay = 0;
+    task_info_ptr->post_delay = 0;
     task_info_ptr->roi = Rect();
     task_info_ptr->sub_error_ignored = false;
     task_info_ptr->rect_move = Rect();
@@ -500,7 +501,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
           {
               "algorithm",       "baseTask",  "template",   "text",         "action",           "sub",
               "subErrorIgnored", "next",      "maxTimes",   "exceededNext", "onErrorNext",      "preDelay",
-              "rearDelay",       "roi",       "cache",      "rectMove",     "reduceOtherTimes", "templThreshold",
+              "postDelay",       "roi",       "cache",      "rectMove",     "reduceOtherTimes", "templThreshold",
               "maskRange",       "fullMatch", "ocrReplace", "hash",         "specialThreshold", "threshold",
           } },
         { AlgorithmType::MatchTemplate,
@@ -516,7 +517,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "exceededNext",
               "onErrorNext",
               "preDelay",
-              "rearDelay",
+              "postDelay",
               "roi",
               "cache",
               "rectMove",
@@ -537,7 +538,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "exceededNext",
               "onErrorNext",
               "preDelay",
-              "rearDelay",
+              "postDelay",
               "roi",
               "cache",
               "rectMove",
@@ -557,13 +558,13 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "exceededNext",
               "onErrorNext",
               "preDelay",
-              "rearDelay",
+              "postDelay",
               "reduceOtherTimes",
           } },
         { AlgorithmType::Hash,
           {
               "algorithm", "baseTask",     "action",           "sub",      "subErrorIgnored", "next",
-              "maxTimes",  "exceededNext", "onErrorNext",      "preDelay", "rearDelay",       "roi",
+              "maxTimes",  "exceededNext", "onErrorNext",      "preDelay", "postDelay",       "roi",
               "cache",     "rectMove",     "reduceOtherTimes", "hash",     "maskRange",       "specialThreshold",
               "threshold",
           } },

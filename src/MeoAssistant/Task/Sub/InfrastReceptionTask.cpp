@@ -113,7 +113,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         // 点开线索的空位
         Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
         m_ctrler->click(vacancy);
-        int delay = Task.get(clue_vacancy + clue)->rear_delay;
+        int delay = Task.get(clue_vacancy + clue)->post_delay;
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
@@ -179,7 +179,7 @@ bool asst::InfrastReceptionTask::shift()
     default:
         break;
     }
-    sleep(raw_task_ptr->rear_delay);
+    sleep(raw_task_ptr->post_delay);
 
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {

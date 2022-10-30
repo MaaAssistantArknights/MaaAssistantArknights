@@ -109,7 +109,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             continue;
         }
         m_ctrler->click(res.rect);
-        sleep(formation_task_ptr->rear_delay);
+        sleep(formation_task_ptr->post_delay);
         if (1 <= skill && skill <= 3) {
             m_ctrler->click(SkillRectArray.at(skill - 1ULL));
         }
@@ -130,7 +130,7 @@ void asst::BattleFormationTask::swipe_page()
     static Rect end_rect = Task.get("InfrastOperListSwipeEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeBegin")->pre_delay;
 
-    m_ctrler->swipe(begin_rect, end_rect, duration, true, Task.get("InfrastOperListSwipeBegin")->rear_delay, true);
+    m_ctrler->swipe(begin_rect, end_rect, duration, true, Task.get("InfrastOperListSwipeBegin")->post_delay, true);
 }
 
 bool asst::BattleFormationTask::confirm_selection()

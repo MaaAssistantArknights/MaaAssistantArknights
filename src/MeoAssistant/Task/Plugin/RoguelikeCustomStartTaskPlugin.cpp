@@ -85,7 +85,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 
         if (!analyzer.analyze()) {
             ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
-            sleep(Task.get("RoguelikeCustom-HijackSquad")->rear_delay);
+            sleep(Task.get("RoguelikeCustom-HijackSquad")->post_delay);
             continue;
         }
         const auto& rect = analyzer.get_result().front().rect;

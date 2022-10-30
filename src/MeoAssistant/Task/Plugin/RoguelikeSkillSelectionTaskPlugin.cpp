@@ -44,7 +44,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         return false;
     }
 
-    int delay = Task.get("RoguelikeSkillSelectionMove1")->rear_delay;
+    int delay = Task.get("RoguelikeSkillSelectionMove1")->post_delay;
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         if (name.empty()) {
@@ -73,8 +73,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         json::value overview;
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
             overview[name] = json::object {
-                { "elite", 1 },
-                { "level", 80 },
+                { "elite", 1 }, { "level", 80 },
                 // 不知道是啥等级随便填一个
             };
         }

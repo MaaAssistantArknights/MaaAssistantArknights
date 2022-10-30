@@ -38,7 +38,7 @@
             220
         ],
         "action": "DoNothing",
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "PRTS",
             "PRTS3",
@@ -2165,7 +2165,7 @@
     "StartRecruit": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "rearDelay": 500,
+        "postDelay": 500,
         "text": [
             "求人開始"
         ],
@@ -2192,7 +2192,7 @@
     "RecruitNow": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "rearDelay": 500,
+        "postDelay": 500,
         "cache": false,
         "text": [
             "緊急招集"

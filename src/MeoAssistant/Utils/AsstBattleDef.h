@@ -64,7 +64,7 @@ namespace asst
         BattleDeployDirection direction = BattleDeployDirection::Right;
         BattleSkillUsage modify_usage = BattleSkillUsage::NotUse;
         int pre_delay = 0;
-        int rear_delay = 0;
+        int post_delay = 0;
         int time_out = INT_MAX;
         std::string doc;
         std::string doc_color;

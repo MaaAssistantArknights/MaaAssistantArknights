@@ -39,7 +39,7 @@
             220
         ],
         "action": "DoNothing",
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "PRTS",
             "PRTS3",

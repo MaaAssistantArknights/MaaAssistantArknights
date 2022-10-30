@@ -73,9 +73,9 @@ ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit, Tim
     return *this;
 }
 
-ProcessTask& asst::ProcessTask::set_rear_delay(std::string name, int delay)
+ProcessTask& asst::ProcessTask::set_post_delay(std::string name, int delay)
 {
-    m_rear_delay[std::move(name)] = delay;
+    m_post_delay[std::move(name)] = delay;
     return *this;
 }
 
@@ -219,11 +219,11 @@ bool ProcessTask::_run()
         }
 
         // 后置固定延时
-        int rear_delay = m_cur_task_ptr->rear_delay;
-        if (auto iter = m_rear_delay.find(cur_name); iter != m_rear_delay.cend()) {
-            rear_delay = iter->second;
+        int post_delay = m_cur_task_ptr->post_delay;
+        if (auto iter = m_post_delay.find(cur_name); iter != m_post_delay.cend()) {
+            post_delay = iter->second;
         }
-        if (!sleep(rear_delay)) {
+        if (!sleep(post_delay)) {
             return false;
         }
 
@@ -336,7 +336,7 @@ void asst::ProcessTask::exec_slowly_swipe_task(ProcessTaskAction action)
     static Rect right_rect = Task.get("ProcessTaskSlowlySwipeRightRect")->specific_rect;
     static Rect left_rect = Task.get("ProcessTaskSlowlySwipeLeftRect")->specific_rect;
     static int duration = Task.get("ProcessTaskSlowlySwipeRightRect")->pre_delay;
-    static int extra_delay = Task.get("ProcessTaskSlowlySwipeRightRect")->rear_delay;
+    static int extra_delay = Task.get("ProcessTaskSlowlySwipeRightRect")->post_delay;
 
     switch (action) {
     case asst::ProcessTaskAction::SlowlySwipeToTheLeft:
