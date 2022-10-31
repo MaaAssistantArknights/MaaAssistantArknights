@@ -1400,7 +1400,7 @@ namespace MeoAsstGui
         /* 软件更新设置 */
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
-                ViewStatusStorage.Get("VersionUpdate.VersionType", UpdateVersionType.Beta.ToString()));
+                ViewStatusStorage.Get("VersionUpdate.VersionType", UpdateVersionType.Stable.ToString()));
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -1500,32 +1500,47 @@ namespace MeoAsstGui
             var updateModel = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModel.CheckAndDownloadUpdate(true))
-                {
-                    if (updateModel.UpdateLastError == null)
-                    {
-                        Execute.OnUIThread(() =>
-                        {
-                            using (var toast = new ToastNotification(Localization.GetString("AlreadyLatest")))
-                            {
-                                toast.Show();
-                            }
-                        });
-                    }
-                    else if (updateModel.UpdateLastError != string.Empty)
-                    {
-                        Execute.OnUIThread(() =>
-                        {
-                            using (var toast = new ToastNotification(Localization.GetString("NewVersionDetectFailedTitle")))
-                            {
-                                toast.AppendContentText(updateModel.UpdateLastError)
-                                    .Show();
-                            }
-                        });
-                    }
-                }
+                return updateModel.CheckAndDownloadUpdate(true);
             });
-            await task;
+            var ret = await task;
+
+            string toastMessage = null;
+            switch (ret)
+            {
+                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
+                    toastMessage = Localization.GetString("AlreadyLatest");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.UnknwonError:
+                    toastMessage = Localization.GetString("NewVersionDetectFailedTitle");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.NetworkError:
+                    toastMessage = Localization.GetString("CheckNetworking");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo:
+                    toastMessage = Localization.GetString("GetReleaseNoteFailed");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.OK:
+                    updateModel.AskToRestart();
+                    break;
+            }
+
+            if (toastMessage != null)
+            {
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification(toastMessage))
+                    {
+                        toast.Show();
+                    }
+                });
+            }
         }
 
         /* 连接设置 */
