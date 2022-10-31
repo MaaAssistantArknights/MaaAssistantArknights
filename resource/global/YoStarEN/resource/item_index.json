@@ -1327,6 +1327,14 @@
         "sortId": 30003,
         "usage": "An emergency supplement used to maintain Sanity and keep your mind clear."
     },
+    "ap_supply_lt_80": {
+        "classifyType": "CONSUME",
+        "description": "Although overeating can relieve the anxiety and pressure accumulated on the battlefield, it's not a healthy lifestyle, Doctor. This supplement contains quite a bit of sugar, but the packing is specially designed to be hard to open. Treat it as a kind of exercise and burn some calories.",
+        "icon": "ap_supply_lt_80.png",
+        "name": "Emergency Sanity Booster",
+        "sortId": 30003,
+        "usage": "An emergency supplement with lightly increased dosage, used to maintain Sanity. Keep your mind clear and drive out fatigue."
+    },
     "base_ap": {
         "classifyType": "NONE",
         "description": "Drones used for construction. They are controlled by the Rhodes Island Logistics Department. Without them, Operators would have to wait 10 times as long to get base housing.",
