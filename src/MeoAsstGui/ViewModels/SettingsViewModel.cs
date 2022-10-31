@@ -1493,13 +1493,27 @@ namespace MeoAsstGui
             {
                 if (!updateModel.CheckAndDownloadUpdate(true))
                 {
-                    Execute.OnUIThread(() =>
+                    if (updateModel.UpdateLastError == null)
                     {
-                        using (var toast = new ToastNotification(Localization.GetString("AlreadyLatest")))
+                        Execute.OnUIThread(() =>
                         {
-                            toast.Show();
-                        }
-                    });
+                            using (var toast = new ToastNotification(Localization.GetString("AlreadyLatest")))
+                            {
+                                toast.Show();
+                            }
+                        });
+                    }
+                    else if (updateModel.UpdateLastError != string.Empty)
+                    {
+                        Execute.OnUIThread(() =>
+                        {
+                            using (var toast = new ToastNotification(Localization.GetString("NewVersionDetectFailedTitle")))
+                            {
+                                toast.AppendContentText(updateModel.UpdateLastError)
+                                    .Show();
+                            }
+                        });
+                    }
                 }
             });
             await task;
