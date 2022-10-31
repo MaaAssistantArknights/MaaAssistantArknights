@@ -1073,7 +1073,16 @@ namespace MeoAsstGui
             checkCmd.StartInfo.RedirectStandardOutput = true;
             checkCmd.StartInfo.RedirectStandardError = true;
             checkCmd.StartInfo.CreateNoWindow = true;
-            checkCmd.Start();
+            try
+            {
+                checkCmd.Start();
+            }
+            catch
+            {
+                checkCmd.Close();
+                return false;
+            }
+
             checkCmd.StandardInput.WriteLine(portCmd);
             checkCmd.StandardInput.WriteLine("exit");
             Regex reg = new Regex("\\s+", RegexOptions.Compiled);
@@ -1107,9 +1116,9 @@ namespace MeoAsstGui
                 return false;
             }
 
-            Process emulator = Process.GetProcessById(pid);
             try
             {
+                Process emulator = Process.GetProcessById(pid);
                 emulator.Kill();
             }
             catch
