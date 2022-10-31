@@ -502,7 +502,7 @@ namespace MeoAsstGui
                     var infoResponse = RequestApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
                     if (infoResponse.Length == 0)
                     {
-                        UpdateLastError = Localization.GetString("NewVersionGetReleaseNoteFailed");
+                        UpdateLastError = Localization.GetString("GetReleaseNoteFailed");
                         return false;
                     }
 
