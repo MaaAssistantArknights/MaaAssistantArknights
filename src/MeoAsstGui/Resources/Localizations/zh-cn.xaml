@@ -217,7 +217,7 @@
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">收取信用及购物</system:String>
     <system:String x:Key="Mission">领取日常奖励</system:String>
-    <system:String x:Key="AutoRoguelike">自动肉鸽*</system:String>
+    <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
 
     <system:String x:Key="SelectAll">全选</system:String>
     <system:String x:Key="Inverse">反选</system:String>

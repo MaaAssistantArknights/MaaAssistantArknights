@@ -193,7 +193,7 @@
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">상점</system:String>
     <system:String x:Key="Mission">일일 퀘스트 보상을 수집</system:String>
-    <system:String x:Key="AutoRoguelike">통합전략*</system:String>
+    <system:String x:Key="AutoRoguelike">통합전략</system:String>
 
     <system:String x:Key="SelectAll">모두 선택</system:String>
     <system:String x:Key="Inverse">역을 선택</system:String>
