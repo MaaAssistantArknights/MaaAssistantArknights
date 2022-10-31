@@ -49,7 +49,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 下載連結
 
 [穩定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[測試版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[開發版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用說明
 

@@ -166,6 +166,8 @@ namespace MeoAsstGui
         }
 
         private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases";
+        private const string StableRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
+        private const string MaaReleaseRequestUrlByTag = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases/tags/";
         private const string InfoRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
         private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _latestJson;
@@ -413,44 +415,63 @@ namespace MeoAsstGui
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckUpdate(bool force = false)
         {
-            // 开发版不检查更新
-            if (!force && !isStableVersion())
-            {
-                return false;
-            }
-
             var settings = _container.Get<SettingsViewModel>();
             if (!settings.UpdateCheck)
             {
                 return false;
             }
 
-            const int RequestRetryMaxTimes = 5;
-            var response = RequestApi(RequestUrl);
-            for (int i = 0; response.Length == 0 && i < RequestRetryMaxTimes; i++)
-            {
-                response = RequestApi(RequestUrl);
-            }
-
-            if (response.Length == 0)
+            // 开发版不检查更新
+            if (!(settings.UpdateNightly && isCVersion()) && !force && !isStableVersion())
             {
                 return false;
             }
 
+            const int RequestRetryMaxTimes = 5;
             try
             {
-                var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
-
-                _latestJson = null;
-                foreach (var item in releaseArray)
+                if (!settings.UpdateBeta && !settings.UpdateNightly)
                 {
-                    if (!settings.UpdateBeta && (bool)item["prerelease"])
+                    // 稳定版更新使用主仓库 /latest 接口
+                    // 直接使用 MaaRelease 的话，我怕默认的 30 个都找不到稳定版，因为有可能 Nightly 发了很多
+                    var stableResponse = RequestApi(StableRequestUrl, RequestRetryMaxTimes);
+                    if (stableResponse.Length == 0)
                     {
-                        continue;
+                        return false;
                     }
 
-                    _latestJson = item as JObject;
-                    break;
+                    _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
+                    _latestVersion = _latestJson["tag_name"].ToString();
+                    stableResponse = RequestApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
+                    if (stableResponse.Length == 0)
+                    {
+                        return false;
+                    }
+
+                    _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
+                }
+                else
+                {
+                    // 非稳定版更新使用 MaaRelease/releases 接口
+                    var response = RequestApi(RequestUrl, RequestRetryMaxTimes);
+                    if (response.Length == 0)
+                    {
+                        return false;
+                    }
+
+                    var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
+
+                    _latestJson = null;
+                    foreach (var item in releaseArray)
+                    {
+                        if (!settings.UpdateNightly && !isStableVersion(item["tag_name"].ToString()))
+                        {
+                            continue;
+                        }
+
+                        _latestJson = item as JObject;
+                        break;
+                    }
                 }
 
                 if (_latestJson == null)
@@ -459,47 +480,49 @@ namespace MeoAsstGui
                 }
 
                 _latestVersion = _latestJson["tag_name"].ToString();
+                var releaseAssets = _latestJson["assets"] as JArray;
                 if (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
                 {
                     return false;
                 }
 
-                bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
-                bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
-                if (curParsed && latestPared)
+                if (settings.UpdateNightly)
                 {
-                    if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
+                    if (_curVersion == _latestVersion)
                     {
                         return false;
                     }
                 }
-                else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
+                else
                 {
-                    return false;
+                    bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
+                    bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
+                    if (curParsed && latestPared)
+                    {
+                        if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
+                    {
+                        return false;
+                    }
                 }
 
-                if (!_latestJson.ContainsKey("assets") || (_latestJson["assets"] as JArray).Count == 0)
+                // 非稳定版本只能是Nightly下载的，这玩意主仓库没有，就不必再次请求主仓库的信息了
+                if (isStableVersion(_latestVersion))
                 {
-                    return false;
+                    var infoResponse = RequestApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
+                    if (infoResponse.Length == 0)
+                    {
+                        return false;
+                    }
+
+                    _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
                 }
 
-                var releaseAssets = _latestJson["assets"] as JArray;
                 _assetsObject = null;
-
-                var infoRequestUrl = InfoRequestUrl + _latestVersion;
-                var infoResponse = RequestApi(infoRequestUrl);
-                for (int i = 0; infoResponse.Length == 0 && i < RequestRetryMaxTimes; i++)
-                {
-                    infoResponse = RequestApi(infoRequestUrl);
-                }
-
-                if (infoResponse.Length == 0)
-                {
-                    return false;
-                }
-
-                _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
-
                 foreach (var curAssets in releaseAssets)
                 {
                     string name = curAssets["name"].ToString().ToLower();
@@ -515,8 +538,15 @@ namespace MeoAsstGui
                     return true;
                 }
 
-                var errorView = new ErrorView("Download Failed", "It was not possible to find a suitable OTA file to download.", false);
-                errorView.ShowDialog();
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification("找不到合适的更新文件"))
+                    {
+                        toast.AppendContentText("新版本：" + _latestVersion)
+                            .AppendContentText("请自行下载完整包更新！")
+                            .ShowUpdateVersion();
+                    }
+                });
                 return false;
             }
             catch (Exception e)
@@ -557,6 +587,17 @@ namespace MeoAsstGui
                 Console.WriteLine(info.Message);
                 return string.Empty;
             }
+        }
+
+        private string RequestApi(string url, int retryTimes)
+        {
+            string response;
+            do
+            {
+                response = RequestApi(url);
+            }
+            while (response.Length == 0 && retryTimes-- > 0);
+            return response;
         }
 
         /// <summary>
@@ -692,7 +733,17 @@ namespace MeoAsstGui
             return true;
         }
 
-        private bool isStableVersion()
+        private bool isCVersion(string version = null)
+        {
+            if (version == null)
+            {
+                version = _curVersion;
+            }
+
+            return version.StartsWith("c");
+        }
+
+        private bool isStableVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
@@ -701,23 +752,28 @@ namespace MeoAsstGui
             // Release (Local Tag)：{Tag}-Local
             // Debug (Local)：DEBUG VERSION
             // Script Compiled：c{CommitHash[..7]}
-            if (_curVersion == "DEBUG VERSION")
+            if (version == null)
+            {
+                version = _curVersion;
+            }
+
+            if (version == "DEBUG VERSION")
             {
                 return false;
             }
 
-            if (_curVersion.StartsWith("c"))
+            if (version.StartsWith("c"))
             {
                 return false;
             }
 
-            if (_curVersion.Contains("Local"))
+            if (version.Contains("Local"))
             {
                 return false;
             }
 
             var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
-            var match = Regex.Match(_curVersion, pattern);
+            var match = Regex.Match(version, pattern);
             if (match.Success is false)
             {
                 return false;

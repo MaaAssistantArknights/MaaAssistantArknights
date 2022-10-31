@@ -230,6 +230,13 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" },
             };
 
+            VersionTypeList = new List<CombData>
+            {
+                new CombData { Display = Localization.GetString("UpdateCheckNightly"), Value = "Nightly" },
+                new CombData { Display = Localization.GetString("UpdateCheckBeta"), Value = "Beta" },
+                new CombData { Display = Localization.GetString("UpdateCheckStable"), Value = "Stable" },
+            };
+
             LanguageList = new List<CombData>();
             foreach (var pair in Localization.SupportedLanguages)
             {
@@ -493,6 +500,11 @@ namespace MeoAsstGui
         /// Gets or sets the list of inverse clear modes.
         /// </summary>
         public List<CombData> InverseClearModeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of the version type.
+        /// </summary>
+        public List<CombData> VersionTypeList { get; set; }
 
         /// <summary>
         /// Gets or sets the language list.
@@ -1379,19 +1391,35 @@ namespace MeoAsstGui
         }
 
         /* 软件更新设置 */
-        private bool _updateBeta = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
+        private string _versionType = ViewStatusStorage.Get("VersionUpdate.VersionType", "Stable");
 
         /// <summary>
-        /// Gets or sets a value indicating whether to update beta version.
+        /// Gets or sets the type of version to update.
+        /// </summary>
+        public string VersionType
+        {
+            get => _versionType;
+            set
+            {
+                SetAndNotify(ref _versionType, value);
+                ViewStatusStorage.Set("VersionUpdate.VersionType", value);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to update nightly.
+        /// </summary>
+        public bool UpdateNightly
+        {
+            get => _versionType == "Nightly";
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to update beta version.
         /// </summary>
         public bool UpdateBeta
         {
-            get => _updateBeta;
-            set
-            {
-                SetAndNotify(ref _updateBeta, value);
-                ViewStatusStorage.Set("VersionUpdate.UpdateBeta", value.ToString());
-            }
+            get => _versionType == "Beta";
         }
 
         private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));

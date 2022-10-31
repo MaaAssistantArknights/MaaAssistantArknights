@@ -122,7 +122,10 @@
 
     <system:String x:Key="UpdateAutoCheck">Auto check update</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto download update</system:String>
+    <system:String x:Key="UpdateCheckStable">Stable release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta release</system:String>
+    <system:String x:Key="UpdateCheckNightly">Nightly release</system:String>
+    <system:String x:Key="UpdateCheck">Update version</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
 
