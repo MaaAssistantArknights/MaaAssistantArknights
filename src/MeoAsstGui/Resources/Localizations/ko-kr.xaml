@@ -122,7 +122,10 @@
 
     <system:String x:Key="UpdateAutoCheck">자동 업데이트</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 파일을 자동 업데이트</system:String>
-    <system:String x:Key="UpdateCheckBeta">베타 버전을 자동 업데이트</system:String>
+    <system:String x:Key="UpdateCheckStable">안정적인 버전</system:String>
+    <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
+    <system:String x:Key="UpdateCheckNightly">내부 베타 버전</system:String>
+    <system:String x:Key="UpdateCheck">업데이트에 사용된 버전</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
 
@@ -190,7 +193,7 @@
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">상점</system:String>
     <system:String x:Key="Mission">일일 퀘스트 보상을 수집</system:String>
-    <system:String x:Key="AutoRoguelike">통합전략*</system:String>
+    <system:String x:Key="AutoRoguelike">통합전략</system:String>
 
     <system:String x:Key="SelectAll">모두 선택</system:String>
     <system:String x:Key="Inverse">역을 선택</system:String>
@@ -329,7 +332,7 @@
     <!--  자동 작전  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하십시오.</system:String>
+    <system:String x:Key="ResourceBroken">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하십시오.</system:String>
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="ErrorDetails">신용</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>

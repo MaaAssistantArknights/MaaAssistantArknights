@@ -284,10 +284,6 @@ namespace MeoAsstGui
                 bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
-                if (task == "AutoRoguelike")
-                {
-                    vm.IsChecked = false;
-                }
 
                 if (!parsed || order < 0)
                 {
@@ -462,11 +458,11 @@ namespace MeoAsstGui
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public void AddLog(string content, string color = LogColor.Trace, string weight = "Regular")
+        public void AddLog(string content, string color = UILogColor.Trace, string weight = "Regular")
         {
             var log = new LogItemViewModel(content, color, weight);
             LogItemViewModels.Add(log);
-            File.AppendAllText("gui.log", log.Time + ' ' + log.Content + "\n");
+            Logger.Info(content);
         }
 
         /// <summary>
@@ -475,7 +471,7 @@ namespace MeoAsstGui
         public void ClearLog()
         {
             LogItemViewModels.Clear();
-            File.AppendAllText("gui.log", "\n");
+            Logger.Info("\n");
         }
 
         /// <summary>
@@ -591,6 +587,7 @@ namespace MeoAsstGui
                 {
                     if (item.OriginalName == "AutoRoguelike")
                     {
+                        item.IsChecked = false;
                         continue;
                     }
 
@@ -643,7 +640,7 @@ namespace MeoAsstGui
 
             if (!caught)
             {
-                AddLog(errMsg, LogColor.Error);
+                AddLog(errMsg, UILogColor.Error);
                 AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
                 var settingsModel = _container.Get<SettingsViewModel>();
                 var subtask = Task.Run(() =>
@@ -658,7 +655,7 @@ namespace MeoAsstGui
                 caught = await task;
                 if (!caught)
                 {
-                    AddLog(errMsg, LogColor.Error);
+                    AddLog(errMsg, UILogColor.Error);
                     Idle = true;
                     SetStopped();
                     return;
@@ -1076,7 +1073,16 @@ namespace MeoAsstGui
             checkCmd.StartInfo.RedirectStandardOutput = true;
             checkCmd.StartInfo.RedirectStandardError = true;
             checkCmd.StartInfo.CreateNoWindow = true;
-            checkCmd.Start();
+            try
+            {
+                checkCmd.Start();
+            }
+            catch
+            {
+                checkCmd.Close();
+                return false;
+            }
+
             checkCmd.StandardInput.WriteLine(portCmd);
             checkCmd.StandardInput.WriteLine("exit");
             Regex reg = new Regex("\\s+", RegexOptions.Compiled);
@@ -1110,9 +1116,9 @@ namespace MeoAsstGui
                 return false;
             }
 
-            Process emulator = Process.GetProcessById(pid);
             try
             {
+                Process emulator = Process.GetProcessById(pid);
                 emulator.Kill();
             }
             catch
@@ -1188,7 +1194,7 @@ namespace MeoAsstGui
                     var asstProxy = _container.Get<AsstProxy>();
                     if (!asstProxy.AsstStartCloseDown())
                     {
-                        AddLog(Localization.GetString("CloseArknightsFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("CloseArknightsFailed"), UILogColor.Error);
                     }
 
                     break;
@@ -1203,7 +1209,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulator:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
                     }
 
                     break;
@@ -1211,7 +1217,7 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulatorAndSelf:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
                     }
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
@@ -1240,7 +1246,7 @@ namespace MeoAsstGui
 
                 case ActionType.Hibernate:
                     // 休眠提示
-                    AddLog(Localization.GetString("HibernatePrompt"), LogColor.Error);
+                    AddLog(Localization.GetString("HibernatePrompt"), UILogColor.Error);
 
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                     Process.Start("shutdown.exe", "-h");
@@ -1249,11 +1255,11 @@ namespace MeoAsstGui
                 case ActionType.ExitEmulatorAndSelfAndHibernate:
                     if (!KillEumlatorbyWindow())
                     {
-                        AddLog(Localization.GetString("ExitEmulatorFailed"), LogColor.Error);
+                        AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
                     }
 
                     // 休眠提示
-                    AddLog(Localization.GetString("HibernatePrompt"), LogColor.Error);
+                    AddLog(Localization.GetString("HibernatePrompt"), UILogColor.Error);
 
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                     Process.Start("shutdown.exe", "-h");
@@ -1573,7 +1579,7 @@ namespace MeoAsstGui
                 if (value != _customInfrastPlanIndex)
                 {
                     var plan = CustomInfrastPlanInfoList[value];
-                    AddLog(plan.Name, LogColor.Message);
+                    AddLog(plan.Name, UILogColor.Message);
 
                     foreach (var period in plan.PeriodList)
                     {
@@ -1642,8 +1648,8 @@ namespace MeoAsstGui
 
                 if (root.ContainsKey("title"))
                 {
-                    AddLog(Localization.GetString("CustomInfrastTitle"), LogColor.Message);
-                    AddLog(root["title"].ToString(), LogColor.Info);
+                    AddLog(Localization.GetString("CustomInfrastTitle"), UILogColor.Message);
+                    AddLog(root["title"].ToString(), UILogColor.Info);
                     if (root.ContainsKey("description"))
                     {
                         AddLog(root["description"].ToString());
@@ -1658,7 +1664,7 @@ namespace MeoAsstGui
                     CustomInfrastPlanList.Add(new GenericCombData<int> { Display = display, Value = i });
                     string desc = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty;
 
-                    AddLog(display, LogColor.Message);
+                    AddLog(display, UILogColor.Message);
 
                     var periodList = new List<CustomInfrastPlanInfo.Period>();
                     if (plan.ContainsKey("period"))
@@ -1704,7 +1710,7 @@ namespace MeoAsstGui
             }
             catch (Exception)
             {
-                AddLog(Localization.GetString("CustomInfrastFileParseFailed"), LogColor.Error);
+                AddLog(Localization.GetString("CustomInfrastFileParseFailed"), UILogColor.Error);
                 return;
             }
 
@@ -1745,7 +1751,7 @@ namespace MeoAsstGui
                 return;
             }
 
-            AddLog(Localization.GetString("CustomInfrastPlanIndexAutoSwitch"), LogColor.Message);
+            AddLog(Localization.GetString("CustomInfrastPlanIndexAutoSwitch"), UILogColor.Message);
             if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count - 1)
             {
                 CustomInfrastPlanIndex = 0;

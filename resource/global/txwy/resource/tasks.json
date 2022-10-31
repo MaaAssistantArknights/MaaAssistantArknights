@@ -38,7 +38,7 @@
             220
         ],
         "action": "DoNothing",
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "PRTS",
             "PRTS3",
@@ -139,7 +139,7 @@
     "StartRecruit": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "rearDelay": 500,
+        "postDelay": 500,
         "text": [
             "開始招"
         ],
@@ -153,7 +153,7 @@
     "RecruitNow": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "rearDelay": 500,
+        "postDelay": 500,
         "cache": false,
         "text": [
             "立即招"
@@ -1424,8 +1424,16 @@
                 "稳扎稳打"
             ],
             [
+                "穩.*穩打",
+                "稳扎稳打"
+            ],
+            [
                 "取長補短",
                 "取长补短"
+            ],
+            [
+                "隨心所欲",
+                "随心所欲"
             ]
         ]
     },

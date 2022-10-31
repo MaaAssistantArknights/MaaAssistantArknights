@@ -62,7 +62,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         reselect = true;
     }
     if (!reselect && select_count != 0) {
-        sleep(Task.get("RoguelikeQuickFormationDelay")->rear_delay);
+        sleep(Task.get("RoguelikeQuickFormationDelay")->post_delay);
         formation_analyzer.set_image(m_ctrler->get_image());
 
         if (!formation_analyzer.analyze()) {

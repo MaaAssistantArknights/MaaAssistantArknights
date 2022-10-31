@@ -112,7 +112,8 @@
     <Compile Include="Helper\GenericCombData{TValueType}.cs" />
     <Compile Include="Helper\IMainWindowManager.cs" />
     <Compile Include="Helper\Localization.cs" />
-    <Compile Include="Helper\LogColor.cs" />
+    <Compile Include="Helper\Logger.cs" />
+    <Compile Include="Helper\UILogColor.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
     <Compile Include="Helper\MaaHotKeys\IMaaHotKeyActionHandler.cs" />
     <Compile Include="Helper\MaaHotKeys\IMaaHotKeyManager.cs" />
@@ -485,11 +486,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="newlogo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Images\Warning.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

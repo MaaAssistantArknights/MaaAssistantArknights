@@ -230,6 +230,13 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" },
             };
 
+            VersionTypeList = new List<GenericCombData<UpdateVersionType>>
+            {
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
+            };
+
             LanguageList = new List<CombData>();
             foreach (var pair in Localization.SupportedLanguages)
             {
@@ -493,6 +500,11 @@ namespace MeoAsstGui
         /// Gets or sets the list of inverse clear modes.
         /// </summary>
         public List<CombData> InverseClearModeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of the version type.
+        /// </summary>
+        public List<GenericCombData<UpdateVersionType>> VersionTypeList { get; set; }
 
         /// <summary>
         /// Gets or sets the language list.
@@ -1378,20 +1390,45 @@ namespace MeoAsstGui
             }
         }
 
+        public enum UpdateVersionType
+        {
+            Nightly,
+            Beta,
+            Stable,
+        }
+
         /* 软件更新设置 */
-        private bool _updateBeta = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
+
+        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
+                ViewStatusStorage.Get("VersionUpdate.VersionType", UpdateVersionType.Stable.ToString()));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to update beta version.
+        /// Gets or sets the type of version to update.
+        /// </summary>
+        public UpdateVersionType VersionType
+        {
+            get => _versionType;
+            set
+            {
+                SetAndNotify(ref _versionType, value);
+                ViewStatusStorage.Set("VersionUpdate.VersionType", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to update nightly.
+        /// </summary>
+        public bool UpdateNightly
+        {
+            get => _versionType == UpdateVersionType.Nightly;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to update beta version.
         /// </summary>
         public bool UpdateBeta
         {
-            get => _updateBeta;
-            set
-            {
-                SetAndNotify(ref _updateBeta, value);
-                ViewStatusStorage.Set("VersionUpdate.UpdateBeta", value.ToString());
-            }
+            get => _versionType == UpdateVersionType.Beta;
         }
 
         private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));
@@ -1463,18 +1500,47 @@ namespace MeoAsstGui
             var updateModel = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModel.CheckAndDownloadUpdate(true))
-                {
-                    Execute.OnUIThread(() =>
-                    {
-                        using (var toast = new ToastNotification(Localization.GetString("AlreadyLatest")))
-                        {
-                            toast.Show();
-                        }
-                    });
-                }
+                return updateModel.CheckAndDownloadUpdate(true);
             });
-            await task;
+            var ret = await task;
+
+            string toastMessage = null;
+            switch (ret)
+            {
+                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
+                    toastMessage = Localization.GetString("AlreadyLatest");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.UnknwonError:
+                    toastMessage = Localization.GetString("NewVersionDetectFailedTitle");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.NetworkError:
+                    toastMessage = Localization.GetString("CheckNetworking");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo:
+                    toastMessage = Localization.GetString("GetReleaseNoteFailed");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.OK:
+                    updateModel.AskToRestart();
+                    break;
+            }
+
+            if (toastMessage != null)
+            {
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification(toastMessage))
+                    {
+                        toast.Show();
+                    }
+                });
+            }
         }
 
         /* 连接设置 */

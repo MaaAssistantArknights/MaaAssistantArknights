@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,6 +27,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Windows.Globalization;
 
 namespace MeoAsstGui
 {
@@ -119,32 +121,6 @@ namespace MeoAsstGui
             set => SetAndNotify(ref _updateUrl, value);
         }
 
-        /*
-        public FlowDocument UpdateInfoDocument
-        {
-            get
-            {
-                try
-                {
-                    return MarkdownXaml.ToFlowDocument(UpdateInfo, s_markdownPipeline);
-                }
-                catch (Exception)
-                {
-                    // 不知道为什么有一部分用户的电脑上，用 MarkdownXaml 解析直接就会 crash
-                    // 换另一个库再试一遍
-                    try
-                    {
-                        return new MdXaml.Markdown().Transform(UpdateInfo);
-                    }
-                    catch (Exception)
-                    {
-                        return new FlowDocument();
-                    }
-                }
-            }
-        }
-        */
-
         /// <summary>
         /// Gets a value indicating whether it is the first boot after updating.
         /// </summary>
@@ -166,6 +142,8 @@ namespace MeoAsstGui
         }
 
         private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases";
+        private const string StableRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
+        private const string MaaReleaseRequestUrlByTag = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases/tags/";
         private const string InfoRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
         private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _latestJson;
@@ -186,9 +164,9 @@ namespace MeoAsstGui
 
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification("检测到新版本包"))
+                using (var toast = new ToastNotification(Localization.GetString("NewVersionZipFileFoundTitle")))
                 {
-                    toast.AppendContentText("正在解压，请稍等……")
+                    toast.AppendContentText(Localization.GetString("NewVersionZipFileFoundDescDecompressing"))
                         .AppendContentText(UpdateTag)
                         .ShowUpdateVersion(row: 2);
                 }
@@ -213,10 +191,10 @@ namespace MeoAsstGui
                 File.Delete(UpdatePackageName);
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification("更新文件不正确！"))
+                    using (var toast = new ToastNotification(Localization.GetString("NewVersionZipFileBrokenTitle")))
                     {
-                        toast.AppendContentText("文件名: " + UpdatePackageName)
-                            .AppendContentText("已将其删除！")
+                        toast.AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
+                            .AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescDeleted"))
                             .ShowUpdateVersion();
                     }
                 });
@@ -247,6 +225,7 @@ namespace MeoAsstGui
                 }
             }
 
+            Directory.CreateDirectory(oldFileDir);
             foreach (var dir in Directory.GetDirectories(extractDir, "*", SearchOption.AllDirectories))
             {
                 Directory.CreateDirectory(dir.Replace(extractDir, curDir));
@@ -300,66 +279,75 @@ namespace MeoAsstGui
             return true;
         }
 
+        public enum CheckUpdateRetT
+        {
+            OK,
+            UnknwonError,
+            NoNeedToUpdate,
+            AlreadyLatest,
+            NetworkError,
+            FailedToGetInfo,
+        }
+
         /// <summary>
         /// 检查更新，并下载更新包。
         /// </summary>
         /// <param name="force">是否强制检查。</param>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public bool CheckAndDownloadUpdate(bool force = false)
+        public CheckUpdateRetT CheckAndDownloadUpdate(bool force = false)
         {
             // 检查更新
-            if (!CheckUpdate(force))
+            var checkRet = CheckUpdate(force);
+            if (checkRet != CheckUpdateRetT.OK)
             {
-                return false;
+                return checkRet;
             }
 
             // 保存新版本的信息
-            UpdatePackageName = _assetsObject["name"]?.ToString();
             UpdateTag = _latestJson["name"]?.ToString();
             UpdateInfo = _latestJson["body"]?.ToString();
             UpdateUrl = _latestJson["html_url"]?.ToString();
 
-            // ToastNotification.get= _latestJson["html_url"].ToString();
+            bool otaFound = _assetsObject != null;
+            bool goDownload = otaFound && _container.Get<SettingsViewModel>().AutoDownloadUpdatePackage;
+
             var openUrlToastButton = (
-                text: "前往页面查看",
+                text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
                 action: new Action(() =>
                 {
-                    if (!string.IsNullOrWhiteSpace(_latestJson["html_url"]?.ToString()))
+                    if (!string.IsNullOrWhiteSpace(UpdateUrl))
                     {
-                        Process.Start(_latestJson["html_url"].ToString());
+                        Process.Start(UpdateUrl);
                     }
                 }));
 
-            if (_container.Get<SettingsViewModel>().AutoDownloadUpdatePackage)
+            Execute.OnUIThread(() =>
             {
-                Execute.OnUIThread(() =>
+                using (var toast = new ToastNotification(otaFound ?
+                    Localization.GetString("NewVersionFoundTitle") :
+                    Localization.GetString("NewVersionFoundButNoPackageTitle")))
                 {
-                    using (var toast = new ToastNotification("检测到新版本"))
+                    if (goDownload)
                     {
-                        toast.ButtonSystemUrl = UpdateUrl;
-                        toast.AppendContentText("正在后台下载……")
-                            .AppendContentText("新版本: " + UpdateTag)
-                            .AppendContentText("更新信息: " + UpdateInfo)
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .ShowUpdateVersion();
+                        toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
                     }
-                });
-            }
-            else
+
+                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescId") + UpdateTag);
+                    toast.AppendContentText(otaFound ?
+                        (Localization.GetString("NewVersionFoundDescInfo") + UpdateInfo) :
+                        Localization.GetString("NewVersionFoundButNoPackageDesc"));
+                    toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
+                    toast.ButtonSystemUrl = UpdateUrl;
+                    toast.ShowUpdateVersion();
+                }
+            });
+
+            if (!goDownload)
             {
-                Execute.OnUIThread(() =>
-                {
-                    using (var toast = new ToastNotification("检测到新版本"))
-                    {
-                        toast.ButtonSystemUrl = UpdateUrl;
-                        toast.AppendContentText("新版本: " + UpdateTag)
-                            .AppendContentText("更新信息: " + UpdateInfo)
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .ShowUpdateVersion();
-                    }
-                });
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
+
+            UpdatePackageName = _assetsObject["name"]?.ToString();
 
             // 下载压缩包
             const int DownloadRetryMaxTimes = 3;
@@ -380,125 +368,151 @@ namespace MeoAsstGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification("新版本下载失败"))
+                    using (var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle")))
                     {
                         toast.ButtonSystemUrl = UpdateUrl;
-                        toast.AppendContentText("请尝试手动下载后，将压缩包放到目录下_(:з」∠)_")
+                        toast.AppendContentText(Localization.GetString("NewVersionDownloadFailedDesc"))
                             .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
                             .Show();
                     }
                 });
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
 
-            // 把相关信息存下来，更新完之后启动的时候显示
-            Execute.OnUIThread(() =>
-            {
-                using (var toast = new ToastNotification("新版本下载完成"))
-                {
-                    toast.AppendContentText("软件将在下次启动时自动更新！")
-                        .AppendContentText("✿✿ヽ(°▽°)ノ✿")
-                        .ShowUpdateVersion(row: 3);
-                }
-            });
+            return CheckUpdateRetT.OK;
+        }
 
-            return true;
+        public void AskToRestart()
+        {
+            System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
+            System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
+            System.Windows.Forms.MessageBoxManager.Register();
+            var result = MessageBox.Show(
+                Localization.GetString("NewVersionDownloadCompletedDesc"),
+                Localization.GetString("NewVersionDownloadCompletedTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            System.Windows.Forms.MessageBoxManager.Unregister();
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+                System.Windows.Forms.Application.Restart();
+            }
         }
 
         /// <summary>
         /// 检查更新。
         /// </summary>
         /// <param name="force">是否强制检查。</param>
-        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public bool CheckUpdate(bool force = false)
+        /// <returns>检查到更新返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
+        private CheckUpdateRetT CheckUpdate(bool force = false)
         {
-            // 开发版不检查更新
-            if (!force && !isStableVersion())
+            var settings = _container.Get<SettingsViewModel>();
+
+            // 自动更新或者手动触发
+            if (!(settings.UpdateCheck || force))
             {
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
 
-            var settings = _container.Get<SettingsViewModel>();
-            if (!settings.UpdateCheck)
+            // 开发版不检查更新
+            if (!(settings.UpdateNightly && !isDebugVersion()) && !isStdVersion())
             {
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
 
             const int RequestRetryMaxTimes = 5;
-            var response = RequestApi(RequestUrl);
-            for (int i = 0; response.Length == 0 && i < RequestRetryMaxTimes; i++)
-            {
-                response = RequestApi(RequestUrl);
-            }
-
-            if (response.Length == 0)
-            {
-                return false;
-            }
-
             try
             {
-                var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
-
-                _latestJson = null;
-                foreach (var item in releaseArray)
+                if (!settings.UpdateBeta && !settings.UpdateNightly)
                 {
-                    if (!settings.UpdateBeta && (bool)item["prerelease"])
+                    // 稳定版更新使用主仓库 /latest 接口
+                    // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
+                    var stableResponse = RequestApi(StableRequestUrl, RequestRetryMaxTimes);
+                    if (stableResponse.Length == 0)
                     {
-                        continue;
+                        return CheckUpdateRetT.NetworkError;
                     }
 
-                    _latestJson = item as JObject;
-                    break;
+                    _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
+                    _latestVersion = _latestJson["tag_name"].ToString();
+                    stableResponse = RequestApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
+                    if (stableResponse.Length == 0)
+                    {
+                        return CheckUpdateRetT.NetworkError;
+                    }
+
+                    _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
+                }
+                else
+                {
+                    // 非稳定版更新使用 MaaRelease/releases 接口
+                    var response = RequestApi(RequestUrl, RequestRetryMaxTimes);
+                    if (response.Length == 0)
+                    {
+                        return CheckUpdateRetT.NetworkError;
+                    }
+
+                    var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
+
+                    _latestJson = null;
+                    foreach (var item in releaseArray)
+                    {
+                        if (!settings.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
+                        {
+                            continue;
+                        }
+
+                        _latestJson = item as JObject;
+                        break;
+                    }
                 }
 
                 if (_latestJson == null)
                 {
-                    return false;
+                    return CheckUpdateRetT.AlreadyLatest;
                 }
 
                 _latestVersion = _latestJson["tag_name"].ToString();
-                if (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
-                {
-                    return false;
-                }
+                var releaseAssets = _latestJson["assets"] as JArray;
 
-                bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
-                bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
-                if (curParsed && latestPared)
+                if (settings.UpdateNightly)
                 {
-                    if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
+                    if (_curVersion == _latestVersion)
                     {
-                        return false;
+                        return CheckUpdateRetT.AlreadyLatest;
                     }
                 }
-                else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
+                else
                 {
-                    return false;
+                    bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
+                    bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
+                    if (curParsed && latestPared)
+                    {
+                        if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
+                        {
+                            return CheckUpdateRetT.AlreadyLatest;
+                        }
+                    }
+                    else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
+                    {
+                        return CheckUpdateRetT.AlreadyLatest;
+                    }
                 }
 
-                if (!_latestJson.ContainsKey("assets") || (_latestJson["assets"] as JArray).Count == 0)
+                // 非稳定版本是 Nightly 下载的，主仓库没有它的更新信息，不必请求
+                if (isStdVersion(_latestVersion))
                 {
-                    return false;
+                    var infoResponse = RequestApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
+                    if (infoResponse.Length == 0)
+                    {
+                        return CheckUpdateRetT.FailedToGetInfo;
+                    }
+
+                    _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
                 }
 
-                var releaseAssets = _latestJson["assets"] as JArray;
                 _assetsObject = null;
-
-                var infoRequestUrl = InfoRequestUrl + _latestVersion;
-                var infoResponse = RequestApi(infoRequestUrl);
-                for (int i = 0; infoResponse.Length == 0 && i < RequestRetryMaxTimes; i++)
-                {
-                    infoResponse = RequestApi(infoRequestUrl);
-                }
-
-                if (infoResponse.Length == 0)
-                {
-                    return false;
-                }
-
-                _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
-
                 foreach (var curAssets in releaseAssets)
                 {
                     string name = curAssets["name"].ToString().ToLower();
@@ -509,19 +523,12 @@ namespace MeoAsstGui
                     }
                 }
 
-                if (_assetsObject != null)
-                {
-                    return true;
-                }
-
-                var errorView = new ErrorView("Download Failed", "It was not possible to find a suitable OTA file to download.", false);
-                errorView.ShowDialog();
-                return false;
+                return CheckUpdateRetT.OK;
             }
             catch (Exception e)
             {
-                File.AppendAllText("gui.err.log", DateTime.Now.ToString() + " CheckUpdate | " + e.ToString() + Environment.NewLine);
-                return false;
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                return CheckUpdateRetT.UnknwonError;
             }
         }
 
@@ -556,6 +563,17 @@ namespace MeoAsstGui
                 Console.WriteLine(info.Message);
                 return string.Empty;
             }
+        }
+
+        private string RequestApi(string url, int retryTimes)
+        {
+            string response;
+            do
+            {
+                response = RequestApi(url);
+            }
+            while (response.Length == 0 && retryTimes-- > 0);
+            return response;
         }
 
         /// <summary>
@@ -691,7 +709,17 @@ namespace MeoAsstGui
             return true;
         }
 
-        private bool isStableVersion()
+        private bool isDebugVersion(string version = null)
+        {
+            if (version == null)
+            {
+                version = _curVersion;
+            }
+
+            return version == "DEBUG VERSION";
+        }
+
+        private bool isStdVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
@@ -700,23 +728,28 @@ namespace MeoAsstGui
             // Release (Local Tag)：{Tag}-Local
             // Debug (Local)：DEBUG VERSION
             // Script Compiled：c{CommitHash[..7]}
-            if (_curVersion == "DEBUG VERSION")
+            if (version == null)
+            {
+                version = _curVersion;
+            }
+
+            if (version == "DEBUG VERSION")
             {
                 return false;
             }
 
-            if (_curVersion.StartsWith("c"))
+            if (version.StartsWith("c"))
             {
                 return false;
             }
 
-            if (_curVersion.Contains("Local"))
+            if (version.Contains("Local"))
             {
                 return false;
             }
 
             var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
-            var match = Regex.Match(_curVersion, pattern);
+            var match = Regex.Match(version, pattern);
             if (match.Success is false)
             {
                 return false;
@@ -724,142 +757,6 @@ namespace MeoAsstGui
 
             return true;
         }
-
-        /*
-        // 这个资源文件单独 OTA 功能带来了很多问题，暂时弃用了
-        // 改用打 OTA 包的形式来实现增量升级
-        public bool ResourceOTA(bool force = false)
-        {
-            // 开发版不检查更新
-            if (!force && !isStableVersion())
-            {
-                return false;
-            }
-
-            const string req_base_url = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits?path=";
-            const string repositorie_base = "MaaAssistantArknights/MaaAssistantArknights";
-            const string branche_base = "master";
-
-            // cdn接口地址组
-            // new string[]
-            // {
-            //      下载域名地址,
-            //      连接地址的参数格式: {0}是文件路径, {1}是 sha 值
-            // }
-            var down_base_url = new List<string[]>()
-            {
-                new string[] { $"https://cdn.jsdelivr.net/gh/{repositorie_base}@", "{1}/{0}" },
-                new string[] { $"https://pd.zwc365.com/seturl/https://raw.githubusercontent.com/{repositorie_base}/{branche_base}/", "{0}?{1}" },
-                new string[] { $"https://cdn.staticaly.com/gh/{repositorie_base}/{branche_base}/", "{0}?{1}" },
-                new string[] { $"https://ghproxy.fsou.cc/https://github.com/{repositorie_base}/blob/{branche_base}/", "{0}?{1}" },
-            };
-
-            // 资源文件在仓库中的路径，与实际打包后的路径并不相同，需要使用dict
-            var update_dict = new Dictionary<string, string>()
-            {
-                { "resource/stages.json", "resource/stages.json" },
-                { "resource/recruit.json", "resource/recruit.json" },
-                { "3rdparty/resource/Arknights-Tile-Pos/levels.json", "resource/Arknights-Tile-Pos/levels.json" },
-                { "resource/item_index.json", "resource/item_index.json" },
-            };
-
-            bool updated = false;
-            string message = string.Empty;
-
-            foreach (var item in update_dict)
-            {
-                string url = item.Key;
-                string filename = item.Value;
-
-                string cur_sha = ViewStatusStorage.Get(filename, string.Empty);
-
-                string response = RequestApi(req_base_url + url);
-                if (string.IsNullOrWhiteSpace(response))
-                {
-                    continue;
-                }
-
-                string cloud_sha;
-                string cur_message = string.Empty;
-                try
-                {
-                    JArray arr = (JArray)JsonConvert.DeserializeObject(response);
-                    JObject commit_info = (JObject)arr[0];
-                    cloud_sha = commit_info["sha"].ToString();
-                    cur_message = commit_info["commit"]["message"].ToString();
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
-
-                if (cur_sha == cloud_sha)
-                {
-                    continue;
-                }
-
-                bool downloaded = false;
-                string tempname = filename + ".tmp";
-                foreach (var down_item in down_base_url)
-                {
-                    var download_url = down_item[0];
-                    var download_args_format = down_item[1];
-
-                    download_url += string.Format(download_args_format, url, cloud_sha);
-                    if (DownloadFile(download_url, tempname, downloader: "NATIVE"))
-                    {
-                        downloaded = true;
-                        break;
-                    }
-                }
-
-                if (!downloaded)
-                {
-                    continue;
-                }
-
-                string tmp = File.ReadAllText(tempname).Replace("\r\n", "\n");
-
-                try
-                {
-                    JsonConvert.DeserializeObject(tmp);
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
-
-                string src = File.ReadAllText(filename).Replace("\r\n", "\n");
-                if (src.Length != tmp.Length)
-                {
-                    File.Copy(tempname, filename, true);
-                    updated = true;
-                    message += cur_message + "\n";
-                }
-
-                // 保存最新的 sha 到配置文件
-                ViewStatusStorage.Set(filename, cloud_sha);
-                File.Delete(tempname);
-            }
-
-            if (!updated)
-            {
-                return false;
-            }
-
-            Execute.OnUIThread(() =>
-            {
-                using (var toast = new ToastNotification("资源已更新"))
-                {
-                    toast.AppendContentText("重启软件生效！")
-                        .AppendContentText(message)
-                        .ShowUpdateVersion();
-                }
-            });
-
-            return true;
-        }
-        */
 
         /// <summary>
         /// 复制文件夹内容并覆盖已存在的相同名字的文件

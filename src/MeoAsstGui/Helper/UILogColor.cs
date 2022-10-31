@@ -1,4 +1,4 @@
-// <copyright file="LogColor.cs" company="MaaAssistantArknights">
+// <copyright file="UILogColor.cs" company="MaaAssistantArknights">
 // MeoAsstGui - A part of the MeoAssistantArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -16,7 +16,7 @@ namespace MeoAsstGui
     /// <summary>
     /// The recommended colors for logs.
     /// </summary>
-    public static class LogColor
+    public static class UILogColor
     {
         /// <summary>
         /// The recommended color for error logs.
