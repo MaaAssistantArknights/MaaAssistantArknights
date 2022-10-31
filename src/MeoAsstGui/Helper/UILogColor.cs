@@ -16,7 +16,7 @@ namespace MeoAsstGui
     /// <summary>
     /// The recommended colors for logs.
     /// </summary>
-    public static class LogColor
+    public static class UILogColor
     {
         /// <summary>
         /// The recommended color for error logs.
