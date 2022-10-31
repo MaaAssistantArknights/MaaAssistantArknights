@@ -230,11 +230,11 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" },
             };
 
-            VersionTypeList = new List<CombData>
+            VersionTypeList = new List<GenericCombData<UpdateVersionType>>
             {
-                new CombData { Display = Localization.GetString("UpdateCheckNightly"), Value = "Nightly" },
-                new CombData { Display = Localization.GetString("UpdateCheckBeta"), Value = "Beta" },
-                new CombData { Display = Localization.GetString("UpdateCheckStable"), Value = "Stable" },
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             };
 
             LanguageList = new List<CombData>();
@@ -504,7 +504,7 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets or sets the list of the version type.
         /// </summary>
-        public List<CombData> VersionTypeList { get; set; }
+        public List<GenericCombData<UpdateVersionType>> VersionTypeList { get; set; }
 
         /// <summary>
         /// Gets or sets the language list.
@@ -1390,19 +1390,28 @@ namespace MeoAsstGui
             }
         }
 
+        public enum UpdateVersionType
+        {
+            Nightly,
+            Beta,
+            Stable,
+        }
+
         /* 软件更新设置 */
-        private string _versionType = ViewStatusStorage.Get("VersionUpdate.VersionType", "Stable");
+
+        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
+                ViewStatusStorage.Get("VersionUpdate.VersionType", UpdateVersionType.Beta.ToString()));
 
         /// <summary>
         /// Gets or sets the type of version to update.
         /// </summary>
-        public string VersionType
+        public UpdateVersionType VersionType
         {
             get => _versionType;
             set
             {
                 SetAndNotify(ref _versionType, value);
-                ViewStatusStorage.Set("VersionUpdate.VersionType", value);
+                ViewStatusStorage.Set("VersionUpdate.VersionType", value.ToString());
             }
         }
 
@@ -1411,7 +1420,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UpdateNightly
         {
-            get => _versionType == "Nightly";
+            get => _versionType == UpdateVersionType.Nightly;
         }
 
         /// <summary>
@@ -1419,7 +1428,7 @@ namespace MeoAsstGui
         /// </summary>
         public bool UpdateBeta
         {
-            get => _versionType == "Beta";
+            get => _versionType == UpdateVersionType.Beta;
         }
 
         private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));
