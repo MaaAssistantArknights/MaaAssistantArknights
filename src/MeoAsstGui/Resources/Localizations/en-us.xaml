@@ -129,6 +129,27 @@
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
 
+    <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background...</system:String>
+    <system:String x:Key="NewVersionFoundDescId">Version:</system:String>
+    <system:String x:Key="NewVersionFoundDescInfo">Info:</system:String>
+    <system:String x:Key="NewVersionFoundButtonGoWebpage">Go to the website</system:String>
+
+    <system:String x:Key="NewVersionZipFileFoundTitle">Update Package Found</system:String>
+    <system:String x:Key="NewVersionZipFileFoundDescDecompressing">Decompressing, plz wait...</system:String>
+
+    <system:String x:Key="NewVersionZipFileBrokenTitle">Update Package Broken</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescFilename">Filename:</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescDeleted">Deleted it.</system:String>
+
+    <system:String x:Key="NewVersionDownloadFailedTitle">Update Package Download Failed</system:String>
+    <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory.</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedTitle">Update Package Download Completed</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedDesc">MAA will be updated automatically at the next startup.</system:String>
+
+    <system:String x:Key="NewVersionFoundButNoPackageTitle">New Version Found, But No Update Package</system:String>
+    <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
+
     <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
     <system:String x:Key="Timer">Timer</system:String>
 
