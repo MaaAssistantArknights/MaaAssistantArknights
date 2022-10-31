@@ -92,10 +92,14 @@ namespace MeoAsstGui
             {
                 var task = Task.Run(() =>
                 {
-                    vuvm.CheckAndDownloadUpdate();
+                    return vuvm.CheckAndDownloadUpdate();
                 });
 
-                await task;
+                var ret = await task;
+                if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
+                {
+                    vuvm.AskToRestart();
+                }
             }
         }
 

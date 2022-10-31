@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Windows.Globalization;
 
 namespace MeoAsstGui
 {
@@ -138,11 +139,6 @@ namespace MeoAsstGui
                 ViewStatusStorage.Set("VersionUpdate.package", value);
             }
         }
-
-        /// <summary>
-        /// Gets a value indicating what error occurred during the update.
-        /// </summary>
-        public string UpdateLastError { get; private set; }
 
         private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases";
         private const string StableRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
@@ -282,17 +278,28 @@ namespace MeoAsstGui
             return true;
         }
 
+        public enum CheckUpdateRetT
+        {
+            OK,
+            UnknwonError,
+            NoNeedToUpdate,
+            AlreadyLatest,
+            NetworkError,
+            FailedToGetInfo,
+        }
+
         /// <summary>
         /// 检查更新，并下载更新包。
         /// </summary>
         /// <param name="force">是否强制检查。</param>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public bool CheckAndDownloadUpdate(bool force = false)
+        public CheckUpdateRetT CheckAndDownloadUpdate(bool force = false)
         {
             // 检查更新
-            if (!CheckUpdate(force))
+            var checkRet = CheckUpdate(force);
+            if (checkRet != CheckUpdateRetT.OK)
             {
-                return false;
+                return checkRet;
             }
 
             // 保存新版本的信息
@@ -336,8 +343,7 @@ namespace MeoAsstGui
 
             if (!goDownload)
             {
-                UpdateLastError = string.Empty;
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
 
             UpdatePackageName = _assetsObject["name"]?.ToString();
@@ -369,22 +375,28 @@ namespace MeoAsstGui
                             .Show();
                     }
                 });
-                UpdateLastError = string.Empty;
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
 
-            // 把相关信息存下来，更新完之后启动的时候显示
-            Execute.OnUIThread(() =>
-            {
-                using (var toast = new ToastNotification(Localization.GetString("NewVersionDownloadCompletedTitle")))
-                {
-                    toast.AppendContentText(Localization.GetString("NewVersionDownloadCompletedDesc"))
-                        .AppendContentText("✿✿ヽ(°▽°)ノ✿")
-                        .ShowUpdateVersion(row: 3);
-                }
-            });
+            return CheckUpdateRetT.OK;
+        }
 
-            return true;
+        public void AskToRestart()
+        {
+            System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
+            System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
+            System.Windows.Forms.MessageBoxManager.Register();
+            var result = MessageBox.Show(
+                Localization.GetString("NewVersionDownloadCompletedDesc"),
+                Localization.GetString("NewVersionDownloadCompletedTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            System.Windows.Forms.MessageBoxManager.Unregister();
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+                System.Windows.Forms.Application.Restart();
+            }
         }
 
         /// <summary>
@@ -392,21 +404,20 @@ namespace MeoAsstGui
         /// </summary>
         /// <param name="force">是否强制检查。</param>
         /// <returns>检查到更新返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public bool CheckUpdate(bool force = false)
+        private CheckUpdateRetT CheckUpdate(bool force = false)
         {
-            UpdateLastError = null;
             var settings = _container.Get<SettingsViewModel>();
 
             // 自动更新或者手动触发
             if (!(settings.UpdateCheck || force))
             {
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
 
             // 开发版不检查更新
-            if (!(settings.UpdateNightly && !isDebugVersion()) && !isStableVersion())
+            if (!(settings.UpdateNightly && !isDebugVersion()) && !isStdVersion())
             {
-                return false;
+                return CheckUpdateRetT.NoNeedToUpdate;
             }
 
             const int RequestRetryMaxTimes = 5;
@@ -419,8 +430,7 @@ namespace MeoAsstGui
                     var stableResponse = RequestApi(StableRequestUrl, RequestRetryMaxTimes);
                     if (stableResponse.Length == 0)
                     {
-                        UpdateLastError = Localization.GetString("CheckNetworking");
-                        return false;
+                        return CheckUpdateRetT.NetworkError;
                     }
 
                     _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
@@ -428,8 +438,7 @@ namespace MeoAsstGui
                     stableResponse = RequestApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
                     if (stableResponse.Length == 0)
                     {
-                        UpdateLastError = Localization.GetString("CheckNetworking");
-                        return false;
+                        return CheckUpdateRetT.NetworkError;
                     }
 
                     _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
@@ -440,8 +449,7 @@ namespace MeoAsstGui
                     var response = RequestApi(RequestUrl, RequestRetryMaxTimes);
                     if (response.Length == 0)
                     {
-                        UpdateLastError = Localization.GetString("CheckNetworking");
-                        return false;
+                        return CheckUpdateRetT.NetworkError;
                     }
 
                     var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
@@ -449,7 +457,7 @@ namespace MeoAsstGui
                     _latestJson = null;
                     foreach (var item in releaseArray)
                     {
-                        if (!settings.UpdateNightly && !isStableVersion(item["tag_name"].ToString()))
+                        if (!settings.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
                         {
                             continue;
                         }
@@ -461,22 +469,17 @@ namespace MeoAsstGui
 
                 if (_latestJson == null)
                 {
-                    UpdateLastError = string.Empty;
-                    return false;
+                    return CheckUpdateRetT.AlreadyLatest;
                 }
 
                 _latestVersion = _latestJson["tag_name"].ToString();
                 var releaseAssets = _latestJson["assets"] as JArray;
-                if (ViewStatusStorage.Get("VersionUpdate.Ignore", string.Empty) == _latestVersion)
-                {
-                    return false;
-                }
 
                 if (settings.UpdateNightly)
                 {
                     if (_curVersion == _latestVersion)
                     {
-                        return false;
+                        return CheckUpdateRetT.AlreadyLatest;
                     }
                 }
                 else
@@ -487,23 +490,22 @@ namespace MeoAsstGui
                     {
                         if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
                         {
-                            return false;
+                            return CheckUpdateRetT.AlreadyLatest;
                         }
                     }
                     else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
                     {
-                        return false;
+                        return CheckUpdateRetT.AlreadyLatest;
                     }
                 }
 
                 // 非稳定版本是 Nightly 下载的，主仓库没有它的更新信息，不必请求
-                if (isStableVersion(_latestVersion))
+                if (isStdVersion(_latestVersion))
                 {
                     var infoResponse = RequestApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
                     if (infoResponse.Length == 0)
                     {
-                        UpdateLastError = Localization.GetString("GetReleaseNoteFailed");
-                        return false;
+                        return CheckUpdateRetT.FailedToGetInfo;
                     }
 
                     _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
@@ -520,13 +522,12 @@ namespace MeoAsstGui
                     }
                 }
 
-                return true;
+                return CheckUpdateRetT.OK;
             }
             catch (Exception e)
             {
-                UpdateLastError = e.ToString();
                 File.AppendAllText("gui.err.log", DateTime.Now.ToString() + " CheckUpdate | " + e.ToString() + Environment.NewLine);
-                return false;
+                return CheckUpdateRetT.UnknwonError;
             }
         }
 
@@ -717,7 +718,7 @@ namespace MeoAsstGui
             return version == "DEBUG VERSION";
         }
 
-        private bool isStableVersion(string version = null)
+        private bool isStdVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}

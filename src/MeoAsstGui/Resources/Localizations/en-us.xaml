@@ -103,7 +103,6 @@
     <system:String x:Key="EmulatorNotFound">No emulator detected&#x0a;Please use administrator privileges to open this software&#x0a;or set connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected&#x0a;Please shutdown emulators not needed&#x0a;or set connection manually</system:String>
 
-
     <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">The language setting has been changed, do you want to restart the application immediately to apply the language setting?</system:String>
@@ -152,7 +151,7 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">MAA will be updated automatically at the next startup.</system:String>
 
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New Version Found, But No Update Package</system:String>
-    <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
+    <system:String x:Key="NewVersionFoundButNoPackageDesc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
 
     <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
     <system:String x:Key="Timer">Timer</system:String>
