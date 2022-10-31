@@ -7440,7 +7440,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
-            "Roguelike@StageEncounterOptions#next"
+            "Roguelike@StageEncounterClickToLeave"
         ]
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
