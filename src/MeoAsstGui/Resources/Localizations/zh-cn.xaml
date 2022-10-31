@@ -103,7 +103,6 @@
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器&#x0a;请关闭不需要的模拟器&#x0a;或手动设置连接</system:String>
 
-    <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
 
     <system:String x:Key="SwitchLanguage">切换语言</system:String>
     <system:String x:Key="Language">语言</system:String>
@@ -128,6 +127,32 @@
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
+
+    <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
+    <system:String x:Key="NewVersionFoundDescId">版本号：</system:String>
+    <system:String x:Key="NewVersionFoundDescInfo">更新信息：</system:String>
+    <system:String x:Key="NewVersionFoundButtonGoWebpage">前往页面查看</system:String>
+    
+    <system:String x:Key="NewVersionZipFileFoundTitle">检测到更新包</system:String>
+    <system:String x:Key="NewVersionZipFileFoundDescDecompressing">正在解压，请稍等……</system:String>
+    
+    <system:String x:Key="NewVersionZipFileBrokenTitle">更新包损坏！</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescFilename">文件名：</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已将其删除！</system:String>
+    
+    <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
+    <system:String x:Key="NewVersionDetectFailedTitle">检查更新失败</system:String>
+    <system:String x:Key="CheckNetworking">请检查网络连接或代理</system:String>
+    <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败</system:String>
+
+    <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
+    <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下载完成</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedDesc">MAA 将在下次启动时自动更新！</system:String>
+
+    <system:String x:Key="NewVersionFoundButNoPackageTitle">检测到新版本，但未找到增量包</system:String>
+    <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
 
     <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
     <system:String x:Key="Timer">定时</system:String>
