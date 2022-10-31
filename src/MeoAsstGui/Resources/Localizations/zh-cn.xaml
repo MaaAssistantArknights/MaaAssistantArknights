@@ -103,7 +103,6 @@
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器&#x0a;请关闭不需要的模拟器&#x0a;或手动设置连接</system:String>
 
-    <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
 
     <system:String x:Key="SwitchLanguage">切换语言</system:String>
     <system:String x:Key="Language">语言</system:String>
@@ -142,6 +141,11 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename">文件名：</system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已将其删除！</system:String>
     
+    <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
+    <system:String x:Key="NewVersionDetectFailedTitle">检查更新失败</system:String>
+    <system:String x:Key="CheckNetworking">请检查网络连接或代理</system:String>
+    <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败</system:String>
+
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下载完成</system:String>

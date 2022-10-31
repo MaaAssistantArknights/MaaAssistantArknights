@@ -103,7 +103,6 @@
     <system:String x:Key="EmulatorNotFound">No emulator detected&#x0a;Please use administrator privileges to open this software&#x0a;or set connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected&#x0a;Please shutdown emulators not needed&#x0a;or set connection manually</system:String>
 
-    <system:String x:Key="AlreadyLatest">The latest version already installed~</system:String>
 
     <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
@@ -141,6 +140,11 @@
     <system:String x:Key="NewVersionZipFileBrokenTitle">Update Package Broken</system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescFilename">Filename:</system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">Deleted it.</system:String>
+
+    <system:String x:Key="AlreadyLatest">The latest version already installed~</system:String>
+    <system:String x:Key="NewVersionDetectFailedTitle">Update Package Detect Failed</system:String>
+    <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
+    <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
 
     <system:String x:Key="NewVersionDownloadFailedTitle">Update Package Download Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory.</system:String>

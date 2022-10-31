@@ -139,6 +139,11 @@ namespace MeoAsstGui
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating what error occurred during the update.
+        /// </summary>
+        public string UpdateLastError { get; private set; }
+
         private const string RequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases";
         private const string StableRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
         private const string MaaReleaseRequestUrlByTag = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases/tags/";
@@ -331,6 +336,7 @@ namespace MeoAsstGui
 
             if (!goDownload)
             {
+                UpdateLastError = string.Empty;
                 return false;
             }
 
@@ -363,6 +369,7 @@ namespace MeoAsstGui
                             .Show();
                     }
                 });
+                UpdateLastError = string.Empty;
                 return false;
             }
 
@@ -384,17 +391,20 @@ namespace MeoAsstGui
         /// 检查更新。
         /// </summary>
         /// <param name="force">是否强制检查。</param>
-        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
+        /// <returns>检查到更新返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckUpdate(bool force = false)
         {
+            UpdateLastError = null;
             var settings = _container.Get<SettingsViewModel>();
-            if (!settings.UpdateCheck)
+
+            // 自动更新或者手动触发
+            if (!(settings.UpdateCheck || force))
             {
                 return false;
             }
 
             // 开发版不检查更新
-            if (!(settings.UpdateNightly && !isDebugVersion()) && !force && !isStableVersion())
+            if (!(settings.UpdateNightly && !isDebugVersion()) && !isStableVersion())
             {
                 return false;
             }
@@ -405,10 +415,11 @@ namespace MeoAsstGui
                 if (!settings.UpdateBeta && !settings.UpdateNightly)
                 {
                     // 稳定版更新使用主仓库 /latest 接口
-                    // 直接使用 MaaRelease 的话，我怕默认的 30 个都找不到稳定版，因为有可能 Nightly 发了很多
+                    // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
                     var stableResponse = RequestApi(StableRequestUrl, RequestRetryMaxTimes);
                     if (stableResponse.Length == 0)
                     {
+                        UpdateLastError = Localization.GetString("CheckNetworking");
                         return false;
                     }
 
@@ -417,6 +428,7 @@ namespace MeoAsstGui
                     stableResponse = RequestApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
                     if (stableResponse.Length == 0)
                     {
+                        UpdateLastError = Localization.GetString("CheckNetworking");
                         return false;
                     }
 
@@ -428,6 +440,7 @@ namespace MeoAsstGui
                     var response = RequestApi(RequestUrl, RequestRetryMaxTimes);
                     if (response.Length == 0)
                     {
+                        UpdateLastError = Localization.GetString("CheckNetworking");
                         return false;
                     }
 
@@ -448,6 +461,7 @@ namespace MeoAsstGui
 
                 if (_latestJson == null)
                 {
+                    UpdateLastError = string.Empty;
                     return false;
                 }
 
@@ -482,12 +496,13 @@ namespace MeoAsstGui
                     }
                 }
 
-                // 非稳定版本只能是Nightly下载的，这玩意主仓库没有，就不必再次请求主仓库的信息了
+                // 非稳定版本是 Nightly 下载的，主仓库没有它的更新信息，不必请求
                 if (isStableVersion(_latestVersion))
                 {
                     var infoResponse = RequestApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
                     if (infoResponse.Length == 0)
                     {
+                        UpdateLastError = Localization.GetString("NewVersionGetReleaseNoteFailed");
                         return false;
                     }
 
@@ -509,6 +524,7 @@ namespace MeoAsstGui
             }
             catch (Exception e)
             {
+                UpdateLastError = e.ToString();
                 File.AppendAllText("gui.err.log", DateTime.Now.ToString() + " CheckUpdate | " + e.ToString() + Environment.NewLine);
                 return false;
             }
