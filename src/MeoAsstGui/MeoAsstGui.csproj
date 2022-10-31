@@ -112,7 +112,7 @@
     <Compile Include="Helper\GenericCombData{TValueType}.cs" />
     <Compile Include="Helper\IMainWindowManager.cs" />
     <Compile Include="Helper\Localization.cs" />
-    <Compile Include="Helper\LogColor.cs" />
+    <Compile Include="Helper\UILogColor.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
     <Compile Include="Helper\MaaHotKeys\IMaaHotKeyActionHandler.cs" />
     <Compile Include="Helper\MaaHotKeys\IMaaHotKeyManager.cs" />
