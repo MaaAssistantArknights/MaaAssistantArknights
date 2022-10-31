@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -526,7 +527,7 @@ namespace MeoAsstGui
             }
             catch (Exception e)
             {
-                File.AppendAllText("gui.err.log", DateTime.Now.ToString() + " CheckUpdate | " + e.ToString() + Environment.NewLine);
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                 return CheckUpdateRetT.UnknwonError;
             }
         }

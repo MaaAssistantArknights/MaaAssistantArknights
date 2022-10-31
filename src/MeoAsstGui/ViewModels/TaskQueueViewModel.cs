@@ -462,7 +462,7 @@ namespace MeoAsstGui
         {
             var log = new LogItemViewModel(content, color, weight);
             LogItemViewModels.Add(log);
-            File.AppendAllText("gui.log", log.Time + ' ' + log.Content + "\n");
+            Logger.Info(content);
         }
 
         /// <summary>
@@ -471,7 +471,7 @@ namespace MeoAsstGui
         public void ClearLog()
         {
             LogItemViewModels.Clear();
-            File.AppendAllText("gui.log", "\n");
+            Logger.Info("\n");
         }
 
         /// <summary>
