@@ -217,7 +217,7 @@
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>
-    <system:String x:Key="AutoRoguelike">Auto I.S.*</system:String>
+    <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
 
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>
