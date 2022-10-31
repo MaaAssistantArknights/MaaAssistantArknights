@@ -13,6 +13,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -78,7 +79,7 @@ namespace MeoAsstGui
                         }
                         catch (Exception e)
                         {
-                            File.AppendAllText("gui.err.log", DateTime.Now.ToString() + ' ' + e.ToString() + '\n');
+                            Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                         }
                     }
 
@@ -87,7 +88,7 @@ namespace MeoAsstGui
                 }
                 catch (Exception e)
                 {
-                    File.AppendAllText("gui.err.log", DateTime.Now.ToString() + ' ' + e.ToString() + '\n');
+                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                     _viewStatus = new JObject();
                     return false;
                 }
