@@ -122,7 +122,10 @@
 
     <system:String x:Key="UpdateAutoCheck">自動檢查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新包</system:String>
-    <system:String x:Key="UpdateCheckBeta">檢查測試版本更新</system:String>
+    <system:String x:Key="UpdateCheckStable">穩定版</system:String>
+    <system:String x:Key="UpdateCheckBeta">開發版</system:String>
+    <system:String x:Key="UpdateCheckNightly">内測版</system:String>
+    <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
 
@@ -190,7 +193,7 @@
     <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">收取信用及購物</system:String>
     <system:String x:Key="Mission">領取日常獎勵</system:String>
-    <system:String x:Key="AutoRoguelike">自動肉鴿*</system:String>
+    <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
 
     <system:String x:Key="SelectAll">全選</system:String>
     <system:String x:Key="Inverse">反選</system:String>
@@ -329,7 +332,7 @@
     <!--  自動戰鬥  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">資源損毀，請重新下載完整安裝包</system:String>
+    <system:String x:Key="ResourceBroken">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="Error">錯誤</system:String>
     <system:String x:Key="ErrorDetails">信息</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">創建 GitHub issue</system:String>

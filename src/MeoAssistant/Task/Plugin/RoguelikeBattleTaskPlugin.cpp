@@ -442,7 +442,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             battle_analyzer.analyze();
             battle_analyzer.sort_opers_by_cost();
 
-            if (oper_name == UnknownName) {
+            if (is_oper_name_error(oper_name)) {
                 continue;
             }
 
@@ -679,7 +679,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             opt_oper.name = "阿米娅-WARRIOR";
         }
 
-        if (opt_oper.name != UnknownName) {
+        if (!is_oper_name_error(opt_oper.name)) {
             auto real_loc_type = get_oper_location_type(opt_oper.name);
             if (real_loc_type != BattleLocationType::Invalid && // 说明名字识别错了
                 real_loc_type != BattleLocationType::All && real_loc_type != get_role_location_type(opt_oper.role)) {
@@ -720,13 +720,13 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));
     m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
-    sleep(use_oper_task_ptr->rear_delay);
+    sleep(use_oper_task_ptr->post_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
     if (direction != Point::zero()) {
         constexpr int coeff = 500;
         Point end_point = placed_point + (direction * coeff);
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->rear_delay, true, 100);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay, true, 100);
     }
 
     if (opt_oper.role == BattleRole::Drone) {
@@ -1011,6 +1011,11 @@ bool asst::RoguelikeBattleTaskPlugin::cancel_oper_selection()
     return ProcessTask(*this, { "BattleCancelSelection" }).run();
 }
 
+bool asst::RoguelikeBattleTaskPlugin::is_oper_name_error(const std::string& name)
+{
+    return name == UnknownName || get_oper_location_type(name) == BattleLocationType::Invalid;
+}
+
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(BattleRole role)
 {
     return available_locations(get_role_location_type(role));
@@ -1113,7 +1118,7 @@ asst::RoguelikeBattleTaskPlugin::DeployInfo asst::RoguelikeBattleTaskPlugin::cal
     };
 
     std::vector<Point> available_loc =
-        oper.name == UnknownName ? available_locations(oper.role) : available_locations(oper.name);
+        is_oper_name_error(oper.name) ? available_locations(oper.role) : available_locations(oper.name);
 
     if (available_loc.empty()) {
         Log.error("No available locations");

@@ -53,7 +53,7 @@
         ],
         "next": [
             "EnterEpisode11",
-            "EnterEpisode11@SwipeToTheRight"
+            "Episode11@SwipeToTheRight"
         ]
     },
     "Episode10": {
@@ -64,7 +64,7 @@
         ],
         "next": [
             "ToEpisode10@EnterEpisode11",
-            "ToEpisode10@EnterEpisode11@SwipeToTheRight"
+            "Episode10@SwipeToTheRight"
         ]
     },
     "Episode9": {
@@ -75,7 +75,7 @@
         ],
         "next": [
             "ToEpisode9@EnterEpisode11",
-            "ToEpisode9@EnterEpisode11@SwipeToTheRight"
+            "Episode9@SwipeToTheRight"
         ]
     },
     "Episode8": {
@@ -86,7 +86,7 @@
         ],
         "next": [
             "ToEpisode8@EnterEpisode11",
-            "ToEpisode8@EnterEpisode11@SwipeToTheRight"
+            "Episode8@SwipeToTheRight"
         ]
     },
     "Episode7": {
@@ -97,7 +97,7 @@
         ],
         "next": [
             "ToEpisode7@EnterEpisode8",
-            "ToEpisode7@EnterEpisode8@SwipeToTheRight"
+            "Episode7@SwipeToTheRight"
         ]
     },
     "Episode6": {
@@ -108,7 +108,7 @@
         ],
         "next": [
             "ToEpisode6@EnterEpisode8",
-            "ToEpisode6@EnterEpisode8@SwipeToTheRight"
+            "Episode6@SwipeToTheRight"
         ]
     },
     "Episode5": {
@@ -119,7 +119,7 @@
         ],
         "next": [
             "ToEpisode5@EnterEpisode8",
-            "ToEpisode5@EnterEpisode8@SwipeToTheRight"
+            "Episode5@SwipeToTheRight"
         ]
     },
     "Episode4": {
@@ -130,7 +130,7 @@
         ],
         "next": [
             "ToEpisode4@EnterEpisode8",
-            "ToEpisode4@EnterEpisode8@SwipeToTheRight"
+            "Episode4@SwipeToTheRight"
         ]
     },
     "Episode3": {
@@ -141,7 +141,7 @@
         ],
         "next": [
             "EnterEpisode3",
-            "EnterEpisode3@SwipeToTheRight"
+            "Episode3@SwipeToTheRight"
         ]
     },
     "Episode2": {
@@ -152,7 +152,7 @@
         ],
         "next": [
             "ToEpisode2@EnterEpisode3",
-            "ToEpisode2@EnterEpisode3@SwipeToTheRight"
+            "Episode2@SwipeToTheRight"
         ]
     },
     "Episode1": {
@@ -163,7 +163,7 @@
         ],
         "next": [
             "ToEpisode1@EnterEpisode3",
-            "ToEpisode1@EnterEpisode3@SwipeToTheRight"
+            "Episode1@SwipeToTheRight"
         ]
     },
     "Episode0": {
@@ -174,7 +174,7 @@
         ],
         "next": [
             "ToEpisode0@EnterEpisode3",
-            "ToEpisode0@EnterEpisode3@SwipeToTheRight"
+            "Episode0@SwipeToTheRight"
         ]
     },
     "StageTheme": {
@@ -272,7 +272,7 @@
             161,
             102
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "ToEpisode10": {
         "baseTask": "ToEpisode",
@@ -510,7 +510,7 @@
         "text": [
             "大骑士领"
         ],
-        "rearDelay": 2000,
+        "postDelay": 2000,
         "roi": [
             998,
             346,
@@ -747,7 +747,7 @@
             223,
             126
         ],
-        "rearDelay": 2000,
+        "postDelay": 2000,
         "next": [
             "ICChapterToIC",
             "SwipeToTheRight"
@@ -886,7 +886,7 @@
             241,
             180
         ],
-        "rearDelay": 2000,
+        "postDelay": 2000,
         "next": [
             "DVChapterToDV",
             "SwipeToTheRight"
@@ -1580,7 +1580,7 @@
                 "山"
             ],
             [
-                "峨",
+                "^峨$",
                 "嵯峨"
             ],
             [
@@ -1818,6 +1818,10 @@
             [
                 "8面子",
                 "8面骰子"
+            ],
+            [
+                "伊柔",
+                "伊桑"
             ]
         ]
     },
@@ -1855,7 +1859,7 @@
         ],
         "cache": false,
         "templThreshold": 0.7,
-        "rearDelay": 3000,
+        "postDelay": 3000,
         "maskRange": [
             1,
             255
@@ -2281,7 +2285,7 @@
     },
     "StartButton2": {
         "action": "ClickSelf",
-        "rearDelay": 40000,
+        "postDelay": 40000,
         "roi": [
             1000,
             350,
@@ -2312,7 +2316,7 @@
             100,
             255
         ],
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "PRTS",
             "PRTS2",
@@ -2371,7 +2375,7 @@
             270,
             10
         ],
-        "rearDelay": 3000,
+        "postDelay": 3000,
         "next": [
             "EndOfAction",
             "StartButton1",
@@ -2509,8 +2513,8 @@
         ],
         "preDelay": 3000,
         "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
-        "rearDelay": 355000,
-        "rearDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+        "postDelay": 355000,
+        "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
     },
     "StoneConfirm": {
         "template": "MedicineConfirm.png",
@@ -2655,7 +2659,7 @@
         "Doc": "base_task",
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "StartUpThemes#next",
             "RestartGameAndContinue@Loading2",
@@ -2684,7 +2688,7 @@
             "Fight@TodaysSupplies",
             "Stop"
         ],
-        "rearDelay": 3000
+        "postDelay": 3000
     },
     "GoLastBattle": {
         "algorithm": "OcrDetect",
@@ -2785,7 +2789,7 @@
     "StartRecruit": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "rearDelay": 500,
+        "postDelay": 500,
         "text": [
             "开始招"
         ],
@@ -2812,7 +2816,7 @@
     "RecruitNow": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "rearDelay": 500,
+        "postDelay": 500,
         "cache": false,
         "text": [
             "立即招"
@@ -3338,7 +3342,7 @@
             "CollectCredit",
             "CloseCollectCredit"
         ],
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "CloseCollectCredit": {
         "algorithm": "JustReturn",
@@ -3558,7 +3562,7 @@
             160
         ],
         "preDelay": 500,
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "RecruitRefreshConfirm@Loading",
             "SleepThenStop"
@@ -3567,7 +3571,7 @@
     "SleepThenStop": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "RecruitTimerH": {
         "Doc": "识别公招小时数",
@@ -3675,7 +3679,7 @@
     "Return": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "rearDelay": 2000,
+        "postDelay": 2000,
         "cache": false,
         "roi": [
             0,
@@ -3699,7 +3703,7 @@
             "Infrast@CloseAnno",
             "Infrast@TodaysSupplies"
         ],
-        "rearDelay": 5000
+        "postDelay": 5000
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -3809,7 +3813,7 @@
     },
     "DroneConfirm": {
         "action": "ClickSelf",
-        "rearDelay": 3500,
+        "postDelay": 3500,
         "cache": false,
         "roi": [
             778,
@@ -3846,7 +3850,7 @@
             "DeliverableOrder",
             "DroneAssistTrade"
         ],
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "DroneAssist-Trade-Stop": {
         "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
@@ -3861,7 +3865,7 @@
             165,
             149
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "ReplenishToMaxConfirm",
             "Stop"
@@ -3875,7 +3879,7 @@
             192,
             187
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "ReplenishToMaxConfirm@Loading",
             "Stop"
@@ -4026,8 +4030,8 @@
             300
         ],
         "preDelay": 1000,
-        "rearDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+        "postDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
     },
     "InfrastOperListSwipeEnd": {
         "algorithm": "JustReturn",
@@ -4049,8 +4053,8 @@
             300
         ],
         "preDelay": 1500,
-        "rearDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+        "postDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
     },
     "ProcessTaskSlowlySwipeLeftRect": {
         "algorithm": "JustReturn",
@@ -4072,9 +4076,9 @@
             300
         ],
         "preDelay": 300,
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "maxTimes": 2,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
     },
     "InfrastOperListSwipeToTheLeftEnd": {
         "algorithm": "JustReturn",
@@ -4309,7 +4313,7 @@
             150,
             720
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "InfrastEnterOperList"
         ]
@@ -4330,7 +4334,7 @@
             480,
             650
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastClearButton": {
         "action": "ClickSelf",
@@ -4341,7 +4345,7 @@
             275,
             128
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastSortByTrustButton": {
         "action": "ClickSelf",
@@ -4365,7 +4369,7 @@
             100,
             70
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
@@ -4381,7 +4385,7 @@
             "InfrastFilterMenuNotStationedButton",
             "InfrastFilterMenuNotStationedButtonAlreadyClicked"
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
@@ -4393,7 +4397,7 @@
             250,
             150
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "InfrastFilterMenuConfirmButton"
         ]
@@ -4425,7 +4429,7 @@
             "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
             "InfrastFilterMenuCancelNotStationedButton"
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastFilterMenuCancelNotStationedButton": {
         "action": "DoNothing",
@@ -4438,7 +4442,7 @@
             250,
             150
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "InfrastFilterMenuConfirmButton"
         ]
@@ -4466,7 +4470,7 @@
             152,
             50
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastConfirmButton": {
         "algorithm": "JustReturn",
@@ -4477,7 +4481,7 @@
             150,
             40
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "InfrastConfirmButtonWait",
             "Stop"
@@ -4495,7 +4499,7 @@
             300,
             80
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "InfrastConfirmButtonWait",
             "Stop"
@@ -4511,7 +4515,7 @@
             180
         ],
         "preDelay": 1000,
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "InfrastDormConfirmButton": {
         "algorithm": "JustReturn",
@@ -4522,7 +4526,7 @@
             150,
             40
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "InfrastDormConfirmButtonWait",
             "InfrastDormDoubleConfirmButton",
@@ -4541,7 +4545,7 @@
             300,
             80
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "InfrastDormConfirmButtonWait",
             "InfrastDormDoubleConfirmButton",
@@ -4557,7 +4561,7 @@
             650,
             100
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "InfrastDormConfirmButtonWait",
             "InfrastDormDoubleConfirmButton",
@@ -4566,7 +4570,7 @@
     },
     "InfrastEnterFacility": {
         "algorithm": "JustReturn",
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "InfrastFacilityListTabMfg": {
         "template": "FacilityListTabMfg.png",
@@ -4580,7 +4584,7 @@
             1,
             255
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastFacilityListTabTrade": {
         "template": "FacilityListTabTrade.png",
@@ -4594,7 +4598,7 @@
             1,
             255
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "InfrastOperLockedMfg": {
         "template": "OperLockedMfg.png",
@@ -4677,7 +4681,7 @@
             500,
             220
         ],
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastAddOperatorMfgAggressive": {
         "template": "AddOperatorMfgAggressive.png",
@@ -4694,7 +4698,7 @@
             80,
             80
         ],
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastAddOperatorTradeGentle": {
         "template": "AddOperatorTradeGentle.png",
@@ -4705,7 +4709,7 @@
             500,
             220
         ],
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastAddOperatorTradeAggressive": {
         "template": "AddOperatorTradeAggressive.png",
@@ -4722,7 +4726,7 @@
             80,
             80
         ],
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastAddOperatorReceptionGentle": {
         "template": "AddOperatorReceptionGentle.png",
@@ -4733,7 +4737,7 @@
             300,
             720
         ],
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastAddOperatorReceptionAggressive": {
         "algorithm": "JustReturn",
@@ -4744,7 +4748,7 @@
             200,
             300
         ],
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastOperSelected": {
         "template": "empty.png",
@@ -4781,7 +4785,7 @@
             500,
             250
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
@@ -4793,7 +4797,7 @@
             500,
             250
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
@@ -4805,7 +4809,7 @@
             500,
             250
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
@@ -4817,7 +4821,7 @@
             500,
             250
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
@@ -4829,7 +4833,7 @@
             500,
             250
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
@@ -4841,7 +4845,7 @@
             500,
             250
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
@@ -4853,7 +4857,7 @@
             500,
             250
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "InfrastClue": {
         "template": "Clue.png",
@@ -4878,9 +4882,9 @@
             100
         ],
         "preDelay": 500,
-        "rearDelay": 500,
+        "postDelay": 500,
         "maxTimes": 1,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
     },
     "InfrastClueOnTheRightSwipeEnd": {
         "algorithm": "JustReturn",
@@ -4933,7 +4937,7 @@
             130,
             32
         ],
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "CloseCluePageThenSendClue": {
         "template": "CloseCluePage.png",
@@ -5058,7 +5062,7 @@
             700,
             120
         ],
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "UnlockCluesIsFake",
             "InfrastBottomLeftTab"
@@ -5089,7 +5093,7 @@
     "EndOfClueExchangeBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "EndOfClueExchange",
             "ReceptionFlag"
@@ -5121,7 +5125,7 @@
         "next": [
             "ReceptionFlag"
         ],
-        "rearDelay": 3000
+        "postDelay": 3000
     },
     "SendClues": {
         "action": "ClickSelf",
@@ -5135,7 +5139,7 @@
             1,
             255
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "SelectClue",
             "CloseSendClue"
@@ -5343,7 +5347,7 @@
             115
         ],
         "templThreshold": 0.7,
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastOperListTabWorkStatusUnClicked": {
         "action": "ClickSelf",
@@ -5354,7 +5358,7 @@
             119
         ],
         "templThreshold": 0.7,
-        "rearDelay": 1500
+        "postDelay": 1500
     },
     "InfrastOperListTabMoodDoubleClick": {
         "action": "ClickSelf",
@@ -5443,7 +5447,7 @@
             404,
             149
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "BattleQuickFormationClear"
         ]
@@ -5456,7 +5460,7 @@
             286,
             115
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "BattleQuickFormationExpandRole",
             "Stop"
@@ -5470,7 +5474,7 @@
             128,
             138
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "BattleQuickFormationRole": {
         "Doc": "base_task",
@@ -5487,7 +5491,7 @@
             100,
             255
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "BattleQuickFormationRole-All": {
         "baseTask": "BattleQuickFormationRole",
@@ -5554,7 +5558,7 @@
             107,
             20
         ],
-        "rearDelay": 100
+        "postDelay": 100
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
@@ -5594,7 +5598,7 @@
             400,
             112
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "BattleStartPre": {
         "algorithm": "OcrDetect",
@@ -5610,7 +5614,7 @@
             120
         ],
         "action": "ClickSelf",
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "BattleStart": {
         "Doc": "base_task",
@@ -5622,7 +5626,7 @@
             232,
             374
         ],
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "BattleStartNormal": {
         "baseTask": "BattleStart"
@@ -5641,7 +5645,7 @@
             444,
             153
         ],
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "BattleOperName": {
         "algorithm": "OcrDetect",
@@ -5686,7 +5690,7 @@
             60,
             60
         ],
-        "rearDelay": 100
+        "postDelay": 100
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
@@ -5697,7 +5701,7 @@
             1000,
             60
         ],
-        "rearDelay": 500
+        "postDelay": 500
     },
     "BattleAvatarData": {
         "template": "empty.png",
@@ -5770,7 +5774,7 @@
             90,
             90
         ],
-        "rearDelay": 300
+        "postDelay": 300
     },
     "BattleSkillStopOnClick": {
         "roi": [
@@ -5788,18 +5792,18 @@
             90,
             90
         ],
-        "rearDelay": 300
+        "postDelay": 300
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 200,
-        "rearDelay": 100,
+        "postDelay": 100,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,
-        "rearDelay": 200,
+        "postDelay": 200,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
     "BattleOpersFlag": {
@@ -6122,7 +6126,7 @@
     },
     "BattleUseSkillJustClick": {
         "algorithm": "JustReturn",
-        "rearDelay": 100,
+        "postDelay": 100,
         "action": "ClickRect",
         "specificRect": [
             850,
@@ -6146,12 +6150,12 @@
             100,
             255
         ],
-        "rearDelay": 300
+        "postDelay": 300
     },
     "BattleOperRetreatJustClick": {
         "algorithm": "JustReturn",
         "preDelay": 200,
-        "rearDelay": 300,
+        "postDelay": 300,
         "action": "ClickRect",
         "specificRect": [
             580,
@@ -6427,8 +6431,8 @@
             300
         ],
         "preDelay": 1500,
-        "rearDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+        "postDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
     },
     "DepotTaskSlowlySwipeLeftRect": {
         "algorithm": "JustReturn",
@@ -6587,7 +6591,7 @@
             50,
             50
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "Roguelike@NextLevel#next",
             "Roguelike@ChooseOperFlag",
@@ -6608,7 +6612,7 @@
             50,
             50
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "Roguelike@StartExplore",
             "Roguelike@NextLevel#next",
@@ -6644,7 +6648,7 @@
             248,
             215
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "Roguelike@MissionFailedFlag2",
             "Roguelike@ExitThenAbandon"
@@ -6691,7 +6695,7 @@
             202,
             239
         ],
-        "rearDelay": 3000,
+        "postDelay": 3000,
         "next": [
             "Roguelike@NextLevel#next"
         ]
@@ -6812,7 +6816,7 @@
             157
         ],
         "templThreshold": 0.85,
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "Roguelike@GetDrop1": {
         "Doc": "base_task",
@@ -6861,7 +6865,7 @@
             302,
             289
         ],
-        "rearDelay": 3000,
+        "postDelay": 3000,
         "next": [
             "Roguelike@GetDrops#next",
             "Roguelike@ChooseOperFlag",
@@ -6911,7 +6915,7 @@
             1280,
             157
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "Roguelike@ChooseOperFlag",
             "Roguelike@GetDrops#next",
@@ -6931,7 +6935,7 @@
             1280,
             157
         ],
-        "rearDelay": 2000,
+        "postDelay": 2000,
         "next": [
             "Roguelike@GetDropSelectRecruit",
             "Roguelike@GetDropSelectReward",
@@ -6951,7 +6955,7 @@
             1280,
             175
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "templThreshold": 0.85,
         "next": [
             "Roguelike@ChooseOperFlag",
@@ -6969,7 +6973,7 @@
             1280,
             175
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "Roguelike@GetDropSelectReward",
             "Roguelike@ChooseOperFlag",
@@ -6993,7 +6997,7 @@
             255
         ],
         "action": "DoNothing",
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "Roguelike@InBattleFlag",
             "Roguelike@MissionCompletedFlag",
@@ -7125,7 +7129,7 @@
             "Roguelike@TodoEnter",
             "Roguelike@IntegratedStrategies"
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "Roguelike@MissionCompletedFlag": {
         "roi": [
@@ -7190,7 +7194,7 @@
         "next": [
             "Roguelike@FormationConfirm"
         ],
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "Roguelike@RecruitCloseGuide": {
         "action": "ClickSelf",
@@ -7220,7 +7224,7 @@
             "Roguelike@ChooseOperFlag",
             "Roguelike@RecruitCloseGuide"
         ],
-        "rearDelay": 1000
+        "postDelay": 1000
     },
     "Roguelike@RecruitOther": {
         "Doc": "base_task",
@@ -7436,7 +7440,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
-            "Roguelike@StageEncounterOptions#next"
+            "Roguelike@StageEncounterClickToLeave"
         ]
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
@@ -7465,7 +7469,7 @@
             211,
             700
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterSpecialClose",
@@ -7595,7 +7599,7 @@
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
-        "rearDelay": 3000,
+        "postDelay": 3000,
         "next": [
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
@@ -7625,7 +7629,7 @@
             278,
             144
         ],
-        "rearDelay": 500,
+        "postDelay": 500,
         "next": [
             "Roguelike@StageTraderInvestSystemError",
             "Roguelike@StageTraderInvestSystemFull",
@@ -7773,7 +7777,7 @@
             254,
             248
         ],
-        "rearDelay": 2000,
+        "postDelay": 2000,
         "next": [
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
@@ -8009,15 +8013,9 @@
     },
     "Phantom@Roguelike@StageEncounterEnter": {},
     "Phantom@Roguelike@StageEncounterLeaveConfirm": {},
-    "Phantom@Roguelike@StageEncounterOptionFree": {
-        "templThreshold": 0.99
-    },
-    "Phantom@Roguelike@StageEncounterOptionLeave": {
-        "templThreshold": 0.97
-    },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.91
-    },
+    "Phantom@Roguelike@StageEncounterOptionFree": {},
+    "Phantom@Roguelike@StageEncounterOptionLeave": {},
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {},
     "Phantom@Roguelike@StageEncounterOptions": {
         "next": [
             "Phantom@Roguelike@StageEncounterOptionFree",
@@ -8126,7 +8124,7 @@
             50,
             50
         ],
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "cache": false,
         "roi": [
             519,
@@ -8171,7 +8169,7 @@
             143
         ],
         "templThreshold": 0.95,
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
             "Mizuki@Roguelike@NextLevel#next",
@@ -8252,7 +8250,7 @@
             140
         ],
         "templThreshold": 0.85,
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "next": [
             "Mizuki@Roguelike@DropsFlag",
             "Mizuki@Roguelike@ChooseOperFlag",
@@ -8399,7 +8397,7 @@
         ]
     },
     "Mizuki@Roguelike@StageDreadfulFoe-5Enter": {
-        "baseTask": "Mizuki@Roguelike@StageEnter"
+        "baseTask": "Mizuki@Roguelike@StageEnterBattle"
     },
     "Mizuki@Roguelike@StageDreadfulFoeEnter": {},
     "Mizuki@Roguelike@StageEmergencyDps": {
@@ -8648,12 +8646,12 @@
             "RoguelikeQuickFormationClearAndReselect-Formation",
             "Stop"
         ],
-        "rearDelay": 2000
+        "postDelay": 2000
     },
     "RoguelikeQuickFormationDelay": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "rearDelay": 100
+        "postDelay": 100
     },
     "RoguelikeRecruitElite0": {
         "roi": [
@@ -8735,8 +8733,8 @@
             300
         ],
         "preDelay": 1500,
-        "rearDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用"
+        "postDelay": 300,
+        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
     },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
@@ -8753,9 +8751,9 @@
             300
         ],
         "preDelay": 300,
-        "rearDelay": 1000,
+        "postDelay": 1000,
         "maxTimes": 2,
-        "Doc": "这里的preDelay作为滑动duration使用，rearDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
     },
     "RoguelikeRecruitSwipeToTheLeftEnd": {
         "algorithm": "JustReturn",
@@ -8783,7 +8781,7 @@
             40,
             30
         ],
-        "rearDelay": 200
+        "postDelay": 200
     },
     "RoguelikeSkillSelectionMove2": {
         "algorithm": "JustReturn",

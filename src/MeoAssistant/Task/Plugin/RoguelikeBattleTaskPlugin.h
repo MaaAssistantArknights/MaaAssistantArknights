@@ -55,6 +55,7 @@ namespace asst
         bool check_key_kills(const cv::Mat& image);
         bool wait_start();
         bool cancel_oper_selection();
+        bool is_oper_name_error(const std::string& name);
 
         void set_position_full(const BattleLocationType& loc_type, bool full);
         void set_position_full(const Point& point, bool full);

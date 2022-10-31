@@ -116,7 +116,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-    sleep(Task.get("InfrastEnterFacility")->rear_delay);
+    sleep(Task.get("InfrastEnterFacility")->post_delay);
 
     return true;
 }
@@ -152,7 +152,7 @@ bool asst::InfrastAbstractTask::is_use_custom_opers()
 void asst::InfrastAbstractTask::await_swipe()
 {
     LogTraceFunction;
-    static int extra_delay = Task.get("InfrastOperListSwipeBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeBegin")->post_delay;
 
     m_ctrler->wait(m_last_swipe_id);
     sleep(extra_delay);
@@ -437,7 +437,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
     static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
     static int cfg_loop_times = Task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
@@ -455,7 +455,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
     static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
 
     m_ctrler->swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
@@ -466,7 +466,7 @@ void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
     static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
 
     m_ctrler->swipe(begin_rect, end_rect, duration, true, extra_delay, false);
 }

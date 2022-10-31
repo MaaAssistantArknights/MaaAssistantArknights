@@ -40,16 +40,26 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource UpdateCheckBeta}"
-                    IsChecked="{Binding UpdateBeta}"
-                    IsEnabled="{Binding UpdateCheck}" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
                     Content="{DynamicResource DownloadWithAria2}"
                     IsChecked="{Binding UseAria2}"
                     IsEnabled="{Binding UpdateCheck}" />
+                <StackPanel
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="10,10,0,10"
+                        Block.TextAlignment="Center"
+                        Style="{StaticResource TextBlockDefault}"
+                        Text="{DynamicResource UpdateCheck}" />
+                    <ComboBox
+                        Width="120"
+                        Margin="10"
+                        DisplayMemberPath="Display"
+                        IsEnabled="{Binding UpdateCheck}"
+                        ItemsSource="{Binding VersionTypeList}"
+                        SelectedValue="{Binding VersionType}"
+                        SelectedValuePath="Value" />
+                </StackPanel>
             </StackPanel>
         </StackPanel>
         <StackPanel

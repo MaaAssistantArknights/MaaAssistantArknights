@@ -124,8 +124,11 @@
 
     <system:String x:Key="UpdateAutoCheck">アップデートチェック</system:String>
     <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
-    <system:String x:Key="UpdateCheckBeta">ベータ版を使う</system:String>
+    <system:String x:Key="UpdateCheckStable">安定版</system:String>
+    <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
+    <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
+    <system:String x:Key="UpdateCheck">更新版</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
     <system:String x:Key="TimerTip">時間のみを記入（例:15/午後3時に実行する）</system:String>
@@ -193,7 +196,7 @@
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
-    <system:String x:Key="AutoRoguelike">自動ローグ*</system:String>
+    <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
 
     <system:String x:Key="SelectAll">全て選択</system:String>
     <system:String x:Key="Inverse">逆選択</system:String>
@@ -343,7 +346,7 @@
     <!--  自動戦闘  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
+    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="ErrorDetails">情報</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
