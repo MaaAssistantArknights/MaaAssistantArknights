@@ -422,7 +422,7 @@ namespace MeoAsstGui
             }
 
             // 开发版不检查更新
-            if (!(settings.UpdateNightly && isCVersion()) && !force && !isStableVersion())
+            if (!(settings.UpdateNightly && !isDebugVersion()) && !force && !isStableVersion())
             {
                 return false;
             }
@@ -733,14 +733,14 @@ namespace MeoAsstGui
             return true;
         }
 
-        private bool isCVersion(string version = null)
+        private bool isDebugVersion(string version = null)
         {
             if (version == null)
             {
                 version = _curVersion;
             }
 
-            return version.StartsWith("c");
+            return version == "DEBUG VERSION";
         }
 
         private bool isStableVersion(string version = null)
