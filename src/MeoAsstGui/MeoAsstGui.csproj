@@ -110,9 +110,19 @@
     <Compile Include="Helper\CombData.cs" />
     <Compile Include="Helper\ComboBoxExtensions.cs" />
     <Compile Include="Helper\GenericCombData{TValueType}.cs" />
+    <Compile Include="Helper\IMainWindowManager.cs" />
     <Compile Include="Helper\Localization.cs" />
-    <Compile Include="Helper\LogColor.cs" />
+    <Compile Include="Helper\Logger.cs" />
+    <Compile Include="Helper\UILogColor.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
+    <Compile Include="Helper\MaaHotKeys\IMaaHotKeyActionHandler.cs" />
+    <Compile Include="Helper\MaaHotKeys\IMaaHotKeyManager.cs" />
+    <Compile Include="Helper\MaaHotKeys\MaaHotKey.cs" />
+    <Compile Include="Helper\MaaHotKeys\MaaHotKeyAction.cs" />
+    <Compile Include="Helper\MaaHotKeys\MaaHotKeyActionHandler.cs" />
+    <Compile Include="Helper\MaaHotKeys\MaaHotKeyManager.cs" />
+    <Compile Include="Helper\MaaUrls.cs" />
+    <Compile Include="Helper\MainWindowManager.cs" />
     <Compile Include="Helper\MessageBoxManager.cs" />
     <Compile Include="Helper\ToastNotification.cs" />
     <Compile Include="Helper\ScrollViewerBinding.cs" />
@@ -126,6 +136,12 @@
     </Compile>
     <Compile Include="Helper\WinAdapter.cs" />
     <Compile Include="Helper\TrayIcon.cs" />
+    <Compile Include="UserControl\HotKeyEditorUserControl.xaml.cs">
+      <DependentUpon>HotKeyEditorUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\HotKeySettingsUserControl.xaml.cs">
+      <DependentUpon>HotKeySettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\StartSettingsUserControl.xaml.cs">
       <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -172,6 +188,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\ErrorView.xaml.cs" />
     <Page Include="Resources\Localizations\ko-kr.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -193,6 +210,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Localizations\zh-tw.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\HotKeyEditorUserControl.xaml" />
+    <Page Include="UserControl\HotKeySettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -249,6 +271,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ErrorView.xaml" />
     <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -298,6 +321,9 @@
     <PackageReference Include="Costura.Fody">
       <Version>5.7.0</Version>
       <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="GlobalHotKey">
+      <Version>1.1.0</Version>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop">
       <Version>3.1.1</Version>
@@ -461,11 +487,9 @@
   <ItemGroup>
     <Resource Include="newlogo.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\tools" "$(TargetDir)"
-xcopy /e /y /i /c "$(ProjectDir)..\..\tools\CopilotDesinger\copilot-designer-deprecated" "$(TargetDir)\作业制作器"
 xcopy /e /y /i /c "$(ProjectDir)..\..\src\Python" "$(TargetDir)\Python"</PostBuildEvent>
   </PropertyGroup>
 </Project>

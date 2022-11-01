@@ -8,6 +8,7 @@ namespace asst
     class RoguelikeSkillSelectionTaskPlugin;
     class RoguelikeBattleTaskPlugin;
     class RoguelikeCustomStartTaskPlugin;
+    class RoguelikeDebugTaskPlugin;
 
     class RoguelikeTask : public PackageTask
     {
@@ -25,5 +26,6 @@ namespace asst
         std::shared_ptr<RoguelikeSkillSelectionTaskPlugin> m_skill_task_ptr = nullptr;
         std::shared_ptr<RoguelikeBattleTaskPlugin> m_battle_task_ptr = nullptr;
         std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_start_task_ptr = nullptr;
+        std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_task_ptr = nullptr;
     };
 }

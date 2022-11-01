@@ -14,8 +14,8 @@
 #include "ProcessTask.h"
 #include "Resource/GeneralConfiger.h"
 #include "Utils/AsstImageIo.hpp"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 
 using namespace asst;
 
@@ -183,7 +183,15 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
         }
     }
     if (m_callback) {
-        m_callback(msg, detail, m_callback_arg);
+        // TODO 屎山: task 字段需要忽略 @ 和前面的字符，否则回调大改
+        json::value proced_detail = detail;
+        if (std::string task = detail.get("details", "task", std::string()); !task.empty()) {
+            if (size_t pos = task.rfind('@'); pos != std::string::npos) {
+                proced_detail["details"]["task"] = task.substr(pos + 1);
+            }
+        }
+
+        m_callback(msg, proced_detail, m_callback_arg);
     }
 }
 

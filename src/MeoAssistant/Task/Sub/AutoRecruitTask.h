@@ -34,7 +34,7 @@ namespace asst
     protected:
         virtual bool _run() override;
 
-        bool is_calc_only_task() { return m_max_times <= 0 || m_confirm_level.empty(); }
+        bool is_calc_only_task() { return m_max_times <= 0 && m_confirm_level.empty(); }
         std::optional<Rect> try_get_start_button(const cv::Mat&);
         bool recruit_one(const Rect&);
         bool check_recruit_home_page();

@@ -22,7 +22,6 @@ public partial class Build
         .Executes(() =>
         {
             var releaseBuildOutput = Parameters.BuildOutput / BuildConfiguration.Release;
-            RemoveDebugSymbols(releaseBuildOutput);
 
             foreach (var package in Parameters.Packages)
             {

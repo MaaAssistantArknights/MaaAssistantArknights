@@ -1,13 +1,15 @@
 #pragma once
 
 #include <filesystem>
+#include <fstream>
 #include <string>
 #include <vector>
 
 #include "NoWarningCV.h"
 #include "NoWarningCVMat.h"
 
-#include "AsstUtils.hpp"
+#include "Platform.hpp"
+#include "UserDir.hpp"
 
 namespace asst
 {
@@ -29,9 +31,17 @@ namespace asst
     inline bool imwrite(const std::filesystem::path& path, cv::InputArray img,
                         const std::vector<int>& params = std::vector<int>())
     {
-        std::ofstream of(path, std::ios::out | std::ios::binary);
+        std::filesystem::path absolute_path;
+        if (path.is_relative()) [[likely]] {
+            const auto& user_dir = UserDir::get_instance().get();
+            absolute_path = user_dir / path;
+        }
+        else {
+            absolute_path = path;
+        }
+        std::ofstream of(absolute_path, std::ios::out | std::ios::binary);
         std::vector<uint8_t> encoded;
-        auto ext = asst::utils::path_to_utf8_string(path.extension());
+        auto ext = asst::utils::path_to_utf8_string(absolute_path.extension());
         if (cv::imencode(ext.c_str(), img, encoded, params)) {
             of.write((char*)&encoded[0], encoded.size());
             return true;

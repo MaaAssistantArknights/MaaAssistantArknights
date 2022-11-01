@@ -4,6 +4,7 @@
         "text": [
             "Start"
         ],
+        "cache": false,
         "preDelay": 500,
         "roi": [
             1000,
@@ -21,7 +22,8 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "AnnihilationConfirm"
         ]
     },
     "PRTS": {
@@ -36,7 +38,7 @@
             220
         ],
         "action": "DoNothing",
-        "rearDelay": 5000,
+        "postDelay": 5000,
         "next": [
             "PRTS",
             "PRTS3",
@@ -44,19 +46,6 @@
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
-        ]
-    },
-    "EndOfAction": {
-        "Doc": "本任务注册了插件 StageDropsTaskPlugin",
-        "roi": [
-            791,
-            410,
-            296,
-            145
-        ],
-        "action": "DoNothing",
-        "next": [
-            "ClickCorner"
         ]
     },
     "VisitNextOcr": {
@@ -92,7 +81,7 @@
             140
         ],
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "NoFriends": {
@@ -108,7 +97,7 @@
         ],
         "action": "DoNothing",
         "next": [
-            "ReturnToHome"
+            "Home@ReturnTo"
         ]
     },
     "RecruitTags": {
@@ -251,8 +240,8 @@
         "next": [
             "CreditStoreOcr",
             "Mall",
-            "ReturnToMallCloseAnno",
-            "TodaysSuppliesToMall"
+            "Mall@CloseAnno",
+            "Mall@TodaysSupplies"
         ]
     },
     "CreditStoreOcr": {
@@ -343,11 +332,11 @@
             "Stop"
         ]
     },
-    "Roguelike1StageTraderInvestSystemFull": {
+    "Roguelike@StageTraderInvestSystemFull": {
         "algorithm": "OcrDetect",
         "cache": false,
         "reduceOtherTimes": [
-            "Roguelike1StageTraderInvestConfirm"
+            "Roguelike@StageTraderInvestConfirm"
         ],
         "text": [
             "Storage full"
@@ -359,7 +348,7 @@
             289
         ],
         "next": [
-            "Roguelike1StageTraderInvestCancel"
+            "Roguelike@StageTraderInvestCancel"
         ]
     },
     "BattleStageName": {
@@ -647,6 +636,34 @@
             [
                 "Nothing Ends Well",
                 "诸事不顺"
+            ],
+            [
+                "Disorderly Banquet",
+                "无序盛宴"
+            ],
+            [
+                "Demonic Cage",
+                "邪异囚笼"
+            ],
+            [
+                "This Ursus Man",
+                "这位乌萨斯人"
+            ],
+            [
+                "Duck Lord's Play",
+                "鸭爵的戏剧"
+            ],
+            [
+                "Duck Lord's Party",
+                "鸭爵的宴会"
+            ],
+            [
+                "Gopnik's Fist",
+                "高普尼克之拳"
+            ],
+            [
+                "'Knights' Duel'",
+                "“骑士对决”"
             ]
         ],
         "roi": [
@@ -1524,10 +1541,390 @@
             [
                 "Gravel",
                 "砾"
+            ],
+            [
+                "Sealed Floor",
+                "封印的地面"
+            ],
+            [
+                "Kazemaru",
+                "风丸"
+            ],
+            [
+                "Ling",
+                "令"
+            ],
+            [
+                "Energy Aggregate",
+                "能量聚合体"
+            ],
+            [
+                "'Host's Assistant'",
+                "“报幕助手”"
+            ],
+            [
+                "Snowsant's Safe Escape Crane",
+                "雪雉的安全起重机"
+            ],
+            [
+                "Fiammetta",
+                "菲亚梅塔"
+            ],
+            [
+                "Erosion-Resistant Coating Application Device",
+                "防水蚀镀膜装置"
+            ],
+            [
+                "Skadi's Seaborn",
+                "斯卡蒂的海嗣"
+            ],
+            [
+                "Battlefield Ruins",
+                "战场废墟"
+            ],
+            [
+                "Soaring Dragon L",
+                "龙腾.L"
+            ],
+            [
+                "'Tranquility'",
+                "“清平”"
+            ],
+            [
+                "Originium Altar",
+                "源石祭坛"
+            ],
+            [
+                "Medic Drone",
+                "医疗探机"
+            ],
+            [
+                "Emperor",
+                "大帝"
+            ],
+            [
+                "Chestnut",
+                "褐果"
+            ],
+            [
+                "Drone Factory",
+                "无人机工厂"
+            ],
+            [
+                "Gate",
+                "闸门"
+            ],
+            [
+                "Lee",
+                "老鲤"
+            ],
+            [
+                "Blacknight",
+                "夜半"
+            ],
+            [
+                "Quercus",
+                "夏栎"
+            ],
+            [
+                "Detector",
+                "侦测器"
+            ],
+            [
+                "Command Terminal",
+                "指挥终端"
+            ],
+            [
+                "Demolition Device",
+                "爆破装置"
+            ],
+            [
+                "Rubble",
+                "碎石"
+            ],
+            [
+                "High-Energy Originium Bomb",
+                "高能源石炸弹"
+            ],
+            [
+                "Kroos the Keen Glint",
+                "寒芒克洛丝"
+            ],
+            [
+                "Cursed Doll",
+                "诅咒娃娃"
+            ],
+            [
+                "Mobile Tactical Hangar",
+                "可移动战术机库"
+            ],
+            [
+                "Rockrock",
+                "洛洛"
+            ],
+            [
+                "Phantom in the Mirror",
+                "镜中虚影"
+            ],
+            [
+                "Static Roadblock",
+                "道路障碍物"
+            ],
+            [
+                "Tentacle",
+                "触手"
+            ],
+            [
+                "'Clip'",
+                "\"夹子\""
+            ],
+            [
+                "Metal Crab Guard Team",
+                "磐蟹护卫队"
+            ],
+            [
+                "'Freeling'",
+                "\"小自在\""
+            ],
+            [
+                "Gas Tank P.",
+                "便携气罐"
+            ],
+            [
+                "Mieszko Coil",
+                "梅什科线圈"
+            ],
+            [
+                "Kaminingyo",
+                "纸偶"
+            ],
+            [
+                "Slumberfoot",
+                "眠兽"
+            ],
+            [
+                "Jammer",
+                "干扰装置"
+            ],
+            [
+                "Heidi",
+                "海蒂"
+            ],
+            [
+                "Nine-Colored Deer",
+                "九色鹿"
+            ],
+            [
+                "L-44 'Gramophone'",
+                "L-44\"留声机\""
+            ],
+            [
+                "Offspring",
+                "子代"
+            ],
+            [
+                "Enforcer",
+                "见行者"
+            ],
+            [
+                "Reinforcement Device",
+                "加固装置"
+            ],
+            [
+                "Temporary Rhodes Island Employee",
+                "罗德岛临时雇员"
+            ],
+            [
+                "Goldenglow",
+                "澄闪"
+            ],
+            [
+                "Unowned Treasure",
+                "无主的财富"
+            ],
+            [
+                "Dantian",
+                "丹田"
+            ],
+            [
+                "FrostNova's Originium Ice Crystal",
+                "霜星的源石冰晶"
+            ],
+            [
+                "Mr. Boom",
+                "轰隆隆先生"
+            ],
+            [
+                "Horn",
+                "号角"
+            ],
+            [
+                "Sand Obelisk",
+                "沙之碑"
+            ],
+            [
+                "Mirage",
+                "幻影"
+            ],
+            [
+                "Robotter",
+                "机械水獭"
+            ],
+            [
+                "Soaring Dragon F",
+                "龙腾.F"
+            ],
+            [
+                "Soaring Dragon A",
+                "龙腾.A"
+            ],
+            [
+                "Front Toward Enemy",
+                "此面向敌"
+            ],
+            [
+                "Industrial Water Cannon",
+                "工程蓄水炮"
+            ],
+            [
+                "Mobile Buggy Cam",
+                "移动摄影器"
+            ],
+            [
+                "Rosmontis's Tactical Equipment",
+                "迷迭香的战术装备"
+            ],
+            [
+                "Welcome Mat",
+                "迎宾踏垫"
+            ],
+            [
+                "Full Auto Modeler",
+                "全自动造型仪"
+            ],
+            [
+                "Custom Floating Platform",
+                "特制水上平台"
+            ],
+            [
+                "'Blazing Sun'",
+                "“耀阳”"
+            ],
+            [
+                "'Peripateticism'",
+                "“逍遥”"
+            ],
+            [
+                "'Thunderer'",
+                "“弦惊”"
+            ],
+            [
+                "Roadblock",
+                "障碍物"
+            ],
+            [
+                "Kite",
+                "风筝"
+            ],
+            [
+                "Stun Generator",
+                "震撼装置"
+            ],
+            [
+                "Turret",
+                "弩炮"
+            ],
+            [
+                "Portable Supply Station",
+                "便携式补给站"
+            ],
+            [
+                "Originium Ice Crystal",
+                "源石冰晶"
+            ],
+            [
+                "Interference Mine",
+                "干扰地雷"
+            ],
+            [
+                "Originium Flow Generator",
+                "源石流发生装置"
+            ],
+            [
+                "Giant Mushroom",
+                "巨蕈"
+            ],
+            [
+                "Patriot's Originium Altar",
+                "爱国者的源石祭坛"
+            ],
+            [
+                "Shieldguard",
+                "盾卫"
+            ],
+            [
+                "Imprisonment Device",
+                "禁锢装置"
+            ],
+            [
+                "Two-Step Firecracker mk2",
+                "改良型二踢脚"
+            ],
+            [
+                "Pulse Defense Module",
+                "脉冲防御模组"
+            ],
+            [
+                "Teargas Control Valve",
+                "催泪瓦斯控制阀"
+            ],
+            [
+                "Dirt Mound",
+                "土石结构"
+            ],
+            [
+                "Sandstorm",
+                "沙尘暴"
+            ],
+            [
+                "Emergency Aid Building",
+                "应急救治设施"
+            ],
+            [
+                "Tide Controller",
+                "涨潮控制"
+            ],
+            [
+                "Tattered Pillar",
+                "破碎支柱"
+            ],
+            [
+                "City Neon",
+                "城市霓虹"
+            ],
+            [
+                "Knight Crest",
+                "骑士之徽"
+            ],
+            [
+                "Blizzard",
+                "暴风雪"
+            ],
+            [
+                "Broken Fog Machine",
+                "失修舞台雾机"
+            ],
+            [
+                "'Gelato Stop'",
+                "“冰淇淋机”"
+            ],
+            [
+                "Londinium Secondary Defense Artillery",
+                "伦蒂尼姆城防副炮"
             ]
         ]
     },
-    "Roguelike1Custom-HijackSquad": {
+    "RoguelikeCustom-HijackSquad": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1579,7 +1976,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackRoles": {
+    "RoguelikeCustom-HijackRoles": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1615,7 +2012,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackCoChar": {
+    "RoguelikeCustom-HijackCoChar": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
@@ -1659,5 +2056,1215 @@
             ]
         ],
         "preDelay": 1000
+    },
+    "RoguelikeTraderShoppingOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            -120,
+            -160,
+            190,
+            35
+        ],
+        "ocrReplace": [
+            [
+                "Guard Promotion Voucher",
+                "近卫进阶券"
+            ],
+            [
+                "Life Point",
+                "目标生命"
+            ],
+            [
+                "Route Diagram",
+                "路线说明图"
+            ],
+            [
+                "Letter of Termination Contract",
+                "解约协议"
+            ],
+            [
+                "Vanguard Rec. Voucher",
+                "先锋招募券"
+            ],
+            [
+                "Sabotage Co-op Rec. Voucher",
+                "破坏协议招募券"
+            ],
+            [
+                "Elite Defender Rec. Voucher",
+                "高级重装招募券"
+            ],
+            [
+                "Guard Rec. Voucher",
+                "近卫招募券"
+            ],
+            [
+                "Rusted Blade - Execution",
+                "锈刃-处决"
+            ],
+            [
+                "Originium Ingot",
+                "源石锭"
+            ],
+            [
+                "Sabotage Co-op Expansion",
+                "破坏协议扩充"
+            ],
+            [
+                "Command EXP",
+                "指挥经验"
+            ],
+            [
+                "Glass Bird",
+                "玻璃小鸟"
+            ],
+            [
+                "Specialist Rec. Voucher",
+                "特种招募券"
+            ],
+            [
+                "Sigil of Tragodia",
+                "酒神的印记"
+            ],
+            [
+                "Elite Specialist Rec. Voucher",
+                "高级特种招募券"
+            ],
+            [
+                "Backline Corps Rec. Voucher",
+                "后方协调招募券"
+            ],
+            [
+                "Tactical Assault Operative",
+                "突击战术分队"
+            ],
+            [
+                "Squad Size Limit",
+                "可携带干员数"
+            ],
+            [
+                "Hope",
+                "希望"
+            ],
+            [
+                "HR Dispatch Letter",
+                "人事调度函"
+            ],
+            [
+                "'Lone Wander'",
+                "《独行客》"
+            ],
+            [
+                "Defender Rec. Voucher",
+                "重装招募券"
+            ],
+            [
+                "'Gaulish Toponym Origins'",
+                "《旧高卢地名源流考》"
+            ],
+            [
+                "Elite Medic Rec. Voucher",
+                "高级医疗招募券"
+            ],
+            [
+                "Antique Coins",
+                "古旧钱币"
+            ],
+            [
+                "Tactical Destruction Operative",
+                "破坏战术分队"
+            ],
+            [
+                "Broken Wand - Training",
+                "断杖-典训"
+            ],
+            [
+                "Gaulish Macarons",
+                "高卢小圆饼"
+            ],
+            [
+                "Sniper Rec. Voucher",
+                "狙击招募券"
+            ],
+            [
+                "Elite HR Dispatch Letter",
+                "高级人事调度函"
+            ],
+            [
+                "Elite Sniper Rec. Voucher",
+                "高级狙击招募券"
+            ],
+            [
+                "Godmother's Token",
+                "教母的信物"
+            ],
+            [
+                "Special Suppressor",
+                "特殊抑制器"
+            ],
+            [
+                "Hand of Diffusion",
+                "扩散之手"
+            ],
+            [
+                "Caster Rec. Voucher",
+                "术师招募券"
+            ],
+            [
+                "Healer's Path - Restore Sanity",
+                "医者-理智固剂"
+            ],
+            [
+                "Elite Vanguard Rec. Voucher",
+                "高级先锋招募券"
+            ],
+            [
+                "Supporter Rec. Voucher",
+                "辅助招募券"
+            ],
+            [
+                "Elite Supporter Rec. Voucher",
+                "高级辅助招募券"
+            ],
+            [
+                "Medic Rec. Voucher",
+                "医疗招募券"
+            ],
+            [
+                "Gathering Squad",
+                "集群分队"
+            ],
+            [
+                "‘Profound Silence'",
+                "《大静谧》"
+            ],
+            [
+                "Elite Guard Rec. Voucher",
+                "高级近卫招募券"
+            ],
+            [
+                "'Silent Squad'",
+                "“静音小队”"
+            ],
+            [
+                "Elite Caster Rec. Voucher",
+                "高级术师招募券"
+            ],
+            [
+                "Assault Co-op Rec. Voucher",
+                "突击协议招募券"
+            ],
+            [
+                "Special HR Dispatch Letter",
+                "特别人事调度函"
+            ],
+            [
+                "Fortification Co-op Rec. Voucher",
+                "堡垒协议招募券"
+            ],
+            [
+                "Ranged Co-op Rec. Voucher",
+                "远程协议招募券"
+            ],
+            [
+                "Frontline Corps Rec. Voucher",
+                "前线统合招募券"
+            ],
+            [
+                "Abrupt Realization",
+                "恍悟"
+            ],
+            [
+                "Frontline Integration Senior Recruitment Voucher",
+                "前线统合资深招募券"
+            ],
+            [
+                "Backline Coordination Senior Recruitment Voucher",
+                "后方协调资深招募券"
+            ],
+            [
+                "Bend Spears - Training",
+                "折戟-典训"
+            ],
+            [
+                "Leader Squad",
+                "指挥分队"
+            ],
+            [
+                "Elite HR Senior Recruitment Voucher",
+                "高级人事资深招募券"
+            ],
+            [
+                "Golden Chalice",
+                "金酒之杯"
+            ],
+            [
+                "Elite Logistics Rations Voucher",
+                "高级物资配给券"
+            ],
+            [
+                "Combustible Building Mats.",
+                "临时物资配给券"
+            ],
+            [
+                "Fissured Restraints",
+                "开裂的束缚带"
+            ],
+            [
+                "Vanguard Promotion Voucher",
+                "先锋进阶券"
+            ],
+            [
+                "Defender Promotion Voucher",
+                "重装进阶券"
+            ],
+            [
+                "'Frost Buck and Snow Doe'",
+                "《霜牡与雪牝》"
+            ],
+            [
+                "Sniper Promotion Voucher",
+                "狙击进阶券"
+            ],
+            [
+                "Caster Promotion Voucher",
+                "术师进阶券"
+            ],
+            [
+                "Designer's Ruler",
+                "设计师量尺"
+            ],
+            [
+                "Supporter Promotion Voucher",
+                "辅助进阶券"
+            ],
+            [
+                "Hand of Buckler",
+                "扣挠之手"
+            ],
+            [
+                "Proof of Longevity",
+                "长生者之证"
+            ],
+            [
+                "Medic Promotion Voucher",
+                "医疗进阶券"
+            ],
+            [
+                "Specialist Promotion Voucher",
+                "特种进阶券"
+            ],
+            [
+                "Blunt Claws - Proficiency",
+                "钝爪-熟稔"
+            ],
+            [
+                "Oriron Round Shield",
+                "异铁小圆盾"
+            ],
+            [
+                "First-Class Squad",
+                "高规格分队"
+            ],
+            [
+                "Red Bow Tie",
+                "红色蝴蝶结"
+            ],
+            [
+                "Support Squad",
+                "后勤分队"
+            ],
+            [
+                "Spearhead Squad",
+                "矛头分队"
+            ],
+            [
+                "Tactical Fortification Operative",
+                "堡垒战术分队"
+            ],
+            [
+                "Tactical Ranged Operative",
+                "远程战术分队"
+            ],
+            [
+                "Research Squad",
+                "研究分队"
+            ],
+            [
+                "Banshee's Kiss",
+                "女妖之吻"
+            ],
+            [
+                "Abyssal Wyrdmask",
+                "奇渊面具"
+            ],
+            [
+                "Worn-out Group Photo",
+                "残破合影"
+            ],
+            [
+                "Writer's Tongue",
+                "作者的喉舌"
+            ],
+            [
+                "Rosmontis's Embrace",
+                "迷迭香之拥"
+            ],
+            [
+                "Gold-Plated Dice",
+                "镶金骨骰"
+            ],
+            [
+                "'The Whisperer in Darknight'",
+                "“黑夜呢喃”"
+            ],
+            [
+                "Military Mirror Armor",
+                "军团护心镜"
+            ],
+            [
+                "Old Steam Armor",
+                "古旧的蒸汽甲胄"
+            ],
+            [
+                "Emperor's Favor",
+                "皇帝的恩宠"
+            ],
+            [
+                "Royal Rapier",
+                "贵族刺剑"
+            ],
+            [
+                "Vieux Vanguard's Blade",
+                "老近卫军之锋"
+            ],
+            [
+                "Pure White Dance Shoes",
+                "洁白的舞鞋"
+            ],
+            [
+                "Necklace of the Presence",
+                "显圣吊坠"
+            ],
+            [
+                "Jet-Black Dance Shoes",
+                "漆黑的舞鞋"
+            ],
+            [
+                "Silver Forks",
+                "银餐叉"
+            ],
+            [
+                "Proof of Friendship",
+                "友谊之证"
+            ],
+            [
+                "Damaged Revolver Cylinder",
+                "损坏的左轮弹巢"
+            ],
+            [
+                "Familiar Sculpture",
+                "眼熟的雕像"
+            ],
+            [
+                "Noxious Hemostatic Agent",
+                "难闻的止血剂"
+            ],
+            [
+                "Assault Co-op Reinforcements",
+                "突击协议增援"
+            ],
+            [
+                "First Aid Kit",
+                "急救药箱"
+            ],
+            [
+                "Fortification Co-op Expansion",
+                "堡垒协议扩充"
+            ],
+            [
+                "Unknown Instrument",
+                "未知仪器"
+            ],
+            [
+                "Rusted Razor",
+                "锈蚀刀片"
+            ],
+            [
+                "Carriage Driver's Whip",
+                "赶车夫的长鞭"
+            ],
+            [
+                "'Avenger'",
+                "“复仇者”"
+            ],
+            [
+                "Standard Anti-Riot Instrument",
+                "制式防暴用具"
+            ],
+            [
+                "Emperor's Collection",
+                "皇帝的收藏"
+            ],
+            [
+                "'Brilliant Lament'",
+                "“璀璨悲泣”"
+            ],
+            [
+                "Lucky Coin",
+                "幸运硬币"
+            ],
+            [
+                "Live Rose",
+                "活玫瑰"
+            ],
+            [
+                "Masquerade Mask",
+                "假面舞会面具"
+            ],
+            [
+                "White Flower Crown",
+                "苍白花冠"
+            ],
+            [
+                "Draft of a Speech",
+                "一份演讲稿"
+            ],
+            [
+                "Actor's Perfume",
+                "演出用香水"
+            ],
+            [
+                "Crimson Troupe Ticket Stub",
+                "猩红剧团票根"
+            ],
+            [
+                "'Arts Killer'",
+                "“法术杀手”"
+            ],
+            [
+                "Dancer's Bracelets",
+                "舞者手链"
+            ],
+            [
+                "Ursus Big Bread",
+                "乌萨斯列巴"
+            ],
+            [
+                "Crucible Cream Puff",
+                "苦行者泡芙"
+            ],
+            [
+                "Iron Baguette",
+                "铁棍面包"
+            ],
+            [
+                "Test Run Chocolate",
+                "试制巧克力"
+            ],
+            [
+                "Fatal Bolts - Training",
+                "残弩-典训"
+            ],
+            [
+                "Victorian Cake",
+                "维多利亚蛋糕"
+            ],
+            [
+                "Dim Lantern",
+                "昏暗的提灯"
+            ],
+            [
+                "Fatal Bolts - Synergy",
+                "残弩-战场依存"
+            ],
+            [
+                "Brass Compass",
+                "黄铜指南针"
+            ],
+            [
+                "Fatal Bolts - Crossfire",
+                "残弩-交叉火力"
+            ],
+            [
+                "Broke Mask",
+                "破损的面具"
+            ],
+            [
+                "Blank Business Card",
+                "空白名片"
+            ],
+            [
+                "Doll House",
+                "人偶之家"
+            ],
+            [
+                "Miniature Stage Model",
+                "微缩舞台模型"
+            ],
+            [
+                "Dreambind Castle Model",
+                "缠梦古堡模型"
+            ],
+            [
+                "Iron Guard - Invasion",
+                "铁卫-侵掠"
+            ],
+            [
+                "Ursus Chachek",
+                "乌萨斯弯刀"
+            ],
+            [
+                "Victoria Crown",
+                "维多利亚王冠"
+            ],
+            [
+                "Leithanien Sceptre",
+                "莱塔尼亚权杖"
+            ],
+            [
+                "Gaul Mantle",
+                "高卢长袍"
+            ],
+            [
+                "Half-Refined Diamond",
+                "半洗孤钻"
+            ],
+            [
+                "'Right Eye of the Natator'",
+                "“游禽的右眼”"
+            ],
+            [
+                "'Left Eye of the Natator'",
+                "“游禽的左眼”"
+            ],
+            [
+                "'Magnificent Visage'",
+                "“华美容貌”"
+            ],
+            [
+                "'Blademace'",
+                "“剑锤”"
+            ],
+            [
+                "'Brokenblade'",
+                "“断剑”"
+            ],
+            [
+                "'Bladedance'",
+                "“刀舞”"
+            ],
+            [
+                "‘Whiteflower'",
+                "“白英花”"
+            ],
+            [
+                "'Shadow'",
+                "“影子”"
+            ],
+            [
+                "'Flowers of Quinde'",
+                "《坎德之花》"
+            ],
+            [
+                "'Numbness and Obscenity'",
+                "《麻木与庸俗》"
+            ],
+            [
+                "'Beauty and Ugliness in the Age of Terra'",
+                "《世间的美与丑》"
+            ],
+            [
+                "Worn-out Puppet",
+                "残破的玩偶"
+            ],
+            [
+                "Useless Scissors",
+                "无用的剪刀"
+            ],
+            [
+                "Blank Suicide Note",
+                "空白遗书"
+            ],
+            [
+                "Mantle of the Wrongly Condemned",
+                "替罪领巾"
+            ],
+            [
+                "Support Replenishment Station",
+                "支援补给站"
+            ],
+            [
+                "Stand-in Actor",
+                "替补演员"
+            ],
+            [
+                "Blunt Claws - Advancement",
+                "钝爪-突破"
+            ],
+            [
+                "Blunt Claws - Burst",
+                "钝爪-爆发"
+            ],
+            [
+                "Blunt Claws - Inspiration",
+                "钝爪-振奋"
+            ],
+            [
+                "Blunt Claws - Mastery",
+                "钝爪-百战"
+            ],
+            [
+                "Bend Spears - Advancement",
+                "折戟-突破"
+            ],
+            [
+                "Bend Spears - Acuity",
+                "折戟-锋刃"
+            ],
+            [
+                "Bend Spears - Bloodbath",
+                "折戟-浴血"
+            ],
+            [
+                "Bend Spears - Army of One",
+                "折戟-一夫当关"
+            ],
+            [
+                "Bend Spears - Deathmatch",
+                "折戟-破釜沉舟"
+            ],
+            [
+                "Iron Guard - Advancement",
+                "铁卫-突破"
+            ],
+            [
+                "Iron Guard - Tranquility",
+                "铁卫-不动"
+            ],
+            [
+                "Iron Guard - Advance",
+                "铁卫-推进"
+            ],
+            [
+                "Iron Guard - Impenetrable",
+                "铁卫-无锋"
+            ],
+            [
+                "Fatal Bolts - Advancement",
+                "残弩-突破"
+            ],
+            [
+                "Fatal Bolts - Precision",
+                "残弩-百步穿杨"
+            ],
+            [
+                "Fatal Bolts - Divine Speed",
+                "残弩-神速"
+            ],
+            [
+                "Broken Wand - Advancement",
+                "断杖-突破"
+            ],
+            [
+                "Broken Wand - Arts Weaving",
+                "断杖-织法者"
+            ],
+            [
+                "Broken Wand - Chanting",
+                "断杖-咏唱"
+            ],
+            [
+                "Broken Wand - Concentration",
+                "断杖-凝神"
+            ],
+            [
+                "Broken Wand - Malediction",
+                "断杖-苦难巫咒"
+            ],
+            [
+                "Stalwart Aid - Advancement",
+                "支柱-突破"
+            ],
+            [
+                "Stalwart Aid - Secondary Front",
+                "支柱-次要战场"
+            ],
+            [
+                "Stalwart Aid - Diligence",
+                "支柱-勤奋"
+            ],
+            [
+                "'Wild Gold'",
+                "《狂野之金》"
+            ],
+            [
+                "Stalwart Aid - Demoralize",
+                "支柱-破兵"
+            ],
+            [
+                "'The Golden Fowlbeast'",
+                "《金羽兽》"
+            ],
+            [
+                "Stalwart Aid - Counter-Arts",
+                "支柱-枯法"
+            ],
+            [
+                "Healer's Path - Advancement",
+                "医者-突破"
+            ],
+            [
+                "Healer's Path - Self-Treating",
+                "医者-自医"
+            ],
+            [
+                "Healer's Path - Potency",
+                "医者-强效试剂"
+            ],
+            [
+                "Healer's Path - Keen Hands",
+                "医者-妙手"
+            ],
+            [
+                "Rusted Blade - Advancement",
+                "锈刃-突破"
+            ],
+            [
+                "Rusted Blade - Isolation",
+                "锈刃-单兵"
+            ],
+            [
+                "Rusted Blade - No Man's Land",
+                "锈刃-无人之境"
+            ],
+            [
+                "Rusted Blade - Overwhelm",
+                "锈刃-神力"
+            ],
+            [
+                "Pryed Open Toolbox",
+                "被撬开的道具箱"
+            ],
+            [
+                "Hand of Spikes",
+                "尖刺之手"
+            ],
+            [
+                "Antiquated Sheet Music",
+                "古旧乐谱残章"
+            ],
+            [
+                "Hand of Choker",
+                "扼喉之手"
+            ],
+            [
+                "Vampire's Bed",
+                "血魔的寝床"
+            ],
+            [
+                "Hand of Shredder",
+                "撕扯之手"
+            ],
+            [
+                "Stone Gargoyle",
+                "石像鬼塑像"
+            ],
+            [
+                "Hand of Superspeed",
+                "极速之手"
+            ],
+            [
+                "Hand of Snatcher",
+                "积攒之手"
+            ],
+            [
+                "Hot Water Kettle",
+                "热水壶"
+            ],
+            [
+                "Blue Silk Scarf",
+                "蓝色丝巾"
+            ],
+            [
+                "Weird Flute",
+                "古怪的长笛"
+            ],
+            [
+                "Solo Music Box",
+                "独奏八音盒"
+            ],
+            [
+                "Originium Iris",
+                "源石鸢尾花"
+            ],
+            [
+                "Pure Gold Expedition",
+                "赤金的远征"
+            ],
+            [
+                "'Durin Overground'",
+                "《杜林地上环游记》"
+            ],
+            [
+                "Ancient Gaulish Silver Coin",
+                "古高卢银币"
+            ],
+            [
+                "Élysée Purse",
+                "爱丽舍钱袋"
+            ],
+            [
+                "Bank of Gaul Check",
+                "高卢银行支票"
+            ],
+            [
+                "'Second Economic Reform Act'",
+                "《第二经济改革法》"
+            ],
+            [
+                "Vanilla Soda",
+                "香草沙士汽水"
+            ],
+            [
+                "Ball Juice",
+                "球球果汁"
+            ],
+            [
+                "Fowlbeast Liver Pate",
+                "羽兽肝酱"
+            ],
+            [
+                "Dreaming Essence",
+                "迷梦香精"
+            ],
+            [
+                "Barrens Tequila",
+                "荒地龙舌兰"
+            ],
+            [
+                "Captain Morgan's Wine",
+                "摩根队长佳酿"
+            ],
+            [
+                "Water of Life",
+                "生命之水"
+            ],
+            [
+                "Royal Liqueur",
+                "皇家利口酒"
+            ],
+            [
+                "'Unleashings'",
+                "“绽放”"
+            ],
+            [
+                "'Renowned Singer'",
+                "“当红歌手”"
+            ],
+            [
+                "String Puppet",
+                "悬丝傀儡"
+            ],
+            [
+                "'Children's Puppet'",
+                "“童趣玩偶”"
+            ],
+            [
+                "Coin-Operated Toy",
+                "投币玩具"
+            ],
+            [
+                "Chivalric Commandments - New Edition",
+                "骑士戒律·新编"
+            ],
+            [
+                "Spinach Pack",
+                "绿叶菜罐头"
+            ],
+            [
+                "No. 073 Safety Reagent",
+                "073号安全试剂"
+            ],
+            [
+                "Wrath of Siracusans",
+                "叙拉古人的愤怒"
+            ],
+            [
+                "'Civilight Eterna'",
+                "“文明的存续”"
+            ],
+            [
+                "Ribbon of Honor",
+                "荣耀绶带"
+            ],
+            [
+                "'Loyality'",
+                "“忠义”"
+            ],
+            [
+                "'End of Times'",
+                "“时光之末”"
+            ],
+            [
+                "Royal Alliance Treaty",
+                "王庭盟约"
+            ],
+            [
+                "Condensed Suppressant",
+                "浓缩抑制剂"
+            ],
+            [
+                "Universal Key",
+                "万能钥匙"
+            ],
+            [
+                "Actor's Jewelry Box",
+                "演员的首饰盒"
+            ],
+            [
+                "Flawless Jadestone",
+                "无瑕宝玉"
+            ],
+            [
+                "Laughing Joker",
+                "尖笑鬼牌"
+            ],
+            [
+                "Ms. Christine Petting Ticket",
+                "Miss.Christine摸摸券"
+            ],
+            [
+                "Antique Casting",
+                "古旧铸物"
+            ],
+            [
+                "Blunt Claws - Training",
+                "钝爪-典训"
+            ],
+            [
+                "Iron Guard - Training",
+                "铁卫-典训"
+            ],
+            [
+                "Stalwart Aid - Training",
+                "支柱-典训"
+            ],
+            [
+                "Healer's Path - Training",
+                "医者-典训"
+            ],
+            [
+                "Rusted Blade - Training",
+                "锈刃-典训"
+            ],
+            [
+                "Regional Action Plan",
+                "地区行动方案"
+            ],
+            [
+                "Comprehensive Operation File",
+                "全局作战文件"
+            ],
+            [
+                "Secret HR Letter",
+                "人事部密信"
+            ],
+            [
+                "Supreme Ring",
+                "至宝指环"
+            ],
+            [
+                "Victorian 'Scrap' Medal",
+                "维多利亚“废铁”勋章"
+            ],
+            [
+                "Leithanian Medal of Honor",
+                "莱塔尼亚荣誉勋章"
+            ],
+            [
+                "Rusted Iron Hammer",
+                "锈蚀的铁锤"
+            ],
+            [
+                "Four-Leaf Clover Fossil",
+                "四叶草化石"
+            ],
+            [
+                "Assault Co-op Expansion",
+                "突击协议扩充"
+            ],
+            [
+                "Fortification Co-op Reinforcements",
+                "堡垒协议增援"
+            ],
+            [
+                "Ranged Co-op Expansion",
+                "远程协议扩充"
+            ],
+            [
+                "Ranged Co-op Reinforcements",
+                "远程协议增援"
+            ],
+            [
+                "Sabotage Co-op Reinforcements",
+                "破坏协议增援"
+            ],
+            [
+                "King's New Lance",
+                "国王的新枪"
+            ],
+            [
+                "Guard Cap",
+                "近卫军帽"
+            ],
+            [
+                "'Painful Happiness'",
+                "“苦痛的快乐”"
+            ],
+            [
+                "Castle's Offspring",
+                "古堡的子嗣"
+            ],
+            [
+                "Surging Feast",
+                "涌动之餐"
+            ],
+            [
+                "'Eventide Terror'",
+                "“夜骇”"
+            ],
+            [
+                "'Excessiveness'",
+                "“无度”"
+            ],
+            [
+                "Support Landmine Set",
+                "支援地雷组"
+            ],
+            [
+                "Support Mr. Rumbles",
+                "支援轰隆隆"
+            ],
+            [
+                "Support Escape Crane",
+                "支援起重机"
+            ],
+            [
+                "Support Fog Machine",
+                "支援雾机"
+            ],
+            [
+                "Support Gas Tanks",
+                "支援气罐组"
+            ],
+            [
+                "'Ode au Triomphe'",
+                "《凯旋颂》"
+            ],
+            [
+                "'Der Ring'",
+                "《湖中至宝》"
+            ],
+            [
+                "'One Hundred and One Days'",
+                "《一百零一日》"
+            ],
+            [
+                "'Wonderland in Dream'",
+                "《梦中奇缘》"
+            ],
+            [
+                "'Light of Heria'",
+                "《赫里亚之辉》"
+            ],
+            [
+                "'Sette Colli's Mother Wolf'",
+                "《七丘的狼母》"
+            ],
+            [
+                "'The Dawn'",
+                "《初晓》"
+            ],
+            [
+                "'The Lullaby'",
+                "《摇篮曲》"
+            ],
+            [
+                "'The Carnival'",
+                "《欢欣鼓舞》"
+            ]
+        ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Normal": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Extra": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Furniture": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Special": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Sanity": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Reward": {
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
     }
 }

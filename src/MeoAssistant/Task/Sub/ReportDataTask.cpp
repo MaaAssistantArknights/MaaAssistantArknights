@@ -1,8 +1,9 @@
 #include "ReportDataTask.h"
 
 #include "Resource/GeneralConfiger.h"
-#include "Utils/AsstUtils.hpp"
+#include "Utils/Locale.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 
 #include <meojson/json.hpp>
 
@@ -79,14 +80,57 @@ void asst::ReportDataTask::report_to_penguin()
 
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    http::Response response = report("ReportToPenguinStats", Configer.get_options().penguin_report.cmd_format);
+    int backoff = 10 * 1000; // 10s
+    http::Response response = report(
+        "ReportToPenguinStats", Configer.get_options().penguin_report.cmd_format,
+        [](const http::Response& response) -> bool { return response.success(); },
+        [&](const http::Response& response) -> bool {
+            bool cond = !response.status_code() || response.status_5xx();
+            if (cond) {
+                backoff = static_cast<int>(backoff * 1.5);
+                sleep(backoff);
+            }
+            return cond;
+        },
+        false);
 
-    if (response.success()) {
+    auto proc_response_id = [&]() {
         if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
             json::value id_info = basic_info_with_what("PenguinId");
             id_info["details"]["id"] = std::string(penguinid_opt.value());
             callback(AsstMsg::SubTaskExtraInfo, id_info);
         }
+    };
+
+    if (response.success()) {
+        proc_response_id();
+        return;
+    }
+
+    // 重新向企鹅物流统计的 CN 域名发送数据
+    std::string new_cmd_format = Configer.get_options().penguin_report.cmd_format;
+    if (new_cmd_format.find("https://penguin-stats.io") == std::string::npos) {
+        return;
+    }
+    Log.info("Re-report to penguin-stats.cn");
+
+    utils::string_replace_all_in_place(new_cmd_format, "https://penguin-stats.io", "https://penguin-stats.cn");
+    backoff = 10 * 1000; // 10s
+    response = report(
+        "ReportToPenguinStats", new_cmd_format,
+        [](const http::Response& response) -> bool { return response.success(); },
+        [&](const http::Response& response) -> bool {
+            bool cond = !response.status_code() || response.status_5xx();
+            if (cond) {
+                backoff = static_cast<int>(backoff * 1.5);
+                sleep(backoff);
+            }
+            return cond;
+        });
+
+    if (response.success()) {
+        proc_response_id();
+        return;
     }
 }
 
@@ -98,7 +142,8 @@ void asst::ReportDataTask::report_to_yituliu()
 }
 
 asst::http::Response asst::ReportDataTask::report(const std::string& subtask, const std::string& format,
-                                                  HttpResponsePred success_cond, HttpResponsePred retry_cond)
+                                                  HttpResponsePred success_cond, HttpResponsePred retry_cond,
+                                                  bool callback_on_failure)
 {
     LogTraceFunction;
 
@@ -124,15 +169,17 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
         }
     }
 
-    cb_info["why"] = "上报失败";
-    cb_info["details"] = json::object {
-        { "error", response.get_last_error() },
-        { "status_code", response.status_code() },
-        { "status_code_info", std::string(response.status_code_info()) },
-        { "response", std::string(response.body()) },
-    };
+    if (callback_on_failure) {
+        cb_info["why"] = "上报失败";
+        cb_info["details"] = json::object {
+            { "error", response.get_last_error() },
+            { "status_code", response.status_code() },
+            { "status_code_info", std::string(response.status_code_info()) },
+            { "response", std::string(response.body()) },
+        };
 
-    callback(AsstMsg::SubTaskError, cb_info);
+        callback(AsstMsg::SubTaskError, cb_info);
+    }
 
     return response;
 }

@@ -164,10 +164,11 @@
                 "manufacture": [
                     {
                         "operators": [
-                            "温蒂",
-                            "异客",
-                            "森蚺"
-                        ]
+                            "泡泡",
+                            "火神",
+                            "刻俄柏"
+                        ],
+                        "sort": true
                     },
                     {
                         "operators": [
@@ -187,11 +188,10 @@
                     },
                     {
                         "operators": [
-                            "泡泡",
-                            "火神",
-                            "刻俄柏"
+                            "温蒂",
+                            "异客",
+                            "森蚺"
                         ],
-                        "sort": true,
                         "product": "Battle Record"
                     },
                     {
@@ -290,6 +290,14 @@
                     },
                     {
                         "operators": [
+                            "红豆",
+                            "霜叶",
+                            "食铁兽"
+                        ],
+                        "product": "Battle Record"
+                    },
+                    {
+                        "operators": [
                             "断罪者",
                             "迷迭香",
                             "槐琥"
@@ -303,14 +311,6 @@
                             "稀音"
                         ],
                         "sort": true,
-                        "product": "Battle Record"
-                    },
-                    {
-                        "operators": [
-                            "红豆",
-                            "霜叶",
-                            "食铁兽"
-                        ],
                         "product": "Battle Record"
                     },
                     {

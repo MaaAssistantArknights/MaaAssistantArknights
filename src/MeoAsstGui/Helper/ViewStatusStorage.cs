@@ -13,6 +13,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -71,25 +72,25 @@ namespace MeoAsstGui
 
                     if (jsonStr.Length <= 2 && File.Exists(_configBakFilename))
                     {
-                        File.Copy(_configBakFilename, _configFilename, true);
-                        jsonStr = File.ReadAllText(_configFilename);
+                        jsonStr = File.ReadAllText(_configBakFilename);
+                        try
+                        {
+                            File.Copy(_configBakFilename, _configFilename, true);
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                        }
                     }
 
                     // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
                     _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    if (withRestore && File.Exists(_configBakFilename))
-                    {
-                        File.Copy(_configBakFilename, _configFilename, true);
-                        return Load(false);
-                    }
-                    else
-                    {
-                        _viewStatus = new JObject();
-                        return false;
-                    }
+                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                    _viewStatus = new JObject();
+                    return false;
                 }
             }
             else
@@ -128,6 +129,11 @@ namespace MeoAsstGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool Save()
         {
+            if (_released)
+            {
+                return false;
+            }
+
             try
             {
                 var jsonStr = _viewStatus.ToString();
@@ -150,6 +156,14 @@ namespace MeoAsstGui
             }
 
             return true;
+        }
+
+        private static bool _released = false;
+
+        public static void Release()
+        {
+            Save();
+            _released = true;
         }
 
         /// <summary>

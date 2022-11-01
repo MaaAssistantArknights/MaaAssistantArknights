@@ -77,7 +77,7 @@
                     "type": "number",
                     "description": "可选项，表示识别到后延迟多久才执行 action，单位毫秒；不填写时默认 0"
                 },
-                "rearDelay": {
+                "postDelay": {
                     "type": "number",
                     "description": "可选项，表示 action 执行完后延迟多久才去识别 next, 单位毫秒；不填写时默认 0"
                 },

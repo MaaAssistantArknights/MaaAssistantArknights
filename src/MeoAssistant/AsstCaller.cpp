@@ -10,6 +10,7 @@
 #include "ResourceLoader.h"
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
+#include "Utils/UserDir.hpp"
 #include "Utils/Version.h"
 
 static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
@@ -40,13 +41,17 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 
 static bool inited = false;
 
+bool AsstSetUserDir(const char* path)
+{
+    return asst::UserDir::get_instance().set(path);
+}
+
 bool AsstLoadResource(const char* path)
 {
-    auto working_path = asst::utils::path(path);
-    if (!inited) {
-        asst::Logger::set_directory(working_path);
+    if (auto& user_dir = asst::UserDir::get_instance(); user_dir.empty()) {
+        user_dir.set(path);
     }
-    inited = asst::ResourceLoader::get_instance().load(working_path / asst::utils::path("resource"));
+    inited = asst::ResourceLoader::get_instance().load(asst::utils::path(path) / asst::utils::path("resource"));
     return inited;
 }
 

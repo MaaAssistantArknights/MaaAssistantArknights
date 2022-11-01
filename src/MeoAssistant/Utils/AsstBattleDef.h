@@ -64,7 +64,7 @@ namespace asst
         BattleDeployDirection direction = BattleDeployDirection::Right;
         BattleSkillUsage modify_usage = BattleSkillUsage::NotUse;
         int pre_delay = 0;
-        int rear_delay = 0;
+        int post_delay = 0;
         int time_out = INT_MAX;
         std::string doc;
         std::string doc_color;
@@ -95,6 +95,60 @@ namespace asst
         Drone
     };
 
+    inline BattleRole get_role_type(const std::string& role_name)
+    {
+        static const std::unordered_map<std::string, BattleRole> NameToRole = {
+            { "warrior", BattleRole::Warrior }, { "WARRIOR", BattleRole::Warrior },
+            { "Warrior", BattleRole::Warrior }, { "近卫", BattleRole::Warrior },
+
+            { "pioneer", BattleRole::Pioneer }, { "PIONEER", BattleRole::Pioneer },
+            { "Pioneer", BattleRole::Pioneer }, { "先锋", BattleRole::Pioneer },
+
+            { "medic", BattleRole::Medic },     { "MEDIC", BattleRole::Medic },
+            { "Medic", BattleRole::Medic },     { "医疗", BattleRole::Medic },
+
+            { "tank", BattleRole::Tank },       { "TANK", BattleRole::Tank },
+            { "Tank", BattleRole::Tank },       { "重装", BattleRole::Tank },
+
+            { "sniper", BattleRole::Sniper },   { "SNIPER", BattleRole::Sniper },
+            { "Sniper", BattleRole::Sniper },   { "狙击", BattleRole::Sniper },
+
+            { "caster", BattleRole::Caster },   { "CASTER", BattleRole::Caster },
+            { "Caster", BattleRole::Caster },   { "术师", BattleRole::Caster },
+
+            { "support", BattleRole::Support }, { "SUPPORT", BattleRole::Support },
+            { "Support", BattleRole::Support }, { "辅助", BattleRole::Support },
+
+            { "special", BattleRole::Special }, { "SPECIAL", BattleRole::Special },
+            { "Special", BattleRole::Special }, { "特种", BattleRole::Special },
+
+            { "drone", BattleRole::Drone },     { "DRONE", BattleRole::Drone },
+            { "Drone", BattleRole::Drone },     { "无人机", BattleRole::Drone },
+        };
+        if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
+            return iter->second;
+        }
+        return BattleRole::Unknown;
+    }
+} // namespace asst
+
+namespace std
+{
+    inline std::string to_string(const asst::BattleRole& role)
+    {
+        static const std::unordered_map<asst::BattleRole, std::string> RoleToName = {
+            { asst::BattleRole::Warrior, "Warrior" }, { asst::BattleRole::Pioneer, "Pioneer" },
+            { asst::BattleRole::Medic, "Medic" },     { asst::BattleRole::Tank, "Tank" },
+            { asst::BattleRole::Sniper, "Sniper" },   { asst::BattleRole::Caster, "Caster" },
+            { asst::BattleRole::Support, "Support" }, { asst::BattleRole::Special, "Special" },
+            { asst::BattleRole::Drone, "Drone" },     { asst::BattleRole::Unknown, "Unknown" }
+        };
+        return RoleToName.at(role);
+    }
+}
+
+namespace asst
+{
     struct BattleRealTimeOper
     {
         int cost = 0;
@@ -113,12 +167,40 @@ namespace asst
         BattleDeployDirection direction;
     };
 
+    struct ForceDeployDirection
+    {
+        BattleDeployDirection direction;
+        std::unordered_set<BattleRole> role;
+    };
+
     struct RoguelikeBattleData
     {
         std::string stage_name;
         std::vector<ReplacementHome> replacement_home;
         std::unordered_set<Point> blacklist_location;
+        std::unordered_map<Point, ForceDeployDirection> force_deploy_direction;
         std::vector<int> key_kills;
+        std::array<BattleRole, 9> role_order;
+        bool use_dice_stage = true;
+        int stop_deploy_blocking_num = INT_MAX;
+        int force_deploy_air_defense_num = 0;
+        bool force_ban_medic = false;
+    };
+
+    enum class BattleOperPosition
+    {
+        None,
+        Blocking,   // 阻挡单位
+        AirDefense, // 对空单位
+    };
+
+    enum class BattleLocationType
+    {
+        Invalid = -1,
+        None = 0,
+        Melee = 1,
+        Ranged = 2,
+        All = 3
     };
 
     struct BattleCharData
@@ -128,6 +210,7 @@ namespace asst
         std::array<std::string, 3> ranges;
         int rarity = 0;
         bool with_direction = true;
+        BattleLocationType location_type = BattleLocationType::None;
     };
 
     struct BattleRecruitOperInfo

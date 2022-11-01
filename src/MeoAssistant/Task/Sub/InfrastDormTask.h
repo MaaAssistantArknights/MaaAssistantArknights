@@ -19,6 +19,7 @@ namespace asst
         // virtual bool click_confirm_button() override;
 
         bool opers_choose();
+        bool click_order_by_mood();
 
         bool m_dorm_notstationed_enabled = false; // 设置是否启用未进驻筛选
         bool m_drom_trust_enabled = true;         // 设置是否启用蹭信赖
@@ -31,6 +32,7 @@ namespace asst
             Rest,
             RestDone,
             Trust,
+            Fill,
             AllDone,
         };
         NextStep m_next_step = NextStep::Rest;

@@ -6,7 +6,7 @@
 namespace asst
 {
     // 流程任务，按照配置文件里的设置的流程运行
-    class ProcessTask : public AbstractTask
+    class ProcessTask final : public AbstractTask
     {
     public:
         enum class TimesLimitType
@@ -33,13 +33,14 @@ namespace asst
         ProcessTask& set_task_delay(int delay) noexcept;
         ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
         ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
-        ProcessTask& set_rear_delay(std::string name, int delay);
+        ProcessTask& set_post_delay(std::string name, int delay);
 
     protected:
         virtual bool _run() override;
         virtual bool on_run_fails() override;
         virtual json::value basic_info() const override;
 
+        std::pair<int, TimesLimitType> calc_time_limit() const;
         void exec_click_task(const Rect& matched_rect);
         void exec_swipe_task(ProcessTaskAction action);
         void exec_slowly_swipe_task(ProcessTaskAction action);
@@ -48,7 +49,7 @@ namespace asst
         std::vector<std::string> m_raw_tasks_name;
         std::vector<std::string> m_cur_tasks_name;
         std::string m_pre_task_name;
-        std::unordered_map<std::string, int> m_rear_delay;
+        std::unordered_map<std::string, int> m_post_delay;
         std::unordered_map<std::string, TimesLimitData> m_times_limit;
         std::unordered_map<std::string, int> m_exec_times;
         static constexpr int TaskDelayUnsetted = -1;

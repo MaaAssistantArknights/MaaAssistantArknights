@@ -1,38 +1,63 @@
-- 更新 可爱牛牛图标！非常感谢 vie 太太~
-- 新增 水月肉鸽 及其月度小队支持，优化并修复肉鸽部分逻辑 @MistEO @zzyyyl @nightofknife @WWPXX233  
-    请进入设置中选择 `水月` / `傀影` 主题  
-- 新增 肉鸽 卡住时，会自动保存截图到 `debug/roguelike/`，汇报 bug 请附上其中的图片，感谢~ @MistEO
-- 新增 界面日志 保存至 `gui.log` @zzyyyl
-- 新增 信用购物 信用溢出时无视黑名单选项 @Hydrogina
-- 新增 刷理智 支持从 战斗中、战斗结束画面 开始，优化部分流程 @DavidWang19 @zzyyyl
-- 新增并优化 自定义基建 部分内置作业 @MistEO @ABA2396 @545426 @anywugn
-- 优化 肉鸽 刷源石锭选项，改为进入第二层后再退出 @MistEO
-- 优化 自定义基建 参数读取逻辑，新增支持 `enable` 参数 @MistEO @horror-proton
-- 优化 界面 参数设置，改为实时生效，移除“修改”按钮 @MistEO
-- 优化 界面 布局及样式 @DavidWang19 @zzyyyl @ABA2396 @MistEO
-- 优化 公招 Tag 匹配逻辑 @horror-proton @zzyyyl
-- 修复 公招 忽略 支援机械 的问题 @zzyyyl @horror-proton
-- 修复 公招 上传、识别错误 @horror-proton
-- 修复 基建 清空按钮不生效导致的换班失败问题 @MistEO
-- 修复 刷理智 EX 关卡不能自动停止的问题 @zzyyyl
-- 修复 刷理智 活动关卡导航卡住的问题 @ABA2396
-- 修复 信用商店 网络不佳时卡住的问题 @MistEO
-- 修复 连接问题及截图错误 @zzyyyl @MistEO
-- 修复 自定义基建 period 时间错位的问题 @MistEO
-- 修复 雷电模拟器 “退出模拟器” 卡死的问题 @only562
-- 修复 macOS 下的编译错误 @hguandl @horror-proton
-- 新增 Golang 接口 @yilin2020
-- 新增 自定义基建 json schema @martinwang2002
-- 新增 配置文件语法检查，修复一些错误 @zzyyyl
-- 新增 gui.json 每日额外备份机制 @moomiji
-- 更新 界面翻译及文档 @MistEO @wallsman @Tastror
-- 重构 项目目录结构 @zzyyyl @horror-proton @MistEO
-- 重构 Utils 工具类 @horror-proton @zzyyyl
-- 优化 项目资源更新工具 @MistEO @zzyyyl
-- 优化 ROI 脚本 @MistEO
-- 优化 Issue Checker @zzyyyl
-- Use different material resource files for different clients, fix depot recognition errors and localize them @MistEO
-- Fix the name recognition of operators @wallsman @nightofknife @zzyyyl @ABA2396
-- Update documentation @MistEO @wallsman @ABA2396 @LYZhelloworld
-- Support credit shopping for JP and EN clients @MistEO
-- Update recruit types, use tag id in penguin stats payload @horror-proton
+_该版本更新了飞桨 OCR 库，NoAVX 用户请重新下载新的替换包_
+
+- 新增 繁中服 肉鸽 支持 @KiyuM1n @MistEO @lza11111 @horror-proton @Realmajia  
+  干员名请使用简中输入
+- 新增 繁中服 支持 领取日常奖励 @KiyuM1n
+- 新增 macOS 支持，移植界面 @hguandl
+- 新增 界面 热键功能 @gdlcf88  
+  可使用 退格 / Esc / Delete 删除热键
+- Support Drops Recognition for EN and JP clients, and open the upload Penguin Stats function @MistEO @zzyyyl
+- Support all stages and opers in I.S. for EN and JP clients. @MistEO
+- Support shopping in trader in I.S. for EN and JP clients. @MistEO
+- Update Recruitment data for EN, JP and KR clients. @MistEO
+- 更新 2022 感谢庆典 掉落、公招数据 @MistEO
+- 更新 繁中服 公招数据、仓库识别数据 @MistEO @lza11111
+- 重构 软件升级 打包及更新逻辑，新增 `内测版` 更新选项 @horror-proton @zzyyyl @MistEO
+- 优化 自定义基建 无人机和菲亚同时为 `pre` 时，优先使用无人机 @MistEO
+- 优化 基建 宿舍进驻策略，会强制填满干员 @MistEO
+- 优化 基建 宿舍 `蹭信赖` 功能，改为按从信赖从低到高排序 @MistEO
+- 优化 肉鸽 部分地图部分策略、干员招募策略 @DavidWang19 @WWPXX233 @MistEO
+- 优化 肉鸽 中途开始时的编队信息处理 @DavidWang19
+- 优化 界面 掉落统计显示 @DavidWang19
+- 优化 界面 报错弹窗提示 @gdlcf88 @Tastror
+- 修复 刷理智 指定次数错误 @zzyyyl
+- 修复 刷理智 无法进入第 9/10 章的问题 @ABA2396
+- 修复 刷理智 部分关卡跳过掉落识别的问题 @zzyyyl
+- 修复 刷理智 上传企鹅物流错误的问题 @MistEO
+- 修复 刷理智 关卡导航偶尔滑不到位的问题 @MistEO
+- 修复 肉鸽 战斗中一直点某个干员的问题 @MistEO
+- 修复 肉鸽 战斗中有能天使时崩溃的问题 @MistEO @DavidWang19
+- 修复 肉鸽 关卡名识别错误 @MistEO @zzyyyl
+- 修复 肉鸽 卡在楼层页、误入奇境任务的问题 @MistEO
+- 修复 肉鸽 招募 `砾` 后卡在开始行动界面的问题 ~~直接不招募了~~ @MistEO
+- 修复 肉鸽 `高规格分队` 无法选择的问题 @MistEO
+- 修复 肉鸽 偶现战斗中闪退问题 @zzyyyl
+- 修复 肉鸽 第二局及之后招募逻辑错误 @DavidWang19
+- 修复 肉鸽 指定次数不生效的问题 @DavidWang19
+- 修复 肉鸽 不期而遇卡住的问题 @zzyyyl
+- 修复 肉鸽 商店购买招募券后直接卡住的问题 @zzyyyl
+- 修复 肉鸽 刷投资模式不再截图 @MistEO
+- 修复 水月肉鸽 `万象追忆录` 卡住的问题 @zzyyyl
+- 修复 自动战斗 自动编队不按职业选择的问题 @zzyyyl
+- 修复 公招 识别错误 @horror-proton
+- 修复 公招 识别错误后不跳过的问题 @horror-proton
+- 修复 繁中服 公招高资识别错误 @MistEO
+- 修复 战斗 干员名识别错误 @zzyyyl @MistEO
+- 修复 基建 搓玉补货后不换人的问题 @MistEO
+- 修复 基建 发电站数量不为 3 时后续操作错误 @MistEO
+- 修复 基建 进入加载时间过长导致的错误 @zzyyyl
+- 修复 基建 2 发电站任务出错的问题、未识别到会客室时后续任务出错的问题 @lanhao34
+- 修复 基建 偶现返回按钮没点上导致后续任务卡住的问题 @MistEO
+- 修复 界面 手动停止任务时，出现的一些异常 @LittleFall @MistEO @zzyyyl @StarWishLXH
+- 修复 界面 材料下拉框不可用问题 @ABA2396
+- 修复 肉鸽 干员名识别错误 @zzyyyl @ABA2396 @MistEO
+- 修复 肉鸽 干员名识别错时，反复点该干员却不上场的问题 @MistEO
+- 修复 肉鸽 第五层 Boss 关卡跑路的问题 @zzyyyl
+- 修复 肉鸽 不期而遇卡住的问题 @zzyyyl @MistEO
+- 优化 企鹅物流 退避策略，优化上传重试机制 @MistEO
+- 优化 OCR 识别效果及效率，引入新的模型，优化日志输出 @MistEO
+- 新增 GPU 版本飞桨 OCR 库，请参考 [文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/1.1-%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D.md#%E5%85%B6%E4%BB%96%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F%E7%9A%84%E8%AF%B4%E6%98%8E) 下载使用。~~图一乐版本，不推荐用~~ @MistEO
+- 更新 CI 包名 @MistEO @hguandl @horror-proton
+- 重构 任务参数及解析逻辑 @zzyyyl @horror-proton @MistEO
+- 重构 Utils 类 @horror-proton @zzyyyl
+- Update Translations and Docs. @ABA2396 @DavidWang19 @wallsman @JiHongYuan @Yanstory @MistEO @Yanstory

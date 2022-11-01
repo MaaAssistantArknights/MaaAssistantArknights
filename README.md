@@ -48,19 +48,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载地址
 
-***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***
-
-***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***
-
-***第一次使用请下载 `MaaBundle-vX.Y.Z.zip`***
-
 [稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[测试版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)  
-
-下载太慢？尝试使用 fastgit 镜像  
-
-[fastgit 镜像稳定版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[fastgit 镜像测试版](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
+[开发版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用说明
 
@@ -79,6 +68,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 识别错误/任务开始后一直不动、没有反应
 - 如何连接自定义端口
 - 下载速度慢，且镜像站无法打开网页
+- 下载到一半提示“登陆”/“鉴权”
 
 请参考 [常见问题](docs/1.2-常见问题.md)
 
@@ -178,7 +168,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-用户交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已满）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已满）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已满）](https://jq.qq.com/?_wv=1027&amp;k=To6b6H6m)，[QQ 六群](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)  
+用户交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已满）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已满）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已满）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)，[QQ 六群（已满）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)，[QQ 七群](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)  
 自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
 [Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 [舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  

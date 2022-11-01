@@ -1,0 +1,33 @@
+﻿<Window x:Class="MeoAsstGui.Views.ErrorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MeoAsstGui"
+        mc:Ignorable="d"
+        Title="{DynamicResource UnknownErrorOccurs}" Height="400" Width="628" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" Background="#FFE6E6E6" WindowStartupLocation="CenterScreen" Topmost="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource Error}" HorizontalAlignment="Left" Margin="115,20,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <TextBox Grid.ColumnSpan="2" Grid.Column="0" x:Name="Error" HorizontalAlignment="Left" TextWrapping="Wrap" Background="#FFE6E6E6" BorderThickness="0" Padding="0" Text="{DynamicResource UnknownErrorOccurs}" Margin="140,45,0,0" VerticalAlignment="Top" MaxHeight="40" Width="455" />
+
+        <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Text="{DynamicResource ErrorDetails}" HorizontalAlignment="Left" Margin="115,95,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <TextBox Grid.ColumnSpan="2" Grid.Column="0" x:Name="ErrorDetails" HorizontalAlignment="Left" TextWrapping="Wrap" Background="#FFE6E6E6" BorderThickness="0" Padding="0" Text="{DynamicResource UnknownErrorOccurs}" Margin="140,120,0,0" VerticalAlignment="Top" MaxHeight="150" Width="455" />
+
+        <TextBlock Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="466,300,0,0" VerticalAlignment="Top" Width="129" Height="23">
+            <Hyperlink Name="LinkToCreateGitHubIssue" Click="Hyperlink_OnClick" NavigateUri="{Binding Source={x:Static local:MaaUrls.GitHubIssues}}" FontSize="10.667">
+                <Run Text="{DynamicResource ErrorFeedbackLinkText}" />
+            </Hyperlink>
+        </TextBlock>
+
+        <TextBlock x:Name="ErrorQqGroupLink" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="466,326,0,0" VerticalAlignment="Top" FontSize="10.667" Width="71">
+            <Hyperlink Name="LinkToJoinQqGroup" Click="Hyperlink_OnClick" NavigateUri="{Binding Source={x:Static local:MaaUrls.LatestQqGroup}}" FontSize="10.667">
+                <Run Text="{DynamicResource ErrorQqGroupLinkText}" />
+            </Hyperlink>
+        </TextBlock>
+    </Grid>
+</Window>

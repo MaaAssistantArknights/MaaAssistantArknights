@@ -32,9 +32,9 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 ## Features
 
-- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/)
-- Auto-shifting in the infrastructure, auto efficiency calculation of operators, optimal solution in single facility
-- Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata)
+- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/).
+- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room. (Only CN client is supported now.)
+- Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata).
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV14u411673q/)
@@ -42,25 +42,14 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!  
 
-![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
+![image](https://user-images.githubusercontent.com/18511905/198692842-1ad89bd0-f943-4763-bdd1-c212e09dc832.png)
 ![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png)
-![image](https://user-images.githubusercontent.com/99072975/181417872-563afc09-e610-45f5-8762-dbf69018a329.png)
+![image](https://user-images.githubusercontent.com/18511905/198689839-612f3bfc-c308-4d62-969d-8544764e794d.png)
 
 ## Download
 
-***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
-
-***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
-
-***Please download `MaaBundle-vX.Y.Z.zip` for first time use***
-
 [Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
-
-Try fastgit mirror if the download speed is slow:
-
-[Fastgit Mirror Stable](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[Fastgit Mirror Development](https://hub.fastgit.xyz/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## How to Use
 
@@ -79,6 +68,7 @@ See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
 - Wrong recognition/program freezes after starting.
 - Custom connection settings.
 - Download speed is too slow, or the mirror site is not accessible.
+- Download halfway and prompt "login"/"authentication"
 
 Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 
@@ -150,7 +140,7 @@ Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 
 - [C interface](include/AsstCaller.h): [Integration Example](tools/TestCaller/main.cpp)
 - [Python interface](src/Python/asst.py): [Integration Example](src/Python/sample.py)
-- [Golang interface](src/Golang/MaaAssistantArknights/): [Integration Example](src/Golang/MaaAssistantArknights/maa/maa.go) 
+- [Golang interface](src/Golang/MaaAssistantArknights/): [Integration Example](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dart interface](src/dart/)
 - [Java interface](src/Java/Maaj): [Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/): [HTTP api](src/Rust)
@@ -179,7 +169,7 @@ Please refer to [Issue Bot Usage](docs/en-us/2.3-ISSUE_BOT_USAGE.md) for more de
 ## Advertisement
 
 [User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group 1(full)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3(full)](https://jq.qq.com/?_wv=1027&k=mKdOnhWV), [QQ Group 4](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)  
+Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group 1(full)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3(full)](https://jq.qq.com/?_wv=1027&k=mKdOnhWV), [QQ Group 4(full)](https://jq.qq.com/?_wv=1027&k=ABkU8mCR), [QQ Group 5(full)](https://jq.qq.com/?_wv=1027&k=To6b6H6m), [QQ Group 6(full)](https://jq.qq.com/?_wv=1027&k=PYoCP2lS), [QQ Group 7](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)  
 [Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
 [Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)

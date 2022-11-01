@@ -10,9 +10,13 @@
 #include <utility>
 
 #include "AsstRanges.hpp"
-#include "AsstUtils.hpp"
+#include "AsstTypes.h"
+#include "Locale.hpp"
 #include "Meta.hpp"
+#include "Platform.hpp"
 #include "SingletonHolder.hpp"
+#include "Time.hpp"
+#include "UserDir.hpp"
 #include "Version.h"
 
 #if defined(__APPLE__) || defined(__linux__)
@@ -23,6 +27,8 @@ namespace asst
 {
     template <typename Stream, typename T>
     concept has_stream_insertion_operator = requires { std::declval<Stream&>() << std::declval<T>(); };
+    template <typename T>
+    concept enum_could_to_string = requires { asst::enum_to_string(std::declval<T>()); };
 
     // is_reference_wrapper
     template <typename T>
@@ -292,6 +298,9 @@ namespace asst
 #endif // END _WIN32
                     s << buff;
                 }
+                else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
+                    s << asst::enum_to_string(std::forward<T>(v));
+                }
                 else if constexpr (has_stream_insertion_operator<Stream, T>) {
                     s << std::forward<T>(v);
                 }
@@ -339,15 +348,15 @@ namespace asst
     public:
         virtual ~Logger() override { flush(); }
 
-        static bool set_directory(const std::filesystem::path& dir)
-        {
-            if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
-                return false;
-            }
-            m_directory = dir;
+        // static bool set_directory(const std::filesystem::path& dir)
+        // {
+        //     if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
+        //         return false;
+        //     }
+        //     m_directory = dir;
 
-            return true;
-        }
+        //     return true;
+        // }
 
         template <typename T>
         auto operator<<(T&& arg)
@@ -415,7 +424,7 @@ namespace asst
     private:
         friend class SingletonHolder<Logger>;
 
-        Logger()
+        Logger() : m_directory(UserDir::get_instance().get())
         {
             check_filesize_and_remove();
             log_init_info();
@@ -441,11 +450,11 @@ namespace asst
             trace("MeoAssistant Process Start");
             trace("Version", asst::Version);
             trace("Built at", __DATE__, __TIME__);
-            trace("Working Path", m_directory);
+            trace("User Dir", m_directory);
             trace("-----------------------------");
         }
 
-        inline static std::filesystem::path m_directory;
+        std::filesystem::path m_directory;
 
         std::filesystem::path m_log_path = m_directory / "asst.log";
         std::filesystem::path m_log_bak_path = m_directory / "asst.bak.log";

@@ -10,11 +10,12 @@
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
     <system:String x:Key="MallSettings">信用商店</system:String>
-    <system:String x:Key="OtherCombatSettings">理智設置</system:String>
+    <system:String x:Key="OtherCombatSettings">理智設定</system:String>
     <system:String x:Key="ConnectionSettings">連接設定</system:String>
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
     <system:String x:Key="UISettings">介面設定</system:String>
+    <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
 
@@ -111,13 +112,20 @@
     <system:String x:Key="ManualRestart">稍後</system:String>
     <system:String x:Key="Tip">提示</system:String>
 
+    <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">鍵入 退格/Esc/Delete 清除當前熱鍵</system:String>
+
     <system:String x:Key="LabelSequenceTip">標籤順序可拖動</system:String>
     <system:String x:Key="CheckBoxesNotSaved">該選項設定重啟後不保存</system:String>
     <system:String x:Key="NoAutoNavigation">該選項不會自動導航至對應關卡</system:String>
 
     <system:String x:Key="UpdateAutoCheck">自動檢查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新包</system:String>
-    <system:String x:Key="UpdateCheckBeta">檢查測試版本更新</system:String>
+    <system:String x:Key="UpdateCheckStable">穩定版</system:String>
+    <system:String x:Key="UpdateCheckBeta">開發版</system:String>
+    <system:String x:Key="UpdateCheckNightly">内測版</system:String>
+    <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
 
@@ -134,7 +142,9 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
-    <system:String x:Key="RoguelikeChangedTip">肉鴿設置已更改，是否現在重啓 MAA 以應用設置？</system:String>
+    <system:String x:Key="RoguelikeThemeTip">需在集成戰略界面將對應主題PIN UP添加到終端</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
@@ -161,7 +171,7 @@
     <system:String x:Key="HideUnavailableStage">關卡選擇隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
-    <system:String x:Key="CustomStageCodeTip">支持所有主線關卡名 + 原列表中的關卡名（如 4-10、6-16 等）</system:String>
+    <system:String x:Key="CustomStageCodeTip">（測試功能）支持大部分主線關卡名與原列表的關卡名（如4-10、AP-5），主線關卡需解鎖當前大章節最後一章</system:String>
 
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
@@ -212,7 +222,7 @@
     <system:String x:Key="StageSelect2">備選</system:String>
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
     <system:String x:Key="NoUse">不選擇</system:String>
-    <system:String x:Key="Amend">修改</system:String>
+    <!--<system:String x:Key="Amend">修改</system:String>-->
 
     <!--<system:String x:Key="CurrentStage">當前關卡</system:String>
     <system:String x:Key="LastBattle">上次作戰</system:String>-->
@@ -236,15 +246,15 @@
     <system:String x:Key="Annihilation">剿滅模式</system:String>
 
     <system:String x:Key="TodaysStageTip">今日關卡小提示：</system:String>
-    <system:String x:Key="CETip">貨物運送（龍門幣）</system:String>
-    <system:String x:Key="APTip">粉碎防禦（紅票）</system:String>
-    <system:String x:Key="CATip">空中威脅（技能）</system:String>
-    <system:String x:Key="LSTip">戰術演習（經驗）</system:String>
-    <system:String x:Key="SKTip">資源保障（碳）</system:String>
-    <system:String x:Key="PR-ATip">奶/盾晶片</system:String>
-    <system:String x:Key="PR-BTip">術/狙晶片</system:String>
-    <system:String x:Key="PR-CTip">先/輔晶片</system:String>
-    <system:String x:Key="PR-DTip">近/特晶片</system:String>
+    <system:String x:Key="CETip">CE（龍門幣）</system:String>
+    <system:String x:Key="APTip">AP（紅票）</system:String>
+    <system:String x:Key="CATip">CA（技能）</system:String>
+    <system:String x:Key="LSTip">LS（經驗）</system:String>
+    <system:String x:Key="SKTip">SK（碳）</system:String>
+    <system:String x:Key="PR-ATip">PR-A（奶/盾晶片）</system:String>
+    <system:String x:Key="PR-BTip">PR-B（術/狙晶片）</system:String>
+    <system:String x:Key="PR-CTip">PR-C（先/輔晶片）</system:String>
+    <system:String x:Key="PR-DTip">PR-D（近/特晶片）</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了~</system:String>
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔~</system:String>
     <!--  戰鬥設定  -->
@@ -322,8 +332,11 @@
     <!--  自動戰鬥  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">出現未知異常</system:String>
+    <system:String x:Key="ResourceBroken">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="Error">錯誤</system:String>
+    <system:String x:Key="ErrorDetails">信息</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">創建 GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反饋問題</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟電腦，或更換模擬器後再次嘗試</system:String>
@@ -339,13 +352,15 @@
     <system:String x:Key="StartCombat">開始戰鬥：</system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
+    <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
+    <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
     <system:String x:Key="ErrorOccurred">出現錯誤</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEX">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="OnTheMove">已開始行動</system:String>
+    <system:String x:Key="MissionStart">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
@@ -399,6 +414,8 @@
     <system:String x:Key="Website">MAA 官網</system:String>
     <system:String x:Key="Github">原始碼：GitHub</system:String>
     <system:String x:Key="PrtsPlus">自動戰鬥作業分享</system:String>
+    <system:String x:Key="MapPrts">自動戰鬥地圖座標</system:String>
+    <system:String x:Key="CustomInfrastGenerator">自定義基建排班製作器</system:String>
     <system:String x:Key="QQgroup">Q 群：</system:String>
     <system:String x:Key="QQgroup1">一群</system:String>
     <system:String x:Key="QQgroup2">二群</system:String>
@@ -406,7 +423,9 @@
     <system:String x:Key="QQgroup4">四群</system:String>
     <system:String x:Key="QQgroup5">五群</system:String>
     <system:String x:Key="QQgroup6">六群</system:String>
+    <system:String x:Key="QQgroup7">七群</system:String>
     <system:String x:Key="QQgroupfull">(已滿)</system:String>
+    <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/zh-tw/1.2-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C.md</uri:Uri>
     <system:String x:Key="Issue">問題回饋</system:String>

@@ -4,8 +4,8 @@
 #include "Sub/BattleFormationTask.h"
 #include "Sub/BattleProcessTask.h"
 #include "Sub/ProcessTask.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/Platform.hpp"
 
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),

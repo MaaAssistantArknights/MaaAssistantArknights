@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -163,24 +164,6 @@ namespace MeoAsstGui
         }
 
         private string _curResource = "_Unloaded";
-        private bool _additionalLoaded = false;
-
-        public bool LoadAdditionalResource()
-        {
-            if (_additionalLoaded)
-            {
-                return true;
-            }
-
-            var settingsModel = _container.Get<SettingsViewModel>();
-            if (settingsModel.RoguelikeTheme != "Roguelike1")
-            {
-                _additionalLoaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\addition\\" + settingsModel.RoguelikeTheme + "\\");
-                return _additionalLoaded;
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// 加载全局资源。
@@ -193,8 +176,6 @@ namespace MeoAsstGui
             {
                 return true;
             }
-
-            _additionalLoaded = false;
 
             bool loaded = true;
             if (settingsModel.ClientType == string.Empty
@@ -244,12 +225,7 @@ namespace MeoAsstGui
         /// </summary>
         public void Init()
         {
-            // TODO: 屎山.jpg，过几个版本再把这两行删了
-            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_recruit.json");
-            File.Delete(Directory.GetCurrentDirectory() + "\\resource\\addition\\Roguelike2\\resource\\roguelike_shopping.json");
-
             bool loaded = LoadResource();
-            loaded &= LoadAdditionalResource();
 
             _handle = AsstCreateEx(_callback, IntPtr.Zero);
 
@@ -257,7 +233,7 @@ namespace MeoAsstGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    _windowManager.ShowMessageBox(Localization.GetString("UnknownAbnormal"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
+                    _windowManager.ShowMessageBox(Localization.GetString("ResourceBroken"), Localization.GetString("Error"), icon: MessageBoxImage.Error);
                     Application.Current.Shutdown();
                 });
             }
@@ -348,6 +324,7 @@ namespace MeoAsstGui
                 case AsstMsg.TaskChainStart:
                 case AsstMsg.TaskChainCompleted:
                 case AsstMsg.TaskChainExtraInfo:
+                case AsstMsg.TaskChainStopped:
                     ProcTaskChainMsg(msg, details);
                     break;
 
@@ -380,16 +357,16 @@ namespace MeoAsstGui
 
                 case "UnsupportedResolution":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ResolutionNotSupported"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("ResolutionNotSupported"), UILogColor.Error);
                     break;
 
                 case "ResolutionError":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), UILogColor.Error);
                     break;
 
                 case "Reconnecting":
-                    mainModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", LogColor.Error);
+                    mainModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", UILogColor.Error);
                     break;
 
                 case "Reconnected":
@@ -398,7 +375,7 @@ namespace MeoAsstGui
 
                 case "Disconnect":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ReconnectFailed"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("ReconnectFailed"), UILogColor.Error);
                     if (mainModel.Idle)
                     {
                         break;
@@ -411,10 +388,11 @@ namespace MeoAsstGui
                     {
                         if (settingsModel.RetryOnDisconnected)
                         {
-                            mainModel.AddLog(Localization.GetString("TryToStartEmulator"), LogColor.Error);
+                            mainModel.AddLog(Localization.GetString("TryToStartEmulator"), UILogColor.Error);
                             mainModel.KillEmulator();
                             await Task.Delay(3000);
                             mainModel.Stop();
+                            mainModel.SetStopped();
                             mainModel.LinkStart();
                         }
                     });
@@ -422,7 +400,7 @@ namespace MeoAsstGui
                     break;
 
                 case "ScreencapFailed":
-                    mainModel.AddLog(Localization.GetString("ScreencapFailed"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("ScreencapFailed"), UILogColor.Error);
                     break;
             }
         }
@@ -449,14 +427,25 @@ namespace MeoAsstGui
             var settingsModel = _container.Get<SettingsViewModel>();
             var copilotModel = _container.Get<CopilotViewModel>();
 
+            bool isCoplitTaskChain = taskChain == "Copilot";
+
             switch (msg)
             {
-                case AsstMsg.TaskChainError:
-                    mainModel.AddLog(Localization.GetString("TaskError") + taskChain, LogColor.Error);
-                    if (taskChain == "Copilot")
+                case AsstMsg.TaskChainStopped:
+                    mainModel.SetStopped();
+                    if (isCoplitTaskChain)
                     {
                         copilotModel.Idle = true;
-                        copilotModel.AddLog(Localization.GetString("CombatError"), LogColor.Error);
+                    }
+
+                    break;
+
+                case AsstMsg.TaskChainError:
+                    mainModel.AddLog(Localization.GetString("TaskError") + taskChain, UILogColor.Error);
+                    if (isCoplitTaskChain)
+                    {
+                        copilotModel.Idle = true;
+                        copilotModel.AddLog(Localization.GetString("CombatError"), UILogColor.Error);
                     }
 
                     break;
@@ -481,10 +470,10 @@ namespace MeoAsstGui
                     }
 
                     mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
-                    if (taskChain == "Copilot")
+                    if (isCoplitTaskChain)
                     {
                         copilotModel.Idle = true;
-                        copilotModel.AddLog(Localization.GetString("CompleteCombat"), LogColor.Info);
+                        copilotModel.AddLog(Localization.GetString("CompleteCombat"), UILogColor.Info);
                     }
 
                     break;
@@ -576,29 +565,29 @@ namespace MeoAsstGui
             switch (subTask)
             {
                 case "StartGameTask":
-                    mainModel.AddLog(Localization.GetString("FailedToOpenClient"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("FailedToOpenClient"), UILogColor.Error);
                     break;
 
                 case "AutoRecruitTask":
                     {
                         var why_str = details.TryGetValue("why", out var why) ? why.ToString() : Localization.GetString("ErrorOccurred");
-                        mainModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), LogColor.Error);
+                        mainModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), UILogColor.Error);
                         break;
                     }
 
                 case "RecognizeDrops":
-                    mainModel.AddLog(Localization.GetString("DropRecognitionError"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("DropRecognitionError"), UILogColor.Error);
                     break;
 
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"].ToString();
-                        mainModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), LogColor.Error);
+                        mainModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), UILogColor.Error);
                         break;
                     }
 
                 case "CheckStageValid":
-                    mainModel.AddLog(Localization.GetString("TheEX"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("TheEX"), UILogColor.Error);
                     break;
             }
         }
@@ -617,99 +606,99 @@ namespace MeoAsstGui
                 {
                     case "StartButton2":
                     case "AnnihilationConfirm":
-                        mainModel.AddLog(Localization.GetString("OnTheMove") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
+                        mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "MedicineConfirm":
-                        mainModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
+                        mainModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "StoneConfirm":
-                        mainModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
+                        mainModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "AbandonAction":
-                        mainModel.AddLog(Localization.GetString("ActingCommandError"), LogColor.Error);
+                        mainModel.AddLog(Localization.GetString("ActingCommandError"), UILogColor.Error);
                         break;
 
                     case "RecruitRefreshConfirm":
-                        mainModel.AddLog(Localization.GetString("LabelsRefreshed"), LogColor.Info);
+                        mainModel.AddLog(Localization.GetString("LabelsRefreshed"), UILogColor.Info);
                         break;
 
                     case "RecruitConfirm":
-                        mainModel.AddLog(Localization.GetString("RecruitConfirm"), LogColor.Info);
+                        mainModel.AddLog(Localization.GetString("RecruitConfirm"), UILogColor.Info);
                         break;
 
                     case "InfrastDormDoubleConfirmButton":
-                        mainModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), LogColor.Error);
+                        mainModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), UILogColor.Error);
                         break;
 
                     /* 肉鸽相关 */
-                    case "Roguelike1Start":
-                        mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
+                    case "StartExplore":
+                        mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
-                    case "Roguelike1StageTraderInvestConfirm":
-                        mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), LogColor.Info);
+                    case "StageTraderInvestConfirm":
+                        mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
-                    case "Roguelike1ExitThenAbandon":
+                    case "ExitThenAbandon":
                         mainModel.AddLog(Localization.GetString("ExplorationAbandoned"));
                         break;
 
-                    // case "Roguelike1StartAction":
+                    // case "StartAction":
                     //    mainModel.AddLog("开始战斗");
                     //    break;
-                    case "Roguelike1MissionCompletedFlag":
+                    case "MissionCompletedFlag":
                         mainModel.AddLog(Localization.GetString("FightCompleted"));
                         break;
 
-                    case "Roguelike1MissionFailedFlag":
+                    case "MissionFailedFlag":
                         mainModel.AddLog(Localization.GetString("FightFailed"));
                         break;
 
-                    case "Roguelike1StageTraderEnter":
+                    case "StageTraderEnter":
                         mainModel.AddLog(Localization.GetString("Trader"));
                         break;
 
-                    case "Roguelike1StageSafeHouseEnter":
+                    case "StageSafeHouseEnter":
                         mainModel.AddLog(Localization.GetString("SafeHouse"));
                         break;
 
-                    case "Roguelike1StageEncounterEnter":
+                    case "StageEncounterEnter":
                         mainModel.AddLog(Localization.GetString("Encounter"));
                         break;
 
-                    // case "Roguelike1StageBoonsEnter":
+                    // case "StageBoonsEnter":
                     //    mainModel.AddLog("古堡馈赠");
                     //    break;
-                    case "Roguelike1StageCambatDpsEnter":
+                    case "StageCambatDpsEnter":
                         mainModel.AddLog(Localization.GetString("CambatDps"));
                         break;
 
-                    case "Roguelike1StageEmergencyDps":
+                    case "StageEmergencyDps":
                         mainModel.AddLog(Localization.GetString("EmergencyDps"));
                         break;
 
-                    case "Roguelike1StageDreadfulFoe":
-                    case "Roguelike2StageDreadfulFoe-5Enter":
+                    case "StageDreadfulFoe":
+                    case "StageDreadfulFoe-5Enter":
                         mainModel.AddLog(Localization.GetString("DreadfulFoe"));
                         break;
 
-                    case "Roguelike1StageTraderInvestSystemFull":
-                        mainModel.AddLog(Localization.GetString("UpperLimit"), LogColor.Info);
+                    case "StageTraderInvestSystemFull":
+                        mainModel.AddLog(Localization.GetString("UpperLimit"), UILogColor.Info);
                         break;
 
-                    case "RestartGameAndContinueFighting":
-                        mainModel.AddLog(Localization.GetString("GameCrash"), LogColor.Warning);
+                    case "RestartGameAndContinue":
+                        mainModel.AddLog(Localization.GetString("GameCrash"), UILogColor.Warning);
                         break;
 
                     case "OfflineConfirm":
-                        mainModel.AddLog(Localization.GetString("GameDrop"), LogColor.Warning);
+                        mainModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
                         break;
 
-                    case "Roguelike1GamePass":
-                        mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), LogColor.RareOperator);
+                    case "GamePass":
+                        mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), UILogColor.RareOperator);
                         break;
                 }
             }
@@ -744,25 +733,20 @@ namespace MeoAsstGui
             {
                 case "StageDrops":
                     {
-                        string cur_drops = string.Empty;
-                        JArray drops = (JArray)subTaskDetails["drops"];
-                        foreach (var item in drops)
-                        {
-                            string itemName = item["itemName"].ToString();
-                            int count = (int)item["quantity"];
-                            cur_drops += $"{itemName} : {count}\n";
-                        }
-
-                        cur_drops = cur_drops.EndsWith("\n") ? cur_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
-                        mainModel.AddLog(Localization.GetString("Drop") + "\n" + cur_drops);
-
                         string all_drops = string.Empty;
                         JArray statistics = (JArray)subTaskDetails["stats"];
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"].ToString();
-                            int count = (int)item["quantity"];
-                            all_drops += $"{itemName} : {count}\n";
+                            int totalQuantity = (int)item["quantity"];
+                            int addQuantity = (int)item["addQuantity"];
+                            all_drops += $"{itemName} : {totalQuantity}";
+                            if (addQuantity > 0)
+                            {
+                                all_drops += $" (+{addQuantity})";
+                            }
+
+                            all_drops += "\n";
                         }
 
                         all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
@@ -776,7 +760,7 @@ namespace MeoAsstGui
                     break;
 
                 case "ProductIncorrect":
-                    mainModel.AddLog(Localization.GetString("ProductIncorrect"), LogColor.Error);
+                    mainModel.AddLog(Localization.GetString("ProductIncorrect"), UILogColor.Error);
                     break;
 
                 case "RecruitTagsDetected":
@@ -832,11 +816,11 @@ namespace MeoAsstGui
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
 
-                            mainModel.AddLog(level + " ★ Tags", LogColor.RareOperator, "Bold");
+                            mainModel.AddLog(level + " ★ Tags", UILogColor.RareOperator, "Bold");
                         }
                         else
                         {
-                            mainModel.AddLog(level + " ★ Tags", LogColor.Info);
+                            mainModel.AddLog(level + " ★ Tags", UILogColor.Info);
                         }
 
                         /*
@@ -880,7 +864,7 @@ namespace MeoAsstGui
 
                 case "NotEnoughStaff":
                     {
-                        mainModel.AddLog(Localization.GetString("NotEnoughStaff"), LogColor.Error);
+                        mainModel.AddLog(Localization.GetString("NotEnoughStaff"), UILogColor.Error);
                     }
 
                     break;
@@ -895,7 +879,7 @@ namespace MeoAsstGui
 
                 case "StageInfoError":
                     {
-                        mainModel.AddLog(Localization.GetString("StageInfoError"), LogColor.Error);
+                        mainModel.AddLog(Localization.GetString("StageInfoError"), UILogColor.Error);
                     }
 
                     break;
@@ -928,7 +912,7 @@ namespace MeoAsstGui
                         if (doc.Length != 0)
                         {
                             string color = subTaskDetails["doc_color"].ToString();
-                            copilotModel.AddLog(doc, color.Length == 0 ? LogColor.Message : color);
+                            copilotModel.AddLog(doc, color.Length == 0 ? UILogColor.Message : color);
                         }
 
                         var action = subTaskDetails["action"].ToString();
@@ -950,7 +934,7 @@ namespace MeoAsstGui
                     break;
 
                 case "UnsupportedLevel":
-                    copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), LogColor.Error);
+                    copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), UILogColor.Error);
                     break;
 
                 case "CustomInfrastRoomOperators":
@@ -1031,7 +1015,7 @@ namespace MeoAsstGui
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (!LoadResource() || !LoadAdditionalResource())
+            if (!LoadResource())
             {
                 error = "Load Resource Failed";
                 return false;
@@ -1184,6 +1168,7 @@ namespace MeoAsstGui
         /// <param name="max_times">指定次数。</param>
         /// <param name="drops_item_id">指定掉落 ID。</param>
         /// <param name="drops_item_quantity">指定掉落数量。</param>
+        /// <param name="is_main_fight">是否是主任务，决定c#侧是否记录任务id</param>
         /// <returns>是否成功。</returns>
         public bool AsstSetFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity, bool is_main_fight = true)
         {
@@ -1421,9 +1406,10 @@ namespace MeoAsstGui
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki"]</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char)
+            string squad, string roles, string core_char, string theme)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
@@ -1431,6 +1417,7 @@ namespace MeoAsstGui
             task_params["investment_enabled"] = investment_enabled;
             task_params["investments_count"] = invests;
             task_params["stop_when_investment_full"] = stop_when_full;
+            task_params["theme"] = theme;
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;
@@ -1588,6 +1575,11 @@ namespace MeoAsstGui
         /// </summary>
         TaskChainExtraInfo,
 
+        /// <summary>
+        /// 任务链手动停止
+        /// </summary>
+        TaskChainStopped,
+
         /* SubTask Info */
 
         /// <summary>
@@ -1609,6 +1601,11 @@ namespace MeoAsstGui
         /// 原子任务额外信息。
         /// </summary>
         SubTaskExtraInfo,
+
+        /// <summary>
+        /// 原子任务手动停止
+        /// </summary>
+        SubTaskStopped,
     }
 }
 

@@ -12,7 +12,6 @@
 #include "Resource/StageDropsConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Version.h"
 
@@ -22,10 +21,10 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         return false;
     }
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "EndOfAction") {
-        auto pre_time_opt = m_status->get_number("LastStartButton2");
+    if (task == "Fight@EndOfAction") {
+        auto pre_time_opt = m_status->get_number("Fight@LastStartButton2");
         int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
-        auto pre_reg_time_opt = m_status->get_number("LastRecognizeDrops");
+        auto pre_reg_time_opt = m_status->get_number("Fight@LastRecognizeDrops");
         int64_t pre_recognize_time = pre_reg_time_opt ? pre_reg_time_opt.value() : 0;
         if (pre_start_time + RecognitionTimeOffset == pre_recognize_time) {
             Log.info("Recognitions time too close, pass", pre_start_time, pre_recognize_time);
@@ -34,7 +33,7 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         m_is_annihilation = false;
         return true;
     }
-    else if (task == "EndOfActionAnnihilation") {
+    else if (task == "Fight@EndOfActionAnnihilation") {
         m_is_annihilation = true;
         return true;
     }
@@ -102,7 +101,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 {
     LogTraceFunction;
 
-    sleep(Task.get("PRTS")->rear_delay);
+    sleep(Task.get("PRTS")->post_delay);
     if (need_exit()) {
         return false;
     }
@@ -137,12 +136,14 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
 {
     LogTraceFunction;
 
+    std::unordered_map<std::string, int> cur_drops_count;
     std::vector<json::value> drops_vec;
     for (const auto& drop : m_cur_drops) {
+        m_drop_stats[drop.item_id] += drop.quantity;
+        cur_drops_count.emplace(drop.item_id, drop.quantity);
         json::value info;
         info["itemId"] = drop.item_id;
         info["quantity"] = drop.quantity;
-        m_drop_stats[drop.item_id] += drop.quantity;
         info["itemName"] = drop.item_name;
         info["dropType"] = drop.drop_type_name;
         drops_vec.emplace_back(std::move(info));
@@ -155,6 +156,12 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         const std::string& name = ItemData.get_item_name(id);
         info["itemName"] = name.empty() ? id : name;
         info["quantity"] = count;
+        if (auto iter = cur_drops_count.find(id); iter != cur_drops_count.end()) {
+            info["addQuantity"] = iter->second;
+        }
+        else {
+            info["addQuantity"] = 0;
+        }
         stats_vec.emplace_back(std::move(info));
     }
     //// 排个序，数量多的放前面
@@ -193,9 +200,9 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
         if (pre_start_time > 0) {
             m_start_button_delay_is_set = true;
             int64_t duration = time(nullptr) - pre_start_time;
-            int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->rear_delay;
+            int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
             int64_t delay = duration * 1000 - elapsed;
-            m_cast_ptr->set_rear_delay("StartButton2", static_cast<int>(delay));
+            m_cast_ptr->set_post_delay("StartButton2", static_cast<int>(delay));
         }
     }
 }
@@ -203,6 +210,10 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
 void asst::StageDropsTaskPlugin::upload_to_penguin()
 {
     LogTraceFunction;
+
+    if (m_server != "CN" && m_server != "US" && m_server != "JP") {
+        return;
+    }
 
     json::value cb_info = basic_info();
     cb_info["subtask"] = "ReportToPenguinStats";

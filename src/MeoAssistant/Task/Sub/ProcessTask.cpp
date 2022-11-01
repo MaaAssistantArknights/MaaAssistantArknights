@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <random>
+#include <unordered_set>
 
 #include <meojson/json.hpp>
 
@@ -10,7 +11,6 @@
 #include "Resource/GeneralConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 using namespace asst;
@@ -73,9 +73,9 @@ ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit, Tim
     return *this;
 }
 
-ProcessTask& asst::ProcessTask::set_rear_delay(std::string name, int delay)
+ProcessTask& asst::ProcessTask::set_post_delay(std::string name, int delay)
 {
-    m_rear_delay[std::move(name)] = delay;
+    m_post_delay[std::move(name)] = delay;
     return *this;
 }
 
@@ -135,12 +135,7 @@ bool ProcessTask::_run()
 
         int& exec_times = m_exec_times[cur_name];
 
-        int max_times = m_cur_task_ptr->max_times;
-        TimesLimitType limit_type = TimesLimitType::Pre;
-        if (auto iter = m_times_limit.find(cur_name); iter != m_times_limit.cend()) {
-            max_times = iter->second.times;
-            limit_type = iter->second.type;
-        }
+        auto [max_times, limit_type] = calc_time_limit();
 
         if (limit_type == TimesLimitType::Pre && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
@@ -162,10 +157,10 @@ bool ProcessTask::_run()
 
         info["details"] = json::object {
             { "task", cur_name },
-            { "action", static_cast<int>(m_cur_task_ptr->action) },
+            { "action", enum_to_string(m_cur_task_ptr->action) },
             { "exec_times", exec_times },
             { "max_times", max_times },
-            { "algorithm", static_cast<int>(m_cur_task_ptr->algorithm) },
+            { "algorithm", enum_to_string(m_cur_task_ptr->algorithm) },
         };
 
         callback(AsstMsg::SubTaskStart, info);
@@ -224,11 +219,11 @@ bool ProcessTask::_run()
         }
 
         // 后置固定延时
-        int rear_delay = m_cur_task_ptr->rear_delay;
-        if (auto iter = m_rear_delay.find(cur_name); iter != m_rear_delay.cend()) {
-            rear_delay = iter->second;
+        int post_delay = m_cur_task_ptr->post_delay;
+        if (auto iter = m_post_delay.find(cur_name); iter != m_post_delay.cend()) {
+            post_delay = iter->second;
         }
-        if (!sleep(rear_delay)) {
+        if (!sleep(post_delay)) {
             return false;
         }
 
@@ -287,6 +282,21 @@ bool asst::ProcessTask::on_run_fails()
     return run();
 }
 
+std::pair<int, asst::ProcessTask::TimesLimitType> asst::ProcessTask::calc_time_limit() const
+{
+    // eg. "C@B@A" 的 max_times 取 "C@B@A", "B@A", "A" 中有 max_times 定义的最靠前者
+    for (std::string cur_base_name = m_cur_task_ptr->name;;) {
+        if (auto iter = m_times_limit.find(cur_base_name); iter != m_times_limit.cend()) {
+            return { iter->second.times, iter->second.type };
+        }
+        size_t at_pos = cur_base_name.find('@');
+        if (at_pos == std::string::npos) {
+            return { m_cur_task_ptr->max_times, TimesLimitType::Pre };
+        }
+        cur_base_name = cur_base_name.substr(at_pos + 1);
+    }
+}
+
 json::value asst::ProcessTask::basic_info() const
 {
     return AbstractTask::basic_info() |
@@ -326,7 +336,7 @@ void asst::ProcessTask::exec_slowly_swipe_task(ProcessTaskAction action)
     static Rect right_rect = Task.get("ProcessTaskSlowlySwipeRightRect")->specific_rect;
     static Rect left_rect = Task.get("ProcessTaskSlowlySwipeLeftRect")->specific_rect;
     static int duration = Task.get("ProcessTaskSlowlySwipeRightRect")->pre_delay;
-    static int extra_delay = Task.get("ProcessTaskSlowlySwipeRightRect")->rear_delay;
+    static int extra_delay = Task.get("ProcessTaskSlowlySwipeRightRect")->post_delay;
 
     switch (action) {
     case asst::ProcessTaskAction::SlowlySwipeToTheLeft:

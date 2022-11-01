@@ -2,7 +2,6 @@
 
 #include "AbstractTask.h"
 #include "Utils/AsstHttp.hpp"
-#include "Utils/AsstUtils.hpp"
 
 #include <cctype>
 #include <future>
@@ -41,7 +40,8 @@ namespace asst
             HttpResponsePred success_cond = [](const http::Response& response) -> bool { return response.success(); },
             HttpResponsePred retry_cond = [](const http::Response& response) -> bool {
                 return !response.status_code() || response.status_5xx();
-            });
+            },
+            bool callback_on_failure = true);
 
         ReportType m_report_type = ReportType::Invaild;
         std::string m_body;

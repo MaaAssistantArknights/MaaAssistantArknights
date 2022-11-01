@@ -23,18 +23,20 @@ class Asst:
     """
 
     @staticmethod
-    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None) -> bool:
+    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None, user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
 
         :params:
             ``path``:    DLL及资源所在文件夹路径
+            ``incremental_path``:   增量资源所在文件夹路径
+            ``user_dir``:   用户数据（日志、调试图片等）写入文件夹路径
         """
         if platform.system().lower() == 'windows':
             Asst.__libpath = pathlib.Path(path) / 'MeoAssistant.dll'
             os.environ["PATH"] += os.pathsep + str(path)
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
-        if platform.system().lower() == 'darwin':
+        elif platform.system().lower() == 'darwin':
             Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.dylib'
             os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
@@ -44,7 +46,11 @@ class Asst:
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
-        ret: bool = Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
+        ret: bool = True
+        if user_dir:
+            ret &= Asst.__lib.AsstSetUserDir(str(user_dir).encode('utf-8'))
+
+        ret &= Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
         if incremental_path:
             ret &= Asst.__lib.AsstLoadResource(
                 str(incremental_path).encode('utf-8'))
@@ -153,6 +159,10 @@ class Asst:
 
     @staticmethod
     def __set_lib_properties():
+        Asst.__lib.AsstSetUserDir.restype = ctypes.c_bool
+        Asst.__lib.AsstSetUserDir.argtypes = (
+            ctypes.c_char_p,)
+
         Asst.__lib.AsstLoadResource.restype = ctypes.c_bool
         Asst.__lib.AsstLoadResource.argtypes = (
             ctypes.c_char_p,)
@@ -217,6 +227,8 @@ class Message(Enum):
 
     TaskChainExtraInfo = auto()
 
+    TaskChainStopped = auto()
+
     SubTaskError = 20000
 
     SubTaskStart = auto()
@@ -224,3 +236,5 @@ class Message(Enum):
     SubTaskCompleted = auto()
 
     SubTaskExtraInfo = auto()
+
+    SubTaskStopped = auto()

@@ -33,7 +33,7 @@ public partial class Build : NukeBuild
     const string MasterBranch = "master";
     const string DevBranch = "dev";
 
-    const string MaaDevBundlePackageNameTemplate = "MaaBundle-Dev-{VERSION}";
+    const string MaaDevBundlePackageNameTemplate = "MAA-{VERSION}-win-x64-Dev";
 
     string Version = "";
     string ChangeLog = "";
