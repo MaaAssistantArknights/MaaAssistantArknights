@@ -499,6 +499,15 @@
                 ],
                 "template": "Bskill_dorm_exchangeAp.png"
             },
+            "bskill_dorm_hireToRecAll1": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.15，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
+                ],
+                "name": [
+                    "寻同路人"
+                ],
+                "template": "Bskill_dorm_hireToRecAll1.png"
+            },
             "bskill_dorm_one": {
                 "desc": [
                     "进驻宿舍时，自身心情每小时恢复+0.7；如果该宿舍内有其他干员，则每人额外为自身心情每小时恢复+0.05"
@@ -519,10 +528,12 @@
             },
             "bskill_dorm_one2": {
                 "desc": [
+                    "进驻宿舍时，自身心情每小时恢复+0.7",
                     "进驻宿舍时，自身心情每小时恢复+0.7"
                 ],
                 "name": [
-                    "独处"
+                    "独处",
+                    "幼狼情性"
                 ],
                 "template": "Bskill_dorm_one2.png"
             },
@@ -1829,6 +1840,15 @@
                 ],
                 "template": "Bskill_hire_skgoat.png"
             },
+            "bskill_hire_skgoat2": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+50%，心情每小时消耗+0.5"
+                ],
+                "name": [
+                    "法为正典"
+                ],
+                "template": "Bskill_hire_skgoat2.png"
+            },
             "bskill_hire_spd&blacksteel2": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加黑钢国际线索的概率（工作时长和招募位影响概率）"
@@ -1879,6 +1899,15 @@
                 ],
                 "template": "Bskill_hire_spd&cost2.png"
             },
+            "bskill_hire_spd&cost3": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）使心情每小时消耗-0.1"
+                ],
+                "name": [
+                    "救援队·保证体力"
+                ],
+                "template": "Bskill_hire_spd&cost3.png"
+            },
             "bskill_hire_spd&ursus2": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加乌萨斯学生自治团线索的概率（工作时长和招募位影响概率）"
@@ -1905,13 +1934,15 @@
             },
             "bskill_hire_spd2": {
                 "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+30%",
                     "进驻人力办公室时，人脉资源的联络速度+30%"
                 ],
                 "efficient": {
                     "all": 30
                 },
                 "name": [
-                    "天灾信使·α"
+                    "天灾信使·α",
+                    "救援队·外界联络"
                 ],
                 "template": "Bskill_hire_spd2.png"
             },
@@ -2352,6 +2383,15 @@
                 ],
                 "template": "Bskill_meet_spd3.png"
             },
+            "bskill_meet_spd4": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升25%"
+                ],
+                "name": [
+                    "领袖外交"
+                ],
+                "template": "Bskill_meet_spd4.png"
+            },
             "bskill_meet_spdNotOwned1": {
                 "desc": [
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
@@ -2632,6 +2672,15 @@
                 ],
                 "template": "Bskill_tra_spd&dorm2.png"
             },
+            "bskill_tra_spd&formula1": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+30%，制造站每有1类配方进行加工，则当前贸易站订单获取效率额外+2%"
+                ],
+                "name": [
+                    "精准排期"
+                ],
+                "template": "Bskill_tra_spd&formula1.png"
+            },
             "bskill_tra_spd&limit1": {
                 "desc": [
                     "进驻贸易站时，订单获取效率+10%，且订单上限+2"
@@ -2717,6 +2766,15 @@
                     "少当家"
                 ],
                 "template": "Bskill_tra_spd&limit7.png"
+            },
+            "bskill_tra_spd&meet1": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+25%，会客室每级额外提供5%获取效率，最多提供40%效率"
+                ],
+                "name": [
+                    "新城贸易"
+                ],
+                "template": "Bskill_tra_spd&meet1.png"
             },
             "bskill_tra_spd1": {
                 "desc": [
