@@ -162,7 +162,8 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     std::unordered_map<std::string, std::string> global_dirs = {
-        { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" }, { "zh_TW", "txwy" }
+        // 繁中的gamedata很久没更新了，暂时不从这里拿数据了
+        { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" }, /* { "zh_TW", "txwy" } */
     };
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
