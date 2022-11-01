@@ -319,7 +319,7 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     src_without_alpha.copyTo(dst, mask);
 
     cv::Mat dst_resized;
-    cv::resize(dst, dst_resized, cv::Size(), 720.0 / 1080.0, 720.0 / 1080.0, cv::INTER_LINEAR_EXACT);
+    cv::resize(dst, dst_resized, cv::Size(), 720.0 / 1080.0, 720.0 / 1080.0, cv::INTER_AREA);
     cv::Rect quantity_roi(dst_resized.cols - 80, dst_resized.rows - 50, 80, 50);
     dst_resized(quantity_roi).setTo(0);
 
