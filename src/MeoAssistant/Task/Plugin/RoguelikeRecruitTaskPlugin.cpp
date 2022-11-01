@@ -242,7 +242,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 如果划动过，先划回最左边
         if (i != 0) {
-            swipe_to_the_left_of_operlist(i / 3 + 1);
+            swipe_to_the_left_of_operlist(i / 2 + 1);
         }
 
         auto image = m_ctrler->get_image();
@@ -299,7 +299,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         is_rtl = (selected_oper->page_index * 2) >= i;
         if (!is_rtl) {
             // 从左往右需要先划回最左边
-            swipe_to_the_left_of_operlist(i / 3 + 1);
+            swipe_to_the_left_of_operlist(i / 2 + 1);
         }
     }
 
@@ -361,7 +361,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
-    swipe_to_the_left_of_operlist(i / 3 + 1);
+    swipe_to_the_left_of_operlist(i / 2 + 1);
     return false;
 }
 
@@ -401,6 +401,7 @@ void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_ti
     for (int i = 0; i != loop_times; ++i) {
         ProcessTask(*this, { "RoguelikeRecruitOperListSwipeToTheLeft" }).run();
     }
+    ProcessTask(*this, { "SleepAfterOperListSwipe" }).run();
 }
 
 void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left)
