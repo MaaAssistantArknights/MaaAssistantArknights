@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.GitHub;
+using Nuke.Common.Utilities;
 using Octokit;
 
 namespace MaaBuilder;
@@ -23,7 +25,8 @@ public partial class Build
         .Triggers(SetVersion)
         .Executes(() =>
         {
-            Version = $"{Parameters.BuildTime}-{Parameters.CommitHash}";
+            var envReleaseTag = Environment.GetEnvironmentVariable("MAA_BUILDER_MAA_VERSION");
+            Version = !envReleaseTag.IsNullOrEmpty() ? envReleaseTag : $"{Parameters.BuildTime}-{Parameters.CommitHash}";
         });
 
     Target UseTagVersion => _ => _
