@@ -10,7 +10,7 @@ _该版本更新了飞桨 OCR 库，NoAVX 用户请重新下载新的替换包_
 - Support all stages and opers in I.S. for EN and JP clients. @MistEO
 - Support shopping in trader in I.S. for EN and JP clients. @MistEO
 - Update Recruitment data for EN, JP and KR clients. @MistEO
-- 更新 2022 感谢庆典 掉落、公招数据 @MistEO
+- 更新 2022 感谢庆典 关卡、基建、掉落、战斗、公招数据 @MistEO @yuanyan3060
 - 更新 繁中服 公招数据、仓库识别数据 @MistEO @lza11111
 - 重构 软件升级 打包及更新逻辑，新增 `内测版` 更新选项 @horror-proton @zzyyyl @MistEO
 - 优化 自定义基建 无人机和菲亚同时为 `pre` 时，优先使用无人机 @MistEO
