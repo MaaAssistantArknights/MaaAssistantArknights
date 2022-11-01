@@ -3,6 +3,7 @@
 #include "../Sub/ProcessTask.h"
 #include "Controller.h"
 #include "ImageAnalyzer/RoguelikeRecruitImageAnalyzer.h"
+#include "Resource/BattleDataConfiger.h"
 #include "Resource/RoguelikeRecruitConfiger.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
@@ -14,12 +15,36 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    if (details.at("details").at("task").as_string() == "Roguelike1ChooseOper") {
+    auto roguelike_name_opt = m_status->get_properties(RuntimeStatus::RoguelikeTheme);
+    if (!roguelike_name_opt) {
+        Log.error("Roguelike name doesn't exist!");
+        return false;
+    }
+    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string& task = details.get("details", "task", "");
+    std::string_view task_view = task;
+    if (task_view.starts_with(roguelike_name)) {
+        task_view.remove_prefix(roguelike_name.length());
+    }
+    if (task_view == "Roguelike@ChooseOper") {
         return true;
     }
     else {
         return false;
     }
+}
+
+asst::BattleRole asst::RoguelikeRecruitTaskPlugin::get_oper_role(const std::string& name)
+{
+    return BattleData.get_role(name);
+}
+
+bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
+{
+    const auto role = get_oper_role(name);
+    if (role != BattleRole::Pioneer && role != BattleRole::Tank && role != BattleRole::Warrior) return false;
+    const auto loc = BattleData.get_location_type(name);
+    return loc == BattleLocationType::Melee;
 }
 
 bool asst::RoguelikeRecruitTaskPlugin::_run()
@@ -37,19 +62,28 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         recruited = true;
     };
 
+    bool team_full_without_rookie = m_status->get_number(RuntimeStatus::RoguelikeTeamFullWithoutRookie).value_or(0);
+    Log.info("team_full_without_rookie", team_full_without_rookie);
+
     // 编队信息 (已有角色)
     std::string str_chars_info =
         m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
-
+    std::unordered_map<BattleRole, int> team_roles;
+    int offset_melee_num = 0;
+    for (const auto& oper : chars_map) {
+        if (oper.first.starts_with("预备干员")) continue;
+        team_roles[get_role_type(oper.first)]++;
+        if (is_oper_melee(oper.first)) offset_melee_num++;
+    }
     // 候选干员
     std::vector<RoguelikeRecruitInfo> recruit_list;
 
     // 干员名字的识别位置
     std::unordered_map<std::string, Rect> last_oper_rects;
 
-    int SwipeTimes = Task.get("Roguelike1RecruitSwipeMaxTime")->max_times;
+    int SwipeTimes = Task.get("RoguelikeRecruitSwipeMaxTime")->max_times;
     int i = 0;
     std::unordered_set<std::string> pre_oper_names;
     // 翻页找出所有候选干员
@@ -112,32 +146,56 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
                     // 预备干员可以重复招募
-                    priority = recruit_info.recruit_priority;
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
+                                                        : recruit_info.recruit_priority;
                 }
                 else {
                     // 干员待晋升
-                    priority = recruit_info.promote_priority;
+                    priority = team_full_without_rookie ? recruit_info.promote_priority_when_team_full
+                                                        : recruit_info.promote_priority;
                 }
             }
             else {
                 // 干员待招募，检查练度
                 if (oper_info.elite == 2) {
                     // TODO: 招募时已精二 (随机提升或对应分队) => promoted_priority
-                    priority = recruit_info.recruit_priority;
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
+                                                        : recruit_info.recruit_priority;
                 }
-                else if (oper_info.elite == 1 && oper_info.level >= 50) {
+                else if (oper_info.elite == 1 && (oper_info.level >= 50 || oper_info.level == 0)) {
                     // 精一50级以上
-                    priority = recruit_info.recruit_priority;
+                    // 等级是 0 一般是识别错了，多发生于外服，一般都是一错全错，先凑合着招一个吧，比不招人强 orz
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
+                                                        : recruit_info.recruit_priority;
                 }
                 else {
                     // 精一50级以下，默认不招募
                     Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite,
                               oper_info.level);
                 }
+
+                if (!recruit_info.is_alternate) {
+                    const BattleRole oper_role = get_oper_role(oper_info.name);
+                    int role_num = recruit_info.offset_melee ? offset_melee_num : team_roles[oper_role];
+                    for (const auto& offset_pair : ranges::reverse_view(recruit_info.recruit_priority_offset)) {
+                        if (role_num >= offset_pair.first) {
+                            priority += offset_pair.second;
+                            break;
+                        }
+                    }
+                    role_num = team_roles[oper_role];
+                    const auto role_info = RoguelikeRecruit.get_role_info(oper_role);
+                    for (const auto& offset_pair : ranges::reverse_view(role_info)) {
+                        if (role_num >= offset_pair.first) {
+                            priority += offset_pair.second;
+                            break;
+                        }
+                    }
+                }
             }
 
             // 优先级为0，可能练度不够被忽略
-            if (priority == 0) {
+            if (priority <= 0) {
                 continue;
             }
 
@@ -175,7 +233,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         // 向右滑动
         Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
         slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
-        sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
+        sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
 
     // 没有候选干员，进入后备逻辑
@@ -227,7 +285,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return false;
     }
 
-    auto& char_name = selected_oper->name;
+    std::string char_name = selected_oper->name;
     Log.trace(__FUNCTION__, "| Top priority oper:", char_name, selected_oper->priority, "page",
               selected_oper->page_index, "/", i);
 
@@ -300,7 +358,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         else {
             slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
         }
-        sleep(Task.get("Roguelike1Custom-HijackSquad")->rear_delay);
+        sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
     swipe_to_the_left_of_operlist(i / 3 + 1);
@@ -311,11 +369,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 {
     LogTraceFunction;
 
-    auto core_opt = m_status->get_str("RoguelikeCoreChar");
+    auto core_opt = m_status->get_str(RuntimeStatus::RoguelikeCoreChar);
     if (!core_opt || core_opt->empty()) {
         return false;
     }
-    m_status->set_str("RoguelikeCoreChar", "");
+    m_status->set_str(RuntimeStatus::RoguelikeCoreChar, "");
     return check_char(core_opt.value());
 }
 
@@ -344,7 +402,7 @@ void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_ti
     static Rect begin_rect = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->specific_rect; // 1080, 200, 100, 300
     static Rect end_rect = Task.get("RoguelikeRecruitSwipeToTheLeftEnd")->specific_rect;     // 400, 200, 100, 300
     static int duration = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->rear_delay;
+    static int extra_delay = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->post_delay;
     static int cfg_loop_times = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
@@ -362,7 +420,7 @@ void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(ProcessTaskAction action)
     static Rect right_rect = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->specific_rect; // 980, 200, 100, 300
     static Rect left_rect = Task.get("RoguelikeRecruitSlowlySwipeLeftRect")->specific_rect;   // 560, 200, 100, 300
     static int duration = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->pre_delay;
-    static int extra_delay = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->rear_delay;
+    static int extra_delay = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->post_delay;
 
     switch (action) {
     case asst::ProcessTaskAction::SlowlySwipeToTheLeft:

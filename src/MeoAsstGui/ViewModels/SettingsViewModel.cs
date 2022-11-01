@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using MeoAsstGui.MaaHotKeys;
 using Stylet;
 using StyletIoC;
 
@@ -33,6 +34,7 @@ namespace MeoAsstGui
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
+        private readonly IMaaHotKeyManager _maaHotKeyManager;
 
         [DllImport("MeoAssistant.dll")]
         private static extern IntPtr AsstGetVersion();
@@ -65,6 +67,7 @@ namespace MeoAsstGui
         {
             _container = container;
             _windowManager = windowManager;
+            _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
             DisplayName = Localization.GetString("Settings");
 
             _listTitle.Add(Localization.GetString("BaseSettings"));
@@ -76,15 +79,17 @@ namespace MeoAsstGui
             _listTitle.Add(Localization.GetString("StartupSettings"));
             _listTitle.Add(Localization.GetString("ScheduleSettings"));
             _listTitle.Add(Localization.GetString("UISettings"));
+            _listTitle.Add(Localization.GetString("HotKeySettings"));
             _listTitle.Add(Localization.GetString("UpdateSettings"));
             _listTitle.Add(Localization.GetString("AboutUs"));
 
             InfrastInit();
 
             var trayObj = _container.Get<TrayIcon>();
+            var mainWindowManager = _container.Get<IMainWindowManager>();
             trayObj.SetVisible(UseTray);
-            trayObj.SetMinimizeToTaskbar(MinimizeToTray);
             trayObj.SetSettingsViewModel(this);
+            mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
             Bootstrapper.SetTrayIconInSettingsViewModel(this);
 
             if (Hangover)
@@ -176,8 +181,8 @@ namespace MeoAsstGui
 
             RoguelikeThemeList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Roguelike1" },
-                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Roguelike2" },
+                new CombData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
+                new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
             };
 
             RoguelikeSquadList = new List<CombData>
@@ -223,6 +228,13 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("Clear"), Value = "Clear" },
                 new CombData { Display = Localization.GetString("Inverse"), Value = "Inverse" },
                 new CombData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" },
+            };
+
+            VersionTypeList = new List<GenericCombData<UpdateVersionType>>
+            {
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+                new GenericCombData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             };
 
             LanguageList = new List<CombData>();
@@ -429,10 +441,10 @@ namespace MeoAsstGui
             { string.Empty, "CN" },
             { "Official", "CN" },
             { "Bilibili", "CN" },
-            { "YoStarEN", "EN" },
+            { "YoStarEN", "US" },
             { "YoStarJP", "JP" },
             { "YoStarKR", "KR" },
-            { "txwy", "CN_TW" },
+            { "txwy", "ZH_TW" },
         };
 
         /// <summary>
@@ -488,6 +500,11 @@ namespace MeoAsstGui
         /// Gets or sets the list of inverse clear modes.
         /// </summary>
         public List<CombData> InverseClearModeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of the version type.
+        /// </summary>
+        public List<GenericCombData<UpdateVersionType>> VersionTypeList { get; set; }
 
         /// <summary>
         /// Gets or sets the language list.
@@ -791,7 +808,7 @@ namespace MeoAsstGui
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Roguelike1");
+        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Phantom");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -801,27 +818,8 @@ namespace MeoAsstGui
             get => _roguelikeTheme;
             set
             {
-                if (value == _roguelikeTheme)
-                {
-                    return;
-                }
-
-                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
-                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
-                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
-                System.Windows.Forms.MessageBoxManager.Register();
-                var result = MessageBox.Show(
-                    Localization.GetString("RoguelikeChangedTip"),
-                    Localization.GetString("Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                System.Windows.Forms.MessageBoxManager.Unregister();
                 SetAndNotify(ref _roguelikeTheme, value);
-                if (result == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
-                }
+                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
             }
         }
 
@@ -1392,20 +1390,45 @@ namespace MeoAsstGui
             }
         }
 
+        public enum UpdateVersionType
+        {
+            Nightly,
+            Beta,
+            Stable,
+        }
+
         /* 软件更新设置 */
-        private bool _updateBeta = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateBeta", bool.FalseString));
+
+        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
+                ViewStatusStorage.Get("VersionUpdate.VersionType", UpdateVersionType.Stable.ToString()));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to update beta version.
+        /// Gets or sets the type of version to update.
+        /// </summary>
+        public UpdateVersionType VersionType
+        {
+            get => _versionType;
+            set
+            {
+                SetAndNotify(ref _versionType, value);
+                ViewStatusStorage.Set("VersionUpdate.VersionType", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to update nightly.
+        /// </summary>
+        public bool UpdateNightly
+        {
+            get => _versionType == UpdateVersionType.Nightly;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to update beta version.
         /// </summary>
         public bool UpdateBeta
         {
-            get => _updateBeta;
-            set
-            {
-                SetAndNotify(ref _updateBeta, value);
-                ViewStatusStorage.Set("VersionUpdate.UpdateBeta", value.ToString());
-            }
+            get => _versionType == UpdateVersionType.Beta;
         }
 
         private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));
@@ -1477,18 +1500,47 @@ namespace MeoAsstGui
             var updateModel = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                if (!updateModel.CheckAndDownloadUpdate(true))
-                {
-                    Execute.OnUIThread(() =>
-                    {
-                        using (var toast = new ToastNotification(Localization.GetString("AlreadyLatest")))
-                        {
-                            toast.Show();
-                        }
-                    });
-                }
+                return updateModel.CheckAndDownloadUpdate(true);
             });
-            await task;
+            var ret = await task;
+
+            string toastMessage = null;
+            switch (ret)
+            {
+                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
+                    toastMessage = Localization.GetString("AlreadyLatest");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.UnknwonError:
+                    toastMessage = Localization.GetString("NewVersionDetectFailedTitle");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.NetworkError:
+                    toastMessage = Localization.GetString("CheckNetworking");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo:
+                    toastMessage = Localization.GetString("GetReleaseNoteFailed");
+                    break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.OK:
+                    updateModel.AskToRestart();
+                    break;
+            }
+
+            if (toastMessage != null)
+            {
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification(toastMessage))
+                    {
+                        toast.Show();
+                    }
+                });
+            }
         }
 
         /* 连接设置 */
@@ -1749,8 +1801,8 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ViewStatusStorage.Set("GUI.MinimizeToTray", value.ToString());
-                var trayObj = _container.Get<TrayIcon>();
-                trayObj.SetMinimizeToTaskbar(value);
+                var mainWindowManager = _container.Get<IMainWindowManager>();
+                mainWindowManager.SetMinimizeToTaskbar(value);
             }
         }
 
@@ -1981,6 +2033,36 @@ namespace MeoAsstGui
             {
                 Application.Current.Shutdown();
                 System.Windows.Forms.Application.Restart();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the hotkey: ShowGui.
+        /// </summary>
+        public MaaHotKey HotKeyShowGui
+        {
+            get => _maaHotKeyManager.GetOrNull(MaaHotKeyAction.ShowGui);
+            set => SetHotKey(MaaHotKeyAction.ShowGui, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the hotkey: LinkStart.
+        /// </summary>
+        public MaaHotKey HotKeyLinkStart
+        {
+            get => _maaHotKeyManager.GetOrNull(MaaHotKeyAction.LinkStart);
+            set => SetHotKey(MaaHotKeyAction.LinkStart, value);
+        }
+
+        private void SetHotKey(MaaHotKeyAction action, MaaHotKey value)
+        {
+            if (value != null)
+            {
+                _maaHotKeyManager.TryRegister(action, value);
+            }
+            else
+            {
+                _maaHotKeyManager.Unregister(action);
             }
         }
 

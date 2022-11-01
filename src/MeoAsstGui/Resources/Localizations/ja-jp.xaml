@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">起動設定</system:String>
     <system:String x:Key="ScheduleSettings">スケジュール実行設定</system:String>
     <system:String x:Key="UISettings">UI設定</system:String>
+    <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AboutUs">About</system:String>
 
@@ -113,14 +114,21 @@
     <system:String x:Key="ManualRestart">後で</system:String>
     <system:String x:Key="Tip">ヒント</system:String>
 
+    <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">Press Backspace/Esc/Delete to clear the current value</system:String>
+
     <system:String x:Key="LabelSequenceTip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="CheckBoxesNotSaved">このオプション設定は再起動後に保存されません</system:String>
     <system:String x:Key="NoAutoNavigation">このオプションは、対応するステージに自動的に移動するものではありません</system:String>
 
     <system:String x:Key="UpdateAutoCheck">アップデートチェック</system:String>
     <system:String x:Key="UpdateAutoDownload">自動アップデート</system:String>
-    <system:String x:Key="UpdateCheckBeta">ベータ版を使う</system:String>
+    <system:String x:Key="UpdateCheckStable">安定版</system:String>
+    <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
+    <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
+    <system:String x:Key="UpdateCheck">更新版</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
     <system:String x:Key="TimerTip">時間のみを記入（例:15/午後3時に実行する）</system:String>
@@ -135,8 +143,10 @@
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
-    <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
-    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
+    <system:String x:Key="RoguelikeTheme">主題</system:String>
+    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -153,7 +163,7 @@
     <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
     <system:String x:Key="BlacklistDefault">炭素材;家具</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
-    <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credit overflow</system:String>
+    <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
 
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
 
@@ -164,10 +174,10 @@
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
-    <system:String x:Key="CustomStageCodeTip">ステージ名と番号（例：4-10、6-16など）の両方がサポートされています。</system:String>
+    <system:String x:Key="CustomStageCodeTip">(テスト機能)ステージ名と番号（例：4-10、AP-5など）の両方がサポートされています。メインステージの指定には該当章の最終エピソードのアンロックが必要です</system:String>
 
-    <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
-    <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
+    <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
+    <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</system:String>
@@ -218,7 +228,7 @@
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
     <system:String x:Key="NoUse">使用しない</system:String>
-    <system:String x:Key="Amend">設定の変更</system:String>
+    <!--<system:String x:Key="Amend">設定の変更</system:String>-->
 
     <system:String x:Key="DefaultStage">現在/前回</system:String>
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
@@ -247,15 +257,15 @@
     <system:String x:Key="Annihilation">殲滅作戦</system:String>
 
     <system:String x:Key="TodaysStageTip">今日のステージのヒント：</system:String>
-    <system:String x:Key="CETip">貨物輸送（龍門幣）</system:String>
-    <system:String x:Key="APTip">防御突破（購買資格証）</system:String>
-    <system:String x:Key="CATip">空軍迎撃（アーツ学）</system:String>
-    <system:String x:Key="LSTip">戦術演習（作戦記録）</system:String>
-    <system:String x:Key="SKTip">資源確保（炭素材）</system:String>
-    <system:String x:Key="PR-ATip">医療/重装SoC</system:String>
-    <system:String x:Key="PR-BTip">術師/狙撃SoC</system:String>
-    <system:String x:Key="PR-CTip">先鋒/補助SoC</system:String>
-    <system:String x:Key="PR-DTip">前衛/特殊SoC</system:String>
+    <system:String x:Key="CETip">CE（龍門幣）</system:String>
+    <system:String x:Key="APTip">AP（購買資格証）</system:String>
+    <system:String x:Key="CATip">CA（アーツ学）</system:String>
+    <system:String x:Key="LSTip">LS（作戦記録）</system:String>
+    <system:String x:Key="SKTip">SK（炭素材）</system:String>
+    <system:String x:Key="PR-ATip">PR-A（医療/重装SoC）</system:String>
+    <system:String x:Key="PR-BTip">PR-B（術師/狙撃SoC）</system:String>
+    <system:String x:Key="PR-CTip">PR-C（先鋒/補助SoC）</system:String>
+    <system:String x:Key="PR-DTip">PR-D（前衛/特殊SoC）</system:String>
     <system:String x:Key="Pormpt1">月曜です。殲滅作戦がリセットされています！</system:String>
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか？</system:String>
     <!--  戦闘設定  -->
@@ -336,8 +346,11 @@
     <!--  自動戦闘  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">不明な例外が発生しました</system:String>
+    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="Error">エラー</system:String>
+    <system:String x:Key="ErrorDetails">情報</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。コンピュータを再起動するか、エミュレータを変更してから再試行することをお勧めします</system:String>
@@ -353,6 +366,8 @@
     <system:String x:Key="StartCombat">戦闘開始：</system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
+    <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
+    <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
     <system:String x:Key="HasReturned">戻った</system:String>
@@ -360,7 +375,7 @@
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEX">ステージ報酬がないため停止します</system:String>
-    <system:String x:Key="OnTheMove">行動開始しました</system:String>
+    <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
@@ -414,6 +429,8 @@
     <system:String x:Key="Website">MAA公式サイト</system:String>
     <system:String x:Key="Github">ソースコード：GitHub</system:String>
     <system:String x:Key="PrtsPlus">自動攻略ファイルシェアWebサイト</system:String>
+    <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
+    <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
     <system:String x:Key="QQgroup">QQグループ：</system:String>
     <system:String x:Key="QQgroup1">グループ1</system:String>
     <system:String x:Key="QQgroup2">グループ2</system:String>
@@ -421,7 +438,9 @@
     <system:String x:Key="QQgroup4">グループ4</system:String>
     <system:String x:Key="QQgroup5">グループ5</system:String>
     <system:String x:Key="QQgroup6">グループ6</system:String>
+    <system:String x:Key="QQgroup7">グループ7</system:String>
     <system:String x:Key="QQgroupfull">(満員)</system:String>
+    <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/ja-jp/1.2-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F.md</uri:Uri>
     <system:String x:Key="Issue">フィードバック</system:String>

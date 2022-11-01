@@ -4,8 +4,8 @@
 
 #include "Resource/TemplResource.h"
 #include "TaskData.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 
 asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name,
                                              double templ_thres)
@@ -101,24 +101,8 @@ void asst::MatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexcept
 }
 bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
 {
-    if (m_roi.x < 0) {
-        Log.warn("roi is out of range", m_roi);
-        m_roi.x = 0;
-    }
-    if (m_roi.y < 0) {
-        Log.warn("roi is out of range", m_roi);
-        m_roi.y = 0;
-    }
-    if (m_roi.x + m_roi.width > m_image.cols) {
-        Log.warn("roi is out of range", m_roi);
-        m_roi.width = m_image.cols - m_roi.x;
-    }
-    if (m_roi.y + m_roi.height > m_image.rows) {
-        Log.warn("roi is out of range", m_roi);
-        m_roi.height = m_image.rows - m_roi.y;
-    }
-
-    cv::Mat image_roi = m_image(utils::make_rect<cv::Rect>(m_roi));
+    m_roi = correct_rect(m_roi, m_image);
+    cv::Mat image_roi = m_image(make_rect<cv::Rect>(m_roi));
     if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
         Log.error("templ size is too large", m_templ_name, "image_roi size:", image_roi.cols, image_roi.rows,
                   "templ size:", templ.cols, templ.rows);

@@ -104,7 +104,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         m_ctrler->click(tab);
-        sleep(tab_task_ptr->rear_delay);
+        sleep(tab_task_ptr->post_delay);
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = m_ctrler->get_image();
@@ -157,13 +157,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 进入干员选择页面 */
         m_ctrler->click(add_button);
-        sleep(add_task_ptr->rear_delay);
+        sleep(add_task_ptr->post_delay);
 
         for (int i = 0; i <= OperSelectRetryTimes; ++i) {
             if (need_exit()) {
                 return false;
             }
-            click_clear_button();
 
             if (is_use_custom_opers()) {
                 bool name_select_ret = swipe_and_select_custom_opers();
@@ -175,6 +174,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     continue;
                 }
             }
+
+            click_clear_button();
 
             if (m_all_available_opers.empty()) {
                 if (!opers_detect_with_swipe()) {

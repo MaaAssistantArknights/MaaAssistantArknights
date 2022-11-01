@@ -15,24 +15,25 @@ bool asst::InfrastReceptionTask::_run()
     m_all_available_opers.clear();
 
     swipe_to_the_right_of_main_ui();
-    enter_facility();
+    if (!enter_facility()) {
+        return false;
+    }
     click_bottom_left_tab();
 
     close_end_of_clue_exchange();
 
     // 防止送线索把可以填入的送了
-    proc_clue_vacancy();
-    if (unlock_clue_exchange()) {
-        proc_clue_vacancy();
-    }
+    use_clue();
     back_to_reception_main();
 
     get_clue();
     if (need_exit()) {
         return false;
     }
+
     use_clue();
     back_to_reception_main();
+
     if (need_exit()) {
         return false;
     }
@@ -112,7 +113,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         // 点开线索的空位
         Rect vacancy = vacancy_analyzer.get_vacancy().cbegin()->second;
         m_ctrler->click(vacancy);
-        int delay = Task.get(clue_vacancy + clue)->rear_delay;
+        int delay = Task.get(clue_vacancy + clue)->post_delay;
         sleep(delay);
 
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
@@ -138,8 +139,8 @@ bool asst::InfrastReceptionTask::unlock_clue_exchange()
 
 bool asst::InfrastReceptionTask::back_to_reception_main()
 {
-    ProcessTask task(*this, { "BackToReceptionMain" });
-    return task.run();
+    ProcessTask(*this, { "EndOfClueExchange" }).set_retry_times(0).run();
+    return ProcessTask(*this, { "BackToReceptionMain" }).run();
 }
 
 bool asst::InfrastReceptionTask::send_clue()
@@ -178,13 +179,12 @@ bool asst::InfrastReceptionTask::shift()
     default:
         break;
     }
-    sleep(raw_task_ptr->rear_delay);
+    sleep(raw_task_ptr->post_delay);
 
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {
             return false;
         }
-        click_clear_button();
 
         if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
@@ -196,6 +196,8 @@ bool asst::InfrastReceptionTask::shift()
                 continue;
             }
         }
+
+        click_clear_button();
 
         if (!opers_detect_with_swipe()) {
             return false;

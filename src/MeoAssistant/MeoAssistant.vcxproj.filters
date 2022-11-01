@@ -617,16 +617,19 @@
     <ClInclude Include="Utils\AsstHttp.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\Platform.hpp">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\AsstImageIo.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\AsstRanges.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\AsstUtils.hpp">
+    <ClInclude Include="Utils\Logger.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Logger.hpp">
+    <ClInclude Include="Utils\Locale.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\SingletonHolder.hpp">
@@ -651,6 +654,12 @@
       <Filter>源文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\AsstTypes.h">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\StringMisc.hpp">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Time.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Meta.hpp">
@@ -678,6 +687,9 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="TaskData.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\UserDir.hpp">
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="Utils\AsstBattleDef.h">

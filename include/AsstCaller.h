@@ -2,19 +2,30 @@
 
 #include "AsstPort.h"
 
+#ifndef __cplusplus
+#include <stdbool.h>
+#endif
+
+#ifdef __cplusplus
 namespace asst
 {
     class Assistant;
 }
+#endif
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+#ifdef __cplusplus
     typedef asst::Assistant* AsstHandle;
+#else
+    typedef void* AsstHandle;
+#endif
     typedef int TaskId;
     typedef void(ASST_CALL* AsstApiCallback)(int msg, const char* detail_json, void* custom_arg);
 
+    bool ASSTAPI AsstSetUserDir(const char* path);
     bool ASSTAPI AsstLoadResource(const char* path);
 
     AsstHandle ASSTAPI AsstCreate();

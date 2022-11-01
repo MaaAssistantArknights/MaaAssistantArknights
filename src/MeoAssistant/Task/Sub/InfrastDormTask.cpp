@@ -41,10 +41,11 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
-        click_clear_button();
-
         if (is_use_custom_opers()) {
             swipe_and_select_custom_opers(true);
+        }
+        else {
+            click_clear_button(); // 宿舍若未指定干员，则清空后按照原约定逻辑选择干员
         }
 
         Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
@@ -72,6 +73,7 @@ bool asst::InfrastDormTask::opers_choose()
 {
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
+    bool to_fill = false;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -98,8 +100,23 @@ bool asst::InfrastDormTask::opers_choose()
                 Log.info("num_of_selected:", num_of_selected, ", just break");
                 break;
             }
+            if (to_fill) {
+                if (oper.doing != infrast::Doing::Working && !oper.selected) {
+                    Log.info("to fill");
+                    m_ctrler->click(oper.rect);
+                    ++num_of_selected;
+                }
+                continue;
+            }
             switch (oper.smiley.type) {
             case infrast::SmileyType::Rest:
+                if (m_next_step == NextStep::Fill) {
+                    to_fill = true;
+                    Log.info("set to_fill = true;");
+                    m_ctrler->click(oper.rect);
+                    ++num_of_selected;
+                    continue;
+                }
                 // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍
                 if (m_drom_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
@@ -113,20 +130,27 @@ bool asst::InfrastDormTask::opers_choose()
                     std::string opertrust = trust_analyzer.get_result().front().text;
                     std::regex rule("[^0-9]"); // 只保留数字
                     opertrust = std::regex_replace(opertrust, rule, "");
-
                     Log.trace("opertrust:", opertrust);
 
                     bool if_opertrust_not_full = false;
-                    if (opertrust != "" && atoi(opertrust.c_str()) < 200) {
-                        if_opertrust_not_full = true;
-                    }
-                    else if (opertrust != "" && atoi(opertrust.c_str()) >= 200) {
-                        num_of_fulltrust++;
+                    if (!opertrust.empty()) {
+                        int trust = std::stoi(opertrust);
+                        if (trust < 200) {
+                            if_opertrust_not_full = true;
+                        }
+                        else {
+                            num_of_fulltrust++;
+                        }
                     }
                     if (num_of_fulltrust >= 6) { // 所有干员都满信赖了
-                        m_next_step = NextStep::AllDone;
-                        Log.trace("num_of_fulltrust:", num_of_fulltrust, ", just return");
-                        return true;
+                        Log.trace("num_of_fulltrust:", num_of_fulltrust);
+                        m_next_step = NextStep::Fill;
+                        to_fill = true;
+                        if (!m_dorm_notstationed_enabled && m_if_filter_notstationed_haspressed) {
+                            click_filter_menu_cancel_not_stationed_button();
+                        }
+                        click_order_by_mood();
+                        break;
                     }
 
                     // 获得干员所在设施
@@ -145,20 +169,15 @@ bool asst::InfrastDormTask::opers_choose()
 
                     // 判断要不要把人放进宿舍if_opertrust_not_full && if_oper_not_stationed
                     if (if_opertrust_not_full && if_oper_not_stationed) {
-                        Log.trace("put oper in");
-
                         m_ctrler->click(oper.rect);
-                        if (++num_of_selected >= max_num_of_opers()) {
-                            Log.trace("num_of_selected:", num_of_selected, ", just break");
-                            break;
-                        }
+                        ++num_of_selected;
                     }
                     else {
                         Log.trace("not put oper in");
                     }
                 }
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
-                else if (++num_of_resting > max_num_of_opers()) {
+                else if (++num_of_resting >= 6) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
                     if (m_drom_trust_enabled) {
                         Log.trace("m_drom_trust_enabled:", m_drom_trust_enabled);
@@ -172,9 +191,10 @@ bool asst::InfrastDormTask::opers_choose()
                         m_next_step = NextStep::RestDone; // 选中未进驻标签并按信赖值排序
                     }
                     else {
-                        m_next_step = NextStep::AllDone;
-                        Log.trace("m_drom_trust_enabled:", m_drom_trust_enabled, ", just return");
-                        return true;
+                        Log.trace("m_drom_trust_enabled:", m_drom_trust_enabled);
+                        m_next_step = NextStep::Fill;
+                        // click_filter_menu_cancel_not_stationed_button();
+                        // click_order_by_mood();
                     }
                 }
                 break;
@@ -183,10 +203,7 @@ bool asst::InfrastDormTask::opers_choose()
                 // 干员没有被选择的情况下，且不在工作，就进驻宿舍
                 if (oper.selected == false && oper.doing != infrast::Doing::Working) {
                     m_ctrler->click(oper.rect);
-                    if (++num_of_selected >= max_num_of_opers()) {
-                        Log.trace("num_of_selected:", num_of_selected, ", just break");
-                        break;
-                    }
+                    ++num_of_selected;
                 }
                 break;
             default:
@@ -194,6 +211,12 @@ bool asst::InfrastDormTask::opers_choose()
             }
             // 按信赖排序后需要重新识图，中断循环
             if (m_next_step == NextStep::RestDone) {
+                break;
+            }
+
+            // 如果是之前设置的to_fill，走不到这里，一定是当次设置的
+            if (to_fill) {
+                swipe_of_operlist();
                 break;
             }
         }
@@ -215,6 +238,11 @@ bool asst::InfrastDormTask::opers_choose()
         }
     }
     return true;
+}
+
+bool asst::InfrastDormTask::click_order_by_mood()
+{
+    return ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked", "Stop" }).run();
 }
 
 // bool asst::InfrastDormTask::click_confirm_button()

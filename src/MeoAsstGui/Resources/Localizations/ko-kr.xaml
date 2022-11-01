@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">스타트업 설정</system:String>
     <system:String x:Key="ScheduleSettings">예정된 작업 설정</system:String>
     <system:String x:Key="UISettings">UI 설정</system:String>
+    <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">소프트웨어 업데이트</system:String>
     <system:String x:Key="AboutUs">소개</system:String>
 
@@ -65,9 +66,9 @@
     <system:String x:Key="StartingCoreCharTip">개별 간부의 중국어 이름만 지원하며, 기입하지 않으면 기본 선택입니다</system:String>
 
     <system:String x:Key="DefaultSquad">묵인</system:String>
-    <system:String x:Key="IS2NewSquad1">Mind over matter(to be updated)</system:String>
-    <system:String x:Key="IS2NewSquad2">The best use of(to be updated)</system:String>
-    <system:String x:Key="IS2NewSquad3">people oriented(to be updated)</system:String>
+    <system:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</system:String>
+    <system:String x:Key="IS2NewSquad2">The best uses (to be updated)</system:String>
+    <system:String x:Key="IS2NewSquad3">People oriented (to be updated)</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
@@ -111,13 +112,20 @@
     <system:String x:Key="ManualRestart">나중에 재부팅</system:String>
     <system:String x:Key="Tip">힌트</system:String>
 
+    <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">Press Backspace/Esc/Delete to clear the current value</system:String>
+
     <system:String x:Key="LabelSequenceTip">레이블의 순서는 드래그하여 변경할 수 있습니다</system:String>
     <system:String x:Key="CheckBoxesNotSaved">재시작 후 변경 사항이 저장되지 않습니다</system:String>
     <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
 
     <system:String x:Key="UpdateAutoCheck">자동 업데이트</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 파일을 자동 업데이트</system:String>
-    <system:String x:Key="UpdateCheckBeta">베타 버전을 자동 업데이트</system:String>
+    <system:String x:Key="UpdateCheckStable">안정적인 버전</system:String>
+    <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
+    <system:String x:Key="UpdateCheckNightly">내부 베타 버전</system:String>
+    <system:String x:Key="UpdateCheck">업데이트에 사용된 버전</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>
 
@@ -134,7 +142,9 @@
     <system:String x:Key="AdditionCommand">추가 명령</system:String>
 
     <system:String x:Key="RoguelikeTheme">Roguelike Theme</system:String>
-    <system:String x:Key="RoguelikeChangedTip">The Roguelike setting has been changed, do you want to restart the application immediately to apply the setting?</system:String>
+    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
@@ -161,7 +171,7 @@
     <system:String x:Key="HideUnavailableStage">당일 스테이지만 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 왼쪽의 버튼</system:String>
     <system:String x:Key="CustomStageCode">레벨 코드를 수동으로 입력</system:String>
-    <system:String x:Key="CustomStageCodeTip">모든 메인라인 레벨 이름 + 원래 목록의 레벨 이름 지원(예: 4-10, 6-16 등)</system:String>
+    <system:String x:Key="CustomStageCodeTip">대부분의 메인 라인 검문소 이름과 원래 목록 (예:4-10, AP-5)에 있는 검문소 이름을 지원한다. 메인 라인 검문소들은 현재 큰 챕터의 마지막 장을 풀어야 한다</system:String>
 
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
@@ -212,7 +222,7 @@
     <system:String x:Key="StageSelect2">참조</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
-    <system:String x:Key="Amend">수정</system:String>
+    <!--<system:String x:Key="Amend">수정</system:String>-->
 
     <!--<system:String x:Key="CurrentStage">현재 수테이지</system:String>
     <system:String x:Key="LastBattle">이전 작전</system:String>-->
@@ -241,10 +251,10 @@
     <system:String x:Key="CATip">CA (스킬개론)</system:String>
     <system:String x:Key="LSTip">LS (작전기록)</system:String>
     <system:String x:Key="SKTip">SK (탄소)</system:String>
-    <system:String x:Key="PR-ATip">PR-A 메딕/디펜더 칩</system:String>
-    <system:String x:Key="PR-BTip">PR-B 캐스터/스나이퍼 칩</system:String>
-    <system:String x:Key="PR-CTip">PR-C 뱅가드/서포터 칩</system:String>
-    <system:String x:Key="PR-DTip">PR-D 가드/스페셜리스트 칩</system:String>
+    <system:String x:Key="PR-ATip">PR-A (메딕/디펜더 칩)</system:String>
+    <system:String x:Key="PR-BTip">PR-B (캐스터/스나이퍼 칩)</system:String>
+    <system:String x:Key="PR-CTip">PR-C (뱅가드/서포터 칩)</system:String>
+    <system:String x:Key="PR-DTip">PR-D (가드/스페셜리스트 칩)</system:String>
     <system:String x:Key="Pormpt1">월요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
     <!--  작전 설정  -->
@@ -322,8 +332,11 @@
     <!--  자동 작전  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">알 수 없는 오류가 발생했습니다.</system:String>
+    <system:String x:Key="ResourceBroken">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하십시오.</system:String>
     <system:String x:Key="Error">오류</system:String>
+    <system:String x:Key="ErrorDetails">신용</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 으로 설정해주세요.</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져오지 못했습니다. 컴퓨터를 다시 시작하거나 에뮬레이터를 변경한 후 다시 시도하는 것이 좋습니다.</system:String>
@@ -339,13 +352,15 @@
     <system:String x:Key="StartCombat">작전 시작:</system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
+    <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
+    <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 구성 파일을 확인하십시오.</system:String>
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
     <system:String x:Key="HasReturned">반환했습니다</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">PenguinStats에 업로드 중단</system:String>
     <system:String x:Key="TheEX">EX 스테이지가 중단되었습니다</system:String>
-    <system:String x:Key="OnTheMove">행동이 시작되었습니다</system:String>
+    <system:String x:Key="MissionStart">행동이 시작되었습니다</system:String>
     <system:String x:Key="UnitTime">번</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">오리지늄을 사용했습니다</system:String>
@@ -399,6 +414,8 @@
     <system:String x:Key="Website">MAA 공식 웹사이트</system:String>
     <system:String x:Key="Github">소스 코드: GitHub</system:String>
     <system:String x:Key="PrtsPlus">자동 작전 작업 공유 웹사이트</system:String>
+    <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
+    <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
     <system:String x:Key="QQgroup">QQ그룹:</system:String>
     <system:String x:Key="QQgroup1">QQ그룹1</system:String>
     <system:String x:Key="QQgroup2">QQ그룹2</system:String>
@@ -406,7 +423,9 @@
     <system:String x:Key="QQgroup4">QQ그룹4</system:String>
     <system:String x:Key="QQgroup5">QQ그룹5</system:String>
     <system:String x:Key="QQgroup6">QQ그룹6</system:String>
+    <system:String x:Key="QQgroup7">QQ그룹7</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
+    <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>
     <system:String x:Key="Issue">문제 피드백</system:String>

@@ -383,6 +383,22 @@
         "sortId": 100041,
         "usage": "重要的源石工業材料，可用於多種強化場合，是製作源石晶體單元的基礎元件。"
     },
+    "31043": {
+        "classifyType": "MATERIAL",
+        "description": "在對一種傳統溶劑製品進行現代化加工後，該溶劑呈現出了令人驚喜的優良性質。",
+        "icon": "31043.png",
+        "name": "半自然溶劑",
+        "sortId": 100044,
+        "usage": "一種物理性能優異，耐酸鹼性良好的活性溶劑。可用於多種強化場合。"
+    },
+    "31044": {
+        "classifyType": "MATERIAL",
+        "description": "由高分子聚合物支撐的塗料。除了基礎防護功能外，還兼有某些特性。耐高溫只是其中之一。",
+        "icon": "31044.png",
+        "name": "精煉溶劑",
+        "sortId": 100043,
+        "usage": "經特殊工藝製作而成特殊塗料。用於高級強化場合。"
+    },
     "3105": {
         "classifyType": "NORMAL",
         "description": "整個羅德島得以構成的基礎。不知道為何，羅德島在一些特別的設施中會經常使用這種結構複雜且必須特別製作或購買的巨型原件。",
@@ -390,6 +406,22 @@
         "name": "龍骨",
         "sortId": 200001,
         "usage": "精密的人造構件，是基礎建設的核心材料。"
+    },
+    "31053": {
+        "classifyType": "MATERIAL",
+        "description": "在加工過程中起到潤滑吸熱效用，可進一步提高金屬製品的成品合格率。",
+        "icon": "31053.png",
+        "name": "化合切削液",
+        "sortId": 100046,
+        "usage": "一種金屬加工時必備的工業試劑。可用於多種強化場合。"
+    },
+    "31054": {
+        "classifyType": "MATERIAL",
+        "description": "一種生物性穩定良好的原液。儲存時需要注意避免其他雜質的混入。",
+        "icon": "31054.png",
+        "name": "切削原液",
+        "sortId": 100045,
+        "usage": "由多種活性溶劑配置而成的原液。用於高級強化場合。"
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -796,7 +828,7 @@
         "description": "冷酷有效的賞金機制，是危機合約系統正常運作的唯一保證。",
         "icon": "CRISIS_SHOP_COIN.png",
         "name": "合約賞金",
-        "sortId": 10021,
+        "sortId": 10201,
         "usage": "完成危機合約後得到的報酬。可用於兌換補給品。"
     },
     "EPGS_COIN": {
@@ -804,7 +836,7 @@
         "description": "能夠考慮到這一點，多少可以證明獵頭公司的誠意。需要注意的是，如果試圖用這種手段來補充資源，恐怕會得不償失。",
         "icon": "EPGS_COIN.png",
         "name": "尋訪參數模型",
-        "sortId": 10014,
+        "sortId": 10101,
         "usage": "新型招聘合約中對於過期契約的處理手段，可用來兌換各種資源。"
     },
     "LINKAGE_TKT_GACHA_10_1701": {
@@ -831,6 +863,30 @@
         "sortId": 10012,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_1803": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_1803.png",
+        "name": "尋訪數據契約",
+        "sortId": 10013,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
+    "LMTGS_COIN_2101": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_2101.png",
+        "name": "尋訪數據契約",
+        "sortId": 10014,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
+    "LMTGS_COIN_2301": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_2301.png",
+        "name": "尋訪數據契約",
+        "sortId": 10015,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -852,7 +908,7 @@
         "description": "為鼓勵幹員積極進行過往事件的複盤與檢討，經上層討論後發起的長期活動，在重複進行某事件的回顧後可以獲得該憑證，並前往後勤部交換資源。事件的指定由系統隨機選擇。",
         "icon": "REP_COIN.png",
         "name": "情報憑證",
-        "sortId": 10015,
+        "sortId": 10102,
         "usage": "重複回顧過往事件的獎勵，可用來兌換各種資源。"
     },
     "RETRO_COIN": {
@@ -876,7 +932,7 @@
         "description": "羅德島情報處理系統的一個次要功能。從龐雜的資訊中提取有效情報後，經過特殊處理，以影像的形式還原出各種事件的流程，精確程度令當事人都感到驚歎。\n做成錄影帶的樣子只是為了方便一般人理解。",
         "icon": "STORY_REVIEW_COIN.png",
         "name": "事相碎片",
-        "sortId": 10022,
+        "sortId": 10202,
         "usage": "有效情報的拓撲模型，可以用來重建過往事件。"
     },
     "act10d5_token_biscuit": {
@@ -927,6 +983,54 @@
         "sortId": -10000,
         "usage": "以澱粉與果糖製成的米諾斯傳統美食，用來獲取蜜餅城堡的獎勵。"
     },
+    "act12side_point_cmemomedal": {
+        "classifyType": "NONE",
+        "description": "每一枚獎牌，都代表陳在調查過程中順手解決的，與坎黛拉女士的委託無關的事件，她滯留多索雷斯期間，城市犯罪率達到了新低。作為對本地警察局的警示，獎牌被陳列在警察總局的正中央。",
+        "icon": "act12side_point_cmemomedal.png",
+        "name": "陳小姐紀念獎牌",
+        "sortId": -10000,
+        "usage": "坎黛拉女士為嘉獎陳的行動特別下令鑄造的獎牌，累積到指定數量會由多索雷斯警察局頒發獎勵。"
+    },
+    "act12side_token_coupon": {
+        "classifyType": "NONE",
+        "description": "來自哥倫比亞的約翰老媽提供了上至各行各業，下至生活起居的，玻利瓦爾本土產業無法比擬的工業流水線商品，以至於這種原本只是各種促銷活動時發行的代金券變得越來越有價值，有時候甚至會成為一些當地小型幫派之間交易的貨幣。",
+        "icon": "act12side_token_coupon.png",
+        "name": "約翰老媽代金券",
+        "sortId": -10000,
+        "usage": "可在多索雷斯所有約翰老媽商場使用的代金券。"
+    },
+    "act12side_token_key01": {
+        "classifyType": "NONE",
+        "description": "星熊和詩懷雅當時並沒有意識到自己順手解決了陳的目標，她們沒有撞上的唯一理由是因為詩懷雅馬上拉著星熊購物去了。",
+        "icon": "act12side_token_key01.png",
+        "name": "《鬼虎雙星》",
+        "sortId": -10000,
+        "usage": "陳在多索雷斯的特別調查的紀念。"
+    },
+    "act12side_token_key02": {
+        "classifyType": "NONE",
+        "description": "那天，陳與林雨霞走出A.H.C.酒吧時，兩人之間那種毫不遮掩的火藥味，讓所有關注大獎賽的人都興奮不已。",
+        "icon": "act12side_token_key02.png",
+        "name": "《龍鼠相爭》",
+        "sortId": -10000,
+        "usage": "陳在多索雷斯的特別調查的紀念。"
+    },
+    "act12side_token_key03": {
+        "classifyType": "NONE",
+        "description": "詩懷雅認為，自己也需要一個星熊之於陳那樣的搭檔，同時她認為，林雨霞或許可以成為這個人，並試圖往這個方向努力。而結果，看她們的表情就知道了。",
+        "icon": "act12side_token_key03.png",
+        "name": "《“黃金拍檔”》",
+        "sortId": -10000,
+        "usage": "陳在多索雷斯的特別調查的紀念。"
+    },
+    "act12side_token_key04": {
+        "classifyType": "NONE",
+        "description": "即使在啟程返回羅德島的時候，陳都沒有完全理解多索雷斯這座城市，她也不認為自己有一天能夠真正理解這座城市，但她會一直記住這裡。",
+        "icon": "act12side_token_key04.png",
+        "name": "《假日終結》",
+        "sortId": -10000,
+        "usage": "陳在多索雷斯的特別調查的紀念。"
+    },
     "act13d0_token_dial": {
         "classifyType": "NONE",
         "description": "曾經名貴的舊鐘錶，現在只剩微微破碎的錶盤於收藏者之間還稍有價值。在廢棄的老屋中總能找到這樣的東西，鐘錶默默記錄下的時間可以是無價之寶，也可以一文不值。錶盤上的時針卡在原地努力轉動，這種努力徒勞無功。",
@@ -942,6 +1046,62 @@
         "name": "梅什科競技證券",
         "sortId": -10000,
         "usage": "梅什科集團推出的全新商業形式，可以在卡西米爾的免稅紀念商店購買紀念品。"
+    },
+    "act13side_prestige_armorless": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act13side_prestige_armorless.png",
+        "name": "無胄盟聲望",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act13side_prestige_commerce": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act13side_prestige_commerce.png",
+        "name": "商業聯合會聲望",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act13side_prestige_kazimierz": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act13side_prestige_kazimierz.png",
+        "name": "監正會聲望",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act13side_token_card": {
+        "classifyType": "NONE",
+        "description": "在這座金錢與權力的大廈之中，你的面部器官辛苦形成的容貌毫無用處，嗓音和大腦裡的思想更是微不足道。在這裡，只有身份才能證明一切。",
+        "icon": "act13side_token_card.png",
+        "name": "聯合會ID卡",
+        "sortId": -10000,
+        "usage": "能夠自由出入商業聯合會的ID卡，意味著更多的權限將會向羅德島開放。"
+    },
+    "act13side_token_key": {
+        "classifyType": "NONE",
+        "description": "常年不見天日的管理人還有一個任務，就是巧妙地讓“秘密”被需要知情的人的發現。監正會從沒有放棄過對卡西米爾的掌控——無論善惡。",
+        "icon": "act13side_token_key.png",
+        "name": "卷宗管理員的鑰匙",
+        "sortId": -10000,
+        "usage": "能夠開啟冠軍牆展廳地下大門的鑰匙，用以解鎖一些額外的情報。"
+    },
+    "act13side_token_model": {
+        "classifyType": "NONE",
+        "description": "人們用這些發光的燈管制伏了黑夜，點亮了卡西米爾的光芒。在文明裡，吟遊詩人唱出了金幣的聲響，遠遊的騎士只得與玻璃鬥劍。冷漠是無聲的浪潮，她乘著最後的扁舟，打撈榮耀。",
+        "icon": "act13side_token_model.png",
+        "name": "騎士領紀念模型",
+        "sortId": -10000,
+        "usage": "騎士之國的縮影，常被擺放在會客室精巧的禮盒裡。"
+    },
+    "act14side_token_stone": {
+        "classifyType": "NONE",
+        "description": "耶拉岡德的意志寄宿其中，謝拉格人會向之祈禱，以求幸福安康。",
+        "icon": "act14side_token_stone.png",
+        "name": "耶拉岡德之石",
+        "sortId": -10000,
+        "usage": "經過蔓珠院的修士祝福的聖石。收集一定數量可以和民眾交換各種物資。"
     },
     "act15d0_token_ironSheet": {
         "classifyType": "NONE",
@@ -982,6 +1142,22 @@
         "name": "手繪標本殘頁",
         "sortId": -10000,
         "usage": "在一場大風中散落一地的標本繪圖，幫忙整理好的話能獲得一些補給品。"
+    },
+    "act18d3_token_record": {
+        "classifyType": "NONE",
+        "description": "收下它的衝動來自一種不知名的渴求。",
+        "icon": "act18d3_token_record.png",
+        "name": "腐蝕的伊比利亞唱片",
+        "sortId": -10000,
+        "usage": "已經不能再被播放的唱片。能拿來和長久生活在城市廢墟裡的人交換物資。"
+    },
+    "act1lock_point_reward": {
+        "classifyType": "NONE",
+        "description": "通過擊破假想敵隊伍獲得的賽事積分，將以獎章形式頒發給參賽隊伍。由米諾斯工匠製作的獎牌上，刻有“英雄都是從普通人做起”的諺語。",
+        "icon": "act1lock_point_reward.png",
+        "name": "賽事獎章",
+        "sortId": -10000,
+        "usage": "一枚金屬製的小型獎牌。獲取一定數量的獎章將得到相應的賽事獎勵。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1039,6 +1215,22 @@
         "sortId": -10000,
         "usage": "羅德島後勤部限時發行的一種通用餐券，用以在食堂兌換各種特殊餐飲產品。"
     },
+    "act7mini_token_permit": {
+        "classifyType": "NONE",
+        "description": "用以證明持有人的合法進出資格，並予以暫留權線，在出入一些大型移動城市時必不可少。有些地方查得不太緊，但最好還是隨身攜帶。",
+        "icon": "act7mini_token_permit.png",
+        "name": "通關票券",
+        "sortId": -10000,
+        "usage": "蓋有各地出入境證明印章的通關憑證。可用來在物資集換處交換物資，別多問收集這些票券是要用來做什麼。"
+    },
+    "act8mini_token_vigilo": {
+        "classifyType": "NONE",
+        "description": "他人將之視為意義不明的塗鴉；凱爾希以此推測博士的精神狀態；而在博士眼裡，這些碎片拼湊起了如今的自己。",
+        "icon": "act8mini_token_vigilo.png",
+        "name": "“印象”",
+        "sortId": -10000,
+        "usage": "一些經過本我宣洩、自我認知、超我架構的非現實圖像。"
+    },
     "act9d0_token_dogTag": {
         "classifyType": "NONE",
         "description": "卡茲戴爾相關產業面臨的問題是，將士陣亡的速度幾乎和識別牌的產能並駕齊驅，因為金屬資源大都被用來殺死士兵而非銘記他們。這種可悲的稀缺性為扭曲的收藏家們帶來了市場。",
@@ -1054,6 +1246,14 @@
         "name": "遊擊隊員徽章",
         "sortId": -10000,
         "usage": "從切爾諾伯格核心城各處搜集到的遊擊隊員徽章，交給特定的人可以獲得一定的回報。"
+    },
+    "act9mini_token_ticket": {
+        "classifyType": "NONE",
+        "description": "由某騎士貴族家族主營的企業發行的騎士競技彩券，有人一夜暴富，有人傾家蕩產。在這一張小小的票券上，凝聚著賭徒們的喜與悲、血與淚。",
+        "icon": "act9mini_token_ticket.png",
+        "name": "紅松葉彩券",
+        "sortId": -10000,
+        "usage": "印有紅松樹葉標籤的騎士競技彩券。憑券可在騎士競技博彩兌獎處兌換相應獎金，押下你的籌碼，然後大賺一筆吧！"
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -1102,6 +1302,14 @@
         "name": "黑曜石節門票",
         "sortId": -10000,
         "usage": "黑曜石節官方發售的門票，用於進入各類特殊關卡。"
+    },
+    "mod_unlock_token": {
+        "classifyType": "MATERIAL",
+        "description": "數據塊中記錄了工程部幹員們為製作模組而奮鬥的每個日夜。",
+        "icon": "mod_unlock_token.png",
+        "name": "模組數據塊",
+        "sortId": 90001,
+        "usage": "用以解鎖幹員的模組。"
     },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
@@ -1159,6 +1367,30 @@
         "sortId": 60005,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterialRune_5": {
+        "classifyType": "CONSUME",
+        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
+        "icon": "randomMaterialRune_5.png",
+        "name": "光譜行動物資補給",
+        "sortId": 60006,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterialRune_6": {
+        "classifyType": "CONSUME",
+        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
+        "icon": "randomMaterialRune_6.png",
+        "name": "蠻鱗行動物資補給",
+        "sortId": 60007,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterialRune_7": {
+        "classifyType": "CONSUME",
+        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
+        "icon": "randomMaterialRune_7.png",
+        "name": "松煙行動物資補給",
+        "sortId": 60008,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
     "randomMaterial_1": {
         "classifyType": "CONSUME",
         "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
@@ -1190,6 +1422,30 @@
         "name": "感謝慶典物資補給",
         "sortId": 60104,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_5": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_5.png",
+        "name": "羅德島物資補給II",
+        "sortId": 60107,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "rogue_1_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_1_token_bp.png",
+        "name": "蠟燭",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_1_token_grow": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_1_token_grow.png",
+        "name": "昏暗的靈感",
+        "sortId": -10000,
+        "usage": null
     },
     "token_Obsidian": {
         "classifyType": "NONE",

@@ -17,6 +17,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using GlobalHotKey;
+using MeoAsstGui.MaaHotKeys;
+using MeoAsstGui.Views;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Stylet;
 using StyletIoC;
@@ -75,6 +78,34 @@ namespace MeoAsstGui
                 }
             }
 
+            // TODO: Delete this
+            // 由于 zzyyyl 的失误，v4.6.5-beta.3 之后的版本会在更新时删除 Paddle，在发正式版后将下面的块删掉
+            // 恢复被删除的 Paddle
+            {
+                string resourceDir = Directory.GetCurrentDirectory() + "\\resource";
+                string oldResourceDir = Directory.GetCurrentDirectory() + "\\resource.old";
+
+                var paddleResourcePaths = new[]
+                {
+                    "\\PaddleOCR",
+                    "\\PaddleCharOCR",
+                    "\\global\\txwy\\resource\\PaddleOCR",
+                    "\\global\\YoStarEN\\resource\\PaddleOCR",
+                    "\\global\\YoStarJP\\resource\\PaddleOCR",
+                    "\\global\\YoStarKR\\resource\\PaddleOCR",
+                };
+
+                foreach (var path in paddleResourcePaths)
+                {
+                    string paddleDir = resourceDir + path;
+                    string oldPaddleDir = oldResourceDir + path;
+                    if (Directory.Exists(oldPaddleDir) && !Directory.Exists(paddleDir))
+                    {
+                        VersionUpdateViewModel.CopyFilesRecursively(oldPaddleDir, paddleDir);
+                    }
+                }
+            }
+
             base.OnStart();
             ViewStatusStorage.Load();
             Localization.Load();
@@ -90,6 +121,10 @@ namespace MeoAsstGui
             builder.Bind<DepotViewModel>().ToSelf().InSingletonScope();
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
             builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
+            builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
+            builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
+            builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
+            builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
         }
 
         /// <inheritdoc/>
@@ -107,14 +142,16 @@ namespace MeoAsstGui
 
             // 注销任务栏图标
             _trayIconInSettingsViewModel.Close();
-            ViewStatusStorage.Save();
+            ViewStatusStorage.Release();
         }
 
         /// <inheritdoc/>
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
             // 抛异常了，可以打些日志
-            File.AppendAllText("gui.err.log", DateTime.Now.ToString() + ' ' + e.Exception.ToString() + '\n');
+            Logger.Error(e.Exception.ToString(), MethodBase.GetCurrentMethod().Name);
+            var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
+            errorView.ShowDialog();
         }
     }
 }

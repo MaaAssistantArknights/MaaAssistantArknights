@@ -10,7 +10,6 @@
 #include "Resource/StageDropsConfiger.h"
 #include "TaskData.h"
 #include "Utils/AsstImageIo.hpp"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 #include <numbers>
@@ -24,9 +23,10 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stars();
     bool ret = analyze_drops();
 
-    if (!ret) {
+#ifndef ASST_DEBUG
+    if (!ret)
+#endif // ! ASST_DEBUG
         save_img("debug/drops/");
-    }
 
     return ret;
 }
@@ -47,6 +47,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 
     OcrImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
+    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return false;
@@ -57,7 +58,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 
 #ifdef ASST_DEBUG
     const Rect& text_rect = analyzer.get_result().front().rect;
-    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
     cv::putText(m_image_draw, m_stage_code, cv::Point(text_rect.x, text_rect.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1,
                 cv::Scalar(0, 0, 255), 2);
 #endif
@@ -103,7 +104,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
     Log.info(__FUNCTION__, "stars", m_stars);
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
     cv::putText(m_image_draw, std::to_string(m_stars) + " stars",
                 cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                 cv::Scalar(0, 0, 255), 2);
@@ -152,7 +153,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     Log.info(__FUNCTION__, "difficulty", static_cast<int>(m_difficulty));
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
     matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
     cv::putText(m_image_draw, matched_name, cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
                 cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
@@ -194,7 +195,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             int quantity = match_quantity(item_roi);
             Log.info("Item id:", item, ", quantity:", quantity);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(m_image_draw, make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
             cv::putText(m_image_draw, item, cv::Point(item_roi.x, item_roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                         cv::Scalar(0, 0, 255), 2);
             cv::putText(m_image_draw, std::to_string(quantity), cv::Point(item_roi.x, item_roi.y + 10),
@@ -256,7 +257,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
         cv::erode(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 2 }));
 
         // cropping after derivatives, dilation, and erosion
-        cv::cvtColor(preprocessed_roi(utils::make_rect<cv::Rect>(task_ptr->roi)), preprocessed_roi, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(preprocessed_roi(make_rect<cv::Rect>(task_ptr->roi)), preprocessed_roi, cv::COLOR_BGR2GRAY);
     }
 
     cv::Mat preprocessed_bin;
@@ -377,7 +378,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
     }
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(matched_roi), cv::Scalar(0, 0, 255), 2);
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_roi), cv::Scalar(0, 0, 255), 2);
     matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
     cv::putText(m_image_draw, matched_name, cv::Point(matched_roi.x, matched_roi.y + matched_roi.height + 20),
                 cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
@@ -463,7 +464,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
 
     Rect quantity_roi = roi.move(task_ptr->roi);
-    cv::Mat quantity_img = m_image(utils::make_rect<cv::Rect>(quantity_roi));
+    cv::Mat quantity_img = m_image(make_rect<cv::Rect>(quantity_roi));
 
     cv::Mat gray;
     cv::cvtColor(quantity_img, gray, cv::COLOR_BGR2GRAY);
@@ -518,6 +519,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
     analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return 0;
@@ -526,7 +528,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     const auto& result = analyzer.get_result().front();
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, utils::make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
     cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                 cv::Scalar(0, 255, 0), 2);
 #endif

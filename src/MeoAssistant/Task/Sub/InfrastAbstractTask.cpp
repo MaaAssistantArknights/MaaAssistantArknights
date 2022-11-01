@@ -116,7 +116,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-    sleep(Task.get("InfrastEnterFacility")->rear_delay);
+    sleep(Task.get("InfrastEnterFacility")->post_delay);
 
     return true;
 }
@@ -152,12 +152,13 @@ bool asst::InfrastAbstractTask::is_use_custom_opers()
 void asst::InfrastAbstractTask::await_swipe()
 {
     LogTraceFunction;
-    static int extra_delay = Task.get("InfrastOperListSwipeBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeBegin")->post_delay;
 
     m_ctrler->wait(m_last_swipe_id);
     sleep(extra_delay);
 }
 
+/// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
 bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order)
 {
     LogTraceFunction;
@@ -173,6 +174,10 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
 
     if (!is_dorm_order) {
         ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
+    }
+
+    if (max_num_of_opers() > 1) {
+        click_clear_button(); // 先排序后清空，加速干员变化不大时的选择速度
     }
 
     std::vector<std::string> opers_order = room_config.names;
@@ -265,6 +270,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         OcrWithPreprocessImageAnalyzer name_analyzer;
         name_analyzer.set_replace(ocr_replace);
         name_analyzer.set_image(oper.name_img);
+        name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
@@ -321,6 +327,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
         OcrWithPreprocessImageAnalyzer name_analyzer;
         name_analyzer.set_replace(ocr_replace);
         name_analyzer.set_image(oper.name_img);
+        name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
@@ -338,6 +345,12 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
             Log.error("name not in this page", name);
         }
     }
+}
+
+void asst::InfrastAbstractTask::click_return_button()
+{
+    LogTraceFunction;
+    ProcessTask(*this, { "Infrast@ReturnTo" }).run();
 }
 
 bool asst::InfrastAbstractTask::click_bottom_left_tab()
@@ -392,7 +405,15 @@ bool asst::InfrastAbstractTask::click_filter_menu_not_stationed_button()
 {
     LogTraceFunction;
 
-    ProcessTask task(*this, { "InfrastFilterMenu" });
+    ProcessTask task(*this, { "InfrastFilterMenuNotStationed" });
+    return task.run();
+}
+
+bool asst::InfrastAbstractTask::click_filter_menu_cancel_not_stationed_button()
+{
+    LogTraceFunction;
+
+    ProcessTask task(*this, { "InfrastFilterMenuCancelNotStationed" });
     return task.run();
 }
 
@@ -416,7 +437,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
     static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
     static int cfg_loop_times = Task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
 
     for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
@@ -434,7 +455,7 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
     static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
 
     m_ctrler->swipe(end_rect, begin_rect, duration, true, extra_delay, false);
 }
@@ -445,7 +466,7 @@ void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
     static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
     static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
     static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->rear_delay;
+    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
 
     m_ctrler->swipe(begin_rect, end_rect, duration, true, extra_delay, false);
 }

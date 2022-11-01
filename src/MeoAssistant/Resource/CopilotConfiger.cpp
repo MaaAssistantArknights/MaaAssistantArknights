@@ -38,7 +38,6 @@ bool asst::CopilotConfiger::parse(const json::value& json)
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
-
             battle_actions.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
         }
     }
@@ -137,7 +136,9 @@ bool asst::CopilotConfiger::parse(const json::value& json)
         }
         action.modify_usage = static_cast<BattleSkillUsage>(action_info.get("skill_usage", 0));
         action.pre_delay = action_info.get("pre_delay", 0);
-        action.rear_delay = action_info.get("rear_delay", 0);
+        auto post_delay_opt = action_info.find<int>("post_delay");
+        // 历史遗留字段，兼容一下
+        action.post_delay = post_delay_opt ? *post_delay_opt : action_info.get("rear_delay", 0);
         action.time_out = action_info.get("timeout", INT_MAX);
         action.doc = action_info.get("doc", std::string());
         action.doc_color = action_info.get("doc_color", std::string());

@@ -15,6 +15,7 @@
     <system:String x:Key="StartupSettings">启动设置</system:String>
     <system:String x:Key="ScheduleSettings">定时执行</system:String>
     <system:String x:Key="UISettings">界面设置</system:String>
+    <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
 
@@ -57,8 +58,6 @@
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
 
-    <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
-    <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeStrategyCandle">刷蜡烛，尽可能稳定的打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
@@ -104,8 +103,6 @@
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器&#x0a;请关闭不需要的模拟器&#x0a;或手动设置连接</system:String>
 
-    <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
-
     <system:String x:Key="SwitchLanguage">切换语言</system:String>
     <system:String x:Key="Language">语言</system:String>
     <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
@@ -113,15 +110,48 @@
     <system:String x:Key="ManualRestart">稍后</system:String>
     <system:String x:Key="Tip">提示</system:String>
 
+    <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
+    <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
+    <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>
+
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
     <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
 
     <system:String x:Key="UpdateAutoCheck">自动检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
-    <system:String x:Key="UpdateCheckBeta">检查测试版本更新</system:String>
+    <system:String x:Key="UpdateCheckStable">稳定版</system:String>
+    <system:String x:Key="UpdateCheckBeta">开发版</system:String>
+    <system:String x:Key="UpdateCheckNightly">内测版</system:String>
+    <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
+
+    <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
+    <system:String x:Key="NewVersionFoundDescId">版本号：</system:String>
+    <system:String x:Key="NewVersionFoundDescInfo">更新信息：</system:String>
+    <system:String x:Key="NewVersionFoundButtonGoWebpage">前往页面查看</system:String>
+
+    <system:String x:Key="NewVersionZipFileFoundTitle">检测到更新包</system:String>
+    <system:String x:Key="NewVersionZipFileFoundDescDecompressing">正在解压，请稍等……</system:String>
+
+    <system:String x:Key="NewVersionZipFileBrokenTitle">更新包损坏！</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescFilename">文件名：</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已将其删除！</system:String>
+
+    <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
+    <system:String x:Key="NewVersionDetectFailedTitle">检查更新失败</system:String>
+    <system:String x:Key="CheckNetworking">请检查网络连接或代理</system:String>
+    <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败</system:String>
+
+    <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
+    <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedTitle">新版本下载完成</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（重启进程）</system:String>
+
+    <system:String x:Key="NewVersionFoundButNoPackageTitle">检测到新版本，但未找到增量包</system:String>
+    <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
 
     <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
     <system:String x:Key="Timer">定时</system:String>
@@ -136,7 +166,9 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
-    <system:String x:Key="RoguelikeChangedTip">肉鸽设置已更改，是否现在重启 MAA 以应用设置？</system:String>
+    <system:String x:Key="RoguelikeThemeTip">需在集成战略界面将对应主题PIN UP添加到终端</system:String>
+    <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
+    <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
@@ -163,7 +195,7 @@
     <system:String x:Key="HideUnavailableStage">关卡选择隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
-    <system:String x:Key="CustomStageCodeTip">支持所有主线关卡名 + 原列表中的关卡名（如 4-10、6-16 等）</system:String>
+    <system:String x:Key="CustomStageCodeTip">（测试功能）支持大部分主线关卡名与原列表的关卡名（如4-10、AP-5），主线关卡需解锁当前大章节最后一章</system:String>
 
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选</system:String>
@@ -214,7 +246,7 @@
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不选择</system:String>
-    <system:String x:Key="Amend">修改</system:String>
+    <!--<system:String x:Key="Amend">修改</system:String>-->
 
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
     <system:String x:Key="LastBattle">上次作战</system:String>-->
@@ -238,15 +270,15 @@
     <system:String x:Key="Annihilation">剿灭模式</system:String>
 
     <system:String x:Key="TodaysStageTip">今日关卡小提示：</system:String>
-    <system:String x:Key="CETip">货物运送（龙门币）</system:String>
-    <system:String x:Key="APTip">粉碎防御（红票）</system:String>
-    <system:String x:Key="CATip">空中威胁（技能）</system:String>
-    <system:String x:Key="LSTip">战术演习（经验）</system:String>
-    <system:String x:Key="SKTip">资源保障（碳）</system:String>
-    <system:String x:Key="PR-ATip">奶/盾芯片</system:String>
-    <system:String x:Key="PR-BTip">术/狙芯片</system:String>
-    <system:String x:Key="PR-CTip">先/辅芯片</system:String>
-    <system:String x:Key="PR-DTip">近/特芯片</system:String>
+    <system:String x:Key="CETip">CE（龙门币）</system:String>
+    <system:String x:Key="APTip">AP（红票）</system:String>
+    <system:String x:Key="CATip">CA（技能）</system:String>
+    <system:String x:Key="LSTip">LS（经验）</system:String>
+    <system:String x:Key="SKTip">SK（碳）</system:String>
+    <system:String x:Key="PR-ATip">PR-A（奶/盾芯片）</system:String>
+    <system:String x:Key="PR-BTip">PR-B（术/狙芯片）</system:String>
+    <system:String x:Key="PR-CTip">PR-C（先/辅芯片）</system:String>
+    <system:String x:Key="PR-DTip">PR-D（近/特芯片）</system:String>
     <system:String x:Key="Pormpt1">周一了，可以打剿灭了~</system:String>
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
     <!--  战斗设置  -->
@@ -324,8 +356,11 @@
     <!--  自动战斗  -->
 
     <!--  AsstProxy  -->
-    <system:String x:Key="UnknownAbnormal">出现未知异常</system:String>
+    <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包</system:String>
     <system:String x:Key="Error">错误</system:String>
+    <system:String x:Key="ErrorDetails">信息</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再次尝试</system:String>
@@ -341,13 +376,15 @@
     <system:String x:Key="StartCombat">开始战斗：</system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
+    <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
+    <system:String x:Key="BackgroundLinkStopped">任务终止</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
     <system:String x:Key="ErrorOccurred">出现错误</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="TheEX">无奖励关卡，已停止</system:String>
-    <system:String x:Key="OnTheMove">已开始行动</system:String>
+    <system:String x:Key="MissionStart">已开始行动</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
@@ -410,6 +447,7 @@
     <system:String x:Key="QQgroup4">四群</system:String>
     <system:String x:Key="QQgroup5">五群</system:String>
     <system:String x:Key="QQgroup6">六群</system:String>
+    <system:String x:Key="QQgroup7">七群</system:String>
     <system:String x:Key="QQgroupfull">(已满)</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">常见问题</system:String>

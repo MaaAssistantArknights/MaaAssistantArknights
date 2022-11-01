@@ -151,7 +151,7 @@
                 6
             ],
             "direction": "右",
-            "rear_delay": 6000
+            "post_delay": 6000
         },
         {
             "doc": "莱瓦汀！",

@@ -9,14 +9,12 @@ asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
       m_start_game_task_ptr(std::make_shared<StartGameTaskPlugin>(m_callback, m_callback_arg, TaskType)),
       m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {
-    m_start_up_task_ptr->set_tasks({ "StartUp" })
-        .set_times_limit("ReturnToTerminal", 0)
-        .set_times_limit("Terminal", 0)
-        .set_times_limit("EndOfAction", 0)
+    m_start_up_task_ptr->set_tasks({ "StartUpBegin" })
+        .set_times_limit("ReturnTo", 0)
         .set_task_delay(1000)
         .set_retry_times(30);
-    m_subtasks.emplace_back(m_start_game_task_ptr);
-    m_subtasks.emplace_back(m_start_up_task_ptr);
+    m_subtasks.emplace_back(m_start_game_task_ptr)->set_ignore_error(false);
+    m_subtasks.emplace_back(m_start_up_task_ptr)->set_ignore_error(false);
 }
 
 bool asst::StartUpTask::set_params(const json::value& params)

@@ -5,8 +5,10 @@
 #include "Utils/NoWarningCV.h"
 #include <PaddleOCR/paddle_ocr.h>
 
-#include "Utils/AsstUtils.hpp"
+#include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/Platform.hpp"
+#include "Utils/StringMisc.hpp"
 
 #ifdef _WIN32
 #include "Utils/Platform/AsstPlatformWin32.h"
@@ -87,29 +89,27 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
 }
 
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
-                                                     bool without_det)
+                                                     bool without_det, bool trim)
 {
     size_t size = 0;
 
-    std::vector<uchar> buf;
-    cv::imencode(".png", image, buf);
-
+    std::string class_type = utils::demangle(typeid(*this).name());
+    // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
+    // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
+    cv::Mat copied = image.clone();
     if (!without_det) {
-        Log.trace("Ocr System");
-        PaddleOcrSystem(m_ocr, buf.data(), buf.size(), false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size,
-                        nullptr, nullptr);
+        Log.trace("Ocr System with", class_type);
+        PaddleOcrSystemWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, false, m_boxes_buffer,
+                                m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
     }
     else {
-        Log.trace("Ocr Rec");
-        PaddleOcrRec(m_ocr, buf.data(), buf.size(), m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
+        Log.trace("Ocr Rec with", class_type);
+        PaddleOcrRecWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, m_strs_buffer,
+                             m_scores_buffer, &size, nullptr, nullptr);
     }
 
     std::vector<TextRect> result;
     std::vector<TextRect> raw_result;
-
-#ifdef ASST_DEBUG
-    cv::Mat draw = image.clone();
-#endif
 
     for (size_t i = 0; i != size; ++i) {
         // the box rect like ↓
@@ -132,9 +132,12 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 
         TextRect tr { score, rect, text };
 #ifdef ASST_DEBUG
-        cv::rectangle(draw, utils::make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(copied, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
 #endif
         raw_result.emplace_back(tr);
+        if (trim) {
+            utils::string_trim(tr.text);
+        }
         if (!pred || pred(tr)) {
             result.emplace_back(std::move(tr));
         }
@@ -146,7 +149,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 }
 
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi,
-                                                     const asst::TextRectProc& pred, bool without_det)
+                                                     const asst::TextRectProc& pred, bool without_det, bool trim)
 {
     auto rect_cor = [&roi, &pred, &without_det](TextRect& tr) -> bool {
         if (without_det) {
@@ -159,8 +162,8 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         return pred(tr);
     };
     Log.trace("OcrPack::recognize | roi:", roi);
-    cv::Mat roi_img = image(utils::make_rect<cv::Rect>(roi));
-    return recognize(roi_img, rect_cor, without_det);
+    cv::Mat roi_img = image(make_rect<cv::Rect>(roi));
+    return recognize(roi_img, rect_cor, without_det, trim);
 }
 
 #ifdef _WIN32

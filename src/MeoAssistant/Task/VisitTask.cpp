@@ -9,5 +9,5 @@ asst::VisitTask::VisitTask(AsstCallback callback, void* callback_arg)
       m_visit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {
     m_visit_task_ptr->set_tasks({ "VisitBegin" });
-    m_subtasks.emplace_back(m_visit_task_ptr);
+    m_subtasks.emplace_back(m_visit_task_ptr)->set_ignore_error(true);
 }

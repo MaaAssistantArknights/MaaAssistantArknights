@@ -58,24 +58,17 @@ bool asst::OcrImageAnalyzer::analyze()
         return true;
     };
 
-    if (m_roi.x < 0) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.x = 0;
-    }
-    if (m_roi.y < 0) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.y = 0;
-    }
-    if (m_roi.x + m_roi.width > m_image.cols) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.width = m_image.cols - m_roi.x;
-    }
-    if (m_roi.y + m_roi.height > m_image.rows) {
-        Log.warn("roi is out of range", m_roi.to_string());
-        m_roi.height = m_image.rows - m_roi.y;
-    }
+    m_roi = correct_rect(m_roi, m_image);
 
-    m_ocr_result = OcrPack::get_instance().recognize(m_image, m_roi, all_pred, m_without_det);
+    OcrPack* ocr_ptr = nullptr;
+    if (m_use_char_model) {
+        ocr_ptr = &CharOcr::get_instance();
+    }
+    else {
+        ocr_ptr = &WordOcr::get_instance();
+    }
+    m_ocr_result = ocr_ptr->recognize(m_image, m_roi, all_pred, m_without_det);
+    ocr_ptr = nullptr;
 
     // log.trace("ocr result", m_ocr_result);
     return !m_ocr_result.empty();
@@ -147,6 +140,11 @@ void asst::OcrImageAnalyzer::set_region_of_appeared(Rect region) noexcept
         m_roi = m_region_of_appeared;
         m_without_det = true;
     }
+}
+
+void asst::OcrImageAnalyzer::set_use_char_model(bool enable) noexcept
+{
+    m_use_char_model = enable;
 }
 
 void asst::OcrImageAnalyzer::set_pred(const TextRectProc& pred)

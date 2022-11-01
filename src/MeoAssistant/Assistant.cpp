@@ -7,7 +7,6 @@
 #include "Controller.h"
 #include "Resource/GeneralConfiger.h"
 #include "RuntimeStatus.h"
-#include "Utils/AsstUtils.hpp"
 #include "Utils/Logger.hpp"
 
 #include "Task/AwardTask.h"
@@ -119,13 +118,12 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 #undef ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH
 
     auto& json = ret.value();
-    bool enable = json.get("enable", true);
-    ptr->set_enable(enable);
+    ptr->set_exit_flag(&m_thread_idle).set_ctrler(m_ctrler).set_status(m_status).set_enable(json.get("enable", true));
+
     bool params_ret = ptr->set_params(json);
     if (!params_ret) {
         return 0;
     }
-
     std::unique_lock<std::mutex> lock(m_mutex);
 
     ++m_task_id;
@@ -255,8 +253,6 @@ void Assistant::working_proc()
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
 
-            task_ptr->set_exit_flag(&m_thread_idle).set_ctrler(m_ctrler).set_status(m_status);
-
             bool ret = task_ptr->run();
             finished_tasks.emplace_back(id);
 
@@ -266,15 +262,22 @@ void Assistant::working_proc()
             }
             lock.unlock();
 
-            task_callback(ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError, callback_json, this);
+            auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
+                                     : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+            task_callback(msg, callback_json, this);
 
-            if (!m_thread_idle && m_tasks_list.empty()) {
+            if (m_thread_idle) {
+                finished_tasks.clear();
+                continue;
+            }
+
+            if (m_tasks_list.empty()) {
                 callback_json["finished_tasks"] = json::array(finished_tasks);
                 task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
                 finished_tasks.clear();
             }
 
-            auto delay = Configer.get_options().task_delay;
+            const int delay = Configer.get_options().task_delay;
             lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
         }
