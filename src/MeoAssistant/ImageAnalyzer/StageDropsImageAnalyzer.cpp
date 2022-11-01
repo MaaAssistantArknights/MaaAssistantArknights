@@ -269,7 +269,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int x_offset = task_ptr->roi.x + bounding_rect.x;
     int y_offset = task_ptr->roi.y + bounding_rect.y;
 
-    const int min_width = static_cast<int>(task_ptr->special_threshold);
+    const int min_width = task_ptr->special_params.front();
     const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
 
     int i_start = 0, i_end = bounding.cols - 1;

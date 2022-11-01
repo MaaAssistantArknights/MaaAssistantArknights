@@ -129,33 +129,9 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
     return task.run();
 }
 
-void asst::InfrastAbstractTask::async_swipe_of_operlist(bool reverse)
-{
-    LogTraceFunction;
-    static Rect begin_rect = Task.get("InfrastOperListSwipeBegin")->specific_rect;
-    static Rect end_rect = Task.get("InfrastOperListSwipeEnd")->specific_rect;
-    static int duration = Task.get("InfrastOperListSwipeBegin")->pre_delay;
-
-    if (!reverse) {
-        m_last_swipe_id = m_ctrler->swipe(begin_rect, end_rect, duration, false, 0, true);
-    }
-    else {
-        m_last_swipe_id = m_ctrler->swipe(end_rect, begin_rect, duration, false, 0, true);
-    }
-}
-
 bool asst::InfrastAbstractTask::is_use_custom_opers()
 {
     return m_is_custom && (!current_room_config().names.empty() || !current_room_config().candidates.empty());
-}
-
-void asst::InfrastAbstractTask::await_swipe()
-{
-    LogTraceFunction;
-    static int extra_delay = Task.get("InfrastOperListSwipeBegin")->post_delay;
-
-    m_ctrler->wait(m_last_swipe_id);
-    sleep(extra_delay);
 }
 
 /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
@@ -425,48 +401,24 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     return task.run();
 }
 
-void asst::InfrastAbstractTask::swipe_of_operlist(bool reverse)
+void asst::InfrastAbstractTask::swipe_of_operlist()
 {
-    async_swipe_of_operlist(reverse);
-    await_swipe();
+    ProcessTask(*this, { "OperListSlowlySwipeToTheRight" }).run();
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
-    LogTraceFunction;
-    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
-    static int cfg_loop_times = Task.get("InfrastOperListSwipeToTheLeftBegin")->max_times;
-
-    for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
-        if (need_exit()) {
-            return;
-        }
-        m_ctrler->swipe(end_rect, begin_rect, duration, true, 0, false);
+    for (int i = 0; i != loop_times; ++i) {
+        ProcessTask(*this, { "OperListSwipeToTheLeft" }).run();
     }
-    sleep(extra_delay);
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
 {
-    LogTraceFunction;
-    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
-
-    m_ctrler->swipe(end_rect, begin_rect, duration, true, extra_delay, false);
+    ProcessTask(*this, { "SwipeToTheLeft" }).run();
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
 {
-    LogTraceFunction;
-    static Rect begin_rect = Task.get("InfrastOperListSwipeToTheLeftBegin")->specific_rect;
-    static Rect end_rect = Task.get("InfrastOperListSwipeToTheLeftEnd")->specific_rect;
-    static int duration = Task.get("InfrastOperListSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("InfrastOperListSwipeToTheLeftBegin")->post_delay;
-
-    m_ctrler->swipe(begin_rect, end_rect, duration, true, extra_delay, false);
+    ProcessTask(*this, { "SwipeToTheRight" }).run();
 }
