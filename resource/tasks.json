@@ -1421,8 +1421,6 @@
         ]
     },
     "UnableToAgent": {
-        "algorithm": "MatchTemplate",
-        "baseTask": "SwipeToTheLeft",
         "roi": [
             994,
             535,
@@ -1430,7 +1428,7 @@
             143
         ],
         "next": [
-            "Stage"
+            "Stage@SwipeToTheLeft"
         ]
     },
     "ResourceStageLevel5": {
@@ -8739,7 +8737,7 @@
         ],
         "postDelay": 300
     },
-    "RogueliekRecruitOperListSlowlySwipeToTheLeft": {
+    "RoguelikeRecruitOperListSlowlySwipeToTheLeft": {
         "baseTask": "OperListSlowlySwipeToTheLeft",
         "specificRect": [
             560,
@@ -8748,7 +8746,7 @@
             100
         ]
     },
-    "RogueliekRecruitOperListSlowlySwipeToTheRight": {
+    "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
         "baseTask": "OperListSlowlySwipeToTheRight",
         "rectMove": [
             560,
