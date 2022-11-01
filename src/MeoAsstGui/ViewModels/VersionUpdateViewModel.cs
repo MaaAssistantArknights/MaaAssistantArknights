@@ -333,9 +333,13 @@ namespace MeoAsstGui
                     }
 
                     toast.AppendContentText(Localization.GetString("NewVersionFoundDescId") + UpdateTag);
-                    toast.AppendContentText(otaFound ?
-                        (Localization.GetString("NewVersionFoundDescInfo") + UpdateInfo) :
-                        Localization.GetString("NewVersionFoundButNoPackageDesc"));
+
+                    if (!otaFound)
+                    {
+                        toast.AppendContentText(Localization.GetString("NewVersionFoundButNoPackageDesc"));
+                    }
+
+                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + UpdateInfo.Substring(0, 100));
                     toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
                     toast.ButtonSystemUrl = UpdateUrl;
                     toast.ShowUpdateVersion();
