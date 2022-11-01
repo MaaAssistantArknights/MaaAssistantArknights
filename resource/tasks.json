@@ -4069,8 +4069,10 @@
     "InfrastSkills": {
         "template": "empty.png",
         "templThreshold": 0.85,
-        "specialParmas": [ 95 ],
-        "specialParmas_Doc": "用于做灰度图平均值",
+        "specialParams": [
+            95
+        ],
+        "specialParams_Doc": "用于做灰度图平均值",
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             -8,
@@ -4110,8 +4112,10 @@
         "template": "empty.png",
         "templThreshold_Doc": "这里的templThreshold，作为进度条最小灰度阈值使用",
         "templThreshold": 160,
-        "specialParmas": [ 20 ],
-        "specialParmas_Doc": "作为进度条相邻点最大变化阈值使用",
+        "specialParams": [
+            20
+        ],
+        "specialParams_Doc": "作为进度条相邻点最大变化阈值使用",
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             21,
@@ -5822,8 +5826,10 @@
     },
     "BattleOperAvailable": {
         "template": "empty.png",
-        "specialParmas": [ 100 ],
-        "specialParmas_Doc": "用于做V通道平均值阈值",
+        "specialParams": [
+            100
+        ],
+        "specialParams_Doc": "用于做V通道平均值阈值",
         "rectMove": [
             0,
             0,
@@ -5833,8 +5839,10 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialParmas": [ 1000 ],
-        "specialParmas_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "specialParams": [
+            1000
+        ],
+        "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
             6,
@@ -6191,8 +6199,10 @@
         ],
         "templThreshold": 17,
         "templThreshold_Doc": "这里用来作为基线间距阈值",
-        "specialParmas": [ 100 ],
-        "specialParmas_Doc": "基线长度阈值（不小于100）",
+        "specialParams": [
+            100
+        ],
+        "specialParams_Doc": "基线长度阈值（不小于100）",
         "maskRange": [
             70,
             255
@@ -6392,8 +6402,10 @@
         "template": "empty.png",
         "templThreshold": 5,
         "templThreshold_Doc": "这里用来作为字间距阈值",
-        "specialParmas": [ 120 ],
-        "specialParmas_Doc": "背景色亮度值上限",
+        "specialParams": [
+            120
+        ],
+        "specialParams_Doc": "背景色亮度值上限",
         "roi": [
             36,
             69,
