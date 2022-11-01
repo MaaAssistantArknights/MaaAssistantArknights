@@ -279,27 +279,17 @@ namespace asst
         ClickRand = BasicClick | 4, // 点击随机区域
         DoNothing = 0x200,          // 什么都不做
         Stop = 0x400,               // 停止当前Task
-        BasicSwipe = 0x1000,
-        SwipeToTheLeft = BasicSwipe | 1,            // 往左划一下
-        SwipeToTheRight = BasicSwipe | 2,           // 往右划一下
-        SlowlySwipeToTheLeft = SwipeToTheLeft | 4,  // 慢慢的往左划一下
-        SlowlySwipeToTheRight = SwipeToTheRight | 8 // 慢慢的往右划一下
+        Swipe = 0x1000,             // 滑动
     };
 
     inline ProcessTaskAction get_action_type(std::string action_str)
     {
         utils::tolowers(action_str);
         static const std::unordered_map<std::string, ProcessTaskAction> action_map = {
-            { "clickself", ProcessTaskAction::ClickSelf },
-            { "clickrand", ProcessTaskAction::ClickRand },
-            { "", ProcessTaskAction::DoNothing },
-            { "donothing", ProcessTaskAction::DoNothing },
-            { "stop", ProcessTaskAction::Stop },
-            { "clickrect", ProcessTaskAction::ClickRect },
-            { "swipetotheleft", ProcessTaskAction::SwipeToTheLeft },
-            { "swipetotheright", ProcessTaskAction::SwipeToTheRight },
-            { "slowlyswipetotheleft", ProcessTaskAction::SlowlySwipeToTheLeft },
-            { "slowlyswipetotheright", ProcessTaskAction::SlowlySwipeToTheRight },
+            { "clickself", ProcessTaskAction::ClickSelf }, { "clickrand", ProcessTaskAction::ClickRand },
+            { "", ProcessTaskAction::DoNothing },          { "donothing", ProcessTaskAction::DoNothing },
+            { "stop", ProcessTaskAction::Stop },           { "clickrect", ProcessTaskAction::ClickRect },
+            { "swipe", ProcessTaskAction::Swipe },
         };
         if (auto it = action_map.find(action_str); it != action_map.end()) {
             return it->second;
@@ -310,18 +300,10 @@ namespace asst
     inline std::string enum_to_string(ProcessTaskAction action)
     {
         static const std::unordered_map<ProcessTaskAction, std::string> action_map = {
-            { ProcessTaskAction::Invalid, "Invalid" },
-            { ProcessTaskAction::BasicClick, "BasicClick" },
-            { ProcessTaskAction::ClickSelf, "ClickSelf" },
-            { ProcessTaskAction::ClickRect, "ClickRect" },
-            { ProcessTaskAction::ClickRand, "ClickRand" },
-            { ProcessTaskAction::DoNothing, "DoNothing" },
-            { ProcessTaskAction::Stop, "Stop" },
-            { ProcessTaskAction::BasicSwipe, "BasicSwipe" },
-            { ProcessTaskAction::SwipeToTheLeft, "SwipeToTheLeft" },
-            { ProcessTaskAction::SwipeToTheRight, "SwipeToTheRight" },
-            { ProcessTaskAction::SlowlySwipeToTheLeft, "SlowlySwipeToTheLeft" },
-            { ProcessTaskAction::SlowlySwipeToTheRight, "SlowlySwipeToTheRight" },
+            { ProcessTaskAction::Invalid, "Invalid" },     { ProcessTaskAction::BasicClick, "BasicClick" },
+            { ProcessTaskAction::ClickSelf, "ClickSelf" }, { ProcessTaskAction::ClickRect, "ClickRect" },
+            { ProcessTaskAction::ClickRand, "ClickRand" }, { ProcessTaskAction::DoNothing, "DoNothing" },
+            { ProcessTaskAction::Stop, "Stop" },           { ProcessTaskAction::Swipe, "Swipe" },
         };
         if (auto it = action_map.find(action); it != action_map.end()) {
             return it->second;
@@ -363,6 +345,7 @@ namespace asst
         Rect rect_move;     // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
                             // 即识别到了res，点击res + result_move的位置
         bool cache = false; // 是否使用缓存区域
+        std::vector<int> special_params; // 某些任务会用到的特殊参数
     };
 
     // 文字识别任务的信息
@@ -391,7 +374,6 @@ namespace asst
         MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
         std::string templ_name;         // 匹配模板图片文件名
         double templ_threshold = 0;     // 模板匹配阈值
-        double special_threshold = 0;   // 某些任务使用的特殊的阈值
         std::pair<int, int> mask_range; // 掩码的二值化范围
     };
 

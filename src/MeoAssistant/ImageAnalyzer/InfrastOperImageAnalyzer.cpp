@@ -133,7 +133,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
 
     const auto prg_task_ptr = Task.get<MatchTaskInfo>("InfrastOperMoodProgressBar");
     uint8_t prg_lower_limit = static_cast<uint8_t>(prg_task_ptr->templ_threshold);
-    int prg_diff_thres = static_cast<int>(prg_task_ptr->special_threshold);
+    int prg_diff_thres = prg_task_ptr->special_params.front();
     Rect rect_move = prg_task_ptr->rect_move;
 
     for (auto&& oper : m_result) {
@@ -224,7 +224,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     LogTraceFunction;
 
     const auto task_ptr = Task.get<MatchTaskInfo>("InfrastSkills");
-    const auto bright_thres = task_ptr->special_threshold;
+    const int bright_thres = task_ptr->special_params.front();
 
     MatchImageAnalyzer skill_analyzer(m_image);
 
