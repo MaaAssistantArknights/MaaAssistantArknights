@@ -15,7 +15,16 @@ jobs:
   make-ota:
     runs-on: "ubuntu-latest"
     steps:
+      - name: "Fetch MaaRelease"
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
+          path: MaaRelease
+          fetch-depth: 0
+          token: ${{ secrets.MAARELEASE_RELEASE }}
       - uses: actions/checkout@v3
+        with:
+          path: MaaAssistantArknights
       - name: "Fetch release info"
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,7 +39,19 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
-          ../tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./releases
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./releases
+      - name: "Commit and setup tag"
+        run: |
+          cd MaaRelease
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan temp
+          git rm -rf .
+          git commit --allow-empty --message ${{ env.release_tag }}
+          git tag ${{ env.release_tag }} || exit 0 # do nothing if the tag already exists
+          git push --tags $PUSH_REMOTE
+        env:
+          PUSH_REMOTE: https://github-actions[bot]:${{ secrets.MAARELEASE_RELEASE }}@github.com/${{ github.repository_owner }}/MaaRelease
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
         with:
