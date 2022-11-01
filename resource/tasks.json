@@ -17,7 +17,7 @@
         ],
         "rectMove_Doc": "滑动终点",
         "specialParams": [
-            1500
+            1000
         ],
         "specialParams_Doc": [
             "滑动 duration",
@@ -44,7 +44,7 @@
             100
         ],
         "specialParams": [
-            1500
+            1000
         ],
         "postDelay": 300,
         "next": [
@@ -8706,6 +8706,9 @@
             310,
             100,
             100
+        ],
+        "next": [
+            "RoguelikeRecruitOperListSwipeToTheLeft"
         ]
     },
     "OperListSlowlySwipeToTheLeft": {
@@ -8717,7 +8720,7 @@
             100
         ],
         "specialParams": [
-            1500,
+            1000,
             1
         ],
         "postDelay": 300
@@ -8731,13 +8734,13 @@
             100
         ],
         "specialParams": [
-            1500,
+            1000,
             1
         ],
         "postDelay": 300
     },
     "RogueliekRecruitOperListSlowlySwipeToTheLeft": {
-        "baseTask": "OperListSlowlySwipeToTheRight",
+        "baseTask": "OperListSlowlySwipeToTheLeft",
         "specificRect": [
             560,
             310,
@@ -8748,7 +8751,7 @@
     "RogueliekRecruitOperListSlowlySwipeToTheRight": {
         "baseTask": "OperListSlowlySwipeToTheRight",
         "rectMove": [
-            400,
+            560,
             310,
             100,
             100
