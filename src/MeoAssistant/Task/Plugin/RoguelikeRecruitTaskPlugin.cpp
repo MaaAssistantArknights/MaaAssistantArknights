@@ -407,9 +407,9 @@ void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_ti
 void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left)
 {
     if (to_left) {
-        ProcessTask(*this, { "RogueliekRecruitOperListSlowlySwipeToTheLeft" }).run();
+        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheLeft" }).run();
     }
     else {
-        ProcessTask(*this, { "RogueliekRecruitOperListSlowlySwipeToTheRight" }).run();
+        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
     }
 }
