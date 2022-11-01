@@ -42,6 +42,7 @@ bool asst::TaskData::parse(const json::value& json)
             // must_true 若为真，那么 return false 了就是炸了。
             // 否则可能只是某个 B@A 的任务没定义 A（这不是少见现象，例如 Roguelike@Abandon）
             generate_fun = [&](const std::string& name, bool must_true) -> bool {
+                // 不是需要 generate 的资源（不在 tasks.json 中）
                 if (!to_be_generated[task_name_view(name)]) {
                     // 已生成（它是之前加载过的某个资源的 base）
                     if (m_raw_all_tasks_info.contains(name)) {
@@ -58,11 +59,19 @@ bool asst::TaskData::parse(const json::value& json)
                     return false;
                 }
                 const json::value& task_json = json_obj.at(name);
+
+                // 已生成（例如国际服覆写国服资源）
+                if (m_raw_all_tasks_info.contains(name)) {
+                    return generate_task(name, "", get_raw(name), task_json);
+                }
+
+                // BaseTask
                 if (auto opt = task_json.find<std::string>("baseTask")) {
                     std::string base = opt.value();
                     return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
                 }
 
+                // TemplateTask
                 if (size_t p = name.find('@'); p != std::string::npos) {
                     if (std::string base = name.substr(p + 1); generate_fun(base, false)) {
                         return generate_task(name, name.substr(0, p), get_raw(base), task_json);
