@@ -176,6 +176,17 @@
             ],
             "rarity": 5
         },
+        "char_1028_texas2": {
+            "name": "缄默德克萨斯",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
         "char_102_texas": {
             "name": "德克萨斯",
             "position": "MELEE",
@@ -2079,6 +2090,17 @@
             ],
             "rarity": 5
         },
+        "char_4014_lunacu": {
+            "name": "子月",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ],
+            "rarity": 5
+        },
         "char_4016_kazema": {
             "name": "风丸",
             "position": "MELEE",
@@ -2299,6 +2321,17 @@
             ],
             "rarity": 4
         },
+        "char_4063_quartz": {
+            "name": "石英",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 4
+        },
         "char_4064_mlynar": {
             "name": "玛恩纳",
             "position": "MELEE",
@@ -2307,6 +2340,17 @@
                 "1-2",
                 "1-2",
                 "1-2"
+            ],
+            "rarity": 6
+        },
+        "char_4065_judge": {
+            "name": "斥罪",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
             ],
             "rarity": 6
         },
@@ -2439,6 +2483,17 @@
                 "x-4",
                 "x-1",
                 "x-1"
+            ],
+            "rarity": 6
+        },
+        "char_427_vigil": {
+            "name": "伺夜",
+            "position": "RANGED",
+            "profession": "PIONEER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
             ],
             "rarity": 6
         },
@@ -2593,6 +2648,17 @@
                 "1-1",
                 "1-1",
                 "1-1"
+            ],
+            "rarity": 5
+        },
+        "char_466_qanik": {
+            "name": "雪绒",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
             ],
             "rarity": 5
         },
@@ -3297,6 +3363,17 @@
                 "3-13",
                 "3-13",
                 "3-13"
+            ],
+            "rarity": 6
+        },
+        "token_10028_vigil_wolf": {
+            "name": "狼群",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
             ],
             "rarity": 6
         },
@@ -4259,6 +4336,17 @@
         },
         "trap_091_brctrl": {
             "name": "实体程式控制",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_092_vgctrl": {
+            "name": "复仇黑手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [

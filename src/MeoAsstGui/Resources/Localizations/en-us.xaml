@@ -148,10 +148,10 @@
     <system:String x:Key="NewVersionDownloadFailedTitle">Update Package Download Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory.</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">Update Package Download Completed</system:String>
-    <system:String x:Key="NewVersionDownloadCompletedDesc">MAA will be updated automatically at the next startup.</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedDesc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
 
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New Version Found, But No Update Package</system:String>
-    <system:String x:Key="NewVersionFoundButNoPackageDesc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
+    <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
 
     <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
     <system:String x:Key="Timer">Timer</system:String>
