@@ -21,7 +21,7 @@ jobs:
   build-win-nightly:
     runs-on: windows-latest
     outputs:
-      hash: ${{ steps.set_hash.outputs.hash }}
+      tag: ${{ steps.set_tag.outputs.tag }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -32,15 +32,28 @@ jobs:
       - name: Checkout ref
         run: |
           git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
-      - name: Set hash
-        id: set_hash
+      - run: |
+          npm install --global --progress semver
+      - name: Set tag
+        id: set_tag
         run: |
-          # "hash=c$(Get-Date -Format 'yyMMdd')-$(git rev-parse --short HEAD)" >> $env:GITHUB_OUTPUT
-          "hash=$(git describe --tags --long)" >> $env:GITHUB_OUTPUT
+          $described = $(git describe --tags --long --match 'v*')
+          $ids = $($described -split "-")
+          if ($ids.length -eq 3) {
+            $ver = "v$(semver --increment $ids[0].Substring(1))"
+            echo "tag=$ver-alpha.0.$($ids[1]).$($ids[2])" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          if ($ids.length -eq 4) {
+            echo "tag=$($ids[0])-$($ids[1]).$($ids[2]).$($ids[3])" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          exit 1
       - name: Run './build.cmd DevBuild'
         run: |
-          $env:GITHUB_WORKFLOW='dev-build-win' # pretend this is a dev-build-win workflow
-          $env:MAA_BUILDER_MAA_VERSION="${{steps.set_hash.outputs.hash}}"
+          $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
+          $env:MAA_BUILDER_MAA_VERSION = "${{steps.set_tag.outputs.tag}}"
+          echo "tag: " $env:MAA_BUILDER_MAA_VERSION
           ./build.cmd DevBuild
         env:
           Reason: 'Build nightly version'
@@ -54,7 +67,7 @@ jobs:
     needs: build-win-nightly
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.build-win-nightyl.outputs.hash }}
+      - run: echo ${{ needs.build-win-nightyl.outputs.tag }}
       - name: "Fetch MaaRelease"
         uses: actions/checkout@v3
         with:
@@ -68,20 +81,20 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: MAA-win-x64
-          path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.hash) }}
+          path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
       - name: "Fetch release info"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv build-ota && cd build-ota
-          cd ${{ needs.build-win-nightly.outputs.hash }}
+          cd ${{ needs.build-win-nightly.outputs.tag }}
           mkdir -pv content
           unzip -q *.zip -d content
           cd ..
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
           gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
-          echo ${{ needs.build-win-nightly.outputs.hash }} > ./config
+          echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
 
           cat ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
           cat ./release_mr.txt | awk '{ print $1 }' > ./tags_mr.txt
@@ -98,17 +111,17 @@ jobs:
         run: |
           cd build-ota
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config "${{ github.repository_owner }}/MaaRelease"
-          mv -v ${{ needs.build-win-nightly.outputs.hash }}/*.zip ./MAA-${{ env.release_tag }}-win-x64.zip
+          mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-x64.zip
       - name: "Commit and setup tag"
         run: |
           cd MaaRelease
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git checkout --orphan temp
+          git checkout --orphan __temp
           git rm -rf .
           git commit --allow-empty --message ${{ env.release_tag }}
           git tag ${{ env.release_tag }} || exit 0 # do nothing if the tag already exists
-          git push --tags $PUSH_REMOTE
+          git push --tags
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
         with:
