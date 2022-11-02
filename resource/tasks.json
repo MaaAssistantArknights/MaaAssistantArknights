@@ -5784,10 +5784,10 @@
             232,
             374
         ],
-        "postDelay": 2000,
+        "postDelay": 3000,
         "next": [
+            "BattleOfficiallyBegin",
             "SkipThePreBattlePlot",
-            "BattleStart",
             "Stop"
         ]
     },
