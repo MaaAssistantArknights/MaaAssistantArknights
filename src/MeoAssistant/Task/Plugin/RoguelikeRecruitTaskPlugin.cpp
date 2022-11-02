@@ -86,6 +86,10 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     int SwipeTimes = Task.get("RoguelikeRecruitSwipeMaxTime")->max_times;
     int i = 0;
     std::unordered_set<std::string> pre_oper_names;
+
+    // 开始识别前先往前翻两页，是方舟的bug，有可能进招募界面时不是从最左边开始
+    swipe_to_the_left_of_operlist(2);
+
     // 翻页找出所有候选干员
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
