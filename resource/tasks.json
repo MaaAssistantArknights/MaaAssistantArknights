@@ -518,6 +518,144 @@
             120
         ]
     },
+    "IS-10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IS-Open"
+        ],
+        "next": [
+            "StageIS-10",
+            "IS-10@SwipeToStageIS"
+        ]
+    },
+    "IS-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IS-Open"
+        ],
+        "next": [
+            "StageIS-9",
+            "IS-9@SwipeToStageIS"
+        ]
+    },
+    "IS-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IS-Open"
+        ],
+        "next": [
+            "StageIS-8",
+            "IS-8@SwipeToStageIS"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "叙拉古人"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "EnterChapterIS"
+        ]
+    },
+    "EnterChapterIS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "沃尔西尼"
+        ],
+        "roi": [
+            1033,
+            412,
+            208,
+            134
+        ],
+        "postDelay": 4000,
+        "next": [
+            "EnterChapterIS",
+            "EnterStageIS"
+        ]
+    },
+    "EnterStageIS": {
+        "action": "ClickSelf",
+        "roi": [
+            1142,
+            314,
+            138,
+            135
+        ]
+    },
+    "SwipeToStageIS": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            98,
+            469,
+            100,
+            100
+        ],
+        "rectMove": [
+            145,
+            129,
+            100,
+            100
+        ],
+        "next": [
+            "#next"
+        ]
+    },
+    "StageIS-10": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "IS-10"
+        ],
+        "roi": [
+            47,
+            42,
+            222,
+            640
+        ]
+    },
+    "StageIS-9": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "IS-9"
+        ],
+        "roi": [
+            47,
+            42,
+            222,
+            640
+        ]
+    },
+    "StageIS-8": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "IS-8"
+        ],
+        "roi": [
+            47,
+            42,
+            222,
+            640
+        ]
+    },
     "NL-10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
