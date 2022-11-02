@@ -21,7 +21,6 @@ namespace MeoAsstGui
     /// </summary>
     public class StartSelfModel
     {
-        private static readonly RegistryKey _key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
         private static readonly string fileValue = Process.GetCurrentProcess().MainModule?.FileName;
 
         /// <summary>
@@ -30,13 +29,14 @@ namespace MeoAsstGui
         /// <returns>The value.</returns>
         public static bool CheckStart()
         {
-            if (_key.GetValue("MeoAsst") == null)
+            try
+            {
+                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+                return key.GetValue("MeoAsst") != null;
+            }
+            catch
             {
                 return false;
-            }
-            else
-            {
-                return true;
             }
         }
 
@@ -47,15 +47,23 @@ namespace MeoAsstGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool SetStart(bool set)
         {
-            if (set)
+            try
             {
-                _key.SetValue("MeoAsst", "\"" + fileValue + "\"");
-                return CheckStart();
+                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (set)
+                {
+                    key.SetValue("MeoAsst", "\"" + fileValue + "\"");
+                }
+                else
+                {
+                    key.DeleteValue("MeoAsst");
+                }
+
+                return set == CheckStart();
             }
-            else
+            catch
             {
-                _key.DeleteValue("MeoAsst");
-                return !CheckStart();
+                return false;
             }
         }
     }
