@@ -35,7 +35,7 @@
             "立即招"
         ]
     },
-    "FromIntegratedStrategies": {
+    "Roguelike@FromIntegratedStrategies": {
         "text": [
             "進入主題"
         ]
@@ -1151,7 +1151,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackSquad": {
+    "RoguelikeCustom-HijackSquad": {
         "ocrReplace": [
             [
                 "指.*分.*",
@@ -1195,7 +1195,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackRoles": {
+    "RoguelikeCustom-HijackRoles": {
         "ocrReplace": [
             [
                 "先手必勝",
@@ -1219,7 +1219,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackCoChar": {
+    "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
             [
                 "術師",
