@@ -583,6 +583,20 @@
         "postDelay": 4000,
         "next": [
             "EnterChapterIS",
+            "EnterChapterIS2",
+            "EnterStageIS"
+        ]
+    },
+    "EnterChapterIS2": {
+        "action": "ClickSelf",
+        "roi": [
+            1146,
+            587,
+            134,
+            133
+        ],
+        "next": [
+            "EnterChapterIS2",
             "EnterStageIS"
         ]
     },
