@@ -126,11 +126,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 
 void asst::BattleFormationTask::swipe_page()
 {
-    static Rect begin_rect = Task.get("InfrastOperListSwipeBegin")->specific_rect;
-    static Rect end_rect = Task.get("InfrastOperListSwipeEnd")->specific_rect;
-    static int duration = Task.get("InfrastOperListSwipeBegin")->pre_delay;
-
-    m_ctrler->swipe(begin_rect, end_rect, duration, true, Task.get("InfrastOperListSwipeBegin")->post_delay, true);
+    ProcessTask(*this, { "OperListSlowlySwipeToTheRight" }).run();
 }
 
 bool asst::BattleFormationTask::confirm_selection()

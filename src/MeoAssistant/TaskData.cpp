@@ -302,7 +302,6 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(const std::st
 
     // 其余若留空则继承模板任务
     match_task_info_ptr->templ_threshold = task_json.get("templThreshold", default_ptr->templ_threshold);
-    match_task_info_ptr->special_threshold = task_json.get("specialThreshold", default_ptr->special_threshold);
     if (auto opt = task_json.find<json::array>("maskRange")) {
         auto& mask_range = *opt;
         match_task_info_ptr->mask_range =
@@ -444,6 +443,15 @@ bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, const std::s
     else {
         task_info_ptr->specific_rect = default_ptr->specific_rect;
     }
+    if (auto opt = task_json.find<json::array>("specialParams")) {
+        auto& special_params = opt.value();
+        for (auto& param : special_params) {
+            task_info_ptr->special_params.emplace_back(param.as_integer());
+        }
+    }
+    else {
+        task_info_ptr->special_params = default_ptr->special_params;
+    }
     return true;
 }
 
@@ -452,7 +460,6 @@ std::shared_ptr<asst::MatchTaskInfo> asst::TaskData::_default_match_task_info()
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
     match_task_info_ptr->templ_name = "__INVALID__";
     match_task_info_ptr->templ_threshold = TemplThresholdDefault;
-    match_task_info_ptr->special_threshold = 0;
 
     return match_task_info_ptr;
 }
@@ -502,7 +509,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "algorithm",       "baseTask",  "template",   "text",         "action",           "sub",
               "subErrorIgnored", "next",      "maxTimes",   "exceededNext", "onErrorNext",      "preDelay",
               "postDelay",       "roi",       "cache",      "rectMove",     "reduceOtherTimes", "templThreshold",
-              "maskRange",       "fullMatch", "ocrReplace", "hash",         "specialThreshold", "threshold",
+              "maskRange",       "fullMatch", "ocrReplace", "hash",         "specialParams",    "threshold",
           } },
         { AlgorithmType::MatchTemplate,
           {
@@ -547,26 +554,14 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "ocrReplace",
           } },
         { AlgorithmType::JustReturn,
-          {
-              "algorithm",
-              "baseTask",
-              "action",
-              "sub",
-              "subErrorIgnored",
-              "next",
-              "maxTimes",
-              "exceededNext",
-              "onErrorNext",
-              "preDelay",
-              "postDelay",
-              "reduceOtherTimes",
-          } },
+          { "algorithm", "baseTask", "action", "sub", "subErrorIgnored", "next", "maxTimes", "exceededNext",
+            "onErrorNext", "preDelay", "postDelay", "reduceOtherTimes", "specialParams" } },
         { AlgorithmType::Hash,
           {
-              "algorithm", "baseTask",     "action",           "sub",      "subErrorIgnored", "next",
-              "maxTimes",  "exceededNext", "onErrorNext",      "preDelay", "postDelay",       "roi",
-              "cache",     "rectMove",     "reduceOtherTimes", "hash",     "maskRange",       "specialThreshold",
-              "threshold",
+              "algorithm", "baseTask",  "action",        "sub",         "subErrorIgnored",
+              "next",      "maxTimes",  "exceededNext",  "onErrorNext", "preDelay",
+              "postDelay", "roi",       "cache",         "rectMove",    "reduceOtherTimes",
+              "hash",      "maskRange", "specialParams", "threshold",
           } },
     };
 
@@ -575,6 +570,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
           {
               "specificRect",
           } },
+        { ProcessTaskAction::Swipe, { "specificRect", "rectMove" } },
     };
 
     auto is_doc = [&](std::string_view key) {
