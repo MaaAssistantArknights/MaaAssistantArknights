@@ -33,9 +33,7 @@ namespace asst
         void swipe_to_the_left_of_operlist(int loop_times = 1); // 滑动到干员列表的最左侧
         void swipe_to_the_left_of_main_ui();                    // 滑动基建的主界面到最左侧
         void swipe_to_the_right_of_main_ui();                   // 滑动基建的主界面到最右侧
-        void swipe_of_operlist(bool reverse = false);
-        void async_swipe_of_operlist(bool reverse = false);
-        void await_swipe();
+        void swipe_of_operlist();
         bool is_use_custom_opers();
         infrast::CustomRoomConfig& current_room_config();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
