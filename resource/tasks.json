@@ -2038,7 +2038,7 @@
             "StartLoginBServer",
             "StartUpConnectingFlag",
             "#back",
-            "CloseAnno",
+            "CloseAnnos#next",
             "TodaysSupplies",
             "OfflineConfirm"
         ]
@@ -2127,8 +2127,14 @@
             120
         ]
     },
+    "CloseAnnos": {
+        "algorithm": "JustReturn",
+        "next": [
+            "CloseAnno",
+            "CloseAnnoTexas"
+        ]
+    },
     "CloseAnno": {
-        "Doc": "base_task",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -2139,8 +2145,17 @@
         ],
         "next": [
             "#back",
-            "CloseAnno",
+            "CloseAnnos#next",
             "TodaysSupplies"
+        ]
+    },
+    "CloseAnnoTexas": {
+        "baseTask": "CloseAnno",
+        "roi": [
+            1125,
+            24,
+            138,
+            139
         ]
     },
     "TodaysSupplies": {
@@ -2162,7 +2177,7 @@
             150
         ],
         "next": [
-            "CloseAnno",
+            "CloseAnnos#next",
             "#back"
         ]
     },
@@ -2215,7 +2230,7 @@
             "ReturnTo",
             "ReturnToConfirm",
             "ReturnTo@Loading2",
-            "CloseAnno",
+            "CloseAnnos#next",
             "FromStageSN",
             "TodaysSupplies"
         ]
@@ -2233,7 +2248,7 @@
             "ReturnTo",
             "#back",
             "ReturnToConfirm@Loading2",
-            "CloseAnno",
+            "CloseAnnos#next",
             "FromStageSN",
             "TodaysSupplies",
             "ReturnToConfirm"
@@ -2266,7 +2281,7 @@
             165
         ],
         "next": [
-            "CloseAnno",
+            "CloseAnnos#next",
             "OfflineConfirmImpl",
             "StartUpThemes#next",
             "TodaysSupplies"
@@ -2285,7 +2300,7 @@
         "next": [
             "StartUp@ReturnTo",
             "StartUp",
-            "StartUp@CloseAnno",
+            "StartUp@CloseAnnos#next",
             "StartUp@FromStageSN",
             "StartUp@TodaysSupplies",
             "StartUp@OfflineConfirm"
@@ -2337,7 +2352,7 @@
         "next": [
             "Fight@ReturnTo",
             "Fight",
-            "Fight@CloseAnno",
+            "Fight@CloseAnnos#next",
             "Fight@FromStageSN",
             "Fight@TodaysSupplies"
         ]
@@ -2367,7 +2382,7 @@
             "Fight@UsePrts-StageSN",
             "Fight@ReturnTo",
             "Fight",
-            "Fight@CloseAnno",
+            "Fight@CloseAnnos#next",
             "Fight@FromStageSN",
             "Fight@TodaysSupplies",
             "Fight@PRTS3",
@@ -2883,13 +2898,13 @@
         ],
         "exceededNext": [
             "Fight@TodaysSupplies",
-            "Fight@CloseAnno",
+            "Fight@CloseAnnos#next",
             "Stop"
         ],
         "next": [
             "Fight@GoLastBattle",
             "Fight",
-            "Fight@CloseAnno",
+            "Fight@CloseAnnos#next",
             "Fight@TodaysSupplies",
             "Stop"
         ],
@@ -2923,7 +2938,7 @@
             "RecruitFlag",
             "Recruit",
             "Recruit@ReturnTo",
-            "Recruit@CloseAnno",
+            "Recruit@CloseAnnos#next",
             "Recruit@FromStageSN",
             "Recruit@TodaysSupplies"
         ]
@@ -3258,7 +3273,7 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "Award@CloseAnno",
+            "Award@CloseAnnos#next",
             "Award@FromStageSN",
             "Award@TodaysSupplies"
         ]
@@ -3277,7 +3292,7 @@
             "DailyTask",
             "WeeklyTask",
             "Award",
-            "Award@CloseAnno",
+            "Award@CloseAnnos#next",
             "Award@TodaysSupplies"
         ]
     },
@@ -3374,7 +3389,7 @@
             "VisitNext",
             "VisitNextBlack",
             "Visit@ReturnTo",
-            "Visit@CloseAnno",
+            "Visit@CloseAnnos#next",
             "Visit@FromStageSN",
             "Visit@TodaysSupplies"
         ]
@@ -3392,7 +3407,7 @@
         "next": [
             "FriendsList",
             "Visit",
-            "Visit@CloseAnno",
+            "Visit@CloseAnnos#next",
             "Visit@TodaysSupplies"
         ]
     },
@@ -3481,7 +3496,7 @@
         "next": [
             "Mall@ReturnTo",
             "Mall",
-            "Mall@CloseAnno",
+            "Mall@CloseAnnos#next",
             "Mall@FromStageSN",
             "Mall@TodaysSupplies"
         ]
@@ -3501,7 +3516,7 @@
         "next": [
             "CreditStoreOcr",
             "Mall",
-            "Mall@CloseAnno",
+            "Mall@CloseAnnos#next",
             "Mall@TodaysSupplies"
         ]
     },
@@ -3838,7 +3853,7 @@
             "InfrastEnteredFlag",
             "InfrastNotification",
             "Infrast@ReturnTo",
-            "Infrast@CloseAnno",
+            "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
             "Infrast@TodaysSupplies"
         ]
@@ -3851,7 +3866,7 @@
             "InfrastEnteredFlag",
             "Infrast@ReturnTo",
             "Infrast@ReturnToConfirm",
-            "Infrast@CloseAnno",
+            "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
             "Infrast@TodaysSupplies"
         ]
@@ -3863,7 +3878,7 @@
             "InfrastNotification",
             "InfrastEnteredFlag",
             "Infrast@ReturnTo",
-            "Infrast@CloseAnno",
+            "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
             "Infrast@TodaysSupplies",
             "Infrast@ReturnToConfirm"
@@ -3876,7 +3891,19 @@
             "InfrastNotification",
             "InfrastEnteredFlag",
             "Infrast@ReturnTo",
-            "Infrast@CloseAnno",
+            "Infrast@CloseAnnos#next",
+            "Infrast@FromStageSN",
+            "Infrast@TodaysSupplies"
+        ]
+    },
+    "Infrast@CloseAnnoTexas": {
+        "template": "CloseAnnoTexas.png",
+        "next": [
+            "Infrast",
+            "InfrastNotification",
+            "InfrastEnteredFlag",
+            "Infrast@ReturnTo",
+            "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
             "Infrast@TodaysSupplies"
         ]
@@ -3905,7 +3932,7 @@
         "next": [
             "InfrastEnteredFlag",
             "Infrast",
-            "Infrast@CloseAnno",
+            "Infrast@CloseAnnos#next",
             "Infrast@TodaysSupplies"
         ],
         "postDelay": 5000
@@ -7275,7 +7302,7 @@
         ],
         "next": [
             "Roguelike",
-            "Roguelike@CloseAnno",
+            "Roguelike@CloseAnnos#next",
             "Roguelike@TodoEnter",
             "Roguelike@IntegratedStrategies"
         ],
@@ -7426,7 +7453,7 @@
             "Roguelike",
             "Roguelike@ReturnTo",
             "Roguelike@ReturnToConfirm",
-            "Roguelike@CloseAnno",
+            "Roguelike@CloseAnnos#next",
             "Roguelike@FromStageSN"
         ]
     },
