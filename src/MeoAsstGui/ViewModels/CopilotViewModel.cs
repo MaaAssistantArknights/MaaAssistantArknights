@@ -136,6 +136,8 @@ namespace MeoAsstGui
 
         private void UpdateFileDoc(string filename)
         {
+            ClearLog();
+
             string jsonStr = string.Empty;
             if (File.Exists(filename))
             {
@@ -148,17 +150,21 @@ namespace MeoAsstGui
                     AddLog(Localization.GetString("CopilotFileReadError"), UILogColor.Error);
                     return;
                 }
-            }
-            else if (int.TryParse(filename, out _))
-            {
-                int.TryParse(filename, out int copilotID);
-                jsonStr = RequestCopilotServer(copilotID);
+
+                _isDataFromWeb = false;
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
                 int.TryParse(copilotIdStr, out int copilotID);
                 jsonStr = RequestCopilotServer(copilotID);
+                _isDataFromWeb = true;
+            }
+            else if (int.TryParse(filename, out _))
+            {
+                int.TryParse(filename, out int copilotID);
+                jsonStr = RequestCopilotServer(copilotID);
+                _isDataFromWeb = true;
             }
             else
             {
@@ -207,6 +213,7 @@ namespace MeoAsstGui
 
         private string _curStageName = string.Empty;
         private string _curCopilotData = string.Empty;
+        private bool _isDataFromWeb = false;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
 
         private void ParseJsonAndShowInfo(string jsonStr)
@@ -384,12 +391,12 @@ namespace MeoAsstGui
         /// </summary>
         public async void Start()
         {
-            ClearLog();
             /*
             if (_form)
             {
                 AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
             }*/
+            Idle = false;
 
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
@@ -411,18 +418,22 @@ namespace MeoAsstGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            UpdateFileDoc(Filename);
+            if (!_isDataFromWeb)
+            {
+                UpdateFileDoc(Filename);
+            }
+
             File.Delete(TempCopilotFile);
             File.WriteAllText(TempCopilotFile, _curCopilotData);
 
             bool ret = asstProxy.AsstStartCopilot(_curStageName, TempCopilotFile, Form);
             if (ret)
             {
-                Idle = false;
                 AddLog("Star Burst Stream!");
             }
             else
             {
+                Idle = true;
                 AddLog(Localization.GetString("CopilotFileReadError") + "\n" + Localization.GetString("CheckTheFile"), UILogColor.Error);
             }
         }
