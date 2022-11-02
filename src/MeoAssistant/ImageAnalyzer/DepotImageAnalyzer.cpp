@@ -220,7 +220,7 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
 
     // split
     const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
-    const int bg_v_upper = static_cast<int>(task_ptr->special_threshold);
+    const int bg_v_upper = task_ptr->special_params.front();
     std::vector<cv::Range> contours;
     int i_right = bin.cols - 1, i_left = 0;
     bool in = false;

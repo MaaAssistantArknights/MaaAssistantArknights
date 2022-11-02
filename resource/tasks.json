@@ -1,28 +1,88 @@
 {
     "SlowlySwipeToTheLeft": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "action": "Swipe",
+        "specificRect": [
+            300,
+            310,
+            100,
+            100
+        ],
+        "specificRect_Doc": "滑动起点",
+        "rectMove": [
+            880,
+            310,
+            100,
+            100
+        ],
+        "rectMove_Doc": "滑动终点",
+        "specialParams": [
+            1000
+        ],
+        "specialParams_Doc": [
+            "滑动 duration",
+            "额外滑动？"
+        ],
         "next": [
             "#back"
         ]
     },
     "SlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheRight",
-        "next": [
-            "#back"
-        ]
-    },
-    "SwipeToTheRight": {
-        "algorithm": "JustReturn",
-        "action": "SwipeToTheRight",
+        "action": "Swipe",
+        "specificRect": [
+            880,
+            310,
+            100,
+            100
+        ],
+        "rectMove": [
+            300,
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
+            1000
+        ],
         "next": [
             "#back"
         ]
     },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
-        "action": "SwipeToTheLeft",
+        "action": "Swipe",
+        "specificRect": [
+            100,
+            310,
+            100,
+            100
+        ],
+        "rectMove": [
+            1080,
+            310,
+            100,
+            100
+        ],
+        "next": [
+            "#back"
+        ]
+    },
+    "SwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            1080,
+            310,
+            100,
+            100
+        ],
+        "rectMove": [
+            100,
+            310,
+            200,
+            100
+        ],
         "next": [
             "#back"
         ]
@@ -385,7 +445,7 @@
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "fullMatch": true,
         "text": [
             "1-8",
@@ -410,7 +470,7 @@
     },
     "SwipeRightToStage1-7": {
         "algorithm": "OcrDetect",
-        "action": "SlowlySwipeToTheRight",
+        "baseTask": "SlowlySwipeToTheRight",
         "fullMatch": true,
         "text": [
             "1-1",
@@ -524,7 +584,7 @@
     },
     "SwipeToStageNL-10": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageNL-10",
             "SwipeToStageNL-10"
@@ -532,7 +592,7 @@
     },
     "SwipeToStageNL-9": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageNL-9",
             "SwipeToStageNL-9"
@@ -540,7 +600,7 @@
     },
     "SwipeToStageNL-8": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageNL-8",
             "SwipeToStageNL-8"
@@ -755,7 +815,7 @@
     },
     "SwipeToStageIC-9": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageIC-9",
             "SwipeToStageIC-9"
@@ -763,7 +823,7 @@
     },
     "SwipeToStageIC-8": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageIC-8",
             "SwipeToStageIC-8"
@@ -771,7 +831,7 @@
     },
     "SwipeToStageIC-7": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageIC-7",
             "SwipeToStageIC-7"
@@ -894,7 +954,7 @@
     },
     "SwipeToStageDV-8": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-8",
             "SwipeToStageDV-8"
@@ -902,7 +962,7 @@
     },
     "SwipeToStageDV-7": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-7",
             "SwipeToStageDV-7"
@@ -910,7 +970,7 @@
     },
     "SwipeToStageDV-6": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageDV-6",
             "SwipeToStageDV-6"
@@ -1022,7 +1082,7 @@
     },
     "SwipeToStageLE-5": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageLE-5",
             "SwipeToStageLE-5"
@@ -1030,7 +1090,7 @@
     },
     "SwipeToStageLE-6": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageLE-6",
             "SwipeToStageLE-6"
@@ -1038,7 +1098,7 @@
     },
     "SwipeToStageLE-7": {
         "algorithm": "JustReturn",
-        "action": "SlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "next": [
             "StageLE-7",
             "SwipeToStageLE-7"
@@ -1359,7 +1419,6 @@
         ]
     },
     "UnableToAgent": {
-        "action": "SwipeToTheLeft",
         "roi": [
             994,
             535,
@@ -1367,7 +1426,7 @@
             143
         ],
         "next": [
-            "Stage"
+            "Stage@SwipeToTheLeft"
         ]
     },
     "ResourceStageLevel5": {
@@ -1785,6 +1844,10 @@
             ],
             [
                 "野聚",
+                "野鬃"
+            ],
+            [
+                "野紫",
                 "野鬃"
             ],
             [
@@ -4010,8 +4073,10 @@
     "InfrastSkills": {
         "template": "empty.png",
         "templThreshold": 0.85,
-        "specialThreshold": 95,
-        "specialThreshold_Doc": "用于做灰度图平均值",
+        "specialParams": [
+            95
+        ],
+        "specialParams_Doc": "用于做灰度图平均值",
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             -8,
@@ -4024,82 +4089,30 @@
             255
         ]
     },
-    "InfrastOperListSwipeBegin": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1080,
-            200,
-            100,
-            300
-        ],
-        "preDelay": 1000,
-        "postDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
-    },
-    "InfrastOperListSwipeEnd": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            700,
-            200,
-            100,
-            300
-        ]
-    },
-    "ProcessTaskSlowlySwipeRightRect": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            780,
-            200,
-            100,
-            300
-        ],
-        "preDelay": 1500,
-        "postDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
-    },
-    "ProcessTaskSlowlySwipeLeftRect": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            300,
-            200,
-            100,
-            300
-        ]
-    },
-    "InfrastOperListSwipeToTheLeftBegin": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1080,
-            200,
-            200,
-            300
-        ],
-        "preDelay": 300,
-        "postDelay": 1000,
-        "maxTimes": 2,
-        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
-    },
-    "InfrastOperListSwipeToTheLeftEnd": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+    "OperListSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
         "specificRect": [
             400,
-            200,
-            200,
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
             300
         ]
+    },
+    "SleepAfterOperListSwipe": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000
     },
     "InfrastOperMoodProgressBar": {
         "template": "empty.png",
         "templThreshold_Doc": "这里的templThreshold，作为进度条最小灰度阈值使用",
         "templThreshold": 160,
-        "specialThreshold_Doc": "这里的specialThreshold作为进度条相邻点最大变化阈值使用",
-        "specialThreshold": 20,
+        "specialParams": [
+            20
+        ],
+        "specialParams_Doc": "作为进度条相邻点最大变化阈值使用",
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
             21,
@@ -4874,30 +4887,6 @@
             0,
             480,
             720
-        ]
-    },
-    "InfrastClueOnTheRightSwipeBegin": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            900,
-            600,
-            300,
-            100
-        ],
-        "preDelay": 500,
-        "postDelay": 500,
-        "maxTimes": 1,
-        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
-    },
-    "InfrastClueOnTheRightSwipeEnd": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            900,
-            200,
-            300,
-            100
         ]
     },
     "InfrastClueSelfMaybeFull": {
@@ -5834,8 +5823,10 @@
     },
     "BattleOperAvailable": {
         "template": "empty.png",
-        "specialThreshold": 100,
-        "specialThreshold_Doc": "用于做V通道平均值阈值",
+        "specialParams": [
+            100
+        ],
+        "specialParams_Doc": "用于做V通道平均值阈值",
         "rectMove": [
             0,
             0,
@@ -5845,8 +5836,10 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
-        "specialThreshold": 1000,
-        "specialThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "specialParams": [
+            1000
+        ],
+        "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
             -45,
             6,
@@ -6203,8 +6196,10 @@
         ],
         "templThreshold": 17,
         "templThreshold_Doc": "这里用来作为基线间距阈值",
-        "specialThreshold": 100,
-        "specialThreshold_Doc": "基线长度阈值（不小于100）",
+        "specialParams": [
+            100
+        ],
+        "specialParams_Doc": "基线长度阈值（不小于100）",
         "maskRange": [
             70,
             255
@@ -6404,8 +6399,10 @@
         "template": "empty.png",
         "templThreshold": 5,
         "templThreshold_Doc": "这里用来作为字间距阈值",
-        "specialThreshold": 120,
-        "specialThreshold_Doc": "背景色亮度值上限",
+        "specialParams": [
+            120
+        ],
+        "specialParams_Doc": "背景色亮度值上限",
         "roi": [
             36,
             69,
@@ -6423,29 +6420,6 @@
             35,
             125,
             255
-        ]
-    },
-    "DepotTaskSlowlySwipeRightRect": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            780,
-            200,
-            100,
-            300
-        ],
-        "preDelay": 1500,
-        "postDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
-    },
-    "DepotTaskSlowlySwipeLeftRect": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            300,
-            200,
-            100,
-            300
         ]
     },
     "DepotBegin": {
@@ -8717,56 +8691,62 @@
         ],
         "templThreshold": 0.9
     },
-    "RoguelikeRecruitSlowlySwipeLeftRect": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            560,
-            200,
-            100,
-            300
-        ]
-    },
-    "RoguelikeRecruitSlowlySwipeRightRect": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            980,
-            200,
-            100,
-            300
-        ],
-        "preDelay": 1500,
-        "postDelay": 300,
-        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用"
-    },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
         "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
         "maxTimes": 4
     },
-    "RoguelikeRecruitSwipeToTheLeftBegin": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+    "RoguelikeRecruitOperListSwipeToTheLeft": {
+        "baseTask": "OperListSwipeToTheLeft",
         "specificRect": [
-            1080,
-            200,
-            200,
-            300
-        ],
-        "preDelay": 300,
-        "postDelay": 1000,
-        "maxTimes": 2,
-        "Doc": "这里的preDelay作为滑动duration使用，postDelay作为滑动额外延时使用，maxTimes作为重复次数使用"
+            560,
+            310,
+            100,
+            100
+        ]
     },
-    "RoguelikeRecruitSwipeToTheLeftEnd": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
+    "OperListSlowlySwipeToTheLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
             400,
-            200,
-            200,
-            300
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
+            1500,
+            1
+        ]
+    },
+    "OperListSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "rectMove": [
+            400,
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
+            1500,
+            1
+        ]
+    },
+    "RoguelikeRecruitOperListSlowlySwipeToTheLeft": {
+        "baseTask": "OperListSlowlySwipeToTheLeft",
+        "specificRect": [
+            560,
+            310,
+            100,
+            100
+        ]
+    },
+    "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
+        "baseTask": "OperListSlowlySwipeToTheRight",
+        "rectMove": [
+            560,
+            310,
+            100,
+            100
         ]
     },
     "RoguelikeSkillSelectionFlag": {

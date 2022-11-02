@@ -183,13 +183,10 @@ bool ProcessTask::_run()
             const Rect full_rect(0, 0, width, height);
             exec_click_task(full_rect);
         } break;
-        case ProcessTaskAction::SwipeToTheLeft:
-        case ProcessTaskAction::SwipeToTheRight:
-            exec_swipe_task(m_cur_task_ptr->action);
-            break;
-        case ProcessTaskAction::SlowlySwipeToTheLeft:
-        case ProcessTaskAction::SlowlySwipeToTheRight:
-            exec_slowly_swipe_task(m_cur_task_ptr->action);
+        case ProcessTaskAction::Swipe:
+            exec_swipe_task(m_cur_task_ptr->specific_rect, m_cur_task_ptr->rect_move,
+                            m_cur_task_ptr->special_params.empty() ? 0 : m_cur_task_ptr->special_params.at(0),
+                            (m_cur_task_ptr->special_params.size() < 2) ? false : m_cur_task_ptr->special_params.at(1));
             break;
         case ProcessTaskAction::DoNothing:
             break;
@@ -308,44 +305,7 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
     m_ctrler->click(matched_rect);
 }
 
-void asst::ProcessTask::exec_swipe_task(ProcessTaskAction action)
+void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe)
 {
-    const auto&& [width, height] = m_ctrler->get_scale_size();
-
-    const static Rect right_rect(static_cast<int>(width * 0.8), static_cast<int>(height * 0.4),
-                                 static_cast<int>(width * 0.1), static_cast<int>(height * 0.2));
-
-    const static Rect left_rect(static_cast<int>(width * 0.1), static_cast<int>(height * 0.4),
-                                static_cast<int>(width * 0.1), static_cast<int>(height * 0.2));
-
-    switch (action) {
-    case asst::ProcessTaskAction::SwipeToTheLeft:
-        m_ctrler->swipe(left_rect, right_rect);
-        break;
-    case asst::ProcessTaskAction::SwipeToTheRight:
-        m_ctrler->swipe(right_rect, left_rect);
-        break;
-    default: // 走不到这里，TODO 报个错
-        break;
-    }
-}
-
-void asst::ProcessTask::exec_slowly_swipe_task(ProcessTaskAction action)
-{
-    LogTraceFunction;
-    static Rect right_rect = Task.get("ProcessTaskSlowlySwipeRightRect")->specific_rect;
-    static Rect left_rect = Task.get("ProcessTaskSlowlySwipeLeftRect")->specific_rect;
-    static int duration = Task.get("ProcessTaskSlowlySwipeRightRect")->pre_delay;
-    static int extra_delay = Task.get("ProcessTaskSlowlySwipeRightRect")->post_delay;
-
-    switch (action) {
-    case asst::ProcessTaskAction::SlowlySwipeToTheLeft:
-        m_ctrler->swipe(left_rect, right_rect, duration, true, extra_delay, true);
-        break;
-    case asst::ProcessTaskAction::SlowlySwipeToTheRight:
-        m_ctrler->swipe(right_rect, left_rect, duration, true, extra_delay, true);
-        break;
-    default: // 走不到这里，TODO 报个错
-        break;
-    }
+    m_ctrler->swipe(r1, r2, duration, true, 0, extra_swipe);
 }
