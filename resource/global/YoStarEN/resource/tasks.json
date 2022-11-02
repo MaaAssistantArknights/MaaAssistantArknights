@@ -1,115 +1,31 @@
 {
     "StartButton1": {
-        "algorithm": "OcrDetect",
         "text": [
             "Start"
-        ],
-        "cache": false,
-        "preDelay": 500,
-        "roi": [
-            1000,
-            600,
-            280,
-            120
-        ],
-        "exceededNext": [
-            "StageSNReturnFlag",
-            "Stop"
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "OfflineConfirm",
-            "AnnihilationConfirm"
         ]
     },
-    "PRTS": {
-        "algorithm": "OcrDetect",
+    "PRTS2": {
         "text": [
             "Takeover"
-        ],
-        "roi": [
-            0,
-            500,
-            1280,
-            220
-        ],
-        "action": "DoNothing",
-        "postDelay": 5000,
-        "next": [
-            "PRTS",
-            "PRTS3",
-            "EndOfAction",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
         ]
     },
     "VisitNextOcr": {
-        "algorithm": "OcrDetect",
         "text": [
             "Visit Next"
-        ],
-        "action": "ClickSelf",
-        "roi": [
-            1080,
-            570,
-            195,
-            130
-        ],
-        "next": [
-            "VisitLimited",
-            "VisitNext",
-            "VisitNextBlack",
-            "VisitNextOcr"
         ]
     },
     "VisitLimited": {
-        "algorithm": "OcrDetect",
         "text": [
             "limit",
             "reached"
-        ],
-        "action": "DoNothing",
-        "roi": [
-            900,
-            50,
-            375,
-            140
-        ],
-        "next": [
-            "Home@ReturnTo"
         ]
     },
     "NoFriends": {
-        "algorithm": "OcrDetect",
         "text": [
             "No friends"
-        ],
-        "roi": [
-            650,
-            100,
-            300,
-            150
-        ],
-        "action": "DoNothing",
-        "next": [
-            "Home@ReturnTo"
         ]
     },
     "RecruitTags": {
-        "algorithm": "OcrDetect",
-        "fullMatch": true,
-        "text": [],
-        "roi": [
-            375,
-            360,
-            480,
-            120
-        ],
         "ocrReplace": [
             [
                 "Starter",
@@ -226,135 +142,27 @@
         ]
     },
     "Mall": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "text": [
             "Store"
-        ],
-        "roi": [
-            640,
-            360,
-            640,
-            360
-        ],
-        "next": [
-            "CreditStoreOcr",
-            "Mall",
-            "Mall@CloseAnno",
-            "Mall@TodaysSupplies"
         ]
     },
     "CreditStoreOcr": {
-        "algorithm": "OcrDetect",
         "text": [
             "Credit Store"
-        ],
-        "roi": [
-            1000,
-            0,
-            280,
-            300
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "CollectCredit",
-            "CreditStoreFailed",
-            "Stop"
         ]
     },
     "CreditShop-NoMoney": {
-        "algorithm": "OcrDetect",
         "text": [
             "Insufficient Credit",
             "Unable to"
-        ],
-        "roi": [
-            940,
-            60,
-            339,
-            110
-        ]
-    },
-    "Award": {
-        "template": "Task.png",
-        "action": "ClickSelf",
-        "roi": [
-            650,
-            500,
-            250,
-            170
-        ],
-        "next": [
-            "ReceiveAward",
-            "DailyTask",
-            "WeeklyTask",
-            "Award"
-        ]
-    },
-    "AwardFinished": {
-        "action": "Stop",
-        "roi": [
-            400,
-            0,
-            880,
-            150
-        ],
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "DailyTask": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            400,
-            0,
-            880,
-            150
-        ],
-        "next": [
-            "ReceiveAward",
-            "WeeklyTask"
-        ]
-    },
-    "WeeklyTask": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            400,
-            0,
-            880,
-            150
-        ],
-        "next": [
-            "ReceiveAward",
-            "Stop"
         ]
     },
     "Roguelike@StageTraderInvestSystemFull": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "reduceOtherTimes": [
-            "Roguelike@StageTraderInvestConfirm"
-        ],
         "text": [
             "Storage full"
-        ],
-        "roi": [
-            982,
-            28,
-            298,
-            289
-        ],
-        "next": [
-            "Roguelike@StageTraderInvestCancel"
         ]
     },
     "BattleStageName": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
             [
@@ -674,8 +482,6 @@
         ]
     },
     "CharsNameOcrReplace": {
-        "algorithm": "OcrDetect",
-        "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
         "ocrReplace": [
             [
@@ -1925,14 +1731,6 @@
         ]
     },
     "RoguelikeCustom-HijackSquad": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            0,
-            383,
-            1280,
-            142
-        ],
         "ocrReplace": [
             [
                 "Leader Squad",
@@ -1977,14 +1775,6 @@
         ]
     },
     "RoguelikeCustom-HijackRoles": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            54,
-            356,
-            1172,
-            183
-        ],
         "ocrReplace": [
             [
                 "As Your Heart Desires",
@@ -2013,14 +1803,6 @@
         ]
     },
     "RoguelikeCustom-HijackCoChar": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            186,
-            298,
-            913,
-            200
-        ],
         "ocrReplace": [
             [
                 "Caster",
@@ -2058,14 +1840,6 @@
         "preDelay": 1000
     },
     "RoguelikeTraderShoppingOcr": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            -120,
-            -160,
-            190,
-            35
-        ],
         "ocrReplace": [
             [
                 "Guard Promotion Voucher",
@@ -3198,73 +2972,24 @@
         ]
     },
     "StageDrops-DropType-ExpAndLMB": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            2,
-            0,
-            25
-        ],
-        "Doc": "roi 只用到了 y 和 height"
+        "templThreshold": 0.7
     },
     "StageDrops-DropType-Normal": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            2,
-            0,
-            25
-        ],
-        "Doc": "roi 只用到了 y 和 height"
+        "templThreshold": 0.7
     },
     "StageDrops-DropType-Extra": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            2,
-            0,
-            25
-        ],
-        "Doc": "roi 只用到了 y 和 height"
+        "templThreshold": 0.7
     },
     "StageDrops-DropType-Furniture": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            2,
-            0,
-            25
-        ],
-        "Doc": "roi 只用到了 y 和 height"
+        "templThreshold": 0.7
     },
     "StageDrops-DropType-Special": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            2,
-            0,
-            25
-        ],
-        "Doc": "roi 只用到了 y 和 height"
+        "templThreshold": 0.7
     },
     "StageDrops-DropType-Sanity": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            2,
-            0,
-            25
-        ],
-        "Doc": "roi 只用到了 y 和 height"
+        "templThreshold": 0.7
     },
     "StageDrops-DropType-Reward": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            2,
-            0,
-            25
-        ],
-        "Doc": "roi 只用到了 y 和 height"
+        "templThreshold": 0.7
     }
 }
