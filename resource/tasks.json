@@ -5619,7 +5619,41 @@
             232,
             374
         ],
-        "postDelay": 2000
+        "postDelay": 2000,
+        "next": [
+            "SkipThePreBattlePlot",
+            "BattleStart",
+            "Stop"
+        ]
+    },
+    "SkipThePreBattlePlot": {
+        "action": "ClickSelf",
+        "roi": [
+            1096,
+            0,
+            182,
+            131
+        ],
+        "next": [
+            "SkipThePreBattlePlotConfirm"
+        ],
+        "maskRange": [
+            100,
+            255
+        ]
+    },
+    "SkipThePreBattlePlotConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            721,
+            390,
+            149,
+            144
+        ],
+        "maskRange": [
+            100,
+            255
+        ]
     },
     "BattleStartNormal": {
         "baseTask": "BattleStart"
