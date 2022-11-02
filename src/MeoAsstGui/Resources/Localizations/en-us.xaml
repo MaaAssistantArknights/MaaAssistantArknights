@@ -58,7 +58,7 @@
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
 
-    <system:String x:Key="RoguelikeStrategyCandle">Get candles, pass levels as more as possible</system:String>
+    <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, pass stages as more as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Deposit coins, exit after arriving at the second level</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>

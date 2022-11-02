@@ -58,7 +58,7 @@
     <system:String x:Key="DormThreshold">🕺🍸🍺🍺🍺🍸🍻🍸🍻</system:String>
     <system:String x:Key="InfrastThresholdTip">🕺🍺🍻🕺🍸🍷🍻🍸🍺💃🍺🕺🕺🍸🍻🍸🍻🍸🍷🍸🍸🍻🍻🍻🍺🍺🍷🕺🍺🍻🍸</system:String>
 
-    <system:String x:Key="RoguelikeStrategyCandle">🍷🍺💃🍷🍷🍻🍷🕺💃🍸🍺🍷🍻🍷💃🍸</system:String>
+    <system:String x:Key="RoguelikeStrategyExp">🍷🍺💃🍷🍷🍻🍷🕺💃🍸🍺🍷🍻🍷💃🍸</system:String>
     <system:String x:Key="RoguelikeStrategyGold">🍺🍷🍸🍷🍻🕺🍻🍺🍷🍻🍺🍺🍻🕺🍸🍷</system:String>
     <system:String x:Key="StartingSquad">🍸🍷💃🍸🍺</system:String>
     <system:String x:Key="StartingRoles">🍷🍻🍺🍷🍻🍺</system:String>

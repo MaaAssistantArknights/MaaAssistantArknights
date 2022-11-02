@@ -58,7 +58,7 @@
     <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
 
-    <system:String x:Key="RoguelikeStrategyCandle">통합전략: 촛불 우선</system:String>
+    <system:String x:Key="RoguelikeStrategyExp">통합전략: 등급 우선</system:String>
     <system:String x:Key="RoguelikeStrategyGold">통합전략: 오리지늄 주괴 우선</system:String>
     <system:String x:Key="StartingSquad">시동 분대</system:String>
     <system:String x:Key="StartingRoles">시동 프로팀</system:String>

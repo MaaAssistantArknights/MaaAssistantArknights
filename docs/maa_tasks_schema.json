@@ -29,6 +29,12 @@
                 "type": "number"
             }
         },
+        "ParamsArray": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
+        },
         "TaskNameList": {
             "type": "array",
             "items": {
@@ -44,7 +50,7 @@
                 },
                 "action": {
                     "type": "string",
-                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|SwipeToTheLeft|SwipeToTheRight",
+                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe",
                     "default": "DoNothing",
                     "description": "可选项，表示识别到后的动作\n不填写时默认为 DoNothing"
                 },
@@ -92,7 +98,7 @@
                 },
                 "rectMove": {
                     "$ref": "#/definitions/Rectangle",
-                    "description": "可选项，识别后的目标移动，不建议使用该选项。以 1280 * 720 为基准自动缩放\n例如识别到了 A 图标，但实际要点击的是 A 图标旁边的某个位置，则进行移动后再点击。可以的话尽量直接识别要点击的位置，不建议使用该选项"
+                    "description": "可选项，识别后的目标移动，不建议使用该选项。以 1280 * 720 为基准自动缩放\n例如识别到了 A 图标，但实际要点击的是 A 图标旁边的某个位置，则进行移动后再点击。可以的话尽量直接识别要点击的位置，不建议使用该选项\n当 action 为 Swipe 时表示滑动终点"
                 },
                 "reduceOtherTimes": {
                     "type": "array",
@@ -104,7 +110,11 @@
                 },
                 "specificRect": {
                     "$ref": "#/definitions/Rectangle",
-                    "description": "仅当 action 为 ClickRect 时有效且必选，表示指定的点击位置（范围内随机一点）。以 1280 * 720 为基准自动缩放"
+                    "description": "当 action 为 ClickRect 时有效且必选，表示指定的点击位置（范围内随机一点），以 1280 * 720 为基准自动缩放\n当 action 为 Swipe 时有效且必现，表示滑动起点"
+                },
+                "specialParams": {
+                    "$ref": "#/definitions/ParamsArray",
+                    "description": "某些任务使用的特殊参数（大部分是手写阈值等）"
                 }
             }
         },
