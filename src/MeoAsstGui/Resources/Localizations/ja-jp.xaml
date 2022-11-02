@@ -233,7 +233,7 @@
     <system:String x:Key="DefaultStage">現在/前回</system:String>
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
-    <system:String x:Key="ClosedStage">イベント終了</system:String>
+    <system:String x:Key="ClosedStage">イベントは未公開か既に終了</system:String>
     <!--  動作不明  -->
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5(CE-6)</system:String>
