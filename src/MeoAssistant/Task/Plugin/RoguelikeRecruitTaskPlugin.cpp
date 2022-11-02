@@ -132,7 +132,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(oper_info.name);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(
+                m_status->get_properties(RuntimeStatus::RoguelikeTheme).value(), oper_info.name);
             if (recruit_info.name.empty()) {
                 continue;
             }
@@ -184,7 +185,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         }
                     }
                     role_num = team_roles[oper_role];
-                    const auto role_info = RoguelikeRecruit.get_role_info(oper_role);
+                    const auto role_info = RoguelikeRecruit.get_role_info(
+                        m_status->get_properties(RuntimeStatus::RoguelikeTheme).value(), oper_role);
                     for (const auto& offset_pair : ranges::reverse_view(role_info)) {
                         if (role_num >= offset_pair.first) {
                             priority += offset_pair.second;

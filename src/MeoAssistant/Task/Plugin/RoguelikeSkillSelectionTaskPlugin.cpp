@@ -47,10 +47,12 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     int delay = Task.get("RoguelikeSkillSelectionMove1")->post_delay;
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
-        if (name.empty()) {
+        const auto& oper_info =
+            RoguelikeRecruit.get_oper_info(m_status->get_properties(RuntimeStatus::RoguelikeTheme).value(), name);
+        if (oper_info.name.empty()) {
+            Log.warn("Unknown oper", name);
             continue;
         }
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(name);
 
         if (oper_info.alternate_skill > 0) {
             Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);

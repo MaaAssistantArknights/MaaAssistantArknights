@@ -27,23 +27,24 @@ namespace asst
         BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
         BattleSkillUsage alternate_skill_usage = BattleSkillUsage::Possibly;
     };
+
     class RoguelikeRecruitConfiger final : public SingletonHolder<RoguelikeRecruitConfiger>, public AbstractConfiger
     {
     public:
         virtual ~RoguelikeRecruitConfiger() override = default;
 
-        const RoguelikeOperInfo& get_oper_info(const std::string& name) const noexcept;
-        const std::vector<std::pair<int, int>> get_role_info(const BattleRole& role) const noexcept;
-        const auto& get_oper_order() const noexcept { return m_ordered_all_opers_name; }
+        const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) const noexcept;
+        const std::vector<std::pair<int, int>> get_role_info(const std::string& theme,
+                                                             const BattleRole& role) const noexcept;
 
     protected:
         virtual bool parse(const json::value& json) override;
 
         void clear();
 
-        std::unordered_map<std::string, RoguelikeOperInfo> m_all_opers;
-        std::unordered_map<BattleRole, std::vector<std::pair<int, int>>> m_role_offset_map;
-        std::vector<std::string> m_ordered_all_opers_name;
+        std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
+        std::unordered_map<std::string, std::unordered_map<BattleRole, std::vector<std::pair<int, int>>>>
+            m_role_offset_map;
     };
 
     inline static auto& RoguelikeRecruit = RoguelikeRecruitConfiger::get_instance();
