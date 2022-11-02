@@ -47,6 +47,6 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets a value indicating whether the activity is expired
         /// </summary>
-        public bool IsExpired => DateTime.UtcNow >= UtcExpireTime && DateTime.UtcNow <= UtcStartTime;
+        public bool IsExpired => DateTime.UtcNow >= UtcExpireTime || DateTime.UtcNow <= UtcStartTime;
     }
 }
