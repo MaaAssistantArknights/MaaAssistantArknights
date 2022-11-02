@@ -222,4 +222,7 @@ namespace asst
     };
 
     using BattleAttackRange = std::vector<Point>;
+
+    static constexpr std::string_view RoguelikePhantomThemeName = "Phantom";
+    static constexpr std::string_view RoguelikeMizukiThemeName = "Mizuki";
 } // namespace asst
