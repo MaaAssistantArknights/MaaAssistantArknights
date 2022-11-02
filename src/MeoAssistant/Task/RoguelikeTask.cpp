@@ -12,6 +12,7 @@
 #include "RuntimeStatus.h"
 #include "Sub/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/AsstBattleDef.h"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
@@ -38,21 +39,24 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
 
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
+    std::string theme = params.get("theme", std::string(RoguelikePhantomThemeName));
+    if (theme != RoguelikePhantomThemeName && theme != RoguelikeMizukiThemeName) {
+        Log.error("Unknown roguelike theme", theme);
+        return false;
+    }
+
+    if (m_status == nullptr) {
+        m_roguelike_task_ptr->set_tasks({ "Stop" });
+        Log.error(__FUNCTION__, "m_status is null");
+        return false;
+    }
+    m_status->set_properties(RuntimeStatus::RoguelikeTheme, theme);
+    m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
+
     // 0 - 刷蜡烛，尽可能稳定地打更多层数
     // 1 - 刷源石锭，第一层投资完就退出
     // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略（TODO）
-
-    std::string theme = params.get("theme", "Phantom");
-    if (m_status == nullptr) {
-        m_roguelike_task_ptr->set_tasks({ "Stop" });
-        Log.error(__FUNCTION__, "| Cannot set roguelike name!");
-        return false;
-    }
-    m_status->set_properties(RuntimeStatus::RoguelikeTheme, theme);
-    theme += "@";
-    m_roguelike_task_ptr->set_tasks({ theme + "Roguelike@Begin" });
-
     int mode = params.get("mode", 0);
     switch (mode) {
     case 0:
@@ -63,8 +67,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         break;
     case 2:
+        [[unlikely]]
         m_debug_task_ptr->set_enable(true);
-        [[unlikely]] m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
         break;
     default:
         Log.error(__FUNCTION__, "| Unknown mode", mode);
@@ -72,7 +77,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     int number_of_starts = params.get("starts_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit(theme + "Roguelike@StartExplore", number_of_starts);
+    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
 
     bool investment_enabled = params.get("investment_enabled", true);
     if (!investment_enabled) {
