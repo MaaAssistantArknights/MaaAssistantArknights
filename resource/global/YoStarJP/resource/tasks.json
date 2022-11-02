@@ -1,105 +1,30 @@
 {
     "StartButton1": {
-        "algorithm": "OcrDetect",
         "text": [
             "行動開始"
-        ],
-        "cache": false,
-        "preDelay": 500,
-        "roi": [
-            1000,
-            600,
-            280,
-            120
-        ],
-        "exceededNext": [
-            "StageSNReturnFlag",
-            "Stop"
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "OfflineConfirm",
-            "AnnihilationConfirm"
         ]
     },
-    "PRTS": {
-        "algorithm": "OcrDetect",
+    "PRTS3": {
         "text": [
             "残り配置可能数"
-        ],
-        "roi": [
-            0,
-            500,
-            1280,
-            220
-        ],
-        "action": "DoNothing",
-        "postDelay": 5000,
-        "next": [
-            "PRTS",
-            "PRTS3",
-            "EndOfAction",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
         ]
     },
     "VisitNextOcr": {
-        "algorithm": "OcrDetect",
         "text": [
             "次を訪問"
-        ],
-        "action": "ClickSelf",
-        "roi": [
-            1080,
-            570,
-            195,
-            130
-        ],
-        "next": [
-            "VisitLimited",
-            "VisitNext",
-            "VisitNextBlack",
-            "VisitNextOcr"
         ]
     },
     "VisitLimited": {
-        "algorithm": "OcrDetect",
         "text": [
             "上限",
             "達しました",
             "Fpは入手できません",
             "再訪問の場合"
-        ],
-        "action": "DoNothing",
-        "roi": [
-            900,
-            50,
-            375,
-            140
-        ],
-        "next": [
-            "Home@ReturnTo"
         ]
     },
     "NoFriends": {
-        "algorithm": "OcrDetect",
         "text": [
             "戦友があリませれ"
-        ],
-        "roi": [
-            650,
-            100,
-            300,
-            150
-        ],
-        "action": "DoNothing",
-        "next": [
-            "Home@ReturnTo"
         ]
     },
     "StageDrops-Quantity": {
@@ -118,15 +43,6 @@
         ]
     },
     "RecruitTags": {
-        "algorithm": "OcrDetect",
-        "fullMatch": true,
-        "text": [],
-        "roi": [
-            375,
-            360,
-            480,
-            120
-        ],
         "ocrReplace": [
             [
                 "初期",
@@ -243,116 +159,22 @@
         ]
     },
     "Mall": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "text": [
             "購買部"
-        ],
-        "roi": [
-            640,
-            360,
-            640,
-            360
-        ],
-        "next": [
-            "CreditStoreOcr",
-            "Mall",
-            "Mall@CloseAnno",
-            "Mall@TodaysSupplies"
         ]
     },
     "CreditStoreOcr": {
-        "algorithm": "OcrDetect",
         "text": [
             "FP交換所"
-        ],
-        "roi": [
-            1000,
-            0,
-            280,
-            300
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "CollectCredit",
-            "CreditStoreFailed",
-            "Stop"
         ]
     },
     "CreditShop-NoMoney": {
-        "algorithm": "OcrDetect",
         "text": [
             "足りません",
             "FＰが"
-        ],
-        "roi": [
-            940,
-            60,
-            339,
-            110
-        ]
-    },
-    "Award": {
-        "template": "Task.png",
-        "action": "ClickSelf",
-        "roi": [
-            650,
-            500,
-            250,
-            170
-        ],
-        "next": [
-            "ReceiveAward",
-            "DailyTask",
-            "WeeklyTask",
-            "Award"
-        ]
-    },
-    "AwardFinished": {
-        "action": "Stop",
-        "roi": [
-            400,
-            0,
-            880,
-            150
-        ],
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "DailyTask": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            400,
-            0,
-            880,
-            150
-        ],
-        "next": [
-            "ReceiveAward",
-            "WeeklyTask"
-        ]
-    },
-    "WeeklyTask": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            400,
-            0,
-            880,
-            150
-        ],
-        "next": [
-            "ReceiveAward",
-            "Stop"
         ]
     },
     "BattleStageName": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及肉鴿地圖名的日文识别任务复用",
         "ocrReplace": [
             [
@@ -555,17 +377,9 @@
                 "'Knights' Duel'",
                 "“骑士对决”"
             ]
-        ],
-        "roi": [
-            250,
-            435,
-            800,
-            100
         ]
     },
     "CharsNameOcrReplace": {
-        "algorithm": "OcrDetect",
-        "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的日文识别任务复用",
         "ocrReplace": [
             [
@@ -1907,8 +1721,6 @@
         ]
     },
     "NumberOcrReplace": {
-        "algorithm": "OcrDetect",
-        "text": [],
         "ocrReplace": [
             [
                 "o",
@@ -1933,289 +1745,36 @@
         ]
     },
     "GoLastBattle": {
-        "algorithm": "OcrDetect",
         "text": [
             "前回の参加作戦"
-        ],
-        "roi": [
-            916,
-            479,
-            249,
-            127
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "UsePrts-Annihilation",
-            "UsePrts",
-            "UsePrts-StageSN",
-            "StartButton1"
         ]
     },
     "StageThemeChapter3ToChapter2To1-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "text": [
             "幻滅"
-        ],
-        "roi": [
-            200,
-            120,
-            80,
-            32
         ]
     },
     "StageThemeChapter2ToChapter1To1-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "text": [
             "覚醒"
-        ],
-        "roi": [
-            200,
-            120,
-            80,
-            32
-        ]
-    },
-    "StagePR-A-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-A-1",
-            "PR-A-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
-        ]
-    },
-    "StagePR-A-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-A-2",
-            "PR-A-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
-        ]
-    },
-    "StagePR-B-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-B-1",
-            "PR-B-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
-        ]
-    },
-    "StagePR-B-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-B-2",
-            "PR-B-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
-        ]
-    },
-    "StagePR-C-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-C-1",
-            "PR-C-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
-        ]
-    },
-    "StagePR-C-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-C-2",
-            "PR-C-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
-        ]
-    },
-    "StagePR-D-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-D-1",
-            "PR-D-1"
-        ],
-        "roi": [
-            27,
-            260,
-            742,
-            400
-        ]
-    },
-    "StagePR-D-2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "Pr-D-2",
-            "PR-D-2"
-        ],
-        "roi": [
-            472,
-            0,
-            793,
-            502
-        ]
-    },
-    "StageCE5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "CE-5"
-        ],
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageLS5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "LS-5",
-            "L$-5"
-        ],
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageCA5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "CA-5"
-        ],
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "StageAP5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "AP-5"
-        ],
-        "roi": [
-            850,
-            140,
-            250,
-            220
-        ]
-    },
-    "CE-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheLeft",
-            "StageCE",
-            "StageCE5"
-        ]
-    },
-    "LS-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "StageResource",
-            "SwipeToTheLeft",
-            "StageLS",
-            "StageLS5"
         ]
     },
     "StartRecruit": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "postDelay": 500,
         "text": [
             "求人開始"
-        ],
-        "roi": [
-            0,
-            300,
-            1280,
-            420
         ]
     },
     "RecruitFlag": {
-        "algorithm": "OcrDetect",
         "text": [
             "公開求人"
-        ],
-        "roi": [
-            50,
-            100,
-            230,
-            100
-        ],
-        "action": "Stop"
+        ]
     },
     "RecruitNow": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "cache": false,
         "text": [
             "緊急招集"
-        ],
-        "roi": [
-            0,
-            300,
-            1280,
-            420
-        ],
-        "next": [
-            "RecruitNowConfirm"
         ]
     },
     "RoguelikeCustom-HijackSquad": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            0,
-            383,
-            1280,
-            142
-        ],
         "ocrReplace": [
             [
                 "指揮分隊",
@@ -2260,14 +1819,6 @@
         ]
     },
     "RoguelikeCustom-HijackRoles": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            54,
-            356,
-            1172,
-            183
-        ],
         "ocrReplace": [
             [
                 "自由自在",
@@ -2288,14 +1839,6 @@
         ]
     },
     "RoguelikeCustom-HijackCoChar": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            186,
-            298,
-            913,
-            200
-        ],
         "ocrReplace": [
             [
                 "術師",
@@ -2329,8 +1872,7 @@
                 "前衛",
                 "近卫"
             ]
-        ],
-        "preDelay": 1000
+        ]
     },
     "RoguelikeRecruitLevel": {
         "template": "empty.png",
@@ -2343,14 +1885,6 @@
         ]
     },
     "RoguelikeTraderShoppingOcr": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            -120,
-            -160,
-            190,
-            35
-        ],
         "ocrReplace": [
             [
                 "前衛昇進券",
