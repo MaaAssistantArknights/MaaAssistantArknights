@@ -32,14 +32,16 @@ namespace MeoAsstGui
         {
             var sideStory = new StageActivityInfo()
             {
-                Tip = "SideStory「长夜临光」复刻活动",
-                UtcExpireTime = new DateTime(2022, 10, 2, 4, 0, 0).AddHours(-8),
+                Tip = "SideStory「叙拉古人」活动",
+                UtcStartTime = new DateTime(2022, 11, 1, 16, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2022, 11, 22, 4, 0, 0).AddHours(-8),
                 IsResourceCollection = false,
             };
             var resourceCollection = new StageActivityInfo()
             {
-                Tip = "「夏日嘉年华」，“资源收集”限时全天开放",
-                UtcExpireTime = new DateTime(2022, 9, 8, 4, 0, 0).AddHours(-8),
+                Tip = "「感谢庆典」，“资源收集”限时全天开放",
+                UtcStartTime = new DateTime(2022, 11, 15, 16, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2022, 11, 29, 4, 0, 0).AddHours(-8),
                 IsResourceCollection = true,
             };
 
@@ -48,6 +50,11 @@ namespace MeoAsstGui
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
+
+                // SideStory「叙拉古人」活动
+                { "IS-8", new StageInfo { Display = "IS-8", Value = "IS-8", Activity = sideStory } },
+                { "IS-9", new StageInfo { Display = "IS-9", Value = "IS-9", Activity = sideStory } },
+                { "IS-10", new StageInfo { Display = "IS-10", Value = "IS-10", Activity = sideStory } },
 
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },

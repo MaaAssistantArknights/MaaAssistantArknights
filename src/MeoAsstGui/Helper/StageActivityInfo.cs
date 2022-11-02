@@ -31,6 +31,11 @@ namespace MeoAsstGui
         public DateTime UtcExpireTime { get; set; }
 
         /// <summary>
+        /// Gets or sets the activity UTC start time
+        /// </summary>
+        public DateTime UtcStartTime { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the activity is a resource collection activity
         /// </summary>
         /// <remarks>
@@ -42,6 +47,6 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets a value indicating whether the activity is expired
         /// </summary>
-        public bool IsExpired => DateTime.UtcNow >= UtcExpireTime;
+        public bool IsExpired => DateTime.UtcNow >= UtcExpireTime && DateTime.UtcNow <= UtcStartTime;
     }
 }
