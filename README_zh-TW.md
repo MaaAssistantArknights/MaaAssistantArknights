@@ -81,7 +81,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 韓服  
   支援基本的刷理智功能，請參考 [說明](resource/global/YoStarKR/readme.md)
 - 繁中服  
-  支援基本的刷理智、自動公招、公招辨識功能，請參考 [說明](resource/global/txwy/readme.md)
+  支援基本的刷理智、自動公招、自動肉鴿、領取日常、公招辨識功能，請參考 [說明](resource/global/txwy/readme.md)
 
 由於外服使用者較少及項目人手不足的問題，外服目前都僅適配了基本的功能。若您有強需求，歡迎在 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，~~或加入我們一起建設 MAA~~
 

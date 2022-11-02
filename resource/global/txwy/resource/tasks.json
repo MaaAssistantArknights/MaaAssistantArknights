@@ -1,229 +1,47 @@
 {
     "StartButton1": {
-        "algorithm": "OcrDetect",
         "text": [
             "開始行動"
-        ],
-        "cache": false,
-        "preDelay": 500,
-        "roi": [
-            1000,
-            600,
-            280,
-            120
-        ],
-        "exceededNext": [
-            "StageSNReturnFlag",
-            "Stop"
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "OfflineConfirm",
-            "AnnihilationConfirm"
         ]
     },
-    "PRTS": {
-        "algorithm": "OcrDetect",
+    "PRTS3": {
         "text": [
             "可放置角色"
-        ],
-        "roi": [
-            0,
-            500,
-            1280,
-            220
-        ],
-        "action": "DoNothing",
-        "postDelay": 5000,
-        "next": [
-            "PRTS",
-            "PRTS3",
-            "EndOfAction",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
-        ]
-    },
-    "EndOfAction": {
-        "Doc": "This task registered the StageDropsTaskPlugin",
-        "roi": [
-            791,
-            410,
-            296,
-            145
-        ],
-        "action": "DoNothing",
-        "next": [
-            "ClickCorner"
         ]
     },
     "RecruitFlag": {
-        "algorithm": "OcrDetect",
         "text": [
             "公開招募"
-        ],
-        "roi": [
-            50,
-            100,
-            230,
-            100
-        ],
-        "action": "Stop"
+        ]
     },
-    "Recruit@TodaysSupplies": {
-        "algorithm": "OcrDetect",
+    "TodaysSupplies": {
         "text": [
             "今日配給"
-        ],
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            1,
-            270,
-            340
-        ],
-        "roi": [
-            500,
-            50,
-            300,
-            150
-        ],
-        "next": [
-            "Recruit@CloseAnno",
-            "Recruit@Main"
         ]
     },
-    "RecruitBeginLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
+    "Loading": {
         "text": [
             "正在提交",
             "反饋至神經"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "RecruitBeginLoading",
-            "Recruit@Main",
-            "RecruitBegin"
-        ]
-    },
-    "RecruitFinishLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反饋至神經"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "RecruitFinishLoading",
-            "RecruitFinish",
-            "RecruitSkip",
-            "RecruitSkipWithoutButton"
         ]
     },
     "StartRecruit": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "postDelay": 500,
         "text": [
             "開始招"
-        ],
-        "roi": [
-            0,
-            300,
-            1280,
-            420
         ]
     },
     "RecruitNow": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "cache": false,
         "text": [
             "立即招"
-        ],
-        "roi": [
-            0,
-            300,
-            1280,
-            420
-        ],
-        "next": [
-            "RecruitNowConfirm"
         ]
     },
-    "RecruitLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反饋至神經"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "RecruitLoading",
-            "SleepThenStop"
-        ]
-    },
-    "RecruitConfirmLoading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反饋至神經"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [
-            "RecruitConfirmLoading",
-            "RecruitFlag"
-        ]
-    },
-    "FromIntegratedStrategies": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+    "Roguelike@FromIntegratedStrategies": {
         "text": [
             "進入主題"
-        ],
-        "roi": [
-            1006,
-            445,
-            246,
-            157
-        ],
-        "next": [
-            "FromIntegratedStrategies",
-            "Begin"
         ]
     },
     "RoguelikeRecruitLevel": {
-        "template": "empty.png",
-        "Doc": "日服的等级字体比国服大一圈，要改roi",
+        "Doc": "台服的等级字体比国服大一圈，要改roi",
         "roi": [
             -172,
             -1,
@@ -232,15 +50,6 @@
         ]
     },
     "RecruitTags": {
-        "algorithm": "OcrDetect",
-        "fullMatch": true,
-        "text": [],
-        "roi": [
-            375,
-            360,
-            480,
-            120
-        ],
         "ocrReplace": [
             [
                 "初期",
@@ -381,9 +190,6 @@
         ]
     },
     "BattleStageName": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的繁中识别任务复用",
         "ocrReplace": [
             [
@@ -654,17 +460,9 @@
                 "荒唐把戲",
                 "荒唐把戏"
             ]
-        ],
-        "roi": [
-            250,
-            435,
-            800,
-            100
         ]
     },
     "CharsNameOcrReplace": {
-        "algorithm": "OcrDetect",
-        "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
         "ocrReplace": [
             [
@@ -1353,15 +1151,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackSquad": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            0,
-            383,
-            1280,
-            142
-        ],
+    "RoguelikeCustom-HijackSquad": {
         "ocrReplace": [
             [
                 "指.*分.*",
@@ -1405,15 +1195,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackRoles": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            54,
-            356,
-            1172,
-            183
-        ],
+    "RoguelikeCustom-HijackRoles": {
         "ocrReplace": [
             [
                 "先手必勝",
@@ -1437,15 +1219,7 @@
             ]
         ]
     },
-    "Roguelike1Custom-HijackCoChar": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            186,
-            298,
-            913,
-            200
-        ],
+    "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
             [
                 "術師",
@@ -1479,18 +1253,9 @@
                 "近衛",
                 "近卫"
             ]
-        ],
-        "preDelay": 1000
+        ]
     },
     "RoguelikeTraderShoppingOcr": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            -120,
-            -160,
-            190,
-            35
-        ],
         "ocrReplace": [
             [
                 "近衛進階券",

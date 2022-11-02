@@ -93,7 +93,8 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     const auto& result = analyzer.get_result();
     bool bought = false;
-    for (const auto& goods : RoguelikeShopping.get_goods()) {
+    auto& all_goods = RoguelikeShopping.get_goods(m_status->get_properties(RuntimeStatus::RoguelikeTheme).value());
+    for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
         }

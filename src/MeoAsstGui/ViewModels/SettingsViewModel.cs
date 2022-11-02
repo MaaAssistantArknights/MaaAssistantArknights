@@ -172,7 +172,7 @@ namespace MeoAsstGui
 
             RoguelikeModeList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("RoguelikeStrategyCandle"), Value = "0" },
+                new CombData { Display = Localization.GetString("RoguelikeStrategyExp"), Value = "0" },
                 new CombData { Display = Localization.GetString("RoguelikeStrategyGold"), Value = "1" },
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用

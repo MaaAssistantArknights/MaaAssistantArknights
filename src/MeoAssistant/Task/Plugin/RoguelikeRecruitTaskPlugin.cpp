@@ -132,7 +132,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(oper_info.name);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(
+                m_status->get_properties(RuntimeStatus::RoguelikeTheme).value(), oper_info.name);
             if (recruit_info.name.empty()) {
                 continue;
             }
@@ -184,7 +185,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         }
                     }
                     role_num = team_roles[oper_role];
-                    const auto role_info = RoguelikeRecruit.get_role_info(oper_role);
+                    const auto role_info = RoguelikeRecruit.get_role_info(
+                        m_status->get_properties(RuntimeStatus::RoguelikeTheme).value(), oper_role);
                     for (const auto& offset_pair : ranges::reverse_view(role_info)) {
                         if (role_num >= offset_pair.first) {
                             priority += offset_pair.second;
@@ -232,7 +234,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 向右滑动
         Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
-        slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
+        slowly_swipe(false);
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
 
@@ -242,7 +244,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 如果划动过，先划回最左边
         if (i != 0) {
-            swipe_to_the_left_of_operlist(i / 3 + 1);
+            swipe_to_the_left_of_operlist(i / 2 + 1);
         }
 
         auto image = m_ctrler->get_image();
@@ -299,7 +301,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         is_rtl = (selected_oper->page_index * 2) >= i;
         if (!is_rtl) {
             // 从左往右需要先划回最左边
-            swipe_to_the_left_of_operlist(i / 3 + 1);
+            swipe_to_the_left_of_operlist(i / 2 + 1);
         }
     }
 
@@ -353,15 +355,15 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
 
         // 没识别到目标干员，可能不在这一页，继续划动
         if (is_rtl) {
-            slowly_swipe(ProcessTaskAction::SlowlySwipeToTheLeft);
+            slowly_swipe(true);
         }
         else {
-            slowly_swipe(ProcessTaskAction::SlowlySwipeToTheRight);
+            slowly_swipe(false);
         }
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
     Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
-    swipe_to_the_left_of_operlist(i / 3 + 1);
+    swipe_to_the_left_of_operlist(i / 2 + 1);
     return false;
 }
 
@@ -398,38 +400,18 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)
 {
-    LogTraceFunction;
-    static Rect begin_rect = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->specific_rect; // 1080, 200, 100, 300
-    static Rect end_rect = Task.get("RoguelikeRecruitSwipeToTheLeftEnd")->specific_rect;     // 400, 200, 100, 300
-    static int duration = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->pre_delay;
-    static int extra_delay = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->post_delay;
-    static int cfg_loop_times = Task.get("RoguelikeRecruitSwipeToTheLeftBegin")->max_times;
-
-    for (int i = 0; i != cfg_loop_times * loop_times; ++i) {
-        if (need_exit()) {
-            return;
-        }
-        m_ctrler->swipe(end_rect, begin_rect, duration, true, 0, false);
+    for (int i = 0; i != loop_times; ++i) {
+        ProcessTask(*this, { "RoguelikeRecruitOperListSwipeToTheLeft" }).run();
     }
-    sleep(extra_delay);
+    ProcessTask(*this, { "SleepAfterOperListSwipe" }).run();
 }
 
-void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(ProcessTaskAction action)
+void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left)
 {
-    LogTraceFunction;
-    static Rect right_rect = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->specific_rect; // 980, 200, 100, 300
-    static Rect left_rect = Task.get("RoguelikeRecruitSlowlySwipeLeftRect")->specific_rect;   // 560, 200, 100, 300
-    static int duration = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->pre_delay;
-    static int extra_delay = Task.get("RoguelikeRecruitSlowlySwipeRightRect")->post_delay;
-
-    switch (action) {
-    case asst::ProcessTaskAction::SlowlySwipeToTheLeft:
-        m_ctrler->swipe(left_rect, right_rect, duration, true, extra_delay, true);
-        break;
-    case asst::ProcessTaskAction::SlowlySwipeToTheRight:
-        m_ctrler->swipe(right_rect, left_rect, duration, true, extra_delay, true);
-        break;
-    default: // 走不到这里
-        break;
+    if (to_left) {
+        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheLeft" }).run();
+    }
+    else {
+        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
     }
 }

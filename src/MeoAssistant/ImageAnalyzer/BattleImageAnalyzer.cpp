@@ -246,7 +246,7 @@ bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
         }
     }
     Log.trace("oper_cooling_analyze |", count);
-    return count >= cooling_task_ptr->special_threshold;
+    return count >= cooling_task_ptr->special_params.front();
 }
 
 int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
@@ -306,7 +306,7 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
     cv::Scalar avg = cv::mean(hsv);
     Log.trace("oper available, mean", avg[2]);
 
-    static int thres = static_cast<int>(Task.get<MatchTaskInfo>("BattleOperAvailable")->special_threshold);
+    const int thres = Task.get("BattleOperAvailable")->special_params.front();
     if (avg[2] < thres) {
         return false;
     }

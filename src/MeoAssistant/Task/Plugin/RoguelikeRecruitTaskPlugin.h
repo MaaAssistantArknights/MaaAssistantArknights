@@ -26,7 +26,7 @@ namespace asst
         // 滑动到干员列表的最左侧
         void swipe_to_the_left_of_operlist(int loop_times = 1);
         // 缓慢向干员列表的左侧/右侧滑动
-        void slowly_swipe(ProcessTaskAction action);
+        void slowly_swipe(bool to_left);
 
     private:
         bool check_core_char();

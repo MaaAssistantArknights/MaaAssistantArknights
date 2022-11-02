@@ -23,14 +23,14 @@ namespace asst
     public:
         virtual ~RoguelikeShoppingConfiger() override = default;
 
-        const auto& get_goods() const noexcept { return m_goods; }
+        const auto& get_goods(const std::string& theme) const noexcept {return m_goods.at(theme); }
 
     private:
         virtual bool parse(const json::value& json) override;
 
         void clear();
 
-        std::vector<RoguelikeGoods> m_goods;
+        std::unordered_map<std::string, std::vector<RoguelikeGoods>> m_goods;
     };
 
     inline static auto& RoguelikeShopping = RoguelikeShoppingConfiger::get_instance();
