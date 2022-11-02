@@ -188,7 +188,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\ErrorView.xaml.cs" />
+    <Compile Include="ViewModels\ErrorView.xaml.cs" />
     <Page Include="Resources\Localizations\ko-kr.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

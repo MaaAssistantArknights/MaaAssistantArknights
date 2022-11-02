@@ -39,7 +39,7 @@ bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
             goods.no_longer_buy = goods_json.get("no_longer_buy", false);
             goods.ignore_no_longer_buy = goods_json.get("ignore_no_longer_buy", false);
 
-            m_goods.at(theme).emplace_back(std::move(goods));
+            m_goods[theme].emplace_back(std::move(goods));
         }
     }
     return true;
