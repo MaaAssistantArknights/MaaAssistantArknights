@@ -194,18 +194,20 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
                     Log.error("Task", task, "not found");
                     return false;
                 }
-                ASST_TASKDATA_GENERATE_TASKS(next)
-                ASST_TASKDATA_GENERATE_TASKS(sub)
-                ASST_TASKDATA_GENERATE_TASKS(on_error_next)
-                ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
-                ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
-                else if (type == "back")
-                {
+                else if (type == "back") {
                     // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
                     if (pos) {
                         new_task_list.emplace_back(task.substr(0, pos));
                     }
                 }
+                else if (type == "self") {
+                    new_task_list.emplace_back(name);
+                }
+                ASST_TASKDATA_GENERATE_TASKS(next)
+                ASST_TASKDATA_GENERATE_TASKS(sub)
+                ASST_TASKDATA_GENERATE_TASKS(on_error_next)
+                ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
+                ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
                 else [[unlikely]]
                 {
                     Log.error("Unknown type", type, "in", task);
