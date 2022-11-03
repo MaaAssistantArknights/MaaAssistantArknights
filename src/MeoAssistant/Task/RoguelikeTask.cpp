@@ -11,8 +11,8 @@
 #include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
 #include "RuntimeStatus.h"
 #include "Sub/ProcessTask.h"
-#include "Utils/Logger.hpp"
 #include "Utils/AsstBattleDef.h"
+#include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_arg)
     : PackageTask(callback, callback_arg, TaskType),
@@ -66,8 +66,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_debug_task_ptr->set_enable(false);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         break;
-    case 2:
-        [[unlikely]]
+    [[unlikely]] case 2:
         m_debug_task_ptr->set_enable(true);
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
         break;
