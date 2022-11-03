@@ -3669,7 +3669,7 @@
         ],
         "next": [
             "CreditShop-Bought",
-            "CreditShop-BuyIt@Loading",
+            "CreditShop-Bought@Loading",
             "CreditShop-NoMoney"
         ]
     },
