@@ -109,6 +109,20 @@
         "algorithm": "JustReturn",
         "next": [
             "ClickStageName",
+            "FullStageNavigation"
+        ]
+    },
+    "FullStageNavigation": {
+        "Doc": "右滑五次，然后检测关卡并左滑",
+        "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
+        "baseTask": "SwipeToTheRight",
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5,
+        "postDelay": 0,
+        "exceededNext": [
+            "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
         ]
     },
@@ -127,7 +141,7 @@
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
         "next": [
-            "StageNavigationBegin#next"
+            "FullStageNavigation"
         ],
         "exceededNext": [
             "Home@ReturnTo"
@@ -139,7 +153,7 @@
         "action": "DoNothing",
         "next": [
             "ClickedCorrectStage",
-            "StageNavigationSlowlySwipeLeft"
+            "FullStageNavigation"
         ]
     },
     "ClickedCorrectStage": {

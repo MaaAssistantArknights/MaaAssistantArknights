@@ -48,12 +48,6 @@ bool asst::StageNavigationTask::chapter_wayfinding()
 bool asst::StageNavigationTask::swipe_and_find_stage()
 {
     LogTraceFunction;
-
-    ProcessTask to_right(*this, { "SwipeToTheRight" });
-    for (int i = 0; i < 5; ++i) {
-        to_right.run();
-    }
-
     std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(m_stage_name + "@ClickStageName"))->text = { m_stage_name };
     std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(m_stage_name + "@ClickedCorrectStage"))->text = { m_stage_name };
     return ProcessTask(*this, { m_stage_name + "@StageNavigationBegin" }).run();
