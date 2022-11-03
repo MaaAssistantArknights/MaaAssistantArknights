@@ -33,14 +33,14 @@ bool asst::StageNavigationTask::chapter_wayfinding()
     static const std::regex EpisodeRegex(R"(^[A-Z]*(\d+)-\d+$)");
     std::smatch episode_sm;
     if (!std::regex_match(m_stage_name, episode_sm, EpisodeRegex)) {
-        Log.error("Unkown stage", m_stage_name);
+        Log.error("Unknown stage", m_stage_name);
         return false;
     }
 
     static const std::string EpisodeTaskPrefix = "Episode";
     std::string episode_task_name = EpisodeTaskPrefix + episode_sm[1].str();
 
-    Log.info("capter name", episode_task_name);
+    Log.info("chapter name", episode_task_name);
 
     return Task.get(episode_task_name) && ProcessTask(*this, { episode_task_name }).run();
 }
