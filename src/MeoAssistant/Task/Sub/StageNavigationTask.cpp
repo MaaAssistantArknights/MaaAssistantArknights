@@ -54,17 +54,7 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
         to_right.run();
     }
 
-    auto task_ptr = Task.get("EpisodeStageNameOcr");
-    for (int i = 0; i < task_ptr->max_times; ++i) {
-        OcrImageAnalyzer analyzer(m_ctrler->get_image());
-        analyzer.set_task_info(task_ptr);
-        analyzer.set_required({ m_stage_name });
-        analyzer.set_use_char_model(true);
-        if (analyzer.analyze()) {
-            m_ctrler->click(analyzer.get_result().front().rect);
-            return true;
-        }
-        ProcessTask(*this, { "SlowlySwipeToTheLeft" }).run();
-    }
-    return false;
+    std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(m_stage_name + "@ClickStageName"))->text = { m_stage_name };
+    std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(m_stage_name + "@ClickedCorrectStage"))->text = { m_stage_name };
+    return ProcessTask(*this, { m_stage_name + "@StageNavigationBegin" }).run();
 }
