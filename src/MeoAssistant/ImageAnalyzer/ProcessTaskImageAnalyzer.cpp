@@ -76,6 +76,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
     }
     m_ocr_analyzer->set_region_of_appeared(Rect());
     m_ocr_analyzer->set_task_info(ocr_task_ptr);
+    m_ocr_analyzer->set_use_char_model(ocr_task_ptr->is_ascii);
     auto region_opt = m_status->get_rect(ocr_task_ptr->name);
     if (region_opt) {
         m_ocr_analyzer->set_region_of_appeared(region_opt.value());

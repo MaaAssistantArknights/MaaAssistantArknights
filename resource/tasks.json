@@ -116,6 +116,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "fullMatch": true,
+        "isAscii": true,
         "cache": false,
         "text": [],
         "next": [
@@ -145,6 +146,7 @@
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "fullMatch": true,
+        "isAscii": true,
         "cache": false,
         "text": [],
         "roi": [
