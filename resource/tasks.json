@@ -54,6 +54,7 @@
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 100,
         "specificRect": [
             100,
             310,
@@ -74,6 +75,7 @@
     "SwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 100,
         "specificRect": [
             1080,
             310,
@@ -103,11 +105,54 @@
             "SwipeRightToStage1-7"
         ]
     },
-    "EpisodeStageNameOcr": {
+    "StageNavigationBegin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "ClickStageName",
+            "StageNavigationSlowlySwipeLeft"
+        ]
+    },
+    "ClickStageName": {
         "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "fullMatch": true,
+        "cache": false,
         "text": [],
+        "next": [
+            "ClickedCorrectStageOrSwipe",
+            "#self"
+        ]
+    },
+    "StageNavigationSlowlySwipeLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "next": [
+            "StageNavigationBegin#next"
+        ],
+        "exceededNext": [
+            "Home@ReturnTo"
+        ],
         "maxTimes": 10
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "baseTask": "StartButton1",
+        "action": "DoNothing",
+        "next": [
+            "ClickedCorrectStage",
+            "StageNavigationSlowlySwipeLeft"
+        ]
+    },
+    "ClickedCorrectStage": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "fullMatch": true,
+        "cache": false,
+        "text": [],
+        "roi": [
+            920,
+            80,
+            92,
+            32
+        ]
     },
     "EpisodeStageSwipeToTheLeft": {
         "algorithm": "JustReturn",
