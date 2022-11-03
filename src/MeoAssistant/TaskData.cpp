@@ -182,6 +182,10 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
 
                 task_changed = true;
                 std::string_view type = task.substr(pos + 1);
+                if (type == "self") {
+                    new_task_list.emplace_back(name);
+                    continue;
+                }
                 taskptr_t other_task_info_ptr = pos ? get_raw(task.substr(0, pos)) : default_task_info_ptr;
 #define ASST_TASKDATA_GENERATE_TASKS(t)                \
     else if (type == #t)                               \
@@ -199,9 +203,6 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
                     if (pos) {
                         new_task_list.emplace_back(task.substr(0, pos));
                     }
-                }
-                else if (type == "self") {
-                    new_task_list.emplace_back(name);
                 }
                 ASST_TASKDATA_GENERATE_TASKS(next)
                 ASST_TASKDATA_GENERATE_TASKS(sub)
