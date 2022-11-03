@@ -75,6 +75,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
         m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
     }
     m_ocr_analyzer->set_region_of_appeared(Rect());
+    m_ocr_analyzer->set_without_det(ocr_task_ptr->without_det);
     m_ocr_analyzer->set_task_info(ocr_task_ptr);
     m_ocr_analyzer->set_use_char_model(ocr_task_ptr->is_ascii);
     auto region_opt = m_status->get_rect(ocr_task_ptr->name);
