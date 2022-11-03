@@ -24,8 +24,9 @@
             "额外滑动？"
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 50
     },
     "SlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
@@ -46,8 +47,9 @@
             1000
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 50
     },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
@@ -65,8 +67,9 @@
             100
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 20
     },
     "SwipeToTheRight": {
         "algorithm": "JustReturn",
@@ -84,8 +87,9 @@
             100
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 20
     },
     "1-7": {
         "algorithm": "JustReturn",
@@ -1459,7 +1463,7 @@
         "baseTask": "ResourceStages",
         "next": [
             "CE6@StageCE",
-            "CE6@StageCE@SwipeToTheLeft"
+            "CE-6@SwipeToTheLeft"
         ]
     },
     "LS-6": {
@@ -1472,14 +1476,14 @@
         "baseTask": "ResourceStages",
         "next": [
             "CA5@StageCA",
-            "CA5@StageCA@SwipeToTheLeft"
+            "CA-5@SwipeToTheLeft"
         ]
     },
     "AP-5": {
         "baseTask": "ResourceStages",
         "next": [
             "AP5@StageAP",
-            "AP5@StageAP@SwipeToTheLeft"
+            "AP-5@SwipeToTheLeft"
         ]
     },
     "PR-A-1": {
@@ -1487,14 +1491,14 @@
         "doc": "医疗/重装",
         "next": [
             "PR-A-1@StagePR-A",
-            "PR-A-1@StagePR-A@SwipeToTheRight"
+            "PR-A-1@SwipeToTheRight"
         ]
     },
     "PR-A-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-A-2@StagePR-A",
-            "PR-A-2@StagePR-A@SwipeToTheRight"
+            "PR-A-2@SwipeToTheRight"
         ]
     },
     "PR-B-1": {
@@ -1502,14 +1506,14 @@
         "doc": "术士/狙击",
         "next": [
             "PR-B-1@StagePR-B",
-            "PR-B-1@StagePR-B@SwipeToTheRight"
+            "PR-B-1@SwipeToTheRight"
         ]
     },
     "PR-B-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-B-2@StagePR-B",
-            "PR-B-2@StagePR-B@SwipeToTheRight"
+            "PR-B-2@SwipeToTheRight"
         ]
     },
     "PR-C-1": {
@@ -1517,14 +1521,14 @@
         "doc": "先锋/辅助",
         "next": [
             "PR-C-1@StagePR-C",
-            "PR-C-1@StagePR-C@SwipeToTheRight"
+            "PR-C-1@SwipeToTheRight"
         ]
     },
     "PR-C-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-C-2@StagePR-C",
-            "PR-C-2@StagePR-C@SwipeToTheRight"
+            "PR-C-2@SwipeToTheRight"
         ]
     },
     "PR-D-1": {
@@ -1532,14 +1536,14 @@
         "doc": "近卫/特种",
         "next": [
             "PR-D-1@StagePR-D",
-            "PR-D-1@StagePR-D@SwipeToTheRight"
+            "PR-D-1@SwipeToTheRight"
         ]
     },
     "PR-D-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-D-2@StagePR-D",
-            "PR-D-2@StagePR-D@SwipeToTheRight"
+            "PR-D-2@SwipeToTheRight"
         ]
     },
     "StageResource": {
@@ -1578,7 +1582,8 @@
             143
         ],
         "next": [
-            "Stage@SwipeToTheLeft"
+            "Stage",
+            "UnableToAgent@SwipeToTheLeft"
         ]
     },
     "ResourceStageLevel5": {
