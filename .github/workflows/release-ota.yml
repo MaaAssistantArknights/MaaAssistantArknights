@@ -6,10 +6,14 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: 'Number of releases to fetch, 2 at least'
+        description: 'Number of releases to fetch from MaaAssistantArknights, 2 at least'
         required: false
-        default: 51
+        default: 31
         type: number
+      limit_2:
+        description: 'Number of releases to fetch from MaaRelease'
+        required: false
+        default: 30
 
 jobs:
   make-ota:
@@ -30,26 +34,36 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv build-ota && cd build-ota
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 51 }} | tee ./release_list.txt
-          echo "prerelease=$([ $(head -n 1 release_list.txt | awk '{ print $2}') = 'Pre-release' ] && echo true || echo false)" >> $GITHUB_ENV
-          cat ./release_list.txt | awk '{ print $1 }' > ./releases
-          echo "release_tag=$(head -n 1 ./releases)" >> $GITHUB_ENV
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
+          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
+          head -n 1 ./release_maa.txt | awk '{ print $1 }' > ./config
+
+          tail -n +1 ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
+          cat ./release_mr.txt | awk '{ print $1 }' > ./tags_mr.txt
+
+          comm <(sort ./tags_maa.txt) <(sort ./tags_mr.txt) | awk '{ print $1 }' >> ./config
+
+          echo "config:"
+          cat ./config
+
+          echo "prerelease=$([ $(head -n 1 release_maa.txt | awk '{ print $2}') = 'Pre-release' ] && echo true || echo false)" >> $GITHUB_ENV
+          echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_ENV
       - name: "Build OTA"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./releases
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config
       - name: "Commit and setup tag"
         run: |
           cd MaaRelease
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git checkout --orphan temp
+          git checkout --orphan __temp
           git rm -rf .
           git commit --allow-empty --message ${{ env.release_tag }}
           git tag ${{ env.release_tag }} || exit 0 # do nothing if the tag already exists
-          git push --tags $PUSH_REMOTE
+          git push --tags
         env:
           PUSH_REMOTE: https://github-actions[bot]:${{ secrets.MAARELEASE_RELEASE }}@github.com/${{ github.repository_owner }}/MaaRelease
       - name: "Upload to MaaRelease"
