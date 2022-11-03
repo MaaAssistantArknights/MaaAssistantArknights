@@ -343,6 +343,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]
 #endif
 
     ocr_task_info_ptr->full_match = task_json.get("fullMatch", default_ptr->full_match);
+    ocr_task_info_ptr->is_ascii = task_json.get("isAscii", default_ptr->is_ascii);
     if (auto opt = task_json.find<json::array>("ocrReplace")) {
         for (const json::value& rep : opt.value()) {
             ocr_task_info_ptr->replace_map.emplace(rep[0].as_string(), rep[1].as_string());
@@ -480,6 +481,7 @@ std::shared_ptr<asst::OcrTaskInfo> asst::TaskData::_default_ocr_task_info()
 {
     auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
     ocr_task_info_ptr->full_match = false;
+    ocr_task_info_ptr->is_ascii = false;
 
     return ocr_task_info_ptr;
 }
@@ -552,6 +554,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "action",
               "sub",
               "subErrorIgnored",
+              "isAscii",
               "next",
               "maxTimes",
               "exceededNext",
