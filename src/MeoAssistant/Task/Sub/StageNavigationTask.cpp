@@ -50,7 +50,7 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
     LogTraceFunction;
 
     ProcessTask to_right(*this, { "SwipeToTheRight" });
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 5; ++i) {
         to_right.run();
     }
 
