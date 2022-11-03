@@ -148,6 +148,7 @@
         "fullMatch": true,
         "isAscii": true,
         "cache": false,
+        "withoutDet": true,
         "text": [],
         "roi": [
             920,

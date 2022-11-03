@@ -360,6 +360,7 @@ namespace asst
         std::vector<std::string> text; // 文字的容器，匹配到这里面任一个，就算匹配上了
         bool full_match = false;       // 是否需要全匹配，否则搜索到子串就算匹配上了
         bool is_ascii = false;         // 是否启用字符数字模型
+        bool without_det = false;      // 是否不使用检测模型
         std::unordered_map<std::string, std::string>
             replace_map; // 部分文字容易识别错，字符串强制replace之后，再进行匹配
     };
