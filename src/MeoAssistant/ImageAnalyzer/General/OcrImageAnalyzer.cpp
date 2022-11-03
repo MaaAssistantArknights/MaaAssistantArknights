@@ -91,6 +91,11 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
     m_use_cache = is_use;
 }
 
+void asst::OcrImageAnalyzer::set_without_det(bool without_det) noexcept
+{
+    m_without_det = without_det;
+}
+
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
     m_required = std::move(required);
