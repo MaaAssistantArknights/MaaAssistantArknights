@@ -120,7 +120,6 @@
             "#self"
         ],
         "maxTimes": 5,
-        "postDelay": 0,
         "exceededNext": [
             "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
