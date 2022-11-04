@@ -883,40 +883,6 @@
                     "offset_melee_doc": "为true时判断同职业总数变为判断近卫、重装、先锋职业下的近战干员总数，默认false"
                 },
                 {
-                    "name": "海沫",
-                    "skill": 1,
-                    "recruit_priority": 500,
-                    "promote_priority": 650,
-                    "promote_priority_when_team_full": 750,
-                    "recruit_priority_offset": [
-                        [
-                            0,
-                            600
-                        ],
-                        [
-                            2,
-                            -500
-                        ]
-                    ]
-                },
-                {
-                    "name": "羽毛笔",
-                    "skill": 1,
-                    "recruit_priority": 490,
-                    "promote_priority": 650,
-                    "promote_priority_when_team_full": 750,
-                    "recruit_priority_offset": [
-                        [
-                            0,
-                            600
-                        ],
-                        [
-                            2,
-                            -490
-                        ]
-                    ]
-                },
-                {
                     "name": "百炼嘉维尔",
                     "skill": 2,
                     "recruit_priority": 900,
@@ -943,6 +909,24 @@
                     ]
                 },
                 {
+                    "name": "帕拉斯",
+                    "skill": 1,
+                    "recruit_priority": 500,
+                    "promote_priority": 550,
+                    "promote_priority_when_team_full": 750,
+                    "offset_melee": true,
+                    "recruit_priority_offset": [
+                        [
+                            0,
+                            -500
+                        ],
+                        [
+                            1,
+                            400
+                        ]
+                    ]
+                },
+                {
                     "name": "山",
                     "skill": 2,
                     "skill_usage": 2,
@@ -953,7 +937,7 @@
                     "recruit_priority_offset": [
                         [
                             0,
-                            600
+                            800
                         ],
                         [
                             1,
@@ -1086,12 +1070,6 @@
         },
         "Pioneer": {
             "opers": [
-                {
-                    "name": "郁金香",
-                    "skill": 1,
-                    "recruit_priority": 990,
-                    "promote_priority": 600
-                },
                 {
                     "name": "风笛",
                     "skill": 3,
@@ -1294,12 +1272,6 @@
                             -550
                         ]
                     ]
-                },
-                {
-                    "name": "梅",
-                    "skill": 1,
-                    "recruit_priority": 450,
-                    "promote_priority": 450
                 },
                 {
                     "name": "克洛丝",
@@ -1607,13 +1579,6 @@
                 ]
             ],
             "opers": [
-                {
-                    "name": "灵知",
-                    "skill": 1,
-                    "recruit_priority": 20,
-                    "promote_priority": 500,
-                    "promote_priority_when_team_full": 900
-                },
                 {
                     "name": "令",
                     "skill": 3,
