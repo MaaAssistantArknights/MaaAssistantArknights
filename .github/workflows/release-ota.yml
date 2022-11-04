@@ -76,4 +76,12 @@ jobs:
           tag: ${{ env.release_tag }}
           prerelease: ${{ env.prerelease }}
           overwrite: true
-
+      - name: "Upload to server"
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_ID }}
+          source: "build-ota/*.zip"
+          strip_components: 1
+          target: ${{ format('{0}/{1}', 'OTA/MaaAssistantArknights/MaaRelease/releases/download', env.release_tag) }}
