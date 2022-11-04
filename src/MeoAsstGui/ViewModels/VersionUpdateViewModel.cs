@@ -363,6 +363,8 @@ namespace MeoAsstGui
             var downloaded = false;
             var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
+                    new Tuple<string, string>("https://", "https://gh.api.99988866.xyz/https://"),
+                    new Tuple<string, string>("https://", "https://ghproxy.com/https://"),
                     new Tuple<string, string>("github.com", "ota.maa.plus"),
                     new Tuple<string, string>("github.com", "download.fastgit.org"),
                     null,
@@ -370,8 +372,8 @@ namespace MeoAsstGui
 
             string rawUrl = _assetsObject["browser_download_url"]?.ToString();
             var downloader = settings.UseAria2 ? Downloader.Aria2 : Downloader.Native;
-            const int DownloadRetryMaxTimes = 3;
-            for (int i = 0; i < DownloadRetryMaxTimes && !downloaded; i++)
+            const int DownloadRetryMaxTimes = 1;
+            for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
             {
                 var url = rawUrl;
                 foreach (var repTuple in mirroredReplaceMap)
