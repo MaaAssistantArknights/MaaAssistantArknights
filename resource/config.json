@@ -26,7 +26,9 @@
             "Doc": "仓库识别导出结果模板",
             "arkPlanner": "{\"@type\": \"@penguin-statistics/depot\",\"items\": []}",
             "arkPlanner_Doc": "https://penguin-stats.cn/planner"
-        }
+        },
+        "ocrWithRawData": true,
+        "ocrWithRawData_Doc": "是否使用图片原始数据进行OCR，可以提高性能，但在部分设备上可能有兼容性问题"
     },
     "intent": {
         "Official": "com.hypergryph.arknights/com.u8.sdk.U8UnityContext",
