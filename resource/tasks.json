@@ -389,6 +389,7 @@
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "action": "ClickRect",
+        "isAscii": true,
         "text": [],
         "roi": [
             16,
