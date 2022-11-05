@@ -17,7 +17,8 @@
         ],
         "rectMove_Doc": "滑动终点",
         "specialParams": [
-            1000
+            1000,
+            1
         ],
         "specialParams_Doc": [
             "滑动 duration",
@@ -44,7 +45,8 @@
             100
         ],
         "specialParams": [
-            1000
+            1000,
+            1
         ],
         "next": [
             "#next"
