@@ -421,47 +421,69 @@
     },
     "EnterEpisode1": {
         "baseTask": "EnterEpisode",
-        "text": [ "01" ]
+        "text": [
+            "01"
+        ]
     },
     "EnterEpisode2": {
         "baseTask": "EnterEpisode",
-        "text": [ "02" ]
+        "text": [
+            "02"
+        ]
     },
     "EnterEpisode3": {
         "baseTask": "EnterEpisode",
-        "text": [ "03" ]
+        "text": [
+            "03"
+        ]
     },
     "EnterEpisode4": {
         "baseTask": "EnterEpisode",
-        "text": [ "04" ]
+        "text": [
+            "04"
+        ]
     },
     "EnterEpisode5": {
         "baseTask": "EnterEpisode",
-        "text": [ "05" ]
+        "text": [
+            "05"
+        ]
     },
     "EnterEpisode6": {
         "baseTask": "EnterEpisode",
-        "text": [ "06" ]
+        "text": [
+            "06"
+        ]
     },
     "EnterEpisode7": {
         "baseTask": "EnterEpisode",
-        "text": [ "07" ]
+        "text": [
+            "07"
+        ]
     },
     "EnterEpisode8": {
         "baseTask": "EnterEpisode",
-        "text": [ "08" ]
+        "text": [
+            "08"
+        ]
     },
     "EnterEpisode9": {
         "baseTask": "EnterEpisode",
-        "text": [ "09" ]
+        "text": [
+            "09"
+        ]
     },
     "EnterEpisode10": {
         "baseTask": "EnterEpisode",
-        "text": [ "10" ]
+        "text": [
+            "10"
+        ]
     },
     "EnterEpisode11": {
         "baseTask": "EnterEpisode",
-        "text": [ "11" ]
+        "text": [
+            "11"
+        ]
     },
     "ToEpisode": {
         "algorithm": "OcrDetect",
@@ -482,7 +504,9 @@
             "13",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode11",
             "ToEpisode11"
@@ -496,7 +520,9 @@
             "13",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode10",
             "ToEpisode10"
@@ -511,7 +537,9 @@
             "13",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode9",
             "ToEpisode9"
@@ -523,7 +551,9 @@
             "08",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode7",
             "ToEpisode7"
@@ -536,7 +566,9 @@
             "08",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode6",
             "ToEpisode6"
@@ -550,11 +582,12 @@
             "08",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode5",
             "ToEpisode5"
-
         ]
     },
     "ToEpisode4": {
@@ -566,7 +599,9 @@
             "08",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode4",
             "ToEpisode4"
@@ -578,7 +613,9 @@
             "03",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode2",
             "ToEpisode2"
@@ -591,7 +628,9 @@
             "03",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode1",
             "ToEpisode1"
@@ -605,7 +644,9 @@
             "03",
             "未解锁"
         ],
-        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "sub": [
+            "EpisodeStageSwipeToTheLeft"
+        ],
         "next": [
             "EnterEpisode0",
             "ToEpisode0"
@@ -6878,6 +6919,32 @@
             138
         ]
     },
+    "OperListSlowlySwipeToTheLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "specificRect": [
+            400,
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
+            1500,
+            1
+        ]
+    },
+    "OperListSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "rectMove": [
+            400,
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
+            1500,
+            1
+        ]
+    },
     "Roguelike@Abandon": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -7505,23 +7572,6 @@
         "next": [
             "Roguelike@LastRewardConfirm"
         ]
-    },
-    "Roguelike": {
-        "template": "Terminal.png",
-        "action": "ClickSelf",
-        "roi": [
-            880,
-            100,
-            180,
-            120
-        ],
-        "next": [
-            "Roguelike",
-            "Roguelike@CloseAnnos#next",
-            "Roguelike@TodoEnter",
-            "Roguelike@IntegratedStrategies"
-        ],
-        "postDelay": 1000
     },
     "Roguelike@MissionCompletedFlag": {
         "roi": [
@@ -8880,6 +8930,23 @@
     },
     "Mizuki@Roguelike@StartExplore": {},
     "Mizuki@Roguelike@TodoEnter": {},
+    "Roguelike": {
+        "template": "Terminal.png",
+        "action": "ClickSelf",
+        "roi": [
+            880,
+            100,
+            180,
+            120
+        ],
+        "next": [
+            "Roguelike",
+            "Roguelike@CloseAnnos#next",
+            "Roguelike@TodoEnter",
+            "Roguelike@IntegratedStrategies"
+        ],
+        "postDelay": 1000
+    },
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
         "roi": [
@@ -9105,46 +9172,6 @@
         ],
         "templThreshold": 0.9
     },
-    "RoguelikeRecruitSwipeMaxTime": {
-        "algorithm": "JustReturn",
-        "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
-        "maxTimes": 4
-    },
-    "RoguelikeRecruitOperListSwipeToTheLeft": {
-        "baseTask": "OperListSwipeToTheLeft",
-        "specificRect": [
-            560,
-            310,
-            100,
-            100
-        ]
-    },
-    "OperListSlowlySwipeToTheLeft": {
-        "baseTask": "SlowlySwipeToTheLeft",
-        "specificRect": [
-            400,
-            310,
-            100,
-            100
-        ],
-        "specialParams": [
-            1500,
-            1
-        ]
-    },
-    "OperListSlowlySwipeToTheRight": {
-        "baseTask": "SlowlySwipeToTheRight",
-        "rectMove": [
-            400,
-            310,
-            100,
-            100
-        ],
-        "specialParams": [
-            1500,
-            1
-        ]
-    },
     "RoguelikeRecruitOperListSlowlySwipeToTheLeft": {
         "baseTask": "OperListSlowlySwipeToTheLeft",
         "specificRect": [
@@ -9162,6 +9189,20 @@
             100,
             100
         ]
+    },
+    "RoguelikeRecruitOperListSwipeToTheLeft": {
+        "baseTask": "OperListSwipeToTheLeft",
+        "specificRect": [
+            560,
+            310,
+            100,
+            100
+        ]
+    },
+    "RoguelikeRecruitSwipeMaxTime": {
+        "algorithm": "JustReturn",
+        "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
+        "maxTimes": 4
     },
     "RoguelikeSkillSelectionFlag": {
         "templThreshold": 0.9,
