@@ -17,15 +17,17 @@
         ],
         "rectMove_Doc": "滑动终点",
         "specialParams": [
-            1000
+            1000,
+            1
         ],
         "specialParams_Doc": [
             "滑动 duration",
             "额外滑动？"
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 50
     },
     "SlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
@@ -43,15 +45,18 @@
             100
         ],
         "specialParams": [
-            1000
+            1000,
+            1
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 50
     },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 100,
         "specificRect": [
             100,
             310,
@@ -65,12 +70,14 @@
             100
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 20
     },
     "SwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 100,
         "specificRect": [
             1080,
             310,
@@ -84,8 +91,9 @@
             100
         ],
         "next": [
-            "#back"
-        ]
+            "#next"
+        ],
+        "maxTimes": 20
     },
     "1-7": {
         "algorithm": "JustReturn",
@@ -99,142 +107,219 @@
             "SwipeRightToStage1-7"
         ]
     },
-    "EpisodeStageNameOcr": {
+    "StageNavigationBegin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "ClickStageName",
+            "FullStageNavigation"
+        ]
+    },
+    "FullStageNavigation": {
+        "Doc": "右滑五次，然后检测关卡并左滑",
+        "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
+        "baseTask": "SwipeToTheRight",
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5,
+        "exceededNext": [
+            "ClickStageName",
+            "StageNavigationSlowlySwipeLeft"
+        ]
+    },
+    "ClickStageName": {
         "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "fullMatch": true,
+        "isAscii": true,
+        "cache": false,
         "text": [],
+        "next": [
+            "ClickedCorrectStageOrSwipe",
+            "#self"
+        ]
+    },
+    "StageNavigationSlowlySwipeLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "next": [
+            "FullStageNavigation"
+        ],
+        "exceededNext": [
+            "Home@ReturnTo"
+        ],
         "maxTimes": 10
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "baseTask": "StartButton1",
+        "action": "DoNothing",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ]
+    },
+    "ClickedCorrectStage": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "fullMatch": true,
+        "isAscii": true,
+        "cache": false,
+        "withoutDet": true,
+        "text": [],
+        "roi": [
+            920,
+            80,
+            92,
+            32
+        ]
+    },
+    "EpisodeStageSwipeToTheLeft": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            790,
+            310,
+            10,
+            10
+        ],
+        "rectMove": [
+            1200,
+            310,
+            10,
+            10
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
     },
     "Episode11": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme"
+            "ToChapter3@StageTheme"
         ],
         "next": [
-            "EnterEpisode11",
-            "Episode11@SwipeToTheRight"
+            "ToEpisode11",
+            "EnterEpisode11"
         ]
     },
     "Episode10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme"
+            "ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode10@EnterEpisode11",
-            "Episode10@SwipeToTheRight"
+            "ToEpisode10",
+            "EnterEpisode10"
         ]
     },
     "Episode9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme"
+            "ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode9@EnterEpisode11",
-            "Episode9@SwipeToTheRight"
+            "ToEpisode9",
+            "EnterEpisode9"
         ]
     },
     "Episode8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode8@EnterEpisode11",
-            "Episode8@SwipeToTheRight"
+            "EnterEpisode8"
         ]
     },
     "Episode7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode7@EnterEpisode8",
-            "Episode7@SwipeToTheRight"
+            "ToEpisode7",
+            "EnterEpisode7"
         ]
     },
     "Episode6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode6@EnterEpisode8",
-            "Episode6@SwipeToTheRight"
+            "ToEpisode6",
+            "EnterEpisode6"
         ]
     },
     "Episode5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode5@EnterEpisode8",
-            "Episode5@SwipeToTheRight"
+            "ToEpisode5",
+            "EnterEpisode5"
         ]
     },
     "Episode4": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode4@EnterEpisode8",
-            "Episode4@SwipeToTheRight"
+            "ToEpisode4",
+            "EnterEpisode4"
         ]
     },
     "Episode3": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter1@ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "EnterEpisode3",
-            "Episode3@SwipeToTheRight"
+            "EnterEpisode3"
         ]
     },
     "Episode2": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter1@ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode2@EnterEpisode3",
-            "Episode2@SwipeToTheRight"
+            "ToEpisode2",
+            "EnterEpisode2"
         ]
     },
     "Episode1": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter3@ToChapter1@ToChapter2@StageTheme"
         ],
         "next": [
-            "ToEpisode1@EnterEpisode3",
-            "Episode1@SwipeToTheRight"
+            "ToEpisode1",
+            "EnterEpisode1"
         ]
     },
     "Episode0": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter3@ToChapter1@ToChapter2@StageTheme"
         ],
         "next": [
-            "ToEpisode0@EnterEpisode3",
-            "Episode0@SwipeToTheRight"
+            "ToEpisode0",
+            "EnterEpisode0"
         ]
     },
     "StageTheme": {
@@ -258,13 +343,14 @@
             "残阳"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            142,
+            43,
+            210,
+            274
         ],
         "next": [
-            "#back"
+            "#back",
+            "Stop"
         ]
     },
     "ToChapter2": {
@@ -274,13 +360,14 @@
             "幻灭"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            142,
+            43,
+            210,
+            274
         ],
         "next": [
-            "#back"
+            "#back",
+            "Stop"
         ]
     },
     "ToChapter1": {
@@ -290,163 +377,245 @@
             "觉醒"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            142,
+            43,
+            210,
+            274
         ],
         "next": [
-            "#back"
+            "#back",
+            "Stop"
         ]
     },
     "EnterEpisode": {
         "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "isAscii": true,
+        "text": [],
         "roi": [
-            775,
-            175,
-            352,
-            351
+            16,
+            219,
+            409,
+            151
+        ],
+        "specificRect": [
+            787,
+            281,
+            154,
+            154
         ],
         "next": [
-            "#back"
+            "#self",
+            "Stop"
         ]
     },
-    "EnterEpisode11": {
-        "baseTask": "EnterEpisode"
+    "EnterEpisode0": {
+        "baseTask": "EnterEpisode",
+        "text": [
+            "00",
+            "OO",
+            "O0",
+            "0O"
+        ]
     },
-    "EnterEpisode8": {
-        "baseTask": "EnterEpisode"
+    "EnterEpisode1": {
+        "baseTask": "EnterEpisode",
+        "text": [ "01" ]
+    },
+    "EnterEpisode2": {
+        "baseTask": "EnterEpisode",
+        "text": [ "02" ]
     },
     "EnterEpisode3": {
-        "baseTask": "EnterEpisode"
+        "baseTask": "EnterEpisode",
+        "text": [ "03" ]
+    },
+    "EnterEpisode4": {
+        "baseTask": "EnterEpisode",
+        "text": [ "04" ]
+    },
+    "EnterEpisode5": {
+        "baseTask": "EnterEpisode",
+        "text": [ "05" ]
+    },
+    "EnterEpisode6": {
+        "baseTask": "EnterEpisode",
+        "text": [ "06" ]
+    },
+    "EnterEpisode7": {
+        "baseTask": "EnterEpisode",
+        "text": [ "07" ]
+    },
+    "EnterEpisode8": {
+        "baseTask": "EnterEpisode",
+        "text": [ "08" ]
+    },
+    "EnterEpisode9": {
+        "baseTask": "EnterEpisode",
+        "text": [ "09" ]
+    },
+    "EnterEpisode10": {
+        "baseTask": "EnterEpisode",
+        "text": [ "10" ]
+    },
+    "EnterEpisode11": {
+        "baseTask": "EnterEpisode",
+        "text": [ "11" ]
     },
     "ToEpisode": {
         "algorithm": "OcrDetect",
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "text": [],
         "roi": [
-            902,
-            618,
-            161,
-            102
+            16,
+            219,
+            409,
+            151
         ],
         "postDelay": 500
+    },
+    "ToEpisode11": {
+        "baseTask": "ToEpisode",
+        "text": [
+            "12",
+            "13",
+            "未解锁"
+        ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "next": [
+            "EnterEpisode11",
+            "ToEpisode11"
+        ]
     },
     "ToEpisode10": {
         "baseTask": "ToEpisode",
         "text": [
-            "10"
+            "11",
+            "12",
+            "13",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode10",
-            "#back",
-            "Stop"
+            "EnterEpisode10",
+            "ToEpisode10"
         ]
     },
     "ToEpisode9": {
         "baseTask": "ToEpisode",
         "text": [
             "10",
-            "9"
+            "11",
+            "12",
+            "13",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode9",
-            "#back",
-            "Stop"
+            "EnterEpisode9",
+            "ToEpisode9"
         ]
     },
     "ToEpisode7": {
         "baseTask": "ToEpisode",
         "text": [
-            "7"
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode7",
-            "#back",
-            "Stop"
+            "EnterEpisode7",
+            "ToEpisode7"
         ]
     },
     "ToEpisode6": {
         "baseTask": "ToEpisode",
         "text": [
-            "7",
-            "6"
+            "07",
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode6",
-            "#back",
-            "Stop"
+            "EnterEpisode6",
+            "ToEpisode6"
         ]
     },
     "ToEpisode5": {
         "baseTask": "ToEpisode",
         "text": [
-            "7",
-            "6",
-            "5"
+            "06",
+            "07",
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode5",
-            "#back",
-            "Stop"
+            "EnterEpisode5",
+            "ToEpisode5"
+
         ]
     },
     "ToEpisode4": {
         "baseTask": "ToEpisode",
         "text": [
-            "7",
-            "6",
-            "5",
-            "4"
+            "05",
+            "06",
+            "07",
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode4",
-            "#back",
-            "Stop"
+            "EnterEpisode4",
+            "ToEpisode4"
         ]
     },
     "ToEpisode2": {
         "baseTask": "ToEpisode",
         "text": [
-            "2"
+            "03",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode2",
-            "#back",
-            "Stop"
+            "EnterEpisode2",
+            "ToEpisode2"
         ]
     },
     "ToEpisode1": {
         "baseTask": "ToEpisode",
         "text": [
-            "2",
-            "1"
+            "02",
+            "03",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode1",
-            "#back",
-            "Stop"
+            "EnterEpisode1",
+            "ToEpisode1"
         ]
     },
     "ToEpisode0": {
         "baseTask": "ToEpisode",
         "text": [
-            "0",
-            "o",
-            "O"
+            "01",
+            "02",
+            "03",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode0",
-            "#back",
-            "Stop"
+            "EnterEpisode0",
+            "ToEpisode0"
         ]
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
         "baseTask": "SlowlySwipeToTheLeft",
         "fullMatch": true,
+        "isAscii": true,
         "text": [
             "1-8",
             "TR-10",
@@ -472,6 +641,7 @@
         "algorithm": "OcrDetect",
         "baseTask": "SlowlySwipeToTheRight",
         "fullMatch": true,
+        "isAscii": true,
         "text": [
             "1-1",
             "1-2",
@@ -501,6 +671,7 @@
         "text": [
             "1-7"
         ],
+        "isAscii": true,
         "cache": false,
         "roi": [
             0,
@@ -583,6 +754,20 @@
         "postDelay": 4000,
         "next": [
             "EnterChapterIS",
+            "EnterChapterIS2",
+            "EnterStageIS"
+        ]
+    },
+    "EnterChapterIS2": {
+        "action": "ClickSelf",
+        "roi": [
+            1146,
+            587,
+            134,
+            133
+        ],
+        "next": [
+            "EnterChapterIS2",
             "EnterStageIS"
         ]
     },
@@ -621,6 +806,7 @@
         "text": [
             "IS-10"
         ],
+        "isAscii": true,
         "roi": [
             47,
             42,
@@ -635,6 +821,7 @@
         "text": [
             "IS-9"
         ],
+        "isAscii": true,
         "roi": [
             47,
             42,
@@ -649,6 +836,7 @@
         "text": [
             "IS-8"
         ],
+        "isAscii": true,
         "roi": [
             47,
             42,
@@ -748,6 +936,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "NL-10"
         ],
@@ -762,6 +951,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "NL-9"
         ],
@@ -776,6 +966,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "NL-8"
         ],
@@ -829,6 +1020,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "GT-5"
         ]
@@ -887,6 +1079,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "OF-F3"
         ]
@@ -979,6 +1172,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "IC-9",
             "1C-9"
@@ -994,6 +1188,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "IC-8",
             "1C-8"
@@ -1009,6 +1204,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "IC-7",
             "1C-7"
@@ -1118,6 +1314,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "DV-8"
         ],
@@ -1132,6 +1329,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "DV-7"
         ],
@@ -1146,6 +1344,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "DV-6"
         ],
@@ -1246,6 +1445,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "LE-5"
         ],
@@ -1260,6 +1460,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "LE-6"
         ],
@@ -1274,6 +1475,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "isAscii": true,
         "text": [
             "LE-7"
         ],
@@ -1445,7 +1647,7 @@
         "baseTask": "ResourceStages",
         "next": [
             "CE6@StageCE",
-            "CE6@StageCE@SwipeToTheLeft"
+            "CE-6@SwipeToTheLeft"
         ]
     },
     "LS-6": {
@@ -1458,14 +1660,14 @@
         "baseTask": "ResourceStages",
         "next": [
             "CA5@StageCA",
-            "CA5@StageCA@SwipeToTheLeft"
+            "CA-5@SwipeToTheLeft"
         ]
     },
     "AP-5": {
         "baseTask": "ResourceStages",
         "next": [
             "AP5@StageAP",
-            "AP5@StageAP@SwipeToTheLeft"
+            "AP-5@SwipeToTheLeft"
         ]
     },
     "PR-A-1": {
@@ -1473,14 +1675,14 @@
         "doc": "医疗/重装",
         "next": [
             "PR-A-1@StagePR-A",
-            "PR-A-1@StagePR-A@SwipeToTheRight"
+            "PR-A-1@SwipeToTheRight"
         ]
     },
     "PR-A-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-A-2@StagePR-A",
-            "PR-A-2@StagePR-A@SwipeToTheRight"
+            "PR-A-2@SwipeToTheRight"
         ]
     },
     "PR-B-1": {
@@ -1488,14 +1690,14 @@
         "doc": "术士/狙击",
         "next": [
             "PR-B-1@StagePR-B",
-            "PR-B-1@StagePR-B@SwipeToTheRight"
+            "PR-B-1@SwipeToTheRight"
         ]
     },
     "PR-B-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-B-2@StagePR-B",
-            "PR-B-2@StagePR-B@SwipeToTheRight"
+            "PR-B-2@SwipeToTheRight"
         ]
     },
     "PR-C-1": {
@@ -1503,14 +1705,14 @@
         "doc": "先锋/辅助",
         "next": [
             "PR-C-1@StagePR-C",
-            "PR-C-1@StagePR-C@SwipeToTheRight"
+            "PR-C-1@SwipeToTheRight"
         ]
     },
     "PR-C-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-C-2@StagePR-C",
-            "PR-C-2@StagePR-C@SwipeToTheRight"
+            "PR-C-2@SwipeToTheRight"
         ]
     },
     "PR-D-1": {
@@ -1518,14 +1720,14 @@
         "doc": "近卫/特种",
         "next": [
             "PR-D-1@StagePR-D",
-            "PR-D-1@StagePR-D@SwipeToTheRight"
+            "PR-D-1@SwipeToTheRight"
         ]
     },
     "PR-D-2": {
         "baseTask": "ResourceStages",
         "next": [
             "PR-D-2@StagePR-D",
-            "PR-D-2@StagePR-D@SwipeToTheRight"
+            "PR-D-2@SwipeToTheRight"
         ]
     },
     "StageResource": {
@@ -1564,7 +1766,8 @@
             143
         ],
         "next": [
-            "Stage@SwipeToTheLeft"
+            "Stage",
+            "UnableToAgent@SwipeToTheLeft"
         ]
     },
     "ResourceStageLevel5": {
@@ -1596,6 +1799,7 @@
     "ChipStageLevel1": {
         "algorithm": "OcrDetect",
         "baseTask": "Stage",
+        "isAscii": true,
         "text": [],
         "roi": [
             27,
@@ -1607,6 +1811,7 @@
     "ChipStageLevel2": {
         "algorithm": "OcrDetect",
         "baseTask": "Stage",
+        "isAscii": true,
         "text": [],
         "roi": [
             472,
@@ -3508,10 +3713,10 @@
             "中心"
         ],
         "roi": [
-            640,
-            360,
-            640,
-            360
+            740,
+            440,
+            200,
+            100
         ],
         "next": [
             "CreditStoreOcr",
@@ -3667,6 +3872,10 @@
             0,
             210,
             201
+        ],
+        "next": [
+            "CreditShop-Bought",
+            "Stop"
         ]
     },
     "CreditShop-NoMoney": {
@@ -3855,7 +4064,8 @@
             "Infrast@ReturnTo",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@ReturnTo": {
@@ -3868,7 +4078,8 @@
             "Infrast@ReturnToConfirm",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@ReturnToConfirm": {
@@ -3881,7 +4092,8 @@
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
             "Infrast@TodaysSupplies",
-            "Infrast@ReturnToConfirm"
+            "Infrast@ReturnToConfirm",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@CloseAnno": {
@@ -3893,7 +4105,8 @@
             "Infrast@ReturnTo",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@CloseAnnoTexas": {
@@ -3905,7 +4118,8 @@
             "Infrast@ReturnTo",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Return": {
@@ -3933,7 +4147,8 @@
             "InfrastEnteredFlag",
             "Infrast",
             "Infrast@CloseAnnos#next",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ],
         "postDelay": 5000
     },
@@ -5995,7 +6210,7 @@
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 500,
-        "postDelay": 200,
+        "postDelay": 300,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
     },
     "BattleOpersFlag": {
