@@ -5,6 +5,7 @@
 #include "Utils/NoWarningCV.h"
 #include <PaddleOCR/paddle_ocr.h>
 
+#include "Resource/GeneralConfiger.h"
 #include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
@@ -92,20 +93,36 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
                                                      bool without_det, bool trim)
 {
     size_t size = 0;
-
     std::string class_type = utils::demangle(typeid(*this).name());
-    // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
-    // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
-    cv::Mat copied = image.clone();
-    if (!without_det) {
-        Log.trace("Ocr System with", class_type);
-        PaddleOcrSystemWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, false, m_boxes_buffer,
-                                m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
+
+    if (Configer.get_options().ocr_with_rawdata) {
+        // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
+        // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
+        cv::Mat copied = image.clone();
+        if (!without_det) {
+            Log.trace("Ocr System with RawData and", class_type);
+            PaddleOcrSystemWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, false, m_boxes_buffer,
+                                    m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
+        }
+        else {
+            Log.trace("Ocr Rec with RawData and", class_type);
+            PaddleOcrRecWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, m_strs_buffer,
+                                 m_scores_buffer, &size, nullptr, nullptr);
+        }
     }
     else {
-        Log.trace("Ocr Rec with", class_type);
-        PaddleOcrRecWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, m_strs_buffer,
-                             m_scores_buffer, &size, nullptr, nullptr);
+        std::vector<uchar> buf;
+        cv::imencode(".png", image, buf);
+
+        if (!without_det) {
+            Log.trace("Ocr System with Encode and", class_type);
+            PaddleOcrSystem(m_ocr, buf.data(), buf.size(), false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size,
+                            nullptr, nullptr);
+        }
+        else {
+            Log.trace("Ocr Rec with Encode and", class_type);
+            PaddleOcrRec(m_ocr, buf.data(), buf.size(), m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
+        }
     }
 
     std::vector<TextRect> result;
