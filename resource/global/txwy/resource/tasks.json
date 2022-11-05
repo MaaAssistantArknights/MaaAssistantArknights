@@ -2214,5 +2214,17 @@
                 "《欢欣鼓舞》"
             ]
         ]
+    },
+    "InfrastReward": {
+        "text": [
+            "可收獲",
+            "訂單交付",
+            "幹員信賴"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "進駐資訊"
+        ]
     }
 }
