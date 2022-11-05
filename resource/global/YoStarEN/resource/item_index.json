@@ -903,6 +903,14 @@
         "sortId": 10016,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_2701": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_2701.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10016,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1174,6 +1182,14 @@
         "name": "Rhodes Island Resource Allocation Certificate",
         "sortId": -10000,
         "usage": "Rationing certificates issued by Rhodes Island to field operators, including vouchers. Can be used to exchange for supplies in Rhodes Island's landship, regional branches, and various safehouses."
+    },
+    "act17side_token_compass": {
+        "classifyType": "NONE",
+        "description": "The Iberians of times past guided their course by compass, the needle bearing the weight of their wild ambitions and golden dreams. Naught but ravings nowadays; the needle is broken, the brass is tarnished, and none know the dreadnought's end, bar the silent sea.",
+        "icon": "act17side_token_compass.png",
+        "name": "Rusted Compass",
+        "sortId": -10000,
+        "usage": "All attempts to tread unto the sea have been vain and futile. Where the compass points is certain to be anguished, turbid, and sunken."
     },
     "act18d0_token_page": {
         "classifyType": "NONE",
