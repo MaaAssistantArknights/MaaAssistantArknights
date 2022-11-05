@@ -147,73 +147,26 @@ namespace asst
 #ifdef ASST_DEBUG
         bool syntax_check(const std::string& task_name, const json::value& task_json);
 #endif
-        template <typename TargetTaskInfoType = TaskInfo>
-        requires(std::derived_from<TargetTaskInfoType, TaskInfo> ||
-                 std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
+        std::shared_ptr<TaskInfo> get_raw(std::string_view name) const;
+        template <typename TargetTaskInfoType>
+        requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
+                 !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
         std::shared_ptr<TargetTaskInfoType> get_raw(std::string_view name) const
         {
-            // 普通 task 或已经生成过的 `@` 型 task
-            if (auto it = m_raw_all_tasks_info.find(name); it != m_raw_all_tasks_info.cend()) [[likely]] {
-                if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
-                    return it->second;
-                }
-                else {
-                    return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
-                }
-            }
-
-            size_t at_pos = name.find('@');
-            if (at_pos == std::string_view::npos) [[unlikely]] {
-                return nullptr;
-            }
-
-            // `@` 前面的字符长度
-            size_t name_len = at_pos;
-            auto base_task_iter = get_raw(name.substr(name_len + 1));
-            if (base_task_iter == nullptr) [[unlikely]] {
-                return nullptr;
-            }
-
-            std::string_view derived_task_name = name.substr(0, name_len);
-            auto task_info_ptr = _generate_task_info(base_task_iter, derived_task_name);
-            if (task_info_ptr == nullptr) [[unlikely]] {
-                return nullptr;
-            }
-
-            if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
-                return task_info_ptr;
-            }
-            else {
-                return std::dynamic_pointer_cast<TargetTaskInfoType>(task_info_ptr);
-            }
+            return std::dynamic_pointer_cast<TargetTaskInfoType>(get_raw(name));
         }
 
     public:
         virtual ~TaskData() override = default;
         virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override;
 
-        template <typename TargetTaskInfoType = TaskInfo>
-        requires(std::derived_from<TargetTaskInfoType, TaskInfo> ||
-                 std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
+        std::shared_ptr<TaskInfo> get(std::string_view name);
+        template <typename TargetTaskInfoType>
+        requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
+                 !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
         std::shared_ptr<TargetTaskInfoType> get(std::string_view name)
         {
-            // 普通 task 或已经生成过的 `@` 型 task
-            if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) [[likely]] {
-                if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
-                    return it->second;
-                }
-                else {
-                    return std::dynamic_pointer_cast<TargetTaskInfoType>(it->second);
-                }
-            }
-
-            auto task_info_ptr = expend_sharp_task(name, get_raw(name)).value_or(nullptr);
-            if constexpr (std::same_as<TargetTaskInfoType, TaskInfo>) {
-                return task_info_ptr;
-            }
-            else {
-                return std::dynamic_pointer_cast<TargetTaskInfoType>(task_info_ptr);
-            }
+            return std::dynamic_pointer_cast<TargetTaskInfoType>(get(name));
         }
 
     protected:
