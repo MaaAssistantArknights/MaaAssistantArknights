@@ -3015,5 +3015,17 @@
                 "《欢欣鼓舞》"
             ]
         ]
+    },
+    "InfrastReward": {
+        "text": [
+            "受取可",
+            "納品可",
+            "信頼獲得"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "配属情報"
+        ]
     }
 }
