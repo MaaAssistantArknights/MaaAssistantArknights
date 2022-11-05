@@ -14,6 +14,38 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
 {
     return m_templ_required;
 }
+std::shared_ptr<asst::TaskInfo> asst::TaskData::get_raw(std::string_view name) const
+{
+    // 普通 task 或已经生成过的 `@` 型 task
+    if (auto it = m_raw_all_tasks_info.find(name); it != m_raw_all_tasks_info.cend()) [[likely]] {
+        return it->second;
+    }
+
+    size_t at_pos = name.find('@');
+    if (at_pos == std::string_view::npos) [[unlikely]] {
+        return nullptr;
+    }
+
+    // `@` 前面的字符长度
+    size_t name_len = at_pos;
+    auto base_task_iter = get_raw(name.substr(name_len + 1));
+    if (base_task_iter == nullptr) [[unlikely]] {
+        return nullptr;
+    }
+
+    std::string_view derived_task_name = name.substr(0, name_len);
+    return _generate_task_info(base_task_iter, derived_task_name);
+}
+
+std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
+{
+    // 普通 task 或已经生成过的 `@` 型 task
+    if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) [[likely]] {
+        return it->second;
+    }
+
+    return expend_sharp_task(name, get_raw(name)).value_or(nullptr);
+}
 
 bool asst::TaskData::parse(const json::value& json)
 {
@@ -169,7 +201,7 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
                 }
                 tasks_set.emplace(task_name_view(task));
 
-                size_t pos = task.find('#');
+                size_t pos = task.rfind('#');
                 if (pos == std::string_view::npos) [[likely]] {
                     new_task_list.emplace_back(task);
                     continue;
