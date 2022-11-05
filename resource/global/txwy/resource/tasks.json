@@ -1,4 +1,16 @@
 {
+    "CE-6": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "CE5@StageCE"
+        ]
+    },
+    "LS-6": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "LS5@StageLS"
+        ]
+    },
     "StartButton1": {
         "text": [
             "開始行動"
