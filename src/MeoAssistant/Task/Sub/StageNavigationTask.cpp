@@ -33,14 +33,14 @@ bool asst::StageNavigationTask::chapter_wayfinding()
     static const std::regex EpisodeRegex(R"(^[A-Z]*(\d+)-\d+$)");
     std::smatch episode_sm;
     if (!std::regex_match(m_stage_name, episode_sm, EpisodeRegex)) {
-        Log.error("Unkown stage", m_stage_name);
+        Log.error("Unknown stage", m_stage_name);
         return false;
     }
 
     static const std::string EpisodeTaskPrefix = "Episode";
     std::string episode_task_name = EpisodeTaskPrefix + episode_sm[1].str();
 
-    Log.info("capter name", episode_task_name);
+    Log.info("chapter name", episode_task_name);
 
     return Task.get(episode_task_name) && ProcessTask(*this, { episode_task_name }).run();
 }
@@ -48,23 +48,7 @@ bool asst::StageNavigationTask::chapter_wayfinding()
 bool asst::StageNavigationTask::swipe_and_find_stage()
 {
     LogTraceFunction;
-
-    ProcessTask to_right(*this, { "SwipeToTheRight" });
-    for (int i = 0; i < 3; ++i) {
-        to_right.run();
-    }
-
-    auto task_ptr = Task.get("EpisodeStageNameOcr");
-    for (int i = 0; i < task_ptr->max_times; ++i) {
-        OcrImageAnalyzer analyzer(m_ctrler->get_image());
-        analyzer.set_task_info(task_ptr);
-        analyzer.set_required({ m_stage_name });
-        analyzer.set_use_char_model(true);
-        if (analyzer.analyze()) {
-            m_ctrler->click(analyzer.get_result().front().rect);
-            return true;
-        }
-        ProcessTask(*this, { "SlowlySwipeToTheLeft" }).run();
-    }
-    return false;
+    std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(m_stage_name + "@ClickStageName"))->text = { m_stage_name };
+    std::dynamic_pointer_cast<OcrTaskInfo>(Task.get(m_stage_name + "@ClickedCorrectStage"))->text = { m_stage_name };
+    return ProcessTask(*this, { m_stage_name + "@StageNavigationBegin" }).run();
 }

@@ -22,7 +22,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using MeoAsstGui.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -289,6 +288,12 @@ namespace MeoAsstGui
             FailedToGetInfo,
         }
 
+        private enum Downloader
+        {
+            Native,
+            Aria2,
+        }
+
         /// <summary>
         /// 检查更新，并下载更新包。
         /// </summary>
@@ -308,8 +313,9 @@ namespace MeoAsstGui
             UpdateInfo = _latestJson["body"]?.ToString();
             UpdateUrl = _latestJson["html_url"]?.ToString();
 
+            var settings = _container.Get<SettingsViewModel>();
             bool otaFound = _assetsObject != null;
-            bool goDownload = otaFound && _container.Get<SettingsViewModel>().AutoDownloadUpdatePackage;
+            bool goDownload = otaFound && settings.AutoDownloadUpdatePackage;
 
             var openUrlToastButton = (
                 text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
@@ -354,17 +360,34 @@ namespace MeoAsstGui
             UpdatePackageName = _assetsObject["name"]?.ToString();
 
             // 下载压缩包
-            const int DownloadRetryMaxTimes = 3;
             var downloaded = false;
-            for (int i = 0; i < DownloadRetryMaxTimes; i++)
-            {
-                var mirroredAssets = (JObject)_assetsObject.DeepClone();
-                mirroredAssets.Property("browser_download_url")?.Remove();
-                mirroredAssets.Add("browser_download_url", _assetsObject["browser_download_url"]?.ToString().Replace("github.com", "download.fastgit.org"));
-                if (DownloadGithubAssets(mirroredAssets) || DownloadGithubAssets(_assetsObject))
+            var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
-                    downloaded = true;
-                    break;
+                    new Tuple<string, string>("https://", "https://gh.api.99988866.xyz/https://"),
+                    new Tuple<string, string>("https://", "https://ghproxy.com/https://"),
+                    new Tuple<string, string>("github.com", "ota.maa.plus"),
+                    new Tuple<string, string>("github.com", "download.fastgit.org"),
+                    null,
+                };
+
+            string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+            var downloader = settings.UseAria2 ? Downloader.Aria2 : Downloader.Native;
+            const int DownloadRetryMaxTimes = 1;
+            for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
+            {
+                var url = rawUrl;
+                foreach (var repTuple in mirroredReplaceMap)
+                {
+                    if (repTuple != null)
+                    {
+                        url = url.Replace(repTuple.Item1, repTuple.Item2);
+                    }
+
+                    if (DownloadGithubAssets(url, _assetsObject, downloader))
+                    {
+                        downloaded = true;
+                        break;
+                    }
                 }
             }
 
@@ -583,14 +606,16 @@ namespace MeoAsstGui
         /// <summary>
         /// 获取 GitHub Assets 对象对应的文件
         /// </summary>
+        /// <param name="url">下载链接</param>
         /// <param name="assetsObject">Github Assets 对象</param>
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-        public bool DownloadGithubAssets(JObject assetsObject, string downloader = null, string saveTo = null)
+        private bool DownloadGithubAssets(string url, JObject assetsObject,
+            Downloader downloader = Downloader.Native, string saveTo = null)
         {
             return DownloadFile(
-                url: assetsObject["browser_download_url"].ToString(),
+                url: url,
                 fileName: assetsObject["name"].ToString(), contentType:
                 assetsObject["content_type"].ToString(),
                 downloader: downloader,
@@ -606,25 +631,25 @@ namespace MeoAsstGui
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public bool DownloadFile(string url, string fileName, string contentType = null, string downloader = null, string saveTo = null)
+        private bool DownloadFile(string url, string fileName, string contentType = null,
+            Downloader downloader = Downloader.Native, string saveTo = null)
         {
             string fileDir = (saveTo == null) ? Directory.GetCurrentDirectory() : Path.GetFullPath(saveTo);
             string fileNameWithTemp = fileName + ".temp";
             string fullFilePath = Path.Combine(fileDir, fileName);
             string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
-
-            string usedDownloader = downloader ?? (_container.Get<SettingsViewModel>().UseAria2 ? "ARIA2" : "NATIVE");
-            bool returned;
+            bool returned = false;
             try
             {
-                if (usedDownloader == "ARIA2")
+                switch (downloader)
                 {
-                    returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp);
-                }
-                else
-                {
-                    // 如对应下载器不存在则默认使用 Native 方式下载
-                    returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType);
+                    case Downloader.Native:
+                        returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType);
+                        break;
+
+                    case Downloader.Aria2:
+                        returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp);
+                        break;
                 }
             }
             catch (Exception info)
