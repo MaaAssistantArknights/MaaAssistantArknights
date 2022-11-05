@@ -3984,7 +3984,8 @@
             "Infrast@ReturnTo",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@ReturnTo": {
@@ -3997,7 +3998,8 @@
             "Infrast@ReturnToConfirm",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@ReturnToConfirm": {
@@ -4010,7 +4012,8 @@
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
             "Infrast@TodaysSupplies",
-            "Infrast@ReturnToConfirm"
+            "Infrast@ReturnToConfirm",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@CloseAnno": {
@@ -4022,7 +4025,8 @@
             "Infrast@ReturnTo",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Infrast@CloseAnnoTexas": {
@@ -4034,7 +4038,8 @@
             "Infrast@ReturnTo",
             "Infrast@CloseAnnos#next",
             "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ]
     },
     "Return": {
@@ -4062,7 +4067,8 @@
             "InfrastEnteredFlag",
             "Infrast",
             "Infrast@CloseAnnos#next",
-            "Infrast@TodaysSupplies"
+            "Infrast@TodaysSupplies",
+            "Infrast@OfflineConfirm"
         ],
         "postDelay": 5000
     },
