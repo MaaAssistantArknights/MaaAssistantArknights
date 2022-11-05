@@ -2202,5 +2202,43 @@
                 "《欢欣鼓舞》"
             ]
         ]
+    },
+    "InfrastReward": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "可收獲",
+            "訂單交付",
+            "幹員信賴"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            600,
+            800,
+            118
+        ],
+        "cache": false,
+        "next": [
+            "InfrastReward",
+            "InfrastExitReward"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "進駐資訊"
+        ],
+        "roi": [
+            0,
+            0,
+            150,
+            720
+        ],
+        "postDelay": 1000,
+        "next": [
+            "InfrastEnterOperList"
+        ]
     }
 }
