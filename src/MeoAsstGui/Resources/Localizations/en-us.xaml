@@ -359,6 +359,8 @@
     <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
+    <system:String x:Key="ErrorSolution">Solution</system:String>
+    <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: FAQ - Crashes to solve.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
