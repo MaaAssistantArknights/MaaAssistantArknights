@@ -163,7 +163,10 @@ int main([[maybe_unused]] int argc, char** argv)
 
     std::unordered_map<std::string, std::string> global_dirs = {
         // 繁中的gamedata很久没更新了，暂时不从这里拿数据了
-        { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" }, /* { "zh_TW", "txwy" } */
+        { "en_US", "YoStarEN" },
+        { "ja_JP", "YoStarJP" },
+        { "ko_KR", "YoStarKR" },
+        /* { "zh_TW", "txwy" } */
     };
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
@@ -876,8 +879,8 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     }
     auto& task_json = task_opt.value();
 
-    auto proc = [&input_dir](json::array& replace_array, const std::unordered_map<std::string, std::string>& base_map,
-                             const std::unordered_map<std::string, std::string>& cur_map) {
+    auto proc = [&output_dir](json::array& replace_array, const std::unordered_map<std::string, std::string>& base_map,
+                              const std::unordered_map<std::string, std::string>& cur_map) {
         std::unordered_map<std::string, std::string> exists_replace;
         for (const auto& replace : replace_array) {
             exists_replace.emplace(replace.as_array()[1], replace.as_array()[0]);
@@ -897,7 +900,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             if (exists_replace.contains(base_name)) {
                 continue;
             }
-            std::cout << "Roguelike add new field: " << base_name << ", " << input_dir << std::endl;
+            std::cout << "Roguelike add new field: " << base_name << ", " << output_dir << std::endl;
             replace_array.emplace_back(json::array { name, base_name });
         }
     };
