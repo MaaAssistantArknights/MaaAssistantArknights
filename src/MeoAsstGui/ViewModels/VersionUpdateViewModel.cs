@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -309,8 +310,39 @@ namespace MeoAsstGui
             }
 
             // 保存新版本的信息
-            UpdateTag = _latestJson["name"]?.ToString();
-            UpdateInfo = _latestJson["body"]?.ToString();
+            var name = _latestJson["name"]?.ToString();
+            UpdateTag = name == string.Empty ? _latestJson["tag_name"]?.ToString() : name;
+            var body = _latestJson["body"]?.ToString();
+            if (body == string.Empty)
+            {
+                // v4.6.6-1.gabcdefgh
+                // v4.6.7-beta.2.8.g98b60e9d
+                if (Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
+                    semVersion.IsPrerelease &&
+                    semVersion.PrereleaseIdentifiers.LastOrDefault().ToString().Length > 5)
+                {
+                    var commit = semVersion.PrereleaseIdentifiers.Last().ToString();
+                    if (commit.StartsWith("g"))
+                    {
+                        commit = commit.Remove(0, 1);
+                    }
+
+                    var mainVer = "v" + semVersion.WithoutPrerelease() + "-";
+                    for (int i = 0; i < semVersion.PrereleaseIdentifiers.Count - 2; ++i)
+                    {
+                        mainVer += semVersion.PrereleaseIdentifiers[i].ToString() + ".";
+                    }
+
+                    if (mainVer.EndsWith("."))
+                    {
+                        mainVer = mainVer.Remove(mainVer.Length - 1);
+                    }
+
+                    body = $"**Full Changelog**: [{mainVer} -> {commit}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{mainVer}...{commit})";
+                }
+            }
+
+            UpdateInfo = body;
             UpdateUrl = _latestJson["html_url"]?.ToString();
 
             var settings = _container.Get<SettingsViewModel>();
@@ -345,7 +377,10 @@ namespace MeoAsstGui
                         toast.AppendContentText(Localization.GetString("NewVersionFoundButNoPackageDesc"));
                     }
 
-                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + UpdateInfo.Substring(0, 100));
+                    var toastDesc = UpdateInfo.Length > 100 ?
+                        UpdateInfo.Substring(0, 100) + "..." :
+                        UpdateInfo;
+                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + toastDesc);
                     toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
                     toast.ButtonSystemUrl = UpdateUrl;
                     toast.ShowUpdateVersion();
@@ -527,6 +562,7 @@ namespace MeoAsstGui
                     }
                 }
 
+                // 从主仓库获取changelog等信息
                 // 非稳定版本是 Nightly 下载的，主仓库没有它的更新信息，不必请求
                 if (isStdVersion(_latestVersion))
                 {
@@ -777,9 +813,12 @@ namespace MeoAsstGui
                 return false;
             }
 
-            var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
-            var match = Regex.Match(version, pattern);
-            if (match.Success is false)
+            bool parsed = Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion);
+            if (!parsed)
+            {
+                return false;
+            }
+            else if (semVersion.IsPrerelease && semVersion.PrereleaseIdentifiers.LastOrDefault().ToString().Length > 5)
             {
                 return false;
             }
