@@ -36,10 +36,22 @@ namespace MeoAsstGui.Views
             Title = error;
             Error.Text = error;
             ErrorDetails.Text = details;
+            ErrorSolution.Text = GetSolution(error, details);
+
             ShouldExit = shouldExit;
 
             var isZhCn = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage) == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private string GetSolution(string error, string details)
+        {
+            if (details.Contains("AsstGetVersion()"))
+            {
+                return Localization.GetString("ErrorSolutionCrash");
+            }
+
+            return Localization.GetString("UnknownErrorOccurs");
         }
 
         protected override void OnClosed(EventArgs e)
