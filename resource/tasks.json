@@ -174,7 +174,7 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [
-            750,
+            790,
             310,
             10,
             10
@@ -194,132 +194,130 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme"
+            "ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode11@EnterEpisode9",
-            "Episode11@EpisodeStageSwipeToTheLeft"
+            "ToEpisode11",
+            "EnterEpisode11"
         ]
     },
     "Episode10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme"
+            "ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode10@EnterEpisode9",
-            "Episode10@EpisodeStageSwipeToTheLeft"
+            "ToEpisode10",
+            "EnterEpisode10"
         ]
     },
     "Episode9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "StageTheme"
+            "ToChapter3@StageTheme"
         ],
         "next": [
-            "EnterEpisode9",
-            "Episode9@EpisodeStageSwipeToTheLeft"
+            "ToEpisode9",
+            "EnterEpisode9"
         ]
     },
     "Episode8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode8@EnterEpisode4",
-            "Episode8@EpisodeStageSwipeToTheLeft"
+            "EnterEpisode8"
         ]
     },
     "Episode7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode7@EnterEpisode4",
-            "Episode7@EpisodeStageSwipeToTheLeft"
+            "ToEpisode7",
+            "EnterEpisode7"
         ]
     },
     "Episode6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode6@EnterEpisode4",
-            "Episode6@EpisodeStageSwipeToTheLeft"
+            "ToEpisode6",
+            "EnterEpisode6"
         ]
     },
     "Episode5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode5@EnterEpisode4",
-            "Episode5@EpisodeStageSwipeToTheLeft"
+            "ToEpisode5",
+            "EnterEpisode5"
         ]
     },
     "Episode4": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter2@StageTheme"
+            "ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "EnterEpisode4",
-            "Episode4@EpisodeStageSwipeToTheLeft"
+            "ToEpisode4",
+            "EnterEpisode4"
         ]
     },
     "Episode3": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter1@ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode3@EnterEpisode0",
-            "Episode3@EpisodeStageSwipeToTheLeft"
+            "EnterEpisode3"
         ]
     },
     "Episode2": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter1@ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
-            "ToEpisode2@EnterEpisode0",
-            "Episode2@EpisodeStageSwipeToTheLeft"
+            "ToEpisode2",
+            "EnterEpisode2"
         ]
     },
     "Episode1": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter3@ToChapter1@ToChapter2@StageTheme"
         ],
         "next": [
-            "ToEpisode1@EnterEpisode0",
-            "Episode1@EpisodeStageSwipeToTheLeft"
+            "ToEpisode1",
+            "EnterEpisode1"
         ]
     },
     "Episode0": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter1@ToChapter2@StageTheme"
+            "ToChapter3@ToChapter1@ToChapter2@StageTheme"
         ],
         "next": [
-            "EnterEpisode0",
-            "Episode0@EpisodeStageSwipeToTheLeft"
+            "ToEpisode0",
+            "EnterEpisode0"
         ]
     },
     "StageTheme": {
@@ -343,13 +341,14 @@
             "残阳"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            142,
+            43,
+            210,
+            274
         ],
         "next": [
-            "#back"
+            "#back",
+            "Stop"
         ]
     },
     "ToChapter2": {
@@ -359,13 +358,14 @@
             "幻灭"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            142,
+            43,
+            210,
+            274
         ],
         "next": [
-            "#back"
+            "#back",
+            "Stop"
         ]
     },
     "ToChapter1": {
@@ -375,158 +375,237 @@
             "觉醒"
         ],
         "roi": [
-            200,
-            120,
-            80,
-            32
+            142,
+            43,
+            210,
+            274
         ],
         "next": [
-            "#back"
+            "#back",
+            "Stop"
         ]
     },
     "EnterEpisode": {
         "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": [],
         "roi": [
-            700,
-            100,
-            500,
-            500
+            16,
+            219,
+            409,
+            151
+        ],
+        "specificRect": [
+            787,
+            281,
+            154,
+            154
         ],
         "next": [
-            "#back"
+            "#self",
+            "Stop"
         ]
     },
-    "EnterEpisode9": {
-        "baseTask": "EnterEpisode"
+    "EnterEpisode0": {
+        "baseTask": "EnterEpisode",
+        "text": [
+            "00",
+            "OO",
+            "O0",
+            "0O"
+        ]
+    },
+    "EnterEpisode1": {
+        "baseTask": "EnterEpisode",
+        "text": [ "01" ]
+    },
+    "EnterEpisode2": {
+        "baseTask": "EnterEpisode",
+        "text": [ "02" ]
+    },
+    "EnterEpisode3": {
+        "baseTask": "EnterEpisode",
+        "text": [ "03" ]
     },
     "EnterEpisode4": {
-        "baseTask": "EnterEpisode"
+        "baseTask": "EnterEpisode",
+        "text": [ "04" ]
     },
-    "EnterEpisode0": {
-        "baseTask": "EnterEpisode"
+    "EnterEpisode5": {
+        "baseTask": "EnterEpisode",
+        "text": [ "05" ]
+    },
+    "EnterEpisode6": {
+        "baseTask": "EnterEpisode",
+        "text": [ "06" ]
+    },
+    "EnterEpisode7": {
+        "baseTask": "EnterEpisode",
+        "text": [ "07" ]
+    },
+    "EnterEpisode8": {
+        "baseTask": "EnterEpisode",
+        "text": [ "08" ]
+    },
+    "EnterEpisode9": {
+        "baseTask": "EnterEpisode",
+        "text": [ "09" ]
+    },
+    "EnterEpisode10": {
+        "baseTask": "EnterEpisode",
+        "text": [ "10" ]
+    },
+    "EnterEpisode11": {
+        "baseTask": "EnterEpisode",
+        "text": [ "11" ]
     },
     "ToEpisode": {
         "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "isAscii": true,
+        "action": "DoNothing",
         "text": [],
         "roi": [
-            1106,
-            612,
-            161,
-            108
+            16,
+            219,
+            409,
+            151
         ],
         "postDelay": 500
     },
     "ToEpisode11": {
         "baseTask": "ToEpisode",
         "text": [
-            "11",
-            "10"
+            "12",
+            "13",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode11",
-            "#back",
-            "Stop"
+            "EnterEpisode11",
+            "ToEpisode11"
         ]
     },
     "ToEpisode10": {
         "baseTask": "ToEpisode",
         "text": [
-            "10"
+            "11",
+            "12",
+            "13",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode10",
-            "#back",
-            "Stop"
+            "EnterEpisode10",
+            "ToEpisode10"
         ]
     },
-    "ToEpisode8": {
+    "ToEpisode9": {
         "baseTask": "ToEpisode",
         "text": [
-            "8",
-            "7",
-            "6",
-            "5"
+            "10",
+            "11",
+            "12",
+            "13",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode8",
-            "#back",
-            "Stop"
+            "EnterEpisode9",
+            "ToEpisode9"
         ]
     },
     "ToEpisode7": {
         "baseTask": "ToEpisode",
         "text": [
-            "7",
-            "6",
-            "5"
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode7",
-            "#back",
-            "Stop"
+            "EnterEpisode7",
+            "ToEpisode7"
         ]
     },
     "ToEpisode6": {
         "baseTask": "ToEpisode",
         "text": [
-            "6",
-            "5"
+            "07",
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode6",
-            "#back",
-            "Stop"
+            "EnterEpisode6",
+            "ToEpisode6"
         ]
     },
     "ToEpisode5": {
         "baseTask": "ToEpisode",
         "text": [
-            "5"
+            "06",
+            "07",
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode5",
-            "#back",
-            "Stop"
+            "EnterEpisode5",
+            "ToEpisode5"
+
         ]
     },
-    "ToEpisode3": {
+    "ToEpisode4": {
         "baseTask": "ToEpisode",
         "text": [
-            "3",
-            "2",
-            "1"
+            "05",
+            "06",
+            "07",
+            "08",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode3",
-            "#back",
-            "Stop"
+            "EnterEpisode4",
+            "ToEpisode4"
         ]
     },
     "ToEpisode2": {
         "baseTask": "ToEpisode",
         "text": [
-            "2",
-            "1"
+            "03",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode2",
-            "#back",
-            "Stop"
+            "EnterEpisode2",
+            "ToEpisode2"
         ]
     },
     "ToEpisode1": {
         "baseTask": "ToEpisode",
         "text": [
-            "1"
+            "02",
+            "03",
+            "未解锁"
         ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
         "next": [
-            "ToEpisode1",
-            "#back",
-            "Stop"
+            "EnterEpisode1",
+            "ToEpisode1"
+        ]
+    },
+    "ToEpisode0": {
+        "baseTask": "ToEpisode",
+        "text": [
+            "01",
+            "02",
+            "03",
+            "未解锁"
+        ],
+        "sub": [ "EpisodeStageSwipeToTheLeft" ],
+        "next": [
+            "EnterEpisode0",
+            "ToEpisode0"
         ]
     },
     "SwipeLeftToStage1-7": {
