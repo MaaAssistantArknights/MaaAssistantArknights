@@ -48,6 +48,16 @@ jobs:
 
           echo "prerelease=$([ $(head -n 1 release_maa.txt | awk '{ print $2}') = 'Pre-release' ] && echo true || echo false)" >> $GITHUB_ENV
           echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_ENV
+      - name: "Download latest version for server"
+        run: |
+          mkdir -pv build-ota/${{ env.release_tag }}
+          cd build-ota/${{ env.release_tag }}
+          mkdir -pv content
+          gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-win-x64.zip" --clobber
+          unzip -q -O gbk -o "*.zip" -d 'content'
+          mv *.zip ..
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Build OTA"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
