@@ -304,7 +304,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter3@ToChapter1@ToChapter2@StageTheme"
+            "ToChapter1@ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
             "ToEpisode1",
@@ -315,7 +315,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "ToChapter3@ToChapter1@ToChapter2@StageTheme"
+            "ToChapter1@ToChapter2@ToChapter3@StageTheme"
         ],
         "next": [
             "ToEpisode0",
