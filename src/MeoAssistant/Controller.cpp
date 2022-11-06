@@ -997,7 +997,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
 
         auto& uuid_str = uuid_ret.value();
-        std::erase(uuid_str, ' ');
+        std::erase_if(uuid_str, [](char c) { return !std::isdigit(c) && !std::isalpha(c); });
         m_uuid = std::move(uuid_str);
 
         json::value info = get_info_json() | json::object {
@@ -1164,6 +1164,23 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     if (need_exit()) {
         return false;
+    }
+
+    if (m_enable_minitouch) {
+        auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
+            return utils::string_replace_all(
+                cmd_replace(cfg_cmd),
+                {
+                    // TODO: 用 adb shell getprop ro.product.cpu.abilist 来判断该用哪个文件夹里的
+                    { "[minitouchLocalPath]", (m_resource_path / "minitouch" / "armeabi-v7a" / "minitouch").string() },
+                    { "[minitouchWorkingFile]", m_uuid },
+                });
+        };
+
+        call_command(minitouch_cmd_rep(adb_cfg.push_minitouch));
+        call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
+
+        m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.push_minitouch);
     }
 
     // try to find the fastest way
