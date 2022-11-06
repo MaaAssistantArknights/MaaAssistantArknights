@@ -797,7 +797,7 @@ namespace MeoAsstGui
                 version = _curVersion;
             }
 
-            if (isStdVersion(version))
+            if (isDebugVersion(version))
             {
                 return false;
             }
