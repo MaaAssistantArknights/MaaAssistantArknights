@@ -831,9 +831,16 @@ bool asst::Controller::click_without_scale(const Point& p)
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
     }
-    std::string cur_cmd =
-        utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
 
+    std::string cur_cmd;
+    if (m_enable_minitouch) {
+        std::string minitouch_cmd = MinitouchCmd::down(p.x, p.y) + MinitouchCmd::up();
+        cur_cmd = utils::string_replace_all(m_adb.call_minitouch, { { "[minitouchInput]", minitouch_cmd } });
+    }
+    else {
+        cur_cmd =
+            utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
+    }
     return call_command(cur_cmd).has_value();
 }
 
@@ -870,19 +877,41 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    std::string cur_cmd =
-        utils::string_replace_all(m_adb.swipe, {
-                                                   { "[x1]", std::to_string(x1) },
-                                                   { "[y1]", std::to_string(y1) },
-                                                   { "[x2]", std::to_string(x2) },
-                                                   { "[y2]", std::to_string(y2) },
-                                                   { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
-                                               });
+    std::string cur_cmd;
+    if (m_enable_minitouch) {
+        std::string minitouch_cmd = MinitouchCmd::down(x1, x2);
+        if (duration == 0) {
+            duration = 1000;
+        }
+        constexpr int MoveInterval = MinitouchCmd::DefaultInterval;
+        int move_times = std::max(duration / MoveInterval, 1);
+        int x_step = (x2 - x1) / move_times;
+        int y_step = (y2 - y1) / move_times;
+        // TODO: 加点随机因子，或者改成中间快两头慢
+        for (int times = 1; times < move_times; ++times) {
+            minitouch_cmd += MinitouchCmd::move(x1 + x_step * times, y1 + y_step * times);
+        }
+        minitouch_cmd += MinitouchCmd::move(x2, y2);
+        minitouch_cmd += MinitouchCmd::up();
+
+        cur_cmd = utils::string_replace_all(m_adb.call_minitouch, { { "[minitouchInput]", minitouch_cmd } });
+    }
+    else {
+        cur_cmd =
+            utils::string_replace_all(m_adb.swipe, {
+                                                       { "[x1]", std::to_string(x1) },
+                                                       { "[y1]", std::to_string(y1) },
+                                                       { "[x2]", std::to_string(x2) },
+                                                       { "[y2]", std::to_string(y2) },
+                                                       { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
+                                                   });
+    }
+
     bool ret = call_command(cur_cmd).has_value();
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
     const auto& opt = Configer.get_options();
-    if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
+    if (!m_enable_minitouch && extra_swipe && opt.adb_extra_swipe_duration > 0) {
         std::string extra_cmd = utils::string_replace_all(
             m_adb.swipe, {
                              { "[x1]", std::to_string(x2) },
@@ -1180,7 +1209,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         call_command(minitouch_cmd_rep(adb_cfg.push_minitouch));
         call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
 
-        m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.push_minitouch);
+        m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
     }
 
     // try to find the fastest way
