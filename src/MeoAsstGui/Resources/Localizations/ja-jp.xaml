@@ -354,9 +354,9 @@
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。コンピュータを再起動するか、エミュレータを変更してから再試行することをお勧めします</system:String>
-    <system:String x:Key="TryToReconnect">エミュレータが切断されました。再接続しようとしています</system:String>
-    <system:String x:Key="ReconnectSuccess">再接続に成功した。タスクを続行します</system:String>
-    <system:String x:Key="ReconnectFailed">再接続に失敗した。切断されました！</system:String>
+    <system:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</system:String>
+    <system:String x:Key="ReconnectSuccess">再接続に成功、タスクを続行します</system:String>
+    <system:String x:Key="ReconnectFailed">再接続に失敗、切断されました！</system:String>
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError">タスクエラー：</system:String>
@@ -370,8 +370,7 @@
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
-    <system:String x:Key="HasReturned">戻った</system:String>
-    <!--  内容不明のため翻訳修正候補  -->
+    <system:String x:Key="HasReturned">戻ります</system:String>
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEX">ステージ報酬がないため停止します</system:String>
