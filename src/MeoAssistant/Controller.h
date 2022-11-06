@@ -177,6 +177,45 @@ namespace asst
         cv::Mat m_cache_image;
 
     private:
+        struct MinitouchCmd
+        {
+            inline static constexpr int DefaultInterval = 50;
+            inline static std::string reset() { return "r\\n"; }
+            inline static std::string commit() { return "c\\n"; }
+            inline static std::string down(int x, int y, bool with_commit = true, bool with_wait = true,
+                                           int contact = 0, int pressure = 50)
+            {
+                std::stringstream ss;
+                ss << "d " << contact << " " << x << " " << y << " " << pressure << "\\n";
+                if (with_commit) ss << commit();
+                if (with_wait) ss << wait();
+                return ss.str();
+            }
+            inline static std::string move(int x, int y, bool with_commit = true, bool with_wait = true,
+                                           int contact = 0, int pressure = 50)
+            {
+                std::stringstream ss;
+                ss << "m " << contact << " " << x << " " << y << " " << pressure << "\\n";
+                if (with_commit) ss << commit();
+                if (with_wait) ss << wait();
+                return ss.str();
+            }
+            inline static std::string up(bool with_commit = true, int contact = 0)
+            {
+                std::stringstream ss;
+                ss << "u " << contact << "\\n";
+                if (with_commit) ss << commit();
+                return ss.str();
+            }
+            inline static std::string wait(int ms = DefaultInterval)
+            {
+                std::stringstream ss;
+                ss << "w " << ms << "\\n";
+                return ss.str();
+            }
+        };
+
+    private:
 #ifdef _WIN32
         // for Windows socket
         class WsaHelper : public SingletonHolder<WsaHelper>
