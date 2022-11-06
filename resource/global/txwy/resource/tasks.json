@@ -1,4 +1,16 @@
 {
+    "CE-6": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "CE5@StageCE"
+        ]
+    },
+    "LS-6": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "LS5@StageLS"
+        ]
+    },
     "StartButton1": {
         "text": [
             "開始行動"
@@ -2201,6 +2213,18 @@
                 "《歡欣鼓舞》",
                 "《欢欣鼓舞》"
             ]
+        ]
+    },
+    "InfrastReward": {
+        "text": [
+            "可收獲",
+            "訂單交付",
+            "幹員信賴"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "進駐資訊"
         ]
     }
 }
