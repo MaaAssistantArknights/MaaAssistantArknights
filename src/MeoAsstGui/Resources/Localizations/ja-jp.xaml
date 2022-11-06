@@ -57,7 +57,7 @@
     <system:String x:Key="Compatible">互換モード</system:String>
 
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
-    <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
+    <system:String x:Key="InfrastThresholdTip">カスタムシフトが有効な場合、この項目は自動入力された部屋に対してのみ有効です。</system:String>
 
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得する、できるだけクリアする</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、2階に到着後止める</system:String>
@@ -114,9 +114,9 @@
     <system:String x:Key="ManualRestart">後で</system:String>
     <system:String x:Key="Tip">ヒント</system:String>
 
-    <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
-    <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
-    <system:String x:Key="HotKeyChangingTip">Press Backspace/Esc/Delete to clear the current value</system:String>
+    <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
+    <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
+    <system:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
 
     <system:String x:Key="LabelSequenceTip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="CheckBoxesNotSaved">このオプション設定は再起動後に保存されません</system:String>
@@ -236,13 +236,13 @@
     <system:String x:Key="ClosedStage">イベントは未公開か既に終了</system:String>
     <!--  動作不明  -->
     <system:String x:Key="1-7">1-7</system:String>
-    <system:String x:Key="CE-6">龍門幣-6/5(CE-6)</system:String>
+    <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>
     <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="AP-5">購買資格証-5(AP-5)</system:String>
     <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="CA-5">アーツ学-5(CA-5)</system:String>
     <!--  馴染みのあるステージ名での表記  -->
-    <system:String x:Key="LS-6">作戦記録-6/5(LS-6)</system:String>
+    <system:String x:Key="LS-6">作戦記録-6(LS-6)</system:String>
     <!--  馴染みのあるステージ名での表記  -->
 
     <system:String x:Key="PR-A-1">医療/重装SoC・初</system:String>
