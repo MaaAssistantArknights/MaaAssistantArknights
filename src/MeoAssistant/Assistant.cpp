@@ -166,15 +166,15 @@ std::vector<uchar> asst::Assistant::get_image() const
     if (!inited()) {
         return {};
     }
-    return m_ctrler->get_image_encode();
+    return m_ctrler->get_encoded_image_cache();
 }
 
-bool asst::Assistant::ctrler_click(int x, int y, bool block)
+bool asst::Assistant::ctrler_click(int x, int y)
 {
     if (!inited()) {
         return false;
     }
-    m_ctrler->click(Point(x, y), block);
+    m_ctrler->click(Point(x, y));
     return true;
 }
 

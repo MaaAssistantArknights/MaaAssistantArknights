@@ -48,95 +48,31 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     }
 
 #else
-    int pipe_in_ret = pipe(m_pipe_in);
-    int pipe_out_ret = pipe(m_pipe_out);
-    fcntl(m_pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
+    int pipe_in_ret = ::pipe(m_pipe_in);
+    int pipe_out_ret = ::pipe(m_pipe_out);
+    ::fcntl(m_pipe_out[PIPE_READ], F_SETFL, O_NONBLOCK);
 
     if (pipe_in_ret < 0 || pipe_out_ret < 0) {
         Log.error(__FUNCTION__, "controller pipe created failed", pipe_in_ret, pipe_out_ret);
     }
     m_support_socket = true;
 #endif
-
-    m_cmd_thread = std::thread(&Controller::pipe_working_proc, this);
 }
 
 asst::Controller::~Controller()
 {
     LogTraceFunction;
 
-    m_thread_exit = true;
-    // m_thread_idle = true;
-    m_cmd_condvar.notify_all();
-    m_completed_id = UINT_MAX; // make all WinMacor::wait to exit
-
-    if (m_cmd_thread.joinable()) {
-        m_cmd_thread.join();
-    }
-
     set_inited(false);
     kill_adb_daemon();
 
 #ifndef _WIN32
-    close(m_pipe_in[PIPE_READ]);
-    close(m_pipe_in[PIPE_WRITE]);
-    close(m_pipe_out[PIPE_READ]);
-    close(m_pipe_out[PIPE_WRITE]);
+    ::close(m_pipe_in[PIPE_READ]);
+    ::close(m_pipe_in[PIPE_WRITE]);
+    ::close(m_pipe_out[PIPE_READ]);
+    ::close(m_pipe_out[PIPE_WRITE]);
 #endif
 }
-
-// asst::Rect asst::Controller::shaped_correct(const Rect & rect) const
-//{
-//     if (rect.empty()
-//         || m_scale_size.first == 0
-//         || m_scale_size.second == 0) {
-//         return rect;
-//     }
-//     // 明日方舟在异形屏上，有的地方是按比例缩放的，有的地方又是直接位移。没法整，这里简单粗暴一点截一个长条
-//     Rect dst = rect;
-//     if (m_scale_size.first != WindowWidthDefault) {                 // 说明是宽屏
-//         if (rect.width <= WindowWidthDefault / 2) {
-//             if (rect.x + rect.width <= WindowWidthDefault / 2) {     // 整个矩形都在左半边
-//                 dst.x = 0;
-//                 dst.width = m_scale_size.first / 2;
-//             }
-//             else if (rect.x >= WindowWidthDefault / 2) {            // 整个矩形都在右半边
-//                 dst.x = m_scale_size.first / 2;
-//                 dst.width = m_scale_size.first / 2;
-//             }
-//             else {                                                  // 整个矩形横跨了中线
-//                 dst.x = 0;
-//                 dst.width = m_scale_size.first;
-//             }
-//         }
-//         else {
-//             dst.x = 0;
-//             dst.width = m_scale_size.first;
-//         }
-//     }
-//     else if (m_scale_size.second != WindowHeightDefault) {          // 说明是偏方形屏
-//         if (rect.height <= WindowHeightDefault / 2) {
-//             if (rect.y + rect.height <= WindowHeightDefault / 2) {   // 整个矩形都在上半边
-//                 dst.y = 0;
-//                 dst.height = m_scale_size.second / 2;
-//             }
-//             else if (rect.y >= WindowHeightDefault / 2) {           // 整个矩形都在下半边
-//                 dst.y = m_scale_size.second / 2;
-//                 dst.height = m_scale_size.second / 2;                // 整个矩形横跨了中线
-//             }
-//             else {
-//                 dst.y = 0;
-//                 dst.height = m_scale_size.second;
-//             }
-//         }
-//
-//         else {
-//             dst.y = 0;
-//             dst.height = m_scale_size.second;
-//         }
-//     }
-//     return dst;
-// }
 
 std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 {
@@ -146,40 +82,6 @@ std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 bool asst::Controller::need_exit() const
 {
     return m_exit_flag != nullptr && *m_exit_flag;
-}
-
-void asst::Controller::pipe_working_proc()
-{
-    LogTraceFunction;
-
-    while (!m_thread_exit) {
-        std::unique_lock<std::mutex> cmd_queue_lock(m_cmd_queue_mutex);
-
-        if (!m_cmd_queue.empty()) { // 队列中有任务就执行任务
-            std::string cmd = m_cmd_queue.front();
-            m_cmd_queue.pop();
-            cmd_queue_lock.unlock();
-            // todo 判断命令是否执行成功
-            call_command(cmd);
-            ++m_completed_id;
-        }
-        // else if (!m_thread_idle) {	// 队列中没有任务，又不是闲置的时候，就去截图
-        //	cmd_queue_lock.unlock();
-        //	auto start_time = std::chrono::steady_clock::now();
-        //	screencap();
-        //	cmd_queue_lock.lock();
-        //	if (!m_cmd_queue.empty()) {
-        //		continue;
-        //	}
-        //	m_cmd_condvar.wait_until(
-        //		cmd_queue_lock,
-        //		start_time + std::chrono::milliseconds(1000));	// todo 时间写到配置文件里
-        // }
-        else {
-            // m_cmd_condvar.wait(cmd_queue_lock, [&]() -> bool {return !m_thread_idle; });
-            m_cmd_condvar.wait(cmd_queue_lock);
-        }
-    }
 }
 
 std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool allow_reconnect,
@@ -247,9 +149,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
         client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         DWORD dummy;
-        if (!m_AcceptEx(m_server_sock, client_socket, sock_buffer.value().get(),
-                        (DWORD)sock_buffer.value().size() - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
-                        sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
+        if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.value().get(),
+                                (DWORD)sock_buffer.value().size() - ((sizeof(sockaddr_in) + 16) * 2),
+                                sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
             err = WSAGetLastError();
             if (err == ERROR_IO_PENDING) {
                 accept_pending = true;
@@ -258,15 +160,12 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 Log.trace("AcceptEx failed, err:", err);
                 accept_pending = false;
                 socket_eof = true;
-                closesocket(client_socket);
+                ::closesocket(client_socket);
             }
         }
     }
 
-    while (true) {
-        if (need_exit()) {
-            break;
-        }
+    while (!need_exit()) {
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
@@ -346,7 +245,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 
                     if (len == 0) {
                         socket_eof = true;
-                        closesocket(client_socket);
+                        ::closesocket(client_socket);
                     }
                     else {
                         // reset the overlapped since we reuse it for different handle
@@ -367,7 +266,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                         sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + len);
                     if (len == 0) {
                         socket_eof = true;
-                        closesocket(client_socket);
+                        ::closesocket(client_socket);
                     }
                     else {
                         (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.value().get(),
@@ -377,7 +276,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 else {
                     // err = GetLastError();
                     socket_eof = true;
-                    closesocket(client_socket);
+                    ::closesocket(client_socket);
                 }
             }
         }
@@ -400,13 +299,13 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     };
 
     int exit_ret = 0;
-    m_child = fork();
+    m_child = ::fork();
     if (m_child == 0) {
         // child process
 
-        dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
-        dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
-        dup2(m_pipe_out[PIPE_WRITE], STDERR_FILENO);
+        ::dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
+        ::dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
+        ::dup2(m_pipe_out[PIPE_WRITE], STDERR_FILENO);
 
         // all these are for use by parent only
         // close(m_pipe_in[PIPE_READ]);
@@ -415,7 +314,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         // close(m_pipe_out[PIPE_WRITE]);
 
         exit_ret = execlp("sh", "sh", "-c", cmd.c_str(), nullptr);
-        exit(exit_ret);
+        ::exit(exit_ret);
     }
     else if (m_child > 0) {
         // parent process
@@ -446,7 +345,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 
             while (read_num > 0) {
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
-                read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+                read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
             }
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
     }
@@ -628,22 +527,12 @@ void asst::Controller::clear_info() noexcept
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
 }
 
-int asst::Controller::push_cmd(const std::string& cmd)
-{
-    random_delay();
-
-    std::unique_lock<std::mutex> lock(m_cmd_queue_mutex);
-    m_cmd_queue.emplace(cmd);
-    m_cmd_condvar.notify_one();
-    return static_cast<int>(++m_push_id);
-}
-
-void asst::Controller::try_to_close_socket() noexcept
+void asst::Controller::close_socket(SOCKET& sock) noexcept
 {
 #ifdef _WIN32
-    if (m_server_sock != INVALID_SOCKET) {
-        ::closesocket(m_server_sock);
-        m_server_sock = INVALID_SOCKET;
+    if (sock != INVALID_SOCKET) {
+        ::closesocket(sock);
+        sock = INVALID_SOCKET;
     }
 #else
     if (m_server_sock >= 0) {
@@ -654,7 +543,7 @@ void asst::Controller::try_to_close_socket() noexcept
     m_server_started = false;
 }
 
-std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address)
+std::optional<unsigned short> asst::Controller::init_socket(const std::string& local_address)
 {
     LogTraceFunction;
 
@@ -666,18 +555,18 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
         }
     }
 
-    DWORD dummy;
-    GUID GuidAcceptEx = WSAID_ACCEPTEX;
-    auto err = WSAIoctl(m_server_sock, SIO_GET_EXTENSION_FUNCTION_POINTER, &GuidAcceptEx, sizeof(GuidAcceptEx),
-                        &m_AcceptEx, sizeof(m_AcceptEx), &dummy, NULL, NULL);
+    DWORD dummy = 0;
+    GUID guid_accept_ex = WSAID_ACCEPTEX;
+    int err = WSAIoctl(m_server_sock, SIO_GET_EXTENSION_FUNCTION_POINTER, &guid_accept_ex, sizeof(guid_accept_ex),
+                       &m_server_accept_ex, sizeof(m_server_accept_ex), &dummy, NULL, NULL);
     if (err == SOCKET_ERROR) {
         err = WSAGetLastError();
         Log.error("failed to resolve AcceptEx, err:", err);
-        closesocket(m_server_sock);
+        ::closesocket(m_server_sock);
         return std::nullopt;
     }
-    m_server_addr.sin_family = PF_INET;
-    inet_pton(AF_INET, local_address.c_str(), &m_server_addr.sin_addr);
+    m_server_sock_addr.sin_family = PF_INET;
+    ::inet_pton(AF_INET, local_address.c_str(), &m_server_sock_addr.sin_addr);
 #else
     m_server_sock = socket(AF_INET, SOCK_STREAM, 0);
     if (m_server_sock < 0) {
@@ -692,10 +581,10 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     uint16_t port_result = 0;
 
 #ifdef _WIN32
-    m_server_addr.sin_port = htons(0);
-    int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_addr), sizeof(SOCKADDR));
-    int addrlen = sizeof(m_server_addr);
-    int getname_ret = getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), &addrlen);
+    m_server_sock_addr.sin_port = ::htons(0);
+    int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_sock_addr), sizeof(SOCKADDR));
+    int addrlen = sizeof(m_server_sock_addr);
+    int getname_ret = ::getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), &addrlen);
     int listen_ret = ::listen(m_server_sock, 3);
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #else
@@ -708,34 +597,18 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
 #endif
 
     if (!server_start) {
-        Log.info("not supports netcat");
+        Log.info("not supports socket");
         return std::nullopt;
     }
 
     port_result = ntohs(m_server_addr.sin_port);
 
-    Log.info("server_start", local_address, port_result);
+    Log.info("command server start", local_address, port_result);
     return port_result;
-}
-
-void asst::Controller::wait(unsigned id) const noexcept
-{
-    using namespace std::chrono_literals;
-    static constexpr auto delay = 10ms;
-    while (id > m_completed_id) {
-        std::this_thread::sleep_for(delay);
-    }
 }
 
 bool asst::Controller::screencap(bool allow_reconnect)
 {
-    // if (true) {
-    //     m_inited = true;
-    //     std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-    //     m_cache_image = cv::imread("err/1.png");
-    //     return true;
-    // }
-
     DecodeFunc decode_raw = [&](std::string_view data) -> bool {
         if (data.empty()) {
             return false;
@@ -907,7 +780,7 @@ void asst::Controller::clear_lf_info()
     m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::UnknownYet;
 }
 
-cv::Mat asst::Controller::get_resized_image() const
+cv::Mat asst::Controller::get_resized_image_cache() const
 {
     const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
 
@@ -921,67 +794,55 @@ cv::Mat asst::Controller::get_resized_image() const
     return resized_mat;
 }
 
-std::optional<int> asst::Controller::start_game(const std::string& client_type, bool block)
+bool asst::Controller::start_game(const std::string& client_type)
 {
     if (client_type.empty()) {
-        return std::nullopt;
+        return false;
     }
-    if (auto intent_name = Configer.get_intent_name(client_type)) {
-        std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", intent_name.value());
-        int id = push_cmd(cur_cmd);
-        if (block) {
-            wait(id);
-        }
-        return id;
+    auto intent_name = Configer.get_intent_name(client_type);
+    if (!intent_name) {
+        return false;
     }
-    return std::nullopt;
+    std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", intent_name.value());
+    return call_command(cur_cmd).has_value();
 }
 
-std::optional<int> asst::Controller::stop_game(bool block)
+bool asst::Controller::stop_game()
 {
-    std::string cur_cmd = m_adb.stop;
-    int id = push_cmd(cur_cmd);
-    if (block) {
-        wait(id);
-    }
-    return id;
+    return call_command(m_adb.stop).has_value();
 }
 
-int asst::Controller::click(const Point& p, bool block)
+bool asst::Controller::click(const Point& p)
 {
     int x = static_cast<int>(p.x * m_control_scale);
     int y = static_cast<int>(p.y * m_control_scale);
     // log.trace("Click, raw:", p.x, p.y, "corr:", x, y);
 
-    return click_without_scale(Point(x, y), block);
+    return click_without_scale(Point(x, y));
 }
 
-int asst::Controller::click(const Rect& rect, bool block)
+bool asst::Controller::click(const Rect& rect)
 {
-    return click(rand_point_in_rect(rect), block);
+    return click(rand_point_in_rect(rect));
 }
 
-int asst::Controller::click_without_scale(const Point& p, bool block)
+bool asst::Controller::click_without_scale(const Point& p)
 {
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
     }
     std::string cur_cmd =
         utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
-    int id = push_cmd(cur_cmd);
-    if (block) {
-        wait(id);
-    }
-    return id;
+
+    return call_command(cur_cmd).has_value();
 }
 
-int asst::Controller::click_without_scale(const Rect& rect, bool block)
+bool asst::Controller::click_without_scale(const Rect& rect)
 {
-    return click_without_scale(rand_point_in_rect(rect), block);
+    return click_without_scale(rand_point_in_rect(rect));
 }
 
-int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool block, int extra_delay,
-                            bool extra_swipe)
+bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
@@ -989,16 +850,15 @@ int asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool
     int y2 = static_cast<int>(p2.y * m_control_scale);
     // log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, block, extra_delay, extra_swipe);
+    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, extra_swipe);
 }
 
-int asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay, bool extra_swipe)
+bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe)
 {
-    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay, extra_swipe);
+    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe);
 }
 
-int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool block, int extra_delay,
-                                          bool extra_swipe)
+bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool extra_swipe)
 {
     int x1 = p1.x, y1 = p1.y;
     int x2 = p2.x, y2 = p2.y;
@@ -1018,8 +878,8 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
                                                    { "[y2]", std::to_string(y2) },
                                                    { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
                                                });
+    bool ret = call_command(cur_cmd).has_value();
 
-    int id = 0;
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
     const auto& opt = Configer.get_options();
     if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
@@ -1031,25 +891,14 @@ int asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int 
                              { "[y2]", std::to_string(y2 - opt.adb_extra_swipe_dist /* * m_control_scale*/) },
                              { "[duration]", std::to_string(opt.adb_extra_swipe_duration) },
                          });
-        push_cmd(cur_cmd);
-        id = push_cmd(extra_cmd);
+        ret &= call_command(extra_cmd).has_value();
     }
-    else {
-        id = push_cmd(cur_cmd);
-    }
-
-    if (block) {
-        wait(id);
-        std::this_thread::sleep_for(std::chrono::milliseconds(extra_delay));
-    }
-    return id;
+    return ret;
 }
 
-int asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool block, int extra_delay,
-                                          bool extra_swipe)
+bool asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool extra_swipe)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, block, extra_delay,
-                               extra_swipe);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe);
 }
 
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
@@ -1292,22 +1141,17 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             bind_address = "127.0.0.1";
         }
 
-        // Todo: detect remote address, and check remote port
         // reference from
         // https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
         auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
-        if (nc_address_ret) {
+        if (nc_address_ret && !m_server_started) {
             auto& nc_result_str = nc_address_ret.value();
             if (auto pos = nc_result_str.find(' '); pos != std::string::npos) {
                 nc_address = nc_result_str.substr(0, pos);
             }
         }
 
-        if (need_exit()) {
-            return false;
-        }
-
-        auto socket_opt = try_to_init_socket(bind_address);
+        auto socket_opt = init_socket(bind_address);
         if (socket_opt) {
             nc_port = socket_opt.value();
             m_adb.screencap_raw_by_nc = cmd_replace(adb_cfg.screencap_raw_by_nc);
@@ -1316,6 +1160,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         else {
             m_server_started = false;
         }
+    }
+
+    if (need_exit()) {
+        return false;
     }
 
     // try to find the fastest way
@@ -1364,7 +1212,8 @@ void asst::Controller::kill_adb_daemon()
 
 bool asst::Controller::release()
 {
-    try_to_close_socket();
+    close_socket(m_server_sock);
+    m_server_started = false;
 
 #ifndef _WIN32
     if (m_child)
@@ -1439,12 +1288,12 @@ cv::Mat asst::Controller::get_image(bool raw)
         return copy;
     }
 
-    return get_resized_image();
+    return get_resized_image_cache();
 }
 
-std::vector<uchar> asst::Controller::get_image_encode() const
+std::vector<uchar> asst::Controller::get_encoded_image_cache() const
 {
-    cv::Mat img = get_resized_image();
+    cv::Mat img = get_resized_image_cache();
     std::vector<uchar> buf;
     cv::imencode(".png", img, buf);
 

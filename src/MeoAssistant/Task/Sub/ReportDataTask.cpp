@@ -196,7 +196,7 @@ asst::http::Response asst::ReportDataTask::escape_and_request(const std::string&
         utils::string_replace_all(format, { { "[body]", body_escape }, { "[extra]", m_extra_param } });
 
     Log.info("request:\n" + cmd_line);
-    std::string response = utils::callcmd(cmd_line);
+    std::string response = utils::call_command(cmd_line);
     Log.info("response:\n" + response);
 
     // Log.info("response:\n" + utils::string_replace_all(response, {
