@@ -16,6 +16,9 @@ on:
         description: 'Number of releases to fetch from MaaRelease'
         required: false
         default: 30
+      tag_name:
+        description: 'Tag name to release'
+        required: false
 
 jobs:
   build-win-nightly:
@@ -37,6 +40,10 @@ jobs:
       - name: Set tag
         id: set_tag
         run: |
+          if ("${{ inputs.tag_name }}" -ne "") {
+            echo "tag=${{ inputs.tag_name }}" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
           $described = $(git describe --tags --long --match 'v*')
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
