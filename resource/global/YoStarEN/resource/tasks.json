@@ -3019,5 +3019,18 @@
     },
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
+    },
+    "InfrastReward": {
+        "text": [
+            "Collectable",
+            "Orders",
+            "Acquired",
+            "Trust"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "Operator"
+        ]
     }
 }
