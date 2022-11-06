@@ -12,6 +12,7 @@
 
 #include <atomic>
 #include <condition_variable>
+#include <filesystem>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -40,6 +41,7 @@ namespace asst
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
         void set_exit_flag(bool* flag);
+        inline static void set_resource_path(const std::filesystem::path& path) { m_resource_path = path; }
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -133,6 +135,8 @@ namespace asst
             std::string start;
             std::string stop;
 
+            std::string call_minitouch;
+
             /* properties */
             enum class ScreencapEndOfLine
             {
@@ -151,6 +155,10 @@ namespace asst
                 Encode
             } screencap_method = ScreencapMethod::UnknownYet;
         } m_adb;
+
+        bool m_enable_minitouch = true;
+
+        inline static std::filesystem::path m_resource_path;
 
         std::string m_uuid;
         inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，

@@ -46,7 +46,9 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.release = cfg_json.at("release").as_string();
         adb.start = cfg_json.at("start").as_string();
         adb.stop = cfg_json.at("stop").as_string();
-        // adb.pullscreen = cfg_json.at("pullscreen").as_string();
+        adb.push_minitouch = cfg_json.at("pushMinitouch").as_string();
+        adb.chmod_minitouch = cfg_json.at("chmodMinitouch").as_string();
+        adb.call_minitouch = cfg_json.at("callMinitouch").as_string();
 
         m_adb_cfg[name] = std::move(adb);
     }
