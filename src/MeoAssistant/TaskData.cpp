@@ -14,6 +14,38 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
 {
     return m_templ_required;
 }
+std::shared_ptr<asst::TaskInfo> asst::TaskData::get_raw(std::string_view name) const
+{
+    // 普通 task 或已经生成过的 `@` 型 task
+    if (auto it = m_raw_all_tasks_info.find(name); it != m_raw_all_tasks_info.cend()) [[likely]] {
+        return it->second;
+    }
+
+    size_t at_pos = name.find('@');
+    if (at_pos == std::string_view::npos) [[unlikely]] {
+        return nullptr;
+    }
+
+    // `@` 前面的字符长度
+    size_t name_len = at_pos;
+    auto base_task_iter = get_raw(name.substr(name_len + 1));
+    if (base_task_iter == nullptr) [[unlikely]] {
+        return nullptr;
+    }
+
+    std::string_view derived_task_name = name.substr(0, name_len);
+    return _generate_task_info(base_task_iter, derived_task_name);
+}
+
+std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
+{
+    // 普通 task 或已经生成过的 `@` 型 task
+    if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) [[likely]] {
+        return it->second;
+    }
+
+    return expend_sharp_task(name, get_raw(name)).value_or(nullptr);
+}
 
 bool asst::TaskData::parse(const json::value& json)
 {
@@ -22,9 +54,16 @@ bool asst::TaskData::parse(const json::value& json)
     const auto& json_obj = json.as_object();
 
     {
-        std::unordered_map<std::string_view, bool> to_be_generated;
+        enum TaskStatus
+        {
+            NotToBeGenerate = 0, // 已经显式生成 或 不是待显式生成 的资源
+            ToBeGenerate,        // 待生成 的资源
+            Generating,          // 正在生成 的资源
+            NotExists,           // 不存在的资源
+        };
+        std::unordered_map<std::string_view, TaskStatus> task_status;
         for (const std::string& name : json_obj | views::keys) {
-            to_be_generated[task_name_view(name)] = true;
+            task_status[task_name_view(name)] = ToBeGenerate;
         }
 
         auto generate_task_and_its_base = [&](const std::string& name) -> bool {
@@ -34,52 +73,65 @@ bool asst::TaskData::parse(const json::value& json)
                 if (task_info_ptr == nullptr) {
                     return false;
                 }
-                to_be_generated[task_name_view(name)] = false;
+                task_status[task_name_view(name)] = NotToBeGenerate;
                 insert_or_assign_raw_task(name, task_info_ptr);
                 return true;
             };
             std::function<bool(const std::string&, bool)> generate_fun;
-            // must_true 若为真，那么 return false 了就是炸了。
-            // 否则可能只是某个 B@A 的任务没定义 A（这不是少见现象，例如 Roguelike@Abandon）
             generate_fun = [&](const std::string& name, bool must_true) -> bool {
-                // 不是需要 generate 的资源（不在 tasks.json 中）
-                if (!to_be_generated[task_name_view(name)]) {
-                    // 已生成（它是之前加载过的某个资源的 base）
+                switch (task_status[task_name_view(name)]) {
+                case NotToBeGenerate:
+                    // 已经显式生成 或 曾经显式生成（外服隐式引用国服资源）
                     if (m_raw_all_tasks_info.contains(name)) {
                         return true;
                     }
-                    // 不在 json 内且未生成（例如生成 C@B@A 时没有定义 B@A，而是定义了 A）
+
+                    // 隐式生成的资源
                     if (size_t p = name.find('@'); p != std::string::npos) {
                         return generate_fun(name.substr(p + 1), must_true);
                     }
-                    // 例如 Roguelike@Abandon 在这里如果 must_true = true，会报 `Unknown task: Abandon`
+
+                    task_status[name] = NotExists;
+                    [[fallthrough]];
+                case NotExists:
                     if (must_true) {
+                        // 必须有名字为 name 的资源
                         Log.error("Unknown task:", name);
                     }
+                    // 不一定必须有名字为 name 的资源，例如 Roguelike@Abandon 不必有 Abandon.
+                    return false;
+                case ToBeGenerate: {
+                    task_status[name] = Generating;
+                    const json::value& task_json = json_obj.at(name);
+
+                    if (auto opt = task_json.find<std::string>("baseTask")) {
+                        // BaseTask
+                        std::string base = opt.value();
+                        if (!base.empty()) {
+                            return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
+                        }
+                        // `"baseTask": ""` 表示不使用已生成的同名任务
+                    }
+                    else if (m_raw_all_tasks_info.contains(name)) {
+                        // 已生成（外服覆写国服资源）
+                        return generate_task(name, "", get_raw(name), task_json);
+                    }
+
+                    // TemplateTask
+                    if (size_t p = name.find('@'); p != std::string::npos) {
+                        if (std::string base = name.substr(p + 1); generate_fun(base, false)) {
+                            return generate_task(name, name.substr(0, p), get_raw(base), task_json);
+                        }
+                    }
+                    return generate_task(name, "", nullptr, task_json);
+                }
+                [[unlikely]] case Generating:
+                    Log.error("Task", name, "is generated cyclically");
+                    return false;
+                [[unlikely]] default:
+                    Log.error("Task", name, "has unknown status");
                     return false;
                 }
-                const json::value& task_json = json_obj.at(name);
-
-                // 已生成（例如国际服覆写国服资源）
-                if (m_raw_all_tasks_info.contains(name)) {
-                    return generate_task(name, "", get_raw(name), task_json);
-                }
-
-                // BaseTask
-                if (auto opt = task_json.find<std::string>("baseTask")) {
-                    std::string base = opt.value();
-                    return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
-                }
-
-                // TemplateTask
-                if (size_t p = name.find('@'); p != std::string::npos) {
-                    if (std::string base = name.substr(p + 1); generate_fun(base, false)) {
-                        return generate_task(name, name.substr(0, p), get_raw(base), task_json);
-                    }
-                    // 这类任务有点多，非必要不输出（
-                    // Log.debug("Task", name, "based on unknown task, just use task_json.");
-                }
-                return generate_task(name, "", nullptr, task_json);
             };
             return generate_fun(name, true);
         };
@@ -169,7 +221,7 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
                 }
                 tasks_set.emplace(task_name_view(task));
 
-                size_t pos = task.find('#');
+                size_t pos = task.rfind('#');
                 if (pos == std::string_view::npos) [[likely]] {
                     new_task_list.emplace_back(task);
                     continue;
