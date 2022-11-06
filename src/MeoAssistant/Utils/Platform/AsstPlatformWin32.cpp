@@ -120,7 +120,7 @@ std::string asst::platform::from_osstring(const os_string& os_str)
     return result;
 }
 
-std::string asst::platform::callcmd(const std::string& cmdline)
+std::string asst::platform::call_command(const std::string& cmdline, bool* exit_flag)
 {
     constexpr int PipeBuffSize = 4096;
     auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
@@ -164,7 +164,7 @@ std::string asst::platform::callcmd(const std::string& cmdline)
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
     (void)ReadFile(pipe_parent_read, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
 
-    while (true) {
+    while (!(exit_flag && *exit_flag)) {
         wait_handles.clear();
         if (process_running) wait_handles.push_back(process_info.hProcess);
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);

@@ -520,7 +520,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));
-    m_ctrler->swipe(oper_rect, placed_rect, duration, true, 0);
+    m_ctrler->swipe(oper_rect, placed_rect, duration);
 
     sleep(use_oper_task_ptr->post_delay);
 
@@ -539,7 +539,8 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         constexpr int coeff = 500;
         Point end_point = placed_point + (direction * coeff);
 
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay, true, 100);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
+        sleep(Task.get("BattleUseOper")->post_delay);
     }
 
     m_used_opers[iter->first] =

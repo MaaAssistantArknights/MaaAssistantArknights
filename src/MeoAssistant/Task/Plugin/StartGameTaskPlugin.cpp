@@ -9,7 +9,7 @@ bool StartGameTaskPlugin::_run()
     if (m_client_type.empty()) {
         return false;
     }
-    return m_ctrler->start_game(m_client_type).has_value();
+    return m_ctrler->start_game(m_client_type);
 }
 
 StartGameTaskPlugin& StartGameTaskPlugin::set_client_type(std::string client_type) noexcept
