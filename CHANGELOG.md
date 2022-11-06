@@ -1,16 +1,5 @@
-- 重构并优化 刷理智 关卡导航 @ABA2396 @zzyyyl
-- Update Drops and I.S. game data for EN and JP clients. @MistEO
-- 优化 OTA 打包逻辑，新增内测版打包逻辑，新增镜像下载服务器 @horror-proton @MistEO @zzyyyl
-- 优化 自定义基建 每天 4 换 内置作业 @anywugn
-- 优化 自动基建 新干员效率计算、异格干员效率计算 @MistEO
-- 优化 傀影肉鸽 干员招募优先级 @WWPXX233
-- 修复 刷理智 `叙拉古人` 活动关卡导航卡住的问题 @ABA2396
-- 修复 肉鸽 招募选不到人的问题 @zzyyyl
-- 修复 肉鸽 编队选不到的问题，优化部分滑动参数 @MistEO
-- 修复 基建 滑不到最左边的问题 @MistEO
-- 修复 基建 掉线后卡住的问题 @MistEO
-- 修复 信用购物 网络不佳时卡住的问题 @zzyyyl @MistEO
-- 修复 访问好友 任务失败时不报错的问题 @MistEO
-- 修复 界面 关卡选项错误 @ABA2396
-- 修复 macOS 信用购物点不进去的问题 @hguandl
-- 新增 Task #self 字段，OCR 任务部分判断字段 @zzyyyl
+- 新增 繁中服 基建 支持 @Vincent-2019
+- 优化 刷理智 关卡导航操作与逻辑 @ABA2396 @zzyyyl
+- 优化 界面 首次启动时报错弹窗提示 @MistEO
+- 修复 内测版 检查更新功能不正确的问题 @MistEO
+- 重构 Task 部分解析逻辑 @zzyyyl
