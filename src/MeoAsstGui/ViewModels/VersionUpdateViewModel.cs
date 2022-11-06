@@ -315,16 +315,15 @@ namespace MeoAsstGui
             var body = _latestJson["body"]?.ToString();
             if (body == string.Empty)
             {
-                // v4.6.6-1.gabcdefgh
-                // v4.6.7-beta.2.8.g98b60e9d
+                // v4.6.6-1.g{Hash}
+                // v4.6.7-beta.2.8.g{Hash}
                 if (Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
-                    semVersion.IsPrerelease &&
-                    semVersion.PrereleaseIdentifiers.LastOrDefault().ToString().Length > 5)
+                    isNightlyVersion(semVersion))
                 {
-                    var commit = semVersion.PrereleaseIdentifiers.Last().ToString();
-                    if (commit.StartsWith("g"))
+                    var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
+                    if (commitHash.StartsWith("g"))
                     {
-                        commit = commit.Remove(0, 1);
+                        commitHash = commitHash.Remove(0, 1);
                     }
 
                     var mainVer = "v" + semVersion.WithoutPrerelease() + "-";
@@ -338,7 +337,7 @@ namespace MeoAsstGui
                         mainVer = mainVer.Remove(mainVer.Length - 1);
                     }
 
-                    body = $"**Full Changelog**: [{mainVer} -> {commit}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{mainVer}...{commit})";
+                    body = $"**Full Changelog**: [{mainVer} -> {commitHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{mainVer}...{commitHash})";
                 }
             }
 
@@ -798,32 +797,42 @@ namespace MeoAsstGui
                 version = _curVersion;
             }
 
-            if (version == "DEBUG VERSION")
+            if (isStdVersion(version))
             {
                 return false;
             }
-
-            if (version.StartsWith("c"))
+            else if (version.StartsWith("c"))
             {
                 return false;
             }
-
-            if (version.Contains("Local"))
+            else if (version.Contains("Local"))
             {
                 return false;
             }
-
-            bool parsed = Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion);
-            if (!parsed)
+            else if (!Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion))
             {
                 return false;
             }
-            else if (semVersion.IsPrerelease && semVersion.PrereleaseIdentifiers.LastOrDefault().ToString().Length > 5)
+            else if (isNightlyVersion(semVersion))
             {
                 return false;
             }
 
             return true;
+        }
+
+        private bool isNightlyVersion(Semver.SemVersion version)
+        {
+            if (!version.IsPrerelease)
+            {
+                return false;
+            }
+
+            // v{Major}.{Minor}.{Patch}-{Prerelease}.{CommitDistance}.g{CommitHash}
+            // v4.6.7-beta.2.1.g1234567
+            // v4.6.8-5.g1234567
+            var lastId = version.PrereleaseIdentifiers.LastOrDefault().ToString();
+            return lastId.StartsWith("g") && lastId.Length >= 7;
         }
 
         /// <summary>
