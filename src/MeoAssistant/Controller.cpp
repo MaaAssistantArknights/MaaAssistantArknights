@@ -527,12 +527,12 @@ void asst::Controller::clear_info() noexcept
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
 }
 
-void asst::Controller::close_socket(SOCKET& sock) noexcept
+void asst::Controller::close_socket() noexcept
 {
 #ifdef _WIN32
-    if (sock != INVALID_SOCKET) {
-        ::closesocket(sock);
-        sock = INVALID_SOCKET;
+    if (m_server_sock != INVALID_SOCKET) {
+        ::closesocket(m_server_sock);
+        m_server_sock = INVALID_SOCKET;
     }
 #else
     if (m_server_sock >= 0) {
@@ -1258,8 +1258,7 @@ void asst::Controller::kill_adb_daemon()
 
 bool asst::Controller::release()
 {
-    close_socket(m_server_sock);
-    m_server_started = false;
+    close_socket();
 
 #ifndef _WIN32
     if (m_child)
