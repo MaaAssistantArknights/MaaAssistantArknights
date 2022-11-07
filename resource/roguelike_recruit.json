@@ -639,7 +639,7 @@
                 },
                 {
                     "name": "水月",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 10,
                     "promote_priority": 550,
                     "offset_melee": true,
@@ -1456,7 +1456,7 @@
                 },
                 {
                     "name": "水月",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 10,
                     "promote_priority": 550,
                     "offset_melee": true,
