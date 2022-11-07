@@ -58,7 +58,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         },
         "BlueStacks": {
             "devices": "[Adb] devices",
@@ -79,7 +79,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         },
         "MuMuEmulator": {
             "devices": "[Adb] devices",
@@ -100,7 +100,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         },
         "LDPlayer": {
             "devices": "[Adb] devices",
@@ -121,7 +121,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         },
         "Nox": {
             "devices": "[Adb] devices",
@@ -142,7 +142,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         },
         "XYAZ": {
             "devices": "[Adb] devices",
@@ -163,7 +163,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         },
         "WSA": {
             "devices": "[Adb] devices",
@@ -185,7 +185,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         },
         "Compatible": {
             "devices": "[Adb] devices",
@@ -206,7 +206,7 @@
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
-            "callMinitouch": "[Adb] -s [AdbSerial] shell 'echo \"[minitouchInput]\" | \"/data/local/tmp/[minitouchWorkingFile]\" -i'"
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i > /dev/null 2&>1"
         }
     }
 }

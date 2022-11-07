@@ -63,7 +63,8 @@ asst::Controller::~Controller()
 {
     LogTraceFunction;
 
-    set_inited(false);
+    release_minitouch();
+    make_instance_inited(false);
     kill_adb_daemon();
 
 #ifndef _WIN32
@@ -123,7 +124,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 
     auto cmdline_osstr = asst::utils::to_osstring(cmd);
     BOOL create_ret =
-        CreateProcessW(nullptr, &cmdline_osstr[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
+        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
         Log.error("Call `", cmd, "` create process failed, ret", create_ret);
         return std::nullopt;
@@ -367,7 +368,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
         Log.trace("socket output:", Logger::separator::newline, sock_data);
     }
-    // 直接 return，避免走到下面的 else if 里的 set_inited(false) 关闭 adb 连接，
+    // 直接 return，避免走到下面的 else if 里的 make_instance_inited(false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
     if (need_exit()) {
         return std::nullopt;
@@ -429,7 +430,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", m_adb.connect },
               } },
         };
-        set_inited(false); // 重连失败，释放
+        make_instance_inited(false); // 重连失败，释放
         callback(AsstMsg::ConnectionInfo, info);
     }
 
@@ -441,6 +442,84 @@ void asst::Controller::callback(AsstMsg msg, const json::value& details)
     if (m_callback) {
         m_callback(msg, details, m_callback_arg);
     }
+}
+
+bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
+{
+    LogTraceFunction;
+
+    m_minitouch_avaiable = false;
+
+#ifdef _WIN32
+
+    SECURITY_ATTRIBUTES sa_attr {
+        .nLength = sizeof(SECURITY_ATTRIBUTES),
+        .lpSecurityDescriptor = nullptr,
+        .bInheritHandle = TRUE,
+    };
+    HANDLE minitouch_in_read = nullptr;
+
+    if (!asst::win32::CreateOverlappablePipe(&minitouch_in_read, &m_minitouch_in_write, &sa_attr, nullptr, 4096UL,
+                                             false, true)) {
+        DWORD err = GetLastError();
+        Log.error("Failed to create pipe for minitouch, err", err);
+        return false;
+    }
+
+    STARTUPINFOW si {};
+    si.cb = sizeof(STARTUPINFOW);
+    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+    si.hStdInput = m_minitouch_in_write;
+
+    auto cmd_osstr = utils::to_osstring(cmd);
+    if (!CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
+                        &m_minitouch_process_info)) {
+        DWORD err = GetLastError();
+        Log.error("Failed to create process for minitouch, err", err);
+        CloseHandle(minitouch_in_read);
+        CloseHandle(m_minitouch_in_write);
+        return false;
+    }
+
+    CloseHandle(minitouch_in_read);
+
+    m_minitouch_avaiable = true;
+    return true;
+
+#else  // !_WIN32
+    // TODO
+    return false;
+#endif // _WIN32
+}
+
+bool asst::Controller::input_to_minitouch(const std::string& cmd)
+{
+    LogTraceFunction;
+
+    DWORD written = 0;
+    BOOL wr_ret = WriteFile(m_minitouch_in_write, cmd.c_str(), static_cast<DWORD>(cmd.size()), &written, NULL);
+
+    Log.info(std::format("input to minitouch: \"{}\", write_ret: {}, written_size: {}", cmd, wr_ret, written));
+    return wr_ret && cmd.size() == written;
+}
+
+void asst::Controller::release_minitouch()
+{
+    LogTraceFunction;
+
+    if (!m_minitouch_avaiable) {
+        return;
+    }
+    m_minitouch_avaiable = false;
+
+#ifdef _WIN32
+
+    CloseHandle(m_minitouch_process_info.hProcess);
+    CloseHandle(m_minitouch_process_info.hThread);
+    CloseHandle(m_minitouch_in_write);
+
+#endif //  _WIN32
 }
 
 // 返回值代表是否找到 "\r\n"，函数本身会将所有 "\r\n" 替换为 "\n"
@@ -518,12 +597,13 @@ void asst::Controller::random_delay() const
 
 void asst::Controller::clear_info() noexcept
 {
-    set_inited(false);
+    make_instance_inited(false);
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
     m_height = 0;
     m_control_scale = 1.0;
+    m_minitouch_avaiable = false;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
 }
 
@@ -659,7 +739,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
-                set_inited(true);
+                make_instance_inited(true);
                 min_cost = duration;
             }
             Log.info("RawByNc cost", duration.count(), "ms");
@@ -674,7 +754,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
-                set_inited(true);
+                make_instance_inited(true);
                 min_cost = duration;
             }
             Log.info("RawWithGzip cost", duration.count(), "ms");
@@ -689,7 +769,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
-                set_inited(true);
+                make_instance_inited(true);
                 min_cost = duration;
             }
             Log.info("Encode cost", duration.count(), "ms");
@@ -832,15 +912,13 @@ bool asst::Controller::click_without_scale(const Point& p)
         Log.error("click point out of range");
     }
 
-    std::string cur_cmd;
-    if (m_enable_minitouch) {
+    if (m_minitouch_avaiable) {
         std::string minitouch_cmd = MinitouchCmd::down(p.x, p.y) + MinitouchCmd::up();
-        cur_cmd = utils::string_replace_all(m_adb.call_minitouch, { { "[minitouchInput]", minitouch_cmd } });
+        return input_to_minitouch(minitouch_cmd);
     }
-    else {
-        cur_cmd =
-            utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
-    }
+
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
     return call_command(cur_cmd).has_value();
 }
 
@@ -877,8 +955,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    std::string cur_cmd;
-    if (m_enable_minitouch) {
+    if (m_minitouch_avaiable) {
         std::string minitouch_cmd = MinitouchCmd::down(x1, x2);
         if (duration == 0) {
             duration = 1000;
@@ -894,24 +971,22 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         minitouch_cmd += MinitouchCmd::move(x2, y2);
         minitouch_cmd += MinitouchCmd::up();
 
-        cur_cmd = utils::string_replace_all(m_adb.call_minitouch, { { "[minitouchInput]", minitouch_cmd } });
-    }
-    else {
-        cur_cmd =
-            utils::string_replace_all(m_adb.swipe, {
-                                                       { "[x1]", std::to_string(x1) },
-                                                       { "[y1]", std::to_string(y1) },
-                                                       { "[x2]", std::to_string(x2) },
-                                                       { "[y2]", std::to_string(y2) },
-                                                       { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
-                                                   });
+        return input_to_minitouch(minitouch_cmd);
     }
 
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.swipe, {
+                                                   { "[x1]", std::to_string(x1) },
+                                                   { "[y1]", std::to_string(y1) },
+                                                   { "[x2]", std::to_string(x2) },
+                                                   { "[y2]", std::to_string(y2) },
+                                                   { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
+                                               });
     bool ret = call_command(cur_cmd).has_value();
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
     const auto& opt = Configer.get_options();
-    if (!m_enable_minitouch && extra_swipe && opt.adb_extra_swipe_duration > 0) {
+    if (!m_minitouch_avaiable && extra_swipe && opt.adb_extra_swipe_duration > 0) {
         std::string extra_cmd = utils::string_replace_all(
             m_adb.swipe, {
                              { "[x1]", std::to_string(x2) },
@@ -934,11 +1009,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 {
     LogTraceFunction;
 
+    release_minitouch();
     clear_info();
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
-        set_inited(true);
+        make_instance_inited(true);
         return true;
     }
 #endif
@@ -1195,7 +1271,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         return false;
     }
 
-    if (m_enable_minitouch) {
+    if (m_minitouch_enabled) {
         auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
             return utils::string_replace_all(
                 cmd_replace(cfg_cmd),
@@ -1208,8 +1284,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         call_command(minitouch_cmd_rep(adb_cfg.push_minitouch));
         call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
-
-        m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
+        call_and_hup_minitouch(minitouch_cmd_rep(adb_cfg.call_minitouch));
     }
 
     // try to find the fastest way
@@ -1221,9 +1296,9 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     return true;
 }
 
-bool asst::Controller::set_inited(bool inited)
+bool asst::Controller::make_instance_inited(bool inited)
 {
-    Log.trace(__FUNCTION__, "|", inited, ", m_inited =", m_inited, ", m_instance_count =", m_instance_count);
+    Log.trace(__FUNCTION__, "|", inited, ", pre m_inited =", m_inited, ", pre m_instance_count =", m_instance_count);
 
     if (inited == m_inited) {
         return true;
