@@ -71,7 +71,7 @@ namespace asst
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
         bool release();
         void kill_adb_daemon();
-        bool set_inited(bool inited);
+        bool make_instance_inited(bool inited);
 
         void close_socket() noexcept;
         std::optional<unsigned short> init_socket(const std::string& local_address);
@@ -88,6 +88,10 @@ namespace asst
         void random_delay() const;
         void clear_info() noexcept;
         void callback(AsstMsg msg, const json::value& details);
+
+        bool call_and_hup_minitouch(const std::string& cmd);
+        bool input_to_minitouch(const std::string& cmd);
+        void release_minitouch();
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
@@ -135,8 +139,6 @@ namespace asst
             std::string start;
             std::string stop;
 
-            std::string call_minitouch;
-
             /* properties */
             enum class ScreencapEndOfLine
             {
@@ -156,7 +158,17 @@ namespace asst
             } screencap_method = ScreencapMethod::UnknownYet;
         } m_adb;
 
-        bool m_enable_minitouch = true;
+        bool m_minitouch_enabled = true;   // 开关
+        bool m_minitouch_avaiable = false; // 状态
+
+#ifdef _WIN32
+        HANDLE m_minitouch_in_write = nullptr;
+        ASST_AUTO_DEDUCED_ZERO_INIT_START
+        PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
+        ASST_AUTO_DEDUCED_ZERO_INIT_END
+#else
+        // TODO
+#endif
 
         inline static std::filesystem::path m_resource_path;
 
@@ -185,33 +197,29 @@ namespace asst
             inline static std::string down(int x, int y, bool with_commit = true, bool with_wait = true,
                                            int contact = 0, int pressure = 50)
             {
-                std::stringstream ss;
-                ss << "d " << contact << " " << x << " " << y << " " << pressure << "\\n";
-                if (with_commit) ss << commit();
-                if (with_wait) ss << wait();
-                return ss.str();
+                std::string str = std::format("d {} {} {} {}\\n", contact, x, y, pressure);
+                if (with_commit) str += commit();
+                if (with_wait) str += wait();
+                return str;
             }
             inline static std::string move(int x, int y, bool with_commit = true, bool with_wait = true,
                                            int contact = 0, int pressure = 50)
             {
-                std::stringstream ss;
-                ss << "m " << contact << " " << x << " " << y << " " << pressure << "\\n";
-                if (with_commit) ss << commit();
-                if (with_wait) ss << wait();
-                return ss.str();
+                std::string str = std::format("m {} {} {} {}\\n", contact, x, y, pressure);
+                if (with_commit) str += commit();
+                if (with_wait) str += wait();
+                return str;
             }
             inline static std::string up(bool with_commit = true, int contact = 0)
             {
-                std::stringstream ss;
-                ss << "u " << contact << "\\n";
-                if (with_commit) ss << commit();
-                return ss.str();
+                std::string str = std::format("u {}\\n", contact);
+                if (with_commit) str += commit();
+                return str;
             }
             inline static std::string wait(int ms = DefaultInterval)
             {
-                std::stringstream ss;
-                ss << "w " << ms << "\\n";
-                return ss.str();
+                std::string str = std::format("w {}\\n", ms);
+                return str;
             }
         };
 
