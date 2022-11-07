@@ -132,6 +132,12 @@ labels:
 - name: remove client-ZH_TW
   content:
   regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: ZH_TW(?:`|)'
+- name: skip macOS
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)macOS(?:`|)'
+- name: remove macOS
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)macOS(?:`|)'
 - name: skip incomplete
   content:
   regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)incomplete(?:`|)'
@@ -150,7 +156,7 @@ labels:
 - name: infrast
   content: "module: infrast"
   regexes:
-    "(?:基建|换班|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|[Ii]nfrast|[Dd]orm)"
+    "基建|换班|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|[Ii]nfrast|[Dd]orm"
   skip-if:
   - skip all
   - skip module
@@ -164,7 +170,7 @@ labels:
 - name: roguelike
   content: "module: roguelike"
   regexes:
-    "(?:肉[鸽鴿]|集成战略|[Rr]ogue|ローグ)"
+    "肉[鸽鴿]|集成战略|[Rr]ogue|ローグ"
   skip-if:
   - skip all
   - skip module
@@ -177,7 +183,7 @@ labels:
 # `module: copilot`
 - name: copilot1
   content: "module: copilot"
-  regexes: '(?:自动(?:作战|战斗|编队)|自動[戰戦][鬥闘]|[Cc]opilot)'
+  regexes: '自动(?:作战|战斗|编队)|自動[戰戦][鬥闘]|[Cc]opilot'
   mode: add
   skip-if:
   - skip all
@@ -190,7 +196,7 @@ labels:
   - remove copilot
 - name: copilot2
   content: "module: copilot"
-  regexes: '(?:作[业業])'
+  regexes: '作[业業]'
   skip-if:
   - skip all
   - skip module
@@ -207,7 +213,7 @@ labels:
 - name: drop
   content: "module: drop"
   regexes:
-    "(?:掉落物?识别)"
+    "掉落物?(?:识别|检测)"
   skip-if:
   - skip all
   - skip module
@@ -221,7 +227,7 @@ labels:
 - name: fight
   content: "module: fight"
   regexes:
-    "(?:刷图|刷理智|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|[戰戦][鬥闘]|[Ff]ight|[Bb]attle|[Aa]nihilation)"
+    "刷图|刷理智|剿灭|刷.{0,6}材料|关卡选择|战斗|作战|[戰戦][鬥闘]|[Ff]ight|[Bb]attle|[Aa]nihilation"
   skip-if:
   - skip all
   - skip module
@@ -239,7 +245,7 @@ labels:
 - name: depot
   content: "module: depot"
   regexes:
-    "(?:仓库识别|仓库检测|仓检|[Dd]epot)"
+    "仓库识别|仓库检测|仓检|[Dd]epot"
   skip-if:
   - skip all
   - skip module
@@ -253,7 +259,7 @@ labels:
 - name: others
   content: "module: others"
   regexes:
-    "(?:信用|拜访|登录|开始唤醒|[Vv]isit|[Ll]ogin|[Ss]tartup)"
+    "信用|拜访|登录|开始唤醒|连接模拟器|[Vv]isit|[Ll]ogin|[Ss]tartup"
   skip-if:
   - skip all
   - skip module
@@ -267,7 +273,7 @@ labels:
 - name: recruit
   content: "module: recruit"
   regexes:
-    "(?:公招|招募|公開(?:募集|求人)|[Rr]ecruit)"
+    "公招|(?<!肉鸽)招募|公開(?:募集|求人)|[Rr]ecruit"
   skip-if:
   - skip all
   - skip module
@@ -282,7 +288,7 @@ labels:
 - name: GUI
   content: "module: GUI"
   regexes:
-    "(?:软件更新|自动下载|图形化?界面|[Gg]ui|GUI)"
+    '软件更新|自动下载|图形化?界面|gui(?!\.)|GUI|Gui'
   skip-if:
   - skip all
   - skip module
@@ -420,19 +426,29 @@ labels:
   - remove client
   - remove client-ZH_TW
 
+# `macOS`
+- name: macOS
+  regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|版))'
+  skip-if:
+  - skip all
+  - skip macOS
+  remove-if:
+  - remove all
+  - remove macOS
+
 # `fixed`
 - name: fixed
   regexes:
-  - "(?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
-    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)\\s+)|\
-    \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
-    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
+  - "(?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)\\s+)|\
+    \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
     (?:https?\\://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{40})\
     \\s*fixed|[Ff]ixed (?:in|at|by)\\s*\
-    (?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\\s+\
-    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))|\
-    \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|)`|\
-    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
+    (?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\\s+\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))|\
+    \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
+    v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
     (?:https?\\://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{40})"
   mode:
     issue_comment: add

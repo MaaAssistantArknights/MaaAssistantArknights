@@ -1,7 +1,22 @@
-- 新增 繁中服 基建 支持 @Vincent-2019
-- 优化 刷理智 关卡导航操作与逻辑 @ABA2396 @zzyyyl
+- 新增 `叙拉古人` 活动关卡导航 @MistEO @ABA2396 @zzyyyl
+- 新增 自动战斗 自动跳过战斗前的剧情 @MistEO
+- 新增 `商业洽谈会` 窗口自动关闭功能 @zzyyyl
+- 新增 繁中服 基建 支持 @Vincent-2019 @MistEO
+- 重构 Task 部分解析逻辑，重构滑动任务，重构关卡导航 @zzyyyl @MistEO @ABA2396
+- Update Drops and I.S. game data for EN and JP clients. @MistEO
+- Refactor overseas clients tasks structure, fix some task error. @zzyyyl @MistEO
+- 优化 OTA 打包逻辑，新增内测版打包逻辑，新增镜像下载服务器 @horror-proton @MistEO @zzyyyl
+- 优化 自动基建 新干员效率计算、异格干员效率计算 @MistEO
+- 优化 自定义基建 内置作业 @ABA2396 @anywugn @MistEO @545426
+- 分离 肉鸽 不同主题招募、购物配置，优化 傀影肉鸽 干员招募优先级 @MistEO @WWPXX233
+- 修复 B 服 启动游戏错误 @zzyyyl
+- 修复 自动战斗 干员名识别错误 @ABA2396 @zzyyyl
+- 修复 基建 掉线后卡住的问题 @MistEO
+- 修复 基建 干员名识别错误 @ABA2396 @zzyyyl
+- 修复 信用购物 网络不佳时卡住的问题 @zzyyyl @MistEO
+- 修复 访问好友 任务失败时不报错的问题 @MistEO
+- 修复 macOS 信用购物点不进去的问题 @hguandl
+- 修复 macOS OCR 识别错误 @hguandl
+- 修复 自启动 读取注册表时可能的崩溃问题 @dantmnf
 - 优化 界面 首次启动时报错弹窗提示 @MistEO
-- 修复 内测版 检查更新功能不正确的问题 @MistEO
-- 重构 Task 部分解析逻辑 @zzyyyl
-- 优化 自定义基建 内置作业 @ABA2396
-- 修复 启动时闪退的问题 @zzyyyl
+- 更新 文档、界面 @MistEO @ABA2396 @wallsman
