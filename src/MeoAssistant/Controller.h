@@ -73,7 +73,7 @@ namespace asst
         void kill_adb_daemon();
         bool set_inited(bool inited);
 
-        void close_socket(SOCKET& sock) noexcept;
+        void close_socket() noexcept;
         std::optional<unsigned short> init_socket(const std::string& local_address);
 
         using DecodeFunc = std::function<bool(std::string_view)>;
