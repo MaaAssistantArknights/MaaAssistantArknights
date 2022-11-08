@@ -145,6 +145,16 @@ namespace MeoAsstGui
 
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
+            DefaultInfrastList = new List<CombData>
+            {
+                new CombData { Display = Localization.GetString("UserDefined"), Value = "user_defined" },
+                new CombData { Display = Localization.GetString("153_3"), Value = "153_layout_3_times_pre_day.json" },
+                new CombData { Display = Localization.GetString("243_3"), Value = "243_layout_3_times_pre_day.json" },
+                new CombData { Display = Localization.GetString("243_4"), Value = "243_layout_4_times_per_day.json" },
+                new CombData { Display = Localization.GetString("252_3"), Value = "252_layout_3_times_pre_day.json" },
+                new CombData { Display = Localization.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_pre_day.json" },
+            };
+
             UsesOfDronesList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("DronesNotUse"), Value = "_NotUse" },
@@ -465,6 +475,11 @@ namespace MeoAsstGui
         public List<CombData> UsesOfDronesList { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of uses of default infrast.
+        /// </summary>
+        public List<CombData> DefaultInfrastList { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of roguelike lists.
         /// </summary>
         public List<CombData> RoguelikeThemeList { get; set; }
@@ -586,6 +601,26 @@ namespace MeoAsstGui
             }
         }
 
+        private string _defaultInfrast = ViewStatusStorage.Get("Infrast.DefaultInfrast", "user_defined");
+
+        /// <summary>
+        /// Gets or sets the uses of drones.
+        /// </summary>
+        public string DefaultInfrast
+        {
+            get => _defaultInfrast;
+            set
+            {
+                SetAndNotify(ref _defaultInfrast, value);
+                if (_defaultInfrast != "user_defined")
+                {
+                    CustomInfrastFile = "resource\\custom_infrast\\" + value;
+                }
+
+                ViewStatusStorage.Set("Infrast.DefaultInfrast", value);
+            }
+        }
+
         private string _dormFilterNotStationedEnabled = ViewStatusStorage.Get("Infrast.DormFilterNotStationedEnabled", false.ToString());
 
         /// <summary>
@@ -659,6 +694,8 @@ namespace MeoAsstGui
             {
                 CustomInfrastFile = dialog.FileName;
             }
+
+            DefaultInfrast = "user_defined";
         }
 
         private string _customInfrastFile = ViewStatusStorage.Get("Infrast.CustomInfrastFile", string.Empty);
