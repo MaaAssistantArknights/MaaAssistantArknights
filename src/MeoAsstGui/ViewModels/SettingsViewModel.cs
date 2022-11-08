@@ -1529,6 +1529,10 @@ namespace MeoAsstGui
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
                     updateModel.AskToRestart();
                     break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
+                    toastMessage = Localization.GetString("NewVersionIsBeingBuilt");
+                    break;
             }
 
             if (toastMessage != null)
