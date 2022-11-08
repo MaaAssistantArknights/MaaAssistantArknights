@@ -53340,13 +53340,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 108000,
@@ -53370,13 +53376,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 131000,
@@ -53400,13 +53412,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 183000,
@@ -53430,13 +53448,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 164000,
@@ -53460,13 +53484,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 98000,
@@ -53490,13 +53520,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 185000,
@@ -53520,13 +53556,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 178000,
@@ -53550,13 +53592,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 226000,
@@ -53580,13 +53628,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 191500,
@@ -53610,13 +53664,19 @@
                 "openTime": 1651392000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1669230000000,
+                "exist": true,
+                "openTime": 1667458800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1669287600000,
+                "exist": true,
+                "openTime": 1667494800000
             }
         },
         "minClearTime": 209000,
@@ -65360,5 +65420,1349 @@
         "stageId": "act21side_10",
         "stageType": "ACTIVITY",
         "zoneId": "act21side_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "NL-1",
+        "code_i18n": {
+            "en": "NL-1",
+            "ja": "NL-1",
+            "ko": "NL-1",
+            "zh": "NL-1"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 158000,
+        "stageId": "act13side_01_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "NL-2",
+        "code_i18n": {
+            "en": "NL-2",
+            "ja": "NL-2",
+            "ko": "NL-2",
+            "zh": "NL-2"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 163000,
+        "stageId": "act13side_02_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "NL-3",
+        "code_i18n": {
+            "en": "NL-3",
+            "ja": "NL-3",
+            "ko": "NL-3",
+            "zh": "NL-3"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 169000,
+        "stageId": "act13side_03_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "NL-4",
+        "code_i18n": {
+            "en": "NL-4",
+            "ja": "NL-4",
+            "ko": "NL-4",
+            "zh": "NL-4"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 153000,
+        "stageId": "act13side_04_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "NL-5",
+        "code_i18n": {
+            "en": "NL-5",
+            "ja": "NL-5",
+            "ko": "NL-5",
+            "zh": "NL-5"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2001"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2002"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 201000,
+        "stageId": "act13side_05_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "NL-6",
+        "code_i18n": {
+            "en": "NL-6",
+            "ja": "NL-6",
+            "ko": "NL-6",
+            "zh": "NL-6"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 175000,
+        "stageId": "act13side_06_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "NL-7",
+        "code_i18n": {
+            "en": "NL-7",
+            "ja": "NL-7",
+            "ko": "NL-7",
+            "zh": "NL-7"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2001"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2002"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 179000,
+        "stageId": "act13side_07_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 18,
+        "code": "NL-8",
+        "code_i18n": {
+            "en": "NL-8",
+            "ja": "NL-8",
+            "ko": "NL-8",
+            "zh": "NL-8"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP",
+                "itemId": "30024"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30053"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30093"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30103"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 204000,
+        "stageId": "act13side_08_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 18,
+        "code": "NL-9",
+        "code_i18n": {
+            "en": "NL-9",
+            "ja": "NL-9",
+            "ko": "NL-9",
+            "zh": "NL-9"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP",
+                "itemId": "31034"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30063"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30073"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 198000,
+        "stageId": "act13side_09_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
+    },
+    {
+        "apCost": 18,
+        "code": "NL-10",
+        "code_i18n": {
+            "en": "NL-10",
+            "ja": "NL-10",
+            "ko": "NL-10",
+            "zh": "NL-10"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30073"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP",
+                "itemId": "30074"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2001"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2002"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30043"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30083"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1665000000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 105000,
+        "stageId": "act13side_10_perm",
+        "stageType": "ACTIVITY",
+        "zoneId": "permanent_sidestory_10_zone1"
     }
 ]

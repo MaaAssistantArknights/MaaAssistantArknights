@@ -308,11 +308,10 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         multiple = 10000;
         digit_str.erase(w_pos, digit_str.size());
     }
-    // else if (size_t e_pos = digit_str.find("亿");
-    //     e_pos != std::string::npos) {
-    //     multiple = 100000000;
-    //     digit_str.erase(e_pos, digit_str.size());
-    // }
+    else if (size_t k_pos = digit_str.find("k"); k_pos != std::string::npos) {
+        multiple = 1000;
+        digit_str.erase(k_pos, digit_str.size());
+    }
 
     if (digit_str.empty() ||
         !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == '.'; })) {
