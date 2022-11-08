@@ -287,6 +287,7 @@ namespace MeoAsstGui
             AlreadyLatest,
             NetworkError,
             FailedToGetInfo,
+            NewVersionIsBeingBuilt,
         }
 
         private enum Downloader
@@ -498,9 +499,11 @@ namespace MeoAsstGui
                     _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
                     _latestVersion = _latestJson["tag_name"].ToString();
                     stableResponse = RequestApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
+
+                    // 主仓库能找到版，但是 MaaRelease 找不到，说明 MaaRelease 还没有同步（一般过个十分钟就同步好了）
                     if (stableResponse.Length == 0)
                     {
-                        return CheckUpdateRetT.NetworkError;
+                        return CheckUpdateRetT.NewVersionIsBeingBuilt;
                     }
 
                     _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
