@@ -147,7 +147,7 @@ namespace MeoAsstGui
 
             DefaultInfrastList = new List<CombData>
             {
-                new CombData { Display = Localization.GetString("UserDefined"), Value = "user_defined" },
+                new CombData { Display = Localization.GetString("UserDefined"), Value = _userDefined },
                 new CombData { Display = Localization.GetString("153_3"), Value = "153_layout_3_times_pre_day.json" },
                 new CombData { Display = Localization.GetString("243_3"), Value = "243_layout_3_times_pre_day.json" },
                 new CombData { Display = Localization.GetString("243_4"), Value = "243_layout_4_times_per_day.json" },
@@ -601,7 +601,9 @@ namespace MeoAsstGui
             }
         }
 
-        private string _defaultInfrast = ViewStatusStorage.Get("Infrast.DefaultInfrast", "user_defined");
+        private string _defaultInfrast = ViewStatusStorage.Get("Infrast.DefaultInfrast", _userDefined);
+
+        private static readonly string _userDefined = "user_defined";
 
         /// <summary>
         /// Gets or sets the uses of drones.
@@ -612,7 +614,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _defaultInfrast, value);
-                if (_defaultInfrast != "user_defined")
+                if (_defaultInfrast != _userDefined)
                 {
                     CustomInfrastFile = "resource\\custom_infrast\\" + value;
                     IsCustomInfrastFileReadOnly = true;
@@ -631,7 +633,8 @@ namespace MeoAsstGui
         /// <summary>
         /// Gets or sets a value indicating whether  CustomInfrastFile is read-only
         /// </summary>
-        public bool IsCustomInfrastFileReadOnly {
+        public bool IsCustomInfrastFileReadOnly
+        {
             get => bool.Parse(_isCustomInfrastFileReadOnly);
             set
             {
@@ -714,7 +717,7 @@ namespace MeoAsstGui
                 CustomInfrastFile = dialog.FileName;
             }
 
-            DefaultInfrast = "user_defined";
+            DefaultInfrast = _userDefined;
         }
 
         private string _customInfrastFile = ViewStatusStorage.Get("Infrast.CustomInfrastFile", string.Empty);
