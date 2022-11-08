@@ -3114,11 +3114,11 @@
             85,
             60
         ],
-        "maxTimes": 5,
         "next": [
-            "Recruit",
             "RecruitFinish",
             "RecruitFlag",
+            "RecruitSkip",
+            "Recruit",
             "RecruitSkipWithoutButton"
         ]
     },
