@@ -6800,22 +6800,10 @@
             310,
             100,
             100
-        ],
-        "rectMove": [
-            1080,
-            310,
-            100,
-            100
         ]
     },
     "OperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
-        "specificRect": [
-            1080,
-            310,
-            100,
-            100
-        ],
         "rectMove": [
             400,
             310,
@@ -9059,10 +9047,22 @@
             310,
             100,
             100
+        ],
+        "rectMove": [
+            1080,
+            310,
+            100,
+            100
         ]
     },
     "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
         "baseTask": "OperListSlowlySwipeToTheRight",
+        "specificRect": [
+            1080,
+            310,
+            100,
+            100
+        ],
         "rectMove": [
             560,
             310,
