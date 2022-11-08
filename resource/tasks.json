@@ -2613,6 +2613,8 @@
             "PRTS2",
             "PRTS3",
             "EndOfAction",
+            "WaitAfterPRTS@Loading",
+            "WaitAfterPRTS@Loading2",
             "ClickCornerAfterPRTS_1"
         ]
     },
@@ -2635,6 +2637,8 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
+            "WaitAfterPRTS@Loading",
+            "WaitAfterPRTS@Loading2",
             "StartUpThemes#next"
         ]
     },
