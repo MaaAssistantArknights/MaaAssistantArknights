@@ -625,7 +625,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "叙拉古人"
+            "叙拉古人",
+            "开放"
         ],
         "roi": [
             0,
@@ -6800,22 +6801,26 @@
             100,
             100
         ],
-        "specialParams": [
-            1500,
-            1
+        "rectMove": [
+            1080,
+            310,
+            100,
+            100
         ]
     },
     "OperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1080,
+            310,
+            100,
+            100
+        ],
         "rectMove": [
             400,
             310,
             100,
             100
-        ],
-        "specialParams": [
-            1500,
-            1
         ]
     },
     "Roguelike@Abandon": {
