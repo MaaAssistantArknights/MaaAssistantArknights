@@ -409,13 +409,22 @@
         "fullMatch": true,
         "isAscii": true,
         "cache": false,
-        "withoutDet": true,
         "text": [],
+        "ocrReplace": [
+            [
+                "OPERATION",
+                ""
+            ],
+            [
+                " ",
+                ""
+            ]
+        ],
         "roi": [
-            920,
-            80,
-            92,
-            32
+            845,
+            72,
+            170,
+            50
         ]
     },
     "Episode": {
@@ -502,7 +511,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "01@Episode"
+            "Episode1"
         ],
         "next": [
             "Stage1-7",
@@ -2694,6 +2703,8 @@
             "PRTS2",
             "PRTS3",
             "EndOfAction",
+            "WaitAfterPRTS@Loading",
+            "WaitAfterPRTS@Loading2",
             "ClickCornerAfterPRTS_1"
         ]
     },
@@ -2716,6 +2727,8 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
+            "WaitAfterPRTS@Loading",
+            "WaitAfterPRTS@Loading2",
             "StartUpThemes#next"
         ]
     },
