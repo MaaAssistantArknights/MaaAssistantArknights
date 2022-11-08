@@ -625,7 +625,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "叙拉古人"
+            "叙拉古人",
+            "开放"
         ],
         "roi": [
             0,
