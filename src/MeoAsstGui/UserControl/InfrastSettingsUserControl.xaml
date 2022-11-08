@@ -168,6 +168,7 @@
                     Width="250"
                     Height="30"
                     Margin="10"
+                    IsReadOnly="{Binding IsCustomInfrastFileReadOnly}"
                     Text="{Binding CustomInfrastFile}" />
                 <Button
                     Grid.Row="1"

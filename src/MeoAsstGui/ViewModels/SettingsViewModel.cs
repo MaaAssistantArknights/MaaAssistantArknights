@@ -615,9 +615,28 @@ namespace MeoAsstGui
                 if (_defaultInfrast != "user_defined")
                 {
                     CustomInfrastFile = "resource\\custom_infrast\\" + value;
+                    IsCustomInfrastFileReadOnly = true;
+                }
+                else
+                {
+                    IsCustomInfrastFileReadOnly = false;
                 }
 
                 ViewStatusStorage.Set("Infrast.DefaultInfrast", value);
+            }
+        }
+
+        private string _isCustomInfrastFileReadOnly = ViewStatusStorage.Get("Infrast.IsCustomInfrastFileReadOnly", false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether  CustomInfrastFile is read-only
+        /// </summary>
+        public bool IsCustomInfrastFileReadOnly {
+            get => bool.Parse(_isCustomInfrastFileReadOnly);
+            set
+            {
+                SetAndNotify(ref _isCustomInfrastFileReadOnly, value.ToString());
+                ViewStatusStorage.Set("Infrast.IsCustomInfrastFileReadOnly", value.ToString());
             }
         }
 
