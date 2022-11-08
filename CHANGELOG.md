@@ -1,3 +1,5 @@
+_修复了之前版本过于稳定的 BUG，修复了版本号过低的 BUG_
+
 - 更新 `叙拉古人` EX 关卡数据 @MistEO
 - 新增 `叙拉古人` 活动关卡导航 @MistEO @ABA2396 @zzyyyl
 - 新增 自动战斗 自动跳过战斗前的剧情 @MistEO
@@ -22,5 +24,8 @@
 - 修复 macOS OCR 识别错误 @hguandl
 - 修复 macOS 肉鸽 干员名及练度识别 @hguandl
 - 修复 自启动 读取注册表时可能的崩溃问题 @dantmnf
+- 修复 公招 一定次数后卡住的问题 @MistEO
+- 修复 刷理智 1-7 关卡进不去的问题 @zzyyyl
+- 修复 肉鸽 招募有时提前结束的问题 @zzyyyl
 - 优化 界面 首次启动时报错弹窗提示 @MistEO
 - 更新 文档、界面 @MistEO @ABA2396 @wallsman
