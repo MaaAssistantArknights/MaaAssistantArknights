@@ -3086,6 +3086,7 @@
         "next": [
             "RecruitFinish@Loading",
             "RecruitFinish",
+            "Recruit",
             "RecruitSkip",
             "RecruitSkipWithoutButton"
         ]
@@ -3112,7 +3113,9 @@
             85,
             60
         ],
+        "maxTimes": 5,
         "next": [
+            "Recruit",
             "RecruitFinish",
             "RecruitFlag",
             "RecruitSkipWithoutButton"
