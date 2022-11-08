@@ -103,7 +103,7 @@ jobs:
           mkdir -pv build-ota && cd build-ota
           cd ${{ needs.build-win-nightly.outputs.tag }}
           mkdir -pv content
-          unzip -q *.zip -d content
+          unzip -q *.zip -x '*.lib' -x '*.pdb' -x '*.config' -x '*.xml' -d content
           cd ..
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
