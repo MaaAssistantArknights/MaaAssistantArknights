@@ -412,7 +412,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             }
             if (is_reconnect_success) {
                 if (call_and_hup_minitouch()) {
-                    m_minitouch_avaiable = true;
+                    m_minitouch_available = true;
                 }
                 auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
                 if (recall_ret) {
@@ -670,10 +670,10 @@ void asst::Controller::release_minitouch(bool force)
 {
     LogTraceFunction;
 
-    if (!m_minitouch_avaiable && !force) {
+    if (!m_minitouch_available && !force) {
         return;
     }
-    m_minitouch_avaiable = false;
+    m_minitouch_available = false;
 
 #ifdef _WIN32
 
@@ -783,7 +783,7 @@ void asst::Controller::clear_info() noexcept
     m_width = 0;
     m_height = 0;
     m_control_scale = 1.0;
-    m_minitouch_avaiable = false;
+    m_minitouch_available = false;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
     m_minitouch_props = decltype(m_minitouch_props)();
     m_screencap_data_general_size = 0;
@@ -1112,7 +1112,7 @@ bool asst::Controller::click_without_scale(const Point& p)
         Log.error("click point out of range");
     }
 
-    if (m_minitouch_enabled && m_minitouch_avaiable) {
+    if (m_minitouch_enabled && m_minitouch_available) {
         Log.info("minitouch click:", p);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         return toucher.down(p.x, p.y) && toucher.up();
@@ -1162,7 +1162,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
     }
 
     const auto& opt = Config.get_options();
-    if (m_minitouch_enabled && m_minitouch_avaiable) {
+    if (m_minitouch_enabled && m_minitouch_available) {
         Log.info("minitouch swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         toucher.down(x1, y1);
@@ -1252,7 +1252,7 @@ bool asst::Controller::press_esc()
 
 bool asst::Controller::support_swipe_with_pause() const noexcept
 {
-    return m_minitouch_enabled && m_minitouch_avaiable && !m_adb.swipe.empty();
+    return m_minitouch_enabled && m_minitouch_available && !m_adb.swipe.empty();
 }
 
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
@@ -1516,7 +1516,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 
     while (m_minitouch_enabled) {
-        m_minitouch_avaiable = false;
+        m_minitouch_available = false;
 
         std::string_view touch_program;
         if (m_use_maa_touch) {
@@ -1562,13 +1562,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         if (!call_and_hup_minitouch()) break;
 
-        m_minitouch_avaiable = true;
+        m_minitouch_available = true;
         break;
     };
 
-    if (m_minitouch_enabled && !m_minitouch_avaiable) {
+    if (m_minitouch_enabled && !m_minitouch_available) {
         json::value info = get_info_json() | json::object {
-            { "what", "TouchModeNotAvaiable" },
+            { "what", "TouchModeNotAvailable" },
             { "why", "" },
         };
         callback(AsstMsg::ConnectionInfo, info);
