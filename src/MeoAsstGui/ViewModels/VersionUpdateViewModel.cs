@@ -282,7 +282,7 @@ namespace MeoAsstGui
         public enum CheckUpdateRetT
         {
             OK,
-            UnknwonError,
+            UnknownError,
             NoNeedToUpdate,
             AlreadyLatest,
             NetworkError,
@@ -593,7 +593,7 @@ namespace MeoAsstGui
             catch (Exception e)
             {
                 Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
-                return CheckUpdateRetT.UnknwonError;
+                return CheckUpdateRetT.UnknownError;
             }
         }
 

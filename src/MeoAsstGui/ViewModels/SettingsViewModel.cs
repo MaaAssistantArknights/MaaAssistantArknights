@@ -1514,7 +1514,7 @@ namespace MeoAsstGui
                     toastMessage = Localization.GetString("AlreadyLatest");
                     break;
 
-                case VersionUpdateViewModel.CheckUpdateRetT.UnknwonError:
+                case VersionUpdateViewModel.CheckUpdateRetT.UnknownError:
                     toastMessage = Localization.GetString("NewVersionDetectFailedTitle");
                     break;
 
