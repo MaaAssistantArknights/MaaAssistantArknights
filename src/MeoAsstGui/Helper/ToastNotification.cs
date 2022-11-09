@@ -15,6 +15,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Media;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -396,28 +397,35 @@ namespace MeoAsstGui
 
             if (CheckToastSystem())
             {
-                if (_buttonSystemEnabled)
+                try
                 {
-                    Uri burl = new Uri(ButtonSystemUrl);
-                    new ToastContentBuilder()
-                    .AddText(_notificationTitle)
-                    .AddText(_contentCollection.ToString())
-                    .AddButton(new ToastButton()
-                        .SetContent(_buttonSystemText)
-                        .SetProtocolActivation(burl))
-                    .Show();
+                    if (_buttonSystemEnabled)
+                    {
+                        Uri burl = new Uri(ButtonSystemUrl);
+                        new ToastContentBuilder()
+                            .AddText(_notificationTitle)
+                            .AddText(_contentCollection.ToString())
+                            .AddButton(new ToastButton()
+                                .SetContent(_buttonSystemText)
+                                .SetProtocolActivation(burl))
+                            .Show();
+                    }
+                    else
+                    {
+                        new ToastContentBuilder()
+                            .AddText(_notificationTitle)
+                            .AddText(_contentCollection.ToString())
+                            .Show();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    new ToastContentBuilder()
-                        .AddText(_notificationTitle)
-                        .AddText(_contentCollection.ToString())
-                        .Show();
+                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                 }
             }
             else
             {
-                notificationContent = notificationContent ?? BaseContent();
+                notificationContent ??= BaseContent();
 
                 notificationContent.RowsCount = row;
 
