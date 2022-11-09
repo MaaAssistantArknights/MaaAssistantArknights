@@ -11,7 +11,7 @@ namespace asst
 {
     enum class ReportType
     {
-        Invaild,
+        Invalid,
         PenguinStats,
         YituliuBigData,
     };
@@ -49,7 +49,7 @@ namespace asst
             },
             bool callback_on_failure = true);
 
-        ReportType m_report_type = ReportType::Invaild;
+        ReportType m_report_type = ReportType::Invalid;
         std::string m_body;
         std::string m_extra_param;
         std::vector<std::future<void>> m_upload_pending;

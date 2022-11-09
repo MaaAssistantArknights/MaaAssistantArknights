@@ -262,14 +262,14 @@ int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
         auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCostChannelV"))->mask_range;
         range_lower = cv::Scalar(h_l, s_l, v_l);
         range_upper = cv::Scalar(h_u, s_u, v_u);
-        std::unordered_map<std::string, std::string> num_hashs;
+        std::unordered_map<std::string, std::string> num_hashes;
         for (auto&& num : NumName) {
-            auto hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCost" + num))->hashes;
-            for (size_t i = 0; i != hashs_vec.size(); ++i) {
-                num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
+            auto hashes_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCost" + num))->hashes;
+            for (size_t i = 0; i != hashes_vec.size(); ++i) {
+                num_hashes.emplace(num + "_" + std::to_string(i), hashes_vec.at(i));
             }
         }
-        hash_analyzer.set_hash_templates(std::move(num_hashs));
+        hash_analyzer.set_hash_templates(std::move(num_hashes));
         hash_analyzer.set_need_bound(true);
         hash_analyzer.set_need_split(true);
         inited = true;
@@ -398,14 +398,14 @@ bool asst::BattleImageAnalyzer::hp_analyze()
         auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHpChannelV"))->mask_range;
         range_lower = cv::Scalar(h_l, s_l, v_l);
         range_upper = cv::Scalar(h_u, s_u, v_u);
-        std::unordered_map<std::string, std::string> num_hashs;
+        std::unordered_map<std::string, std::string> num_hashes;
         for (auto&& num : NumName) {
-            const auto& hashs_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHp" + num))->hashes;
-            for (size_t i = 0; i != hashs_vec.size(); ++i) {
-                num_hashs.emplace(num + "_" + std::to_string(i), hashs_vec.at(i));
+            const auto& hashes_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHp" + num))->hashes;
+            for (size_t i = 0; i != hashes_vec.size(); ++i) {
+                num_hashes.emplace(num + "_" + std::to_string(i), hashes_vec.at(i));
             }
         }
-        hash_analyzer.set_hash_templates(std::move(num_hashs));
+        hash_analyzer.set_hash_templates(std::move(num_hashes));
         hash_analyzer.set_need_bound(true);
         hash_analyzer.set_need_split(true);
         inited = true;

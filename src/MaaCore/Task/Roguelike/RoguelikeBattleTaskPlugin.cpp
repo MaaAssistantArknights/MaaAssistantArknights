@@ -804,7 +804,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         }
         m_is_cur_urgent = true;
         m_cur_home_index = m_next_urgent_index.top();
-        Log.info("Enter urgent situtation");
+        Log.info("Enter urgent situation");
         m_next_urgent_index.pop();
     }
     Log.info("To path", m_cur_home_index);
