@@ -18,7 +18,7 @@ pub async fn create(req: web::Json<Req>, maa_manager:web::Data<Mutex<MaaManager>
     let params = match req.params {
         Value::Null => "{}".to_string(),
         Value::Object(_) => req.params.to_string(),
-        _=>return Err(Error::InvaildRequest)
+        _=>return Err(Error::InvalidRequest)
     };
     let task_id = maa.create_task(&req.types, &params)?;
     Ok(HttpResponse::Ok().json(json!({
