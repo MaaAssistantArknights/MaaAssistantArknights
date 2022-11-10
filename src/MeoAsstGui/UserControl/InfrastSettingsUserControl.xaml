@@ -5,11 +5,11 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:local="clr-namespace:MeoAsstGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MeoAsstGui;assembly=MeoAsstGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignHeight="400"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
@@ -138,7 +138,7 @@
                     Text="{DynamicResource CustomInfrastEnabled}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <Grid IsEnabled="{Binding CustomInfrastEnabled}">
+            <Grid Visibility="{c:Binding CustomInfrastEnabled}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
@@ -162,6 +162,20 @@
                     ItemsSource="{Binding DefaultInfrastList}"
                     SelectedValue="{Binding DefaultInfrast}"
                     SelectedValuePath="Value" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}">
+                    <Hyperlink
+                        Click="Hyperlink_Click"
+                        NavigateUri="{Binding Source={x:Static local:MaaUrls.CustomInfrastGenerator}}"
+                        TextDecorations="None">
+                        <TextBlock Text="{DynamicResource CustomInfrastGenerator}" />
+                    </Hyperlink>
+                </TextBlock>
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="1"

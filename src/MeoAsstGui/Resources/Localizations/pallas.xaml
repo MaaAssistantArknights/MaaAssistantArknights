@@ -311,7 +311,6 @@
 
     <system:String x:Key="Start">🍺🍺🍻</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">🍻🍻🍺🍺🍸🕺🍺</system:String>
     <system:String x:Key="VideoLink">🍸🍷🍻🍷🍸</system:String>
 
     <!--  日志  -->
