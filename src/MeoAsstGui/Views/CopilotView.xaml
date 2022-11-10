@@ -68,11 +68,19 @@
                 Command="{s:Action Stop}"
                 Content="{DynamicResource Stop}" />
             <TextBlock
-                Margin="10"
+                Margin="5"
                 Block.TextAlignment="Center"
                 Style="{StaticResource TextBlockDefault}">
                 <Hyperlink Command="{s:Action Hyperlink_Click}" CommandParameter="{Binding Url}">
                     <TextBlock Text="{Binding Url}" />
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock
+                Margin="5"
+                Block.TextAlignment="Center"
+                Style="{StaticResource TextBlockDefault}">
+                <Hyperlink Command="{s:Action Hyperlink_Click2}">
+                    <TextBlock Text="{DynamicResource MapPrts}" />
                 </Hyperlink>
             </TextBlock>
         </StackPanel>

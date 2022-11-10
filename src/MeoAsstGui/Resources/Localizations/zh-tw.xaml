@@ -311,7 +311,6 @@
 
     <system:String x:Key="Start">開始</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">作業分享平台</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
 
     <!--  日誌  -->
@@ -426,7 +425,9 @@
     <system:String x:Key="QQgroup5">五群</system:String>
     <system:String x:Key="QQgroup6">六群</system:String>
     <system:String x:Key="QQgroup7">七群</system:String>
+    <system:String x:Key="QQgroup8">八群</system:String>
     <system:String x:Key="QQgroupfull">(已滿)</system:String>
+    <system:String x:Key="QQchannel">QQ頻道</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/zh-tw/1.2-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C.md</uri:Uri>

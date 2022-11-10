@@ -1064,7 +1064,10 @@ namespace MeoAsstGui
 
             if (ret)
             {
-                settings.AutoDetectConnection = false;
+                if (!settings.AlwaysAutoDetectConnection)
+                {
+                    settings.AutoDetectConnection = false;
+                }
             }
             else
             {

@@ -311,7 +311,6 @@
 
     <system:String x:Key="Start">🍺🍺🍻</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">🍻🍻🍺🍺🍸🕺🍺</system:String>
     <system:String x:Key="VideoLink">🍸🍷🍻🍷🍸</system:String>
 
     <!--  日志  -->
@@ -424,6 +423,7 @@
     <system:String x:Key="QQgroup5">🍻💃💃</system:String>
     <system:String x:Key="QQgroup6">🍻💃🍻</system:String>
     <system:String x:Key="QQgroup7">🍻💃💃</system:String>
+    <system:String x:Key="QQgroup8">🍻🍺🍺</system:String>
     <system:String x:Key="QQgroupfull">🍸🍸🕺🕺🍺</system:String>
     <system:String x:Key="Telegram">🍷🍷🍷🍺</system:String>
     <system:String x:Key="Help">🍸🍺🍺🍻🍺</system:String>
