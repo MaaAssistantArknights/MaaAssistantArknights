@@ -324,7 +324,6 @@
 
     <system:String x:Key="Start">開始</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">攻略ファイル・シェアステーション</system:String>
     <system:String x:Key="VideoLink">ビデオハイパーリンク</system:String>
     <!--  Where use it?  -->
 

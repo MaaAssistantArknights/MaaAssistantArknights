@@ -343,7 +343,6 @@
 
     <system:String x:Key="Start">Start</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">Copilot task JSON Sharing</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
 
     <!--  Logs  -->

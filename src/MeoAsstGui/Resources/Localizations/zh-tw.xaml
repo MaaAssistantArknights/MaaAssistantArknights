@@ -311,7 +311,6 @@
 
     <system:String x:Key="Start">開始</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">作業分享平台</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
 
     <!--  日誌  -->

@@ -343,7 +343,6 @@
 
     <system:String x:Key="Start">开始</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">作业分享平台</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
 
     <!--  日志  -->

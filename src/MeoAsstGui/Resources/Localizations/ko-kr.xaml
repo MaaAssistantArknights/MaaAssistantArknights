@@ -311,7 +311,6 @@
 
     <system:String x:Key="Start">시작</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">작업 공유 사이트</system:String>
     <system:String x:Key="VideoLink">비디오 링크</system:String>
 
     <!--  로그  -->
