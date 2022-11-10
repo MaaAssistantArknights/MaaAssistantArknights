@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Stylet;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
@@ -399,24 +400,27 @@ namespace MeoAsstGui
             {
                 try
                 {
-                    if (_buttonSystemEnabled)
+                    Execute.OnUIThread(() =>
                     {
-                        Uri burl = new Uri(ButtonSystemUrl);
-                        new ToastContentBuilder()
-                            .AddText(_notificationTitle)
-                            .AddText(_contentCollection.ToString())
-                            .AddButton(new ToastButton()
-                                .SetContent(_buttonSystemText)
-                                .SetProtocolActivation(burl))
-                            .Show();
-                    }
-                    else
-                    {
-                        new ToastContentBuilder()
-                            .AddText(_notificationTitle)
-                            .AddText(_contentCollection.ToString())
-                            .Show();
-                    }
+                        if (_buttonSystemEnabled)
+                        {
+                            Uri burl = new Uri(ButtonSystemUrl);
+                            new ToastContentBuilder()
+                                .AddText(_notificationTitle)
+                                .AddText(_contentCollection.ToString())
+                                .AddButton(new ToastButton()
+                                    .SetContent(_buttonSystemText)
+                                    .SetProtocolActivation(burl))
+                                .Show();
+                        }
+                        else
+                        {
+                            new ToastContentBuilder()
+                                .AddText(_notificationTitle)
+                                .AddText(_contentCollection.ToString())
+                                .Show();
+                        }
+                    });
                 }
                 catch (Exception e)
                 {
