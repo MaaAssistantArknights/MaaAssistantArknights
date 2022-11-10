@@ -21,6 +21,7 @@
 #include <shared_mutex>
 #include <string>
 #include <thread>
+#include <format>
 
 #include "Utils/NoWarningCVMat.h"
 
@@ -162,6 +163,7 @@ namespace asst
         bool m_minitouch_avaiable = false; // 状态
 
 #ifdef _WIN32
+        HANDLE m_minitouch_in_read = nullptr;
         HANDLE m_minitouch_in_write = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
@@ -192,12 +194,12 @@ namespace asst
         struct MinitouchCmd
         {
             inline static constexpr int DefaultInterval = 50;
-            inline static std::string reset() { return "r\\n"; }
-            inline static std::string commit() { return "c\\n"; }
+            inline static std::string reset() { return "r\n"; }
+            inline static std::string commit() { return "c\n"; }
             inline static std::string down(int x, int y, bool with_commit = true, bool with_wait = true,
                                            int contact = 0, int pressure = 50)
             {
-                std::string str = std::format("d {} {} {} {}\\n", contact, x, y, pressure);
+                std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
                 if (with_commit) str += commit();
                 if (with_wait) str += wait();
                 return str;
@@ -205,20 +207,20 @@ namespace asst
             inline static std::string move(int x, int y, bool with_commit = true, bool with_wait = true,
                                            int contact = 0, int pressure = 50)
             {
-                std::string str = std::format("m {} {} {} {}\\n", contact, x, y, pressure);
+                std::string str = std::format("m {} {} {} {}\n", contact, x, y, pressure);
                 if (with_commit) str += commit();
                 if (with_wait) str += wait();
                 return str;
             }
             inline static std::string up(bool with_commit = true, int contact = 0)
             {
-                std::string str = std::format("u {}\\n", contact);
+                std::string str = std::format("u {}\n", contact);
                 if (with_commit) str += commit();
                 return str;
             }
             inline static std::string wait(int ms = DefaultInterval)
             {
-                std::string str = std::format("w {}\\n", ms);
+                std::string str = std::format("w {}\n", ms);
                 return str;
             }
         };
