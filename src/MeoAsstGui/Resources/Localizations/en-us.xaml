@@ -451,7 +451,9 @@
     <system:String x:Key="QQgroup5">QQ group 5</system:String>
     <system:String x:Key="QQgroup6">QQ group 6</system:String>
     <system:String x:Key="QQgroup7">QQ group 7</system:String>
+    <system:String x:Key="QQgroup8">QQ group 8</system:String>
     <system:String x:Key="QQgroupfull">(Full)</system:String>
+    <system:String x:Key="QQchannel">QQ channel</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>
