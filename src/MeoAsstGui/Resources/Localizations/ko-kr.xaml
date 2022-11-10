@@ -311,7 +311,6 @@
 
     <system:String x:Key="Start">시작</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">작업 공유 사이트</system:String>
     <system:String x:Key="VideoLink">비디오 링크</system:String>
 
     <!--  로그  -->
@@ -424,6 +423,7 @@
     <system:String x:Key="QQgroup5">QQ그룹5</system:String>
     <system:String x:Key="QQgroup6">QQ그룹6</system:String>
     <system:String x:Key="QQgroup7">QQ그룹7</system:String>
+    <system:String x:Key="QQgroup8">QQ그룹8</system:String>
     <system:String x:Key="QQgroupfull">(만원)</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>

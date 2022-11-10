@@ -145,6 +145,16 @@ namespace MeoAsstGui
 
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
+            DefaultInfrastList = new List<CombData>
+            {
+                new CombData { Display = Localization.GetString("UserDefined"), Value = _userDefined },
+                new CombData { Display = Localization.GetString("153_3"), Value = "153_layout_3_times_pre_day.json" },
+                new CombData { Display = Localization.GetString("243_3"), Value = "243_layout_3_times_pre_day.json" },
+                new CombData { Display = Localization.GetString("243_4"), Value = "243_layout_4_times_per_day.json" },
+                new CombData { Display = Localization.GetString("252_3"), Value = "252_layout_3_times_pre_day.json" },
+                new CombData { Display = Localization.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_pre_day.json" },
+            };
+
             UsesOfDronesList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("DronesNotUse"), Value = "_NotUse" },
@@ -465,6 +475,11 @@ namespace MeoAsstGui
         public List<CombData> UsesOfDronesList { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of uses of default infrast.
+        /// </summary>
+        public List<CombData> DefaultInfrastList { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of roguelike lists.
         /// </summary>
         public List<CombData> RoguelikeThemeList { get; set; }
@@ -586,6 +601,48 @@ namespace MeoAsstGui
             }
         }
 
+        private string _defaultInfrast = ViewStatusStorage.Get("Infrast.DefaultInfrast", _userDefined);
+
+        private static readonly string _userDefined = "user_defined";
+
+        /// <summary>
+        /// Gets or sets the uses of drones.
+        /// </summary>
+        public string DefaultInfrast
+        {
+            get => _defaultInfrast;
+            set
+            {
+                SetAndNotify(ref _defaultInfrast, value);
+                if (_defaultInfrast != _userDefined)
+                {
+                    CustomInfrastFile = "resource\\custom_infrast\\" + value;
+                    IsCustomInfrastFileReadOnly = true;
+                }
+                else
+                {
+                    IsCustomInfrastFileReadOnly = false;
+                }
+
+                ViewStatusStorage.Set("Infrast.DefaultInfrast", value);
+            }
+        }
+
+        private string _isCustomInfrastFileReadOnly = ViewStatusStorage.Get("Infrast.IsCustomInfrastFileReadOnly", false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether  CustomInfrastFile is read-only
+        /// </summary>
+        public bool IsCustomInfrastFileReadOnly
+        {
+            get => bool.Parse(_isCustomInfrastFileReadOnly);
+            set
+            {
+                SetAndNotify(ref _isCustomInfrastFileReadOnly, value.ToString());
+                ViewStatusStorage.Set("Infrast.IsCustomInfrastFileReadOnly", value.ToString());
+            }
+        }
+
         private string _dormFilterNotStationedEnabled = ViewStatusStorage.Get("Infrast.DormFilterNotStationedEnabled", false.ToString());
 
         /// <summary>
@@ -659,6 +716,8 @@ namespace MeoAsstGui
             {
                 CustomInfrastFile = dialog.FileName;
             }
+
+            DefaultInfrast = _userDefined;
         }
 
         private string _customInfrastFile = ViewStatusStorage.Get("Infrast.CustomInfrastFile", string.Empty);
@@ -1514,7 +1573,7 @@ namespace MeoAsstGui
                     toastMessage = Localization.GetString("AlreadyLatest");
                     break;
 
-                case VersionUpdateViewModel.CheckUpdateRetT.UnknwonError:
+                case VersionUpdateViewModel.CheckUpdateRetT.UnknownError:
                     toastMessage = Localization.GetString("NewVersionDetectFailedTitle");
                     break;
 
@@ -1558,6 +1617,18 @@ namespace MeoAsstGui
             {
                 SetAndNotify(ref _autoDetectConnection, value);
                 ViewStatusStorage.Set("Connect.AutoDetect", value.ToString());
+            }
+        }
+
+        private bool _alwaysAutoDetectConnection = bool.Parse(ViewStatusStorage.Get("Connect.AlwaysAutoDetect", false.ToString()));
+
+        public bool AlwaysAutoDetectConnection
+        {
+            get => _alwaysAutoDetectConnection;
+            set
+            {
+                SetAndNotify(ref _alwaysAutoDetectConnection, value);
+                ViewStatusStorage.Set("Connect.AlwaysAutoDetect", value.ToString());
             }
         }
 

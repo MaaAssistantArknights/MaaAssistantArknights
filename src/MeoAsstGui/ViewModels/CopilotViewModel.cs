@@ -137,6 +137,7 @@ namespace MeoAsstGui
         private void UpdateFileDoc(string filename)
         {
             ClearLog();
+            Url = CopilotUiUrl;
 
             string jsonStr = string.Empty;
             if (File.Exists(filename))
@@ -456,7 +457,7 @@ namespace MeoAsstGui
         /// </summary>
         public string Url
         {
-            get => _url == CopilotUiUrl ? Localization.GetString("CopilotJSONSharing") : Localization.GetString("VideoLink");
+            get => _url == CopilotUiUrl ? Localization.GetString("PrtsPlus") : Localization.GetString("VideoLink");
             set => SetAndNotify(ref _url, value);
         }
 
@@ -470,6 +471,25 @@ namespace MeoAsstGui
                 if (!string.IsNullOrEmpty(_url))
                 {
                     Process.Start(new ProcessStartInfo(_url));
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private readonly string _url2 = MaaUrls.MapPrts;
+
+        /// <summary>
+        /// The event handler of clicking hyperlink.
+        /// </summary>
+        public void Hyperlink_Click2()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(_url2))
+                {
+                    Process.Start(new ProcessStartInfo(_url2));
                 }
             }
             catch (Exception)

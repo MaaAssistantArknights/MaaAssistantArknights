@@ -40,6 +40,13 @@
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed opers in dorm</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
+    <system:String x:Key="DefaultInfrast">Default Infrast</system:String>
+    <system:String x:Key="UserDefined">User defined</system:String>
+    <system:String x:Key="153_3">153 3 times a day</system:String>
+    <system:String x:Key="243_3">243 3 times a day</system:String>
+    <system:String x:Key="243_4">243 4 times a day</system:String>
+    <system:String x:Key="252_3">252 3 times a day</system:String>
+    <system:String x:Key="333_3">333 3 times a day</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastTitle">Base Configuration:</system:String>
@@ -336,7 +343,6 @@
 
     <system:String x:Key="Start">Start</system:String>
 
-    <system:String x:Key="CopilotJSONSharing">Copilot task JSON Sharing</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
 
     <!--  Logs  -->
@@ -451,7 +457,9 @@
     <system:String x:Key="QQgroup5">QQ group 5</system:String>
     <system:String x:Key="QQgroup6">QQ group 6</system:String>
     <system:String x:Key="QQgroup7">QQ group 7</system:String>
+    <system:String x:Key="QQgroup8">QQ group 8</system:String>
     <system:String x:Key="QQgroupfull">(Full)</system:String>
+    <system:String x:Key="QQchannel">QQ channel</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>

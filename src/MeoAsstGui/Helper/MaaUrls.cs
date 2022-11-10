@@ -41,6 +41,7 @@ namespace MeoAsstGui
             "https://jq.qq.com/?k=To6b6H6m",
             "https://jq.qq.com/?k=K8t6W7HZ",
             "https://jq.qq.com/?k=gGRc2Rlw",
+            "https://jq.qq.com/?k=NOpUOidq",
         };
 
         public static string LatestQqGroup => QqGroups.Last();
