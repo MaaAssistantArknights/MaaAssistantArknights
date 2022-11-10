@@ -24,13 +24,13 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Stylet;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Stylet;
 
 namespace MeoAsstGui
 {
@@ -71,8 +71,7 @@ namespace MeoAsstGui
                 }
 
                 var osVersion = matched.Groups[0].Value;
-                Semver.SemVersion curVersionObj;
-                bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out curVersionObj);
+                bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out var curVersionObj);
 
                 var minimumVersionObj = new Semver.SemVersion(10, 0, 10240);
                 _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
@@ -421,6 +420,7 @@ namespace MeoAsstGui
                                 .Show();
                         }
                     });
+
                     // 通知正常弹出了就直接 return，否则用 catch 下面的兼容版通知
                     return;
                 }
@@ -466,7 +466,7 @@ namespace MeoAsstGui
             NotificationSounds sound = NotificationSounds.None,
             NotificationContent notificationContent = null)
         {
-            notificationContent = notificationContent ?? BaseContent();
+            notificationContent ??= BaseContent();
             notificationContent.TrimType = NotificationTextTrimType.Attach;
 
             Show(lifeTime: lifeTime,
