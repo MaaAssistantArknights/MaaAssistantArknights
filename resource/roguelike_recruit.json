@@ -580,6 +580,14 @@
             ],
             "opers": [
                 {
+                    "name": "缄默德克萨斯",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 750,
+                    "promote_priority": 750,
+                    "promote_priority_when_team_full": 100
+                },
+                {
                     "name": "归溟幽灵鲨",
                     "skill": 2,
                     "recruit_priority": 700,
