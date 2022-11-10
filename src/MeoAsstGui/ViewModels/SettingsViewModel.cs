@@ -1620,6 +1620,18 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _alwaysAutoDetectConnection = bool.Parse(ViewStatusStorage.Get("Connect.AlwaysAutoDetect", false.ToString()));
+
+        public bool AlwaysAutoDetectConnection
+        {
+            get => _alwaysAutoDetectConnection;
+            set
+            {
+                SetAndNotify(ref _alwaysAutoDetectConnection, value);
+                ViewStatusStorage.Set("Connect.AlwaysAutoDetect", value.ToString());
+            }
+        }
+
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
         /// <summary>
