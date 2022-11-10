@@ -40,6 +40,13 @@
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed opers in dorm</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
+    <system:String x:Key="DefaultInfrast">Default Infrast</system:String>
+    <system:String x:Key="UserDefined">User defined</system:String>
+    <system:String x:Key="153_3">153 3 times a day</system:String>
+    <system:String x:Key="243_3">243 3 times a day</system:String>
+    <system:String x:Key="243_4">243 4 times a day</system:String>
+    <system:String x:Key="252_3">252 3 times a day</system:String>
+    <system:String x:Key="333_3">333 3 times a day</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastTitle">Base Configuration:</system:String>
