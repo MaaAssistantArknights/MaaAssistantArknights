@@ -447,6 +447,7 @@ void asst::Controller::callback(AsstMsg msg, const json::value& details)
 bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 {
     LogTraceFunction;
+    Log.info(cmd);
 
     m_minitouch_avaiable = false;
 
@@ -457,10 +458,9 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         .lpSecurityDescriptor = nullptr,
         .bInheritHandle = TRUE,
     };
-    HANDLE minitouch_in_read = nullptr;
 
-    if (!asst::win32::CreateOverlappablePipe(&minitouch_in_read, &m_minitouch_in_write, &sa_attr, nullptr, 4096UL,
-                                             false, true)) {
+    if (!asst::win32::CreateOverlappablePipe(&m_minitouch_in_read, &m_minitouch_in_write, &sa_attr, nullptr, 4096UL,
+                                             false, false)) {
         DWORD err = GetLastError();
         Log.error("Failed to create pipe for minitouch, err", err);
         return false;
@@ -470,19 +470,19 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     si.cb = sizeof(STARTUPINFOW);
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
-    si.hStdInput = m_minitouch_in_write;
+    si.hStdInput = m_minitouch_in_read;
+    si.hStdOutput = m_minitouch_in_write;
+    si.hStdOutput = m_minitouch_in_write;
 
     auto cmd_osstr = utils::to_osstring(cmd);
     if (!CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
                         &m_minitouch_process_info)) {
         DWORD err = GetLastError();
         Log.error("Failed to create process for minitouch, err", err);
-        CloseHandle(minitouch_in_read);
+        CloseHandle(m_minitouch_in_read);
         CloseHandle(m_minitouch_in_write);
         return false;
     }
-
-    CloseHandle(minitouch_in_read);
 
     m_minitouch_avaiable = true;
     return true;
@@ -495,13 +495,20 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
 bool asst::Controller::input_to_minitouch(const std::string& cmd)
 {
-    LogTraceFunction;
+    Log.info("Input to minitouch", Logger::separator::newline, cmd);
 
+#ifdef _WIN32
     DWORD written = 0;
-    BOOL wr_ret = WriteFile(m_minitouch_in_write, cmd.c_str(), static_cast<DWORD>(cmd.size()), &written, NULL);
+    if (!WriteFile(m_minitouch_in_write, cmd.c_str(), static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)),
+                   &written, NULL)) {
+        auto err = GetLastError();
+        Log.error("Failed to write to minitouch, err", err);
+    }
 
-    Log.info(std::format("input to minitouch: \"{}\", write_ret: {}, written_size: {}", cmd, wr_ret, written));
-    return wr_ret && cmd.size() == written;
+    return cmd.size() == written;
+#else
+    return false;
+#endif
 }
 
 void asst::Controller::release_minitouch()
@@ -517,6 +524,7 @@ void asst::Controller::release_minitouch()
 
     CloseHandle(m_minitouch_process_info.hProcess);
     CloseHandle(m_minitouch_process_info.hThread);
+    CloseHandle(m_minitouch_in_read);
     CloseHandle(m_minitouch_in_write);
 
 #endif //  _WIN32
