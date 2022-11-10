@@ -137,6 +137,7 @@ namespace MeoAsstGui
         private void UpdateFileDoc(string filename)
         {
             ClearLog();
+            Url = CopilotUiUrl;
 
             string jsonStr = string.Empty;
             if (File.Exists(filename))
