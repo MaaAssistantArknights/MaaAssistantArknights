@@ -1,32 +1,4 @@
-_修复了之前版本过于稳定的 BUG，修复了版本号过低的 BUG_
-
-- 更新 `叙拉古人` EX 关卡数据 @MistEO
-- 新增 `叙拉古人` 活动关卡导航 @MistEO @ABA2396 @zzyyyl
-- 新增 自动战斗 自动跳过战斗前的剧情 @MistEO
-- 新增 `商业洽谈会` 窗口自动关闭功能 @zzyyyl
-- 新增 繁中服 基建 支持 @Vincent-2019 @MistEO
-- 重构 Task 部分解析逻辑，重构滑动任务，重构关卡导航 @zzyyyl @MistEO @ABA2396
-- Update Drops and I.S. game data for EN and JP clients. @MistEO
-- Refactor overseas clients tasks structure, fix some task error. @zzyyyl @MistEO
-- 优化 OTA 打包逻辑，新增内测版打包逻辑，新增镜像下载服务器 @horror-proton @MistEO @zzyyyl
-- 优化 自动基建 新干员效率计算、异格干员效率计算 @MistEO
-- 优化 自定义基建 内置作业 @ABA2396 @anywugn @MistEO @545426 @lhhxxxxx
-- 分离 肉鸽 不同主题招募、购物配置，优化 傀影肉鸽 干员招募优先级 @MistEO @WWPXX233
-- 修复 B 服 启动游戏错误 @zzyyyl
-- 修复 自动战斗 干员名识别错误 @ABA2396 @zzyyyl
-- 修复 自动战斗 自动编队滑过头的问题 @MistEO
-- 修复 公开招募 掉线后卡住的问题 @ABA2396
-- 修复 基建 掉线后卡住的问题 @MistEO
-- 修复 基建 干员名识别错误 @ABA2396 @zzyyyl
-- 修复 信用购物 网络不佳时卡住的问题 @zzyyyl @MistEO
-- 修复 访问好友 任务失败时不报错的问题 @MistEO
-- 修复 傀影肉鸽 不期而遇卡住的问题 @MistEO
-- 修复 macOS 信用购物点不进去的问题 @hguandl
-- 修复 macOS OCR 识别错误 @hguandl
-- 修复 macOS 肉鸽 干员名及练度识别 @hguandl
-- 修复 自启动 读取注册表时可能的崩溃问题 @dantmnf
-- 修复 公招 一定次数后卡住的问题 @MistEO
-- 修复 刷理智 部分主线关卡进不去的问题 @zzyyyl
-- 修复 肉鸽 招募有时提前结束的问题 @zzyyyl
-- 优化 界面 首次启动时报错弹窗提示 @MistEO
-- 更新 文档、界面 @MistEO @ABA2396 @wallsman
+- 新增 自定义基建排班 内置配置文件选择 @MistEO @ABA2396
+- 新增 始终自动检测模拟器连接 选项 @lhhxxxxx
+- 修复 界面 弹出通知时崩溃的问题 @zzyyyl
+- 更新 文档、界面、作业群、频道链接 @ABA2396 @horror-proton
