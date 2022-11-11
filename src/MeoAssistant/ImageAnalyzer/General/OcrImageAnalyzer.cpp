@@ -112,6 +112,7 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
     m_full_match = task_info.full_match;
     m_replace = std::move(task_info.replace_map);
     m_use_cache = task_info.cache;
+    m_use_char_model = task_info.is_ascii;
 
     if (m_use_cache && !m_region_of_appeared.empty()) {
         m_roi = m_region_of_appeared;
