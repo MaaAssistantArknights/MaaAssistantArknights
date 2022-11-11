@@ -8768,15 +8768,15 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "withoutDet": true,
         "roi": [
             880,
-            200,
-            220,
-            120
+            210,
+            140,
+            36
         ],
         "text": [
-            "活用",
-            "再利用"
+            "活用安全屋"
         ],
         "preDelay": 500,
         "next": [
