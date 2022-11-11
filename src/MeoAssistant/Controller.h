@@ -204,7 +204,7 @@ namespace asst
 
         struct MinitouchCmd
         {
-            inline static constexpr int DefaultInterval = 50;
+            inline static constexpr int DefaultInterval = 10;
             inline static std::string reset() { return "r\n"; }
             inline static std::string commit() { return "c\n"; }
             inline static std::string down(int x, int y, bool with_commit = true, bool with_wait = true,

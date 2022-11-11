@@ -497,17 +497,15 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     std::string pipe_str;
     auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
 
-    DWORD peek_num = 0;
-    DWORD read_num = 0;
-
     bool read_end = false;
-
     auto start_time = std::chrono::steady_clock::now();
     auto check_timeout = [&]() -> bool {
         using namespace std::chrono_literals;
         return std::chrono::steady_clock::now() - start_time < 10s;
     };
     while (!need_exit() && !read_end && check_timeout()) {
+        DWORD peek_num = 0;
+        DWORD read_num = 0;
         while (PeekNamedPipe(m_minitouch_parent_wr, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
             if (!ReadFile(m_minitouch_parent_wr, pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
                 continue;
@@ -517,7 +515,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
                 continue;
             }
             Log.info("pipe str", Logger::separator::newline, pipe_str);
-            if (pipe_str.find('$') != std::string::npos) {
+            if (pipe_str.find('^') != std::string::npos) {
                 read_end = true;
                 break;
             }
@@ -1032,7 +1030,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         x2 *= static_cast<int>(m_minitouch_props.x_scaling);
         y2 *= static_cast<int>(m_minitouch_props.y_scaling);
 
-        std::string minitouch_cmd = MinitouchCmd::down(x1, x2);
+        std::string minitouch_cmd = MinitouchCmd::down(x1, y2);
         if (duration == 0) {
             duration = 1000;
         }
