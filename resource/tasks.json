@@ -8757,9 +8757,29 @@
         "templThreshold": 0.91
     },
     "Mizuki@Roguelike@StageEncounterOptionWonderland": {},
+    "Mizuki@Roguelike@StageSafeHouseReuse": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            880,
+            200,
+            220,
+            120
+        ],
+        "text": [
+            "活用",
+            "再利用"
+        ],
+        "preDelay": 500,
+        "next": [
+            "Mizuki@Roguelike@StageEncounterOption#next"
+        ]
+    },
     "Mizuki@Roguelike@StageEncounterOptions": {
         "next": [
             "Mizuki@Roguelike@StageEncounterOptionFree",
+            "Mizuki@Roguelike@StageSafeHouseReuse",
             "Mizuki@Roguelike@StageEncounterOptionLeave",
             "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
