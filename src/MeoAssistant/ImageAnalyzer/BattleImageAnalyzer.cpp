@@ -133,7 +133,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 
     const auto click_move = Task.get("BattleOperClickRange")->rect_move;
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
-    const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
+    // const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
     const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
     const auto cooling_move = Task.get("BattleOperCooling")->rect_move;
 
