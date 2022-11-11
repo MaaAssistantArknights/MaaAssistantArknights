@@ -13,6 +13,7 @@
 #include <atomic>
 #include <condition_variable>
 #include <filesystem>
+#include <format>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -21,7 +22,6 @@
 #include <shared_mutex>
 #include <string>
 #include <thread>
-#include <format>
 
 #include "Utils/NoWarningCVMat.h"
 
@@ -163,8 +163,8 @@ namespace asst
         bool m_minitouch_avaiable = false; // 状态
 
 #ifdef _WIN32
-        HANDLE m_minitouch_in_read = nullptr;
-        HANDLE m_minitouch_in_write = nullptr;
+        HANDLE m_minitouch_parent_wr = INVALID_HANDLE_VALUE;
+        HANDLE m_minitouch_child_wr = INVALID_HANDLE_VALUE;
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
@@ -191,13 +191,24 @@ namespace asst
         cv::Mat m_cache_image;
 
     private:
+        struct
+        {
+            int max_contacts = 0;
+            int max_x = 0;
+            int max_y = 0;
+            int max_pressure = 0;
+
+            double x_scaling = 0;
+            double y_scaling = 0;
+        } m_minitouch_props;
+
         struct MinitouchCmd
         {
             inline static constexpr int DefaultInterval = 50;
             inline static std::string reset() { return "r\n"; }
             inline static std::string commit() { return "c\n"; }
             inline static std::string down(int x, int y, bool with_commit = true, bool with_wait = true,
-                                           int contact = 0, int pressure = 50)
+                                           int contact = 0, int pressure = 0)
             {
                 std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
                 if (with_commit) str += commit();
@@ -205,7 +216,7 @@ namespace asst
                 return str;
             }
             inline static std::string move(int x, int y, bool with_commit = true, bool with_wait = true,
-                                           int contact = 0, int pressure = 50)
+                                           int contact = 0, int pressure = 0)
             {
                 std::string str = std::format("m {} {} {} {}\n", contact, x, y, pressure);
                 if (with_commit) str += commit();
