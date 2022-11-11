@@ -56,7 +56,7 @@ int asst::CreditShoppingTask::credit_ocr()
 
 bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
 {
-    const cv::Mat image = m_ctrler->get_image();
+    const cv::Mat& image = m_ctrler->get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
     if (white_list_enabled) {

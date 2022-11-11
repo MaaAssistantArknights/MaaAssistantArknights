@@ -139,7 +139,7 @@ bool asst::ProcessTaskImageAnalyzer::analyze()
     return false;
 }
 
-void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat image)
+void asst::ProcessTaskImageAnalyzer::set_image(const cv::Mat& image)
 {
     AbstractImageAnalyzer::set_image(image);
     reset();
