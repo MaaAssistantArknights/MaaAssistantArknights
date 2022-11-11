@@ -131,6 +131,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     }
 
     CloseHandle(pipe_child_write);
+    pipe_child_write = INVALID_HANDLE_VALUE;
 
     std::vector<HANDLE> wait_handles;
     wait_handles.reserve(3);
@@ -449,18 +450,25 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     LogTraceFunction;
     Log.info(cmd);
 
+    constexpr int PipeBuffSize = 4096ULL;
+
     m_minitouch_avaiable = false;
 
 #ifdef _WIN32
 
-    SECURITY_ATTRIBUTES sa_attr {
+    SECURITY_ATTRIBUTES sa_attr_rd {
+        .nLength = sizeof(SECURITY_ATTRIBUTES),
+        .lpSecurityDescriptor = nullptr,
+        .bInheritHandle = TRUE,
+    };
+    SECURITY_ATTRIBUTES sa_attr_wr {
         .nLength = sizeof(SECURITY_ATTRIBUTES),
         .lpSecurityDescriptor = nullptr,
         .bInheritHandle = TRUE,
     };
 
-    if (!asst::win32::CreateOverlappablePipe(&m_minitouch_in_read, &m_minitouch_in_write, &sa_attr, nullptr, 4096UL,
-                                             false, false)) {
+    if (!asst::win32::CreateOverlappablePipe(&m_minitouch_parent_wr, &m_minitouch_child_wr, &sa_attr_rd, &sa_attr_wr,
+                                             PipeBuffSize, false, false)) {
         DWORD err = GetLastError();
         Log.error("Failed to create pipe for minitouch, err", err);
         return false;
@@ -470,19 +478,70 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     si.cb = sizeof(STARTUPINFOW);
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
-    si.hStdInput = m_minitouch_in_read;
-    si.hStdOutput = m_minitouch_in_write;
-    si.hStdOutput = m_minitouch_in_write;
+    si.hStdInput = m_minitouch_parent_wr;
+    si.hStdOutput = m_minitouch_child_wr;
+    si.hStdError = m_minitouch_child_wr;
 
     auto cmd_osstr = utils::to_osstring(cmd);
     if (!CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
                         &m_minitouch_process_info)) {
         DWORD err = GetLastError();
         Log.error("Failed to create process for minitouch, err", err);
-        CloseHandle(m_minitouch_in_read);
-        CloseHandle(m_minitouch_in_write);
+        CloseHandle(m_minitouch_parent_wr);
+        CloseHandle(m_minitouch_child_wr);
+        m_minitouch_parent_wr = INVALID_HANDLE_VALUE;
+        m_minitouch_child_wr = INVALID_HANDLE_VALUE;
         return false;
     }
+
+    std::string pipe_str;
+    auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
+
+    DWORD peek_num = 0;
+    DWORD read_num = 0;
+
+    bool read_end = false;
+
+    auto start_time = std::chrono::steady_clock::now();
+    auto check_timeout = [&]() -> bool {
+        using namespace std::chrono_literals;
+        return std::chrono::steady_clock::now() - start_time < 10s;
+    };
+    while (!need_exit() && !read_end && check_timeout()) {
+        while (PeekNamedPipe(m_minitouch_parent_wr, nullptr, 0, nullptr, &peek_num, nullptr) && peek_num > 0) {
+            if (!ReadFile(m_minitouch_parent_wr, pipe_buffer.get(), PipeBuffSize, &read_num, nullptr)) {
+                continue;
+            }
+            pipe_str.insert(pipe_str.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
+            if (pipe_str.empty()) {
+                continue;
+            }
+            Log.info("pipe str", Logger::separator::newline, pipe_str);
+            if (pipe_str.find('$') != std::string::npos) {
+                read_end = true;
+                break;
+            }
+        }
+    }
+
+    convert_lf(pipe_str);
+    size_t s_pos = pipe_str.find('^');
+    size_t e_pos = pipe_str.find('\n', s_pos);
+    if (s_pos == std::string::npos || e_pos == std::string::npos) {
+        Log.error("Failed to find ^ in minitouch pipe");
+        return false;
+    }
+    std::string key_info = pipe_str.substr(s_pos + 1, e_pos - s_pos - 1);
+    Log.info("minitouch key props", key_info);
+    std::stringstream ss;
+    ss << key_info;
+    ss >> m_minitouch_props.max_contacts;
+    ss >> m_minitouch_props.max_x;
+    ss >> m_minitouch_props.max_y;
+    ss >> m_minitouch_props.max_pressure;
+
+    m_minitouch_props.x_scaling = static_cast<double>(m_minitouch_props.max_x) / m_width;
+    m_minitouch_props.y_scaling = static_cast<double>(m_minitouch_props.max_y) / m_height;
 
     m_minitouch_avaiable = true;
     return true;
@@ -499,7 +558,7 @@ bool asst::Controller::input_to_minitouch(const std::string& cmd)
 
 #ifdef _WIN32
     DWORD written = 0;
-    if (!WriteFile(m_minitouch_in_write, cmd.c_str(), static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)),
+    if (!WriteFile(m_minitouch_child_wr, cmd.c_str(), static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)),
                    &written, NULL)) {
         auto err = GetLastError();
         Log.error("Failed to write to minitouch, err", err);
@@ -524,8 +583,10 @@ void asst::Controller::release_minitouch()
 
     CloseHandle(m_minitouch_process_info.hProcess);
     CloseHandle(m_minitouch_process_info.hThread);
-    CloseHandle(m_minitouch_in_read);
-    CloseHandle(m_minitouch_in_write);
+    CloseHandle(m_minitouch_parent_wr);
+    CloseHandle(m_minitouch_child_wr);
+    m_minitouch_parent_wr = INVALID_HANDLE_VALUE;
+    m_minitouch_child_wr = INVALID_HANDLE_VALUE;
 
 #endif //  _WIN32
 }
@@ -921,7 +982,9 @@ bool asst::Controller::click_without_scale(const Point& p)
     }
 
     if (m_minitouch_avaiable) {
-        std::string minitouch_cmd = MinitouchCmd::down(p.x, p.y) + MinitouchCmd::up();
+        int x = static_cast<int>(p.x * m_minitouch_props.x_scaling);
+        int y = static_cast<int>(p.y * m_minitouch_props.y_scaling);
+        std::string minitouch_cmd = MinitouchCmd::down(x, y) + MinitouchCmd::up();
         return input_to_minitouch(minitouch_cmd);
     }
 
@@ -964,6 +1027,11 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
     }
 
     if (m_minitouch_avaiable) {
+        x1 *= static_cast<int>(m_minitouch_props.x_scaling);
+        y1 *= static_cast<int>(m_minitouch_props.y_scaling);
+        x2 *= static_cast<int>(m_minitouch_props.x_scaling);
+        y2 *= static_cast<int>(m_minitouch_props.y_scaling);
+
         std::string minitouch_cmd = MinitouchCmd::down(x1, x2);
         if (duration == 0) {
             duration = 1000;
