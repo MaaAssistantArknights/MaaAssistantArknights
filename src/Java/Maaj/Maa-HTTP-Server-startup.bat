@@ -9,7 +9,7 @@ set My_PATH=%cd%
   
 set PATH=%PATH%;%My_PATH%
 
-cd javaPath
+cd %javaPath%
   
 ::下面写你其它脚本命令
 
