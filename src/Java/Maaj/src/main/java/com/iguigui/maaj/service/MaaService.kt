@@ -21,7 +21,7 @@ object MaaService {
     val meoAssistant: MeoAssistant by lazy {
         var maaPath = File(File("").absolutePath).parent
         logger.info("maaPath $maaPath")
-        maaPath = "C:\\Users\\atmzx\\Desktop\\MeoAssistantArknights3"
+//        maaPath = "C:\\Users\\atmzx\\Desktop\\MeoAssistantArknights3"
         System.setProperty("jna.library.path", maaPath)
         val load = Native.load("MeoAssistant", MeoAssistant::class.java)
         load.AsstLoadResource(maaPath)
