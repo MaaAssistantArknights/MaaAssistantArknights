@@ -99,7 +99,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
         m_result_rect = res.rect;
         m_status->set_rect(ocr_task_ptr->name, m_result_rect);
         // m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
-        Log.trace(__FUNCTION__ " | found", res);
+        Log.trace(__FUNCTION__, "| found", res);
     }
     return ret;
 }
