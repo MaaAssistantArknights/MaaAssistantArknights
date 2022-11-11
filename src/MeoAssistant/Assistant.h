@@ -58,7 +58,6 @@ namespace asst
         void clear_cache();
         bool inited() const noexcept;
 
-        bool m_inited = false;
         std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler = nullptr;
