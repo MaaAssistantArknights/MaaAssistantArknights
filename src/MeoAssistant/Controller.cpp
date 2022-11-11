@@ -645,14 +645,13 @@ void asst::Controller::try_to_close_socket() noexcept
         ::closesocket(m_server_sock);
         m_server_sock = INVALID_SOCKET;
     }
-    m_server_started = false;
 #else
     if (m_server_sock >= 0) {
         close(m_server_sock);
         m_server_sock = -1;
     }
-    m_server_started = false;
 #endif
+    m_server_started = false;
 }
 
 std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address)
@@ -680,7 +679,6 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     m_server_addr.sin_family = PF_INET;
     inet_pton(AF_INET, local_address.c_str(), &m_server_addr.sin_addr);
 #else
-    // Linux, todo
     m_server_sock = socket(AF_INET, SOCK_STREAM, 0);
     if (m_server_sock < 0) {
         return std::nullopt;
@@ -701,7 +699,6 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     int listen_ret = ::listen(m_server_sock, 3);
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #else
-    // todo
     m_server_addr.sin_port = htons(0);
     int bind_ret = bind(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), sizeof(sockaddr_in));
     socklen_t addrlen = sizeof(m_server_addr);
@@ -715,12 +712,7 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
         return std::nullopt;
     }
 
-#ifdef _WIN32
     port_result = ntohs(m_server_addr.sin_port);
-#else
-    // todo
-    port_result = ntohs(m_server_addr.sin_port);
-#endif
 
     Log.info("server_start", local_address, port_result);
     return port_result;
