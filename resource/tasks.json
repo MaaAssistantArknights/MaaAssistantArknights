@@ -8760,6 +8760,7 @@
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             880,
             200,
@@ -8770,8 +8771,9 @@
             "活用",
             "再利用"
         ],
+        "preDelay": 500,
         "next": [
-            "Mizuki@Roguelike@StageEncounterLeaveConfirm"
+            "Mizuki@Roguelike@StageEncounterOption#next"
         ]
     },
     "Mizuki@Roguelike@StageEncounterOptions": {
