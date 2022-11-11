@@ -72,7 +72,7 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
     //        }
     //    }
     //}
-    std::unique_ptr<OcrImageAnalyzer>* analyzer_ptr;
+    std::unique_ptr<OcrImageAnalyzer>* analyzer_ptr = nullptr;
     if (ocr_task_ptr->without_det) {
         if (!m_ocr_with_preprocess_analyzer) {
             m_ocr_with_preprocess_analyzer = std::make_unique<OcrWithPreprocessImageAnalyzer>(m_image);
