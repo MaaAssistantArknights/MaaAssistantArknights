@@ -5,6 +5,7 @@
 
 #include "General/MatchImageAnalyzer.h"
 #include "General/OcrImageAnalyzer.h"
+#include "General/OcrWithPreprocessImageAnalyzer.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
@@ -71,28 +72,34 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
     //        }
     //    }
     //}
-    if (!m_ocr_analyzer) {
-        m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
+    std::unique_ptr<OcrImageAnalyzer>* analyzer_ptr;
+    if (ocr_task_ptr->without_det) {
+        if (!m_ocr_with_preprocess_analyzer) {
+            m_ocr_with_preprocess_analyzer = std::make_unique<OcrWithPreprocessImageAnalyzer>(m_image);
+        }
+        analyzer_ptr = decltype(analyzer_ptr)(&m_ocr_with_preprocess_analyzer);
     }
-    m_ocr_analyzer->set_region_of_appeared(Rect());
-    m_ocr_analyzer->set_without_det(ocr_task_ptr->without_det);
-    m_ocr_analyzer->set_task_info(ocr_task_ptr);
-    auto region_opt = m_status->get_rect(ocr_task_ptr->name);
-    if (region_opt) {
-        m_ocr_analyzer->set_region_of_appeared(region_opt.value());
+    else {
+        if (!m_ocr_analyzer) {
+            m_ocr_analyzer = std::make_unique<OcrImageAnalyzer>(m_image);
+        }
+        analyzer_ptr = &m_ocr_analyzer;
     }
 
-    bool ret = m_ocr_analyzer->analyze();
+    (*analyzer_ptr)->set_region_of_appeared(m_status->get_rect(ocr_task_ptr->name).value_or(Rect()));
+    (*analyzer_ptr)->set_task_info(ocr_task_ptr);
+
+    bool ret = (*analyzer_ptr)->analyze();
 
     if (ret) {
-        m_ocr_analyzer->sort_result_by_required();
-        const auto& ocr_result = m_ocr_analyzer->get_result();
+        (*analyzer_ptr)->sort_result_by_required();
+        const auto& ocr_result = (*analyzer_ptr)->get_result();
         auto& res = ocr_result.front();
         m_result = ocr_task_ptr;
         m_result_rect = res.rect;
         m_status->set_rect(ocr_task_ptr->name, m_result_rect);
         // m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
-        Log.trace("ProcessTaskImageAnalyzer::ocr_analyze | found", res.to_string());
+        Log.trace(__FUNCTION__ " | found", res);
     }
     return ret;
 }
