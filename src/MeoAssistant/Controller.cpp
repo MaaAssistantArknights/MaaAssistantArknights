@@ -550,8 +550,9 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 #endif // _WIN32
 }
 
-bool asst::Controller::input_to_minitouch(const std::string& cmd)
+bool asst::Controller::input_to_minitouch(const std::string& cmd, int delay_ms)
 {
+    LogTraceFunction;
     Log.info("Input to minitouch", Logger::separator::newline, cmd);
 
 #ifdef _WIN32
@@ -560,7 +561,11 @@ bool asst::Controller::input_to_minitouch(const std::string& cmd)
                    &written, NULL)) {
         auto err = GetLastError();
         Log.error("Failed to write to minitouch, err", err);
+        return false;
     }
+
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(delay_ms * 1ms);
 
     return cmd.size() == written;
 #else
@@ -983,7 +988,7 @@ bool asst::Controller::click_without_scale(const Point& p)
         int x = static_cast<int>(p.x * m_minitouch_props.x_scaling);
         int y = static_cast<int>(p.y * m_minitouch_props.y_scaling);
         std::string minitouch_cmd = MinitouchCmd::down(x, y) + MinitouchCmd::up();
-        return input_to_minitouch(minitouch_cmd);
+        return input_to_minitouch(minitouch_cmd, MinitouchCmd::DefaultInterval);
     }
 
     std::string cur_cmd =
@@ -1025,12 +1030,12 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
     }
 
     if (m_minitouch_avaiable) {
-        x1 *= static_cast<int>(m_minitouch_props.x_scaling);
-        y1 *= static_cast<int>(m_minitouch_props.y_scaling);
-        x2 *= static_cast<int>(m_minitouch_props.x_scaling);
-        y2 *= static_cast<int>(m_minitouch_props.y_scaling);
+        x1 = static_cast<int>(x1 * m_minitouch_props.x_scaling);
+        y1 = static_cast<int>(y1 * m_minitouch_props.y_scaling);
+        x2 = static_cast<int>(x2 * m_minitouch_props.x_scaling);
+        y2 = static_cast<int>(y2 * m_minitouch_props.y_scaling);
 
-        std::string minitouch_cmd = MinitouchCmd::down(x1, y2);
+        std::string minitouch_cmd = MinitouchCmd::down(x1, y1);
         if (duration == 0) {
             duration = 1000;
         }
@@ -1045,7 +1050,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         minitouch_cmd += MinitouchCmd::move(x2, y2);
         minitouch_cmd += MinitouchCmd::up();
 
-        return input_to_minitouch(minitouch_cmd);
+        return input_to_minitouch(minitouch_cmd, duration + MoveInterval);
     }
 
     std::string cur_cmd =

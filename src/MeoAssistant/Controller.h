@@ -91,7 +91,7 @@ namespace asst
         void callback(AsstMsg msg, const json::value& details);
 
         bool call_and_hup_minitouch(const std::string& cmd);
-        bool input_to_minitouch(const std::string& cmd);
+        bool input_to_minitouch(const std::string& cmd, int delay_ms = 0);
         void release_minitouch();
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
