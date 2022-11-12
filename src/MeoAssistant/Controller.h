@@ -23,10 +23,9 @@
 #include <string>
 #include <thread>
 
-#include "Utils/NoWarningCVMat.h"
-
 #include "Utils/AsstMsg.h"
 #include "Utils/AsstTypes.h"
+#include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
 
 namespace asst
@@ -204,13 +203,23 @@ namespace asst
 
         struct MinitouchCmd
         {
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
             inline static constexpr int DefaultInterval = 10;
             inline static std::string reset() { return "r\n"; }
             inline static std::string commit() { return "c\n"; }
             inline static std::string down(int x, int y, bool with_commit = true, bool with_wait = true,
                                            int contact = 0, int pressure = 0)
             {
-                std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
+                // mac 编不过
+                // std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
+
+                char buff[64] = { 0 };
+                sprintf(buff, "d %d %d %d %d\n", contact, x, y, pressure);
+                std::string str = buff;
+
                 if (with_commit) str += commit();
                 if (with_wait) str += wait();
                 return str;
@@ -218,22 +227,34 @@ namespace asst
             inline static std::string move(int x, int y, bool with_commit = true, bool with_wait = true,
                                            int contact = 0, int pressure = 0)
             {
-                std::string str = std::format("m {} {} {} {}\n", contact, x, y, pressure);
+                char buff[64] = { 0 };
+                sprintf(buff, "m %d %d %d %d\n", contact, x, y, pressure);
+                std::string str = buff;
+
                 if (with_commit) str += commit();
                 if (with_wait) str += wait();
                 return str;
             }
             inline static std::string up(bool with_commit = true, int contact = 0)
             {
-                std::string str = std::format("u {}\n", contact);
+                char buff[16] = { 0 };
+                sprintf(buff, "u %d\n", contact);
+                std::string str = buff;
+
                 if (with_commit) str += commit();
                 return str;
             }
             inline static std::string wait(int ms = DefaultInterval)
             {
-                std::string str = std::format("w {}\n", ms);
+                char buff[16] = { 0 };
+                sprintf(buff, "w %d\n", ms);
+                std::string str = buff;
+
                 return str;
             }
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
         };
 
     private:
