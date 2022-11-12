@@ -540,7 +540,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         Point end_point = placed_point + (direction * coeff);
 
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
-        sleep(Task.get("BattleUseOper")->post_delay);
+        sleep(use_oper_task_ptr->post_delay);
     }
 
     m_used_opers[iter->first] =
