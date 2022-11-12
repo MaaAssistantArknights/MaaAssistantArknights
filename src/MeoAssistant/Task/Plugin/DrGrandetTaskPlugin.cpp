@@ -53,7 +53,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left()
     analyzer.set_task_info("DrGrandetUseOriginiums");
     analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
     // 这里是汉字和数字混合的，用不了单独的en模型
-    // analyzer.set_use_char_model(true);
+    analyzer.set_use_char_model(false);
 
     if (!analyzer.analyze()) {
         return -1;
