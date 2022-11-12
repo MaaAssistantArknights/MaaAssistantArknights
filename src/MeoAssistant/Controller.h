@@ -91,7 +91,7 @@ namespace asst
 
         bool call_and_hup_minitouch(const std::string& cmd);
         bool input_to_minitouch(const std::string& cmd, int delay_ms = 0);
-        void release_minitouch();
+        void release_minitouch(bool force = false);
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
@@ -162,8 +162,8 @@ namespace asst
         bool m_minitouch_avaiable = false; // 状态
 
 #ifdef _WIN32
-        HANDLE m_minitouch_parent_wr = INVALID_HANDLE_VALUE;
-        HANDLE m_minitouch_child_wr = INVALID_HANDLE_VALUE;
+        HANDLE m_minitouch_parent_wr = nullptr;
+        HANDLE m_minitouch_child_wr = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
@@ -200,62 +200,6 @@ namespace asst
             double x_scaling = 0;
             double y_scaling = 0;
         } m_minitouch_props;
-
-        struct MinitouchCmd
-        {
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#endif
-            inline static constexpr int DefaultInterval = 10;
-            inline static std::string reset() { return "r\n"; }
-            inline static std::string commit() { return "c\n"; }
-            inline static std::string down(int x, int y, bool with_commit = true, bool with_wait = true,
-                                           int contact = 0, int pressure = 0)
-            {
-                // mac 编不过
-                // std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
-
-                char buff[64] = { 0 };
-                sprintf(buff, "d %d %d %d %d\n", contact, x, y, pressure);
-                std::string str = buff;
-
-                if (with_commit) str += commit();
-                if (with_wait) str += wait();
-                return str;
-            }
-            inline static std::string move(int x, int y, bool with_commit = true, bool with_wait = true,
-                                           int contact = 0, int pressure = 0)
-            {
-                char buff[64] = { 0 };
-                sprintf(buff, "m %d %d %d %d\n", contact, x, y, pressure);
-                std::string str = buff;
-
-                if (with_commit) str += commit();
-                if (with_wait) str += wait();
-                return str;
-            }
-            inline static std::string up(bool with_commit = true, int contact = 0)
-            {
-                char buff[16] = { 0 };
-                sprintf(buff, "u %d\n", contact);
-                std::string str = buff;
-
-                if (with_commit) str += commit();
-                return str;
-            }
-            inline static std::string wait(int ms = DefaultInterval)
-            {
-                char buff[16] = { 0 };
-                sprintf(buff, "w %d\n", ms);
-                std::string str = buff;
-
-                return str;
-            }
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-        };
 
     private:
 #ifdef _WIN32

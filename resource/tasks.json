@@ -17,7 +17,7 @@
         ],
         "rectMove_Doc": "滑动终点",
         "specialParams": [
-            1000,
+            200,
             1
         ],
         "specialParams_Doc": [
@@ -45,7 +45,7 @@
             100
         ],
         "specialParams": [
-            1000,
+            200,
             1
         ],
         "next": [
@@ -4403,9 +4403,6 @@
             310,
             100,
             100
-        ],
-        "specialParams": [
-            300
         ]
     },
     "SleepAfterOperListSwipe": {
