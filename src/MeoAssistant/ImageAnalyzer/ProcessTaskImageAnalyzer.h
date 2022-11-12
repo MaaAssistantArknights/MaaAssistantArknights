@@ -10,6 +10,7 @@
 namespace asst
 {
     class OcrImageAnalyzer;
+    class OcrWithPreprocessImageAnalyzer;
     class MatchImageAnalyzer;
     class RuntimeStatus;
 
@@ -41,6 +42,7 @@ namespace asst
         void reset() noexcept;
 
         std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer;
+        std::unique_ptr<OcrWithPreprocessImageAnalyzer> m_ocr_with_preprocess_analyzer;
         std::unique_ptr<MatchImageAnalyzer> m_match_analyzer;
         std::vector<std::string> m_tasks_name;
         std::shared_ptr<TaskInfo> m_result = nullptr;

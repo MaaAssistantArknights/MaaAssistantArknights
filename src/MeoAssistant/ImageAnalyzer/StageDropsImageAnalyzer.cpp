@@ -47,7 +47,6 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 
     OcrImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
-    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return false;
@@ -519,7 +518,6 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
     analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
-    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return 0;

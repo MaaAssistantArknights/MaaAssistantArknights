@@ -595,7 +595,6 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
         OcrImageAnalyzer hour_ocr(image);
         hour_ocr.set_task_info("RecruitTimerH");
         hour_ocr.set_replace(replace_map);
-        hour_ocr.set_use_char_model(true);
         if (!hour_ocr.analyze()) return false;
         std::string desired_hour_str = std::string("0") + std::to_string(minutes_expected / 60);
         if (hour_ocr.get_result().front().text != desired_hour_str) return false;
@@ -606,7 +605,6 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
         OcrImageAnalyzer minute_ocr(image);
         minute_ocr.set_task_info("RecruitTimerM");
         minute_ocr.set_replace(replace_map);
-        minute_ocr.set_use_char_model(true);
         if (!minute_ocr.analyze()) return false;
         std::string desired_minute_str = std::to_string((minutes_expected % 60) / 10) + "0";
         if (minute_ocr.get_result().front().text != desired_minute_str) return false;
