@@ -63,7 +63,7 @@ static std::string get_ansi_short_path(const std::filesystem::path& path)
     auto ansilen = WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, nullptr, 0, nullptr, &failed);
     if (failed) return {};
     std::string result(ansilen, 0);
-    WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, &result[0], ansilen, nullptr, nullptr);
+    WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, result.data(), ansilen, nullptr, nullptr);
     return result;
 }
 
@@ -76,7 +76,7 @@ std::string asst::platform::path_to_crt_string(const std::filesystem::path& path
     auto err = wcstombs_s(&mbsize, nullptr, 0, osstr.c_str(), osstr.size());
     if (err == 0) {
         std::string result(mbsize, 0);
-        err = wcstombs_s(&mbsize, &result[0], mbsize, osstr.c_str(), osstr.size());
+        err = wcstombs_s(&mbsize, result.data(), mbsize, osstr.c_str(), osstr.size());
         if (err != 0) return {};
         return result.substr(0, mbsize - 1);
     }
@@ -95,7 +95,7 @@ std::string asst::platform::path_to_ansi_string(const std::filesystem::path& pat
     auto ansilen = WideCharToMultiByte(CP_ACP, 0, osstr.c_str(), (int)osstr.size(), nullptr, 0, nullptr, &failed);
     if (!failed) {
         std::string result(ansilen, 0);
-        WideCharToMultiByte(CP_ACP, 0, osstr.c_str(), (int)osstr.size(), &result[0], ansilen, nullptr, &failed);
+        WideCharToMultiByte(CP_ACP, 0, osstr.c_str(), (int)osstr.size(), result.data(), ansilen, nullptr, &failed);
         return result;
     }
     else {
@@ -108,7 +108,7 @@ asst::platform::os_string asst::platform::to_osstring(const std::string& utf8_st
 {
     int len = MultiByteToWideChar(CP_UTF8, 0, utf8_str.c_str(), (int)utf8_str.size(), nullptr, 0);
     os_string result(len, 0);
-    MultiByteToWideChar(CP_UTF8, 0, utf8_str.c_str(), (int)utf8_str.size(), &result[0], len);
+    MultiByteToWideChar(CP_UTF8, 0, utf8_str.c_str(), (int)utf8_str.size(), result.data(), len);
     return result;
 }
 
@@ -116,7 +116,7 @@ std::string asst::platform::from_osstring(const os_string& os_str)
 {
     int len = WideCharToMultiByte(CP_UTF8, 0, os_str.c_str(), (int)os_str.size(), nullptr, 0, nullptr, nullptr);
     std::string result(len, 0);
-    WideCharToMultiByte(CP_UTF8, 0, os_str.c_str(), (int)os_str.size(), &result[0], len, nullptr, nullptr);
+    WideCharToMultiByte(CP_UTF8, 0, os_str.c_str(), (int)os_str.size(), result.data(), len, nullptr, nullptr);
     return result;
 }
 
@@ -170,7 +170,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
         if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
         if (wait_handles.empty()) break;
         auto wait_result =
-            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, INFINITE, TRUE);
+            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, INFINITE, TRUE);
         HANDLE signaled_object = INVALID_HANDLE_VALUE;
         if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
             signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];

@@ -19,7 +19,7 @@ namespace asst
         auto fileSize = file.tellg();
         file.seekg(0, std::ios::beg);
         std::vector<uint8_t> content(fileSize);
-        file.read((char*)&content[0], fileSize);
+        file.read((char*)content.data(), fileSize);
         return cv::imdecode(content, flags);
     }
 
@@ -43,7 +43,7 @@ namespace asst
         std::vector<uint8_t> encoded;
         auto ext = asst::utils::path_to_utf8_string(absolute_path.extension());
         if (cv::imencode(ext.c_str(), img, encoded, params)) {
-            of.write((char*)&encoded[0], encoded.size());
+            of.write((char*)encoded.data(), encoded.size());
             return true;
         }
         return false;
