@@ -19,7 +19,7 @@ namespace asst::utils
     using platform::path_to_utf8_string;
     using platform::to_osstring;
 
-    using platform::callcmd;
+    using platform::call_command;
 
     namespace path_literals
     {
@@ -29,5 +29,4 @@ namespace asst::utils
             return asst::utils::path(std::string(std::string_view(utf8_str, len)));
         }
     }
-
 } // namespace asst::utils

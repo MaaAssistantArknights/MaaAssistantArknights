@@ -307,5 +307,5 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
 
 void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe)
 {
-    m_ctrler->swipe(r1, r2, duration, true, 0, extra_swipe);
+    m_ctrler->swipe(r1, r2, duration, extra_swipe);
 }

@@ -20,7 +20,7 @@ extern "C"
 #ifdef __cplusplus
     typedef asst::Assistant* AsstHandle;
 #else
-    typedef void* AsstHandle;
+typedef void* AsstHandle;
 #endif
     typedef int TaskId;
     typedef void(ASST_CALL* AsstApiCallback)(int msg, const char* detail_json, void* custom_arg);
@@ -41,7 +41,7 @@ extern "C"
     bool ASSTAPI AsstStop(AsstHandle handle);
     bool ASSTAPI AsstRunning(AsstHandle handle);
 
-    bool ASSTAPI AsstCtrlerClick(AsstHandle handle, int x, int y, bool block);
+    bool ASSTAPI AsstClick(AsstHandle handle, int x, int y);
     unsigned long long ASSTAPI AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size);
     unsigned long long ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, unsigned long long buff_size);
     unsigned long long ASSTAPI AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned long long buff_size);
