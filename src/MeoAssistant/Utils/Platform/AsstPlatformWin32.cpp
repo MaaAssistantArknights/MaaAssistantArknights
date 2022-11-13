@@ -34,9 +34,9 @@ bool asst::win32::CreateOverlappablePipe(HANDLE* read, HANDLE* write, SECURITY_A
 {
     static std::atomic<size_t> pipeid {};
     auto pipename = std::format(L"\\\\.\\pipe\\maa-pipe-{}-{}", GetCurrentProcessId(), pipeid++);
-    DWORD read_flag = PIPE_ACCESS_INBOUND;
+    DWORD read_flag = PIPE_ACCESS_DUPLEX;
     if (overlapped_read) read_flag |= FILE_FLAG_OVERLAPPED;
-    DWORD write_flag = GENERIC_WRITE;
+    DWORD write_flag = GENERIC_WRITE | GENERIC_READ;
     if (overlapped_write) write_flag |= FILE_FLAG_OVERLAPPED;
     auto pipe_read =
         CreateNamedPipeW(pipename.c_str(), read_flag, PIPE_TYPE_BYTE | PIPE_WAIT, 1, bufsize, bufsize, 0, secattr_read);
