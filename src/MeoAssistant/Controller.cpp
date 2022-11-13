@@ -574,7 +574,8 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 #else  // !_WIN32
     // TODO
     std::ignore = pipe_str;
-    std::ignore = PipeBuffSize;
+    std::ignore = PipeReadBuffSize;
+    std::ignore = PipeWriteBuffSize;
     return false;
 #endif // _WIN32
 
@@ -607,7 +608,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 bool asst::Controller::input_to_minitouch(const std::string& cmd, int delay_ms)
 {
     LogTraceFunction;
-    Log.info("Input to minitouch", Logger::separator::newline, cmd);
+    Log.info("Input to minitouch with delay", delay_ms, Logger::separator::newline, cmd);
 
 #ifdef _WIN32
     DWORD written = 0;
