@@ -607,7 +607,6 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
 bool asst::Controller::input_to_minitouch(const std::string& cmd, int delay_ms)
 {
-    LogTraceFunction;
     Log.info("Input to minitouch with delay", delay_ms, Logger::separator::newline, cmd);
 
 #ifdef _WIN32
@@ -879,7 +878,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
         if (m_support_socket && m_server_started &&
             screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true)) {
             // sock 第一次截图比较长（不知道是不是初始化了什么东西耽误时间，减个额外的的时间）
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time) + 1000ms;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time) - 100ms;
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 make_instance_inited(true);
@@ -1111,13 +1110,12 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
     const auto& opt = Configer.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
         constexpr int MoveInterval = 1;
-        std::string minitouch_cmd =
-            MinitouchCmd::down(static_cast<int>(x1 * m_minitouch_props.x_scaling),
-                               static_cast<int>(m_minitouch_props.y_scaling * y1), true, MoveInterval);
+        input_to_minitouch(MinitouchCmd::down(static_cast<int>(x1 * m_minitouch_props.x_scaling),
+                                              static_cast<int>(m_minitouch_props.y_scaling * y1), true, MoveInterval));
         if (duration == 0) {
-            duration = 100;
+            duration = 200;
         }
-        auto move_cmd = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> std::string {
+        auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
             _x1 = static_cast<int>(_x1 * m_minitouch_props.x_scaling);
             _y1 = static_cast<int>(_y1 * m_minitouch_props.y_scaling);
             _x2 = static_cast<int>(_x2 * m_minitouch_props.x_scaling);
@@ -1127,30 +1125,27 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             int x_step = (_x2 - _x1) / move_times;
             int y_step = (_y2 - _y1) / move_times;
             // TODO: 加点随机因子，或者改成中间快两头慢
-            std::string minitouch_cmd;
             for (int times = 1; times < move_times; ++times) {
                 int cur_x = _x1 + x_step * times;
                 int cur_y = _y1 + y_step * times;
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;
                 }
-                minitouch_cmd += MinitouchCmd::move(cur_x, cur_y, true, MoveInterval);
+                input_to_minitouch(MinitouchCmd::move(cur_x, cur_y, true, MoveInterval));
             }
             if (_x2 >= 0 && _x2 <= m_minitouch_props.max_x && _y2 >= 0 && _y2 <= m_minitouch_props.max_y) {
-                minitouch_cmd += MinitouchCmd::move(_x2, _y2);
+                input_to_minitouch(MinitouchCmd::move(_x2, _y2));
             }
-            return minitouch_cmd;
         };
-        minitouch_cmd += move_cmd(x1, y1, x2, y2, duration);
+        minitouch_move(x1, y1, x2, y2, duration);
 
         if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
-            minitouch_cmd +=
-                move_cmd(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
+            minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
             duration += opt.minitouch_extra_swipe_duration;
         }
-        minitouch_cmd += MinitouchCmd::up();
-
-        return input_to_minitouch(minitouch_cmd, duration);
+        constexpr int ExtraWait = 50;
+        duration += ExtraWait;
+        return input_to_minitouch(MinitouchCmd::wait(ExtraWait) + MinitouchCmd::up(), duration);
     }
     else {
         std::string cur_cmd =
