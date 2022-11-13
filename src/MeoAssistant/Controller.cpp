@@ -505,17 +505,20 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     Log.info(cmd);
     m_minitouch_avaiable = false;
 
-    constexpr int PipeBuffSize = 4096ULL;
+    constexpr int PipeReadBuffSize = 4096ULL;
+    constexpr int PipeWriteBuffSize = 64 * 1024ULL;
     std::string pipe_str;
 #ifdef _WIN32
-    SECURITY_ATTRIBUTES sa_attr_wr {
+    SECURITY_ATTRIBUTES sa_attr_inherit {
         .nLength = sizeof(SECURITY_ATTRIBUTES),
         .lpSecurityDescriptor = nullptr,
         .bInheritHandle = TRUE,
     };
-
-    if (!asst::win32::CreateOverlappablePipe(&m_minitouch_parent_wr, &m_minitouch_child_wr, nullptr, &sa_attr_wr,
-                                             PipeBuffSize, true, false)) {
+    HANDLE pipe_child_write = INVALID_HANDLE_VALUE, pipe_parent_read = INVALID_HANDLE_VALUE;
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_attr_inherit,
+                                             PipeReadBuffSize, true, false) ||
+        !asst::win32::CreateOverlappablePipe(&m_minitouch_child_read, &m_minitouch_parent_write, &sa_attr_inherit,
+                                             nullptr, PipeWriteBuffSize, false, false)) {
         DWORD err = GetLastError();
         Log.error("Failed to create pipe for minitouch, err", err);
         return false;
@@ -525,9 +528,9 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     si.cb = sizeof(STARTUPINFOW);
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
-    si.hStdInput = m_minitouch_parent_wr;
-    si.hStdOutput = m_minitouch_child_wr;
-    si.hStdError = m_minitouch_child_wr;
+    si.hStdInput = m_minitouch_child_read;
+    si.hStdOutput = pipe_child_write;
+    si.hStdError = pipe_child_write;
 
     auto cmd_osstr = utils::to_osstring(cmd);
     if (!CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
@@ -538,7 +541,10 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         return false;
     }
 
-    auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
+    CloseHandle(pipe_child_write);
+    pipe_child_write = INVALID_HANDLE_VALUE;
+
+    auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
 
     auto start_time = std::chrono::steady_clock::now();
     auto check_timeout = [&]() -> bool {
@@ -548,19 +554,22 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     std::vector<HANDLE> wait_handles;
 
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
-    std::ignore = ReadFile(m_minitouch_parent_wr, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+    std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
 
     while (!need_exit() && check_timeout()) {
         if (pipe_str.find('$') != std::string::npos) {
             break;
         }
         DWORD len = 0;
-        if (!GetOverlappedResult(m_minitouch_parent_wr, &pipeov, &len, FALSE)) {
+        if (!GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
             continue;
         }
         pipe_str.insert(pipe_str.end(), pipe_buffer.get(), pipe_buffer.get() + len);
-        std::ignore = ReadFile(m_minitouch_parent_wr, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
+        std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
     }
+
+    CloseHandle(pipe_parent_read);
+    pipe_parent_read = INVALID_HANDLE_VALUE;
 
 #else  // !_WIN32
     // TODO
@@ -602,8 +611,8 @@ bool asst::Controller::input_to_minitouch(const std::string& cmd, int delay_ms)
 
 #ifdef _WIN32
     DWORD written = 0;
-    if (!WriteFile(m_minitouch_child_wr, cmd.c_str(), static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)),
-                   &written, NULL)) {
+    if (!WriteFile(m_minitouch_parent_write, cmd.c_str(),
+                   static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)), &written, NULL)) {
         auto err = GetLastError();
         Log.error("Failed to write to minitouch, err", err);
         return false;
@@ -637,13 +646,13 @@ void asst::Controller::release_minitouch(bool force)
         CloseHandle(m_minitouch_process_info.hThread);
         m_minitouch_process_info.hThread = nullptr;
     }
-    if (m_minitouch_parent_wr) {
-        CloseHandle(m_minitouch_parent_wr);
-        m_minitouch_parent_wr = nullptr;
+    if (m_minitouch_child_read) {
+        CloseHandle(m_minitouch_child_read);
+        m_minitouch_child_read = nullptr;
     }
-    if (m_minitouch_child_wr) {
-        CloseHandle(m_minitouch_child_wr);
-        m_minitouch_child_wr = nullptr;
+    if (m_minitouch_parent_write) {
+        CloseHandle(m_minitouch_parent_write);
+        m_minitouch_parent_write = nullptr;
     }
 
 #endif //  _WIN32

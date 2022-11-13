@@ -164,8 +164,8 @@ namespace asst
         bool m_minitouch_avaiable = false; // 状态
 
 #ifdef _WIN32
-        HANDLE m_minitouch_parent_wr = nullptr;
-        HANDLE m_minitouch_child_wr = nullptr;
+        HANDLE m_minitouch_child_read = nullptr;
+        HANDLE m_minitouch_parent_write = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
