@@ -801,7 +801,7 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
     int listen_ret = ::listen(m_server_sock, 3);
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #else
-    m_server_sock_addr.sin_port = ::htons(0);
+    m_server_sock_addr.sin_port = htons(0);
     int bind_ret = ::bind(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), sizeof(::sockaddr_in));
     socklen_t addrlen = sizeof(m_server_sock_addr);
     int getname_ret = ::getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), &addrlen);
@@ -817,7 +817,7 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
 #ifdef _WIN32
     port_result = ::ntohs(m_server_sock_addr.sin_port);
 #else
-    port_result = ::ntohs(m_server_sock_addr.sin_port);
+    port_result = ntohs(m_server_sock_addr.sin_port);
 #endif
 
     Log.info("command server start", local_address, port_result);
@@ -1055,17 +1055,18 @@ bool asst::Controller::click_without_scale(const Point& p)
         Log.error("click point out of range");
     }
 
-    if (m_minitouch_avaiable) {
+    if (m_minitouch_enabled && m_minitouch_avaiable) {
         int x = static_cast<int>(p.x * m_minitouch_props.x_scaling);
         int y = static_cast<int>(p.y * m_minitouch_props.y_scaling);
         constexpr int WaitMs = 50;
         std::string minitouch_cmd = MinitouchCmd::down(x, y, true, WaitMs) + MinitouchCmd::up();
         return input_to_minitouch(minitouch_cmd, WaitMs);
     }
-
-    std::string cur_cmd =
-        utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
-    return call_command(cur_cmd).has_value();
+    else {
+        std::string cur_cmd =
+            utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
+        return call_command(cur_cmd).has_value();
+    }
 }
 
 bool asst::Controller::click_without_scale(const Rect& rect)
@@ -1102,7 +1103,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
     }
 
     const auto& opt = Configer.get_options();
-    if (m_minitouch_avaiable) {
+    if (m_minitouch_enabled && m_minitouch_avaiable) {
         constexpr int MoveInterval = 1;
         std::string minitouch_cmd =
             MinitouchCmd::down(static_cast<int>(x1 * m_minitouch_props.x_scaling),
@@ -1122,9 +1123,16 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             // TODO: 加点随机因子，或者改成中间快两头慢
             std::string minitouch_cmd;
             for (int times = 1; times < move_times; ++times) {
-                minitouch_cmd += MinitouchCmd::move(_x1 + x_step * times, _y1 + y_step * times, true, MoveInterval);
+                int cur_x = _x1 + x_step * times;
+                int cur_y = _y1 + y_step * times;
+                if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
+                    continue;
+                }
+                minitouch_cmd += MinitouchCmd::move(cur_x, cur_y, true, MoveInterval);
             }
-            minitouch_cmd += MinitouchCmd::move(_x2, _y2);
+            if (_x2 >= 0 && _x2 <= m_minitouch_props.max_x && _y2 >= 0 && _y2 <= m_minitouch_props.max_y) {
+                minitouch_cmd += MinitouchCmd::move(_x2, _y2);
+            }
             return minitouch_cmd;
         };
         minitouch_cmd += move_cmd(x1, y1, x2, y2, duration);
@@ -1436,26 +1444,20 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         return false;
     }
 
-    if (m_minitouch_enabled) {
-        auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
-            return utils::string_replace_all(
-                cmd_replace(cfg_cmd),
-                {
-                    // TODO: 用 adb shell getprop ro.product.cpu.abilist 来判断该用哪个文件夹里的
-                    { "[minitouchLocalPath]", (m_resource_path / "minitouch" / "armeabi-v7a" / "minitouch").string() },
-                    { "[minitouchWorkingFile]", m_uuid },
-                });
-        };
+    auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
+        return utils::string_replace_all(
+            cmd_replace(cfg_cmd),
+            {
+                // TODO: 用 adb shell getprop ro.product.cpu.abilist 来判断该用哪个文件夹里的
+                { "[minitouchLocalPath]", (m_resource_path / "minitouch" / "armeabi-v7a" / "minitouch").string() },
+                { "[minitouchWorkingFile]", m_uuid },
+            });
+    };
 
-        call_command(minitouch_cmd_rep(adb_cfg.push_minitouch));
-        call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
+    call_command(minitouch_cmd_rep(adb_cfg.push_minitouch));
+    call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
 
-        std::string call_mt_cmd = minitouch_cmd_rep(adb_cfg.call_minitouch);
-        // 不知道为啥有时候读不到pipe，重试几次，再不行拉到
-        for (int i = 0; i != 5; ++i) {
-            if (call_and_hup_minitouch(call_mt_cmd)) break;
-        }
-    }
+    call_and_hup_minitouch(minitouch_cmd_rep(adb_cfg.call_minitouch));
 
     // try to find the fastest way
     if (!screencap()) {
