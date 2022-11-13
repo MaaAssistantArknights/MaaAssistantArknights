@@ -1159,7 +1159,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         bool ret = call_command(cur_cmd).has_value();
 
         // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
-        if (!m_minitouch_avaiable && extra_swipe && opt.adb_extra_swipe_duration > 0) {
+        if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
             std::string extra_cmd = utils::string_replace_all(
                 m_adb.swipe, {
                                  { "[x1]", std::to_string(x2) },

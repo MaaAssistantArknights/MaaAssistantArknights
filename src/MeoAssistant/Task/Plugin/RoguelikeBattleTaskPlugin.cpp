@@ -354,7 +354,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     const cv::Mat& image = m_ctrler->get_image();
-    if (try_possible_skill(image)) {
+    if (!m_first_deploy && try_possible_skill(image)) {
         return true;
     }
 
