@@ -6003,7 +6003,8 @@
         "maskRange": [
             100,
             255
-        ]
+        ],
+        "templThreshold": 0.9
     },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
