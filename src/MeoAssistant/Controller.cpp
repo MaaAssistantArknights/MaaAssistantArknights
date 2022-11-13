@@ -421,14 +421,14 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         // parent process
         do {
             if (recv_by_socket) {
-                sockaddr addr;
+                sockaddr addr {};
                 socklen_t len = sizeof(addr);
                 sock_buffer = asst::platform::single_page_buffer<char>();
 
                 int client_socket = accept(m_server_sock, &addr, &len);
                 if (client_socket < 0) {
-                    Log.trace("accept failed:", strerror(errno));
-                    continue;
+                    Log.error("accept failed:", strerror(errno));
+                    return std::nullopt;
                 }
 
                 ssize_t read_num = read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
