@@ -27,6 +27,8 @@ void asst::BattleProcessTask::set_stage_name(std::string name)
 
 bool asst::BattleProcessTask::_run()
 {
+    MinitouchTempSwitcher minitoucher(m_ctrler);
+
     bool ret = get_stage_info();
 
     if (!ret) {
@@ -519,7 +521,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     int dist = static_cast<int>(
         Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));
+    int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
     m_ctrler->swipe(oper_rect, placed_rect, duration);
 
     sleep(use_oper_task_ptr->post_delay);
@@ -536,7 +538,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         Point direction = DirectionMapping.at(action.direction);
 
         // 将方向转换为实际的 swipe end 坐标点
-        constexpr int coeff = 500;
+        static const int coeff = Task.get("BattleSwipeOper")->special_params.at(0);
         Point end_point = placed_point + (direction * coeff);
 
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
