@@ -78,7 +78,7 @@ namespace asst
         void close_socket() noexcept;
         std::optional<unsigned short> init_socket(const std::string& local_address);
 
-        using DecodeFunc = std::function<bool(std::string_view)>;
+        using DecodeFunc = std::function<bool(const std::string&)>;
         bool screencap(bool allow_reconnect = false);
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect = false,
                        bool by_socket = false);

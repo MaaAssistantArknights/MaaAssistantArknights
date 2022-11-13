@@ -508,18 +508,13 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     constexpr int PipeBuffSize = 4096ULL;
     std::string pipe_str;
 #ifdef _WIN32
-    SECURITY_ATTRIBUTES sa_attr_rd {
-        .nLength = sizeof(SECURITY_ATTRIBUTES),
-        .lpSecurityDescriptor = nullptr,
-        .bInheritHandle = TRUE,
-    };
     SECURITY_ATTRIBUTES sa_attr_wr {
         .nLength = sizeof(SECURITY_ATTRIBUTES),
         .lpSecurityDescriptor = nullptr,
         .bInheritHandle = TRUE,
     };
 
-    if (!asst::win32::CreateOverlappablePipe(&m_minitouch_parent_wr, &m_minitouch_child_wr, &sa_attr_rd, &sa_attr_wr,
+    if (!asst::win32::CreateOverlappablePipe(&m_minitouch_parent_wr, &m_minitouch_child_wr, nullptr, &sa_attr_wr,
                                              PipeBuffSize, true, false)) {
         DWORD err = GetLastError();
         Log.error("Failed to create pipe for minitouch, err", err);
@@ -556,7 +551,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     std::ignore = ReadFile(m_minitouch_parent_wr, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
 
     while (!need_exit() && check_timeout()) {
-        if (pipe_str.find('$') != std::string::npos || pipe_str.find('^') != std::string::npos) {
+        if (pipe_str.find('$') != std::string::npos) {
             break;
         }
         DWORD len = 0;
@@ -565,9 +560,6 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         }
         pipe_str.insert(pipe_str.end(), pipe_buffer.get(), pipe_buffer.get() + len);
         std::ignore = ReadFile(m_minitouch_parent_wr, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
-        if (!pipe_str.empty()) {
-            Log.info("pipe str", Logger::separator::newline, pipe_str);
-        }
     }
 
 #else  // !_WIN32
@@ -576,6 +568,8 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     std::ignore = PipeBuffSize;
     return false;
 #endif // _WIN32
+
+    Log.info("pipe str", Logger::separator::newline, pipe_str);
 
     convert_lf(pipe_str);
     size_t s_pos = pipe_str.find('^');
@@ -826,7 +820,7 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
 
 bool asst::Controller::screencap(bool allow_reconnect)
 {
-    DecodeFunc decode_raw = [&](std::string_view data) -> bool {
+    DecodeFunc decode_raw = [&](const std::string& data) -> bool {
         if (data.empty()) {
             return false;
         }
@@ -835,11 +829,11 @@ bool asst::Controller::screencap(bool allow_reconnect)
             return false;
         }
         size_t header_size = data.size() - std_size;
-        auto img_data = data.substr(header_size);
-        if (ranges::all_of(img_data, std::logical_not<bool> {})) {
+        auto img_data_beg = data.cbegin() + header_size;
+        if (std::all_of(data.cbegin(), img_data_beg, std::logical_not<bool> {})) {
             return false;
         }
-        cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(img_data.data()));
+        cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(&*img_data_beg));
         if (temp.empty()) {
             return false;
         }
@@ -849,11 +843,12 @@ bool asst::Controller::screencap(bool allow_reconnect)
         return true;
     };
 
-    DecodeFunc decode_raw_with_gzip = [&](std::string_view data) -> bool {
-        return decode_raw(gzip::decompress(data.data(), data.size()));
+    DecodeFunc decode_raw_with_gzip = [&](const std::string& data) -> bool {
+        const std::string raw_data = gzip::decompress(data.data(), data.size());
+        return decode_raw(raw_data);
     };
 
-    DecodeFunc decode_encode = [&](std::string_view data) -> bool {
+    DecodeFunc decode_encode = [&](const std::string& data) -> bool {
         cv::Mat temp = cv::imdecode({ data.data(), int(data.size()) }, cv::IMREAD_COLOR);
         if (temp.empty()) {
             return false;
@@ -873,7 +868,8 @@ bool asst::Controller::screencap(bool allow_reconnect)
         auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started &&
             screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true)) {
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+            // sock 第一次截图比较长（不知道是不是初始化了什么东西耽误时间，减个额外的的时间）
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time) + 1000ms;
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 make_instance_inited(true);
