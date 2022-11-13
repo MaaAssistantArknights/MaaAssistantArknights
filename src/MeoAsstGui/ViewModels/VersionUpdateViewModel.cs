@@ -398,7 +398,8 @@ namespace MeoAsstGui
             var downloaded = false;
             var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
-                    new Tuple<string, string>("https://", "https://gh.api.99988866.xyz/https://"),
+                    new Tuple<string, string>("github.com", "agent.imgg.dev"),
+                    new Tuple<string, string>("https://", "https://git.114514.pro/https://"),
                     new Tuple<string, string>("https://", "https://ghproxy.com/https://"),
                     new Tuple<string, string>("github.com", "ota.maa.plus"),
                     new Tuple<string, string>("github.com", "download.fastgit.org"),
