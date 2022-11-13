@@ -7,6 +7,7 @@
 #include <ws2tcpip.h>
 #else
 #include <fcntl.h>
+#include <sys/errno.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #endif
@@ -54,7 +55,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     if (pipe_in_ret < 0 || pipe_out_ret < 0) {
         Log.error(__FUNCTION__, "controller pipe created failed", pipe_in_ret, pipe_out_ret);
     }
-    m_support_socket = false;
+    m_support_socket = true;
 #endif
 
     m_cmd_thread = std::thread(&Controller::pipe_working_proc, this);
@@ -419,6 +420,28 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     else if (m_child > 0) {
         // parent process
         do {
+            if (recv_by_socket) {
+                sockaddr addr {};
+                socklen_t len = sizeof(addr);
+                sock_buffer = asst::platform::single_page_buffer<char>();
+
+                int client_socket = accept(m_server_sock, &addr, &len);
+                if (client_socket < 0) {
+                    Log.error("accept failed:", strerror(errno));
+                    return std::nullopt;
+                }
+
+                ssize_t read_num = read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
+
+                while (read_num > 0) {
+                    sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + read_num);
+                    read_num = read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
+                }
+
+                close(client_socket);
+                break;
+            }
+
             ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
 
             while (read_num > 0) {
@@ -622,8 +645,13 @@ void asst::Controller::try_to_close_socket() noexcept
         ::closesocket(m_server_sock);
         m_server_sock = INVALID_SOCKET;
     }
-    m_server_started = false;
+#else
+    if (m_server_sock >= 0) {
+        close(m_server_sock);
+        m_server_sock = -1;
+    }
 #endif
+    m_server_started = false;
 }
 
 std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::string& local_address)
@@ -651,7 +679,13 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     m_server_addr.sin_family = PF_INET;
     inet_pton(AF_INET, local_address.c_str(), &m_server_addr.sin_addr);
 #else
-    // Linux, todo
+    m_server_sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (m_server_sock < 0) {
+        return std::nullopt;
+    }
+
+    m_server_addr.sin_family = AF_INET;
+    m_server_addr.sin_addr.s_addr = INADDR_ANY;
 #endif
 
     bool server_start = false;
@@ -665,7 +699,12 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
     int listen_ret = ::listen(m_server_sock, 3);
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #else
-    // todo
+    m_server_addr.sin_port = htons(0);
+    int bind_ret = bind(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), sizeof(sockaddr_in));
+    socklen_t addrlen = sizeof(m_server_addr);
+    int getname_ret = getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), &addrlen);
+    int listen_ret = listen(m_server_sock, 3);
+    server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #endif
 
     if (!server_start) {
@@ -673,11 +712,7 @@ std::optional<unsigned short> asst::Controller::try_to_init_socket(const std::st
         return std::nullopt;
     }
 
-#ifdef _WIN32
     port_result = ntohs(m_server_addr.sin_port);
-#else
-    // todo
-#endif
 
     Log.info("server_start", local_address, port_result);
     return port_result;

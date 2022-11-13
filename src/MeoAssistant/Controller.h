@@ -3,6 +3,9 @@
 #ifdef _WIN32
 #include "Utils/Platform/SafeWindows.h"
 #include <mswsock.h>
+#else
+#include <sys/socket.h>
+#include <netinet/in.h>
 #endif
 
 #include "Utils/AsstConf.h"
@@ -118,6 +121,8 @@ namespace asst
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 
 #else
+        int m_server_sock = -1;
+        sockaddr_in m_server_addr {};
         static constexpr int PIPE_READ = 0;
         static constexpr int PIPE_WRITE = 1;
         int m_pipe_in[2] = { 0 };
