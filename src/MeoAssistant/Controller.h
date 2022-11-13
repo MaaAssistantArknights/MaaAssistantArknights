@@ -4,14 +4,16 @@
 #include "Utils/Platform/SafeWindows.h"
 #include <mswsock.h>
 #else
-#include <sys/socket.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 #endif
 
 #include "Utils/AsstConf.h"
 
 #include <atomic>
 #include <condition_variable>
+#include <filesystem>
+#include <format>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -21,10 +23,9 @@
 #include <string>
 #include <thread>
 
-#include "Utils/NoWarningCVMat.h"
-
 #include "Utils/AsstMsg.h"
 #include "Utils/AsstTypes.h"
+#include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
 
 namespace asst
@@ -37,38 +38,30 @@ namespace asst
         Controller(Controller&&) = delete;
         ~Controller();
 
+        inline static void set_resource_path(const std::filesystem::path& path) { m_resource_path = path; }
+
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
         void set_exit_flag(bool* flag);
+        void set_minitouch_enabled(bool enable) noexcept { m_minitouch_enabled = enable; }
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
-        std::vector<uchar> get_image_encode() const;
+        std::vector<uchar> get_encoded_image_cache() const;
 
-        /* 开启游戏、点击和滑动都是异步执行，返回该任务的id */
+        bool start_game(const std::string& client_type);
+        bool stop_game();
 
-        std::optional<int> start_game(const std::string& client_type, bool block = true);
-        std::optional<int> stop_game(bool block = true);
+        bool click(const Point& p);
+        bool click(const Rect& rect);
+        bool click_without_scale(const Point& p);
+        bool click_without_scale(const Rect& rect);
 
-        int click(const Point& p, bool block = true);
-        int click(const Rect& rect, bool block = true);
-        int click_without_scale(const Point& p, bool block = true);
-        int click_without_scale(const Rect& rect, bool block = true);
+        bool swipe(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false);
+        bool swipe(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false);
+        bool swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false);
+        bool swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false);
 
-        static constexpr int SwipeExtraDelayDefault = 1000;
-        int swipe(const Point& p1, const Point& p2, int duration = 0, bool block = true,
-                  int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
-        int swipe(const Rect& r1, const Rect& r2, int duration = 0, bool block = true,
-                  int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
-        int swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool block = true,
-                                int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
-        int swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool block = true,
-                                int extra_delay = SwipeExtraDelayDefault, bool extra_swipe = false);
-
-        void wait(unsigned id) const noexcept;
-
-        // 异形屏矫正
-        // Rect shaped_correct(const Rect& rect) const;
         std::pair<int, int> get_scale_size() const noexcept;
 
         Controller& operator=(const Controller&) = delete;
@@ -76,29 +69,31 @@ namespace asst
 
     private:
         bool need_exit() const;
-        void pipe_working_proc();
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
-        int push_cmd(const std::string& cmd);
         bool release();
         void kill_adb_daemon();
-        bool set_inited(bool inited);
+        bool make_instance_inited(bool inited);
 
-        void try_to_close_socket() noexcept;
-        std::optional<unsigned short> try_to_init_socket(const std::string& local_address);
+        void close_socket() noexcept;
+        std::optional<unsigned short> init_socket(const std::string& local_address);
 
-        using DecodeFunc = std::function<bool(std::string_view)>;
+        using DecodeFunc = std::function<bool(const std::string&)>;
         bool screencap(bool allow_reconnect = false);
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect = false,
                        bool by_socket = false);
         void clear_lf_info();
-        cv::Mat get_resized_image() const;
+        cv::Mat get_resized_image_cache() const;
 
         Point rand_point_in_rect(const Rect& rect);
 
         void random_delay() const;
         void clear_info() noexcept;
         void callback(AsstMsg msg, const json::value& details);
+
+        bool call_and_hup_minitouch(const std::string& cmd);
+        bool input_to_minitouch(const std::string& cmd, int delay_ms = 0);
+        void release_minitouch(bool force = false);
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
@@ -111,18 +106,19 @@ namespace asst
         std::minstd_rand m_rand_engine;
 
         std::mutex m_callcmd_mutex;
+
 #ifdef _WIN32
 
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         WSADATA m_wsa_data {};
         SOCKET m_server_sock = INVALID_SOCKET;
-        sockaddr_in m_server_addr {};
-        LPFN_ACCEPTEX m_AcceptEx = nullptr;
+        sockaddr_in m_server_sock_addr {};
+        LPFN_ACCEPTEX m_server_accept_ex = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 
 #else
         int m_server_sock = -1;
-        sockaddr_in m_server_addr {};
+        sockaddr_in m_server_sock_addr {};
         static constexpr int PIPE_READ = 0;
         static constexpr int PIPE_WRITE = 1;
         int m_pipe_in[2] = { 0 };
@@ -164,6 +160,21 @@ namespace asst
             } screencap_method = ScreencapMethod::UnknownYet;
         } m_adb;
 
+        bool m_minitouch_enabled = false;  // 开关
+        bool m_minitouch_avaiable = false; // 状态
+
+#ifdef _WIN32
+        HANDLE m_minitouch_child_read = nullptr;
+        HANDLE m_minitouch_parent_write = nullptr;
+        ASST_AUTO_DEDUCED_ZERO_INIT_START
+        PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
+        ASST_AUTO_DEDUCED_ZERO_INIT_END
+#else
+        // TODO
+#endif
+
+        inline static std::filesystem::path m_resource_path;
+
         std::string m_uuid;
         inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，
                                                  // m_adb 并不会存下 release 的命令，但最后仍然需要一次释放。
@@ -180,14 +191,17 @@ namespace asst
         mutable std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
 
-        bool m_thread_exit = false;
-        // bool m_thread_idle = true;
-        std::mutex m_cmd_queue_mutex;
-        std::condition_variable m_cmd_condvar;
-        std::queue<std::string> m_cmd_queue;
-        std::atomic<unsigned> m_completed_id = 0;
-        unsigned m_push_id = 0; // push_id的自增总是伴随着queue的push，肯定是要上锁的，所以没必要原子
-        std::thread m_cmd_thread;
+    private:
+        struct
+        {
+            int max_contacts = 0;
+            int max_x = 0;
+            int max_y = 0;
+            int max_pressure = 0;
+
+            double x_scaling = 0;
+            double y_scaling = 0;
+        } m_minitouch_props;
 
     private:
 #ifdef _WIN32

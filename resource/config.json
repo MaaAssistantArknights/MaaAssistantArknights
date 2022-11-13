@@ -12,6 +12,8 @@
         "adbExtraSwipeDist_Doc": "额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来",
         "adbExtraSwipeDuration": 500,
         "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能",
+        "minitouchExtraSwipeDist": 100,
+        "minitouchExtraSwipeDuration": 200,
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
             "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 10 -i -d \"[body]\" \"https://penguin-stats.io/PenguinStats/api/v2/report\" --ssl-no-revoke [extra]",
@@ -55,7 +57,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         },
         "BlueStacks": {
             "devices": "[Adb] devices",
@@ -73,7 +78,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         },
         "MuMuEmulator": {
             "devices": "[Adb] devices",
@@ -91,7 +99,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         },
         "LDPlayer": {
             "devices": "[Adb] devices",
@@ -109,7 +120,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         },
         "Nox": {
             "devices": "[Adb] devices",
@@ -127,7 +141,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         },
         "XYAZ": {
             "devices": "[Adb] devices",
@@ -145,7 +162,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         },
         "WSA": {
             "devices": "[Adb] devices",
@@ -164,7 +184,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -d [DisplayId] -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         },
         "Compatible": {
             "devices": "[Adb] devices",
@@ -182,7 +205,10 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\""
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i"
         }
     }
 }
