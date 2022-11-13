@@ -255,7 +255,7 @@ void Assistant::working_proc()
 
             // minitouch 的适配工作太多了，短期弄不完，默认关掉
             // 适配好了的任务每个自己单独开
-            m_ctrler->set_minitouch_enabled(true);
+            m_ctrler->set_minitouch_enabled(false);
 
             bool ret = task_ptr->run();
             finished_tasks.emplace_back(id);
