@@ -4,8 +4,8 @@
 #include "Utils/Platform/SafeWindows.h"
 #include <mswsock.h>
 #else
-#include <sys/socket.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 #endif
 
 #include "Utils/AsstConf.h"
@@ -116,7 +116,7 @@ namespace asst
 
 #else
         int m_server_sock = -1;
-        sockaddr_in m_server_addr {};
+        sockaddr_in m_server_sock_addr {};
         static constexpr int PIPE_READ = 0;
         static constexpr int PIPE_WRITE = 1;
         int m_pipe_in[2] = { 0 };
