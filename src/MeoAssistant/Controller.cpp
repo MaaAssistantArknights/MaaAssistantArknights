@@ -1121,13 +1121,13 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             _x2 = static_cast<int>(_x2 * m_minitouch_props.x_scaling);
             _y2 = static_cast<int>(_y2 * m_minitouch_props.y_scaling);
 
-            int move_times = _duration / MoveInterval;
-            int x_step = (_x2 - _x1) / move_times;
-            int y_step = (_y2 - _y1) / move_times;
+            double move_times = static_cast<double>(_duration) / MoveInterval;
+            double x_step = (_x2 - _x1) / move_times;
+            double y_step = (_y2 - _y1) / move_times;
             // TODO: 加点随机因子，或者改成中间快两头慢
             for (int times = 1; times < move_times; ++times) {
-                int cur_x = _x1 + x_step * times;
-                int cur_y = _y1 + y_step * times;
+                int cur_x = _x1 + static_cast<int>(x_step * times);
+                int cur_y = _y1 + static_cast<int>(y_step * times);
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;
                 }
