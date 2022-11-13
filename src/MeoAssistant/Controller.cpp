@@ -235,7 +235,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 5LL * 1000 : 0LL);
         if (wait_time < 0) break;
         auto wait_result =
-            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), &wait_handles[0], FALSE, (DWORD)wait_time, TRUE);
+            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, (DWORD)wait_time, TRUE);
         HANDLE signaled_object = INVALID_HANDLE_VALUE;
         if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
             signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
