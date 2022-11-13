@@ -96,12 +96,7 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     LogTraceFunction;
 
 #ifdef _WIN32
-
     m_support_socket = WsaHelper::get_instance()();
-    if (!m_support_socket) {
-        Log.error("WSA not supports");
-    }
-
 #else
     int pipe_in_ret = ::pipe(m_pipe_in);
     int pipe_out_ret = ::pipe(m_pipe_out);
@@ -112,6 +107,10 @@ asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     }
     m_support_socket = true;
 #endif
+
+    if (!m_support_socket) {
+        Log.error("sokcet not supports");
+    }
 }
 
 asst::Controller::~Controller()
@@ -381,24 +380,24 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 socklen_t len = sizeof(addr);
                 sock_buffer = asst::platform::single_page_buffer<char>();
 
-                int client_socket = accept(m_server_sock, &addr, &len);
+                int client_socket = ::accept(m_server_sock, &addr, &len);
                 if (client_socket < 0) {
                     Log.error("accept failed:", strerror(errno));
                     return std::nullopt;
                 }
 
-                ssize_t read_num = read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
+                ssize_t read_num = ::read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
 
                 while (read_num > 0) {
                     sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + read_num);
-                    read_num = read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
+                    read_num = ::read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
                 }
 
-                close(client_socket);
+                ::close(client_socket);
                 break;
             }
 
-            ssize_t read_num = read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+            ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
 
             while (read_num > 0) {
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
@@ -506,8 +505,9 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     Log.info(cmd);
     m_minitouch_avaiable = false;
 
-#ifdef _WIN32
     constexpr int PipeBuffSize = 4096ULL;
+    std::string pipe_str;
+#ifdef _WIN32
     SECURITY_ATTRIBUTES sa_attr_rd {
         .nLength = sizeof(SECURITY_ATTRIBUTES),
         .lpSecurityDescriptor = nullptr,
@@ -543,7 +543,6 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         return false;
     }
 
-    std::string pipe_str;
     auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
 
     auto start_time = std::chrono::steady_clock::now();
@@ -571,6 +570,13 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         }
     }
 
+#else  // !_WIN32
+    // TODO
+    std::ignore = pipe_str;
+    std::ignore = PipeBuffSize;
+    return false;
+#endif // _WIN32
+
     convert_lf(pipe_str);
     size_t s_pos = pipe_str.find('^');
     size_t e_pos = pipe_str.find('\n', s_pos);
@@ -593,11 +599,6 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
     m_minitouch_avaiable = true;
     return true;
-
-#else  // !_WIN32
-    // TODO
-    return false;
-#endif // _WIN32
 }
 
 bool asst::Controller::input_to_minitouch(const std::string& cmd, int delay_ms)
@@ -748,7 +749,7 @@ void asst::Controller::close_socket() noexcept
     }
 #else
     if (m_server_sock >= 0) {
-        close(m_server_sock);
+        ::close(m_server_sock);
         m_server_sock = -1;
     }
 #endif
@@ -780,13 +781,13 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
     m_server_sock_addr.sin_family = PF_INET;
     ::inet_pton(AF_INET, local_address.c_str(), &m_server_sock_addr.sin_addr);
 #else
-    m_server_sock = socket(AF_INET, SOCK_STREAM, 0);
+    m_server_sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if (m_server_sock < 0) {
         return std::nullopt;
     }
 
-    m_server_addr.sin_family = AF_INET;
-    m_server_addr.sin_addr.s_addr = INADDR_ANY;
+    m_server_sock_addr.sin_family = AF_INET;
+    m_server_sock_addr.sin_addr.s_addr = INADDR_ANY;
 #endif
 
     bool server_start = false;
@@ -800,11 +801,11 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
     int listen_ret = ::listen(m_server_sock, 3);
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #else
-    m_server_addr.sin_port = htons(0);
-    int bind_ret = bind(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), sizeof(sockaddr_in));
-    socklen_t addrlen = sizeof(m_server_addr);
-    int getname_ret = getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_addr), &addrlen);
-    int listen_ret = listen(m_server_sock, 3);
+    m_server_sock_addr.sin_port = ::htons(0);
+    int bind_ret = ::bind(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), sizeof(::sockaddr_in));
+    socklen_t addrlen = sizeof(m_server_sock_addr);
+    int getname_ret = ::getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), &addrlen);
+    int listen_ret = ::listen(m_server_sock, 3);
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 #endif
 
@@ -813,7 +814,11 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
         return std::nullopt;
     }
 
-    port_result = ntohs(m_server_addr.sin_port);
+#ifdef _WIN32
+    port_result = ::ntohs(m_server_sock_addr.sin_port);
+#else
+    port_result = ::ntohs(m_server_sock_addr.sin_port);
+#endif
 
     Log.info("command server start", local_address, port_result);
     return port_result;
@@ -909,7 +914,13 @@ bool asst::Controller::screencap(bool allow_reconnect)
         else {
             Log.info("Encode is not supported");
         }
-        Log.info("The fastest way is", static_cast<int>(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
+        static const std::unordered_map<AdbProperty::ScreencapMethod, std::string> MethodName = {
+            { AdbProperty::ScreencapMethod::UnknownYet, "UnknownYet" },
+            { AdbProperty::ScreencapMethod::RawByNc, "RawByNc" },
+            { AdbProperty::ScreencapMethod::RawWithGzip, "RawWithGzip" },
+            { AdbProperty::ScreencapMethod::Encode, "Encode" },
+        };
+        Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
         clear_lf_info();
         return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     } break;
