@@ -1125,13 +1125,14 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             _x2 = static_cast<int>(_x2 * m_minitouch_props.x_scaling);
             _y2 = static_cast<int>(_y2 * m_minitouch_props.y_scaling);
 
-            double acceleration = acceleration_coef * static_cast<double>(_x2 - _x1) / (_duration * _duration);
-            double v0x = static_cast<double>(_x2 - _x1) / _duration - acceleration * _duration;
-            double v0y = static_cast<double>(_y2 - _y1) / _duration - acceleration * _duration;
+            double accelerationx = acceleration_coef * static_cast<double>(_x2 - _x1) / (_duration * _duration);
+            double accelerationy = acceleration_coef * static_cast<double>(_y2 - _y1) / (_duration * _duration);
+            double v0x = static_cast<double>(_x2 - _x1) / _duration - accelerationx * _duration;
+            double v0y = static_cast<double>(_y2 - _y1) / _duration - accelerationy * _duration;
 
             for (int cur_time = MoveInterval; cur_time < _duration; cur_time += MoveInterval) {
-                int cur_x = _x1 + static_cast<int>(v0x * cur_time + acceleration * cur_time * cur_time);
-                int cur_y = _y1 + static_cast<int>(v0y * cur_time + acceleration * cur_time * cur_time);
+                int cur_x = _x1 + static_cast<int>(v0x * cur_time + accelerationx * cur_time * cur_time);
+                int cur_y = _y1 + static_cast<int>(v0y * cur_time + accelerationy * cur_time * cur_time);
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;
                 }
