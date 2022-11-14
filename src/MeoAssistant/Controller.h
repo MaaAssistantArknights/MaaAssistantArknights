@@ -96,7 +96,7 @@ namespace asst
         void callback(AsstMsg msg, const json::value& details);
 
         bool call_and_hup_minitouch(const std::string& cmd);
-        bool input_to_minitouch(const std::string& cmd, int delay_ms = 0);
+        bool input_to_minitouch(const std::string& cmd);
         void release_minitouch(bool force = false);
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
@@ -196,7 +196,7 @@ namespace asst
         cv::Mat m_cache_image;
 
     private:
-        struct
+        struct MinitouchProps
         {
             int max_contacts = 0;
             int max_x = 0;
@@ -206,6 +206,89 @@ namespace asst
             double x_scaling = 0;
             double y_scaling = 0;
         } m_minitouch_props;
+
+        struct MinitouchHelper
+        {
+            static constexpr int DefaultClickDelay = 50;
+            static constexpr int DefaultSwipeDelay = 1;
+
+            MinitouchHelper(const MinitouchProps& props, bool auto_sleep = true)
+                : m_props(props), m_auto_sleep(auto_sleep)
+            {}
+
+            ~MinitouchHelper()
+            {
+                if (m_auto_sleep) {
+                    sleep();
+                }
+            }
+
+            inline std::string reset() { return "r\n"; }
+            inline std::string commit() { return "c\n"; }
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
+            std::string down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            {
+                // mac 编不过
+                // std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
+
+                char buff[64] = { 0 };
+                sprintf(buff, "d %d %d %d %d\n", contact, scale_x(x), scale_y(y), m_props.max_pressure);
+                std::string str = buff;
+
+                if (with_commit) str += commit();
+                if (wait_ms) str += wait(wait_ms);
+                return str;
+            }
+            std::string move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true, int contact = 0)
+            {
+                char buff[64] = { 0 };
+                sprintf(buff, "m %d %d %d %d\n", contact, scale_x(x), scale_y(y), m_props.max_pressure);
+                std::string str = buff;
+
+                if (with_commit) str += commit();
+                if (wait_ms) str += wait(wait_ms);
+                return str;
+            }
+            std::string up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            {
+                char buff[16] = { 0 };
+                sprintf(buff, "u %d\n", contact);
+                std::string str = buff;
+
+                if (with_commit) str += commit();
+                if (wait_ms) str += wait(wait_ms);
+                return str;
+            }
+            std::string wait(int ms)
+            {
+                m_wait_ms_count += ms;
+
+                char buff[16] = { 0 };
+                sprintf(buff, "w %d\n", ms);
+                return buff;
+            }
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+            void clear() noexcept { m_wait_ms_count = 0; }
+            void sleep()
+            {
+                using namespace std::chrono_literals;
+                std::this_thread::sleep_for(m_wait_ms_count * 1ms);
+                m_wait_ms_count = 0;
+            }
+
+        private:
+            int scale_x(int x) const noexcept { return static_cast<int>(x * m_props.x_scaling); }
+            int scale_y(int y) const noexcept { return static_cast<int>(y * m_props.y_scaling); }
+
+            const MinitouchProps& m_props;
+            int m_wait_ms_count = 0;
+            bool m_auto_sleep = false;
+        };
 
     private:
 #ifdef _WIN32
