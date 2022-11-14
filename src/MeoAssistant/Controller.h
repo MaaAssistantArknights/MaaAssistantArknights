@@ -207,8 +207,9 @@ namespace asst
             double y_scaling = 0;
         } m_minitouch_props;
 
-        struct MinitouchHelper
+        class MinitouchHelper
         {
+        public:
             static constexpr int DefaultClickDelay = 50;
             static constexpr int DefaultSwipeDelay = 1;
 
@@ -223,13 +224,14 @@ namespace asst
                 }
             }
 
-            inline std::string reset() { return "r\n"; }
-            inline std::string commit() { return "c\n"; }
+            [[nodiscard]] inline std::string reset() { return "r\n"; }
+            [[nodiscard]] inline std::string commit() { return "c\n"; }
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
 #endif
-            std::string down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            [[nodiscard]] std::string down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true,
+                                           int contact = 0)
             {
                 // mac 编不过
                 // std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
@@ -242,7 +244,9 @@ namespace asst
                 if (wait_ms) str += wait(wait_ms);
                 return str;
             }
-            std::string move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true, int contact = 0)
+
+            [[nodiscard]] std::string move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true,
+                                           int contact = 0)
             {
                 char buff[64] = { 0 };
                 sprintf(buff, "m %d %d %d %d\n", contact, scale_x(x), scale_y(y), m_props.max_pressure);
@@ -252,7 +256,8 @@ namespace asst
                 if (wait_ms) str += wait(wait_ms);
                 return str;
             }
-            std::string up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+
+            [[nodiscard]] std::string up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
             {
                 char buff[16] = { 0 };
                 sprintf(buff, "u %d\n", contact);
@@ -262,7 +267,8 @@ namespace asst
                 if (wait_ms) str += wait(wait_ms);
                 return str;
             }
-            std::string wait(int ms)
+
+            [[nodiscard]] std::string wait(int ms)
             {
                 m_wait_ms_count += ms;
 
