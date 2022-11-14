@@ -57,10 +57,14 @@ namespace asst
         bool click_without_scale(const Point& p);
         bool click_without_scale(const Rect& rect);
 
-        bool swipe(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false);
-        bool swipe(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false);
-        bool swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false);
-        bool swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false);
+        bool swipe(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false,
+                   double acceleration_coef = 0);
+        bool swipe(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false,
+                   double acceleration_coef = 0);
+        bool swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false,
+                                 double acceleration_coef = 0);
+        bool swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false,
+                                 double acceleration_coef = 0);
 
         std::pair<int, int> get_scale_size() const noexcept;
 
