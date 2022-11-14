@@ -211,7 +211,8 @@ namespace asst
         {
         public:
             static constexpr int DefaultClickDelay = 50;
-            static constexpr int DefaultSwipeDelay = 1;
+            static constexpr int DefaultSwipeDelay = 2;
+            static constexpr int ExtraDelay = 100;
 
             MinitouchHelper(const MinitouchProps& props, bool auto_sleep = true)
                 : m_props(props), m_auto_sleep(auto_sleep)
@@ -292,7 +293,7 @@ namespace asst
             int scale_y(int y) const noexcept { return static_cast<int>(y * m_props.y_scaling); }
 
             const MinitouchProps& m_props;
-            int m_wait_ms_count = 0;
+            int m_wait_ms_count = ExtraDelay;
             bool m_auto_sleep = false;
         };
 
