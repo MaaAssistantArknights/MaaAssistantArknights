@@ -53,8 +53,8 @@ struct MinitouchCmd
         sprintf(buff, "d %d %d %d %d\n", contact, x, y, pressure);
         std::string str = buff;
 
-        if (with_commit) str += commit();
         if (wait_ms) str += wait(wait_ms);
+        if (with_commit) str += commit();
         return str;
     }
     inline static std::string move(int x, int y, bool with_commit = true, int wait_ms = 0, int contact = 0,
@@ -64,16 +64,17 @@ struct MinitouchCmd
         sprintf(buff, "m %d %d %d %d\n", contact, x, y, pressure);
         std::string str = buff;
 
-        if (with_commit) str += commit();
         if (wait_ms) str += wait(wait_ms);
+        if (with_commit) str += commit();
         return str;
     }
-    inline static std::string up(bool with_commit = true, int contact = 0)
+    inline static std::string up(bool with_commit = true, int wait_ms = 0, int contact = 0)
     {
         char buff[16] = { 0 };
         sprintf(buff, "u %d\n", contact);
         std::string str = buff;
 
+        if (wait_ms) str += wait(wait_ms);
         if (with_commit) str += commit();
         return str;
     }
@@ -1063,9 +1064,11 @@ bool asst::Controller::click_without_scale(const Point& p)
     if (m_minitouch_enabled && m_minitouch_avaiable) {
         int x = static_cast<int>(p.x * m_minitouch_props.x_scaling);
         int y = static_cast<int>(p.y * m_minitouch_props.y_scaling);
-        constexpr int WaitMs = 50;
-        std::string minitouch_cmd = MinitouchCmd::down(x, y, true, WaitMs) + MinitouchCmd::up();
-        return input_to_minitouch(minitouch_cmd, WaitMs);
+        constexpr int duration = 50; // 点击从按下到抬起之间的持续时间，以毫秒计
+        constexpr int wait_ms = 50;  // 触点抬起后等待的时间，以毫秒计
+        std::string minitouch_cmd =
+            MinitouchCmd::down(x, y, true, duration) + MinitouchCmd::up(wait_ms);
+        return input_to_minitouch(minitouch_cmd, duration + wait_ms);
     }
     else {
         std::string cur_cmd =
@@ -1079,7 +1082,7 @@ bool asst::Controller::click_without_scale(const Rect& rect)
     return click_without_scale(rand_point_in_rect(rect));
 }
 
-bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe)
+bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double acceleration_coef)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
@@ -1087,15 +1090,16 @@ bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, boo
     int y2 = static_cast<int>(p2.y * m_control_scale);
     // log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, extra_swipe);
+    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, extra_swipe, acceleration_coef);
 }
 
-bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe)
+bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double acceleration_coef)
 {
-    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe);
+    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, acceleration_coef);
 }
 
-bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool extra_swipe)
+bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool extra_swipe,
+                                           double acceleration_coef)
 {
     int x1 = p1.x, y1 = p1.y;
     int x2 = p2.x, y2 = p2.y;
@@ -1109,7 +1113,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 
     const auto& opt = Configer.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
-        constexpr int MoveInterval = 1;
+        constexpr int MoveInterval = 5;
         input_to_minitouch(MinitouchCmd::down(static_cast<int>(x1 * m_minitouch_props.x_scaling),
                                               static_cast<int>(m_minitouch_props.y_scaling * y1), true, MoveInterval));
         if (duration == 0) {
@@ -1121,13 +1125,13 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             _x2 = static_cast<int>(_x2 * m_minitouch_props.x_scaling);
             _y2 = static_cast<int>(_y2 * m_minitouch_props.y_scaling);
 
-            double move_times = static_cast<double>(_duration) / MoveInterval;
-            double x_step = (_x2 - _x1) / move_times;
-            double y_step = (_y2 - _y1) / move_times;
-            // TODO: 加点随机因子，或者改成中间快两头慢
-            for (int times = 1; times < move_times; ++times) {
-                int cur_x = _x1 + static_cast<int>(x_step * times);
-                int cur_y = _y1 + static_cast<int>(y_step * times);
+            double acceleration = acceleration_coef * static_cast<double>(_x2 - _x1) / (_duration * _duration);
+            double v0x = static_cast<double>(_x2 - _x1) / _duration - acceleration * _duration;
+            double v0y = static_cast<double>(_y2 - _y1) / _duration - acceleration * _duration;
+
+            for (int cur_time = MoveInterval; cur_time < _duration; cur_time += MoveInterval) {
+                int cur_x = _x1 + static_cast<int>(v0x * cur_time + acceleration * cur_time * cur_time);
+                int cur_y = _y1 + static_cast<int>(v0y * cur_time + acceleration * cur_time * cur_time);
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;
                 }
@@ -1144,8 +1148,9 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             duration += opt.minitouch_extra_swipe_duration;
         }
         constexpr int ExtraWait = 50;
-        duration += ExtraWait;
-        return input_to_minitouch(MinitouchCmd::wait(ExtraWait) + MinitouchCmd::up(), duration);
+        duration += 2 * ExtraWait;
+        return input_to_minitouch(
+            MinitouchCmd::wait(ExtraWait /* 停留终点 */) + MinitouchCmd::up(ExtraWait /* 抬起后等待 */), duration);
     }
     else {
         std::string cur_cmd =
@@ -1174,9 +1179,11 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
     }
 }
 
-bool asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool extra_swipe)
+bool asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool extra_swipe,
+                                           double acceleration_coef)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe,
+                               acceleration_coef);
 }
 
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
