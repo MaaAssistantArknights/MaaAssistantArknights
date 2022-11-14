@@ -1115,7 +1115,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 
     const auto& opt = Configer.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
-        constexpr int MoveInterval = 1;
+        constexpr int MoveInterval = 5;
         input_to_minitouch(MinitouchCmd::down(static_cast<int>(x1 * m_minitouch_props.x_scaling),
                                               static_cast<int>(m_minitouch_props.y_scaling * y1), true, MoveInterval));
         if (duration == 0) {
