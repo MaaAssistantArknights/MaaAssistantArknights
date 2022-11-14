@@ -35,62 +35,6 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-struct MinitouchCmd
-{
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#endif
-    inline static std::string reset() { return "r\n"; }
-    inline static std::string commit() { return "c\n"; }
-    inline static std::string down(int x, int y, bool with_commit = true, int wait_ms = 0, int contact = 0,
-                                   int pressure = 1)
-    {
-        // mac 编不过
-        // std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
-
-        char buff[64] = { 0 };
-        sprintf(buff, "d %d %d %d %d\n", contact, x, y, pressure);
-        std::string str = buff;
-
-        if (wait_ms) str += wait(wait_ms);
-        if (with_commit) str += commit();
-        return str;
-    }
-    inline static std::string move(int x, int y, bool with_commit = true, int wait_ms = 0, int contact = 0,
-                                   int pressure = 1)
-    {
-        char buff[64] = { 0 };
-        sprintf(buff, "m %d %d %d %d\n", contact, x, y, pressure);
-        std::string str = buff;
-
-        if (wait_ms) str += wait(wait_ms);
-        if (with_commit) str += commit();
-        return str;
-    }
-    inline static std::string up(bool with_commit = true, int wait_ms = 0, int contact = 0)
-    {
-        char buff[16] = { 0 };
-        sprintf(buff, "u %d\n", contact);
-        std::string str = buff;
-
-        if (wait_ms) str += wait(wait_ms);
-        if (with_commit) str += commit();
-        return str;
-    }
-    inline static std::string wait(int ms)
-    {
-        char buff[16] = { 0 };
-        sprintf(buff, "w %d\n", ms);
-        std::string str = buff;
-
-        return str;
-    }
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-};
-
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
 {
@@ -606,9 +550,9 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     return true;
 }
 
-bool asst::Controller::input_to_minitouch(const std::string& cmd, int delay_ms)
+bool asst::Controller::input_to_minitouch(const std::string& cmd)
 {
-    Log.info("Input to minitouch with delay", delay_ms, Logger::separator::newline, cmd);
+    Log.info("Input to minitouch", Logger::separator::newline, cmd);
 
 #ifdef _WIN32
     DWORD written = 0;
@@ -618,9 +562,6 @@ bool asst::Controller::input_to_minitouch(const std::string& cmd, int delay_ms)
         Log.error("Failed to write to minitouch, err", err);
         return false;
     }
-
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(delay_ms * 1ms);
 
     return cmd.size() == written;
 #else
@@ -1062,13 +1003,8 @@ bool asst::Controller::click_without_scale(const Point& p)
     }
 
     if (m_minitouch_enabled && m_minitouch_avaiable) {
-        int x = static_cast<int>(p.x * m_minitouch_props.x_scaling);
-        int y = static_cast<int>(p.y * m_minitouch_props.y_scaling);
-        constexpr int duration = 50; // 点击从按下到抬起之间的持续时间，以毫秒计
-        constexpr int wait_ms = 50;  // 触点抬起后等待的时间，以毫秒计
-        std::string minitouch_cmd =
-            MinitouchCmd::down(x, y, true, duration) + MinitouchCmd::up(wait_ms);
-        return input_to_minitouch(minitouch_cmd, duration + wait_ms);
+        MinitouchHelper minitouch_helper(m_minitouch_props);
+        return input_to_minitouch(minitouch_helper.down(p.x, p.y) + minitouch_helper.up());
     }
     else {
         std::string cur_cmd =
@@ -1113,45 +1049,39 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 
     const auto& opt = Configer.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
-        constexpr int MoveInterval = 5;
-        input_to_minitouch(MinitouchCmd::down(static_cast<int>(x1 * m_minitouch_props.x_scaling),
-                                              static_cast<int>(m_minitouch_props.y_scaling * y1), true, MoveInterval));
+        MinitouchHelper minitouch_helper(m_minitouch_props);
+        input_to_minitouch(minitouch_helper.down(x1, y1));
         if (duration == 0) {
             duration = 200;
         }
         auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
-            _x1 = static_cast<int>(_x1 * m_minitouch_props.x_scaling);
-            _y1 = static_cast<int>(_y1 * m_minitouch_props.y_scaling);
-            _x2 = static_cast<int>(_x2 * m_minitouch_props.x_scaling);
-            _y2 = static_cast<int>(_y2 * m_minitouch_props.y_scaling);
-
             double accelerationx = acceleration_coef * static_cast<double>(_x2 - _x1) / (_duration * _duration);
             double accelerationy = acceleration_coef * static_cast<double>(_y2 - _y1) / (_duration * _duration);
             double v0x = static_cast<double>(_x2 - _x1) / _duration - accelerationx * _duration;
             double v0y = static_cast<double>(_y2 - _y1) / _duration - accelerationy * _duration;
 
-            for (int cur_time = MoveInterval; cur_time < _duration; cur_time += MoveInterval) {
+            constexpr int TimeInterval = MinitouchHelper::DefaultSwipeDelay;
+            for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
                 int cur_x = _x1 + static_cast<int>(v0x * cur_time + accelerationx * cur_time * cur_time);
                 int cur_y = _y1 + static_cast<int>(v0y * cur_time + accelerationy * cur_time * cur_time);
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;
                 }
-                input_to_minitouch(MinitouchCmd::move(cur_x, cur_y, true, MoveInterval));
+                input_to_minitouch(minitouch_helper.move(cur_x, cur_y));
             }
             if (_x2 >= 0 && _x2 <= m_minitouch_props.max_x && _y2 >= 0 && _y2 <= m_minitouch_props.max_y) {
-                input_to_minitouch(MinitouchCmd::move(_x2, _y2));
+                input_to_minitouch(minitouch_helper.move(_x2, _y2));
             }
         };
         minitouch_move(x1, y1, x2, y2, duration);
+        constexpr int ExtraEndDelay = 100; // 停留终点
+        input_to_minitouch(minitouch_helper.wait(ExtraEndDelay));
 
         if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
             minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
             duration += opt.minitouch_extra_swipe_duration;
         }
-        constexpr int ExtraWait = 50;
-        duration += 2 * ExtraWait;
-        return input_to_minitouch(
-            MinitouchCmd::wait(ExtraWait /* 停留终点 */) + MinitouchCmd::up(ExtraWait /* 抬起后等待 */), duration);
+        return input_to_minitouch(minitouch_helper.up());
     }
     else {
         std::string cur_cmd =
