@@ -2,6 +2,7 @@
     "SlowlySwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 200,
         "specificRect": [
             300,
             310,
@@ -18,7 +19,8 @@
         "rectMove_Doc": "滑动终点",
         "specialParams": [
             200,
-            1
+            1,
+            -1
         ],
         "specialParams_Doc": [
             "滑动 duration",
@@ -32,6 +34,7 @@
     "SlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 200,
         "specificRect": [
             880,
             310,
@@ -46,7 +49,8 @@
         ],
         "specialParams": [
             200,
-            1
+            1,
+            -1
         ],
         "next": [
             "#next"
@@ -69,6 +73,11 @@
             100,
             100
         ],
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ],
         "next": [
             "#next"
         ],
@@ -89,6 +98,11 @@
             310,
             200,
             100
+        ],
+        "specialParams": [
+            150,
+            0,
+            0.5
         ],
         "next": [
             "#next"
@@ -6132,13 +6146,13 @@
         "algorithm": "JustReturn",
         "preDelay": 200,
         "postDelay": 100,
-        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear 是干员上场，到设置朝向之间等待的时间"
+        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；post 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 200,
         "postDelay": 50,
-        "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration",
+        "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
         "specialParams": [
             200
         ],
