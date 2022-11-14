@@ -53,8 +53,8 @@ struct MinitouchCmd
         sprintf(buff, "d %d %d %d %d\n", contact, x, y, pressure);
         std::string str = buff;
 
-        if (with_commit) str += commit();
         if (wait_ms) str += wait(wait_ms);
+        if (with_commit) str += commit();
         return str;
     }
     inline static std::string move(int x, int y, bool with_commit = true, int wait_ms = 0, int contact = 0,
@@ -64,16 +64,17 @@ struct MinitouchCmd
         sprintf(buff, "m %d %d %d %d\n", contact, x, y, pressure);
         std::string str = buff;
 
-        if (with_commit) str += commit();
         if (wait_ms) str += wait(wait_ms);
+        if (with_commit) str += commit();
         return str;
     }
-    inline static std::string up(bool with_commit = true, int contact = 0)
+    inline static std::string up(bool with_commit = true, int wait_ms = 0, int contact = 0)
     {
         char buff[16] = { 0 };
         sprintf(buff, "u %d\n", contact);
         std::string str = buff;
 
+        if (wait_ms) str += wait(wait_ms);
         if (with_commit) str += commit();
         return str;
     }
@@ -1066,8 +1067,8 @@ bool asst::Controller::click_without_scale(const Point& p)
         constexpr int duration = 50; // 点击从按下到抬起之间的持续时间，以毫秒计
         constexpr int wait_ms = 50;  // 触点抬起后等待的时间，以毫秒计
         std::string minitouch_cmd =
-            MinitouchCmd::down(x, y, true, duration) + MinitouchCmd::up() + MinitouchCmd::wait(wait_ms);
-        return input_to_minitouch(minitouch_cmd, duration);
+            MinitouchCmd::down(x, y, true, duration) + MinitouchCmd::up(wait_ms);
+        return input_to_minitouch(minitouch_cmd, duration + wait_ms);
     }
     else {
         std::string cur_cmd =
@@ -1149,8 +1150,9 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             duration += opt.minitouch_extra_swipe_duration;
         }
         constexpr int ExtraWait = 50;
-        duration += ExtraWait;
-        return input_to_minitouch(MinitouchCmd::wait(ExtraWait) + MinitouchCmd::up(), duration);
+        duration += 2 * ExtraWait;
+        return input_to_minitouch(
+            MinitouchCmd::wait(ExtraWait /* 停留终点 */) + MinitouchCmd::up(ExtraWait /* 抬起后等待 */), duration);
     }
     else {
         std::string cur_cmd =

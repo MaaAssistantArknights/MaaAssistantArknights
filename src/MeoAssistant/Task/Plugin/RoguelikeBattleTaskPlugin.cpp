@@ -726,11 +726,11 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
 
     // 将方向转换为实际的 swipe end 坐标点
     if (direction != Point::zero()) {
-        static const int coeff = Task.get("BattleSwipeOper")->special_params.at(0);
+        static const int coeff = swipe_oper_task_ptr->special_params.at(0);
         Point end_point = placed_point + (direction * coeff);
         m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
+        sleep(use_oper_task_ptr->post_delay);
     }
-    sleep(Task.get("BattleUseOper")->post_delay);
 
     if (opt_oper.role == BattleRole::Drone) {
         cancel_oper_selection();
