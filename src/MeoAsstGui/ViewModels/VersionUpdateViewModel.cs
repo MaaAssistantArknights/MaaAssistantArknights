@@ -27,7 +27,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
-using Windows.Globalization;
 
 namespace MeoAsstGui
 {
@@ -316,29 +315,35 @@ namespace MeoAsstGui
             var body = _latestJson["body"]?.ToString();
             if (body == string.Empty)
             {
-                // v4.6.6-1.g{Hash}
-                // v4.6.7-beta.2.8.g{Hash}
-                if (Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
-                    isNightlyVersion(semVersion))
+                string ComparableHash(string version)
                 {
-                    var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
-                    if (commitHash.StartsWith("g"))
+                    if (isStdVersion(version))
                     {
-                        commitHash = commitHash.Remove(0, 1);
+                        return version;
+                    }
+                    else if (Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
+                        isNightlyVersion(semVersion))
+                    {
+                        // v4.6.6-1.g{Hash}
+                        // v4.6.7-beta.2.8.g{Hash}
+                        var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
+                        if (commitHash.StartsWith("g"))
+                        {
+                            commitHash = commitHash.Remove(0, 1);
+                        }
+
+                        return commitHash;
                     }
 
-                    var mainVer = "v" + semVersion.WithoutPrerelease() + "-";
-                    for (int i = 0; i < semVersion.PrereleaseIdentifiers.Count - 2; ++i)
-                    {
-                        mainVer += semVersion.PrereleaseIdentifiers[i].ToString() + ".";
-                    }
+                    return null;
+                }
 
-                    if (mainVer.EndsWith("."))
-                    {
-                        mainVer = mainVer.Remove(mainVer.Length - 1);
-                    }
+                var curHash = ComparableHash(_curVersion);
+                var latestHash = ComparableHash(_latestVersion);
 
-                    body = $"**Full Changelog**: [{mainVer} -> {commitHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{mainVer}...{commitHash})";
+                if (curHash != null && latestHash != null)
+                {
+                    body = $"**Full Changelog**: [{curHash} -> {latestHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{curHash}...{latestHash})";
                 }
             }
 
