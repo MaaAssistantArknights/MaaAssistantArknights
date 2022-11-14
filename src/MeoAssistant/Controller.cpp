@@ -1082,8 +1082,7 @@ bool asst::Controller::click_without_scale(const Rect& rect)
     return click_without_scale(rand_point_in_rect(rect));
 }
 
-bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe,
-                             double acceleration_coef)
+bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double acceleration_coef)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
@@ -1094,8 +1093,7 @@ bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, boo
     return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, extra_swipe, acceleration_coef);
 }
 
-bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe,
-                             double acceleration_coef)
+bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double acceleration_coef)
 {
     return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, acceleration_coef);
 }
@@ -1184,7 +1182,8 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 bool asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool extra_swipe,
                                            double acceleration_coef)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, acceleration_coef);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe,
+                               acceleration_coef);
 }
 
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)

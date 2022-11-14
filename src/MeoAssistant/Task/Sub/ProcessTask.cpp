@@ -306,7 +306,8 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
     m_ctrler->click(matched_rect);
 }
 
-void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double acceleration_coef)
+void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe,
+                                        double acceleration_coef)
 {
     MinitouchTempSwitcher switcher(m_ctrler);
     m_ctrler->swipe(r1, r2, duration, extra_swipe, acceleration_coef);
