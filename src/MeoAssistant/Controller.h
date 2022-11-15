@@ -168,7 +168,6 @@ namespace asst
         bool m_minitouch_avaiable = false; // 状态
 
 #ifdef _WIN32
-        HANDLE m_minitouch_child_read = nullptr;
         HANDLE m_minitouch_parent_write = nullptr;
         ASST_AUTO_DEDUCED_ZERO_INIT_START
         PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
@@ -207,32 +206,53 @@ namespace asst
             double y_scaling = 0;
         } m_minitouch_props;
 
-        class MinitouchHelper
+        class Minitoucher
         {
+        public:
+            using InputFunc = std::function<bool(const std::string&)>;
+
         public:
             static constexpr int DefaultClickDelay = 50;
             static constexpr int DefaultSwipeDelay = 2;
             static constexpr int ExtraDelay = 100;
 
-            MinitouchHelper(const MinitouchProps& props, bool auto_sleep = true)
-                : m_props(props), m_auto_sleep(auto_sleep)
+            Minitoucher(InputFunc func, const MinitouchProps& props, bool auto_sleep = true)
+                : m_input_func(func), m_props(props), m_auto_sleep(auto_sleep)
             {}
 
-            ~MinitouchHelper()
+            ~Minitoucher()
             {
                 if (m_auto_sleep) {
                     sleep();
                 }
             }
 
-            [[nodiscard]] inline std::string reset() { return "r\n"; }
-            [[nodiscard]] inline std::string commit() { return "c\n"; }
+            bool reset() { return m_input_func(reset_cmd()); }
+            bool commit() { return m_input_func(commit_cmd()); }
+            bool down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            {
+                return m_input_func(down_cmd(x, y, wait_ms, with_commit, contact));
+            }
+            bool move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true, int contact = 0)
+            {
+                return m_input_func(move_cmd(x, y, wait_ms, with_commit, contact));
+            }
+            bool up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            {
+                return m_input_func(up_cmd(wait_ms, with_commit, contact));
+            }
+            bool wait(int ms) { return m_input_func(wait_cmd(ms)); }
+            void clear() noexcept { m_wait_ms_count = 0; }
+
+        private:
+            [[nodiscard]] std::string reset_cmd() const noexcept { return "r\n"; }
+            [[nodiscard]] std::string commit_cmd() const noexcept { return "c\n"; }
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
 #endif
-            [[nodiscard]] std::string down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true,
-                                           int contact = 0)
+            [[nodiscard]] std::string down_cmd(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true,
+                                               int contact = 0)
             {
                 // mac 编不过
                 // std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
@@ -241,38 +261,37 @@ namespace asst
                 sprintf(buff, "d %d %d %d %d\n", contact, scale_x(x), scale_y(y), m_props.max_pressure);
                 std::string str = buff;
 
-                if (with_commit) str += commit();
-                if (wait_ms) str += wait(wait_ms);
+                if (with_commit) str += commit_cmd();
+                if (wait_ms) str += wait_cmd(wait_ms);
                 return str;
             }
 
-            [[nodiscard]] std::string move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true,
-                                           int contact = 0)
+            [[nodiscard]] std::string move_cmd(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true,
+                                               int contact = 0)
             {
                 char buff[64] = { 0 };
                 sprintf(buff, "m %d %d %d %d\n", contact, scale_x(x), scale_y(y), m_props.max_pressure);
                 std::string str = buff;
 
-                if (with_commit) str += commit();
-                if (wait_ms) str += wait(wait_ms);
+                if (with_commit) str += commit_cmd();
+                if (wait_ms) str += wait_cmd(wait_ms);
                 return str;
             }
 
-            [[nodiscard]] std::string up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            [[nodiscard]] std::string up_cmd(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
             {
                 char buff[16] = { 0 };
                 sprintf(buff, "u %d\n", contact);
                 std::string str = buff;
 
-                if (with_commit) str += commit();
-                if (wait_ms) str += wait(wait_ms);
+                if (with_commit) str += commit_cmd();
+                if (wait_ms) str += wait_cmd(wait_ms);
                 return str;
             }
 
-            [[nodiscard]] std::string wait(int ms)
+            [[nodiscard]] std::string wait_cmd(int ms)
             {
                 m_wait_ms_count += ms;
-
                 char buff[16] = { 0 };
                 sprintf(buff, "w %d\n", ms);
                 return buff;
@@ -280,7 +299,6 @@ namespace asst
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-            void clear() noexcept { m_wait_ms_count = 0; }
             void sleep()
             {
                 using namespace std::chrono_literals;
@@ -292,6 +310,7 @@ namespace asst
             int scale_x(int x) const noexcept { return static_cast<int>(x * m_props.x_scaling); }
             int scale_y(int y) const noexcept { return static_cast<int>(y * m_props.y_scaling); }
 
+            const std::function<bool(const std::string&)> m_input_func = nullptr;
             const MinitouchProps& m_props;
             int m_wait_ms_count = ExtraDelay;
             bool m_auto_sleep = false;
