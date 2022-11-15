@@ -1,4 +1,5 @@
 - 新增 自定义基建排班 内置配置文件选择 @MistEO @ABA2396
 - 新增 始终自动检测模拟器连接 选项 @lhhxxxxx
 - 修复 界面 弹出通知时崩溃的问题 @zzyyyl
+- 修复 Mac 默认禁用Gzip以避免内存泄漏 @hguandl
 - 更新 文档、界面、作业群、频道链接 @ABA2396 @horror-proton
