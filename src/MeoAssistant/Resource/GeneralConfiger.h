@@ -70,6 +70,7 @@ namespace asst
         std::string release;
         std::string start;
         std::string stop;
+        std::string abilist;
         std::string push_minitouch;
         std::string chmod_minitouch;
         std::string call_minitouch;

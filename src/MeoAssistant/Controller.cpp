@@ -1381,12 +1381,23 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         return false;
     }
 
+    std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or("");
+    constexpr std::array<std::string_view, 5> OrderedABI = {
+        "x86_64", "x86", "arm64-v8a", "armeabi-v7a", "armeabi",
+    };
+    std::string_view optimal_abi = "armeabi-v7a";
+    for (const auto& abi : OrderedABI) {
+        if (abilist.find(abi) != std::string::npos) {
+            optimal_abi = abi;
+            break;
+        }
+    }
+    Log.info("The optimal abi is", optimal_abi);
     auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
         return utils::string_replace_all(
             cmd_replace(cfg_cmd),
             {
-                // TODO: 用 adb shell getprop ro.product.cpu.abilist 来判断该用哪个文件夹里的
-                { "[minitouchLocalPath]", (m_resource_path / "minitouch" / "armeabi-v7a" / "minitouch").string() },
+                { "[minitouchLocalPath]", (m_resource_path / "minitouch" / optimal_abi / "minitouch").string() },
                 { "[minitouchWorkingFile]", m_uuid },
             });
     };
