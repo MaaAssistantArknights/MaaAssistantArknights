@@ -646,16 +646,11 @@
     },
     "IS-Open": {
         "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "叙拉古人",
-            "开放"
-        ],
         "roi": [
+            476,
             0,
-            500,
-            500,
-            150
+            502,
+            720
         ],
         "next": [
             "EnterChapterIS"
