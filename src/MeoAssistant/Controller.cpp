@@ -1050,7 +1050,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         toucher.down(x1, y1);
         if (duration == 0) {
-            duration = 200;
+            duration = 150;
         }
         auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
             double accelerationx = acceleration_coef * static_cast<double>(_x2 - _x1) / (_duration * _duration);
