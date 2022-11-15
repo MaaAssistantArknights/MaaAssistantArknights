@@ -377,7 +377,7 @@
     "FullStageNavigation": {
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
-        "baseTask": "SwipeToTheRight",
+        "baseTask": "ChapterSwipeToTheRight",
         "next": [
             "#self"
         ],
@@ -400,7 +400,7 @@
         ]
     },
     "StageNavigationSlowlySwipeLeft": {
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "FullStageNavigation"
         ],
@@ -533,9 +533,55 @@
             "SwipeRightToStage1-7"
         ]
     },
+    "ChapterSlowlySwipeToTheLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "specificRect": [
+            300,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            900,
+            350,
+            20,
+            20
+        ]
+    },
+    "ChapterSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            900,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            300,
+            350,
+            20,
+            20
+        ]
+    },
+    "ChapterSwipeToTheLeft": {
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ]
+    },
+    "ChapterSwipeToTheRight": {
+        "baseTask": "ChapterSlowlySwipeToTheRight",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ]
+    },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "fullMatch": true,
         "isAscii": true,
         "text": [
@@ -561,7 +607,7 @@
     },
     "SwipeRightToStage1-7": {
         "algorithm": "OcrDetect",
-        "baseTask": "SlowlySwipeToTheRight",
+        "baseTask": "ChapterSlowlySwipeToTheRight",
         "fullMatch": true,
         "isAscii": true,
         "text": [
@@ -823,12 +869,12 @@
         ],
         "next": [
             "NLChapterToNL",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageNL-10": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageNL-10",
             "SwipeToStageNL-10"
@@ -836,7 +882,7 @@
     },
     "SwipeToStageNL-9": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageNL-9",
             "SwipeToStageNL-9"
@@ -844,7 +890,7 @@
     },
     "SwipeToStageNL-8": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageNL-8",
             "SwipeToStageNL-8"
@@ -1059,12 +1105,12 @@
         "postDelay": 2000,
         "next": [
             "ICChapterToIC",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageIC-9": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageIC-9",
             "SwipeToStageIC-9"
@@ -1072,7 +1118,7 @@
     },
     "SwipeToStageIC-8": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageIC-8",
             "SwipeToStageIC-8"
@@ -1080,7 +1126,7 @@
     },
     "SwipeToStageIC-7": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageIC-7",
             "SwipeToStageIC-7"
@@ -1201,12 +1247,12 @@
         "postDelay": 2000,
         "next": [
             "DVChapterToDV",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageDV-8": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageDV-8",
             "SwipeToStageDV-8"
@@ -1214,7 +1260,7 @@
     },
     "SwipeToStageDV-7": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageDV-7",
             "SwipeToStageDV-7"
@@ -1222,7 +1268,7 @@
     },
     "SwipeToStageDV-6": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageDV-6",
             "SwipeToStageDV-6"
@@ -1332,12 +1378,12 @@
         ],
         "action": "ClickSelf",
         "sub": [
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageLE-5": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageLE-5",
             "SwipeToStageLE-5"
@@ -1345,7 +1391,7 @@
     },
     "SwipeToStageLE-6": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageLE-6",
             "SwipeToStageLE-6"
@@ -1353,7 +1399,7 @@
     },
     "SwipeToStageLE-7": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageLE-7",
             "SwipeToStageLE-7"
@@ -1444,7 +1490,7 @@
         ],
         "next": [
             "SN-Chapter2",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SN-Chapter3": {
@@ -1532,7 +1578,7 @@
             150
         ],
         "next": [
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "StageBI7": {
@@ -4413,16 +4459,7 @@
             255
         ]
     },
-    "OperListSwipeToTheLeft": {
-        "baseTask": "SwipeToTheLeft",
-        "specificRect": [
-            400,
-            310,
-            100,
-            100
-        ]
-    },
-    "SleepAfterOperListSwipe": {
+    "SleepAfterOperListQuickSwipe": {
         "algorithm": "JustReturn",
         "postDelay": 1000
     },
@@ -6834,22 +6871,49 @@
             138
         ]
     },
-    "OperListSlowlySwipeToTheLeft": {
-        "baseTask": "SlowlySwipeToTheLeft",
-        "specificRect": [
-            400,
-            310,
-            100,
-            100
-        ]
-    },
-    "OperListSlowlySwipeToTheRight": {
+    "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1250,
+            350,
+            20,
+            20
+        ],
         "rectMove": [
             400,
-            310,
-            100,
-            100
+            350,
+            20,
+            20
+        ]
+    },
+    "InfrastOperListSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            400,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            1250,
+            350,
+            20,
+            20
+        ]
+    },
+    "BattleFormationOperListSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1100,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            400,
+            350,
+            20,
+            20
         ]
     },
     "Roguelike@Abandon": {
@@ -9098,42 +9162,56 @@
         "templThreshold": 0.9
     },
     "RoguelikeRecruitOperListSlowlySwipeToTheLeft": {
-        "baseTask": "OperListSlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
-            560,
-            310,
-            100,
-            100
+            500,
+            340,
+            20,
+            20
         ],
         "rectMove": [
-            1080,
-            310,
-            100,
-            100
+            1250,
+            340,
+            20,
+            20
         ]
     },
     "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
-        "baseTask": "OperListSlowlySwipeToTheRight",
+        "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1080,
-            310,
-            100,
-            100
+            1250,
+            340,
+            20,
+            20
         ],
         "rectMove": [
-            560,
-            310,
-            100,
-            100
+            500,
+            340,
+            20,
+            20
         ]
     },
     "RoguelikeRecruitOperListSwipeToTheLeft": {
-        "baseTask": "OperListSwipeToTheLeft",
+        "baseTask": "RoguelikeRecruitOperListSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ]
+    },
+    "DepotSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            560,
-            310,
-            100,
-            100
+            1250,
+            340,
+            20,
+            20
+        ],
+        "rectMove": [
+            10,
+            340,
+            20,
+            20
         ]
     },
     "RoguelikeRecruitSwipeMaxTime": {
