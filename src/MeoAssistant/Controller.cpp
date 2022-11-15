@@ -1079,10 +1079,10 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             }
         };
         minitouch_move(x1, y1, x2, y2, duration);
-        constexpr int ExtraEndDelay = 100; // 停留终点
-        toucher.wait(ExtraEndDelay);
 
         if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
+            constexpr int ExtraEndDelay = 100; // 停留终点
+            toucher.wait(ExtraEndDelay);
             minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
             duration += opt.minitouch_extra_swipe_duration;
         }
