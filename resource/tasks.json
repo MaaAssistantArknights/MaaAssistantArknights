@@ -20,11 +20,14 @@
         "specialParams": [
             200,
             1,
-            -1
+            0,
+            0
         ],
         "specialParams_Doc": [
             "滑动 duration",
-            "额外滑动？"
+            "额外滑动？",
+            "slope in (zero means smooth, 1 means linear)",
+            "slope out"
         ],
         "next": [
             "#next"
@@ -50,7 +53,8 @@
         "specialParams": [
             200,
             1,
-            -1
+            0,
+            0
         ],
         "next": [
             "#next"
@@ -76,7 +80,8 @@
         "specialParams": [
             150,
             0,
-            0.5
+            1,
+            1
         ],
         "next": [
             "#next"
@@ -102,7 +107,8 @@
         "specialParams": [
             150,
             0,
-            0.5
+            1,
+            1
         ],
         "next": [
             "#next"
