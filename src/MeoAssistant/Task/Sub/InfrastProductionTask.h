@@ -19,6 +19,8 @@ namespace asst
         void clear_custom_drones_config();
 
     protected:
+        static constexpr int SwipeToTheLeftTimes = 6;
+
         bool shift_facility_list();
         bool facility_list_detect();
         bool opers_detect_with_swipe();
