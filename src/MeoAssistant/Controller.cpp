@@ -459,11 +459,12 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         .lpSecurityDescriptor = nullptr,
         .bInheritHandle = TRUE,
     };
-    HANDLE pipe_child_write = INVALID_HANDLE_VALUE, pipe_parent_read = INVALID_HANDLE_VALUE;
+    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
+    HANDLE pipe_child_read = INVALID_HANDLE_VALUE, pipe_parent_write = INVALID_HANDLE_VALUE;
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_attr_inherit,
                                              PipeReadBuffSize, true, false) ||
-        !asst::win32::CreateOverlappablePipe(&m_minitouch_child_read, &m_minitouch_parent_write, &sa_attr_inherit,
-                                             nullptr, PipeWriteBuffSize, false, false)) {
+        !asst::win32::CreateOverlappablePipe(&pipe_child_read, &pipe_parent_write, &sa_attr_inherit, nullptr,
+                                             PipeWriteBuffSize, false, false)) {
         DWORD err = GetLastError();
         Log.error("Failed to create pipe for minitouch, err", err);
         return false;
@@ -473,31 +474,31 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     si.cb = sizeof(STARTUPINFOW);
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
-    si.hStdInput = m_minitouch_child_read;
+    si.hStdInput = pipe_child_read;
     si.hStdOutput = pipe_child_write;
     si.hStdError = pipe_child_write;
 
     auto cmd_osstr = utils::to_osstring(cmd);
-    if (!CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
-                        &m_minitouch_process_info)) {
+    BOOL create_ret = CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
+                                     &m_minitouch_process_info);
+    CloseHandle(pipe_child_write);
+    CloseHandle(pipe_child_read);
+    pipe_child_write = INVALID_HANDLE_VALUE;
+    pipe_child_read = INVALID_HANDLE_VALUE;
+
+    if (!create_ret) {
         DWORD err = GetLastError();
         Log.error("Failed to create process for minitouch, err", err);
-        release_minitouch(true);
         return false;
     }
-
-    CloseHandle(pipe_child_write);
-    pipe_child_write = INVALID_HANDLE_VALUE;
-
-    auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
 
     auto start_time = std::chrono::steady_clock::now();
     auto check_timeout = [&]() -> bool {
         using namespace std::chrono_literals;
         return std::chrono::steady_clock::now() - start_time < 3s;
     };
-    std::vector<HANDLE> wait_handles;
 
+    auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
     std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
 
@@ -516,6 +517,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     CloseHandle(pipe_parent_read);
     pipe_parent_read = INVALID_HANDLE_VALUE;
 
+    m_minitouch_parent_write = pipe_parent_write;
 #else  // !_WIN32
     // TODO
     std::ignore = pipe_str;
@@ -587,10 +589,6 @@ void asst::Controller::release_minitouch(bool force)
     if (m_minitouch_process_info.hThread) {
         CloseHandle(m_minitouch_process_info.hThread);
         m_minitouch_process_info.hThread = nullptr;
-    }
-    if (m_minitouch_child_read) {
-        CloseHandle(m_minitouch_child_read);
-        m_minitouch_child_read = nullptr;
     }
     if (m_minitouch_parent_write) {
         CloseHandle(m_minitouch_parent_write);
@@ -1003,8 +1001,8 @@ bool asst::Controller::click_without_scale(const Point& p)
     }
 
     if (m_minitouch_enabled && m_minitouch_avaiable) {
-        MinitouchHelper minitouch_helper(m_minitouch_props);
-        return input_to_minitouch(minitouch_helper.down(p.x, p.y) + minitouch_helper.up());
+        Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
+        return toucher.down(p.x, p.y) && toucher.up();
     }
     else {
         std::string cur_cmd =
@@ -1049,8 +1047,8 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 
     const auto& opt = Configer.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
-        MinitouchHelper minitouch_helper(m_minitouch_props);
-        input_to_minitouch(minitouch_helper.down(x1, y1));
+        Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
+        toucher.down(x1, y1);
         if (duration == 0) {
             duration = 200;
         }
@@ -1060,28 +1058,28 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             double v0x = static_cast<double>(_x2 - _x1) / _duration - accelerationx * _duration;
             double v0y = static_cast<double>(_y2 - _y1) / _duration - accelerationy * _duration;
 
-            constexpr int TimeInterval = MinitouchHelper::DefaultSwipeDelay;
+            constexpr int TimeInterval = Minitoucher::DefaultSwipeDelay;
             for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
                 int cur_x = _x1 + static_cast<int>(v0x * cur_time + accelerationx * cur_time * cur_time);
                 int cur_y = _y1 + static_cast<int>(v0y * cur_time + accelerationy * cur_time * cur_time);
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;
                 }
-                input_to_minitouch(minitouch_helper.move(cur_x, cur_y));
+                toucher.move(cur_x, cur_y);
             }
             if (_x2 >= 0 && _x2 <= m_minitouch_props.max_x && _y2 >= 0 && _y2 <= m_minitouch_props.max_y) {
-                input_to_minitouch(minitouch_helper.move(_x2, _y2));
+                toucher.move(_x2, _y2);
             }
         };
         minitouch_move(x1, y1, x2, y2, duration);
         constexpr int ExtraEndDelay = 100; // 停留终点
-        input_to_minitouch(minitouch_helper.wait(ExtraEndDelay));
+        toucher.wait(ExtraEndDelay);
 
         if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
             minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
             duration += opt.minitouch_extra_swipe_duration;
         }
-        return input_to_minitouch(minitouch_helper.up());
+        return toucher.up();
     }
     else {
         std::string cur_cmd =
