@@ -187,7 +187,8 @@ bool ProcessTask::_run()
             exec_swipe_task(m_cur_task_ptr->specific_rect, m_cur_task_ptr->rect_move,
                             m_cur_task_ptr->special_params.empty() ? 0 : m_cur_task_ptr->special_params.at(0),
                             (m_cur_task_ptr->special_params.size() < 2) ? false : m_cur_task_ptr->special_params.at(1),
-                            (m_cur_task_ptr->special_params.size() < 3) ? 0 : m_cur_task_ptr->special_params.at(2));
+                            (m_cur_task_ptr->special_params.size() < 3) ? 1 : m_cur_task_ptr->special_params.at(2),
+                            (m_cur_task_ptr->special_params.size() < 4) ? 1 : m_cur_task_ptr->special_params.at(3));
             break;
         case ProcessTaskAction::DoNothing:
             break;
@@ -306,9 +307,9 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
     m_ctrler->click(matched_rect);
 }
 
-void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe,
-                                        double acceleration_coef)
+void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
+                                        double slope_out)
 {
     MinitouchTempSwitcher switcher(m_ctrler);
-    m_ctrler->swipe(r1, r2, duration, extra_swipe, acceleration_coef);
+    m_ctrler->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out);
 }
