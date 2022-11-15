@@ -186,13 +186,14 @@ bool asst::InfrastReceptionTask::shift()
             return false;
         }
 
+        constexpr int MySwipeToTheLeftTimes = 3;
         if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
                 break;
             }
             else {
-                swipe_to_the_left_of_operlist();
+                swipe_to_the_left_of_operlist(MySwipeToTheLeftTimes);
                 continue;
             }
         }
@@ -202,13 +203,13 @@ bool asst::InfrastReceptionTask::shift()
         if (!opers_detect_with_swipe()) {
             return false;
         }
-        swipe_to_the_left_of_operlist();
+        swipe_to_the_left_of_operlist(MySwipeToTheLeftTimes);
 
         optimal_calc();
         bool ret = opers_choose();
         if (!ret) {
             m_all_available_opers.clear();
-            swipe_to_the_left_of_operlist();
+            swipe_to_the_left_of_operlist(MySwipeToTheLeftTimes);
             continue;
         }
         break;

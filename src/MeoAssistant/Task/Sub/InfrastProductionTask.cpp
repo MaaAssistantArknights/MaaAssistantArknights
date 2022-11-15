@@ -170,7 +170,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     break;
                 }
                 else {
-                    swipe_to_the_left_of_operlist(2);
+                    swipe_to_the_left_of_operlist(SwipeToTheLeftTimes);
                     continue;
                 }
             }
@@ -181,7 +181,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 if (!opers_detect_with_swipe()) {
                     return false;
                 }
-                swipe_to_the_left_of_operlist(2);
+                swipe_to_the_left_of_operlist(SwipeToTheLeftTimes);
             }
             else {
                 opers_detect();
@@ -189,7 +189,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             optimal_calc();
             if (!opers_choose()) {
                 m_all_available_opers.clear();
-                swipe_to_the_left_of_operlist(2);
+                swipe_to_the_left_of_operlist(SwipeToTheLeftTimes);
                 continue;
             }
             break;
@@ -544,7 +544,7 @@ bool asst::InfrastProductionTask::opers_choose()
             if (!has_error) {
                 has_error = true;
                 // 倒回去再来一遍
-                swipe_to_the_left_of_operlist();
+                swipe_to_the_left_of_operlist(SwipeToTheLeftTimes);
                 continue;
             }
             else {
