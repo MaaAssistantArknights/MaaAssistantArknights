@@ -23,14 +23,13 @@ bool asst::InfrastControlTask::_run()
         if (need_exit()) {
             return false;
         }
-        constexpr int MySwipeToTheLeftTimes = 4;
         if (is_use_custom_opers()) {
             bool name_select_ret = swipe_and_select_custom_opers();
             if (name_select_ret) {
                 break;
             }
             else {
-                swipe_to_the_left_of_operlist(MySwipeToTheLeftTimes);
+                swipe_to_the_left_of_operlist();
                 continue;
             }
         }
@@ -40,12 +39,12 @@ bool asst::InfrastControlTask::_run()
         if (!opers_detect_with_swipe()) {
             return false;
         }
-        swipe_to_the_left_of_operlist(MySwipeToTheLeftTimes);
+        swipe_to_the_left_of_operlist();
 
         optimal_calc();
         if (!opers_choose()) {
             m_all_available_opers.clear();
-            swipe_to_the_left_of_operlist(MySwipeToTheLeftTimes);
+            swipe_to_the_left_of_operlist();
             continue;
         }
         break;

@@ -14,6 +14,7 @@ namespace asst
         virtual bool _run() override;
 
     private:
+        virtual int operlist_swipe_times() const noexcept override { return 4; }
         bool close_end_of_clue_exchange();
         bool get_clue();
         bool use_clue();
