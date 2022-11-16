@@ -548,7 +548,8 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
         Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
-    m_ctrler->swipe(oper_rect, placed_rect, duration, false, 0, 0);
+    m_ctrler->swipe(oper_rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
+                    swipe_oper_task_ptr->special_params.at(2));
 
     sleep(use_oper_task_ptr->post_delay);
 

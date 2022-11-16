@@ -721,7 +721,8 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         placed_point, { opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
-    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, false, 0, 0);
+    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
+                    swipe_oper_task_ptr->special_params.at(2));
     sleep(use_oper_task_ptr->post_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
