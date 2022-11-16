@@ -408,7 +408,10 @@ void asst::InfrastAbstractTask::swipe_of_operlist()
 
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
-    for (int i = 0; i != loop_times; ++i) {
+    if (loop_times < 0) {
+        loop_times = operlist_swipe_times();
+    }
+    for (int i = 0; i < loop_times; ++i) {
         ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();
     }
     ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
