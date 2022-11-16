@@ -12,6 +12,7 @@
 - 修复 macOS 信用商店 设置错误 @hguandl
 - 修复 下载 镜像站地址，修复 内测版 打包策略 及 CHANGELOG 生成 @horror-proton @zzyyyl @MistEO
 - 修复 界面 不支持通知时崩溃的问题，使用兼容版通知 @zzyyyl
+- 修复 Java 接口路径错误 @CaoMeiYouRen
 - 清理 代码 等 @MistEO @zzyyyl
 - 新增 调试后门，在启动前新建 `DEBUG.txt`，将会在每次运行时都重新读取资源文件 @MistEO
 - 新增 Issue Bot mac 标签 @zzyyyl
