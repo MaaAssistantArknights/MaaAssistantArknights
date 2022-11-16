@@ -171,6 +171,7 @@
     <system:String x:Key="WaitForEmulator">Delay time</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
+    <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
@@ -368,6 +369,11 @@
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: FAQ - Crashes to solve.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">Please use administrator to open MAA</system:String>
+    <system:String x:Key="ReplaceADBNotExists">ADB File NOT exists</system:String>
+    <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the adb file in the emulator)</system:String>
+    <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>

@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -289,7 +288,7 @@ namespace MeoAsstGui
             NewVersionIsBeingBuilt,
         }
 
-        private enum Downloader
+        public enum Downloader
         {
             Native,
             Aria2,
@@ -663,7 +662,8 @@ namespace MeoAsstGui
                 fileName: assetsObject["name"].ToString(), contentType:
                 assetsObject["content_type"].ToString(),
                 downloader: downloader,
-                saveTo: saveTo);
+                saveTo: saveTo,
+                proxy: _container.Get<SettingsViewModel>().Proxy);
         }
 
         /// <summary>
@@ -674,9 +674,10 @@ namespace MeoAsstGui
         /// <param name="contentType">获取对象的物联网通用类型</param>
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
+        /// <param name="proxy">http proxy</param>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        private bool DownloadFile(string url, string fileName, string contentType = null,
-            Downloader downloader = Downloader.Native, string saveTo = null)
+        public static bool DownloadFile(string url, string fileName, string contentType = null,
+            Downloader downloader = Downloader.Native, string saveTo = null, string proxy = "")
         {
             string fileDir = (saveTo == null) ? Directory.GetCurrentDirectory() : Path.GetFullPath(saveTo);
             string fileNameWithTemp = fileName + ".temp";
@@ -688,11 +689,11 @@ namespace MeoAsstGui
                 switch (downloader)
                 {
                     case Downloader.Native:
-                        returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType);
+                        returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType, proxy);
                         break;
 
                     case Downloader.Aria2:
-                        returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp);
+                        returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp, proxy);
                         break;
                 }
             }
@@ -716,15 +717,14 @@ namespace MeoAsstGui
             return returned;
         }
 
-        private bool DownloadFileForAria2(string url, string saveTo, string fileName)
+        private static bool DownloadFileForAria2(string url, string saveTo, string fileName, string proxy = "")
         {
             var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
             var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + RequestUserAgent + "\"";
 
-            var settings = _container.Get<SettingsViewModel>();
-            if (settings.Proxy.Length > 0)
+            if (proxy.Length > 0)
             {
-                aria2Args += " --all-proxy=\"" + settings.Proxy + "\"";
+                aria2Args += " --all-proxy=\"" + proxy + "\"";
             }
 
             var aria2Process = new Process
@@ -754,8 +754,9 @@ namespace MeoAsstGui
         /// <param name="url">下载地址</param>
         /// <param name="filePath">文件路径</param>
         /// <param name="contentType">HTTP ContentType</param>
+        /// <param name="proxy">http proxy</param>
         /// <returns>是否成功</returns>
-        private bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null)
+        private static bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null, string proxy = "")
         {
             // 创建 Http 请求
             var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
@@ -764,10 +765,9 @@ namespace MeoAsstGui
             httpWebRequest.Method = "GET";
             httpWebRequest.UserAgent = RequestUserAgent;
             httpWebRequest.Accept = contentType;
-            var settings = _container.Get<SettingsViewModel>();
-            if (settings.Proxy.Length > 0)
+            if (proxy.Length > 0)
             {
-                httpWebRequest.Proxy = new WebProxy(settings.Proxy);
+                httpWebRequest.Proxy = new WebProxy(proxy);
             }
 
             // 获取输入输出流
