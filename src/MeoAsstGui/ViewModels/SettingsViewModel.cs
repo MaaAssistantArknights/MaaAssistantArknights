@@ -1885,7 +1885,7 @@ namespace MeoAsstGui
            {
                // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
                System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
-               File.Move(AdbPath, AdbPath + ".bak");
+               File.Copy(AdbPath, AdbPath + ".bak", true);
                File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
                Directory.Delete(UnzipDir, true);
            });
