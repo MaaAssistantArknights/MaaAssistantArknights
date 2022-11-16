@@ -14,5 +14,6 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        virtual int operlist_swipe_times() const noexcept override { return 5; }
     };
 }

@@ -170,7 +170,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     break;
                 }
                 else {
-                    swipe_to_the_left_of_operlist(2);
+                    swipe_to_the_left_of_operlist();
                     continue;
                 }
             }
@@ -181,7 +181,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 if (!opers_detect_with_swipe()) {
                     return false;
                 }
-                swipe_to_the_left_of_operlist(2);
+                swipe_to_the_left_of_operlist();
             }
             else {
                 opers_detect();
@@ -189,7 +189,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             optimal_calc();
             if (!opers_choose()) {
                 m_all_available_opers.clear();
-                swipe_to_the_left_of_operlist(2);
+                swipe_to_the_left_of_operlist();
                 continue;
             }
             break;

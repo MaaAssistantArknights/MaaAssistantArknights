@@ -1837,6 +1837,69 @@ namespace MeoAsstGui
             }
         }
 
+        private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
+        private static readonly string GoogleAdbFilename = "adb.zip";
+
+        public async void ReplaceADB()
+        {
+            if (!File.Exists(AdbPath))
+            {
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists")))
+                    {
+                        toast.Show();
+                    }
+                });
+                return;
+            }
+
+            if (!File.Exists(GoogleAdbFilename))
+            {
+                var downloadTask = Task.Run(() =>
+                {
+                    return VersionUpdateViewModel.DownloadFile(GoogleAdbDownloadUrl, GoogleAdbFilename);
+                });
+                var downloadResult = await downloadTask;
+                if (!downloadResult)
+                {
+                    Execute.OnUIThread(() =>
+                    {
+                        using (var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle")))
+                        {
+                            toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc"))
+                                .Show();
+                        }
+                    });
+                    return;
+                }
+            }
+
+            const string UnzipDir = "adb_unzip";
+            if (Directory.Exists(UnzipDir))
+            {
+                Directory.Delete(UnzipDir, true);
+            }
+
+            var procTask = Task.Run(() =>
+           {
+               // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
+               System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+               File.Move(AdbPath, AdbPath + ".bak");
+               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
+               Directory.Delete(UnzipDir, true);
+           });
+            await procTask;
+
+            Execute.OnUIThread(() =>
+            {
+                using (var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB")))
+                {
+                    toast.Show();
+                }
+            });
+        }
+
         /* 界面设置 */
 
         /// <summary>

@@ -171,6 +171,7 @@
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
+    <system:String x:Key="ForcedReplaceADB">强制替换 ADB</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
@@ -369,6 +370,11 @@
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档：常见问题 - 闪退 进行操作</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">请使用管理员权限打开 MAA 进行操作</system:String>
+    <system:String x:Key="ReplaceADBNotExists">ADB 路径不存在</system:String>
+    <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">请手动进行操作（将 adb.exe 重命名后替换上方模拟器自带 adb 即可）</system:String>
+    <system:String x:Key="SuccessfullyReplacedADB">成功替换 ADB 文件</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>

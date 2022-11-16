@@ -31,7 +31,6 @@ namespace asst
         virtual void set_task_info(const std::string& task_name);
 
         virtual void set_use_cache(bool is_use) noexcept;
-        virtual void set_without_det(bool without_det) noexcept;
         virtual void set_region_of_appeared(Rect region) noexcept;
         virtual void set_use_char_model(bool enable) noexcept;
 

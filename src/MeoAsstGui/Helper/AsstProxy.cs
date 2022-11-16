@@ -165,6 +165,8 @@ namespace MeoAsstGui
 
         private string _curResource = "_Unloaded";
 
+        private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+
         /// <summary>
         /// 加载全局资源。
         /// </summary>
@@ -172,17 +174,17 @@ namespace MeoAsstGui
         public bool LoadResource()
         {
             var settingsModel = _container.Get<SettingsViewModel>();
-            if (settingsModel.ClientType == _curResource)
+            if (!ForcedReloadResource && settingsModel.ClientType == _curResource)
             {
                 return true;
             }
 
-            bool loaded = true;
+            bool loaded = false;
             if (settingsModel.ClientType == string.Empty
                 || settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili")
             {
                 // The resources of Official and Bilibili are the same
-                if (_curResource == "Official" || _curResource == "Bilibili")
+                if (!ForcedReloadResource && (_curResource == "Official" || _curResource == "Bilibili"))
                 {
                     return true;
                 }
@@ -206,6 +208,17 @@ namespace MeoAsstGui
             if (!loaded)
             {
                 return false;
+            }
+
+            if (ForcedReloadResource)
+            {
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification("Auto Reload"))
+                    {
+                        toast.Show();
+                    }
+                });
             }
 
             if (settingsModel.ClientType == string.Empty)

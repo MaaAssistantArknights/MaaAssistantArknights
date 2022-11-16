@@ -45,7 +45,7 @@ namespace asst
         bool running();
 
         std::vector<uchar> get_image() const;
-        bool ctrler_click(int x, int y, bool block = true);
+        bool ctrler_click(int x, int y);
         std::string get_uuid() const;
         std::vector<TaskId> get_tasks_list() const;
 
@@ -58,7 +58,6 @@ namespace asst
         void clear_cache();
         bool inited() const noexcept;
 
-        bool m_inited = false;
         std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler = nullptr;

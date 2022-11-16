@@ -422,6 +422,7 @@ namespace MeoAsstGui
                 if (_stageManager.GetStageInfo(stage)?.IsActivityClosed() == true)
                 {
                     builder.Append(stage).Append(": ").AppendLine(Localization.GetString("ClosedStage"));
+                    break;
                 }
             }
 

@@ -67,7 +67,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
         MatchImageAnalyzer analyzer(m_image);
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
-        analyzer.set_roi(raw_roi.move(task_ptr->roi));
+        analyzer.set_roi(raw_roi.move(task_ptr->rect_move));
 
         if (!analyzer.analyze()) {
             continue;
@@ -85,12 +85,10 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const cv::Mat& image, const
 {
     LogTraceFunction;
 
-    auto task_ptr = Task.get("RoguelikeRecruitLevel");
-    OcrWithPreprocessImageAnalyzer analyzer(image, raw_roi.move(task_ptr->roi));
-    auto& replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
-    analyzer.set_replace(replace);
+    OcrWithPreprocessImageAnalyzer analyzer(image);
+    analyzer.set_task_info("NumberOcrReplace");
+    analyzer.set_roi(raw_roi.move(Task.get("RoguelikeRecruitLevel")->rect_move));
     analyzer.set_expansion(1);
-    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return -1;
