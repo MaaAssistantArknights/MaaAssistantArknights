@@ -25,6 +25,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <CheckBox
             Grid.Row="0"
@@ -120,5 +121,14 @@
             Content="{DynamicResource RetryOnDisconnected}"
             ToolTip="{DynamicResource RetryOnDisconnectedTip}"
             HorizontalAlignment="Center" />
+        <Button
+            Grid.Row="6"
+            Grid.Column="1"
+            Width="100"
+            Height="30"
+            Margin="10"
+            HorizontalAlignment="Left"
+            Command="{s:Action ReplaceADB}"
+            Content="{DynamicResource ForcedReplaceADB}" />
     </Grid>
 </UserControl>

@@ -50,6 +50,10 @@ namespace MeoAsstGui.Views
             {
                 return Localization.GetString("ErrorSolutionCrash");
             }
+            else if (details.Contains("SettingsViewModel.<ReplaceADB>") && details.Contains("System.IO.File"))
+            {
+                return Localization.GetString("ErrorSolutionReplaceADB");
+            }
 
             return Localization.GetString("UnknownErrorOccurs");
         }
