@@ -1887,7 +1887,6 @@ namespace MeoAsstGui
                System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
                File.Move(AdbPath, AdbPath + ".bak");
                File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
-               //File.Delete(GoogleAdbFilename);
                Directory.Delete(UnzipDir, true);
            });
             await procTask;
