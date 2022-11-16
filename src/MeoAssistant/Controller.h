@@ -4,6 +4,7 @@
 #include "Utils/Platform/SafeWindows.h"
 #include <mswsock.h>
 #else
+#include <fcntl.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #endif
@@ -13,7 +14,6 @@
 #include <atomic>
 #include <condition_variable>
 #include <filesystem>
-#include <format>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -173,6 +173,8 @@ namespace asst
         PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 #else
+        ::pid_t m_minitouch_process = -1;
+        int m_write_to_minitouch_fd = -1;
         // TODO
 #endif
 
