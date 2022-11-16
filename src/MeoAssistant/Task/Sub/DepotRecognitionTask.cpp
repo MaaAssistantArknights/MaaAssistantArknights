@@ -94,5 +94,5 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
 
 void asst::DepotRecognitionTask::swipe()
 {
-    ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+    ProcessTask(*this, { "DepotSlowlySwipeToTheRight" }).run();
 }

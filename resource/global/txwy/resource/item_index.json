@@ -887,6 +887,14 @@
         "sortId": 10015,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_2501": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_2501.png",
+        "name": "尋訪數據契約",
+        "sortId": 10016,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -942,6 +950,14 @@
         "name": "彼得海姆熱銷餅乾",
         "sortId": -10000,
         "usage": "彼得海姆中學獨家販售，在學生中廣受好評，可用於兌換各類物資。"
+    },
+    "act10mini_token_ticket": {
+        "classifyType": "NONE",
+        "description": "離開了卡拉頓城就一文不值的票券，這張粗糙的票券支撐了感染者社區所有人的生活。",
+        "icon": "act10mini_token_ticket.png",
+        "name": "薪水票",
+        "sortId": -10000,
+        "usage": "卡拉頓城提供給感染者社區工人的物資供應券，可以在二手店採購很多官方不會提供的物資。"
     },
     "act11d0_token_currency": {
         "classifyType": "NONE",
@@ -1118,6 +1134,14 @@
         "name": "奇景明信片",
         "sortId": -10000,
         "usage": "印有各地獨特景觀照的明信片，足不出戶就可領略各地風光。可用來與各地辦事處的工作人員交換物資。"
+    },
+    "act15side_token_tea": {
+        "classifyType": "NONE",
+        "description": "勤勞的工作者們步履匆匆，方便攜帶的罐裝茶飲料應運而生。用茶講究，色純香清，味甘綿久，回味悠揚。品牌眾多，靠一己之力佔領了大炎各大地區超市的飲料專區，唯獨折耳根風味無人問津。",
+        "icon": "act15side_token_tea.png",
+        "name": "罐裝晌午茶",
+        "sortId": -10000,
+        "usage": "尚蜀常見的特色罐裝飲料，聽說各地客棧茶館都供不應求。"
     },
     "act16d5_token_inker": {
         "classifyType": "NONE",
@@ -1430,6 +1454,14 @@
         "name": "羅德島物資補給II",
         "sortId": 60107,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "return_credit_token": {
+        "classifyType": "NONE",
+        "description": "為回到重要崗位的人特別準備的徽記，會在其熟悉工作的過程中逐步發放。",
+        "icon": "return_credit_token.png",
+        "name": "二次認證徽記",
+        "sortId": -10000,
+        "usage": "羅德島內部流通的特殊認證用徽記。收集一定數量可以獲得部分羅德島物資的使用權限。"
     },
     "rogue_1_token_bp": {
         "classifyType": "NONE",

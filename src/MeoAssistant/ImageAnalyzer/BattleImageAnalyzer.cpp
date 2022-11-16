@@ -133,7 +133,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 
     const auto click_move = Task.get("BattleOperClickRange")->rect_move;
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
-    const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
+    // const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
     const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
     const auto cooling_move = Task.get("BattleOperCooling")->rect_move;
 
@@ -441,7 +441,6 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     OcrWithFlagTemplImageAnalyzer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
     kills_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
-    kills_analyzer.set_use_char_model(true);
 
     if (!kills_analyzer.analyze()) {
         return false;
@@ -507,7 +506,6 @@ bool asst::BattleImageAnalyzer::cost_analyze()
     OcrWithPreprocessImageAnalyzer cost_analyzer(m_image);
     cost_analyzer.set_task_info("BattleCostData");
     cost_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
-    cost_analyzer.set_use_char_model(true);
 
     if (!cost_analyzer.analyze()) {
         return false;

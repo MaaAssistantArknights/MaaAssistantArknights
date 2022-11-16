@@ -30,9 +30,10 @@ namespace asst
         bool enter_facility(int index = 0);
         bool enter_oper_list_page(); // 从刚点进设施的界面，到干员列表页
 
-        void swipe_to_the_left_of_operlist(int loop_times = 2); // 滑动到干员列表的最左侧
-        void swipe_to_the_left_of_main_ui();                    // 滑动基建的主界面到最左侧
-        void swipe_to_the_right_of_main_ui();                   // 滑动基建的主界面到最右侧
+        virtual int operlist_swipe_times() const noexcept { return 2; }
+        void swipe_to_the_left_of_operlist(int loop_times = -1); // 滑动到干员列表的最左侧
+        void swipe_to_the_left_of_main_ui();                     // 滑动基建的主界面到最左侧
+        void swipe_to_the_right_of_main_ui();                    // 滑动基建的主界面到最右侧
         void swipe_of_operlist();
         bool is_use_custom_opers();
         infrast::CustomRoomConfig& current_room_config();
@@ -58,4 +59,4 @@ namespace asst
         bool m_is_custom = false;
         infrast::CustomFacilityConfig m_custom_config;
     };
-}
+} // namespace asst

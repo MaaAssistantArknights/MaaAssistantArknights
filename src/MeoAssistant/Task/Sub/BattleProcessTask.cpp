@@ -27,6 +27,8 @@ void asst::BattleProcessTask::set_stage_name(std::string name)
 
 bool asst::BattleProcessTask::_run()
 {
+    MinitouchTempSwitcher minitoucher(m_ctrler);
+
     bool ret = get_stage_info();
 
     if (!ret) {
@@ -51,11 +53,8 @@ bool asst::BattleProcessTask::_run()
         std::this_thread::yield();
     }
 
-    for (const auto& action : m_copilot_data.actions) {
-        if (need_exit()) {
-            break;
-        }
-        do_action(action);
+    for (size_t i = 0; i < m_copilot_data.actions.size() && !need_exit(); ++i) {
+        do_action(i);
     }
 
     return true;
@@ -301,8 +300,9 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
     return true;
 }
 
-bool asst::BattleProcessTask::do_action(const BattleAction& action)
+bool asst::BattleProcessTask::do_action(size_t action_index)
 {
+    const auto& action = m_copilot_data.actions.at(action_index);
     json::value info = basic_info_with_what("BattleAction");
     auto& details = info["details"];
     std::string action_desc;
@@ -358,9 +358,25 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::SwitchSpeed:
         ret = battle_speedup();
         break;
-    case BattleActionType::BulletTime:
-        // TODO
-        break;
+    case BattleActionType::BulletTime: {
+        if (action_index + 1 > m_copilot_data.actions.size()) {
+            Log.error("Bullte time does not have the next step!");
+            return false;
+        }
+        const auto& next_action = m_copilot_data.actions.at(action_index + 1);
+        if (next_action.type == BattleActionType::Deploy) {
+            ret = oper_deploy(next_action, true);
+            m_in_bullet_time = true;
+        }
+        else if (next_action.type == BattleActionType::Retreat) {
+            ret = oper_retreat(next_action, true);
+            m_in_bullet_time = true;
+        }
+        else {
+            Log.error("Bullte time 's next step is not deploy or retreat!");
+            return false;
+        }
+    } break;
     case BattleActionType::SkillUsage: {
         auto& oper_info = m_group_to_oper_mapping[action.group_name];
         oper_info.skill_usage = action.modify_usage;
@@ -373,9 +389,11 @@ bool asst::BattleProcessTask::do_action(const BattleAction& action)
     case BattleActionType::SkillDaemon:
         ret = wait_to_end(action);
         break;
-        // TODO 其他情况
-    case BattleActionType::UseAllSkill:;
     }
+    if (action.type != BattleActionType::BulletTime) {
+        m_in_bullet_time = false;
+    }
+
     sleep_with_possible_skill(action.post_delay);
 
     return ret;
@@ -429,11 +447,8 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
     }
 
     // 计算费用变化量
-    if (action.cost_changes) {
-        while (true) {
-            if (need_exit()) {
-                return false;
-            }
+    if (action.cost_changes != 0 || action.costs) {
+        while (!need_exit()) {
             BattleImageAnalyzer analyzer(image);
             analyzer.set_target(BattleImageAnalyzer::Target::Cost);
             if (analyzer.analyze()) {
@@ -443,8 +458,16 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
                     image = m_ctrler->get_image();
                     continue;
                 }
-                if (cost >= cost_base + action.cost_changes) {
-                    break;
+                if (action.cost_changes != 0) {
+                    if ((cost_base + action.cost_changes < 0) ? (cost <= cost_base + action.cost_changes)
+                                                              : (cost >= cost_base + action.cost_changes)) {
+                        break;
+                    }
+                }
+                if (action.costs) {
+                    if (cost >= action.costs) {
+                        break;
+                    }
                 }
             }
 
@@ -477,7 +500,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
     }
 
     // 部署干员还有额外等待费用够或 CD 转好
-    if (action.type == BattleActionType::Deploy) {
+    if (!m_in_bullet_time && action.type == BattleActionType::Deploy) {
         const std::string& name = m_group_to_oper_mapping[action.group_name].name;
         while (true) {
             if (need_exit()) {
@@ -498,7 +521,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
     return true;
 }
 
-bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
+bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_pre_process)
 {
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
@@ -506,11 +529,16 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     const auto& oper_info = m_group_to_oper_mapping[action.group_name];
 
     auto iter = m_cur_opers_info.find(oper_info.name);
-
-    // 点击干员
     Rect oper_rect = iter->second.rect;
-    m_ctrler->click(oper_rect);
-    sleep(use_oper_task_ptr->pre_delay);
+
+    if (!m_in_bullet_time) {
+        // 点击干员
+        m_ctrler->click(oper_rect);
+        sleep(use_oper_task_ptr->pre_delay);
+    }
+    if (only_pre_process) {
+        return true;
+    }
 
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
@@ -519,8 +547,9 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
     int dist = static_cast<int>(
         Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 1000.0 * dist * log10(dist));
-    m_ctrler->swipe(oper_rect, placed_rect, duration, true, 0);
+    int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
+    m_ctrler->swipe(oper_rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
+                    swipe_oper_task_ptr->special_params.at(2));
 
     sleep(use_oper_task_ptr->post_delay);
 
@@ -536,10 +565,11 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
         Point direction = DirectionMapping.at(action.direction);
 
         // 将方向转换为实际的 swipe end 坐标点
-        constexpr int coeff = 500;
+        static const int coeff = Task.get("BattleSwipeOper")->special_params.at(0);
         Point end_point = placed_point + (direction * coeff);
 
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay, true, 100);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
+        sleep(use_oper_task_ptr->post_delay);
     }
 
     m_used_opers[iter->first] =
@@ -547,12 +577,10 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action)
 
     m_cur_opers_info.erase(iter);
 
-    // sleep(use_oper_task_ptr->pre_delay);
-
     return true;
 }
 
-bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
+bool asst::BattleProcessTask::oper_retreat(const BattleAction& action, bool only_pre_process)
 {
     const std::string& name = m_group_to_oper_mapping[action.group_name].name;
     Point pos;
@@ -564,8 +592,13 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action)
     else {
         pos = m_normal_tile_info.at(action.location).pos;
     }
-    m_ctrler->click(pos);
-    sleep(Task.get("BattleUseOper")->pre_delay);
+    if (!m_in_bullet_time) {
+        m_ctrler->click(pos);
+        sleep(Task.get("BattleUseOper")->pre_delay);
+    }
+    if (only_pre_process) {
+        return true;
+    }
 
     return ProcessTask(*this, { "BattleOperRetreatJustClick" }).run();
 }

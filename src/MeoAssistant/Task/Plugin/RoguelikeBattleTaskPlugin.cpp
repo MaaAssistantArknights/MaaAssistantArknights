@@ -53,6 +53,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     using namespace std::chrono_literals;
 
+    MinitouchTempSwitcher switcher(m_ctrler);
+
     bool gotten_info = get_stage_info();
     if (!gotten_info) {
         return true;
@@ -352,7 +354,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     const cv::Mat& image = m_ctrler->get_image();
-    if (try_possible_skill(image)) {
+    if (!m_first_deploy && try_possible_skill(image)) {
         return true;
     }
 
@@ -718,15 +720,17 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     int dist = static_cast<int>(Point::distance(
         placed_point, { opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));
-    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
+    int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
+    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
+                    swipe_oper_task_ptr->special_params.at(2));
     sleep(use_oper_task_ptr->post_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
     if (direction != Point::zero()) {
-        constexpr int coeff = 500;
+        static const int coeff = swipe_oper_task_ptr->special_params.at(0);
         Point end_point = placed_point + (direction * coeff);
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay, true, 100);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
+        sleep(use_oper_task_ptr->post_delay);
     }
 
     if (opt_oper.role == BattleRole::Drone) {

@@ -6,5 +6,5 @@ using namespace asst;
 
 bool StopGameTaskPlugin::_run()
 {
-    return m_ctrler->stop_game().has_value();
+    return m_ctrler->stop_game();
 }

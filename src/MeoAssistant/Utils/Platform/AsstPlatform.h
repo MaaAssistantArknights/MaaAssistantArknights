@@ -9,7 +9,7 @@
 
 namespace asst::platform
 {
-    std::string callcmd(const std::string&);
+    std::string call_command(const std::string& cmdline, bool* exit_flag = nullptr);
 
     using os_string = std::filesystem::path::string_type;
 

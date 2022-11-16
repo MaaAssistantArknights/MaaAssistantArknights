@@ -182,7 +182,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
                     Log.error("already retring");
                     break;
                 }
-                swipe_to_the_left_of_operlist(swipe_times / 2 + 1);
+                swipe_to_the_left_of_operlist(swipe_times + 1);
                 swipe_times = 0;
                 retried = true;
             }
@@ -209,7 +209,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     }
 
     if (room_config.sort || room_config.autofill) {
-        swipe_to_the_left_of_operlist(swipe_times / 2 + 1);
+        swipe_to_the_left_of_operlist(swipe_times + 1);
         swipe_times = 0;
     }
     // 如果只选了一个人没必要排序
@@ -403,15 +403,18 @@ bool asst::InfrastAbstractTask::click_confirm_button()
 
 void asst::InfrastAbstractTask::swipe_of_operlist()
 {
-    ProcessTask(*this, { "OperListSlowlySwipeToTheRight" }).run();
+    ProcessTask(*this, { "InfrastOperListSlowlySwipeToTheRight" }).run();
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
-    for (int i = 0; i != loop_times; ++i) {
-        ProcessTask(*this, { "OperListSwipeToTheLeft" }).run();
+    if (loop_times < 0) {
+        loop_times = operlist_swipe_times();
     }
-    ProcessTask(*this, { "SleepAfterOperListSwipe" }).run();
+    for (int i = 0; i < loop_times; ++i) {
+        ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();
+    }
+    ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()

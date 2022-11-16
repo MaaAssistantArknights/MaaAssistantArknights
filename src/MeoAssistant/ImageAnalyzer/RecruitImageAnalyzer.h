@@ -9,7 +9,7 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        RecruitImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
+        RecruitImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
         virtual ~RecruitImageAnalyzer() override = default;
 
         virtual bool analyze() override;

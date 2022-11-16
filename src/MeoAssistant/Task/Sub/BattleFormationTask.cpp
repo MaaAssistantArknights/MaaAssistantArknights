@@ -126,7 +126,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 
 void asst::BattleFormationTask::swipe_page()
 {
-    ProcessTask(*this, { "OperListSlowlySwipeToTheRight" }).run();
+    ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
 }
 
 bool asst::BattleFormationTask::confirm_selection()

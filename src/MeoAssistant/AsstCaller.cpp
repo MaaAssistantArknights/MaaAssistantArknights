@@ -135,12 +135,12 @@ bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
     return handle->set_task_params(id, params ? params : "");
 }
 
-bool AsstCtrlerClick(AsstHandle handle, int x, int y, bool block)
+bool AsstClick(AsstHandle handle, int x, int y)
 {
     if (!inited || handle == nullptr) {
         return false;
     }
-    return handle->ctrler_click(x, y, block);
+    return handle->ctrler_click(x, y);
 }
 
 unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
