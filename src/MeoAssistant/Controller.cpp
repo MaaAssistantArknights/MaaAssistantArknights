@@ -554,7 +554,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
 bool asst::Controller::input_to_minitouch(const std::string& cmd)
 {
-    Log.info("Input to minitouch", Logger::separator::newline, cmd);
+    // Log.info("Input to minitouch", Logger::separator::newline, cmd);
 
 #ifdef _WIN32
     DWORD written = 0;
@@ -1001,6 +1001,7 @@ bool asst::Controller::click_without_scale(const Point& p)
     }
 
     if (m_minitouch_enabled && m_minitouch_avaiable) {
+        Log.info("minitouch click:", p);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         return toucher.down(p.x, p.y) && toucher.up();
     }
@@ -1049,6 +1050,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 
     const auto& opt = Configer.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
+        Log.info("minitouch swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         toucher.down(x1, y1);
         if (duration == 0) {
