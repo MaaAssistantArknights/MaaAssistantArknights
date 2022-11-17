@@ -499,6 +499,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     if (!create_ret) {
         DWORD err = GetLastError();
         Log.error("Failed to create process for minitouch, err", err);
+        release_minitouch(true);
         return false;
     }
 
@@ -525,17 +526,22 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
     m_minitouch_parent_write = pipe_parent_write;
 #else // !_WIN32
-    // TODO
 
-    pid_t pid = 0;
     int pipe_to_child[2];
     int pipe_from_child[2];
 
     if (::pipe(pipe_to_child)) return false;
-    if (::pipe(pipe_from_child)) return false;
+    if (::pipe(pipe_from_child)) {
+        ::close(pipe_to_child[0]);
+        ::close(pipe_to_child[1]);
+        return false;
+    }
 
-    pid = fork();
-    if (pid < 0) return false;
+    ::pid_t pid = fork();
+    if (pid < 0) {
+        Log.error("failed to create process");
+        return false;
+    }
     if (pid == 0) { // child process
         if (::dup2(pipe_to_child[0], STDIN_FILENO) < 0 || ::close(pipe_to_child[1]) < 0 ||
             ::close(pipe_from_child[0]) < 0 || ::dup2(pipe_from_child[1], STDOUT_FILENO) < 0 ||
@@ -557,7 +563,11 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         exit(-1);
     }
 
+    m_minitouch_process = pid;
+    m_write_to_minitouch_fd = pipe_to_child[1];
+
     if (::close(pipe_from_child[1]) < 0 || ::close(pipe_to_child[0]) < 0) {
+        release_minitouch(true);
         return false;
     }
 
@@ -566,17 +576,20 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
         val |= O_NONBLOCK;
         ::fcntl(pipe_from_child[0], F_SETFL, val);
     }
-    else
+    else {
+        release_minitouch(true);
         return false;
-
+    }
     const auto start_time = std::chrono::steady_clock::now();
 
-    // TODO: kill child on fail
-
     while (true) {
-        if (need_exit()) return false;
+        if (need_exit()) {
+            release_minitouch(true);
+            return false;
+        }
         if (!check_timeout(start_time)) {
-            Log.info("cannot find $ from pipe_str:", Logger::separator::newline, pipe_str);
+            Log.info("unable to find $ from pipe_str:", Logger::separator::newline, pipe_str);
+            release_minitouch(true);
             return false;
         }
 
@@ -592,13 +605,8 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
     ::dup2(::open("/dev/null", O_WRONLY), pipe_from_child[0]);
 
-    m_minitouch_process = pid;
-    m_write_to_minitouch_fd = pipe_to_child[1];
-
-    std::ignore = pipe_str;
-    std::ignore = PipeReadBuffSize;
     std::ignore = PipeWriteBuffSize;
-    // return false;
+
 #endif // _WIN32
 
     Log.info("pipe str", Logger::separator::newline, pipe_str);
@@ -642,7 +650,6 @@ bool asst::Controller::input_to_minitouch(const std::string& cmd)
 
     return cmd.size() == written;
 #else
-    // TODO
     if (m_minitouch_process < 0 || m_write_to_minitouch_fd < 0) return false;
     if (::write(m_write_to_minitouch_fd, cmd.c_str(), cmd.length()) >= 0) return true;
     Log.error("Failed to write to minitouch, err", errno);
