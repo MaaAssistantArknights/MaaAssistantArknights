@@ -108,6 +108,7 @@ UIを見れば使い方もすぐ分かる！
 - ~~C++ base64エンコードとデコード：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 圧縮・解凍ライブラリ：[zlib](https://github.com/madler/zlib)
 - C++ Gzipカプセル化ライブラリ：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
+- Android タッチ イベント: [minitouch](https://github.com/openstf/minitouch)
 - WPF MVVWフレームワーク：[Stylet](https://github.com/canton7/Stylet)
 - WPFコントロールライブラリ：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSONライブラリ：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
