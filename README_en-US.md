@@ -106,6 +106,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 - ~~C++ Base64 encoding/decoding[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ ZIP library: [zlib](https://github.com/madler/zlib)
 - C++ Gzip library: [gzip-hpp](https://github.com/mapbox/gzip-hpp)
+- Touch event producer for Android: [minitouch](https://github.com/openstf/minitouch)
 - WPF MVVW framework: [Stylet](https://github.com/canton7/Stylet)
 - WPF control library: [HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON library: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)

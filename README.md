@@ -69,6 +69,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 如何连接自定义端口
 - 下载速度慢，且镜像站无法打开网页
 - 下载到一半提示“登陆”/“鉴权”
+- 滑动操作没有反应、基建干员列表不动、自动战斗没有反应、肉鸽卡在分队界面……
 
 请参考 [常见问题](docs/1.2-常见问题.md)
 
@@ -106,6 +107,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
 - C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
+- 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)

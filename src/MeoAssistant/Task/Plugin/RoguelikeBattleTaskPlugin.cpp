@@ -130,6 +130,9 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         }
         name_analyzer.sort_result_by_score();
         const std::string& text = name_analyzer.get_result().front().text;
+        if (text.empty()) {
+            continue;
+        }
 
         static const std::vector<std::string> RoguelikeStageCode = { "ISW-NO", "ISW-DF", "ISW-DU", "ISW-SP",
                                                                      std::string() };
@@ -153,6 +156,11 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         if (calced) {
             break;
         }
+    }
+
+    if (!calced) {
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("StageInfoError"));
+        return false;
     }
 
     auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
@@ -210,18 +218,13 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         Log.error("Unknown home pos");
     }
 
-    if (calced) {
-        auto cb_info = basic_info_with_what("StageInfo");
-        auto& details = cb_info["details"];
-        details["name"] = m_stage_name;
-        details["size"] = m_side_tile_info.size();
-        callback(AsstMsg::SubTaskExtraInfo, cb_info);
-    }
-    else {
-        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("StageInfoError"));
-    }
+    auto cb_info = basic_info_with_what("StageInfo");
+    auto& details = cb_info["details"];
+    details["name"] = m_stage_name;
+    details["size"] = m_side_tile_info.size();
+    callback(AsstMsg::SubTaskExtraInfo, cb_info);
 
-    return calced;
+    return true;
 }
 
 bool asst::RoguelikeBattleTaskPlugin::battle_pause()
