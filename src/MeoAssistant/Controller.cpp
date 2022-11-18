@@ -605,8 +605,6 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
     ::dup2(::open("/dev/null", O_WRONLY), pipe_from_child[0]);
 
-    std::ignore = PipeWriteBuffSize;
-
 #endif // _WIN32
 
     Log.info("pipe str", Logger::separator::newline, pipe_str);
@@ -1276,7 +1274,6 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
         auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
-        // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
             auto& connect_str = connect_ret.value();
