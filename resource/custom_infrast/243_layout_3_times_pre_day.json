@@ -4,7 +4,7 @@
     "plans": [
         {
             "name": "A+B 组",
-            "description": "最高效率长班\n下次换班请在约16小时后进行",
+            "description": "最高效率长班\n下午4点班次，下次换班请在约8小时后进行",
             "Fiammetta": {
                 "target": "巫恋"
             },
@@ -130,7 +130,7 @@
         },
         {
             "name": "A+Y 组",
-            "description": "次高效替补 1 班\n下次换班请在约4小时后进行",
+            "description": "次高效替补 1 班\n下次换班请在约8小时后进行",
             "Fiammetta": {
                 "target": "龙舌兰"
             },
@@ -257,7 +257,10 @@
         },
         {
             "name": "B+Y 组",
-            "description": "次高效替补 2 班\n下次换班请在约4小时后进行",
+            "description": "次高效替补 2 班\n下次换班请在约8小时后进行",
+            "Fiammetta": {
+                "target": "但书"
+            },
             "drones": {
                 "room": "trading",
                 "index": 1
@@ -267,10 +270,10 @@
                     {
                         "operators": [
                             "阿米娅",
-                            "焰尾",
+                            "夕",
                             "琴柳",
                             "令",
-                            "老鲤"
+                            "焰尾"
                         ]
                     }
                 ],
@@ -361,7 +364,8 @@
                     {
                         "operators": [
                             "爱丽丝",
-                            "车尔尼"
+                            "车尔尼",
+                            "菲亚梅塔"
                         ],
                         "autofill": true
                     },
