@@ -49,6 +49,7 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.start = cfg_json.at("start").as_string();
         adb.stop = cfg_json.at("stop").as_string();
         adb.abilist = cfg_json.at("abilist").as_string();
+        adb.orientation = cfg_json.at("orientation").as_string();
         adb.push_minitouch = cfg_json.at("pushMinitouch").as_string();
         adb.chmod_minitouch = cfg_json.at("chmodMinitouch").as_string();
         adb.call_minitouch = cfg_json.at("callMinitouch").as_string();
