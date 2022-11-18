@@ -3,8 +3,9 @@
     "description": "干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n\n作业作者：筱竹聽雨\n感谢公孙长乐大佬提供数据及方案支持！",
     "plans": [
         {
-            "name": "A+B 组",
-            "description": "最高效率长班\n下次换班请在约16小时后进行",
+            "name": "A+B 组 16H",
+            "description": "最高效率长班",
+            "description_post": "下次换班请在约16小时后进行",
             "Fiammetta": {
                 "target": "巫恋"
             },
@@ -125,8 +126,9 @@
             }
         },
         {
-            "name": "A+Y 组",
-            "description": "次高效替补 1 班\n下次换班请在约4小时后进行",
+            "name": "A+Y 组 4H",
+            "description": "次高效替补 1 班",
+            "description_post": "下次换班请在约4小时后进行",
             "Fiammetta": {
                 "target": "龙舌兰"
             },
@@ -248,8 +250,9 @@
             }
         },
         {
-            "name": "B+Y 组",
-            "description": "次高效替补 2 班\n下次换班请在约4小时后进行",
+            "name": "B+Y 组 4H",
+            "description": "次高效替补 2 班",
+            "description_post": "下次换班请在约4小时后进行",
             "drones": {
                 "room": "manufacture",
                 "index": 1
