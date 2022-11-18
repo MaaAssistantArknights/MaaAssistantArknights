@@ -536,8 +536,8 @@ namespace MeoAsstGui
             get => _dormThreshold;
             set
             {
-                DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
                 SetAndNotify(ref _dormThreshold, value);
+                DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
                 ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
             }
         }
