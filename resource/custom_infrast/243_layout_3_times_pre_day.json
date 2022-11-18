@@ -4,7 +4,7 @@
     "plans": [
         {
             "name": "A+B 组",
-            "description": "最高效率长班\n下次换班请在约16小时后进行",
+            "description": "最高效率长班\n下午4点班次，下次换班请在约8小时后进行",
             "Fiammetta": {
                 "target": "巫恋"
             },
@@ -91,7 +91,7 @@
                     },
                     {
                         "operators": [
-                            "炎狱炎熔"
+                            "格雷伊"
                         ]
                     }
                 ],
@@ -111,7 +111,8 @@
                     {
                         "operators": [
                             "爱丽丝",
-                            "车尔尼"
+                            "车尔尼",
+                            "菲亚梅塔"
                         ],
                         "autofill": true
                     },
@@ -129,7 +130,7 @@
         },
         {
             "name": "A+Y 组",
-            "description": "次高效替补 1 班\n下次换班请在约4小时后进行",
+            "description": "次高效替补 1 班\n下次换班请在约8小时后进行",
             "Fiammetta": {
                 "target": "龙舌兰"
             },
@@ -217,14 +218,14 @@
                     },
                     {
                         "operators": [
-                            "炎狱炎熔"
+                            "格雷伊"
                         ]
                     }
                 ],
                 "hire": [
                     {
                         "operators": [
-                            "艾雅法拉"
+                            "斥罪"
                         ]
                     }
                 ],
@@ -237,7 +238,8 @@
                     {
                         "operators": [
                             "爱丽丝",
-                            "车尔尼"
+                            "车尔尼",
+                            "菲亚梅塔"
                         ],
                         "autofill": true
                     },
@@ -255,9 +257,12 @@
         },
         {
             "name": "B+Y 组",
-            "description": "次高效替补 2 班\n下次换班请在约4小时后进行",
+            "description": "次高效替补 2 班\n下次换班请在约8小时后进行",
+            "Fiammetta": {
+                "target": "但书"
+            },
             "drones": {
-                "room": "manufacture",
+                "room": "trading",
                 "index": 1
             },
             "rooms": {
@@ -265,10 +270,10 @@
                     {
                         "operators": [
                             "阿米娅",
-                            "焰尾",
+                            "夕",
                             "琴柳",
                             "令",
-                            "老鲤"
+                            "焰尾"
                         ]
                     }
                 ],
@@ -294,14 +299,6 @@
                 "manufacture": [
                     {
                         "operators": [
-                            "远牙",
-                            "野鬃",
-                            "灰毫"
-                        ],
-                        "product": "Battle Record"
-                    },
-                    {
-                        "operators": [
                             "食铁兽",
                             "断罪者",
                             "槐琥"
@@ -310,18 +307,26 @@
                     },
                     {
                         "operators": [
-                            "水月",
-                            "海沫",
-                            "多萝西"
+                            "远牙",
+                            "野鬃",
+                            "灰毫"
                         ],
-                        "sort": true,
-                        "product": "Pure Gold"
+                        "product": "Battle Record"
                     },
                     {
                         "operators": [
                             "砾",
                             "至简",
                             "迷迭香"
+                        ],
+                        "sort": true,
+                        "product": "Pure Gold"
+                    },
+                    {
+                        "operators": [
+                            "水月",
+                            "海沫",
+                            "多萝西"
                         ],
                         "product": "Pure Gold"
                     }
@@ -334,12 +339,12 @@
                     },
                     {
                         "operators": [
-                            "澄闪"
+                            "雷蛇"
                         ]
                     },
                     {
                         "operators": [
-                            "雷蛇"
+                            "澄闪"
                         ]
                     }
                 ],
@@ -359,7 +364,8 @@
                     {
                         "operators": [
                             "爱丽丝",
-                            "车尔尼"
+                            "车尔尼",
+                            "菲亚梅塔"
                         ],
                         "autofill": true
                     },
