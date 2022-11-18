@@ -71,6 +71,7 @@ namespace asst
         std::string start;
         std::string stop;
         std::string abilist;
+        std::string orientation;
         std::string push_minitouch;
         std::string chmod_minitouch;
         std::string call_minitouch;
