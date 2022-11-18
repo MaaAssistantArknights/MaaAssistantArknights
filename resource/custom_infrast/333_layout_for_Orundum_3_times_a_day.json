@@ -117,8 +117,9 @@
                 "room": "trading",
                 "order": "post"
             },
-            "name": "6h-A组",
-            "description": "中效率组，此组持续6h"
+            "name": "A 组 6 H",
+            "description": "中效率组",
+            "description_post": "下次换班请在约6小时后进行"
         },
         {
             "rooms": {
@@ -239,8 +240,9 @@
                 "room": "manufacture",
                 "order": "post"
             },
-            "name": "6h-B组",
-            "description": "中效率组，此组持续6h"
+            "name": "B 组 6H",
+            "description": "中效率组",
+            "description_post": "下次换班请在约6小时后进行"
         },
         {
             "rooms": {
@@ -361,8 +363,9 @@
                 "room": "manufacture",
                 "order": "post"
             },
-            "name": "12h组",
-            "description": "高效率组，此组持续12h"
+            "name": "C 组 12H",
+            "description": "高效率组",
+            "description_post": "下次换班请在约12小时后进行"
         }
     ],
     "author": "面包猫南北",

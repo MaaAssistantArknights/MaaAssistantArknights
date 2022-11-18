@@ -1608,6 +1608,7 @@ namespace MeoAsstGui
             public int Index;
             public string Name;
             public string Description;
+            public string DescriptionPost;
 
             // 有效时间段
             public struct Period
@@ -1664,6 +1665,7 @@ namespace MeoAsstGui
                     string display = plan.ContainsKey("name") ? plan["name"].ToString() : ("Plan " + ((char)('A' + i)).ToString());
                     CustomInfrastPlanList.Add(new GenericCombData<int> { Display = display, Value = i });
                     string desc = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty;
+                    string descPost = plan.ContainsKey("description_post") ? plan["description_post"].ToString() : string.Empty;
 
                     AddLog(display, UILogColor.Message);
 
@@ -1699,12 +1701,17 @@ namespace MeoAsstGui
                     {
                         AddLog(desc);
                     }
+                    if (descPost != string.Empty)
+                    {
+                        AddLog(descPost);
+                    }
 
                     CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
                     {
                         Index = i,
                         Name = display,
                         Description = desc,
+                        DescriptionPost = descPost,
                         PeriodList = periodList,
                     });
                 }
@@ -1753,6 +1760,12 @@ namespace MeoAsstGui
             }
 
             AddLog(Localization.GetString("CustomInfrastPlanIndexAutoSwitch"), UILogColor.Message);
+            var prePlanPostDesc = CustomInfrastPlanInfoList[CustomInfrastPlanIndex].DescriptionPost;
+            if (prePlanPostDesc != string.Empty)
+            {
+                AddLog(prePlanPostDesc);
+            }
+
             if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count - 1)
             {
                 CustomInfrastPlanIndex = 0;

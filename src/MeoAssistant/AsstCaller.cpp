@@ -51,7 +51,8 @@ bool AsstLoadResource(const char* path)
     if (auto& user_dir = asst::UserDir::get_instance(); user_dir.empty()) {
         user_dir.set(path);
     }
-    inited = asst::ResourceLoader::get_instance().load(asst::utils::path(path) / asst::utils::path("resource"));
+    using namespace asst::utils::path_literals;
+    inited = asst::ResourceLoader::get_instance().load(asst::utils::path(path) / "resource"_p);
     return inited;
 }
 

@@ -22,8 +22,6 @@
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
-    using namespace asst::utils::path_literals;
-
 #define LoadResourceAndCheckRet(Configer, Filename)                         \
     {                                                                       \
         LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Configer); \
@@ -48,6 +46,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
     LogTraceFunction;
+    using namespace asst::utils::path_literals;
 
     /* load resource with json files*/
     LoadResourceAndCheckRet(GeneralConfiger, "config.json"_p);

@@ -681,6 +681,7 @@ void asst::Controller::clear_info() noexcept
     m_control_scale = 1.0;
     m_minitouch_avaiable = false;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+    m_minitouch_props = decltype(m_minitouch_props)();
 }
 
 void asst::Controller::close_socket() noexcept
@@ -749,7 +750,9 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
     socklen_t addrlen = sizeof(m_server_sock_addr);
     int getname_ret = ::getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), &addrlen);
     int listen_ret = ::listen(m_server_sock, 3);
-    server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
+    struct timeval timeout = {6,0};
+    int timeout_ret = ::setsockopt(m_server_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(struct timeval));
+    server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0 && timeout_ret == 0;
 #endif
 
     if (!server_start) {
@@ -1401,11 +1404,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
     }
     Log.info("The optimal abi is", optimal_abi);
+
     auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
+        using namespace asst::utils::path_literals;
         return utils::string_replace_all(
             cmd_replace(cfg_cmd),
             {
-                { "[minitouchLocalPath]", (m_resource_path / "minitouch" / optimal_abi / "minitouch").string() },
+                { "[minitouchLocalPath]",
+                  utils::path_to_utf8_string(m_resource_path / "minitouch"_p / optimal_abi / "minitouch"_p) },
                 { "[minitouchWorkingFile]", m_uuid },
             });
     };
@@ -1414,6 +1420,13 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
 
     call_and_hup_minitouch(minitouch_cmd_rep(adb_cfg.call_minitouch));
+
+    std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
+    auto [beg, end] = ranges::remove_if(orientation_str, [](char ch) -> bool { return !std::isdigit(ch); });
+    orientation_str.erase(beg, end);
+    if (!orientation_str.empty()) {
+        m_minitouch_props.orientation = std::stoi(orientation_str);
+    }
 
     // try to find the fastest way
     if (!screencap()) {
