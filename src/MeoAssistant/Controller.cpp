@@ -1406,7 +1406,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         return utils::string_replace_all(
             cmd_replace(cfg_cmd),
             {
-                { "[minitouchLocalPath]", (m_resource_path / "minitouch"_p / optimal_abi / "minitouch"_p).u8string() },
+                { "[minitouchLocalPath]",
+                  utils::path_to_utf8_string(m_resource_path / "minitouch"_p / optimal_abi / "minitouch"_p) },
                 { "[minitouchWorkingFile]", m_uuid },
             });
     };
