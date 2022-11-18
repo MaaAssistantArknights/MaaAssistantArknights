@@ -750,7 +750,9 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
     socklen_t addrlen = sizeof(m_server_sock_addr);
     int getname_ret = ::getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), &addrlen);
     int listen_ret = ::listen(m_server_sock, 3);
-    server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
+    struct timeval timeout = {6,0};
+    int timeout_ret = ::setsockopt(m_server_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(struct timeval));
+    server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0 && timeout_ret == 0;
 #endif
 
     if (!server_start) {
