@@ -1402,10 +1402,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
     Log.info("The optimal abi is", optimal_abi);
     auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
+        using namespace asst::utils::path_literals;
         return utils::string_replace_all(
             cmd_replace(cfg_cmd),
             {
-                { "[minitouchLocalPath]", (m_resource_path / "minitouch" / optimal_abi / "minitouch").string() },
+                { "[minitouchLocalPath]", (m_resource_path / "minitouch"_p / optimal_abi / "minitouch"_p).u8string() },
                 { "[minitouchWorkingFile]", m_uuid },
             });
     };
