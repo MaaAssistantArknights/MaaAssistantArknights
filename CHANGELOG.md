@@ -2,4 +2,7 @@
 
 - 修复 使用中文路径时，minitouch 出现的一系列错误 @MistEO
 - 修复 使用竖屏、旋转 180° 等时，minitouch 的操作错误 @MistEO
-- 优化 自定义基建 内置作业，新增 
+- 修复 POSIX 下 socket 超时时间过长的问题 @aa889788
+- 优化 自定义基建 内置 243 3 换作业 @Black1312
+- 新增 自定义基建 `description_post` 字段，整理内置作业格式 @MistEO
+- 更新 文档 @DavidWang19
