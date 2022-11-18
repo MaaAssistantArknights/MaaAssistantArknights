@@ -204,6 +204,7 @@ namespace asst
 
             double x_scaling = 0;
             double y_scaling = 0;
+            int orientation = 0;
         } m_minitouch_props;
 
         class Minitoucher
@@ -258,7 +259,8 @@ namespace asst
                 // std::string str = std::format("d {} {} {} {}\n", contact, x, y, pressure);
 
                 char buff[64] = { 0 };
-                sprintf(buff, "d %d %d %d %d\n", contact, scale_x(x), scale_y(y), m_props.max_pressure);
+                auto [c_x, c_y] = scale(x, y);
+                sprintf(buff, "d %d %d %d %d\n", contact, c_x, c_y, m_props.max_pressure);
                 std::string str = buff;
 
                 if (with_commit) str += commit_cmd();
@@ -270,7 +272,8 @@ namespace asst
                                                int contact = 0)
             {
                 char buff[64] = { 0 };
-                sprintf(buff, "m %d %d %d %d\n", contact, scale_x(x), scale_y(y), m_props.max_pressure);
+                auto [c_x, c_y] = scale(x, y);
+                sprintf(buff, "m %d %d %d %d\n", contact, c_x, c_y, m_props.max_pressure);
                 std::string str = buff;
 
                 if (with_commit) str += commit_cmd();
@@ -307,8 +310,32 @@ namespace asst
             }
 
         private:
-            int scale_x(int x) const noexcept { return static_cast<int>(x * m_props.x_scaling); }
-            int scale_y(int y) const noexcept { return static_cast<int>(y * m_props.y_scaling); }
+            Point scale(int x, int y) const noexcept
+            {
+                switch (m_props.orientation) {
+                case 0:
+                default:
+                    return {
+                        static_cast<int>(x * m_props.x_scaling),
+                        static_cast<int>(y * m_props.y_scaling),
+                    };
+                case 1:
+                    return {
+                        m_props.max_y - static_cast<int>(y * m_props.y_scaling),
+                        static_cast<int>(x * m_props.x_scaling),
+                    };
+                case 2:
+                    return {
+                        m_props.max_x - static_cast<int>(x * m_props.x_scaling),
+                        m_props.max_y - static_cast<int>(y * m_props.y_scaling),
+                    };
+                case 3:
+                    return {
+                        static_cast<int>(y * m_props.y_scaling),
+                        m_props.max_x - static_cast<int>(x * m_props.x_scaling),
+                    };
+                }
+            }
 
             const std::function<bool(const std::string&)> m_input_func = nullptr;
             const MinitouchProps& m_props;
