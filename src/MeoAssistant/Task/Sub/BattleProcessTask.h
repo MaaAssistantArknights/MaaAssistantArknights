@@ -30,7 +30,7 @@ namespace asst
 
         bool oper_deploy(const BattleAction& action, bool only_pre_process = false);
         bool oper_retreat(const BattleAction& action, bool only_pre_process = false);
-        bool use_skill(const BattleAction& action);
+        bool use_skill(const BattleAction& action, bool only_pre_process = false);
         bool wait_to_end(const BattleAction& action);
 
         bool try_possible_skill(const cv::Mat& image);
