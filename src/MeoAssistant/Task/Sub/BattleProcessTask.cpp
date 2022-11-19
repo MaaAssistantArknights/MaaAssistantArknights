@@ -364,16 +364,19 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
             return false;
         }
         const auto& next_action = m_copilot_data.actions.at(action_index + 1);
+        m_in_bullet_time = true;
         if (next_action.type == BattleActionType::Deploy) {
             ret = oper_deploy(next_action, true);
-            m_in_bullet_time = true;
+        }
+        else if (next_action.type == BattleActionType::UseSkill) {
+            ret = use_skill(next_action, true);
         }
         else if (next_action.type == BattleActionType::Retreat) {
             ret = oper_retreat(next_action, true);
-            m_in_bullet_time = true;
         }
         else {
-            Log.error("Bullte time 's next step is not deploy or retreat!");
+            m_in_bullet_time = false;
+            Log.error("Bullte time 's next step is not deploy, skill or retreat!");
             return false;
         }
     } break;
@@ -582,17 +585,17 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
 
 bool asst::BattleProcessTask::oper_retreat(const BattleAction& action, bool only_pre_process)
 {
-    const std::string& name = m_group_to_oper_mapping[action.group_name].name;
-    Point pos;
-    if (auto iter = m_used_opers.find(name);
-        action.location.x == 0 && action.location.y == 0 && iter != m_used_opers.cend()) {
-        pos = iter->second.pos;
-        m_used_opers.erase(iter);
-    }
-    else {
-        pos = m_normal_tile_info.at(action.location).pos;
-    }
     if (!m_in_bullet_time) {
+        const std::string& name = m_group_to_oper_mapping[action.group_name].name;
+        Point pos;
+        if (auto iter = m_used_opers.find(name);
+            action.location.x == 0 && action.location.y == 0 && iter != m_used_opers.cend()) {
+            pos = iter->second.pos;
+            m_used_opers.erase(iter);
+        }
+        else {
+            pos = m_normal_tile_info.at(action.location).pos;
+        }
         m_ctrler->click(pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
     }
@@ -603,20 +606,26 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action, bool only
     return ProcessTask(*this, { "BattleOperRetreatJustClick" }).run();
 }
 
-bool asst::BattleProcessTask::use_skill(const BattleAction& action)
+bool asst::BattleProcessTask::use_skill(const BattleAction& action, bool only_pre_process)
 {
-    const std::string& name = m_group_to_oper_mapping[action.group_name].name;
-    Point pos;
-    if (auto iter = m_used_opers.find(name);
-        action.location.x == 0 && action.location.y == 0 && iter != m_used_opers.cend()) {
-        pos = iter->second.pos;
-    }
-    else {
-        pos = m_normal_tile_info.at(action.location).pos;
+    if (!m_in_bullet_time) {
+        const std::string& name = m_group_to_oper_mapping[action.group_name].name;
+        Point pos;
+        if (auto iter = m_used_opers.find(name);
+            action.location.x == 0 && action.location.y == 0 && iter != m_used_opers.cend()) {
+            pos = iter->second.pos;
+        }
+        else {
+            pos = m_normal_tile_info.at(action.location).pos;
+        }
+
+        m_ctrler->click(pos);
+        sleep(Task.get("BattleUseOper")->pre_delay);
     }
 
-    m_ctrler->click(pos);
-    sleep(Task.get("BattleUseOper")->pre_delay);
+    if (only_pre_process) {
+        return true;
+    }
 
     return ProcessTask(*this, { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" })
         .set_task_delay(0)
