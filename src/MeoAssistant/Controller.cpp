@@ -412,6 +412,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
+                call_and_hup_minitouch(m_adb.call_minitouch);
                 auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
                 if (recall_ret) {
                     // 重连并成功执行了
@@ -447,6 +448,8 @@ void asst::Controller::callback(AsstMsg msg, const json::value& details)
 bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 {
     LogTraceFunction;
+    release_minitouch(true);
+
     Log.info(cmd);
     m_minitouch_avaiable = false;
 
@@ -560,9 +563,15 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
 bool asst::Controller::input_to_minitouch(const std::string& cmd)
 {
+#ifdef ASST_DEBUG
     Log.info("Input to minitouch", Logger::separator::newline, cmd);
+#endif
 
 #ifdef _WIN32
+    if (m_minitouch_parent_write == INVALID_HANDLE_VALUE) {
+        Log.error("minitouch write handle invalid", m_minitouch_parent_write);
+        return false;
+    }
     DWORD written = 0;
     if (!WriteFile(m_minitouch_parent_write, cmd.c_str(),
                    static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)), &written, NULL)) {
@@ -588,17 +597,17 @@ void asst::Controller::release_minitouch(bool force)
 
 #ifdef _WIN32
 
-    if (m_minitouch_process_info.hProcess) {
+    if (m_minitouch_process_info.hProcess != INVALID_HANDLE_VALUE) {
         CloseHandle(m_minitouch_process_info.hProcess);
-        m_minitouch_process_info.hProcess = nullptr;
+        m_minitouch_process_info.hProcess = INVALID_HANDLE_VALUE;
     }
-    if (m_minitouch_process_info.hThread) {
+    if (m_minitouch_process_info.hThread != INVALID_HANDLE_VALUE) {
         CloseHandle(m_minitouch_process_info.hThread);
-        m_minitouch_process_info.hThread = nullptr;
+        m_minitouch_process_info.hThread = INVALID_HANDLE_VALUE;
     }
-    if (m_minitouch_parent_write) {
+    if (m_minitouch_parent_write != INVALID_HANDLE_VALUE) {
         CloseHandle(m_minitouch_parent_write);
-        m_minitouch_parent_write = nullptr;
+        m_minitouch_parent_write = INVALID_HANDLE_VALUE;
     }
 
 #endif //  _WIN32
@@ -1425,7 +1434,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     call_command(minitouch_cmd_rep(adb_cfg.push_minitouch));
     call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
 
-    call_and_hup_minitouch(minitouch_cmd_rep(adb_cfg.call_minitouch));
+    m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
+    call_and_hup_minitouch(m_adb.call_minitouch);
 
     std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
     auto [beg, end] = ranges::remove_if(orientation_str, [](char ch) -> bool { return !std::isdigit(ch); });
