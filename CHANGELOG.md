@@ -1,8 +1,7 @@
 **若更新后滑动操作没反应、自动战斗没反应、肉鸽不上人等，请进入 `设置` - `连接设置` - `强制替换 ADB`**
 
-- 修复 使用中文路径时，minitouch 出现的一系列错误 @MistEO
-- 修复 使用竖屏、旋转 180° 等时，minitouch 的操作错误 @MistEO
-- 修复 POSIX 下 socket 超时时间过长的问题 @aa889788
-- 优化 自定义基建 内置 243 3 换作业 @Black1312
-- 新增 自定义基建 `description_post` 字段，整理内置作业格式 @MistEO
-- 更新 文档 @DavidWang19
+- 新增 macOS 对 minitouch 的支持（但没完全支持 @horror-proton @hguandl
+- 修复 minitouch 在部署竖屏模拟器上的操作错误 @MistEO
+- 修复 模拟器断开重连后，minitouch 无法继续工作的问题 @MistEO
+- 修复 界面 基建设置心情阈值显示错误的问题 @ABA2396
+- Fix a dead loop when recruiting opers in the auto-IS function of EN client @MistEO
