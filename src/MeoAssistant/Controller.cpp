@@ -7,7 +7,11 @@
 #include <ws2tcpip.h>
 #else
 #include <fcntl.h>
+#include <signal.h>
 #include <sys/errno.h>
+#ifndef __APPLE__
+#include <sys/prctl.h>
+#endif
 #include <sys/wait.h>
 #include <unistd.h>
 #endif
@@ -456,6 +460,12 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     constexpr int PipeReadBuffSize = 4096ULL;
     constexpr int PipeWriteBuffSize = 64 * 1024ULL;
     std::string pipe_str;
+
+    auto check_timeout = [&](const auto& start_time) -> bool {
+        using namespace std::chrono_literals;
+        return std::chrono::steady_clock::now() - start_time < 3s;
+    };
+
 #ifdef _WIN32
     SECURITY_ATTRIBUTES sa_attr_inherit {
         .nLength = sizeof(SECURITY_ATTRIBUTES),
@@ -492,20 +502,17 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     if (!create_ret) {
         DWORD err = GetLastError();
         Log.error("Failed to create process for minitouch, err", err);
+        release_minitouch(true);
         return false;
     }
 
     auto start_time = std::chrono::steady_clock::now();
-    auto check_timeout = [&]() -> bool {
-        using namespace std::chrono_literals;
-        return std::chrono::steady_clock::now() - start_time < 3s;
-    };
 
     auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
     std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
 
-    while (!need_exit() && check_timeout()) {
+    while (!need_exit() && check_timeout(start_time)) {
         if (pipe_str.find('$') != std::string::npos) {
             break;
         }
@@ -521,12 +528,86 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     pipe_parent_read = INVALID_HANDLE_VALUE;
 
     m_minitouch_parent_write = pipe_parent_write;
-#else  // !_WIN32
-    // TODO
-    std::ignore = pipe_str;
-    std::ignore = PipeReadBuffSize;
-    std::ignore = PipeWriteBuffSize;
-    return false;
+#else // !_WIN32
+
+    int pipe_to_child[2];
+    int pipe_from_child[2];
+
+    if (::pipe(pipe_to_child)) return false;
+    if (::pipe(pipe_from_child)) {
+        ::close(pipe_to_child[0]);
+        ::close(pipe_to_child[1]);
+        return false;
+    }
+
+    ::pid_t pid = fork();
+    if (pid < 0) {
+        Log.error("failed to create process");
+        return false;
+    }
+    if (pid == 0) { // child process
+        if (::dup2(pipe_to_child[0], STDIN_FILENO) < 0 || ::close(pipe_to_child[1]) < 0 ||
+            ::close(pipe_from_child[0]) < 0 || ::dup2(pipe_from_child[1], STDOUT_FILENO) < 0 ||
+            ::dup2(pipe_from_child[1], STDERR_FILENO) < 0) {
+            ::exit(-1);
+        }
+
+        // set stdin of child to blocking
+        if (int val = ::fcntl(STDIN_FILENO, F_GETFL); val != -1 && (val & O_NONBLOCK)) {
+            val &= ~O_NONBLOCK;
+            ::fcntl(STDIN_FILENO, F_SETFL, val);
+        }
+
+#ifndef __APPLE__
+        ::prctl(PR_SET_PDEATHSIG, SIGTERM);
+#endif
+
+        ::execlp("/bin/sh", "sh", "-c", cmd.c_str(), nullptr);
+        exit(-1);
+    }
+
+    m_minitouch_process = pid;
+    m_write_to_minitouch_fd = pipe_to_child[1];
+
+    if (::close(pipe_from_child[1]) < 0 || ::close(pipe_to_child[0]) < 0) {
+        release_minitouch(true);
+        return false;
+    }
+
+    // set stdout to non blocking
+    if (int val = ::fcntl(pipe_from_child[0], F_GETFL); val != -1) {
+        val |= O_NONBLOCK;
+        ::fcntl(pipe_from_child[0], F_SETFL, val);
+    }
+    else {
+        release_minitouch(true);
+        return false;
+    }
+    const auto start_time = std::chrono::steady_clock::now();
+
+    while (true) {
+        if (need_exit()) {
+            release_minitouch(true);
+            return false;
+        }
+        if (!check_timeout(start_time)) {
+            Log.info("unable to find $ from pipe_str:", Logger::separator::newline, pipe_str);
+            release_minitouch(true);
+            return false;
+        }
+
+        if (pipe_str.find('$') != std::string::npos) {
+            break;
+        }
+
+        char buf_from_child[PipeReadBuffSize];
+        ssize_t ret = ::read(pipe_from_child[0], buf_from_child, PipeReadBuffSize);
+        if (ret <= 0) continue;
+        pipe_str.insert(pipe_str.end(), buf_from_child, buf_from_child + ret);
+    }
+
+    ::dup2(::open("/dev/null", O_WRONLY), pipe_from_child[0]);
+
 #endif // _WIN32
 
     Log.info("pipe str", Logger::separator::newline, pipe_str);
@@ -582,6 +663,9 @@ bool asst::Controller::input_to_minitouch(const std::string& cmd)
 
     return cmd.size() == written;
 #else
+    if (m_minitouch_process < 0 || m_write_to_minitouch_fd < 0) return false;
+    if (::write(m_write_to_minitouch_fd, cmd.c_str(), cmd.length()) >= 0) return true;
+    Log.error("Failed to write to minitouch, err", errno);
     return false;
 #endif
 }
@@ -609,7 +693,16 @@ void asst::Controller::release_minitouch(bool force)
         CloseHandle(m_minitouch_parent_write);
         m_minitouch_parent_write = INVALID_HANDLE_VALUE;
     }
-
+#else
+    if (m_write_to_minitouch_fd != -1) {
+        ::close(m_write_to_minitouch_fd);
+        m_write_to_minitouch_fd = -1;
+    }
+    if (m_minitouch_process > 0) {
+        ::kill(m_minitouch_process, SIGTERM);
+        if (force) ::kill(m_minitouch_process, SIGKILL);
+        m_minitouch_process = -1;
+    }
 #endif //  _WIN32
 }
 
@@ -1201,7 +1294,6 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
         auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
-        // 端口即使错误，命令仍然会返回0，TODO 对connect_result进行判断
         bool is_connect_success = false;
         if (connect_ret) {
             auto& connect_str = connect_ret.value();
