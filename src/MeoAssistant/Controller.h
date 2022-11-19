@@ -218,7 +218,7 @@ namespace asst
         public:
             static constexpr int DefaultClickDelay = 50;
             static constexpr int DefaultSwipeDelay = 2;
-            static constexpr int ExtraDelay = 100;
+            static constexpr int ExtraDelay = 0;
 
             Minitoucher(InputFunc func, const MinitouchProps& props, bool auto_sleep = true)
                 : m_input_func(func), m_props(props), m_auto_sleep(auto_sleep)

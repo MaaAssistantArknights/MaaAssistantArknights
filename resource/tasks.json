@@ -9245,7 +9245,7 @@
             40,
             30
         ],
-        "postDelay": 200
+        "postDelay": 0
     },
     "RoguelikeSkillSelectionMove2": {
         "algorithm": "JustReturn",
