@@ -538,12 +538,18 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     }
     std::string key_info = pipe_str.substr(s_pos + 1, e_pos - s_pos - 1);
     Log.info("minitouch key props", key_info);
+    int size_1 = 0, size_2 = 0;
     std::stringstream ss;
     ss << key_info;
     ss >> m_minitouch_props.max_contacts;
-    ss >> m_minitouch_props.max_x;
-    ss >> m_minitouch_props.max_y;
+    ss >> size_1;
+    ss >> size_2;
     ss >> m_minitouch_props.max_pressure;
+
+    // 有些模拟器在竖屏分辨率时，这里的输出是反过来的
+    // 考虑到应该没人竖屏玩明日方舟，所以取较大值为 x，较小值为 y
+    m_minitouch_props.max_x = std::max(size_1, size_2);
+    m_minitouch_props.max_y = std::min(size_1, size_2);
 
     m_minitouch_props.x_scaling = static_cast<double>(m_minitouch_props.max_x) / m_width;
     m_minitouch_props.y_scaling = static_cast<double>(m_minitouch_props.max_y) / m_height;
@@ -554,7 +560,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
 
 bool asst::Controller::input_to_minitouch(const std::string& cmd)
 {
-    // Log.info("Input to minitouch", Logger::separator::newline, cmd);
+    Log.info("Input to minitouch", Logger::separator::newline, cmd);
 
 #ifdef _WIN32
     DWORD written = 0;
@@ -750,8 +756,8 @@ std::optional<unsigned short> asst::Controller::init_socket(const std::string& l
     socklen_t addrlen = sizeof(m_server_sock_addr);
     int getname_ret = ::getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), &addrlen);
     int listen_ret = ::listen(m_server_sock, 3);
-    struct timeval timeout = {6,0};
-    int timeout_ret = ::setsockopt(m_server_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(struct timeval));
+    struct timeval timeout = { 6, 0 };
+    int timeout_ret = ::setsockopt(m_server_sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(struct timeval));
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0 && timeout_ret == 0;
 #endif
 
