@@ -33,6 +33,7 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(
     m_status = std::make_shared<RuntimeStatus>();
     m_ctrler = std::make_shared<Controller>(task_callback, static_cast<void*>(this));
     m_ctrler->set_exit_flag(&m_thread_idle);
+    m_ctrler->set_minitouch_enabled(true);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
@@ -252,10 +253,6 @@ void Assistant::working_proc()
                 { "taskid", id },
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
-
-            // minitouch 的适配工作太多了，短期弄不完，默认关掉
-            // 适配好了的任务每个自己单独开
-            m_ctrler->set_minitouch_enabled(false);
 
             bool ret = task_ptr->run();
             finished_tasks.emplace_back(id);

@@ -27,8 +27,6 @@ void asst::BattleProcessTask::set_stage_name(std::string name)
 
 bool asst::BattleProcessTask::_run()
 {
-    MinitouchTempSwitcher minitoucher(m_ctrler);
-
     bool ret = get_stage_info();
 
     if (!ret) {
