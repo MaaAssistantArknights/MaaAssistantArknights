@@ -4,6 +4,7 @@
 #include "Utils/Platform/SafeWindows.h"
 #include <mswsock.h>
 #else
+#include <fcntl.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #endif
@@ -13,7 +14,6 @@
 #include <atomic>
 #include <condition_variable>
 #include <filesystem>
-#include <format>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -134,6 +134,7 @@ namespace asst
         {
             /* command */
             std::string connect;
+            std::string call_minitouch;
             std::string click;
             std::string swipe;
 
@@ -168,11 +169,13 @@ namespace asst
         bool m_minitouch_avaiable = false; // 状态
 
 #ifdef _WIN32
-        HANDLE m_minitouch_parent_write = nullptr;
+        HANDLE m_minitouch_parent_write = INVALID_HANDLE_VALUE;
         ASST_AUTO_DEDUCED_ZERO_INIT_START
-        PROCESS_INFORMATION m_minitouch_process_info = { nullptr };
+        PROCESS_INFORMATION m_minitouch_process_info = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, 0, 0 };
         ASST_AUTO_DEDUCED_ZERO_INIT_END
 #else
+        ::pid_t m_minitouch_process = -1;
+        int m_write_to_minitouch_fd = -1;
         // TODO
 #endif
 
