@@ -362,7 +362,6 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
             return false;
         }
         const auto& next_action = m_copilot_data.actions.at(action_index + 1);
-        m_in_bullet_time = true;
         if (next_action.type == BattleActionType::Deploy) {
             ret = oper_deploy(next_action, true);
         }
@@ -377,6 +376,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
             Log.error("Bullte time 's next step is not deploy, skill or retreat!");
             return false;
         }
+        m_in_bullet_time = true;
     } break;
     case BattleActionType::SkillUsage: {
         auto& oper_info = m_group_to_oper_mapping[action.group_name];
