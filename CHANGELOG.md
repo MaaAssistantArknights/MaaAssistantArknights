@@ -2,7 +2,9 @@
 
 - 新增 macOS 对 minitouch 的支持（但没完全支持 @horror-proton @hguandl
 - 新增 自动战斗 `子弹时间` 支持的下一个动作为 `使用技能` @MistEO
+- 全局开启 minitouch，优化部分延迟 @MistEO
 - 修复 minitouch 在部署竖屏模拟器上的操作错误 @MistEO
+- 修复 自动战斗 `子弹时间`，读取作业文件逻辑等一些问题 @MistEO
 - 修复 模拟器断开重连后，minitouch 无法继续工作的问题 @MistEO
 - 修复 界面 基建设置心情阈值显示错误的问题 @ABA2396
 - Fix a dead loop when recruiting opers in the auto-IS function of EN client @MistEO
