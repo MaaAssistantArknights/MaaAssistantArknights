@@ -53,8 +53,6 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 {
     using namespace std::chrono_literals;
 
-    MinitouchTempSwitcher switcher(m_ctrler);
-
     bool gotten_info = get_stage_info();
     if (!gotten_info) {
         return true;

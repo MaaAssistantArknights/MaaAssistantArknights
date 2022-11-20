@@ -6248,7 +6248,7 @@
     "BattleOperCooling": {
         "template": "empty.png",
         "specialParams": [
-            1000
+            1500
         ],
         "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
@@ -9245,7 +9245,7 @@
             40,
             30
         ],
-        "postDelay": 200
+        "postDelay": 0
     },
     "RoguelikeSkillSelectionMove2": {
         "algorithm": "JustReturn",
