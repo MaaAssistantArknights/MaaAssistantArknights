@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MeoAsstGui.MaaHotKeys;
+using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 
@@ -1844,11 +1845,16 @@ namespace MeoAsstGui
             get => _useAdbTouchMode;
             set
             {
-                var asstProxy = _container.Get<AsstProxy>();
-                asstProxy.AsstSetInstanceOption(InstanceOptionKey.MinitouchEnabled, value ? "0" : "1");
                 SetAndNotify(ref _useAdbTouchMode, value);
                 ViewStatusStorage.Set("Connect.UseAdbTouchMode", value.ToString());
+                UpdateTouchMode();
             }
+        }
+
+        public void UpdateTouchMode()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.MinitouchEnabled, UseAdbTouchMode ? "0" : "1");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
