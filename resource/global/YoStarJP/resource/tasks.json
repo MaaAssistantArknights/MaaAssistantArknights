@@ -3013,6 +3013,7 @@
         ]
     },
     "StartToWakeUp": {
+        "Doc": "相较国服调大roi",
         "roi": [
             480,
             450,
