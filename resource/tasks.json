@@ -6890,7 +6890,7 @@
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1250,
+            1150,
             350,
             20,
             20
@@ -6911,7 +6911,7 @@
             20
         ],
         "rectMove": [
-            1250,
+            1150,
             350,
             20,
             20
@@ -9186,7 +9186,7 @@
             20
         ],
         "rectMove": [
-            1250,
+            1150,
             340,
             20,
             20
@@ -9195,7 +9195,7 @@
     "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1250,
+            1150,
             340,
             20,
             20
@@ -9218,13 +9218,13 @@
     "DepotSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1250,
+            1150,
             340,
             20,
             20
         ],
         "rectMove": [
-            10,
+            110,
             340,
             20,
             20
