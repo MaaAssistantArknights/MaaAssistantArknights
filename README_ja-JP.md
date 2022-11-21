@@ -37,7 +37,7 @@ MAAは、MAA Assistant Arknightsです。
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データのアップロード
 - 戦友訪問、FP収集、買い物、デイリーリワード収集、ワンクリックして全自動操作！（現在JPは未対応）
 - 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集！（現在JPはベータ対応）
-- 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV14u411673q/)（現在JP未対応/中文）
+- 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（現在JP未対応/中文）
 - **新機能！倉庫のアイテム認識機能（アルファ）** [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
 
 UIを見れば使い方もすぐ分かる！  
