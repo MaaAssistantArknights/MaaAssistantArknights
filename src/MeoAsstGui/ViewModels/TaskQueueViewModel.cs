@@ -1701,6 +1701,7 @@ namespace MeoAsstGui
                     {
                         AddLog(desc);
                     }
+
                     if (descPost != string.Empty)
                     {
                         AddLog(descPost);

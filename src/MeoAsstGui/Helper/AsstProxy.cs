@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +28,9 @@ namespace MeoAsstGui
 #pragma warning disable SA1135 // Using directives should be qualified
 
     using AsstHandle = IntPtr;
-    using TaskId = Int32;
+    using AsstInstanceOptionKey = Int32;
+
+    using AsstTaskId = Int32;
 
 #pragma warning restore SA1135 // Using directives should be qualified
 
@@ -81,6 +82,17 @@ namespace MeoAsstGui
         private static extern void AsstDestroy(AsstHandle handle);
 
         [DllImport("MeoAssistant.dll")]
+        private static extern unsafe bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, byte* value);
+
+        private static unsafe bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, string value)
+        {
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(value))
+            {
+                return AsstSetInstanceOption(handle, key, ptr1);
+            }
+        }
+
+        [DllImport("MeoAssistant.dll")]
         private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adb_path, byte* address, byte* config);
 
         private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
@@ -94,9 +106,9 @@ namespace MeoAsstGui
         }
 
         [DllImport("MeoAssistant.dll")]
-        private static extern unsafe TaskId AsstAppendTask(AsstHandle handle, byte* type, byte* task_params);
+        private static extern unsafe AsstTaskId AsstAppendTask(AsstHandle handle, byte* type, byte* task_params);
 
-        private static unsafe TaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
+        private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
         {
             fixed (byte* ptr1 = EncodeNullTerminatedUTF8(type),
                 ptr2 = EncodeNullTerminatedUTF8(task_params))
@@ -106,9 +118,9 @@ namespace MeoAsstGui
         }
 
         [DllImport("MeoAssistant.dll")]
-        private static extern unsafe bool AsstSetTaskParams(AsstHandle handle, TaskId id, byte* task_params);
+        private static extern unsafe bool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, byte* task_params);
 
-        private static unsafe bool AsstSetTaskParams(AsstHandle handle, TaskId id, string task_params)
+        private static unsafe bool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, string task_params)
         {
             fixed (byte* ptr1 = EncodeNullTerminatedUTF8(task_params))
             {
@@ -255,6 +267,7 @@ namespace MeoAsstGui
             mainModel.SetInited();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
+            settingsModel.UpdateTouchMode();
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
@@ -499,7 +512,7 @@ namespace MeoAsstGui
                     var finished_tasks = details["finished_tasks"] as JArray;
                     if (finished_tasks.Count == 1)
                     {
-                        var unique_finished_task = (TaskId)finished_tasks[0];
+                        var unique_finished_task = (AsstTaskId)finished_tasks[0];
                         if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
@@ -1021,6 +1034,11 @@ namespace MeoAsstGui
             }
         }
 
+        public bool AsstSetInstanceOption(InstanceOptionKey key, string value)
+        {
+            return AsstSetInstanceOption(_handle, (AsstInstanceOptionKey)key, value);
+        }
+
         /// <summary>
         /// 连接模拟器。
         /// </summary>
@@ -1090,13 +1108,13 @@ namespace MeoAsstGui
             return ret;
         }
 
-        private TaskId AsstAppendTaskWithEncoding(string type, JObject task_params = null)
+        private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject task_params = null)
         {
             task_params = task_params ?? new JObject();
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params));
         }
 
-        private bool AsstSetTaskParamsWithEncoding(TaskId id, JObject task_params = null)
+        private bool AsstSetTaskParamsWithEncoding(AsstTaskId id, JObject task_params = null)
         {
             if (id == 0)
             {
@@ -1124,7 +1142,7 @@ namespace MeoAsstGui
             Depot,
         }
 
-        private readonly Dictionary<TaskType, TaskId> _latestTaskId = new Dictionary<TaskType, TaskId>();
+        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
 
         private JObject SerializeFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
@@ -1162,7 +1180,7 @@ namespace MeoAsstGui
         public bool AsstAppendFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity, bool is_main_fight = true)
         {
             var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
-            TaskId id = AsstAppendTaskWithEncoding("Fight", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Fight", task_params);
             if (is_main_fight)
             {
                 _latestTaskId[TaskType.Fight] = id;
@@ -1210,7 +1228,7 @@ namespace MeoAsstGui
         /// <returns>是否成功。</returns>
         public bool AsstAppendAward()
         {
-            TaskId id = AsstAppendTaskWithEncoding("Award");
+            AsstTaskId id = AsstAppendTaskWithEncoding("Award");
             _latestTaskId[TaskType.Award] = id;
             return id != 0;
         }
@@ -1226,7 +1244,7 @@ namespace MeoAsstGui
             var task_params = new JObject();
             task_params["client_type"] = client_type;
             task_params["start_game_enabled"] = enable;
-            TaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
             return id != 0;
         }
@@ -1238,7 +1256,7 @@ namespace MeoAsstGui
         public bool AsstStartCloseDown()
         {
             AsstStop();
-            TaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
             _latestTaskId[TaskType.CloseDown] = id;
             return id != 0 && AsstStart();
         }
@@ -1249,7 +1267,7 @@ namespace MeoAsstGui
         /// <returns>是否成功。</returns>
         public bool AsstAppendVisit()
         {
-            TaskId id = AsstAppendTaskWithEncoding("Visit");
+            AsstTaskId id = AsstAppendTaskWithEncoding("Visit");
             _latestTaskId[TaskType.Visit] = id;
             return id != 0;
         }
@@ -1269,7 +1287,7 @@ namespace MeoAsstGui
             task_params["buy_first"] = new JArray { first_list };
             task_params["blacklist"] = new JArray { blacklist };
             task_params["force_shopping_if_credit_full"] = force_shopping_if_credit_full;
-            TaskId id = AsstAppendTaskWithEncoding("Mall", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Mall", task_params);
             _latestTaskId[TaskType.Mall] = id;
             return id != 0;
         }
@@ -1308,7 +1326,7 @@ namespace MeoAsstGui
             task_params["penguin_id"] = settings.PenguinId;
             task_params["server"] = settings.ServerType;
 
-            TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.Recruit] = id;
             return id != 0;
         }
@@ -1363,7 +1381,7 @@ namespace MeoAsstGui
                 order, uses_of_drones, dorm_threshold,
                 dorm_filter_not_stationed_enabled, dorm_drom_trust_enabled, originium_shard_auto_replenishment,
                 is_custom, filename, plan_index);
-            TaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;
             return id != 0;
         }
@@ -1449,7 +1467,7 @@ namespace MeoAsstGui
                 task_params["core_char"] = core_char;
             }
 
-            TaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
             _latestTaskId[TaskType.Roguelike] = id;
             return id != 0;
         }
@@ -1478,7 +1496,7 @@ namespace MeoAsstGui
             task_params["yituliu_id"] = settings.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
             task_params["server"] = settings.ServerType;
 
-            TaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.RecruitCalc] = id;
             return id != 0 && AsstStart();
         }
@@ -1490,7 +1508,7 @@ namespace MeoAsstGui
         public bool AsstStartDepot()
         {
             var task_params = new JObject();
-            TaskId id = AsstAppendTaskWithEncoding("Depot", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Depot", task_params);
             _latestTaskId[TaskType.Depot] = id;
             return id != 0 && AsstStart();
         }
@@ -1508,7 +1526,7 @@ namespace MeoAsstGui
             task_params["stage_name"] = stage_name;
             task_params["filename"] = filename;
             task_params["formation"] = formation;
-            TaskId id = AsstAppendTaskWithEncoding("Copilot", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Copilot", task_params);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }
@@ -1622,6 +1640,11 @@ namespace MeoAsstGui
         /// 原子任务手动停止
         /// </summary>
         SubTaskStopped,
+    }
+
+    public enum InstanceOptionKey
+    {
+        MinitouchEnabled = 1,
     }
 }
 

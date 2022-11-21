@@ -65,7 +65,7 @@ See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
 
 - The program crashes immediately when I try to run it.
 - Connection error/not knowing how to fill in ADB path.
-- Wrong recognition/program freezes after starting.
+- Connected successfully, then it got stuck.
 - Custom connection settings.
 - Download speed is too slow, or the mirror site is not accessible.
 - Download halfway and prompt "login"/"authentication"

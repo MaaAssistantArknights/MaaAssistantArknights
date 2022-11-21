@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MeoAsstGui.MaaHotKeys;
+using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 
@@ -1835,6 +1836,25 @@ namespace MeoAsstGui
                     ConnectAddress = "127.0.0.1:" + sp[1];
                 }
             }
+        }
+
+        private bool _useAdbTouchMode = Convert.ToBoolean(ViewStatusStorage.Get("Connect.UseAdbTouchMode", false.ToString()));
+
+        public bool UseAdbTouchMode
+        {
+            get => _useAdbTouchMode;
+            set
+            {
+                SetAndNotify(ref _useAdbTouchMode, value);
+                ViewStatusStorage.Set("Connect.UseAdbTouchMode", value.ToString());
+                UpdateTouchMode();
+            }
+        }
+
+        public void UpdateTouchMode()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.MinitouchEnabled, UseAdbTouchMode ? "0" : "1");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
