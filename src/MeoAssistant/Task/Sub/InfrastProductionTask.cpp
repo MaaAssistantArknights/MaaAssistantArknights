@@ -103,6 +103,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
+        sleep(tab_task_ptr->pre_delay);
         m_ctrler->click(tab);
         sleep(tab_task_ptr->post_delay);
 
