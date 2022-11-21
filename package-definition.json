@@ -14,14 +14,13 @@
         "configuration": {
             "include": [
                 "resource/**",
-                "ppocr.dll",
                 "MeoAssistant.dll",
                 "MeoAsstGui.exe"
             ],
             "exclude": [
-                "**/PaddleOCR/**"
-            ],
-            "exclude_Doc": "v4.6.5-beta.2版本新增了PaddleCharOCR，暂时不放到exclude"
+                "**/PaddleOCR/**",
+                "**/PaddleCharOCR/**"
+            ]
         }
     },
     {
