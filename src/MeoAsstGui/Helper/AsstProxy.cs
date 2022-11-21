@@ -267,6 +267,7 @@ namespace MeoAsstGui
             mainModel.SetInited();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
+            settingsModel.UpdateTouchMode();
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
