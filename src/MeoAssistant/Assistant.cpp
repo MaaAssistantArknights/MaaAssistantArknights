@@ -57,6 +57,7 @@ Assistant::~Assistant()
 
 bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::string& value)
 {
+    Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
     switch (key) {
     case InstanceOptionKey::MinitouchEnabled:
         if (value == "0") {
