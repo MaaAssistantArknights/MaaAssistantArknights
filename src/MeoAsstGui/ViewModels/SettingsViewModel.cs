@@ -1837,6 +1837,20 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _useAdbTouchMode = Convert.ToBoolean(ViewStatusStorage.Get("Connect.UseAdbTouchMode", false.ToString()));
+
+        public bool UseAdbTouchMode
+        {
+            get => _useAdbTouchMode;
+            set
+            {
+                var asstProxy = _container.Get<AsstProxy>();
+                asstProxy.AsstSetInstanceOption(InstanceOptionKey.MinitouchEnabled, value ? "0" : "1");
+                SetAndNotify(ref _useAdbTouchMode, value);
+                ViewStatusStorage.Set("Connect.UseAdbTouchMode", value.ToString());
+            }
+        }
+
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
         private static readonly string GoogleAdbFilename = "adb.zip";
 

@@ -33,7 +33,6 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(
     m_status = std::make_shared<RuntimeStatus>();
     m_ctrler = std::make_shared<Controller>(task_callback, static_cast<void*>(this));
     m_ctrler->set_exit_flag(&m_thread_idle);
-    m_ctrler->set_minitouch_enabled(true);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
@@ -54,6 +53,25 @@ Assistant::~Assistant()
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
     }
+}
+
+bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::string& value)
+{
+    switch (key) {
+    case InstanceOptionKey::MinitouchEnabled:
+        if (value == "0") {
+            m_ctrler->set_minitouch_enabled(false);
+            return true;
+        }
+        else if (value == "1") {
+            m_ctrler->set_minitouch_enabled(true);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    return false;
 }
 
 bool asst::Assistant::connect(const std::string& adb_path, const std::string& address, const std::string& config)

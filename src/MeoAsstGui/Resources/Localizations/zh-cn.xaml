@@ -172,6 +172,7 @@
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceADB">强制替换 ADB</system:String>
+    <system:String x:Key="AdbTouchMode">兼容性的触控模式（不使用 minitouch）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
