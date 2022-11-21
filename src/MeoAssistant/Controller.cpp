@@ -1531,10 +1531,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     call_and_hup_minitouch(m_adb.call_minitouch);
 
     std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
-    auto [beg, end] = ranges::remove_if(orientation_str, [](char ch) -> bool { return !std::isdigit(ch); });
-    orientation_str.erase(beg, end);
     if (!orientation_str.empty()) {
-        m_minitouch_props.orientation = std::stoi(orientation_str);
+        char first = orientation_str.front();
+        if (first == '0' || first == '1' || first == '2' || first == '3') {
+            m_minitouch_props.orientation = static_cast<int>(first - '0');
+        }
     }
 
     // try to find the fastest way
