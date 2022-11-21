@@ -172,6 +172,7 @@
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>
+    <system:String x:Key="AdbTouchMode">Compatibility Touch Mode (without minitouch)</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>

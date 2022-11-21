@@ -31,6 +31,8 @@ namespace asst
         Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistant();
 
+        // 设置实例级参数
+        bool set_instance_option(InstanceOptionKey key, const std::string& value);
         // 连接adb
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
 

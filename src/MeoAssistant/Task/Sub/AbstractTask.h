@@ -83,14 +83,4 @@ namespace asst
         std::shared_ptr<Controller> m_ctrler = nullptr;
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
     };
-
-    class MinitouchTempSwitcher
-    {
-    public:
-        MinitouchTempSwitcher(std::shared_ptr<Controller> ctrler);
-        ~MinitouchTempSwitcher() noexcept;
-
-    private:
-        std::shared_ptr<Controller> m_ctrler;
-    };
 } // namespace asst

@@ -1202,14 +1202,15 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         return toucher.up();
     }
     else {
-        std::string cur_cmd =
-            utils::string_replace_all(m_adb.swipe, {
-                                                       { "[x1]", std::to_string(x1) },
-                                                       { "[y1]", std::to_string(y1) },
-                                                       { "[x2]", std::to_string(x2) },
-                                                       { "[y2]", std::to_string(y2) },
-                                                       { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
-                                                   });
+        std::string duration_str =
+            duration <= 0 ? "" : std::to_string(static_cast<int>(duration * opt.adb_swipe_duration_multiplier));
+        std::string cur_cmd = utils::string_replace_all(m_adb.swipe, {
+                                                                         { "[x1]", std::to_string(x1) },
+                                                                         { "[y1]", std::to_string(y1) },
+                                                                         { "[x2]", std::to_string(x2) },
+                                                                         { "[y2]", std::to_string(y2) },
+                                                                         { "[duration]", duration_str },
+                                                                     });
         bool ret = call_command(cur_cmd).has_value();
 
         // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
