@@ -25,5 +25,6 @@ namespace asst
 
         std::string m_stage_name;
         std::unordered_map<BattleRole, std::vector<OperGroup>> m_formation;
+        std::string m_the_right_name;
     };
 }

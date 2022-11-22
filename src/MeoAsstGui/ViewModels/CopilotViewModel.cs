@@ -58,10 +58,10 @@ namespace MeoAsstGui
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(
                 Localization.GetString("CopilotTip") + "\n\n" +
-                Localization.GetString("CopilotTip1") + "\n\n" +
-                Localization.GetString("CopilotTip2") + "\n\n" +
-                Localization.GetString("CopilotTip3") + "\n\n" +
-                Localization.GetString("CopilotTip4"),
+                /* Localization.GetString("CopilotTip1") + "\n\n" + */
+                "1. " + Localization.GetString("CopilotTip2") + "\n\n" +
+                "2. " + Localization.GetString("CopilotTip3") + "\n\n" +
+                "3. " + Localization.GetString("CopilotTip4"),
                 /* Localization.GetString("CopilotTip5"),*/
                 UILogColor.Message);
         }
