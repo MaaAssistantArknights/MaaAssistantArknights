@@ -44,7 +44,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
         return it->second;
     }
 
-    return expend_sharp_task(name, get_raw(name)).value_or(nullptr);
+    return expend_task(name, get_raw(name)).value_or(nullptr);
 }
 
 bool asst::TaskData::parse(const json::value& json)
@@ -142,7 +142,7 @@ bool asst::TaskData::parse(const json::value& json)
 
         // 生成 # 型任务
         for (const auto& [name, old_task] : m_raw_all_tasks_info) {
-            expend_sharp_task(name, old_task);
+            expend_task(name, old_task);
         }
     }
 
@@ -197,7 +197,8 @@ bool asst::TaskData::parse(const json::value& json)
     return true;
 }
 
-std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::string_view name, taskptr_t old_task)
+// @ > # > * > +
+std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string_view name, taskptr_t old_task)
 {
     if (old_task == nullptr) [[unlikely]] {
         return std::nullopt;
@@ -207,9 +208,9 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
     auto expend_sharp_task_list = [&](tasklist_t& new_task_list, const tasklist_t& task_list,
                                       std::string_view list_type) -> bool {
         new_task_list.clear();
-        std::function<bool(const tasklist_t&)> generate_tasks;
+        std::function<bool(tasklist_t&, const tasklist_t&)> generate_tasks;
         std::unordered_set<std::string_view> tasks_set {};
-        generate_tasks = [&](const tasklist_t& raw_tasks) {
+        generate_tasks = [&](tasklist_t& new_task_list, const tasklist_t& raw_tasks) {
             for (std::string_view task : raw_tasks) {
                 if (task.empty()) {
                     Log.error("Task", name, "has a empty", list_type);
@@ -221,57 +222,163 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_sharp_task(std::
                 }
                 tasks_set.emplace(task_name_view(task));
 
-                size_t pos = task.rfind('#');
-                if (pos == std::string_view::npos) [[likely]] {
+                using taskviews = std::vector<std::string>; // std::vector<std::string_view>;
+                using taskviews_ptr = std::shared_ptr<taskviews>;
+                auto perform_op = [&](taskviews_ptr x, taskviews_ptr y, char op) -> std::optional<taskviews_ptr> {
+                    auto ret = std::make_shared<taskviews>();
+                    switch (op) {
+                    case '+':
+                        ranges::copy(*x, std::back_inserter(*ret));
+                        ranges::copy(*y, std::back_inserter(*ret));
+                        return ret;
+                    case '*': {
+                        if (y->size() != 1) {
+                            return std::nullopt;
+                        }
+                        int times = 0;
+                        try {
+                            times = std::stoi(std::string(y->front()));
+                        }
+                        catch (...) {
+                            return std::nullopt;
+                        }
+                        for (int i = 0; i < times; ++i) {
+                            ranges::copy(*x, std::back_inserter(*ret));
+                        }
+                        return ret;
+                    }
+                    case '#': {
+                        if (y->size() != 1 || x->size() != 1) {
+                            return std::nullopt;
+                        }
+                        std::string_view type = y->front();
+                        if (type == "self") {
+                            ret->emplace_back(name);
+                            return ret;
+                        }
+                        else if (type == "back") {
+                            // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
+                            if (!x->front().empty()) {
+                                ret->emplace_back(x->front());
+                            }
+                            return ret;
+                        }
+
+                        taskptr_t other_task_info_ptr =
+                            x->front().empty() ? default_task_info_ptr : get_raw(x->front());
+#define ASST_TASKDATA_GENERATE_TASKS(t)                     \
+    else if (type == #t)                                    \
+    {                                                       \
+        if (!generate_tasks(*ret, other_task_info_ptr->t)) { \
+            return std::nullopt;                            \
+        }                                                   \
+        return ret;                                         \
+    }
+                        if (other_task_info_ptr == nullptr) [[unlikely]] {
+                            Log.error("Task", task, "not found");
+                            return std::nullopt;
+                        }
+                        ASST_TASKDATA_GENERATE_TASKS(next)
+                        ASST_TASKDATA_GENERATE_TASKS(sub)
+                        ASST_TASKDATA_GENERATE_TASKS(on_error_next)
+                        ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
+                        ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
+                        else [[unlikely]]
+                        {
+                            Log.error("Unknown type", type, "in", task);
+                            return std::nullopt;
+                        }
+#undef ASST_TASKDATA_GENERATE_TASKS
+                    }
+                    default:
+                        return std::nullopt;
+                    }
+                };
+                std::vector<taskviews_ptr> task_name_stack;
+                std::vector<char> op_stack;
+                std::unordered_map<char, int> op_priority = {
+                    { '+', 0 },
+                    { '*', 1 },
+                    { '#', 2 },
+                };
+                bool only_sharp = true;
+                auto cur_str_it = task.begin();
+                for (auto str_it = task.begin(); str_it != task.end(); ++str_it) {
+                    switch (*str_it) {
+                    case '+':
+                    case '*':
+                        only_sharp = false;
+                        [[fallthrough]];
+                    case '#': {
+                        task_name_stack.emplace_back(std::make_shared<taskviews>(taskviews { { cur_str_it, str_it } }));
+                        while (!op_stack.empty()) {
+                            char op = op_stack.back();
+                            if (op_priority[op] < op_priority[*str_it]) {
+                                break;
+                            }
+                            op_stack.pop_back();
+                            auto y = task_name_stack.back();
+                            task_name_stack.pop_back();
+                            auto x = task_name_stack.back();
+                            task_name_stack.pop_back();
+                            if (auto opt = perform_op(x, y, op); opt) {
+                                task_name_stack.push_back(*opt);
+                            }
+                            else {
+                                Log.error("Invalid task:", task);
+                                return false;
+                            }
+                        }
+                        op_stack.push_back(*str_it);
+                        cur_str_it = str_it + 1;
+                    }
+
+                    default:
+                        break;
+                    }
+                }
+
+                if (op_stack.empty()) {
                     new_task_list.emplace_back(task);
                     continue;
                 }
-#ifdef ASST_DEBUG
-                if (pos == 0) [[unlikely]] {
-                    Log.trace("Task", name, "has a virtual", list_type, ":", (std::string("`") += task) += '`');
-                }
-#endif // ASST_DEBUG
 
-                task_changed = true;
-                std::string_view type = task.substr(pos + 1);
-                if (type == "self") {
-                    new_task_list.emplace_back(name);
-                    continue;
-                }
-                taskptr_t other_task_info_ptr = pos ? get_raw(task.substr(0, pos)) : default_task_info_ptr;
-#define ASST_TASKDATA_GENERATE_TASKS(t)                \
-    else if (type == #t)                               \
-    {                                                  \
-        if (!generate_tasks(other_task_info_ptr->t)) { \
-            return false;                              \
-        }                                              \
-    }
-                if (other_task_info_ptr == nullptr) [[unlikely]] {
-                    Log.error("Task", task, "not found");
-                    return false;
-                }
-                else if (type == "back") {
-                    // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
-                    if (pos) {
-                        new_task_list.emplace_back(task.substr(0, pos));
+                task_name_stack.emplace_back(std::make_shared<taskviews>(taskviews { { cur_str_it, task.end() } }));
+                while (!op_stack.empty()) {
+                    char op = op_stack.back();
+                    op_stack.pop_back();
+                    auto y = task_name_stack.back();
+                    task_name_stack.pop_back();
+                    auto x = task_name_stack.back();
+                    task_name_stack.pop_back();
+                    if (auto opt = perform_op(x, y, op); opt) {
+                        task_name_stack.push_back(*opt);
+                    }
+                    else {
+                        Log.error("Invalid task:", task);
+                        return false;
                     }
                 }
-                ASST_TASKDATA_GENERATE_TASKS(next)
-                ASST_TASKDATA_GENERATE_TASKS(sub)
-                ASST_TASKDATA_GENERATE_TASKS(on_error_next)
-                ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
-                ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
-                else [[unlikely]]
-                {
-                    Log.error("Unknown type", type, "in", task);
-                    return false;
+
+                task_changed = true;
+
+                if (only_sharp) {
+                    ranges::copy(*task_name_stack.back(), std::back_inserter(new_task_list));
                 }
-#undef ASST_TASKDATA_GENERATE_TASKS
+                else {
+                    auto task_info_ptr = std::make_shared<TaskInfo>(*default_task_info_ptr);
+                    ranges::copy(*task_name_stack.back(), std::back_inserter(task_info_ptr->sub));
+                    task_info_ptr->algorithm = AlgorithmType::JustReturn;
+                    task_info_ptr->name = (std::string(name) += "_DERIVED_") += task;
+                    insert_or_assign_task(task_info_ptr->name, task_info_ptr);
+                    Log.debug("Created task:", task_info_ptr->name, "with sub:", task_info_ptr->sub);
+                    new_task_list.emplace_back(task_info_ptr->name);
+                }
             }
 
             return true;
         };
-        if (!generate_tasks(task_list)) [[unlikely]] {
+        if (!generate_tasks(new_task_list, task_list)) [[unlikely]] {
             Log.error("Generate task_list", (std::string(name) += "->") += list_type, "failed.");
             return false;
         }

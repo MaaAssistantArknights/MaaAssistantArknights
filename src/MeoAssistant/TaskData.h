@@ -143,7 +143,7 @@ namespace asst
         {
             return m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
-        std::optional<taskptr_t> expend_sharp_task(std::string_view name, taskptr_t old_task);
+        std::optional<taskptr_t> expend_task(std::string_view name, taskptr_t old_task);
 #ifdef ASST_DEBUG
         bool syntax_check(const std::string& task_name, const json::value& task_json);
 #endif
