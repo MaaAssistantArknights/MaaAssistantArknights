@@ -267,6 +267,73 @@
             "11"
         ]
     },
+    "LevelOfDifficulty": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "环境",
+            "PRTS"
+        ],
+        "roi": [
+            26,
+            565,
+            302,
+            155
+        ],
+        "sub": [
+            "EnterChooseLevelOfDifficulty"
+        ]
+    },
+    "EnterChooseLevelOfDifficulty": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            598,
+            131,
+            122
+        ]
+    },
+    "Hard": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterHard",
+            "Return"
+        ]
+    },
+    "Normal": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterNormal",
+            "Return"
+        ]
+    },
+    "EnterHard": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            861,
+            570,
+            330,
+            145
+        ]
+    },
+    "EnterNormal": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            473,
+            572,
+            329,
+            144
+        ]
+    },
     "SwipeLeftToEpisode": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -2326,7 +2393,8 @@
         "algorithm": "JustReturn",
         "next": [
             "CloseAnno",
-            "CloseAnnoTexas"
+            "CloseAnnoTexas",
+            "TodaysSupplies"
         ]
     },
     "CloseAnno": {
@@ -5890,7 +5958,7 @@
         "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.92,
         "roi": [
             370,
             250,
@@ -6005,7 +6073,8 @@
             131
         ],
         "next": [
-            "SkipThePreBattlePlotConfirm"
+            "SkipThePreBattlePlotConfirm",
+            "SkipThePreBattlePlot"
         ],
         "maskRange": [
             100,
@@ -9141,7 +9210,7 @@
         "baseTask": "RoguelikeRecruitElite"
     },
     "RoguelikeRecruitLevel": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "rectMove_Doc": "肉鸽招募时检测等级用，相对flag的位移",
         "rectMove": [
             -171,

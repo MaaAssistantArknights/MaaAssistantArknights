@@ -349,11 +349,11 @@
 
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">Tips：</system:String>
-    <system:String x:Key="CopilotTip1">1. Please set the emulator and game to 60 FPS at least.</system:String>
-    <system:String x:Key="CopilotTip2">2. Please use this function only when &quot;Start&quot; is visible in game.</system:String>
-    <system:String x:Key="CopilotTip3">3. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.</system:String>
-    <system:String x:Key="CopilotTip4">4. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.</system:String>
-    <system:String x:Key="CopilotTip5">5. &quot;Auto squad&quot; can not identify the &quot;special focus&quot; crew members temporarily, please cancel the special attention or manual formation if necessary.</system:String>
+    <system:String x:Key="CopilotTip1">Please set the emulator and game to 60 FPS at least.</system:String>
+    <system:String x:Key="CopilotTip2">Please use this function only when &quot;Start&quot; is visible in game.</system:String>
+    <system:String x:Key="CopilotTip3">You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.</system:String>
+    <system:String x:Key="CopilotTip4">For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.</system:String>
+    <system:String x:Key="CopilotTip5">&quot;Auto squad&quot; can not identify the &quot;special focus&quot; crew members temporarily, please cancel the special attention or manual formation if necessary.</system:String>
 
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>

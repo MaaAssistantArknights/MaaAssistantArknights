@@ -29,13 +29,26 @@ bool asst::BattleFormationTask::_run()
 
     for (auto& [role, oper_groups] : m_formation) {
         click_role_table(role);
-        // TODO: 需要加一个滑到头了的检测
+        bool has_error = false;
         while (!need_exit()) {
-            select_opers_in_cur_page(oper_groups);
-            if (oper_groups.empty()) {
-                break;
+            if (select_opers_in_cur_page(oper_groups)) {
+                has_error = false;
+                if (oper_groups.empty()) {
+                    break;
+                }
+                swipe_page();
             }
-            swipe_page();
+            else if (has_error) {
+                // reset page
+                click_role_table(role == BattleRole::Unknown ? BattleRole::Pioneer : BattleRole::Unknown);
+                click_role_table(role);
+                has_error = false;
+            }
+            else {
+                has_error = true;
+                // swipe and retry again
+                swipe_page();
+            }
         }
     }
     confirm_selection();
@@ -80,6 +93,10 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             return lhs.rect.y < rhs.rect.y;
         }
     });
+    if (m_the_right_name == opers_result.back().text) {
+        return false;
+    }
+    m_the_right_name = opers_result.back().text;
 
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,
