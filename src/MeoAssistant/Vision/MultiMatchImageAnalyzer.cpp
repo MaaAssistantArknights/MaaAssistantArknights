@@ -3,6 +3,7 @@
 #include "Utils/Ranges.hpp"
 #include <utility>
 
+#include "Utils/MoreCV.hpp"
 #include "Utils/NoWarningCV.h"
 
 #include "Config/TaskData.h"
@@ -122,32 +123,14 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
         cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
     }
 
-    int mini_distance = (std::min)(templ.cols, templ.rows) / 2;
-    for (int i = 0; i != matched.rows; ++i) {
-        for (int j = 0; j != matched.cols; ++j) {
-            auto value = matched.at<float>(i, j);
-            if (m_templ_thres <= value && value < 2.0) {
-                Rect rect(j + m_roi.x, i + m_roi.y, templ.cols, templ.rows);
-                bool need_push = true;
-                // 如果有两个点离得太近，只取里面得分高的那个
-                // 一般相邻的都是刚刚push进去的，这里倒序快一点
-                for (auto& iter : ranges::reverse_view(m_result)) {
-                    if (std::abs(j + m_roi.x - iter.rect.x) < mini_distance &&
-                        std::abs(i + m_roi.y - iter.rect.y) < mini_distance) {
-                        if (iter.score < value) {
-                            iter.rect = rect;
-                            iter.score = value;
-                        } // else 这个点就放弃了
-                        need_push = false;
-                        break;
-                    }
-                }
-                if (need_push) {
-                    m_result.emplace_back(value, rect);
-                }
-            }
-        }
-    }
+    const auto result =
+        match_template_helper(matched, { static_cast<int>(templ.cols * 0.6), static_cast<int>(templ.rows * 0.6) },
+                              [this](float value) -> bool { return m_templ_thres < value && value < 2.0; });
+
+    ranges::transform(result, std::back_inserter(m_result), [&, this](const auto& pair) -> MatchRect {
+        const cv::Point roi_pt = pair.first;
+        return { pair.second, { roi_pt.x + m_roi.x, roi_pt.y + m_roi.y, templ.cols, templ.rows } };
+    });
 
 #ifdef ASST_DEBUG
     for (const auto& rect : m_result) {

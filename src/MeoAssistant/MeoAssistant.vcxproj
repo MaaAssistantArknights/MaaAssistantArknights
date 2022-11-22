@@ -119,6 +119,7 @@
     <ClInclude Include="Utils\Http.hpp" />
     <ClInclude Include="Utils\ImageIo.hpp" />
     <ClInclude Include="Utils\Locale.hpp" />
+    <ClInclude Include="Utils\MoreCV.hpp" />
     <ClInclude Include="Utils\Logger.hpp" />
     <ClInclude Include="Utils\Meta.hpp" />
     <ClInclude Include="Utils\NoWarningCV.h" />
