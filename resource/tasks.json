@@ -267,6 +267,73 @@
             "11"
         ]
     },
+    "LevelOfDifficulty": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "环境",
+            "PRTS"
+        ],
+        "roi": [
+            26,
+            565,
+            302,
+            155
+        ],
+        "sub": [
+            "EnterChooseLevelOfDifficulty"
+        ]
+    },
+    "EnterChooseLevelOfDifficulty": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            598,
+            131,
+            122
+        ]
+    },
+    "Hard": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterHard",
+            "Return"
+        ]
+    },
+    "Normal": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterNormal",
+            "Return"
+        ]
+    },
+    "EnterHard": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            861,
+            570,
+            330,
+            145
+        ]
+    },
+    "EnterNormal": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            473,
+            572,
+            329,
+            144
+        ]
+    },
     "SwipeLeftToEpisode": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
