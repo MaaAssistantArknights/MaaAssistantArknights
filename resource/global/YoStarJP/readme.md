@@ -10,6 +10,7 @@
 - 理性回復アイテムを使う
 - 純正源石を使う
 - 自動戦闘の最大回数を指定する
+- 自動基建
 - 自動公開求人
 - 戦友訪問
 - FP交換所 (日本語名で入力対応)
@@ -27,6 +28,7 @@
 - 使用理智药恢复理智
 - 使用源石恢复理智
 - 刷理智指定次数
+- 自动基建
 - 自动公招
 - 访问好友
 - 信用商店（使用日文输入商品名）
@@ -44,6 +46,7 @@ Supported features:
 - Auto-use sanity potion
 - Auto-use Originite Prime
 - Set the max number of auto battles
+- Auto Base shift
 - Auto recruiting
 - Visiting friend's infrastructure
 - Credit Shopping (with Japanese trade names)

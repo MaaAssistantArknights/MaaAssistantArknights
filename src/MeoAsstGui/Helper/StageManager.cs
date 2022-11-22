@@ -35,8 +35,8 @@ namespace MeoAsstGui
                 Tip = "SideStory「叙拉古人」活动",
                 UtcStartTime = new DateTime(2022, 11, 1, 16, 0, 0).AddHours(-8),
                 UtcExpireTime = new DateTime(2022, 11, 22, 4, 0, 0).AddHours(-8),
-                IsResourceCollection = false,
             };
+
             var resourceCollection = new StageActivityInfo()
             {
                 Tip = "「感谢庆典」，“资源收集”限时全天开放",
@@ -122,10 +122,9 @@ namespace MeoAsstGui
         {
             var builder = new StringBuilder();
 
-            var stages = _stages.Where(pair => pair.Value.OpenDays?.Count() > 0);
-            foreach (var item in stages)
+            foreach (var item in _stages)
             {
-                if (item.Value.OpenDays.Contains(dayOfWeek) && !string.IsNullOrEmpty(item.Value.Tip))
+                if (item.Value.IsStageOpen(dayOfWeek) && !string.IsNullOrEmpty(item.Value.Tip))
                 {
                     builder.AppendLine(item.Value.Tip);
                 }

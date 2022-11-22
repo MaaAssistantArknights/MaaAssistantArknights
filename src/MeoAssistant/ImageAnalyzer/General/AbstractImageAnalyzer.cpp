@@ -24,7 +24,7 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const R
 #endif
 {}
 
-void asst::AbstractImageAnalyzer::set_image(const cv::Mat image)
+void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
 {
     m_image = image;
 #ifdef ASST_DEBUG

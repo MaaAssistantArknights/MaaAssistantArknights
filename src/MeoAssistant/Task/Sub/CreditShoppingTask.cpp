@@ -36,7 +36,6 @@ int asst::CreditShoppingTask::credit_ocr()
     OcrImageAnalyzer credit_analyzer(credit_image);
     credit_analyzer.set_task_info("CreditShop-CreditOcr");
     credit_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
-    credit_analyzer.set_use_char_model(true);
 
     if (!credit_analyzer.analyze()) {
         Log.trace("ERROR:!credit_analyzer.analyze():");
@@ -56,7 +55,7 @@ int asst::CreditShoppingTask::credit_ocr()
 
 bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
 {
-    const cv::Mat image = m_ctrler->get_image();
+    const cv::Mat& image = m_ctrler->get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
     if (white_list_enabled) {

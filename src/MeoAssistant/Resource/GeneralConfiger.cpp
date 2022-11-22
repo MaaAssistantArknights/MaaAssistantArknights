@@ -15,6 +15,9 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         // m_options.print_window = options_json.at("printWindow").as_boolean();
         m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
+        m_options.adb_swipe_duration_multiplier = options_json.get("adbSwipeDurationMultiplier", 10.0);
+        m_options.minitouch_extra_swipe_dist = options_json.get("minitouchExtraSwipeDist", 100);
+        m_options.minitouch_extra_swipe_duration = options_json.get("minitouchExtraSwipeDuration", -1);
         m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
         m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
         m_options.depot_export_template.ark_planner =
@@ -46,7 +49,11 @@ bool asst::GeneralConfiger::parse(const json::value& json)
         adb.release = cfg_json.at("release").as_string();
         adb.start = cfg_json.at("start").as_string();
         adb.stop = cfg_json.at("stop").as_string();
-        // adb.pullscreen = cfg_json.at("pullscreen").as_string();
+        adb.abilist = cfg_json.at("abilist").as_string();
+        adb.orientation = cfg_json.at("orientation").as_string();
+        adb.push_minitouch = cfg_json.at("pushMinitouch").as_string();
+        adb.chmod_minitouch = cfg_json.at("chmodMinitouch").as_string();
+        adb.call_minitouch = cfg_json.at("callMinitouch").as_string();
 
         m_adb_cfg[name] = std::move(adb);
     }

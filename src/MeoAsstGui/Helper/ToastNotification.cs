@@ -30,6 +30,7 @@ using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Stylet;
 
 namespace MeoAsstGui
 {
@@ -70,8 +71,7 @@ namespace MeoAsstGui
                 }
 
                 var osVersion = matched.Groups[0].Value;
-                Semver.SemVersion curVersionObj;
-                bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out curVersionObj);
+                bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out var curVersionObj);
 
                 var minimumVersionObj = new Semver.SemVersion(10, 0, 10240);
                 _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
@@ -395,59 +395,64 @@ namespace MeoAsstGui
                 return;
             }
 
-            if (CheckToastSystem())
+            try
             {
-                try
+                if (CheckToastSystem())
                 {
-                    if (_buttonSystemEnabled)
+                    Execute.OnUIThread(() =>
                     {
-                        Uri burl = new Uri(ButtonSystemUrl);
-                        new ToastContentBuilder()
-                            .AddText(_notificationTitle)
-                            .AddText(_contentCollection.ToString())
-                            .AddButton(new ToastButton()
-                                .SetContent(_buttonSystemText)
-                                .SetProtocolActivation(burl))
-                            .Show();
-                    }
-                    else
-                    {
-                        new ToastContentBuilder()
-                            .AddText(_notificationTitle)
-                            .AddText(_contentCollection.ToString())
-                            .Show();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                        if (_buttonSystemEnabled)
+                        {
+                            Uri burl = new Uri(ButtonSystemUrl);
+                            new ToastContentBuilder()
+                                .AddText(_notificationTitle)
+                                .AddText(_contentCollection.ToString())
+                                .AddButton(new ToastButton()
+                                    .SetContent(_buttonSystemText)
+                                    .SetProtocolActivation(burl))
+                                .Show();
+                        }
+                        else
+                        {
+                            new ToastContentBuilder()
+                                .AddText(_notificationTitle)
+                                .AddText(_contentCollection.ToString())
+                                .Show();
+                        }
+                    });
+
+                    // 通知正常弹出了就直接 return，否则用 catch 下面的兼容版通知
+                    return;
                 }
             }
-            else
+            catch (Exception e)
             {
-                notificationContent ??= BaseContent();
-
-                notificationContent.RowsCount = row;
-
-                // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
-                lifeTime = lifeTime < 3d ? 3d : lifeTime;
-
-                var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
-                    ? TimeSpan.FromSeconds(lifeTime)
-                    : TimeSpan.MaxValue;
-
-                // 显示通知
-                _notificationManager.Show(
-                    notificationContent,
-                    expirationTime: timeSpan,
-                    ShowXbtn: false);
-
-                // 播放通知提示音
-                PlayNotificationSoundAsync(sound).Wait();
-
-                // 任务栏闪烁
-                FlashWindowEx();
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                _systemToastChecked = false;
             }
+
+            notificationContent ??= BaseContent();
+
+            notificationContent.RowsCount = row;
+
+            // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
+            lifeTime = lifeTime < 3d ? 3d : lifeTime;
+
+            var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
+                ? TimeSpan.FromSeconds(lifeTime)
+                : TimeSpan.MaxValue;
+
+            // 显示通知
+            _notificationManager.Show(
+                notificationContent,
+                expirationTime: timeSpan,
+                ShowXbtn: false);
+
+            // 播放通知提示音
+            PlayNotificationSoundAsync(sound).Wait();
+
+            // 任务栏闪烁
+            FlashWindowEx();
         }
 
         /// <summary>
@@ -461,7 +466,7 @@ namespace MeoAsstGui
             NotificationSounds sound = NotificationSounds.None,
             NotificationContent notificationContent = null)
         {
-            notificationContent = notificationContent ?? BaseContent();
+            notificationContent ??= BaseContent();
             notificationContent.TrimType = NotificationTextTrimType.Attach;
 
             Show(lifeTime: lifeTime,

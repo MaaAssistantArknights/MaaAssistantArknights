@@ -103,6 +103,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
         }
         action.kills = action_info.get("kills", 0);
         action.cost_changes = action_info.get("cost_changes", 0);
+        action.costs = action_info.get("costs", 0);
         action.cooling = action_info.get("cooling", -1);
         action.group_name = action_info.get("name", std::string());
 

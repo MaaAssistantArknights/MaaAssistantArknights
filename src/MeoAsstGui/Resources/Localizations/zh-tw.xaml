@@ -315,11 +315,11 @@
 
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">小提示：</system:String>
-    <system:String x:Key="CopilotTip1">1. 請將模擬器及遊戲影格率設定為 60 張或更高；</system:String>
-    <system:String x:Key="CopilotTip2">2. 請在有“開始行動”按鈕的介面再使用本功能；</system:String>
-    <system:String x:Key="CopilotTip3">3. 使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；</system:String>
-    <system:String x:Key="CopilotTip4">4. 模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；</system:String>
-    <system:String x:Key="CopilotTip5">5. “自動編隊”暫時無法辨識“特別關注”的幹員，如有需求請取消特別關注或手動編隊；</system:String>
+    <system:String x:Key="CopilotTip1">請將模擬器及遊戲影格率設定為 60 張或更高；</system:String>
+    <system:String x:Key="CopilotTip2">請在有“開始行動”按鈕的介面再使用本功能；</system:String>
+    <system:String x:Key="CopilotTip3">使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；</system:String>
+    <system:String x:Key="CopilotTip4">模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；</system:String>
+    <system:String x:Key="CopilotTip5">“自動編隊”暫時無法辨識“特別關注”的幹員，如有需求請取消特別關注或手動編隊；</system:String>
 
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>

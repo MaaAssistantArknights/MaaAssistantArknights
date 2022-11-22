@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MeoAsstGui.MaaHotKeys;
+using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 
@@ -148,11 +149,11 @@ namespace MeoAsstGui
             DefaultInfrastList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("UserDefined"), Value = _userDefined },
-                new CombData { Display = Localization.GetString("153_3"), Value = "153_layout_3_times_pre_day.json" },
-                new CombData { Display = Localization.GetString("243_3"), Value = "243_layout_3_times_pre_day.json" },
-                new CombData { Display = Localization.GetString("243_4"), Value = "243_layout_4_times_per_day.json" },
-                new CombData { Display = Localization.GetString("252_3"), Value = "252_layout_3_times_pre_day.json" },
-                new CombData { Display = Localization.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_pre_day.json" },
+                new CombData { Display = Localization.GetString("153_3"), Value = "153_layout_3_times_a_day.json" },
+                new CombData { Display = Localization.GetString("243_3"), Value = "243_layout_3_times_a_day.json" },
+                new CombData { Display = Localization.GetString("243_4"), Value = "243_layout_4_times_a_day.json" },
+                new CombData { Display = Localization.GetString("252_3"), Value = "252_layout_3_times_a_day.json" },
+                new CombData { Display = Localization.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
             };
 
             UsesOfDronesList = new List<CombData>
@@ -536,8 +537,8 @@ namespace MeoAsstGui
             get => _dormThreshold;
             set
             {
-                DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
                 SetAndNotify(ref _dormThreshold, value);
+                DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
                 ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
             }
         }
@@ -1835,6 +1836,88 @@ namespace MeoAsstGui
                     ConnectAddress = "127.0.0.1:" + sp[1];
                 }
             }
+        }
+
+        private bool _useAdbTouchMode = Convert.ToBoolean(ViewStatusStorage.Get("Connect.UseAdbTouchMode", false.ToString()));
+
+        public bool UseAdbTouchMode
+        {
+            get => _useAdbTouchMode;
+            set
+            {
+                SetAndNotify(ref _useAdbTouchMode, value);
+                ViewStatusStorage.Set("Connect.UseAdbTouchMode", value.ToString());
+                UpdateTouchMode();
+            }
+        }
+
+        public void UpdateTouchMode()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.MinitouchEnabled, UseAdbTouchMode ? "0" : "1");
+        }
+
+        private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
+        private static readonly string GoogleAdbFilename = "adb.zip";
+
+        public async void ReplaceADB()
+        {
+            if (!File.Exists(AdbPath))
+            {
+                Execute.OnUIThread(() =>
+                {
+                    using (var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists")))
+                    {
+                        toast.Show();
+                    }
+                });
+                return;
+            }
+
+            if (!File.Exists(GoogleAdbFilename))
+            {
+                var downloadTask = Task.Run(() =>
+                {
+                    return VersionUpdateViewModel.DownloadFile(GoogleAdbDownloadUrl, GoogleAdbFilename);
+                });
+                var downloadResult = await downloadTask;
+                if (!downloadResult)
+                {
+                    Execute.OnUIThread(() =>
+                    {
+                        using (var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle")))
+                        {
+                            toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc"))
+                                .Show();
+                        }
+                    });
+                    return;
+                }
+            }
+
+            const string UnzipDir = "adb_unzip";
+            if (Directory.Exists(UnzipDir))
+            {
+                Directory.Delete(UnzipDir, true);
+            }
+
+            var procTask = Task.Run(() =>
+           {
+               // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
+               System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+               File.Copy(AdbPath, AdbPath + ".bak", true);
+               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
+               Directory.Delete(UnzipDir, true);
+           });
+            await procTask;
+
+            Execute.OnUIThread(() =>
+            {
+                using (var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB")))
+                {
+                    toast.Show();
+                }
+            });
         }
 
         /* 界面设置 */

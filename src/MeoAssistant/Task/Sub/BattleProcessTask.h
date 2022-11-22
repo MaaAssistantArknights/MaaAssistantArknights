@@ -25,12 +25,12 @@ namespace asst
         bool analyze_opers_preview();
         bool update_opers_info(const cv::Mat& image);
 
-        bool do_action(const BattleAction& action);
+        bool do_action(size_t action_index);
         bool wait_condition(const BattleAction& action);
 
-        bool oper_deploy(const BattleAction& action);
-        bool oper_retreat(const BattleAction& action);
-        bool use_skill(const BattleAction& action);
+        bool oper_deploy(const BattleAction& action, bool only_pre_process = false);
+        bool oper_retreat(const BattleAction& action, bool only_pre_process = false);
+        bool use_skill(const BattleAction& action, bool only_pre_process = false);
         bool wait_to_end(const BattleAction& action);
 
         bool try_possible_skill(const cv::Mat& image);
@@ -54,5 +54,7 @@ namespace asst
         std::unordered_map<std::string, BattleRealTimeOper> m_all_opers_info;
         std::unordered_map<std::string, BattleRealTimeOper> m_cur_opers_info;
         std::unordered_map<std::string, BattleDeployInfo> m_used_opers;
+
+        bool m_in_bullet_time = false;
     };
 }

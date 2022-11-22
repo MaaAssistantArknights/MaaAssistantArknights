@@ -428,7 +428,7 @@ labels:
 
 # `macOS`
 - name: macOS
-  regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|版))'
+  regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|电脑|版))'
   skip-if:
   - skip all
   - skip macOS

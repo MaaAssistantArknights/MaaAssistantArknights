@@ -29,6 +29,12 @@ namespace asst
 
     static constexpr double TemplThresholdDefault = 0.8;
 
+    enum class InstanceOptionKey
+    {
+        Invalid = 0,
+        MinitouchEnabled = 1,
+    };
+
     struct Point
     {
         Point() = default;

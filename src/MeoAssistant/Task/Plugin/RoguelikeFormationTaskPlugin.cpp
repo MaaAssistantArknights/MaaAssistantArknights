@@ -93,7 +93,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
     size_t select_count = analyze_and_select();
     // 说明第二页还有
     if (select_count == MaxNumOfOperPerPage) {
-        ProcessTask(*this, { "SlowlySwipeToTheRight" }).run();
+        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
         analyze_and_select();
         // 应该不可能还有第三页吧，不管了
     }

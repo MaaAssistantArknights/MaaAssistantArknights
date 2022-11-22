@@ -47,7 +47,6 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 
     OcrImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
-    analyzer.set_use_char_model(true);
 
     if (!analyzer.analyze()) {
         return false;
@@ -192,7 +191,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             }
 
             std::string item = match_item(item_roi, drop_type, size - i, size);
-            int quantity = match_quantity(item_roi);
+            int quantity = match_quantity(item_roi, item == LMD_ID);
             Log.info("Item id:", item, ", quantity:", quantity);
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
@@ -394,14 +393,14 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
     switch (type) {
     case StageDropType::ExpAndLMB:
         if (size == 1) {
-            return "4001"; // 龙门币
+            return LMD_ID; // 龙门币
         }
         else if (size == 2) {
             if (index == 0) {
                 return "5001"; // 声望（经验）
             }
             else {
-                return "4001"; // 龙门币
+                return LMD_ID; // 龙门币
             }
         }
         else {
@@ -459,7 +458,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
     return result;
 }
 
-int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
+int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi, bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
 
@@ -519,7 +518,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
     analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
-    analyzer.set_use_char_model(true);
+    analyzer.set_use_char_model(!use_word_model);
 
     if (!analyzer.analyze()) {
         return 0;

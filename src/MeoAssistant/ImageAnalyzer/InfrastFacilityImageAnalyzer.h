@@ -8,7 +8,7 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~InfrastFacilityImageAnalyzer() override = default;
-        InfrastFacilityImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
+        InfrastFacilityImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
 
         virtual bool analyze() override;
 

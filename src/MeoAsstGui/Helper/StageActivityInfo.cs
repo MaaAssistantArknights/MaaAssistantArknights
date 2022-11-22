@@ -42,7 +42,7 @@ namespace MeoAsstGui
         /// Sets to true indicates a resource collection activity,
         /// when the activity expires, <seealso cref="StageManager"/> will continue to check stage open days.
         /// </remarks>
-        public bool IsResourceCollection { get; set; }
+        public bool IsResourceCollection { get; set; } = false;
 
         /// <summary>
         /// Gets a value indicating whether the activity is expired

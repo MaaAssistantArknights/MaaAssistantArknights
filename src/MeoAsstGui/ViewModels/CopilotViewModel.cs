@@ -58,10 +58,10 @@ namespace MeoAsstGui
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(
                 Localization.GetString("CopilotTip") + "\n\n" +
-                Localization.GetString("CopilotTip1") + "\n\n" +
-                Localization.GetString("CopilotTip2") + "\n\n" +
-                Localization.GetString("CopilotTip3") + "\n\n" +
-                Localization.GetString("CopilotTip4"),
+                /* Localization.GetString("CopilotTip1") + "\n\n" + */
+                "1. " + Localization.GetString("CopilotTip2") + "\n\n" +
+                "2. " + Localization.GetString("CopilotTip3") + "\n\n" +
+                "3. " + Localization.GetString("CopilotTip4"),
                 /* Localization.GetString("CopilotTip5"),*/
                 UILogColor.Message);
         }
@@ -213,7 +213,6 @@ namespace MeoAsstGui
         }
 
         private string _curStageName = string.Empty;
-        private string _curCopilotData = string.Empty;
         private bool _isDataFromWeb = false;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
 
@@ -221,7 +220,6 @@ namespace MeoAsstGui
         {
             try
             {
-                _curCopilotData = string.Empty;
                 var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null)
                 {
@@ -312,7 +310,12 @@ namespace MeoAsstGui
                 AddLog(string.Format("共 {0} 名干员", count), UILogColor.Message);
 
                 _curStageName = json["stage_name"].ToString();
-                _curCopilotData = json.ToString();
+                if (_isDataFromWeb)
+                {
+                    File.Delete(TempCopilotFile);
+                    File.WriteAllText(TempCopilotFile, json.ToString());
+                }
+
                 AddLog(
                     "\n\n" +
                     Localization.GetString("CopilotTip") + "\n\n" +
@@ -419,15 +422,7 @@ namespace MeoAsstGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            if (!_isDataFromWeb)
-            {
-                UpdateFileDoc(Filename);
-            }
-
-            File.Delete(TempCopilotFile);
-            File.WriteAllText(TempCopilotFile, _curCopilotData);
-
-            bool ret = asstProxy.AsstStartCopilot(_curStageName, TempCopilotFile, Form);
+            bool ret = asstProxy.AsstStartCopilot(_curStageName, _isDataFromWeb ? TempCopilotFile : Filename, Form);
             if (ret)
             {
                 AddLog("Star Burst Stream!");

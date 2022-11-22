@@ -10,6 +10,7 @@
 namespace asst
 {
     class OcrImageAnalyzer;
+    class OcrWithPreprocessImageAnalyzer;
     class MatchImageAnalyzer;
     class RuntimeStatus;
 
@@ -17,12 +18,12 @@ namespace asst
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        ProcessTaskImageAnalyzer(const cv::Mat image, const Rect& roi) = delete;
+        ProcessTaskImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
         ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name);
         virtual ~ProcessTaskImageAnalyzer() override;
 
         virtual bool analyze() override;
-        void set_image(const cv::Mat image);
+        virtual void set_image(const cv::Mat& image) override;
 
         void set_tasks(std::vector<std::string> tasks_name);
         void set_status(std::shared_ptr<RuntimeStatus> status) noexcept;
@@ -41,6 +42,7 @@ namespace asst
         void reset() noexcept;
 
         std::unique_ptr<OcrImageAnalyzer> m_ocr_analyzer;
+        std::unique_ptr<OcrWithPreprocessImageAnalyzer> m_ocr_with_preprocess_analyzer;
         std::unique_ptr<MatchImageAnalyzer> m_match_analyzer;
         std::vector<std::string> m_tasks_name;
         std::shared_ptr<TaskInfo> m_result = nullptr;

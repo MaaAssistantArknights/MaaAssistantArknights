@@ -4,6 +4,7 @@
 
 #include "Utils/Logger.hpp"
 
+#include "Controller.h"
 #include "Resource/BattleDataConfiger.h"
 #include "Resource/CopilotConfiger.h"
 #include "Resource/GeneralConfiger.h"
@@ -21,8 +22,6 @@
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
-    using namespace asst::utils::path_literals;
-
 #define LoadResourceAndCheckRet(Configer, Filename)                         \
     {                                                                       \
         LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Configer); \
@@ -47,6 +46,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
     LogTraceFunction;
+    using namespace asst::utils::path_literals;
 
     /* load resource with json files*/
     LoadResourceAndCheckRet(GeneralConfiger, "config.json"_p);
@@ -66,6 +66,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "levels.json"_p);
     LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
     LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+
+    if (!m_loaded) {
+        Controller::set_resource_path(path);
+    }
 
     m_loaded = true;
 
