@@ -65,5 +65,6 @@ void asst::OcrWithPreprocessImageAnalyzer::set_task_info(const std::string& task
 void asst::OcrWithPreprocessImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
 {
     task_info.cache = false;
+    task_info.without_det = true;
     OcrImageAnalyzer::set_task_info(std::move(task_info));
 }
