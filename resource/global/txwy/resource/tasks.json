@@ -54,7 +54,7 @@
     },
     "RoguelikeRecruitLevel": {
         "Doc": "台服的等级字体比国服大一圈，要改roi",
-        "roi": [
+        "rectMove": [
             -172,
             -1,
             18,
