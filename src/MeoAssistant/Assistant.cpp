@@ -300,6 +300,10 @@ void Assistant::working_proc()
             const int delay = Configer.get_options().task_delay;
             lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
+
+            if (m_thread_idle) {
+                task_callback(AsstMsg::TaskChainStopped, callback_json, this);
+            }
         }
         else {
             m_thread_idle = true;
