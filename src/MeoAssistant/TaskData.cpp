@@ -207,17 +207,17 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
     bool task_changed = false;
     auto task_info = _generate_task_info(old_task);
     auto expend_sharp_task_list = [&](tasklist_t& new_task_list, const tasklist_t& task_list,
-                                      std::string_view list_type) -> bool {
+                                      std::string_view list_type, bool multi) -> bool {
         new_task_list.clear();
-        std::function<bool(tasklist_t&, const tasklist_t&)> generate_tasks;
+        std::function<bool(tasklist_t&, const tasklist_t&, bool)> generate_tasks;
         std::unordered_set<std::string_view> tasks_set {};
-        generate_tasks = [&](tasklist_t& new_task_list, const tasklist_t& raw_tasks) {
+        generate_tasks = [&](tasklist_t& new_task_list, const tasklist_t& raw_tasks, bool multi) {
             for (std::string_view task : raw_tasks) {
                 if (task.empty()) {
                     Log.error("Task", name, "has a empty", list_type);
                     return false;
                 }
-                if (tasks_set.contains(task)) [[unlikely]] {
+                if (!multi && tasks_set.contains(task)) [[unlikely]] {
                     task_changed = true;
                     continue;
                 }
@@ -267,23 +267,23 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
 
                         taskptr_t other_task_info_ptr =
                             x->front().empty() ? default_task_info_ptr : get_raw(x->front());
-#define ASST_TASKDATA_GENERATE_TASKS(t)                      \
-    else if (type == #t)                                     \
-    {                                                        \
-        if (!generate_tasks(*ret, other_task_info_ptr->t)) { \
-            return std::nullopt;                             \
-        }                                                    \
-        return ret;                                          \
+#define ASST_TASKDATA_GENERATE_TASKS(t, m)                      \
+    else if (type == #t)                                        \
+    {                                                           \
+        if (!generate_tasks(*ret, other_task_info_ptr->t, m)) { \
+            return std::nullopt;                                \
+        }                                                       \
+        return ret;                                             \
     }
                         if (other_task_info_ptr == nullptr) [[unlikely]] {
                             Log.error("Task", task, "not found");
                             return std::nullopt;
                         }
-                        ASST_TASKDATA_GENERATE_TASKS(next)
-                        ASST_TASKDATA_GENERATE_TASKS(sub)
-                        ASST_TASKDATA_GENERATE_TASKS(on_error_next)
-                        ASST_TASKDATA_GENERATE_TASKS(exceeded_next)
-                        ASST_TASKDATA_GENERATE_TASKS(reduce_other_times)
+                        ASST_TASKDATA_GENERATE_TASKS(next, false)
+                        ASST_TASKDATA_GENERATE_TASKS(sub, true)
+                        ASST_TASKDATA_GENERATE_TASKS(on_error_next, false)
+                        ASST_TASKDATA_GENERATE_TASKS(exceeded_next, false)
+                        ASST_TASKDATA_GENERATE_TASKS(reduce_other_times, true)
                         else [[unlikely]]
                         {
                             Log.error("Unknown type", type, "in", task);
@@ -379,22 +379,22 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
 
             return true;
         };
-        if (!generate_tasks(new_task_list, task_list)) [[unlikely]] {
+        if (!generate_tasks(new_task_list, task_list, multi)) [[unlikely]] {
             Log.error("Generate task_list", (std::string(name) += "->") += list_type, "failed.");
             return false;
         }
         return true;
     };
 
-#define ASST_TASKDATA_GENERATE_SHARP_TASK(type)                            \
-    if (!expend_sharp_task_list(task_info->type, old_task->type, #type)) { \
-        return std::nullopt;                                               \
+#define ASST_TASKDATA_GENERATE_SHARP_TASK(type, m)                            \
+    if (!expend_sharp_task_list(task_info->type, old_task->type, #type, m)) { \
+        return std::nullopt;                                                  \
     }
-    ASST_TASKDATA_GENERATE_SHARP_TASK(next);
-    ASST_TASKDATA_GENERATE_SHARP_TASK(sub);
-    ASST_TASKDATA_GENERATE_SHARP_TASK(exceeded_next);
-    ASST_TASKDATA_GENERATE_SHARP_TASK(on_error_next);
-    ASST_TASKDATA_GENERATE_SHARP_TASK(reduce_other_times);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(next, false);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(sub, true);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(exceeded_next, false);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(on_error_next, false);
+    ASST_TASKDATA_GENERATE_SHARP_TASK(reduce_other_times, true);
 #undef ASST_TASKDATA_GENERATE_SHARP_TASK
 
     // tasks 个数超过上限时不再 emplace，返回临时值
