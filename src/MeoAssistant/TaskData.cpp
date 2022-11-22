@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <meojson/json.hpp>
+#include <stack>
 
 #include "Resource/GeneralConfiger.h"
 #include "Resource/TemplResource.h"
@@ -266,13 +267,13 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
 
                         taskptr_t other_task_info_ptr =
                             x->front().empty() ? default_task_info_ptr : get_raw(x->front());
-#define ASST_TASKDATA_GENERATE_TASKS(t)                     \
-    else if (type == #t)                                    \
-    {                                                       \
+#define ASST_TASKDATA_GENERATE_TASKS(t)                      \
+    else if (type == #t)                                     \
+    {                                                        \
         if (!generate_tasks(*ret, other_task_info_ptr->t)) { \
-            return std::nullopt;                            \
-        }                                                   \
-        return ret;                                         \
+            return std::nullopt;                             \
+        }                                                    \
+        return ret;                                          \
     }
                         if (other_task_info_ptr == nullptr) [[unlikely]] {
                             Log.error("Task", task, "not found");
@@ -294,8 +295,8 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
                         return std::nullopt;
                     }
                 };
-                std::vector<taskviews_ptr> task_name_stack;
-                std::vector<char> op_stack;
+                std::stack<taskviews_ptr> task_name_stack;
+                std::stack<char> op_stack;
                 std::unordered_map<char, int> op_priority = {
                     { '+', 0 },
                     { '*', 1 },
@@ -310,26 +311,26 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
                         only_sharp = false;
                         [[fallthrough]];
                     case '#': {
-                        task_name_stack.emplace_back(std::make_shared<taskviews>(taskviews { { cur_str_it, str_it } }));
+                        task_name_stack.emplace(std::make_shared<taskviews>(taskviews { { cur_str_it, str_it } }));
                         while (!op_stack.empty()) {
-                            char op = op_stack.back();
+                            char op = op_stack.top();
                             if (op_priority[op] < op_priority[*str_it]) {
                                 break;
                             }
-                            op_stack.pop_back();
-                            auto y = task_name_stack.back();
-                            task_name_stack.pop_back();
-                            auto x = task_name_stack.back();
-                            task_name_stack.pop_back();
+                            op_stack.pop();
+                            auto y = task_name_stack.top();
+                            task_name_stack.pop();
+                            auto x = task_name_stack.top();
+                            task_name_stack.pop();
                             if (auto opt = perform_op(x, y, op); opt) {
-                                task_name_stack.push_back(*opt);
+                                task_name_stack.emplace(*opt);
                             }
                             else {
                                 Log.error("Invalid task:", task);
                                 return false;
                             }
                         }
-                        op_stack.push_back(*str_it);
+                        op_stack.emplace(*str_it);
                         cur_str_it = str_it + 1;
                     }
 
@@ -343,16 +344,16 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
                     continue;
                 }
 
-                task_name_stack.emplace_back(std::make_shared<taskviews>(taskviews { { cur_str_it, task.end() } }));
+                task_name_stack.emplace(std::make_shared<taskviews>(taskviews { { cur_str_it, task.end() } }));
                 while (!op_stack.empty()) {
-                    char op = op_stack.back();
-                    op_stack.pop_back();
-                    auto y = task_name_stack.back();
-                    task_name_stack.pop_back();
-                    auto x = task_name_stack.back();
-                    task_name_stack.pop_back();
+                    char op = op_stack.top();
+                    op_stack.pop();
+                    auto y = task_name_stack.top();
+                    task_name_stack.pop();
+                    auto x = task_name_stack.top();
+                    task_name_stack.pop();
                     if (auto opt = perform_op(x, y, op); opt) {
-                        task_name_stack.push_back(*opt);
+                        task_name_stack.emplace(*opt);
                     }
                     else {
                         Log.error("Invalid task:", task);
@@ -363,14 +364,14 @@ std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string
                 task_changed = true;
 
                 if (only_sharp) {
-                    ranges::copy(*task_name_stack.back(), std::back_inserter(new_task_list));
+                    ranges::copy(*task_name_stack.top(), std::back_inserter(new_task_list));
                 }
                 else {
                     auto task_info_ptr = std::make_shared<TaskInfo>(*default_task_info_ptr);
-                    ranges::copy(*task_name_stack.back(), std::back_inserter(task_info_ptr->sub));
+                    ranges::copy(*task_name_stack.top(), std::back_inserter(task_info_ptr->sub));
                     task_info_ptr->algorithm = AlgorithmType::JustReturn;
                     task_info_ptr->name = (std::string(name) += "_DERIVED_") += task;
-                    insert_or_assign_task(task_info_ptr->name, task_info_ptr);
+                    insert_or_assign_raw_task(task_info_ptr->name, task_info_ptr);
                     Log.debug("Created task:", task_info_ptr->name, "with sub:", task_info_ptr->sub);
                     new_task_list.emplace_back(task_info_ptr->name);
                 }
