@@ -14,6 +14,8 @@ bool asst::CopilotConfiger::parse(const json::value& json)
     battle_actions.details = json.get("doc", "details", std::string());
     battle_actions.details_color = json.get("doc", "details_color", std::string());
 
+    battle_actions.support_unit = json.get("support_unit", "name", std::string());
+
     if (auto opt = json.find<json::array>("groups")) {
         for (const auto& group_info : opt.value()) {
             std::string group_name = group_info.at("name").as_string();

@@ -1710,6 +1710,64 @@
             158
         ]
     },
+    "OF-1": {
+        "baseTask": "SideStoryStages",
+        "next": [
+            "StageOF"
+        ]
+    },
+    "StageOF": {
+        "action": "ClickSelf",
+        "doc": "进入OF关卡",
+        "roi": [
+            44,
+            185,
+            146,
+            90
+        ],
+        "next": [
+            "StageOFEnter"
+        ]
+    },
+    "StageOFEnter": {
+        "action": "ClickSelf",
+        "doc": "进入OF关卡",
+        "roi": [
+            1040,
+            474,
+            220,
+            102
+        ],
+        "next": [
+            "StageOF-1"
+        ]
+    },
+    "StageOF-1": {
+        "action": "ClickSelf",
+        "doc": "进入OF-1关卡",
+        "roi": [
+            397,
+            164,
+            526,
+            144
+        ]
+    },
+    "SideStoryStages": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "StageSideStory"
+        ]
+    },
+    "StageSideStory": {
+        "action": "ClickSelf",
+        "doc": "进入别传关卡",
+        "roi": [
+            318,
+            562,
+            544,
+            158
+        ]
+    },
     "Stage": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -2833,6 +2891,22 @@
             "ClickCorner"
         ]
     },
+    "EndOfActionAndStop": {
+        "template": "EndOfAction.png",
+        "roi": [
+            0,
+            290,
+            70,
+            60
+        ],
+        "preDelay": 5000,
+        "reduceOtherTimes": [
+            "FightMissionFailed"
+        ],
+        "next": [
+            "ClickCornerAndStop"
+        ]
+    },
     "EndOfActionAnnihilation": {
         "algorithm": "OcrDetect",
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
@@ -2871,6 +2945,23 @@
             "UseStone",
             "NoStone",
             "EndOfAction"
+        ],
+        "onErrorNext": [
+            "RestartGameAndContinue"
+        ]
+    },
+    "ClickCornerAndStop": {
+        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "next": [
+            "Stop"
         ],
         "onErrorNext": [
             "RestartGameAndContinue"
@@ -5799,6 +5890,29 @@
             800,
             100
         ]
+    },
+    "BattleSupportUnitFormation": {
+        "action": "ClickSelf",
+        "roi": [
+            995,
+            248,
+            244,
+            167
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BattleSupportUnitFormationSelect"
+        ]
+    },
+    "BattleSupportUnitFormationSelect": {
+        "action": "ClickSelf",
+        "roi": [
+            115,
+            595,
+            1165,
+            75
+        ],
+        "postDelay": 1000
     },
     "BattleQuickFormation": {
         "action": "ClickSelf",

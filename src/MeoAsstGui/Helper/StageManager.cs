@@ -71,6 +71,9 @@ namespace MeoAsstGui
                 // 剿灭模式
                 { "Annihilation", new StageInfo { Display = Localization.GetString("Annihilation"), Value = "Annihilation" } },
 
+                // 别传 火蓝之心
+                { "OF-1", new StageInfo { Display = "OF-1", Value = "OF-1" } },
+
                 // 芯片本
                 { "PR-A-1", new StageInfo("PR-A-1", "PR-ATip", new[] { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, resourceCollection) },
                 { "PR-A-2", new StageInfo("PR-A-2", string.Empty, new[] { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, resourceCollection) },

@@ -14,6 +14,7 @@
 #include "Task/CopilotTask.h"
 #include "Task/DepotTask.h"
 #include "Task/FightTask.h"
+#include "Task/CreditFightTask.h"
 #include "Task/InfrastTask.h"
 #include "Task/MallTask.h"
 #include "Task/RecruitTask.h"
@@ -97,6 +98,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     if constexpr (false) {}
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CreditFightTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)

@@ -66,6 +66,7 @@
     <ClInclude Include="Task\AwardTask.h" />
     <ClInclude Include="Task\CloseDownTask.h" />
     <ClInclude Include="Task\CopilotTask.h" />
+    <ClInclude Include="Task\CreditFightTask.h" />
     <ClInclude Include="Task\DebugTask.h" />
     <ClInclude Include="Task\DepotTask.h" />
     <ClInclude Include="Task\FightTask.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Task\AwardTask.cpp" />
     <ClCompile Include="Task\CloseDownTask.cpp" />
     <ClCompile Include="Task\CopilotTask.cpp" />
+    <ClCompile Include="Task\CreditFightTask.cpp" />
     <ClCompile Include="Task\DebugTask.cpp" />
     <ClCompile Include="Task\DepotTask.cpp" />
     <ClCompile Include="Task\FightTask.cpp" />
