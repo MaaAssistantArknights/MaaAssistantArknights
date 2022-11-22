@@ -2393,7 +2393,8 @@
         "algorithm": "JustReturn",
         "next": [
             "CloseAnno",
-            "CloseAnnoTexas"
+            "CloseAnnoTexas",
+            "TodaysSupplies"
         ]
     },
     "CloseAnno": {
@@ -6072,7 +6073,8 @@
             131
         ],
         "next": [
-            "SkipThePreBattlePlotConfirm"
+            "SkipThePreBattlePlotConfirm",
+            "SkipThePreBattlePlot"
         ],
         "maskRange": [
             100,
