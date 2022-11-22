@@ -9208,7 +9208,7 @@
         "baseTask": "RoguelikeRecruitElite"
     },
     "RoguelikeRecruitLevel": {
-        "algorithm": "JustReturn",
+        "template": "empty.png",
         "rectMove_Doc": "肉鸽招募时检测等级用，相对flag的位移",
         "rectMove": [
             -171,
