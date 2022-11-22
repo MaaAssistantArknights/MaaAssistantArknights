@@ -5958,7 +5958,7 @@
         "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.92,
         "roi": [
             370,
             250,
