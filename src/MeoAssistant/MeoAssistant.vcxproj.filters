@@ -322,6 +322,9 @@
     <ClCompile Include="AsstCaller.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Task\CreditFightTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -694,6 +697,9 @@
     </ClInclude>
     <ClInclude Include="Utils\AsstBattleDef.h">
       <Filter>源文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\CreditFightTask.h">
+      <Filter>源文件\Task</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
