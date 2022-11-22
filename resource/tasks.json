@@ -2,6 +2,7 @@
     "SlowlySwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 200,
         "specificRect": [
             300,
             310,
@@ -17,12 +18,16 @@
         ],
         "rectMove_Doc": "滑动终点",
         "specialParams": [
-            1000,
-            1
+            200,
+            1,
+            2,
+            0
         ],
         "specialParams_Doc": [
             "滑动 duration",
-            "额外滑动？"
+            "额外滑动？",
+            "slope in (zero means smooth, 1 means linear)",
+            "slope out"
         ],
         "next": [
             "#next"
@@ -32,6 +37,7 @@
     "SlowlySwipeToTheRight": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 200,
         "specificRect": [
             880,
             310,
@@ -45,8 +51,10 @@
             100
         ],
         "specialParams": [
-            1000,
-            1
+            200,
+            1,
+            2,
+            0
         ],
         "next": [
             "#next"
@@ -69,6 +77,12 @@
             100,
             100
         ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
         "next": [
             "#next"
         ],
@@ -89,6 +103,12 @@
             310,
             200,
             100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
         ],
         "next": [
             "#next"
@@ -247,6 +267,73 @@
             "11"
         ]
     },
+    "LevelOfDifficulty": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "环境",
+            "PRTS"
+        ],
+        "roi": [
+            26,
+            565,
+            302,
+            155
+        ],
+        "sub": [
+            "EnterChooseLevelOfDifficulty"
+        ]
+    },
+    "EnterChooseLevelOfDifficulty": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            598,
+            131,
+            122
+        ]
+    },
+    "Hard": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterHard",
+            "Return"
+        ]
+    },
+    "Normal": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterNormal",
+            "Return"
+        ]
+    },
+    "EnterHard": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            861,
+            570,
+            330,
+            145
+        ]
+    },
+    "EnterNormal": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            473,
+            572,
+            329,
+            144
+        ]
+    },
     "SwipeLeftToEpisode": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -363,7 +450,7 @@
     "FullStageNavigation": {
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
-        "baseTask": "SwipeToTheRight",
+        "baseTask": "ChapterSwipeToTheRight",
         "next": [
             "#self"
         ],
@@ -386,7 +473,7 @@
         ]
     },
     "StageNavigationSlowlySwipeLeft": {
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "FullStageNavigation"
         ],
@@ -519,9 +606,55 @@
             "SwipeRightToStage1-7"
         ]
     },
+    "ChapterSlowlySwipeToTheLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "specificRect": [
+            300,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            900,
+            350,
+            20,
+            20
+        ]
+    },
+    "ChapterSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            900,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            300,
+            350,
+            20,
+            20
+        ]
+    },
+    "ChapterSwipeToTheLeft": {
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ]
+    },
+    "ChapterSwipeToTheRight": {
+        "baseTask": "ChapterSlowlySwipeToTheRight",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ]
+    },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "fullMatch": true,
         "isAscii": true,
         "text": [
@@ -547,7 +680,7 @@
     },
     "SwipeRightToStage1-7": {
         "algorithm": "OcrDetect",
-        "baseTask": "SlowlySwipeToTheRight",
+        "baseTask": "ChapterSlowlySwipeToTheRight",
         "fullMatch": true,
         "isAscii": true,
         "text": [
@@ -632,16 +765,11 @@
     },
     "IS-Open": {
         "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "叙拉古人",
-            "开放"
-        ],
         "roi": [
+            476,
             0,
-            500,
-            500,
-            150
+            502,
+            720
         ],
         "next": [
             "EnterChapterIS"
@@ -814,12 +942,12 @@
         ],
         "next": [
             "NLChapterToNL",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageNL-10": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageNL-10",
             "SwipeToStageNL-10"
@@ -827,7 +955,7 @@
     },
     "SwipeToStageNL-9": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageNL-9",
             "SwipeToStageNL-9"
@@ -835,7 +963,7 @@
     },
     "SwipeToStageNL-8": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageNL-8",
             "SwipeToStageNL-8"
@@ -1050,12 +1178,12 @@
         "postDelay": 2000,
         "next": [
             "ICChapterToIC",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageIC-9": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageIC-9",
             "SwipeToStageIC-9"
@@ -1063,7 +1191,7 @@
     },
     "SwipeToStageIC-8": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageIC-8",
             "SwipeToStageIC-8"
@@ -1071,7 +1199,7 @@
     },
     "SwipeToStageIC-7": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageIC-7",
             "SwipeToStageIC-7"
@@ -1192,12 +1320,12 @@
         "postDelay": 2000,
         "next": [
             "DVChapterToDV",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageDV-8": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageDV-8",
             "SwipeToStageDV-8"
@@ -1205,7 +1333,7 @@
     },
     "SwipeToStageDV-7": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageDV-7",
             "SwipeToStageDV-7"
@@ -1213,7 +1341,7 @@
     },
     "SwipeToStageDV-6": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageDV-6",
             "SwipeToStageDV-6"
@@ -1323,12 +1451,12 @@
         ],
         "action": "ClickSelf",
         "sub": [
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SwipeToStageLE-5": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageLE-5",
             "SwipeToStageLE-5"
@@ -1336,7 +1464,7 @@
     },
     "SwipeToStageLE-6": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageLE-6",
             "SwipeToStageLE-6"
@@ -1344,7 +1472,7 @@
     },
     "SwipeToStageLE-7": {
         "algorithm": "JustReturn",
-        "baseTask": "SlowlySwipeToTheLeft",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": [
             "StageLE-7",
             "SwipeToStageLE-7"
@@ -1435,7 +1563,7 @@
         ],
         "next": [
             "SN-Chapter2",
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "SN-Chapter3": {
@@ -1523,7 +1651,7 @@
             150
         ],
         "next": [
-            "SwipeToTheRight"
+            "ChapterSwipeToTheRight"
         ]
     },
     "StageBI7": {
@@ -2003,6 +2131,14 @@
                 "翎羽"
             ],
             [
+                "令羽.*",
+                "翎羽"
+            ],
+            [
+                "令翎羽",
+                "翎羽"
+            ],
+            [
                 "燃石",
                 "燧石"
             ],
@@ -2143,6 +2279,10 @@
                 "缄默德克萨斯"
             ],
             [
+                "霸霜叶",
+                "霜叶"
+            ],
+            [
                 "千员",
                 "干员"
             ],
@@ -2253,7 +2393,8 @@
         "algorithm": "JustReturn",
         "next": [
             "CloseAnno",
-            "CloseAnnoTexas"
+            "CloseAnnoTexas",
+            "TodaysSupplies"
         ]
     },
     "CloseAnno": {
@@ -3818,6 +3959,7 @@
     },
     "CreditShop-CreditOcr": {
         "algorithm": "OcrDetect",
+        "isAscii": true,
         "text": [],
         "roi": [
             1147,
@@ -3929,6 +4071,7 @@
     "RecruitTimerH": {
         "Doc": "识别公招小时数",
         "algorithm": "OcrDetect",
+        "isAscii": true,
         "roi": [
             400,
             180,
@@ -3950,6 +4093,7 @@
     "RecruitTimerM": {
         "Doc": "识别公招分钟数",
         "algorithm": "OcrDetect",
+        "isAscii": true,
         "roi": [
             570,
             180,
@@ -4393,19 +4537,7 @@
             255
         ]
     },
-    "OperListSwipeToTheLeft": {
-        "baseTask": "SwipeToTheLeft",
-        "specificRect": [
-            400,
-            310,
-            100,
-            100
-        ],
-        "specialParams": [
-            300
-        ]
-    },
-    "SleepAfterOperListSwipe": {
+    "SleepAfterOperListQuickSwipe": {
         "algorithm": "JustReturn",
         "postDelay": 1000
     },
@@ -4905,6 +5037,7 @@
             1,
             255
         ],
+        "preDelay": 1000,
         "postDelay": 1000
     },
     "InfrastFacilityListTabTrade": {
@@ -4919,6 +5052,7 @@
             1,
             255
         ],
+        "preDelay": 1000,
         "postDelay": 1000
     },
     "InfrastOperLockedMfg": {
@@ -5824,7 +5958,7 @@
         "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.92,
         "roi": [
             370,
             250,
@@ -5939,7 +6073,8 @@
             131
         ],
         "next": [
-            "SkipThePreBattlePlotConfirm"
+            "SkipThePreBattlePlotConfirm",
+            "SkipThePreBattlePlot"
         ],
         "maskRange": [
             100,
@@ -6000,7 +6135,8 @@
         "maskRange": [
             100,
             255
-        ]
+        ],
+        "templThreshold": 0.9
     },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
@@ -6057,6 +6193,7 @@
     },
     "BattleKills": {
         "algorithm": "OcrDetect",
+        "isAscii": true,
         "text": [],
         "roi": [
             50,
@@ -6067,6 +6204,7 @@
     },
     "BattleCostData": {
         "algorithm": "OcrDetect",
+        "isAscii": true,
         "text": [],
         "roi": [
             1196,
@@ -6127,15 +6265,25 @@
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
-        "preDelay": 200,
-        "postDelay": 100,
-        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；rear 是干员上场，到设置朝向之间等待的时间"
+        "preDelay": 100,
+        "postDelay": 150,
+        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；post 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 500,
-        "postDelay": 300,
-        "Doc": "pre 是将干员滑动到场上的 duration 系数；rear 是设置干员朝向滑动的 duration"
+        "preDelay": 200,
+        "postDelay": 80,
+        "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
+        "specialParams": [
+            300,
+            2,
+            0
+        ],
+        "specialParamsDoc": [
+            "设置朝向时的滑动距离",
+            "滑动初速度（平均速度是固定的，初速度快末速度慢相当于一直减速）",
+            "滑动末速度"
+        ]
     },
     "BattleOpersFlag": {
         "templThreshold": 0.85,
@@ -6175,7 +6323,7 @@
     "BattleOperCooling": {
         "template": "empty.png",
         "specialParams": [
-            1000
+            1500
         ],
         "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
@@ -6502,6 +6650,7 @@
     "StageDrops-StageName": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
+        "isAscii": true,
         "text": [],
         "ocrReplace": [
             [
@@ -6644,6 +6793,7 @@
     },
     "NumberOcrReplace": {
         "algorithm": "OcrDetect",
+        "isAscii": true,
         "text": [],
         "ocrReplace": [
             [
@@ -6806,22 +6956,49 @@
             138
         ]
     },
-    "OperListSlowlySwipeToTheLeft": {
-        "baseTask": "SlowlySwipeToTheLeft",
-        "specificRect": [
-            400,
-            310,
-            100,
-            100
-        ]
-    },
-    "OperListSlowlySwipeToTheRight": {
+    "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1150,
+            350,
+            20,
+            20
+        ],
         "rectMove": [
             400,
-            310,
-            100,
-            100
+            350,
+            20,
+            20
+        ]
+    },
+    "InfrastOperListSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            400,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            1150,
+            350,
+            20,
+            20
+        ]
+    },
+    "BattleFormationOperListSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1100,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            400,
+            350,
+            20,
+            20
         ]
     },
     "Roguelike@Abandon": {
@@ -8757,9 +8934,29 @@
         "templThreshold": 0.91
     },
     "Mizuki@Roguelike@StageEncounterOptionWonderland": {},
+    "Mizuki@Roguelike@StageSafeHouseReuse": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "withoutDet": true,
+        "roi": [
+            880,
+            210,
+            140,
+            36
+        ],
+        "text": [
+            "活用安全屋"
+        ],
+        "preDelay": 500,
+        "next": [
+            "Mizuki@Roguelike@StageEncounterOption#next"
+        ]
+    },
     "Mizuki@Roguelike@StageEncounterOptions": {
         "next": [
             "Mizuki@Roguelike@StageEncounterOptionFree",
+            "Mizuki@Roguelike@StageSafeHouseReuse",
             "Mizuki@Roguelike@StageEncounterOptionLeave",
             "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
@@ -8993,33 +9190,29 @@
         "action": "DoNothing",
         "postDelay": 100
     },
-    "RoguelikeRecruitElite0": {
-        "roi": [
+    "RoguelikeRecruitElite": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "rectMove": [
             -170,
             -60,
             60,
             50
         ]
+    },
+    "RoguelikeRecruitElite0": {
+        "baseTask": "RoguelikeRecruitElite"
     },
     "RoguelikeRecruitElite1": {
-        "roi": [
-            -170,
-            -60,
-            60,
-            50
-        ]
+        "baseTask": "RoguelikeRecruitElite"
     },
     "RoguelikeRecruitElite2": {
-        "roi": [
-            -170,
-            -60,
-            60,
-            50
-        ]
+        "baseTask": "RoguelikeRecruitElite"
     },
     "RoguelikeRecruitLevel": {
         "template": "empty.png",
-        "roi": [
+        "rectMove_Doc": "肉鸽招募时检测等级用，相对flag的位移",
+        "rectMove": [
             -171,
             0,
             15,
@@ -9054,42 +9247,56 @@
         "templThreshold": 0.9
     },
     "RoguelikeRecruitOperListSlowlySwipeToTheLeft": {
-        "baseTask": "OperListSlowlySwipeToTheLeft",
+        "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
-            560,
-            310,
-            100,
-            100
+            500,
+            340,
+            20,
+            20
         ],
         "rectMove": [
-            1080,
-            310,
-            100,
-            100
+            1150,
+            340,
+            20,
+            20
         ]
     },
     "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
-        "baseTask": "OperListSlowlySwipeToTheRight",
+        "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1080,
-            310,
-            100,
-            100
+            1150,
+            340,
+            20,
+            20
         ],
         "rectMove": [
-            560,
-            310,
-            100,
-            100
+            500,
+            340,
+            20,
+            20
         ]
     },
     "RoguelikeRecruitOperListSwipeToTheLeft": {
-        "baseTask": "OperListSwipeToTheLeft",
+        "baseTask": "RoguelikeRecruitOperListSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ]
+    },
+    "DepotSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            560,
-            310,
-            100,
-            100
+            1150,
+            340,
+            20,
+            20
+        ],
+        "rectMove": [
+            110,
+            340,
+            20,
+            20
         ]
     },
     "RoguelikeRecruitSwipeMaxTime": {
@@ -9113,7 +9320,7 @@
             40,
             30
         ],
-        "postDelay": 200
+        "postDelay": 0
     },
     "RoguelikeSkillSelectionMove2": {
         "algorithm": "JustReturn",

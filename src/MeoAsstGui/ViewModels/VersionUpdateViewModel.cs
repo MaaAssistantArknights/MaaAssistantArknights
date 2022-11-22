@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -27,7 +26,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
-using Windows.Globalization;
 
 namespace MeoAsstGui
 {
@@ -290,7 +288,7 @@ namespace MeoAsstGui
             NewVersionIsBeingBuilt,
         }
 
-        private enum Downloader
+        public enum Downloader
         {
             Native,
             Aria2,
@@ -316,29 +314,35 @@ namespace MeoAsstGui
             var body = _latestJson["body"]?.ToString();
             if (body == string.Empty)
             {
-                // v4.6.6-1.g{Hash}
-                // v4.6.7-beta.2.8.g{Hash}
-                if (Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
-                    isNightlyVersion(semVersion))
+                string ComparableHash(string version)
                 {
-                    var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
-                    if (commitHash.StartsWith("g"))
+                    if (isStdVersion(version))
                     {
-                        commitHash = commitHash.Remove(0, 1);
+                        return version;
+                    }
+                    else if (Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
+                        isNightlyVersion(semVersion))
+                    {
+                        // v4.6.6-1.g{Hash}
+                        // v4.6.7-beta.2.8.g{Hash}
+                        var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
+                        if (commitHash.StartsWith("g"))
+                        {
+                            commitHash = commitHash.Remove(0, 1);
+                        }
+
+                        return commitHash;
                     }
 
-                    var mainVer = "v" + semVersion.WithoutPrerelease() + "-";
-                    for (int i = 0; i < semVersion.PrereleaseIdentifiers.Count - 2; ++i)
-                    {
-                        mainVer += semVersion.PrereleaseIdentifiers[i].ToString() + ".";
-                    }
+                    return null;
+                }
 
-                    if (mainVer.EndsWith("."))
-                    {
-                        mainVer = mainVer.Remove(mainVer.Length - 1);
-                    }
+                var curHash = ComparableHash(_curVersion);
+                var latestHash = ComparableHash(_latestVersion);
 
-                    body = $"**Full Changelog**: [{mainVer} -> {commitHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{mainVer}...{commitHash})";
+                if (curHash != null && latestHash != null)
+                {
+                    body = $"**Full Changelog**: [{curHash} -> {latestHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{curHash}...{latestHash})";
                 }
             }
 
@@ -398,7 +402,8 @@ namespace MeoAsstGui
             var downloaded = false;
             var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
-                    new Tuple<string, string>("https://", "https://gh.api.99988866.xyz/https://"),
+                    new Tuple<string, string>("github.com", "agent.imgg.dev"),
+                    new Tuple<string, string>("https://", "https://git.114514.pro/https://"),
                     new Tuple<string, string>("https://", "https://ghproxy.com/https://"),
                     new Tuple<string, string>("github.com", "ota.maa.plus"),
                     new Tuple<string, string>("github.com", "download.fastgit.org"),
@@ -657,7 +662,8 @@ namespace MeoAsstGui
                 fileName: assetsObject["name"].ToString(), contentType:
                 assetsObject["content_type"].ToString(),
                 downloader: downloader,
-                saveTo: saveTo);
+                saveTo: saveTo,
+                proxy: _container.Get<SettingsViewModel>().Proxy);
         }
 
         /// <summary>
@@ -668,9 +674,10 @@ namespace MeoAsstGui
         /// <param name="contentType">获取对象的物联网通用类型</param>
         /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
         /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
+        /// <param name="proxy">http proxy</param>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        private bool DownloadFile(string url, string fileName, string contentType = null,
-            Downloader downloader = Downloader.Native, string saveTo = null)
+        public static bool DownloadFile(string url, string fileName, string contentType = null,
+            Downloader downloader = Downloader.Native, string saveTo = null, string proxy = "")
         {
             string fileDir = (saveTo == null) ? Directory.GetCurrentDirectory() : Path.GetFullPath(saveTo);
             string fileNameWithTemp = fileName + ".temp";
@@ -682,11 +689,11 @@ namespace MeoAsstGui
                 switch (downloader)
                 {
                     case Downloader.Native:
-                        returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType);
+                        returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType, proxy);
                         break;
 
                     case Downloader.Aria2:
-                        returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp);
+                        returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp, proxy);
                         break;
                 }
             }
@@ -710,15 +717,14 @@ namespace MeoAsstGui
             return returned;
         }
 
-        private bool DownloadFileForAria2(string url, string saveTo, string fileName)
+        private static bool DownloadFileForAria2(string url, string saveTo, string fileName, string proxy = "")
         {
             var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
             var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + RequestUserAgent + "\"";
 
-            var settings = _container.Get<SettingsViewModel>();
-            if (settings.Proxy.Length > 0)
+            if (proxy.Length > 0)
             {
-                aria2Args += " --all-proxy=\"" + settings.Proxy + "\"";
+                aria2Args += " --all-proxy=\"" + proxy + "\"";
             }
 
             var aria2Process = new Process
@@ -748,8 +754,9 @@ namespace MeoAsstGui
         /// <param name="url">下载地址</param>
         /// <param name="filePath">文件路径</param>
         /// <param name="contentType">HTTP ContentType</param>
+        /// <param name="proxy">http proxy</param>
         /// <returns>是否成功</returns>
-        private bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null)
+        private static bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null, string proxy = "")
         {
             // 创建 Http 请求
             var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
@@ -758,10 +765,9 @@ namespace MeoAsstGui
             httpWebRequest.Method = "GET";
             httpWebRequest.UserAgent = RequestUserAgent;
             httpWebRequest.Accept = contentType;
-            var settings = _container.Get<SettingsViewModel>();
-            if (settings.Proxy.Length > 0)
+            if (proxy.Length > 0)
             {
-                httpWebRequest.Proxy = new WebProxy(settings.Proxy);
+                httpWebRequest.Proxy = new WebProxy(proxy);
             }
 
             // 获取输入输出流

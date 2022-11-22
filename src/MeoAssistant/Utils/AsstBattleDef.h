@@ -47,7 +47,7 @@ namespace asst
         Retreat,     // 撤退干员
         SkillUsage,  // 技能用法
         SwitchSpeed, // 切换二倍速
-        BulletTime,  // 使用 1/5 的速度（点击任意干员），会在下一个任意操作后恢复原速度
+        BulletTime,  // 使用 1/5 的速度
         UseAllSkill, // 使用所有技能，仅肉鸽模式
         Output,      // 仅输出，什么都不操作，界面上也不显示
         SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
@@ -56,6 +56,7 @@ namespace asst
     struct BattleAction // 操作
     {
         int kills = 0;
+        int costs = 0;
         int cost_changes = 0;
         int cooling = 0;
         BattleActionType type = BattleActionType::Deploy;

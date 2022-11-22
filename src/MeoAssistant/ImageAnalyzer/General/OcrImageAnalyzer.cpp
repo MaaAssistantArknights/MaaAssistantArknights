@@ -91,11 +91,6 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
     m_use_cache = is_use;
 }
 
-void asst::OcrImageAnalyzer::set_without_det(bool without_det) noexcept
-{
-    m_without_det = without_det;
-}
-
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
     m_required = std::move(required);
@@ -112,6 +107,7 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
     m_full_match = task_info.full_match;
     m_replace = std::move(task_info.replace_map);
     m_use_cache = task_info.cache;
+    m_use_char_model = task_info.is_ascii;
 
     if (m_use_cache && !m_region_of_appeared.empty()) {
         m_roi = m_region_of_appeared;
@@ -119,7 +115,7 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
     }
     else {
         set_roi(task_info.roi);
-        m_without_det = false;
+        m_without_det = task_info.without_det;
     }
 }
 

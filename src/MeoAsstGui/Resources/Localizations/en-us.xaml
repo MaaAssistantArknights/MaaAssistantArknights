@@ -171,6 +171,8 @@
     <system:String x:Key="WaitForEmulator">Delay time</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
+    <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>
+    <system:String x:Key="AdbTouchMode">Compatibility Touch Mode (without minitouch)</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
@@ -347,11 +349,11 @@
 
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">Tips：</system:String>
-    <system:String x:Key="CopilotTip1">1. Please set the emulator and game to 60 FPS at least.</system:String>
-    <system:String x:Key="CopilotTip2">2. Please use this function only when &quot;Start&quot; is visible in game.</system:String>
-    <system:String x:Key="CopilotTip3">3. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.</system:String>
-    <system:String x:Key="CopilotTip4">4. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.</system:String>
-    <system:String x:Key="CopilotTip5">5. &quot;Auto squad&quot; can not identify the &quot;special focus&quot; crew members temporarily, please cancel the special attention or manual formation if necessary.</system:String>
+    <system:String x:Key="CopilotTip1">Please set the emulator and game to 60 FPS at least.</system:String>
+    <system:String x:Key="CopilotTip2">Please use this function only when &quot;Start&quot; is visible in game.</system:String>
+    <system:String x:Key="CopilotTip3">You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.</system:String>
+    <system:String x:Key="CopilotTip4">For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.</system:String>
+    <system:String x:Key="CopilotTip5">&quot;Auto squad&quot; can not identify the &quot;special focus&quot; crew members temporarily, please cancel the special attention or manual formation if necessary.</system:String>
 
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
@@ -368,6 +370,11 @@
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: FAQ - Crashes to solve.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">Please use administrator to open MAA</system:String>
+    <system:String x:Key="ReplaceADBNotExists">ADB File NOT exists</system:String>
+    <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the adb file in the emulator)</system:String>
+    <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>

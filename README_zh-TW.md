@@ -37,7 +37,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 自動公招，可選使用加急許可，一次全部刷完！公招数据上傳 [企鵝物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一圖流](https://yituliu.site/maarecruitdata)
 - 訪問好友、收取信用及購物、領取日常獎勵等。一鍵全日常自動長草！
 - 肉鴿全自動刷源石錠和蠟燭，自動辨識幹員及練度
-- 導入作業 JSON 檔案，自動抄作業！ [影片演示](https://www.bilibili.com/video/BV14u411673q/)
+- 導入作業 JSON 檔案，自動抄作業！ [影片演示](https://www.bilibili.com/video/BV1H841177Fk/)
 - 新功能：倉庫辨識！支援導出至 [企鵝物流刷圖規劃器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings)
 
 話不多說，看圖！  
@@ -77,7 +77,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 國際服（美服）  
   支援基本的刷理智、信用購物、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarEN/readme.md)
 - 日服  
-  支援基本的刷理智、信用購物、自動公招、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarJP/readme.md)
+  支援基本的刷理智、自動基建、信用購物、自動公招、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarJP/readme.md)
 - 韓服  
   支援基本的刷理智功能，請參考 [說明](resource/global/YoStarKR/readme.md)
 - 繁中服  
@@ -106,6 +106,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~C++ base64編解碼：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解壓壓縮庫：[zlib](https://github.com/madler/zlib)
 - C++ Gzip封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
+- 安卓觸控事件器：[minitouch](https://github.com/openstf/minitouch)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF部件庫：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON庫：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)

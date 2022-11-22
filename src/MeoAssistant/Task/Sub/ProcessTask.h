@@ -42,7 +42,8 @@ namespace asst
 
         std::pair<int, TimesLimitType> calc_time_limit() const;
         void exec_click_task(const Rect& matched_rect);
-        void exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe);
+        void exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
+                             double slope_out);
 
         std::shared_ptr<TaskInfo> m_cur_task_ptr = nullptr;
         std::vector<std::string> m_raw_tasks_name;

@@ -128,6 +128,9 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         }
         name_analyzer.sort_result_by_score();
         const std::string& text = name_analyzer.get_result().front().text;
+        if (text.empty()) {
+            continue;
+        }
 
         static const std::vector<std::string> RoguelikeStageCode = { "ISW-NO", "ISW-DF", "ISW-DU", "ISW-SP",
                                                                      std::string() };
@@ -151,6 +154,11 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         if (calced) {
             break;
         }
+    }
+
+    if (!calced) {
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("StageInfoError"));
+        return false;
     }
 
     auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
@@ -208,18 +216,13 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         Log.error("Unknown home pos");
     }
 
-    if (calced) {
-        auto cb_info = basic_info_with_what("StageInfo");
-        auto& details = cb_info["details"];
-        details["name"] = m_stage_name;
-        details["size"] = m_side_tile_info.size();
-        callback(AsstMsg::SubTaskExtraInfo, cb_info);
-    }
-    else {
-        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("StageInfoError"));
-    }
+    auto cb_info = basic_info_with_what("StageInfo");
+    auto& details = cb_info["details"];
+    details["name"] = m_stage_name;
+    details["size"] = m_side_tile_info.size();
+    callback(AsstMsg::SubTaskExtraInfo, cb_info);
 
-    return calced;
+    return true;
 }
 
 bool asst::RoguelikeBattleTaskPlugin::battle_pause()
@@ -352,7 +355,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     }
 
     const cv::Mat& image = m_ctrler->get_image();
-    if (try_possible_skill(image)) {
+    if (!m_first_deploy && try_possible_skill(image)) {
         return true;
     }
 
@@ -718,15 +721,17 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     int dist = static_cast<int>(Point::distance(
         placed_point, { opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(swipe_oper_task_ptr->pre_delay / 800.0 * dist * log10(dist));
-    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, true, 0);
+    int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
+    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
+                    swipe_oper_task_ptr->special_params.at(2));
     sleep(use_oper_task_ptr->post_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
     if (direction != Point::zero()) {
-        constexpr int coeff = 500;
+        static const int coeff = swipe_oper_task_ptr->special_params.at(0);
         Point end_point = placed_point + (direction * coeff);
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay, true, 100);
+        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
+        sleep(use_oper_task_ptr->post_delay);
     }
 
     if (opt_oper.role == BattleRole::Drone) {

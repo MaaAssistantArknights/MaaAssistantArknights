@@ -25,6 +25,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <CheckBox
             Grid.Row="0"
@@ -119,6 +120,23 @@
             IsChecked="{Binding RetryOnDisconnected}"
             Content="{DynamicResource RetryOnDisconnected}"
             ToolTip="{DynamicResource RetryOnDisconnectedTip}"
+            HorizontalAlignment="Center" />
+        <Button
+            Grid.Row="6"
+            Grid.Column="0"
+            Width="100"
+            Height="30"
+            Margin="10"
+            HorizontalAlignment="Left"
+            Command="{s:Action ReplaceADB}"
+            Content="{DynamicResource ForcedReplaceADB}" />
+        <CheckBox
+            Grid.Row="6"
+            Grid.Column="1"
+            Margin="15"
+            VerticalAlignment="Center"
+            IsChecked="{Binding UseAdbTouchMode}"
+            Content="{DynamicResource AdbTouchMode}"
             HorizontalAlignment="Center" />
     </Grid>
 </UserControl>
