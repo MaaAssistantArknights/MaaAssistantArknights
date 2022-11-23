@@ -12,6 +12,8 @@ namespace asst
         VisitTask(AsstCallback callback, void* callback_arg);
         virtual ~VisitTask() override = default;
 
+        virtual bool set_params(const json::value& params) override;
+
         static constexpr const char* TaskType = "Visit";
 
     private:

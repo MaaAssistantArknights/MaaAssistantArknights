@@ -1246,10 +1246,13 @@ namespace MeoAsstGui
         /// <summary>
         /// 访问好友。
         /// </summary>
+        /// <param name="credit_fight_task_enabled">是否借助战作战。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendVisit()
+        public bool AsstAppendVisit(bool credit_fight_task_enabled)
         {
-            TaskId id = AsstAppendTaskWithEncoding("Visit");
+            var task_params = new JObject();
+            task_params["credit_fight_task_enabled"] = credit_fight_task_enabled;
+            TaskId id = AsstAppendTaskWithEncoding("Visit", task_params);
             _latestTaskId[TaskType.Visit] = id;
             return id != 0;
         }

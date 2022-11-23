@@ -1006,6 +1006,22 @@ namespace MeoAsstGui
             }
         }
 
+        /* 访问好友设置 */
+        private bool _creditFightTaskEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Visit.CreditFightTaskEnabled", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether credit fight task is enabled.
+        /// </summary>
+        public bool CreditFightTaskEnabled
+        {
+            get => _creditFightTaskEnabled;
+            set
+            {
+                SetAndNotify(ref _creditFightTaskEnabled, value);
+                ViewStatusStorage.Set("Visit.CreditFightTaskEnabled", value.ToString());
+            }
+        }
+
         /* 信用商店设置 */
 
         private bool _creditShopping = Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShopping", bool.TrueString));
