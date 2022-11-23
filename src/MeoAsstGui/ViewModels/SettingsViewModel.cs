@@ -1536,6 +1536,18 @@ namespace MeoAsstGui
             }
         }
 
+        private bool _useMirror=Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseMirror",bool.TrueString));
+
+        public bool UseMirror
+        {
+            get => _useMirror;
+            set
+            {
+                SetAndNotify(ref _useMirror, value);
+                ViewStatusStorage.Set("VersionUpdate.UseMirror", value.ToString());
+            }
+        }
+
         private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.AutoDownloadUpdatePackage", bool.TrueString));
 
         /// <summary>

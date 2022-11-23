@@ -128,6 +128,7 @@
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
+    <system:String x:Key="UpdateCheckMirror">使用鏡像檢查更新</system:String>
 
     <system:String x:Key="TimerTip">僅填寫小時數，將在整點時執行</system:String>
     <system:String x:Key="Timer">定時</system:String>
