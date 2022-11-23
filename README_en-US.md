@@ -37,7 +37,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 - Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata).
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
-- Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV14u411673q/)
+- Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV1H841177Fk/)
 - New feature: Depot recognition! Supports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
 
 Talk is cheap. Show me the pictures!  
@@ -65,7 +65,7 @@ See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
 
 - The program crashes immediately when I try to run it.
 - Connection error/not knowing how to fill in ADB path.
-- Wrong recognition/program freezes after starting.
+- Connected successfully, then it got stuck.
 - Custom connection settings.
 - Download speed is too slow, or the mirror site is not accessible.
 - Download halfway and prompt "login"/"authentication"
@@ -77,7 +77,7 @@ Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 - Global(EN) Client  
   Supports basic features like Combat, Credit Shopping, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
 - JP Client  
-  Supports basic features like Combat, Credit Shopping, Auto Recruiting, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
+  Supports basic features like Combat, Auto Base shift, Credit Shopping, Auto Recruiting, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
 - KR Client  
   Supports basic features like Combat, etc. See also [README](resource/global/YoStarKR/readme.md)
 - ZH_CHT Client  

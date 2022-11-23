@@ -13,7 +13,7 @@
 #include "Utils/UserDir.hpp"
 #include "Utils/Version.h"
 
-static constexpr unsigned long long NullSize = static_cast<unsigned long long>(-1);
+static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
 
 #if 0
 #if _MSC_VER
@@ -56,6 +56,14 @@ bool AsstLoadResource(const char* path)
     return inited;
 }
 
+bool AsstSetProcessOption(AsstProcessOptionKey key, const char* value)
+{
+    // TODO: 把 config.option 里的全实现一遍
+    std::ignore = key;
+    std::ignore = value;
+    return false;
+}
+
 AsstHandle AsstCreate()
 {
     if (!inited) {
@@ -80,6 +88,15 @@ void AsstDestroy(AsstHandle handle)
 
     delete handle;
     handle = nullptr;
+}
+
+bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value)
+{
+    if (handle == nullptr) {
+        return false;
+    }
+
+    return handle->set_instance_option(static_cast<asst::InstanceOptionKey>(key), value);
 }
 
 bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
@@ -118,7 +135,7 @@ bool AsstRunning(AsstHandle handle)
     return handle->running();
 }
 
-TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
+AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited || handle == nullptr) {
         return 0;
@@ -127,7 +144,7 @@ TaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
     return handle->append_task(type, params ? params : "");
 }
 
-bool AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
+bool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
 {
     if (!inited || handle == nullptr) {
         return false;
@@ -144,7 +161,7 @@ bool AsstClick(AsstHandle handle, int x, int y)
     return handle->ctrler_click(x, y);
 }
 
-unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long long buff_size)
+AsstSize AsstGetImage(AsstHandle handle, void* buff, AsstSize buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
         return NullSize;
@@ -158,7 +175,7 @@ unsigned long long AsstGetImage(AsstHandle handle, void* buff, unsigned long lon
     return data_size;
 }
 
-unsigned long long AsstGetUUID(AsstHandle handle, char* buff, unsigned long long buff_size)
+AsstSize AsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
         return NullSize;
@@ -172,7 +189,7 @@ unsigned long long AsstGetUUID(AsstHandle handle, char* buff, unsigned long long
     return data_size;
 }
 
-unsigned long long AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned long long buff_size)
+AsstSize AsstGetTasksList(AsstHandle handle, AsstTaskId* buff, AsstSize buff_size)
 {
     if (!inited || handle == nullptr || buff == nullptr) {
         return NullSize;
@@ -186,7 +203,7 @@ unsigned long long AsstGetTasksList(AsstHandle handle, TaskId* buff, unsigned lo
     return data_size;
 }
 
-unsigned long long AsstGetNullSize()
+AsstSize AsstGetNullSize()
 {
     return NullSize;
 }

@@ -37,7 +37,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://yituliu.site/maarecruitdata)
 - 访问好友、收取信用及购物、领取日常奖励等。一键全日常自动长草！
 - 肉鸽全自动刷源石锭和蜡烛，自动识别干员及练度
-- 导入作业 JSON 文件，自动抄作业！ [视频演示](https://www.bilibili.com/video/BV14u411673q/)
+- 导入作业 JSON 文件，自动抄作业！ [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)
 - 新功能：仓库识别！支持导出至 [企鹅物流刷图规划器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)
 
 话不多说，看图！  
@@ -65,11 +65,11 @@ MAA 的意思是 MAA Assistant Arknights
 
 - 软件一打开就闪退
 - 连接错误、不知道 adb 路径怎么填写
-- 识别错误/任务开始后一直不动、没有反应
+- 连接成功了，但没反应
 - 如何连接自定义端口
 - 下载速度慢，且镜像站无法打开网页
 - 下载到一半提示“登陆”/“鉴权”
-- 滑动操作没有反应、基建干员列表不动、自动战斗没有反应、肉鸽卡在分队界面……
+- 连接正常，任务开始了，但是没反应
 
 请参考 [常见问题](docs/1.2-常见问题.md)
 
@@ -78,7 +78,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 国际服（美服）  
   支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarEN/readme.md)
 - 日服  
-  支持基本的刷理智、信用购物、自动公招、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarJP/readme.md)
+  支持基本的刷理智、自动基建、信用购物、自动公招、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarJP/readme.md)
 - 韩服  
   支持基本的刷理智功能，请参考 [说明](resource/global/YoStarKR/readme.md)
 - 繁中服  
