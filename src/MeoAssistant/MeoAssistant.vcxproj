@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
+    <None Include="..\..\resource\credit_fight_colilot.json" />
     <None Include="..\..\resource\infrast.json" />
     <None Include="..\..\resource\roguelike_copilot.json" />
     <None Include="..\..\resource\roguelike_recruit.json" />

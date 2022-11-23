@@ -4,6 +4,7 @@
 namespace asst
 {
     class ProcessTask;
+    class CreditFightTask;
 
     class VisitTask final : public PackageTask
     {
@@ -15,5 +16,6 @@ namespace asst
 
     private:
         std::shared_ptr<ProcessTask> m_visit_task_ptr = nullptr;
+        std::shared_ptr<CreditFightTask> m_credit_fight_task_ptr = nullptr;
     };
 }

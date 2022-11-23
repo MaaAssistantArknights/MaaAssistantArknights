@@ -345,6 +345,9 @@
     <None Include="..\..\resource\roguelike_shopping.json">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="..\..\resource\credit_fight_colilot.json">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\AsstCaller.h">
