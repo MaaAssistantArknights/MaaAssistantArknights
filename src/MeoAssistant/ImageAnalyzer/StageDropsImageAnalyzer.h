@@ -6,6 +6,8 @@ namespace asst
 {
     class StageDropsImageAnalyzer final : public AbstractImageAnalyzer
     {
+        static constexpr const char* LMD_ID = "4001";
+
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~StageDropsImageAnalyzer() override = default;
@@ -25,7 +27,7 @@ namespace asst
         bool analyze_baseline();
         bool analyze_drops();
 
-        int match_quantity(const Rect& roi);
+        int match_quantity(const Rect& roi, bool use_word_model = false);
         StageDropType match_droptype(const Rect& roi);
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);
 

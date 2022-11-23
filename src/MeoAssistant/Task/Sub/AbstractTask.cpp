@@ -214,15 +214,3 @@ bool asst::AbstractTask::save_img(const std::string& dirname)
     Log.trace("Save image", full_path);
     return asst::imwrite(full_path, image);
 }
-
-asst::MinitouchTempSwitcher::MinitouchTempSwitcher(std::shared_ptr<Controller> ctrler) : m_ctrler(ctrler)
-{
-    Log.info("Minitouch temporarily open");
-    m_ctrler->set_minitouch_enabled(true);
-}
-
-asst::MinitouchTempSwitcher::~MinitouchTempSwitcher()
-{
-    Log.info("Minitouch close");
-    m_ctrler->set_minitouch_enabled(false);
-}

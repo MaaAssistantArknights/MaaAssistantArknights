@@ -1202,14 +1202,15 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         return toucher.up();
     }
     else {
-        std::string cur_cmd =
-            utils::string_replace_all(m_adb.swipe, {
-                                                       { "[x1]", std::to_string(x1) },
-                                                       { "[y1]", std::to_string(y1) },
-                                                       { "[x2]", std::to_string(x2) },
-                                                       { "[y2]", std::to_string(y2) },
-                                                       { "[duration]", duration <= 0 ? "" : std::to_string(duration) },
-                                                   });
+        std::string duration_str =
+            duration <= 0 ? "" : std::to_string(static_cast<int>(duration * opt.adb_swipe_duration_multiplier));
+        std::string cur_cmd = utils::string_replace_all(m_adb.swipe, {
+                                                                         { "[x1]", std::to_string(x1) },
+                                                                         { "[y1]", std::to_string(y1) },
+                                                                         { "[x2]", std::to_string(x2) },
+                                                                         { "[y2]", std::to_string(y2) },
+                                                                         { "[duration]", duration_str },
+                                                                     });
         bool ret = call_command(cur_cmd).has_value();
 
         // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来
@@ -1530,10 +1531,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     call_and_hup_minitouch(m_adb.call_minitouch);
 
     std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
-    auto [beg, end] = ranges::remove_if(orientation_str, [](char ch) -> bool { return !std::isdigit(ch); });
-    orientation_str.erase(beg, end);
     if (!orientation_str.empty()) {
-        m_minitouch_props.orientation = std::stoi(orientation_str);
+        char first = orientation_str.front();
+        if (first == '0' || first == '1' || first == '2' || first == '3') {
+            m_minitouch_props.orientation = static_cast<int>(first - '0');
+        }
     }
 
     // try to find the fastest way

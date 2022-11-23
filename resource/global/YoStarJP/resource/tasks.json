@@ -1729,14 +1729,14 @@
             "前回の参加作戦"
         ]
     },
-    "ToChapter2": {
-        "text": [
-            "幻滅"
-        ]
-    },
-    "ToChapter1": {
+    "ClickChapter1": {
         "text": [
             "覚醒"
+        ]
+    },
+    "ClickChapter2": {
+        "text": [
+            "幻滅"
         ]
     },
     "StartRecruit": {
@@ -1855,9 +1855,8 @@
         ]
     },
     "RoguelikeRecruitLevel": {
-        "template": "empty.png",
         "Doc": "日服的等级字体比国服大一圈，要改roi",
-        "roi": [
+        "rectMove": [
             -172,
             -1,
             18,
