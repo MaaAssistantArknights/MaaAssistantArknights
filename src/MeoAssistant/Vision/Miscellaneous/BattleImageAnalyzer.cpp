@@ -5,14 +5,17 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/TaskData.h"
+#include "Config/TemplResource.h"
 #include "Vision/HashImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Utils/MoreCV.hpp"
 
-bool asst::BattleImageAnalyzer::set_target(int target)
+    bool
+    asst::BattleImageAnalyzer::set_target(int target)
 {
     m_target = target;
     return true;
@@ -357,17 +360,25 @@ bool asst::BattleImageAnalyzer::home_analyze()
 
 bool asst::BattleImageAnalyzer::skill_analyze()
 {
-    const auto skill_task_ptr = Task.get("BattleSkillReady");
+    LogTraceFunction;
+
+    const auto skill_task_ptr = Task.get<MatchTaskInfo>("BattleSkillReady");
     const Rect& rect_move = skill_task_ptr->rect_move;
 
-    MultiMatchImageAnalyzer mm_analyzer(m_image);
-    mm_analyzer.set_task_info(skill_task_ptr);
-    if (!mm_analyzer.analyze()) {
-        return false;
-    }
-    for (const auto& mr : mm_analyzer.get_result()) {
-        m_ready_skills.emplace_back(mr.rect.move(rect_move));
-    }
+    cv::Mat temp = TemplResource::get_instance().get_templ(skill_task_ptr->templ_name);
+
+    const auto result = find_skill_ready(m_image(make_rect<cv::Rect>(skill_task_ptr->roi)), temp);
+
+    if (result.empty()) return false;
+
+    ranges::transform(result, std::back_inserter(m_ready_skills), [&](auto&& pair) {
+        const cv::Point& pos = pair.first;
+        return Rect { pos.x + skill_task_ptr->roi.x, pos.y + skill_task_ptr->roi.y, temp.cols, temp.rows }.move(
+            rect_move);
+    });
+
+    Log.trace(m_ready_skills);
+
     return true;
 }
 
