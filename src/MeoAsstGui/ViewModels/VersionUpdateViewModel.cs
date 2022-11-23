@@ -143,6 +143,7 @@ namespace MeoAsstGui
         private const string StableRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
         private const string MaaReleaseRequestUrlByTag = "https://api.github.com/repos/MaaAssistantArknights/MaaRelease/releases/tags/";
         private const string InfoRequestUrl = "https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
+
         private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _latestJson;
         private JObject _assetsObject;
@@ -498,13 +499,20 @@ namespace MeoAsstGui
                     var stableResponse = RequestApi(StableRequestUrl, RequestRetryMaxTimes);
                     if (stableResponse.Length == 0)
                     {
+                        stableResponse = RequestApi(StableRequestUrl.Replace("api.github.com", "api.kgithub.com"), RequestRetryMaxTimes);
+                    }
+                    if (stableResponse.Length == 0)
+                    {
                         return CheckUpdateRetT.NetworkError;
                     }
 
                     _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
                     _latestVersion = _latestJson["tag_name"].ToString();
                     stableResponse = RequestApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
-
+                    if (stableResponse.Length == 0)
+                    {
+                        stableResponse = RequestApi(MaaReleaseRequestUrlByTag.Replace("api.github.com", "api.kgithub.com") + _latestVersion, RequestRetryMaxTimes);
+                    }
                     // 主仓库能找到版，但是 MaaRelease 找不到，说明 MaaRelease 还没有同步（一般过个十分钟就同步好了）
                     if (stableResponse.Length == 0)
                     {
@@ -517,6 +525,10 @@ namespace MeoAsstGui
                 {
                     // 非稳定版更新使用 MaaRelease/releases 接口
                     var response = RequestApi(RequestUrl, RequestRetryMaxTimes);
+                    if (response.Length == 0)
+                    {
+                        response = RequestApi(RequestUrl.Replace("api.github.com", "api.kgithub.com"));
+                    }
                     if (response.Length == 0)
                     {
                         return CheckUpdateRetT.NetworkError;
@@ -576,6 +588,10 @@ namespace MeoAsstGui
                     var infoResponse = RequestApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
                     if (infoResponse.Length == 0)
                     {
+                        infoResponse = RequestApi(InfoRequestUrl.Replace("api.github.com", "api.kgithub.com") + _latestVersion, RequestRetryMaxTimes);
+                    }
+                    if (infoResponse.Length == 0)
+                    {
                         return CheckUpdateRetT.FailedToGetInfo;
                     }
 
@@ -616,7 +632,7 @@ namespace MeoAsstGui
                 httpWebRequest.UserAgent = RequestUserAgent;
                 httpWebRequest.Accept = "application/vnd.github.v3+json";
                 var settings = _container.Get<SettingsViewModel>();
-                if (settings.Proxy.Length > 0)
+                if (!string.IsNullOrWhiteSpace(settings.Proxy))
                 {
                     httpWebRequest.Proxy = new WebProxy(settings.Proxy);
                 }
