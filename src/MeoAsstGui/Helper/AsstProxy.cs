@@ -468,10 +468,6 @@ namespace MeoAsstGui
                     {
                         mainModel.FightTaskRunning = true;
                     }
-                    else if (taskChain == "CreditFight")
-                    {
-                        mainModel.CreditFightTaskRunning = true;
-                    }
                     else if (taskChain == "Infrast")
                     {
                         mainModel.InfrastTaskRunning = true;
@@ -1116,7 +1112,6 @@ namespace MeoAsstGui
             StartUp,
             CloseDown,
             Fight,
-            CreditFight,
             FightRemainingSanity,
             Recruit,
             Infrast,
@@ -1206,84 +1201,6 @@ namespace MeoAsstGui
             }
 
             var task_params = SerializeFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
-            return AsstSetTaskParamsWithEncoding(id, task_params);
-        }
-
-        private JObject SerializeCreditFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
-        {
-            var task_params = new JObject();
-            task_params["stage"] = stage;
-            task_params["medicine"] = max_medicine;
-            task_params["stone"] = max_stone;
-            task_params["times"] = max_times;
-            task_params["report_to_penguin"] = true;
-            if (drops_item_quantity != 0 && !string.IsNullOrWhiteSpace(drops_item_id))
-            {
-                task_params["drops"] = new JObject();
-                task_params["drops"][drops_item_id] = drops_item_quantity;
-            }
-
-            var settings = _container.Get<SettingsViewModel>();
-            task_params["client_type"] = settings.ClientType;
-            task_params["penguin_id"] = settings.PenguinId;
-            task_params["DrGrandet"] = settings.IsDrGrandet;
-            task_params["server"] = settings.ServerType;
-            return task_params;
-        }
-
-        /// <summary>
-        /// 刷理智。
-        /// </summary>
-        /// <param name="stage">关卡名。</param>
-        /// <param name="max_medicine">最大使用理智药数量。</param>
-        /// <param name="max_stone">最大吃石头数量。</param>
-        /// <param name="max_times">指定次数。</param>
-        /// <param name="drops_item_id">指定掉落 ID。</param>
-        /// <param name="drops_item_quantity">指定掉落数量。</param>
-        /// <param name="is_main_fight">是否是主任务，决定c#侧是否记录任务id</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendCreditFight(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity, bool is_main_fight = true)
-        {
-            var task_params = SerializeCreditFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
-            TaskId id = AsstAppendTaskWithEncoding("CreditFight", task_params);
-            if (is_main_fight)
-            {
-                _latestTaskId[TaskType.Fight] = id;
-            }
-            else
-            {
-                _latestTaskId[TaskType.FightRemainingSanity] = id;
-            }
-
-            return id != 0;
-        }
-
-        /// <summary>
-        /// 设置刷理智任务参数。
-        /// </summary>
-        /// <param name="stage">关卡名。</param>
-        /// <param name="max_medicine">最大使用理智药数量。</param>
-        /// <param name="max_stone">最大吃石头数量。</param>
-        /// <param name="max_times">指定次数。</param>
-        /// <param name="drops_item_id">指定掉落 ID。</param>
-        /// <param name="drops_item_quantity">指定掉落数量。</param>
-        /// <param name="is_main_fight">是否是主任务，决定c#侧是否记录任务id</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstSetCreditFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity, bool is_main_fight = true)
-        {
-            var type = is_main_fight ? TaskType.CreditFight : TaskType.FightRemainingSanity;
-            if (!_latestTaskId.ContainsKey(type))
-            {
-                return false;
-            }
-
-            var id = _latestTaskId[type];
-            if (id == 0)
-            {
-                return false;
-            }
-
-            var task_params = SerializeCreditFightTaskParams(stage, max_medicine, max_stone, max_times, drops_item_id, drops_item_quantity);
             return AsstSetTaskParamsWithEncoding(id, task_params);
         }
 

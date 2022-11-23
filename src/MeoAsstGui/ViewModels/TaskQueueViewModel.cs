@@ -182,7 +182,7 @@ namespace MeoAsstGui
         {
             string[] saved_list_name_1 = new string[]
             {
-                "WakeUp", "Recruiting", "Base", "Combat", "CreditFight", "Visiting", "Mall", "Mission", "AutoRoguelike",
+                "WakeUp", "Recruiting", "Base", "Combat", "Visiting", "Mall", "Mission", "AutoRoguelike",
             };
             foreach (var name in saved_list_name_1)
             {
@@ -222,17 +222,17 @@ namespace MeoAsstGui
 
             string[] old_list_name = new string[]
             {
-                "开始唤醒", "自动公招", "基建换班", "刷理智", "借助战作战", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽",
+                "开始唤醒", "自动公招", "基建换班", "刷理智", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽",
                 "宿舍", "制造站", "贸易站", "发电站", "会客室", "办公室", "控制中枢",
-                "開始喚醒", "自動公招", "基建換班", "刷理智", "借助战作战", "訪問好友", "收取信用及購物", "領取日常獎勵", "自動肉鴿",
+                "開始喚醒", "自動公招", "基建換班", "刷理智", "訪問好友", "收取信用及購物", "領取日常獎勵", "自動肉鴿",
                 "宿舍", "製造站", "貿易站", "發電站", "會客室", "辦公室", "控制中樞",
-                "ウェイクアップ", "公開求人", "基地仕事", "作戦", "借助战作战", "戦友訪問", "FP交換", "報酬受取", "自動ローグ",
+                "ウェイクアップ", "公開求人", "基地仕事", "作戦", "戦友訪問", "FP交換", "報酬受取", "自動ローグ",
                 "宿舎", "製造所", "貿易所", "発電所", "応接室", "事務所", "制御中枢",
-                "웨이크업", "공개모집", "기반시설 교대", "작전", "借助战作战", "친구 방문", "상점", "일일 퀘스트 보상을 수집", "통합전략",
+                "웨이크업", "공개모집", "기반시설 교대", "작전", "친구 방문", "상점", "일일 퀘스트 보상을 수집", "통합전략",
                 "숙소", "제조소", "무역소", "발전소", "응접실", "사무실", "제어 센터",
-                "🍸💃💃", "🍸🍺🍻", "🍺🍸🍺", "🍸🍷", "借助战作战", "🍺🍸🍷", "🍻🍺🍸🍻", "🍺🍸🕺🍸", "🍺🍸🍸",
+                "🍸💃💃", "🍸🍺🍻", "🍺🍸🍺", "🍸🍷", "🍺🍸🍷", "🍻🍺🍸🍻", "🍺🍸🕺🍸", "🍺🍸🍸",
                 "🍻💃", "🕺🍺", "🍺🍺", "🍺🍸", "🍺🍻", "🕺🍸", "🍻🍸🍻",
-                "Login", "Recruit", "借助战作战", "Visit Friends", "Credit Store", "Collect mission rewards", "Auto I.S.",
+                "Login", "Recruit", "Visit Friends", "Credit Store", "Collect mission rewards", "Auto I.S.",
                 "Manufacturing Station", "Trade Post", "Power Station", "Reception Room", "Control Center",
             };
             foreach (var name in old_list_name)
@@ -257,7 +257,6 @@ namespace MeoAsstGui
                 "Recruiting",
                 "Base",
                 "Combat",
-                "CreditFight",
                 "Visiting",
                 "Mall",
                 "Mission",
@@ -695,10 +694,6 @@ namespace MeoAsstGui
                 {
                     ret &= appendFight();
                 }
-                else if (item.OriginalName == "CreditFight")
-                {
-                    ret &= appendCreditFight();
-                }
                 else if (item.OriginalName == "Recruiting")
                 {
                     ret &= appendRecruit();
@@ -885,105 +880,6 @@ namespace MeoAsstGui
         {
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
-        }
-
-        private bool appendCreditFight()
-        {
-            int medicine = 0;
-            if (UseMedicine)
-            {
-                if (!int.TryParse(MedicineNumber, out medicine))
-                {
-                    medicine = 0;
-                }
-            }
-
-            int stone = 0;
-            if (UseStone)
-            {
-                if (!int.TryParse(StoneNumber, out stone))
-                {
-                    stone = 0;
-                }
-            }
-
-            int times = int.MaxValue;
-            if (HasTimesLimited)
-            {
-                if (!int.TryParse(MaxTimes, out times))
-                {
-                    times = 0;
-                }
-            }
-
-            int drops_quantity = 0;
-            if (IsSpecifiedDrops)
-            {
-                if (!int.TryParse(DropsQuantity, out drops_quantity))
-                {
-                    drops_quantity = 0;
-                }
-            }
-
-            var asstProxy = _container.Get<AsstProxy>();
-            bool mainCreditFightRet = asstProxy.AsstAppendCreditFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-            if (!mainCreditFightRet || RemainingSanityStage == string.Empty)
-            {
-                return mainCreditFightRet;
-            }
-
-            return asstProxy.AsstAppendCreditFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
-        }
-
-        /// <summary>
-        /// Sets parameters.
-        /// </summary>
-        public void SetCreditFightParams()
-        {
-            int medicine = 0;
-            if (UseMedicine)
-            {
-                if (!int.TryParse(MedicineNumber, out medicine))
-                {
-                    medicine = 0;
-                }
-            }
-
-            int stone = 0;
-            if (UseStone)
-            {
-                if (!int.TryParse(StoneNumber, out stone))
-                {
-                    stone = 0;
-                }
-            }
-
-            int times = int.MaxValue;
-            if (HasTimesLimited)
-            {
-                if (!int.TryParse(MaxTimes, out times))
-                {
-                    times = 0;
-                }
-            }
-
-            int drops_quantity = 0;
-            if (IsSpecifiedDrops)
-            {
-                if (!int.TryParse(DropsQuantity, out drops_quantity))
-                {
-                    drops_quantity = 0;
-                }
-            }
-
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetCreditFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-        }
-
-        public void SetCreditFightRemainingSanityParams()
-        {
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetCreditFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
         }
 
         public void SetInfrastParams()
@@ -1434,7 +1330,6 @@ namespace MeoAsstGui
                 if (value)
                 {
                     FightTaskRunning = false;
-                    CreditFightTaskRunning = false;
                     InfrastTaskRunning = false;
                 }
             }
@@ -1460,17 +1355,6 @@ namespace MeoAsstGui
         {
             get => _fightTaskRunning;
             set => SetAndNotify(ref _fightTaskRunning, value);
-        }
-
-        private bool _creditFightTaskRunning = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the battle task is running.
-        /// </summary>
-        public bool CreditFightTaskRunning
-        {
-            get => _creditFightTaskRunning;
-            set => SetAndNotify(ref _creditFightTaskRunning, value);
         }
 
         private bool _infrastTaskRunning = false;

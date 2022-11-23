@@ -14,7 +14,6 @@
 #include "Task/CopilotTask.h"
 #include "Task/DepotTask.h"
 #include "Task/FightTask.h"
-#include "Task/CreditFightTask.h"
 #include "Task/InfrastTask.h"
 #include "Task/MallTask.h"
 #include "Task/RecruitTask.h"
@@ -98,22 +97,20 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     if constexpr (false) {}
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CreditFightTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VisitTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VisitTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
 #ifdef ASST_DEBUG
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif
-    else
-    {
+    else {
         Log.error(__FUNCTION__, "| invalid type:", type);
         return 0;
     }
@@ -250,7 +247,7 @@ void Assistant::working_proc()
             lock.unlock();
             // only one instance of working_proc running, unlock here to allow set_task_param to the running task
 
-            json::value callback_json = json::object {
+            json::value callback_json = json::object{
                 { "taskchain", task_ptr->get_task_chain() },
                 { "taskid", id },
             };
@@ -266,7 +263,7 @@ void Assistant::working_proc()
             lock.unlock();
 
             auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
-                                     : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+                : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
             task_callback(msg, callback_json, this);
 
             if (m_thread_idle) {
