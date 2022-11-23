@@ -345,7 +345,7 @@
     <None Include="..\..\resource\roguelike_shopping.json">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="..\..\resource\credit_fight_colilot.json">
+    <None Include="..\..\resource\credit_fight_copilot.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
