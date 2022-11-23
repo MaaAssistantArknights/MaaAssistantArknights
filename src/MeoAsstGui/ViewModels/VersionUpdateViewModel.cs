@@ -139,19 +139,6 @@ namespace MeoAsstGui
             }
         }
 
-        public string GetUpdateSource(string path)
-        {
-            string[] requestSource = { "https://api.github.com/", "https://api.kgithub.com/" };
-            if (Convert.ToBoolean( ViewStatusStorage.Get("VersionUpdate.UseMirror", Boolean.TrueString)))
-            {
-                return requestSource[1] + path;
-            }
-            else
-            {
-                return requestSource[0] + path;
-            }
-        }
-
         private const string RequestUrl = "repos/MaaAssistantArknights/MaaRelease/releases";
         private const string StableRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
         private const string MaaReleaseRequestUrlByTag = "repos/MaaAssistantArknights/MaaRelease/releases/tags/";
@@ -509,7 +496,7 @@ namespace MeoAsstGui
                 {
                     // 稳定版更新使用主仓库 /latest 接口
                     // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
-                    var stableResponse = RequestApi(GetUpdateSource(StableRequestUrl), RequestRetryMaxTimes);
+                    var stableResponse = RequestApi(StableRequestUrl, RequestRetryMaxTimes);
                     if (stableResponse.Length == 0)
                     {
                         return CheckUpdateRetT.NetworkError;
@@ -517,7 +504,7 @@ namespace MeoAsstGui
 
                     _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
                     _latestVersion = _latestJson["tag_name"].ToString();
-                    stableResponse = RequestApi(GetUpdateSource(MaaReleaseRequestUrlByTag + _latestVersion), RequestRetryMaxTimes);
+                    stableResponse = RequestApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
 
                     // 主仓库能找到版，但是 MaaRelease 找不到，说明 MaaRelease 还没有同步（一般过个十分钟就同步好了）
                     if (stableResponse.Length == 0)
@@ -530,7 +517,7 @@ namespace MeoAsstGui
                 else
                 {
                     // 非稳定版更新使用 MaaRelease/releases 接口
-                    var response = RequestApi(GetUpdateSource(RequestUrl), RequestRetryMaxTimes);
+                    var response = RequestApi(RequestUrl, RequestRetryMaxTimes);
                     if (response.Length == 0)
                     {
                         return CheckUpdateRetT.NetworkError;
@@ -587,7 +574,7 @@ namespace MeoAsstGui
                 // 非稳定版本是 Nightly 下载的，主仓库没有它的更新信息，不必请求
                 if (isStdVersion(_latestVersion))
                 {
-                    var infoResponse = RequestApi(GetUpdateSource(InfoRequestUrl + _latestVersion), RequestRetryMaxTimes);
+                    var infoResponse = RequestApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
                     if (infoResponse.Length == 0)
                     {
                         return CheckUpdateRetT.FailedToGetInfo;
@@ -651,10 +638,14 @@ namespace MeoAsstGui
 
         private string RequestApi(string url, int retryTimes)
         {
-            string response;
+            string response = string.Empty;
+            string[] requestSource = { "https://api.github.com/", "https://api.kgithub.com/" };
             do
             {
-                response = RequestApi(url);
+                for(var i = 0; i < requestSource.Length && response.Length == 0; i++)
+                {
+                    response = RequestApi(requestSource[i] + url);
+                }
             }
             while (response.Length == 0 && retryTimes-- > 0);
             return response;
