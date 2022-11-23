@@ -57,7 +57,7 @@ asst::CreditFightTask::CreditFightTask(AsstCallback callback, void* callback_arg
 
     json::value copilotparams;
     copilotparams["stage_name"] = "activities/act3d0/level_act3d0_01";// OF-1
-    copilotparams["filename"] = "resource/credit_fight_colilot.json";
+    copilotparams["filename"] = "resource/credit_fight_copilot.json";
     copilotparams["formation"] = true;
     m_copilot_task_ptr->set_params(copilotparams);
     

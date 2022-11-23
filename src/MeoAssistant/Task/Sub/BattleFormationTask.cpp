@@ -41,7 +41,7 @@ bool asst::BattleFormationTask::_run()
     confirm_selection();
 
     //借一个随机助战
-    if (Copilot.get_actions(m_stage_name).support_unit=="_RANDOM_") {
+    if (Copilot.get_actions(m_stage_name).support_unit_name=="_RANDOM_") {
         if (!select_random_support_unit()) {
             return false;
         }
