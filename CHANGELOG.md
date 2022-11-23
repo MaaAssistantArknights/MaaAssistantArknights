@@ -1,6 +1,6 @@
 ### 若更新后可以连接，但完全没反应，请进入 `设置` - `连接设置` - `强制替换 ADB`
 
-### If you can connect, but stuck at all, please go to `MAA Settings` - `Connection settings` - `Forced replacement of ADB`
+### If you can connect, but it all got stuck, please go to `MAA Settings` - `Connection settings` - `Forced replacement of ADB`
 
 - 新增并全面启用 minitouch，大幅优化所有操作速度 @MistEO @zzyyyl @horror-proton @hguandl
 - 新增 兼容触控模式，请进入设置 - 连接设置中启用。不推荐开启，仅建议在 minitouch 无法工作时使用 @MistEO
