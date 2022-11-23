@@ -700,7 +700,7 @@ namespace MeoAsstGui
                 }
                 else if (item.OriginalName == "Visiting")
                 {
-                    ret &= asstProxy.AsstAppendVisit();
+                    ret &= appendVisit();
                 }
                 else if (item.OriginalName == "Mall")
                 {
@@ -898,6 +898,14 @@ namespace MeoAsstGui
             var asstProxy = _container.Get<AsstProxy>();
             return asstProxy.AsstAppendInfrast(order.ToArray(), settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment,
                 settings.CustomInfrastEnabled, settings.CustomInfrastFile, CustomInfrastPlanIndex);
+        }
+
+        private bool appendVisit()
+        {
+            var settings = _container.Get<SettingsViewModel>();
+            var asstProxy = _container.Get<AsstProxy>();
+
+            return asstProxy.AsstAppendVisit(settings.CreditFightTaskEnabled);
         }
 
         private bool appendMall()
