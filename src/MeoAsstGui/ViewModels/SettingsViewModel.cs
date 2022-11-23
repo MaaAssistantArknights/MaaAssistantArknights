@@ -1917,6 +1917,7 @@ namespace MeoAsstGui
            });
             await procTask;
 
+            ViewStatusStorage.Set("Connect.AdbReplaced", true.ToString());
             Execute.OnUIThread(() =>
             {
                 using (var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB")))
@@ -1925,6 +1926,8 @@ namespace MeoAsstGui
                 }
             });
         }
+
+        public bool AdbReplaced { get; set; } = Convert.ToBoolean(ViewStatusStorage.Get("Connect.AdbReplaced", false.ToString()));
 
         /* 界面设置 */
 
