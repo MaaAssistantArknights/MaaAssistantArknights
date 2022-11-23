@@ -1917,6 +1917,7 @@ namespace MeoAsstGui
            });
             await procTask;
 
+            AdbReplaced = true;
             ViewStatusStorage.Set("Connect.AdbReplaced", true.ToString());
             Execute.OnUIThread(() =>
             {
