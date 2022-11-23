@@ -50,7 +50,7 @@ namespace MeoAsstGui.Views
             {
                 return Localization.GetString("ErrorSolutionCrash");
             }
-            else if (details.Contains("SettingsViewModel.<ReplaceADB>") && details.Contains("System.IO.File"))
+            else if (details.Contains("SettingsViewModel.<ReplaceADB>"))
             {
                 return Localization.GetString("ErrorSolutionReplaceADB");
             }

@@ -1895,17 +1895,23 @@ namespace MeoAsstGui
                 }
             }
 
-            const string UnzipDir = "adb_unzip";
-            if (Directory.Exists(UnzipDir))
-            {
-                Directory.Delete(UnzipDir, true);
-            }
-
             var procTask = Task.Run(() =>
            {
                // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
-               System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+               foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
+               {
+                   process.Kill();
+               }
+
                File.Copy(AdbPath, AdbPath + ".bak", true);
+
+               const string UnzipDir = "adb_unzip";
+               if (Directory.Exists(UnzipDir))
+               {
+                   Directory.Delete(UnzipDir, true);
+               }
+
+               System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
                File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
                Directory.Delete(UnzipDir, true);
            });
