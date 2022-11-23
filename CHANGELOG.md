@@ -1,6 +1,18 @@
-### 若更新后可以连接，但完全没反应，请进入 `设置` - `连接设置` - `强制替换 ADB`
 
-### If you can connect, but it all got stuck, please go to `MAA Settings` - `Connection settings` - `Forced replacement of ADB`
+## v4.7.1
+
+- 修复 强制替换 ADB 进程被占用时失败的问题 @MistEO
+- 修复 macOS 启动卡住的问题 @hguandl
+- 修复 干员名识别错误 @cenfusheng
+- 新增 界面 触控相关提示，~~再问紫砂！~~ @MistEO
+- 新增 检查更新 镜像 API @tangge233
+
+### For Overseas clients
+
+- Fix the stuck in the encounter in IS @MistEO
+- Update documentation @wallsman
+
+## v4.7.0
 
 - 新增并全面启用 minitouch，大幅优化所有操作速度 @MistEO @zzyyyl @horror-proton @hguandl
 - 新增 兼容触控模式，请进入设置 - 连接设置中启用。不推荐开启，仅建议在 minitouch 无法工作时使用 @MistEO
