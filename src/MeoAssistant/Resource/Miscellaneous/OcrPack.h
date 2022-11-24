@@ -9,7 +9,22 @@ namespace cv
 {
     class Mat;
 }
-struct paddle_ocr_t;
+
+namespace fastdeploy
+{
+    namespace vision::ocr
+    {
+        class DBDetector;
+        class Recognizer;
+    }
+
+    namespace pipeline
+    {
+        class PPOCRv3;
+    }
+
+    struct RuntimeOption;
+}
 
 namespace asst
 {
@@ -31,12 +46,10 @@ namespace asst
     protected:
         OcrPack();
 
-        paddle_ocr_t* m_ocr = nullptr;
-
-        // each box has 8 value ( 4 points, x and y )
-        int m_boxes_buffer[MaxBoxSize * 8] = { 0 };
-        char* m_strs_buffer[MaxBoxSize] = { nullptr };
-        float m_scores_buffer[MaxBoxSize] = { 0 };
+        std::unique_ptr<fastdeploy::RuntimeOption> m_ocr_option = nullptr;
+        std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det = nullptr;
+        std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec = nullptr;
+        std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr = nullptr;
     };
 
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack
