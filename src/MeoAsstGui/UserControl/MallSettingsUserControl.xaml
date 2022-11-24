@@ -35,7 +35,8 @@
             VerticalAlignment="Center"
             Block.TextAlignment="Center"
             Content="{DynamicResource CreditFight}"
-            IsChecked="{Binding CreditFightTaskEnabled}" />
+            IsChecked="{Binding CreditFightTaskEnabled}"
+            ToolTip="{DynamicResource CreditFightTip}"/>
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
