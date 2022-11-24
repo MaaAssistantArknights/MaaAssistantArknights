@@ -51,3 +51,12 @@ bool asst::CopilotTask::set_params(const json::value& params)
     const std::string& filename = filename_opt.value();
     return Copilot.load(utils::path(filename));
 }
+
+std::string asst::CopilotTask::get_stage_name(std::string filename)
+{
+    if (!Copilot.load(utils::path(filename))) {
+        return "";
+    }
+
+    return Copilot.get_stage_name();
+}

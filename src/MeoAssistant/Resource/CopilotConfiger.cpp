@@ -7,6 +7,7 @@
 bool asst::CopilotConfiger::parse(const json::value& json)
 {
     std::string stage_name = json.at("stage_name").as_string();
+    m_stage_name = stage_name;
 
     BattleCopilotData battle_actions;
     battle_actions.title = json.get("doc", "title", std::string());
