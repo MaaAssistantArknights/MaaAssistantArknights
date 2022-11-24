@@ -425,7 +425,12 @@ namespace MeoAsstGui
             bool ret = asstProxy.AsstStartCopilot(_curStageName, _isDataFromWeb ? TempCopilotFile : Filename, Form);
             if (ret)
             {
-                AddLog("Star Burst Stream!");
+                AddLog(Localization.GetString("Running"));
+                var settingsModel = _container.Get<SettingsViewModel>();
+                if (!settingsModel.AdbReplaced && !settingsModel.UseAdbTouchMode)
+                {
+                    AddLog(Localization.GetString("AdbReplacementTips"), UILogColor.Info);
+                }
             }
             else
             {
