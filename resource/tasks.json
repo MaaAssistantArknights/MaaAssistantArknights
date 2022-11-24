@@ -1062,6 +1062,16 @@
             "GT-5"
         ]
     },
+    "OF-1": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageEpisode",
+            "StageEpisodeToOF",
+            "OFToOF-Chapter",
+            "StageOF-1"
+        ]
+    },
     "OF-F3": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -1119,6 +1129,15 @@
         "isAscii": true,
         "text": [
             "OF-F3"
+        ]
+    },
+    "StageOF-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "isAscii": true,
+        "text": [
+            "OF-1"
         ]
     },
     "IC-9": {
@@ -1775,48 +1794,6 @@
             562,
             544,
             158
-        ]
-    },
-    "OF-1": {
-        "baseTask": "SideStoryStages",
-        "next": [
-            "StageOF"
-        ]
-    },
-    "StageOF": {
-        "action": "ClickSelf",
-        "doc": "进入OF关卡",
-        "roi": [
-            44,
-            185,
-            146,
-            90
-        ],
-        "next": [
-            "StageOFEnter"
-        ]
-    },
-    "StageOFEnter": {
-        "action": "ClickSelf",
-        "doc": "进入OF关卡",
-        "roi": [
-            1040,
-            474,
-            220,
-            102
-        ],
-        "next": [
-            "StageOF-1"
-        ]
-    },
-    "StageOF-1": {
-        "action": "ClickSelf",
-        "doc": "进入OF-1关卡",
-        "roi": [
-            397,
-            164,
-            526,
-            144
         ]
     },
     "SideStoryStages": {
