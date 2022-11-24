@@ -11,7 +11,7 @@ namespace asst
         virtual ~BattleFormationTask() override = default;
 
         void set_stage_name(std::string name);
-        
+
     protected:
         using OperGroup = std::vector<BattleDeployOper>;
         virtual bool _run() override;

@@ -19,21 +19,6 @@ asst::CreditFightTask::CreditFightTask(AsstCallback callback, void* callback_arg
       m_copilot_task_ptr(std::make_shared<CopilotTask>(m_callback, m_callback_arg))
 {
 
-    // 进入选关界面
-    // 对于指定关卡，就是主界面的“终端”点进去
-    // 对于当前/上次，就是点到 蓝色开始行动 为止。
-    m_start_up_task_ptr->set_times_limit("StartButton1", 0)
-        .set_times_limit("StartButton2", 0)
-        .set_times_limit("MedicineConfirm", 0)
-        .set_times_limit("StoneConfirm", 0)
-        .set_times_limit("StageSNReturnFlag", 0)
-        .set_times_limit("PRTS3", 0)
-        .set_times_limit("PRTS", 0)
-        .set_times_limit("PRTS2", 0)
-        .set_times_limit("EndOfAction", 0)
-        .set_ignore_error(false)
-        .set_retry_times(5);
-
     m_stage_navigation_task_ptr->set_enable(false).set_ignore_error(false);
 
     // 战斗结束后

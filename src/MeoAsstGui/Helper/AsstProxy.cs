@@ -1270,7 +1270,7 @@ namespace MeoAsstGui
         {
             var task_params = new JObject();
             task_params["credit_fight_task_enabled"] = credit_fight_task_enabled;
-            TaskId id = AsstAppendTaskWithEncoding("Visit", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("Visit", task_params);
             _latestTaskId[TaskType.Visit] = id;
             return id != 0;
         }
