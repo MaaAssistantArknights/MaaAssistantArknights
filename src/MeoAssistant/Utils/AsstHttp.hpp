@@ -86,10 +86,8 @@ namespace asst::http
             std::string_view this_view = m_raw_data;
             bool _is_status_line = true;
             bool _is_data_line = false;
-            for (std::string_view line :
-                 views::split(this_view, delim) | views::transform([&](const auto& rng) -> std::string_view {
-                     return utils::make_string_view(rng);
-                 })) {
+            auto make_view = [&](const auto& rng) -> std::string_view { return utils::make_string_view(rng); };
+            for (std::string_view line : views::split(this_view, delim) | views::transform(make_view)) {
                 // status
                 if (_is_status_line) {
                     if (!_analyze_status_line(line)) {

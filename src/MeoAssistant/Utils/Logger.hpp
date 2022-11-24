@@ -16,7 +16,7 @@
 #include "Platform.hpp"
 #include "SingletonHolder.hpp"
 #include "Time.hpp"
-#include "UserDir.hpp"
+#include "WorkingDir.hpp"
 #include "Version.h"
 
 #if defined(__APPLE__) || defined(__linux__)
@@ -424,7 +424,7 @@ namespace asst
     private:
         friend class SingletonHolder<Logger>;
 
-        Logger() : m_directory(UserDir::get_instance().get())
+        Logger() : m_directory(UserDir.get())
         {
             check_filesize_and_remove();
             log_init_info();
