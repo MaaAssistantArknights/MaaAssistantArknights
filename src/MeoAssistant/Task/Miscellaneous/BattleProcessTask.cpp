@@ -6,21 +6,23 @@
 #include <thread>
 
 #include "Utils/NoWarningCV.h"
-#include "Utils/Ranges.hpp"
 
 #include "Controller.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
+#include "Config/TemplResource.h"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/MoreCV.hpp"
 
 #include "Utils/ImageIo.hpp"
 
-void asst::BattleProcessTask::set_stage_name(std::string name)
+    void
+    asst::BattleProcessTask::set_stage_name(std::string name)
 {
     m_stage_name = std::move(name);
 }
@@ -645,21 +647,21 @@ bool asst::BattleProcessTask::wait_to_end(const BattleAction& action)
 
 bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
 {
-    auto task_ptr = Task.get("BattleAutoSkillFlag");
-    const Rect& skill_roi_move = task_ptr->rect_move;
+    auto task_ptr = Task.get<MatchTaskInfo>("BattleAutoSkillFlag");
 
-    MatchImageAnalyzer analyzer(image);
-    analyzer.set_task_info(task_ptr);
+    const Rect& skill_roi_move = task_ptr->rect_move;
+    cv::Mat temp = TemplResource::get_instance().get_templ(task_ptr->templ_name);
+
     bool used = false;
     for (auto& info : m_used_opers | views::values) {
         if (info.info.skill_usage != BattleSkillUsage::Possibly && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;
         }
-        const Rect roi = Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move);
-        analyzer.set_roi(roi);
-        if (!analyzer.analyze()) {
-            continue;
-        }
+        const auto roi = make_rect<cv::Rect>(Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move));
+
+        const auto result = find_skill_ready(image(roi), temp);
+        if (result.empty()) continue;
+
         m_ctrler->click(info.pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
         used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
