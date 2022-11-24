@@ -38,8 +38,6 @@ namespace asst
         Controller(Controller&&) = delete;
         ~Controller();
 
-        inline static void set_resource_path(const std::filesystem::path& path) { m_resource_path = path; }
-
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
         void set_exit_flag(bool* flag);
@@ -178,8 +176,6 @@ namespace asst
         int m_write_to_minitouch_fd = -1;
         // TODO
 #endif
-
-        inline static std::filesystem::path m_resource_path;
 
         std::string m_uuid;
         inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，

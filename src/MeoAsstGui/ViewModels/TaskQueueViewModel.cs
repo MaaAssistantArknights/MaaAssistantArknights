@@ -742,6 +742,11 @@ namespace MeoAsstGui
             if (ret)
             {
                 AddLog(Localization.GetString("Running"));
+                var settingsModel = _container.Get<SettingsViewModel>();
+                if (!settingsModel.AdbReplaced && !settingsModel.UseAdbTouchMode)
+                {
+                    AddLog(Localization.GetString("AdbReplacementTips"), UILogColor.Info);
+                }
             }
             else
             {
