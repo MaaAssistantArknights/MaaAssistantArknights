@@ -79,7 +79,6 @@ namespace asst
         std::string details;
         std::string details_color;
         std::unordered_map<std::string, std::vector<BattleDeployOper>> groups;
-        std::string support_unit_name;
         std::vector<BattleAction> actions;
     };
 
