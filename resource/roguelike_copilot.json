@@ -1358,7 +1358,7 @@
                     2,
                     2
                 ],
-                "direction": "right"
+                "direction": "down"
             },
             {
                 "location": [
@@ -1372,14 +1372,28 @@
                     4,
                     2
                 ],
-                "direction": "none"
+                "direction": "down"
             },
             {
                 "location": [
                     3,
                     3
                 ],
-                "direction": "none"
+                "direction": "left"
+            },
+            {
+                "location": [
+                    4,
+                    3
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    5,
+                    3
+                ],
+                "direction": "left"
             }
         ],
         "force_deploy_direction": [
