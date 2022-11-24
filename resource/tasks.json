@@ -2265,7 +2265,7 @@
                 "特米米"
             ],
             [
-                "一岁",
+                "^一岁$",
                 "夕"
             ],
             [
@@ -2347,6 +2347,18 @@
             [
                 "克克洛丝",
                 "克洛丝"
+            ],
+            [
+                "^影$",
+                "傀影"
+            ],
+            [
+                "^桑芸$",
+                "桑葚"
+            ],
+            [
+                "^罪$",
+                "斥罪"
             ]
         ]
     },
@@ -8635,7 +8647,9 @@
             "Phantom@Roguelike@StageEncounterOptionFree",
             "Phantom@Roguelike@StageEncounterOptionLeave",
             "Phantom@Roguelike@StageEncounterOptionUnknown",
-            "Phantom@Roguelike@ChooseOperFlag"
+            "Phantom@Roguelike@ChooseOperFlag",
+            "Phantom@Roguelike@StageEmergencyDpsEnter",
+            "Phantom@Roguelike@StageCambatDpsEnter"
         ]
     },
     "Phantom@Roguelike@StageEncounterSpecialClose": {},
@@ -9074,7 +9088,9 @@
             "Mizuki@Roguelike@StageEncounterOptionLeave",
             "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
-            "Mizuki@Roguelike@ChooseOperFlag"
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@StageEmergencyDpsEnter",
+            "Mizuki@Roguelike@StageCambatDpsEnter"
         ]
     },
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
