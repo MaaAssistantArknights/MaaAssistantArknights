@@ -187,6 +187,7 @@ namespace asst
         bool m_support_socket = false;
         bool m_server_started = false;
         bool m_inited = false;
+        size_t m_screencap_data_general_size = 0;
 
         inline static int m_instance_count = 0;
 
