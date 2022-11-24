@@ -3,7 +3,11 @@
 #include <filesystem>
 
 #include "Utils/NoWarningCV.h"
-#include <PaddleOCR/paddle_ocr.h>
+ASST_SUPPRESS_CV_WARNINGS_START
+#include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
+#include "fastdeploy/vision/ocr/ppocr/ppocr_v3.h"
+#include "fastdeploy/vision/ocr/ppocr/recognizer.h"
+ASST_SUPPRESS_CV_WARNINGS_END
 
 #include "Resource/GeneralConfig.h"
 #include "Utils/Demangle.hpp"
@@ -24,22 +28,11 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
 
 asst::OcrPack::OcrPack()
 {
-    Log.info("hardware_concurrency:", std::thread::hardware_concurrency());
-    for (size_t i = 0; i != MaxBoxSize; ++i) {
-        static constexpr size_t MaxTextSize = 4096;
-        *(m_strs_buffer + i) = new char[MaxTextSize];
-        // memset(*(m_strs_buffer + i), 0, MaxTextSize);
-    }
+    m_ocr_option = std::make_unique<fastdeploy::RuntimeOption>();
+    m_ocr_option->UseOrtBackend();
 }
 
-asst::OcrPack::~OcrPack()
-{
-    for (size_t i = 0; i != MaxBoxSize; ++i) {
-        delete[] *(m_strs_buffer + i);
-    }
-
-    PaddleOcrDestroy(m_ocr);
-}
+asst::OcrPack::~OcrPack() {}
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
@@ -50,29 +43,26 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         return false;
     }
 
-    constexpr static auto DetName = "det";
-    // constexpr static const char* ClsName = "cls";
-    constexpr static auto RecName = "rec";
-    constexpr static auto KeysName = "ppocr_keys_v1.txt";
+    using namespace asst::utils::path_literals;
+    const auto dst_model_file = paddle_dir / "det"_p / "inference.pdmodel"_p;
+    const auto dst_params_file = paddle_dir / "det"_p / "inference.pdiparams"_p;
+    const auto rec_model_file = paddle_dir / "rec"_p / "inference.pdmodel"_p;
+    const auto rec_params_file = paddle_dir / "rec"_p / "inference.pdiparams"_p;
+    const auto rec_label_file = paddle_dir / "ppocr_keys_v1.txt"_p;
 
-    const auto dst_filename = paddle_dir / asst::utils::path(DetName);
-    // const std::string cls_filename = dir + ClsName;
-    const auto rec_filename = paddle_dir / asst::utils::path(RecName);
-    const auto keys_filename = paddle_dir / asst::utils::path(KeysName);
-
-    if (m_ocr != nullptr) {
-        PaddleOcrDestroy(m_ocr);
-    }
-
-    const auto det4paddle = asst::utils::path_to_ansi_string(dst_filename);
-    const auto rec4paddle = asst::utils::path_to_ansi_string(rec_filename);
-    const auto keys4paddle = asst::utils::path_to_ansi_string(keys_filename);
-
-    if (det4paddle.empty() || rec4paddle.empty() || keys4paddle.empty()) {
+    if (!std::filesystem::exists(dst_model_file) || !std::filesystem::exists(dst_params_file) ||
+        !std::filesystem::exists(rec_model_file) || !std::filesystem::exists(rec_params_file) ||
+        !std::filesystem::exists(rec_label_file)) {
         return false;
     }
 
-    m_ocr = PaddleOcrCreate(det4paddle.c_str(), rec4paddle.c_str(), keys4paddle.c_str(), nullptr);
+    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(asst::utils::path_to_ansi_string(dst_model_file),
+                                                                  asst::utils::path_to_ansi_string(dst_params_file),
+                                                                  *m_ocr_option);
+    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
+        asst::utils::path_to_ansi_string(rec_model_file), asst::utils::path_to_ansi_string(rec_params_file),
+        asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option);
+    m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
 
     if (use_temp_dir) {
         // files can be removed after load
@@ -84,87 +74,8 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         }).detach();
     }
 
-    return m_ocr != nullptr;
-}
-
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
-                                                     bool without_det, bool trim)
-{
-    size_t size = 0;
-    std::string class_type = utils::demangle(typeid(*this).name());
-
-    if (Config.get_options().ocr_with_rawdata) {
-        // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
-        // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
-        cv::Mat copied = image.clone();
-        if (!without_det) {
-            Log.trace("Ocr System with RawData and", class_type);
-            PaddleOcrSystemWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, false, m_boxes_buffer,
-                                    m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
-        }
-        else {
-            Log.trace("Ocr Rec with RawData and", class_type);
-            PaddleOcrRecWithData(m_ocr, copied.rows, copied.cols, copied.type(), copied.data, m_strs_buffer,
-                                 m_scores_buffer, &size, nullptr, nullptr);
-        }
-    }
-    else {
-        std::vector<uchar> buf;
-        cv::imencode(".png", image, buf);
-
-        if (!without_det) {
-            Log.trace("Ocr System with Encode and", class_type);
-            PaddleOcrSystem(m_ocr, buf.data(), buf.size(), false, m_boxes_buffer, m_strs_buffer, m_scores_buffer, &size,
-                            nullptr, nullptr);
-        }
-        else {
-            Log.trace("Ocr Rec with Encode and", class_type);
-            PaddleOcrRec(m_ocr, buf.data(), buf.size(), m_strs_buffer, m_scores_buffer, &size, nullptr, nullptr);
-        }
-    }
-
-    std::vector<TextRect> result;
-    std::vector<TextRect> raw_result;
-
-#ifdef ASST_DEBUG
-    cv::Mat draw = image.clone();
-#endif
-
-    for (size_t i = 0; i != size; ++i) {
-        // the box rect like ↓
-        // 0 - 1
-        // 3 - 2
-        Rect rect;
-        if (!without_det) {
-            int* box = m_boxes_buffer + i * 8;
-            int x_collect[4] = { *(box + 0), *(box + 2), *(box + 4), *(box + 6) };
-            int y_collect[4] = { *(box + 1), *(box + 3), *(box + 5), *(box + 7) };
-            auto [left, right] = ranges::minmax(x_collect);
-            auto [top, bottom] = ranges::minmax(y_collect);
-            rect = Rect(left, top, right - left, bottom - top);
-        }
-        std::string text(*(m_strs_buffer + i));
-        float score = *(m_scores_buffer + i);
-        if (score > 2.0) {
-            score = 0;
-        }
-
-        TextRect tr { score, rect, text };
-#ifdef ASST_DEBUG
-        cv::rectangle(draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
-#endif
-        raw_result.emplace_back(tr);
-        if (trim) {
-            utils::string_trim(tr.text);
-        }
-        if (!pred || pred(tr)) {
-            result.emplace_back(std::move(tr));
-        }
-    }
-
-    Log.trace("OcrPack::recognize | raw:", raw_result);
-    Log.trace("OcrPack::recognize | proc:", result);
-    return result;
+    return m_det != nullptr && m_rec != nullptr && m_ocr != nullptr && m_det->Initialized() && m_rec->Initialized() &&
+           m_ocr->Initialized();
 }
 
 std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi,
@@ -183,6 +94,77 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     Log.trace("OcrPack::recognize | roi:", roi);
     cv::Mat roi_img = image(make_rect<cv::Rect>(roi));
     return recognize(roi_img, rect_cor, without_det, trim);
+}
+
+std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
+                                                     bool without_det, bool trim)
+{
+    std::string class_type = utils::demangle(typeid(*this).name());
+    // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
+    // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
+    cv::Mat copied = image.clone();
+    fastdeploy::vision::OCRResult ocr_result;
+    if (!without_det) {
+        LogTraceScope("Ocr System with " + class_type);
+
+        m_ocr->Predict(&copied, &ocr_result);
+    }
+    else {
+        LogTraceScope("Ocr Rec with " + class_type);
+
+        std::tuple<std::string, float> rec_result;
+        m_rec->Predict(&copied, &rec_result);
+
+        auto& [text, score] = rec_result;
+        ocr_result.text.emplace_back(std::move(text));
+        ocr_result.rec_scores.emplace_back(score);
+    }
+
+#ifdef ASST_DEBUG
+    cv::Mat draw = image.clone();
+#endif
+
+    std::vector<TextRect> raw_result;
+    std::vector<TextRect> proced_result;
+    for (size_t i = 0; i != ocr_result.text.size(); ++i) {
+        // the box rect like ↓
+        // 0 - 1
+        // 3 - 2
+        Rect det_rect;
+        if (!without_det && i < ocr_result.boxes.size()) {
+            const auto& box = ocr_result.boxes.at(i);
+            int x_collect[] = { box[0], box[2], box[4], box[6] };
+            int y_collect[] = { box[1], box[3], box[5], box[7] };
+            auto [left, right] = ranges::minmax(x_collect);
+            auto [top, bottom] = ranges::minmax(y_collect);
+            det_rect = Rect(left, top, right - left, bottom - top);
+        }
+        else {
+            det_rect = Rect(0, 0, image.cols, image.rows);
+        }
+        std::string text = ocr_result.text.at(i);
+        double score = ocr_result.rec_scores.at(i);
+        if (score > 2.0) {
+            score = 0;
+        }
+
+#ifdef ASST_DEBUG
+        cv::rectangle(draw, make_rect<cv::Rect>(det_rect), cv::Scalar(0, 0, 255), 2);
+#endif
+
+        TextRect tr(score, det_rect, std::move(text));
+        raw_result.emplace_back(tr);
+        if (trim) {
+            utils::string_trim(tr.text);
+        }
+        if (!pred || pred(tr)) {
+            proced_result.emplace_back(std::move(tr));
+        }
+    }
+
+    Log.trace("OcrPack::recognize | raw:", raw_result);
+    Log.trace("OcrPack::recognize | proc:", proced_result);
+    return proced_result;
 }
 
 #ifdef _WIN32
