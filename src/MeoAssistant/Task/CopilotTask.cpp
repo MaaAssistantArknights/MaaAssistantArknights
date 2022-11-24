@@ -45,6 +45,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     bool with_formation = params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
+    std::string support_unit_name = params.get("support_unit_name", "");
+    m_formation_task_ptr->set_support_unit_name(support_unit_name);
 
     const std::string& filename = filename_opt.value();
     return Copilot.load(utils::path(filename));

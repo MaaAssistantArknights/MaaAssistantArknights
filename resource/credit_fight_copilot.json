@@ -43,10 +43,5 @@
     ],
     "opers": [],
     "stage_name": "activities/act3d0/level_act3d0_01",
-    "difficulty": 3,
-    "support_unit": {
-        "name": "_RANDOM_",
-        "skill": 1,
-        "skill_usage": 1
-    }
+    "difficulty": 3
 }

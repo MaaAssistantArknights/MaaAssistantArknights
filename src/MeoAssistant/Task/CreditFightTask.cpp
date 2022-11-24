@@ -25,19 +25,20 @@ asst::CreditFightTask::CreditFightTask(AsstCallback callback, void* callback_arg
     stage_navigation_task_ptr->set_enable(false).set_ignore_error(false);
 
     const std::string stage = "OF-1";
-    //开始
+    // 开始
     start_up_task_ptr->set_tasks({ "StageBegin" }).set_times_limit("GoLastBattle", 0);
-    //关卡导航
+    // 关卡导航
     stage_navigation_task_ptr->set_stage_name(stage);
     stage_navigation_task_ptr->set_enable(true);
 
-    //自动战斗
+    // 自动战斗
     json::value copilotparams;
     copilotparams["stage_name"] = "activities/act3d0/level_act3d0_01"; // OF-1
 
     std::string copilot_path = utils::path_to_utf8_string(ResDir.get()) + "\\resource\\credit_fight_copilot.json";
     copilotparams["filename"] = copilot_path;
     copilotparams["formation"] = true;
+    copilotparams["support_unit_name"] = "_RANDOM_";
     copilot_task_ptr->set_params(copilotparams);
 
     // 战斗结束后
