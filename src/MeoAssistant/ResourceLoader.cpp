@@ -67,10 +67,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
     LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
 
-    if (!m_loaded) {
-        Controller::set_resource_path(path);
-    }
-
     m_loaded = true;
 
 #undef LoadTemplByConfigerAndCheckRet

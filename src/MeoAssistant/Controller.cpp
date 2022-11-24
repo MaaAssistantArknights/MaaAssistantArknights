@@ -38,6 +38,7 @@
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Utils/WorkingDir.hpp"
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
@@ -1519,7 +1520,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             cmd_replace(cfg_cmd),
             {
                 { "[minitouchLocalPath]",
-                  utils::path_to_utf8_string(m_resource_path / "minitouch"_p / optimal_abi / "minitouch"_p) },
+                  utils::path_to_utf8_string(ResDir.get() / "minitouch"_p / optimal_abi / "minitouch"_p) },
                 { "[minitouchWorkingFile]", m_uuid },
             });
     };
