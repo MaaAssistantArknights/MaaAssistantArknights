@@ -1,5 +1,5 @@
 #pragma once
-#include "PackageTask.h"
+#include "Sub/AbstractTask.h"
 
 #include <memory>
 
@@ -10,15 +10,21 @@ namespace asst
     class StageNavigationTask;
     class CopilotTask;
 
-    class CreditFightTask final : public PackageTask
+    class CreditFightTask final : public AbstractTask
     {
     public:
-        CreditFightTask(AsstCallback callback, void* callback_arg);
+        using AbstractTask::AbstractTask;
         virtual ~CreditFightTask() override = default;
 
-        static constexpr const char* TaskType = "CreditFight";
-
+        void set_subtasks(std::vector<std::shared_ptr<AbstractTask>>& visit_subtasks);
+        void set_subtasks_enable(bool enable);
     protected:
-        
+        virtual bool _run() override;
+
+        std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
+        std::shared_ptr<CopilotTask> m_copilot_task_ptr = nullptr;
+        std::shared_ptr<StageNavigationTask> m_stage_navigation_task_ptr = nullptr;
+        std::shared_ptr<GameCrashRestartTaskPlugin> m_game_restart_plugin_ptr = nullptr;
     };
-}
+} // namespace asst
