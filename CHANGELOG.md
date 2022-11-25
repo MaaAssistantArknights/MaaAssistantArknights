@@ -1,3 +1,14 @@
+## v4.7.2
+
+- 修复 刷理智 掉落识别 在极端情况下疯狂上传的问题 @MistEO
+- 修复 刷理智 时间缓存不生效的问题 @MistEO
+- 修复 夜神模拟器 偶现截图黑屏的问题 @MistEO
+- 优化 水月肉鸽 部分地图部署策略 @WWPXX233
+- 更新 文档 @ntgmc
+
+### For Overseas clients
+
+- Fix OCR error for ZH_TW client @horror-proton
 
 ## v4.7.1
 
