@@ -917,7 +917,8 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         }
         const Point pos = m_normal_tile_info.at(loc).pos;
         const Rect pos_rect(pos.x, pos.y, 1, 1);
-        const auto roi = make_rect<cv::Rect>(pos_rect.move(skill_roi_move));
+        auto roi = make_rect<cv::Rect>(pos_rect.move(skill_roi_move));
+        roi &= cv::Rect(0, 0, image.cols, image.rows);
 
         auto result = find_skill_ready(image(roi), temp);
         if (result.empty()) continue;
