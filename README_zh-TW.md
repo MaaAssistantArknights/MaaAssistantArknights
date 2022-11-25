@@ -99,6 +99,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 圖像辨識庫：[opencv](https://github.com/opencv/opencv.git)
 - ~~字元辨識庫：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 字元辨識庫：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~關卡掉落辨識：[企鵝物流辨識](https://github.com/penguin-statistics/recognizer)~~
 - 地圖格子辨識：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON庫：[meojson](https://github.com/MistEO/meojson.git)

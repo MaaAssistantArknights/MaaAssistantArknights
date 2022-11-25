@@ -99,6 +99,8 @@ Due to the small number of overseas clients users and the lack of project manpow
 - Image recognition: [opencv](https://github.com/opencv/opencv.git)
 - ~~OCR: [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - OCR: [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~Item drop recognition: [Penguin Stats recognizer](https://github.com/penguin-statistics/recognizer)~~
 - Map tile recognition: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON library: [meojson](https://github.com/MistEO/meojson.git)
