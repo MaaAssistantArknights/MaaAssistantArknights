@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Sub/AbstractTask.h"
+#include "AbstractTask.h"
 
 #include <memory>
 
@@ -22,7 +22,7 @@ namespace asst
         virtual AbstractTask& set_exit_flag(bool* exit_flag) noexcept override;
         virtual AbstractTask& set_retry_times(int times) noexcept override;
         virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept override;
-        virtual AbstractTask& set_status(std::shared_ptr<RuntimeStatus> status) noexcept override;
+        virtual AbstractTask& set_status(std::shared_ptr<Status> status) noexcept override;
         virtual AbstractTask& set_task_id(int task_id) noexcept override;
 
     protected:

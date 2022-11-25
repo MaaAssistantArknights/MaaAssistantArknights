@@ -7,8 +7,8 @@
 #include <queue>
 #include <thread>
 
-#include "Utils/AsstMsg.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstMsg.h"
+#include "Common/AsstTypes.h"
 
 typedef unsigned char uchar;
 
@@ -21,7 +21,7 @@ namespace asst
 {
     class Controller;
     class InterfaceTask;
-    class RuntimeStatus;
+    class Status;
 
     class Assistant
     {
@@ -63,7 +63,7 @@ namespace asst
         std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler = nullptr;
-        std::shared_ptr<RuntimeStatus> m_status = nullptr;
+        std::shared_ptr<Status> m_status = nullptr;
 
         bool m_thread_exit = false;
         std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;

@@ -9,7 +9,7 @@ namespace json
 
 namespace asst
 {
-    class AbstractConfig: public AbstractResource
+    class AbstractConfig : public AbstractResource
     {
     public:
         virtual ~AbstractConfig() override = default;

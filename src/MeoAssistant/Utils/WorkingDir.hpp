@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Utils/Platform.hpp"
-#include "Utils/SingletonHolder.hpp"
+#include "Platform.hpp"
+#include "SingletonHolder.hpp"
 
 namespace asst
 {
