@@ -5,7 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Controller.h"
-#include "Resource/GeneralConfig.h"
+#include "Config/GeneralConfig.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
 

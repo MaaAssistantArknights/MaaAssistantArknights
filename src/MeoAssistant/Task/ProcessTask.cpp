@@ -7,9 +7,9 @@
 #include <meojson/json.hpp>
 
 #include "Controller.h"
-#include "ImageAnalyzer/Miscellaneous/ProcessTaskImageAnalyzer.h"
-#include "Resource/GeneralConfig.h"
-#include "Resource/TaskData.h"
+#include "Vision/Miscellaneous/ProcessTaskImageAnalyzer.h"
+#include "Config/GeneralConfig.h"
+#include "Config/TaskData.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
 

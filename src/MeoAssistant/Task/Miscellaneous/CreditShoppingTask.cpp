@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "Controller.h"
-#include "ImageAnalyzer/MatchImageAnalyzer.h"
-#include "ImageAnalyzer/Miscellaneous/CreditShopImageAnalyzer.h"
-#include "ImageAnalyzer/OcrImageAnalyzer.h"
-#include "Resource/TaskData.h"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Miscellaneous/CreditShopImageAnalyzer.h"
+#include "Vision/OcrImageAnalyzer.h"
+#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 

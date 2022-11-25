@@ -3,8 +3,8 @@
 #include <regex>
 
 #include "Controller.h"
-#include "ImageAnalyzer/OcrImageAnalyzer.h"
-#include "Resource/TaskData.h"
+#include "Vision/OcrImageAnalyzer.h"
+#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 

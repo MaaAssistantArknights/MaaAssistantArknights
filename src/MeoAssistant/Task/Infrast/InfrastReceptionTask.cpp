@@ -3,10 +3,10 @@
 #include "Utils/Ranges.hpp"
 
 #include "Controller.h"
-#include "ImageAnalyzer/Infrast/InfrastClueImageAnalyzer.h"
-#include "ImageAnalyzer/Infrast/InfrastClueVacancyImageAnalyzer.h"
-#include "ImageAnalyzer/MatchImageAnalyzer.h"
-#include "Resource/TaskData.h"
+#include "Vision/Infrast/InfrastClueImageAnalyzer.h"
+#include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 

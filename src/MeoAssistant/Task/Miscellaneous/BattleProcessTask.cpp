@@ -9,12 +9,12 @@
 #include "Utils/Ranges.hpp"
 
 #include "Controller.h"
-#include "ImageAnalyzer/MatchImageAnalyzer.h"
-#include "ImageAnalyzer/Miscellaneous/BattleImageAnalyzer.h"
-#include "ImageAnalyzer/OcrWithPreprocessImageAnalyzer.h"
-#include "Resource/Miscellaneous/CopilotConfig.h"
-#include "Resource/Miscellaneous/TilePack.h"
-#include "Resource/TaskData.h"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Config/Miscellaneous/CopilotConfig.h"
+#include "Config/Miscellaneous/TilePack.h"
+#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 

@@ -1,7 +1,7 @@
 #include "InfrastInfoTask.h"
 
 #include "Controller.h"
-#include "ImageAnalyzer/Infrast/InfrastFacilityImageAnalyzer.h"
+#include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
 

@@ -1,6 +1,6 @@
 #include "InterfaceTask.h"
 
-#include "Resource/GeneralConfig.h"
+#include "Config/GeneralConfig.h"
 #include "Utils/Logger.hpp"
 
 bool asst::PackageTask::run()

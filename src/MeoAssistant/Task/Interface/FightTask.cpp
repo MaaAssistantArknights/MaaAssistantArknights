@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "Resource/TaskData.h"
+#include "Config/TaskData.h"
 
 #include "Task/Fight/DrGrandetTaskPlugin.h"
 #include "Task/Fight/StageDropsTaskPlugin.h"

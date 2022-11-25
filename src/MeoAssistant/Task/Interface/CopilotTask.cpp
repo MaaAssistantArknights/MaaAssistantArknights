@@ -1,6 +1,6 @@
 #include "CopilotTask.h"
 
-#include "Resource/Miscellaneous/CopilotConfig.h"
+#include "Config/Miscellaneous/CopilotConfig.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"

@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Common/AsstTypes.h"
-#include "Resource/Miscellaneous/RecruitConfig.h"
+#include "Config/Miscellaneous/RecruitConfig.h"
 
 namespace asst
 {

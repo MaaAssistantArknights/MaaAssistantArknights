@@ -35,7 +35,7 @@
 #endif
 
 #include "Common/AsstTypes.h"
-#include "Resource/GeneralConfig.h"
+#include "Config/GeneralConfig.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Utils/WorkingDir.hpp"
