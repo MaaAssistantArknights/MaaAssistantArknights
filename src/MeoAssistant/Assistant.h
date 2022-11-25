@@ -7,8 +7,8 @@
 #include <queue>
 #include <thread>
 
-#include "Utils/AsstMsg.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstMsg.h"
+#include "Common/AsstTypes.h"
 
 typedef unsigned char uchar;
 
@@ -20,8 +20,8 @@ namespace cv
 namespace asst
 {
     class Controller;
-    class PackageTask;
-    class RuntimeStatus;
+    class InterfaceTask;
+    class Status;
 
     class Assistant
     {
@@ -63,10 +63,10 @@ namespace asst
         std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler = nullptr;
-        std::shared_ptr<RuntimeStatus> m_status = nullptr;
+        std::shared_ptr<Status> m_status = nullptr;
 
         bool m_thread_exit = false;
-        std::list<std::pair<TaskId, std::shared_ptr<PackageTask>>> m_tasks_list;
+        std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;
         inline static TaskId m_task_id = 0; // 进程级唯一
         AsstApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;

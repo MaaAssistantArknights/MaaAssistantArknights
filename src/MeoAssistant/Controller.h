@@ -9,22 +9,15 @@
 #include <sys/socket.h>
 #endif
 
-#include "Utils/AsstConf.h"
-
-#include <atomic>
-#include <condition_variable>
-#include <filesystem>
 #include <memory>
-#include <mutex>
 #include <optional>
-#include <queue>
 #include <random>
 #include <shared_mutex>
 #include <string>
 #include <thread>
 
-#include "Utils/AsstMsg.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstMsg.h"
+#include "Common/AsstTypes.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
 
@@ -33,7 +26,7 @@ namespace asst
     class Controller
     {
     public:
-        Controller(AsstCallback callback, void* callback_arg);
+        Controller(const AsstCallback& callback, void* callback_arg);
         Controller(const Controller&) = delete;
         Controller(Controller&&) = delete;
         ~Controller();

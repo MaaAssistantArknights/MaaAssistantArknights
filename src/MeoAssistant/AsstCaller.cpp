@@ -7,11 +7,11 @@
 #include <meojson/json.hpp>
 
 #include "Assistant.h"
-#include "ResourceLoader.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstTypes.h"
+#include "Common/AsstVersion.h"
+#include "Resource/ResourceLoader.h"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
-#include "Utils/Version.h"
 
 static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
 

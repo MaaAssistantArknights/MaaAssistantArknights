@@ -1,6 +1,6 @@
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "Utils/Logger.hpp"
 
 bool asst::PackageTask::run()
@@ -11,7 +11,7 @@ bool asst::PackageTask::run()
     }
     m_running = true;
 
-    const int task_delay = Configer.get_options().task_delay;
+    const int task_delay = Config.get_options().task_delay;
 
     for (size_t i = 0; i != m_subtasks.size(); ++i) {
         if (need_exit()) {
@@ -63,7 +63,7 @@ asst::AbstractTask& asst::PackageTask::set_ctrler(std::shared_ptr<Controller> ct
     return *this;
 }
 
-asst::AbstractTask& asst::PackageTask::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
+asst::AbstractTask& asst::PackageTask::set_status(std::shared_ptr<Status> status) noexcept
 {
     AbstractTask::set_status(status);
     for (auto&& sub : m_subtasks) {

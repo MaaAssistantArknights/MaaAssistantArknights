@@ -1,27 +1,27 @@
 #include "Assistant.h"
 
-#include "Utils/AsstRanges.hpp"
+#include "Utils/Ranges.hpp"
 
 #include <meojson/json.hpp>
 
 #include "Controller.h"
-#include "Resource/GeneralConfiger.h"
-#include "RuntimeStatus.h"
+#include "Resource/GeneralConfig.h"
+#include "Status.h"
 #include "Utils/Logger.hpp"
 
-#include "Task/AwardTask.h"
-#include "Task/CloseDownTask.h"
-#include "Task/CopilotTask.h"
-#include "Task/DepotTask.h"
-#include "Task/FightTask.h"
-#include "Task/InfrastTask.h"
-#include "Task/MallTask.h"
-#include "Task/RecruitTask.h"
-#include "Task/RoguelikeTask.h"
-#include "Task/StartUpTask.h"
-#include "Task/VisitTask.h"
+#include "Task/Interface/AwardTask.h"
+#include "Task/Interface/CloseDownTask.h"
+#include "Task/Interface/CopilotTask.h"
+#include "Task/Interface/DepotTask.h"
+#include "Task/Interface/FightTask.h"
+#include "Task/Interface/InfrastTask.h"
+#include "Task/Interface/MallTask.h"
+#include "Task/Interface/RecruitTask.h"
+#include "Task/Interface/RoguelikeTask.h"
+#include "Task/Interface/StartUpTask.h"
+#include "Task/Interface/VisitTask.h"
 #ifdef ASST_DEBUG
-#include "Task/DebugTask.h"
+#include "Task/Interface/DebugTask.h"
 #endif
 
 using namespace asst;
@@ -30,7 +30,7 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(
 {
     LogTraceFunction;
 
-    m_status = std::make_shared<RuntimeStatus>();
+    m_status = std::make_shared<Status>();
     m_ctrler = std::make_shared<Controller>(task_callback, static_cast<void*>(this));
     m_ctrler->set_exit_flag(&m_thread_idle);
 
@@ -106,7 +106,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
         return 0;
     }
 
-    std::shared_ptr<PackageTask> ptr = nullptr;
+    std::shared_ptr<InterfaceTask> ptr = nullptr;
 
 #define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK)                 \
     else if (type == TASK::TaskType)                                           \
@@ -160,7 +160,7 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
         return false;
     }
 
-    auto ret = json::parse(params.empty() ? "{}" : params);
+    auto ret = json::parse(params.empty() ? json::value().to_string() : params);
     if (!ret) {
         return false;
     }
@@ -268,7 +268,7 @@ void Assistant::working_proc()
             // only one instance of working_proc running, unlock here to allow set_task_param to the running task
 
             json::value callback_json = json::object {
-                { "taskchain", task_ptr->get_task_chain() },
+                { "taskchain", std::string(task_ptr->get_task_chain()) },
                 { "taskid", id },
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);
@@ -297,7 +297,7 @@ void Assistant::working_proc()
                 finished_tasks.clear();
             }
 
-            const int delay = Configer.get_options().task_delay;
+            const int delay = Config.get_options().task_delay;
             lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
 

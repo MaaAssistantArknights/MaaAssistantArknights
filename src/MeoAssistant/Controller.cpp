@@ -1,9 +1,8 @@
 #include "Controller.h"
-#include "Utils/AsstConf.h"
-#include "Utils/Platform/AsstPlatform.h"
+
+#include "Utils/Platform.hpp"
 
 #ifdef _WIN32
-#include "Utils/Platform/AsstPlatformWin32.h"
 #include <ws2tcpip.h>
 #else
 #include <fcntl.h>
@@ -23,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "Common/AsstConf.h"
 #include "Utils/NoWarningCV.h"
 
 #ifdef _MSC_VER
@@ -34,14 +34,14 @@
 #pragma warning(pop)
 #endif
 
-#include "Resource/GeneralConfiger.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstTypes.h"
+#include "Resource/GeneralConfig.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Utils/WorkingDir.hpp"
 
-asst::Controller::Controller(AsstCallback callback, void* callback_arg)
-    : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
+asst::Controller::Controller(const AsstCallback& callback, void* callback_arg)
+    : m_callback(callback), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 
@@ -767,7 +767,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 
 void asst::Controller::random_delay() const
 {
-    auto& opt = Configer.get_options();
+    auto& opt = Config.get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
         static std::default_random_engine rand_engine(std::random_device {}());
@@ -1084,7 +1084,7 @@ bool asst::Controller::start_game(const std::string& client_type)
     if (client_type.empty()) {
         return false;
     }
-    auto intent_name = Configer.get_intent_name(client_type);
+    auto intent_name = Config.get_intent_name(client_type);
     if (!intent_name) {
         return false;
     }
@@ -1165,7 +1165,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    const auto& opt = Configer.get_options();
+    const auto& opt = Config.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
         Log.info("minitouch swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
@@ -1267,7 +1267,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         };
     };
 
-    auto adb_ret = Configer.get_adb_cfg(config);
+    auto adb_ret = Config.get_adb_cfg(config);
     if (!adb_ret) {
         json::value info = get_info_json() | json::object {
             { "what", "ConnectFailed" },
