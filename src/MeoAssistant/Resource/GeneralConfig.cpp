@@ -22,7 +22,6 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
         m_options.depot_export_template.ark_planner =
             options_json.get("depotExportTemplate", "arkPlanner", std::string());
-        m_options.ocr_with_rawdata = options_json.get("ocrWithRawData", true);
     }
 
     for (const auto& [client_type, intent_name] : json.at("intent").as_object()) {
