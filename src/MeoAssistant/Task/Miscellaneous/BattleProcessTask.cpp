@@ -657,7 +657,8 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
         if (info.info.skill_usage != BattleSkillUsage::Possibly && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;
         }
-        const auto roi = make_rect<cv::Rect>(Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move));
+        auto roi = make_rect<cv::Rect>(Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move));
+        roi &= cv::Rect(0, 0, image.cols, image.rows);
 
         const auto result = find_skill_ready(image(roi), temp);
         if (result.empty()) continue;
