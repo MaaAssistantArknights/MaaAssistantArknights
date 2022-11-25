@@ -12,6 +12,8 @@ namespace asst
 
         void set_stage_name(std::string name);
 
+        void set_support_unit_name(std::string name) { m_support_unit_name = name; }
+
     protected:
         using OperGroup = std::vector<BattleDeployOper>;
         virtual bool _run() override;
@@ -22,9 +24,12 @@ namespace asst
         bool confirm_selection();
         bool click_role_table(BattleRole role);
         bool parse_formation();
+        bool select_random_support_unit();
 
         std::string m_stage_name;
         std::unordered_map<BattleRole, std::vector<OperGroup>> m_formation;
         std::string m_the_right_name;
+
+        std::string m_support_unit_name = "";
     };
 }
