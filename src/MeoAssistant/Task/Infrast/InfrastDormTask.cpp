@@ -3,11 +3,11 @@
 #include <regex>
 
 #include "Controller.h"
-#include "ImageAnalyzer/Infrast/InfrastOperImageAnalyzer.h"
-#include "ImageAnalyzer/MatchImageAnalyzer.h"
-#include "ImageAnalyzer/OcrImageAnalyzer.h"
-#include "ImageAnalyzer/OcrWithPreprocessImageAnalyzer.h"
-#include "Resource/TaskData.h"
+#include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 

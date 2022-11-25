@@ -12,7 +12,7 @@
 #include "AbstractTaskPlugin.h"
 #include "Controller.h"
 #include "ProcessTask.h"
-#include "Resource/GeneralConfig.h"
+#include "Config/GeneralConfig.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"

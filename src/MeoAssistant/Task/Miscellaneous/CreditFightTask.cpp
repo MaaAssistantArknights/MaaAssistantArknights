@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "Resource/TaskData.h"
+#include "Config/TaskData.h"
 
 #include "GameCrashRestartTaskPlugin.h"
 #include "Task/AbstractTask.h"

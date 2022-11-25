@@ -6,8 +6,8 @@
 
 // #include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
 
-#include "ImageAnalyzer/Miscellaneous/DepotImageAnalyzer.h"
-#include "ImageAnalyzer/Roguelike/StageDropsImageAnalyzer.h"
+#include "Vision/Miscellaneous/DepotImageAnalyzer.h"
+#include "Vision/Roguelike/StageDropsImageAnalyzer.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 

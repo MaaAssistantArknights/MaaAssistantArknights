@@ -9,7 +9,7 @@
 #include "Assistant.h"
 #include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
-#include "Resource/ResourceLoader.h"
+#include "Config/ResourceLoader.h"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
 

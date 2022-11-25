@@ -1,6 +1,6 @@
 #include "ReportDataTask.h"
 
-#include "Resource/GeneralConfig.h"
+#include "Config/GeneralConfig.h"
 #include "Utils/Locale.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
