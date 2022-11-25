@@ -42,7 +42,7 @@ file(GLOB_RECURSE maa_src src/MeoAssistant/*.cpp)
 add_library(MeoAssistant SHARED ${maa_src})
 
 if (MSVC)
-    find_library(FastDeploy_LIB NAMES ON PATHS 3rdparty/lib)
+    find_library(FastDeploy_LIB NAMES fastdeploy PATHS 3rdparty/lib)
     find_library(OpenCV NAMES opencv_world453 PATHS 3rdparty/lib)
     find_library(ZLIB NAMES zlibstatic PATHS 3rdparty/lib)
     target_link_libraries(MeoAssistant ws2_32 ${OpenCV} ${FastDeploy_LIB} ${ZLIB})
