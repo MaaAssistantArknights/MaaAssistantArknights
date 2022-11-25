@@ -1,6 +1,6 @@
 #include "ReportDataTask.h"
 
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "Utils/Locale.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
@@ -68,7 +68,7 @@ void asst::ReportDataTask::report_to_penguin()
     auto epoch = time_point_cast<nanoseconds>(steady_clock::now()).time_since_epoch();
     long long tick = duration_cast<nanoseconds>(epoch).count();
 
-    static std::default_random_engine rand_engine(std::random_device {}());
+    static std::default_random_engine rand_engine(std::random_device{}());
     static std::uniform_int_distribution<uint64_t> rand_uni(0, UINT64_MAX);
 
     uint64_t rand = rand_uni(rand_engine);
@@ -82,15 +82,15 @@ void asst::ReportDataTask::report_to_penguin()
 
     int backoff = 10 * 1000; // 10s
     http::Response response = report(
-        "ReportToPenguinStats", Configer.get_options().penguin_report.cmd_format,
+        "ReportToPenguinStats", Config.get_options().penguin_report.cmd_format,
         [](const http::Response& response) -> bool { return response.success(); },
         [&](const http::Response& response) -> bool {
             bool cond = !response.status_code() || response.status_5xx();
-            if (cond) {
-                backoff = static_cast<int>(backoff * 1.5);
-                sleep(backoff);
-            }
-            return cond;
+    if (cond) {
+        backoff = static_cast<int>(backoff * 1.5);
+        sleep(backoff);
+    }
+    return cond;
         },
         false);
 
@@ -108,7 +108,7 @@ void asst::ReportDataTask::report_to_penguin()
     }
 
     // 重新向企鹅物流统计的 CN 域名发送数据
-    std::string new_cmd_format = Configer.get_options().penguin_report.cmd_format;
+    std::string new_cmd_format = Config.get_options().penguin_report.cmd_format;
     if (new_cmd_format.find("https://penguin-stats.io") == std::string::npos) {
         return;
     }
@@ -121,11 +121,11 @@ void asst::ReportDataTask::report_to_penguin()
         [](const http::Response& response) -> bool { return response.success(); },
         [&](const http::Response& response) -> bool {
             bool cond = !response.status_code() || response.status_5xx();
-            if (cond) {
-                backoff = static_cast<int>(backoff * 1.5);
-                sleep(backoff);
-            }
-            return cond;
+    if (cond) {
+        backoff = static_cast<int>(backoff * 1.5);
+        sleep(backoff);
+    }
+    return cond;
         });
 
     if (response.success()) {
@@ -138,7 +138,7 @@ void asst::ReportDataTask::report_to_yituliu()
 {
     LogTraceFunction;
 
-    report("ReportToYituliu", Configer.get_options().yituliu_report.cmd_format);
+    report("ReportToYituliu", Config.get_options().yituliu_report.cmd_format);
 }
 
 asst::http::Response asst::ReportDataTask::report(const std::string& subtask, const std::string& format,
@@ -171,7 +171,7 @@ asst::http::Response asst::ReportDataTask::report(const std::string& subtask, co
 
     if (callback_on_failure) {
         cb_info["why"] = "上报失败";
-        cb_info["details"] = json::object {
+        cb_info["details"] = json::object{
             { "error", response.get_last_error() },
             { "status_code", response.status_code() },
             { "status_code_info", std::string(response.status_code_info()) },

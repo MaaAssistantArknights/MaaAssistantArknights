@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include "Utils/AsstRanges.hpp"
 #include <algorithm>
@@ -65,7 +65,7 @@ namespace asst
 
             avg_level = std::transform_reduce(opers.cbegin(), opers.cend(), 0., std::plus<double> {},
                                               std::mem_fn(&RecruitOperInfo::level)) /
-                        static_cast<double>(opers.size());
+                static_cast<double>(opers.size());
         }
 
         // intersection of two recruit combs
@@ -88,13 +88,13 @@ namespace asst
         }
     };
 
-    class RecruitConfiger final : public SingletonHolder<RecruitConfiger>, public AbstractConfiger
+    class RecruitConfig final: public SingletonHolder<RecruitConfig>, public AbstractConfig
     {
     public:
         using TagId = std::string;
 
     public:
-        virtual ~RecruitConfiger() override = default;
+        virtual ~RecruitConfig() override = default;
         static constexpr int CorrectNumberOfTags = 5;
 
         const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
@@ -110,5 +110,5 @@ namespace asst
         std::vector<RecruitOperInfo> m_all_opers;
         std::unordered_map<TagId, std::string> m_all_tags_name;
     };
-    inline static auto& RecruitData = RecruitConfiger::get_instance();
+    inline static auto& RecruitData = RecruitConfig::get_instance();
 } // namespace asst

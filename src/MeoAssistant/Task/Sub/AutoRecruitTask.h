@@ -5,14 +5,14 @@
 #include <set>
 #include <vector>
 
-#include "Resource/RecruitConfiger.h"
+#include "Resource/RecruitConfig.h"
 #include "Utils/AsstTypes.h"
 
 namespace asst
 {
     class ReportDataTask;
 
-    class AutoRecruitTask final : public AbstractTask
+    class AutoRecruitTask final: public AbstractTask
     {
     public:
         using AbstractTask::AbstractTask;
@@ -46,7 +46,7 @@ namespace asst
         bool hire_all(const cv::Mat&);
         bool hire_all();
         bool initialize_dirty_slot_info(const cv::Mat&);
-        std::vector<std::string> get_tag_names(const std::vector<RecruitConfiger::TagId>& ids) const;
+        std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
         template <typename Rng>

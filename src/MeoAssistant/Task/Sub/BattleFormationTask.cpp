@@ -5,8 +5,8 @@
 #include "Controller.h"
 #include "ImageAnalyzer/General/OcrWithFlagTemplImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource/BattleDataConfiger.h"
-#include "Resource/CopilotConfiger.h"
+#include "Resource/BattleDataConfig.h"
+#include "Resource/CopilotConfig.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
 

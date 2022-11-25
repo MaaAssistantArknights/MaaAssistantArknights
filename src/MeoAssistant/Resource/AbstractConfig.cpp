@@ -1,10 +1,10 @@
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
 
-bool asst::AbstractConfiger::load(const std::filesystem::path& path)
+bool asst::AbstractConfig::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
     Log.info("load", path);

@@ -12,7 +12,7 @@
 #include "../Plugin/AbstractTaskPlugin.h"
 #include "Controller.h"
 #include "ProcessTask.h"
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "Utils/AsstImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
@@ -21,7 +21,8 @@ using namespace asst;
 
 AbstractTask::AbstractTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain)
     : m_callback(callback), m_callback_arg(callback_arg), m_task_chain(task_chain)
-{}
+{
+}
 
 bool asst::AbstractTask::run()
 {
@@ -38,7 +39,7 @@ bool asst::AbstractTask::run()
         if (need_exit()) {
             return false;
         }
-        int delay = Configer.get_options().task_delay;
+        int delay = Config.get_options().task_delay;
         sleep(delay);
 
         if (!on_run_fails()) {
@@ -113,7 +114,7 @@ json::value asst::AbstractTask::basic_info() const
             task_name = class_name;
         }
 
-        m_basic_info_cache = json::object {
+        m_basic_info_cache = json::object{
             { "taskchain", std::string(m_task_chain) },
             { "taskid", m_task_id },
             { "class", class_name },

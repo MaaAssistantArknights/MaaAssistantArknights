@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractConfigerWithTempl.h"
+#include "AbstractConfigWithTempl.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -8,10 +8,10 @@
 
 namespace asst
 {
-    class ItemConfiger final : public SingletonHolder<ItemConfiger>, public AbstractConfigerWithTempl
+    class ItemConfig final: public SingletonHolder<ItemConfig>, public AbstractConfigWithTempl
     {
     public:
-        virtual ~ItemConfiger() override = default;
+        virtual ~ItemConfig() override = default;
 
         const std::string& get_item_name(const std::string& id) const noexcept
         {
@@ -44,5 +44,5 @@ namespace asst
         std::vector<std::string> m_ordered_material_item_id;
     };
 
-    inline static auto& ItemData = ItemConfiger::get_instance();
+    inline static auto& ItemData = ItemConfig::get_instance();
 }

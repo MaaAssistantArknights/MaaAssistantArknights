@@ -11,8 +11,8 @@
 #include "ImageAnalyzer/BattleImageAnalyzer.h"
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
-#include "Resource/BattleDataConfiger.h"
-#include "Resource/RoguelikeCopilotConfiger.h"
+#include "Resource/BattleDataConfig.h"
+#include "Resource/RoguelikeCopilotConfig.h"
 #include "Resource/TilePack.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
@@ -183,7 +183,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
     else {
         for (const auto& [loc, side] : m_normal_tile_info) {
             if (side.key == TilePack::TileKey::Home) {
-                m_homes.emplace_back(ReplacementHome { loc, BattleDeployDirection::None });
+                m_homes.emplace_back(ReplacementHome{ loc, BattleDeployDirection::None });
             }
         }
         m_stage_use_dice = true;
@@ -1052,7 +1052,7 @@ asst::BattleAttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(const 
     int64_t elite = m_status->get_number(RuntimeStatus::RoguelikeCharElitePrefix + oper.name).value_or(0);
     BattleAttackRange right_attack_range = BattleData.get_range(oper.name, elite);
 
-    if (right_attack_range == BattleDataConfiger::EmptyRange) {
+    if (right_attack_range == BattleDataConfig::EmptyRange) {
         switch (oper.role) {
         case BattleRole::Support:
             right_attack_range = {

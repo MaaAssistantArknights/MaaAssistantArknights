@@ -1,10 +1,10 @@
-#include "InfrastConfiger.h"
+#include "InfrastConfig.h"
 
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
 
-bool asst::InfrastConfiger::parse(const json::value& json)
+bool asst::InfrastConfig::parse(const json::value& json)
 {
     for (const json::value& facility : json.at("roomType").as_array()) {
         std::string facility_name = facility.as_string();

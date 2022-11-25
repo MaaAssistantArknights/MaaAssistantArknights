@@ -3,8 +3,8 @@
 #include "../Sub/ProcessTask.h"
 #include "Controller.h"
 #include "ImageAnalyzer/General/OcrWithFlagTemplImageAnalyzer.h"
-#include "Resource/BattleDataConfiger.h"
-#include "Resource/RoguelikeShoppingConfiger.h"
+#include "Resource/BattleDataConfig.h"
+#include "Resource/RoguelikeShoppingConfig.h"
 #include "RuntimeStatus.h"
 #include "Utils/Logger.hpp"
 

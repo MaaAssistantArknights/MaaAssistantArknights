@@ -12,7 +12,7 @@
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
 #include "ImageAnalyzer/InfrastOperImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource/InfrastConfiger.h"
+#include "Resource/InfrastConfig.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
@@ -278,10 +278,10 @@ size_t asst::InfrastProductionTask::opers_detect()
             if (oper.skills != cur_oper.skills) {
                 return false;
             }
-            // 有可能是同一个干员，比一下hash
-            int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
-            Log.debug("opers_detect hash dist |", dist);
-            return dist < face_hash_thres;
+        // 有可能是同一个干员，比一下hash
+        int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
+        Log.debug("opers_detect hash dist |", dist);
+        return dist < face_hash_thres;
         });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
         if (find_iter != m_all_available_opers.cend()) {
@@ -557,77 +557,77 @@ bool asst::InfrastProductionTask::opers_choose()
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
         auto remove_iter = ranges::remove_if(cur_all_opers, [&](const infrast::Oper& rhs) -> bool {
-                               return rhs.mood_ratio < m_mood_threshold;
+            return rhs.mood_ratio < m_mood_threshold;
                            }).begin();
-        cur_all_opers.erase(remove_iter, cur_all_opers.end());
-        Log.trace("after mood filter, opers size:", cur_all_opers.size());
-        for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
-            Log.trace("to find", opt_iter->skills.begin()->names.front());
-            auto find_iter = ranges::find_if(cur_all_opers, [&](const infrast::Oper& lhs) -> bool {
-                if (lhs.skills != opt_iter->skills) {
-                    return false;
-                }
-                if (opt_iter->name_filter.empty()) {
-                    return true;
-                }
-                else {
-                    OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
-                    name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-                    Log.trace("Analyze name filter");
-                    if (!name_analyzer.analyze()) {
-                        return false;
-                    }
-                    std::string name = name_analyzer.get_result().front().text;
-                    return ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
-                }
-            });
+                           cur_all_opers.erase(remove_iter, cur_all_opers.end());
+                           Log.trace("after mood filter, opers size:", cur_all_opers.size());
+                           for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
+                               Log.trace("to find", opt_iter->skills.begin()->names.front());
+                               auto find_iter = ranges::find_if(cur_all_opers, [&](const infrast::Oper& lhs) -> bool {
+                                   if (lhs.skills != opt_iter->skills) {
+                                       return false;
+                                   }
+                               if (opt_iter->name_filter.empty()) {
+                                   return true;
+                               }
+                               else {
+                                   OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
+                                   name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+                                   Log.trace("Analyze name filter");
+                                   if (!name_analyzer.analyze()) {
+                                       return false;
+                                   }
+                                   std::string name = name_analyzer.get_result().front().text;
+                                   return ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
+                               }
+                               });
 
-            if (find_iter == cur_all_opers.cend()) {
-                ++opt_iter;
-                Log.trace("not found in this page");
-                continue;
-            }
-            Log.trace("found in this page");
-            // 这种情况可能是需要选择两个同样的技能，上一次循环选了一个，但是没有把滑出当前页面，本次又识别到了这个已选择的人
-            if (find_iter->selected == true) {
-                if (cur_max_num_of_opers != 1) {
-                    cur_all_opers.erase(find_iter);
-                    Log.trace("skill matched, but it's selected, pass");
-                    continue;
-                }
-                // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
-            }
-            else {
-                m_ctrler->click(find_iter->rect);
-            }
-            {
-                auto avlb_iter = ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
-                    int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
-                    Log.debug("opers_choose | face hash dist", dist);
-                    return dist < face_hash_thres;
-                });
-                if (avlb_iter != m_all_available_opers.cend()) {
-                    m_all_available_opers.erase(avlb_iter);
-                }
-                else {
-                    Log.error("opers_choose | not found oper");
-                }
-            }
-            ++count;
-            cur_all_opers.erase(find_iter);
-            opt_iter = m_optimal_combs.erase(opt_iter);
-        }
-        if (m_optimal_combs.empty()) {
-            Log.trace(__FUNCTION__, "| count", count, "cur_max_num_of_opers", cur_max_num_of_opers);
-            if (count < cur_max_num_of_opers) {
-                // 这种情况可能是萌新，可用干员人数不足以填满当前设施
-                callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));
-            }
-            break;
-        }
+                               if (find_iter == cur_all_opers.cend()) {
+                                   ++opt_iter;
+                                   Log.trace("not found in this page");
+                                   continue;
+                               }
+                               Log.trace("found in this page");
+                               // 这种情况可能是需要选择两个同样的技能，上一次循环选了一个，但是没有把滑出当前页面，本次又识别到了这个已选择的人
+                               if (find_iter->selected == true) {
+                                   if (cur_max_num_of_opers != 1) {
+                                       cur_all_opers.erase(find_iter);
+                                       Log.trace("skill matched, but it's selected, pass");
+                                       continue;
+                                   }
+                                   // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
+                               }
+                               else {
+                                   m_ctrler->click(find_iter->rect);
+                               }
+                               {
+                                   auto avlb_iter = ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
+                                       int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
+                                   Log.debug("opers_choose | face hash dist", dist);
+                                   return dist < face_hash_thres;
+                                   });
+                                   if (avlb_iter != m_all_available_opers.cend()) {
+                                       m_all_available_opers.erase(avlb_iter);
+                                   }
+                                   else {
+                                       Log.error("opers_choose | not found oper");
+                                   }
+                               }
+                               ++count;
+                               cur_all_opers.erase(find_iter);
+                               opt_iter = m_optimal_combs.erase(opt_iter);
+                           }
+                           if (m_optimal_combs.empty()) {
+                               Log.trace(__FUNCTION__, "| count", count, "cur_max_num_of_opers", cur_max_num_of_opers);
+                               if (count < cur_max_num_of_opers) {
+                                   // 这种情况可能是萌新，可用干员人数不足以填满当前设施
+                                   callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));
+                               }
+                               break;
+                           }
 
-        // 因为识别完了还要点击，所以这里不能异步滑动
-        swipe_of_operlist();
+                           // 因为识别完了还要点击，所以这里不能异步滑动
+                           swipe_of_operlist();
     }
 
     return true;

@@ -5,12 +5,12 @@
 
 #include <filesystem>
 
-#include "Resource/AbstractConfigerWithTempl.h"
+#include "Resource/AbstractConfigWithTempl.h"
 #include "Resource/TemplResource.h"
 
 namespace asst
 {
-    class ResourceLoader final : public SingletonHolder<ResourceLoader>, public AbstractResource
+    class ResourceLoader final: public SingletonHolder<ResourceLoader>, public AbstractResource
     {
     public:
         virtual ~ResourceLoader() override = default;
@@ -19,7 +19,7 @@ namespace asst
 
     private:
         template <Singleton T>
-        requires std::is_base_of_v<AbstractResource, T>
+            requires std::is_base_of_v<AbstractResource, T>
         bool load_resource(const std::filesystem::path& path)
         {
             if (!std::filesystem::exists(path)) {
@@ -29,7 +29,7 @@ namespace asst
         }
 
         template <Singleton T>
-        requires std::is_base_of_v<AbstractConfigerWithTempl, T>
+            requires std::is_base_of_v<AbstractConfigWithTempl, T>
         bool load_resource_with_templ(const std::filesystem::path& path, const std::filesystem::path& templ_dir)
         {
             if (!load_resource<T>(path)) {

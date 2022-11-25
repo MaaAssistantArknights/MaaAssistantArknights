@@ -109,19 +109,19 @@
     <ClCompile Include="ImageAnalyzer\StageDropsImageAnalyzer.cpp">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\RecruitConfiger.cpp">
+    <ClCompile Include="Resource\RecruitConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\RoguelikeCopilotConfiger.cpp">
+    <ClCompile Include="Resource\RoguelikeCopilotConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\RoguelikeRecruitConfiger.cpp">
+    <ClCompile Include="Resource\RoguelikeRecruitConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\RoguelikeShoppingConfiger.cpp">
+    <ClCompile Include="Resource\RoguelikeShoppingConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\StageDropsConfiger.cpp">
+    <ClCompile Include="Resource\StageDropsConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Resource\TemplResource.cpp">
@@ -130,22 +130,22 @@
     <ClCompile Include="Resource\TilePack.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\AbstractConfiger.cpp">
+    <ClCompile Include="Resource\AbstractConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\BattleDataConfiger.cpp">
+    <ClCompile Include="Resource\BattleDataConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\CopilotConfiger.cpp">
+    <ClCompile Include="Resource\CopilotConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\GeneralConfiger.cpp">
+    <ClCompile Include="Resource\GeneralConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\InfrastConfiger.cpp">
+    <ClCompile Include="Resource\InfrastConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\ItemConfiger.cpp">
+    <ClCompile Include="Resource\ItemConfig.cpp">
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Resource\OcrPack.cpp">
@@ -419,46 +419,46 @@
     <ClInclude Include="ImageAnalyzer\StageDropsImageAnalyzer.h">
       <Filter>源文件\ImageAnalyzer</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\AbstractConfiger.h">
+    <ClInclude Include="Resource\AbstractConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\AbstractConfigerWithTempl.h">
+    <ClInclude Include="Resource\AbstractConfigWithTempl.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\AbstractResource.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\BattleDataConfiger.h">
+    <ClInclude Include="Resource\BattleDataConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\CopilotConfiger.h">
+    <ClInclude Include="Resource\CopilotConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\GeneralConfiger.h">
+    <ClInclude Include="Resource\GeneralConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\InfrastConfiger.h">
+    <ClInclude Include="Resource\InfrastConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\ItemConfiger.h">
+    <ClInclude Include="Resource\ItemConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\OcrPack.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\RecruitConfiger.h">
+    <ClInclude Include="Resource\RecruitConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\RoguelikeCopilotConfiger.h">
+    <ClInclude Include="Resource\RoguelikeCopilotConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\RoguelikeRecruitConfiger.h">
+    <ClInclude Include="Resource\RoguelikeRecruitConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\RoguelikeShoppingConfiger.h">
+    <ClInclude Include="Resource\RoguelikeShoppingConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\StageDropsConfiger.h">
+    <ClInclude Include="Resource\StageDropsConfig.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\TemplResource.h">

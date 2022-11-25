@@ -4,7 +4,7 @@
 
 #include "General/MatchImageAnalyzer.h"
 #include "General/OcrWithPreprocessImageAnalyzer.h"
-#include "Resource/ItemConfiger.h"
+#include "Resource/ItemConfig.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
 

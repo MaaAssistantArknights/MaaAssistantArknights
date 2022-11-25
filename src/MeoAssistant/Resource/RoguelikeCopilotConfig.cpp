@@ -1,10 +1,10 @@
-#include "RoguelikeCopilotConfiger.h"
+#include "RoguelikeCopilotConfig.h"
 
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
 
-std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfiger::get_stage_data(
+std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfig::get_stage_data(
     const std::string& stage_name) const
 {
     auto it = m_stage_data.find(stage_name);
@@ -14,7 +14,7 @@ std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfiger::get_sta
     return it->second;
 }
 
-bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
+bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 {
     for (const auto& stage_info : json.as_array()) {
         std::string stage_name = stage_info.at("stage_name").as_string();
@@ -94,10 +94,10 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
                 return false;
             }
             auto roles = raw_roles | filter(&json::value::is_string) | transform(&json::value::as_string) |
-                         transform([&](std::string name) {
-                             ranges::for_each(name, to_lower);
-                             return std::move(name);
-                         });
+                transform([&](std::string name) {
+                ranges::for_each(name, to_lower);
+            return std::move(name);
+                });
             for (const std::string& role_name : roles) {
                 const auto role = get_role_type(role_name);
                 if (role == BattleRole::Unknown) [[unlikely]] {
@@ -105,11 +105,11 @@ bool asst::RoguelikeCopilotConfiger::parse(const json::value& json)
                     is_legal = false;
                     break;
                 }
-                if (specified_role.contains(role)) [[unlikely]] {
-                    Log.error("Duplicated BattleRole:", role_name);
-                    is_legal = false;
-                    break;
-                }
+                    if (specified_role.contains(role)) [[unlikely]] {
+                        Log.error("Duplicated BattleRole:", role_name);
+                        is_legal = false;
+                        break;
+                    }
                 specified_role.emplace(role);
                 role_order.emplace_back(role);
             }

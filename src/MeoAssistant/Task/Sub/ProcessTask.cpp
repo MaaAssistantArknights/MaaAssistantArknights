@@ -8,7 +8,7 @@
 
 #include "Controller.h"
 #include "ImageAnalyzer/ProcessTaskImageAnalyzer.h"
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
@@ -18,14 +18,14 @@ using namespace asst;
 asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name)
     : AbstractTask(abs), m_raw_tasks_name(std::move(tasks_name))
 {
-    m_task_delay = Configer.get_options().task_delay;
+    m_task_delay = Config.get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
 asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept
     : AbstractTask(std::move(abs)), m_raw_tasks_name(std::move(tasks_name))
 {
-    m_task_delay = Configer.get_options().task_delay;
+    m_task_delay = Config.get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
@@ -36,7 +36,7 @@ bool asst::ProcessTask::run()
         return true;
     }
     if (m_task_delay == TaskDelayUnsetted) {
-        m_task_delay = Configer.get_options().task_delay;
+        m_task_delay = Config.get_options().task_delay;
     }
 
     m_cur_tasks_name = m_raw_tasks_name;
@@ -69,7 +69,7 @@ asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_n
 
 ProcessTask& asst::ProcessTask::set_times_limit(std::string name, int limit, TimesLimitType type)
 {
-    m_times_limit[std::move(name)] = TimesLimitData { limit, type };
+    m_times_limit[std::move(name)] = TimesLimitData{ limit, type };
     return *this;
 }
 
@@ -92,7 +92,7 @@ bool ProcessTask::_run()
         }
 
         json::value info = basic_info();
-        info["details"] = json::object {
+        info["details"] = json::object{
             { "to_be_recognized", json::array(m_cur_tasks_name) },
             { "cur_retry", m_cur_retry },
             { "retry_times", m_retry_times },
@@ -139,7 +139,7 @@ bool ProcessTask::_run()
 
         if (limit_type == TimesLimitType::Pre && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
-            info["details"] = json::object {
+            info["details"] = json::object{
                 { "task", cur_name },
                 { "exec_times", exec_times },
                 { "max_times", max_times },
@@ -155,7 +155,7 @@ bool ProcessTask::_run()
         m_cur_retry = 0;
         ++exec_times;
 
-        info["details"] = json::object {
+        info["details"] = json::object{
             { "task", cur_name },
             { "action", enum_to_string(m_cur_task_ptr->action) },
             { "exec_times", exec_times },
@@ -238,7 +238,7 @@ bool ProcessTask::_run()
 
         if (limit_type == TimesLimitType::Post && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
-            info["details"] = json::object {
+            info["details"] = json::object{
                 { "task", cur_name },
                 { "exec_times", exec_times },
                 { "max_times", max_times },
@@ -310,7 +310,7 @@ int asst::ProcessTask::calc_post_delay() const
 json::value asst::ProcessTask::basic_info() const
 {
     return AbstractTask::basic_info() |
-           json::object { { "first", json::array(m_raw_tasks_name) }, { "pre_task", m_pre_task_name } };
+        json::object{ { "first", json::array(m_raw_tasks_name) }, { "pre_task", m_pre_task_name } };
 }
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)

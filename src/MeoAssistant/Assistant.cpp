@@ -5,7 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Controller.h"
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "RuntimeStatus.h"
 #include "Utils/Logger.hpp"
 
@@ -26,7 +26,7 @@
 
 using namespace asst;
 
-Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(callback), m_callback_arg(callback_arg)
+Assistant::Assistant(AsstApiCallback callback, void* callback_arg): m_callback(callback), m_callback_arg(callback_arg)
 {
     LogTraceFunction;
 
@@ -116,21 +116,20 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     if constexpr (false) {}
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VisitTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VisitTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
 #ifdef ASST_DEBUG
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
+        ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif
-    else
-    {
+    else {
         Log.error(__FUNCTION__, "| invalid type:", type);
         return 0;
     }
@@ -267,7 +266,7 @@ void Assistant::working_proc()
             lock.unlock();
             // only one instance of working_proc running, unlock here to allow set_task_param to the running task
 
-            json::value callback_json = json::object {
+            json::value callback_json = json::object{
                 { "taskchain", std::string(task_ptr->get_task_chain()) },
                 { "taskid", id },
             };
@@ -283,7 +282,7 @@ void Assistant::working_proc()
             lock.unlock();
 
             auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
-                                     : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+                : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
             task_callback(msg, callback_json, this);
 
             if (m_thread_idle) {
@@ -297,7 +296,7 @@ void Assistant::working_proc()
                 finished_tasks.clear();
             }
 
-            const int delay = Configer.get_options().task_delay;
+            const int delay = Config.get_options().task_delay;
             lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -53,14 +53,14 @@ namespace asst
         int quantity = 0;
     };
 
-    class StageDropsConfiger final : public SingletonHolder<StageDropsConfiger>, public AbstractConfiger
+    class StageDropsConfig final: public SingletonHolder<StageDropsConfig>, public AbstractConfig
     {
     public:
-        virtual ~StageDropsConfiger() override = default;
+        virtual ~StageDropsConfig() override = default;
 
         const auto& get_stage_info(const std::string& code, StageDifficulty difficulty) const
         {
-            StageKey key { code, difficulty };
+            StageKey key{ code, difficulty };
             if (auto find_iter = m_stage_info.find(key); find_iter != m_stage_info.end()) {
                 return find_iter->second;
             }
@@ -84,5 +84,5 @@ namespace asst
         std::unordered_map<StageKey, StageInfo, StageKeyHasher> m_stage_info;
     };
 
-    inline static auto& StageDrops = StageDropsConfiger::get_instance();
+    inline static auto& StageDrops = StageDropsConfig::get_instance();
 } // namespace asst

@@ -6,7 +6,7 @@
 #include "General/HashImageAnalyzer.h"
 #include "General/MatchImageAnalyzer.h"
 #include "InfrastSmileyImageAnalyzer.h"
-#include "Resource/InfrastConfiger.h"
+#include "Resource/InfrastConfig.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -65,13 +65,13 @@ void asst::InfrastOperImageAnalyzer::sort_by_mood()
         if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
             return lhs.mood_ratio < rhs.mood_ratio;
         }
-        // 心情一样的就按位置排序，左边的放前面
-        if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
-            return lhs.rect.x < rhs.rect.x;
-        }
-        else {
-            return lhs.rect.y < rhs.rect.y;
-        }
+    // 心情一样的就按位置排序，左边的放前面
+    if (std::abs(lhs.rect.x - rhs.rect.x) > 5) {
+        return lhs.rect.x < rhs.rect.x;
+    }
+    else {
+        return lhs.rect.y < rhs.rect.y;
+    }
     });
 }
 
@@ -297,7 +297,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             else if (possible_skills.size() > 1) {
                 // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
-                auto max_iter = ranges::max_element(possible_skills, std::less {},
+                auto max_iter = ranges::max_element(possible_skills, std::less{},
                                                     [](const auto& pair) { return pair.second.score; });
                 double base_score = max_iter->second.score;
                 std::string base_id = max_iter->first.id;
