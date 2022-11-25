@@ -22,12 +22,10 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
     const std::string task = details.at("details").at("task").as_string();
     if (task == "Fight@EndOfAction") {
-        auto pre_time_opt = m_status->get_number("Fight@LastStartButton2");
-        int64_t pre_start_time = pre_time_opt ? pre_time_opt.value() : 0;
-        auto pre_reg_time_opt = m_status->get_number("Fight@LastRecognizeDrops");
-        int64_t pre_recognize_time = pre_reg_time_opt ? pre_reg_time_opt.value() : 0;
-        if (pre_start_time + RecognitionTimeOffset == pre_recognize_time) {
-            Log.info("Recognitions time too close, pass", pre_start_time, pre_recognize_time);
+        int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
+        int64_t last_recognize_flag = m_status->get_number(RecognitionRestrictionsKey).value_or(0);
+        if (last_start_time + RecognitionTimeOffset == last_recognize_flag) {
+            Log.warn("Only one recognition per start", last_start_time, last_recognize_flag);
             return false;
         }
         m_is_annihilation = false;
@@ -125,9 +123,9 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return true;
     }
 
-    auto last_time_opt = m_status->get_number("LastStartButton2");
-    auto last_time = last_time_opt ? last_time_opt.value() : 0;
-    m_status->set_number("LastRecognizeDrops", last_time + RecognitionTimeOffset);
+    int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
+    int64_t recognize_flag = last_start_time + RecognitionTimeOffset;
+    m_status->set_number(RecognitionRestrictionsKey, recognize_flag);
 
     return true;
 }
@@ -194,12 +192,11 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
     }
 
     if (!m_start_button_delay_is_set) {
-        auto last_time_opt = m_status->get_number("LastStartButton2");
-        int64_t pre_start_time = last_time_opt ? last_time_opt.value() : 0;
+        int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
 
-        if (pre_start_time > 0) {
+        if (last_start_time > 0) {
             m_start_button_delay_is_set = true;
-            int64_t duration = time(nullptr) - pre_start_time;
+            int64_t duration = time(nullptr) - last_start_time;
             int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
             int64_t delay = duration * 1000 - elapsed;
             m_cast_ptr->set_post_delay("StartButton2", static_cast<int>(delay));
