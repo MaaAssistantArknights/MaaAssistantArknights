@@ -6,7 +6,7 @@
 
 namespace asst
 {
-    class AbstractConfigWithTempl: public AbstractConfig
+    class AbstractConfigWithTempl : public AbstractConfig
     {
     public:
         virtual ~AbstractConfigWithTempl() override = default;

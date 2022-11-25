@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Platform/AsstPlatform.h"
+#include "Platform/Platform.h"
 
 namespace asst::utils
 {

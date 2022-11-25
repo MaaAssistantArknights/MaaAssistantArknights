@@ -1796,22 +1796,6 @@
             158
         ]
     },
-    "SideStoryStages": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "StageSideStory"
-        ]
-    },
-    "StageSideStory": {
-        "action": "ClickSelf",
-        "doc": "进入别传关卡",
-        "roi": [
-            318,
-            562,
-            544,
-            158
-        ]
-    },
     "Stage": {
         "Doc": "base_task",
         "template": "empty.png",

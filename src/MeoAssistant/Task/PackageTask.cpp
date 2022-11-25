@@ -63,7 +63,7 @@ asst::AbstractTask& asst::PackageTask::set_ctrler(std::shared_ptr<Controller> ct
     return *this;
 }
 
-asst::AbstractTask& asst::PackageTask::set_status(std::shared_ptr<RuntimeStatus> status) noexcept
+asst::AbstractTask& asst::PackageTask::set_status(std::shared_ptr<Status> status) noexcept
 {
     AbstractTask::set_status(status);
     for (auto&& sub : m_subtasks) {

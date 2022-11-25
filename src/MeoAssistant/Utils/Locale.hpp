@@ -129,5 +129,4 @@ namespace asst::utils
         }
         return str;
     }
-
 } // namespace asst::utils
