@@ -700,6 +700,7 @@
     </ClInclude>
     <ClInclude Include="Task\CreditFightTask.h">
       <Filter>源文件\Task</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\WorkingDir.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
