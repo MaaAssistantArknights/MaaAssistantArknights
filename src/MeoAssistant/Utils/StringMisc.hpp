@@ -23,7 +23,6 @@ namespace asst::utils
 
         template <typename StringT = std::string>
         using sv_pair = std::pair<sv_type<StringT>, sv_type<StringT>>;
-
     } // namespace detail
 
     template <typename StringT = std::string>
@@ -77,7 +76,7 @@ namespace asst::utils
     [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, detail::sv_type<StringT> from,
                                                            detail::sv_type<StringT> to)
     {
-        std::basic_string result { std::forward<StringT>(src) };
+        std::decay_t<StringT> result = std::forward<StringT>(src);
         string_replace_all_in_place(result, from, to);
         return result;
     }
@@ -85,7 +84,7 @@ namespace asst::utils
     template <typename StringT>
     [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, const detail::sv_pair<StringT>& replace_pair)
     {
-        std::basic_string result { std::forward<StringT>(src) };
+        std::decay_t<StringT> result = std::forward<StringT>(src);
         string_replace_all_in_place(result, replace_pair);
         return result;
     }
@@ -94,17 +93,7 @@ namespace asst::utils
     [[nodiscard]] inline constexpr auto string_replace_all(
         StringT&& src, std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
     {
-        std::basic_string result { std::forward<StringT>(src) };
-        for (auto&& [from, to] : replace_pairs) {
-            string_replace_all_in_place(result, from, to);
-        }
-        return result;
-    }
-
-    template <typename StringT, typename MapT>
-    [[deprecated]] [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, MapT&& replace_pairs)
-    {
-        std::basic_string result { std::forward<StringT>(src) };
+        std::decay_t<StringT> result = std::forward<StringT>(src);
         for (auto&& [from, to] : replace_pairs) {
             string_replace_all_in_place(result, from, to);
         }
@@ -124,5 +113,4 @@ namespace asst::utils
     {
         ranges::for_each(rng, [](char& c) -> void { c = static_cast<char>(std::tolower(c)); });
     }
-
 } // namespace asst::utils

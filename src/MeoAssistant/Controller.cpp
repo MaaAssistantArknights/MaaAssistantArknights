@@ -38,6 +38,7 @@
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Utils/WorkingDir.hpp"
 
 asst::Controller::Controller(AsstCallback callback, void* callback_arg)
     : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
@@ -790,6 +791,7 @@ void asst::Controller::clear_info() noexcept
     m_minitouch_avaiable = false;
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
     m_minitouch_props = decltype(m_minitouch_props)();
+    m_screencap_data_general_size = 0;
 }
 
 void asst::Controller::close_socket() noexcept
@@ -1008,6 +1010,10 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
         return false;
     }
     auto& data = ret.value();
+    if (m_screencap_data_general_size && data.size() < m_screencap_data_general_size * 0.1) {
+        Log.error("data is too small!");
+        return false;
+    }
 
     bool tried_conversion = false;
     if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
@@ -1023,7 +1029,6 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
             Log.info("screencap_end_of_line is LF");
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
         }
-        return true;
     }
     else {
         Log.info("data is not empty, but image is empty");
@@ -1050,8 +1055,9 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
             Log.info("screencap_end_of_line is changed to CRLF");
         }
         m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
-        return true;
     }
+    m_screencap_data_general_size = data.size();
+    return true;
 }
 
 void asst::Controller::clear_lf_info()
@@ -1519,7 +1525,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             cmd_replace(cfg_cmd),
             {
                 { "[minitouchLocalPath]",
-                  utils::path_to_utf8_string(m_resource_path / "minitouch"_p / optimal_abi / "minitouch"_p) },
+                  utils::path_to_utf8_string(ResDir.get() / "minitouch"_p / optimal_abi / "minitouch"_p) },
                 { "[minitouchWorkingFile]", m_uuid },
             });
     };

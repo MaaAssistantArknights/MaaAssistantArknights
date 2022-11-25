@@ -38,8 +38,6 @@ namespace asst
         Controller(Controller&&) = delete;
         ~Controller();
 
-        inline static void set_resource_path(const std::filesystem::path& path) { m_resource_path = path; }
-
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
         void set_exit_flag(bool* flag);
@@ -179,8 +177,6 @@ namespace asst
         // TODO
 #endif
 
-        inline static std::filesystem::path m_resource_path;
-
         std::string m_uuid;
         inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，
                                                  // m_adb 并不会存下 release 的命令，但最后仍然需要一次释放。
@@ -191,6 +187,7 @@ namespace asst
         bool m_support_socket = false;
         bool m_server_started = false;
         bool m_inited = false;
+        size_t m_screencap_data_general_size = 0;
 
         inline static int m_instance_count = 0;
 

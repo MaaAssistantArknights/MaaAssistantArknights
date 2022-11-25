@@ -10,7 +10,7 @@
 #include "ResourceLoader.h"
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
-#include "Utils/UserDir.hpp"
+#include "Utils/WorkingDir.hpp"
 #include "Utils/Version.h"
 
 static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
@@ -43,16 +43,20 @@ static bool inited = false;
 
 bool AsstSetUserDir(const char* path)
 {
-    return asst::UserDir::get_instance().set(path);
+    return asst::UserDir.set(path);
 }
 
 bool AsstLoadResource(const char* path)
 {
-    if (auto& user_dir = asst::UserDir::get_instance(); user_dir.empty()) {
-        user_dir.set(path);
+    auto os_path = asst::utils::path(path);
+    if (asst::ResDir.empty()) {
+        asst::ResDir.set(os_path);
+    }
+    if (asst::UserDir.empty()) {
+        asst::UserDir.set(os_path);
     }
     using namespace asst::utils::path_literals;
-    inited = asst::ResourceLoader::get_instance().load(asst::utils::path(path) / "resource"_p);
+    inited = asst::ResourceLoader::get_instance().load(os_path / "resource"_p);
     return inited;
 }
 
