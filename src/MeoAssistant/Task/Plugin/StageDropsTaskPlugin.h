@@ -7,6 +7,7 @@
 #include <meojson/json.hpp>
 
 #include "Resource/StageDropsConfiger.h"
+#include "RuntimeStatus.h"
 
 namespace asst
 {
@@ -39,7 +40,10 @@ namespace asst
         void upload_to_penguin();
         static void report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
-        static constexpr int64_t RecognitionTimeOffset = 20;
+        static inline constexpr int64_t RecognitionTimeOffset = 20;
+        static inline const std::string LastStartTimeKey =
+            RuntimeStatus::ProcessTaskLastTimePrefix + "Fight@StartButton2";
+        static inline const std::string RecognitionRestrictionsKey = "StageDropsTaskPluginRestrictions";
 
         std::string m_stage_code;
         StageDifficulty m_stage_difficulty = StageDifficulty::Normal;

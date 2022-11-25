@@ -200,7 +200,7 @@ bool ProcessTask::_run()
             break;
         }
 
-        m_status->set_number("Last" + cur_name, time(nullptr));
+        m_status->set_number(RuntimeStatus::ProcessTaskLastTimePrefix + cur_name, time(nullptr));
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
@@ -218,11 +218,7 @@ bool ProcessTask::_run()
         }
 
         // 后置固定延时
-        int post_delay = m_cur_task_ptr->post_delay;
-        if (auto iter = m_post_delay.find(cur_name); iter != m_post_delay.cend()) {
-            post_delay = iter->second;
-        }
-        if (!sleep(post_delay)) {
+        if (!sleep(calc_post_delay())) {
             return false;
         }
 
@@ -291,6 +287,21 @@ std::pair<int, asst::ProcessTask::TimesLimitType> asst::ProcessTask::calc_time_l
         size_t at_pos = cur_base_name.find('@');
         if (at_pos == std::string::npos) {
             return { m_cur_task_ptr->max_times, TimesLimitType::Pre };
+        }
+        cur_base_name = cur_base_name.substr(at_pos + 1);
+    }
+}
+
+int asst::ProcessTask::calc_post_delay() const
+{
+    // eg. "C@B@A" 的 max_times 取 "C@B@A", "B@A", "A" 中有 max_times 定义的最靠前者
+    for (std::string cur_base_name = m_cur_task_ptr->name;;) {
+        if (auto iter = m_post_delay.find(cur_base_name); iter != m_post_delay.cend()) {
+            return iter->second;
+        }
+        size_t at_pos = cur_base_name.find('@');
+        if (at_pos == std::string::npos) {
+            return m_cur_task_ptr->post_delay;
         }
         cur_base_name = cur_base_name.substr(at_pos + 1);
     }
