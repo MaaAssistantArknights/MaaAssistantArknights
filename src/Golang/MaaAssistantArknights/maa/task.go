@@ -26,8 +26,6 @@ func (t TaskType) String() string {
 		return "Recruit"
 	case Infrast:
 		return "Infrast"
-	case Visit:
-		return "Visit"
 	case Mall:
 		return "Mall"
 	case Award:
@@ -48,7 +46,6 @@ var TaskFixed = map[string]TaskType{
 	"Fight":     Fight,
 	"Recruit":   Recruit,
 	"Infrast":   Infrast,
-	"Visit":     Visit,
 	"Mall":      Mall,
 	"Award":     Award,
 	"Roguelike": Roguelike,

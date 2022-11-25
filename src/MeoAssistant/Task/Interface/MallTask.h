@@ -4,6 +4,7 @@
 namespace asst
 {
     class ProcessTask;
+    class CreditFightTask;
     class CreditShoppingTask;
 
     class MallTask final : public InterfaceTask
@@ -17,6 +18,8 @@ namespace asst
         virtual bool set_params(const json::value& params) override;
 
     private:
+        std::shared_ptr<ProcessTask> m_visit_task_ptr = nullptr;
+        std::shared_ptr<CreditFightTask> m_credit_fight_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_mall_task_ptr = nullptr;
         std::shared_ptr<CreditShoppingTask> m_shopping_first_task_ptr = nullptr;
         std::shared_ptr<CreditShoppingTask> m_shopping_task_ptr = nullptr;
