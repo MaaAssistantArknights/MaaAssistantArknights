@@ -15,7 +15,7 @@
 #include "Sub/ProcessTask.h"
 
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
-    : PackageTask(callback, callback_arg, TaskType),
+    : InterfaceTask(callback, callback_arg, TaskType),
       m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
       m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, callback_arg, TaskType)),
       m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, callback_arg, TaskType)),

@@ -1,20 +1,14 @@
 #pragma once
-#include "PackageTask.h"
-#include "Plugin/StopGameTaskPlugin.h"
+#include "InterfaceTask.h"
 
 namespace asst
 {
-    class ProcessTask;
-
-    class CloseDownTask final : public PackageTask
+    class CloseDownTask final : public InterfaceTask
     {
     public:
-        CloseDownTask(AsstCallback callback, void* callback_arg);
+        inline static constexpr std::string_view TaskType = "CloseDown";
+
+        CloseDownTask(const AsstCallback& callback, void* callback_arg);
         virtual ~CloseDownTask() override = default;
-
-        static constexpr const char* TaskType = "CloseDown";
-
-    private:
-        std::shared_ptr<StopGameTaskPlugin> m_stop_game_task_ptr = nullptr;
     };
 }

@@ -1,19 +1,16 @@
 #pragma once
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 
 namespace asst
 {
     class ProcessTask;
 
-    class AwardTask final : public PackageTask
+    class AwardTask final : public InterfaceTask
     {
     public:
-        AwardTask(AsstCallback callback, void* callback_arg);
+        inline static constexpr std::string_view TaskType = "Award";
+
+        AwardTask(const AsstCallback& callback, void* callback_arg);
         virtual ~AwardTask() override = default;
-
-        static constexpr const char* TaskType = "Award";
-
-    private:
-        std::shared_ptr<ProcessTask> m_award_task_ptr = nullptr;
     };
 }

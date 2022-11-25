@@ -20,7 +20,7 @@ namespace cv
 namespace asst
 {
     class Controller;
-    class PackageTask;
+    class InterfaceTask;
     class RuntimeStatus;
 
     class Assistant
@@ -66,7 +66,7 @@ namespace asst
         std::shared_ptr<RuntimeStatus> m_status = nullptr;
 
         bool m_thread_exit = false;
-        std::list<std::pair<TaskId, std::shared_ptr<PackageTask>>> m_tasks_list;
+        std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;
         inline static TaskId m_task_id = 0; // 进程级唯一
         AsstApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;

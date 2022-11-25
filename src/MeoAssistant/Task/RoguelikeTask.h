@@ -1,5 +1,5 @@
 #pragma once
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 
 namespace asst
 {
@@ -10,15 +10,15 @@ namespace asst
     class RoguelikeCustomStartTaskPlugin;
     class RoguelikeDebugTaskPlugin;
 
-    class RoguelikeTask : public PackageTask
+    class RoguelikeTask : public InterfaceTask
     {
     public:
+        inline static constexpr std::string_view TaskType = "Roguelike";
+
         RoguelikeTask(const AsstCallback& callback, void* callback_arg);
         virtual ~RoguelikeTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
-
-        static constexpr const char* TaskType = "Roguelike";
 
     private:
         std::shared_ptr<ProcessTask> m_roguelike_task_ptr = nullptr;

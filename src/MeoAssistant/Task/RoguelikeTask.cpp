@@ -15,7 +15,7 @@
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_arg)
-    : PackageTask(callback, callback_arg, TaskType),
+    : InterfaceTask(callback, callback_arg, TaskType),
       m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
 {
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();

@@ -11,8 +11,7 @@ namespace asst
         virtual ~BattleFormationTask() override = default;
 
         void set_stage_name(std::string name);
-
-        void set_support_unit_name(std::string name) { m_support_unit_name = name; }
+        void set_support_unit_name(std::string name);
 
     protected:
         using OperGroup = std::vector<BattleDeployOper>;
@@ -29,7 +28,6 @@ namespace asst
         std::string m_stage_name;
         std::unordered_map<BattleRole, std::vector<OperGroup>> m_formation;
         std::string m_the_right_name;
-
-        std::string m_support_unit_name = "";
+        std::string m_support_unit_name;
     };
 }

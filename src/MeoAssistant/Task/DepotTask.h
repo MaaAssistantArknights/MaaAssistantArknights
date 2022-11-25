@@ -1,16 +1,14 @@
 #pragma once
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 
 namespace asst
 {
-    class DepotTask final : public PackageTask
+    class DepotTask final : public InterfaceTask
     {
     public:
-        DepotTask(AsstCallback callback, void* callback_arg);
+        inline static constexpr std::string_view TaskType = "Depot";
+
+        DepotTask(const AsstCallback& callback, void* callback_arg);
         virtual ~DepotTask() override = default;
-
-        static constexpr const char* TaskType = "Depot";
-
-    private:
     };
 }

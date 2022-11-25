@@ -11,8 +11,8 @@
 #include "Sub/StageNavigationTask.h"
 #include "Utils/AsstRanges.hpp"
 
-asst::FightTask::FightTask(AsstCallback callback, void* callback_arg)
-    : PackageTask(std::move(callback), callback_arg, TaskType),
+asst::FightTask::FightTask(const AsstCallback& callback, void* callback_arg)
+    : InterfaceTask(callback, callback_arg, TaskType),
       m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
       m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_callback_arg, TaskType)),
       m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))

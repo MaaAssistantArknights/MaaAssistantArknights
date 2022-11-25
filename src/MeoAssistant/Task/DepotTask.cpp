@@ -3,8 +3,8 @@
 #include "Sub/DepotRecognitionTask.h"
 #include "Sub/ProcessTask.h"
 
-asst::DepotTask::DepotTask(AsstCallback callback, void* callback_arg)
-    : PackageTask(std::move(callback), callback_arg, TaskType)
+asst::DepotTask::DepotTask(const AsstCallback& callback, void* callback_arg)
+    : InterfaceTask(callback, callback_arg, TaskType)
 {
     auto enter_task = std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType);
     enter_task->set_tasks({ "DepotBegin" });

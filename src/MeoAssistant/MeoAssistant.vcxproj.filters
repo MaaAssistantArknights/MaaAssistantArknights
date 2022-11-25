@@ -701,8 +701,10 @@
     <ClInclude Include="Task\CreditFightTask.h">
       <Filter>源文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\WorkingDir.hpp">
-      <Filter>源文件\Utils</Filter>
+    <ClInclude Include="Utils\UserDir.hpp" />
+    <ClInclude Include="InterfaceTask.h" />
+    <ClInclude Include="Task\InterfaceTask.h">
+      <Filter>源文件\Task</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

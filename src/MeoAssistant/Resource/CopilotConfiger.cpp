@@ -4,16 +4,24 @@
 
 #include "Utils/Logger.hpp"
 
+void asst::CopilotConfiger::clear()
+{
+    m_data = decltype(m_data)();
+    m_stage_name.clear();
+}
+
 bool asst::CopilotConfiger::parse(const json::value& json)
 {
-    std::string stage_name = json.at("stage_name").as_string();
-    m_stage_name = stage_name;
+    LogTraceFunction;
 
-    BattleCopilotData battle_actions;
-    battle_actions.title = json.get("doc", "title", std::string());
-    battle_actions.title_color = json.get("doc", "title_color", std::string());
-    battle_actions.details = json.get("doc", "details", std::string());
-    battle_actions.details_color = json.get("doc", "details_color", std::string());
+    clear();
+
+    m_stage_name = json.at("stage_name").as_string();
+
+    m_data.title = json.get("doc", "title", std::string());
+    m_data.title_color = json.get("doc", "title_color", std::string());
+    m_data.details = json.get("doc", "details", std::string());
+    m_data.details_color = json.get("doc", "details_color", std::string());
 
     if (auto opt = json.find<json::array>("groups")) {
         for (const auto& group_info : opt.value()) {
@@ -26,7 +34,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
                 oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
                 oper_vec.emplace_back(std::move(oper));
             }
-            battle_actions.groups.emplace(std::move(group_name), std::move(oper_vec));
+            m_data.groups.emplace(std::move(group_name), std::move(oper_vec));
         }
     }
 
@@ -39,7 +47,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
-            battle_actions.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
+            m_data.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
         }
     }
 
@@ -145,10 +153,8 @@ bool asst::CopilotConfiger::parse(const json::value& json)
         action.doc = action_info.get("doc", std::string());
         action.doc_color = action_info.get("doc_color", std::string());
 
-        battle_actions.actions.emplace_back(std::move(action));
+        m_data.actions.emplace_back(std::move(action));
     }
-
-    m_battle_actions[std::move(stage_name)] = std::move(battle_actions);
 
     return true;
 }

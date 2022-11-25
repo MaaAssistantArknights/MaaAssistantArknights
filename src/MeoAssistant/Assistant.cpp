@@ -106,7 +106,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
         return 0;
     }
 
-    std::shared_ptr<PackageTask> ptr = nullptr;
+    std::shared_ptr<InterfaceTask> ptr = nullptr;
 
 #define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK)                 \
     else if (type == TASK::TaskType)                                           \
@@ -160,7 +160,7 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
         return false;
     }
 
-    auto ret = json::parse(params.empty() ? "{}" : params);
+    auto ret = json::parse(params.empty() ? json::value().to_string() : params);
     if (!ret) {
         return false;
     }
@@ -268,7 +268,7 @@ void Assistant::working_proc()
             // only one instance of working_proc running, unlock here to allow set_task_param to the running task
 
             json::value callback_json = json::object {
-                { "taskchain", task_ptr->get_task_chain() },
+                { "taskchain", std::string(task_ptr->get_task_chain()) },
                 { "taskid", id },
             };
             task_callback(AsstMsg::TaskChainStart, callback_json, this);

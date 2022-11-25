@@ -9,19 +9,15 @@ namespace asst
     public:
         virtual ~CopilotConfiger() override = default;
 
-        bool contains_actions(const std::string& stage_name) const noexcept
-        {
-            return m_battle_actions.contains(stage_name);
-        }
-
-        auto get_actions(const std::string& stage_name) const noexcept { return m_battle_actions.at(stage_name); }
-
-        auto get_stage_name() { return m_stage_name; }
+        const BattleCopilotData& get_data() const noexcept { return m_data; }
+        const std::string& get_stage_name() const noexcept { return m_stage_name; }
+        void clear();
 
     protected:
         virtual bool parse(const json::value& json) override;
-        std::unordered_map<std::string, BattleCopilotData> m_battle_actions;
-        std::string m_stage_name = "";
+
+        BattleCopilotData m_data;
+        std::string m_stage_name;
     };
 
     inline static auto& Copilot = CopilotConfiger::get_instance();

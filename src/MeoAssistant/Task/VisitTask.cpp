@@ -5,23 +5,21 @@
 #include "CreditFightTask.h"
 #include "Sub/ProcessTask.h"
 
-asst::VisitTask::VisitTask(AsstCallback callback, void* callback_arg)
-    : PackageTask(std::move(callback), callback_arg, TaskType),
+asst::VisitTask::VisitTask(const AsstCallback& callback, void* callback_arg)
+    : InterfaceTask(callback, callback_arg, TaskType),
       m_visit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
       m_credit_fight_task_ptr(std::make_shared<CreditFightTask>(callback, callback_arg, TaskType))
 {
     m_visit_task_ptr->set_tasks({ "VisitBegin" });
     m_subtasks.emplace_back(m_visit_task_ptr)->set_ignore_error(false);
-
-    m_credit_fight_task_ptr->set_subtasks(m_subtasks);
-    m_credit_fight_task_ptr->set_subtasks_enable(false);
+    m_subtasks.emplace_back(m_credit_fight_task_ptr);
 }
 
 bool asst::VisitTask::set_params(const json::value& params)
 {
-    bool credit_fight_task_enabled = params.get("credit_fight_task_enabled", false);
+    bool credit_fight = params.get("credit_fight", false);
 
-    m_credit_fight_task_ptr->set_subtasks_enable(credit_fight_task_enabled);
-    
+    m_credit_fight_task_ptr->set_enable(credit_fight);
+
     return true;
 }

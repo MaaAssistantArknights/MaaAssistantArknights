@@ -2948,7 +2948,7 @@
             "ClickCorner"
         ]
     },
-    "EndOfActionAndStop": {
+    "EndOfActionThenStop": {
         "template": "EndOfAction.png",
         "roi": [
             0,
@@ -2957,11 +2957,8 @@
             60
         ],
         "preDelay": 5000,
-        "reduceOtherTimes": [
-            "FightMissionFailed"
-        ],
         "next": [
-            "ClickCornerAndStop"
+            "ClickCornerThenStop"
         ]
     },
     "EndOfActionAnnihilation": {
@@ -3007,7 +3004,7 @@
             "RestartGameAndContinue"
         ]
     },
-    "ClickCornerAndStop": {
+    "ClickCornerThenStop": {
         "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -3016,12 +3013,6 @@
             120,
             270,
             10
-        ],
-        "next": [
-            "Stop"
-        ],
-        "onErrorNext": [
-            "RestartGameAndContinue"
         ]
     },
     "UseMedicine": {

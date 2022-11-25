@@ -24,7 +24,7 @@ namespace asst
     class AbstractTask
     {
     public:
-        AbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain);
+        AbstractTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain);
         virtual ~AbstractTask() noexcept = default;
         AbstractTask(const AbstractTask&) = default;
         AbstractTask(AbstractTask&&) noexcept = default;
@@ -51,7 +51,7 @@ namespace asst
 
         bool get_enable() const noexcept { return m_enable; }
         bool get_ignore_error() const noexcept { return m_ignore_error; }
-        const std::string& get_task_chain() const noexcept { return m_task_chain; }
+        std::string_view get_task_chain() const noexcept { return m_task_chain; }
         int get_task_id() const noexcept { return m_task_id; }
         virtual json::value basic_info() const;
 
@@ -69,11 +69,11 @@ namespace asst
         bool need_exit() const;
 
         bool m_enable = true;
-        bool m_ignore_error = true;
-        AsstCallback m_callback;
+        bool m_ignore_error = false;
+        AsstCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
         bool* m_exit_flag = nullptr;
-        const std::string m_task_chain;
+        std::string_view m_task_chain;
         int m_cur_retry = 0;
         int m_retry_times = RetryTimesDefault;
 

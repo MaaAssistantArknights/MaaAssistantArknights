@@ -1,7 +1,7 @@
 #pragma once
 #include <filesystem>
 
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 
 namespace asst
 {
@@ -16,7 +16,7 @@ namespace asst
     class InfrastDormTask;
     class ReplenishOriginiumShardTaskPlugin;
 
-    class InfrastTask final : public PackageTask
+    class InfrastTask final : public InterfaceTask
     {
         enum class Mode
         {
@@ -25,12 +25,12 @@ namespace asst
         };
 
     public:
+        inline static constexpr std::string_view TaskType = "Infrast";
+
         InfrastTask(const AsstCallback& callback, void* callback_arg);
         virtual ~InfrastTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
-
-        static constexpr const char* TaskType = "Infrast";
 
     private:
         bool parse_and_set_custom_config(const std::filesystem::path& path, int index);
