@@ -1,0 +1,47 @@
+{
+    "minimum_required": "v4.0.0",
+    "actions": [
+        {
+            "type": "SpeedUp"
+        },
+        {
+            "type": "Deploy",
+            "name": "近战",
+            "location": [
+                5,
+                3
+            ],
+            "direction": "Right"
+        },
+        {
+            "type": "SkillDaemon"
+        }
+    ],
+    "doc": {
+        "title": "OF-1 借人赚信用",
+        "details": "OF-1 借人赚信用"
+    },
+    "groups": [
+        {
+            "name": "近战",
+            "opers": [
+                {
+                    "name": "德克萨斯",
+                    "skill_usage": 1
+                },
+                {
+                    "name": "芬",
+                    "skill_usage": 1
+                },
+                {
+                    "name": "推进之王",
+                    "skill": 2,
+                    "skill_usage": 1
+                }
+            ]
+        }
+    ],
+    "opers": [],
+    "stage_name": "OF-1",
+    "difficulty": 3
+}

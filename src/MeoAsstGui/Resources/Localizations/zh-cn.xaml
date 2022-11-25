@@ -225,6 +225,8 @@
     <system:String x:Key="Recruiting">自动公招</system:String>
     <system:String x:Key="Base">基建换班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
+    <system:String x:Key="CreditFight">借助战赚信用</system:String>
+    <system:String x:Key="CreditFightTip">访问好友后借助战打一把OF-1赚30信用</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">收取信用及购物</system:String>
     <system:String x:Key="Mission">领取日常奖励</system:String>

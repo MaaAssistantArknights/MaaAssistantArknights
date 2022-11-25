@@ -224,6 +224,8 @@
     <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
     <system:String x:Key="Combat">Combat</system:String>
+    <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
+    <system:String x:Key="CreditFightTip">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>

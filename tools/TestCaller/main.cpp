@@ -93,13 +93,6 @@ int main([[maybe_unused]] int argc, char** argv)
 }
 )");
 
-    // AsstAppendTask(ptr, "Copilot", R"(
-    //{
-    //     "stage_name": "如帝国之影",
-    //     "formation": true
-    // }
-    //)");
-
 #else
 
     AsstAppendTask(ptr, "Debug", nullptr);

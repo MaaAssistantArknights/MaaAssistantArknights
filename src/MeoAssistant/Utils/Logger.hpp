@@ -9,15 +9,15 @@
 #include <type_traits>
 #include <utility>
 
-#include "AsstRanges.hpp"
-#include "AsstTypes.h"
+#include "Common/AsstTypes.h"
+#include "Common/AsstVersion.h"
 #include "Locale.hpp"
 #include "Meta.hpp"
 #include "Platform.hpp"
+#include "Ranges.hpp"
 #include "SingletonHolder.hpp"
 #include "Time.hpp"
 #include "WorkingDir.hpp"
-#include "Version.h"
 
 #if defined(__APPLE__) || defined(__linux__)
 #include <unistd.h>
