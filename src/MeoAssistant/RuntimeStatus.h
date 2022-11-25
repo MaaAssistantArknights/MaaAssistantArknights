@@ -47,6 +47,8 @@ namespace asst
         static inline const std::string RoguelikeTeamFullWithoutRookie = "RoguelikeTeamFullWithoutRookie";
         static inline const std::string RoguelikeTheme = "RoguelikeTheme";
 
+        static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
+
     private:
         std::unordered_map<std::string, int64_t> m_number;
         std::unordered_map<std::string, Rect> m_rect;
