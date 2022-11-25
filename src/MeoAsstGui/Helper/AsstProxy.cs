@@ -1133,7 +1133,6 @@ namespace MeoAsstGui
             FightRemainingSanity,
             Recruit,
             Infrast,
-            Visit,
             Mall,
             Award,
             Roguelike,
@@ -1262,30 +1261,18 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// 访问好友。
-        /// </summary>
-        /// <param name="credit_fight">是否借助战作战。</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendVisit(bool credit_fight)
-        {
-            var task_params = new JObject();
-            task_params["credit_fight"] = credit_fight;
-            AsstTaskId id = AsstAppendTaskWithEncoding("Visit", task_params);
-            _latestTaskId[TaskType.Visit] = id;
-            return id != 0;
-        }
-
-        /// <summary>
         /// 领取信用及商店购物。
         /// </summary>
+        /// <param name="credit_fight">是否信用战斗。</param>
         /// <param name="with_shopping">是否购物。</param>
         /// <param name="first_list">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
         /// <param name="force_shopping_if_credit_full">是否在信用溢出时无视黑名单</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool with_shopping, string[] first_list, string[] blacklist, bool force_shopping_if_credit_full)
+        public bool AsstAppendMall(bool credit_fight, bool with_shopping, string[] first_list, string[] blacklist, bool force_shopping_if_credit_full)
         {
             var task_params = new JObject();
+            task_params["credit_fight"] = credit_fight;
             task_params["shopping"] = with_shopping;
             task_params["buy_first"] = new JArray { first_list };
             task_params["blacklist"] = new JArray { blacklist };

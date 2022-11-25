@@ -68,8 +68,6 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     )");
 
-    AsstAppendTask(ptr, "Visit", nullptr);
-
     AsstAppendTask(ptr, "Mall", R"(
     {
         "shopping": true,

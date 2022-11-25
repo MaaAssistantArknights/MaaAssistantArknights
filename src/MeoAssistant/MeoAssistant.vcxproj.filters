@@ -255,9 +255,6 @@
     <ClInclude Include="Task\Interface\StartUpTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Interface\VisitTask.h">
-      <Filter>源文件\Task\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Demangle.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
@@ -579,9 +576,6 @@
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Task\Interface\StartUpTask.cpp">
-      <Filter>源文件\Task\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Interface\VisitTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp">

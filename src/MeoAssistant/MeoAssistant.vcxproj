@@ -94,7 +94,6 @@
     <ClInclude Include="Task\Interface\RecruitTask.h" />
     <ClInclude Include="Task\Interface\RoguelikeTask.h" />
     <ClInclude Include="Task\Interface\StartUpTask.h" />
-    <ClInclude Include="Task\Interface\VisitTask.h" />
     <ClInclude Include="Task\Miscellaneous\AutoRecruitTask.h" />
     <ClInclude Include="Task\Miscellaneous\BattleFormationTask.h" />
     <ClInclude Include="Task\Miscellaneous\BattleProcessTask.h" />
@@ -205,7 +204,6 @@
     <ClCompile Include="Task\Interface\RecruitTask.cpp" />
     <ClCompile Include="Task\Interface\RoguelikeTask.cpp" />
     <ClCompile Include="Task\Interface\StartUpTask.cpp" />
-    <ClCompile Include="Task\Interface\VisitTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AutoRecruitTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\BattleFormationTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\BattleProcessTask.cpp" />
