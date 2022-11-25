@@ -7,7 +7,7 @@ asst::DepotTask::DepotTask(const AsstCallback& callback, void* callback_arg)
     : InterfaceTask(callback, callback_arg, TaskType)
 {
     auto enter_task = std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType);
-    enter_task->set_tasks({ "DepotBegin" });
+    enter_task->set_tasks({ "DepotBegin" }).set_ignore_error(true);
     m_subtasks.emplace_back(enter_task);
 
     auto recognition_task = std::make_shared<DepotRecognitionTask>(m_callback, m_callback_arg, TaskType);

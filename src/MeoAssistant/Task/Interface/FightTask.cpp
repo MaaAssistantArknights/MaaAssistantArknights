@@ -29,18 +29,16 @@ asst::FightTask::FightTask(const AsstCallback& callback, void* callback_arg)
         .set_times_limit("PRTS", 0)
         .set_times_limit("PRTS2", 0)
         .set_times_limit("EndOfAction", 0)
-        .set_ignore_error(false)
         .set_retry_times(5);
 
-    m_stage_navigation_task_ptr->set_enable(false).set_ignore_error(false);
+    m_stage_navigation_task_ptr->set_enable(false);
 
     // 开始战斗任务
     m_fight_task_ptr->set_tasks({ "FightBegin" })
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
         .set_times_limit("StartButton1", INT_MAX)
-        .set_times_limit("StartButton2", INT_MAX)
-        .set_ignore_error(false);
+        .set_times_limit("StartButton2", INT_MAX);
 
     m_stage_drops_plugin_ptr = m_fight_task_ptr->register_plugin<StageDropsTaskPlugin>();
     m_stage_drops_plugin_ptr->set_retry_times(0);
