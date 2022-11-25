@@ -188,19 +188,21 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
     if (m_is_annihilation) {
         return;
     }
-
-    if (!m_start_button_delay_is_set) {
-        int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
-
-        if (last_start_time > 0) {
-            m_start_button_delay_is_set = true;
-            int64_t duration = time(nullptr) - last_start_time;
-            int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
-            int64_t delay = duration * 1000 - elapsed;
-            Log.info(__FUNCTION__, "set StartButton2 post delay", delay);
-            m_cast_ptr->set_post_delay("StartButton2", static_cast<int>(delay));
-        }
+    if (m_start_button_delay_is_set) {
+        return;
     }
+
+    int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
+    if (last_start_time == 0) {
+        return;
+    }
+
+    m_start_button_delay_is_set = true;
+    int64_t duration = time(nullptr) - last_start_time;
+    int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
+    int64_t delay = duration * 1000 - elapsed;
+    Log.info(__FUNCTION__, "set StartButton2 post delay", delay);
+    m_cast_ptr->set_post_delay("StartButton2", static_cast<int>(delay));
 }
 
 void asst::StageDropsTaskPlugin::upload_to_penguin()
