@@ -1,1 +1,1 @@
-en_PP-OCRv3_det_slim_infer
+en_PP-OCRv3_det_infer
