@@ -3,7 +3,7 @@
 #include "General/MatchImageAnalyzer.h"
 #include "General/MultiMatchImageAnalyzer.h"
 #include "General/OcrImageAnalyzer.h"
-#include "Resource/RecruitConfiger.h"
+#include "Resource/RecruitConfig.h"
 #include "TaskData.h"
 
 bool asst::RecruitImageAnalyzer::analyze()

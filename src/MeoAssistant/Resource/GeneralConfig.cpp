@@ -1,9 +1,9 @@
-#include "GeneralConfiger.h"
+#include "GeneralConfig.h"
 
 #include "Utils/Logger.hpp"
 #include <meojson/json.hpp>
 
-bool asst::GeneralConfiger::parse(const json::value& json)
+bool asst::GeneralConfig::parse(const json::value& json)
 {
     m_version = json.at("version").as_string();
 

@@ -5,7 +5,7 @@
 #include "General/MatchImageAnalyzer.h"
 #include "General/MultiMatchImageAnalyzer.h"
 #include "General/OcrWithPreprocessImageAnalyzer.h"
-#include "Resource/RoguelikeRecruitConfiger.h"
+#include "Resource/RoguelikeRecruitConfig.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"

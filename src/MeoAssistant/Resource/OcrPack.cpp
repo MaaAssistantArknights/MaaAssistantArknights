@@ -5,7 +5,7 @@
 #include "Utils/NoWarningCV.h"
 #include <PaddleOCR/paddle_ocr.h>
 
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
@@ -37,7 +37,7 @@ asst::OcrPack::OcrPack()
 asst::OcrPack::~OcrPack()
 {
     for (size_t i = 0; i != MaxBoxSize; ++i) {
-        delete[] *(m_strs_buffer + i);
+        delete[] * (m_strs_buffer + i);
     }
 
     PaddleOcrDestroy(m_ocr);
@@ -95,7 +95,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     size_t size = 0;
     std::string class_type = utils::demangle(typeid(*this).name());
 
-    if (Configer.get_options().ocr_with_rawdata) {
+    if (Config.get_options().ocr_with_rawdata) {
         // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
         // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
         cv::Mat copied = image.clone();
@@ -151,7 +151,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
             score = 0;
         }
 
-        TextRect tr { score, rect, text };
+        TextRect tr{ score, rect, text };
 #ifdef ASST_DEBUG
         cv::rectangle(draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
 #endif
@@ -191,7 +191,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 
 static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir, bool* is_temp)
 {
-    static std::atomic<uint64_t> id {};
+    static std::atomic<uint64_t> id{};
 
     *is_temp = false;
     if (!asst::utils::path_to_ansi_string(dir).empty()) {

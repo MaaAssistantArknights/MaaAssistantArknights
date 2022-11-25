@@ -1,15 +1,15 @@
 #pragma once
 
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include <unordered_set>
 
 namespace asst
 {
-    class AbstractConfigerWithTempl : public AbstractConfiger
+    class AbstractConfigWithTempl: public AbstractConfig
     {
     public:
-        virtual ~AbstractConfigerWithTempl() override = default;
+        virtual ~AbstractConfigWithTempl() override = default;
 
         virtual const std::unordered_set<std::string>& get_templ_required() const noexcept = 0;
     };

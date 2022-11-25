@@ -3,8 +3,8 @@
 #include "../Sub/ProcessTask.h"
 #include "Controller.h"
 #include "ImageAnalyzer/RoguelikeRecruitImageAnalyzer.h"
-#include "Resource/BattleDataConfiger.h"
-#include "Resource/RoguelikeRecruitConfiger.h"
+#include "Resource/BattleDataConfig.h"
+#include "Resource/RoguelikeRecruitConfig.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
@@ -152,12 +152,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 if (recruit_info.is_alternate) {
                     // 预备干员可以重复招募
                     priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                        : recruit_info.recruit_priority;
                 }
                 else {
                     // 干员待晋升
                     priority = team_full_without_rookie ? recruit_info.promote_priority_when_team_full
-                                                        : recruit_info.promote_priority;
+                        : recruit_info.promote_priority;
                 }
             }
             else {
@@ -165,13 +165,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 if (oper_info.elite == 2) {
                     // TODO: 招募时已精二 (随机提升或对应分队) => promoted_priority
                     priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                        : recruit_info.recruit_priority;
                 }
                 else if (oper_info.elite == 1 && (oper_info.level >= 50 || oper_info.level == 0)) {
                     // 精一50级以上
                     // 等级是 0 一般是识别错了，多发生于外服，一般都是一错全错，先凑合着招一个吧，比不招人强 orz
                     priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                        : recruit_info.recruit_priority;
                 }
                 else {
                     // 精一50级以下，默认不招募
@@ -285,7 +285,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     // 选择优先级最高的干员
-    auto selected_oper = ranges::max_element(recruit_list, std::less {}, std::mem_fn(&RoguelikeRecruitInfo::priority));
+    auto selected_oper = ranges::max_element(recruit_list, std::less{}, std::mem_fn(&RoguelikeRecruitInfo::priority));
     if (selected_oper == recruit_list.cend()) {
         Log.trace(__FUNCTION__, "| No opers in recruit list.");
         return false;
@@ -395,7 +395,7 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
     std::string overview_str =
         m_status->get_str(RuntimeStatus::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value overview = json::parse(overview_str).value_or(json::value());
-    overview[oper.name] = json::object {
+    overview[oper.name] = json::object{
         { "elite", oper.elite },
         { "level", oper.level },
     };

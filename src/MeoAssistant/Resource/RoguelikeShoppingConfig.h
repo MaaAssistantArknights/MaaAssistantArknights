@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include <vector>
 
@@ -18,10 +18,10 @@ namespace asst
         bool ignore_no_longer_buy = false;
     };
 
-    class RoguelikeShoppingConfiger final : public SingletonHolder<RoguelikeShoppingConfiger>, public AbstractConfiger
+    class RoguelikeShoppingConfig final: public SingletonHolder<RoguelikeShoppingConfig>, public AbstractConfig
     {
     public:
-        virtual ~RoguelikeShoppingConfiger() override = default;
+        virtual ~RoguelikeShoppingConfig() override = default;
 
         const auto& get_goods(const std::string& theme) const noexcept { return m_goods.at(theme); }
 
@@ -33,5 +33,5 @@ namespace asst
         std::unordered_map<std::string, std::vector<RoguelikeGoods>> m_goods;
     };
 
-    inline static auto& RoguelikeShopping = RoguelikeShoppingConfiger::get_instance();
+    inline static auto& RoguelikeShopping = RoguelikeShoppingConfig::get_instance();
 }

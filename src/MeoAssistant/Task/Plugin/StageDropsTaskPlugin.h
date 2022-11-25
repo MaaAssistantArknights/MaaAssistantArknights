@@ -6,7 +6,7 @@
 
 #include <meojson/json.hpp>
 
-#include "Resource/StageDropsConfiger.h"
+#include "Resource/StageDropsConfig.h"
 #include "RuntimeStatus.h"
 
 namespace asst
@@ -14,7 +14,7 @@ namespace asst
     class ProcessTask;
     class ReportDataTask;
 
-    class StageDropsTaskPlugin final : public AbstractTaskPlugin
+    class StageDropsTaskPlugin final: public AbstractTaskPlugin
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;

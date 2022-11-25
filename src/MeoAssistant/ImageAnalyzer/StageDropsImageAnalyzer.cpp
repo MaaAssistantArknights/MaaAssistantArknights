@@ -6,8 +6,8 @@
 
 #include "General/MatchImageAnalyzer.h"
 #include "General/OcrWithPreprocessImageAnalyzer.h"
-#include "Resource/ItemConfiger.h"
-#include "Resource/StageDropsConfiger.h"
+#include "Resource/ItemConfig.h"
+#include "Resource/StageDropsConfig.h"
 #include "TaskData.h"
 #include "Utils/AsstImageIo.hpp"
 #include "Utils/Logger.hpp"
@@ -293,7 +293,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
             }
             else {
                 spacing = 0;
-                Rect baseline { x_offset + i_start, y_offset, width, bounding_rect.height };
+                Rect baseline{ x_offset + i_start, y_offset, width, bounding_rect.height };
                 m_baseline.emplace_back(baseline, match_droptype(baseline));
             }
         }
@@ -311,7 +311,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     if (in) { // 最右边的白线贴着 bounding 边的情况
         int width = bounding.cols - 1 - i_start;
         if (width >= min_width) {
-            Rect baseline { x_offset + i_start, y_offset, width, bounding_rect.height };
+            Rect baseline{ x_offset + i_start, y_offset, width, bounding_rect.height };
             m_baseline.emplace_back(baseline, match_droptype(baseline));
         }
     }
@@ -451,7 +451,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         result = match_item_with_templs(std::vector<std::string>(items.cbegin(), items.cend()));
         // 将这次识别到的加入该关卡的待识别列表
         if (!result.empty() && !m_stage_code.empty()) {
-            StageDrops.append_drops(StageKey { m_stage_code, m_difficulty }, type, result);
+            StageDrops.append_drops(StageKey{ m_stage_code, m_difficulty }, type, result);
         }
     }
 

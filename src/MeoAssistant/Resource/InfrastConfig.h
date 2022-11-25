@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractConfigerWithTempl.h"
+#include "AbstractConfigWithTempl.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -8,10 +8,10 @@
 
 namespace asst
 {
-    class InfrastConfiger final : public SingletonHolder<InfrastConfiger>, public AbstractConfigerWithTempl
+    class InfrastConfig final: public SingletonHolder<InfrastConfig>, public AbstractConfigWithTempl
     {
     public:
-        virtual ~InfrastConfiger() override = default;
+        virtual ~InfrastConfig() override = default;
 
         virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override
         {
@@ -49,5 +49,5 @@ namespace asst
         std::unordered_set<std::string> m_templ_required;
     };
 
-    inline static auto& InfrastData = InfrastConfiger::get_instance();
+    inline static auto& InfrastData = InfrastConfig::get_instance();
 }

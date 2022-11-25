@@ -6,8 +6,8 @@
 #include "ImageAnalyzer/RecruitImageAnalyzer.h"
 #include "ProcessTask.h"
 #include "ReportDataTask.h"
-#include "Resource/GeneralConfiger.h"
-#include "Resource/RecruitConfiger.h"
+#include "Resource/GeneralConfig.h"
+#include "Resource/RecruitConfig.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -18,20 +18,20 @@
 namespace asst::recruit_calc
 {
     // all combinations and their operator list, excluding empty set and 6-star operators while there is no senior tag
-    auto get_all_combs(const std::vector<RecruitConfiger::TagId>& tags,
+    auto get_all_combs(const std::vector<RecruitConfig::TagId>& tags,
                        const std::vector<RecruitOperInfo>& all_ops = RecruitData.get_all_opers())
     {
         std::vector<RecruitCombs> rcs_with_single_tag;
 
         {
             rcs_with_single_tag.reserve(tags.size());
-            ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const RecruitConfiger::TagId& t) {
+            ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const RecruitConfig::TagId& t) {
                 RecruitCombs result;
-                result.tags = { t };
-                result.min_level = 6;
-                result.max_level = 0;
-                result.avg_level = 0;
-                return result;
+            result.tags = { t };
+            result.min_level = 6;
+            result.max_level = 0;
+            result.avg_level = 0;
+            return result;
             });
 
             for (const auto& op : all_ops) {
@@ -86,7 +86,7 @@ namespace asst::recruit_calc
         static constexpr std::string_view SeniorOper = "高级资深干员";
 
         for (auto comb_iter = result.begin(); comb_iter != result.end();) {
-            if (ranges::find(comb_iter->tags, RecruitConfiger::TagId(SeniorOper)) != comb_iter->tags.end()) {
+            if (ranges::find(comb_iter->tags, RecruitConfig::TagId(SeniorOper)) != comb_iter->tags.end()) {
                 ++comb_iter;
                 continue;
             }
@@ -279,7 +279,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 {
     LogTraceFunction;
 
-    int delay = Configer.get_options().task_delay;
+    int delay = Config.get_options().task_delay;
 
     m_ctrler->click(button);
     sleep(delay);
@@ -346,12 +346,12 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         RecruitImageAnalyzer image_analyzer(m_ctrler->get_image());
         if (!image_analyzer.analyze()) continue;
-        if (image_analyzer.get_tags_result().size() != RecruitConfiger::CorrectNumberOfTags) continue;
+        if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) continue;
 
         const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
         bool has_refresh = !image_analyzer.get_refresh_rect().empty();
 
-        std::vector<RecruitConfiger::TagId> tag_ids;
+        std::vector<RecruitConfig::TagId> tag_ids;
         ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&TextRect::text));
 
         bool has_special_tag = false;
@@ -368,7 +368,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // special tags
-        const std::vector<RecruitConfiger::TagId> SpecialTags = { "高级资深干员", "资深干员" };
+        const std::vector<RecruitConfig::TagId> SpecialTags = { "高级资深干员", "资深干员" };
         if (auto special_iter = ranges::find_first_of(SpecialTags, tag_ids); special_iter != SpecialTags.cend())
             [[unlikely]] {
             has_special_tag = true;
@@ -378,8 +378,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
-        // robot tags
-        const std::vector<RecruitConfiger::TagId> RobotTags = { "支援机械" };
+            // robot tags
+        const std::vector<RecruitConfig::TagId> RobotTags = { "支援机械" };
         if (auto robot_iter = ranges::find_first_of(RobotTags, tag_ids); robot_iter != RobotTags.cend()) [[unlikely]] {
             has_robot_tag = true;
             json::value cb_info = info;
@@ -399,7 +399,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                     rc.min_level = sec->level;
                     rc.avg_level = std::transform_reduce(sec, rc.opers.end(), 0., std::plus<double> {},
                                                          std::mem_fn(&RecruitOperInfo::level)) /
-                                   static_cast<double>(std::distance(sec, rc.opers.end()));
+                        static_cast<double>(std::distance(sec, rc.opers.end()));
                 }
             }
         }
@@ -413,14 +413,14 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 if (l_has != r_has) return l_has > r_has;
             }
 
-            if (lhs.min_level != rhs.min_level)
-                return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
-            else if (lhs.max_level != rhs.max_level)
-                return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
-            else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
-                return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
-            else
-                return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
+        if (lhs.min_level != rhs.min_level)
+            return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
+        else if (lhs.max_level != rhs.max_level)
+            return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
+        else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
+            return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
+        else
+            return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
         });
 
         if (result_vec.empty()) continue;
@@ -481,7 +481,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
                 cb_info["why"] = "刷新次数达到上限";
-                cb_info["details"] = json::object { { "refresh_limit", refresh_limit } };
+                cb_info["details"] = json::object{ { "refresh_limit", refresh_limit } };
                 callback(AsstMsg::SubTaskError, cb_info);
                 return {};
             }
@@ -496,7 +496,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitTagsRefreshed";
-                cb_info["details"] = json::object {
+                cb_info["details"] = json::object{
                     { "count", refresh_count },
                     { "refresh_limit", refresh_limit },
                 };
@@ -566,7 +566,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_combination.tags)) } };
+            cb_info["details"] = json::object{ { "tags", json::array(get_tag_names(final_combination.tags)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -652,7 +652,7 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
         if (hire_searcher.get_result().empty()) return true;
     }
     // hire all
-    return ProcessTask { *this, { "RecruitFinish" } }.run();
+    return ProcessTask{ *this, { "RecruitFinish" } }.run();
 }
 
 /// search for blue *Hire* buttons in the recruit home page, mark those slot clean and do hiring
@@ -673,10 +673,10 @@ bool asst::AutoRecruitTask::hire_all()
     return true;
 }
 
-std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<RecruitConfiger::TagId>& ids) const
+std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const
 {
     std::vector<std::string> names;
-    for (const RecruitConfiger::TagId& id : ids) {
+    for (const RecruitConfig::TagId& id : ids) {
         names.emplace_back(RecruitData.get_tag_name(id));
     }
     return names;
@@ -704,7 +704,7 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     body["stageId"] = "recruit";
     auto& all_drops = body["drops"];
     for (const auto& tag : tags) {
-        all_drops.array_emplace(json::object {
+        all_drops.array_emplace(json::object{
             { "dropType", "NORMAL_DROP" },
             { "itemId", tag },
             { "quantity", 1 },

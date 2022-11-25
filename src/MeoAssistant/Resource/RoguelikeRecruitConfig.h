@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include <string>
 #include <unordered_map>
@@ -28,10 +28,10 @@ namespace asst
         BattleSkillUsage alternate_skill_usage = BattleSkillUsage::Possibly;
     };
 
-    class RoguelikeRecruitConfiger final : public SingletonHolder<RoguelikeRecruitConfiger>, public AbstractConfiger
+    class RoguelikeRecruitConfig final: public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig
     {
     public:
-        virtual ~RoguelikeRecruitConfiger() override = default;
+        virtual ~RoguelikeRecruitConfig() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) const noexcept;
         const std::vector<std::pair<int, int>> get_role_info(const std::string& theme,
@@ -47,5 +47,5 @@ namespace asst
             m_role_offset_map;
     };
 
-    inline static auto& RoguelikeRecruit = RoguelikeRecruitConfiger::get_instance();
+    inline static auto& RoguelikeRecruit = RoguelikeRecruitConfig::get_instance();
 }

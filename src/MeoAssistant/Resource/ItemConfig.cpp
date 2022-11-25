@@ -1,11 +1,11 @@
-#include "ItemConfiger.h"
+#include "ItemConfig.h"
 
 #include "Utils/AsstRanges.hpp"
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
 
-bool asst::ItemConfiger::parse(const json::value& json)
+bool asst::ItemConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
@@ -23,13 +23,13 @@ bool asst::ItemConfiger::parse(const json::value& json)
     m_ordered_material_item_id.clear();
     m_ordered_material_item_id.reserve(material_sortid.size());
     ranges::copy(material_sortid | views::keys, std::back_inserter(m_ordered_material_item_id));
-    ranges::sort(m_ordered_material_item_id, std::less {},
+    ranges::sort(m_ordered_material_item_id, std::less{},
                  [&](const std::string& name) -> int { return material_sortid[name]; });
 
     return true;
 }
 
-void asst::ItemConfiger::clear()
+void asst::ItemConfig::clear()
 {
     m_item_name.clear();
     m_all_item_id.clear();

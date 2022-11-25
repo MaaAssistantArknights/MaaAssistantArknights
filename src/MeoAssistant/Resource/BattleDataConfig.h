@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include <unordered_map>
 
@@ -8,10 +8,10 @@
 
 namespace asst
 {
-    class BattleDataConfiger final : public SingletonHolder<BattleDataConfiger>, public AbstractConfiger
+    class BattleDataConfig final: public SingletonHolder<BattleDataConfig>, public AbstractConfig
     {
     public:
-        virtual ~BattleDataConfiger() override = default;
+        virtual ~BattleDataConfig() override = default;
 
         BattleRole get_role(const std::string& name) const
         {
@@ -40,7 +40,7 @@ namespace asst
             return iter->second.location_type;
         }
 
-        static inline const BattleAttackRange& EmptyRange { { 0, 0 } };
+        static inline const BattleAttackRange& EmptyRange{ { 0, 0 } };
 
         const BattleAttackRange& get_range(const std::string& name, size_t index) const
         {
@@ -71,5 +71,5 @@ namespace asst
         std::unordered_map<std::string, BattleCharData> m_chars;
         std::unordered_map<std::string, BattleAttackRange> m_ranges;
     };
-    inline static auto& BattleData = BattleDataConfiger::get_instance();
+    inline static auto& BattleData = BattleDataConfig::get_instance();
 } // namespace asst

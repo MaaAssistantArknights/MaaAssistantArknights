@@ -13,7 +13,7 @@
 #include "ImageAnalyzer/General/MatchImageAnalyzer.h"
 #include "ImageAnalyzer/General/OcrWithPreprocessImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource/CopilotConfiger.h"
+#include "Resource/CopilotConfig.h"
 #include "Resource/TilePack.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
@@ -131,11 +131,11 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
     auto draw_future = std::async(std::launch::async, [&]() {
         std::filesystem::create_directory("map");
-        for (const auto& [loc, info] : m_normal_tile_info) {
-            std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
-            cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
-        }
-        asst::imwrite("map/" + m_stage_name + ".png", draw);
+    for (const auto& [loc, info] : m_normal_tile_info) {
+        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
+        cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+    }
+    asst::imwrite("map/" + m_stage_name + ".png", draw);
     });
 
     auto opers = oper_analyzer.get_opers();
@@ -177,7 +177,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         }
         // 没找到，可能是召唤物等新出现的
         if (not_found) {
-            m_group_to_oper_mapping.emplace(oper_name, BattleDeployOper { oper_name });
+            m_group_to_oper_mapping.emplace(oper_name, BattleDeployOper{ oper_name });
         }
 
         m_cur_opers_info.emplace(std::move(oper_name), std::move(opers.at(i)));
@@ -272,7 +272,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
                 name_analyzer.sort_result_by_score();
                 oper_name = name_analyzer.get_result().front().text;
             }
-            m_group_to_oper_mapping[oper_name] = BattleDeployOper { oper_name };
+            m_group_to_oper_mapping[oper_name] = BattleDeployOper{ oper_name };
             m_ctrler->click(cur_oper.rect);
             sleep(Task.get("BattleUseOper")->pre_delay);
             battle_pause();
@@ -537,7 +537,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
 
-    Rect placed_rect { placed_point.x, placed_point.y, 0, 0 };
+    Rect placed_rect{ placed_point.x, placed_point.y, 0, 0 };
     int dist = static_cast<int>(
         Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
@@ -567,7 +567,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
     }
 
     m_used_opers[iter->first] =
-        BattleDeployInfo { action.location, m_normal_tile_info[action.location].pos, oper_info };
+        BattleDeployInfo{ action.location, m_normal_tile_info[action.location].pos, oper_info };
 
     m_cur_opers_info.erase(iter);
 
@@ -655,7 +655,7 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
         if (info.info.skill_usage != BattleSkillUsage::Possibly && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;
         }
-        const Rect roi = Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move);
+        const Rect roi = Rect{ info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move);
         analyzer.set_roi(roi);
         if (!analyzer.analyze()) {
             continue;
@@ -704,8 +704,8 @@ bool asst::BattleProcessTask::battle_speedup()
 
 template <typename GroupNameType, typename CharNameType>
 std::optional<std::unordered_map<GroupNameType, CharNameType>> asst::BattleProcessTask::
-    get_char_allocation_for_each_group(const std::unordered_map<GroupNameType, std::vector<CharNameType>>& group_list,
-                                       const std::vector<CharNameType>& char_list)
+get_char_allocation_for_each_group(const std::unordered_map<GroupNameType, std::vector<CharNameType>>& group_list,
+                                   const std::vector<CharNameType>& char_list)
 {
     /*
      * * dlx 算法简介
@@ -783,11 +783,11 @@ std::optional<std::unordered_map<GroupNameType, CharNameType>> asst::BattleProce
      *
      */
 
-    // dlx 算法模板类
+     // dlx 算法模板类
     class DancingLinksModel
     {
     private:
-        size_t index {};
+        size_t index{};
         std::vector<size_t> first, size;
         std::vector<size_t> left, right, up, down;
         std::vector<size_t> column, row;
@@ -817,13 +817,14 @@ std::optional<std::unordered_map<GroupNameType, CharNameType>> asst::BattleProce
         }
 
     public:
-        size_t answer_stack_size {};
+        size_t answer_stack_size{};
         std::vector<size_t> answer_stack;
 
         DancingLinksModel(const size_t& max_node_num, const size_t& max_ans_size)
             : first(max_node_num), size(max_node_num), left(max_node_num), right(max_node_num), up(max_node_num),
-              down(max_node_num), column(max_node_num), row(max_node_num), answer_stack(max_ans_size)
-        {}
+            down(max_node_num), column(max_node_num), row(max_node_num), answer_stack(max_ans_size)
+        {
+        }
 
         void build(const size_t& column_id)
         {

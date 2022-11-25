@@ -34,14 +34,14 @@
 #pragma warning(pop)
 #endif
 
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "Utils/AsstTypes.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Utils/WorkingDir.hpp"
 
 asst::Controller::Controller(const AsstCallback& callback, void* callback_arg)
-    : m_callback(callback), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
+    : m_callback(callback), m_callback_arg(callback_arg), m_rand_engine(std::random_device{}())
 {
     LogTraceFunction;
 
@@ -108,25 +108,25 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 
     DWORD err = 0;
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
-    SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
+    SECURITY_ATTRIBUTES sa_inherit{ .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit,
-                                             (DWORD)pipe_buffer.size(), true, false)) {
+        (DWORD)pipe_buffer.size(), true, false)) {
         err = GetLastError();
         Log.error("CreateOverlappablePipe failed, err", err);
         return std::nullopt;
     }
 
-    STARTUPINFOW si {};
+    STARTUPINFOW si{};
     si.cb = sizeof(STARTUPINFOW);
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
     si.hStdOutput = pipe_child_write;
     si.hStdError = pipe_child_write;
     ASST_AUTO_DEDUCED_ZERO_INIT_START
-    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
+        PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
-    auto cmdline_osstr = asst::utils::to_osstring(cmd);
+        auto cmdline_osstr = asst::utils::to_osstring(cmd);
     BOOL create_ret =
         CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
@@ -144,10 +144,10 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     bool accept_pending = false;
     bool socket_eof = false;
 
-    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
+    OVERLAPPED pipeov{ .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
     (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
 
-    OVERLAPPED sockov {};
+    OVERLAPPED sockov{};
     SOCKET client_socket = INVALID_SOCKET;
 
     if (recv_by_socket) {
@@ -156,8 +156,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         DWORD dummy;
         if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.value().get(),
-                                (DWORD)sock_buffer.value().size() - ((sizeof(sockaddr_in) + 16) * 2),
-                                sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
+            (DWORD)sock_buffer.value().size() - ((sizeof(sockaddr_in) + 16) * 2),
+            sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
             err = WSAGetLastError();
             if (err == ERROR_IO_PENDING) {
                 accept_pending = true;
@@ -192,7 +192,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         }
         else if (wait_result == WAIT_TIMEOUT) {
             if (wait_time == 0) {
-                std::vector<std::string> handle_string {};
+                std::vector<std::string> handle_string{};
                 for (auto handle : wait_handles) {
                     if (handle == process_info.hProcess) {
                         handle_string.emplace_back("process_info.hProcess");
@@ -326,7 +326,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         // parent process
         do {
             if (recv_by_socket) {
-                sockaddr addr {};
+                sockaddr addr{};
                 socklen_t len = sizeof(addr);
                 sock_buffer = asst::platform::single_page_buffer<char>();
 
@@ -384,7 +384,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     }
     else if (inited() && allow_reconnect) {
         // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
-        json::value reconnect_info = json::object {
+        json::value reconnect_info = json::object{
             { "uuid", m_uuid },
             { "what", "Reconnecting" },
             { "why", "" },
@@ -427,7 +427,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 }
             }
         }
-        json::value info = json::object {
+        json::value info = json::object{
             { "uuid", m_uuid },
             { "what", "Disconnect" },
             { "why", "Reconnect failed" },
@@ -468,7 +468,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     };
 
 #ifdef _WIN32
-    SECURITY_ATTRIBUTES sa_attr_inherit {
+    SECURITY_ATTRIBUTES sa_attr_inherit{
         .nLength = sizeof(SECURITY_ATTRIBUTES),
         .lpSecurityDescriptor = nullptr,
         .bInheritHandle = TRUE,
@@ -476,15 +476,15 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     HANDLE pipe_child_read = INVALID_HANDLE_VALUE, pipe_parent_write = INVALID_HANDLE_VALUE;
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_attr_inherit,
-                                             PipeReadBuffSize, true, false) ||
+        PipeReadBuffSize, true, false) ||
         !asst::win32::CreateOverlappablePipe(&pipe_child_read, &pipe_parent_write, &sa_attr_inherit, nullptr,
-                                             PipeWriteBuffSize, false, false)) {
+            PipeWriteBuffSize, false, false)) {
         DWORD err = GetLastError();
         Log.error("Failed to create pipe for minitouch, err", err);
         return false;
     }
 
-    STARTUPINFOW si {};
+    STARTUPINFOW si{};
     si.cb = sizeof(STARTUPINFOW);
     si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
@@ -510,7 +510,7 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     auto start_time = std::chrono::steady_clock::now();
 
     auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
-    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
+    OVERLAPPED pipeov{ .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
     std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
 
     while (!need_exit() && check_timeout(start_time)) {
@@ -656,7 +656,7 @@ bool asst::Controller::input_to_minitouch(const std::string& cmd)
     }
     DWORD written = 0;
     if (!WriteFile(m_minitouch_parent_write, cmd.c_str(),
-                   static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)), &written, NULL)) {
+        static_cast<DWORD>(cmd.size() * sizeof(std::string::value_type)), &written, NULL)) {
         auto err = GetLastError();
         Log.error("Failed to write to minitouch, err", err);
         return false;
@@ -767,10 +767,10 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 
 void asst::Controller::random_delay() const
 {
-    auto& opt = Configer.get_options();
+    auto& opt = Config.get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
-        static std::default_random_engine rand_engine(std::random_device {}());
+        static std::default_random_engine rand_engine(std::random_device{}());
         static std::uniform_int_distribution<unsigned> rand_uni(opt.control_delay_lower, opt.control_delay_upper);
 
         unsigned rand_delay = rand_uni(rand_engine);
@@ -1084,7 +1084,7 @@ bool asst::Controller::start_game(const std::string& client_type)
     if (client_type.empty()) {
         return false;
     }
-    auto intent_name = Configer.get_intent_name(client_type);
+    auto intent_name = Config.get_intent_name(client_type);
     if (!intent_name) {
         return false;
     }
@@ -1165,7 +1165,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    const auto& opt = Configer.get_options();
+    const auto& opt = Config.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
         Log.info("minitouch swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
@@ -1256,7 +1256,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 #endif
 
     auto get_info_json = [&]() -> json::value {
-        return json::object {
+        return json::object{
             { "uuid", m_uuid },
             { "details",
               json::object {
@@ -1267,9 +1267,9 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         };
     };
 
-    auto adb_ret = Configer.get_adb_cfg(config);
+    auto adb_ret = Config.get_adb_cfg(config);
     if (!adb_ret) {
-        json::value info = get_info_json() | json::object {
+        json::value info = get_info_json() | json::object{
             { "what", "ConnectFailed" },
             { "why", "ConfigNotFound" },
         };
@@ -1311,7 +1311,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             }
         }
         if (!is_connect_success) {
-            json::value info = get_info_json() | json::object {
+            json::value info = get_info_json() | json::object{
                 { "what", "ConnectFailed" },
                 { "why", "Connection command failed to exec" },
             };
@@ -1328,7 +1328,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     {
         auto uuid_ret = call_command(cmd_replace(adb_cfg.uuid), 20000, false /* adb 连接时不允许重试 */);
         if (!uuid_ret) {
-            json::value info = get_info_json() | json::object {
+            json::value info = get_info_json() | json::object{
                 { "what", "ConnectFailed" },
                 { "why", "Uuid command failed to exec" },
             };
@@ -1340,7 +1340,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         std::erase_if(uuid_str, [](char c) { return !std::isdigit(c) && !std::isalpha(c); });
         m_uuid = std::move(uuid_str);
 
-        json::value info = get_info_json() | json::object {
+        json::value info = get_info_json() | json::object{
             { "what", "UuidGot" },
             { "why", "" },
         };
@@ -1379,7 +1379,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     {
         auto display_ret = call_command(cmd_replace(adb_cfg.display));
         if (!display_ret) {
-            json::value info = get_info_json() | json::object {
+            json::value info = get_info_json() | json::object{
                 { "what", "ConnectFailed" },
                 { "why", "Display command failed to exec" },
             };
@@ -1400,12 +1400,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         m_width = (std::max)(size_value1, size_value2);
         m_height = (std::min)(size_value1, size_value2);
 
-        json::value info = get_info_json() | json::object {
+        json::value info = get_info_json() | json::object{
             { "what", "ResolutionGot" },
             { "why", "" },
         };
 
-        info["details"] |= json::object {
+        info["details"] |= json::object{
             { "width", m_width },
             { "height", m_height },
         };
@@ -1425,7 +1425,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             return false;
         }
         else if (std::fabs(static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault) -
-                           static_cast<double>(m_width) / static_cast<double>(m_height)) > 1e-7) {
+            static_cast<double>(m_width) / static_cast<double>(m_height)) > 1e-7) {
             info["what"] = "UnsupportedResolution";
             info["why"] = "Not 16:9";
             callback(AsstMsg::ConnectionInfo, info);
@@ -1457,7 +1457,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 
     {
-        json::value info = get_info_json() | json::object {
+        json::value info = get_info_json() | json::object{
             { "what", "Connected" },
             { "why", "" },
         };
@@ -1645,7 +1645,7 @@ cv::Mat asst::Controller::get_image(bool raw)
             break;
         }
         Log.error(__FUNCTION__, "screencap failed!");
-        json::value info = json::object {
+        json::value info = json::object{
             { "uuid", m_uuid },
             { "what", "ScreencapFailed" },
             { "why", "ScreencapFailed" },

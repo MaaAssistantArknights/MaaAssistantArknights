@@ -1,10 +1,10 @@
 #pragma once
 #include "General/AbstractImageAnalyzer.h"
-#include "Resource/StageDropsConfiger.h"
+#include "Resource/StageDropsConfig.h"
 
 namespace asst
 {
-    class StageDropsImageAnalyzer final : public AbstractImageAnalyzer
+    class StageDropsImageAnalyzer final: public AbstractImageAnalyzer
     {
         static constexpr const char* LMD_ID = "4001";
 

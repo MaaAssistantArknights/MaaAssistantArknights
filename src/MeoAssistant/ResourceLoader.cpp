@@ -5,42 +5,42 @@
 #include "Utils/Logger.hpp"
 
 #include "Controller.h"
-#include "Resource/BattleDataConfiger.h"
-#include "Resource/CopilotConfiger.h"
-#include "Resource/GeneralConfiger.h"
-#include "Resource/InfrastConfiger.h"
-#include "Resource/ItemConfiger.h"
+#include "Resource/BattleDataConfig.h"
+#include "Resource/CopilotConfig.h"
+#include "Resource/GeneralConfig.h"
+#include "Resource/InfrastConfig.h"
+#include "Resource/ItemConfig.h"
 #include "Resource/OcrPack.h"
-#include "Resource/RecruitConfiger.h"
-#include "Resource/RoguelikeCopilotConfiger.h"
-#include "Resource/RoguelikeRecruitConfiger.h"
-#include "Resource/RoguelikeShoppingConfiger.h"
-#include "Resource/StageDropsConfiger.h"
+#include "Resource/RecruitConfig.h"
+#include "Resource/RoguelikeCopilotConfig.h"
+#include "Resource/RoguelikeRecruitConfig.h"
+#include "Resource/RoguelikeShoppingConfig.h"
+#include "Resource/StageDropsConfig.h"
 #include "Resource/TemplResource.h"
 #include "Resource/TilePack.h"
 #include "TaskData.h"
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
-#define LoadResourceAndCheckRet(Configer, Filename)                         \
+#define LoadResourceAndCheckRet(Config, Filename)                         \
     {                                                                       \
-        LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Configer); \
+        LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Config); \
         auto full_path = path / Filename;                                   \
-        bool ret = load_resource<Configer>(full_path);                      \
+        bool ret = load_resource<Config>(full_path);                      \
         if (!ret) {                                                         \
-            Log.error(#Configer, " load failed, path:", full_path);         \
+            Log.error(#Config, " load failed, path:", full_path);         \
             return false;                                                   \
         }                                                                   \
     }
 
-#define LoadResourceWithTemplAndCheckRet(Configer, Filename, TemplDir)                             \
+#define LoadResourceWithTemplAndCheckRet(Config, Filename, TemplDir)                             \
     {                                                                                              \
-        LogTraceScope(std::string("LoadResourceWithTemplAndCheckRet ") + #Configer);               \
+        LogTraceScope(std::string("LoadResourceWithTemplAndCheckRet ") + #Config);               \
         auto full_path = path / Filename;                                                          \
         auto full_templ_dir = path / TemplDir;                                                     \
-        bool ret = load_resource_with_templ<Configer>(full_path, full_templ_dir);                  \
+        bool ret = load_resource_with_templ<Config>(full_path, full_templ_dir);                  \
         if (!ret) {                                                                                \
-            Log.error(#Configer, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
+            Log.error(#Config, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
             return false;                                                                          \
         }                                                                                          \
     }
@@ -49,18 +49,18 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     using namespace asst::utils::path_literals;
 
     /* load resource with json files*/
-    LoadResourceAndCheckRet(GeneralConfiger, "config.json"_p);
-    LoadResourceAndCheckRet(RecruitConfiger, "recruitment.json"_p);
-    LoadResourceAndCheckRet(StageDropsConfiger, "stages.json"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfiger, "roguelike_copilot.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfiger, "roguelike_recruit.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfiger, "roguelike_shopping.json"_p);
-    LoadResourceAndCheckRet(BattleDataConfiger, "battle_data.json"_p);
+    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
+    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
+    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
+    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike_copilot.json"_p);
+    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike_recruit.json"_p);
+    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike_shopping.json"_p);
+    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
 
     /* load resource with json and template files*/
     LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
-    LoadResourceWithTemplAndCheckRet(InfrastConfiger, "infrast.json"_p, "template"_p / "infrast"_p);
-    LoadResourceWithTemplAndCheckRet(ItemConfiger, "item_index.json"_p, "template"_p / "items"_p);
+    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
+    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
 
     /* load 3rd parties resource */
     LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "levels.json"_p);
@@ -69,7 +69,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     m_loaded = true;
 
-#undef LoadTemplByConfigerAndCheckRet
+#undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 
     return true;

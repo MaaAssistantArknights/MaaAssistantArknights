@@ -1,8 +1,8 @@
-#include "RoguelikeShoppingConfiger.h"
+#include "RoguelikeShoppingConfig.h"
 
 #include <meojson/json.hpp>
 
-bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
+bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
 {
     clear();
 
@@ -45,7 +45,7 @@ bool asst::RoguelikeShoppingConfiger::parse(const json::value& json)
     return true;
 }
 
-void asst::RoguelikeShoppingConfiger::clear()
+void asst::RoguelikeShoppingConfig::clear()
 {
     m_goods.clear();
 }

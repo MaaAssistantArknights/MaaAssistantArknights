@@ -1,13 +1,13 @@
 #pragma once
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 #include "Utils/AsstBattleDef.h"
 
 namespace asst
 {
-    class CopilotConfiger : public SingletonHolder<CopilotConfiger>, public AbstractConfiger
+    class CopilotConfig: public SingletonHolder<CopilotConfig>, public AbstractConfig
     {
     public:
-        virtual ~CopilotConfiger() override = default;
+        virtual ~CopilotConfig() override = default;
 
         const BattleCopilotData& get_data() const noexcept { return m_data; }
         const std::string& get_stage_name() const noexcept { return m_stage_name; }
@@ -20,5 +20,5 @@ namespace asst
         std::string m_stage_name;
     };
 
-    inline static auto& Copilot = CopilotConfiger::get_instance();
+    inline static auto& Copilot = CopilotConfig::get_instance();
 }

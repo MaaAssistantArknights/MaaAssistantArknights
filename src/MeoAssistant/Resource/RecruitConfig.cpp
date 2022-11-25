@@ -1,4 +1,4 @@
-#include "RecruitConfiger.h"
+#include "RecruitConfig.h"
 
 #include <algorithm>
 
@@ -6,7 +6,7 @@
 
 #include "Utils/Logger.hpp"
 
-std::string asst::RecruitConfiger::get_tag_name(const TagId& id) const noexcept
+std::string asst::RecruitConfig::get_tag_name(const TagId& id) const noexcept
 {
     auto iter = m_all_tags_name.find(id);
     if (iter == m_all_tags_name.cend()) {
@@ -15,7 +15,7 @@ std::string asst::RecruitConfiger::get_tag_name(const TagId& id) const noexcept
     return iter->second;
 }
 
-bool asst::RecruitConfiger::parse(const json::value& json)
+bool asst::RecruitConfig::parse(const json::value& json)
 {
     clear();
 
@@ -36,12 +36,12 @@ bool asst::RecruitConfiger::parse(const json::value& json)
     }
 
     // 按干员等级排个序
-    ranges::sort(m_all_opers, std::greater {}, std::mem_fn(&RecruitOperInfo::level));
+    ranges::sort(m_all_opers, std::greater{}, std::mem_fn(&RecruitOperInfo::level));
 
     return true;
 }
 
-void asst::RecruitConfiger::clear()
+void asst::RecruitConfig::clear()
 {
     LogTraceFunction;
 

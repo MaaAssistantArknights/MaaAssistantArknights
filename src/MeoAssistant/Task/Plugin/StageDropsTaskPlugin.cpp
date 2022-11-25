@@ -8,8 +8,8 @@
 #include "../Sub/ReportDataTask.h"
 #include "Controller.h"
 #include "ImageAnalyzer/StageDropsImageAnalyzer.h"
-#include "Resource/ItemConfiger.h"
-#include "Resource/StageDropsConfiger.h"
+#include "Resource/ItemConfig.h"
+#include "Resource/StageDropsConfig.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
@@ -220,7 +220,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
         cb_info["why"] = "未知关卡";
-        cb_info["details"] = json::object { { "stage_code", m_stage_code } };
+        cb_info["details"] = json::object{ { "stage_code", m_stage_code } };
         callback(AsstMsg::SubTaskError, cb_info);
         return;
     }

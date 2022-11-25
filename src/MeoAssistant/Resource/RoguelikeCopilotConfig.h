@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractConfiger.h"
+#include "AbstractConfig.h"
 
 #include <optional>
 
@@ -7,10 +7,10 @@
 
 namespace asst
 {
-    class RoguelikeCopilotConfiger final : public SingletonHolder<RoguelikeCopilotConfiger>, public AbstractConfiger
+    class RoguelikeCopilotConfig final: public SingletonHolder<RoguelikeCopilotConfig>, public AbstractConfig
     {
     public:
-        virtual ~RoguelikeCopilotConfiger() override = default;
+        virtual ~RoguelikeCopilotConfig() override = default;
 
         std::optional<RoguelikeBattleData> get_stage_data(const std::string& stage_name) const;
 
@@ -19,5 +19,5 @@ namespace asst
         std::unordered_map<std::string, RoguelikeBattleData> m_stage_data;
     };
 
-    inline static auto& RoguelikeCopilot = RoguelikeCopilotConfiger::get_instance();
+    inline static auto& RoguelikeCopilot = RoguelikeCopilotConfig::get_instance();
 }

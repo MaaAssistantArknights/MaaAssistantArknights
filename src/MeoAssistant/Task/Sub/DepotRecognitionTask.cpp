@@ -7,7 +7,7 @@
 #include "Controller.h"
 #include "ImageAnalyzer/DepotImageAnalyzer.h"
 #include "ProcessTask.h"
-#include "Resource/GeneralConfiger.h"
+#include "Resource/GeneralConfig.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -57,7 +57,7 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
 {
     LogTraceFunction;
 
-    auto& templ = Configer.get_options().depot_export_template;
+    auto& templ = Config.get_options().depot_export_template;
     json::value info = basic_info_with_what("DepotInfo");
     auto& details = info["details"];
 
@@ -69,7 +69,7 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
         auto& arkplanner_data_items = arkplanner_obj["items"];
 
         for (const auto& [item_id, item_info] : m_all_items) {
-            arkplanner_data_items.array_emplace(json::object {
+            arkplanner_data_items.array_emplace(json::object{
                 { "id", item_id },
                 { "have", item_info.quantity },
                 { "name", item_info.item_name },

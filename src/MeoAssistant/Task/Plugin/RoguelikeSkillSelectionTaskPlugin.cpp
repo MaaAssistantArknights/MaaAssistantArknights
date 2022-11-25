@@ -2,7 +2,7 @@
 
 #include "Controller.h"
 #include "ImageAnalyzer/RoguelikeSkillSelectionImageAnalyzer.h"
-#include "Resource/RoguelikeRecruitConfiger.h"
+#include "Resource/RoguelikeRecruitConfig.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 
@@ -74,7 +74,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     if (!m_status->get_str(RuntimeStatus::RoguelikeCharOverview)) {
         json::value overview;
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
-            overview[name] = json::object {
+            overview[name] = json::object{
                 { "elite", 1 }, { "level", 80 },
                 // 不知道是啥等级随便填一个
             };

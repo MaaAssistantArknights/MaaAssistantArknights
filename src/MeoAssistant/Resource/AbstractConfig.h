@@ -9,10 +9,10 @@ namespace json
 
 namespace asst
 {
-    class AbstractConfiger : public AbstractResource
+    class AbstractConfig: public AbstractResource
     {
     public:
-        virtual ~AbstractConfiger() override = default;
+        virtual ~AbstractConfig() override = default;
         virtual bool load(const std::filesystem::path& path) override;
 
     protected:

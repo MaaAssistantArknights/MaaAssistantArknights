@@ -1,10 +1,10 @@
-#include "RoguelikeRecruitConfiger.h"
+#include "RoguelikeRecruitConfig.h"
 
 #include <algorithm>
 
 #include <meojson/json.hpp>
 
-const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfiger::get_oper_info(const std::string& theme,
+const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme,
                                                                              const std::string& name) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
@@ -17,7 +17,7 @@ const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfiger::get_oper_info(con
     }
 }
 
-const std::vector<std::pair<int, int>> asst::RoguelikeRecruitConfiger::get_role_info(
+const std::vector<std::pair<int, int>> asst::RoguelikeRecruitConfig::get_role_info(
     const std::string& theme, const BattleRole& role) const noexcept
 {
     if (role == BattleRole::Unknown) {
@@ -30,7 +30,7 @@ const std::vector<std::pair<int, int>> asst::RoguelikeRecruitConfiger::get_role_
     return std::vector<std::pair<int, int>>();
 }
 
-bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
+bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 {
     clear();
 
@@ -80,7 +80,7 @@ bool asst::RoguelikeRecruitConfiger::parse(const json::value& json)
     return true;
 }
 
-void asst::RoguelikeRecruitConfiger::clear()
+void asst::RoguelikeRecruitConfig::clear()
 {
     m_all_opers.clear();
     m_role_offset_map.clear();

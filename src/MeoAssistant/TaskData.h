@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Resource/AbstractConfigerWithTempl.h"
+#include "Resource/AbstractConfigWithTempl.h"
 
 #include <memory>
 #include <unordered_map>
@@ -15,7 +15,7 @@ namespace asst
 {
     struct TaskInfo;
 
-    class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigerWithTempl
+    class TaskData final: public SingletonHolder<TaskData>, public AbstractConfigWithTempl
     {
     private:
         using tasklist_t = std::vector<std::string>;
@@ -50,25 +50,25 @@ namespace asst
             if (task_prefix.ends_with('@')) [[unlikely]] {
                 task_prefix.remove_suffix(1);
             }
-            if (task_prefix.empty()) [[unlikely]] {
-                return task_name;
-            }
-            if (task_name.empty()) {
-                return std::string(task_prefix);
-            }
-            if (task_name.starts_with('#')) {
-                return std::string(task_prefix) + task_name;
-            }
-            return std::string(task_prefix) + '@' + task_name;
+                if (task_prefix.empty()) [[unlikely]] {
+                    return task_name;
+                }
+                    if (task_name.empty()) {
+                        return std::string(task_prefix);
+                    }
+                if (task_name.starts_with('#')) {
+                    return std::string(task_prefix) + task_name;
+                }
+                return std::string(task_prefix) + '@' + task_name;
         }
         static tasklist_t append_prefix(const tasklist_t& base_task_list, std::string_view task_prefix_view)
         {
             if (task_prefix_view.ends_with('@')) [[unlikely]] {
                 task_prefix_view.remove_suffix(1);
             }
-            if (task_prefix_view.empty()) {
-                return base_task_list;
-            }
+                if (task_prefix_view.empty()) {
+                    return base_task_list;
+                }
             std::string task_prefix(task_prefix_view);
             tasklist_t task_list = {};
             for (const std::string& base : base_task_list) {
@@ -123,8 +123,8 @@ namespace asst
             return task_info_ptr;
         }
         template <ranges::forward_range ListType>
-        requires(!std::same_as<ranges::range_value_t<ListType>, std::string> &&
-                 requires { std::declval<ranges::range_value_t<ListType>>().as_string(); })
+            requires(!std::same_as<ranges::range_value_t<ListType>, std::string>&&
+                     requires { std::declval<ranges::range_value_t<ListType>>().as_string(); })
         static tasklist_t to_string_list(const ListType& other_string_list)
         {
             tasklist_t task_list = {};
@@ -149,9 +149,9 @@ namespace asst
 #endif
         std::shared_ptr<TaskInfo> get_raw(std::string_view name) const;
         template <typename TargetTaskInfoType>
-        requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
-                 !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
-        std::shared_ptr<TargetTaskInfoType> get_raw(std::string_view name) const
+            requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
+        !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
+            std::shared_ptr<TargetTaskInfoType> get_raw(std::string_view name) const
         {
             return std::dynamic_pointer_cast<TargetTaskInfoType>(get_raw(name));
         }
@@ -162,9 +162,9 @@ namespace asst
 
         std::shared_ptr<TaskInfo> get(std::string_view name);
         template <typename TargetTaskInfoType>
-        requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
-                 !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
-        std::shared_ptr<TargetTaskInfoType> get(std::string_view name)
+            requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
+        !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
+            std::shared_ptr<TargetTaskInfoType> get(std::string_view name)
         {
             return std::dynamic_pointer_cast<TargetTaskInfoType>(get(name));
         }

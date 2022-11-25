@@ -1,11 +1,11 @@
-#include "BattleDataConfiger.h"
+#include "BattleDataConfig.h"
 
 #include "Utils/AsstRanges.hpp"
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
 
-bool asst::BattleDataConfiger::parse(const json::value& json)
+bool asst::BattleDataConfig::parse(const json::value& json)
 {
     for (const auto& char_data_json : json.at("chars").as_object() | views::values) {
         BattleCharData data;

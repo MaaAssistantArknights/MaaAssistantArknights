@@ -1,16 +1,16 @@
-#include "CopilotConfiger.h"
+#include "CopilotConfig.h"
 
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
 
-void asst::CopilotConfiger::clear()
+void asst::CopilotConfig::clear()
 {
     m_data = decltype(m_data)();
     m_stage_name.clear();
 }
 
-bool asst::CopilotConfiger::parse(const json::value& json)
+bool asst::CopilotConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
@@ -47,7 +47,7 @@ bool asst::CopilotConfiger::parse(const json::value& json)
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
-            m_data.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
+            m_data.groups.emplace(std::move(group_name), std::vector{ std::move(oper) });
         }
     }
 

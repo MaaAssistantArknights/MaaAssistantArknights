@@ -3,7 +3,7 @@
 #include "../Sub/ProcessTask.h"
 #include "Controller.h"
 #include "ImageAnalyzer/General/OcrImageAnalyzer.h"
-#include "Resource/BattleDataConfiger.h"
+#include "Resource/BattleDataConfig.h"
 #include "RuntimeStatus.h"
 #include "TaskData.h"
 #include "Utils/Logger.hpp"
