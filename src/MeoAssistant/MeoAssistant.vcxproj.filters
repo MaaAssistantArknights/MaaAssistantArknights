@@ -93,115 +93,115 @@
     <ClInclude Include="Common\AsstVersion.h">
       <Filter>源文件\Common</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\AbstractImageAnalyzer.h">
+    <ClInclude Include="Vision\AbstractImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\HashImageAnalyzer.h">
+    <ClInclude Include="Vision\HashImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\MatchImageAnalyzer.h">
+    <ClInclude Include="Vision\MatchImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\MultiMatchImageAnalyzer.h">
+    <ClInclude Include="Vision\MultiMatchImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\OcrImageAnalyzer.h">
+    <ClInclude Include="Vision\OcrImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\OcrWithFlagTemplImageAnalyzer.h">
+    <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\OcrWithPreprocessImageAnalyzer.h">
+    <ClInclude Include="Vision\OcrWithPreprocessImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Infrast\InfrastClueImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Infrast\InfrastClueVacancyImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Infrast\InfrastFacilityImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastFacilityImageAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Infrast\InfrastOperImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastOperImageAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Infrast\InfrastSmileyImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastSmileyImageAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Miscellaneous\BattleImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\BattleImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Miscellaneous\CreditShopImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\CreditShopImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Miscellaneous\DepotImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\DepotImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Miscellaneous\ProcessTaskImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Miscellaneous\RecruitImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Roguelike\RoguelikeFormationImageAnalyzer.h">
+    <ClInclude Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Roguelike\RoguelikeRecruitImageAnalyzer.h">
+    <ClInclude Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h">
+    <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="ImageAnalyzer\Roguelike\StageDropsImageAnalyzer.h">
+    <ClInclude Include="Vision\Roguelike\StageDropsImageAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\AbstractConfig.h">
+    <ClInclude Include="Config\AbstractConfig.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\AbstractConfigWithTempl.h">
+    <ClInclude Include="Config\AbstractConfigWithTempl.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\AbstractResource.h">
+    <ClInclude Include="Config\AbstractResource.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\ResourceLoader.h">
+    <ClInclude Include="Config\ResourceLoader.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\TaskData.h">
+    <ClInclude Include="Config\TaskData.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\TemplResource.h">
+    <ClInclude Include="Config\TemplResource.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Roguelike\RoguelikeCopilotConfig.h">
+    <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
       <Filter>源文件\Config\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Roguelike\RoguelikeRecruitConfig.h">
+    <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h">
       <Filter>源文件\Config\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Roguelike\RoguelikeShoppingConfig.h">
+    <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h">
       <Filter>源文件\Config\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\BattleDataConfig.h">
+    <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\CopilotConfig.h">
+    <ClInclude Include="Config\Miscellaneous\CopilotConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\InfrastConfig.h">
+    <ClInclude Include="Config\Miscellaneous\InfrastConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\ItemConfig.h">
+    <ClInclude Include="Config\Miscellaneous\ItemConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\RecruitConfig.h">
+    <ClInclude Include="Config\Miscellaneous\RecruitConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\StageDropsConfig.h">
+    <ClInclude Include="Config\Miscellaneous\StageDropsConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\TilePack.h">
+    <ClInclude Include="Config\Miscellaneous\TilePack.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\AbstractTask.h">
@@ -318,10 +318,10 @@
     <ClInclude Include="Status.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\GeneralConfig.h">
+    <ClInclude Include="Config\GeneralConfig.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Miscellaneous\OcrPack.h">
+    <ClInclude Include="Config\Miscellaneous\OcrPack.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\Fight\DrGrandetTaskPlugin.h">
@@ -425,109 +425,109 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ImageAnalyzer\AbstractImageAnalyzer.cpp">
+    <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\HashImageAnalyzer.cpp">
+    <ClCompile Include="Vision\HashImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\MatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\MatchImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\MultiMatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\MultiMatchImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\OcrImageAnalyzer.cpp">
+    <ClCompile Include="Vision\OcrImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\OcrWithFlagTemplImageAnalyzer.cpp">
+    <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\OcrWithPreprocessImageAnalyzer.cpp">
+    <ClCompile Include="Vision\OcrWithPreprocessImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Infrast\InfrastClueImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Infrast\InfrastClueVacancyImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Infrast\InfrastFacilityImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastFacilityImageAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Infrast\InfrastOperImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastOperImageAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Infrast\InfrastSmileyImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastSmileyImageAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Miscellaneous\BattleImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\BattleImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Miscellaneous\CreditShopImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\CreditShopImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Miscellaneous\DepotImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\DepotImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Miscellaneous\ProcessTaskImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Miscellaneous\RecruitImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Roguelike\RoguelikeFormationImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Roguelike\RoguelikeRecruitImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="ImageAnalyzer\Roguelike\StageDropsImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Roguelike\StageDropsImageAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\AbstractConfig.cpp">
+    <ClCompile Include="Config\AbstractConfig.cpp">
       <Filter>源文件\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\ResourceLoader.cpp">
+    <ClCompile Include="Config\ResourceLoader.cpp">
       <Filter>源文件\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\TaskData.cpp">
+    <ClCompile Include="Config\TaskData.cpp">
       <Filter>源文件\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\TemplResource.cpp">
+    <ClCompile Include="Config\TemplResource.cpp">
       <Filter>源文件\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Roguelike\RoguelikeCopilotConfig.cpp">
+    <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
       <Filter>源文件\Config\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Roguelike\RoguelikeRecruitConfig.cpp">
+    <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp">
       <Filter>源文件\Config\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Roguelike\RoguelikeShoppingConfig.cpp">
+    <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp">
       <Filter>源文件\Config\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\BattleDataConfig.cpp">
+    <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\CopilotConfig.cpp">
+    <ClCompile Include="Config\Miscellaneous\CopilotConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\InfrastConfig.cpp">
+    <ClCompile Include="Config\Miscellaneous\InfrastConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\ItemConfig.cpp">
+    <ClCompile Include="Config\Miscellaneous\ItemConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\RecruitConfig.cpp">
+    <ClCompile Include="Config\Miscellaneous\RecruitConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\StageDropsConfig.cpp">
+    <ClCompile Include="Config\Miscellaneous\StageDropsConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\TilePack.cpp">
+    <ClCompile Include="Config\Miscellaneous\TilePack.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\AbstractTask.cpp">
@@ -596,10 +596,10 @@
     <ClCompile Include="Status.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\GeneralConfig.cpp">
+    <ClCompile Include="Config\GeneralConfig.cpp">
       <Filter>源文件\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\Miscellaneous\OcrPack.cpp">
+    <ClCompile Include="Config\Miscellaneous\OcrPack.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Fight\DrGrandetTaskPlugin.cpp">
