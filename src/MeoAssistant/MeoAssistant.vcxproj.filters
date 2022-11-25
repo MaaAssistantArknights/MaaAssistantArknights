@@ -322,6 +322,9 @@
     <ClCompile Include="AsstCaller.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Task\CreditFightTask.cpp">
+      <Filter>源文件\Task</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -340,6 +343,9 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="..\..\resource\roguelike_shopping.json">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\resource\credit_fight_copilot.json">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
@@ -692,6 +698,8 @@
     <ClInclude Include="Utils\AsstBattleDef.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Task\CreditFightTask.h">
+      <Filter>源文件\Task</Filter>
     <ClInclude Include="Utils\WorkingDir.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
