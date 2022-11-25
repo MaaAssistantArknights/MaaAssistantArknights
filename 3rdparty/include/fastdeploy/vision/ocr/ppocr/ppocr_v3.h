@@ -36,7 +36,7 @@ class FASTDEPLOY_DECL PPOCRv3 : public PPOCRv2 {
                 fastdeploy::vision::ocr::Recognizer* rec_model)
                 : PPOCRv2(det_model, cls_model, rec_model) {
     // The only difference between v2 and v3
-    recognizer_->rec_image_shape[1] = 48;
+    recognizer_->preprocessor_.rec_image_shape_[1] = 48;
   }
   /** \brief Classification model is optional, so this function is set up the detection model path and recognition model path respectively.
    *
@@ -47,7 +47,7 @@ class FASTDEPLOY_DECL PPOCRv3 : public PPOCRv2 {
                 fastdeploy::vision::ocr::Recognizer* rec_model)
                 : PPOCRv2(det_model, rec_model) {
     // The only difference between v2 and v3
-    recognizer_->rec_image_shape[1] = 48;
+    recognizer_->preprocessor_.rec_image_shape_[1] = 48;
   }
 };
 

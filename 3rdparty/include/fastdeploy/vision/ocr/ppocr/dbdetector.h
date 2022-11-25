@@ -17,6 +17,8 @@
 #include "fastdeploy/vision/common/processors/transform.h"
 #include "fastdeploy/vision/common/result.h"
 #include "fastdeploy/vision/ocr/ppocr/utils/ocr_postprocess_op.h"
+#include "fastdeploy/vision/ocr/ppocr/det_postprocessor.h"
+#include "fastdeploy/vision/ocr/ppocr/det_preprocessor.h"
 
 namespace fastdeploy {
 namespace vision {
@@ -44,40 +46,34 @@ class FASTDEPLOY_DECL DBDetector : public FastDeployModel {
   std::string ModelName() const { return "ppocr/ocr_det"; }
   /** \brief Predict the input image and get OCR detection model result.
    *
-   * \param[in] im The input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
+   * \param[in] img The input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
    * \param[in] boxes_result The output of OCR detection model result will be writen to this structure.
    * \return true if the prediction is successed, otherwise false.
    */
-  virtual bool Predict(cv::Mat* im,
+  virtual bool Predict(cv::Mat* img,
                        std::vector<std::array<int, 8>>* boxes_result);
+   /** \brief Predict the input image and get OCR detection model result.
+   *
+   * \param[in] img The input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
+   * \param[in] boxes_result The output of OCR detection model result will be writen to this structure.
+   * \return true if the prediction is successed, otherwise false.
+   */
+  virtual bool Predict(const cv::Mat& img,
+                       std::vector<std::array<int, 8>>* boxes_result);
+   /** \brief BatchPredict the input image and get OCR detection model result.
+   *
+   * \param[in] images The list input of image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
+   * \param[in] det_results The output of OCR detection model result will be writen to this structure.
+   * \return true if the prediction is successed, otherwise false.
+   */
+  virtual bool BatchPredict(const std::vector<cv::Mat>& images,
+          std::vector<std::vector<std::array<int, 8>>>* det_results);
 
-  // Pre & Post process parameters
-  int max_side_len;
-
-  float ratio_h{};
-  float ratio_w{};
-
-  double det_db_thresh;
-  double det_db_box_thresh;
-  double det_db_unclip_ratio;
-  std::string det_db_score_mode;
-  bool use_dilation;
-
-  std::vector<float> mean;
-  std::vector<float> scale;
-  bool is_scale;
+  DBDetectorPreprocessor preprocessor_;
+  DBDetectorPostprocessor postprocessor_;
 
  private:
   bool Initialize();
-  /// Preprocess the input data, and set the preprocessed results to `outputs`
-  bool Preprocess(Mat* mat, FDTensor* outputs,
-                  std::map<std::string, std::array<float, 2>>* im_info);
-  /*! @brief Postprocess the inferenced results, and set the final result to `boxes_result`
-   */
-  bool Postprocess(FDTensor& infer_result,
-                   std::vector<std::array<int, 8>>* boxes_result,
-                   const std::map<std::string, std::array<float, 2>>& im_info);
-  PostProcessor post_processor_;
 };
 
 }  // namespace ocr

@@ -26,7 +26,7 @@
 #endif
 
 #ifndef ENABLE_PADDLE_BACKEND
-#define ENABLE_PADDLE_BACKEND
+/* #undef ENABLE_PADDLE_BACKEND */
 #endif
 
 #ifndef ENABLE_POROS_BACKEND
@@ -34,7 +34,7 @@
 #endif
 
 #ifndef ENABLE_OPENVINO_BACKEND
-#define ENABLE_OPENVINO_BACKEND
+/* #undef ENABLE_OPENVINO_BACKEND */
 #endif
 
 #ifndef WITH_GPU
@@ -54,7 +54,7 @@
 #endif
 
 #ifndef ENABLE_TEXT
-#define ENABLE_TEXT
+/* #undef ENABLE_TEXT */
 #endif
 
 #ifndef ENABLE_OPENCV_CUDA
@@ -68,5 +68,5 @@
 #endif
 
 #ifndef ENABLE_FDTENSOR_FUNC
-#define ENABLE_FDTENSOR_FUNC
+/* #undef ENABLE_FDTENSOR_FUNC */
 #endif

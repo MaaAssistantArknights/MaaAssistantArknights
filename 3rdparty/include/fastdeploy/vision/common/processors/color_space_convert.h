@@ -21,24 +21,48 @@ namespace vision {
 
 class FASTDEPLOY_DECL BGR2RGB : public Processor {
  public:
-  bool ImplByOpenCV(Mat* mat);
+  bool ImplByOpenCV(FDMat* mat);
 #ifdef ENABLE_FLYCV
-  bool ImplByFlyCV(Mat* mat);
+  bool ImplByFlyCV(FDMat* mat);
 #endif
   virtual std::string Name() { return "BGR2RGB"; }
 
-  static bool Run(Mat* mat, ProcLib lib = ProcLib::DEFAULT);
+  static bool Run(FDMat* mat, ProcLib lib = ProcLib::DEFAULT);
 };
 
 class FASTDEPLOY_DECL RGB2BGR : public Processor {
  public:
-  bool ImplByOpenCV(Mat* mat);
+  bool ImplByOpenCV(FDMat* mat);
 #ifdef ENABLE_FLYCV
-  bool ImplByFlyCV(Mat* mat);
+  bool ImplByFlyCV(FDMat* mat);
 #endif
   std::string Name() { return "RGB2BGR"; }
 
-  static bool Run(Mat* mat, ProcLib lib = ProcLib::DEFAULT);
+  static bool Run(FDMat* mat, ProcLib lib = ProcLib::DEFAULT);
 };
+
+class FASTDEPLOY_DECL BGR2GRAY : public Processor {
+ public:
+  bool ImplByOpenCV(FDMat* mat);
+#ifdef ENABLE_FLYCV
+  bool ImplByFlyCV(FDMat* mat);
+#endif
+  virtual std::string Name() { return "BGR2GRAY"; }
+
+  static bool Run(FDMat* mat, ProcLib lib = ProcLib::DEFAULT);
+};
+
+class FASTDEPLOY_DECL RGB2GRAY : public Processor {
+ public:
+  bool ImplByOpenCV(FDMat* mat);
+#ifdef ENABLE_FLYCV
+  bool ImplByFlyCV(FDMat* mat);
+#endif
+  std::string Name() { return "RGB2GRAY"; }
+
+  static bool Run(FDMat* mat, ProcLib lib = ProcLib::DEFAULT);
+};
+
+
 }  // namespace vision
 }  // namespace fastdeploy

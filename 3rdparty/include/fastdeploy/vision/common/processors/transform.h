@@ -37,7 +37,6 @@ namespace fastdeploy {
 namespace vision {
 
 void FuseTransforms(std::vector<std::shared_ptr<Processor>>* processors);
-
 // Fuse Normalize + Cast(Float) to Normalize
 void FuseNormalizeCast(std::vector<std::shared_ptr<Processor>>* processors);
 // Fuse Normalize + HWC2CHW to NormalizeAndPermute
