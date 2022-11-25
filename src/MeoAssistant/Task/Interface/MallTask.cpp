@@ -19,12 +19,12 @@ asst::MallTask::MallTask(const AsstCallback& callback, void* callback_arg)
     m_shopping_task_ptr->set_enable(false).set_retry_times(1);
     m_shopping_force_task_ptr->set_enable(false).set_retry_times(1);
 
-    m_subtasks.emplace_back(m_visit_task_ptr);
-    m_subtasks.emplace_back(m_credit_fight_task_ptr);
+    m_subtasks.emplace_back(m_visit_task_ptr)->set_ignore_error(true);
+    m_subtasks.emplace_back(m_credit_fight_task_ptr)->set_ignore_error(true);
     m_subtasks.emplace_back(m_mall_task_ptr);
-    m_subtasks.emplace_back(m_shopping_first_task_ptr);
-    m_subtasks.emplace_back(m_shopping_task_ptr);
-    m_subtasks.emplace_back(m_shopping_force_task_ptr);
+    m_subtasks.emplace_back(m_shopping_first_task_ptr)->set_ignore_error(true);
+    m_subtasks.emplace_back(m_shopping_task_ptr)->set_ignore_error(true);
+    m_subtasks.emplace_back(m_shopping_force_task_ptr)->set_ignore_error(true);
 }
 
 bool asst::MallTask::set_params(const json::value& params)

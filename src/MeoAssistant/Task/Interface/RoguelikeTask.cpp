@@ -18,6 +18,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
     : InterfaceTask(callback, callback_arg, TaskType),
       m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
 {
+    m_roguelike_task_ptr->set_ignore_error(true);
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
@@ -27,9 +28,9 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_
     m_custom_start_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>();
     m_battle_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>();
     m_recruit_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeRecruitTaskPlugin>();
-    m_recruit_task_ptr->set_retry_times(2);
+    m_recruit_task_ptr->set_retry_times(2).set_ignore_error(true);
     m_skill_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>();
-    m_skill_task_ptr->set_retry_times(2);
+    m_skill_task_ptr->set_retry_times(2).set_ignore_error(true);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -94,13 +95,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", InvestLimit);
     }
 
-    if (auto squad_opt = params.find<std::string>("squad")) {
+    if (auto squad_opt = params.find<std::string>("squad"); squad_opt && !squad_opt->empty()) {
         m_custom_start_task_ptr->set_custom(RoguelikeCustomType::Squad, *squad_opt);
     }
-    if (auto roles_opt = params.find<std::string>("roles")) {
+    if (auto roles_opt = params.find<std::string>("roles"); roles_opt && !roles_opt->empty()) {
         m_custom_start_task_ptr->set_custom(RoguelikeCustomType::Roles, *roles_opt);
     }
-    if (auto core_char_opt = params.find<std::string>("core_char")) {
+    if (auto core_char_opt = params.find<std::string>("core_char"); core_char_opt && !core_char_opt->empty()) {
         m_custom_start_task_ptr->set_custom(RoguelikeCustomType::CoreChar, *core_char_opt);
     }
 
