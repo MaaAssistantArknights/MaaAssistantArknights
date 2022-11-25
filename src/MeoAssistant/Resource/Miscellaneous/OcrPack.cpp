@@ -112,12 +112,17 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     else {
         LogTraceScope("Ocr Rec with " + class_type);
 
-        std::tuple<std::string, float> rec_result;
-        m_rec->Predict(&copied, &rec_result);
+        std::vector rec_imgs = { std::move(copied) };
+        std::vector<std::string> rec_texts;
+        std::vector<float> rec_scores;
+        m_rec->BatchPredict(rec_imgs, &rec_texts, &rec_scores);
 
-        auto& [text, score] = rec_result;
-        ocr_result.text.emplace_back(std::move(text));
-        ocr_result.rec_scores.emplace_back(score);
+        if (!rec_texts.empty()) {
+            ocr_result.text.emplace_back(std::move(rec_texts.front()));
+        }
+        if (!rec_scores.empty()) {
+            ocr_result.rec_scores.emplace_back(rec_scores.front());
+        }
     }
 
 #ifdef ASST_DEBUG

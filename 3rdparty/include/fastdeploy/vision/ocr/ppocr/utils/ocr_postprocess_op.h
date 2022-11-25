@@ -57,9 +57,8 @@ class PostProcessor {
       const float &det_db_unclip_ratio, const std::string &det_db_score_mode);
 
   std::vector<std::vector<std::vector<int>>> FilterTagDetRes(
-      std::vector<std::vector<std::vector<int>>> boxes, float ratio_h,
-      float ratio_w,
-      const std::map<std::string, std::array<float, 2>> &im_info);
+      std::vector<std::vector<std::vector<int>>> boxes,
+      const std::array<int, 4>& det_img_info);
 
  private:
   static bool XsortInt(std::vector<int> a, std::vector<int> b);

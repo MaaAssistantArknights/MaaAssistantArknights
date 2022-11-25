@@ -95,6 +95,7 @@ struct FASTDEPLOY_DECL Mask : public BaseResult {
 /*! @brief Detection result structure for all the object detection models and instance segmentation models
  */
 struct FASTDEPLOY_DECL DetectionResult : public BaseResult {
+  DetectionResult() = default;
   /** \brief All the detected object boxes for an input image, the size of `boxes` is the number of detected objects, and the element of `boxes` is a array of 4 float values, means [xmin, ymin, xmax, ymax]
    */
   std::vector<std::array<float, 4>> boxes;
@@ -111,8 +112,10 @@ struct FASTDEPLOY_DECL DetectionResult : public BaseResult {
 
   ResultType type = ResultType::DETECTION;
 
-  DetectionResult() {}
+  /// Copy constructor
   DetectionResult(const DetectionResult& res);
+  /// Move assignment
+  DetectionResult& operator=(DetectionResult&& other);
 
   /// Clear detection result
   void Clear();
@@ -313,8 +316,11 @@ struct FASTDEPLOY_DECL MattingResult : public BaseResult {
 
   MattingResult() {}
   MattingResult(const MattingResult& res);
-  /// Clear detection result
+  /// Clear matting result
   void Clear();
+
+  /// Free matting result
+  void Free();
 
   void Reserve(int size);
 

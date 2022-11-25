@@ -57,9 +57,7 @@ struct FASTDEPLOY_DECL FDTensor {
 
   void* Data();
 
-  bool IsShared() {
-    return external_data_ptr != nullptr;
-  }
+  bool IsShared() { return external_data_ptr != nullptr; }
 
   void StopSharing();
 
@@ -116,6 +114,7 @@ struct FASTDEPLOY_DECL FDTensor {
               const FDDataType& data_type, const std::string& tensor_name = "",
               const Device& new_device = Device::CPU);
 
+  bool Reshape(const std::vector<int64_t>& new_shape);
   // Debug function
   // Use this function to print shape, dtype, mean, max, min
   // prefix will also be printed as tag
@@ -141,7 +140,7 @@ struct FASTDEPLOY_DECL FDTensor {
 
   static void CopyBuffer(void* dst, const void* src, size_t nbytes,
                          const Device& device = Device::CPU,
-                        bool is_pinned_memory = false);
+                         bool is_pinned_memory = false);
 };
 
 }  // namespace fastdeploy

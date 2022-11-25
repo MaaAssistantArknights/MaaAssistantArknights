@@ -17,6 +17,8 @@
 #include "fastdeploy/vision/common/processors/transform.h"
 #include "fastdeploy/vision/common/result.h"
 #include "fastdeploy/vision/ocr/ppocr/utils/ocr_postprocess_op.h"
+#include "fastdeploy/vision/ocr/ppocr/cls_postprocessor.h"
+#include "fastdeploy/vision/ocr/ppocr/cls_preprocessor.h"
 
 namespace fastdeploy {
 namespace vision {
@@ -41,29 +43,22 @@ class FASTDEPLOY_DECL Classifier : public FastDeployModel {
              const ModelFormat& model_format = ModelFormat::PADDLE);
   /// Get model's name
   std::string ModelName() const { return "ppocr/ocr_cls"; }
-  /** \brief Predict the input image and get OCR classification model result.
+
+  /** \brief BatchPredict the input image and get OCR classification model cls_result.
    *
-   * \param[in] im The input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
-   * \param[in] result The output of OCR classification model result will be writen to this structure.
+   * \param[in] images The list of input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
+   * \param[in] cls_results The output of OCR classification model cls_result will be writen to this structure.
    * \return true if the prediction is successed, otherwise false.
    */
-  virtual bool Predict(cv::Mat* img, std::tuple<int, float>* result);
+  virtual bool BatchPredict(const std::vector<cv::Mat>& images,
+                            std::vector<int32_t>* cls_labels,
+                            std::vector<float>* cls_scores);
 
-  // Pre & Post parameters
-  float cls_thresh;
-  std::vector<int> cls_image_shape;
-  int cls_batch_num;
-
-  std::vector<float> mean;
-  std::vector<float> scale;
-  bool is_scale;
+  ClassifierPreprocessor preprocessor_;
+  ClassifierPostprocessor postprocessor_;
 
  private:
   bool Initialize();
-  /// Preprocess the input data, and set the preprocessed results to `outputs`
-  bool Preprocess(Mat* img, FDTensor* output);
-  /// Postprocess the inferenced results, and set the final result to `result`
-  bool Postprocess(FDTensor& infer_result, std::tuple<int, float>* result);
 };
 
 }  // namespace ocr

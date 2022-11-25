@@ -169,6 +169,26 @@ struct FASTDEPLOY_DECL RuntimeOption {
   void SetPaddleMKLDNNCacheSize(int size);
 
   /**
+   * @brief Set device name for OpenVINO, default 'CPU', can also be 'AUTO', 'GPU', 'GPU.1'....
+   */
+  void SetOpenVINODevice(const std::string& name = "CPU");
+
+  /**
+   * @brief Set shape info for OpenVINO
+   */
+  void SetOpenVINOShapeInfo(
+    const std::map<std::string, std::vector<int64_t>>& shape_info) {
+    ov_shape_infos = shape_info;
+  }
+
+  /**
+   * @brief While use OpenVINO backend with intel GPU, use this interface to specify operators run on CPU
+   */
+  void SetOpenVINOCpuOperators(const std::vector<std::string>& operators) {
+    ov_cpu_operators = operators;
+  }
+
+  /**
    * @brief Set optimzed model dir for Paddle Lite backend.
    */
   void SetLiteOptimizedModelDir(const std::string& optimized_model_dir);
@@ -352,7 +372,10 @@ struct FASTDEPLOY_DECL RuntimeOption {
   std::string poros_file = "";
 
   // ======Only for OpenVINO Backend=======
-  int ov_num_streams = 1;
+  int ov_num_streams = 0;
+  std::string openvino_device = "CPU";
+  std::map<std::string, std::vector<int64_t>> ov_shape_infos;
+  std::vector<std::string> ov_cpu_operators;
 
   // ======Only for RKNPU2 Backend=======
   fastdeploy::rknpu2::CpuName rknpu2_cpu_name_
