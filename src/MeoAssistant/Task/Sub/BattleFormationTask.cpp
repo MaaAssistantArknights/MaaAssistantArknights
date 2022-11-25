@@ -15,6 +15,11 @@ void asst::BattleFormationTask::set_stage_name(std::string name)
     m_stage_name = std::move(name);
 }
 
+void asst::BattleFormationTask::set_support_unit_name(std::string name)
+{
+    m_support_unit_name = std::move(name);
+}
+
 bool asst::BattleFormationTask::_run()
 {
     LogTraceFunction;
@@ -183,18 +188,11 @@ bool asst::BattleFormationTask::click_role_table(BattleRole role)
 
 bool asst::BattleFormationTask::parse_formation()
 {
-    if (!Copilot.contains_actions(m_stage_name)) {
-        Log.error("Unknown stage name", m_stage_name);
-        return false;
-    }
-
-    const auto& group = Copilot.get_actions(m_stage_name).groups;
-
     json::value info = basic_info_with_what("BattleFormation");
     auto& details = info["details"];
     auto& formation = details["formation"];
 
-    for (const auto& [name, opers_vec] : group) {
+    for (const auto& [name, opers_vec] : Copilot.get_data().groups) {
         if (opers_vec.empty()) {
             continue;
         }

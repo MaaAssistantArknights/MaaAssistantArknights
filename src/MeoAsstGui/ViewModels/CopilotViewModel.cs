@@ -212,7 +212,6 @@ namespace MeoAsstGui
             }
         }
 
-        private string _curStageName = string.Empty;
         private bool _isDataFromWeb = false;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
 
@@ -309,7 +308,6 @@ namespace MeoAsstGui
 
                 AddLog(string.Format("共 {0} 名干员", count), UILogColor.Message);
 
-                _curStageName = json["stage_name"].ToString();
                 if (_isDataFromWeb)
                 {
                     File.Delete(TempCopilotFile);
@@ -422,7 +420,7 @@ namespace MeoAsstGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            bool ret = asstProxy.AsstStartCopilot(_curStageName, _isDataFromWeb ? TempCopilotFile : Filename, Form);
+            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form);
             if (ret)
             {
                 AddLog(Localization.GetString("Running"));

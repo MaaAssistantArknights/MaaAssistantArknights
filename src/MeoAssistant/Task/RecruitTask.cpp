@@ -4,7 +4,7 @@
 #include "Sub/ProcessTask.h"
 
 asst::RecruitTask::RecruitTask(const AsstCallback& callback, void* callback_arg)
-    : PackageTask(callback, callback_arg, TaskType),
+    : InterfaceTask(callback, callback_arg, TaskType),
       m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, callback_arg, TaskType))
 {
     m_subtasks.emplace_back(m_auto_recruit_task_ptr)->set_retry_times(5).set_ignore_error(false);

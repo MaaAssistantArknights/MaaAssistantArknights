@@ -1,20 +1,20 @@
 #pragma once
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 #include "Plugin/StartGameTaskPlugin.h"
 
 namespace asst
 {
     class ProcessTask;
 
-    class StartUpTask final : public PackageTask
+    class StartUpTask final : public InterfaceTask
     {
     public:
-        StartUpTask(AsstCallback callback, void* callback_arg);
+        inline static constexpr std::string_view TaskType = "StartUp";
+
+        StartUpTask(const AsstCallback& callback, void* callback_arg);
         virtual ~StartUpTask() override = default;
 
         bool set_params(const json::value& params) override;
-
-        static constexpr const char* TaskType = "StartUp";
 
     private:
         std::shared_ptr<StartGameTaskPlugin> m_start_game_task_ptr = nullptr;

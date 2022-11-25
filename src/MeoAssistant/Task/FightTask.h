@@ -1,5 +1,5 @@
 #pragma once
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 
 #include <memory>
 
@@ -11,15 +11,15 @@ namespace asst
     class StageNavigationTask;
     class DrGrandetTaskPlugin;
 
-    class FightTask final : public PackageTask
+    class FightTask final : public InterfaceTask
     {
     public:
-        FightTask(AsstCallback callback, void* callback_arg);
+        inline static constexpr std::string_view TaskType = "Fight";
+
+        FightTask(const AsstCallback& callback, void* callback_arg);
         virtual ~FightTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
-
-        static constexpr const char* TaskType = "Fight";
 
     protected:
         std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;

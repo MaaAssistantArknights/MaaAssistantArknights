@@ -69,14 +69,7 @@ bool asst::BattleProcessTask::get_stage_info()
         return false;
     }
 
-    const auto& copilot = Copilot;
-    bool contains = copilot.contains_actions(m_stage_name);
-    if (!contains) {
-        return false;
-    }
-
-    m_copilot_data = copilot.get_actions(m_stage_name);
-
+    m_copilot_data = Copilot.get_data();
     return true;
 }
 

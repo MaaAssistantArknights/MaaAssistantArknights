@@ -12,7 +12,7 @@
 #include "Utils/Logger.hpp"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
-    : PackageTask(callback, callback_arg, TaskType)
+    : InterfaceTask(callback, callback_arg, TaskType)
 {
     ////auto task_ptr = std::make_shared<RoguelikeSkillSelectionTaskPlugin>(callback, callback_arg, TaskType);
     // auto task_ptr = std::make_shared<StageDropsTaskPlugin>(callback, callback_arg, TaskType);

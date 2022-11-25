@@ -4,8 +4,8 @@
 
 #include "Sub/ProcessTask.h"
 
-asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
-    : PackageTask(std::move(callback), callback_arg, TaskType),
+asst::StartUpTask::StartUpTask(const AsstCallback& callback, void* callback_arg)
+    : InterfaceTask(callback, callback_arg, TaskType),
       m_start_game_task_ptr(std::make_shared<StartGameTaskPlugin>(m_callback, m_callback_arg, TaskType)),
       m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
 {
@@ -19,7 +19,7 @@ asst::StartUpTask::StartUpTask(AsstCallback callback, void* callback_arg)
 
 bool asst::StartUpTask::set_params(const json::value& params)
 {
-    m_start_game_task_ptr->set_client_type(params.get("client_type", ""))
+    m_start_game_task_ptr->set_client_type(params.get("client_type", std::string()))
         .set_enable(params.get("start_game_enabled", false));
     return true;
 }

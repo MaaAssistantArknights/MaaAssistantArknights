@@ -1,5 +1,5 @@
 #pragma once
-#include "PackageTask.h"
+#include "InterfaceTask.h"
 
 #include <memory>
 
@@ -9,20 +9,20 @@ namespace asst
     class BattleFormationTask;
 
     // 抄作业任务
-    class CopilotTask final : public PackageTask
+    class CopilotTask final : public InterfaceTask
     {
     public:
+        inline static constexpr std::string_view TaskType = "Copilot";
+
         CopilotTask(const AsstCallback& callback, void* callback_arg);
         virtual ~CopilotTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
-
-        static constexpr const char* TaskType = "Copilot";
-
-        std::string get_stage_name(std::string filename);
+        std::string get_stage_name() const { return m_stage_name; }
 
     private:
         std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
         std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
+        std::string m_stage_name;
     };
 }

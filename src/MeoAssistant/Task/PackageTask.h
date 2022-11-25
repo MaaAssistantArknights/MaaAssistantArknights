@@ -3,7 +3,6 @@
 #include "Sub/AbstractTask.h"
 
 #include <memory>
-#include <queue>
 
 namespace json
 {
@@ -19,8 +18,6 @@ namespace asst
         virtual ~PackageTask() override = default;
 
         virtual bool run() override;
-
-        virtual bool set_params([[maybe_unused]] const json::value& params) { return true; }
 
         virtual AbstractTask& set_exit_flag(bool* exit_flag) noexcept override;
         virtual AbstractTask& set_retry_times(int times) noexcept override;

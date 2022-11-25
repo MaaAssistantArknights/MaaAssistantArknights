@@ -45,6 +45,7 @@
     <ClInclude Include="ImageAnalyzer\General\OcrImageAnalyzer.h" />
     <ClInclude Include="ImageAnalyzer\General\OcrWithFlagTemplImageAnalyzer.h" />
     <ClInclude Include="ImageAnalyzer\General\OcrWithPreprocessImageAnalyzer.h" />
+    <ClInclude Include="InterfaceTask.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="Resource\AbstractConfiger.h" />
     <ClInclude Include="Resource\AbstractConfigerWithTempl.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="Task\DepotTask.h" />
     <ClInclude Include="Task\FightTask.h" />
     <ClInclude Include="Task\InfrastTask.h" />
+    <ClInclude Include="Task\InterfaceTask.h" />
     <ClInclude Include="Task\MallTask.h" />
     <ClInclude Include="Task\PackageTask.h" />
     <ClInclude Include="Task\Plugin\AbstractTaskPlugin.h" />

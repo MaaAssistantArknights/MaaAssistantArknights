@@ -19,8 +19,8 @@
 
 using namespace asst;
 
-AbstractTask::AbstractTask(AsstCallback callback, void* callback_arg, std::string task_chain)
-    : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_task_chain(std::move(task_chain))
+AbstractTask::AbstractTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain)
+    : m_callback(callback), m_callback_arg(callback_arg), m_task_chain(task_chain)
 {}
 
 bool asst::AbstractTask::run()
@@ -114,7 +114,7 @@ json::value asst::AbstractTask::basic_info() const
         }
 
         m_basic_info_cache = json::object {
-            { "taskchain", m_task_chain },
+            { "taskchain", std::string(m_task_chain) },
             { "taskid", m_task_id },
             { "class", class_name },
             { "subtask", task_name },

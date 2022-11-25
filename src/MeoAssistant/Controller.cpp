@@ -40,8 +40,8 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/WorkingDir.hpp"
 
-asst::Controller::Controller(AsstCallback callback, void* callback_arg)
-    : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
+asst::Controller::Controller(const AsstCallback& callback, void* callback_arg)
+    : m_callback(callback), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 

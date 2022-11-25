@@ -33,7 +33,7 @@ namespace asst
     class Controller
     {
     public:
-        Controller(AsstCallback callback, void* callback_arg);
+        Controller(const AsstCallback& callback, void* callback_arg);
         Controller(const Controller&) = delete;
         Controller(Controller&&) = delete;
         ~Controller();
