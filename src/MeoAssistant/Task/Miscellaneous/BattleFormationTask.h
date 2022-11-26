@@ -10,7 +10,6 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~BattleFormationTask() override = default;
 
-        void set_stage_name(std::string name);
         void set_support_unit_name(std::string name);
 
     protected:

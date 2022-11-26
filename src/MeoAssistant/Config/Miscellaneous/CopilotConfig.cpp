@@ -17,10 +17,6 @@ bool asst::CopilotConfig::parse(const json::value& json)
     clear();
 
     m_stage_name = json.at("stage_name").as_string();
-    if (!Tile.contains(m_stage_name)) {
-        Log.error("CopilotConfig parse failed, stage_name not found");
-        return false;
-    }
 
     m_data.title = json.get("doc", "title", std::string());
     m_data.title_color = json.get("doc", "title_color", std::string());

@@ -2,18 +2,13 @@
 
 #include "Utils/Ranges.hpp"
 
-#include "Controller.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
+#include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-
-void asst::BattleFormationTask::set_stage_name(std::string name)
-{
-    m_stage_name = std::move(name);
-}
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 
 void asst::BattleFormationTask::set_support_unit_name(std::string name)
 {

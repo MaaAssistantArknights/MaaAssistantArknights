@@ -3,8 +3,8 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 #include "Config/Miscellaneous/TilePack.h"
+#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 
 namespace asst
 {
@@ -14,7 +14,7 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~BattleProcessTask() override = default;
 
-        void set_stage_name(std::string name);
+        bool set_stage_name(std::string name);
 
     protected:
         virtual bool _run() override;
