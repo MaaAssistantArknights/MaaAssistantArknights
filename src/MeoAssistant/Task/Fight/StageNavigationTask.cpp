@@ -106,7 +106,6 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
 {
     LogTraceFunction;
 
-    // TODO: 这里多实例会炸，不能这么写，得改回原来的循环
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickStageName")->text = { m_stage_code };
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStage")->text = { m_stage_code };
     return ProcessTask(*this, { m_stage_code + "@StageNavigationBegin" }).run();
