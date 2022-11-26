@@ -1633,13 +1633,22 @@
             200
         ]
     },
+    "BI-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "BI-Open",
+            "BIChapterToBI",
+            "StageBI-6"
+        ]
+    },
     "BI-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "StageBI",
-            "StageBI7"
+            "BIChapterToBI",
+            "StageBI-7"
         ]
     },
     "BI-8": {
@@ -1647,11 +1656,12 @@
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "StageBI",
-            "StageBI8"
+            "BIChapterToBI",
+            "StageBI-8"
         ]
     },
     "BI-Open": {
+        "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
             "风雪过境"
@@ -1663,7 +1673,7 @@
             150
         ]
     },
-    "StageBI": {
+    "BIChapterToBI": {
         "action": "ClickSelf",
         "roi": [
             1000,
@@ -1675,8 +1685,21 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageBI7": {
+    "SwipeToStageBI-6": {
+        "algorithm": "JustReturn",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "next": [
+            "StageBI-6",
+            "SwipeToStageBI-6"
+        ]
+    },
+    "StageBI-6": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-6",
+            "BI-6"
+        ],
         "cache": false,
         "roi": [
             50,
@@ -1685,8 +1708,28 @@
             80
         ]
     },
-    "StageBI8": {
+    "StageBI-7": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-7",
+            "BI-7"
+        ],
+        "cache": false,
+        "roi": [
+            50,
+            250,
+            200,
+            80
+        ]
+    },
+    "StageBI-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-8",
+            "BI-8"
+        ],
         "cache": false,
         "roi": [
             200,
