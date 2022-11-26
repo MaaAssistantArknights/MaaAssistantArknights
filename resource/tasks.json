@@ -1128,7 +1128,8 @@
         "cache": false,
         "isAscii": true,
         "text": [
-            "OF-F3"
+            "OF-F3",
+            "0F-F3"
         ]
     },
     "StageOF-1": {
@@ -1137,7 +1138,8 @@
         "cache": false,
         "isAscii": true,
         "text": [
-            "OF-1"
+            "OF-1",
+            "0F-1"
         ]
     },
     "IC-9": {
