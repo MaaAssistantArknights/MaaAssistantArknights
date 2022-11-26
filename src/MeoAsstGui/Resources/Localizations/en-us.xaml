@@ -189,7 +189,9 @@
     <system:String x:Key="DrGrandet">Use Originiums like Dr. Grandet</system:String>
     <system:String x:Key="DrGrandetTip">Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.</system:String>
 
-    <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
+    <system:String x:Key="SocialPtShop">Social Point</system:String>
+    <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
+    <system:String x:Key="CreditFightTip">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits, do not check it if the stage is set to Current/Last</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit;LMD</system:String>
@@ -224,9 +226,7 @@
     <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
     <system:String x:Key="Combat">Combat</system:String>
-    <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
-    <system:String x:Key="CreditFightTip">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits</system:String>
-    <system:String x:Key="Visiting">Visit Friends</system:String>
+    <!--  <system:String x:Key="Visiting">Visit Friends</system:String>  -->
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>

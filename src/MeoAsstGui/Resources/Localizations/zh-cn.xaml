@@ -189,7 +189,9 @@
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
     <system:String x:Key="DrGrandetTip">在碎石确认界面等待，直到当前的 1 点理智恢复完成再立即确认。不碎石时该选项不影响正常运行</system:String>
 
-    <system:String x:Key="SocialPtShop">信用购物</system:String>
+    <system:String x:Key="SocialPtShop">信用相关</system:String>
+    <system:String x:Key="CreditFight">借助战赚信用</system:String>
+    <system:String x:Key="CreditFightTip">访问好友后借助战打一把OF-1赚30信用，关卡选择为「当前/上次」时请勿勾选</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可；龙门币</system:String>
@@ -225,10 +227,8 @@
     <system:String x:Key="Recruiting">自动公招</system:String>
     <system:String x:Key="Base">基建换班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
-    <system:String x:Key="CreditFight">借助战赚信用</system:String>
-    <system:String x:Key="CreditFightTip">访问好友后借助战打一把OF-1赚30信用</system:String>
-    <system:String x:Key="Visiting">访问好友</system:String>
-    <system:String x:Key="Mall">收取信用及购物</system:String>
+    <!--  <system:String x:Key="Visiting">访问好友</system:String> -->
+    <system:String x:Key="Mall">获取信用及购物</system:String>
     <system:String x:Key="Mission">领取日常奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
 

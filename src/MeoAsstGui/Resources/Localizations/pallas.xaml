@@ -190,7 +190,7 @@
     <system:String x:Key="Recruiting">🍻🍸🍻🍻🕺</system:String>
     <system:String x:Key="Base">🍺🍻💃🍺💃</system:String>
     <system:String x:Key="Combat">🍷🍸🍻🍻</system:String>
-    <system:String x:Key="Visiting">🍻🍸🍺🍺🍸</system:String>
+    <!--  <system:String x:Key="Visiting">🍻🍸🍺🍺🍸</system:String>  -->
     <system:String x:Key="Mall">🍸🍷🍻🕺🍻🍻🍸🍸</system:String>
     <system:String x:Key="Mission">🍸🍻🕺🍷🍷🕺💃</system:String>
     <system:String x:Key="AutoRoguelike">🍺🍷🍸🍺🕺🍸</system:String>
