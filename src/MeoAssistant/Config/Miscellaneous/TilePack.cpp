@@ -7,8 +7,6 @@ ASST_SUPPRESS_CV_WARNINGS_END
 
 #include "Utils/Logger.hpp"
 
-asst::TilePack::~TilePack() = default;
-
 bool asst::TilePack::load(const std::filesystem::path& path)
 {
     if (!std::filesystem::exists(path)) {
@@ -16,13 +14,23 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     }
 
     try {
-        m_tile_calculator = std::make_unique<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, path);
+        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, path);
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());
         return false;
     }
     return m_tile_calculator != nullptr;
+}
+
+bool asst::TilePack::contains(const std::string& any_key) const
+{
+    return m_tile_calculator->contains(any_key);
+}
+
+bool asst::TilePack::contains(const LevelKey& key) const
+{
+    return m_tile_calculator->contains(key);
 }
 
 std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(const std::vector<std::vector<cv::Point2d>>& pos,
