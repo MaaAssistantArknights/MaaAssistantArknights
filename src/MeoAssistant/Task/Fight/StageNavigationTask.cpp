@@ -21,17 +21,18 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
         Log.error("directly task", m_directly_task);
         return true;
     }
-
     m_is_directly = false;
-    // 10-1 -> [1] "", [2] "10", [3] "1", [4] ""
-    // JT8-2 -> [1] "JT", [2] "8", [3] "2", [4] ""
-    // 10-1-Hard -> [1] "", [2] "10", [3] "1", [4] "Hard"
+
     static const std::regex StageRegex(R"(^([A-Za-z]{0,3})(\d{1,2})-(\d{1,2})(?:-(\w+))*$)");
     std::smatch stage_sm;
     if (!std::regex_match(stage_name, stage_sm, StageRegex)) {
-        Log.error("Unknown stage", stage_name);
+        Log.error("The stage name is not in invalid, or is not main line stage", stage_name);
         return false;
     }
+
+    // 10-1 -> [1] "", [2] "10", [3] "1", [4] ""
+    // JT8-2 -> [1] "JT", [2] "8", [3] "2", [4] ""
+    // H10-1-Hard -> [1] "H", [2] "10", [3] "1", [4] "Hard"
     const std::string& stage_prefix = stage_sm[1].str();
     const std::string& chapter = stage_sm[2].str();
     const std::string& stage_index = stage_sm[3].str();
