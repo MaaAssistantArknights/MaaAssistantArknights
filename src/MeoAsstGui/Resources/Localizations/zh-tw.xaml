@@ -155,7 +155,9 @@
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
     <system:String x:Key="DrGrandetTip">在碎石確認界面等待，直到當前的 1 點理智恢復完成再立即確認。不碎石時該選項不影響正常運行</system:String>
 
-    <system:String x:Key="SocialPtShop">信用購物</system:String>
+    <system:String x:Key="SocialPtShop">信用相關</system:String>
+    <system:String x:Key="CreditFight">藉助戰賺信用</system:String>
+    <system:String x:Key="CreditFightTip">訪問好友後藉助戰打一把OF-1賺30信用，關卡選擇爲「當前/上次」時請勿勾選</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘許可；龍門幣</system:String>
@@ -190,8 +192,8 @@
     <system:String x:Key="Recruiting">自動公招</system:String>
     <system:String x:Key="Base">基建換班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
-    <system:String x:Key="Visiting">訪問好友</system:String>
-    <system:String x:Key="Mall">收取信用及購物</system:String>
+    <!--  <system:String x:Key="Visiting">訪問好友</system:String>  -->
+    <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取日常獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
 
