@@ -294,21 +294,21 @@
             122
         ]
     },
-    "Hard": {
+    "ChapterDifficultyHard": {
         "baseTask": "LevelOfDifficulty",
         "next": [
-            "EnterHard",
+            "EnterChapterDifficultyHard",
             "Return"
         ]
     },
-    "Normal": {
+    "ChapterDifficultyNormal": {
         "baseTask": "LevelOfDifficulty",
         "next": [
-            "EnterNormal",
+            "EnterChapterDifficultyNormal",
             "Return"
         ]
     },
-    "EnterHard": {
+    "EnterChapterDifficultyHard": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -321,7 +321,7 @@
             145
         ]
     },
-    "EnterNormal": {
+    "EnterChapterDifficultyNormal": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -480,7 +480,7 @@
         "exceededNext": [
             "Home@ReturnTo"
         ],
-        "maxTimes": 20
+        "maxTimes": 10
     },
     "ClickedCorrectStageOrSwipe": {
         "baseTask": "StartButton1",
@@ -609,13 +609,13 @@
     "ChapterSlowlySwipeToTheLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
-            300,
+            200,
             350,
             20,
             20
         ],
         "rectMove": [
-            900,
+            1000,
             350,
             20,
             20

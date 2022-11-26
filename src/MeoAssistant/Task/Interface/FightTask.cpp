@@ -9,6 +9,7 @@
 #include "Task/Fight/StageNavigationTask.h"
 #include "Task/Miscellaneous/GameCrashRestartTaskPlugin.h"
 #include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 
 asst::FightTask::FightTask(const AsstCallback& callback, void* callback_arg)
@@ -79,7 +80,10 @@ bool asst::FightTask::set_params(const json::value& params)
         }
         else {
             m_start_up_task_ptr->set_tasks({ "StageBegin" }).set_times_limit("GoLastBattle", 0);
-            m_stage_navigation_task_ptr->set_stage_name(stage);
+            if (!m_stage_navigation_task_ptr->set_stage_name(stage)) {
+                Log.error("Cannot set stage", stage);
+                return false;
+            }
             m_stage_navigation_task_ptr->set_enable(true);
         }
         m_stage_drops_plugin_ptr->set_server(server);
