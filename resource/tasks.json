@@ -480,7 +480,7 @@
         "exceededNext": [
             "Home@ReturnTo"
         ],
-        "maxTimes": 10
+        "maxTimes": 20
     },
     "ClickedCorrectStageOrSwipe": {
         "baseTask": "StartButton1",

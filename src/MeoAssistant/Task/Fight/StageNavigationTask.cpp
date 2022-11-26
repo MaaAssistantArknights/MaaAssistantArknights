@@ -30,19 +30,32 @@ bool asst::StageNavigationTask::chapter_wayfinding()
 {
     LogTraceFunction;
 
-    static const std::regex EpisodeRegex(R"(^[A-Z]*(\d+)-\d+$)");
+    static const std::regex EpisodeRegex(R"(^([A-Za-z]*)(\d+)-(\d+)([Hh]ard|[Nn]ormal)*$)");
     std::smatch episode_sm;
     if (!std::regex_match(m_stage_name, episode_sm, EpisodeRegex)) {
         Log.error("Unknown stage", m_stage_name);
         return false;
     }
-
+    
     static const std::string EpisodeTaskPrefix = "Episode";
-    std::string episode_task_name = EpisodeTaskPrefix + episode_sm[1].str();
+    std::string episode_task_prefix = episode_sm[1].str();
+    std::string episode_task_name = EpisodeTaskPrefix + episode_sm[2].str();
+    std::string episode_task_level = episode_sm[4].str();
+
+    if (!episode_task_prefix.empty()) {
+        for (int i = 0; i < episode_task_prefix.size(); i++)
+            episode_task_prefix[i] = (char)toupper(episode_task_prefix[i]);
+    }
+
+    if (!episode_task_level.empty()) {
+        episode_task_level[0] = (char)toupper(episode_task_level[0]);
+    }
+
+    m_stage_name = episode_task_prefix + episode_sm[2].str() + "-" + episode_sm[3].str();
 
     Log.info("chapter name", episode_task_name);
 
-    return Task.get(episode_task_name) && ProcessTask(*this, { episode_task_name }).run();
+    return Task.get(episode_task_name) && ProcessTask(*this, { episode_task_name }).run() && episode_task_level.empty() ? true : ProcessTask(*this, { episode_task_level }).run();
 }
 
 bool asst::StageNavigationTask::swipe_and_find_stage()
