@@ -23,7 +23,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     }
     m_is_directly = false;
 
-    static const std::regex StageRegex(R"(^([A-Za-z]{0,3})(\d{1,2})-(\d{1,2})(?:-(\w+))*$)");
+    static const std::regex StageRegex(R"(^([A-Za-z]{0,3})(\d{1,2})-(\d{1,2})(?:-?(\w+))*$)");
     std::smatch stage_sm;
     if (!std::regex_match(stage_name, stage_sm, StageRegex)) {
         Log.error("The stage name is not in invalid, or is not main line stage", stage_name);
