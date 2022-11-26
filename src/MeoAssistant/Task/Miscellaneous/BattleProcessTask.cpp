@@ -8,44 +8,46 @@
 #include "Utils/NoWarningCV.h"
 #include "Utils/Ranges.hpp"
 
-#include "Controller.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
+#include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 #include "Utils/ImageIo.hpp"
 
-void asst::BattleProcessTask::set_stage_name(std::string name)
+bool asst::BattleProcessTask::set_stage_name(std::string name)
 {
-    m_stage_name = std::move(name);
-}
-
-bool asst::BattleProcessTask::_run()
-{
-    bool ret = get_stage_info();
-
-    if (!ret) {
+    if (!Tile.contains(name)) {
         json::value info = basic_info_with_what("UnsupportedLevel");
         auto& details = info["details"];
         details["level"] = m_stage_name;
         callback(AsstMsg::SubTaskExtraInfo, info);
         return false;
     }
+    m_stage_name = std::move(name);
+    return true;
+}
 
-    {
-        json::value info = basic_info_with_what("BattleActionDoc");
-        auto& details = info["details"];
-        details["title"] = m_copilot_data.title;
-        details["title_color"] = m_copilot_data.title_color;
-        details["details"] = m_copilot_data.details;
-        details["details_color"] = m_copilot_data.details_color;
-        callback(AsstMsg::SubTaskExtraInfo, info);
+bool asst::BattleProcessTask::_run()
+{
+    if (!get_stage_info()) {
+        Log.error("get stage info failed");
+        return false;
     }
+
+    json::value info = basic_info_with_what("BattleActionDoc");
+    info["details"] |= json::object {
+        { "title", m_copilot_data.title },
+        { "title_color", m_copilot_data.title_color },
+        { "details", m_copilot_data.details },
+        { "details_color", m_copilot_data.details_color },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
     while (!need_exit() && !analyze_opers_preview()) {
         std::this_thread::yield();
@@ -75,14 +77,13 @@ bool asst::BattleProcessTask::get_stage_info()
 
 bool asst::BattleProcessTask::analyze_opers_preview()
 {
-    {
-        json::value info = basic_info_with_what("BattleAction");
-        auto& details = info["details"];
-        details["action"] = "识别干员";
-        details["doc"] = "";
-        details["doc_color"] = "";
-        callback(AsstMsg::SubTaskExtraInfo, info);
-    }
+    json::value info = basic_info_with_what("BattleAction");
+    info["details"] |= json::object {
+        { "action", "识别干员" },
+        { "doc", "" },
+        { "doc_color", "" },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
     MatchImageAnalyzer officially_begin_analyzer;
     officially_begin_analyzer.set_task_info("BattleOfficiallyBegin");
@@ -294,8 +295,6 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
 bool asst::BattleProcessTask::do_action(size_t action_index)
 {
     const auto& action = m_copilot_data.actions.at(action_index);
-    json::value info = basic_info_with_what("BattleAction");
-    auto& details = info["details"];
     std::string action_desc;
     switch (action.type) {
     case BattleActionType::Deploy:
@@ -321,9 +320,12 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
     case BattleActionType::UseAllSkill:
     case BattleActionType::Output:;
     }
-    details["action"] = action_desc;
-    details["doc"] = action.doc;
-    details["doc_color"] = action.doc_color;
+    json::value info = basic_info_with_what("BattleAction");
+    info["details"] |= json::object {
+        { "action", action_desc },
+        { "doc", action.doc },
+        { "doc_color", action.doc_color },
+    };
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     if (!wait_condition(action)) {

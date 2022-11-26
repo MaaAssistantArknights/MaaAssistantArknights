@@ -39,12 +39,15 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     if (!Copilot.load(utils::path(*filename_opt))) {
+        Log.error("CopilotConfig parse failed");
         return false;
     }
 
     m_stage_name = Copilot.get_stage_name();
-    m_battle_task_ptr->set_stage_name(m_stage_name);
-    m_formation_task_ptr->set_stage_name(m_stage_name);
+    if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
+        Log.error("Not support stage");
+        return false;
+    }
 
     bool with_formation = params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
