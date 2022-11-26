@@ -180,6 +180,7 @@
 
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">常時自動接続検知</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</system:String>
