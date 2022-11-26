@@ -40,6 +40,10 @@ namespace Map
     {
     public:
         TileCalc(int width, int height, const std::filesystem::path& dir);
+
+        bool contains(const std::string& any_key);
+        bool contains(const LevelKey& key);
+
         bool run(const std::string& any_key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
                  std::vector<std::vector<Tile>>& out_tiles) const;
         bool run(const LevelKey& key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
@@ -148,6 +152,20 @@ namespace Map
         return true;
     }
 
+    inline bool TileCalc::contains(const std::string& any_key)
+    {
+        auto iter = std::find_if(levels.cbegin(), levels.cend(),
+                                 [&any_key](const Level& level) -> bool { return level.key == any_key; });
+        return iter != levels.cend();
+    }
+
+    bool TileCalc::contains(const LevelKey& key)
+    {
+        auto iter = std::find_if(levels.cbegin(), levels.cend(),
+                                 [&key](const Level& level) -> bool { return level.key == key; });
+        return iter != levels.cend();
+    }
+
     inline bool TileCalc::run(const std::string& any_key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
                               std::vector<std::vector<Tile>>& out_tiles) const
     {
@@ -158,6 +176,7 @@ namespace Map
         }
         return run(*iter, side, out_pos, out_tiles);
     }
+
     inline bool TileCalc::run(const LevelKey& key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
                               std::vector<std::vector<Tile>>& out_tiles) const
     {

@@ -58,10 +58,12 @@ namespace asst
         };
 
     public:
-        virtual ~TilePack() override;
+        virtual ~TilePack() override = default;
 
         virtual bool load(const std::filesystem::path& path) override;
 
+        bool contains(const std::string& any_key) const;
+        bool contains(const LevelKey& key) const;
         std::unordered_map<Point, TileInfo> calc(const std::string& any_key, bool side) const;
         std::unordered_map<Point, TileInfo> calc(const LevelKey& key, bool side) const;
 
