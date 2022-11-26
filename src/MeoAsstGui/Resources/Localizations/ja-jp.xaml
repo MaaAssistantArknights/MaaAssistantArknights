@@ -187,6 +187,8 @@
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="RetryOnDisconnected">adb再接続失敗時にエミュレータを自動で再起動</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
+    <system:String x:Key="ForcedReplaceADB">ADBの強制置き換え</system:String>
+    <system:String x:Key="AdbTouchMode">互換性 タッチモード（ミニタッチなし）</system:String>
     <!--  設定  -->
 
     <!--  スタート  -->
@@ -278,6 +280,7 @@
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
+    <system:String x:Key="AdbReplacementTips">もし全てでスタックする場合は、設定 - 接続設定 - ADBの強制置き換え、もしくは 互換性 タッチモード をチェックしてください。</system:String> 
     <!--  need help  -->
     <system:String x:Key="Stopped">動作停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
