@@ -157,7 +157,9 @@
     <system:String x:Key="DrGrandet">Dr.グランデのように源石を使う</system:String>
     <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
-    <system:String x:Key="SocialPtShop">FP交換</system:String>
+    <system:String x:Key="SocialPtShop">ソーシャルポイント</system:String>
+    <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
+    <system:String x:Key="CreditFightTip">戦友を借りて OF-1 で戦闘を行い、30クレジットを獲得します。ステージ設定が 現在/前回 になっている場合は確認を行いません。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
@@ -194,7 +196,7 @@
     <system:String x:Key="Base">基地仕事</system:String>
     <system:String x:Key="Combat">作戦</system:String>
     <!--  <system:String x:Key="Visiting">戦友訪問</system:String>  -->
-    <system:String x:Key="Mall">FP交換</system:String>
+    <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
 
