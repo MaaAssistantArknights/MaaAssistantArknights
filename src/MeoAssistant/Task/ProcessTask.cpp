@@ -113,8 +113,7 @@ bool ProcessTask::_run()
         }
         else {
             const auto image = ctrler()->get_image();
-            ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
-            analyzer.set_inst(m_inst);
+            ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name, m_inst);
 
             if (!analyzer.analyze()) {
                 return false;
