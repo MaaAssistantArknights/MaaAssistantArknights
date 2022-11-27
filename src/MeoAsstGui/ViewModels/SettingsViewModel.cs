@@ -176,6 +176,7 @@ namespace MeoAsstGui
                 new CombData { Display = Localization.GetString("Nox"), Value = "Nox" },
                 new CombData { Display = Localization.GetString("XYAZ"), Value = "XYAZ" },
                 new CombData { Display = Localization.GetString("WSA"), Value = "WSA" },
+                new CombData { Display = Localization.GetString("MaaTouch"), Value = "MaaTouch" },
                 new CombData { Display = Localization.GetString("Compatible"), Value = "Compatible" },
             };
 
