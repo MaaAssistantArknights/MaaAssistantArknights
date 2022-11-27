@@ -29,7 +29,7 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(
     LogTraceFunction;
 
     m_status = std::make_shared<Status>();
-    m_ctrler = std::make_shared<Controller>(task_callback, static_cast<void*>(this));
+    m_ctrler = std::make_shared<Controller>(async_callback, static_cast<void*>(this));
     m_ctrler->set_exit_flag(&m_thread_idle);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
@@ -106,10 +106,10 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     std::shared_ptr<InterfaceTask> ptr = nullptr;
 
-#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK)                 \
-    else if (type == TASK::TaskType)                                           \
-    {                                                                          \
-        ptr = std::make_shared<TASK>(task_callback, static_cast<void*>(this)); \
+#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK)                  \
+    else if (type == TASK::TaskType)                                            \
+    {                                                                           \
+        ptr = std::make_shared<TASK>(async_callback, static_cast<void*>(this)); \
     }
 
     if constexpr (false) {}
@@ -300,7 +300,7 @@ void Assistant::working_proc()
                 { "taskchain", std::string(task_ptr->get_task_chain()) },
                 { "taskid", id },
             };
-            task_callback(AsstMsg::TaskChainStart, callback_json, this);
+            async_callback(AsstMsg::TaskChainStart, callback_json, this);
 
             bool ret = task_ptr->run();
             finished_tasks.emplace_back(id);
@@ -313,7 +313,7 @@ void Assistant::working_proc()
 
             auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
                                      : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
-            task_callback(msg, callback_json, this);
+            async_callback(msg, callback_json, this);
 
             if (m_thread_idle) {
                 finished_tasks.clear();
@@ -322,7 +322,7 @@ void Assistant::working_proc()
 
             if (m_tasks_list.empty()) {
                 callback_json["finished_tasks"] = json::array(finished_tasks);
-                task_callback(AsstMsg::AllTasksCompleted, callback_json, this);
+                async_callback(AsstMsg::AllTasksCompleted, callback_json, this);
                 finished_tasks.clear();
             }
 
@@ -331,7 +331,7 @@ void Assistant::working_proc()
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
 
             if (m_thread_idle) {
-                task_callback(AsstMsg::TaskChainStopped, callback_json, this);
+                async_callback(AsstMsg::TaskChainStopped, callback_json, this);
             }
         }
         else {
@@ -368,7 +368,7 @@ void Assistant::msg_proc()
     }
 }
 
-void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+void Assistant::async_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
 {
     auto p_this = static_cast<Assistant*>(custom_arg);
     json::value more_detail = detail;
@@ -385,7 +385,7 @@ void Assistant::task_callback(AsstMsg msg, const json::value& detail, void* cust
         break;
     }
 
-    Log.trace("Assistant::task_callback |", msg, more_detail.to_string());
+    Log.trace("Assistant::async_callback |", msg, more_detail.to_string());
 
     // 加入回调消息队列，由回调消息线程外抛给外部
     p_this->append_callback(msg, std::move(more_detail));
@@ -429,7 +429,7 @@ void asst::Assistant::async_call(std::function<bool(void)> func, int async_call_
                 },
             },
         };
-        task_callback(AsstMsg::AsyncCallInfo, info, this);
+        async_callback(AsstMsg::AsyncCallInfo, info, this);
     });
 
     if (!block) {
