@@ -1507,9 +1507,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 
     std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or("");
-    constexpr std::array<std::string_view, 5> OrderedABI = {
-        "x86_64", "x86", "arm64-v8a", "armeabi-v7a", "armeabi",
-    };
+    constexpr std::array<std::string_view, 6> OrderedABI = { "x86_64",      "x86",     "arm64-v8a",
+                                                             "armeabi-v7a", "armeabi", "maatouch" };
     std::string_view optimal_abi = "armeabi-v7a";
     for (const auto& abi : OrderedABI) {
         if (abilist.find(abi) != std::string::npos) {
