@@ -21,7 +21,7 @@
 using namespace asst;
 
 AbstractTask::AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
-    : m_callback(callback), m_inst(inst), m_task_chain(task_chain)
+    : InstProps(inst), m_callback(callback), m_task_chain(task_chain)
 {}
 
 bool asst::AbstractTask::run()
@@ -139,21 +139,6 @@ bool AbstractTask::sleep(unsigned millisecond)
     Log.trace("end of sleep", millisecond);
 
     return !need_exit();
-}
-
-std::shared_ptr<Controller> asst::AbstractTask::ctrler() const
-{
-    return m_inst ? m_inst->ctrler() : nullptr;
-}
-
-std::shared_ptr<Status> asst::AbstractTask::status() const
-{
-    return m_inst ? m_inst->status() : nullptr;
-}
-
-bool asst::AbstractTask::need_exit() const
-{
-    return m_inst ? m_inst->need_exit() : false;
 }
 
 void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)

@@ -4,10 +4,10 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/TaskData.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
-#include "Config/TaskData.h"
 
 void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)
 {
@@ -69,7 +69,8 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
         name_roi.x += commodity.x;
         name_roi.y += commodity.y;
 
-        OcrImageAnalyzer ocr_analyzer(m_image, name_roi);
+        OcrImageAnalyzer ocr_analyzer(m_image);
+        ocr_analyzer.set_roi(name_roi);
         ocr_analyzer.set_replace(product_name_task_ptr->replace_map);
         ocr_analyzer.set_required(m_shopping_list);
         if (ocr_analyzer.analyze()) {

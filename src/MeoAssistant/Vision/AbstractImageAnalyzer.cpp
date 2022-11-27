@@ -3,6 +3,7 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Assistant.h"
+#include "InstProps.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
@@ -16,8 +17,8 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
 #endif
 {}
 
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi)
-    : m_image(image), m_roi(correct_rect(roi, image))
+asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst)
+    : InstProps(inst), m_image(image), m_roi(correct_rect(Rect(), image))
 #ifdef ASST_DEBUG
       ,
       m_image_draw(image.clone())
@@ -35,16 +36,6 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
 void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
 {
     m_roi = correct_rect(roi, m_image);
-}
-
-void asst::AbstractImageAnalyzer::set_inst(Assistant* inst) noexcept
-{
-    m_inst = inst;
-}
-
-std::shared_ptr<asst::Status> asst::AbstractImageAnalyzer::status() const
-{
-    return m_inst ? m_inst->status() : nullptr;
 }
 
 asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image) noexcept

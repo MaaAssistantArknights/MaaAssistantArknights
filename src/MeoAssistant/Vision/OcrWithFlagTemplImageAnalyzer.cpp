@@ -6,10 +6,6 @@ asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat
     : OcrWithPreprocessImageAnalyzer(image), m_multi_match_image_analyzer(image)
 {}
 
-asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi)
-    : OcrWithPreprocessImageAnalyzer(image, roi), m_multi_match_image_analyzer(image, roi)
-{}
-
 void asst::OcrWithFlagTemplImageAnalyzer::set_image(const cv::Mat& image)
 {
     OcrWithPreprocessImageAnalyzer::set_image(image);

@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "Common/AsstMsg.h"
+#include "InstProps.h"
 
 namespace cv
 {
@@ -21,7 +22,7 @@ namespace asst
     class Status;
     class TaskData;
 
-    class AbstractTask
+    class AbstractTask : protected InstProps
     {
     public:
         AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
@@ -64,14 +65,9 @@ namespace asst
         json::value basic_info_with_what(std::string what) const;
         bool sleep(unsigned millisecond);
 
-        std::shared_ptr<Controller> ctrler() const;
-        std::shared_ptr<Status> status() const;
-        bool need_exit() const;
-
         bool m_enable = true;
         bool m_ignore_error = false;
         AsstCallback m_callback = nullptr;
-        Assistant* m_inst = nullptr;
         std::string_view m_task_chain;
         int m_cur_retry = 0;
         int m_retry_times = RetryTimesDefault;

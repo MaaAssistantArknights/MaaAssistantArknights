@@ -7,9 +7,8 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, const Rect& roi, std::string templ_name,
-                                             double templ_thres)
-    : AbstractImageAnalyzer(image, roi), m_templ_name(std::move(templ_name)), m_templ_thres(templ_thres)
+asst::MatchImageAnalyzer::MatchImageAnalyzer(const cv::Mat& image, std::string templ_name, double templ_thres)
+    : AbstractImageAnalyzer(image), m_templ_name(std::move(templ_name)), m_templ_thres(templ_thres)
 {}
 
 bool asst::MatchImageAnalyzer::analyze()
