@@ -16,6 +16,14 @@
         "adbSwipeDurationMultiplier_Doc": "adb 滑动延迟倍数",
         "minitouchExtraSwipeDist": 100,
         "minitouchExtraSwipeDuration": 200,
+        "minitouchProgramsOrder": [
+            "x86_64",
+            "x86",
+            "arm64-v8a",
+            "armeabi-v7a",
+            "armeabi",
+            "maatouch"
+        ],
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
             "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 10 -i -d \"[body]\" \"https://penguin-stats.io/PenguinStats/api/v2/report\" --ssl-no-revoke [extra]",
