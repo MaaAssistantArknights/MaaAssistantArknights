@@ -456,7 +456,6 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     release_minitouch(true);
 
     Log.info(cmd);
-    m_minitouch_avaiable = false;
 
     constexpr int PipeReadBuffSize = 4096ULL;
     constexpr int PipeWriteBuffSize = 64 * 1024ULL;
@@ -639,7 +638,6 @@ bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
     m_minitouch_props.x_scaling = static_cast<double>(m_minitouch_props.max_x) / m_width;
     m_minitouch_props.y_scaling = static_cast<double>(m_minitouch_props.max_y) / m_height;
 
-    m_minitouch_avaiable = true;
     return true;
 }
 
@@ -1506,42 +1504,46 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         return false;
     }
 
-    std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or("");
-    constexpr std::array<std::string_view, 6> OrderedABI = { "x86_64",      "x86",     "arm64-v8a",
-                                                             "armeabi-v7a", "armeabi", "maatouch" };
-    std::string_view optimal_abi = "armeabi-v7a";
-    for (const auto& abi : OrderedABI) {
-        if (abilist.find(abi) != std::string::npos) {
-            optimal_abi = abi;
-            break;
+    do {
+        m_minitouch_avaiable = false;
+
+        std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or("maatouch");
+        std::string_view optimal_abi;
+        for (const auto& abi : Config.get_options().minitouch_programs_order) {
+            if (abilist.find(abi) != std::string::npos) {
+                optimal_abi = abi;
+                break;
+            }
         }
-    }
-    Log.info("The optimal abi is", optimal_abi);
+        Log.info("The optimal abi is", optimal_abi);
 
-    auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
-        using namespace asst::utils::path_literals;
-        return utils::string_replace_all(
-            cmd_replace(cfg_cmd),
-            {
-                { "[minitouchLocalPath]",
-                  utils::path_to_utf8_string(ResDir.get() / "minitouch"_p / optimal_abi / "minitouch"_p) },
-                { "[minitouchWorkingFile]", m_uuid },
-            });
-    };
+        auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
+            using namespace asst::utils::path_literals;
+            return utils::string_replace_all(
+                cmd_replace(cfg_cmd),
+                {
+                    { "[minitouchLocalPath]",
+                      utils::path_to_utf8_string(ResDir.get() / "minitouch"_p / optimal_abi / "minitouch"_p) },
+                    { "[minitouchWorkingFile]", m_uuid },
+                });
+        };
 
-    call_command(minitouch_cmd_rep(adb_cfg.push_minitouch));
-    call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch));
+        if (!call_command(minitouch_cmd_rep(adb_cfg.push_minitouch))) break;
+        if (!call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch))) break;
 
-    m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
-    call_and_hup_minitouch(m_adb.call_minitouch);
+        m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
+        if (!call_and_hup_minitouch(m_adb.call_minitouch)) break;
 
-    std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
-    if (!orientation_str.empty()) {
-        char first = orientation_str.front();
-        if (first == '0' || first == '1' || first == '2' || first == '3') {
-            m_minitouch_props.orientation = static_cast<int>(first - '0');
+        std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
+        if (!orientation_str.empty()) {
+            char first = orientation_str.front();
+            if (first == '0' || first == '1' || first == '2' || first == '3') {
+                m_minitouch_props.orientation = static_cast<int>(first - '0');
+            }
         }
-    }
+
+        m_minitouch_avaiable = true;
+    } while (false);
 
     // try to find the fastest way
     if (!screencap()) {
