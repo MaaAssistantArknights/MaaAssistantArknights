@@ -60,7 +60,7 @@ namespace asst
     private:
         void working_proc();
         void msg_proc();
-        static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
+        static void async_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
 
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
