@@ -42,7 +42,7 @@
 #include "Utils/WorkingDir.hpp"
 
 asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
-    : m_callback(callback), m_inst(inst), m_rand_engine(std::random_device {}())
+    : InstProps(inst), m_callback(callback), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 
@@ -83,11 +83,6 @@ asst::Controller::~Controller()
 std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 {
     return m_scale_size;
-}
-
-bool asst::Controller::need_exit() const
-{
-    return m_inst ? m_inst->need_exit() : false;
 }
 
 std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool allow_reconnect,

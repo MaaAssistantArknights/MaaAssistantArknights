@@ -18,6 +18,7 @@
 
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
+#include "InstProps.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
 
@@ -25,7 +26,7 @@ namespace asst
 {
     class Assistant;
 
-    class Controller
+    class Controller : private InstProps
     {
     public:
         Controller(const AsstCallback& callback, Assistant* inst);
@@ -65,7 +66,6 @@ namespace asst
         Controller& operator=(Controller&&) = delete;
 
     private:
-        bool need_exit() const;
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
         bool release();
@@ -96,7 +96,6 @@ namespace asst
         static bool convert_lf(std::string& data);
 
         AsstCallback m_callback;
-        Assistant* m_inst = nullptr;
 
         std::minstd_rand m_rand_engine;
 

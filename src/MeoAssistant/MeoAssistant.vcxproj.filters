@@ -423,6 +423,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="InstProps.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -700,6 +703,9 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp">
       <Filter>源文件\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="InstProps.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
