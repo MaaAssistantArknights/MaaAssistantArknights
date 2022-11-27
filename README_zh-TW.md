@@ -109,6 +109,7 @@ MAA 的意思是 MAA Assistant Arknights
 - C++ 解壓壓縮庫：[zlib](https://github.com/madler/zlib)
 - C++ Gzip封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - 安卓觸控事件器：[minitouch](https://github.com/openstf/minitouch)
+- 安卓觸控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF部件庫：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON庫：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)

@@ -109,6 +109,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 - C++ ZIP library: [zlib](https://github.com/madler/zlib)
 - C++ Gzip library: [gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - Touch event producer for Android: [minitouch](https://github.com/openstf/minitouch)
+- Touch event producer for Android: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVW framework: [Stylet](https://github.com/canton7/Stylet)
 - WPF control library: [HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON library: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
