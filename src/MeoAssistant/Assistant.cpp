@@ -1,14 +1,12 @@
 #include "Assistant.h"
 
+#include "Utils/NoWarningCV.h"
 #include "Utils/Ranges.hpp"
-
 #include <meojson/json.hpp>
 
-#include "Controller.h"
 #include "Config/GeneralConfig.h"
+#include "Controller.h"
 #include "Status.h"
-#include "Utils/Logger.hpp"
-
 #include "Task/Interface/AwardTask.h"
 #include "Task/Interface/CloseDownTask.h"
 #include "Task/Interface/CopilotTask.h"
@@ -19,6 +17,7 @@
 #include "Task/Interface/RecruitTask.h"
 #include "Task/Interface/RoguelikeTask.h"
 #include "Task/Interface/StartUpTask.h"
+#include "Utils/Logger.hpp"
 #ifdef ASST_DEBUG
 #include "Task/Interface/DebugTask.h"
 #endif
@@ -142,8 +141,8 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     if (!params_ret) {
         return 0;
     }
-    std::unique_lock<std::mutex> lock(m_mutex);
 
+    std::unique_lock<std::mutex> lock(m_mutex);
     ++m_task_id;
     ptr->set_task_id(m_task_id);
     m_tasks_list.emplace_back(m_task_id, ptr);
@@ -184,16 +183,47 @@ std::vector<uchar> asst::Assistant::get_image() const
     if (!inited()) {
         return {};
     }
-    return m_ctrler->get_encoded_image_cache();
+    cv::Mat img = m_ctrler->get_image_cache();
+    std::vector<uchar> buf;
+    cv::imencode(".png", img, buf);
+    return buf;
 }
 
-bool asst::Assistant::ctrler_click(int x, int y)
+asst::Assistant::AsyncCallId asst::Assistant::async_connect(const std::string& adb_path, const std::string& address,
+                                                            const std::string& config, bool block)
 {
+    LogTraceFunction;
+
+    int async_call_id = ++m_call_id;
+    async_call([&]() -> bool { return connect(adb_path, address, config); }, async_call_id, "Connect", block);
+
+    return async_call_id;
+}
+
+asst::Assistant::AsyncCallId asst::Assistant::async_click(int x, int y, bool block)
+{
+    LogTraceFunction;
     if (!inited()) {
-        return false;
+        return 0;
     }
-    m_ctrler->click(Point(x, y));
-    return true;
+
+    int async_call_id = ++m_call_id;
+    async_call([&]() -> bool { return m_ctrler->click(Point(x, y)); }, async_call_id, "Click", block);
+
+    return async_call_id;
+}
+
+asst::Assistant::AsyncCallId asst::Assistant::async_screencap(bool block)
+{
+    LogTraceFunction;
+    if (!inited()) {
+        return 0;
+    }
+
+    int async_call_id = ++m_call_id;
+    async_call([&]() -> bool { return m_ctrler->screencap(); }, async_call_id, "Screencap", block);
+
+    return async_call_id;
 }
 
 std::string asst::Assistant::get_uuid() const
@@ -263,7 +293,8 @@ void Assistant::working_proc()
         if (!m_thread_idle && !m_tasks_list.empty()) {
             const auto [id, task_ptr] = m_tasks_list.front();
             lock.unlock();
-            // only one instance of working_proc running, unlock here to allow set_task_param to the running task
+            // only one instance of working_proc running, unlock here to allow set_task_param to the running
+            // task
 
             json::value callback_json = json::object {
                 { "taskchain", std::string(task_ptr->get_task_chain()) },
@@ -377,4 +408,33 @@ void Assistant::clear_cache()
 bool asst::Assistant::inited() const noexcept
 {
     return m_ctrler && m_ctrler->inited();
+}
+
+void asst::Assistant::async_call(std::function<bool(void)> func, int async_call_id, const std::string what, bool block)
+{
+    auto future = std::async(std::launch::async, [&]() {
+        auto start = std::chrono::steady_clock::now();
+        bool ret = func();
+        auto cost =
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", what },
+            { "async_call_id", async_call_id },
+            {
+                "details",
+                json::object {
+                    { "ret", ret },
+                    { "cost", cost },
+                },
+            },
+        };
+        task_callback(AsstMsg::AsyncCallInfo, info, this);
+    });
+
+    if (!block) {
+        std::unique_lock lock(m_call_pending_mutex);
+        m_call_pending.emplace_back(std::move(future));
+    }
+    // else 会等待 future 析构，是阻塞的
 }

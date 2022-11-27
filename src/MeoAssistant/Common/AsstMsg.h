@@ -15,6 +15,7 @@ namespace asst
         InitFailed,        // 初始化失败
         ConnectionInfo,    // 连接相关错误
         AllTasksCompleted, // 全部任务完成
+        AsyncCallInfo,     // 外部异步调用信息
         /* TaskChain Info */
         TaskChainError = 10000, // 任务链执行/识别错误
         TaskChainStart,         // 任务链开始

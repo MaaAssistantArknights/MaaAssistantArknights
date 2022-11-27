@@ -26,6 +26,7 @@ typedef void* AsstHandle;
     typedef int AsstProcessOptionKey;
     typedef int AsstInstanceOptionKey;
     typedef unsigned long long AsstSize;
+    typedef int AsstAsyncCallId;
 
     typedef void(ASST_CALL* AsstApiCallback)(int msg, const char* detail_json, void* custom_arg);
 
@@ -38,7 +39,8 @@ typedef void* AsstHandle;
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
     bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
-    bool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config);
+    /* deprecated */ bool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address,
+                                              const char* config);
 
     AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params);
     bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params);
@@ -47,7 +49,12 @@ typedef void* AsstHandle;
     bool ASSTAPI AsstStop(AsstHandle handle);
     bool ASSTAPI AsstRunning(AsstHandle handle);
 
-    bool ASSTAPI AsstClick(AsstHandle handle, int x, int y);
+    /* Aysnc with AsstMsg::AsyncCallInfo Callback*/
+    AsstAsyncCallId ASSTAPI AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address,
+                                             const char* config, bool block);
+    AsstAsyncCallId ASSTAPI AsstAsyncClick(AsstHandle handle, int x, int y, bool block);
+    AsstAsyncCallId ASSTAPI AsstAsyncScreencap(AsstHandle handle, bool block);
+
     AsstSize ASSTAPI AsstGetImage(AsstHandle handle, void* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetTasksList(AsstHandle handle, AsstTaskId* buff, AsstSize buff_size);
