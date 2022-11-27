@@ -48,15 +48,17 @@ bool AsstSetUserDir(const char* path)
 
 bool AsstLoadResource(const char* path)
 {
+    using namespace asst::utils::path_literals;
+
     auto os_path = asst::utils::path(path);
+    auto res_path = os_path / "resource"_p;
     if (asst::ResDir.empty()) {
-        asst::ResDir.set(os_path);
+        asst::ResDir.set(res_path);
     }
     if (asst::UserDir.empty()) {
         asst::UserDir.set(os_path);
     }
-    using namespace asst::utils::path_literals;
-    inited = asst::ResourceLoader::get_instance().load(os_path / "resource"_p);
+    inited = asst::ResourceLoader::get_instance().load(res_path);
     return inited;
 }
 
