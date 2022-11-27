@@ -4176,11 +4176,12 @@
         "Doc": "识别公招小时数",
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "withoutDet": true,
         "roi": [
-            400,
-            180,
-            100,
-            90
+            410,
+            195,
+            85,
+            60
         ],
         "text": [
             "01",
@@ -4198,11 +4199,12 @@
         "Doc": "识别公招分钟数",
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "withoutDet": true,
         "roi": [
-            570,
-            180,
-            100,
-            90
+            575,
+            195,
+            85,
+            60
         ],
         "text": [
             "00",
