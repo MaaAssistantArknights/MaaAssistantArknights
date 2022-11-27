@@ -42,6 +42,7 @@ namespace asst
         double adb_swipe_duration_multiplier = 0; // adb 滑动持续时间倍数
         int minitouch_extra_swipe_dist = 0;
         int minitouch_extra_swipe_duration = -1;
+        std::vector<std::string> minitouch_programs_order;
         PenguinReportCfg penguin_report; // 企鹅物流汇报：
         // 每次到结算界面，汇报掉落数据至企鹅物流 https://penguin-stats.cn/
         DepotExportTemplate depot_export_template; // 仓库识别结果导出模板

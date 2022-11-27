@@ -18,6 +18,11 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.adb_swipe_duration_multiplier = options_json.get("adbSwipeDurationMultiplier", 10.0);
         m_options.minitouch_extra_swipe_dist = options_json.get("minitouchExtraSwipeDist", 100);
         m_options.minitouch_extra_swipe_duration = options_json.get("minitouchExtraSwipeDuration", -1);
+        if (auto order = options_json.find<json::array>("minitouchProgramsOrder")) {
+            for (const auto& type : *order) {
+                m_options.minitouch_programs_order.emplace_back(type.as_string());
+            }
+        }
         m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
         m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
         m_options.depot_export_template.ark_planner =
