@@ -14,17 +14,17 @@
 #include "Task/Infrast/ReplenishOriginiumShardTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
-asst::InfrastTask::InfrastTask(const AsstCallback& callback, void* callback_arg)
-    : InterfaceTask(callback, callback_arg, TaskType),
-      m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
-      m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, callback_arg, TaskType)),
-      m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, callback_arg, TaskType)),
-      m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, callback_arg, TaskType)),
-      m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, callback_arg, TaskType)),
-      m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, callback_arg, TaskType)),
-      m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, callback_arg, TaskType)),
-      m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, callback_arg, TaskType)),
-      m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, callback_arg, TaskType))
+asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
+    : InterfaceTask(callback, inst, TaskType),
+      m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+      m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
+      m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
+      m_trade_task_ptr(std::make_shared<InfrastTradeTask>(callback, inst, TaskType)),
+      m_power_task_ptr(std::make_shared<InfrastPowerTask>(callback, inst, TaskType)),
+      m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
+      m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, inst, TaskType)),
+      m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
+      m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
 {
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
@@ -270,7 +270,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         infrast::CustomFacilityConfig pre_facility_config(1);
         auto& pre_room_config = pre_facility_config.front();
         pre_room_config.names = { target };
-        auto pre_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
+        auto pre_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_inst, TaskType);
         pre_task_ptr->set_custom_config(std::move(pre_facility_config));
 
         infrast::CustomFacilityConfig facility_config(1);
@@ -278,7 +278,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         room_config.names = { target, FiaName };
         room_config.sort = true;
 
-        auto Fia_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_callback_arg, TaskType);
+        auto Fia_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_inst, TaskType);
         Fia_task_ptr->set_custom_config(std::move(facility_config));
 
         if (Fia_json.get("order", "pre") != "post") {
@@ -319,10 +319,10 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         if (additional_advance_drones) {
             std::shared_ptr<InfrastProductionTask> drones_only_task_ptr = nullptr;
             if (room == "trading") {
-                drones_only_task_ptr = std::make_shared<InfrastTradeTask>(m_callback, m_callback_arg, TaskType);
+                drones_only_task_ptr = std::make_shared<InfrastTradeTask>(m_callback, m_inst, TaskType);
             }
             else if (room == "manufacture") {
-                drones_only_task_ptr = std::make_shared<InfrastMfgTask>(m_callback, m_callback_arg, TaskType);
+                drones_only_task_ptr = std::make_shared<InfrastMfgTask>(m_callback, m_inst, TaskType);
             }
 
             drones_only_task_ptr->set_custom_config(

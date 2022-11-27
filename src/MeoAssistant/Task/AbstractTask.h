@@ -24,10 +24,10 @@ namespace asst
     class AbstractTask
     {
     public:
-        AbstractTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain);
-        virtual ~AbstractTask() noexcept = default;
+        AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
         AbstractTask(const AbstractTask&) = default;
         AbstractTask(AbstractTask&&) noexcept = default;
+        virtual ~AbstractTask() noexcept = default;
 
         virtual bool run();
 
@@ -43,7 +43,7 @@ namespace asst
         requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
         std::shared_ptr<PluginType> register_plugin()
         {
-            auto plugin = std::make_shared<PluginType>(m_callback, m_callback_arg, m_task_chain);
+            auto plugin = std::make_shared<PluginType>(m_callback, m_inst, m_task_chain);
             m_plugins.emplace(plugin);
             return plugin;
         }
@@ -71,7 +71,7 @@ namespace asst
         bool m_enable = true;
         bool m_ignore_error = false;
         AsstCallback m_callback = nullptr;
-        void* m_callback_arg = nullptr;
+        Assistant* m_inst = nullptr;
         bool* m_exit_flag = nullptr;
         std::string_view m_task_chain;
         int m_cur_retry = 0;

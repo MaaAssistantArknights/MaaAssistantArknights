@@ -3,9 +3,9 @@
 #include "Task/Miscellaneous/AutoRecruitTask.h"
 #include "Task/ProcessTask.h"
 
-asst::RecruitTask::RecruitTask(const AsstCallback& callback, void* callback_arg)
-    : InterfaceTask(callback, callback_arg, TaskType),
-      m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, callback_arg, TaskType))
+asst::RecruitTask::RecruitTask(const AsstCallback& callback, Assistant* inst)
+    : InterfaceTask(callback, inst, TaskType),
+      m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, inst, TaskType))
 {
     m_subtasks.emplace_back(m_auto_recruit_task_ptr)->set_retry_times(5);
 }

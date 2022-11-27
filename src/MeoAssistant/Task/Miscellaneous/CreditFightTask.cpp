@@ -12,13 +12,13 @@
 #include "Utils/Ranges.hpp"
 #include "Utils/WorkingDir.hpp"
 
-asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain)
-    : PackageTask(callback, callback_arg, task_chain)
+asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
+    : PackageTask(callback, inst, task_chain)
 {
-    auto start_up_task_ptr = std::make_shared<ProcessTask>(m_callback, m_callback_arg, task_chain);
-    auto stage_navigation_task_ptr = std::make_shared<StageNavigationTask>(m_callback, m_callback_arg, task_chain);
-    auto stop_task_ptr = std::make_shared<ProcessTask>(m_callback, m_callback_arg, task_chain);
-    auto copilot_task_ptr = std::make_shared<CopilotTask>(m_callback, m_callback_arg);
+    auto start_up_task_ptr = std::make_shared<ProcessTask>(m_callback, m_inst, task_chain);
+    auto stage_navigation_task_ptr = std::make_shared<StageNavigationTask>(m_callback, m_inst, task_chain);
+    auto stop_task_ptr = std::make_shared<ProcessTask>(m_callback, m_inst, task_chain);
+    auto copilot_task_ptr = std::make_shared<CopilotTask>(m_callback, m_inst);
 
     // 开始
     start_up_task_ptr->set_tasks({ "StageBegin" }).set_times_limit("GoLastBattle", 0);

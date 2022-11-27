@@ -16,7 +16,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Fight";
 
-        FightTask(const AsstCallback& callback, void* callback_arg);
+        FightTask(const AsstCallback& callback, Assistant* inst);
         virtual ~FightTask() override = default;
 
         virtual bool set_params(const json::value& params) override;

@@ -12,7 +12,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Mall";
 
-        MallTask(const AsstCallback& callback, void* callback_arg);
+        MallTask(const AsstCallback& callback, Assistant* inst);
         virtual ~MallTask() override = default;
 
         virtual bool set_params(const json::value& params) override;

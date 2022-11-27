@@ -11,7 +11,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Recruit";
 
-        RecruitTask(const AsstCallback& callback, void* callback_arg);
+        RecruitTask(const AsstCallback& callback, Assistant* inst);
         virtual ~RecruitTask() override = default;
 
         virtual bool set_params(const json::value& params) override;

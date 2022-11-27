@@ -27,7 +27,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Infrast";
 
-        InfrastTask(const AsstCallback& callback, void* callback_arg);
+        InfrastTask(const AsstCallback& callback, Assistant* inst);
         virtual ~InfrastTask() override = default;
 
         virtual bool set_params(const json::value& params) override;

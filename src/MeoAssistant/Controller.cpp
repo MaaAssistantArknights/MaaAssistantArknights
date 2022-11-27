@@ -40,8 +40,8 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/WorkingDir.hpp"
 
-asst::Controller::Controller(const AsstCallback& callback, void* callback_arg)
-    : m_callback(callback), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
+asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
+    : m_callback(callback), m_inst(inst), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 
@@ -446,7 +446,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 void asst::Controller::callback(AsstMsg msg, const json::value& details)
 {
     if (m_callback) {
-        m_callback(msg, details, m_callback_arg);
+        m_callback(msg, details, m_inst);
     }
 }
 

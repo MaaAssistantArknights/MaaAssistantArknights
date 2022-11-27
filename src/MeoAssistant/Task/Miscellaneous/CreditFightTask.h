@@ -11,7 +11,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "CreditFight";
 
-        CreditFightTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain);
+        CreditFightTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
         virtual ~CreditFightTask() override = default;
     };
 } // namespace asst

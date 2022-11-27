@@ -11,7 +11,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "StartUp";
 
-        StartUpTask(const AsstCallback& callback, void* callback_arg);
+        StartUpTask(const AsstCallback& callback, Assistant* inst);
         virtual ~StartUpTask() override = default;
 
         bool set_params(const json::value& params) override;

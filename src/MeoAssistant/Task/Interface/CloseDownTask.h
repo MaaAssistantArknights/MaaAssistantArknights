@@ -8,7 +8,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "CloseDown";
 
-        CloseDownTask(const AsstCallback& callback, void* callback_arg);
+        CloseDownTask(const AsstCallback& callback, Assistant* inst);
         virtual ~CloseDownTask() override = default;
     };
 }

@@ -10,17 +10,17 @@
 #include "Utils/NoWarningCV.h"
 
 #include "AbstractTaskPlugin.h"
+#include "Config/GeneralConfig.h"
 #include "Controller.h"
 #include "ProcessTask.h"
-#include "Config/GeneralConfig.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
 using namespace asst;
 
-AbstractTask::AbstractTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain)
-    : m_callback(callback), m_callback_arg(callback_arg), m_task_chain(task_chain)
+AbstractTask::AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
+    : m_callback(callback), m_inst(inst), m_task_chain(task_chain)
 {}
 
 bool asst::AbstractTask::run()
@@ -191,7 +191,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
             }
         }
 
-        m_callback(msg, proced_detail, m_callback_arg);
+        m_callback(msg, proced_detail, m_inst);
     }
 }
 

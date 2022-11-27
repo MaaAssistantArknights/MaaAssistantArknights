@@ -12,11 +12,11 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 
-asst::FightTask::FightTask(const AsstCallback& callback, void* callback_arg)
-    : InterfaceTask(callback, callback_arg, TaskType),
-      m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
-      m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_callback_arg, TaskType)),
-      m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType))
+asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
+    : InterfaceTask(callback, inst, TaskType),
+      m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+      m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_inst, TaskType)),
+      m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
 {
     // 进入选关界面
     // 对于指定关卡，就是主界面的“终端”点进去
