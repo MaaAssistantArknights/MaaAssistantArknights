@@ -275,7 +275,7 @@ bool Assistant::stop(bool block)
     return true;
 }
 
-bool asst::Assistant::running()
+bool asst::Assistant::running() const
 {
     return !m_thread_idle;
 }
