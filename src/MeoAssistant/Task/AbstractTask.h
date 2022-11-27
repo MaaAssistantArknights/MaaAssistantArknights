@@ -6,7 +6,7 @@
 #include <type_traits>
 
 #include "Common/AsstMsg.h"
-#include "InstProps.h"
+#include "InstHelper.h"
 
 namespace cv
 {
@@ -22,7 +22,7 @@ namespace asst
     class Status;
     class TaskData;
 
-    class AbstractTask : protected InstProps
+    class AbstractTask : protected InstHelper
     {
     public:
         AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
