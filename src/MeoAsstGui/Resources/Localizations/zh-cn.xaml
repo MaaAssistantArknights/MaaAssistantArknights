@@ -55,7 +55,7 @@
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
-    <system:String x:Key="MuMuEmulator">MuMu模拟器</system:String>
+    <system:String x:Key="MuMuEmulator">MuMu 模拟器</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
     <system:String x:Key="Nox">夜神模拟器</system:String>
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
