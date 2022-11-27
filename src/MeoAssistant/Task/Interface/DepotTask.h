@@ -8,7 +8,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Depot";
 
-        DepotTask(const AsstCallback& callback, void* callback_arg);
+        DepotTask(const AsstCallback& callback, Assistant* inst);
         virtual ~DepotTask() override = default;
     };
 }

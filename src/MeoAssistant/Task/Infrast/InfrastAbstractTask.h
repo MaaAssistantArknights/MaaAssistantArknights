@@ -8,7 +8,7 @@ namespace asst
     class InfrastAbstractTask : public AbstractTask
     {
     public:
-        InfrastAbstractTask(const AsstCallback& callback, void* callback_arg, std::string_view task_chain);
+        InfrastAbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
 
         virtual ~InfrastAbstractTask() override = default;
         InfrastAbstractTask& set_mood_threshold(double mood_thres) noexcept;

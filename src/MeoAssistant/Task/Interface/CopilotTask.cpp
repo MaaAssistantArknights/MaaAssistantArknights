@@ -7,18 +7,18 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
-asst::CopilotTask::CopilotTask(const AsstCallback& callback, void* callback_arg)
-    : InterfaceTask(callback, callback_arg, TaskType),
-      m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, callback_arg, TaskType)),
-      m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, callback_arg, TaskType))
+asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
+    : InterfaceTask(callback, inst, TaskType),
+      m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
+      m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType))
 {
-    auto start_1_tp = std::make_shared<ProcessTask>(callback, callback_arg, TaskType);
+    auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
     m_subtasks.emplace_back(m_formation_task_ptr)->set_retry_times(0);
 
-    auto start_2_tp = std::make_shared<ProcessTask>(callback, callback_arg, TaskType);
+    auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_2_tp->set_tasks({ "BattleStartNormal", "BattleStartRaid", "BattleStartExercise", "BattleStartSimulation" })
         .set_ignore_error(false);
     m_subtasks.emplace_back(start_2_tp);

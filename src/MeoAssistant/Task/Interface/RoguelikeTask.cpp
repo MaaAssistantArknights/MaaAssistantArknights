@@ -14,9 +14,9 @@
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Utils/Logger.hpp"
 
-asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, void* callback_arg)
-    : InterfaceTask(callback, callback_arg, TaskType),
-      m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType))
+asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
+    : InterfaceTask(callback, inst, TaskType),
+      m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
     m_roguelike_task_ptr->set_ignore_error(true);
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();

@@ -10,7 +10,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Award";
 
-        AwardTask(const AsstCallback& callback, void* callback_arg);
+        AwardTask(const AsstCallback& callback, Assistant* inst);
         virtual ~AwardTask() override = default;
     };
 }

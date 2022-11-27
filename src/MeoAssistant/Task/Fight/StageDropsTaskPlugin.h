@@ -38,7 +38,7 @@ namespace asst
         bool check_specify_quantity() const;
         void stop_task();
         void upload_to_penguin();
-        static void report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
+        static void report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr);
 
         static inline constexpr int64_t RecognitionTimeOffset = 20;
         static inline const std::string LastStartTimeKey = Status::ProcessTaskLastTimePrefix + "Fight@StartButton2";

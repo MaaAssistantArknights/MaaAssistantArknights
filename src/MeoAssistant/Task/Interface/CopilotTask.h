@@ -14,7 +14,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Copilot";
 
-        CopilotTask(const AsstCallback& callback, void* callback_arg);
+        CopilotTask(const AsstCallback& callback, Assistant* inst);
         virtual ~CopilotTask() override = default;
 
         virtual bool set_params(const json::value& params) override;

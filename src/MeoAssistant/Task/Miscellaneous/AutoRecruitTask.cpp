@@ -1,15 +1,15 @@
 #include "AutoRecruitTask.h"
 
-#include "Controller.h"
-#include "Vision/Miscellaneous/RecruitImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/RecruitConfig.h"
 #include "Config/TaskData.h"
+#include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/RecruitImageAnalyzer.h"
+#include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/OcrImageAnalyzer.h"
 
 #include "Utils/Ranges.hpp"
 #include <algorithm>
@@ -719,8 +719,7 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     }
 
     if (!m_report_penguin_task_ptr) {
-        m_report_penguin_task_ptr =
-            std::make_shared<ReportDataTask>(report_penguin_callback, static_cast<void*>(this), m_task_chain);
+        m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
     }
 
     m_report_penguin_task_ptr->set_report_type(ReportType::PenguinStats)
@@ -741,8 +740,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
     body["uuid"] = /* m_yituliu_id */ m_penguin_id;
 
     if (!m_report_yituliu_task_ptr) {
-        m_report_yituliu_task_ptr =
-            std::make_shared<ReportDataTask>(report_yituliu_callback, static_cast<void*>(this), m_task_chain);
+        m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_yituliu_callback, this);
     }
 
     m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigData)
@@ -751,11 +749,11 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
         .run();
 }
 
-void asst::AutoRecruitTask::report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+void asst::AutoRecruitTask::report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
 {
     LogTraceFunction;
 
-    auto p_this = static_cast<AutoRecruitTask*>(custom_arg);
+    auto p_this = dynamic_cast<AutoRecruitTask*>(task_ptr);
     if (!p_this) {
         return;
     }
@@ -768,11 +766,11 @@ void asst::AutoRecruitTask::report_penguin_callback(AsstMsg msg, const json::val
     p_this->callback(msg, detail);
 }
 
-void asst::AutoRecruitTask::report_yituliu_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+void asst::AutoRecruitTask::report_yituliu_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
 {
     LogTraceFunction;
 
-    auto p_this = static_cast<AutoRecruitTask*>(custom_arg);
+    auto p_this = dynamic_cast<AutoRecruitTask*>(task_ptr);
     if (!p_this) {
         return;
     }

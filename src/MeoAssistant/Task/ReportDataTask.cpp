@@ -12,6 +12,11 @@
 #include <random>
 #include <sstream>
 
+asst::ReportDataTask::ReportDataTask(const TaskCallback& task_callback, AbstractTask* upper_task)
+    : AbstractTask(nullptr, nullptr, upper_task->get_task_chain()), m_task_callback(task_callback),
+      m_upper_task(upper_task)
+{}
+
 asst::ReportDataTask::~ReportDataTask()
 {
     static bool Exit = true;
@@ -57,6 +62,13 @@ bool asst::ReportDataTask::_run()
     m_upload_pending.emplace_back(std::move(upload_future));
 
     return true;
+}
+
+void asst::ReportDataTask::callback(AsstMsg msg, const json::value& detail)
+{
+    if (m_task_callback) {
+        m_task_callback(msg, detail, m_upper_task);
+    }
 }
 
 void asst::ReportDataTask::report_to_penguin()

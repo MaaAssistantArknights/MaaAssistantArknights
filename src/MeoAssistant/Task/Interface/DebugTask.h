@@ -8,7 +8,7 @@ namespace asst
     public:
         inline static constexpr std::string_view TaskType = "Debug";
 
-        DebugTask(const AsstCallback& callback, void* callback_arg);
+        DebugTask(const AsstCallback& callback, Assistant* inst);
         virtual ~DebugTask() override = default;
 
         virtual bool run() override;

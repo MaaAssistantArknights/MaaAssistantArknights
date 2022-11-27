@@ -16,10 +16,15 @@ namespace asst
         YituliuBigData,
     };
 
+    using TaskCallback = std::function<void(AsstMsg, const json::value&, AbstractTask*)>;
+
     class ReportDataTask : public AbstractTask
     {
     public:
-        using AbstractTask::AbstractTask;
+        ReportDataTask(const TaskCallback& task_callback, AbstractTask* upper_task);
+        ReportDataTask(const ReportDataTask&) = default;
+        ReportDataTask(ReportDataTask&&) = default;
+
         virtual ~ReportDataTask() override;
 
         ReportDataTask& set_report_type(ReportType type);
@@ -31,6 +36,7 @@ namespace asst
         using HttpResponsePred = std::function<bool(const http::Response&)>;
 
         virtual bool _run() override;
+        virtual void callback(AsstMsg msg, const json::value& detail) override;
 
         void report_to_penguin();
         void report_to_yituliu();
@@ -47,5 +53,8 @@ namespace asst
         std::string m_body;
         std::string m_extra_param;
         std::vector<std::future<void>> m_upload_pending;
+
+        TaskCallback m_task_callback = nullptr;
+        AbstractTask* m_upper_task = nullptr;
     };
 } // namespace asst

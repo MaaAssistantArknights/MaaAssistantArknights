@@ -29,7 +29,7 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(
     LogTraceFunction;
 
     m_status = std::make_shared<Status>();
-    m_ctrler = std::make_shared<Controller>(async_callback, static_cast<void*>(this));
+    m_ctrler = std::make_shared<Controller>(async_callback, this);
     m_ctrler->set_exit_flag(&m_thread_idle);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
@@ -106,10 +106,10 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     std::shared_ptr<InterfaceTask> ptr = nullptr;
 
-#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK)                  \
-    else if (type == TASK::TaskType)                                            \
-    {                                                                           \
-        ptr = std::make_shared<TASK>(async_callback, static_cast<void*>(this)); \
+#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK) \
+    else if (type == TASK::TaskType)                           \
+    {                                                          \
+        ptr = std::make_shared<TASK>(async_callback, this);    \
     }
 
     if constexpr (false) {}
@@ -368,31 +368,30 @@ void Assistant::msg_proc()
     }
 }
 
-void Assistant::async_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+void Assistant::async_callback(AsstMsg msg, const json::value& detail, Assistant* inst)
 {
-    auto p_this = static_cast<Assistant*>(custom_arg);
     json::value more_detail = detail;
     if (!more_detail.contains("uuid")) {
-        more_detail["uuid"] = p_this->m_uuid;
+        more_detail["uuid"] = inst->m_uuid;
     }
 
     switch (msg) {
     case AsstMsg::InternalError:
     case AsstMsg::InitFailed:
-        p_this->stop(false);
+        inst->stop(false);
         break;
     default:
         break;
     }
 
-    Log.trace("Assistant::async_callback |", msg, more_detail.to_string());
-
     // 加入回调消息队列，由回调消息线程外抛给外部
-    p_this->append_callback(msg, std::move(more_detail));
+    inst->append_callback(msg, std::move(more_detail));
 }
 
 void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
 {
+    Log.info("Assistant::append_callback |", msg, detail.to_string());
+
     std::unique_lock<std::mutex> lock(m_msg_mutex);
     m_msg_queue.emplace(msg, std::move(detail));
     m_msg_condvar.notify_one();

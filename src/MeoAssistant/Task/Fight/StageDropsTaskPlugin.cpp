@@ -5,15 +5,15 @@
 #include <thread>
 
 #include "Common/AsstVersion.h"
-#include "Controller.h"
-#include "Vision/Roguelike/StageDropsImageAnalyzer.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
+#include "Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Roguelike/StageDropsImageAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -262,8 +262,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     }
 
     if (!m_report_penguin_task_ptr) {
-        m_report_penguin_task_ptr =
-            std::make_shared<ReportDataTask>(report_penguin_callback, static_cast<void*>(this), m_task_chain);
+        m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
     }
 
     m_report_penguin_task_ptr->set_report_type(ReportType::PenguinStats)
@@ -273,11 +272,11 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         .run();
 }
 
-void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg)
+void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
 {
     LogTraceFunction;
 
-    auto p_this = static_cast<StageDropsTaskPlugin*>(custom_arg);
+    auto p_this = dynamic_cast<StageDropsTaskPlugin*>(task_ptr);
     if (!p_this) {
         return;
     }

@@ -11,11 +11,11 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 
-asst::DebugTask::DebugTask(const AsstCallback& callback, void* callback_arg)
-    : InterfaceTask(callback, callback_arg, TaskType)
+asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst)
+    : InterfaceTask(callback, inst, TaskType)
 {
-    ////auto task_ptr = std::make_shared<RoguelikeSkillSelectionTaskPlugin>(callback, callback_arg, TaskType);
-    // auto task_ptr = std::make_shared<StageDropsTaskPlugin>(callback, callback_arg, TaskType);
+    ////auto task_ptr = std::make_shared<RoguelikeSkillSelectionTaskPlugin>(callback, inst, TaskType);
+    // auto task_ptr = std::make_shared<StageDropsTaskPlugin>(callback, inst, TaskType);
     // m_subtasks.emplace_back(task_ptr);
 }
 

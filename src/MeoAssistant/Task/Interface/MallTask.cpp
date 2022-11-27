@@ -4,14 +4,14 @@
 #include "Task/Miscellaneous/CreditShoppingTask.h"
 #include "Task/ProcessTask.h"
 
-asst::MallTask::MallTask(const AsstCallback& callback, void* callback_arg)
-    : InterfaceTask(callback, callback_arg, TaskType),
-      m_visit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_callback_arg, TaskType)),
-      m_credit_fight_task_ptr(std::make_shared<CreditFightTask>(callback, callback_arg, TaskType)),
-      m_mall_task_ptr(std::make_shared<ProcessTask>(callback, callback_arg, TaskType)),
-      m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
-      m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType)),
-      m_shopping_force_task_ptr(std::make_shared<CreditShoppingTask>(callback, callback_arg, TaskType))
+asst::MallTask::MallTask(const AsstCallback& callback, Assistant* inst)
+    : InterfaceTask(callback, inst, TaskType),
+      m_visit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+      m_credit_fight_task_ptr(std::make_shared<CreditFightTask>(callback, inst, TaskType)),
+      m_mall_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+      m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType)),
+      m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType)),
+      m_shopping_force_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType))
 {
     m_visit_task_ptr->set_tasks({ "VisitBegin" });
     m_mall_task_ptr->set_tasks({ "MallBegin" });

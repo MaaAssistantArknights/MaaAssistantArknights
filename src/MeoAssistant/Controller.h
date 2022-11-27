@@ -23,10 +23,12 @@
 
 namespace asst
 {
+    class Assistant;
+
     class Controller
     {
     public:
-        Controller(const AsstCallback& callback, void* callback_arg);
+        Controller(const AsstCallback& callback, Assistant* inst);
         Controller(const Controller&) = delete;
         Controller(Controller&&) = delete;
         ~Controller();
@@ -96,7 +98,7 @@ namespace asst
 
         bool* m_exit_flag = nullptr;
         AsstCallback m_callback;
-        void* m_callback_arg = nullptr;
+        Assistant* m_inst = nullptr;
 
         std::minstd_rand m_rand_engine;
 

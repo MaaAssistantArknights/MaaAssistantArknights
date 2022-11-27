@@ -16,9 +16,9 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 
-asst::InfrastAbstractTask::InfrastAbstractTask(const AsstCallback& callback, void* callback_arg,
+asst::InfrastAbstractTask::InfrastAbstractTask(const AsstCallback& callback, Assistant* inst,
                                                std::string_view task_chain)
-    : AbstractTask(callback, callback_arg, task_chain)
+    : AbstractTask(callback, inst, task_chain)
 {
     m_retry_times = TaskRetryTimes;
 }

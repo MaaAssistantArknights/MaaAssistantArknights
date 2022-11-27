@@ -54,8 +54,8 @@ namespace asst
         template <typename Rng>
         void upload_to_penguin(Rng&& tag_ids);
         void upload_to_yituliu(const json::value& details);
-        static void report_penguin_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
-        static void report_yituliu_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
+        static void report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr);
+        static void report_yituliu_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr);
 
         using slot_index = size_t;
 
