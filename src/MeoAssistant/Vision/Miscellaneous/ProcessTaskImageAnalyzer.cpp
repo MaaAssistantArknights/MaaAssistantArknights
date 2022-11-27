@@ -10,9 +10,12 @@
 #include "Vision/OcrImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
-asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name)
+asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name,
+                                                         Assistant* inst)
     : AbstractImageAnalyzer(image), m_tasks_name(std::move(tasks_name))
-{}
+{
+    m_inst = inst;
+}
 
 asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
 

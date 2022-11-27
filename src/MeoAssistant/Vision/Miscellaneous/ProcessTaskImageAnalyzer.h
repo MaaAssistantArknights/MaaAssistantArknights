@@ -17,9 +17,7 @@ namespace asst
     class ProcessTaskImageAnalyzer final : public AbstractImageAnalyzer
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        ProcessTaskImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
-        ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name);
+        ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name, Assistant* inst);
         virtual ~ProcessTaskImageAnalyzer() override;
 
         virtual bool analyze() override;
