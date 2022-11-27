@@ -32,7 +32,7 @@ asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit
 
 int asst::CreditShoppingTask::credit_ocr()
 {
-    cv::Mat credit_image = m_ctrler->get_image();
+    cv::Mat credit_image = ctrler()->get_image();
     OcrImageAnalyzer credit_analyzer(credit_image);
     credit_analyzer.set_task_info("CreditShop-CreditOcr");
     credit_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
@@ -55,7 +55,7 @@ int asst::CreditShoppingTask::credit_ocr()
 
 bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
 {
-    const cv::Mat& image = m_ctrler->get_image();
+    const cv::Mat& image = ctrler()->get_image();
 
     CreditShopImageAnalyzer shop_analyzer(image);
     if (white_list_enabled) {
@@ -76,7 +76,7 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         if (need_exit()) {
             return false;
         }
-        m_ctrler->click(commodity);
+        ctrler()->click(commodity);
 
         ProcessTask(*this, { "CreditShop-BuyIt" }).run();
 

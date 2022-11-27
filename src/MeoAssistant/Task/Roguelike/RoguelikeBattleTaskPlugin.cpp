@@ -6,18 +6,18 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Controller.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/Roguelike/RoguelikeCopilotConfig.h"
 #include "Config/TaskData.h"
+#include "Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -25,7 +25,7 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties(Status::RoguelikeTheme);
+    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -121,7 +121,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_stage_info()
         }
         std::this_thread::yield();
 
-        OcrWithPreprocessImageAnalyzer name_analyzer(m_ctrler->get_image());
+        OcrWithPreprocessImageAnalyzer name_analyzer(ctrler()->get_image());
         name_analyzer.set_task_info(stage_name_task_ptr);
         if (!name_analyzer.analyze()) {
             continue;
@@ -354,7 +354,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         m_need_clear_tiles.pop();
     }
 
-    const cv::Mat& image = m_ctrler->get_image();
+    const cv::Mat& image = ctrler()->get_image();
     if (!m_first_deploy && try_possible_skill(image)) {
         return true;
     }
@@ -427,9 +427,9 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             if ((!oper.cooling) || oper.role == BattleRole::Drone) {
                 continue;
             }
-            m_ctrler->click(oper.rect);
+            ctrler()->click(oper.rect);
             sleep(use_oper_task_ptr->pre_delay);
-            const cv::Mat& new_image = m_ctrler->get_image();
+            const cv::Mat& new_image = ctrler()->get_image();
 
             OcrWithPreprocessImageAnalyzer oper_name_analyzer(new_image);
             oper_name_analyzer.set_task_info("BattleOperName");
@@ -639,9 +639,9 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
                 const auto& oper = cur_opers.at(i - offset);
                 if (oper.role == BattleRole::Drone) {
                     clicked_drone = true;
-                    m_ctrler->click(oper.rect);
+                    ctrler()->click(oper.rect);
                     sleep(use_oper_task_ptr->pre_delay);
-                    const cv::Mat& new_image = m_ctrler->get_image();
+                    const cv::Mat& new_image = ctrler()->get_image();
 
                     OcrWithPreprocessImageAnalyzer oper_name_analyzer(new_image);
                     oper_name_analyzer.set_task_info("BattleOperName");
@@ -666,10 +666,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
             }
         }
 
-        m_ctrler->click(opt_oper.rect);
+        ctrler()->click(opt_oper.rect);
         sleep(use_oper_task_ptr->pre_delay);
 
-        OcrWithPreprocessImageAnalyzer oper_name_analyzer(m_ctrler->get_image());
+        OcrWithPreprocessImageAnalyzer oper_name_analyzer(ctrler()->get_image());
         oper_name_analyzer.set_task_info("BattleOperName");
         oper_name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
@@ -722,7 +722,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         placed_point, { opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
-    m_ctrler->swipe(opt_oper.rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
+    ctrler()->swipe(opt_oper.rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
                     swipe_oper_task_ptr->special_params.at(2));
     sleep(use_oper_task_ptr->post_delay);
 
@@ -730,7 +730,7 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     if (direction != Point::zero()) {
         static const int coeff = swipe_oper_task_ptr->special_params.at(0);
         Point end_point = placed_point + (direction * coeff);
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
+        ctrler()->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
         sleep(use_oper_task_ptr->post_delay);
     }
 
@@ -815,7 +815,7 @@ bool asst::RoguelikeBattleTaskPlugin::speed_up()
 
 bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
 {
-    m_ctrler->click(rect);
+    ctrler()->click(rect);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
     ProcessTask task(*this, { "BattleUseSkillJustClick" });
@@ -825,7 +825,7 @@ bool asst::RoguelikeBattleTaskPlugin::use_skill(const Rect& rect)
 
 bool asst::RoguelikeBattleTaskPlugin::retreat(const Point& point)
 {
-    m_ctrler->click(point);
+    ctrler()->click(point);
     sleep(Task.get("BattleUseOper")->pre_delay);
 
     return ProcessTask(*this, { "BattleOperRetreatJustClick" }).run();
@@ -884,8 +884,8 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_melee_full = false;
     m_ranged_full = false;
 
-    for (auto& [key, status] : m_restore_status) {
-        m_status->set_number(key, status);
+    for (auto& [key, status_value] : m_restore_status) {
+        status()->set_number(key, status_value);
     }
     m_restore_status.clear();
 }
@@ -905,7 +905,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
     for (auto& [loc, oper_name] : m_used_tiles) {
         std::string status_key = Status::RoguelikeSkillUsagePrefix + oper_name;
         auto usage = BattleSkillUsage::Possibly;
-        auto usage_opt = m_status->get_number(status_key);
+        auto usage_opt = status()->get_number(status_key);
         if (usage_opt) {
             usage = static_cast<BattleSkillUsage>(usage_opt.value());
         }
@@ -920,7 +920,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         if (!analyzer.analyze()) {
             continue;
         }
-        m_ctrler->click(pos_rect);
+        ctrler()->click(pos_rect);
         sleep(Task.get("BattleUseOper")->pre_delay);
         bool ret = ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(2).run();
         if (!ret) {
@@ -928,7 +928,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         }
         used |= ret;
         if (usage == BattleSkillUsage::Once) {
-            m_status->set_number(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
+            status()->set_number(status_key, static_cast<int64_t>(BattleSkillUsage::OnceUsed));
             m_restore_status[status_key] = static_cast<int64_t>(BattleSkillUsage::Once);
         }
     }
@@ -970,7 +970,7 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
     officially_begin_analyzer.set_task_info("BattleOfficiallyBegin");
     cv::Mat image;
     while (!need_exit() && !check_time()) {
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
         officially_begin_analyzer.set_image(image);
         if (officially_begin_analyzer.analyze()) {
             break;
@@ -981,7 +981,7 @@ bool asst::RoguelikeBattleTaskPlugin::wait_start()
     BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
     while (!need_exit() && !check_time()) {
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
         oper_analyzer.set_image(image);
         if (oper_analyzer.analyze()) {
             break;
@@ -1049,7 +1049,7 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(Ba
 
 asst::BattleAttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(const BattleRealTimeOper& oper)
 {
-    int64_t elite = m_status->get_number(Status::RoguelikeCharElitePrefix + oper.name).value_or(0);
+    int64_t elite = status()->get_number(Status::RoguelikeCharElitePrefix + oper.name).value_or(0);
     BattleAttackRange right_attack_range = BattleData.get_range(oper.name, elite);
 
     if (right_attack_range == BattleDataConfig::EmptyRange) {

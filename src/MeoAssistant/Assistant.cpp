@@ -30,7 +30,6 @@ Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(
 
     m_status = std::make_shared<Status>();
     m_ctrler = std::make_shared<Controller>(async_callback, this);
-    m_ctrler->set_exit_flag(&m_thread_idle);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
@@ -135,7 +134,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 #undef ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH
 
     auto& json = ret.value();
-    ptr->set_exit_flag(&m_thread_idle).set_ctrler(m_ctrler).set_status(m_status).set_enable(json.get("enable", true));
+    ptr->set_enable(json.get("enable", true));
 
     bool params_ret = ptr->set_params(json);
     if (!params_ret) {

@@ -25,7 +25,7 @@ namespace asst
         ReportDataTask(const ReportDataTask&) = default;
         ReportDataTask(ReportDataTask&&) = default;
 
-        virtual ~ReportDataTask() override;
+        virtual ~ReportDataTask() override = default;
 
         ReportDataTask& set_report_type(ReportType type);
 

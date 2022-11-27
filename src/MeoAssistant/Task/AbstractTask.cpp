@@ -10,6 +10,7 @@
 #include "Utils/NoWarningCV.h"
 
 #include "AbstractTaskPlugin.h"
+#include "Assistant.h"
 #include "Config/GeneralConfig.h"
 #include "Controller.h"
 #include "ProcessTask.h"
@@ -50,27 +51,9 @@ bool asst::AbstractTask::run()
     return false;
 }
 
-AbstractTask& asst::AbstractTask::set_exit_flag(bool* exit_flag) noexcept
-{
-    m_exit_flag = exit_flag;
-    return *this;
-}
-
 AbstractTask& asst::AbstractTask::set_retry_times(int times) noexcept
 {
     m_retry_times = times;
-    return *this;
-}
-
-AbstractTask& asst::AbstractTask::set_ctrler(std::shared_ptr<Controller> ctrler) noexcept
-{
-    m_ctrler = std::move(ctrler);
-    return *this;
-}
-
-AbstractTask& asst::AbstractTask::set_status(std::shared_ptr<Status> status) noexcept
-{
-    m_status = std::move(status);
     return *this;
 }
 
@@ -158,18 +141,25 @@ bool AbstractTask::sleep(unsigned millisecond)
     return !need_exit();
 }
 
+std::shared_ptr<Controller> asst::AbstractTask::ctrler() const
+{
+    return m_inst ? m_inst->ctrler() : nullptr;
+}
+
+std::shared_ptr<Status> asst::AbstractTask::status() const
+{
+    return m_inst ? m_inst->status() : nullptr;
+}
+
 bool asst::AbstractTask::need_exit() const
 {
-    return m_exit_flag != nullptr && *m_exit_flag;
+    return m_inst ? m_inst->need_exit() : false;
 }
 
 void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
     for (const TaskPluginPtr& plugin : m_plugins) {
-        plugin->set_exit_flag(m_exit_flag);
-        plugin->set_ctrler(m_ctrler);
         plugin->set_task_id(m_task_id);
-        plugin->set_status(m_status);
         plugin->set_task_ptr(this);
 
         if (!plugin->verify(msg, detail)) {
@@ -203,7 +193,7 @@ void asst::AbstractTask::click_return_button()
 
 bool asst::AbstractTask::save_img(const std::string& dirname)
 {
-    auto image = m_ctrler->get_image();
+    auto image = ctrler()->get_image();
     if (image.empty()) {
         return false;
     }

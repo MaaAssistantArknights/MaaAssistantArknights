@@ -12,7 +12,7 @@ namespace asst
     class OcrImageAnalyzer;
     class OcrWithPreprocessImageAnalyzer;
     class MatchImageAnalyzer;
-    class Status;
+    class Assistant;
 
     class ProcessTaskImageAnalyzer final : public AbstractImageAnalyzer
     {
@@ -26,7 +26,6 @@ namespace asst
         virtual void set_image(const cv::Mat& image) override;
 
         void set_tasks(std::vector<std::string> tasks_name);
-        void set_status(std::shared_ptr<Status> status) noexcept;
 
         std::shared_ptr<TaskInfo> get_result() const noexcept { return m_result; }
         const Rect& get_rect() const noexcept { return m_result_rect; }
@@ -46,7 +45,6 @@ namespace asst
         std::unique_ptr<MatchImageAnalyzer> m_match_analyzer;
         std::vector<std::string> m_tasks_name;
         std::shared_ptr<TaskInfo> m_result = nullptr;
-        std::shared_ptr<Status> m_status = nullptr;
         Rect m_result_rect;
         // std::vector<TextRect> m_ocr_cache;
     };

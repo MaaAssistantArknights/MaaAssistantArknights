@@ -22,8 +22,8 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
     const std::string task = details.at("details").at("task").as_string();
     if (task == "Fight@EndOfAction") {
-        int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
-        int64_t last_recognize_flag = m_status->get_number(RecognitionRestrictionsKey).value_or(0);
+        int64_t last_start_time = status()->get_number(LastStartTimeKey).value_or(0);
+        int64_t last_recognize_flag = status()->get_number(RecognitionRestrictionsKey).value_or(0);
         if (last_start_time + RecognitionTimeOffset == last_recognize_flag) {
             Log.warn("Only one recognition per start", last_start_time, last_recognize_flag);
             return false;
@@ -104,7 +104,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return false;
     }
 
-    StageDropsImageAnalyzer analyzer(m_ctrler->get_image());
+    StageDropsImageAnalyzer analyzer(ctrler()->get_image());
     if (!analyzer.analyze()) {
         auto info = basic_info();
         info["subtask"] = "RecognizeDrops";
@@ -123,9 +123,9 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return true;
     }
 
-    int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
+    int64_t last_start_time = status()->get_number(LastStartTimeKey).value_or(0);
     int64_t recognize_flag = last_start_time + RecognitionTimeOffset;
-    m_status->set_number(RecognitionRestrictionsKey, recognize_flag);
+    status()->set_number(RecognitionRestrictionsKey, recognize_flag);
 
     return true;
 }
@@ -192,7 +192,7 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
         return;
     }
 
-    int64_t last_start_time = m_status->get_number(LastStartTimeKey).value_or(0);
+    int64_t last_start_time = status()->get_number(LastStartTimeKey).value_or(0);
     if (last_start_time == 0) {
         return;
     }

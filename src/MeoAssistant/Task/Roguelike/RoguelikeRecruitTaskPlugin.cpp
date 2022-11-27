@@ -15,7 +15,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties(Status::RoguelikeTheme);
+    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -62,11 +62,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         recruited = true;
     };
 
-    bool team_full_without_rookie = m_status->get_number(Status::RoguelikeTeamFullWithoutRookie).value_or(0);
+    bool team_full_without_rookie = status()->get_number(Status::RoguelikeTeamFullWithoutRookie).value_or(0);
     Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
-    std::string str_chars_info = m_status->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
+    std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
     std::unordered_map<BattleRole, int> team_roles;
@@ -94,7 +94,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         if (need_exit()) {
             return false;
         }
-        auto image = m_ctrler->get_image();
+        auto image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.trace(__FUNCTION__, "| Page", i, "recruit list analyse failed");
@@ -136,7 +136,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
             // 查询招募配置
             auto& recruit_info = RoguelikeRecruit.get_oper_info(
-                m_status->get_properties(Status::RoguelikeTheme).value(), oper_info.name);
+                status()->get_properties(Status::RoguelikeTheme).value(), oper_info.name);
             if (recruit_info.name.empty()) {
                 continue;
             }
@@ -189,7 +189,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     }
                     role_num = team_roles[oper_role];
                     const auto role_info = RoguelikeRecruit.get_role_info(
-                        m_status->get_properties(Status::RoguelikeTheme).value(), oper_role);
+                        status()->get_properties(Status::RoguelikeTheme).value(), oper_role);
                     for (const auto& offset_pair : ranges::reverse_view(role_info)) {
                         if (role_num >= offset_pair.first) {
                             priority += offset_pair.second;
@@ -250,7 +250,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             swipe_to_the_left_of_operlist(i + 1);
         }
 
-        auto image = m_ctrler->get_image();
+        auto image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.error(__FUNCTION__, "| Random recruitment analyse failed");
@@ -323,7 +323,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         if (need_exit()) {
             return false;
         }
-        auto image = m_ctrler->get_image();
+        auto image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
 
         // 只处理识别成功的情况，失败(无任何结果)时继续滑动
@@ -374,11 +374,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 {
     LogTraceFunction;
 
-    auto core_opt = m_status->get_str(Status::RoguelikeCoreChar);
+    auto core_opt = status()->get_str(Status::RoguelikeCoreChar);
     if (!core_opt || core_opt->empty()) {
         return false;
     }
-    m_status->set_str(Status::RoguelikeCoreChar, "");
+    status()->set_str(Status::RoguelikeCoreChar, "");
     return check_char(core_opt.value());
 }
 
@@ -386,18 +386,18 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
 {
     Log.info(__FUNCTION__, "| Choose oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
 
-    m_ctrler->click(oper.rect);
+    ctrler()->click(oper.rect);
 
-    m_status->set_number(Status::RoguelikeCharElitePrefix + oper.name, oper.elite);
-    m_status->set_number(Status::RoguelikeCharLevelPrefix + oper.name, oper.level);
+    status()->set_number(Status::RoguelikeCharElitePrefix + oper.name, oper.elite);
+    status()->set_number(Status::RoguelikeCharLevelPrefix + oper.name, oper.level);
 
-    std::string overview_str = m_status->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
+    std::string overview_str = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value overview = json::parse(overview_str).value_or(json::value());
     overview[oper.name] = json::object {
         { "elite", oper.elite },
         { "level", oper.level },
     };
-    m_status->set_str(Status::RoguelikeCharOverview, overview.to_string());
+    status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
 }
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)

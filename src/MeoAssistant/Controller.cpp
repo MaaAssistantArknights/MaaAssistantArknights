@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "Assistant.h"
 #include "Common/AsstConf.h"
 #include "Utils/NoWarningCV.h"
 
@@ -86,7 +87,7 @@ std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 
 bool asst::Controller::need_exit() const
 {
-    return m_exit_flag != nullptr && *m_exit_flag;
+    return m_inst ? m_inst->need_exit() : false;
 }
 
 std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool allow_reconnect,
@@ -1610,11 +1611,6 @@ bool asst::Controller::release()
 bool asst::Controller::inited() const noexcept
 {
     return m_inited;
-}
-
-void asst::Controller::set_exit_flag(bool* flag)
-{
-    m_exit_flag = flag;
 }
 
 const std::string& asst::Controller::get_uuid() const

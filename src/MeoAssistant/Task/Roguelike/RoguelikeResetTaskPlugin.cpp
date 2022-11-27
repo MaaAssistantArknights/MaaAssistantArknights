@@ -9,7 +9,7 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties(Status::RoguelikeTheme);
+    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -31,7 +31,7 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
 bool asst::RoguelikeResetTaskPlugin::_run()
 {
     // 简单粗暴，后面如果多任务间有联动可能要改改
-    m_status->clear_number();
-    m_status->clear_str();
+    status()->clear_number();
+    status()->clear_str();
     return true;
 }

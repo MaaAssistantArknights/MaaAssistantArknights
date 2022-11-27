@@ -79,7 +79,7 @@ bool asst::InfrastDormTask::opers_choose()
         if (need_exit()) {
             return false;
         }
-        const auto image = m_ctrler->get_image();
+        const auto image = ctrler()->get_image();
         InfrastOperImageAnalyzer oper_analyzer(image);
 
         constexpr int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
@@ -103,7 +103,7 @@ bool asst::InfrastDormTask::opers_choose()
             if (to_fill) {
                 if (oper.doing != infrast::Doing::Working && !oper.selected) {
                     Log.info("to fill");
-                    m_ctrler->click(oper.rect);
+                    ctrler()->click(oper.rect);
                     ++num_of_selected;
                 }
                 continue;
@@ -113,7 +113,7 @@ bool asst::InfrastDormTask::opers_choose()
                 if (m_next_step == NextStep::Fill) {
                     to_fill = true;
                     Log.info("set to_fill = true;");
-                    m_ctrler->click(oper.rect);
+                    ctrler()->click(oper.rect);
                     ++num_of_selected;
                     continue;
                 }
@@ -169,7 +169,7 @@ bool asst::InfrastDormTask::opers_choose()
 
                     // 判断要不要把人放进宿舍if_opertrust_not_full && if_oper_not_stationed
                     if (if_opertrust_not_full && if_oper_not_stationed) {
-                        m_ctrler->click(oper.rect);
+                        ctrler()->click(oper.rect);
                         ++num_of_selected;
                     }
                     else {
@@ -202,7 +202,7 @@ bool asst::InfrastDormTask::opers_choose()
             case infrast::SmileyType::Distract:
                 // 干员没有被选择的情况下，且不在工作，就进驻宿舍
                 if (oper.selected == false && oper.doing != infrast::Doing::Working) {
-                    m_ctrler->click(oper.rect);
+                    ctrler()->click(oper.rect);
                     ++num_of_selected;
                 }
                 break;

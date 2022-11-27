@@ -10,6 +10,9 @@
 namespace asst
 {
     class TaskData;
+    class Status;
+    class Assistant;
+
     class AbstractImageAnalyzer
     {
     public:
@@ -24,6 +27,8 @@ namespace asst
         virtual void set_roi(const Rect& roi) noexcept;
 
         virtual bool analyze() = 0;
+        void set_inst(Assistant* inst) noexcept;
+        std::shared_ptr<Status> status() const;
 
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
@@ -35,6 +40,7 @@ namespace asst
 
         cv::Mat m_image;
         Rect m_roi;
+        Assistant* m_inst = nullptr;
 
 #ifdef ASST_DEBUG
         cv::Mat m_image_draw;

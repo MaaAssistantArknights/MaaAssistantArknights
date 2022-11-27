@@ -193,7 +193,7 @@ bool asst::AutoRecruitTask::_run()
     if (!recruit_begin()) return false;
 
     {
-        const auto image = m_ctrler->get_image();
+        const auto image = ctrler()->get_image();
         // initialize_dirty_slot_info(image);
         m_dirty_slots = { 0, 1, 2, 3 };
         if (!hire_all(image)) return false;
@@ -209,7 +209,7 @@ bool asst::AutoRecruitTask::_run()
             return false;
         }
 
-        auto start_rect = try_get_start_button(m_ctrler->get_image());
+        auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
             if (need_exit()) return false;
             if (recruit_one(start_rect.value()))
@@ -281,7 +281,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     int delay = Config.get_options().task_delay;
 
-    m_ctrler->click(button);
+    ctrler()->click(button);
     sleep(delay);
 
     auto calc_result = recruit_calc_task(slot_index_from_rect(button));
@@ -344,7 +344,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
     for (size_t image_analyzer_retry = 0; image_analyzer_retry < analyze_limit;) {
         ++image_analyzer_retry;
 
-        RecruitImageAnalyzer image_analyzer(m_ctrler->get_image());
+        RecruitImageAnalyzer image_analyzer(ctrler()->get_image());
         if (!image_analyzer.analyze()) continue;
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) continue;
 
@@ -540,9 +540,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             const int hour_delta = (1 < temp) ? (1 + 9 - temp) : (temp - 1);
             const int minute_delta = (0 < desired_minute_div_10) ? (0 + 6 - desired_minute_div_10) : (0);
             for (int i = 0; i < hour_delta; ++i)
-                m_ctrler->click(image_analyzer.get_hour_decrement_rect());
+                ctrler()->click(image_analyzer.get_hour_decrement_rect());
             for (int i = 0; i < minute_delta; ++i)
-                m_ctrler->click(image_analyzer.get_minute_decrement_rect());
+                ctrler()->click(image_analyzer.get_minute_decrement_rect());
         }
 
         // nothing to select, leave the selection empty
@@ -559,7 +559,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         for (const std::string& final_tag_name : final_combination.tags) {
             auto tag_rect_iter = ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
-                m_ctrler->click(tag_rect_iter->rect);
+                ctrler()->click(tag_rect_iter->rect);
             }
         }
 
@@ -588,7 +588,7 @@ bool asst::AutoRecruitTask::recruit_begin()
 
 bool asst::AutoRecruitTask::check_timer(int minutes_expected)
 {
-    const auto image = m_ctrler->get_image();
+    const auto image = ctrler()->get_image();
     const auto replace_map = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
 
     {
@@ -658,7 +658,7 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
 /// search for blue *Hire* buttons in the recruit home page, mark those slot clean and do hiring
 bool asst::AutoRecruitTask::hire_all()
 {
-    return hire_all(m_ctrler->get_image());
+    return hire_all(ctrler()->get_image());
 }
 
 /// search for *RecruitNow* buttons before recruit and mark them as dirty

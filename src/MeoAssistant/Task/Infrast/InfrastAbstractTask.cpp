@@ -102,7 +102,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         return false;
     }
 
-    InfrastFacilityImageAnalyzer analyzer(m_ctrler->get_image());
+    InfrastFacilityImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
         Log.info("result is empty");
@@ -113,7 +113,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         Log.info("facility index is out of range");
         return false;
     }
-    m_ctrler->click(rect);
+    ctrler()->click(rect);
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
@@ -232,7 +232,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         return false;
     }
 
-    const auto image = m_ctrler->get_image();
+    const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
@@ -271,7 +271,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
             continue;
         }
         if (!oper.selected) {
-            m_ctrler->click(oper.rect);
+            ctrler()->click(oper.rect);
         }
         if (++room_config.selected >= max_num_of_opers()) {
             break;
@@ -289,7 +289,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
         return;
     }
 
-    const auto image = m_ctrler->get_image();
+    const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
@@ -316,7 +316,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     for (const std::string& name : names) {
         auto iter = ranges::find_if(page_result, [&name](const TextRect& tr) { return tr.text == name; });
         if (iter != page_result.cend()) {
-            m_ctrler->click(iter->rect);
+            ctrler()->click(iter->rect);
         }
         else {
             Log.error("name not in this page", name);
@@ -350,7 +350,7 @@ bool asst::InfrastAbstractTask::click_clear_button()
         // 有可能点快了，清空按钮刚刚出来，实际点上去还不生效，就点了
         // 所以多识别一次，如果没清掉就再清一下
         if (ret) {
-            InfrastOperImageAnalyzer analyzer(m_ctrler->get_image());
+            InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
             analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
             if (!analyzer.analyze()) {
                 return false;
