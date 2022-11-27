@@ -9,7 +9,7 @@
 #ifdef __cplusplus
 namespace asst
 {
-    class AssistantAPI;
+    class AsstExtAPI;
 }
 #endif
 
@@ -18,7 +18,7 @@ extern "C"
 {
 #endif
 #ifdef __cplusplus
-    typedef asst::AssistantAPI* AsstHandle;
+    typedef asst::AsstExtAPI* AsstHandle;
 #else
 typedef void* AsstHandle;
 #endif

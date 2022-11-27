@@ -42,7 +42,7 @@
 #include "Utils/WorkingDir.hpp"
 
 asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
-    : InstProps(inst), m_callback(callback), m_rand_engine(std::random_device {}())
+    : InstHelper(inst), m_callback(callback), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 

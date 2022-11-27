@@ -18,7 +18,7 @@
 
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
-#include "InstProps.h"
+#include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
 
@@ -26,7 +26,7 @@ namespace asst
 {
     class Assistant;
 
-    class Controller : private InstProps
+    class Controller : private InstHelper
     {
     public:
         Controller(const AsstCallback& callback, Assistant* inst);

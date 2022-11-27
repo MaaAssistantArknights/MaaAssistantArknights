@@ -21,7 +21,7 @@
 using namespace asst;
 
 AbstractTask::AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
-    : InstProps(inst), m_callback(callback), m_task_chain(task_chain)
+    : InstHelper(inst), m_callback(callback), m_task_chain(task_chain)
 {}
 
 bool asst::AbstractTask::run()

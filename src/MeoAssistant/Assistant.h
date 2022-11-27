@@ -20,13 +20,13 @@ namespace cv
 
 namespace asst
 {
-    class AssistantAPI
+    class AsstExtAPI
     {
     public:
         using TaskId = int;
         using AsyncCallId = int;
 
-        virtual ~AssistantAPI() = default;
+        virtual ~AsstExtAPI() = default;
 
         // 设置实例级参数
         virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) = 0;
@@ -65,7 +65,7 @@ namespace asst
     class InterfaceTask;
     class Status;
 
-    class Assistant : public AssistantAPI
+    class Assistant : public AsstExtAPI
     {
     public:
         Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);

@@ -423,7 +423,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="InstProps.h">
+    <ClInclude Include="InstHelper.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -704,7 +704,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="InstProps.cpp">
+    <ClCompile Include="InstHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

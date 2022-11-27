@@ -3,7 +3,7 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Assistant.h"
-#include "InstProps.h"
+#include "InstHelper.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
@@ -18,7 +18,7 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
 {}
 
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst)
-    : InstProps(inst), m_image(image), m_roi(correct_rect(Rect(), image))
+    : InstHelper(inst), m_image(image), m_roi(correct_rect(Rect(), image))
 #ifdef ASST_DEBUG
       ,
       m_image_draw(image.clone())

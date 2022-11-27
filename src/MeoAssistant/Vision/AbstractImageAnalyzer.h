@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Common/AsstTypes.h"
-#include "InstProps.h"
+#include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
 
 // #ifndef  ASST_DEBUG
@@ -14,7 +14,7 @@ namespace asst
     class Status;
     class Assistant;
 
-    class AbstractImageAnalyzer : protected InstProps
+    class AbstractImageAnalyzer : protected InstHelper
     {
     public:
         AbstractImageAnalyzer() = default;
@@ -35,7 +35,7 @@ namespace asst
         bool save_img(const std::string& dirname = "debug/");
 
     protected:
-        using InstProps::status;
+        using InstHelper::status;
 
     protected:
         static Rect correct_rect(const Rect& rect, const cv::Mat& image) noexcept;
@@ -48,7 +48,7 @@ namespace asst
 #endif
 
     private:
-        using InstProps::ctrler;
-        using InstProps::need_exit;
+        using InstHelper::ctrler;
+        using InstHelper::need_exit;
     };
 }
