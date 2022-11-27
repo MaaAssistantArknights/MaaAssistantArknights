@@ -43,7 +43,7 @@ namespace asst
         // 停止任务队列并清空
         virtual bool stop(bool block = true) = 0;
         // 是否正在运行
-        virtual bool running() = 0;
+        virtual bool running() const = 0;
 
         // 异步连接
         virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
@@ -80,7 +80,7 @@ namespace asst
 
         virtual bool start(bool block = true) override;
         virtual bool stop(bool block = true) override;
-        virtual bool running() override;
+        virtual bool running() const override;
 
         virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
                                           const std::string& config, bool block = false) override;
