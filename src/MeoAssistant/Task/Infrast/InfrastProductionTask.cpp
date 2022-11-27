@@ -104,11 +104,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         sleep(tab_task_ptr->pre_delay);
-        m_ctrler->click(tab);
+        ctrler()->click(tab);
         sleep(tab_task_ptr->post_delay);
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
-        const auto image = m_ctrler->get_image();
+        const auto image = ctrler()->get_image();
         add_analyzer.set_image(image);
         if (!add_analyzer.analyze()) {
             Log.error("no add button, just continue");
@@ -157,7 +157,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 进入干员选择页面 */
-        m_ctrler->click(add_button);
+        ctrler()->click(add_button);
         sleep(add_task_ptr->post_delay);
 
         for (int i = 0; i <= OperSelectRetryTimes; ++i) {
@@ -242,7 +242,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
 size_t asst::InfrastProductionTask::opers_detect()
 {
     LogTraceFunction;
-    const auto image = m_ctrler->get_image();
+    const auto image = ctrler()->get_image();
 
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
@@ -386,7 +386,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 条件判断，不符合的直接过滤掉
         bool meet_condition = true;
         for (const auto& [cond, cond_value] : group.conditions) {
-            auto cond_opt = m_status->get_number(cond);
+            auto cond_opt = status()->get_number(cond);
             if (!cond_opt) {
                 continue;
             }
@@ -531,7 +531,7 @@ bool asst::InfrastProductionTask::opers_choose()
         if (need_exit()) {
             return false;
         }
-        const auto image = m_ctrler->get_image();
+        const auto image = ctrler()->get_image();
         InfrastOperImageAnalyzer oper_analyzer(image);
         oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
         oper_analyzer.set_facility(facility_name());
@@ -598,7 +598,7 @@ bool asst::InfrastProductionTask::opers_choose()
                 // 但是如果当前设施只有一个位置，即不存在“上次循环”的情况，说明是清除干员按钮没点到
             }
             else {
-                m_ctrler->click(find_iter->rect);
+                ctrler()->click(find_iter->rect);
             }
             {
                 auto avlb_iter = ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
@@ -658,7 +658,7 @@ asst::infrast::SkillsComb asst::InfrastProductionTask::efficient_regex_calc(
                 // TODO 报错！
             }
             std::string status_key = cur_formula.substr(pos + 1, rp_pos - pos - 1);
-            auto status_opt = m_status->get_number(status_key);
+            auto status_opt = status()->get_number(status_key);
             const int64_t status_value = status_opt ? status_opt.value() : 0;
             cur_formula.replace(pos, rp_pos - pos + 1, std::to_string(status_value));
         }
@@ -674,7 +674,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     LogTraceFunction;
     m_facility_list_tabs.clear();
 
-    const auto image = m_ctrler->get_image();
+    const auto image = ctrler()->get_image();
     MultiMatchImageAnalyzer mm_analyzer(image);
 
     mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());

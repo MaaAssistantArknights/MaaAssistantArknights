@@ -76,7 +76,7 @@ bool asst::BattleFormationTask::enter_selection_page()
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
-    auto image = m_ctrler->get_image();
+    auto image = ctrler()->get_image();
     auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
 
     OcrWithFlagTemplImageAnalyzer name_analyzer(image);
@@ -138,10 +138,10 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         if (iter == groups.end()) {
             continue;
         }
-        m_ctrler->click(res.rect);
+        ctrler()->click(res.rect);
         sleep(formation_task_ptr->post_delay);
         if (1 <= skill && skill <= 3) {
-            m_ctrler->click(SkillRectArray.at(skill - 1ULL));
+            ctrler()->click(SkillRectArray.at(skill - 1ULL));
         }
         groups.erase(iter);
 

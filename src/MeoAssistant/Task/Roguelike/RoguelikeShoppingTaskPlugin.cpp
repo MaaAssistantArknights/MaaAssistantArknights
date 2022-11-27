@@ -14,7 +14,7 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties(Status::RoguelikeTheme);
+    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -40,14 +40,14 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     OcrWithFlagTemplImageAnalyzer analyzer;
     analyzer.set_task_info("RoguelikeTraderShopping", "RoguelikeTraderShoppingOcr");
 
-    analyzer.set_image(m_ctrler->get_image());
+    analyzer.set_image(ctrler()->get_image());
     if (!analyzer.analyze()) {
         return false;
     }
 
-    bool no_longer_buy = m_status->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
+    bool no_longer_buy = status()->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
 
-    std::string str_chars_info = m_status->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
+    std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
 
     std::unordered_map<BattleRole, size_t> map_roles_count;
@@ -92,7 +92,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     const auto& result = analyzer.get_result();
     bool bought = false;
-    auto& all_goods = RoguelikeShopping.get_goods(m_status->get_properties(Status::RoguelikeTheme).value());
+    auto& all_goods = RoguelikeShopping.get_goods(status()->get_properties(Status::RoguelikeTheme).value());
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
@@ -152,10 +152,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         // 即 ProcessTask 多点的那一下会点到不影响的地方
         // 然后继续走 next 里确认 or 取消等等的逻辑
         Log.info("Ready to buy", goods.name);
-        m_ctrler->click(find_it->rect);
+        ctrler()->click(find_it->rect);
         bought = true;
         if (goods.no_longer_buy) {
-            m_status->set_number(Status::RoguelikeTraderNoLongerBuy, 1);
+            status()->set_number(Status::RoguelikeTraderNoLongerBuy, 1);
         }
         break;
     }

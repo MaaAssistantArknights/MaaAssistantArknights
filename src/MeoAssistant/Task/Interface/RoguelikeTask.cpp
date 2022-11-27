@@ -46,12 +46,12 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    if (m_status == nullptr) {
+    if (status() == nullptr) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
-        Log.error(__FUNCTION__, "m_status is null");
+        Log.error(__FUNCTION__, "status() is null");
         return false;
     }
-    m_status->set_properties(Status::RoguelikeTheme, theme);
+    status()->set_properties(Status::RoguelikeTheme, theme);
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
     // 0 - 刷蜡烛，尽可能稳定地打更多层数

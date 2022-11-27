@@ -31,10 +31,7 @@ namespace asst
 
         virtual bool run();
 
-        virtual AbstractTask& set_exit_flag(bool* exit_flag) noexcept;
         virtual AbstractTask& set_retry_times(int times) noexcept;
-        virtual AbstractTask& set_ctrler(std::shared_ptr<Controller> ctrler) noexcept;
-        virtual AbstractTask& set_status(std::shared_ptr<Status> status) noexcept;
         virtual AbstractTask& set_enable(bool enable) noexcept;
         virtual AbstractTask& set_ignore_error(bool ignore) noexcept;
         virtual AbstractTask& set_task_id(int task_id) noexcept;
@@ -66,13 +63,15 @@ namespace asst
 
         json::value basic_info_with_what(std::string what) const;
         bool sleep(unsigned millisecond);
+
+        std::shared_ptr<Controller> ctrler() const;
+        std::shared_ptr<Status> status() const;
         bool need_exit() const;
 
         bool m_enable = true;
         bool m_ignore_error = false;
         AsstCallback m_callback = nullptr;
         Assistant* m_inst = nullptr;
-        bool* m_exit_flag = nullptr;
         std::string_view m_task_chain;
         int m_cur_retry = 0;
         int m_retry_times = RetryTimesDefault;
@@ -80,7 +79,5 @@ namespace asst
         mutable json::value m_basic_info_cache;
         int m_task_id = 0;
         std::set<TaskPluginPtr> m_plugins;
-        std::shared_ptr<Controller> m_ctrler = nullptr;
-        std::shared_ptr<Status> m_status = nullptr;
     };
 } // namespace asst

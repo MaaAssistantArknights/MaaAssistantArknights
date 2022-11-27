@@ -17,12 +17,6 @@ asst::ReportDataTask::ReportDataTask(const TaskCallback& task_callback, Abstract
       m_upper_task(upper_task)
 {}
 
-asst::ReportDataTask::~ReportDataTask()
-{
-    static bool Exit = true;
-    m_exit_flag = &Exit;
-}
-
 asst::ReportDataTask& asst::ReportDataTask::set_report_type(ReportType type)
 {
     m_report_type = type;

@@ -6,12 +6,12 @@
 
 #include <meojson/json.hpp>
 
-#include "Controller.h"
-#include "Vision/Miscellaneous/ProcessTaskImageAnalyzer.h"
 #include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
+#include "Controller.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/ProcessTaskImageAnalyzer.h"
 
 using namespace asst;
 
@@ -112,10 +112,9 @@ bool ProcessTask::_run()
             m_cur_task_ptr = front_task_ptr;
         }
         else {
-            const auto image = m_ctrler->get_image();
+            const auto image = ctrler()->get_image();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name);
-
-            analyzer.set_status(m_status);
+            analyzer.set_inst(m_inst);
 
             if (!analyzer.analyze()) {
                 return false;
@@ -179,7 +178,7 @@ bool ProcessTask::_run()
             exec_click_task(rect);
             break;
         case ProcessTaskAction::ClickRand: {
-            auto&& [width, height] = m_ctrler->get_scale_size();
+            auto&& [width, height] = ctrler()->get_scale_size();
             const Rect full_rect(0, 0, width, height);
             exec_click_task(full_rect);
         } break;
@@ -200,7 +199,7 @@ bool ProcessTask::_run()
             break;
         }
 
-        m_status->set_number(Status::ProcessTaskLastTimePrefix + cur_name, time(nullptr));
+        status()->set_number(Status::ProcessTaskLastTimePrefix + cur_name, time(nullptr));
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
@@ -315,11 +314,11 @@ json::value asst::ProcessTask::basic_info() const
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)
 {
-    m_ctrler->click(matched_rect);
+    ctrler()->click(matched_rect);
 }
 
 void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
                                         double slope_out)
 {
-    m_ctrler->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out);
+    ctrler()->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out);
 }

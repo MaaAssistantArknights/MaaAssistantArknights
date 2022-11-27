@@ -14,7 +14,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties(Status::RoguelikeTheme);
+    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -78,7 +78,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 {
     constexpr size_t SwipeTimes = 7;
     for (size_t i = 0; i != SwipeTimes; ++i) {
-        auto image = m_ctrler->get_image();
+        auto image = ctrler()->get_image();
         OcrImageAnalyzer analyzer(image);
         analyzer.set_task_info("RoguelikeCustom-HijackSquad");
         analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
@@ -89,7 +89,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
             continue;
         }
         const auto& rect = analyzer.get_result().front().rect;
-        m_ctrler->click(rect);
+        ctrler()->click(rect);
         return true;
     }
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
@@ -98,7 +98,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
-    auto image = m_ctrler->get_image();
+    auto image = ctrler()->get_image();
     OcrImageAnalyzer analyzer(image);
     analyzer.set_task_info("RoguelikeCustom-HijackRoles");
     analyzer.set_required({ m_customs[RoguelikeCustomType::Roles] });
@@ -107,7 +107,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
         return false;
     }
     const auto& rect = analyzer.get_result().front().rect;
-    m_ctrler->click(rect);
+    ctrler()->click(rect);
     return true;
 }
 
@@ -129,7 +129,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     // select role
     const std::string& role_ocr_name = role_iter->second;
     Log.info("role", role_ocr_name);
-    auto image = m_ctrler->get_image();
+    auto image = ctrler()->get_image();
     OcrImageAnalyzer analyzer(image);
     analyzer.set_task_info("RoguelikeCustom-HijackCoChar");
     analyzer.set_required({ role_ocr_name });
@@ -137,10 +137,10 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
         return false;
     }
     const auto& role_rect = analyzer.get_result().front().rect;
-    m_ctrler->click(role_rect);
+    ctrler()->click(role_rect);
 
     sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
-    m_status->set_str(Status::RoguelikeCoreChar, char_name);
+    status()->set_str(Status::RoguelikeCoreChar, char_name);
     return true;
 }

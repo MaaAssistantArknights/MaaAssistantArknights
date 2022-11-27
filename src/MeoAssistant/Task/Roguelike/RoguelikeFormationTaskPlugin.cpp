@@ -15,7 +15,7 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties(Status::RoguelikeTheme);
+    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -36,7 +36,7 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
 
 bool asst::RoguelikeFormationTaskPlugin::_run()
 {
-    RoguelikeFormationImageAnalyzer formation_analyzer(m_ctrler->get_image());
+    RoguelikeFormationImageAnalyzer formation_analyzer(ctrler()->get_image());
     if (!formation_analyzer.analyze()) {
         return false;
     }
@@ -48,7 +48,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
             ++pre_selected;
             continue;
         }
-        m_ctrler->click(oper.rect);
+        ctrler()->click(oper.rect);
         ++select_count;
     }
     Log.info(__FUNCTION__, "pre_selected: ", pre_selected, " select: ", select_count);
@@ -63,7 +63,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
     }
     if (!reselect && select_count != 0) {
         sleep(Task.get("RoguelikeQuickFormationDelay")->post_delay);
-        formation_analyzer.set_image(m_ctrler->get_image());
+        formation_analyzer.set_image(ctrler()->get_image());
 
         if (!formation_analyzer.analyze()) {
             Log.warn("RoguelikeFormationImageAnalyzer re analyze failed");
@@ -101,7 +101,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 
 size_t asst::RoguelikeFormationTaskPlugin::analyze_and_select()
 {
-    RoguelikeFormationImageAnalyzer formation_analyzer(m_ctrler->get_image());
+    RoguelikeFormationImageAnalyzer formation_analyzer(ctrler()->get_image());
     if (!formation_analyzer.analyze()) {
         return false;
     }
@@ -111,7 +111,7 @@ size_t asst::RoguelikeFormationTaskPlugin::analyze_and_select()
         if (oper.selected) {
             continue;
         }
-        m_ctrler->click(oper.rect);
+        ctrler()->click(oper.rect);
         ++select_count;
     }
     return select_count;

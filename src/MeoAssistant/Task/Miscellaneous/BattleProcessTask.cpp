@@ -89,7 +89,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     officially_begin_analyzer.set_task_info("BattleOfficiallyBegin");
     cv::Mat image;
     while (!need_exit()) {
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
         officially_begin_analyzer.set_image(image);
         if (officially_begin_analyzer.analyze()) {
             break;
@@ -100,7 +100,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
     while (!need_exit()) {
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
         oper_analyzer.set_image(image);
         if (oper_analyzer.analyze()) {
             break;
@@ -122,7 +122,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
     // 所以这里一直点，直到真的点上了为止
     while (!need_exit()) {
         battle_pause();
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
         officially_begin_analyzer.set_image(image);
         if (!officially_begin_analyzer.analyze()) {
             break;
@@ -148,10 +148,10 @@ bool asst::BattleProcessTask::analyze_opers_preview()
         const auto& cur_oper = oper_analyzer.get_opers();
         size_t offset = opers.size() > cur_oper.size() ? opers.size() - cur_oper.size() : 0;
         cur_rect = cur_oper.at(i - offset).rect;
-        m_ctrler->click(cur_rect);
+        ctrler()->click(cur_rect);
         sleep(click_delay);
 
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
 
         OcrWithPreprocessImageAnalyzer name_analyzer(image);
         name_analyzer.set_task_info("BattleOperName");
@@ -191,7 +191,7 @@ bool asst::BattleProcessTask::analyze_opers_preview()
 
     draw_future.wait();
 
-    m_ctrler->click(cur_rect);
+    ctrler()->click(cur_rect);
     sleep(click_delay);
     battle_pause();
 
@@ -262,10 +262,10 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
         // 一个都没匹配上，考虑是新增的召唤物，或者别的东西，点开来看一下
         if (matched_result.score == 0) {
             battle_pause();
-            m_ctrler->click(cur_oper.rect);
+            ctrler()->click(cur_oper.rect);
             sleep(Task.get("BattleUseOper")->pre_delay);
 
-            OcrWithPreprocessImageAnalyzer name_analyzer(m_ctrler->get_image());
+            OcrWithPreprocessImageAnalyzer name_analyzer(ctrler()->get_image());
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
 
@@ -274,7 +274,7 @@ bool asst::BattleProcessTask::update_opers_info(const cv::Mat& image)
                 oper_name = name_analyzer.get_result().front().text;
             }
             m_group_to_oper_mapping[oper_name] = BattleDeployOper { oper_name };
-            m_ctrler->click(cur_oper.rect);
+            ctrler()->click(cur_oper.rect);
             sleep(Task.get("BattleUseOper")->pre_delay);
             battle_pause();
         }
@@ -397,7 +397,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
 
 bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 {
-    cv::Mat image = m_ctrler->get_image();
+    cv::Mat image = ctrler()->get_image();
 
     // 计算初始状态
     int cost_base = -1;
@@ -439,7 +439,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
         try_possible_skill(image);
         std::this_thread::yield();
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
     }
 
     // 计算费用变化量
@@ -451,7 +451,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
                 int cost = analyzer.get_cost();
                 if (cost_base == -1) {
                     cost_base = cost;
-                    image = m_ctrler->get_image();
+                    image = ctrler()->get_image();
                     continue;
                 }
                 if (action.cost_changes != 0) {
@@ -469,7 +469,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
             try_possible_skill(image);
             std::this_thread::yield();
-            image = m_ctrler->get_image();
+            image = ctrler()->get_image();
         }
     }
 
@@ -491,7 +491,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
             try_possible_skill(image);
             std::this_thread::yield();
-            image = m_ctrler->get_image();
+            image = ctrler()->get_image();
         }
     }
 
@@ -510,7 +510,7 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
             try_possible_skill(image);
             std::this_thread::yield();
-            image = m_ctrler->get_image();
+            image = ctrler()->get_image();
         }
     }
 
@@ -529,7 +529,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
 
     if (!m_in_bullet_time) {
         // 点击干员
-        m_ctrler->click(oper_rect);
+        ctrler()->click(oper_rect);
         sleep(use_oper_task_ptr->pre_delay);
     }
     if (only_pre_process) {
@@ -544,7 +544,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
         Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
-    m_ctrler->swipe(oper_rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
+    ctrler()->swipe(oper_rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
                     swipe_oper_task_ptr->special_params.at(2));
 
     sleep(use_oper_task_ptr->post_delay);
@@ -564,7 +564,7 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
         static const int coeff = Task.get("BattleSwipeOper")->special_params.at(0);
         Point end_point = placed_point + (direction * coeff);
 
-        m_ctrler->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
+        ctrler()->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
         sleep(use_oper_task_ptr->post_delay);
     }
 
@@ -589,7 +589,7 @@ bool asst::BattleProcessTask::oper_retreat(const BattleAction& action, bool only
         else {
             pos = m_normal_tile_info.at(action.location).pos;
         }
-        m_ctrler->click(pos);
+        ctrler()->click(pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
     }
     if (only_pre_process) {
@@ -612,7 +612,7 @@ bool asst::BattleProcessTask::use_skill(const BattleAction& action, bool only_pr
             pos = m_normal_tile_info.at(action.location).pos;
         }
 
-        m_ctrler->click(pos);
+        ctrler()->click(pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
     }
 
@@ -634,7 +634,7 @@ bool asst::BattleProcessTask::wait_to_end(const BattleAction& action)
     officially_begin_analyzer.set_task_info("BattleOfficiallyBegin");
     cv::Mat image;
     while (!need_exit()) {
-        image = m_ctrler->get_image();
+        image = ctrler()->get_image();
         officially_begin_analyzer.set_image(image);
         if (!officially_begin_analyzer.analyze()) {
             break;
@@ -662,7 +662,7 @@ bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
         if (!analyzer.analyze()) {
             continue;
         }
-        m_ctrler->click(info.pos);
+        ctrler()->click(info.pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
         used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
         if (info.info.skill_usage == BattleSkillUsage::Once) {
@@ -688,7 +688,7 @@ void asst::BattleProcessTask::sleep_with_possible_skill(unsigned millisecond)
     while (!need_exit() && duration < millisecond) {
         duration =
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
-        try_possible_skill(m_ctrler->get_image());
+        try_possible_skill(ctrler()->get_image());
         std::this_thread::yield();
     }
     Log.trace("end of sleep_with_possible_skill", millisecond);

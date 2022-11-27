@@ -35,7 +35,6 @@ namespace asst
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
-        void set_exit_flag(bool* flag);
         void set_minitouch_enabled(bool enable) noexcept { m_minitouch_enabled = enable; }
 
         const std::string& get_uuid() const;
@@ -96,7 +95,6 @@ namespace asst
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
         static bool convert_lf(std::string& data);
 
-        bool* m_exit_flag = nullptr;
         AsstCallback m_callback;
         Assistant* m_inst = nullptr;
 

@@ -28,7 +28,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
 
     size_t pre_pos = 0ULL;
     while (true) {
-        DepotImageAnalyzer analyzer(m_ctrler->get_image());
+        DepotImageAnalyzer analyzer(ctrler()->get_image());
 
         auto future = std::async(std::launch::async, [&]() { swipe(); });
 

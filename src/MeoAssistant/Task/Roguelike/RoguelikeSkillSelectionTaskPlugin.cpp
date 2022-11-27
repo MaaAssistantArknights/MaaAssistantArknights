@@ -14,7 +14,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    auto roguelike_name_opt = m_status->get_properties(Status::RoguelikeTheme);
+    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
     if (!roguelike_name_opt) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -37,7 +37,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    auto image = m_ctrler->get_image();
+    auto image = ctrler()->get_image();
     RoguelikeSkillSelectionImageAnalyzer analyzer(image);
 
     if (!analyzer.analyze()) {
@@ -48,7 +48,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         const auto& oper_info =
-            RoguelikeRecruit.get_oper_info(m_status->get_properties(Status::RoguelikeTheme).value(), name);
+            RoguelikeRecruit.get_oper_info(status()->get_properties(Status::RoguelikeTheme).value(), name);
         if (oper_info.name.empty()) {
             Log.warn("Unknown oper", name);
             continue;
@@ -56,22 +56,22 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
 
         if (oper_info.alternate_skill > 0) {
             Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);
-            m_ctrler->click(skill_vec.at(oper_info.alternate_skill - 1));
+            ctrler()->click(skill_vec.at(oper_info.alternate_skill - 1));
             sleep(delay);
         }
         if (oper_info.skill > 0) {
             Log.info(__FUNCTION__, name, " select main skill:", oper_info.skill);
-            m_ctrler->click(skill_vec.at(oper_info.skill - 1));
+            ctrler()->click(skill_vec.at(oper_info.skill - 1));
             sleep(delay);
         }
         constexpr int RookieStd = 200;
         if (oper_info.promote_priority < RookieStd) {
             has_rookie = true;
         }
-        m_status->set_number(Status::RoguelikeSkillUsagePrefix + name, static_cast<int>(oper_info.skill_usage));
+        status()->set_number(Status::RoguelikeSkillUsagePrefix + name, static_cast<int>(oper_info.skill_usage));
     }
 
-    if (!m_status->get_str(Status::RoguelikeCharOverview)) {
+    if (!status()->get_str(Status::RoguelikeCharOverview)) {
         json::value overview;
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
             overview[name] = json::object {
@@ -79,16 +79,16 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
                 // 不知道是啥等级随便填一个
             };
         }
-        m_status->set_str(Status::RoguelikeCharOverview, overview.to_string());
+        status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
     }
 
     if (analyzer.get_team_full() && !has_rookie) {
         Log.info("Team full and no rookie");
-        m_status->set_number(Status::RoguelikeTeamFullWithoutRookie, 1);
+        status()->set_number(Status::RoguelikeTeamFullWithoutRookie, 1);
     }
     else {
         Log.info("Team not full or has rookie");
-        m_status->set_number(Status::RoguelikeTeamFullWithoutRookie, 0);
+        status()->set_number(Status::RoguelikeTeamFullWithoutRookie, 0);
     }
     return true;
 }

@@ -49,7 +49,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left()
 {
     LogTraceFunction;
 
-    OcrImageAnalyzer analyzer(m_ctrler->get_image());
+    OcrImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_task_info("DrGrandetUseOriginiums");
     analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
     // 这里是汉字和数字混合的，用不了单独的en模型
