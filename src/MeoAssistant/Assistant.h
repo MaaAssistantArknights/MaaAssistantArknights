@@ -1,6 +1,7 @@
 #pragma once
 
 #include <condition_variable>
+#include <future>
 #include <list>
 #include <memory>
 #include <mutex>
@@ -27,6 +28,7 @@ namespace asst
     {
     public:
         using TaskId = int;
+        using AsyncCallId = int;
 
         Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);
         ~Assistant();
@@ -46,8 +48,12 @@ namespace asst
         // 是否正在运行
         bool running();
 
+        AsyncCallId async_connect(const std::string& adb_path, const std::string& address, const std::string& config,
+                                  bool block = false);
+        AsyncCallId async_click(int x, int y, bool block = false);
+        AsyncCallId async_screencap(bool block = false);
+
         std::vector<uchar> get_image() const;
-        bool ctrler_click(int x, int y);
         std::string get_uuid() const;
         std::vector<TaskId> get_tasks_list() const;
 
@@ -59,6 +65,7 @@ namespace asst
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
         bool inited() const noexcept;
+        void async_call(std::function<bool(void)> func, int req_id, const std::string what, bool block = false);
 
         std::string m_uuid;
 
@@ -79,7 +86,11 @@ namespace asst
         std::mutex m_msg_mutex;
         std::condition_variable m_msg_condvar;
 
+        inline static std::atomic<AsyncCallId> m_call_id = 0; // 进程级唯一
+        std::mutex m_call_pending_mutex;
+        std::vector<std::future<void>> m_call_pending;
+
         std::thread m_msg_thread;
         std::thread m_working_thread;
     };
-}
+} // namespace asst

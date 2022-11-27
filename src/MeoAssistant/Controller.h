@@ -38,7 +38,8 @@ namespace asst
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
-        std::vector<uchar> get_encoded_image_cache() const;
+        cv::Mat get_image_cache() const;
+        bool screencap(bool allow_reconnect = false);
 
         bool start_game(const std::string& client_type);
         bool stop_game();
@@ -74,7 +75,6 @@ namespace asst
         std::optional<unsigned short> init_socket(const std::string& local_address);
 
         using DecodeFunc = std::function<bool(const std::string&)>;
-        bool screencap(bool allow_reconnect = false);
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect = false,
                        bool by_socket = false);
         void clear_lf_info();

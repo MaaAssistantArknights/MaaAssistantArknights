@@ -1669,11 +1669,7 @@ cv::Mat asst::Controller::get_image(bool raw)
     return get_resized_image_cache();
 }
 
-std::vector<uchar> asst::Controller::get_encoded_image_cache() const
+cv::Mat asst::Controller::get_image_cache() const
 {
-    cv::Mat img = get_resized_image_cache();
-    std::vector<uchar> buf;
-    cv::imencode(".png", img, buf);
-
-    return buf;
+    return get_resized_image_cache();
 }
