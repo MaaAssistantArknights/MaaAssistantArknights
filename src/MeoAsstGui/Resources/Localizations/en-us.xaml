@@ -58,7 +58,7 @@
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Nox">Nox</system:String>
-    <system:String x:Key="XYAZ">XYAZ</system:String>
+    <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
