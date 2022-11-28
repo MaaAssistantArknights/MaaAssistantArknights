@@ -4,13 +4,13 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 #include <numbers>
 
@@ -191,7 +191,11 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             }
 
             std::string item = match_item(item_roi, drop_type, size - i, size);
-            int quantity = match_quantity(item_roi, item == LMD_ID);
+            bool use_word_model = item == LMD_ID;
+            int quantity = match_quantity(item_roi, use_word_model);
+            if (use_word_model && quantity == 0) {
+                quantity = match_quantity(item_roi, false);
+            }
             Log.info("Item id:", item, ", quantity:", quantity);
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
@@ -528,8 +532,14 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi, bool use_word
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
-    cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5,
-                cv::Scalar(0, 255, 0), 2);
+    if (use_word_model) {
+        cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 20), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 0, 255), 2);
+    }
+    else {
+        cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 255, 0), 2);
+    }
 #endif
 
     std::string digit_str = result.text;
