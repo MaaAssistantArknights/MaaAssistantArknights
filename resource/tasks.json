@@ -9092,9 +9092,7 @@
             "Mizuki@Roguelike@StageEncounterOptionLeave",
             "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter"
+            "Mizuki@Roguelike@ChooseOperFlag"
         ]
     },
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
