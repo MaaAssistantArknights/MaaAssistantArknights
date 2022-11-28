@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
+[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md) | [한국어](README_ko-KR.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -110,7 +110,7 @@ MAA 的意思是 MAA Assistant Arknights
 - C++ Gzip封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - 安卓觸控事件器：[minitouch](https://github.com/openstf/minitouch)
 - 安卓觸控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
-- WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
+- WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF部件庫：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON庫：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - 下載器：[aria2](https://github.com/aria2/aria2)
@@ -172,10 +172,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 廣告
 
-[用戶交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動戰鬥 JSON 作業分享：<https://www.prts.plus> , [QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已滿）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已滿）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已滿）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)，[QQ 六群（已滿）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)，[QQ 七群](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)  
+[用戶交流群（Telegram 群）](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 一群（已滿）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已滿）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已滿）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已滿）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已滿）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)，[QQ 六群（已滿）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)，[QQ 七群（已滿）](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)，[QQ 八群](https://jq.qq.com/?_wv=1027&k=PzvqFhOr)  
+[自動戰鬥 JSON 作業分享](https://prts.plus)  
 [Bilibili 直播間](https://live.bilibili.com/2808861)：每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
 [舟無關技術交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：內捲地獄！  
-[開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+[開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
