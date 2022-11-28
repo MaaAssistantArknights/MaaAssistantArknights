@@ -11,15 +11,10 @@
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 
-typedef unsigned char uchar;
-
-namespace cv
-{
-    class Mat;
-}
-
 namespace asst
 {
+    using uchar = unsigned char;
+
     class AsstExtAPI
     {
     public:
