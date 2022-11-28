@@ -60,6 +60,7 @@
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">XYAZ</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
+    <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
 
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
