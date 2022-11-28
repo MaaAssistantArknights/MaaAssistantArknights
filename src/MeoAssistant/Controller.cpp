@@ -1509,7 +1509,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or("maatouch");
         std::string_view optimal_abi;
-        for (const auto& abi : Config.get_options().minitouch_programs_order) {
+        for (const auto& abi : Configer.get_options().minitouch_programs_order) {
             if (abilist.find(abi) != std::string::npos) {
                 optimal_abi = abi;
                 break;
