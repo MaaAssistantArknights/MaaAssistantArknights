@@ -212,6 +212,7 @@
 
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">Always detect connection automatically</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
