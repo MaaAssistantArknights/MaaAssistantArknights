@@ -29,7 +29,7 @@
     },
     "StageDrops-Quantity": {
         "template": "empty.png",
-        "templThreshold": 3,
+        "templThreshold": 6,
         "templThreshold_Doc": "这里用来作为字间距阈值",
         "roi": [
             62,
