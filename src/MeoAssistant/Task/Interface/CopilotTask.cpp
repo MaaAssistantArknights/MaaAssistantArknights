@@ -16,7 +16,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
-    m_subtasks.emplace_back(m_formation_task_ptr)->set_retry_times(0);
+    m_subtasks.emplace_back(m_formation_task_ptr);
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_2_tp->set_tasks({ "BattleStartNormal", "BattleStartRaid", "BattleStartExercise", "BattleStartSimulation" })
