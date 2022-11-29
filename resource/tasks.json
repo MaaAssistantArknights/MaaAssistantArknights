@@ -187,6 +187,12 @@
         "action": "ClickRect",
         "isAscii": true,
         "text": [],
+        "ocrReplace": [
+            [
+                "EPISODE ",
+                "EPISODE"
+            ]
+        ],
         "roi": [
             16,
             219,
@@ -214,57 +220,57 @@
     },
     "01@EnterEpisode": {
         "text": [
-            "01"
+            "EPISODE01"
         ]
     },
     "02@EnterEpisode": {
         "text": [
-            "02"
+            "EPISODE02"
         ]
     },
     "03@EnterEpisode": {
         "text": [
-            "03"
+            "EPISODE03"
         ]
     },
     "04@EnterEpisode": {
         "text": [
-            "04"
+            "EPISODE04"
         ]
     },
     "05@EnterEpisode": {
         "text": [
-            "05"
+            "EPISODE05"
         ]
     },
     "06@EnterEpisode": {
         "text": [
-            "06"
+            "EPISODE06"
         ]
     },
     "07@EnterEpisode": {
         "text": [
-            "07"
+            "EPISODE07"
         ]
     },
     "08@EnterEpisode": {
         "text": [
-            "08"
+            "EPISODE08"
         ]
     },
     "09@EnterEpisode": {
         "text": [
-            "09"
+            "EPISODE09"
         ]
     },
     "10@EnterEpisode": {
         "text": [
-            "10"
+            "EPISODE10"
         ]
     },
     "11@EnterEpisode": {
         "text": [
-            "11"
+            "EPISODE11"
         ]
     },
     "LevelOfDifficulty": {
@@ -340,6 +346,12 @@
         "action": "Swipe",
         "isAscii": true,
         "text": [],
+        "ocrReplace": [
+            [
+                "EPISODE ",
+                "EPISODE"
+            ]
+        ],
         "roi": [
             16,
             219,
@@ -367,23 +379,23 @@
     },
     "11@SwipeLeftToEpisode": {
         "text": [
-            "12",
-            "13"
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "10@SwipeLeftToEpisode": {
         "text": [
-            "11",
-            "12",
-            "13"
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "09@SwipeLeftToEpisode": {
         "text": [
-            "10",
-            "11",
-            "12",
-            "13"
+            "EPISODE10",
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "08@SwipeLeftToEpisode": {
@@ -393,28 +405,28 @@
     },
     "07@SwipeLeftToEpisode": {
         "text": [
-            "08"
+            "EPISODE08"
         ]
     },
     "06@SwipeLeftToEpisode": {
         "text": [
-            "07",
-            "08"
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "05@SwipeLeftToEpisode": {
         "text": [
-            "06",
-            "07",
-            "08"
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "04@SwipeLeftToEpisode": {
         "text": [
-            "05",
-            "06",
-            "07",
-            "08"
+            "EPISODE05",
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "03@SwipeLeftToEpisode": {
@@ -424,20 +436,20 @@
     },
     "02@SwipeLeftToEpisode": {
         "text": [
-            "03"
+            "EPISODE03"
         ]
     },
     "01@SwipeLeftToEpisode": {
         "text": [
-            "02",
-            "03"
+            "EPISODE02",
+            "EPISODE03"
         ]
     },
     "00@SwipeLeftToEpisode": {
         "text": [
-            "01",
-            "02",
-            "03"
+            "EPISODE01",
+            "EPISODE02",
+            "EPISODE03"
         ]
     },
     "StageNavigationBegin": {
