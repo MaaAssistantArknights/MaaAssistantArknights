@@ -2981,6 +2981,14 @@
             "ClickCorner"
         ]
     },
+    "CreditFightEndOfAction": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "EndOfActionThenStop",
+            "FightMissionFailedThenStop"
+        ]
+    },
     "EndOfActionThenStop": {
         "template": "EndOfAction.png",
         "roi": [
@@ -2992,6 +3000,23 @@
         "preDelay": 5000,
         "next": [
             "ClickCornerThenStop"
+        ]
+    },
+    "FightMissionFailedThenStop": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "任务失败"
+        ],
+        "action": "ClickSelf",
+        "preDelay": 5000,
+        "roi": [
+            36,
+            226,
+            482,
+            269
+        ],
+        "next": [
+            "EndOfActionThenStop"
         ]
     },
     "EndOfActionAnnihilation": {

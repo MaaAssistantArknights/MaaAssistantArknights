@@ -35,7 +35,7 @@ asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* 
     stage_navigation_task_ptr->set_stage_name(copilot_task_ptr->get_stage_name());
 
     // 战斗结束后
-    stop_task_ptr->set_tasks({ "EndOfActionThenStop" });
+    stop_task_ptr->set_tasks({ "CreditFightEndOfAction" });
 
     m_subtasks.emplace_back(start_up_task_ptr);
     m_subtasks.emplace_back(stage_navigation_task_ptr);
