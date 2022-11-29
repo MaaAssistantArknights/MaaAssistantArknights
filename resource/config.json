@@ -12,7 +12,7 @@
         "adbExtraSwipeDist_Doc": "额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来",
         "adbExtraSwipeDuration": 500,
         "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能",
-        "adbSwipeDurationMultiplier": 10.0,
+        "adbSwipeDurationMultiplier": 15.0,
         "adbSwipeDurationMultiplier_Doc": "adb 滑动延迟倍数",
         "minitouchExtraSwipeDist": 100,
         "minitouchExtraSwipeDuration": 200,
@@ -38,9 +38,7 @@
             "Doc": "仓库识别导出结果模板",
             "arkPlanner": "{\"@type\": \"@penguin-statistics/depot\",\"items\": []}",
             "arkPlanner_Doc": "https://penguin-stats.cn/planner"
-        },
-        "ocrWithRawData": true,
-        "ocrWithRawData_Doc": "是否使用图片原始数据进行OCR，可以提高性能，但在部分设备上可能有兼容性问题"
+        }
     },
     "intent": {
         "Official": "com.hypergryph.arknights/com.u8.sdk.U8UnityContext",

@@ -1,72 +1,113 @@
 #pragma once
 
 #include <condition_variable>
+#include <future>
 #include <list>
 #include <memory>
 #include <mutex>
 #include <queue>
 #include <thread>
 
-#include "Utils/AsstMsg.h"
-#include "Utils/AsstTypes.h"
-
-typedef unsigned char uchar;
-
-namespace cv
-{
-    class Mat;
-}
+#include "Common/AsstMsg.h"
+#include "Common/AsstTypes.h"
 
 namespace asst
 {
-    class Controller;
-    class PackageTask;
-    class RuntimeStatus;
+    using uchar = unsigned char;
 
-    class Assistant
+    class AsstExtAPI
     {
     public:
         using TaskId = int;
+        using AsyncCallId = int;
 
-        Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);
-        ~Assistant();
+        virtual ~AsstExtAPI() = default;
 
         // 设置实例级参数
-        bool set_instance_option(InstanceOptionKey key, const std::string& value);
+        virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) = 0;
         // 连接adb
-        bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
+        virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
 
-        TaskId append_task(const std::string& type, const std::string& params);
-        bool set_task_params(TaskId task_id, const std::string& params);
+        // 添加任务
+        virtual TaskId append_task(const std::string& type, const std::string& params) = 0;
+        // 动态设置任务参数
+        virtual bool set_task_params(TaskId task_id, const std::string& params) = 0;
 
         // 开始执行任务队列
-        bool start(bool block = true);
+        virtual bool start(bool block = true) = 0;
         // 停止任务队列并清空
-        bool stop(bool block = true);
+        virtual bool stop(bool block = true) = 0;
         // 是否正在运行
-        bool running();
+        virtual bool running() const = 0;
 
-        std::vector<uchar> get_image() const;
-        bool ctrler_click(int x, int y);
-        std::string get_uuid() const;
-        std::vector<TaskId> get_tasks_list() const;
+        // 异步连接
+        virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
+                                          const std::string& config, bool block = false) = 0;
+        // 异步点击
+        virtual AsyncCallId async_click(int x, int y, bool block = false) = 0;
+        // 异步截图
+        virtual AsyncCallId async_screencap(bool block = false) = 0;
+
+        // 获取上次的截图
+        virtual std::vector<uchar> get_image() const = 0;
+        // 获取 UUID
+        virtual std::string get_uuid() const = 0;
+        // 获取任务列表
+        virtual std::vector<TaskId> get_tasks_list() const = 0;
+    };
+
+    class Controller;
+    class InterfaceTask;
+    class Status;
+
+    class Assistant : public AsstExtAPI
+    {
+    public:
+        Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);
+        virtual ~Assistant() override;
+
+        virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) override;
+        virtual bool connect(const std::string& adb_path, const std::string& address,
+                             const std::string& config) override;
+
+        virtual TaskId append_task(const std::string& type, const std::string& params) override;
+        virtual bool set_task_params(TaskId task_id, const std::string& params) override;
+
+        virtual bool start(bool block = true) override;
+        virtual bool stop(bool block = true) override;
+        virtual bool running() const override;
+
+        virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
+                                          const std::string& config, bool block = false) override;
+        virtual AsyncCallId async_click(int x, int y, bool block = false) override;
+        virtual AsyncCallId async_screencap(bool block = false) override;
+
+        virtual std::vector<uchar> get_image() const override;
+        virtual std::string get_uuid() const override;
+        virtual std::vector<TaskId> get_tasks_list() const override;
+
+    public:
+        std::shared_ptr<Controller> ctrler() const { return m_ctrler; }
+        std::shared_ptr<Status> status() const { return m_status; }
+        bool need_exit() const { return m_thread_idle; }
 
     private:
         void working_proc();
         void msg_proc();
-        static void task_callback(AsstMsg msg, const json::value& detail, void* custom_arg);
+        static void async_callback(AsstMsg msg, const json::value& detail, Assistant* inst);
 
         void append_callback(AsstMsg msg, json::value detail);
         void clear_cache();
         bool inited() const noexcept;
+        void async_call(std::function<bool(void)> func, int req_id, const std::string what, bool block = false);
 
         std::string m_uuid;
 
         std::shared_ptr<Controller> m_ctrler = nullptr;
-        std::shared_ptr<RuntimeStatus> m_status = nullptr;
+        std::shared_ptr<Status> m_status = nullptr;
 
         bool m_thread_exit = false;
-        std::list<std::pair<TaskId, std::shared_ptr<PackageTask>>> m_tasks_list;
+        std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;
         inline static TaskId m_task_id = 0; // 进程级唯一
         AsstApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
@@ -79,7 +120,11 @@ namespace asst
         std::mutex m_msg_mutex;
         std::condition_variable m_msg_condvar;
 
+        inline static std::atomic<AsyncCallId> m_call_id = 0; // 进程级唯一
+        std::mutex m_call_pending_mutex;
+        std::vector<std::future<void>> m_call_pending;
+
         std::thread m_msg_thread;
         std::thread m_working_thread;
     };
-}
+} // namespace asst

@@ -9,43 +9,39 @@
 #include <sys/socket.h>
 #endif
 
-#include "Utils/AsstConf.h"
-
-#include <atomic>
-#include <condition_variable>
-#include <filesystem>
 #include <memory>
-#include <mutex>
 #include <optional>
-#include <queue>
 #include <random>
 #include <shared_mutex>
 #include <string>
 #include <thread>
 
-#include "Utils/AsstMsg.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstMsg.h"
+#include "Common/AsstTypes.h"
+#include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
 
 namespace asst
 {
-    class Controller
+    class Assistant;
+
+    class Controller : private InstHelper
     {
     public:
-        Controller(AsstCallback callback, void* callback_arg);
+        Controller(const AsstCallback& callback, Assistant* inst);
         Controller(const Controller&) = delete;
         Controller(Controller&&) = delete;
         ~Controller();
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
-        void set_exit_flag(bool* flag);
         void set_minitouch_enabled(bool enable) noexcept { m_minitouch_enabled = enable; }
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
-        std::vector<uchar> get_encoded_image_cache() const;
+        cv::Mat get_image_cache() const;
+        bool screencap(bool allow_reconnect = false);
 
         bool start_game(const std::string& client_type);
         bool stop_game();
@@ -70,7 +66,6 @@ namespace asst
         Controller& operator=(Controller&&) = delete;
 
     private:
-        bool need_exit() const;
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
         bool release();
@@ -81,7 +76,6 @@ namespace asst
         std::optional<unsigned short> init_socket(const std::string& local_address);
 
         using DecodeFunc = std::function<bool(const std::string&)>;
-        bool screencap(bool allow_reconnect = false);
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect = false,
                        bool by_socket = false);
         void clear_lf_info();
@@ -101,9 +95,7 @@ namespace asst
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
         static bool convert_lf(std::string& data);
 
-        bool* m_exit_flag = nullptr;
         AsstCallback m_callback;
-        void* m_callback_arg = nullptr;
 
         std::minstd_rand m_rand_engine;
 

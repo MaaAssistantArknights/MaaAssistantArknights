@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -172,92 +171,17 @@ namespace MeoAsstGui
             }
         }
 
-        // TODO: Delete this.
-
-        /// <summary>
-        /// Delete old configurations.
-        /// Note that this feature ought to be removed in later versions.
-        /// </summary>
-        public void DeleteOldConfig()
-        {
-            string[] saved_list_name_1 = new string[]
-            {
-                "WakeUp", "Recruiting", "Base", "Combat", "Visiting", "Mall", "Mission", "AutoRoguelike",
-            };
-            foreach (var name in saved_list_name_1)
-            {
-                string local_name = Localization.GetString(name);
-                string check = ViewStatusStorage.Get("TaskQueue." + local_name + ".IsChecked", string.Empty);
-                string order = ViewStatusStorage.Get("TaskQueue.Order." + local_name, string.Empty);
-                if (check != string.Empty)
-                {
-                    ViewStatusStorage.Set("TaskQueue." + name + ".IsChecked", check);
-                }
-
-                if (order != string.Empty)
-                {
-                    ViewStatusStorage.Set("TaskQueue.Order." + name, order);
-                }
-            }
-
-            string[] saved_list_name_2 = new string[]
-            {
-                "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm",
-            };
-            foreach (var name in saved_list_name_2)
-            {
-                string local_name = Localization.GetString(name);
-                string check = ViewStatusStorage.Get("Infrast." + local_name + ".IsChecked", string.Empty);
-                string order = ViewStatusStorage.Get("Infrast.Order." + local_name, string.Empty);
-                if (check != string.Empty)
-                {
-                    ViewStatusStorage.Set("Infrast." + name + ".IsChecked", check);
-                }
-
-                if (order != string.Empty)
-                {
-                    ViewStatusStorage.Set("Infrast.Order." + name, order);
-                }
-            }
-
-            string[] old_list_name = new string[]
-            {
-                "开始唤醒", "自动公招", "基建换班", "刷理智", "访问好友", "收取信用及购物", "领取日常奖励", "自动肉鸽",
-                "宿舍", "制造站", "贸易站", "发电站", "会客室", "办公室", "控制中枢",
-                "開始喚醒", "自動公招", "基建換班", "刷理智", "訪問好友", "收取信用及購物", "領取日常獎勵", "自動肉鴿",
-                "宿舍", "製造站", "貿易站", "發電站", "會客室", "辦公室", "控制中樞",
-                "ウェイクアップ", "公開求人", "基地仕事", "作戦", "戦友訪問", "FP交換", "報酬受取", "自動ローグ",
-                "宿舎", "製造所", "貿易所", "発電所", "応接室", "事務所", "制御中枢",
-                "웨이크업", "공개모집", "기반시설 교대", "작전", "친구 방문", "상점", "일일 퀘스트 보상을 수집", "통합전략",
-                "숙소", "제조소", "무역소", "발전소", "응접실", "사무실", "제어 센터",
-                "🍸💃💃", "🍸🍺🍻", "🍺🍸🍺", "🍸🍷", "🍺🍸🍷", "🍻🍺🍸🍻", "🍺🍸🕺🍸", "🍺🍸🍸",
-                "🍻💃", "🕺🍺", "🍺🍺", "🍺🍸", "🍺🍻", "🕺🍸", "🍻🍸🍻",
-                "Login", "Recruit", "Visit Friends", "Credit Store", "Collect mission rewards", "Auto I.S.",
-                "Manufacturing Station", "Trade Post", "Power Station", "Reception Room", "Control Center",
-            };
-            foreach (var name in old_list_name)
-            {
-                ViewStatusStorage.Delete("TaskQueue." + name + ".IsChecked");
-                ViewStatusStorage.Delete("TaskQueue.Order." + name);
-                ViewStatusStorage.Delete("Infrast." + name + ".IsChecked");
-                ViewStatusStorage.Delete("Infrast.Order." + name);
-            }
-        }
-
         /// <summary>
         /// Initializes items.
         /// </summary>
         public void InitializeItems()
         {
-            DeleteOldConfig();
-
             string[] task_list = new string[]
             {
                 "WakeUp",
                 "Recruiting",
                 "Base",
                 "Combat",
-                "Visiting",
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
@@ -285,7 +209,7 @@ namespace MeoAsstGui
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
 
-                if (!parsed || order < 0)
+                if (!parsed || order < 0 || order >= temp_order_list.Count)
                 {
                     non_order_list.Add(vm);
                 }
@@ -698,10 +622,6 @@ namespace MeoAsstGui
                 {
                     ret &= appendRecruit();
                 }
-                else if (item.OriginalName == "Visiting")
-                {
-                    ret &= asstProxy.AsstAppendVisit();
-                }
                 else if (item.OriginalName == "Mall")
                 {
                     ret &= appendMall();
@@ -921,7 +841,7 @@ namespace MeoAsstGui
                 black_list[i] = black_list[i].Trim();
             }
 
-            return asstProxy.AsstAppendMall(settings.CreditShopping, buy_first, black_list, settings.CreditForceShoppingIfCreditFull);
+            return asstProxy.AsstAppendMall(settings.CreditFightTaskEnabled, settings.CreditShopping, buy_first, black_list, settings.CreditForceShoppingIfCreditFull);
         }
 
         private bool appendRecruit()

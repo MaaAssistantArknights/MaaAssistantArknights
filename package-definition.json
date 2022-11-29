@@ -15,7 +15,12 @@
             "include": [
                 "resource/**",
                 "MeoAssistant.dll",
-                "MeoAsstGui.exe"
+                "MeoAsstGui.exe",
+                "ON.dll",
+                "onnxruntime.dll",
+                "onnxruntime_providers_shared.dll",
+                "paddle2onnx.dll",
+                "yaml-cpp.dll"
             ],
             "exclude": [
                 "**/PaddleOCR/**",
@@ -37,27 +42,15 @@
         "type": "MaaDependency",
         "configuration": {
             "include": [
-                "libiomp5md.dll",
-                "mkldnn.dll",
-                "mklml.dll",
-                "paddle_inference.dll",
-                "ppocr.dll",
+                "ON.dll",
+                "onnxruntime.dll",
+                "onnxruntime_providers_shared.dll",
+                "paddle2onnx.dll",
+                "yaml-cpp.dll",
                 "opencv_world453.dll",
                 "**/PaddleOCR/**",
                 "**/PaddleCharOCR/**"
             ]
-        }
-    },
-    {
-        "name_template": "MAAComponent-DependencyNoAvx-{VERSION}-win-x64",
-        "type": "MaaDependencyNoAvx",
-        "configuration": {
-            "include": [
-                "opencv_world453.dll",
-                "**/PaddleOCR/**",
-                "**/PaddleCharOCR/**"
-            ],
-            "no_avx_bundle": "3rdparty/ppocr_noavx.zip"
         }
     },
     {

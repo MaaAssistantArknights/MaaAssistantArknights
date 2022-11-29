@@ -157,7 +157,9 @@
     <system:String x:Key="DrGrandet">Dr.グランデのように源石を使う</system:String>
     <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
-    <system:String x:Key="SocialPtShop">FP交換</system:String>
+    <system:String x:Key="SocialPtShop">ソーシャルポイント</system:String>
+    <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
+    <system:String x:Key="CreditFightTip">戦友を借りて OF-1 で戦闘を行い、30クレジットを獲得します。ステージ設定が 現在/前回 になっている場合は確認を行いません。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
@@ -174,16 +176,19 @@
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
-    <system:String x:Key="CustomStageCodeTip">(テスト機能)ステージ名と番号（例：4-10、AP-5など）の両方がサポートされています。</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例：4-10、AP-5、H10-1-Hardなど）の両方がサポートされています。</system:String>
 
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">常時自動接続検知</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="RetryOnDisconnected">adb再接続失敗時にエミュレータを自動で再起動</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
+    <system:String x:Key="ForcedReplaceADB">ADBの強制置き換え</system:String>
+    <system:String x:Key="AdbTouchMode">互換性 タッチモード（ミニタッチなし）</system:String>
     <!--  設定  -->
 
     <!--  スタート  -->
@@ -193,8 +198,8 @@
     <system:String x:Key="Recruiting">公開求人</system:String>
     <system:String x:Key="Base">基地仕事</system:String>
     <system:String x:Key="Combat">作戦</system:String>
-    <system:String x:Key="Visiting">戦友訪問</system:String>
-    <system:String x:Key="Mall">FP交換</system:String>
+    <!--  <system:String x:Key="Visiting">戦友訪問</system:String>  -->
+    <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
 
@@ -275,6 +280,7 @@
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
+    <system:String x:Key="AdbReplacementTips">もし全てでスタックする場合は、設定 - 接続設定 - ADBの強制置き換え、もしくは 互換性 タッチモード をチェックしてください。</system:String> 
     <!--  need help  -->
     <system:String x:Key="Stopped">動作停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>

@@ -1,9 +1,8 @@
 #include "Controller.h"
-#include "Utils/AsstConf.h"
-#include "Utils/Platform/AsstPlatform.h"
+
+#include "Utils/Platform.hpp"
 
 #ifdef _WIN32
-#include "Utils/Platform/AsstPlatformWin32.h"
 #include <ws2tcpip.h>
 #else
 #include <fcntl.h>
@@ -23,6 +22,8 @@
 #include <utility>
 #include <vector>
 
+#include "Assistant.h"
+#include "Common/AsstConf.h"
 #include "Utils/NoWarningCV.h"
 
 #ifdef _MSC_VER
@@ -34,14 +35,14 @@
 #pragma warning(pop)
 #endif
 
-#include "Resource/GeneralConfiger.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstTypes.h"
+#include "Config/GeneralConfig.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Utils/WorkingDir.hpp"
 
-asst::Controller::Controller(AsstCallback callback, void* callback_arg)
-    : m_callback(std::move(callback)), m_callback_arg(callback_arg), m_rand_engine(std::random_device {}())
+asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
+    : InstHelper(inst), m_callback(callback), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 
@@ -82,11 +83,6 @@ asst::Controller::~Controller()
 std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 {
     return m_scale_size;
-}
-
-bool asst::Controller::need_exit() const
-{
-    return m_exit_flag != nullptr && *m_exit_flag;
 }
 
 std::optional<std::string> asst::Controller::call_command(const std::string& cmd, int64_t timeout, bool allow_reconnect,
@@ -446,7 +442,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
 void asst::Controller::callback(AsstMsg msg, const json::value& details)
 {
     if (m_callback) {
-        m_callback(msg, details, m_callback_arg);
+        m_callback(msg, details, m_inst);
     }
 }
 
@@ -765,7 +761,7 @@ asst::Point asst::Controller::rand_point_in_rect(const Rect& rect)
 
 void asst::Controller::random_delay() const
 {
-    auto& opt = Configer.get_options();
+    auto& opt = Config.get_options();
     if (opt.control_delay_upper != 0) {
         LogTraceFunction;
         static std::default_random_engine rand_engine(std::random_device {}());
@@ -1082,7 +1078,7 @@ bool asst::Controller::start_game(const std::string& client_type)
     if (client_type.empty()) {
         return false;
     }
-    auto intent_name = Configer.get_intent_name(client_type);
+    auto intent_name = Config.get_intent_name(client_type);
     if (!intent_name) {
         return false;
     }
@@ -1163,7 +1159,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    const auto& opt = Configer.get_options();
+    const auto& opt = Config.get_options();
     if (m_minitouch_enabled && m_minitouch_avaiable) {
         Log.info("minitouch swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
@@ -1265,7 +1261,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         };
     };
 
-    auto adb_ret = Configer.get_adb_cfg(config);
+    auto adb_ret = Config.get_adb_cfg(config);
     if (!adb_ret) {
         json::value info = get_info_json() | json::object {
             { "what", "ConnectFailed" },
@@ -1509,7 +1505,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
         std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or("maatouch");
         std::string_view optimal_abi;
-        for (const auto& abi : Configer.get_options().minitouch_programs_order) {
+        for (const auto& abi : Config.get_options().minitouch_programs_order) {
             if (abilist.find(abi) != std::string::npos) {
                 optimal_abi = abi;
                 break;
@@ -1612,11 +1608,6 @@ bool asst::Controller::inited() const noexcept
     return m_inited;
 }
 
-void asst::Controller::set_exit_flag(bool* flag)
-{
-    m_exit_flag = flag;
-}
-
 const std::string& asst::Controller::get_uuid() const
 {
     return m_uuid;
@@ -1669,11 +1660,7 @@ cv::Mat asst::Controller::get_image(bool raw)
     return get_resized_image_cache();
 }
 
-std::vector<uchar> asst::Controller::get_encoded_image_cache() const
+cv::Mat asst::Controller::get_image_cache() const
 {
-    cv::Mat img = get_resized_image_cache();
-    std::vector<uchar> buf;
-    cv::imencode(".png", img, buf);
-
-    return buf;
+    return get_resized_image_cache();
 }

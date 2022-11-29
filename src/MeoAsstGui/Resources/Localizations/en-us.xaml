@@ -58,7 +58,7 @@
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Nox">Nox</system:String>
-    <system:String x:Key="XYAZ">XYAZ</system:String>
+    <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
@@ -190,7 +190,9 @@
     <system:String x:Key="DrGrandet">Use Originiums like Dr. Grandet</system:String>
     <system:String x:Key="DrGrandetTip">Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.</system:String>
 
-    <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
+    <system:String x:Key="SocialPtShop">Social Point</system:String>
+    <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
+    <system:String x:Key="CreditFightTip">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits, do not check it if the stage is set to Current/Last</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit;LMD</system:String>
@@ -206,10 +208,11 @@
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
-    <system:String x:Key="CustomStageCodeTip">(Test feature) Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, etc.)</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)&#x0a;At the end of the level, enter &quot;Normal/Hard&quot; to switch between Normal and Tough difficulty</system:String>
 
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">Always detect connection automatically</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
@@ -225,7 +228,7 @@
     <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
     <system:String x:Key="Combat">Combat</system:String>
-    <system:String x:Key="Visiting">Visit Friends</system:String>
+    <!--  <system:String x:Key="Visiting">Visit Friends</system:String>  -->
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>

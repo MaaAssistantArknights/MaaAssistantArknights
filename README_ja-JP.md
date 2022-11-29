@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
+[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md) | [한국어](README_ko-KR.md)
 
 MAAは、MAA Assistant Arknightsです。
 
@@ -79,7 +79,7 @@ UIを見れば使い方もすぐ分かる！
   作戦、自動基地、自動公開求人、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/YoStarJP/readme.md)を参照してください。
 - 韓国サーバー  
-  基本的な作戦機能のみサポートされている。  
+  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/YoStarKR/readme.md)を参照してください。
 - TXWYサーバー  
   基本的な作戦、自動公開求人、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
@@ -101,6 +101,8 @@ UIを見れば使い方もすぐ分かる！
 - 画像認識ライブラリ：[opencv](https://github.com/opencv/opencv.git)
 - ~~テキスト認識ライブラリ：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - テキスト認識ライブラリ：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~ステージドロップ認識：[PenguinStats認識](https://github.com/penguin-statistics/recognizer)~~
 - マップタイル認識：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSONライブラリ：[meojson](https://github.com/MistEO/meojson.git)
@@ -109,6 +111,7 @@ UIを見れば使い方もすぐ分かる！
 - C++ 圧縮・解凍ライブラリ：[zlib](https://github.com/madler/zlib)
 - C++ Gzipカプセル化ライブラリ：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - Android タッチ イベント: [minitouch](https://github.com/openstf/minitouch)
+- Android タッチ イベント: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVWフレームワーク：[Stylet](https://github.com/canton7/Stylet)
 - WPFコントロールライブラリ：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSONライブラリ：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
@@ -171,10 +174,10 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ## 広告
 
-[ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア：<https://www.prts.plus>、[QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)、[QQグループ2（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)、[QQグループ3（満員）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)、[QQグループ4（満員）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)、[QQグループ5（満員）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)、[QQグループ6（満員）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)、[QQグループ7](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)  
-[ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。
+[ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)、[QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)、[QQグループ2（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)、[QQグループ3（満員）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)、[QQグループ4（満員）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)、[QQグループ5（満員）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)、[QQグループ6（満員）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)、[QQグループ7（満員）](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)、[QQグループ8](https://jq.qq.com/?_wv=1027&k=PzvqFhOr)  
+[自動作戦JSON作業シェア](https://prts.plus)  
+[ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。  
 [アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
-[開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+[開発者グループ（QQ）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！

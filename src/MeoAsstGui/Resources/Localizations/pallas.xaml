@@ -171,7 +171,7 @@
     <system:String x:Key="HideUnavailableStage">🕺🍺🍸🍸🕺🍸🍺🍺🍻🕺🍺🍻🍺🍷</system:String>
     <system:String x:Key="MainViewButtonFeature">🍺🍺🍺🍸🍺💃🍻🍸🍻🕺🕺</system:String>
     <system:String x:Key="CustomStageCode">🍺💃🍷🍺🍺🍷🍺🍺</system:String>
-    <system:String x:Key="CustomStageCodeTip">🍷🍺🕺🍸🍸💃🍸💃🍺🕺🍻🍸💃🍸🍸🍻🕺🍷💃🍻🍷🕺🍷🍷🍸🍻💃🍻💃💃🍺🍸🍸🍸🍷🕺</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">🍷🍺🕺🍸🍸💃🍸💃🍺🕺🍻🍸💃🍸🍸🍻🕺🍷💃🍷🍷🍻🕺🍸🍻🍷🕺🍷🍷🍸&#x0a;🍻💃🍻💃💃🍺🍸🍸🍸🍷🕺🍻🍷🍸🍸🕺🍻🍸💃🍸</system:String>
 
     <system:String x:Key="AutoDetectConnection">🍺🍻🕺🍻🕺🍷🍷</system:String>
     <system:String x:Key="AutoDetectConnectionTip">🍺🍸🍷🍷🍸🍸🍷🕺🍻🍻🍻🍸🍻🍻🕺🍺🍷🍺🍷🕺💃🍻🕺🍸🍷🍻🍷🍻</system:String>
@@ -190,7 +190,7 @@
     <system:String x:Key="Recruiting">🍻🍸🍻🍻🕺</system:String>
     <system:String x:Key="Base">🍺🍻💃🍺💃</system:String>
     <system:String x:Key="Combat">🍷🍸🍻🍻</system:String>
-    <system:String x:Key="Visiting">🍻🍸🍺🍺🍸</system:String>
+    <!--  <system:String x:Key="Visiting">🍻🍸🍺🍺🍸</system:String>  -->
     <system:String x:Key="Mall">🍸🍷🍻🕺🍻🍻🍸🍸</system:String>
     <system:String x:Key="Mission">🍸🍻🕺🍷🍷🕺💃</system:String>
     <system:String x:Key="AutoRoguelike">🍺🍷🍸🍺🕺🍸</system:String>
