@@ -2994,16 +2994,19 @@
         ]
     },
     "EndOfActionThenStop": {
+        "baseTask": "EndOfAction",
         "template": "EndOfAction.png",
-        "roi": [
-            0,
-            290,
-            70,
-            60
-        ],
+        "reduceOtherTimes": [],
         "preDelay": 5000,
         "next": [
             "ClickCornerThenStop"
+        ]
+    },
+    "FightMissionFailedThenStop": {
+        "baseTask": "FightMissionFailedAndStop",
+        "preDelay": 5000,
+        "next": [
+            "EndOfActionThenStop"
         ]
     },
     "EndOfActionAnnihilation": {
@@ -3050,15 +3053,8 @@
         ]
     },
     "ClickCornerThenStop": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
-        ]
+        "baseTask": "ClickCorner",
+        "next": []
     },
     "UseMedicine": {
         "action": "DoNothing",
