@@ -1,4 +1,4 @@
-- 启用 ONNX Runtime 进行 OCR，大幅降低内存占用、提高推理速度、并减小文件体积，不再区分 NoAVX 版本。@MistEO @horror-proton @hguandl @aa889788  
+- 启用 ONNX Runtime 进行 OCR，大幅降低内存占用、提高推理速度、减小文件体积，并不再区分 NoAVX 版本。@MistEO @horror-proton @hguandl @aa889788  
     ~~终于踢了 PPOCR，但目前识别准确率有轻微下降，待后续版本优化。且目前暂未支持 Linux, macOS 版本~~
 - 新增 借助战打一局赚 30 信用功能，请进入设置开启~ @Hydrogina
 - 合并 `访问好友` 和 `信用购物` 选项 @MistEO
