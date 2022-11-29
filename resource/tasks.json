@@ -2981,40 +2981,18 @@
             "ClickCorner"
         ]
     },
-    "CreditFightEndOfAction": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "EndOfActionThenStop",
-            "FightMissionFailedThenStop"
-        ]
-    },
     "EndOfActionThenStop": {
+        "baseTask": "EndOfAction",
         "template": "EndOfAction.png",
-        "roi": [
-            0,
-            290,
-            70,
-            60
-        ],
+        "reduceOtherTimes": [],
         "preDelay": 5000,
         "next": [
             "ClickCornerThenStop"
         ]
     },
     "FightMissionFailedThenStop": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "任务失败"
-        ],
-        "action": "ClickSelf",
+        "baseTask": "FightMissionFailedAndStop",
         "preDelay": 5000,
-        "roi": [
-            36,
-            226,
-            482,
-            269
-        ],
         "next": [
             "EndOfActionThenStop"
         ]
@@ -3063,15 +3041,8 @@
         ]
     },
     "ClickCornerThenStop": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
-        ]
+        "baseTask": "ClickCorner",
+        "next": []
     },
     "UseMedicine": {
         "action": "DoNothing",
