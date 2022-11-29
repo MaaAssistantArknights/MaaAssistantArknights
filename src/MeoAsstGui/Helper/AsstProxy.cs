@@ -1133,7 +1133,6 @@ namespace MeoAsstGui
             FightRemainingSanity,
             Recruit,
             Infrast,
-            Visit,
             Mall,
             Award,
             Roguelike,
@@ -1262,27 +1261,18 @@ namespace MeoAsstGui
         }
 
         /// <summary>
-        /// 访问好友。
-        /// </summary>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendVisit()
-        {
-            AsstTaskId id = AsstAppendTaskWithEncoding("Visit");
-            _latestTaskId[TaskType.Visit] = id;
-            return id != 0;
-        }
-
-        /// <summary>
         /// 领取信用及商店购物。
         /// </summary>
+        /// <param name="credit_fight">是否信用战斗。</param>
         /// <param name="with_shopping">是否购物。</param>
         /// <param name="first_list">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
         /// <param name="force_shopping_if_credit_full">是否在信用溢出时无视黑名单</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool with_shopping, string[] first_list, string[] blacklist, bool force_shopping_if_credit_full)
+        public bool AsstAppendMall(bool credit_fight, bool with_shopping, string[] first_list, string[] blacklist, bool force_shopping_if_credit_full)
         {
             var task_params = new JObject();
+            task_params["credit_fight"] = credit_fight;
             task_params["shopping"] = with_shopping;
             task_params["buy_first"] = new JArray { first_list };
             task_params["blacklist"] = new JArray { blacklist };
@@ -1516,14 +1506,12 @@ namespace MeoAsstGui
         /// <summary>
         /// 自动抄作业。
         /// </summary>
-        /// <param name="stage_name">关卡名，需要与作业 JSON 中的 <c>stage_name</c> 字段相同。</param>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string stage_name, string filename, bool formation)
+        public bool AsstStartCopilot(string filename, bool formation)
         {
             var task_params = new JObject();
-            task_params["stage_name"] = stage_name;
             task_params["filename"] = filename;
             task_params["formation"] = formation;
             AsstTaskId id = AsstAppendTaskWithEncoding("Copilot", task_params);

@@ -48,7 +48,7 @@
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
-    <system:String x:Key="MuMuEmulator">MuMu模擬器</system:String>
+    <system:String x:Key="MuMuEmulator">MuMu 模擬器</system:String>
     <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
@@ -155,7 +155,9 @@
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
     <system:String x:Key="DrGrandetTip">在碎石確認界面等待，直到當前的 1 點理智恢復完成再立即確認。不碎石時該選項不影響正常運行</system:String>
 
-    <system:String x:Key="SocialPtShop">信用購物</system:String>
+    <system:String x:Key="SocialPtShop">信用相關</system:String>
+    <system:String x:Key="CreditFight">藉助戰賺信用</system:String>
+    <system:String x:Key="CreditFightTip">訪問好友後藉助戰打一把OF-1賺30信用，關卡選擇爲「當前/上次」時請勿勾選</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘許可；龍門幣</system:String>
@@ -171,7 +173,7 @@
     <system:String x:Key="HideUnavailableStage">關卡選擇隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
-    <system:String x:Key="CustomStageCodeTip">（測試功能）支持大部分主線關卡名與原列表的關卡名（如4-10、AP-5）</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主線關卡名與原列表的關卡名（如4-10、AP-5、H10-1-Hard）&#x0a;可在關卡結尾輸入&quot;Normal/Hard&quot;表示需要切換標準與磨難難度</system:String>
 
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
@@ -190,8 +192,8 @@
     <system:String x:Key="Recruiting">自動公招</system:String>
     <system:String x:Key="Base">基建換班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
-    <system:String x:Key="Visiting">訪問好友</system:String>
-    <system:String x:Key="Mall">收取信用及購物</system:String>
+    <!--  <system:String x:Key="Visiting">訪問好友</system:String>  -->
+    <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取日常獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
 

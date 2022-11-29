@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
+[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md) | [한국어](README_ko-KR.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -80,7 +80,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 日服  
   支持基本的刷理智、自动基建、信用购物、自动公招、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarJP/readme.md)
 - 韩服  
-  支持基本的刷理智功能，请参考 [说明](resource/global/YoStarKR/readme.md)
+  支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarKR/readme.md)
 - 繁中服  
   支持基本的刷理智、自动公招、自动肉鸽、领取日常、公招识别功能，请参考 [说明](resource/global/txwy/readme.md)
 
@@ -100,6 +100,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - ~~文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- 深度学习快速部署工具集：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- 机器学习推理和训练加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)~~
 - 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
@@ -108,7 +110,8 @@ MAA 的意思是 MAA Assistant Arknights
 - C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
 - C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
-- WPF MVVW框架：[Stylet](https://github.com/canton7/Stylet)
+- 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
+- WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - 下载器：[aria2](https://github.com/aria2/aria2)
@@ -174,6 +177,6 @@ MAA 的意思是 MAA Assistant Arknights
 自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
 [Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 [舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
-[开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+[开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！

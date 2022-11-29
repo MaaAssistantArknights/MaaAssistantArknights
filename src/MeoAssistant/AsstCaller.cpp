@@ -7,11 +7,11 @@
 #include <meojson/json.hpp>
 
 #include "Assistant.h"
-#include "ResourceLoader.h"
-#include "Utils/AsstTypes.h"
+#include "Common/AsstTypes.h"
+#include "Common/AsstVersion.h"
+#include "Config/ResourceLoader.h"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
-#include "Utils/Version.h"
 
 static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
 
@@ -141,6 +141,15 @@ bool AsstRunning(AsstHandle handle)
     return handle->running();
 }
 
+AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config,
+                                 bool block)
+{
+    if (!inited || handle == nullptr) {
+        return false;
+    }
+    return handle->async_connect(adb_path, address, config ? config : std::string(), block);
+}
+
 AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited || handle == nullptr) {
@@ -159,12 +168,20 @@ bool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
     return handle->set_task_params(id, params ? params : "");
 }
 
-bool AsstClick(AsstHandle handle, int x, int y)
+AsstAsyncCallId AsstAsyncClick(AsstHandle handle, int x, int y, bool block)
 {
     if (!inited || handle == nullptr) {
         return false;
     }
-    return handle->ctrler_click(x, y);
+    return handle->async_click(x, y, block);
+}
+
+AsstAsyncCallId AsstAsyncScreencap(AsstHandle handle, bool block)
+{
+    if (!inited || handle == nullptr) {
+        return false;
+    }
+    return handle->async_screencap(block);
 }
 
 AsstSize AsstGetImage(AsstHandle handle, void* buff, AsstSize buff_size)

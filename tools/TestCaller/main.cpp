@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <thread>
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -16,8 +17,8 @@ int main([[maybe_unused]] int argc, char** argv)
     bool loaded = AsstLoadResource(cur_path.string().c_str());
 
     // 增量更新外服的资源
-    const auto oversea_path = cur_path / "resource" / "global" / "YoStarJP";
-    loaded &= AsstLoadResource(oversea_path.string().c_str());
+    // const auto oversea_path = cur_path / "resource" / "global" / "YoStarJP";
+    // loaded &= AsstLoadResource(oversea_path.string().c_str());
 
     if (!loaded) {
         std::cout << "load resource failed" << std::endl;
@@ -68,8 +69,6 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     )");
 
-    AsstAppendTask(ptr, "Visit", nullptr);
-
     AsstAppendTask(ptr, "Mall", R"(
     {
         "shopping": true,
@@ -93,13 +92,6 @@ int main([[maybe_unused]] int argc, char** argv)
 }
 )");
 
-    // AsstAppendTask(ptr, "Copilot", R"(
-    //{
-    //     "stage_name": "如帝国之影",
-    //     "formation": true
-    // }
-    //)");
-
 #else
 
     AsstAppendTask(ptr, "Debug", nullptr);
@@ -108,7 +100,9 @@ int main([[maybe_unused]] int argc, char** argv)
 
     AsstStart(ptr);
 
-    std::ignore = getchar();
+    while (AsstRunning(ptr)) {
+        std::this_thread::yield();
+    }
 
     AsstStop(ptr);
     AsstDestroy(ptr);

@@ -187,6 +187,12 @@
         "action": "ClickRect",
         "isAscii": true,
         "text": [],
+        "ocrReplace": [
+            [
+                "EPISODE ",
+                "EPISODE"
+            ]
+        ],
         "roi": [
             16,
             219,
@@ -214,57 +220,57 @@
     },
     "01@EnterEpisode": {
         "text": [
-            "01"
+            "EPISODE01"
         ]
     },
     "02@EnterEpisode": {
         "text": [
-            "02"
+            "EPISODE02"
         ]
     },
     "03@EnterEpisode": {
         "text": [
-            "03"
+            "EPISODE03"
         ]
     },
     "04@EnterEpisode": {
         "text": [
-            "04"
+            "EPISODE04"
         ]
     },
     "05@EnterEpisode": {
         "text": [
-            "05"
+            "EPISODE05"
         ]
     },
     "06@EnterEpisode": {
         "text": [
-            "06"
+            "EPISODE06"
         ]
     },
     "07@EnterEpisode": {
         "text": [
-            "07"
+            "EPISODE07"
         ]
     },
     "08@EnterEpisode": {
         "text": [
-            "08"
+            "EPISODE08"
         ]
     },
     "09@EnterEpisode": {
         "text": [
-            "09"
+            "EPISODE09"
         ]
     },
     "10@EnterEpisode": {
         "text": [
-            "10"
+            "EPISODE10"
         ]
     },
     "11@EnterEpisode": {
         "text": [
-            "11"
+            "EPISODE11"
         ]
     },
     "LevelOfDifficulty": {
@@ -294,21 +300,21 @@
             122
         ]
     },
-    "Hard": {
+    "ChapterDifficultyHard": {
         "baseTask": "LevelOfDifficulty",
         "next": [
-            "EnterHard",
+            "EnterChapterDifficultyHard",
             "Return"
         ]
     },
-    "Normal": {
+    "ChapterDifficultyNormal": {
         "baseTask": "LevelOfDifficulty",
         "next": [
-            "EnterNormal",
+            "EnterChapterDifficultyNormal",
             "Return"
         ]
     },
-    "EnterHard": {
+    "EnterChapterDifficultyHard": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -321,7 +327,7 @@
             145
         ]
     },
-    "EnterNormal": {
+    "EnterChapterDifficultyNormal": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -340,6 +346,12 @@
         "action": "Swipe",
         "isAscii": true,
         "text": [],
+        "ocrReplace": [
+            [
+                "EPISODE ",
+                "EPISODE"
+            ]
+        ],
         "roi": [
             16,
             219,
@@ -367,23 +379,23 @@
     },
     "11@SwipeLeftToEpisode": {
         "text": [
-            "12",
-            "13"
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "10@SwipeLeftToEpisode": {
         "text": [
-            "11",
-            "12",
-            "13"
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "09@SwipeLeftToEpisode": {
         "text": [
-            "10",
-            "11",
-            "12",
-            "13"
+            "EPISODE10",
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "08@SwipeLeftToEpisode": {
@@ -393,28 +405,28 @@
     },
     "07@SwipeLeftToEpisode": {
         "text": [
-            "08"
+            "EPISODE08"
         ]
     },
     "06@SwipeLeftToEpisode": {
         "text": [
-            "07",
-            "08"
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "05@SwipeLeftToEpisode": {
         "text": [
-            "06",
-            "07",
-            "08"
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "04@SwipeLeftToEpisode": {
         "text": [
-            "05",
-            "06",
-            "07",
-            "08"
+            "EPISODE05",
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "03@SwipeLeftToEpisode": {
@@ -424,20 +436,20 @@
     },
     "02@SwipeLeftToEpisode": {
         "text": [
-            "03"
+            "EPISODE03"
         ]
     },
     "01@SwipeLeftToEpisode": {
         "text": [
-            "02",
-            "03"
+            "EPISODE02",
+            "EPISODE03"
         ]
     },
     "00@SwipeLeftToEpisode": {
         "text": [
-            "01",
-            "02",
-            "03"
+            "EPISODE01",
+            "EPISODE02",
+            "EPISODE03"
         ]
     },
     "StageNavigationBegin": {
@@ -609,13 +621,13 @@
     "ChapterSlowlySwipeToTheLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
-            300,
+            200,
             350,
             20,
             20
         ],
         "rectMove": [
-            900,
+            1000,
             350,
             20,
             20
@@ -1062,6 +1074,16 @@
             "GT-5"
         ]
     },
+    "OF-1": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageEpisode",
+            "StageEpisodeToOF",
+            "OFToOF-Chapter",
+            "StageOF-1"
+        ]
+    },
     "OF-F3": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -1118,7 +1140,18 @@
         "cache": false,
         "isAscii": true,
         "text": [
-            "OF-F3"
+            "OF-F3",
+            "0F-F3"
+        ]
+    },
+    "StageOF-1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "isAscii": true,
+        "text": [
+            "OF-1",
+            "0F-1"
         ]
     },
     "IC-9": {
@@ -1612,13 +1645,22 @@
             200
         ]
     },
+    "BI-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "BI-Open",
+            "BIChapterToBI",
+            "StageBI-6"
+        ]
+    },
     "BI-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "StageBI",
-            "StageBI7"
+            "BIChapterToBI",
+            "StageBI-7"
         ]
     },
     "BI-8": {
@@ -1626,11 +1668,12 @@
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "StageBI",
-            "StageBI8"
+            "BIChapterToBI",
+            "StageBI-8"
         ]
     },
     "BI-Open": {
+        "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
             "风雪过境"
@@ -1642,7 +1685,7 @@
             150
         ]
     },
-    "StageBI": {
+    "BIChapterToBI": {
         "action": "ClickSelf",
         "roi": [
             1000,
@@ -1654,8 +1697,21 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageBI7": {
+    "SwipeToStageBI-6": {
+        "algorithm": "JustReturn",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "next": [
+            "StageBI-6",
+            "SwipeToStageBI-6"
+        ]
+    },
+    "StageBI-6": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-6",
+            "BI-6"
+        ],
         "cache": false,
         "roi": [
             50,
@@ -1664,8 +1720,28 @@
             80
         ]
     },
-    "StageBI8": {
+    "StageBI-7": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-7",
+            "BI-7"
+        ],
+        "cache": false,
+        "roi": [
+            50,
+            250,
+            200,
+            80
+        ]
+    },
+    "StageBI-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-8",
+            "BI-8"
+        ],
         "cache": false,
         "roi": [
             200,
@@ -2301,6 +2377,10 @@
             [
                 "^罪$",
                 "斥罪"
+            ],
+            [
+                "龙.+兰",
+                "龙舌兰"
             ]
         ]
     },
@@ -2913,6 +2993,22 @@
             "ClickCorner"
         ]
     },
+    "EndOfActionThenStop": {
+        "baseTask": "EndOfAction",
+        "template": "EndOfAction.png",
+        "reduceOtherTimes": [],
+        "preDelay": 5000,
+        "next": [
+            "ClickCornerThenStop"
+        ]
+    },
+    "FightMissionFailedThenStop": {
+        "baseTask": "FightMissionFailedAndStop",
+        "preDelay": 5000,
+        "next": [
+            "EndOfActionThenStop"
+        ]
+    },
     "EndOfActionAnnihilation": {
         "algorithm": "OcrDetect",
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
@@ -2955,6 +3051,10 @@
         "onErrorNext": [
             "RestartGameAndContinue"
         ]
+    },
+    "ClickCornerThenStop": {
+        "baseTask": "ClickCorner",
+        "next": []
     },
     "UseMedicine": {
         "action": "DoNothing",
@@ -4084,11 +4184,12 @@
         "Doc": "识别公招小时数",
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "withoutDet": true,
         "roi": [
-            400,
-            180,
-            100,
-            90
+            410,
+            195,
+            85,
+            60
         ],
         "text": [
             "01",
@@ -4106,11 +4207,12 @@
         "Doc": "识别公招分钟数",
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "withoutDet": true,
         "roi": [
-            570,
-            180,
-            100,
-            90
+            575,
+            195,
+            85,
+            60
         ],
         "text": [
             "00",
@@ -5882,6 +5984,29 @@
             100
         ]
     },
+    "BattleSupportUnitFormation": {
+        "action": "ClickSelf",
+        "roi": [
+            995,
+            248,
+            244,
+            167
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BattleSupportUnitFormationSelect"
+        ]
+    },
+    "BattleSupportUnitFormationSelect": {
+        "action": "ClickSelf",
+        "roi": [
+            115,
+            595,
+            1165,
+            75
+        ],
+        "postDelay": 1000
+    },
     "BattleQuickFormation": {
         "action": "ClickSelf",
         "roi": [
@@ -5892,7 +6017,8 @@
         ],
         "postDelay": 1000,
         "next": [
-            "BattleQuickFormationClear"
+            "BattleQuickFormationClear",
+            "BattleQuickFormation"
         ]
     },
     "BattleQuickFormationClear": {
@@ -8974,9 +9100,7 @@
             "Mizuki@Roguelike@StageEncounterOptionLeave",
             "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter"
+            "Mizuki@Roguelike@ChooseOperFlag"
         ]
     },
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},

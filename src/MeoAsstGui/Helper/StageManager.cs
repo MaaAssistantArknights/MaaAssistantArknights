@@ -32,9 +32,9 @@ namespace MeoAsstGui
         {
             var sideStory = new StageActivityInfo()
             {
-                Tip = "SideStory「叙拉古人」活动",
-                UtcStartTime = new DateTime(2022, 11, 1, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2022, 11, 22, 4, 0, 0).AddHours(-8),
+                Tip = "SideStory「风雪过境」复刻活动",
+                UtcStartTime = new DateTime(2022, 12, 1, 16, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2022, 12, 15, 4, 0, 0).AddHours(-8),
             };
 
             var resourceCollection = new StageActivityInfo()
@@ -51,10 +51,10 @@ namespace MeoAsstGui
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
 
-                // SideStory「叙拉古人」活动
-                { "IS-8", new StageInfo { Display = "IS-8", Value = "IS-8", Activity = sideStory } },
-                { "IS-9", new StageInfo { Display = "IS-9", Value = "IS-9", Activity = sideStory } },
-                { "IS-10", new StageInfo { Display = "IS-10", Value = "IS-10", Activity = sideStory } },
+                // SideStory「风雪过境」复刻活动
+                { "BI-8", new StageInfo { Display = "BI-8", Value = "BI-8", Activity = sideStory } },
+                { "BI-7", new StageInfo { Display = "BI-7", Value = "BI-7", Activity = sideStory } },
+                { "BI-6", new StageInfo { Display = "BI-6", Value = "BI-6", Activity = sideStory } },
 
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },

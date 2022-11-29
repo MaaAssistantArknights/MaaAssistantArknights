@@ -60,7 +60,6 @@ if __name__ == "__main__":
     })
     asst.append_task('Award')
     # asst.append_task('Copilot', {
-    #     'stage_name': '千层蛋糕',
     #     'filename': './GA-EX8-raid.json',
     #     'formation': False
     # })
