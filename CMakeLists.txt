@@ -69,10 +69,14 @@ else ()
             "-framework Accelerate"
         )
     else ()
-        find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR})
+        if (NOT OpenCV_DIR)
+            set(OpenCV_DIR "/")
+        endif ()
+        find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR} NO_DEFAULT_PATH)
         target_include_directories(MeoAssistant PRIVATE ${OpenCV_INCLUDE_DIRS})
         target_link_libraries(MeoAssistant ${OpenCV_LIBS})
 
+        set(OPENCV_DIRECTORY ${OpenCV_DIR})
         include(${FASTDEPLOY_INSTALL_DIR}/FastDeploy.cmake)
         include_directories(${FASTDEPLOY_INCS})
 
