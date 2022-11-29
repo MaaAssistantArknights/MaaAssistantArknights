@@ -79,7 +79,7 @@ Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 - JP Client  
   Supports basic features like Combat, Auto Base shift, Credit Shopping, Auto Recruiting, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
 - KR Client  
-  Supports basic features like Combat, etc. See also [README](resource/global/YoStarKR/readme.md)
+  Supports basic features like Combat, Credit Shopping, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarKR/readme.md)
 - ZH_CHT Client  
   Supports basic features like Combat, Auto Recruiting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/txwy/readme.md)
 

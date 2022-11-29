@@ -75,13 +75,13 @@ MAA는 MAA Assistant Arknights를 의미합니다
 ## 해외 서버 지원
 
 - 글로벌 서버
-  작전, 크레딧 상점, 친구 방문, 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.
+  작전, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.
   자세한 내용은 [문서](resource/global/YoStarEN/readme.md)를 참조해 주세요.
 - 일본 서버
-  작전, 기반시설 관리, 크레딧 상점, 친구 방문, 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.
+  작전, 기반시설 관리, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.
   자세한 내용은 [문서](resource/global/YoStarJP/readme.md)를 참조해 주세요.
 - 한국 서버
-  작전 등을 지원합니다.
+  작전, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.
   자세한 내용은 [문서](resource/global/YoStarKR/readme.md)를 참조해 주세요.
 - 중국어 번체 서버  
   작전, 공개모집, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.
@@ -133,7 +133,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
-## 개발 관련 정보D
+## 개발 관련 정보
 
 ### Windows
 
