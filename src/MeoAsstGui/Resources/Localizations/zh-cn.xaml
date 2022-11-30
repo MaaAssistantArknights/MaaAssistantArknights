@@ -192,7 +192,7 @@
 
     <system:String x:Key="SocialPtShop">信用相关</system:String>
     <system:String x:Key="CreditFight">借助战赚信用</system:String>
-    <system:String x:Key="CreditFightTip">访问好友后借助战打一把OF-1赚30信用，关卡选择为「当前/上次」时请勿勾选</system:String>
+    <system:String x:Key="CreditFightTip">访问好友后借助战打一把OF-1赚30信用，关卡选择为「当前/上次」时请勿勾选，关卡选择为「当前/上次」时请勿勾选，别传「火蓝之心」关卡OF-1未解锁时请勿勾选</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可；龙门币</system:String>
