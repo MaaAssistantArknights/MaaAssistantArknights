@@ -189,7 +189,11 @@
         "text": [],
         "ocrReplace": [
             [
-                "EPISODE ",
+                " ",
+                ""
+            ],
+            [
+                "EPIS0DE",
                 "EPISODE"
             ]
         ],
@@ -348,7 +352,11 @@
         "text": [],
         "ocrReplace": [
             [
-                "EPISODE ",
+                " ",
+                ""
+            ],
+            [
+                "EPIS0DE",
                 "EPISODE"
             ]
         ],
