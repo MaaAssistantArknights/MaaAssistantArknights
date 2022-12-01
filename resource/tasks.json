@@ -8118,6 +8118,8 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterClickToLeave"
         ]
     },
@@ -8259,6 +8261,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
+            "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterClickToLeave"
         ]
@@ -8279,6 +8282,7 @@
         "baseTask": "Roguelike@StageEnter",
         "postDelay": 3000,
         "next": [
+            "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
@@ -9142,7 +9146,9 @@
             "Mizuki@Roguelike@StageEncounterOptionLeave",
             "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
-            "Mizuki@Roguelike@ChooseOperFlag"
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@StageEmergencyDpsEnter",
+            "Mizuki@Roguelike@StageCambatDpsEnter"
         ]
     },
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
