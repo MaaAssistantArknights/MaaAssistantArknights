@@ -9,8 +9,8 @@ namespace MaaBuilder;
     OnPullRequestBranches = new[] { DevBranch },
     OnPushIncludePaths = new[]
     {
-        "src/MeoAssistant/**",
-        "src/MeoAsstGui/**",  // 新 UI 发布后，移除 MeoAsstGui
+        "src/MaaCore/**",
+        "src/MaaWpfGui/**",  // 新 UI 发布后，移除 MaaWpfGui
         "3rdparty/**",  // 新 UI 发布后，移除 3rdparty/resource/**
         "tools/MaaBuilder/**",
         "tools/MaaBuilder.sln",
@@ -20,8 +20,8 @@ namespace MaaBuilder;
     },
     OnPullRequestIncludePaths = new[]
     {
-        "src/MeoAssistant/**",
-        "src/MeoAsstGui/**",  // 新 UI 发布后，移除 MeoAsstGui
+        "src/MaaCore/**",
+        "src/MaaWpfGui/**",  // 新 UI 发布后，移除 MaaWpfGui
         "3rdparty/**",  // 新 UI 发布后，移除 3rdparty/resource/**
         "tools/MaaBuilder/**",
         "tools/MaaBuilder.sln",

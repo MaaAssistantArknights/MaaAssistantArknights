@@ -6,7 +6,7 @@ import com.sun.jna.win32.StdCallLibrary;
 
 //本质上是对C接口的抽象层
 //请参考C接口 https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/include/AsstCaller.h
-public interface MeoAssistant extends StdCallLibrary {
+public interface MaaCore extends StdCallLibrary {
 
     //回调接口定义
     interface AsstApiCallback extends StdCallCallback {

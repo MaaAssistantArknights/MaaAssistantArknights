@@ -26,11 +26,11 @@ jobs:
         run: |
             brew update --preinstall
             brew install ninja range-v3 create-dmg
-      - name: Configure MeoAssistant
+      - name: Configure MaaCore
         run: |
           mkdir build && cd build
           cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
-      - name: Build libMeoAssistant
+      - name: Build libMaaCore
         run: cmake --build build
       - name: Build MeoAsstMac
         working-directory: src/MeoAsstMac

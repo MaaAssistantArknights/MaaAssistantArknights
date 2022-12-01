@@ -20,13 +20,13 @@ public class MaaJavaSample {
      */
     public static void main(String[] args) {
         //设定JNA寻找maa的dll的地址，同时也要把这个路径添加到环境变量中的Path中！
-        String maaPath = "C:/Users/iguigui/Desktop/MeoAssistantArknights3";
+        String maaPath = "C:/Users/iguigui/Desktop/MaaCoreArknights3";
         System.setProperty("jna.library.path", maaPath);
         //adb地址，自己看着办
         String adbPath = maaPath + "/platform-tools/adb.exe";
 
         //第一步，加载Maa调用实例，加载失败请检查jna.library.path和path参数
-        MeoAssistant instance = Native.load("MeoAssistant", MeoAssistant.class);
+        MaaCore instance = Native.load("MaaCore", MaaCore.class);
         System.out.println("获取Maa版本号:" + instance.AsstGetVersion());
 
         //第二步，加载Maa资源初始化

@@ -37,11 +37,11 @@ class Asst:
             os.environ["PATH"] += os.pathsep + str(path)
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
         elif platform.system().lower() == 'darwin':
-            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.dylib'
+            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.dylib'
             os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         else:
-            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.so'
+            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.so'
             os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
