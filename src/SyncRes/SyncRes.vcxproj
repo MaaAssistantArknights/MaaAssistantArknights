@@ -20,7 +20,13 @@
   </PropertyGroup>
   <PropertyGroup>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
-  </PropertyGroup> 
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -64,9 +70,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
-xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
-xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"</Command>
+      <Command>    xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
+
+    xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
+  
+  xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
@@ -85,9 +93,11 @@ xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
-xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
-xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"</Command>
+      <Command>    xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
+
+    xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
+  
+  xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
