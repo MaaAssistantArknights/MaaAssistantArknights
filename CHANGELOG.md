@@ -1,3 +1,18 @@
+## v4.8.0-beta.1
+
+- 更新 `风雪过境` 关卡数据 @MistEO
+- 修复 `风雪过境` 关卡导航 @ABA2396
+- 修复 基建、自动编队 干员名识别错误 @MistEO
+- 修复 信用战斗 部分卡住的问题 @Hydrogina @MistEO
+- 优化 肉鸽 艾妮莉 技能 @WWPXX233
+- 修复 打包错误 @MistEO
+
+### For Overseas
+
+- Fixed visiting and added more ocrReplaces to KR @178619
+
+## v4.8.0-alpha.1
+
 - 启用 ONNX Runtime 进行 OCR，大幅降低内存占用、提高推理速度、减小文件体积，并不再区分 NoAVX 版本。@MistEO @horror-proton @hguandl @aa889788  
     ~~终于踢了 PPOCR，但目前识别准确率有轻微下降，待后续版本优化。且目前暂未支持 Linux, macOS 版本~~
 - 新增 借助战打一局赚 30 信用功能，请进入设置开启~ @Hydrogina
