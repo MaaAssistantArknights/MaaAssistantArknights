@@ -33,7 +33,7 @@
 
     ```text
     MaaCoreArknights_v3.9.0-beta.8
-    │   MaaWpfGui.exe
+    │   MAA.exe
     │   MaaCore.dll  
     │   ...
     └───Java-HTTP
