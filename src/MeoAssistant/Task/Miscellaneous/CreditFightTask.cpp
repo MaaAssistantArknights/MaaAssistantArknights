@@ -26,7 +26,7 @@ asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* 
 
     // 自动战斗
     json::value copilot_params = json::object {
-        { "filename", utils::path_to_utf8_string(ResDir.get() / "credit_fight_copilot.json") },
+        { "filename", utils::path_to_utf8_string(ResDir.get() / "copilot" / "OF-1_credit_fight.json") },
         { "formation", true },
         { "support_unit_name", "_RANDOM_" },
     };

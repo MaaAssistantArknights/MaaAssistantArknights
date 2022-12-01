@@ -6,7 +6,7 @@
         },
         {
             "type": "Deploy",
-            "name": "近战",
+            "name": "先锋",
             "location": [
                 5,
                 3
@@ -18,30 +18,35 @@
         }
     ],
     "doc": {
-        "title": "OF-1 借人赚信用",
-        "details": "OF-1 借人赚信用"
+        "title": "OF-1 Credit Fight",
+        "details": "OF-1 Credit Fight"
     },
     "groups": [
         {
-            "name": "近战",
+            "name": "先锋",
             "opers": [
                 {
-                    "name": "德克萨斯",
-                    "skill_usage": 1
+                    "name": "德克萨斯"
                 },
                 {
-                    "name": "芬",
-                    "skill_usage": 1
+                    "name": "芬"
                 },
                 {
                     "name": "推进之王",
-                    "skill": 2,
+                    "skill": 2
+                },
+                {
+                    "name": "风笛",
+                    "skill": 2
+                },
+                {
+                    "name": "嵯峨",
+                    "skill": 3,
                     "skill_usage": 1
                 }
             ]
         }
     ],
     "opers": [],
-    "stage_name": "OF-1",
-    "difficulty": 3
+    "stage_name": "OF-1"
 }

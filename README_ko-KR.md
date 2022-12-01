@@ -103,8 +103,8 @@ MAA는 MAA Assistant Arknights를 의미합니다
 - 이미지 인식: [opencv](https://github.com/opencv/opencv.git)
 - ~~글자 인식: [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 글자 인식: [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- ML Deployment: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~아이템 드랍 인식: [Penguin Stats recognizer](https://github.com/penguin-statistics/recognizer)~~
 - 맵 타일 인식: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON 라이브러리: [meojson](https://github.com/MistEO/meojson.git)
@@ -146,7 +146,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ### API
 
-- [C 인터페이스](include/AsstCaller.h): [통합 예시](tools/TestCaller/main.cpp)
+- [C 인터페이스](include/AsstCaller.h): [통합 예시](src/CppSample/main.cpp)
 - [Python 인터페이스](src/Python/asst.py): [통합 예시](src/Python/sample.py)
 - [Golang 인터페이스](src/Golang/MaaAssistantArknights/): [통합 예시](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dart 인터페이스](src/dart/)

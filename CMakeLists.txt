@@ -100,7 +100,7 @@ else ()
 endif ()
 
 if (BUILD_TEST)
-    add_executable(test tools/TestCaller/main.cpp)
+    add_executable(test src/CppSample/main.cpp)
     target_link_libraries(test MeoAssistant)
 endif (BUILD_TEST)
 
