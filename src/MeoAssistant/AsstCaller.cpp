@@ -62,12 +62,12 @@ bool AsstLoadResource(const char* path)
     return inited;
 }
 
-bool AsstSetProcessOption(AsstProcessOptionKey key, const char* value)
+bool AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 {
-    // TODO: 把 config.option 里的全实现一遍
-    std::ignore = key;
-    std::ignore = value;
-    return false;
+    if (inited) {
+        return false;
+    }
+    return asst::AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value);
 }
 
 AsstHandle AsstCreate()

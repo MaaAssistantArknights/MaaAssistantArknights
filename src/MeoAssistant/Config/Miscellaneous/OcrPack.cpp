@@ -27,12 +27,16 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
 #endif
 
 asst::OcrPack::OcrPack()
-{
-    m_ocr_option = std::make_unique<fastdeploy::RuntimeOption>();
-    m_ocr_option->UseOrtBackend();
-}
+    : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr),
+      m_backend(OcrBackend::ONNXRuntime)
+{}
 
 asst::OcrPack::~OcrPack() {}
+
+void asst::OcrPack::set_backend_before_load(OcrBackend backend)
+{
+    m_backend = backend;
+}
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
@@ -53,6 +57,20 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     if (!std::filesystem::exists(dst_model_file) || !std::filesystem::exists(dst_params_file) ||
         !std::filesystem::exists(rec_model_file) || !std::filesystem::exists(rec_params_file) ||
         !std::filesystem::exists(rec_label_file)) {
+        return false;
+    }
+
+    switch (m_backend) {
+    case OcrBackend::ONNXRuntime:
+        Log.info("OcrBackend::ONNXRuntime");
+        m_ocr_option->UseOrtBackend();
+        break;
+    case OcrBackend::PaddleInference:
+        Log.info("OcrBackend::PaddleInference");
+        m_ocr_option->UsePaddleInferBackend();
+        break;
+    default:
+        Log.error("Unknown OCR Backend");
         return false;
     }
 
