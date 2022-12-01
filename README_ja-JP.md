@@ -135,7 +135,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### Windows
 
-- Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。環境がすでに構成されています。
+- Visual Studio 2022で `MAA.sln` を開きます。環境がすでに構成されています。
 - clang-formatのサポートを有効にすることをお勧めします。詳細については、[Visual Studioでclang-formatを有効にする](docs/ja-jp/2.2-プルリクエスト.md)を参照してください。
 
 ### Linux | macOS

@@ -133,7 +133,7 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 ### Windows
 
-- Open `MeoAssistantArknights.sln` with Visual Studio 2022. All settings have been configured properly.
+- Open `MAA.sln` with Visual Studio 2022. All settings have been configured properly.
 - Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](docs/en-us/2.2-DEVELOPMENT.md#using-clang-format-in-visual-studio).
 
 ### Linux/MacOS
