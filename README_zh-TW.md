@@ -99,8 +99,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 圖像辨識庫：[opencv](https://github.com/opencv/opencv.git)
 - ~~字元辨識庫：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 字元辨識庫：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- 深度學習部署庫：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- 機器學習加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~關卡掉落辨識：[企鵝物流辨識](https://github.com/penguin-statistics/recognizer)~~
 - 地圖格子辨識：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON庫：[meojson](https://github.com/MistEO/meojson.git)
@@ -142,7 +142,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### API
 
-- [C 介面](include/AsstCaller.h)：[整合示例](tools/TestCaller/main.cpp)
+- [C 介面](include/AsstCaller.h)：[整合示例](src/CppSample/main.cpp)
 - [Python 介面](src/Python/asst.py)：[整合示例](src/Python/sample.py)
 - [Golang 介面](src/Golang/MaaAssistantArknights/)：[整合示例](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dart 介面](src/dart/)

@@ -101,8 +101,8 @@ UIを見れば使い方もすぐ分かる！
 - 画像認識ライブラリ：[opencv](https://github.com/opencv/opencv.git)
 - ~~テキスト認識ライブラリ：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - テキスト認識ライブラリ：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- ML Deployment: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~ステージドロップ認識：[PenguinStats認識](https://github.com/penguin-statistics/recognizer)~~
 - マップタイル認識：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSONライブラリ：[meojson](https://github.com/MistEO/meojson.git)
@@ -144,7 +144,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### API
 
-- [Cインターフェース](include/AsstCaller.h)：[統合例](tools/TestCaller/main.cpp)
+- [Cインターフェース](include/AsstCaller.h)：[統合例](src/CppSample/main.cpp)
 - [Pythonインターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
 - [Golangインターフェース](src/Golang/MaaAssistantArknights/)：[統合例](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dartインターフェース](src/dart/)
