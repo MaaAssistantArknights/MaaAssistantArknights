@@ -6010,7 +6010,8 @@
             244,
             167
         ],
-        "postDelay": 1000,
+        "preDelay": 1000,
+        "postDelay": 2000,
         "next": [
             "BattleSupportUnitFormationSelect"
         ]
@@ -6023,7 +6024,8 @@
             1165,
             75
         ],
-        "postDelay": 1000
+        "preDelay": 1000,
+        "postDelay": 2000
     },
     "BattleQuickFormation": {
         "action": "ClickSelf",
