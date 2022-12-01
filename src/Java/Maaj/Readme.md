@@ -34,7 +34,7 @@
     ```text
     MeoAssistantArknights_v3.9.0-beta.8
     │   MeoAsstGui.exe
-    │   MeoAssistant.dll  
+    │   MaaCore.dll  
     │   ...
     └───Java-HTTP
         │   Maa-HTTP-0.0.1.jar

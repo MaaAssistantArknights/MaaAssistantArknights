@@ -55,7 +55,7 @@ class MaaCore implements MaaCoreInterface {
     if (Platform.isLinux) {
       return 'libMeoAssistant.so';
     } else if (Platform.isWindows) {
-      return 'MeoAssistant.dll';
+      return 'MaaCore.dll';
     }
     return 'libMeoAssistant.dylib';
   }

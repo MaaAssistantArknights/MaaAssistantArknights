@@ -311,20 +311,19 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
-        xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
-        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
       </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy resource</Message>
+      <Message>
+      </Message>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>
-        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"
       </Command>
     </PreLinkEvent>
     <PreLinkEvent>
-      <Message>Copy 3rd party dll</Message>
+      <Message>
+      </Message>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
@@ -364,20 +363,19 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
-        xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
-        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
       </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy resource</Message>
+      <Message>
+      </Message>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>
-        xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"
       </Command>
     </PreLinkEvent>
     <PreLinkEvent>
-      <Message>Copy 3rd party dll</Message>
+      <Message>
+      </Message>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

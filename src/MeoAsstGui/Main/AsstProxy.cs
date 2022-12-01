@@ -61,7 +61,7 @@ namespace MeoAsstGui
             }
         }
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstLoadResource(byte* dirname);
 
         private static unsafe bool AsstLoadResource(string dirname)
@@ -72,16 +72,16 @@ namespace MeoAsstGui
             }
         }
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern AsstHandle AsstCreate();
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern AsstHandle AsstCreateEx(CallbackDelegate callback, IntPtr custom_arg);
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern void AsstDestroy(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, byte* value);
 
         private static unsafe bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, string value)
@@ -92,7 +92,7 @@ namespace MeoAsstGui
             }
         }
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adb_path, byte* address, byte* config);
 
         private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
@@ -105,7 +105,7 @@ namespace MeoAsstGui
             }
         }
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern unsafe AsstTaskId AsstAppendTask(AsstHandle handle, byte* type, byte* task_params);
 
         private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string task_params)
@@ -117,7 +117,7 @@ namespace MeoAsstGui
             }
         }
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, byte* task_params);
 
         private static unsafe bool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, string task_params)
@@ -128,13 +128,13 @@ namespace MeoAsstGui
             }
         }
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern bool AsstStart(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern bool AsstStop(AsstHandle handle);
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern unsafe void AsstLog(byte* level, byte* message);
 
         /// <summary>
