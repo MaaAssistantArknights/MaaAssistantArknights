@@ -452,10 +452,11 @@ namespace MeoAsstGui
 
         public void AskToRestart()
         {
+            System.Windows.Forms.MessageBoxManager.Unregister();
             System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
             System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
             System.Windows.Forms.MessageBoxManager.Register();
-            var result = MessageBox.Show(
+            var result = _windowManager.ShowMessageBox(
                 Localization.GetString("NewVersionDownloadCompletedDesc"),
                 Localization.GetString("NewVersionDownloadCompletedTitle"),
                 MessageBoxButton.YesNo,
