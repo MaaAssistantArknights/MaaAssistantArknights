@@ -137,7 +137,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ### Windows
 
-- `MeoAssistantArknights.sln`를 Visual Studio 2022로 열어주세요. 모든 설정이 제대로 구성되어 있습니다.
+- `MAA.sln`를 Visual Studio 2022로 열어주세요. 모든 설정이 제대로 구성되어 있습니다.
 - clang-format 기능을 활성화해 주세요. 자세한 내용은 [개발](docs/ko-kr/2.2-개발.md) 문서의 [Visual Studio에서 clang-format 활성화](docs/ko-kr/2.2-개발.md#visual-studio에서-clang-format-활성화) 문단을 참조해 주세요. <!-- File Required -->
 
 ### Linux/MacOS

@@ -134,7 +134,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-- 直接使用 Visual Studio 2022 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+- 直接使用 Visual Studio 2022 打开 `MAA.sln` 即可，所有环境都是配置好的
 - 建议启用 clang-format 支持，详细内容可以参考 [在 Visual Studio 中启用 clang-format](docs/2.2-开发相关.md#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS

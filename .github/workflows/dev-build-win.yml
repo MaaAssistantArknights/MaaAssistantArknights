@@ -28,7 +28,7 @@ on:
       - tools/MaaBuilder.sln
       - 'include/**'
       - 'resource/**'
-      - MeoAssistantArknights.sln
+      - MAA.sln
   pull_request:
     branches:
       - dev
@@ -40,7 +40,7 @@ on:
       - tools/MaaBuilder.sln
       - 'include/**'
       - 'resource/**'
-      - MeoAssistantArknights.sln
+      - MAA.sln
   workflow_dispatch:
     inputs:
       Reason:

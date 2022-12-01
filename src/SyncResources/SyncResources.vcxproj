@@ -16,6 +16,7 @@
     <ProjectGuid>{f860c043-4d86-41b6-a97e-4a75c9a6c4ec}</ProjectGuid>
     <RootNamespace>SyncResources</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SyncRes</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
