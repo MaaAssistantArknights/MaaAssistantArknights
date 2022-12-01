@@ -81,6 +81,8 @@ public partial class Build
 
         public Project MaaWpfProject { get; }
 
+        public Project MaaSyncResProject { get; }
+
         // 配置
         public string BuildTime { get; }
 
@@ -130,6 +132,7 @@ public partial class Build
             Assert.True(maaSolution is not null, "无法载入 MAA.sln");
             MaaCoreProject = maaSolution.GetProject("MaaCore");
             MaaWpfProject = maaSolution.GetProject("MaaWpfGui");
+            MaaSyncResProject = maaSolution.GetProject("SyncRes");
 
             // 配置
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("zh-Hans-CN");
