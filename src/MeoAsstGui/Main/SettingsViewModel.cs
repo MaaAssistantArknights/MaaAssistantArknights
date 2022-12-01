@@ -273,7 +273,7 @@ namespace MeoAsstGui
         }
 
         /* 启动设置 */
-        private bool _startSelf = StartSelfModel.CheckStart();
+        private bool _startSelf = MeoAsstGui.AutoStart.CheckStart();
 
         /// <summary>
         /// Gets or sets a value indicating whether to start itself.
@@ -284,7 +284,7 @@ namespace MeoAsstGui
             set
             {
                 SetAndNotify(ref _startSelf, value);
-                StartSelfModel.SetStart(value);
+                MeoAsstGui.AutoStart.SetStart(value);
             }
         }
 

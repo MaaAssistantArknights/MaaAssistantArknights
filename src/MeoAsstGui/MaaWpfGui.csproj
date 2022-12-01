@@ -103,9 +103,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Main\Bootstrapper.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helper\AsstProxy.cs" />
+    <Compile Include="Main\AsstProxy.cs" />
     <Compile Include="Helper\AutoScroll.cs" />
     <Compile Include="Helper\CombData.cs" />
     <Compile Include="Helper\ComboBoxExtensions.cs" />
@@ -131,135 +131,135 @@
     <Compile Include="Helper\StageManager.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
-    <Compile Include="UserControl\GUISettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\GUISettingsUserControl.xaml.cs">
       <DependentUpon>GUISettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\WinAdapter.cs" />
     <Compile Include="Helper\TrayIcon.cs" />
-    <Compile Include="UserControl\HotKeyEditorUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\HotKeyEditorUserControl.xaml.cs">
       <DependentUpon>HotKeyEditorUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\HotKeySettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\HotKeySettingsUserControl.xaml.cs">
       <DependentUpon>HotKeySettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\StartSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\StartSettingsUserControl.xaml.cs">
       <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\TimerSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\TimerSettingsUserControl.xaml.cs">
       <DependentUpon>TimerSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\AutoRecruitSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\AutoRecruitSettingsUserControl.xaml.cs">
       <DependentUpon>AutoRecruitSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ConnectSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\ConnectSettingsUserControl.xaml.cs">
       <DependentUpon>ConnectSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\RoguelikeSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\RoguelikeSettingsUserControl.xaml.cs">
       <DependentUpon>RoguelikeSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\MallSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\MallSettingsUserControl.xaml.cs">
       <DependentUpon>MallSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\InfrastSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\InfrastSettingsUserControl.xaml.cs">
       <DependentUpon>InfrastSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\FightSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\FightSettingsUserControl.xaml.cs">
       <DependentUpon>FightSettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\DragItemViewModel.cs" />
-    <Compile Include="UserControl\PenguinReportSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\PenguinReportSettingsUserControl.xaml.cs">
       <DependentUpon>PenguinReportSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\AboutUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\VersionUpdateSettingsUserControl.xaml.cs">
+    <Compile Include="Views\UserControl\VersionUpdateSettingsUserControl.xaml.cs">
       <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\DepotViewModel.cs" />
-    <Compile Include="ViewModels\StartSelfModel.cs" />
-    <Compile Include="ViewModels\RecruitViewModel.cs" />
-    <Compile Include="ViewModels\RootViewModel.cs" />
-    <Compile Include="ViewModels\CopilotViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\TaskQueueViewModel.cs" />
-    <Compile Include="ViewModels\VersionUpdateViewModel.cs" />
+    <Compile Include="Main\DepotViewModel.cs" />
+    <Compile Include="Helper\AutoStart.cs" />
+    <Compile Include="Main\RecruitViewModel.cs" />
+    <Compile Include="Main\RootViewModel.cs" />
+    <Compile Include="Main\CopilotViewModel.cs" />
+    <Compile Include="Main\SettingsViewModel.cs" />
+    <Compile Include="Main\TaskQueueViewModel.cs" />
+    <Compile Include="Main\VersionUpdateViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\ErrorView.xaml.cs" />
-    <Page Include="Resources\Localizations\ko-kr.xaml">
+    <Compile Include="Helper\ErrorView.xaml.cs" />
+    <Page Include="Res\Localizations\ko-kr.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Localizations\ja-jp.xaml">
+    <Page Include="Res\Localizations\ja-jp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Localizations\en-us.xaml">
+    <Page Include="Res\Localizations\en-us.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Localizations\pallas.xaml">
+    <Page Include="Res\Localizations\pallas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Localizations\zh-cn.xaml">
+    <Page Include="Res\Localizations\zh-cn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Localizations\zh-tw.xaml">
+    <Page Include="Res\Localizations\zh-tw.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\HotKeyEditorUserControl.xaml" />
-    <Page Include="UserControl\HotKeySettingsUserControl.xaml">
+    <Page Include="Views\UserControl\HotKeyEditorUserControl.xaml" />
+    <Page Include="Views\UserControl\HotKeySettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\StartSettingsUserControl.xaml" />
-    <Page Include="UserControl\TimerSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\StartSettingsUserControl.xaml" />
+    <Page Include="Views\UserControl\TimerSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\AutoRecruitSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\AutoRecruitSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\ConnectSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\ConnectSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\RoguelikeSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\RoguelikeSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\MallSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\MallSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\InfrastSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\InfrastSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\FightSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\FightSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\PenguinReportSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\PenguinReportSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\AboutUserControl.xaml">
+    <Page Include="Views\UserControl\AboutUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\GUISettingsUserControl.xaml">
+    <Page Include="Views\UserControl\GUISettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\VersionUpdateSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\VersionUpdateSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
