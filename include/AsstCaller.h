@@ -23,7 +23,7 @@ extern "C"
 typedef void* AsstHandle;
 #endif
     typedef int AsstTaskId;
-    typedef int AsstProcessOptionKey;
+    typedef int AsstStaticOptionKey;
     typedef int AsstInstanceOptionKey;
     typedef unsigned long long AsstSize;
     typedef int AsstAsyncCallId;
@@ -32,7 +32,7 @@ typedef void* AsstHandle;
 
     bool ASSTAPI AsstSetUserDir(const char* path);
     bool ASSTAPI AsstLoadResource(const char* path);
-    bool ASSTAPI AsstSetProcessOption(AsstProcessOptionKey key, const char* value);
+    bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 
     AsstHandle ASSTAPI AsstCreate();
     AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
