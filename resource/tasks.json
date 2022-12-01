@@ -471,10 +471,6 @@
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
-        "next": [
-            "#self"
-        ],
-        "maxTimes": 5,
         "exceededNext": [
             "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
@@ -500,7 +496,7 @@
         "exceededNext": [
             "Home@ReturnTo"
         ],
-        "maxTimes": 10
+        "maxTimes": 20
     },
     "ClickedCorrectStageOrSwipe": {
         "baseTask": "StartButton1",
@@ -627,16 +623,17 @@
         ]
     },
     "ChapterSlowlySwipeToTheLeft": {
+        "Doc": "在上面一点滑避免点到关卡划不动",
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
             200,
-            350,
+            100,
             20,
             20
         ],
         "rectMove": [
             1000,
-            350,
+            100,
             20,
             20
         ]
@@ -645,26 +642,32 @@
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
             900,
-            350,
+            100,
             20,
             20
         ],
         "rectMove": [
             300,
-            350,
+            100,
             20,
             20
         ]
     },
     "ChapterSwipeToTheLeft": {
+        "Doc": "滑动到最左",
         "baseTask": "ChapterSlowlySwipeToTheLeft",
         "specialParams": [
             150,
             0,
             0.5
-        ]
+        ],
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5
     },
     "ChapterSwipeToTheRight": {
+        "Doc": "滑动到最右",
         "baseTask": "ChapterSlowlySwipeToTheRight",
         "specialParams": [
             150,
@@ -675,6 +678,17 @@
             "#self"
         ],
         "maxTimes": 5
+    },
+    "SwipeToStage": {
+        "Doc": "活动导航左滑找关",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            1
+        ],
+        "next": [
+            "#next"
+        ]
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
@@ -842,6 +856,7 @@
         ]
     },
     "SwipeToStageIS": {
+        "Doc": "IS关特殊的上下滑动",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [
@@ -913,7 +928,7 @@
         ],
         "next": [
             "StageNL-10",
-            "SwipeToStageNL-10"
+            "NL-10@SwipeToStage"
         ]
     },
     "NL-9": {
@@ -924,7 +939,7 @@
         ],
         "next": [
             "StageNL-9",
-            "SwipeToStageNL-9"
+            "NL-9@SwipeToStage"
         ]
     },
     "NL-8": {
@@ -935,7 +950,7 @@
         ],
         "next": [
             "StageNL-8",
-            "SwipeToStageNL-8"
+            "NL-8@SwipeToStage"
         ]
     },
     "NL-Open": {
@@ -967,30 +982,6 @@
         "next": [
             "NLChapterToNL",
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageNL-10": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageNL-10",
-            "SwipeToStageNL-10"
-        ]
-    },
-    "SwipeToStageNL-9": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageNL-9",
-            "SwipeToStageNL-9"
-        ]
-    },
-    "SwipeToStageNL-8": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageNL-8",
-            "SwipeToStageNL-8"
         ]
     },
     "StageNL-10": {
@@ -1174,7 +1165,7 @@
         ],
         "next": [
             "StageIC-9",
-            "SwipeToStageIC-9"
+            "IC-9@SwipeToStage"
         ]
     },
     "IC-8": {
@@ -1185,7 +1176,7 @@
         ],
         "next": [
             "StageIC-8",
-            "SwipeToStageIC-8"
+            "IC-8@SwipeToStage"
         ]
     },
     "IC-7": {
@@ -1196,7 +1187,7 @@
         ],
         "next": [
             "StageIC-7",
-            "SwipeToStageIC-7"
+            "IC-7@SwipeToStage"
         ]
     },
     "IC-Open": {
@@ -1224,30 +1215,6 @@
         "next": [
             "ICChapterToIC",
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageIC-9": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageIC-9",
-            "SwipeToStageIC-9"
-        ]
-    },
-    "SwipeToStageIC-8": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageIC-8",
-            "SwipeToStageIC-8"
-        ]
-    },
-    "SwipeToStageIC-7": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageIC-7",
-            "SwipeToStageIC-7"
         ]
     },
     "StageIC-9": {
@@ -1306,7 +1273,7 @@
         ],
         "next": [
             "StageDV-8",
-            "SwipeToStageDV-8"
+            "DV-8@SwipeToStage"
         ]
     },
     "DV-7": {
@@ -1317,7 +1284,7 @@
         ],
         "next": [
             "StageDV-7",
-            "SwipeToStageDV-7"
+            "DV-7@SwipeToStage"
         ]
     },
     "DV-6": {
@@ -1328,7 +1295,7 @@
         ],
         "next": [
             "StageDV-6",
-            "SwipeToStageDV-6"
+            "DV-6@SwipeToStage"
         ]
     },
     "DV-Open": {
@@ -1366,30 +1333,6 @@
         "next": [
             "DVChapterToDV",
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageDV-8": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-8",
-            "SwipeToStageDV-8"
-        ]
-    },
-    "SwipeToStageDV-7": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-7",
-            "SwipeToStageDV-7"
-        ]
-    },
-    "SwipeToStageDV-6": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-6",
-            "SwipeToStageDV-6"
         ]
     },
     "StageDV-8": {
@@ -1446,7 +1389,7 @@
         ],
         "next": [
             "StageLE-5",
-            "SwipeToStageLE-5"
+            "LE-5@SwipeToStage"
         ]
     },
     "LE-6": {
@@ -1458,7 +1401,7 @@
         ],
         "next": [
             "StageLE-6",
-            "SwipeToStageLE-6"
+            "LE-6@SwipeToStage"
         ]
     },
     "LE-7": {
@@ -1470,7 +1413,7 @@
         ],
         "next": [
             "StageLE-7",
-            "SwipeToStageLE-7"
+            "LE-7@SwipeToStage"
         ]
     },
     "LE-Open": {
@@ -1497,30 +1440,6 @@
         "action": "ClickSelf",
         "sub": [
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageLE-5": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageLE-5",
-            "SwipeToStageLE-5"
-        ]
-    },
-    "SwipeToStageLE-6": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageLE-6",
-            "SwipeToStageLE-6"
-        ]
-    },
-    "SwipeToStageLE-7": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageLE-7",
-            "SwipeToStageLE-7"
         ]
     },
     "StageLE-5": {
@@ -1666,7 +1585,7 @@
         ],
         "next": [
             "StageBI-6",
-            "SwipeToStageBI-6"
+            "BI-6@SwipeToStage"
         ]
     },
     "BI-7": {
@@ -1674,8 +1593,11 @@
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "BIChapterToBI",
-            "StageBI-7"
+            "BIChapterToBI"
+        ],
+        "next": [
+            "StageBI-7",
+            "BI-7@SwipeToStage"
         ]
     },
     "BI-8": {
@@ -1683,8 +1605,11 @@
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "BIChapterToBI",
-            "StageBI-8"
+            "BIChapterToBI"
+        ],
+        "next": [
+            "StageBI-8",
+            "BI-8@SwipeToStage"
         ]
     },
     "BI-Open": {
@@ -1712,14 +1637,6 @@
         "next": [
             "BIChapterToBI",
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageBI-6": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageBI-6",
-            "SwipeToStageBI-6"
         ]
     },
     "StageBI-6": {
@@ -1802,7 +1719,7 @@
     },
     "PR-A-1": {
         "baseTask": "ResourceStages",
-        "doc": "医疗/重装",
+        "Doc": "医疗/重装",
         "next": [
             "PR-A-1@StagePR-A",
             "PR-A-1@SwipeToTheRight"
@@ -1817,7 +1734,7 @@
     },
     "PR-B-1": {
         "baseTask": "ResourceStages",
-        "doc": "术士/狙击",
+        "Doc": "术士/狙击",
         "next": [
             "PR-B-1@StagePR-B",
             "PR-B-1@SwipeToTheRight"
@@ -1832,7 +1749,7 @@
     },
     "PR-C-1": {
         "baseTask": "ResourceStages",
-        "doc": "先锋/辅助",
+        "Doc": "先锋/辅助",
         "next": [
             "PR-C-1@StagePR-C",
             "PR-C-1@SwipeToTheRight"
@@ -1847,7 +1764,7 @@
     },
     "PR-D-1": {
         "baseTask": "ResourceStages",
-        "doc": "近卫/特种",
+        "Doc": "近卫/特种",
         "next": [
             "PR-D-1@StagePR-D",
             "PR-D-1@SwipeToTheRight"
@@ -1862,7 +1779,7 @@
     },
     "StageResource": {
         "action": "ClickSelf",
-        "doc": "进入资源关卡",
+        "Doc": "进入资源关卡",
         "roi": [
             455,
             562,
@@ -2702,7 +2619,7 @@
         ]
     },
     "Annihilation": {
-        "doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
+        "Doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
         "templThreshold": 0.6,
         "cache": false,
@@ -5611,7 +5528,7 @@
     },
     "SendClueFlag": {
         "action": "DoNothing",
-        "doc": "这里识别的是自己的线索的new：如果获取完自己的线索、再获取完好友送的线索，自己的线索new还亮着，则说明自己的线索没获取成功，即线索满了",
+        "Doc": "这里识别的是自己的线索的new：如果获取完自己的线索、再获取完好友送的线索，自己的线索new还亮着，则说明自己的线索没获取成功，即线索满了",
         "next": [
             "SendClues"
         ],
