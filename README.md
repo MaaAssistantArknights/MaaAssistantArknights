@@ -145,10 +145,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 - [C 接口](include/AsstCaller.h)：[集成示例](src/CppSample/main.cpp)
 - [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
-- [Golang 接口](src/Golang/MaaAssistantArknights/)：[集成示例](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golang 接口](src/Golang/)：[集成示例](src/Golang/maa/maa.go)
 - [Dart 接口](src/dart/)
-- [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Java HTTP 接口](src/Java/Maaj/Readme.md)
+- [Java 接口](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 接口](src/Java/Readme.md)
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
 - [集成文档](docs/3.1-集成文档.md)
 - [回调消息协议](docs/3.2-回调消息协议.md)
