@@ -7,7 +7,7 @@ import (
 
 // 之后抽象成和Linux调用方式保持一致 先这么拆
 const (
-	loadDLL = "MeoAssistant.dll"
+	loadDLL = "MaaCore.dll"
 	sep     = string(os.PathSeparator)
 )
 

@@ -37,7 +37,7 @@ namespace MeoAsstGui
         private readonly IContainer _container;
         private readonly IMaaHotKeyManager _maaHotKeyManager;
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
         private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());

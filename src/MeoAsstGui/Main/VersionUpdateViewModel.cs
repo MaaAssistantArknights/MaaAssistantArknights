@@ -48,7 +48,7 @@ namespace MeoAsstGui
             _windowManager = windowManager;
         }
 
-        [DllImport("MeoAssistant.dll")]
+        [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
         private static string AddContributorLink(string text)
