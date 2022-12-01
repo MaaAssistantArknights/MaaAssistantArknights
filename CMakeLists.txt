@@ -39,32 +39,32 @@ if (MSVC)
 endif ()
 
 include_directories(include)
-include_directories(src/MeoAssistant)
+include_directories(src/MaaCore)
 
-file(GLOB_RECURSE maa_src src/MeoAssistant/*.cpp)
+file(GLOB_RECURSE maa_src src/MaaCore/*.cpp)
 
-add_library(MeoAssistant SHARED ${maa_src})
+add_library(MaaCore SHARED ${maa_src})
 
 if (MSVC)
     find_library(FastDeploy_LIB NAMES fastdeploy PATHS 3rdparty/lib)
     find_library(OpenCV NAMES opencv_world453 PATHS 3rdparty/lib)
     find_library(ZLIB NAMES zlibstatic PATHS 3rdparty/lib)
-    target_link_libraries(MeoAssistant ws2_32 ${OpenCV} ${FastDeploy_LIB} ${ZLIB})
-    target_include_directories(MeoAssistant PRIVATE 3rdparty/include)
+    target_link_libraries(MaaCore ws2_32 ${OpenCV} ${FastDeploy_LIB} ${ZLIB})
+    target_include_directories(MaaCore PRIVATE 3rdparty/include)
 else ()
     find_package(ZLIB REQUIRED)
-    target_include_directories(MeoAssistant PRIVATE ${ZLIB_INCLUDE_DIRS})
-    target_link_libraries(MeoAssistant ${ZLIB_LIBRARY})
+    target_include_directories(MaaCore PRIVATE ${ZLIB_INCLUDE_DIRS})
+    target_link_libraries(MaaCore ${ZLIB_LIBRARY})
 
     if (CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
         find_package(range-v3 REQUIRED)
-        target_link_libraries(MeoAssistant range-v3::range-v3)
+        target_link_libraries(MaaCore range-v3::range-v3)
     endif ()
 
     if (APPLE)
         set(CMAKE_OSX_DEPLOYMENT_TARGET 12.0)
         add_subdirectory(3rdparty/VisionOCR)
-        target_link_libraries(MeoAssistant
+        target_link_libraries(MaaCore
             vnocr
             "-framework Accelerate"
         )
@@ -73,18 +73,18 @@ else ()
             set(OpenCV_DIR "/")
         endif ()
         find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR} NO_DEFAULT_PATH)
-        target_include_directories(MeoAssistant PRIVATE ${OpenCV_INCLUDE_DIRS})
-        target_link_libraries(MeoAssistant ${OpenCV_LIBS})
+        target_include_directories(MaaCore PRIVATE ${OpenCV_INCLUDE_DIRS})
+        target_link_libraries(MaaCore ${OpenCV_LIBS})
 
         set(OPENCV_DIRECTORY ${OpenCV_DIR})
         include(${FASTDEPLOY_INSTALL_DIR}/FastDeploy.cmake)
         include_directories(${FASTDEPLOY_INCS})
 
-        target_link_libraries(MeoAssistant ${FDLIB})
-        target_link_libraries(MeoAssistant ${PADDLE2ONNX_LIB})
-        target_link_libraries(MeoAssistant ${ORT_LIB})
+        target_link_libraries(MaaCore ${FDLIB})
+        target_link_libraries(MaaCore ${PADDLE2ONNX_LIB})
+        target_link_libraries(MaaCore ${ORT_LIB})
 
-        install(TARGETS MeoAssistant DESTINATION .)
+        install(TARGETS MaaCore DESTINATION .)
         install(DIRECTORY ${FASTDEPLOY_INSTALL_DIR}/lib/ DESTINATION . USE_SOURCE_PERMISSIONS)
         install(DIRECTORY ${FASTDEPLOY_INSTALL_DIR}/third_libs/install/paddle2onnx/lib/ DESTINATION . USE_SOURCE_PERMISSIONS)
         install(DIRECTORY ${ORT_LIB_PATH}/ DESTINATION . USE_SOURCE_PERMISSIONS)
@@ -101,18 +101,18 @@ endif ()
 
 if (BUILD_TEST)
     add_executable(test src/CppSample/main.cpp)
-    target_link_libraries(test MeoAssistant)
+    target_link_libraries(test MaaCore)
 endif (BUILD_TEST)
 
 if (BUILD_XCFRAMEWORK)
-    add_custom_command(OUTPUT MeoAssistant.xcframework
-        COMMAND rm -rf MeoAssistant.xcframework
-        COMMAND xcodebuild -create-xcframework -library libMeoAssistant.dylib -headers ${PROJECT_SOURCE_DIR}/include -output MeoAssistant.xcframework
-        DEPENDS MeoAssistant
+    add_custom_command(OUTPUT MaaCore.xcframework
+        COMMAND rm -rf MaaCore.xcframework
+        COMMAND xcodebuild -create-xcframework -library libMaaCore.dylib -headers ${PROJECT_SOURCE_DIR}/include -output MaaCore.xcframework
+        DEPENDS MaaCore
     )
 
     add_custom_target(MaaXCFramework ALL
-        DEPENDS MeoAssistant MeoAssistant.xcframework
+        DEPENDS MaaCore MaaCore.xcframework
     )
 endif (BUILD_XCFRAMEWORK)
 

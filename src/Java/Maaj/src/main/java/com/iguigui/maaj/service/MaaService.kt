@@ -1,7 +1,7 @@
 package com.iguigui.maaj.service
 
 import com.iguigui.maaj.dto.*
-import com.iguigui.maaj.easySample.MeoAssistant
+import com.iguigui.maaj.easySample.MaaCore
 import com.iguigui.maaj.logger
 import com.sun.jna.Native
 import io.ktor.websocket.*
@@ -18,12 +18,12 @@ object MaaService {
 
     private val wsConnection = Collections.synchronizedSet<Connection?>(LinkedHashSet())
 
-    val meoAssistant: MeoAssistant by lazy {
+    val MaaCore: MaaCore by lazy {
         var maaPath = File(File("").absolutePath).parent
         logger.info("maaPath $maaPath")
-//        maaPath = "C:\\Users\\atmzx\\Desktop\\MeoAssistantArknights3"
+//        maaPath = "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3"
         System.setProperty("jna.library.path", maaPath)
-        val load = Native.load("MeoAssistant", MeoAssistant::class.java)
+        val load = Native.load("MaaCore", MaaCore::class.java)
         load.AsstLoadResource(maaPath)
         load
     }
@@ -33,8 +33,8 @@ object MaaService {
 //        if (instancePool.containsKey(id)) {
 //            return ConnectResponse(id, true)
 //        }
-        val maaInstance = MaaInstance(meoAssistant, id, adbPath, host, detailJson, ::callBackLog)
-        maaInstance.pointer = meoAssistant.AsstCreateEx(maaInstance, maaInstance.id)
+        val maaInstance = MaaInstance(MaaCore, id, adbPath, host, detailJson, ::callBackLog)
+        maaInstance.pointer = MaaCore.AsstCreateEx(maaInstance, maaInstance.id)
         val connect = maaInstance.connect()
         if (!connect) {
             return ConnectResponse("", false)
@@ -54,7 +54,7 @@ object MaaService {
 
     fun stop(id: String) = instancePool[id]?.stop() ?: false
 
-    fun getVersion(): String = meoAssistant.AsstGetVersion()
+    fun getVersion(): String = MaaCore.AsstGetVersion()
 
     private fun sha1(password: String): String {
         val messageDigest = MessageDigest.getInstance("SHA")

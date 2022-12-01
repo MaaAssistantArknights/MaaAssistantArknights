@@ -2,7 +2,7 @@ package com.iguigui.maaj.service
 
 import com.iguigui.maaj.dto.CallBackLog
 import com.iguigui.maaj.dto.*
-import com.iguigui.maaj.easySample.MeoAssistant
+import com.iguigui.maaj.easySample.MaaCore
 import com.iguigui.maaj.logger
 import com.iguigui.maaj.util.Json
 import com.sun.jna.Pointer
@@ -11,17 +11,17 @@ import java.util.concurrent.atomic.AtomicLong
 import kotlin.reflect.KFunction1
 
 class MaaInstance(
-    private val instance: MeoAssistant,
+    private val instance: MaaCore,
     val id: String,
     val adbPath: String,
     val host: String,
     private val detailJson: String,
     val callBackAction: KFunction1<CallBackLog, Unit>
 ) :
-    MeoAssistant.AsstApiCallback {
+    MaaCore.AsstApiCallback {
 
 //    constructor(
-//        instance: MeoAssistant,
+//        instance: MaaCore,
 //        id: String,
 //        adbPath: String,
 //        host: String,

@@ -2,5 +2,5 @@
 
 fn main() {
     println!("cargo:rustc-link-search=native=..");
-    println!("cargo:rustc-link-lib=MeoAssistant");
+    println!("cargo:rustc-link-lib=MaaCore");
 }

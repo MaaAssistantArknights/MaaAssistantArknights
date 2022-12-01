@@ -5,8 +5,8 @@ on:
     branches-ignore:
       - master
     paths:
-      - 'src/MeoAssistant/**'
-      - 'src/MeoAsstGui/**'
+      - 'src/MaaCore/**'
+      - 'src/MaaWpfGui/**'
       - 'src/MeoAsstMac/**'
       - '3rdparty/**'
       - 'include/**'
@@ -16,8 +16,8 @@ on:
     branches:
       - dev
     paths:
-      - 'src/MeoAssistant/**'
-      - 'src/MeoAsstGui/**'
+      - 'src/MaaCore/**'
+      - 'src/MaaWpfGui/**'
       - 'src/MeoAsstMac/**'
       - '3rdparty/**'
       - 'include/**'
@@ -41,11 +41,11 @@ jobs:
         run: |
           brew update --preinstall
           brew install ninja range-v3
-      - name: Configure MeoAssistant
+      - name: Configure MaaCore
         run: |
           mkdir build && cd build
           cmake .. -GNinja -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
-      - name: Build libMeoAssistant
+      - name: Build libMaaCore
         run: cmake --build build
       - name: Build MeoAsstMac
         working-directory: src/MeoAsstMac

@@ -147,7 +147,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
 - [Golang 接口](src/Golang/MaaAssistantArknights/)：[集成示例](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dart 接口](src/dart/)
-- [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Java HTTP 接口](src/Java/Maaj/Readme.md)
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
 - [集成文档](docs/3.1-集成文档.md)

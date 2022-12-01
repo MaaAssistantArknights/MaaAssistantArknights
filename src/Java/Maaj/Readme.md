@@ -32,8 +32,8 @@
 1. 把他丢进 Maa 文件夹下,形成如下文件结构.备注: 启动脚本[Maa-HTTP-Server-startup.bat](Maa-HTTP-Server-startup.bat).
 
     ```text
-    MeoAssistantArknights_v3.9.0-beta.8
-    │   MeoAsstGui.exe
+    MaaCoreArknights_v3.9.0-beta.8
+    │   MaaWpfGui.exe
     │   MaaCore.dll  
     │   ...
     └───Java-HTTP
@@ -108,7 +108,7 @@
 
 ```json
 {
-  "adbPath": "C:\\MeoAssistantArknights3\\platform-tools\\adb.exe",
+  "adbPath": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
   "host": "127.0.0.1:62001",
   "detailJson": ""
 }
@@ -143,7 +143,6 @@
 | result    | 是否成功        | Boolean | - |
 
 ---
-
 
 ---
 
@@ -400,7 +399,7 @@
       {
         "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
         "host": "127.0.0.1:62026",
-        "adbPath": "C:\\Users\\atmzx\\Desktop\\MeoAssistantArknights3\\platform-tools\\adb.exe",
+        "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
         "uuid": "",
         "status": 0
       }
@@ -440,7 +439,6 @@
 | id  | 创建连接返回的实例ID   | String | Y | -   |
 
 ###### 4) 请求返回结果: 图片内容, PNG 格式
-
 
 ### WebSocket 部分
 
@@ -511,7 +509,7 @@
   "command": "connect",
   "msgId": 114514,
   "data": {
-    "adbPath": "C:\\Users\\atmzx\\Desktop\\MeoAssistantArknights3\\platform-tools\\adb.exe",
+    "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
     "host": "127.0.0.1:62001"
   }
 }
@@ -561,7 +559,7 @@ appendTask setTaskParams start stop等接口不再描述，均可遵循以上规
     "details": {
       "uuid": "",
       "details": {
-        "adb": "C:\\MeoAssistantArknights3\\platform-tools\\adb.exe",
+        "adb": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
         "address": "127.0.0.1:62001",
         "config": "General",
         "width": 1280,

@@ -148,7 +148,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 - [Pythonインターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
 - [Golangインターフェース](src/Golang/MaaAssistantArknights/)：[統合例](src/Golang/MaaAssistantArknights/maa/maa.go)
 - [Dartインターフェース](src/dart/)
-- [Javaインターフェース](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[統合例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Javaインターフェース](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[統合例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)
 - [HTTPインターフェース](src/Java/Maaj/Readme.md)
 - [統合ドキュメント](docs/ja-jp/3.1-統合ドキュメント.md)
