@@ -670,7 +670,11 @@
             150,
             0,
             0.5
-        ]
+        ],
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
@@ -1658,8 +1662,11 @@
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "BIChapterToBI",
-            "StageBI-6"
+            "BIChapterToBI"
+        ],
+        "next": [
+            "StageBI-6",
+            "SwipeToStageBI-6"
         ]
     },
     "BI-7": {
@@ -1701,7 +1708,9 @@
             280,
             150
         ],
+        "postDelay": 2000,
         "next": [
+            "BIChapterToBI",
             "ChapterSwipeToTheRight"
         ]
     },
@@ -1722,10 +1731,10 @@
         ],
         "cache": false,
         "roi": [
-            50,
-            250,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "StageBI-7": {
@@ -1737,10 +1746,10 @@
         ],
         "cache": false,
         "roi": [
-            50,
-            250,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "StageBI-8": {
@@ -1752,10 +1761,10 @@
         ],
         "cache": false,
         "roi": [
-            200,
-            350,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "ResourceStages": {
