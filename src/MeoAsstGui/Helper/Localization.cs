@@ -76,7 +76,7 @@ namespace MeoAsstGui
             {
                 var dictionary = new ResourceDictionary
                 {
-                    Source = new Uri($@"Resources\Localizations\{cur}.xaml", UriKind.Relative),
+                    Source = new Uri($@"Res\Localizations\{cur}.xaml", UriKind.Relative),
                 };
                 Application.Current.Resources.MergedDictionaries.Add(dictionary);
 
@@ -99,7 +99,7 @@ namespace MeoAsstGui
             {
                 var dictionary = new ResourceDictionary
                 {
-                    Source = new Uri($@"Resources\Localizations\{culture}.xaml", UriKind.Relative),
+                    Source = new Uri($@"Res\Localizations\{culture}.xaml", UriKind.Relative),
                 };
                 if (dictionary.Contains(key))
                 {
