@@ -148,11 +148,11 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 - [C 인터페이스](include/AsstCaller.h): [통합 예시](src/CppSample/main.cpp)
 - [Python 인터페이스](src/Python/asst.py): [통합 예시](src/Python/sample.py)
-- [Golang 인터페이스](src/Golang/MaaAssistantArknights/): [통합 예시](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golang 인터페이스](src/Golang/): [통합 예시](src/Golang/maa/maa.go)
 - [Dart 인터페이스](src/dart/)
-- [Java 인터페이스](src/Java/Maaj): [통합 예시](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
+- [Java 인터페이스](src/Java): [통합 예시](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust 인터페이스](src/Rust/src/maa_sys/): [HTTP 인터페이스](src/Rust)
-- [HTTP 인터페이스](src/Java/Maaj/Readme.md)
+- [HTTP 인터페이스](src/Java/Readme.md)
 - [통합](docs/ko-kr/3.1-통합.md) <!-- File Required -->
 - [콜백 형식](docs/ko-kr/3.2-콜백_형식.md) <!-- File Required -->
 - [임무 형식](docs/ko-kr/3.4-임무_형식.md) <!-- File Required -->
