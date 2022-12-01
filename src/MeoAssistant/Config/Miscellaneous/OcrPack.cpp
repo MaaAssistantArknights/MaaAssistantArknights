@@ -70,7 +70,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         m_ocr_option->UsePaddleInferBackend();
         break;
     default:
-        Log.error("Unknown OCR Backend");
+        Log.error("Unknown OCR Backend", m_backend);
         return false;
     }
 
