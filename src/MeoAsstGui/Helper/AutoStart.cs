@@ -19,7 +19,7 @@ namespace MeoAsstGui
     /// <summary>
     /// The model of auto-starting settings.
     /// </summary>
-    public class StartSelfModel
+    public class AutoStart
     {
         private static readonly string fileValue = Process.GetCurrentProcess().MainModule?.FileName;
 
