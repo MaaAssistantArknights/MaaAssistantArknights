@@ -29,6 +29,12 @@ namespace asst
 
     static constexpr double TemplThresholdDefault = 0.8;
 
+    enum class StaticOptionKey
+    {
+        Invalid = 0,
+        OcrBackend = 1,
+    };
+
     enum class InstanceOptionKey
     {
         Invalid = 0,
