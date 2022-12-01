@@ -413,7 +413,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
-                call_and_hup_minitouch(m_adb.call_minitouch);
+                if (call_and_hup_minitouch(m_adb.call_minitouch)) {
+                    m_minitouch_avaiable = true;
+                }
                 auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
                 if (recall_ret) {
                     // 重连并成功执行了
