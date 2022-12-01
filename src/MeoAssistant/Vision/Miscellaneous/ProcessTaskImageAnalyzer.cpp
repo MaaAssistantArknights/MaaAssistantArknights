@@ -12,7 +12,8 @@
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name,
                                                          Assistant* inst)
-    : AbstractImageAnalyzer(image, inst), m_tasks_name(std::move(tasks_name))
+    : AbstractImageAnalyzer(image, inst), m_tasks_name(std::move(tasks_name)), m_ocr_analyzer(nullptr),
+      m_ocr_with_preprocess_analyzer(nullptr), m_match_analyzer(nullptr)
 {}
 
 asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
