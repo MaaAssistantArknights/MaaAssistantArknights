@@ -189,7 +189,11 @@
         "text": [],
         "ocrReplace": [
             [
-                "EPISODE ",
+                " ",
+                ""
+            ],
+            [
+                "EPIS0DE",
                 "EPISODE"
             ]
         ],
@@ -348,7 +352,11 @@
         "text": [],
         "ocrReplace": [
             [
-                "EPISODE ",
+                " ",
+                ""
+            ],
+            [
+                "EPIS0DE",
                 "EPISODE"
             ]
         ],
@@ -662,7 +670,11 @@
             150,
             0,
             0.5
-        ]
+        ],
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5
     },
     "SwipeLeftToStage1-7": {
         "algorithm": "OcrDetect",
@@ -1650,8 +1662,11 @@
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "BIChapterToBI",
-            "StageBI-6"
+            "BIChapterToBI"
+        ],
+        "next": [
+            "StageBI-6",
+            "SwipeToStageBI-6"
         ]
     },
     "BI-7": {
@@ -1693,7 +1708,9 @@
             280,
             150
         ],
+        "postDelay": 2000,
         "next": [
+            "BIChapterToBI",
             "ChapterSwipeToTheRight"
         ]
     },
@@ -1714,10 +1731,10 @@
         ],
         "cache": false,
         "roi": [
-            50,
-            250,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "StageBI-7": {
@@ -1729,10 +1746,10 @@
         ],
         "cache": false,
         "roi": [
-            50,
-            250,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "StageBI-8": {
@@ -1744,10 +1761,10 @@
         ],
         "cache": false,
         "roi": [
-            200,
-            350,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "ResourceStages": {
@@ -2163,7 +2180,7 @@
                 "令"
             ],
             [
-                "归.+幽灵鲨",
+                "归.*幽灵鲨",
                 "归溟幽灵鲨"
             ],
             [
@@ -2243,7 +2260,7 @@
                 "吽"
             ],
             [
-                "慢砂",
+                ".+砂",
                 "慑砂"
             ],
             [
@@ -2295,23 +2312,7 @@
                 "布丁"
             ],
             [
-                "野景",
-                "野鬃"
-            ],
-            [
-                "野素",
-                "野鬃"
-            ],
-            [
-                "野繁",
-                "野鬃"
-            ],
-            [
-                "野聚",
-                "野鬃"
-            ],
-            [
-                "野紫",
+                "^野.*",
                 "野鬃"
             ],
             [
@@ -2381,6 +2382,34 @@
             [
                 "龙.+兰",
                 "龙舌兰"
+            ],
+            [
+                "宠舌兰",
+                "龙舌兰"
+            ],
+            [
+                "未药",
+                "末药"
+            ],
+            [
+                "月末",
+                "月禾"
+            ],
+            [
+                "^有$",
+                "乌有"
+            ],
+            [
+                "夏栋",
+                "夏栎"
+            ],
+            [
+                ".*霜叶",
+                "霜叶"
+            ],
+            [
+                ".*霸叶",
+                "霜叶"
             ]
         ]
     },
@@ -2759,6 +2788,16 @@
             "UsePrts-Annihilation",
             "StartButton1"
         ]
+    },
+    "NotUsePrts": {
+        "action": "ClickSelf",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ],
+        "cache": false
     },
     "UsePrts-Annihilation": {
         "Doc": "剿灭的“全权委托”按钮",
@@ -5992,9 +6031,9 @@
             244,
             167
         ],
-        "postDelay": 1000,
         "next": [
-            "BattleSupportUnitFormationSelect"
+            "BattleSupportUnitFormationSelect",
+            "BattleSupportUnitFormation"
         ]
     },
     "BattleSupportUnitFormationSelect": {
@@ -6005,7 +6044,10 @@
             1165,
             75
         ],
-        "postDelay": 1000
+        "next": [
+            "BattleSupportUnitFormationSelect",
+            "Stop"
+        ]
     },
     "BattleQuickFormation": {
         "action": "ClickSelf",

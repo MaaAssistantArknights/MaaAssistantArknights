@@ -5,6 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/Miscellaneous/OcrPack.h"
 #include "Controller.h"
 #include "Status.h"
 #include "Task/Interface/AwardTask.h"
@@ -23,6 +24,30 @@
 #endif
 
 using namespace asst;
+
+bool AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
+{
+    Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
+    switch (key) {
+    case StaticOptionKey::OcrBackend:
+        if (constexpr std::string_view ONNXRuntime = "ONNXRuntime"; value == ONNXRuntime) {
+            WordOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::ONNXRuntime);
+            CharOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::ONNXRuntime);
+            return true;
+        }
+        else if (constexpr std::string_view PaddleInference = "PaddleInference"; value == PaddleInference) {
+            WordOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::PaddleInference);
+            CharOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::PaddleInference);
+            return true;
+        }
+        else {
+            Log.error("unknown value", value);
+            return false;
+        }
+        break;
+    }
+    return false;
+}
 
 Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(callback), m_callback_arg(callback_arg)
 {
@@ -57,17 +82,19 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
     switch (key) {
     case InstanceOptionKey::MinitouchEnabled:
-        if (value == "0") {
+        if (constexpr std::string_view Disable = "0"; value == Disable) {
             m_ctrler->set_minitouch_enabled(false);
             return true;
         }
-        else if (value == "1") {
+        else if (constexpr std::string_view Enable = "1"; value == Enable) {
             m_ctrler->set_minitouch_enabled(true);
             return true;
         }
         else {
+            Log.error("unknown value", value);
             return false;
         }
+        break;
     }
     return false;
 }

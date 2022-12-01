@@ -23,6 +23,8 @@ namespace asst
 
         virtual ~AsstExtAPI() = default;
 
+        // 设置进程级参数
+        static bool set_static_option(StaticOptionKey key, const std::string& value);
         // 设置实例级参数
         virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) = 0;
         // 连接adb
