@@ -6019,9 +6019,9 @@
             244,
             167
         ],
-        "postDelay": 1000,
         "next": [
-            "BattleSupportUnitFormationSelect"
+            "BattleSupportUnitFormationSelect",
+            "BattleSupportUnitFormation"
         ]
     },
     "BattleSupportUnitFormationSelect": {
@@ -6032,7 +6032,10 @@
             1165,
             75
         ],
-        "postDelay": 1000
+        "next": [
+            "BattleSupportUnitFormationSelect",
+            "Stop"
+        ]
     },
     "BattleQuickFormation": {
         "action": "ClickSelf",
