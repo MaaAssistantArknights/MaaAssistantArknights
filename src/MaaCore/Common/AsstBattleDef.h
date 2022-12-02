@@ -164,13 +164,13 @@ namespace asst
     struct ReplacementHome
     {
         Point location;
-        BattleDeployDirection direction;
+        BattleDeployDirection direction = BattleDeployDirection::Right;
     };
 
     struct ForceDeployDirection
     {
-        BattleDeployDirection direction;
-        std::unordered_set<BattleRole> role;
+        BattleDeployDirection direction = BattleDeployDirection::Right;
+        std::unordered_set<BattleRole> role = {};
     };
 
     struct RoguelikeBattleData
@@ -180,7 +180,7 @@ namespace asst
         std::unordered_set<Point> blacklist_location;
         std::unordered_map<Point, ForceDeployDirection> force_deploy_direction;
         std::vector<int> key_kills;
-        std::array<BattleRole, 9> role_order;
+        std::array<BattleRole, 9> role_order = {};
         bool use_dice_stage = true;
         int stop_deploy_blocking_num = INT_MAX;
         int force_deploy_air_defense_num = 0;
@@ -206,7 +206,7 @@ namespace asst
     struct BattleCharData
     {
         std::string name;
-        BattleRole role;
+        BattleRole role = BattleRole::Unknown;
         std::array<std::string, 3> ranges;
         int rarity = 0;
         bool with_direction = true;
