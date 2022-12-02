@@ -167,13 +167,12 @@
 
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 실행</system:String>
     <system:String x:Key="RunTaskAfterLaunch">실행 후 작업 시작</system:String>
-    <system:String x:Key="ClientVersion">클라이언트 버전</system:String>
+    <system:String x:Key="ClientType">클라이언트 버전</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="ForcedReplaceADB">ADB 강제 교체</system:String>
-    <system:String x:Key="AdbTouchMode">터치 호환 모드 (minitouch 없이)</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
 
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
@@ -212,7 +211,7 @@
 
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요.</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">항상 연결 자동 감지</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">항상 감지</system:String>
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제가 있으면 수동으로 수정하십시오</system:String>

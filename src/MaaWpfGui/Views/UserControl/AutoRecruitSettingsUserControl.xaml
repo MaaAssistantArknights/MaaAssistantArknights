@@ -19,9 +19,7 @@
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
-        <Grid
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <StackPanel
                 Grid.Row="0"
                 Margin="0,10,0,0"

@@ -71,6 +71,7 @@ namespace MaaWpfGui
             _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
             DisplayName = Localization.GetString("Settings");
 
+            _listTitle.Add(Localization.GetString("GameSettings"));
             _listTitle.Add(Localization.GetString("BaseSettings"));
             _listTitle.Add(Localization.GetString("RoguelikeSettings"));
             _listTitle.Add(Localization.GetString("RecruitingSettings"));
@@ -176,8 +177,14 @@ namespace MaaWpfGui
                 new CombData { Display = Localization.GetString("Nox"), Value = "Nox" },
                 new CombData { Display = Localization.GetString("XYAZ"), Value = "XYAZ" },
                 new CombData { Display = Localization.GetString("WSA"), Value = "WSA" },
-                new CombData { Display = Localization.GetString("MaaTouch"), Value = "MaaTouch" },
                 new CombData { Display = Localization.GetString("Compatible"), Value = "Compatible" },
+            };
+
+            TouchModeList = new List<CombData>
+            {
+                new CombData { Display = Localization.GetString("MiniTouchMode"), Value = "minitouch" },
+                new CombData { Display = Localization.GetString("MaaTouchMode"), Value = "maatouch" },
+                new CombData { Display = Localization.GetString("AdbTouchMode"), Value = "adb" },
             };
 
             _dormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
@@ -512,6 +519,8 @@ namespace MaaWpfGui
         /// Gets or sets the list of the configuration of connection.
         /// </summary>
         public List<CombData> ConnectConfigList { get; set; }
+
+        public List<CombData> TouchModeList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of inverse clear modes.
@@ -1855,15 +1864,20 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _useAdbTouchMode = Convert.ToBoolean(ViewStatusStorage.Get("Connect.UseAdbTouchMode", false.ToString()));
-
-        public bool UseAdbTouchMode
+        public bool IsAdbTouchMode()
         {
-            get => _useAdbTouchMode;
+            return TouchMode == "adb";
+        }
+
+        private string _touchMode = ViewStatusStorage.Get("Connect.TouchMode", "minitouch");
+
+        public string TouchMode
+        {
+            get => _touchMode;
             set
             {
-                SetAndNotify(ref _useAdbTouchMode, value);
-                ViewStatusStorage.Set("Connect.UseAdbTouchMode", value.ToString());
+                SetAndNotify(ref _touchMode, value);
+                ViewStatusStorage.Set("Connect.TouchMode", value);
                 UpdateTouchMode();
             }
         }
@@ -1871,7 +1885,7 @@ namespace MaaWpfGui
         public void UpdateTouchMode()
         {
             var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetInstanceOption(InstanceOptionKey.MinitouchEnabled, UseAdbTouchMode ? "0" : "1");
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";

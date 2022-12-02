@@ -6,6 +6,7 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  设置  -->
     <system:String x:Key="Settings">设置</system:String>
+    <system:String x:Key="GameSettings">游戏设置</system:String>
     <system:String x:Key="BaseSettings">基建设置</system:String>
     <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
     <system:String x:Key="RecruitingSettings">自动公招</system:String>
@@ -167,13 +168,16 @@
 
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动</system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
-    <system:String x:Key="ClientVersion">客户端版本</system:String>
+    <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceADB">强制替换 ADB</system:String>
-    <system:String x:Key="AdbTouchMode">兼容性的触控模式（不使用 minitouch）</system:String>
+    <system:String x:Key="TouchMode">触控模式</system:String>
+    <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
+    <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
+    <system:String x:Key="AdbTouchMode">Adb Input（兼容模式）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
@@ -212,7 +216,7 @@
 
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">始终自动检测连接</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">始终检测</system:String>
     <system:String x:Key="ADBPath">adb 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
@@ -388,6 +392,7 @@
     <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>
     <system:String x:Key="ReconnectSuccess">重连成功，继续任务</system:String>
     <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
+    <system:String x:Key="TouchModeNotAvaiable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError">任务出错：</system:String>

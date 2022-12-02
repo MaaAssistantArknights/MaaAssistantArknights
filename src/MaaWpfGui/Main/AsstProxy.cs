@@ -428,6 +428,10 @@ namespace MaaWpfGui
                 case "ScreencapFailed":
                     mainModel.AddLog(Localization.GetString("ScreencapFailed"), UILogColor.Error);
                     break;
+
+                case "TouchModeNotAvaiable":
+                    mainModel.AddLog(Localization.GetString("TouchModeNotAvaiable"), UILogColor.Error);
+                    break;
             }
         }
 
@@ -1632,7 +1636,8 @@ namespace MaaWpfGui
 
     public enum InstanceOptionKey
     {
-        MinitouchEnabled = 1,
+        /* Deprecated */ // MinitouchEnabled = 1,
+        TouchMode = 2,
     }
 }
 

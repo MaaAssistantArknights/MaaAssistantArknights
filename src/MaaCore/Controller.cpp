@@ -1520,10 +1520,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         return false;
     }
 
-    do {
+    while (m_minitouch_enabled) {
         m_minitouch_avaiable = false;
 
-        std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or("maatouch");
+        std::string abilist =
+            m_use_maa_touch ? "maatouch" : call_command(cmd_replace(adb_cfg.abilist)).value_or("maatouch");
         std::string_view optimal_abi;
         for (const auto& abi : Config.get_options().minitouch_programs_order) {
             if (abilist.find(abi) != std::string::npos) {
@@ -1550,7 +1551,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
         if (!call_and_hup_minitouch(m_adb.call_minitouch)) break;
 
-        std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
+        std::string orientation_str =
+            m_use_maa_touch ? "0" : call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
         if (!orientation_str.empty()) {
             char first = orientation_str.front();
             if (first == '0' || first == '1' || first == '2' || first == '3') {
@@ -1559,7 +1561,17 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         }
 
         m_minitouch_avaiable = true;
-    } while (false);
+        break;
+    };
+
+    if (m_minitouch_enabled && !m_minitouch_avaiable) {
+        json::value info = get_info_json() | json::object {
+            { "what", "TouchModeNotAvaiable" },
+            { "why", "" },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+        return false;
+    }
 
     // try to find the fastest way
     if (!screencap()) {
@@ -1626,6 +1638,12 @@ bool asst::Controller::release()
 bool asst::Controller::inited() const noexcept
 {
     return m_inited;
+}
+
+void asst::Controller::set_minitouch_enabled(bool enable, bool maa_touch) noexcept
+{
+    m_minitouch_enabled = enable;
+    m_use_maa_touch = maa_touch;
 }
 
 const std::string& asst::Controller::get_uuid() const

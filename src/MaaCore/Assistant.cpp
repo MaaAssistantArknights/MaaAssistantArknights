@@ -81,13 +81,17 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
 {
     Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
     switch (key) {
-    case InstanceOptionKey::MinitouchEnabled:
-        if (constexpr std::string_view Disable = "0"; value == Disable) {
+    case InstanceOptionKey::TouchMode:
+        if (constexpr std::string_view Adb = "adb"; value == Adb) {
             m_ctrler->set_minitouch_enabled(false);
             return true;
         }
-        else if (constexpr std::string_view Enable = "1"; value == Enable) {
-            m_ctrler->set_minitouch_enabled(true);
+        else if (constexpr std::string_view Minitouch = "minitouch"; value == Minitouch) {
+            m_ctrler->set_minitouch_enabled(true, false);
+            return true;
+        }
+        else if (constexpr std::string_view MaaTouch = "maatouch"; value == MaaTouch) {
+            m_ctrler->set_minitouch_enabled(true, true);
             return true;
         }
         else {

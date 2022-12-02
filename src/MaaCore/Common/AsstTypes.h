@@ -38,7 +38,8 @@ namespace asst
     enum class InstanceOptionKey
     {
         Invalid = 0,
-        MinitouchEnabled = 1,
+        /* Deprecated */ // MinitouchEnabled = 1,
+        TouchMode = 2,
     };
 
     struct Point

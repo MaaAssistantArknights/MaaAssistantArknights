@@ -34,29 +34,6 @@
                     Content="{DynamicResource RunTaskAfterLaunch}"
                     IsChecked="{Binding RunDirectly}" />
             </Grid>
-            <Grid Margin="10">
-                <TextBlock
-                    Margin="0,0,0,41"
-                    Block.TextAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource ClientVersion}" />
-                <ComboBox
-                    Margin="0,35,0,0"
-                    DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Idle}"
-                    ItemsSource="{Binding ClientTypeList}"
-                    SelectedValue="{Binding ClientType}"
-                    SelectedValuePath="Value" />
-            </Grid>
-        </StackPanel>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <CheckBox
-                Margin="20,10,10,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Block.TextAlignment="Center"
-                Content="{DynamicResource OpenEmulatorAfterLaunch}"
-                IsChecked="{Binding StartEmulator}" />
             <StackPanel
                 Margin="10"
                 HorizontalAlignment="Center"
@@ -73,6 +50,15 @@
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding EmulatorWaitSeconds}" />
             </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <CheckBox
+                Margin="20,10,10,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Block.TextAlignment="Center"
+                Content="{DynamicResource OpenEmulatorAfterLaunch}"
+                IsChecked="{Binding StartEmulator}" />
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

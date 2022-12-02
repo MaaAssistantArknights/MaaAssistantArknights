@@ -22,20 +22,20 @@
             <StackPanel>
                 <TextBlock
                     Height="36"
+                    Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     FontSize="14"
                     Style="{StaticResource TextBlockDefaultBold}"
                     Text="{Binding DepotInfo}"
-                    TextWrapping="Wrap"
-                    Margin="10" />
+                    TextWrapping="Wrap" />
                 <TextBlock
+                    Margin="10"
                     HorizontalAlignment="Left"
                     FontSize="14"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding DepotResult}"
-                    TextWrapping="Wrap"
-                    Margin="10" />
+                    TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
         <StackPanel
