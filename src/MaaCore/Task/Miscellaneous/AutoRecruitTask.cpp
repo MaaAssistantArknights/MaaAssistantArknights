@@ -27,11 +27,11 @@ namespace asst::recruit_calc
             rcs_with_single_tag.reserve(tags.size());
             ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const RecruitConfig::TagId& t) {
                 RecruitCombs result;
-            result.tags = { t };
-            result.min_level = 6;
-            result.max_level = 0;
-            result.avg_level = 0;
-            return result;
+                result.tags = { t };
+                result.min_level = 6;
+                result.max_level = 0;
+                result.avg_level = 0;
+                return result;
             });
 
             for (const auto& op : all_ops) {
@@ -378,7 +378,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
-            // robot tags
+        // robot tags
         const std::vector<RecruitConfig::TagId> RobotTags = { "支援机械" };
         if (auto robot_iter = ranges::find_first_of(RobotTags, tag_ids); robot_iter != RobotTags.cend()) [[unlikely]] {
             has_robot_tag = true;
@@ -399,7 +399,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                     rc.min_level = sec->level;
                     rc.avg_level = std::transform_reduce(sec, rc.opers.end(), 0., std::plus<double> {},
                                                          std::mem_fn(&RecruitOperInfo::level)) /
-                        static_cast<double>(std::distance(sec, rc.opers.end()));
+                                   static_cast<double>(std::distance(sec, rc.opers.end()));
                 }
             }
         }
@@ -413,14 +413,14 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 if (l_has != r_has) return l_has > r_has;
             }
 
-        if (lhs.min_level != rhs.min_level)
-            return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
-        else if (lhs.max_level != rhs.max_level)
-            return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
-        else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
-            return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
-        else
-            return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
+            if (lhs.min_level != rhs.min_level)
+                return lhs.min_level > rhs.min_level; // 最小等级大的，排前面
+            else if (lhs.max_level != rhs.max_level)
+                return lhs.max_level > rhs.max_level; // 最大等级大的，排前面
+            else if (std::fabs(lhs.avg_level - rhs.avg_level) > DoubleDiff)
+                return lhs.avg_level > rhs.avg_level; // 平均等级高的，排前面
+            else
+                return lhs.tags.size() < rhs.tags.size(); // Tag数量少的，排前面
         });
 
         if (result_vec.empty()) continue;
@@ -481,7 +481,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
                 cb_info["why"] = "刷新次数达到上限";
-                cb_info["details"] = json::object{ { "refresh_limit", refresh_limit } };
+                cb_info["details"] = json::object { { "refresh_limit", refresh_limit } };
                 callback(AsstMsg::SubTaskError, cb_info);
                 return {};
             }
@@ -496,7 +496,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitTagsRefreshed";
-                cb_info["details"] = json::object{
+                cb_info["details"] = json::object {
                     { "count", refresh_count },
                     { "refresh_limit", refresh_limit },
                 };
@@ -566,7 +566,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object{ { "tags", json::array(get_tag_names(final_combination.tags)) } };
+            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_combination.tags)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -652,7 +652,7 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
         if (hire_searcher.get_result().empty()) return true;
     }
     // hire all
-    return ProcessTask{ *this, { "RecruitFinish" } }.run();
+    return ProcessTask { *this, { "RecruitFinish" } }.run();
 }
 
 /// search for blue *Hire* buttons in the recruit home page, mark those slot clean and do hiring
@@ -704,13 +704,13 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     body["stageId"] = "recruit";
     auto& all_drops = body["drops"];
     for (const auto& tag : tags) {
-        all_drops.array_emplace(json::object{
+        all_drops.array_emplace(json::object {
             { "dropType", "NORMAL_DROP" },
             { "itemId", tag },
             { "quantity", 1 },
         });
     }
-    body["source"] = "MaaCore";
+    body["source"] = UploadDataSource;
     body["version"] = Version;
 
     std::string extra_param;
@@ -735,7 +735,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
 
     json::value body = details;
     body["server"] = m_server;
-    body["source"] = "MaaCore";
+    body["source"] = UploadDataSource;
     body["version"] = Version;
     body["uuid"] = /* m_yituliu_id */ m_penguin_id;
 

@@ -220,7 +220,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
         cb_info["why"] = "未知关卡";
-        cb_info["details"] = json::object{ { "stage_code", m_stage_code } };
+        cb_info["details"] = json::object { { "stage_code", m_stage_code } };
         callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
@@ -253,7 +253,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         format_drop.as_object().erase("itemName");
         all_drops.array_emplace(std::move(format_drop));
     }
-    body["source"] = "MaaCore";
+    body["source"] = UploadDataSource;
     body["version"] = Version;
 
     std::string extra_param;

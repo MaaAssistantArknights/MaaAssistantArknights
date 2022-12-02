@@ -405,4 +405,6 @@ namespace asst
         std::pair<int, int> mask_range;  // 掩码的二值化范围
         bool bound = false;              // 是否裁剪周围黑边
     };
+
+    inline static const std::string UploadDataSource = "MeoAssistant";
 } // namespace asst
