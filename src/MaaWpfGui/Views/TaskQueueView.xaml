@@ -9,7 +9,7 @@
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui;assembly=MaaWpfGui"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     MinWidth="720"
     d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
     d:DesignHeight="495"
