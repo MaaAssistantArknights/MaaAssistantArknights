@@ -118,29 +118,19 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
                                                      bool without_det, bool trim)
 {
     std::string class_type = utils::demangle(typeid(*this).name());
-    // 如果是带 ROI 的 cv::Mat, data 仍是指向完整的图片数据，仅通过内部的一些其他参数标识 ROI
-    // 直接取 data 拿到的不是正确的图，所以拷贝一份出来
-    cv::Mat copied = image.clone();
     fastdeploy::vision::OCRResult ocr_result;
     if (!without_det) {
-        LogTraceScope("Ocr System with " + class_type);
-
+        LogTraceScope("Ocr Pipeline with " + class_type);
+        cv::Mat copied = image;
         m_ocr->Predict(&copied, &ocr_result);
     }
     else {
         LogTraceScope("Ocr Rec with " + class_type);
-
-        std::vector rec_imgs = { std::move(copied) };
         std::vector<std::string> rec_texts;
         std::vector<float> rec_scores;
-        m_rec->BatchPredict(rec_imgs, &rec_texts, &rec_scores);
-
-        if (!rec_texts.empty()) {
-            ocr_result.text.emplace_back(std::move(rec_texts.front()));
-        }
-        if (!rec_scores.empty()) {
-            ocr_result.rec_scores.emplace_back(rec_scores.front());
-        }
+        m_rec->BatchPredict({ image }, &rec_texts, &rec_scores);
+        ocr_result.text = std::move(rec_texts);
+        ocr_result.rec_scores = std::move(rec_scores);
     }
 
 #ifdef ASST_DEBUG

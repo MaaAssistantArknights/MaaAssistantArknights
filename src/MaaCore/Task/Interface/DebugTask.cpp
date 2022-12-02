@@ -6,13 +6,12 @@
 
 // #include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
 
-#include "Vision/Miscellaneous/DepotImageAnalyzer.h"
-#include "Vision/Roguelike/StageDropsImageAnalyzer.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/DepotImageAnalyzer.h"
+#include "Vision/Roguelike/StageDropsImageAnalyzer.h"
 
-asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
+asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType)
 {
     ////auto task_ptr = std::make_shared<RoguelikeSkillSelectionTaskPlugin>(callback, inst, TaskType);
     // auto task_ptr = std::make_shared<StageDropsTaskPlugin>(callback, inst, TaskType);
@@ -23,7 +22,7 @@ bool asst::DebugTask::run()
 {
     size_t total = 0;
     size_t success = 0;
-    for (const auto& entry : std::filesystem::directory_iterator("../../test/drops/screenshots/ja_jp")) {
+    for (const auto& entry : std::filesystem::directory_iterator("../../test/drops/screenshots/zh_cn")) {
         cv::Mat image = asst::imread(entry.path());
         if (image.empty()) {
             continue;
