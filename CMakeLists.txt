@@ -100,7 +100,7 @@ else ()
 endif ()
 
 if (BUILD_TEST)
-    add_executable(test src/CppSample/main.cpp)
+    add_executable(test src/Cpp/main.cpp)
     target_link_libraries(test MaaCore)
 endif (BUILD_TEST)
 
