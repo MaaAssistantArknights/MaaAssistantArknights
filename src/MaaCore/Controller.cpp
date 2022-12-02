@@ -95,7 +95,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     std::string pipe_data;
     std::string sock_data;
     asst::platform::single_page_buffer<char> pipe_buffer;
-    std::optional<asst::platform::single_page_buffer<char>> sock_buffer;
+    asst::platform::single_page_buffer<char> sock_buffer;
 
     auto start_time = steady_clock::now();
     std::unique_lock<std::mutex> callcmd_lock(m_callcmd_mutex);
@@ -151,9 +151,9 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
         sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
         client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         DWORD dummy;
-        if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.value().get(),
-                                (DWORD)sock_buffer.value().size() - ((sizeof(sockaddr_in) + 16) * 2),
-                                sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
+        if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.get(),
+                                (DWORD)sock_buffer.size() - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
+                                sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
             err = WSAGetLastError();
             if (err == ERROR_IO_PENDING) {
                 accept_pending = true;
@@ -242,8 +242,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
                     accept_pending = false;
-                    if (recv_by_socket)
-                        sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + len);
+                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
 
                     if (len == 0) {
                         socket_eof = true;
@@ -255,8 +254,8 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                         sockov = {};
                         sockov.hEvent = event;
 
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.value().get(),
-                                       (DWORD)sock_buffer.value().size(), nullptr, &sockov);
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
+                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
                     }
                 }
             }
@@ -264,15 +263,14 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 // ReadFile
                 DWORD len = 0;
                 if (GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &len, FALSE)) {
-                    if (recv_by_socket)
-                        sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + len);
+                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
                     if (len == 0) {
                         socket_eof = true;
                         ::closesocket(client_socket);
                     }
                     else {
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.value().get(),
-                                       (DWORD)sock_buffer.value().size(), nullptr, &sockov);
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
+                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
                     }
                 }
                 else {
@@ -332,11 +330,11 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                     return std::nullopt;
                 }
 
-                ssize_t read_num = ::read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
+                ssize_t read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
 
                 while (read_num > 0) {
-                    sock_data.insert(sock_data.end(), sock_buffer.value().get(), sock_buffer.value().get() + read_num);
-                    read_num = ::read(client_socket, sock_buffer.value().get(), sock_buffer.value().size());
+                    sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + read_num);
+                    read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
                 }
 
                 ::close(client_socket);
