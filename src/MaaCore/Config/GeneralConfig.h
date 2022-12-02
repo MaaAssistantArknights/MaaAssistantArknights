@@ -42,6 +42,7 @@ namespace asst
         double adb_swipe_duration_multiplier = 0; // adb 滑动持续时间倍数
         int minitouch_extra_swipe_dist = 0;
         int minitouch_extra_swipe_duration = -1;
+        int swipe_with_pause_required_distance = 0;
         std::vector<std::string> minitouch_programs_order;
         PenguinReportCfg penguin_report; // 企鹅物流汇报：
         // 每次到结算界面，汇报掉落数据至企鹅物流 https://penguin-stats.cn/
@@ -62,6 +63,7 @@ namespace asst
         std::string uuid;
         std::string click;
         std::string swipe;
+        std::string press_esc;
         std::string display;
         std::string screencap_raw_with_gzip;
         std::string screencap_raw_by_nc;

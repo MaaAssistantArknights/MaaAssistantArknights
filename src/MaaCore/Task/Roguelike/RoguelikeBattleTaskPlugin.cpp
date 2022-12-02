@@ -721,9 +721,10 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
     int dist = static_cast<int>(Point::distance(
         placed_point, { opt_oper.rect.x + opt_oper.rect.width / 2, opt_oper.rect.y + opt_oper.rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
+    int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
+    bool deploy_with_pause = ctrler()->support_swipe_with_pause();
     ctrler()->swipe(opt_oper.rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
-                    swipe_oper_task_ptr->special_params.at(2));
+                    swipe_oper_task_ptr->special_params.at(2), deploy_with_pause);
     sleep(use_oper_task_ptr->post_delay);
 
     // 将方向转换为实际的 swipe end 坐标点
@@ -743,6 +744,9 @@ bool asst::RoguelikeBattleTaskPlugin::auto_battle()
         else {
             m_need_clear_tiles.emplace(now_time + std::chrono::seconds(35), placed_loc);
         }
+    }
+    if (deploy_with_pause) {
+        ctrler()->press_esc();
     }
 
     Log.info("Try to deploy oper", opt_oper.name);

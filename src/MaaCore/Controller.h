@@ -52,13 +52,16 @@ namespace asst
         bool click_without_scale(const Rect& rect);
 
         bool swipe(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false, double slope_in = 1,
-                   double slope_out = 1);
+                   double slope_out = 1, bool with_pause = false);
         bool swipe(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false, double slope_in = 1,
-                   double slope_out = 1);
+                   double slope_out = 1, bool with_pause = false);
         bool swipe_without_scale(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false,
-                                 double slope_in = 1, double slope_out = 1);
+                                 double slope_in = 1, double slope_out = 1, bool with_pause = false);
         bool swipe_without_scale(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false,
-                                 double slope_in = 1, double slope_out = 1);
+                                 double slope_in = 1, double slope_out = 1, bool with_pause = false);
+
+        bool press_esc();
+        bool support_swipe_with_pause() const noexcept;
 
         std::pair<int, int> get_scale_size() const noexcept;
 
@@ -127,6 +130,7 @@ namespace asst
             std::string call_minitouch;
             std::string click;
             std::string swipe;
+            std::string press_esc;
 
             std::string screencap_raw_by_nc;
             std::string screencap_raw_with_gzip;

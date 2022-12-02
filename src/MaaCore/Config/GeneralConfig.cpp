@@ -43,6 +43,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.uuid = cfg_json.at("uuid").as_string();
         adb.click = cfg_json.at("click").as_string();
         adb.swipe = cfg_json.at("swipe").as_string();
+        adb.press_esc = cfg_json.get("pressEsc", std::string());
         adb.display = cfg_json.at("display").as_string();
         adb.display_format = cfg_json.at("displayFormat").as_string();
         adb.screencap_raw_with_gzip = cfg_json.at("screencapRawWithGzip").as_string();

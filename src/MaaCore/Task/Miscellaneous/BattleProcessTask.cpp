@@ -527,11 +527,6 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
     auto iter = m_cur_opers_info.find(oper_info.name);
     Rect oper_rect = iter->second.rect;
 
-    if (!m_in_bullet_time) {
-        // 点击干员
-        ctrler()->click(oper_rect);
-        sleep(use_oper_task_ptr->pre_delay);
-    }
     if (only_pre_process) {
         return true;
     }
@@ -543,9 +538,10 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
     int dist = static_cast<int>(
         Point::distance(placed_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
-    int duration = static_cast<int>(dist / 800.0 * swipe_oper_task_ptr->pre_delay);
+    int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
+    bool deploy_with_pause = ctrler()->support_swipe_with_pause();
     ctrler()->swipe(oper_rect, placed_rect, duration, false, swipe_oper_task_ptr->special_params.at(1),
-                    swipe_oper_task_ptr->special_params.at(2));
+                    swipe_oper_task_ptr->special_params.at(2), deploy_with_pause);
 
     sleep(use_oper_task_ptr->post_delay);
 
@@ -566,6 +562,10 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
 
         ctrler()->swipe(placed_point, end_point, swipe_oper_task_ptr->post_delay);
         sleep(use_oper_task_ptr->post_delay);
+    }
+
+    if (deploy_with_pause) {
+        ctrler()->press_esc();
     }
 
     m_used_opers[iter->first] =

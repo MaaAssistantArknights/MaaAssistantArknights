@@ -1129,7 +1129,7 @@ bool asst::Controller::click_without_scale(const Rect& rect)
 }
 
 bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double slope_in,
-                             double slope_out)
+                             double slope_out, bool with_pause)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
@@ -1137,17 +1137,18 @@ bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, boo
     int y2 = static_cast<int>(p2.y * m_control_scale);
     // log.trace("Swipe, raw:", p1.x, p1.y, p2.x, p2.y, "corr:", x1, y1, x2, y2);
 
-    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, extra_swipe, slope_in, slope_out);
+    return swipe_without_scale(Point(x1, y1), Point(x2, y2), duration, extra_swipe, slope_in, slope_out, with_pause);
 }
 
 bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
-                             double slope_out)
+                             double slope_out, bool with_pause)
 {
-    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, slope_in, slope_out);
+    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, slope_in, slope_out,
+                 with_pause);
 }
 
 bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int duration, bool extra_swipe,
-                                           double slope_in, double slope_out)
+                                           double slope_in, double slope_out, bool with_pause)
 {
     int x1 = p1.x, y1 = p1.y;
     int x2 = p2.x, y2 = p2.y;
@@ -1164,9 +1165,6 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
         Log.info("minitouch swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         toucher.down(x1, y1);
-        if (duration == 0) {
-            duration = 150;
-        }
 
         constexpr int TimeInterval = Minitoucher::DefaultSwipeDelay;
 
@@ -1177,11 +1175,18 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
             return a * t + b * std::pow(t, 2) + c * std::pow(t, 3);
         }; // TODO: move this to math.hpp
 
+        bool need_pause = with_pause && support_swipe_with_pause();
+        std::future<void> pause_future;
         auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
             for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
                 double progress = cubic_spline(slope_in, slope_out, static_cast<double>(cur_time) / duration);
                 int cur_x = static_cast<int>(std::lerp(_x1, _x2, progress));
                 int cur_y = static_cast<int>(std::lerp(_y1, _y2, progress));
+                if (need_pause && std::sqrt(std::pow(cur_x - _x1, 2) + std::pow(cur_y - _y1, 2)) >
+                                      opt.swipe_with_pause_required_distance) {
+                    need_pause = false;
+                    pause_future = std::async(std::launch::async, [&]() { press_esc(); });
+                }
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;
                 }
@@ -1191,13 +1196,14 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
                 toucher.move(_x2, _y2);
             }
         };
-        minitouch_move(x1, y1, x2, y2, duration);
+
+        constexpr int DefaultDuration = 200;
+        minitouch_move(x1, y1, x2, y2, duration ? duration : DefaultDuration);
 
         if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
             constexpr int ExtraEndDelay = 100; // 停留终点
             toucher.wait(ExtraEndDelay);
             minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
-            duration += opt.minitouch_extra_swipe_duration;
         }
         return toucher.up();
     }
@@ -1230,9 +1236,22 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 }
 
 bool asst::Controller::swipe_without_scale(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double v0,
-                                           double v1)
+                                           double v1, bool with_pause)
 {
-    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, v0, v1);
+    return swipe_without_scale(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, v0, v1,
+                               with_pause);
+}
+
+bool asst::Controller::press_esc()
+{
+    LogTraceFunction;
+
+    return call_command(m_adb.press_esc).has_value();
+}
+
+bool asst::Controller::support_swipe_with_pause() const noexcept
+{
+    return m_minitouch_enabled && m_minitouch_avaiable && !m_adb.swipe.empty();
 }
 
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
@@ -1460,6 +1479,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     m_adb.click = cmd_replace(adb_cfg.click);
     m_adb.swipe = cmd_replace(adb_cfg.swipe);
+    m_adb.press_esc = cmd_replace(adb_cfg.press_esc);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb_release = m_adb.release = cmd_replace(adb_cfg.release);
