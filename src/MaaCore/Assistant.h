@@ -124,7 +124,7 @@ namespace asst
 
         inline static std::atomic<AsyncCallId> m_call_id = 0; // 进程级唯一
         std::mutex m_call_pending_mutex;
-        std::vector<std::future<void>> m_call_pending;
+        std::list<std::future<void>> m_call_pending;
 
         std::thread m_msg_thread;
         std::thread m_working_thread;
