@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui;assembly=MaaWpfGui"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type vm:CopilotViewModel}}"
     d:DesignHeight="495"
     d:DesignWidth="800"
