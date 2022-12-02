@@ -43,9 +43,7 @@
                     Content="{DynamicResource DownloadWithAria2}"
                     IsChecked="{Binding UseAria2}"
                     IsEnabled="{Binding UpdateCheck}" />
-                <StackPanel
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock
                         Margin="10,10,0,10"
                         Block.TextAlignment="Center"

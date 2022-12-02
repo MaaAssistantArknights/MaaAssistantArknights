@@ -111,11 +111,11 @@
                         DropDownClosed="{s:Action DropsListDropDownClosed}"
                         IsEditable="True"
                         IsTextSearchEnabled="False"
-                        Text="{Binding DropsItemName}"
                         ItemsSource="{Binding DropsList}"
                         Loaded="{s:Action DropsList_Loaded}"
                         SelectedValue="{Binding DropsItemId}"
-                        SelectedValuePath="Value" />
+                        SelectedValuePath="Value"
+                        Text="{Binding DropsItemName}" />
 
                     <hc:TextBox
                         Width="60"

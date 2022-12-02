@@ -7,17 +7,18 @@
     x:Name="UserControl"
     d:DesignWidth="180"
     mc:Ignorable="d">
-    <TextBox x:Name="HotKeyTextBox"
-             HorizontalContentAlignment="Center"
-             VerticalContentAlignment="Center"
-             IsReadOnly="True"
-             IsReadOnlyCaretVisible="False"
-             IsUndoEnabled="False"
-             Width="180"
-             InputMethod.IsInputMethodEnabled="False"
-             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
-             ToolTip="{DynamicResource HotKeyChangingTip}"
-             Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay, TargetNullValue=&lt; not set &gt;}">
+    <TextBox
+        x:Name="HotKeyTextBox"
+        Width="180"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center"
+        InputMethod.IsInputMethodEnabled="False"
+        IsReadOnly="True"
+        IsReadOnlyCaretVisible="False"
+        IsUndoEnabled="False"
+        PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
+        Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay, TargetNullValue=&lt; not set &gt;}"
+        ToolTip="{DynamicResource HotKeyChangingTip}">
         <TextBox.ContextMenu>
             <ContextMenu Visibility="Collapsed" />
         </TextBox.ContextMenu>

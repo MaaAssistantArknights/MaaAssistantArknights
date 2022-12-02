@@ -134,7 +134,7 @@
 
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動</system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接運行</system:String>
-    <system:String x:Key="ClientVersion">用戶端版本</system:String>
+    <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>

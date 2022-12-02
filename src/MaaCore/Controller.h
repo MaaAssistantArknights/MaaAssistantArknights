@@ -36,7 +36,7 @@ namespace asst
 
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
-        void set_minitouch_enabled(bool enable) noexcept { m_minitouch_enabled = enable; }
+        void set_minitouch_enabled(bool enable, bool maa_touch = false) noexcept;
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -159,7 +159,8 @@ namespace asst
             } screencap_method = ScreencapMethod::UnknownYet;
         } m_adb;
 
-        bool m_minitouch_enabled = true;   // 开关
+        bool m_minitouch_enabled = true; // 开关
+        bool m_use_maa_touch = false;
         bool m_minitouch_avaiable = false; // 状态
 
 #ifdef _WIN32

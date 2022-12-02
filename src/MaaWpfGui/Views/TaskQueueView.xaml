@@ -160,7 +160,6 @@
                 <CheckBox IsChecked="{Binding Hibernate}" Content="休眠" Visibility="{Binding Visible}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="{Binding Visible}"  HorizontalAlignment="Center" VerticalAlignment="Center" />-->
             <!--</StackPanel>-->
-
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -199,20 +198,20 @@
                             <TextBlock
                                 Width="95"
                                 Margin="0,5"
+                                VerticalAlignment="Top"
                                 Foreground="Gray"
                                 Style="{StaticResource TextBlockDefault}"
                                 Text="{Binding Time}"
-                                TextWrapping="Wrap"
-                                VerticalAlignment="Top" />
+                                TextWrapping="Wrap" />
                             <TextBlock
                                 Width="135"
                                 Margin="0,5"
+                                VerticalAlignment="Top"
                                 FontWeight="{Binding Weight}"
                                 Foreground="{Binding Color}"
                                 Style="{StaticResource TextBlockDefault}"
                                 Text="{Binding Content}"
-                                TextWrapping="Wrap"
-                                VerticalAlignment="Top" />
+                                TextWrapping="Wrap" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

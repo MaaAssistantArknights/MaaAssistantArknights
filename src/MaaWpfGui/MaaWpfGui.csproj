@@ -131,6 +131,9 @@
     <Compile Include="Helper\StageManager.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
+    <Compile Include="Views\UserControl\GameClientUserControl.xaml.cs">
+      <DependentUpon>GameClientUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControl\GUISettingsUserControl.xaml.cs">
       <DependentUpon>GUISettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Res\Localizations\zh-tw.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControl\GameClientUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

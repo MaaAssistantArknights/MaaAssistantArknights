@@ -425,7 +425,7 @@ namespace MaaWpfGui
             {
                 AddLog(Localization.GetString("Running"));
                 var settingsModel = _container.Get<SettingsViewModel>();
-                if (!settingsModel.AdbReplaced && !settingsModel.UseAdbTouchMode)
+                if (!settingsModel.AdbReplaced && !settingsModel.IsAdbTouchMode())
                 {
                     AddLog(Localization.GetString("AdbReplacementTips"), UILogColor.Info);
                 }

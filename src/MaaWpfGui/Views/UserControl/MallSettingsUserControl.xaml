@@ -36,7 +36,7 @@
             Block.TextAlignment="Center"
             Content="{DynamicResource CreditFight}"
             IsChecked="{Binding CreditFightTaskEnabled}"
-            ToolTip="{DynamicResource CreditFightTip}"/>
+            ToolTip="{DynamicResource CreditFightTip}" />
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
@@ -50,7 +50,7 @@
                     Margin="10"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource Blacklist}"/>
+                    Text="{DynamicResource Blacklist}" />
                 <TextBox
                     Width="250"
                     Height="30"
@@ -66,7 +66,7 @@
                     Margin="10"
                     Block.TextAlignment="Center"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource HighPriority}"/>
+                    Text="{DynamicResource HighPriority}" />
                 <TextBox
                     Width="250"
                     Height="30"

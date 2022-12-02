@@ -134,7 +134,7 @@
 
     <system:String x:Key="LaunchOnSystemStartup">🍺🍸🍻🍸🍻🍷💃</system:String>
     <system:String x:Key="RunTaskAfterLaunch">🍻🍸🍸🍺🍷🍺🍻🍷</system:String>
-    <system:String x:Key="ClientVersion">🍺🍷🍸🍸🍷🍻</system:String>
+    <system:String x:Key="ClientType">🍺🍷🍸🍸🍷🍻</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">💃💃🍻🍸🍺🍸🍺🍸🕺🍺🍸</system:String>
     <system:String x:Key="WaitForEmulator">🍻💃🕺🍻🍷🍷🍷🍷🍸🕺🍺🍷🍸</system:String>
     <system:String x:Key="EmulatorPath">🍻🍸🍸🍷🍻🕺</system:String>

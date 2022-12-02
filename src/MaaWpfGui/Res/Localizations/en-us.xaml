@@ -6,6 +6,7 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
+    <system:String x:Key="GameSettings">Client</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
     <system:String x:Key="RecruitingSettings">Recruit</system:String>
@@ -167,13 +168,16 @@
 
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
-    <system:String x:Key="ClientVersion">Client version</system:String>
+    <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="WaitForEmulator">Delay time</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>
-    <system:String x:Key="AdbTouchMode">Compatibility Touch Mode (without minitouch)</system:String>
+    <system:String x:Key="TouchMode">Touch Mode</system:String>
+    <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
+    <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
+    <system:String x:Key="AdbTouchMode">Adb Input (Compatibility)</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
@@ -212,7 +216,7 @@
 
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">Always detect connection automatically</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">Always detect</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
@@ -389,6 +393,7 @@
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try restarting or changing the emulator.</system:String>
+    <system:String x:Key="TouchModeNotAvaiable">Touch mode is not avaiable, please enter Settings - Connection Settings to change other touch modes</system:String>
     <system:String x:Key="IdentifyTheMistakes">Identify error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
