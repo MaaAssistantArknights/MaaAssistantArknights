@@ -17,26 +17,30 @@ namespace asst::utils
 {
     namespace detail
     {
-        template <typename StringT = std::string>
+        template <typename StringT>
         using sv_type = std::basic_string_view<typename std::remove_reference_t<StringT>::value_type,
                                                typename std::remove_reference_t<StringT>::traits_type>;
 
-        template <typename StringT = std::string>
+        template <typename StringT>
         using sv_pair = std::pair<sv_type<StringT>, sv_type<StringT>>;
     } // namespace detail
 
-    template <typename StringT = std::string>
+    template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
+    concept IsSomeKindOfString = requires { std::same_as<CharT, char> || std::same_as<CharT, wchar_t>; };
+
+    template <typename StringT>
+    requires IsSomeKindOfString<StringT>
     inline constexpr void string_replace_all_in_place(StringT& str, detail::sv_type<StringT> from,
                                                       detail::sv_type<StringT> to)
     {
-        using size_type = std::string_view::size_type;
-        for (size_type pos(0);; pos += to.length()) {
+        for (StringT::size_type pos(0);; pos += to.length()) {
             if ((pos = str.find(from, pos)) == StringT::npos) return;
             str.replace(pos, from.length(), to);
         }
     }
 
-    template <typename StringT = std::string>
+    template <typename StringT>
+    requires IsSomeKindOfString<StringT>
     inline constexpr void string_replace_all_in_place(StringT& str, const detail::sv_pair<StringT>& replace_pair)
     {
         string_replace_all_in_place(str, replace_pair.first, replace_pair.second);
@@ -73,6 +77,7 @@ namespace asst::utils
 #endif
 
     template <typename StringT>
+    requires IsSomeKindOfString<StringT>
     [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, detail::sv_type<StringT> from,
                                                            detail::sv_type<StringT> to)
     {
@@ -82,6 +87,7 @@ namespace asst::utils
     }
 
     template <typename StringT>
+    requires IsSomeKindOfString<StringT>
     [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, const detail::sv_pair<StringT>& replace_pair)
     {
         std::decay_t<StringT> result = std::forward<StringT>(src);
@@ -90,27 +96,37 @@ namespace asst::utils
     }
 
     template <typename StringT>
+    requires IsSomeKindOfString<StringT>
     [[nodiscard]] inline constexpr auto string_replace_all(
-        StringT&& src, std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
+        StringT&& str, std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
     {
-        std::decay_t<StringT> result = std::forward<StringT>(src);
+        std::decay_t<StringT> result = std::forward<StringT>(str);
         for (auto&& [from, to] : replace_pairs) {
             string_replace_all_in_place(result, from, to);
         }
         return result;
     }
 
-    template <typename Pred = decltype([](unsigned char c) -> bool { return !std::isspace(c); })>
-    inline void string_trim(std::string& s, Pred not_space = Pred {})
+    template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
+    requires IsSomeKindOfString<StringT>
+    inline void string_trim(
+        StringT& str, const std::function<bool(CharT)>& not_space = [](CharT ch) -> bool { return !std::isspace(ch); })
     {
-        s.erase(ranges::find_if(s | views::reverse, not_space).base(), s.end());
-        s.erase(s.begin(), ranges::find_if(s, not_space));
+        str.erase(ranges::find_if(str | views::reverse, not_space).base(), str.end());
+        str.erase(str.begin(), ranges::find_if(str, not_space));
     }
 
-    template <ranges::input_range Rng>
-    requires std::convertible_to<ranges::range_value_t<Rng>, char>
-    void tolowers(Rng& rng)
+    template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
+    requires IsSomeKindOfString<StringT>
+    inline void tolowers(StringT& str)
     {
-        ranges::for_each(rng, [](char& c) -> void { c = static_cast<char>(std::tolower(c)); });
+        ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::tolower(ch)); });
+    }
+
+    template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
+    requires IsSomeKindOfString<StringT>
+    inline void touppers(StringT& str)
+    {
+        ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::toupper(ch)); });
     }
 } // namespace asst::utils

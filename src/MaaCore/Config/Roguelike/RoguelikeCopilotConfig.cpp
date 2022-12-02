@@ -82,7 +82,6 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
             BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
         };
 
-        auto to_lower = [](char c) -> char { return static_cast<char>(std::tolower(c)); };
         if (auto opt = stage_info.find<json::array>("role_order")) {
             const auto& raw_roles = opt.value();
             using views::filter, views::transform;
@@ -95,7 +94,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
             }
             auto roles = raw_roles | filter(&json::value::is_string) | transform(&json::value::as_string) |
                          transform([&](std::string name) {
-                             ranges::for_each(name, to_lower);
+                             utils::tolowers(name);
                              return std::move(name);
                          });
             for (const std::string& role_name : roles) {

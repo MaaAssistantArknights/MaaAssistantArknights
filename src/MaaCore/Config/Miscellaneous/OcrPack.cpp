@@ -155,17 +155,16 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         else {
             det_rect = Rect(0, 0, image.cols, image.rows);
         }
-        std::string text = ocr_result.text.at(i);
-        double score = ocr_result.rec_scores.at(i);
-        if (score > 2.0) {
-            score = 0;
-        }
 
 #ifdef ASST_DEBUG
         cv::rectangle(draw, make_rect<cv::Rect>(det_rect), cv::Scalar(0, 0, 255), 2);
 #endif
 
-        TextRect tr(score, det_rect, std::move(text));
+        double score = ocr_result.rec_scores.at(i);
+        if (score > 2.0) {
+            score = 0;
+        }
+        TextRect tr(score, det_rect, std::move(ocr_result.text.at(i)));
         raw_result.emplace_back(tr);
         if (trim) {
             utils::string_trim(tr.text);
