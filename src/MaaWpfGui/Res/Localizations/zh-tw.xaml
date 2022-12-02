@@ -9,7 +9,7 @@
     <system:String x:Key="BaseSettings">基建設定</system:String>
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
-    <system:String x:Key="MallSettings">信用商店</system:String>
+    <system:String x:Key="MallSettings">信用相關</system:String>
     <system:String x:Key="OtherCombatSettings">理智設定</system:String>
     <system:String x:Key="ConnectionSettings">連接設定</system:String>
     <system:String x:Key="StartupSettings">啟動設定</system:String>
@@ -155,7 +155,7 @@
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
     <system:String x:Key="DrGrandetTip">在碎石確認界面等待，直到當前的 1 點理智恢復完成再立即確認。不碎石時該選項不影響正常運行</system:String>
 
-    <system:String x:Key="SocialPtShop">信用相關</system:String>
+    <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="CreditFight">藉助戰賺信用</system:String>
     <system:String x:Key="CreditFightTip">訪問好友後藉助戰打一把OF-1賺30信用，關卡選擇爲「當前/上次」時請勿勾選</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>

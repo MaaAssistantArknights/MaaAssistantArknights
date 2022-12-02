@@ -9,7 +9,7 @@
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">ローグ設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
-    <system:String x:Key="MallSettings">FP交換所設定</system:String>
+    <system:String x:Key="MallSettings">FP設定</system:String>
     <system:String x:Key="OtherCombatSettings">戦闘設定</system:String>
     <system:String x:Key="ConnectionSettings">接続設定</system:String>
     <system:String x:Key="StartupSettings">起動設定</system:String>
@@ -157,7 +157,7 @@
     <system:String x:Key="DrGrandet">Dr.グランデのように源石を使う</system:String>
     <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
 
-    <system:String x:Key="SocialPtShop">ソーシャルポイント</system:String>
+    <system:String x:Key="SocialPtShop">FP交換</system:String>
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
     <system:String x:Key="CreditFightTip">戦友を借りて OF-1 で戦闘を行い、30クレジットを獲得します。ステージ設定が 現在/前回 になっている場合は確認を行いません。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>

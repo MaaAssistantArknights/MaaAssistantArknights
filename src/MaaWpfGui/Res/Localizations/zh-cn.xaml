@@ -10,7 +10,7 @@
     <system:String x:Key="BaseSettings">基建设置</system:String>
     <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
     <system:String x:Key="RecruitingSettings">自动公招</system:String>
-    <system:String x:Key="MallSettings">信用商店</system:String>
+    <system:String x:Key="MallSettings">信用相关</system:String>
     <system:String x:Key="OtherCombatSettings">理智设置</system:String>
     <system:String x:Key="ConnectionSettings">连接设置</system:String>
     <system:String x:Key="StartupSettings">启动设置</system:String>
@@ -195,7 +195,7 @@
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
     <system:String x:Key="DrGrandetTip">在碎石确认界面等待，直到当前的 1 点理智恢复完成再立即确认。不碎石时该选项不影响正常运行</system:String>
 
-    <system:String x:Key="SocialPtShop">信用相关</system:String>
+    <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="CreditFight">借助战赚信用</system:String>
     <system:String x:Key="CreditFightTip">访问好友后借助战打一把OF-1赚30信用，关卡选择为「当前/上次」时请勿勾选，别传「火蓝之心」关卡OF-1未解锁时请勿勾选</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
