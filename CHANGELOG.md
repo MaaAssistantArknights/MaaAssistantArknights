@@ -21,12 +21,12 @@
 
 ## v4.8.0-alpha.1
 
-- 启用 ONNX Runtime 进行 OCR，大幅降低内存占用、提高推理速度、减小文件体积，并不再区分 NoAVX 版本。@MistEO @horror-proton @hguandl @aa889788  
+- 启用 ONNX Runtime 进行 OCR，大幅降低内存占用、提高推理速度、减小文件体积，并不再区分 NoAVX 版本 @MistEO @horror-proton @hguandl @aa889788  
     ~~终于踢了 PPOCR，但目前识别准确率有轻微下降，待后续版本优化。且目前暂未支持 Linux, macOS 版本~~
 - 新增 借助战打一局赚 30 信用功能，请进入设置开启~ @Hydrogina
-- 合并 `访问好友` 和 `信用购物` 选项 @MistEO
 - 新增 `MaaTouch` 连接配置 项。推荐在 minitouch 无法使用、但又不想用 `兼容触控模式` 时开启 @aa889788 @MistEO
-- 新增 自定义导航 难度选择，请在关卡名后加入 `Hard` / `Normal` 选择 @ABA2396 @MistEO
+- 新增 自定义导航 难度选择，请在关卡名后加入 `Hard` / `Normal` 使用 @ABA2396 @MistEO
+- 合并 `访问好友` 和 `信用购物` 功能 @MistEO
 - 重构 内部回调体系、重构实例继承体系、重构文件结构树 @MistEO
 - 修复 水月肉鸽 不期而遇关卡直接放弃的问题 @MistEO
 - 修复 minitouch 路径错误无法使用的问题 @MistEO
@@ -46,4 +46,7 @@
 
 ### For Developers
 
+**The `master` branch cannot be built on Linux and macOS because the ONNX Runtime adaptation is not finished yet, so please use `stable` branch for now. Feel free to join us in this work!**
+
+- Deprecate `Visit` task and merge it into `Mall` task @MistEO 
 - Add `async_connect`, `async_click`, `async_screencap` API, plz refer to `AsstCaller.h` to use @MistEO
