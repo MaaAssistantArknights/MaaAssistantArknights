@@ -151,6 +151,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 - [Javaインターフェース](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[統合例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)
 - [HTTPインターフェース](src/Java/Readme.md)
+- [TypeScriptインターフェース](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [統合ドキュメント](docs/ja-jp/3.1-統合ドキュメント.md)
 - [コールバックAPI](docs/ja-jp/3.2-コールバックAPI.md)
 - [タスクAPI](docs/ja-jp/3.4-タスクAPI.md)

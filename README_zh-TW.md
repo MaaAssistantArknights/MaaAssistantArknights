@@ -149,6 +149,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [Java 介面](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[整合示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rust 介面](src/Rust/src/maa_sys/)：[HTTP 介面](src/Rust)
 - [HTTP 介面](src/Java/Readme.md)
+- [TypeScript 介面](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [整合文件](docs/zh-tw/3.1-集成文件.md)
 - [回呼訊息協定](docs/zh-tw/3.2-回呼訊息協定.md)
 - [任務流程協定](docs/zh-tw/3.4-任務流程協定.md)
