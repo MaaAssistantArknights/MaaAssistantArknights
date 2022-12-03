@@ -519,17 +519,19 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 
 bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_pre_process)
 {
-    const auto use_oper_task_ptr = Task.get("BattleUseOper");
-    const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
-
     const auto& oper_info = m_group_to_oper_mapping[action.group_name];
 
     auto iter = m_cur_opers_info.find(oper_info.name);
     Rect oper_rect = iter->second.rect;
 
-    if (only_pre_process) {
+    if (only_pre_process && !m_in_bullet_time) {
+        // 点击干员进入子弹时间
+        ctrler()->click(oper_rect);
         return true;
     }
+
+    const auto use_oper_task_ptr = Task.get("BattleUseOper");
+    const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
 
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
