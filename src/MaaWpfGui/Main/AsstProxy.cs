@@ -267,7 +267,7 @@ namespace MaaWpfGui
             mainModel.SetInited();
             mainModel.Idle = true;
             var settingsModel = _container.Get<SettingsViewModel>();
-            settingsModel.UpdateTouchMode();
+            settingsModel.UpdateInstanceSettings();
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
@@ -1638,6 +1638,7 @@ namespace MaaWpfGui
     {
         /* Deprecated */ // MinitouchEnabled = 1,
         TouchMode = 2,
+        DeploymentWithPause = 3,
     }
 }
 

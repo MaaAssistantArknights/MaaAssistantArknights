@@ -38,8 +38,9 @@ namespace asst
     enum class InstanceOptionKey
     {
         Invalid = 0,
-        /* Deprecated */ // MinitouchEnabled = 1,
-        TouchMode = 2,
+        /* Deprecated */         // MinitouchEnabled = 1,
+        TouchMode = 2,           // 触控模式设置， "minitouch" | "maatouch" | "adb"
+        DeploymentWithPause = 3, // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
     };
 
     struct Point

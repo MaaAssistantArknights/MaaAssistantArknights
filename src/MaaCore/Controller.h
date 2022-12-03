@@ -37,6 +37,7 @@ namespace asst
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() const noexcept;
         void set_minitouch_enabled(bool enable, bool maa_touch = false) noexcept;
+        void set_swipe_with_pause(bool enable) noexcept;
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -159,6 +160,8 @@ namespace asst
                 Encode
             } screencap_method = ScreencapMethod::UnknownYet;
         } m_adb;
+
+        bool m_swipe_with_pause_enabled = false;
 
         bool m_minitouch_enabled = true; // 开关
         bool m_use_maa_touch = false;
