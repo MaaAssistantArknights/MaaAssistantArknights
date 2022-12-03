@@ -34,7 +34,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
     }
 
     for (const auto& cfg_json : json.at("connection").as_array()) {
-        auto base_it = m_adb_cfg.find(cfg_json.get("baseConfig", "General"));
+        auto base_it = m_adb_cfg.find(cfg_json.get("baseConfig", std::string()));
         const AdbCfg& base_cfg = base_it == m_adb_cfg.end() ? AdbCfg() : base_it->second;
 
         AdbCfg adb;
