@@ -520,8 +520,11 @@ bool asst::BattleProcessTask::wait_condition(const BattleAction& action)
 bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_pre_process)
 {
     const auto& oper_info = m_group_to_oper_mapping[action.group_name];
-
     auto iter = m_cur_opers_info.find(oper_info.name);
+    if (iter == m_cur_opers_info.cend()) {
+        Log.error("Can't find oper info for", oper_info.name);
+        return false;
+    }
     Rect oper_rect = iter->second.rect;
 
     if (only_pre_process && !m_in_bullet_time) {
@@ -530,8 +533,8 @@ bool asst::BattleProcessTask::oper_deploy(const BattleAction& action, bool only_
         return true;
     }
 
-    const auto use_oper_task_ptr = Task.get("BattleUseOper");
     const auto swipe_oper_task_ptr = Task.get("BattleSwipeOper");
+    const auto use_oper_task_ptr = Task.get("BattleUseOper");
 
     // 拖动到场上
     Point placed_point = m_side_tile_info[action.location].pos;
