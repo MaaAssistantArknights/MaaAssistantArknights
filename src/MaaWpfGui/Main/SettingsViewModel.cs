@@ -1017,6 +1017,19 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
+
+        public bool DeploymentWithPause
+        {
+            get => _deploymentWithPause;
+            set
+            {
+                SetAndNotify(ref _deploymentWithPause, value);
+                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
         /* 访问好友设置 */
         private bool _creditFightTaskEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Visit.CreditFightTaskEnabled", bool.FalseString));
 
@@ -1874,14 +1887,15 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _touchMode, value);
                 ViewStatusStorage.Set("Connect.TouchMode", value);
-                UpdateTouchMode();
+                UpdateInstanceSettings();
             }
         }
 
-        public void UpdateTouchMode()
+        public void UpdateInstanceSettings()
         {
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";

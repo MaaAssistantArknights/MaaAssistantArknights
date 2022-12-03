@@ -1252,7 +1252,7 @@ bool asst::Controller::press_esc()
 
 bool asst::Controller::support_swipe_with_pause() const noexcept
 {
-    return m_minitouch_enabled && m_minitouch_available && !m_adb.swipe.empty();
+    return m_minitouch_enabled && m_minitouch_available && m_swipe_with_pause_enabled && !m_adb.press_esc.empty();
 }
 
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
@@ -1646,6 +1646,11 @@ void asst::Controller::set_minitouch_enabled(bool enable, bool maa_touch) noexce
 {
     m_minitouch_enabled = enable;
     m_use_maa_touch = maa_touch;
+}
+
+void asst::Controller::set_swipe_with_pause(bool enable) noexcept
+{
+    m_swipe_with_pause_enabled = enable;
 }
 
 const std::string& asst::Controller::get_uuid() const

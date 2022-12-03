@@ -15,6 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical">
             <StackPanel
@@ -57,6 +58,7 @@
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource StartTimesLimit}"
                         TextWrapping="Wrap" />
@@ -78,6 +80,7 @@
                     IsChecked="{Binding RoguelikeInvestmentEnabled}" />
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock
+                        VerticalAlignment="Center"
                         Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource GoldTimesLimit}"
                         TextWrapping="Wrap" />
@@ -110,6 +113,7 @@
                 Orientation="Horizontal">
                 <TextBlock
                     HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
                     Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingSquad}" />
@@ -128,6 +132,7 @@
                 Orientation="Horizontal">
                 <TextBlock
                     HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
                     Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingRoles}" />
@@ -142,11 +147,12 @@
             </StackPanel>
             <StackPanel
                 HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <TextBlock
                     MaxWidth="150"
                     HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
                     Block.TextAlignment="Right"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingCoreChar}"
@@ -159,6 +165,17 @@
                     TextWrapping="Wrap"
                     ToolTip="{DynamicResource StartingCoreCharTip}" />
             </StackPanel>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource DeploymentWithPause}"
+                IsChecked="{Binding DeploymentWithPause}" />
         </StackPanel>
     </Grid>
 </UserControl>

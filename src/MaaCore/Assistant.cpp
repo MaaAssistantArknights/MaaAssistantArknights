@@ -94,12 +94,19 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_minitouch_enabled(true, true);
             return true;
         }
-        else {
-            Log.error("unknown value", value);
-            return false;
+        break;
+    case InstanceOptionKey::DeploymentWithPause:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_swipe_with_pause(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_swipe_with_pause(false);
+            return true;
         }
         break;
     }
+    Log.error("Unknown key or value", value);
     return false;
 }
 
