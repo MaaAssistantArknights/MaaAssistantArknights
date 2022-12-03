@@ -96,7 +96,8 @@
             "baseConfig": "CapWithShell"
         },
         {
-            "configName": "Nox"
+            "configName": "Nox",
+            "baseConfig": "General"
         },
         {
             "configName": "XYAZ",
