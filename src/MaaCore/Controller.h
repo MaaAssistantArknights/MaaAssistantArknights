@@ -90,7 +90,7 @@ namespace asst
         void clear_info() noexcept;
         void callback(AsstMsg msg, const json::value& details);
 
-        bool call_and_hup_minitouch(const std::string& cmd);
+        bool call_and_hup_minitouch();
         bool input_to_minitouch(const std::string& cmd);
         void release_minitouch(bool force = false);
 
@@ -128,6 +128,7 @@ namespace asst
             /* command */
             std::string connect;
             std::string call_minitouch;
+            std::string call_maatouch;
             std::string click;
             std::string swipe;
             std::string press_esc;
