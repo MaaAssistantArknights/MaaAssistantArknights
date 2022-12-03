@@ -1080,21 +1080,17 @@ namespace MaaWpfGui
             }
         }
 
-        private string _creditForceShoppingIfCreditFull = ViewStatusStorage.Get("Mall.CreditForceShoppingIfCreditFull", false.ToString());
+        private bool _creditForceShoppingIfCreditFull = bool.Parse(ViewStatusStorage.Get("Mall.CreditForceShoppingIfCreditFull", false.ToString()));
 
         /// <summary>
         /// Gets or sets a value indicating whether save credit is enabled.
         /// </summary>
         public bool CreditForceShoppingIfCreditFull
         {
-            get
-            {
-                return bool.Parse(_creditForceShoppingIfCreditFull);
-            }
-
+            get => _creditForceShoppingIfCreditFull;
             set
             {
-                SetAndNotify(ref _creditForceShoppingIfCreditFull, value.ToString());
+                SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
                 ViewStatusStorage.Set("Mall.CreditForceShoppingIfCreditFull", value.ToString());
             }
         }
