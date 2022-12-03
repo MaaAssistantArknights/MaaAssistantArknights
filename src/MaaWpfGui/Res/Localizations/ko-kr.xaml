@@ -72,6 +72,7 @@
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
     <system:String x:Key="StartingCoreCharTip">단일 오퍼레이터의 중국어 이름만 지원하며, 입력하지 않으면 기본값이 선택됩니다</system:String>
+    <system:String x:Key="DeploymentWithPause">일시정지 상태로 배치하기 (통합전략, 자동 작전, 보전파견에 적용)</system:String>
 
     <system:String x:Key="DefaultSquad">기본값</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队 (업데이트 예정)</system:String>
@@ -167,12 +168,16 @@
 
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 실행</system:String>
     <system:String x:Key="RunTaskAfterLaunch">실행 후 작업 시작</system:String>
-    <system:String x:Key="ClientType">클라이언트 버전</system:String>
+    <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="ForcedReplaceADB">ADB 강제 교체</system:String>
+    <system:String x:Key="TouchMode">터치 수행 방식</system:String>
+    <system:String x:Key="MiniTouchMode">Minitouch (기본값)</system:String>
+    <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
+    <system:String x:Key="AdbTouchMode">Adb Input (호환 모드)</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
 
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
@@ -292,15 +297,15 @@
     <system:String x:Key="PR-BTip">PR-B (캐스터/스나이퍼 칩)</system:String>
     <system:String x:Key="PR-CTip">PR-C (뱅가드/서포터 칩)</system:String>
     <system:String x:Key="PR-DTip">PR-D (가드/스페셜리스트 칩)</system:String>
-    <system:String x:Key="Pormpt1">월요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
-    <system:String x:Key="Pormpt2">일요일입니다. 섬멸 의뢰를 잊지 마십시오~</system:String>
+    <system:String x:Key="Pormpt1">월요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
+    <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  작전 설정  -->
 
     <!--  로그  -->
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중...</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중...</system:String>
-    <system:String x:Key="AdbReplacementTips">프로그램이 작동하지 않으면 설정 - 연결 설정 - ADB 강제 교체를 실행하거나 터치 호환 모드를 활성화해 주세요.</system:String>
+    <system:String x:Key="AdbReplacementTips">프로그램이 작동하지 않으면 설정 - 연결 설정 - ADB 강제 교체를 실행하거나 호환 터치 모드를 활성화해 주세요.</system:String>
     <system:String x:Key="Stopping">중지 중...</system:String>
     <system:String x:Key="Stopped">중지됨</system:String>
     <system:String x:Key="UnknownErrorOccurs">예상치 못한 오류가 발생했습니다</system:String>
@@ -388,6 +393,7 @@
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요.</system:String>
+    <system:String x:Key="TouchModeNotAvaiable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError">작업 오류:</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
