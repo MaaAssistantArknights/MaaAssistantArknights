@@ -33,34 +33,34 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_intent_name[client_type] = intent_name.as_string();
     }
 
-    for (const auto& [name, cfg_json] : json.at("connection").as_object()) {
+    for (const auto& cfg_json : json.at("connection").as_array()) {
+        auto base_it = m_adb_cfg.find(cfg_json.get("baseConfig", "General"));
+        const AdbCfg& base_cfg = base_it == m_adb_cfg.end() ? AdbCfg() : base_it->second;
+
         AdbCfg adb;
+        adb.connect = cfg_json.get("connect", base_cfg.connect);
+        adb.display_id = cfg_json.get("displayId", base_cfg.display_id);
+        adb.uuid = cfg_json.get("uuid", base_cfg.uuid);
+        adb.click = cfg_json.get("click", base_cfg.click);
+        adb.swipe = cfg_json.get("swipe", base_cfg.swipe);
+        adb.press_esc = cfg_json.get("pressEsc", base_cfg.press_esc);
+        adb.display = cfg_json.get("display", base_cfg.display);
+        adb.screencap_raw_with_gzip = cfg_json.get("screencapRawWithGzip", base_cfg.screencap_raw_with_gzip);
+        adb.screencap_raw_by_nc = cfg_json.get("screencapRawByNC", base_cfg.screencap_raw_by_nc);
+        adb.nc_address = cfg_json.get("ncAddress", base_cfg.nc_address);
+        adb.nc_port = static_cast<unsigned short>(cfg_json.get("ncPort", base_cfg.nc_port));
+        adb.screencap_encode = cfg_json.get("screencapEncode", base_cfg.screencap_encode);
+        adb.release = cfg_json.get("release", base_cfg.release);
+        adb.start = cfg_json.get("start", base_cfg.start);
+        adb.stop = cfg_json.get("stop", base_cfg.stop);
+        adb.abilist = cfg_json.get("abilist", base_cfg.abilist);
+        adb.orientation = cfg_json.get("orientation", base_cfg.orientation);
+        adb.push_minitouch = cfg_json.get("pushMinitouch", base_cfg.push_minitouch);
+        adb.chmod_minitouch = cfg_json.get("chmodMinitouch", base_cfg.chmod_minitouch);
+        adb.call_minitouch = cfg_json.get("callMinitouch", base_cfg.call_minitouch);
+        adb.call_maatouch = cfg_json.get("callMaatouch", base_cfg.call_maatouch);
 
-        adb.devices = cfg_json.at("devices").as_string();
-        adb.address_regex = cfg_json.at("addressRegex").as_string();
-        adb.connect = cfg_json.at("connect").as_string();
-        adb.display_id = cfg_json.get("displayId", std::string());
-        adb.uuid = cfg_json.at("uuid").as_string();
-        adb.click = cfg_json.at("click").as_string();
-        adb.swipe = cfg_json.at("swipe").as_string();
-        adb.press_esc = cfg_json.get("pressEsc", std::string());
-        adb.display = cfg_json.at("display").as_string();
-        adb.display_format = cfg_json.at("displayFormat").as_string();
-        adb.screencap_raw_with_gzip = cfg_json.at("screencapRawWithGzip").as_string();
-        adb.screencap_raw_by_nc = cfg_json.at("screencapRawByNC").as_string();
-        adb.nc_address = cfg_json.at("ncAddress").as_string();
-        adb.nc_port = static_cast<unsigned short>(cfg_json.at("ncPort").as_integer());
-        adb.screencap_encode = cfg_json.at("screencapEncode").as_string();
-        adb.release = cfg_json.at("release").as_string();
-        adb.start = cfg_json.at("start").as_string();
-        adb.stop = cfg_json.at("stop").as_string();
-        adb.abilist = cfg_json.at("abilist").as_string();
-        adb.orientation = cfg_json.at("orientation").as_string();
-        adb.push_minitouch = cfg_json.at("pushMinitouch").as_string();
-        adb.chmod_minitouch = cfg_json.at("chmodMinitouch").as_string();
-        adb.call_minitouch = cfg_json.at("callMinitouch").as_string();
-
-        m_adb_cfg[name] = std::move(adb);
+        m_adb_cfg[cfg_json.at("configName").as_string()] = std::move(adb);
     }
 
     return true;

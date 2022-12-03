@@ -411,7 +411,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
-                if (call_and_hup_minitouch(m_adb.call_minitouch)) {
+                if (call_and_hup_minitouch()) {
                     m_minitouch_avaiable = true;
                 }
                 auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
@@ -446,11 +446,12 @@ void asst::Controller::callback(AsstMsg msg, const json::value& details)
     }
 }
 
-bool asst::Controller::call_and_hup_minitouch(const std::string& cmd)
+bool asst::Controller::call_and_hup_minitouch()
 {
     LogTraceFunction;
     release_minitouch(true);
 
+    std::string cmd = m_use_maa_touch ? m_adb.call_maatouch : m_adb.call_minitouch;
     Log.info(cmd);
 
     constexpr int PipeReadBuffSize = 4096ULL;
@@ -1399,17 +1400,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             callback(AsstMsg::ConnectionInfo, info);
             return false;
         }
-
-        auto& display_pipe_str = display_ret.value();
+        std::stringstream display_ss(display_ret.value());
         int size_value1 = 0;
         int size_value2 = 0;
-#ifdef _MSC_VER
-        sscanf_s(display_pipe_str.c_str(), adb_cfg.display_format.c_str(), &size_value1, &size_value2);
-#else
-        sscanf(display_pipe_str.c_str(), adb_cfg.display_format.c_str(), &size_value1, &size_value2);
-#endif
-        // 为了防止抓取句柄的时候手机是竖屏的（还没进游戏），这里取大的值为宽，小的为高
-        // 总不能有人竖屏玩明日方舟吧（？
+        display_ss >> size_value1 >> size_value2;
+
         m_width = (std::max)(size_value1, size_value2);
         m_height = (std::min)(size_value1, size_value2);
 
@@ -1523,16 +1518,30 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     while (m_minitouch_enabled) {
         m_minitouch_avaiable = false;
 
-        std::string abilist =
-            m_use_maa_touch ? "maatouch" : call_command(cmd_replace(adb_cfg.abilist)).value_or("maatouch");
-        std::string_view optimal_abi;
-        for (const auto& abi : Config.get_options().minitouch_programs_order) {
-            if (abilist.find(abi) != std::string::npos) {
-                optimal_abi = abi;
-                break;
+        std::string_view touch_program;
+        if (m_use_maa_touch) {
+            touch_program = "maatouch";
+            m_minitouch_props.orientation = 0;
+        }
+        else {
+            std::string abilist = call_command(cmd_replace(adb_cfg.abilist)).value_or(std::string());
+            for (const auto& abi : Config.get_options().minitouch_programs_order) {
+                if (abilist.find(abi) != std::string::npos) {
+                    touch_program = abi;
+                    break;
+                }
+            }
+            std::string orientation_str = call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
+            if (!orientation_str.empty()) {
+                char first = orientation_str.front();
+                if (first == '0' || first == '1' || first == '2' || first == '3') {
+                    m_minitouch_props.orientation = static_cast<int>(first - '0');
+                }
             }
         }
-        Log.info("The optimal abi is", optimal_abi);
+        Log.info("touch_program", touch_program, "orientation", m_minitouch_props.orientation);
+
+        if (touch_program.empty()) break;
 
         auto minitouch_cmd_rep = [&](const std::string& cfg_cmd) -> std::string {
             using namespace asst::utils::path_literals;
@@ -1540,7 +1549,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
                 cmd_replace(cfg_cmd),
                 {
                     { "[minitouchLocalPath]",
-                      utils::path_to_utf8_string(ResDir.get() / "minitouch"_p / optimal_abi / "minitouch"_p) },
+                      utils::path_to_utf8_string(ResDir.get() / "minitouch"_p / touch_program / "minitouch"_p) },
                     { "[minitouchWorkingFile]", m_uuid },
                 });
         };
@@ -1549,16 +1558,9 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         if (!call_command(minitouch_cmd_rep(adb_cfg.chmod_minitouch))) break;
 
         m_adb.call_minitouch = minitouch_cmd_rep(adb_cfg.call_minitouch);
-        if (!call_and_hup_minitouch(m_adb.call_minitouch)) break;
+        m_adb.call_maatouch = minitouch_cmd_rep(adb_cfg.call_maatouch);
 
-        std::string orientation_str =
-            m_use_maa_touch ? "0" : call_command(cmd_replace(adb_cfg.orientation)).value_or("0");
-        if (!orientation_str.empty()) {
-            char first = orientation_str.front();
-            if (first == '0' || first == '1' || first == '2' || first == '3') {
-                m_minitouch_props.orientation = static_cast<int>(first - '0');
-            }
-        }
+        if (!call_and_hup_minitouch()) break;
 
         m_minitouch_avaiable = true;
         break;

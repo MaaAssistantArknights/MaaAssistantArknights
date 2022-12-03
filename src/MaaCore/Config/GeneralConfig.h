@@ -52,12 +52,7 @@ namespace asst
 
     struct AdbCfg
     {
-        /* format */
-        std::string address_regex;
-        std::string display_format;
-
         /* command */
-        std::string devices;
         std::string connect;
         std::string display_id;
         std::string uuid;
@@ -78,6 +73,7 @@ namespace asst
         std::string push_minitouch;
         std::string chmod_minitouch;
         std::string call_minitouch;
+        std::string call_maatouch;
     };
 
     class GeneralConfig final : public SingletonHolder<GeneralConfig>, public AbstractConfig

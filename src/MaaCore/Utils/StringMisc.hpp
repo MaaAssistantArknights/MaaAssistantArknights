@@ -33,7 +33,7 @@ namespace asst::utils
     inline constexpr void string_replace_all_in_place(StringT& str, detail::sv_type<StringT> from,
                                                       detail::sv_type<StringT> to)
     {
-        for (StringT::size_type pos(0);; pos += to.length()) {
+        for (size_t pos(0);; pos += to.length()) {
             if ((pos = str.find(from, pos)) == StringT::npos) return;
             str.replace(pos, from.length(), to);
         }
