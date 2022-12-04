@@ -1186,7 +1186,14 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
                 if (need_pause && std::sqrt(std::pow(cur_x - _x1, 2) + std::pow(cur_y - _y1, 2)) >
                                       opt.swipe_with_pause_required_distance) {
                     need_pause = false;
-                    pause_future = std::async(std::launch::async, [&]() { press_esc(); });
+                    if (m_use_maa_touch) {
+                        constexpr int EscKeyCode = 111;
+                        toucher.key_down(EscKeyCode);
+                        toucher.key_up(EscKeyCode, 0);
+                    }
+                    else {
+                        pause_future = std::async(std::launch::async, [&]() { press_esc(); });
+                    }
                 }
                 if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                     continue;

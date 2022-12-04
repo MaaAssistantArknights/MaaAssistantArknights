@@ -23,7 +23,7 @@
             "armeabi-v7a",
             "armeabi"
         ],
-        "swipeWithPauseRequiredDistance": 50,
+        "swipeWithPauseRequiredDistance": 20,
         "swipeWithPauseRequiredDistance_Doc": "暂停下干员滑动多远距离后开始按暂停",
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
