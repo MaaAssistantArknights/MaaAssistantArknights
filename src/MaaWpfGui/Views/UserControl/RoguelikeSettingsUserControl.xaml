@@ -15,7 +15,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical">
             <StackPanel
@@ -165,17 +164,6 @@
                     TextWrapping="Wrap"
                     ToolTip="{DynamicResource StartingCoreCharTip}" />
             </StackPanel>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{DynamicResource DeploymentWithPause}"
-                IsChecked="{Binding DeploymentWithPause}" />
         </StackPanel>
     </Grid>
 </UserControl>

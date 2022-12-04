@@ -25,6 +25,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <CheckBox
             Grid.Row="0"
@@ -142,5 +143,14 @@
             HorizontalAlignment="Left"
             Command="{s:Action ReplaceADB}"
             Content="{DynamicResource ForcedReplaceADB}" />
+        <CheckBox
+            Grid.Row="6"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{DynamicResource DeploymentWithPause}"
+            IsChecked="{Binding DeploymentWithPause}" />
     </Grid>
 </UserControl>
