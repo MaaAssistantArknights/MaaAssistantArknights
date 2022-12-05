@@ -10,11 +10,12 @@ option(BUILD_XCFRAMEWORK "build xcframework for macOS app" OFF)
 option(BUILD_UNIVERSAL "build both arm64 and x86_64 on macOS" OFF)
 option(INSTALL_PYTHON "install python ffi" OFF)
 option(INSTALL_RESOURCE "install resource" OFF)
+option(MAA_DEPS_PATH "path to maa dependencies" "")
 
 set(CMAKE_INSTALL_RPATH "$ORIGIN/")
 
-if (BUILD_UNIVERSAL)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+if (APPLE)
+    include("${PROJECT_SOURCE_DIR}/cmake/macos.cmake")
 endif ()
 
 set(CMAKE_CXX_STANDARD 20)
@@ -63,11 +64,9 @@ else ()
 
     if (APPLE)
         set(CMAKE_OSX_DEPLOYMENT_TARGET 12.0)
-        add_subdirectory(3rdparty/VisionOCR)
-        target_link_libraries(MaaCore
-            vnocr
-            "-framework Accelerate"
-        )
+        message(STATUS "MAA_DEPS_PATH: ${MAA_DEPS_PATH}")
+        find_package(OpenCV REQUIRED PATHS ${MAA_DEPS_PATH})
+        target_link_libraries(MaaCore ${OpenCV_LIBS} ${FastDeploy_LIBS})
     else ()
         if (NOT OpenCV_DIR)
             set(OpenCV_DIR "/")
@@ -111,8 +110,13 @@ if (BUILD_XCFRAMEWORK)
         DEPENDS MaaCore
     )
 
+    add_custom_command(OUTPUT Paddle2ONNX.xcframework
+        COMMAND rm -rf Paddle2ONNX.xcframework
+        COMMAND xcodebuild -create-xcframework -library ${MAA_DEPS_PATH}/lib/libpaddle2onnx.1.0.4.dylib -output Paddle2ONNX.xcframework
+    )
+
     add_custom_target(MaaXCFramework ALL
-        DEPENDS MaaCore MaaCore.xcframework
+        DEPENDS MaaCore Paddle2ONNX.xcframework MaaCore.xcframework
     )
 endif (BUILD_XCFRAMEWORK)
 

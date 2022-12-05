@@ -32,25 +32,25 @@ jobs:
           cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
       - name: Build libMaaCore
         run: cmake --build build
-      - name: Build MeoAsstMac
-        working-directory: src/MeoAsstMac
-        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MeoAsstMac archive -archivePath MeoAsstMac.xcarchive -configuration Release
-      - name: Export MeoAsstMac
-        working-directory: src/MeoAsstMac
-        run: xcodebuild -exportArchive -archivePath MeoAsstMac.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
+      - name: Build MAA
+        working-directory: src/MaaMacGui
+        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
+      - name: Export MAA
+        working-directory: src/MaaMacGui
+        run: xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
       - name: Create disk image
-        working-directory: src/MeoAsstMac
-        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MeoAsstMac.app 0 120 --hide-extension MeoAsstMac.app --app-drop-link 270 120 MeoAsstMac.dmg Export/MeoAsstMac.app
+        working-directory: src/MaaMacGui
+        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA.dmg Export/MAA.app
       - name: Archive debug symbols
-        working-directory: src/MeoAsstMac/MeoAsstMac.xcarchive/dSYMs
-        run: ditto -c -k --keepParent MeoAsstMac.app.dSYM MeoAsstMac.app.dSYM.zip
+        working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
+        run: ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
       - name: Upload products
         uses: actions/upload-artifact@v3
         with:
           name: MAA-macos
           path: |
-            src/MeoAsstMac/MeoAsstMac.dmg
-            src/MeoAsstMac/MeoAsstMac.xcarchive/dSYMs/MeoAsstMac.app.dSYM.zip
+            src/MaaMacGui/MAA.dmg
+            src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip
 
   macos-release:
     name: macos-release
@@ -69,8 +69,8 @@ jobs:
           name: MAA-macos
       - name: 'Verify image'
         run: |
-          mv MeoAsstMac.dmg $APP_DMG
-          mv MeoAsstMac.xcarchive/dSYMs/MeoAsstMac.app.dSYM.zip $APP_SYM
+          mv MAA.dmg $APP_DMG
+          mv MAA.xcarchive/dSYMs/MAA.app.dSYM.zip $APP_SYM
           hdiutil verify $APP_DMG
       - name: 'Notarize image'
         env:
