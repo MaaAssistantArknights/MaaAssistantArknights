@@ -26,7 +26,7 @@ namespace asst::utils
     } // namespace detail
 
     template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
-    concept IsSomeKindOfString = requires { std::same_as<CharT, char> || std::same_as<CharT, wchar_t>; };
+    concept IsSomeKindOfString = std::same_as<CharT, char> || std::same_as<CharT, wchar_t> ;
 
     template <typename StringT>
     requires IsSomeKindOfString<StringT>
