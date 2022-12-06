@@ -16,6 +16,7 @@ namespace asst
         virtual ~ResourceLoader() override = default;
 
         virtual bool load(const std::filesystem::path& path) override;
+        bool loaded() const noexcept;
 
     private:
         template <Singleton T>

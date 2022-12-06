@@ -39,14 +39,17 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 #endif
 #endif
 
-static bool inited = false;
+bool inited()
+{
+    return asst::ResourceLoader::get_instance().loaded();
+}
 
-bool AsstSetUserDir(const char* path)
+AsstBool AsstSetUserDir(const char* path)
 {
     return asst::UserDir.set(path);
 }
 
-bool AsstLoadResource(const char* path)
+AsstBool AsstLoadResource(const char* path)
 {
     using namespace asst::utils::path_literals;
 
@@ -58,21 +61,20 @@ bool AsstLoadResource(const char* path)
     if (asst::UserDir.empty()) {
         asst::UserDir.set(os_path);
     }
-    inited = asst::ResourceLoader::get_instance().load(res_path);
-    return inited;
+    return asst::ResourceLoader::get_instance().load(res_path);
 }
 
-bool AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
+AsstBool AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 {
-    if (inited) {
+    if (!inited()) {
         return false;
     }
-    return asst::AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value);
+    return AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value);
 }
 
 AsstHandle AsstCreate()
 {
-    if (!inited) {
+    if (!inited()) {
         return nullptr;
     }
     return new asst::Assistant();
@@ -80,10 +82,10 @@ AsstHandle AsstCreate()
 
 AsstHandle AsstCreateEx(AsstApiCallback callback, void* custom_arg)
 {
-    if (!inited) {
+    if (!inited()) {
         return nullptr;
     }
-    return new asst::Assistant(callback, custom_arg);
+    return new asst::Assistant(static_cast<asst::ApiCallback>(callback), custom_arg);
 }
 
 void AsstDestroy(AsstHandle handle)
@@ -96,7 +98,7 @@ void AsstDestroy(AsstHandle handle)
     handle = nullptr;
 }
 
-bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value)
+AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value)
 {
     if (handle == nullptr) {
         return false;
@@ -105,36 +107,36 @@ bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const c
     return handle->set_instance_option(static_cast<asst::InstanceOptionKey>(key), value);
 }
 
-bool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
+AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
 
     return handle->connect(adb_path, address, config ? config : std::string());
 }
 
-bool AsstStart(AsstHandle handle)
+AsstBool AsstStart(AsstHandle handle)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
 
     return handle->start();
 }
 
-bool AsstStop(AsstHandle handle)
+AsstBool AsstStop(AsstHandle handle)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
 
     return handle->stop();
 }
 
-bool AsstRunning(AsstHandle handle)
+AsstBool AsstRunning(AsstHandle handle)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
 
@@ -142,9 +144,9 @@ bool AsstRunning(AsstHandle handle)
 }
 
 AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config,
-                                 bool block)
+                                 AsstBool block)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
     return handle->async_connect(adb_path, address, config ? config : std::string(), block);
@@ -152,33 +154,33 @@ AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const 
 
 AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return 0;
     }
 
     return handle->append_task(type, params ? params : "");
 }
 
-bool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
+AsstBool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
 
     return handle->set_task_params(id, params ? params : "");
 }
 
-AsstAsyncCallId AsstAsyncClick(AsstHandle handle, int x, int y, bool block)
+AsstAsyncCallId AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
     return handle->async_click(x, y, block);
 }
 
-AsstAsyncCallId AsstAsyncScreencap(AsstHandle handle, bool block)
+AsstAsyncCallId AsstAsyncScreencap(AsstHandle handle, AsstBool block)
 {
-    if (!inited || handle == nullptr) {
+    if (!inited() || handle == nullptr) {
         return false;
     }
     return handle->async_screencap(block);
@@ -186,7 +188,7 @@ AsstAsyncCallId AsstAsyncScreencap(AsstHandle handle, bool block)
 
 AsstSize AsstGetImage(AsstHandle handle, void* buff, AsstSize buff_size)
 {
-    if (!inited || handle == nullptr || buff == nullptr) {
+    if (!inited() || handle == nullptr || buff == nullptr) {
         return NullSize;
     }
     auto img_data = handle->get_image();
@@ -200,7 +202,7 @@ AsstSize AsstGetImage(AsstHandle handle, void* buff, AsstSize buff_size)
 
 AsstSize AsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size)
 {
-    if (!inited || handle == nullptr || buff == nullptr) {
+    if (!inited() || handle == nullptr || buff == nullptr) {
         return NullSize;
     }
     auto uuid = handle->get_uuid();
@@ -214,7 +216,7 @@ AsstSize AsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size)
 
 AsstSize AsstGetTasksList(AsstHandle handle, AsstTaskId* buff, AsstSize buff_size)
 {
-    if (!inited || handle == nullptr || buff == nullptr) {
+    if (!inited() || handle == nullptr || buff == nullptr) {
         return NullSize;
     }
     auto tasks = handle->get_tasks_list();
@@ -238,8 +240,8 @@ const char* AsstGetVersion()
 
 void AsstLog(const char* level, const char* message)
 {
-    if (!inited) {
-        std::cerr << "Not inited" << std::endl;
+    if (asst::UserDir.empty()) {
+        std::cerr << __FUNCTION__ << " | User Dir not set" << std::endl;
         return;
     }
     asst::Log.log(asst::Logger::level(level), message);
