@@ -11,53 +11,51 @@
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 
+struct AsstExtAPI
+{
+public:
+    using TaskId = int;
+    using AsyncCallId = int;
+
+    virtual ~AsstExtAPI() = default;
+
+    // 设置进程级参数
+    static bool set_static_option(asst::StaticOptionKey key, const std::string& value);
+    // 设置实例级参数
+    virtual bool set_instance_option(asst::InstanceOptionKey key, const std::string& value) = 0;
+    // 连接adb
+    virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
+
+    // 添加任务
+    virtual TaskId append_task(const std::string& type, const std::string& params) = 0;
+    // 动态设置任务参数
+    virtual bool set_task_params(TaskId task_id, const std::string& params) = 0;
+
+    // 开始执行任务队列
+    virtual bool start(bool block = true) = 0;
+    // 停止任务队列并清空
+    virtual bool stop(bool block = true) = 0;
+    // 是否正在运行
+    virtual bool running() const = 0;
+
+    // 异步连接
+    virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
+                                      const std::string& config, bool block = false) = 0;
+    // 异步点击
+    virtual AsyncCallId async_click(int x, int y, bool block = false) = 0;
+    // 异步截图
+    virtual AsyncCallId async_screencap(bool block = false) = 0;
+
+    // 获取上次的截图
+    virtual std::vector<unsigned char> get_image() const = 0;
+    // 获取 UUID
+    virtual std::string get_uuid() const = 0;
+    // 获取任务列表
+    virtual std::vector<TaskId> get_tasks_list() const = 0;
+};
+
 namespace asst
 {
-    using uchar = unsigned char;
-
-    class AsstExtAPI
-    {
-    public:
-        using TaskId = int;
-        using AsyncCallId = int;
-
-        virtual ~AsstExtAPI() = default;
-
-        // 设置进程级参数
-        static bool set_static_option(StaticOptionKey key, const std::string& value);
-        // 设置实例级参数
-        virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) = 0;
-        // 连接adb
-        virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
-
-        // 添加任务
-        virtual TaskId append_task(const std::string& type, const std::string& params) = 0;
-        // 动态设置任务参数
-        virtual bool set_task_params(TaskId task_id, const std::string& params) = 0;
-
-        // 开始执行任务队列
-        virtual bool start(bool block = true) = 0;
-        // 停止任务队列并清空
-        virtual bool stop(bool block = true) = 0;
-        // 是否正在运行
-        virtual bool running() const = 0;
-
-        // 异步连接
-        virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
-                                          const std::string& config, bool block = false) = 0;
-        // 异步点击
-        virtual AsyncCallId async_click(int x, int y, bool block = false) = 0;
-        // 异步截图
-        virtual AsyncCallId async_screencap(bool block = false) = 0;
-
-        // 获取上次的截图
-        virtual std::vector<uchar> get_image() const = 0;
-        // 获取 UUID
-        virtual std::string get_uuid() const = 0;
-        // 获取任务列表
-        virtual std::vector<TaskId> get_tasks_list() const = 0;
-    };
-
     class Controller;
     class InterfaceTask;
     class Status;
@@ -65,7 +63,7 @@ namespace asst
     class Assistant : public AsstExtAPI
     {
     public:
-        Assistant(AsstApiCallback callback = nullptr, void* callback_arg = nullptr);
+        Assistant(ApiCallback callback = nullptr, void* callback_arg = nullptr);
         virtual ~Assistant() override;
 
         virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) override;
@@ -84,7 +82,7 @@ namespace asst
         virtual AsyncCallId async_click(int x, int y, bool block = false) override;
         virtual AsyncCallId async_screencap(bool block = false) override;
 
-        virtual std::vector<uchar> get_image() const override;
+        virtual std::vector<unsigned char> get_image() const override;
         virtual std::string get_uuid() const override;
         virtual std::vector<TaskId> get_tasks_list() const override;
 
@@ -111,7 +109,7 @@ namespace asst
         bool m_thread_exit = false;
         std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;
         inline static TaskId m_task_id = 0; // 进程级唯一
-        AsstApiCallback m_callback = nullptr;
+        ApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 
         bool m_thread_idle = true;

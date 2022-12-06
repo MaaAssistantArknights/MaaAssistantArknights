@@ -25,7 +25,7 @@
 
 using namespace asst;
 
-bool AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
+bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
 {
     Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
     switch (key) {
@@ -49,7 +49,7 @@ bool AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value
     return false;
 }
 
-Assistant::Assistant(AsstApiCallback callback, void* callback_arg) : m_callback(callback), m_callback_arg(callback_arg)
+Assistant::Assistant(ApiCallback callback, void* callback_arg) : m_callback(callback), m_callback_arg(callback_arg)
 {
     LogTraceFunction;
 
@@ -396,7 +396,7 @@ void Assistant::msg_proc()
             lock.unlock();
 
             if (m_callback) {
-                m_callback(static_cast<int>(msg), detail.to_string().c_str(), m_callback_arg);
+                m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
             }
         }
         else {
