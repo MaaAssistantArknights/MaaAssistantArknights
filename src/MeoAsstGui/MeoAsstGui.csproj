@@ -142,6 +142,9 @@
     <Compile Include="UserControl\HotKeySettingsUserControl.xaml.cs">
       <DependentUpon>HotKeySettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\ConfigSettingsUserControl.xaml.cs">
+      <DependentUpon>ConfigSettingsUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\StartSettingsUserControl.xaml.cs">
       <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,10 @@
     </Page>
     <Page Include="UserControl\HotKeyEditorUserControl.xaml" />
     <Page Include="UserControl\HotKeySettingsUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\ConfigSettingsUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -101,6 +102,11 @@ namespace MeoAsstGui
                     MessageBoxButton.OK, MessageBoxImage.Hand);
                 Hangover = false;
             }
+
+            ConfigList = ViewStatusStorage.ConfigList.Select(x => new CombData { Display=x.ConfigName, Value=x.ConfigName}).ToList();
+            _idleMap = ViewStatusStorage.ConfigList.ToDictionary(x => x.ConfigName, x => true);
+            
+            CurrentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
         }
 
         private List<string> _listTitle = new List<string>();
@@ -260,6 +266,8 @@ namespace MeoAsstGui
                 LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
             }
         }
+
+        private Dictionary<string, bool> _idleMap = new Dictionary<string, bool>();
 
         private bool _idle = true;
 
@@ -464,6 +472,8 @@ namespace MeoAsstGui
         /// </summary>
         public string ServerType => _serverMapping[ClientType];
 
+        public List<CombData> ConfigList { get; set; }
+
         /* 基建设置 */
 
         /// <summary>
@@ -527,6 +537,19 @@ namespace MeoAsstGui
         /// Gets or sets the language list.
         /// </summary>
         public List<CombData> LanguageList { get; set; }
+
+        public string _currentConfig;
+
+        public string CurrentConfig
+        {
+            get => _currentConfig;
+            set 
+            {
+                SetAndNotify(ref _currentConfig, value);
+                Idle = _idleMap[_currentConfig];
+                ViewStatusStorage.Checkout(value);
+            }
+        }
 
         private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
 

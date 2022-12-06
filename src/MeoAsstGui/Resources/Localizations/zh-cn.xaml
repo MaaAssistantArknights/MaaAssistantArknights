@@ -21,6 +21,7 @@
 
     <system:String x:Key="Version">版本号</system:String>
 
+    <system:String x:Key="CurrentConfig">当前配置文件</system:String>
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
     <system:String x:Key="Trade">贸易站</system:String>

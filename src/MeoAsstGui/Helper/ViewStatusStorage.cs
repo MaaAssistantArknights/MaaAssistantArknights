@@ -12,8 +12,12 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Windows.Documents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -24,9 +28,9 @@ namespace MeoAsstGui
     /// </summary>
     public class ViewStatusStorage
     {
-        private static readonly string _configFilename = Environment.CurrentDirectory + "\\gui.json";
-        private static readonly string _configBakFilename = Environment.CurrentDirectory + "\\gui.json.bak";
-        private static JObject _viewStatus = new JObject();
+        public static List<Config> ConfigList { get; private set; } = new List<Config>();
+
+        private static Config _currentConfig = null;
 
         /// <summary>
         /// Gets the value of a key with default value.
@@ -36,9 +40,148 @@ namespace MeoAsstGui
         /// <returns>The value, or <paramref name="default_value"/> if <paramref name="key"/> is not found.</returns>
         public static string Get(string key, string default_value)
         {
-            if (_viewStatus.ContainsKey(key))
+            return _currentConfig.Get(key, default_value);
+        }
+
+
+        /// <summary>
+        /// Sets a key with a value.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        public static void Set(string key, string value)
+        {
+            _currentConfig.Set(key, value);
+        }
+
+        public static bool Delete(string key)
+        {
+            return _currentConfig.Delete(key);
+        }
+
+        /// <summary>
+        /// Saves configuration.
+        /// </summary>
+        /// <returns>Whether the operation is successful.</returns>
+        public static bool Save()
+        {
+            return _currentConfig.Save();
+        }
+
+        /// <summary>
+        /// Loads configuration.
+        /// </summary>
+        /// <param name="withRestore">Whether to restore with backup file.</param>
+        /// <returns>Whether the operation is successful.</returns>
+        public static bool Load(bool withRestore = true)
+        {
+            DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
+            foreach (FileInfo file in dir.GetFiles())
             {
-                return _viewStatus[key].ToString();
+                if (Regex.IsMatch(file.Name, @"^gui.*\.json$"))
+                {
+                    var configPath = file.FullName;
+                    var configBakPath = file.FullName + ".bak";
+                    var configDetail = new JObject();
+                    try
+                    {
+                        string jsonStr = File.ReadAllText(configPath);
+
+                        if (jsonStr.Length <= 2 && File.Exists(configPath))
+                        {
+                            jsonStr = File.ReadAllText(configPath);
+                            try
+                            {
+                                File.Copy(configBakPath, configPath, true);
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                            }
+                        }
+
+                        // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
+                        configDetail = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                        configDetail = new JObject();
+                        return false;
+                    }
+
+                    ConfigList.Add(new Config(file.Name, file.FullName, configDetail));
+                }
+            }
+
+            Logger.Info(string.Format("Found {0} config files.", ConfigList.Count));
+            if (ConfigList.Count > 0)
+            {
+                _currentConfig = ConfigList.First();
+                BakeUpDaily();
+            }
+            return true;
+        }
+
+        public static Config CurrentConfig => _currentConfig;
+
+        public static void Checkout(string key)
+        {
+            try
+            {
+                var config = ConfigList.Where((config) => config.ConfigName == key).Single();
+                _currentConfig = config;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+            }
+        }
+
+        public static void Release()
+        {
+            _currentConfig.Release();
+        }
+
+        /// <summary>
+        /// Backs up configuration daily. (#2145)
+        /// </summary>
+        /// <param name="num">The number of backup files.</param>
+        /// <returns>Whether the operation is successful.</returns>
+        public static bool BakeUpDaily(int num = 2)
+        {
+            return _currentConfig.BakeUpDaily();
+        }
+    }
+
+    public class Config
+    {
+        public readonly string ConfigName;
+        public readonly string _configPath;
+
+        private string _configBakPath => _configPath + ".bak";
+
+        private JObject _config { get; set; }
+
+        public Config(string configName, string configPath, JObject configDetail)
+        {
+            ConfigName = configName;
+            _configPath = configPath;
+            _config = configDetail;
+        }
+
+
+        /// <summary>
+        /// Gets the value of a key with default value.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="default_value">The default value.</param>
+        /// <returns>The value, or <paramref name="default_value"/> if <paramref name="key"/> is not found.</returns>
+        public string Get(string key, string default_value)
+        {
+            if (_config.ContainsKey(key))
+            {
+                return _config[key].ToString();
             }
             else
             {
@@ -51,68 +194,17 @@ namespace MeoAsstGui
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        public static void Set(string key, string value)
+        public void Set(string key, string value)
         {
-            _viewStatus[key] = value;
+            _config[key] = value;
             Save();
         }
 
-        /// <summary>
-        /// Loads configuration.
-        /// </summary>
-        /// <param name="withRestore">Whether to restore with backup file.</param>
-        /// <returns>Whether the operation is successful.</returns>
-        public static bool Load(bool withRestore = true)
-        {
-            if (File.Exists(_configFilename))
-            {
-                try
-                {
-                    string jsonStr = File.ReadAllText(_configFilename);
-
-                    if (jsonStr.Length <= 2 && File.Exists(_configBakFilename))
-                    {
-                        jsonStr = File.ReadAllText(_configBakFilename);
-                        try
-                        {
-                            File.Copy(_configBakFilename, _configFilename, true);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
-                        }
-                    }
-
-                    // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
-                    _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
-                    _viewStatus = new JObject();
-                    return false;
-                }
-            }
-            else
-            {
-                _viewStatus = new JObject();
-                return false;
-            }
-
-            BakeUpDaily();
-            return true;
-        }
-
-        /// <summary>
-        /// Deletes configuration.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>Whether the operation is successful.</returns>
-        public static bool Delete(string key)
+        public bool Delete(string key)
         {
             try
             {
-                _viewStatus.Remove(key);
+                _config.Remove(key);
                 Save();
             }
             catch (Exception)
@@ -127,7 +219,7 @@ namespace MeoAsstGui
         /// Saves configuration.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public static bool Save()
+        public bool Save()
         {
             if (_released)
             {
@@ -136,17 +228,17 @@ namespace MeoAsstGui
 
             try
             {
-                var jsonStr = _viewStatus.ToString();
+                var jsonStr = _config.ToString();
                 if (jsonStr.Length > 2)
                 {
-                    using (StreamWriter sw = new StreamWriter(_configFilename))
+                    using (StreamWriter sw = new StreamWriter(_configPath))
                     {
                         sw.Write(jsonStr);
                     }
 
-                    if (new FileInfo(_configFilename).Length > 2)
+                    if (new FileInfo(_configPath).Length > 2)
                     {
-                        File.Copy(_configFilename, _configBakFilename, true);
+                        File.Copy(_configPath, _configBakPath, true);
                     }
                 }
             }
@@ -158,9 +250,9 @@ namespace MeoAsstGui
             return true;
         }
 
-        private static bool _released = false;
+        private bool _released = false;
 
-        public static void Release()
+        public void Release()
         {
             Save();
             _released = true;
@@ -171,21 +263,21 @@ namespace MeoAsstGui
         /// </summary>
         /// <param name="num">The number of backup files.</param>
         /// <returns>Whether the operation is successful.</returns>
-        public static bool BakeUpDaily(int num = 2)
+        public bool BakeUpDaily(int num = 2)
         {
-            if (File.Exists(_configBakFilename) && DateTime.Now.Date != new FileInfo(_configBakFilename).LastWriteTime.Date && num > 0)
+            if (File.Exists(_configBakPath) && DateTime.Now.Date != new FileInfo(_configBakPath).LastWriteTime.Date && num > 0)
             {
                 try
                 {
                     for (; num > 1; num--)
                     {
-                        if (File.Exists(string.Concat(_configBakFilename, num - 1)))
+                        if (File.Exists(string.Concat(_configBakPath, num - 1)))
                         {
-                            File.Copy(string.Concat(_configBakFilename, num - 1), string.Concat(_configBakFilename, num), true);
+                            File.Copy(string.Concat(_configBakPath, num - 1), string.Concat(_configBakPath, num), true);
                         }
                     }
 
-                    File.Copy(_configBakFilename, string.Concat(_configBakFilename, num), true);
+                    File.Copy(_configBakPath, string.Concat(_configBakPath, num), true);
                 }
                 catch (Exception)
                 {
