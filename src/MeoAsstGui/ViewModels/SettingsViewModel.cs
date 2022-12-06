@@ -104,9 +104,8 @@ namespace MeoAsstGui
             }
 
             ConfigList = ViewStatusStorage.ConfigList.Select(x => new CombData { Display=x.ConfigName, Value=x.ConfigName}).ToList();
-            _idleMap = ViewStatusStorage.ConfigList.ToDictionary(x => x.ConfigName, x => true);
-            
             CurrentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
+            IsSticky = ViewStatusStorage.isSticky;
         }
 
         private List<string> _listTitle = new List<string>();
@@ -266,8 +265,6 @@ namespace MeoAsstGui
                 LanguageList.Add(new CombData { Display = pair.Value, Value = pair.Key });
             }
         }
-
-        private Dictionary<string, bool> _idleMap = new Dictionary<string, bool>();
 
         private bool _idle = true;
 
@@ -538,15 +535,16 @@ namespace MeoAsstGui
         /// </summary>
         public List<CombData> LanguageList { get; set; }
 
-        public string _currentConfig;
+        public bool IsSticky { get; private set; }
+
+        private string _currentConfig;
 
         public string CurrentConfig
         {
             get => _currentConfig;
-            set 
+            set
             {
                 SetAndNotify(ref _currentConfig, value);
-                Idle = _idleMap[_currentConfig];
                 ViewStatusStorage.Checkout(value);
             }
         }

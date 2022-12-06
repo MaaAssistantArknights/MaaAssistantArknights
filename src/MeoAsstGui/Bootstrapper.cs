@@ -106,8 +106,18 @@ namespace MeoAsstGui
                 }
             }
 
+            // 获取启动指定的配置文件
+            var args = ArgsHelper.ParseArgs(Args);
+            if (args.ConfigFilePath != null)
+            {
+                ViewStatusStorage.Load(args.ConfigFilePath);
+            }
+            else
+            {
+                ViewStatusStorage.Load();
+            }
+
             base.OnStart();
-            ViewStatusStorage.Load();
             Localization.Load();
         }
 

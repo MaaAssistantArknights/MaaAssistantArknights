@@ -30,7 +30,9 @@ namespace MeoAsstGui
     {
         public static List<Config> ConfigList { get; private set; } = new List<Config>();
 
-        private static Config _currentConfig = null;
+        public static Config CurrentConfig { get; private set; }
+
+        public static bool isSticky { get; private set; } = false;
 
         /// <summary>
         /// Gets the value of a key with default value.
@@ -40,9 +42,13 @@ namespace MeoAsstGui
         /// <returns>The value, or <paramref name="default_value"/> if <paramref name="key"/> is not found.</returns>
         public static string Get(string key, string default_value)
         {
-            return _currentConfig.Get(key, default_value);
-        }
+            if (CurrentConfig == null)
+            {
+                return default_value;
+            }
 
+            return CurrentConfig.Get(key, default_value);
+        }
 
         /// <summary>
         /// Sets a key with a value.
@@ -51,12 +57,22 @@ namespace MeoAsstGui
         /// <param name="value">The value.</param>
         public static void Set(string key, string value)
         {
-            _currentConfig.Set(key, value);
+            if (CurrentConfig == null)
+            {
+                return;
+            }
+
+            CurrentConfig.Set(key, value);
         }
 
         public static bool Delete(string key)
         {
-            return _currentConfig.Delete(key);
+            if (CurrentConfig == null)
+            {
+                return false;
+            }
+
+            return CurrentConfig.Delete(key);
         }
 
         /// <summary>
@@ -65,72 +81,110 @@ namespace MeoAsstGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool Save()
         {
-            return _currentConfig.Save();
+            if (CurrentConfig == null)
+            {
+                return false;
+            }
+
+            return CurrentConfig.Save();
+        }
+
+        private static Config Load(string configPath)
+        {
+            var configFullPath = configPath;
+            var configBakPath = configPath + ".bak";
+            JObject configDetail;
+            try
+            {
+                string jsonStr = File.ReadAllText(configFullPath);
+
+                if (jsonStr.Length <= 2 && File.Exists(configFullPath))
+                {
+                    jsonStr = File.ReadAllText(configFullPath);
+                    try
+                    {
+                        File.Copy(configBakPath, configFullPath, true);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                    }
+                }
+
+                // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
+                configDetail = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                return null;
+            }
+
+            var configName = "Default";
+            if (configDetail.ContainsKey("name"))
+            {
+                configName = configDetail["name"].ToString();
+            }
+
+            return new Config(configName, configPath, configDetail);
         }
 
         /// <summary>
         /// Loads configuration.
         /// </summary>
+        /// <param name="configPath">Specific configuration path.</param>
         /// <param name="withRestore">Whether to restore with backup file.</param>
         /// <returns>Whether the operation is successful.</returns>
-        public static bool Load(bool withRestore = true)
+        public static bool Load(string configPath = null, bool withRestore = true)
         {
-            DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
-            foreach (FileInfo file in dir.GetFiles())
+            if (configPath != null)
             {
-                if (Regex.IsMatch(file.Name, @"^gui.*\.json$"))
+                isSticky = true;
+                var config = Load(configPath);
+                if (config != null)
                 {
-                    var configPath = file.FullName;
-                    var configBakPath = file.FullName + ".bak";
-                    var configDetail = new JObject();
-                    try
-                    {
-                        string jsonStr = File.ReadAllText(configPath);
+                    ConfigList.Add(config);
+                }
 
-                        if (jsonStr.Length <= 2 && File.Exists(configPath))
+                Logger.Info(string.Format("Specific configuration loaded.", ConfigList.Count));
+            }
+            else
+            {
+                DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
+                foreach (FileInfo file in dir.GetFiles())
+                {
+                    if (Regex.IsMatch(file.Name, @"^gui.*\.json$"))
+                    {
+                        var config = Load(file.FullName);
+                        if (config != null)
                         {
-                            jsonStr = File.ReadAllText(configPath);
-                            try
-                            {
-                                File.Copy(configBakPath, configPath, true);
-                            }
-                            catch (Exception e)
-                            {
-                                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
-                            }
+                            ConfigList.Add(config);
                         }
-
-                        // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
-                        configDetail = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
                     }
-                    catch (Exception e)
-                    {
-                        Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
-                        configDetail = new JObject();
-                        return false;
-                    }
+                }
 
-                    ConfigList.Add(new Config(file.Name, file.FullName, configDetail));
+                Logger.Info(string.Format("Found {0} configuration files.", ConfigList.Count));
+
+                if (ConfigList.Count == 0)
+                {
+                    // init config
+                    ConfigList.Add(new Config("Default", Path.Combine(Environment.CurrentDirectory, "gui.json"), new JObject()));
                 }
             }
 
-            Logger.Info(string.Format("Found {0} config files.", ConfigList.Count));
-            if (ConfigList.Count > 0)
-            {
-                _currentConfig = ConfigList.First();
-                BakeUpDaily();
-            }
+            CurrentConfig = ConfigList.First();
+            Save();
+            BakeUpDaily();
+
             return true;
         }
-
-        public static Config CurrentConfig => _currentConfig;
 
         public static void Checkout(string key)
         {
             try
             {
                 var config = ConfigList.Where((config) => config.ConfigName == key).Single();
-                _currentConfig = config;
+                CurrentConfig = config;
             }
             catch (Exception e)
             {
@@ -140,7 +194,7 @@ namespace MeoAsstGui
 
         public static void Release()
         {
-            _currentConfig.Release();
+            CurrentConfig.Release();
         }
 
         /// <summary>
@@ -150,23 +204,23 @@ namespace MeoAsstGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool BakeUpDaily(int num = 2)
         {
-            return _currentConfig.BakeUpDaily();
+            return CurrentConfig.BakeUpDaily();
         }
     }
 
     public class Config
     {
         public readonly string ConfigName;
-        public readonly string _configPath;
+        public readonly string ConfigPath;
 
-        private string _configBakPath => _configPath + ".bak";
+        private string _configBakPath => ConfigPath + ".bak";
 
         private JObject _config { get; set; }
 
         public Config(string configName, string configPath, JObject configDetail)
         {
             ConfigName = configName;
-            _configPath = configPath;
+            ConfigPath = configPath;
             _config = configDetail;
         }
 
@@ -231,14 +285,14 @@ namespace MeoAsstGui
                 var jsonStr = _config.ToString();
                 if (jsonStr.Length > 2)
                 {
-                    using (StreamWriter sw = new StreamWriter(_configPath))
+                    using (StreamWriter sw = new StreamWriter(ConfigPath))
                     {
                         sw.Write(jsonStr);
                     }
 
-                    if (new FileInfo(_configPath).Length > 2)
+                    if (new FileInfo(ConfigPath).Length > 2)
                     {
-                        File.Copy(_configPath, _configBakPath, true);
+                        File.Copy(ConfigPath, _configBakPath, true);
                     }
                 }
             }

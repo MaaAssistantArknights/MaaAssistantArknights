@@ -33,6 +33,7 @@
                     Width="150"
                     Margin="0,5"
                     DisplayMemberPath="Display"
+                    IsEnabled="{c:Binding !IsSticky}"
                     ItemsSource="{Binding ConfigList}"
                     SelectedValue="{Binding CurrentConfig}"
                     SelectedValuePath="Value" />

@@ -105,6 +105,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helper\ArgsHelper.cs" />
     <Compile Include="Helper\AsstProxy.cs" />
     <Compile Include="Helper\AutoScroll.cs" />
     <Compile Include="Helper\CombData.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Helper\IMainWindowManager.cs" />
     <Compile Include="Helper\Localization.cs" />
     <Compile Include="Helper\Logger.cs" />
+    <Compile Include="Helper\MaaGuiArgOptions.cs" />
     <Compile Include="Helper\UILogColor.cs" />
     <Compile Include="Helper\LogItemViewModel.cs" />
     <Compile Include="Helper\MaaHotKeys\IMaaHotKeyActionHandler.cs" />
@@ -324,6 +326,9 @@
   <ItemGroup>
     <PackageReference Include="CalcBinding">
       <Version>2.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="CommandLineParser">
+      <Version>2.9.1</Version>
     </PackageReference>
     <PackageReference Include="Costura.Fody">
       <Version>5.7.0</Version>
