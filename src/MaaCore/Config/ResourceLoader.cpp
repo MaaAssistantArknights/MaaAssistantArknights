@@ -26,6 +26,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         auto full_path = path / Filename;                                 \
         bool ret = load_resource<Config>(full_path);                      \
         if (!ret) {                                                       \
+            m_loaded = false;                                             \
             Log.error(#Config, " load failed, path:", full_path);         \
             return false;                                                 \
         }                                                                 \
@@ -38,6 +39,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         auto full_templ_dir = path / TemplDir;                                                   \
         bool ret = load_resource_with_templ<Config>(full_path, full_templ_dir);                  \
         if (!ret) {                                                                              \
+            m_loaded = false;                                                                    \
             Log.error(#Config, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
             return false;                                                                        \
         }                                                                                        \
@@ -71,4 +73,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #undef LoadResourceAndCheckRet
 
     return true;
+}
+
+bool asst::ResourceLoader::loaded() const noexcept
+{
+    return m_loaded;
 }
