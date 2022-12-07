@@ -378,6 +378,12 @@
             10,
             10
         ],
+        "specialParams": [
+            200,
+            0,
+            2,
+            0
+        ],
         "maxTimes": 20,
         "next": [
             "EnterEpisode",
