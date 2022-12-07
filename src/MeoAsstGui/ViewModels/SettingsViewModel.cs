@@ -72,6 +72,7 @@ namespace MeoAsstGui
             _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
             DisplayName = Localization.GetString("Settings");
 
+            _listTitle.Add(Localization.GetString("ConfigSettings"));
             _listTitle.Add(Localization.GetString("BaseSettings"));
             _listTitle.Add(Localization.GetString("RoguelikeSettings"));
             _listTitle.Add(Localization.GetString("RecruitingSettings"));
@@ -104,7 +105,7 @@ namespace MeoAsstGui
             }
 
             ConfigList = ViewStatusStorage.ConfigList.Select(x => new CombData { Display=x.ConfigName, Value=x.ConfigName}).ToList();
-            CurrentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
+            _currentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
             IsSticky = ViewStatusStorage.isSticky;
         }
 
@@ -1843,7 +1844,7 @@ namespace MeoAsstGui
                 }
             }
 
-            rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName} - {CurrentConfig}";
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);

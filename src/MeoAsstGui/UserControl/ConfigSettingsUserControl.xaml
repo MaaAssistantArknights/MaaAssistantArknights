@@ -17,27 +17,47 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Vertical">
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Orientation="Horizontal">
-                <TextBlock
-                    Padding="5,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource CurrentConfig}"
-                    TextWrapping="Wrap" />
-                <ComboBox
-                    Width="150"
-                    Margin="0,5"
-                    DisplayMemberPath="Display"
-                    IsEnabled="{c:Binding !IsSticky}"
-                    ItemsSource="{Binding ConfigList}"
-                    SelectedValue="{Binding CurrentConfig}"
-                    SelectedValuePath="Value" />
-            </StackPanel>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Padding="5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}"
+            Text="{DynamicResource CurrentConfig}"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Padding="5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}"
+            Text="{DynamicResource CheckoutConfig}"
+            TextWrapping="Wrap" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Padding="5,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockDefault}"
+            Text="{Binding CurrentConfig}"
+            TextWrapping="Wrap" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="150"
+            Margin="0,5"
+            DisplayMemberPath="Display"
+            HorizontalAlignment="Left"
+            IsEnabled="{c:Binding !IsSticky}"
+            ItemsSource="{Binding ConfigList}"
+            SelectedValue="{Binding CurrentConfig}"
+            SelectedValuePath="Value" />
     </Grid>
 </UserControl>

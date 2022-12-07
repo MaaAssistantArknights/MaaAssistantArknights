@@ -13,11 +13,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Windows.Documents;
+using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -93,6 +94,7 @@ namespace MeoAsstGui
         {
             var configFullPath = configPath;
             var configBakPath = configPath + ".bak";
+            var configFileName = Path.GetFileName(configPath);
             JObject configDetail;
             try
             {
@@ -120,10 +122,18 @@ namespace MeoAsstGui
                 return null;
             }
 
-            var configName = "Default";
+            string configName;
             if (configDetail.ContainsKey("name"))
             {
                 configName = configDetail["name"].ToString();
+            }
+            else if (configFileName == "gui.json")
+            {
+                configName = "Default";
+            }
+            else
+            {
+                configName = configFileName;
             }
 
             return new Config(configName, configPath, configDetail);
@@ -172,7 +182,7 @@ namespace MeoAsstGui
                 }
             }
 
-            CurrentConfig = ConfigList.First();
+            CurrentConfig = ConfigList.Where((config) => config.ConfigName == "Default").Single();
             Save();
             BakeUpDaily();
 
@@ -185,6 +195,12 @@ namespace MeoAsstGui
             {
                 var config = ConfigList.Where((config) => config.ConfigName == key).Single();
                 CurrentConfig = config;
+                var newProcess = new Process();
+                newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
+                newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
+                newProcess.StartInfo.Arguments = string.Format("-f {0}", config.ConfigPath);
+                newProcess.Start();
+                Application.Current.Shutdown();
             }
             catch (Exception e)
             {
