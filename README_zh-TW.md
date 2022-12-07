@@ -99,8 +99,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 圖像辨識庫：[opencv](https://github.com/opencv/opencv.git)
 - ~~字元辨識庫：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 字元辨識庫：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- 深度學習部署庫：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- 機器學習加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~關卡掉落辨識：[企鵝物流辨識](https://github.com/penguin-statistics/recognizer)~~
 - 地圖格子辨識：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON庫：[meojson](https://github.com/MistEO/meojson.git)
@@ -133,7 +133,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-- 直接使用 Visual Studio 2022 打開 `MeoAssistantArknights.sln` 即可，所有環境都是配置好的
+- 直接使用 Visual Studio 2022 打開 `MAA.sln` 即可，所有環境都是配置好的
 - 建議啟用 clang-format 支援，詳細內容可以參考 [在 Visual Studio 中啟用 clang-format](docs/2.2-开发相关.md#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
@@ -142,13 +142,14 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### API
 
-- [C 介面](include/AsstCaller.h)：[整合示例](tools/TestCaller/main.cpp)
+- [C 介面](include/AsstCaller.h)：[整合示例](src/CppSample/main.cpp)
 - [Python 介面](src/Python/asst.py)：[整合示例](src/Python/sample.py)
-- [Golang 介面](src/Golang/MaaAssistantArknights/)：[整合示例](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golang 介面](src/Golang/)：[整合示例](src/Golang/maa/maa.go)
 - [Dart 介面](src/dart/)
-- [Java 介面](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[整合示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java 介面](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[整合示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rust 介面](src/Rust/src/maa_sys/)：[HTTP 介面](src/Rust)
-- [HTTP 介面](src/Java/Maaj/Readme.md)
+- [HTTP 介面](src/Java/Readme.md)
+- [TypeScript 介面](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [整合文件](docs/zh-tw/3.1-集成文件.md)
 - [回呼訊息協定](docs/zh-tw/3.2-回呼訊息協定.md)
 - [任務流程協定](docs/zh-tw/3.4-任務流程協定.md)

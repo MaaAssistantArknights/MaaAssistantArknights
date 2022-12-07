@@ -21,26 +21,26 @@ on:
     branches-ignore:
       - master
     paths:
-      - 'src/MeoAssistant/**'
-      - 'src/MeoAsstGui/**'
+      - 'src/MaaCore/**'
+      - 'src/MaaWpfGui/**'
       - '3rdparty/**'
       - 'tools/MaaBuilder/**'
       - tools/MaaBuilder.sln
       - 'include/**'
       - 'resource/**'
-      - MeoAssistantArknights.sln
+      - MAA.sln
   pull_request:
     branches:
       - dev
     paths:
-      - 'src/MeoAssistant/**'
-      - 'src/MeoAsstGui/**'
+      - 'src/MaaCore/**'
+      - 'src/MaaWpfGui/**'
       - '3rdparty/**'
       - 'tools/MaaBuilder/**'
       - tools/MaaBuilder.sln
       - 'include/**'
       - 'resource/**'
-      - MeoAssistantArknights.sln
+      - MAA.sln
   workflow_dispatch:
     inputs:
       Reason:

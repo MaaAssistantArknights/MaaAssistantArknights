@@ -103,8 +103,8 @@ MAA는 MAA Assistant Arknights를 의미합니다
 - 이미지 인식: [opencv](https://github.com/opencv/opencv.git)
 - ~~글자 인식: [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 글자 인식: [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- ML Deployment: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~아이템 드랍 인식: [Penguin Stats recognizer](https://github.com/penguin-statistics/recognizer)~~
 - 맵 타일 인식: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON 라이브러리: [meojson](https://github.com/MistEO/meojson.git)
@@ -137,7 +137,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ### Windows
 
-- `MeoAssistantArknights.sln`를 Visual Studio 2022로 열어주세요. 모든 설정이 제대로 구성되어 있습니다.
+- `MAA.sln`를 Visual Studio 2022로 열어주세요. 모든 설정이 제대로 구성되어 있습니다.
 - clang-format 기능을 활성화해 주세요. 자세한 내용은 [개발](docs/ko-kr/2.2-개발.md) 문서의 [Visual Studio에서 clang-format 활성화](docs/ko-kr/2.2-개발.md#visual-studio에서-clang-format-활성화) 문단을 참조해 주세요. <!-- File Required -->
 
 ### Linux/MacOS
@@ -146,13 +146,14 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ### API
 
-- [C 인터페이스](include/AsstCaller.h): [통합 예시](tools/TestCaller/main.cpp)
+- [C 인터페이스](include/AsstCaller.h): [통합 예시](src/CppSample/main.cpp)
 - [Python 인터페이스](src/Python/asst.py): [통합 예시](src/Python/sample.py)
-- [Golang 인터페이스](src/Golang/MaaAssistantArknights/): [통합 예시](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golang 인터페이스](src/Golang/): [통합 예시](src/Golang/maa/maa.go)
 - [Dart 인터페이스](src/dart/)
-- [Java 인터페이스](src/Java/Maaj): [통합 예시](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
+- [Java 인터페이스](src/Java): [통합 예시](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust 인터페이스](src/Rust/src/maa_sys/): [HTTP 인터페이스](src/Rust)
-- [HTTP 인터페이스](src/Java/Maaj/Readme.md)
+- [HTTP 인터페이스](src/Java/Readme.md)
+- [TypeScript 인터페이스](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [통합](docs/ko-kr/3.1-통합.md) <!-- File Required -->
 - [콜백 형식](docs/ko-kr/3.2-콜백_형식.md) <!-- File Required -->
 - [임무 형식](docs/ko-kr/3.4-임무_형식.md) <!-- File Required -->

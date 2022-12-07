@@ -9,7 +9,7 @@ import 'package:path/path.dart' as p;
 
 class MaaCore implements MaaCoreInterface {
   // Native Symbols
-  // MeoAssistant
+  // MaaCore
   static late AsstLoadResourceFunc _asstLoadResource;
   static late AsstCreateExFunc _asstCreateEx;
   static late AsstConnectFunc _asstConnect;
@@ -51,13 +51,13 @@ class MaaCore implements MaaCoreInterface {
     return [];
   }
 
-  static String get meoAssistantLibName {
+  static String get MaaCoreLibName {
     if (Platform.isLinux) {
-      return 'libMeoAssistant.so';
+      return 'libMaaCore.so';
     } else if (Platform.isWindows) {
-      return 'MeoAssistant.dll';
+      return 'MaaCore.dll';
     }
-    return 'libMeoAssistant.dylib';
+    return 'libMaaCore.dylib';
   }
 
   static String get callbackLibName {
@@ -125,7 +125,7 @@ class MaaCore implements MaaCoreInterface {
   }
 
   static void _loadNativeSymbols(String libDir) {
-    _loadMeoAssistant(libDir);
+    _loadMaaCore(libDir);
     _loadCallbackLib(libDir);
     _symbolsLoaded = true;
   }
@@ -137,7 +137,7 @@ class MaaCore implements MaaCoreInterface {
     _asstCallback = lib.lookup<AsstCallbackNative>('callback');
   }
 
-  static void _loadMeoAssistant(String libDir) {
+  static void _loadMaaCore(String libDir) {
     if (Platform.isWindows) {
       for (var dep in _deps) {
         print("load dep: $dep");
@@ -145,7 +145,7 @@ class MaaCore implements MaaCoreInterface {
         print("loaded dep: $dep");
       }
     }
-    final lib = DynamicLibrary.open(p.join(libDir, meoAssistantLibName));
+    final lib = DynamicLibrary.open(p.join(libDir, MaaCoreLibName));
     _asstLoadResource =
         lib.lookup<AsstLoadResourceNative>('AsstLoadResource').asFunction();
     _asstCreateEx = lib.lookup<AsstCreateExNative>('AsstCreateEx').asFunction();

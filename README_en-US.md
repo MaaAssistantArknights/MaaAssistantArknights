@@ -38,7 +38,8 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV1H841177Fk/)
-- New feature: Depot recognition! Supports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
+- Depot recognition and upports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
+- Support C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP and other interfaces, easy to integrate and call, customize your MAA!
 
 Talk is cheap. Show me the pictures!  
 
@@ -99,8 +100,8 @@ Due to the small number of overseas clients users and the lack of project manpow
 - Image recognition: [opencv](https://github.com/opencv/opencv.git)
 - ~~OCR: [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - OCR: [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- ML Deployment: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~Item drop recognition: [Penguin Stats recognizer](https://github.com/penguin-statistics/recognizer)~~
 - Map tile recognition: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON library: [meojson](https://github.com/MistEO/meojson.git)
@@ -133,7 +134,7 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 ### Windows
 
-- Open `MeoAssistantArknights.sln` with Visual Studio 2022. All settings have been configured properly.
+- Open `MAA.sln` with Visual Studio 2022. All settings have been configured properly.
 - Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](docs/en-us/2.2-DEVELOPMENT.md#using-clang-format-in-visual-studio).
 
 ### Linux/MacOS
@@ -142,13 +143,14 @@ Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 
 ### API
 
-- [C interface](include/AsstCaller.h): [Integration Example](tools/TestCaller/main.cpp)
+- [C interface](include/AsstCaller.h): [Integration Example](src/CppSample/main.cpp)
 - [Python interface](src/Python/asst.py): [Integration Example](src/Python/sample.py)
-- [Golang interface](src/Golang/MaaAssistantArknights/): [Integration Example](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golang interface](src/Golang/): [Integration Example](src/Golang/maa/maa.go)
 - [Dart interface](src/dart/)
-- [Java interface](src/Java/Maaj): [Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
+- [Java interface](src/Java): [Integration Example](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/): [HTTP API](src/Rust)
-- [HTTP interface](src/Java/Maaj/Readme.md)
+- [HTTP interface](src/Java/Readme.md)
+- [TypeScript interface](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [Integration Documentation](docs/en-us/3.1-INTEGRATION.md)
 - [Callback Schema](docs/en-us/3.2-CALLBACK_SCHEMA.md)
 - [Task Schema](docs/en-us/3.4-TASK_SCHEMA.md)

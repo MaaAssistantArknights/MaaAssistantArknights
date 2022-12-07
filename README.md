@@ -33,12 +33,13 @@ MAA 的意思是 MAA Assistant Arknights
 ## 亮点功能
 
 - 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)
-- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](docs/3.6-%E5%9F%BA%E5%BB%BA%E6%8E%92%E7%8F%AD%E5%8D%8F%E8%AE%AE.md) （测试功能）
+- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](docs/3.6-基建排班协议.md)
 - 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://yituliu.site/maarecruitdata)
 - 访问好友、收取信用及购物、领取日常奖励等。一键全日常自动长草！
 - 肉鸽全自动刷源石锭和蜡烛，自动识别干员及练度
-- 导入作业 JSON 文件，自动抄作业！ [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)
-- 新功能：仓库识别！支持导出至 [企鹅物流刷图规划器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)
+- 选择作业 JSON 文件，自动抄作业！ [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)
+- 仓库识别并支持导出至 [企鹅物流刷图规划器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)
+- 支持 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多种接口，方便集成调用，自定义你的 MAA！
 
 话不多说，看图！  
 
@@ -100,8 +101,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 图像识别库：[opencv](https://github.com/opencv/opencv.git)
 - ~~文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- 深度学习快速部署工具集：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- 机器学习推理和训练加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
+- 深度学习部署库：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- 机器学习加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)~~
 - 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
@@ -134,7 +135,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-- 直接使用 Visual Studio 2022 打开 `MeoAssistantArknights.sln` 即可，所有环境都是配置好的
+- 直接使用 Visual Studio 2022 打开 `MAA.sln` 即可，所有环境都是配置好的
 - 建议启用 clang-format 支持，详细内容可以参考 [在 Visual Studio 中启用 clang-format](docs/2.2-开发相关.md#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
@@ -143,13 +144,14 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### API
 
-- [C 接口](include/AsstCaller.h)：[集成示例](tools/TestCaller/main.cpp)
+- [C 接口](include/AsstCaller.h)：[集成示例](src/CppSample/main.cpp)
 - [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
-- [Golang 接口](src/Golang/MaaAssistantArknights/)：[集成示例](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golang 接口](src/Golang/)：[集成示例](src/Golang/maa/maa.go)
 - [Dart 接口](src/dart/)
-- [Java 接口](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[集成示例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Java HTTP 接口](src/Java/Maaj/Readme.md)
+- [Java 接口](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 接口](src/Java/Readme.md)
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
+- [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [集成文档](docs/3.1-集成文档.md)
 - [回调消息协议](docs/3.2-回调消息协议.md)
 - [任务流程协议](docs/3.4-任务流程协议.md)
