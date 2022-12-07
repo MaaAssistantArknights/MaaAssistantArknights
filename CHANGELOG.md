@@ -1,3 +1,24 @@
+## v4.8.0-beta.3
+
+- 重构 项目工程、目录结构，重命名 部分文件 @MistEO @horror-proton @hguandl
+- 重新支持 macOS 打包，并集成新接口 @hguandl @horror-proton
+- 新增 支持 暂停部署干员 @MistEO  
+  _目前仅 MaaTouch 效果较好，minitouch 在性能较差的电脑上会一直暂停着不动，adb input 不支持该功能_
+- 新增 启动时 删除 `.old` 文件 @MistEO
+- 优化 界面 设置布局 @MistEO @ABA2396
+- 修复 干员 识别错误 @nightofknife @MistEO
+- 更新 文档 @MistEO @Mr-Milk @ChildeRolando
+
+### For overseas
+
+- Fix some resources of KR client and update the documentation @178619
+- Fix the bug of IS stuck in JP client @MistEO
+
+### For developers
+
+- Explicitly C APIs return value and parameter type, should be compatible with the original interface, but may also need to modify some integration code @MistEO
+- Update Rust APIs for the above changes @horror-proton
+
 ## v4.8.0-beta.2
 
 - 修复 `风雪过境` 关卡名识别错误 @MistEO
@@ -48,5 +69,5 @@
 
 **The `master` branch cannot be built on Linux and macOS because the ONNX Runtime adaptation is not finished yet, so please use `stable` branch for now. Feel free to join us in this work!**
 
-- Deprecate `Visit` task and merge it into `Mall` task @MistEO 
+- Deprecate `Visit` task and merge it into `Mall` task @MistEO
 - Add `async_connect`, `async_click`, `async_screencap` API, plz refer to `AsstCaller.h` to use @MistEO
