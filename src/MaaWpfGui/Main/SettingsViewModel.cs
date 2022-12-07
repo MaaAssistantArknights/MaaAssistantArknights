@@ -107,7 +107,6 @@ namespace MaaWpfGui
 
             ConfigList = ViewStatusStorage.ConfigList.Select(x => new CombData { Display=x.ConfigName, Value=x.ConfigName}).ToList();
             _currentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
-            IsSticky = ViewStatusStorage.isSticky;
         }
 
         private List<string> _listTitle = new List<string>();
@@ -545,8 +544,6 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> LanguageList { get; set; }
 
-        public bool IsSticky { get; private set; }
-
         private string _currentConfig;
 
         public string CurrentConfig
@@ -554,10 +551,38 @@ namespace MaaWpfGui
             get => _currentConfig;
             set
             {
-                SetAndNotify(ref _currentConfig, value);
                 if (value != _currentConfig)
                 {
                     ViewStatusStorage.Checkout(value);
+                }
+            }
+        }
+
+        private bool _openProfileInNewWindow = bool.Parse(ViewStatusStorage.Get("Profile.OpenProfileInNewWindow", false.ToString()));
+
+        public bool OpenProfileInNewWindow
+        {
+            get => _openProfileInNewWindow;
+            set
+            {
+                SetAndNotify(ref _openProfileInNewWindow, value);
+                ViewStatusStorage.Set("Profile.OpenProfileInNewWindow", value.ToString());
+            }
+        }
+
+        public void CreateProfileCommand()
+        {
+            var dialog = new CreateNewProfileDialog(ConfigList);
+            if (dialog.ShowDialog() == true)
+            {
+                if (ViewStatusStorage.Create(dialog.NewProfileName, dialog.InherbitProfileName))
+                {
+                    Logger.Info("Create new profile: " + dialog.NewProfileName);
+                    ViewStatusStorage.Checkout(dialog.NewProfileName);
+                }
+                else
+                {
+                    Logger.Error("Create new profile failed: " + dialog.NewProfileName);
                 }
             }
         }

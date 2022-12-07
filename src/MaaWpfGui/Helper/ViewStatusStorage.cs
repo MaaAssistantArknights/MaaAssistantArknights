@@ -123,9 +123,9 @@ namespace MaaWpfGui
             }
 
             string configName;
-            if (configDetail.ContainsKey("name"))
+            if (configDetail.ContainsKey("Name"))
             {
-                configName = configDetail["name"].ToString();
+                configName = configDetail["Name"].ToString();
             }
             else if (configFileName == "gui.json")
             {
@@ -203,18 +203,52 @@ namespace MaaWpfGui
             return true;
         }
 
+        public static bool Create(string configName, string baseConfigName = null)
+        {
+            if (ConfigList.Where((config) => config.ConfigName == configName).Count() > 0)
+            {
+                return false;
+            }
+
+            JObject baseConfig = null;
+            if (baseConfigName != null)
+            {
+                try
+                {
+                    baseConfig = ConfigList.Where((config) => config.ConfigName == baseConfigName).Single().ConfigDetail;
+                }
+                catch (Exception e)
+                {
+                    baseConfig = new JObject();
+                }
+            }
+
+            var configPath = Path.Combine(Environment.CurrentDirectory, "gui-" + configName + ".json");
+            var config = new Config(configName, configPath, baseConfig ?? new JObject());
+            ConfigList.Add(config);
+            CurrentConfig = config;
+            Save();
+
+            return true;
+        }
+
         public static void Checkout(string key)
         {
             try
             {
                 var config = ConfigList.Where((config) => config.ConfigName == key).Single();
-                CurrentConfig = config;
-                var newProcess = new Process();
-                newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
-                newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
-                newProcess.StartInfo.Arguments = string.Format("-f \"{0}\"", config.ConfigPath);
-                newProcess.Start();
-                Application.Current.Shutdown();
+                var result = Process.Start(new ProcessStartInfo(System.Windows.Forms.Application.ExecutablePath, string.Format("-f \"{0}\"", config.ConfigPath)));
+                if (result != null)
+                {
+                    result.Exited += (sender, args) =>
+                    {
+                        config.Started = false;
+                    };
+
+                    config.Started = true;
+                }
+
+                Logger.Info(string.Format("Load Profile {0}", key));
             }
             catch (Exception e)
             {
@@ -240,18 +274,22 @@ namespace MaaWpfGui
 
     public class Config
     {
-        public readonly string ConfigName;
-        public readonly string ConfigPath;
+        public string ConfigName { get; set; }
+
+        public string ConfigPath { get; set; }
+
+        public bool Started { get; set; } = false;
 
         private string _configBakPath => ConfigPath + ".bak";
 
-        private JObject _config { get; set; }
+        public JObject ConfigDetail { get; private set; }
 
         public Config(string configName, string configPath, JObject configDetail)
         {
             ConfigName = configName;
             ConfigPath = configPath;
-            _config = configDetail;
+            ConfigDetail = configDetail;
+            Set("Name", configName);
         }
 
 
@@ -263,9 +301,9 @@ namespace MaaWpfGui
         /// <returns>The value, or <paramref name="default_value"/> if <paramref name="key"/> is not found.</returns>
         public string Get(string key, string default_value)
         {
-            if (_config.ContainsKey(key))
+            if (ConfigDetail.ContainsKey(key))
             {
-                return _config[key].ToString();
+                return ConfigDetail[key].ToString();
             }
             else
             {
@@ -280,7 +318,7 @@ namespace MaaWpfGui
         /// <param name="value">The value.</param>
         public void Set(string key, string value)
         {
-            _config[key] = value;
+            ConfigDetail[key] = value;
             Save();
         }
 
@@ -288,7 +326,7 @@ namespace MaaWpfGui
         {
             try
             {
-                _config.Remove(key);
+                ConfigDetail.Remove(key);
                 Save();
             }
             catch (Exception)
@@ -312,7 +350,7 @@ namespace MaaWpfGui
 
             try
             {
-                var jsonStr = _config.ToString();
+                var jsonStr = ConfigDetail.ToString();
                 if (jsonStr.Length > 2)
                 {
                     using (StreamWriter sw = new StreamWriter(ConfigPath))

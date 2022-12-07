@@ -133,6 +133,9 @@
     <Compile Include="Helper\StageManager.cs" />
     <Compile Include="Helper\ViewStatusStorage.cs" />
     <Compile Include="Helper\FlowDocumentPagePadding.cs" />
+    <Compile Include="Views\UserControl\CreateNewProfileDialog.xaml.cs">
+      <DependentUpon>CreateNewProfileDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControl\GameClientUserControl.xaml.cs">
       <DependentUpon>GameClientUserControl.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
     <Page Include="Res\Localizations\zh-tw.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControl\CreateNewProfileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControl\GameClientUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -334,7 +341,7 @@
     <PackageReference Include="CalcBinding">
       <Version>2.5.2</Version>
     </PackageReference>
-     <PackageReference Include="CommandLineParser">
+    <PackageReference Include="CommandLineParser">
       <Version>2.9.1</Version>
     </PackageReference>
     <PackageReference Include="Costura.Fody">

@@ -8,13 +8,14 @@
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui;assembly=MaaWpfGui"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
-    d:DesignWidth="550"
+    d:DesignWidth="600"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -48,16 +49,36 @@
             Style="{StaticResource TextBlockDefault}"
             Text="{Binding CurrentConfig}"
             TextWrapping="Wrap" />
-        <ComboBox
+        <StackPanel
             Grid.Row="1"
+            Grid.Column="1" 
+            Orientation="Horizontal">
+            <ComboBox
+                Width="150"
+                Margin="0,5"
+                DisplayMemberPath="Display"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding ConfigList}"
+                SelectedValue="{Binding CurrentConfig}"
+                SelectedValuePath="Value" />
+            <CheckBox
+                Margin="5"
+                MinWidth="200"
+               
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Content="{DynamicResource OpenProfileInNewWindow}"
+                IsChecked="{Binding OpenProfileInNewWindow}"/>
+        </StackPanel>
+
+        <Button
+            Grid.Row="2"
             Grid.Column="1"
-            Width="150"
+            Grid.ColumnSpan="2"
             Margin="0,5"
-            DisplayMemberPath="Display"
             HorizontalAlignment="Left"
-            IsEnabled="{c:Binding !IsSticky}"
-            ItemsSource="{Binding ConfigList}"
-            SelectedValue="{Binding CurrentConfig}"
-            SelectedValuePath="Value" />
+            VerticalAlignment="Center"
+            Content="{DynamicResource CreateNewProfile}"
+            Command="{s:Action CreateProfileCommand}" />
     </Grid>
 </UserControl>
