@@ -66,9 +66,6 @@ AsstBool AsstLoadResource(const char* path)
 
 AsstBool AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 {
-    if (!inited()) {
-        return false;
-    }
     return AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value);
 }
 

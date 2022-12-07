@@ -60,20 +60,6 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         return false;
     }
 
-    switch (m_backend) {
-    case OcrBackend::ONNXRuntime:
-        Log.info("OcrBackend::ONNXRuntime");
-        m_ocr_option->UseOrtBackend();
-        break;
-    case OcrBackend::PaddleInference:
-        Log.info("OcrBackend::PaddleInference");
-        m_ocr_option->UsePaddleInferBackend();
-        break;
-    default:
-        Log.error("Unknown OCR Backend", static_cast<int>(m_backend));
-        return false;
-    }
-
     m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(asst::utils::path_to_ansi_string(dst_model_file),
                                                                   asst::utils::path_to_ansi_string(dst_params_file),
                                                                   *m_ocr_option);

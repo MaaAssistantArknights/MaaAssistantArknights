@@ -34,7 +34,6 @@ namespace asst
         enum class OcrBackend
         {
             ONNXRuntime,
-            PaddleInference,
         };
     public:
         virtual ~OcrPack() override;
