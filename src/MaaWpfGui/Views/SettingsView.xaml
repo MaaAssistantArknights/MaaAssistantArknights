@@ -59,7 +59,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource BaseSettings}" />
+                    Text="{DynamicResource GameSettings}" />
                 <local:GameClientUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
@@ -74,7 +74,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[1]}" />
+                    Text="{DynamicResource BaseSettings}" />
                 <local:InfrastSettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
@@ -89,7 +89,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[2]}" />
+                    Text="{DynamicResource RoguelikeSettings}" />
                 <local:RoguelikeSettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
@@ -104,7 +104,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[3]}" />
+                    Text="{DynamicResource RecruitingSettings}" />
                 <local:AutoRecruitSettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
@@ -119,7 +119,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[4]}" />
+                    Text="{DynamicResource MallSettings}" />
                 <local:MallSettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
@@ -134,7 +134,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[5]}" />
+                    Text="{DynamicResource OtherCombatSettings}" />
                 <local:PenguinReportSettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
@@ -149,7 +149,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[6]}" />
+                    Text="{DynamicResource ConnectionSettings}" />
                 <local:ConnectSettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
@@ -164,7 +164,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[7]}" />
+                    Text="{DynamicResource StartupSettings}" />
                 <local:StartSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
@@ -176,7 +176,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[8]}" />
+                    Text="{DynamicResource ScheduleSettings}" />
                 <local:TimerSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
@@ -188,7 +188,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[9]}" />
+                    Text="{DynamicResource UISettings}" />
                 <local:GUISettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
@@ -200,7 +200,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{Binding ListTitle[10]}" />
+                    Text="{DynamicResource HotKeySettings}" />
                 <local:HotKeySettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"

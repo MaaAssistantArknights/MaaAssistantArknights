@@ -150,6 +150,12 @@ namespace MaaWpfGui
             if (configPath != null)
             {
                 isSticky = true;
+
+                if (!File.Exists(configPath))
+                {
+                    throw new FileNotFoundException("Specific configuration file not found or permission denied.", configPath);
+                }
+
                 var config = Load(configPath);
                 if (config != null)
                 {
@@ -182,7 +188,15 @@ namespace MaaWpfGui
                 }
             }
 
-            CurrentConfig = ConfigList.Where((config) => config.ConfigName == "Default").Single();
+            try
+            {
+                CurrentConfig = ConfigList.Where((config) => config.ConfigName == "Default").Single();
+            }
+            catch (Exception e)
+            {
+                CurrentConfig = ConfigList.First();
+            }
+
             Save();
             BakeUpDaily();
 
@@ -198,7 +212,7 @@ namespace MaaWpfGui
                 var newProcess = new Process();
                 newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
                 newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
-                newProcess.StartInfo.Arguments = string.Format("-f {0}", config.ConfigPath);
+                newProcess.StartInfo.Arguments = string.Format("-f \"{0}\"", config.ConfigPath);
                 newProcess.Start();
                 Application.Current.Shutdown();
             }

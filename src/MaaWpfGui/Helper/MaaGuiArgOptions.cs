@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace MeoAsstGui
+namespace MaaWpfGui
 {
     public class MaaGuiArgOptions
     {

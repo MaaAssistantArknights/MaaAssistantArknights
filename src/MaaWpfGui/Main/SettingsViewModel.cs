@@ -555,7 +555,10 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _currentConfig, value);
-                ViewStatusStorage.Checkout(value);
+                if (value != _currentConfig)
+                {
+                    ViewStatusStorage.Checkout(value);
+                }
             }
         }
 

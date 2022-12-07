@@ -16,7 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace MeoAsstGui
+namespace MaaWpfGui
 {
     /// <summary>
     /// InfrastSettingsUserContril.xaml 的交互逻辑
