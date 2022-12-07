@@ -24,7 +24,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 pub enum Error {
     Internal,
     InstanceNotFound,
-    InvaildRequest,
+    InvalidRequest,
 }
 
 impl From<maa_sys::Error> for Error{
@@ -47,7 +47,7 @@ impl actix_web::error::ResponseError for Error {
             Error::InstanceNotFound => json!({
                 "error":"实例不存在"
             }),
-            Error::InvaildRequest => json!({
+            Error::InvalidRequest => json!({
                 "error":"无效的请求"
             }),
         };
