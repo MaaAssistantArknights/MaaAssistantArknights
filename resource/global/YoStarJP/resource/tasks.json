@@ -2991,6 +2991,9 @@
             ]
         ]
     },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.9
+    },
     "InfrastReward": {
         "text": [
             "受取可",

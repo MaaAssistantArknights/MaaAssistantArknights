@@ -1,4 +1,7 @@
-use std::{collections::{HashMap, HashSet}, ffi::c_void};
+use std::{
+    collections::{HashMap, HashSet},
+    ffi::c_void,
+};
 
 include!("./bind.rs");
 
@@ -22,10 +25,10 @@ impl From<std::str::Utf8Error> for Error {
     }
 }
 #[derive(Debug, Clone)]
-pub struct Task{
+pub struct Task {
     pub id: i32,
-    pub type_:String,
-    pub params:String
+    pub type_: String,
+    pub params: String,
 }
 
 #[derive(Debug)]
@@ -83,8 +86,8 @@ impl Maa {
                 .to_string()
         );
     }
-    pub fn load_resource(path:&str) -> Result<(), Error> {
-        let ret: i32;
+    pub fn load_resource(path: &str) -> Result<(), Error> {
+        let ret: AsstBool;
         unsafe {
             let path = std::ffi::CString::new(path.to_string())?;
             ret = AsstLoadResource(path.as_ptr());
@@ -101,47 +104,107 @@ impl Maa {
             Ok(ret)
         }
     }
-
+    #[allow(dead_code)]
+    pub fn set_static_option(option: AsstStaticOptionKey, value: &str) -> Result<(), Error> {
+        let c_option_value = std::ffi::CString::new(value)?;
+        unsafe {
+            if AsstSetStaticOption(option, c_option_value.as_ptr()) == 1 {
+                Ok(())
+            } else {
+                Err(Error::Unknown)
+            }
+        }
+    }
+    #[allow(dead_code)]
+    pub fn set_working_directory(path: &str) -> Result<(), Error> {
+        let c_path = std::ffi::CString::new(path)?;
+        unsafe {
+            if AsstSetUserDir(c_path.as_ptr()) == 1 {
+                Ok(())
+            } else {
+                Err(Error::Unknown)
+            }
+        }
+    }
+    #[allow(dead_code)]
+    pub fn set_option(&mut self, option: AsstInstanceOptionKey, value: &str) -> Result<(), Error> {
+        let c_option_value = std::ffi::CString::new(value)?;
+        unsafe {
+            if AsstSetInstanceOption(self.handle, option, c_option_value.as_ptr()) == 1 {
+                Ok(())
+            } else {
+                Err(Error::Unknown)
+            }
+        }
+    }
     pub fn connect(
         &mut self,
         adb_path: &str,
         address: &str,
         config: Option<&str>,
-    ) -> Result<(), Error> {
+    ) -> Result<i32, Error> {
         unsafe {
             let c_adb_path = std::ffi::CString::new(adb_path)?;
             let c_address = std::ffi::CString::new(address)?;
-            let ret = match config {
-                Some(config) => {
-                    let c_config = std::ffi::CString::new(config)?;
-                    AsstConnect(
-                        self.handle,
-                        c_adb_path.as_ptr(),
-                        c_address.as_ptr(),
-                        c_config.as_ptr(),
-                    )
-                }
-                None => AsstConnect(
-                    self.handle,
-                    c_adb_path.as_ptr(),
-                    c_address.as_ptr(),
-                    0 as *const std::os::raw::c_char,
-                ),
+            let c_cfg_ptr = match config {
+                Some(cfg) => std::ffi::CString::new(cfg)?.as_ptr(),
+                None => 0 as *const std::os::raw::c_char,
             };
-            match ret {
-                1 => {
-                    self.target=Some(address.to_string());
-                    Ok(())
-                },
-                _ => Err(Error::Unknown),
+            let ret = AsstAsyncConnect(
+                self.handle,
+                c_adb_path.as_ptr(),
+                c_address.as_ptr(),
+                c_cfg_ptr,
+                1,
+            );
+            if ret != 0 {
+                self.target = Some(address.to_string());
+                Ok(ret)
+            } else {
+                Err(Error::Unknown)
             }
         }
     }
-    pub fn click(&self, x: i32, y: i32) -> Result<(), Error> {
+
+    #[deprecated]
+    #[allow(dead_code)]
+    pub fn connect_legacy(
+        &mut self,
+        adb_path: &str,
+        address: &str,
+        config: Option<&str>,
+    ) -> Result<(), Error> {
+        let c_adb_path = std::ffi::CString::new(adb_path)?;
+        let c_address = std::ffi::CString::new(address)?;
+        let c_cfg_ptr = match config {
+            Some(cfg) => std::ffi::CString::new(cfg)?.as_ptr(),
+            None => 0 as *const std::os::raw::c_char,
+        };
         unsafe {
-            match AsstCtrlerClick(self.handle, x, y, 0) {
-                1 => Ok(()),
-                _ => Err(Error::Unknown),
+            let ret = AsstConnect(
+                self.handle,
+                c_adb_path.as_ptr(),
+                c_address.as_ptr(),
+                c_cfg_ptr,
+            );
+            if ret == 1 {
+                Ok(())
+            } else {
+                Err(Error::Unknown)
+            }
+        }
+    }
+    #[allow(dead_code)]
+    pub fn running(&self) -> bool {
+        unsafe { AsstRunning(self.handle) == 1 }
+    }
+    pub fn click(&self, x: i32, y: i32) -> Result<i32, Error> {
+        unsafe {
+            let ret = AsstAsyncClick(self.handle, x, y, 0);
+            if ret != 0 {
+                Ok(ret)
+            } else {
+                Err(Error::Unknown)
             }
         }
     }
@@ -168,16 +231,28 @@ impl Maa {
             }
         }
     }
-    pub fn create_task(&mut self, type_: &str, params: &str) -> Result<i32, Error> {
+    #[allow(dead_code)]
+    pub fn take_screenshot(&mut self) -> Result<(), Error> {
+        unsafe {
+            match AsstAsyncScreencap(self.handle, 1) {
+                0 => Err(Error::Unknown),
+                _ => Ok(()),
+            }
+        }
+    }
+    pub fn create_task(&mut self, type_: &str, params: &str) -> Result<AsstTaskId, Error> {
         unsafe {
             let c_type = std::ffi::CString::new(type_)?;
             let c_params = std::ffi::CString::new(params)?;
             let task_id = AsstAppendTask(self.handle, c_type.as_ptr(), c_params.as_ptr());
-            self.tasks.insert(task_id, Task { 
-                id: task_id, 
-                type_: type_.to_string(), 
-                params: params.to_string(),
-            });
+            self.tasks.insert(
+                task_id,
+                Task {
+                    id: task_id,
+                    type_: type_.to_string(),
+                    params: params.to_string(),
+                },
+            );
             Ok(task_id)
         }
     }
@@ -191,7 +266,7 @@ impl Maa {
         }
     }
     pub fn get_uuid(&mut self) -> Result<String, Error> {
-        if let Some(uuid)=self.uuid.clone(){
+        if let Some(uuid) = self.uuid.clone() {
             return Ok(uuid);
         };
         unsafe {
@@ -214,7 +289,7 @@ impl Maa {
             }
         }
     }
-    pub fn get_target(&self)->Option<String>{
+    pub fn get_target(&self) -> Option<String> {
         return self.target.clone();
     }
     pub fn get_tasks(&mut self) -> Result<&HashMap<i32, Task>, Error> {
@@ -234,12 +309,10 @@ impl Maa {
                 buff.set_len(data_size as usize);
                 buff.resize(data_size as usize, 0);
                 let mut task_ids = HashSet::with_capacity(buff.len());
-                for i in buff{
+                for i in buff {
                     task_ids.insert(i);
                 }
-                self.tasks.retain(|k, _|{
-                    task_ids.contains(k)
-                });
+                self.tasks.retain(|k, _| task_ids.contains(k));
                 return Ok(&self.tasks);
             }
         }
@@ -259,6 +332,15 @@ impl Maa {
                 _ => Err(Error::Unknown),
             }
         }
+    }
+    #[allow(dead_code)]
+    pub fn log(level_str: &str, message: &str) -> Result<(), Error> {
+        let c_level_str = std::ffi::CString::new(level_str)?;
+        let c_message = std::ffi::CString::new(message)?;
+        unsafe {
+            AsstLog(c_level_str.as_ptr(), c_message.as_ptr());
+        }
+        Ok(())
     }
 }
 

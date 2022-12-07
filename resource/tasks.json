@@ -2301,7 +2301,7 @@
                 "龙舌兰"
             ],
             [
-                "宠舌兰",
+                ".*舌兰",
                 "龙舌兰"
             ],
             [
@@ -2327,6 +2327,10 @@
             [
                 ".*霸叶",
                 "霜叶"
+            ],
+            [
+                ".*霜华",
+                "霜华"
             ]
         ]
     },
@@ -6363,16 +6367,16 @@
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 100,
-        "postDelay": 150,
+        "postDelay": 200,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；post 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 200,
-        "postDelay": 80,
+        "preDelay": 400,
+        "postDelay": 150,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
         "specialParams": [
-            300,
+            400,
             2,
             0
         ],
@@ -7064,7 +7068,7 @@
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1150,
+            1000,
             350,
             20,
             20

@@ -101,8 +101,8 @@ UIを見れば使い方もすぐ分かる！
 - 画像認識ライブラリ：[opencv](https://github.com/opencv/opencv.git)
 - ~~テキスト認識ライブラリ：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - テキスト認識ライブラリ：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- ML Deployment: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~ステージドロップ認識：[PenguinStats認識](https://github.com/penguin-statistics/recognizer)~~
 - マップタイル認識：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSONライブラリ：[meojson](https://github.com/MistEO/meojson.git)
@@ -135,7 +135,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### Windows
 
-- Visual Studio 2022で `MeoAssistantArknights.sln` を開きます。環境がすでに構成されています。
+- Visual Studio 2022で `MAA.sln` を開きます。環境がすでに構成されています。
 - clang-formatのサポートを有効にすることをお勧めします。詳細については、[Visual Studioでclang-formatを有効にする](docs/ja-jp/2.2-プルリクエスト.md)を参照してください。
 
 ### Linux | macOS
@@ -144,13 +144,14 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### API
 
-- [Cインターフェース](include/AsstCaller.h)：[統合例](tools/TestCaller/main.cpp)
+- [Cインターフェース](include/AsstCaller.h)：[統合例](src/CppSample/main.cpp)
 - [Pythonインターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
-- [Golangインターフェース](src/Golang/MaaAssistantArknights/)：[統合例](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golangインターフェース](src/Golang/)：[統合例](src/Golang/maa/maa.go)
 - [Dartインターフェース](src/dart/)
-- [Javaインターフェース](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MeoAssistant.java)：[統合例](src/Java/Maaj/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Javaインターフェース](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[統合例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)
-- [HTTPインターフェース](src/Java/Maaj/Readme.md)
+- [HTTPインターフェース](src/Java/Readme.md)
+- [TypeScriptインターフェース](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [統合ドキュメント](docs/ja-jp/3.1-統合ドキュメント.md)
 - [コールバックAPI](docs/ja-jp/3.2-コールバックAPI.md)
 - [タスクAPI](docs/ja-jp/3.4-タスクAPI.md)
