@@ -52,7 +52,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     const auto dst_params_file = paddle_dir / "det"_p / "inference.pdiparams"_p;
     const auto rec_model_file = paddle_dir / "rec"_p / "inference.pdmodel"_p;
     const auto rec_params_file = paddle_dir / "rec"_p / "inference.pdiparams"_p;
-    const auto rec_label_file = paddle_dir / "ppocr_keys_v1.txt"_p;
+    const auto rec_label_file = paddle_dir / "keys.txt"_p;
 
     if (!std::filesystem::exists(dst_model_file) || !std::filesystem::exists(dst_params_file) ||
         !std::filesystem::exists(rec_model_file) || !std::filesystem::exists(rec_params_file) ||
