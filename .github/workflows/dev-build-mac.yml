@@ -5,23 +5,23 @@ on:
     branches-ignore:
       - master
     paths:
-      - 'src/MeoAssistant/**'
-      - 'src/MeoAsstGui/**'
-      - 'src/MeoAsstMac/**'
+      - 'src/MaaCore/**'
+      - 'src/MaaMacGui/**'
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'
+      - 'cmake/**'
       - CMakeLists.txt
   pull_request:
     branches:
       - dev
     paths:
-      - 'src/MeoAssistant/**'
-      - 'src/MeoAsstGui/**'
-      - 'src/MeoAsstMac/**'
+      - 'src/MaaCore/**'
+      - 'src/MaaMacGui/**'
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'
+      - 'cmake/**'
       - CMakeLists.txt
 
 jobs:
@@ -41,16 +41,16 @@ jobs:
         run: |
           brew update --preinstall
           brew install ninja range-v3
-      - name: Configure MeoAssistant
+      - name: Configure MaaCore
         run: |
           mkdir build && cd build
           cmake .. -GNinja -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
-      - name: Build libMeoAssistant
+      - name: Build libMaaCore
         run: cmake --build build
-      - name: Build MeoAsstMac
-        working-directory: src/MeoAsstMac
-        run: xcodebuild ARCHS="arm64 x86_64" CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MeoAsstMac
+      - name: Build MAA
+        working-directory: src/MaaMacGui
+        run: xcodebuild ARCHS="arm64 x86_64" CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-macos
-          path: src/MeoAsstMac/DerivedData/Build/Products/Debug
+          path: src/MaaMacGui/DerivedData/Build/Products/Debug

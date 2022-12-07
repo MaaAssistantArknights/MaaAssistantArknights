@@ -1,4 +1,4 @@
-# MeoAssistantBuilder
+# MaaCoreBuilder
 
 Maa 的构建工具
 
