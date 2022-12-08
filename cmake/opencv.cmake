@@ -40,6 +40,6 @@ if (INSTALL_THIRD_LIBS)
     if (OpenCV_SHARED)
         install(DIRECTORY ${OpenCV_INSTALL_PATH}/lib/
                 DESTINATION .
-                USE_SOURCE_PERMISSIONS PATTERN "cmake/*" EXCLUDE)
+                USE_SOURCE_PERMISSIONS PATTERN "cmake" EXCLUDE)
     endif (OpenCV_SHARED)
 endif (INSTALL_THIRD_LIBS)
