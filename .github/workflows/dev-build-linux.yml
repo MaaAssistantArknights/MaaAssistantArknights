@@ -19,11 +19,10 @@ on:
       - 'include/**'
       - 'resource/**'
       - CMakeLists.txt
-  workflow_dispatch:
 
 jobs:
   linux-latest:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
@@ -32,21 +31,13 @@ jobs:
       - name: Install GCC-12
         run: |
           sudo apt update
+          sudo apt upgrade
           sudo apt install gcc-12 g++-12
 
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
         with:
           remove_stale_cache: false
-
-      - name: Download libraries
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd ~
-          gh release download --repo aa889788/build-opencv --pattern '*Linux.tar.gz'
-          gh release download --repo aa889788/build-fastdeploy --pattern '*Linux.tar.gz'
-          find . -maxdepth 1 -name '*.tar.gz' -exec tar -xvf '{}' \;
 
       - name: Build MAA
         env:
@@ -55,15 +46,16 @@ jobs:
         run: |
           mkdir -p build
           cmake -B build \
-              -DFASTDEPLOY_INSTALL_DIR=~/fastdeploy \
-              -DOpenCV_DIR=~/opencv/lib/cmake/opencv4 \
-              -DINSTALL_THIRD_LIBS=ON
+            -DINSTALL_THIRD_LIBS=ON
+          # -DFASTDEPLOY_DIRECTORY=~/fastdeploy \
+          # -DOPENCV_DIRECTORY=~/opencv/lib/cmake/opencv4 \
           cmake --build build
           
           mkdir -p install
           cmake --install build --prefix install
 
-      - run: |
+      - name: tar files
+        run: |
           mkdir -p release
           cd install
           tar czvf $GITHUB_WORKSPACE/release/MaaAssistantArknights.tar.gz .
