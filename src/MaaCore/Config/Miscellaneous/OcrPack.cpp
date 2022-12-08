@@ -107,16 +107,15 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     fastdeploy::vision::OCRResult ocr_result;
     if (!without_det) {
         LogTraceScope("Ocr Pipeline with " + class_type);
-        cv::Mat copied = image;
-        m_ocr->Predict(&copied, &ocr_result);
+        m_ocr->Predict(image, &ocr_result);
     }
     else {
         LogTraceScope("Ocr Rec with " + class_type);
-        std::vector<std::string> rec_texts;
-        std::vector<float> rec_scores;
-        m_rec->BatchPredict({ image }, &rec_texts, &rec_scores);
-        ocr_result.text = std::move(rec_texts);
-        ocr_result.rec_scores = std::move(rec_scores);
+        std::string rec_text;
+        float rec_score = 0;
+        m_rec->Predict(image, &rec_text, &rec_score);
+        ocr_result.text.emplace_back(std::move(rec_text));
+        ocr_result.rec_scores.emplace_back(rec_score);
     }
 
 #ifdef ASST_DEBUG

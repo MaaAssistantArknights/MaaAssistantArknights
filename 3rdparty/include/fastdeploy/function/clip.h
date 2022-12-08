@@ -19,14 +19,14 @@
 namespace fastdeploy {
 namespace function {
 
-/** Excute the concatenate operation for input FDTensor along given axis.
+/** This operator clip all elements in input into the range [ min, max ]. Support float32, float64, int32, int64
     @param x The input tensor.
+    @param min The lower bound
+    @param max The uppper bound
     @param out The output tensor which stores the result.
-    @param axis Axis which will be concatenated.
 */
-
-FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,
-                            int axis = 0);
+FASTDEPLOY_DECL void Clip(const FDTensor& x, double min, double max,
+                          FDTensor* out);
 
 }  // namespace function
 }  // namespace fastdeploy

@@ -19,14 +19,15 @@
 namespace fastdeploy {
 namespace function {
 
-/** Excute the concatenate operation for input FDTensor along given axis.
+/** Output is obtained by gathering entries of axis of x indexed by index and
+ *  concatenate them together.
     @param x The input tensor.
+    @param index The index of a tensor to gather.
     @param out The output tensor which stores the result.
-    @param axis Axis which will be concatenated.
+    @param axis Axis which will be gathered.
 */
-
-FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,
-                            int axis = 0);
+void GatherAlongAxis(const FDTensor& x, const FDTensor& index, FDTensor* result,
+                     int axis);
 
 }  // namespace function
 }  // namespace fastdeploy

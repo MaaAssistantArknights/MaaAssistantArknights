@@ -19,14 +19,18 @@
 namespace fastdeploy {
 namespace function {
 
-/** Excute the concatenate operation for input FDTensor along given axis.
+/** Construct a new Tensor by repeating x the number of times given by
+ ** repeat_times. After tiling, the value of the i’th dimension of the
+ ** output is equal to x.shape[i]*repeat_times[i]. Both the number of
+ ** dimensions of x and the number of elements in repeat_times should
+ ** be less than or equal to 6.Support all data types.
     @param x The input tensor.
+    @param repeat_times The lower bound
     @param out The output tensor which stores the result.
-    @param axis Axis which will be concatenated.
 */
-
-FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,
-                            int axis = 0);
+FASTDEPLOY_DECL void Tile(const FDTensor& x,
+                          const std::vector<int64_t>& repeat_times,
+                          FDTensor* out);
 
 }  // namespace function
 }  // namespace fastdeploy
