@@ -47,8 +47,7 @@
                     Text="{DynamicResource ConfigSettings}" />
                 <local:ConfigSettingsUserControl
                     Margin="20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
+                    HorizontalAlignment="Center"/>
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"

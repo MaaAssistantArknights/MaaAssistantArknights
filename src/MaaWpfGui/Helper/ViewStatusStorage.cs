@@ -33,8 +33,6 @@ namespace MaaWpfGui
 
         public static Config CurrentConfig { get; private set; }
 
-        public static bool isSticky { get; private set; } = false;
-
         /// <summary>
         /// Gets the value of a key with default value.
         /// </summary>
@@ -66,6 +64,11 @@ namespace MaaWpfGui
             CurrentConfig.Set(key, value);
         }
 
+        /// <summary>
+        /// Deletes a key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns><see langword="true"/> if delete successful. <see langword="false"/> if <paramref name="key"/> is not found or before inited.</returns>
         public static bool Delete(string key)
         {
             if (CurrentConfig == null)
@@ -90,6 +93,11 @@ namespace MaaWpfGui
             return CurrentConfig.Save();
         }
 
+        /// <summary>
+        /// Loads spcific configuration.
+        /// </summary>
+        /// <param name="configPath">Specific configuration path.</param>
+        /// <returns>Whether the operation is successful.</returns>
         private static Config Load(string configPath)
         {
             var configFullPath = configPath;
@@ -144,14 +152,14 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="configPath">Specific configuration path.</param>
         /// <param name="withRestore">Whether to restore with backup file.</param>
-        /// <returns>Whether the operation is successful.</returns>
+        /// <returns>Configuration if the operation is successful, otherwise null.</returns>
         public static bool Load(string configPath = null, bool withRestore = true)
         {
+            FileInfo configFile = null;
             if (configPath != null)
             {
-                isSticky = true;
-
-                if (!File.Exists(configPath))
+                configFile = new FileInfo(configPath);
+                if (!configFile.Exists)
                 {
                     throw new FileNotFoundException("Specific configuration file not found or permission denied.", configPath);
                 }
@@ -160,37 +168,42 @@ namespace MaaWpfGui
                 if (config != null)
                 {
                     ConfigList.Add(config);
+                    CurrentConfig = config;
                 }
 
                 Logger.Info(string.Format("Specific configuration loaded.", ConfigList.Count));
             }
-            else
+
+            DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
+            foreach (FileInfo file in dir.GetFiles())
             {
-                DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
-                foreach (FileInfo file in dir.GetFiles())
+                if (Regex.IsMatch(file.Name, @"^gui.*\.json$"))
                 {
-                    if (Regex.IsMatch(file.Name, @"^gui.*\.json$"))
+                    // if file equals configPath's file
+                    if (configPath != null && file.FullName == configFile.FullName)
                     {
-                        var config = Load(file.FullName);
-                        if (config != null)
-                        {
-                            ConfigList.Add(config);
-                        }
+                        continue;
+                    }
+
+                    var config = Load(file.FullName);
+                    if (config != null)
+                    {
+                        ConfigList.Add(config);
                     }
                 }
+            }
 
-                Logger.Info(string.Format("Found {0} configuration files.", ConfigList.Count));
+            Logger.Info(string.Format("Found {0} configuration files.", ConfigList.Count));
 
-                if (ConfigList.Count == 0)
-                {
-                    // init config
-                    ConfigList.Add(new Config("Default", Path.Combine(Environment.CurrentDirectory, "gui.json"), new JObject()));
-                }
+            if (ConfigList.Count == 0)
+            {
+                // init config
+                ConfigList.Add(new Config("Default", Path.Combine(Environment.CurrentDirectory, "gui.json"), new JObject()));
             }
 
             try
             {
-                CurrentConfig = ConfigList.Where((config) => config.ConfigName == "Default").Single();
+                CurrentConfig ??= ConfigList.Where((config) => config.ConfigName == "Default").Single();
             }
             catch (Exception e)
             {
@@ -232,20 +245,15 @@ namespace MaaWpfGui
             return true;
         }
 
-        public static void Checkout(string key)
+        public static void Checkout(string key, bool newWindow = false)
         {
             try
             {
                 var config = ConfigList.Where((config) => config.ConfigName == key).Single();
                 var result = Process.Start(new ProcessStartInfo(System.Windows.Forms.Application.ExecutablePath, string.Format("-f \"{0}\"", config.ConfigPath)));
-                if (result != null)
+                if (!newWindow)
                 {
-                    result.Exited += (sender, args) =>
-                    {
-                        config.Started = false;
-                    };
-
-                    config.Started = true;
+                    Application.Current.Shutdown();
                 }
 
                 Logger.Info(string.Format("Load Profile {0}", key));

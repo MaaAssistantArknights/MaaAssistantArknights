@@ -20,7 +20,6 @@ namespace MaaWpfGui
     /// </summary>
     public partial class CreateNewProfileDialog : Window
     {
-
         public CreateNewProfileDialog(List<CombData> configList)
         {
             InitializeComponent();

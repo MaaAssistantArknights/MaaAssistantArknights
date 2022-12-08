@@ -5,9 +5,11 @@
         xmlns:vm="clr-namespace:MaaWpfGui"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         d:DataContext="{d:DesignInstance {x:Type vm:CreateNewProfileDialog}}"
-        Title="Input" 
-        SizeToContent="WidthAndHeight" 
-        WindowStartupLocation="CenterScreen"
+        Title="{DynamicResource CreateNewProfile}"
+        SizeToContent="WidthAndHeight"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
         ContentRendered="Window_ContentRendered"
         mc:Ignorable="d">
     <Grid Margin="15">
@@ -33,7 +35,7 @@
             MinWidth="250"
             Padding="5,5" 
             Margin="0,5" 
-            Name="ProfileName" />
+            Name="ProfileName"/>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"

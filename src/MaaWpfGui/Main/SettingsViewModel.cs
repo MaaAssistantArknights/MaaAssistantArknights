@@ -104,9 +104,6 @@ namespace MaaWpfGui
                     MessageBoxButton.OK, MessageBoxImage.Hand);
                 Hangover = false;
             }
-
-            ConfigList = ViewStatusStorage.ConfigList.Select(x => new CombData { Display=x.ConfigName, Value=x.ConfigName}).ToList();
-            _currentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
         }
 
         private List<string> _listTitle = new List<string>();
@@ -476,7 +473,7 @@ namespace MaaWpfGui
         /// </summary>
         public string ServerType => _serverMapping[ClientType];
 
-        public List<CombData> ConfigList { get; set; }
+        public List<CombData> ConfigList { get; set; } = ViewStatusStorage.ConfigList.Select(x => new CombData { Display = x.ConfigName, Value = x.ConfigName }).ToList();
 
         /* 基建设置 */
 
@@ -544,7 +541,7 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> LanguageList { get; set; }
 
-        private string _currentConfig;
+        private readonly string _currentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
 
         public string CurrentConfig
         {
@@ -553,7 +550,21 @@ namespace MaaWpfGui
             {
                 if (value != _currentConfig)
                 {
-                    ViewStatusStorage.Checkout(value);
+                    if (!Idle && !OpenProfileInNewWindow)
+                    {
+                        var confirm = MessageBox.Show(
+                            Localization.GetString("ConfirmChangeProfile"),
+                            Localization.GetString("ConfirmChangeProfileTitle"),
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question,
+                            MessageBoxResult.Cancel);
+                        if (confirm != MessageBoxResult.OK)
+                        {
+                            return;
+                        }
+                    }
+
+                    ViewStatusStorage.Checkout(value, OpenProfileInNewWindow);
                 }
             }
         }
@@ -578,7 +589,7 @@ namespace MaaWpfGui
                 if (ViewStatusStorage.Create(dialog.NewProfileName, dialog.InherbitProfileName))
                 {
                     Logger.Info("Create new profile: " + dialog.NewProfileName);
-                    ViewStatusStorage.Checkout(dialog.NewProfileName);
+                    ViewStatusStorage.Checkout(dialog.NewProfileName, true);
                 }
                 else
                 {

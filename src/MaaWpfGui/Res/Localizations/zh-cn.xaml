@@ -31,6 +31,9 @@
     <system:String x:Key="CreateNewProfile">新建配置</system:String>
     <system:String x:Key="CreateNewProfileDialogBasePromo">继承自</system:String>
     <system:String x:Key="OpenProfileInNewWindow">在新窗口中打开</system:String>
+    <system:String x:Key="ConfirmChangeProfile">确定要切换配置吗？此操作会中止当前任务</system:String>
+    <system:String x:Key="ConfirmChangeProfileTitle">切换配置确认</system:String>
+    
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
