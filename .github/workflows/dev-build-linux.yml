@@ -1,0 +1,66 @@
+name: dev-build-linux
+
+on:
+  push:
+    branches-ignore:
+      - master
+    paths:
+      - 'src/MeoAssistant/**'
+      - '3rdparty/**'
+      - 'include/**'
+      - 'resource/**'
+      - CMakeLists.txt
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - 'src/MeoAssistant/**'
+      - '3rdparty/**'
+      - 'include/**'
+      - 'resource/**'
+      - CMakeLists.txt
+
+jobs:
+  linux-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install GCC-12
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt install gcc-12 g++-12
+
+      - name: Setup ccache
+        uses: Chocobo1/setup-ccache-action@v1
+        with:
+          remove_stale_cache: false
+
+      - name: Build MAA
+        env:
+          CC: ccache gcc-12
+          CXX: ccache g++-12
+        run: |
+          mkdir -p build
+          cmake -B build \
+            -DINSTALL_THIRD_LIBS=ON
+          # -DFASTDEPLOY_DIRECTORY=~/fastdeploy \
+          # -DOPENCV_DIRECTORY=~/opencv/lib/cmake/opencv4 \
+          cmake --build build
+          
+          mkdir -p install
+          cmake --install build --prefix install
+
+      - name: tar files
+        run: |
+          mkdir -p release
+          cd install
+          tar czvf $GITHUB_WORKSPACE/release/MaaAssistantArknights.tar.gz .
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MAA-linux
+          path: release/*.tar.gz
