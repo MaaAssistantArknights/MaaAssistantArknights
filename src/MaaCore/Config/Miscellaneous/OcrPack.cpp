@@ -27,16 +27,12 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
 #endif
 
 asst::OcrPack::OcrPack()
-    : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr),
-      m_backend(OcrBackend::ONNXRuntime)
-{}
+    : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
+{
+    m_ocr_option->UseOrtBackend();
+}
 
 asst::OcrPack::~OcrPack() {}
-
-void asst::OcrPack::set_backend_before_load(OcrBackend backend)
-{
-    m_backend = backend;
-}
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
