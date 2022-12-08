@@ -21,6 +21,7 @@
 #include "fastdeploy/function/elementwise.h"
 #include "fastdeploy/function/full.h"
 #include "fastdeploy/function/gather_scatter_along_axis.h"
+#include "fastdeploy/function/gaussian_random.h"
 #include "fastdeploy/function/isfinite.h"
 #include "fastdeploy/function/linspace.h"
 #include "fastdeploy/function/math.h"
