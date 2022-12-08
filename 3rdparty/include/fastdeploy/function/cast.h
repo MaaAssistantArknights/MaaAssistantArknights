@@ -19,14 +19,13 @@
 namespace fastdeploy {
 namespace function {
 
-/** Excute the concatenate operation for input FDTensor along given axis.
+/** Cast x to output data type element-wise. Only for float type FDTensor
     @param x The input tensor.
     @param out The output tensor which stores the result.
-    @param axis Axis which will be concatenated.
+    @param output_dtype The type of output tensor.
 */
-
-FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,
-                            int axis = 0);
+FASTDEPLOY_DECL void Cast(const FDTensor& x, FDTensor* out,
+                          FDDataType output_dtype);
 
 }  // namespace function
 }  // namespace fastdeploy

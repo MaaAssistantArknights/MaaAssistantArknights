@@ -19,14 +19,18 @@
 namespace fastdeploy {
 namespace function {
 
-/** Excute the concatenate operation for input FDTensor along given axis.
+/** Split the input tensor into multiple sub-Tensors.
     @param x The input tensor.
-    @param out The output tensor which stores the result.
-    @param axis Axis which will be concatenated.
+    @param num_or_sections f num_or_sections is an int, then num_or_sections
+           indicates the number of equal sized sub-Tensors that the x will
+           be divided into.
+    @param out The output vector tensor which stores the result.
+    @param axis Axis which will be splitted.
 */
 
-FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,
-                            int axis = 0);
+FASTDEPLOY_DECL void Split(const FDTensor& x,
+                           const std::vector<int>& num_or_sections,
+                           std::vector<FDTensor>* out, int axis = 0);
 
 }  // namespace function
 }  // namespace fastdeploy

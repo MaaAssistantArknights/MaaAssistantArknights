@@ -19,14 +19,16 @@
 namespace fastdeploy {
 namespace function {
 
-/** Excute the concatenate operation for input FDTensor along given axis.
+/** Compute the quantile of the input along the specified axis. If any values
+ ** in a reduced row are NaN, then the quantiles for that reduction will be NaN.
     @param x The input tensor.
+    @param q The q for calculate quantile, which should be in range [0, 1].
+    @param axis The axis along which to calculate quantile. axis should be int
+                or list of int.
     @param out The output tensor which stores the result.
-    @param axis Axis which will be concatenated.
 */
-
-FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,
-                            int axis = 0);
+FASTDEPLOY_DECL void Quantile(const FDTensor& x, const std::vector<double>& q,
+                              const std::vector<int>& axis, FDTensor* out);
 
 }  // namespace function
 }  // namespace fastdeploy

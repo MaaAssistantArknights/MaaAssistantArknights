@@ -141,24 +141,26 @@ FASTDEPLOY_DECL bool ReadBinaryFromFile(const std::string& file,
     }                                                                          \
   }()
 
-#define FD_VISIT_INT_FLOAT_TYPES(TYPE, NAME, ...)                              \
-  [&] {                                                                        \
-    const auto& __dtype__ = TYPE;                                              \
-    switch (__dtype__) {                                                       \
-      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT32, int32_t,     \
-                           __VA_ARGS__)                                        \
-      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT64, int64_t,     \
-                           __VA_ARGS__)                                        \
-      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::FP32, float,        \
-                           __VA_ARGS__)                                        \
-      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::FP64, double,       \
-                           __VA_ARGS__)                                        \
-    default:                                                                   \
-      FDASSERT(false,                                                          \
-               "Invalid enum data type. Expect to accept data type INT32, "    \
-               "INT64, FP32, FP64, but receive type %s.",                      \
-               Str(__dtype__).c_str());                                        \
-    }                                                                          \
+#define FD_VISIT_INT_FLOAT_TYPES(TYPE, NAME, ...)                             \
+  [&] {                                                                       \
+    const auto& __dtype__ = TYPE;                                             \
+    switch (__dtype__) {                                                      \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT32, int32_t,    \
+                           __VA_ARGS__)                                       \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT64, int64_t,    \
+                           __VA_ARGS__)                                       \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::FP32, float,       \
+                           __VA_ARGS__)                                       \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::FP64, double,      \
+                           __VA_ARGS__)                                       \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::UINT8, uint8_t,    \
+                           __VA_ARGS__)                                       \
+      default:                                                                \
+        FDASSERT(false,                                                       \
+                 "Invalid enum data type. Expect to accept data type INT32, " \
+                 "INT64, FP32, FP64, UINT8 but receive type %s.",             \
+                 Str(__dtype__).c_str());                                     \
+    }                                                                         \
   }()
 
 #define FD_VISIT_FLOAT_TYPES(TYPE, NAME, ...)                                  \
@@ -177,20 +179,22 @@ FASTDEPLOY_DECL bool ReadBinaryFromFile(const std::string& file,
     }                                                                          \
   }()
 
-#define FD_VISIT_INT_TYPES(TYPE, NAME, ...)                                    \
-  [&] {                                                                        \
-    const auto& __dtype__ = TYPE;                                              \
-    switch (__dtype__) {                                                       \
-      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT32, int32_t,     \
-                           __VA_ARGS__)                                        \
-      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT64, int64_t,     \
-                           __VA_ARGS__)                                        \
-    default:                                                                   \
-      FDASSERT(false,                                                          \
-               "Invalid enum data type. Expect to accept data type INT32, "    \
-               "INT64, but receive type %s.",                                  \
-               Str(__dtype__).c_str());                                        \
-    }                                                                          \
+#define FD_VISIT_INT_TYPES(TYPE, NAME, ...)                                   \
+  [&] {                                                                       \
+    const auto& __dtype__ = TYPE;                                             \
+    switch (__dtype__) {                                                      \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT32, int32_t,    \
+                           __VA_ARGS__)                                       \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::INT64, int64_t,    \
+                           __VA_ARGS__)                                       \
+      FD_PRIVATE_CASE_TYPE(NAME, ::fastdeploy::FDDataType::UINT8, uint8_t,    \
+                           __VA_ARGS__)                                       \
+      default:                                                                \
+        FDASSERT(false,                                                       \
+                 "Invalid enum data type. Expect to accept data type INT32, " \
+                 "INT64, UINT8 but receive type %s.",                         \
+                 Str(__dtype__).c_str());                                     \
+    }                                                                         \
   }()
 
 FASTDEPLOY_DECL std::vector<int64_t>

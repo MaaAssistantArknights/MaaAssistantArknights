@@ -44,14 +44,6 @@ class FASTDEPLOY_DECL DBDetector : public FastDeployModel {
              const ModelFormat& model_format = ModelFormat::PADDLE);
   /// Get model's name
   std::string ModelName() const { return "ppocr/ocr_det"; }
-  /** \brief Predict the input image and get OCR detection model result.
-   *
-   * \param[in] img The input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
-   * \param[in] boxes_result The output of OCR detection model result will be writen to this structure.
-   * \return true if the prediction is successed, otherwise false.
-   */
-  virtual bool Predict(cv::Mat* img,
-                       std::vector<std::array<int, 8>>* boxes_result);
    /** \brief Predict the input image and get OCR detection model result.
    *
    * \param[in] img The input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.

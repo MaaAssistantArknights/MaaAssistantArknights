@@ -19,14 +19,15 @@
 namespace fastdeploy {
 namespace function {
 
-/** Excute the concatenate operation for input FDTensor along given axis.
-    @param x The input tensor.
+/** Return fixed number of evenly spaced values within a given interval.
+    @param start The input start is start variable of range.
+    @param end The input stop is start variable of range.
+    @param num The input num is given num of the sequence.
     @param out The output tensor which stores the result.
-    @param axis Axis which will be concatenated.
+    @param dtype The data type of output tensor, default to float32.
 */
-
-FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,
-                            int axis = 0);
+FASTDEPLOY_DECL void Linspace(double start, double end, int num, FDTensor* out,
+                              FDDataType dtype = FDDataType::FP32);
 
 }  // namespace function
 }  // namespace fastdeploy
