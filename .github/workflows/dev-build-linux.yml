@@ -9,6 +9,7 @@ on:
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'
+      - 'cmake/**'
       - CMakeLists.txt
   pull_request:
     branches:
@@ -18,6 +19,7 @@ on:
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'
+      - 'cmake/**'
       - CMakeLists.txt
 
 jobs:
