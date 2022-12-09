@@ -6,6 +6,8 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
+    <system:String x:Key="ProfileSettings">プロファイル</system:String>
+    <system:String x:Key="GameSettings">ゲーム設定</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">ローグ設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
@@ -20,6 +22,17 @@
     <system:String x:Key="AboutUs">About</system:String>
 
     <system:String x:Key="Version">バージョン</system:String>
+
+    <!-- プロファイル -->
+    <system:String x:Key="CurrentProfile">現在のプロファイル</system:String>
+    <system:String x:Key="SwitchProfile">スイッチ</system:String>
+    <system:String x:Key="CreateNewProfileDialogNamePromo">プロファイル名</system:String>
+    <system:String x:Key="DefaultProfileName">新規構成</system:String>
+    <system:String x:Key="CreateNewProfile">新規構成</system:String>
+    <system:String x:Key="CreateNewProfileDialogBasePromo">に基づく</system:String>
+    <system:String x:Key="OpenProfileInNewWindow">新しいウィンドウを開く</system:String>
+    <system:String x:Key="ConfirmChangeProfile">本当に構成を切り替えますか？この操作により現在のタスクが中止されます</system:String>
+    <system:String x:Key="ConfirmChangeProfileTitle">確認</system:String>
 
     <system:String x:Key="Dorm">宿舎</system:String>
     <system:String x:Key="Mfg">製造所</system:String>

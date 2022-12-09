@@ -6,6 +6,8 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
+    <system:String x:Key="ProfileSettings">檔案切換</system:String>
+    <system:String x:Key="GameSettings">游戲設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
@@ -20,6 +22,17 @@
     <system:String x:Key="AboutUs">關於我們</system:String>
 
     <system:String x:Key="Version">版本號</system:String>
+    
+    <!-- 配置选项 -->
+    <system:String x:Key="CurrentProfile">當前檔案</system:String>
+    <system:String x:Key="SwitchProfile">切換檔案</system:String>
+    <system:String x:Key="CreateNewProfileDialogNamePromo">檔案名稱</system:String>
+    <system:String x:Key="DefaultProfileName">新檔案</system:String>
+    <system:String x:Key="CreateNewProfile">新建檔案</system:String>
+    <system:String x:Key="CreateNewProfileDialogBasePromo">基於</system:String>
+    <system:String x:Key="OpenProfileInNewWindow">在新窗體中打開</system:String>
+    <system:String x:Key="ConfirmChangeProfile">確定切換檔案？此操作會中斷當前任務</system:String>
+    <system:String x:Key="ConfirmChangeProfileTitle">切換檔案</system:String>
 
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">製造站</system:String>

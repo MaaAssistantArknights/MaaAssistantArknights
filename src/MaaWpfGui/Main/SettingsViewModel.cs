@@ -72,7 +72,7 @@ namespace MaaWpfGui
             _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
             DisplayName = Localization.GetString("Settings");
 
-            _listTitle.Add(Localization.GetString("ConfigSettings"));
+            _listTitle.Add(Localization.GetString("ProfileSettings"));
             _listTitle.Add(Localization.GetString("GameSettings"));
             _listTitle.Add(Localization.GetString("BaseSettings"));
             _listTitle.Add(Localization.GetString("RoguelikeSettings"));

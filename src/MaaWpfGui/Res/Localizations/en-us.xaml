@@ -6,6 +6,7 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
+    <system:String x:Key="ProfileSettings">Profile</system:String>
     <system:String x:Key="GameSettings">Client</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
@@ -21,6 +22,17 @@
     <system:String x:Key="AboutUs">About us</system:String>
 
     <system:String x:Key="Version">Version</system:String>
+
+    <!-- Profile settings -->
+    <system:String x:Key="CurrentProfile">Current Profile</system:String>
+    <system:String x:Key="SwitchProfile">Switch Profile</system:String>
+    <system:String x:Key="CreateNewProfileDialogNamePromo">New Profile Name</system:String>
+    <system:String x:Key="DefaultProfileName">NewProfile</system:String>
+    <system:String x:Key="CreateNewProfile">Create New Profile</system:String>
+    <system:String x:Key="CreateNewProfileDialogBasePromo">Based on</system:String>
+    <system:String x:Key="OpenProfileInNewWindow">Open a new window</system:String>
+    <system:String x:Key="ConfirmChangeProfile">Are you sure to switch the profile? This operation will abort the current task.</system:String>
+    <system:String x:Key="ConfirmChangeProfileTitle">Confirm</system:String>
 
     <system:String x:Key="Dorm">Dorm</system:String>
     <system:String x:Key="Mfg">Manufacturing Station</system:String>

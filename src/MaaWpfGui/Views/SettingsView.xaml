@@ -44,7 +44,7 @@
                     VerticalAlignment="Center"
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource ConfigSettings}" />
+                    Text="{DynamicResource ProfileSettings}" />
                 <local:ProfileSwitchUserControl
                     Margin="20"
                     HorizontalAlignment="Center"/>

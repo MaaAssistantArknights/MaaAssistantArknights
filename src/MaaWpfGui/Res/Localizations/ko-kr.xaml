@@ -6,6 +6,8 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
+    <system:String x:Key="ProfileSettings">구성 선택</system:String>
+    <system:String x:Key="GameSettings">게임 설정</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합전략</system:String>
     <system:String x:Key="RecruitingSettings">공개모집</system:String>
@@ -20,6 +22,17 @@
     <system:String x:Key="AboutUs">정보</system:String>
 
     <system:String x:Key="Version">버전</system:String>
+
+    <!-- 配置选项 -->
+    <system:String x:Key="CurrentProfile">현재 구성</system:String>
+    <system:String x:Key="SwitchProfile">구성 전환</system:String>
+    <system:String x:Key="CreateNewProfileDialogNamePromo">구성 이름</system:String>
+    <system:String x:Key="DefaultProfileName">새 구성</system:String>
+    <system:String x:Key="CreateNewProfile">새 구성</system:String>
+    <system:String x:Key="CreateNewProfileDialogBasePromo">기반</system:String>
+    <system:String x:Key="OpenProfileInNewWindow">새 창 열기</system:String>
+    <system:String x:Key="ConfirmChangeProfile">프로필을 전환하시겠습니까?이 작업은 현재 작업을 중단합니다.</system:String>
+    <system:String x:Key="ConfirmChangeProfileTitle">확인</system:String>
 
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>

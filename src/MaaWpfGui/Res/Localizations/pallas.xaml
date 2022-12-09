@@ -6,6 +6,8 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  设置  -->
     <system:String x:Key="Settings">💃🍺🍷</system:String>
+    <system:String x:Key="ProfileSettings">🍻🍸🕺🍷</system:String>
+    <system:String x:Key="GameSettings">🍻🍸🍻🍺</system:String>
     <system:String x:Key="BaseSettings">🍷🍻🕺🍷🍸</system:String>
     <system:String x:Key="RoguelikeSettings">🍺🍸🍷🍺🍻</system:String>
     <system:String x:Key="RecruitingSettings">🍷💃🍻🍷🍷</system:String>
@@ -20,6 +22,17 @@
     <system:String x:Key="AboutUs">🍸💃🍻🍻🍷</system:String>
 
     <system:String x:Key="Version">💃🍷🍻🍻</system:String>
+
+    <!-- 配置选项 -->
+    <system:String x:Key="CurrentProfile">🕺🍷🍻🍷🍻🍻</system:String>
+    <system:String x:Key="SwitchProfile">💃🕺🕺🍻</system:String>
+    <system:String x:Key="CreateNewProfileDialogNamePromo">🍷🕺🍺🍷</system:String>
+    <system:String x:Key="DefaultProfileName">🍻🍸🍷</system:String>
+    <system:String x:Key="CreateNewProfile">🍻🍸🍺💃</system:String>
+    <system:String x:Key="CreateNewProfileDialogBasePromo">🍺🍺🍻</system:String>
+    <system:String x:Key="OpenProfileInNewWindow">🕺🍷🍺🍸🍻🍸🍷</system:String>
+    <system:String x:Key="ConfirmChangeProfile">🍻🍺🍺🍺🍺💃🍸🍺？🍺🍻🍷🍻🍷🍻🕺🍷</system:String>
+    <system:String x:Key="ConfirmChangeProfileTitle">💃🕺🕺🍻</system:String>
 
     <system:String x:Key="Dorm">🍻🍻🍷</system:String>
     <system:String x:Key="Mfg">🍺🍺🍻🍻</system:String>
