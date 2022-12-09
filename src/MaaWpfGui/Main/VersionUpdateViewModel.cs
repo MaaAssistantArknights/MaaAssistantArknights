@@ -456,7 +456,7 @@ namespace MaaWpfGui
             System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
             System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
             System.Windows.Forms.MessageBoxManager.Register();
-            var result = _windowManager.ShowMessageBox(
+            var result = MessageBox.Show(
                 Localization.GetString("NewVersionDownloadCompletedDesc"),
                 Localization.GetString("NewVersionDownloadCompletedTitle"),
                 MessageBoxButton.YesNo,
