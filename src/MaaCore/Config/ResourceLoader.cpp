@@ -52,9 +52,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
     LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
     LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike_copilot.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike_recruit.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike_shopping.json"_p);
+    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
     LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
 
     /* load resource with json and template files*/

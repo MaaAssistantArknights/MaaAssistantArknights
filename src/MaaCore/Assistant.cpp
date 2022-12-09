@@ -28,24 +28,6 @@ using namespace asst;
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
 {
     Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
-    switch (key) {
-    case StaticOptionKey::OcrBackend:
-        if (constexpr std::string_view ONNXRuntime = "ONNXRuntime"; value == ONNXRuntime) {
-            WordOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::ONNXRuntime);
-            CharOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::ONNXRuntime);
-            return true;
-        }
-        else if (constexpr std::string_view PaddleInference = "PaddleInference"; value == PaddleInference) {
-            WordOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::PaddleInference);
-            CharOcr::get_instance().set_backend_before_load(OcrPack::OcrBackend::PaddleInference);
-            return true;
-        }
-        else {
-            Log.error("unknown value", value);
-            return false;
-        }
-        break;
-    }
     return false;
 }
 

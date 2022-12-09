@@ -31,15 +31,7 @@ namespace asst
     class OcrPack : public AbstractResource
     {
     public:
-        enum class OcrBackend
-        {
-            ONNXRuntime,
-            PaddleInference,
-        };
-    public:
         virtual ~OcrPack() override;
-
-        void set_backend_before_load(OcrBackend backend);
 
         virtual bool load(const std::filesystem::path& path) override;
 
@@ -55,8 +47,6 @@ namespace asst
         std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
         std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
         std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
-
-        OcrBackend m_backend;
     };
 
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack

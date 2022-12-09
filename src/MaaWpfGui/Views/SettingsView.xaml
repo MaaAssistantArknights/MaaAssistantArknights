@@ -200,10 +200,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource HotKeySettings}" />
-                <local:HotKeySettingsUserControl
-                    Margin="20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
+                <local:HotKeySettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"

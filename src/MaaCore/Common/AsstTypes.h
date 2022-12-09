@@ -32,7 +32,6 @@ namespace asst
     enum class StaticOptionKey
     {
         Invalid = 0,
-        OcrBackend = 1,
     };
 
     enum class InstanceOptionKey

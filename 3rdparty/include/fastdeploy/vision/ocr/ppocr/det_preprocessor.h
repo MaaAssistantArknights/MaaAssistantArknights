@@ -24,11 +24,6 @@ namespace ocr {
  */
 class FASTDEPLOY_DECL DBDetectorPreprocessor {
  public:
-  /** \brief Create a preprocessor instance for DBDetector serials model
-   *
-   */
-  DBDetectorPreprocessor();
-
   /** \brief Process the input image and prepare input tensors for runtime
    *
    * \param[in] images The input image data list, all the elements are returned by cv::imread()
@@ -44,9 +39,6 @@ class FASTDEPLOY_DECL DBDetectorPreprocessor {
   std::vector<float> mean_ = {0.485f, 0.456f, 0.406f};
   std::vector<float> scale_ = {0.229f, 0.224f, 0.225f};
   bool is_scale_ = true;
-
- private:
-  bool initialized_ = false;
 };
 
 }  // namespace ocr

@@ -43,7 +43,7 @@ class FASTDEPLOY_DECL Classifier : public FastDeployModel {
              const ModelFormat& model_format = ModelFormat::PADDLE);
   /// Get model's name
   std::string ModelName() const { return "ppocr/ocr_cls"; }
-
+  virtual bool Predict(const cv::Mat& img, int32_t* cls_label, float* cls_score);
   /** \brief BatchPredict the input image and get OCR classification model cls_result.
    *
    * \param[in] images The list of input image data, comes from cv::imread(), is a 3-D array with layout HWC, BGR format.
@@ -53,6 +53,10 @@ class FASTDEPLOY_DECL Classifier : public FastDeployModel {
   virtual bool BatchPredict(const std::vector<cv::Mat>& images,
                             std::vector<int32_t>* cls_labels,
                             std::vector<float>* cls_scores);
+  virtual bool BatchPredict(const std::vector<cv::Mat>& images,
+                            std::vector<int32_t>* cls_labels,
+                            std::vector<float>* cls_scores,
+                            size_t start_index, size_t end_index);
 
   ClassifierPreprocessor preprocessor_;
   ClassifierPostprocessor postprocessor_;
