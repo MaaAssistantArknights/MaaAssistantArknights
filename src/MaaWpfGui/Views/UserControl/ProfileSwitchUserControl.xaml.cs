@@ -21,12 +21,12 @@ namespace MaaWpfGui
     /// <summary>
     /// InfrastSettingsUserContril.xaml 的交互逻辑
     /// </summary>
-    public partial class ConfigSettingsUserControl : UserControl
+    public partial class ProfileSwitchUserControl : UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InfrastSettingsUserControl"/> class.
         /// </summary>
-        public ConfigSettingsUserControl()
+        public ProfileSwitchUserControl()
         {
             InitializeComponent();
         }

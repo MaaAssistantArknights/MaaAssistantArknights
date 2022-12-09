@@ -9,7 +9,7 @@ namespace MaaWpfGui
 {
     public class ArgsHelper
     {
-        private static MaaGuiArgOptions _options;
+        private static MaaGuiArgOptions _options { get; set; }
 
         public static MaaGuiArgOptions ParseArgs(string[] args)
         {

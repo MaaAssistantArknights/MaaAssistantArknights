@@ -473,7 +473,7 @@ namespace MaaWpfGui
         /// </summary>
         public string ServerType => _serverMapping[ClientType];
 
-        public List<CombData> ConfigList { get; set; } = ViewStatusStorage.ConfigList.Select(x => new CombData { Display = x.ConfigName, Value = x.ConfigName }).ToList();
+        public List<CombData> ConfigList { get; set; } = ViewStatusStorage.ProfileList.Select(x => new CombData { Display = x.ConfigName, Value = x.ConfigName }).ToList();
 
         /* 基建设置 */
 
@@ -541,14 +541,14 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> LanguageList { get; set; }
 
-        private readonly string _currentConfig = ViewStatusStorage.CurrentConfig.ConfigName;
+        private readonly string _currentProfile = ViewStatusStorage.CurrentProfile.ConfigName;
 
-        public string CurrentConfig
+        public string CurrentProfile
         {
-            get => _currentConfig;
+            get => _currentProfile;
             set
             {
-                if (value != _currentConfig)
+                if (value != _currentProfile)
                 {
                     if (!Idle && !OpenProfileInNewWindow)
                     {
@@ -1901,7 +1901,7 @@ namespace MaaWpfGui
                 }
             }
 
-            rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName} - {CurrentConfig}";
+            rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName} - {CurrentProfile}";
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);

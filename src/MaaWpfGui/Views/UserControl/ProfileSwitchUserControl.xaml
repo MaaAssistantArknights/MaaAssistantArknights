@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="MaaWpfGui.ConfigSettingsUserControl"
+    x:Class="MaaWpfGui.ProfileSwitchUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
@@ -29,7 +29,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource CurrentConfig}"
+            Text="{DynamicResource CurrentProfile}"
             TextWrapping="Wrap" />
         <TextBlock
             Grid.Row="1"
@@ -38,7 +38,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource CheckoutConfig}"
+            Text="{DynamicResource SwitchProfile}"
             TextWrapping="Wrap" />
         <TextBlock
             Grid.Row="0"
@@ -47,7 +47,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Style="{StaticResource TextBlockDefault}"
-            Text="{Binding CurrentConfig}"
+            Text="{Binding CurrentProfile}"
             TextWrapping="Wrap" />
         <StackPanel
             Grid.Row="1"
@@ -59,7 +59,7 @@
                 DisplayMemberPath="Display"
                 HorizontalAlignment="Left"
                 ItemsSource="{Binding ConfigList}"
-                SelectedValue="{Binding CurrentConfig}"
+                SelectedValue="{Binding CurrentProfile}"
                 SelectedValuePath="Value" />
             <CheckBox
                 Margin="5"

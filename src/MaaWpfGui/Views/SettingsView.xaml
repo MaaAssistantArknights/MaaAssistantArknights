@@ -45,7 +45,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource ConfigSettings}" />
-                <local:ConfigSettingsUserControl
+                <local:ProfileSwitchUserControl
                     Margin="20"
                     HorizontalAlignment="Center"/>
                 <Rectangle

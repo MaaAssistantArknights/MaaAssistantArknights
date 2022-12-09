@@ -4,7 +4,7 @@ namespace MaaWpfGui
 {
     public class MaaGuiArgOptions
     {
-        [Option('f', "config-file", Required = false, HelpText = "Set config file to override gui.json.")]
-        public string ConfigFilePath { get; set; }
+        [Option('f', "profile", Required = false, HelpText = "Set config file to override gui.json.")]
+        public string ProfilePath { get; set; }
     }
 }

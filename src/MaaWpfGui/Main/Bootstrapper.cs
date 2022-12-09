@@ -92,9 +92,9 @@ namespace MaaWpfGui
 
             // 获取启动指定的配置文件
             var args = ArgsHelper.ParseArgs(Args);
-            if (args.ConfigFilePath != null)
+            if (args.ProfilePath != null)
             {
-                ViewStatusStorage.Load(args.ConfigFilePath);
+                ViewStatusStorage.Load(args.ProfilePath);
             }
             else
             {

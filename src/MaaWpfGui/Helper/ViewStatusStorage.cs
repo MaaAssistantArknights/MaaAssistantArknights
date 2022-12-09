@@ -29,9 +29,9 @@ namespace MaaWpfGui
     /// </summary>
     public class ViewStatusStorage
     {
-        public static List<Config> ConfigList { get; private set; } = new List<Config>();
+        public static List<MaaProfile> ProfileList { get; private set; } = new List<MaaProfile>();
 
-        public static Config CurrentConfig { get; private set; }
+        public static MaaProfile CurrentProfile { get; private set; }
 
         /// <summary>
         /// Gets the value of a key with default value.
@@ -41,12 +41,12 @@ namespace MaaWpfGui
         /// <returns>The value, or <paramref name="default_value"/> if <paramref name="key"/> is not found.</returns>
         public static string Get(string key, string default_value)
         {
-            if (CurrentConfig == null)
+            if (CurrentProfile == null)
             {
                 return default_value;
             }
 
-            return CurrentConfig.Get(key, default_value);
+            return CurrentProfile.Get(key, default_value);
         }
 
         /// <summary>
@@ -56,12 +56,12 @@ namespace MaaWpfGui
         /// <param name="value">The value.</param>
         public static void Set(string key, string value)
         {
-            if (CurrentConfig == null)
+            if (CurrentProfile == null)
             {
                 return;
             }
 
-            CurrentConfig.Set(key, value);
+            CurrentProfile.Set(key, value);
         }
 
         /// <summary>
@@ -71,12 +71,12 @@ namespace MaaWpfGui
         /// <returns><see langword="true"/> if delete successful. <see langword="false"/> if <paramref name="key"/> is not found or before inited.</returns>
         public static bool Delete(string key)
         {
-            if (CurrentConfig == null)
+            if (CurrentProfile == null)
             {
                 return false;
             }
 
-            return CurrentConfig.Delete(key);
+            return CurrentProfile.Delete(key);
         }
 
         /// <summary>
@@ -85,12 +85,12 @@ namespace MaaWpfGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool Save()
         {
-            if (CurrentConfig == null)
+            if (CurrentProfile == null)
             {
                 return false;
             }
 
-            return CurrentConfig.Save();
+            return CurrentProfile.Save();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="configPath">Specific configuration path.</param>
         /// <returns>Whether the operation is successful.</returns>
-        private static Config Load(string configPath)
+        private static MaaProfile Load(string configPath)
         {
             var configFullPath = configPath;
             var configBakPath = configPath + ".bak";
@@ -144,7 +144,7 @@ namespace MaaWpfGui
                 configName = configFileName;
             }
 
-            return new Config(configName, configPath, configDetail);
+            return new MaaProfile(configName, configPath, configDetail);
         }
 
         /// <summary>
@@ -167,11 +167,11 @@ namespace MaaWpfGui
                 var config = Load(configPath);
                 if (config != null)
                 {
-                    ConfigList.Add(config);
-                    CurrentConfig = config;
+                    ProfileList.Add(config);
+                    CurrentProfile = config;
                 }
 
-                Logger.Info(string.Format("Specific configuration loaded.", ConfigList.Count));
+                Logger.Info(string.Format("Specific configuration loaded.", ProfileList.Count));
             }
 
             DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
@@ -188,26 +188,26 @@ namespace MaaWpfGui
                     var config = Load(file.FullName);
                     if (config != null)
                     {
-                        ConfigList.Add(config);
+                        ProfileList.Add(config);
                     }
                 }
             }
 
-            Logger.Info(string.Format("Found {0} configuration files.", ConfigList.Count));
+            Logger.Info(string.Format("Found {0} configuration files.", ProfileList.Count));
 
-            if (ConfigList.Count == 0)
+            if (ProfileList.Count == 0)
             {
                 // init config
-                ConfigList.Add(new Config("Default", Path.Combine(Environment.CurrentDirectory, "gui.json"), new JObject()));
+                ProfileList.Add(new MaaProfile("Default", Path.Combine(Environment.CurrentDirectory, "gui.json"), new JObject()));
             }
 
             try
             {
-                CurrentConfig ??= ConfigList.Where((config) => config.ConfigName == "Default").Single();
+                CurrentProfile ??= ProfileList.Where((config) => config.ConfigName == "Default").Single();
             }
             catch (Exception e)
             {
-                CurrentConfig = ConfigList.First();
+                CurrentProfile = ProfileList.First();
             }
 
             Save();
@@ -218,7 +218,7 @@ namespace MaaWpfGui
 
         public static bool Create(string configName, string baseConfigName = null)
         {
-            if (ConfigList.Where((config) => config.ConfigName == configName).Count() > 0)
+            if (ProfileList.Where((config) => config.ConfigName == configName).Count() > 0)
             {
                 return false;
             }
@@ -228,7 +228,7 @@ namespace MaaWpfGui
             {
                 try
                 {
-                    baseConfig = ConfigList.Where((config) => config.ConfigName == baseConfigName).Single().ConfigDetail;
+                    baseConfig = ProfileList.Where((config) => config.ConfigName == baseConfigName).Single().ConfigDetail;
                 }
                 catch (Exception e)
                 {
@@ -237,9 +237,9 @@ namespace MaaWpfGui
             }
 
             var configPath = Path.Combine(Environment.CurrentDirectory, "gui-" + configName + ".json");
-            var config = new Config(configName, configPath, baseConfig ?? new JObject());
-            ConfigList.Add(config);
-            CurrentConfig = config;
+            var config = new MaaProfile(configName, configPath, baseConfig ?? new JObject());
+            ProfileList.Add(config);
+            CurrentProfile = config;
             Save();
 
             return true;
@@ -249,7 +249,7 @@ namespace MaaWpfGui
         {
             try
             {
-                var config = ConfigList.Where((config) => config.ConfigName == key).Single();
+                var config = ProfileList.Where((config) => config.ConfigName == key).Single();
                 var result = Process.Start(new ProcessStartInfo(System.Windows.Forms.Application.ExecutablePath, string.Format("-f \"{0}\"", config.ConfigPath)));
                 if (!newWindow)
                 {
@@ -266,7 +266,7 @@ namespace MaaWpfGui
 
         public static void Release()
         {
-            CurrentConfig.Release();
+            CurrentProfile.Release();
         }
 
         /// <summary>
@@ -276,146 +276,7 @@ namespace MaaWpfGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool BakeUpDaily(int num = 2)
         {
-            return CurrentConfig.BakeUpDaily();
-        }
-    }
-
-    public class Config
-    {
-        public string ConfigName { get; set; }
-
-        public string ConfigPath { get; set; }
-
-        public bool Started { get; set; } = false;
-
-        private string _configBakPath => ConfigPath + ".bak";
-
-        public JObject ConfigDetail { get; private set; }
-
-        public Config(string configName, string configPath, JObject configDetail)
-        {
-            ConfigName = configName;
-            ConfigPath = configPath;
-            ConfigDetail = configDetail;
-            Set("Name", configName);
-        }
-
-
-        /// <summary>
-        /// Gets the value of a key with default value.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="default_value">The default value.</param>
-        /// <returns>The value, or <paramref name="default_value"/> if <paramref name="key"/> is not found.</returns>
-        public string Get(string key, string default_value)
-        {
-            if (ConfigDetail.ContainsKey(key))
-            {
-                return ConfigDetail[key].ToString();
-            }
-            else
-            {
-                return default_value;
-            }
-        }
-
-        /// <summary>
-        /// Sets a key with a value.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        public void Set(string key, string value)
-        {
-            ConfigDetail[key] = value;
-            Save();
-        }
-
-        public bool Delete(string key)
-        {
-            try
-            {
-                ConfigDetail.Remove(key);
-                Save();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Saves configuration.
-        /// </summary>
-        /// <returns>Whether the operation is successful.</returns>
-        public bool Save()
-        {
-            if (_released)
-            {
-                return false;
-            }
-
-            try
-            {
-                var jsonStr = ConfigDetail.ToString();
-                if (jsonStr.Length > 2)
-                {
-                    using (StreamWriter sw = new StreamWriter(ConfigPath))
-                    {
-                        sw.Write(jsonStr);
-                    }
-
-                    if (new FileInfo(ConfigPath).Length > 2)
-                    {
-                        File.Copy(ConfigPath, _configBakPath, true);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool _released = false;
-
-        public void Release()
-        {
-            Save();
-            _released = true;
-        }
-
-        /// <summary>
-        /// Backs up configuration daily. (#2145)
-        /// </summary>
-        /// <param name="num">The number of backup files.</param>
-        /// <returns>Whether the operation is successful.</returns>
-        public bool BakeUpDaily(int num = 2)
-        {
-            if (File.Exists(_configBakPath) && DateTime.Now.Date != new FileInfo(_configBakPath).LastWriteTime.Date && num > 0)
-            {
-                try
-                {
-                    for (; num > 1; num--)
-                    {
-                        if (File.Exists(string.Concat(_configBakPath, num - 1)))
-                        {
-                            File.Copy(string.Concat(_configBakPath, num - 1), string.Concat(_configBakPath, num), true);
-                        }
-                    }
-
-                    File.Copy(_configBakPath, string.Concat(_configBakPath, num), true);
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return CurrentProfile.BakeUpDaily();
         }
     }
 }

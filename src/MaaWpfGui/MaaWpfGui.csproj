@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\MaaProfile.cs" />
     <Compile Include="Main\Bootstrapper.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Main\AsstProxy.cs" />
@@ -150,8 +151,8 @@
     <Compile Include="Views\UserControl\HotKeySettingsUserControl.xaml.cs">
       <DependentUpon>HotKeySettingsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControl\ConfigSettingsUserControl.xaml.cs">
-      <DependentUpon>ConfigSettingsUserControl.xaml</DependentUpon>
+    <Compile Include="Views\UserControl\ProfileSwitchUserControl.xaml.cs">
+      <DependentUpon>ProfileSwitchUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControl\StartSettingsUserControl.xaml.cs">
       <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
@@ -237,7 +238,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UserControl\ConfigSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\ProfileSwitchUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

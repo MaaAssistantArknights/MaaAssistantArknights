@@ -24,8 +24,8 @@
     <system:String x:Key="Version">版本号</system:String>
      
     <!-- 配置选项 -->
-    <system:String x:Key="CurrentConfig">当前配置文件</system:String>
-    <system:String x:Key="CheckoutConfig">切换配置</system:String>
+    <system:String x:Key="CurrentProfile">当前配置文件</system:String>
+    <system:String x:Key="SwitchProfile">切换配置</system:String>
     <system:String x:Key="CreateNewProfileDialogNamePromo">配置名称</system:String>
     <system:String x:Key="DefaultProfileName">新配置</system:String>
     <system:String x:Key="CreateNewProfile">新建配置</system:String>
