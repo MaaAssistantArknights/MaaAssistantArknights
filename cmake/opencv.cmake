@@ -1,6 +1,6 @@
 
 
-set(OPENCV_URL_PREFIX "https://github.com/aa889788/build-opencv/releases/download")
+set(OPENCV_URL_PREFIX "https://github.com/MaaAssistantArknights/build-opencv/releases/download")
 
 set(OPENCV_TAG "4.5.3")
 

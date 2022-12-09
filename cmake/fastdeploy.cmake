@@ -1,6 +1,6 @@
 
 
-set(FASTDEPLOY_URL_PREFIX "https://github.com/aa889788/build-fastdeploy/releases/download")
+set(FASTDEPLOY_URL_PREFIX "https://github.com/MaaAssistantArknights/build-fastdeploy/releases/download")
 
 set(FASTDEPLOY_TAG "1.0.0")
 
