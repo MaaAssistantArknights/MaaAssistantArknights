@@ -428,6 +428,7 @@
     <system:String x:Key="QQgroup6">六群</system:String>
     <system:String x:Key="QQgroup7">七群</system:String>
     <system:String x:Key="QQgroup8">八群</system:String>
+    <system:String x:Key="QQgroup9">九群</system:String>
     <system:String x:Key="QQgroupfull">(已滿)</system:String>
     <system:String x:Key="QQchannel">QQ頻道</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
