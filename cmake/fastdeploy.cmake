@@ -2,7 +2,7 @@
 
 set(FASTDEPLOY_URL_PREFIX "https://github.com/MaaAssistantArknights/build-fastdeploy/releases/download")
 
-set(FASTDEPLOY_TAG "1.0.0")
+set(FASTDEPLOY_TAG "g22325d23")
 
 set(COMPRESSED_SUFFIX ".tar.gz")
 
