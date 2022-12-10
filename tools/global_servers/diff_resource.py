@@ -87,7 +87,7 @@ os.makedirs(out_dir)
 
 for i in diff_files:
     # print(i)
-    shutil.copyfile(os.path.join(zh_dir, i), os.path.jgitoin(out_dir, i))
+    shutil.copyfile(os.path.join(zh_dir, i), os.path.join(out_dir, i))
 
 print("Pictures not included in", server_name,
       "server resources is copied to diff_image/" + server_name)
