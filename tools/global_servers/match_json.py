@@ -8,7 +8,7 @@
 #
 # 1. Install Python
 # 2. Run "$python match_json.py xxx" in the terminal where xxx is the desired
-# server name i.e. YostarJP/YostarEN/YostarKR/txwy
+# server name i.e. YoStarJP/YoStarEN/YoStarKR/txwy
 # 3. The json file will be updated in-place
 #
 
@@ -18,19 +18,19 @@ import sys
 from collections import OrderedDict
 
 server_list = [
-    "YostarJP",
-    "YostarEN",
-    "YostarKR",
+    "YoStarJP",
+    "YoStarEN",
+    "YoStarKR",
     "txwy"
 ]
 
 # Get the server name from argument
 try:
-    # server_name = YostarJP
+    # server_name = YoStarJP
     server_name = sys.argv[1]
     if server_name not in server_list:
         raise
-except:
+except Exception:
     server_name = None
     while (not server_name):
         print("Enter one and only one server name:",

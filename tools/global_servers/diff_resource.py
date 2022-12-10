@@ -15,7 +15,7 @@
 #
 # 1. Install Python
 # 2. Run "$python diff_resource.py xxx" in the terminal where xxx is the desired
-# server name i.e. YostarJP/YostarEN/YostarKR/txwy
+# server name i.e. YoStarJP/YoStarEN/YoStarKR/txwy
 # 3. Results can be found in the diff_image folder
 #
 
@@ -38,11 +38,11 @@ server_list = [
 
 # Get the server name from argument
 try:
-    # server_name = YostarJP
+    # server_name = YoStarJP
     server_name = sys.argv[1]
     if server_name not in server_list:
         raise
-except:
+except Exception:
     server_name = None
     while (not server_name):
         print("Enter one and only one server name:",
