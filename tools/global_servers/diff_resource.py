@@ -30,9 +30,9 @@ import shutil
 ignore_list_file_name = "ignore_list.txt"
 
 server_list = [
-    "YostarJP",
-    "YostarEN",
-    "YostarKR",
+    "YoStarJP",
+    "YoStarEN",
+    "YoStarKR",
     "txwy"
 ]
 
