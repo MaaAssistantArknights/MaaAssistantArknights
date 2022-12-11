@@ -609,7 +609,7 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="url">API 地址</param>
         /// <returns>返回 API 的返回值，如出现错误则返回空字符串</returns>
-        private string RequestApi(string url)
+        public string RequestApi(string url)
         {
             try
             {
