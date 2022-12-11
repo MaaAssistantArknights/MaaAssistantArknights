@@ -640,9 +640,7 @@ bool asst::Controller::call_and_hup_minitouch()
 
 bool asst::Controller::input_to_minitouch(const std::string& cmd)
 {
-#ifdef ASST_DEBUG
-    Log.info("Input to minitouch", Logger::separator::newline, cmd);
-#endif
+    // Log.debug("Input to minitouch", Logger::separator::newline, cmd);
 
 #ifdef _WIN32
     if (m_minitouch_parent_write == INVALID_HANDLE_VALUE) {
