@@ -35,5 +35,23 @@ namespace MaaWpfGui
         public static string QqGroups => "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/";
 
         public static string QQchannel => "https://pd.qq.com/s/4j1ju9z47";
+
+        private static readonly Dictionary<string, string> _helpUrl = new Dictionary<string, string>
+        {
+            { "zh-cn", "1.2-常见问题.md" },
+            { "en-us", "en-us/1.2-FAQ.md" },
+            { "ja-jp", "ja-jp/1.2-よくある質問.md" },
+            { "ko-kr", "ko-kr/1.2-FAQ.md" },
+            { "zh-tw", "zh-tw/1.2-常見問題.md" },
+        };
+
+        public static string HelpUri
+        {
+            get
+            {
+                var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+                return $"https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/docs/{_helpUrl[language]}";
+            }
+        }
     }
 }

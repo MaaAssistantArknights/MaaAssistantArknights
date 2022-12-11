@@ -418,7 +418,6 @@
     <system:String x:Key="QQgroup">💃🍺🍷🍺💃</system:String>
     <system:String x:Key="Telegram">🍷🍷🍷🍺</system:String>
     <system:String x:Key="Help">🍸🍺🍺🍻🍺</system:String>
-    <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/1.2-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md</uri:Uri>
     <system:String x:Key="Issue">🍷🍷🍻💃🍺</system:String>
     <!--  About  -->
 
