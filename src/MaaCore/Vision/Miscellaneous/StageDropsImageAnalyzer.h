@@ -1,6 +1,6 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
+#include "Vision/AbstractImageAnalyzer.h"
 
 namespace asst
 {
@@ -27,7 +27,7 @@ namespace asst
         bool analyze_baseline();
         bool analyze_drops();
 
-        int match_quantity(const Rect& roi, bool use_word_model = false);
+        int match_quantity(const Rect& roi);
         StageDropType match_droptype(const Rect& roi);
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);
 

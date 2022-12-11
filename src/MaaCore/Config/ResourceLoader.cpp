@@ -65,7 +65,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     /* load 3rd parties resource */
     LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "levels.json"_p);
     LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-    LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+    // LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
 
     m_loaded = true;
 

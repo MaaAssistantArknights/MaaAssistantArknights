@@ -191,11 +191,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             }
 
             std::string item = match_item(item_roi, drop_type, size - i, size);
-            bool use_word_model = item == LMD_ID;
-            int quantity = match_quantity(item_roi, use_word_model);
-            if (use_word_model && quantity == 0) {
-                quantity = match_quantity(item_roi, false);
-            }
+            int quantity = match_quantity(item_roi);
             Log.info("Item id:", item, ", quantity:", quantity);
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
@@ -462,7 +458,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
     return result;
 }
 
-int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi, bool use_word_model)
+int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
 
@@ -522,7 +518,6 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi, bool use_word
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
     analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
-    analyzer.set_use_char_model(!use_word_model);
 
     if (!analyzer.analyze()) {
         return 0;
@@ -532,14 +527,8 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi, bool use_word
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
-    if (use_word_model) {
-        cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 20), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, cv::Scalar(0, 0, 255), 2);
-    }
-    else {
-        cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, cv::Scalar(0, 255, 0), 2);
-    }
+    cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Scalar(0, 255, 0), 2);
 #endif
 
     std::string digit_str = result.text;

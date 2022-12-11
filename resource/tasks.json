@@ -185,7 +185,6 @@
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "action": "ClickRect",
-        "isAscii": true,
         "text": [],
         "ocrReplace": [
             [
@@ -348,7 +347,6 @@
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "action": "Swipe",
-        "isAscii": true,
         "text": [],
         "ocrReplace": [
             [
@@ -486,7 +484,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "fullMatch": true,
-        "isAscii": true,
         "cache": false,
         "text": [],
         "next": [
@@ -516,7 +513,6 @@
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "fullMatch": true,
-        "isAscii": true,
         "cache": false,
         "text": [],
         "ocrReplace": [
@@ -700,7 +696,6 @@
         "algorithm": "OcrDetect",
         "baseTask": "ChapterSlowlySwipeToTheLeft",
         "fullMatch": true,
-        "isAscii": true,
         "text": [
             "1-8",
             "TR-10",
@@ -726,7 +721,6 @@
         "algorithm": "OcrDetect",
         "baseTask": "ChapterSlowlySwipeToTheRight",
         "fullMatch": true,
-        "isAscii": true,
         "text": [
             "1-1",
             "1-2",
@@ -756,7 +750,6 @@
         "text": [
             "1-7"
         ],
-        "isAscii": true,
         "cache": false,
         "roi": [
             0,
@@ -888,7 +881,6 @@
         "text": [
             "IS-10"
         ],
-        "isAscii": true,
         "roi": [
             47,
             42,
@@ -903,7 +895,6 @@
         "text": [
             "IS-9"
         ],
-        "isAscii": true,
         "roi": [
             47,
             42,
@@ -918,7 +909,6 @@
         "text": [
             "IS-8"
         ],
-        "isAscii": true,
         "roi": [
             47,
             42,
@@ -994,7 +984,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "NL-10"
         ],
@@ -1009,7 +998,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "NL-9"
         ],
@@ -1024,7 +1012,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "NL-8"
         ],
@@ -1078,7 +1065,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "GT-5"
         ]
@@ -1147,7 +1133,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "OF-F3",
             "0F-F3"
@@ -1157,7 +1142,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "OF-1",
             "0F-1"
@@ -1227,7 +1211,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "IC-9",
             "1C-9"
@@ -1243,7 +1226,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "IC-8",
             "1C-8"
@@ -1259,7 +1241,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "IC-7",
             "1C-7"
@@ -1345,7 +1326,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "DV-8"
         ],
@@ -1360,7 +1340,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "DV-7"
         ],
@@ -1375,7 +1354,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "DV-6"
         ],
@@ -1452,7 +1430,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "LE-5"
         ],
@@ -1467,7 +1444,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "LE-6"
         ],
@@ -1482,7 +1458,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "isAscii": true,
         "text": [
             "LE-7"
         ],
@@ -1852,7 +1827,6 @@
     "ChipStageLevel1": {
         "algorithm": "OcrDetect",
         "baseTask": "Stage",
-        "isAscii": true,
         "text": [],
         "roi": [
             27,
@@ -1864,7 +1838,6 @@
     "ChipStageLevel2": {
         "algorithm": "OcrDetect",
         "baseTask": "Stage",
-        "isAscii": true,
         "text": [],
         "roi": [
             472,
@@ -3672,7 +3645,6 @@
     },
     "CreditShop-CreditOcr": {
         "algorithm": "OcrDetect",
-        "isAscii": true,
         "text": [],
         "roi": [
             1147,
@@ -3762,7 +3734,6 @@
     "RecruitTimerH": {
         "Doc": "识别公招小时数",
         "algorithm": "OcrDetect",
-        "isAscii": true,
         "withoutDet": true,
         "roi": [
             410,
@@ -3785,7 +3756,6 @@
     "RecruitTimerM": {
         "Doc": "识别公招分钟数",
         "algorithm": "OcrDetect",
-        "isAscii": true,
         "withoutDet": true,
         "roi": [
             575,
@@ -5889,7 +5859,6 @@
     },
     "BattleKills": {
         "algorithm": "OcrDetect",
-        "isAscii": true,
         "text": [],
         "roi": [
             50,
@@ -5900,7 +5869,6 @@
     },
     "BattleCostData": {
         "algorithm": "OcrDetect",
-        "isAscii": true,
         "text": [],
         "roi": [
             1196,
@@ -6346,7 +6314,6 @@
     "StageDrops-StageName": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "isAscii": true,
         "text": [],
         "ocrReplace": [
             [
@@ -6362,12 +6329,8 @@
                 "_INVALID_"
             ],
             [
-                "Ap-",
-                "AP-"
-            ],
-            [
-                "Bl-",
-                "BI-"
+                "—",
+                "-"
             ]
         ],
         "roi": [
@@ -6497,7 +6460,6 @@
     },
     "NumberOcrReplace": {
         "algorithm": "OcrDetect",
-        "isAscii": true,
         "text": [],
         "ocrReplace": [
             [
@@ -6515,6 +6477,10 @@
             [
                 "l",
                 "1"
+            ],
+            [
+                "芳",
+                "万"
             ],
             [
                 "方",
