@@ -13,7 +13,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Roguelike/StageDropsImageAnalyzer.h"
+#include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

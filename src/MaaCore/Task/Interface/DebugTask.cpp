@@ -9,7 +9,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
-#include "Vision/Roguelike/StageDropsImageAnalyzer.h"
+#include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType)
 {
