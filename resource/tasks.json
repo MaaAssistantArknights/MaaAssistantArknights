@@ -5526,12 +5526,7 @@
     "algorithm": "OcrDetect",
     "cache": false,
     "text": [],
-    "ocrReplace": [
-      [
-        "旋涡",
-        "漩涡"
-      ]
-    ],
+    "ocrReplace": [],
     "roi": [
       250,
       435,
