@@ -86,7 +86,7 @@
             Style="{StaticResource TextBlockDefault}">
             <Hyperlink
                 Click="Hyperlink_Click"
-                NavigateUri="{DynamicResource HelpUri}"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.HelpUri}}"
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Help}" />
             </Hyperlink>
