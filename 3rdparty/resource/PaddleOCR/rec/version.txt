@@ -1,3 +1,3 @@
-2022/12/7 基于 ch_PP-OCRv3_rec_infer 预训练模型
-8000 干员名截图 + 70000 GameData 中文生成数据
-https://github.com/MaaAssistantArknights/ArknightsTrainingData/commit/c36e4fa808781f30d4f0ae361c5ee7e49bec3074
+2022/12/11 基于 ch_PP-OCRv3_rec_infer 预训练模型
+8000 干员名截图 + 10000 GameData 中文生成数据
+https://github.com/MaaAssistantArknights/ArknightsTrainingData/commit/de26605fda8d95556078de0907aa34a3a903d929
