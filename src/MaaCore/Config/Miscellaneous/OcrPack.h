@@ -53,9 +53,4 @@ namespace asst
     {
         friend class SingletonHolder<WordOcr>;
     };
-
-    class CharOcr final : public SingletonHolder<CharOcr>, public OcrPack
-    {
-        friend class SingletonHolder<CharOcr>;
-    };
 }

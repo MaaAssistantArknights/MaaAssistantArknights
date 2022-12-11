@@ -39,6 +39,7 @@
     <ClInclude Include="Vision\Miscellaneous\DepotImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h" />
     <ClInclude Include="Vision\MultiMatchImageAnalyzer.h" />
     <ClInclude Include="Vision\OcrImageAnalyzer.h" />
     <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h" />
@@ -46,7 +47,6 @@
     <ClInclude Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h" />
-    <ClInclude Include="Vision\Roguelike\StageDropsImageAnalyzer.h" />
     <ClInclude Include="Config\AbstractConfig.h" />
     <ClInclude Include="Config\AbstractConfigWithTempl.h" />
     <ClInclude Include="Config\AbstractResource.h" />
@@ -153,6 +153,7 @@
     <ClCompile Include="Vision\Miscellaneous\DepotImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp" />
     <ClCompile Include="Vision\MultiMatchImageAnalyzer.cpp" />
     <ClCompile Include="Vision\OcrImageAnalyzer.cpp" />
     <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp" />
@@ -160,7 +161,6 @@
     <ClCompile Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Roguelike\StageDropsImageAnalyzer.cpp" />
     <ClCompile Include="Config\AbstractConfig.cpp" />
     <ClCompile Include="Config\GeneralConfig.cpp" />
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp" />

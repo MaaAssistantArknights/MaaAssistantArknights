@@ -60,15 +60,17 @@ bool asst::OcrImageAnalyzer::analyze()
 
     m_roi = correct_rect(m_roi, m_image);
 
-    OcrPack* ocr_ptr = nullptr;
-    if (m_use_char_model) {
-        ocr_ptr = &CharOcr::get_instance();
-    }
-    else {
-        ocr_ptr = &WordOcr::get_instance();
-    }
-    m_ocr_result = ocr_ptr->recognize(m_image, m_roi, all_pred, m_without_det);
-    ocr_ptr = nullptr;
+    // OcrPack* ocr_ptr = nullptr;
+    // if (m_use_char_model) {
+    //     ocr_ptr = &CharOcr::get_instance();
+    // }
+    // else {
+    //     ocr_ptr = &WordOcr::get_instance();
+    // }
+    // m_ocr_result = ocr_ptr->recognize(m_image, m_roi, all_pred, m_without_det);
+    // ocr_ptr = nullptr;
+
+    m_ocr_result = WordOcr::get_instance().recognize(m_image, m_roi, all_pred, m_without_det);
 
     // log.trace("ocr result", m_ocr_result);
     return !m_ocr_result.empty();
@@ -107,7 +109,6 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
     m_full_match = task_info.full_match;
     m_replace = std::move(task_info.replace_map);
     m_use_cache = task_info.cache;
-    m_use_char_model = task_info.is_ascii;
 
     if (m_use_cache && !m_region_of_appeared.empty()) {
         m_roi = m_region_of_appeared;
@@ -141,11 +142,6 @@ void asst::OcrImageAnalyzer::set_region_of_appeared(Rect region) noexcept
         m_roi = m_region_of_appeared;
         m_without_det = true;
     }
-}
-
-void asst::OcrImageAnalyzer::set_use_char_model(bool enable) noexcept
-{
-    m_use_char_model = enable;
 }
 
 void asst::OcrImageAnalyzer::set_pred(const TextRectProc& pred)
