@@ -8211,6 +8211,7 @@
         "baseTask": "Roguelike@StageEnter",
         "postDelay": 3000,
         "next": [
+            "Stop"
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
