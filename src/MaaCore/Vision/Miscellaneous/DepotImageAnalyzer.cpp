@@ -2,11 +2,11 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::DepotImageAnalyzer::analyze()
 {
@@ -307,9 +307,17 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         multiple = 10000;
         digit_str.erase(w_pos, digit_str.size());
     }
-    else if (size_t k_pos = digit_str.find("k"); k_pos != std::string::npos) {
+    else if (size_t k_pos = digit_str.find("K"); k_pos != std::string::npos) {
         multiple = 1000;
         digit_str.erase(k_pos, digit_str.size());
+    }
+    else if (size_t e_pos = digit_str.find("亿"); e_pos != std::string::npos) {
+        multiple = 100000000;
+        digit_str.erase(e_pos, digit_str.size());
+    }
+    else if (size_t m_pos = digit_str.find("M"); m_pos != std::string::npos) {
+        multiple = 1000000;
+        digit_str.erase(m_pos, digit_str.size());
     }
 
     if (digit_str.empty() ||
