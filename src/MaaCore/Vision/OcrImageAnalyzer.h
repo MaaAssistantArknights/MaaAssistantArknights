@@ -32,6 +32,7 @@ namespace asst
 
         virtual void set_use_cache(bool is_use) noexcept;
         virtual void set_region_of_appeared(Rect region) noexcept;
+        virtual void set_use_char_model(bool enable) noexcept;
 
         void set_pred(const TextRectProc& pred);
         virtual const std::vector<TextRect>& get_result() const noexcept;
@@ -48,5 +49,6 @@ namespace asst
         bool m_without_det = false;
         bool m_use_cache = false;
         Rect m_region_of_appeared;
+        bool m_use_char_model = false;
     };
 }
