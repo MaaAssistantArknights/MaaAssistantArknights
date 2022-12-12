@@ -25,11 +25,6 @@ namespace ocr {
  */
 class FASTDEPLOY_DECL ClassifierPostprocessor {
  public:
-  /** \brief Create a postprocessor instance for Classifier serials model
-   *
-   */
-  ClassifierPostprocessor();
-
   /** \brief Process the result of runtime and fill to ClassifyResult structure
    *
    * \param[in] tensors The inference result from runtime
@@ -40,10 +35,11 @@ class FASTDEPLOY_DECL ClassifierPostprocessor {
   bool Run(const std::vector<FDTensor>& tensors,
           std::vector<int32_t>* cls_labels, std::vector<float>* cls_scores);
 
-  float cls_thresh_ = 0.9;
+  bool Run(const std::vector<FDTensor>& tensors,
+          std::vector<int32_t>* cls_labels, std::vector<float>* cls_scores,
+          size_t start_index, size_t total_size);
 
- private:
-  bool initialized_ = false;
+  float cls_thresh_ = 0.9;
 };
 
 }  // namespace ocr

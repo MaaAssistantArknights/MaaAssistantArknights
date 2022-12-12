@@ -587,6 +587,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "action",           "algorithm", "baseTask",    "cache",           "exceededNext",   "maskRange",
               "maxTimes",         "next",      "onErrorNext", "postDelay",       "preDelay",       "rectMove",
               "reduceOtherTimes", "roi",       "sub",         "subErrorIgnored", "templThreshold", "template",
+              "specialParams"
           } },
         { AlgorithmType::OcrDetect,
           {
@@ -594,6 +595,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
               "fullMatch",   "isAscii",   "maxTimes",        "next",     "ocrReplace",
               "onErrorNext", "postDelay", "preDelay",        "rectMove", "reduceOtherTimes",
               "roi",         "sub",       "subErrorIgnored", "text",     "withoutDet",
+              "specialParams"
           } },
         { AlgorithmType::JustReturn,
           {

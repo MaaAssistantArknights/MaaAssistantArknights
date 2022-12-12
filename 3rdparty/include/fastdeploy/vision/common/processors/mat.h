@@ -22,8 +22,8 @@ namespace vision {
 
 enum Layout { HWC, CHW };
 
-
 struct FASTDEPLOY_DECL Mat {
+  Mat() = default;
   explicit Mat(const cv::Mat& mat) {
     cpu_mat = mat;
     layout = Layout::HWC;
@@ -45,7 +45,11 @@ struct FASTDEPLOY_DECL Mat {
 #endif
 
   Mat(const Mat& mat) = default;
+  // Move assignment
   Mat& operator=(const Mat& mat) = default;
+
+  // Move constructor
+  Mat(Mat&& other) = default;
 
   // Careful if you use this interface
   // this only used if you don't want to write

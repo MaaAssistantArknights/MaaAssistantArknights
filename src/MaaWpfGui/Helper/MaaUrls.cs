@@ -32,18 +32,26 @@ namespace MaaWpfGui
 
         public static string CustomInfrastGenerator => "https://yituliu.site/riicCal";
 
-        public static List<string> QqGroups { get; } = new List<string>
+        public static string QqGroups => "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/";
+
+        public static string QQchannel => "https://pd.qq.com/s/4j1ju9z47";
+
+        private static readonly Dictionary<string, string> _helpUrl = new Dictionary<string, string>
         {
-            "https://jq.qq.com/?k=xRh6gqQZ",
-            "https://jq.qq.com/?k=u9i2n7Sb",
-            "https://jq.qq.com/?k=mKdOnhWV",
-            "https://jq.qq.com/?k=h6FGp0qD",
-            "https://jq.qq.com/?k=To6b6H6m",
-            "https://jq.qq.com/?k=K8t6W7HZ",
-            "https://jq.qq.com/?k=gGRc2Rlw",
-            "https://jq.qq.com/?k=NOpUOidq",
+            { "zh-cn", "1.2-常见问题.md" },
+            { "en-us", "en-us/1.2-FAQ.md" },
+            { "ja-jp", "ja-jp/1.2-よくある質問.md" },
+            { "ko-kr", "ko-kr/1.2-FAQ.md" },
+            { "zh-tw", "zh-tw/1.2-常見問題.md" },
         };
 
-        public static string LatestQqGroup => QqGroups.Last();
+        public static string HelpUri
+        {
+            get
+            {
+                var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+                return $"https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/docs/{_helpUrl[language]}";
+            }
+        }
     }
 }

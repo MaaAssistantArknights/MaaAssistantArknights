@@ -456,7 +456,7 @@ namespace MaaWpfGui
             System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
             System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
             System.Windows.Forms.MessageBoxManager.Register();
-            var result = _windowManager.ShowMessageBox(
+            var result = MessageBox.Show(
                 Localization.GetString("NewVersionDownloadCompletedDesc"),
                 Localization.GetString("NewVersionDownloadCompletedTitle"),
                 MessageBoxButton.YesNo,
@@ -609,7 +609,7 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="url">API 地址</param>
         /// <returns>返回 API 的返回值，如出现错误则返回空字符串</returns>
-        private string RequestApi(string url)
+        public string RequestApi(string url)
         {
             try
             {

@@ -27,16 +27,12 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
 #endif
 
 asst::OcrPack::OcrPack()
-    : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr),
-      m_backend(OcrBackend::ONNXRuntime)
-{}
+    : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
+{
+    m_ocr_option->UseOrtBackend();
+}
 
 asst::OcrPack::~OcrPack() {}
-
-void asst::OcrPack::set_backend_before_load(OcrBackend backend)
-{
-    m_backend = backend;
-}
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
@@ -47,40 +43,42 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         return false;
     }
 
-    using namespace asst::utils::path_literals;
-    const auto dst_model_file = paddle_dir / "det"_p / "inference.pdmodel"_p;
-    const auto dst_params_file = paddle_dir / "det"_p / "inference.pdiparams"_p;
-    const auto rec_model_file = paddle_dir / "rec"_p / "inference.pdmodel"_p;
-    const auto rec_params_file = paddle_dir / "rec"_p / "inference.pdiparams"_p;
-    const auto rec_label_file = paddle_dir / "ppocr_keys_v1.txt"_p;
+    do {
+        using namespace asst::utils::path_literals;
+        const auto dst_model_file = paddle_dir / "det"_p / "inference.pdmodel"_p;
+        const auto dst_params_file = paddle_dir / "det"_p / "inference.pdiparams"_p;
+        const auto rec_model_file = paddle_dir / "rec"_p / "inference.pdmodel"_p;
+        const auto rec_params_file = paddle_dir / "rec"_p / "inference.pdiparams"_p;
+        const auto rec_label_file = paddle_dir / "keys.txt"_p;
 
-    if (!std::filesystem::exists(dst_model_file) || !std::filesystem::exists(dst_params_file) ||
-        !std::filesystem::exists(rec_model_file) || !std::filesystem::exists(rec_params_file) ||
-        !std::filesystem::exists(rec_label_file)) {
-        return false;
-    }
+        if (std::filesystem::exists(dst_model_file) && std::filesystem::exists(dst_params_file)) {
+            m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
+                asst::utils::path_to_ansi_string(dst_model_file), asst::utils::path_to_ansi_string(dst_params_file),
+                *m_ocr_option);
+        }
+        else if (!m_det) {
+            break;
+        }
+        // else 沿用原来的模型
 
-    switch (m_backend) {
-    case OcrBackend::ONNXRuntime:
-        Log.info("OcrBackend::ONNXRuntime");
-        m_ocr_option->UseOrtBackend();
-        break;
-    case OcrBackend::PaddleInference:
-        Log.info("OcrBackend::PaddleInference");
-        m_ocr_option->UsePaddleInferBackend();
-        break;
-    default:
-        Log.error("Unknown OCR Backend", static_cast<int>(m_backend));
-        return false;
-    }
+        if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_params_file) &&
+            std::filesystem::exists(rec_label_file)) {
+            m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
+                asst::utils::path_to_ansi_string(rec_model_file), asst::utils::path_to_ansi_string(rec_params_file),
+                asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option);
+        }
+        else if (!m_rec) {
+            break;
+        }
+        // else 沿用原来的模型
 
-    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(asst::utils::path_to_ansi_string(dst_model_file),
-                                                                  asst::utils::path_to_ansi_string(dst_params_file),
-                                                                  *m_ocr_option);
-    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-        asst::utils::path_to_ansi_string(rec_model_file), asst::utils::path_to_ansi_string(rec_params_file),
-        asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option);
-    m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+        if (m_det && m_rec) {
+            m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+        }
+        else {
+            break;
+        }
+    } while (false);
 
     if (use_temp_dir) {
         // files can be removed after load
@@ -121,16 +119,15 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     fastdeploy::vision::OCRResult ocr_result;
     if (!without_det) {
         LogTraceScope("Ocr Pipeline with " + class_type);
-        cv::Mat copied = image;
-        m_ocr->Predict(&copied, &ocr_result);
+        m_ocr->Predict(image, &ocr_result);
     }
     else {
         LogTraceScope("Ocr Rec with " + class_type);
-        std::vector<std::string> rec_texts;
-        std::vector<float> rec_scores;
-        m_rec->BatchPredict({ image }, &rec_texts, &rec_scores);
-        ocr_result.text = std::move(rec_texts);
-        ocr_result.rec_scores = std::move(rec_scores);
+        std::string rec_text;
+        float rec_score = 0;
+        m_rec->Predict(image, &rec_text, &rec_score);
+        ocr_result.text.emplace_back(std::move(rec_text));
+        ocr_result.rec_scores.emplace_back(rec_score);
     }
 
 #ifdef ASST_DEBUG

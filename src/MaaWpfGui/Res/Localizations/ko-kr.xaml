@@ -466,20 +466,10 @@
     <system:String x:Key="PrtsPlus">자동 전투 전략 공유 웹사이트</system:String>
     <system:String x:Key="MapPrts">자동 전투 맵과 좌표</system:String>
     <system:String x:Key="CustomInfrastGenerator">커스텀 기반시설 JSON 생성기</system:String>
-    <system:String x:Key="QQgroup">QQ 그룹:</system:String>
-    <system:String x:Key="QQgroup1">QQ 그룹 1</system:String>
-    <system:String x:Key="QQgroup2">QQ 그룹 2</system:String>
-    <system:String x:Key="QQgroup3">QQ 그룹 3</system:String>
-    <system:String x:Key="QQgroup4">QQ 그룹 4</system:String>
-    <system:String x:Key="QQgroup5">QQ 그룹 5</system:String>
-    <system:String x:Key="QQgroup6">QQ 그룹 6</system:String>
-    <system:String x:Key="QQgroup7">QQ 그룹 7</system:String>
-    <system:String x:Key="QQgroup8">QQ 그룹 8</system:String>
-    <system:String x:Key="QQgroupfull">(만원)</system:String>
+    <system:String x:Key="QQgroup">QQ 그룹</system:String>
     <system:String x:Key="QQchannel">QQ 채널</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
-    <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/en-us/1.2-FAQ.md</uri:Uri>
     <system:String x:Key="Issue">이슈</system:String>
     <!--  About  -->
 

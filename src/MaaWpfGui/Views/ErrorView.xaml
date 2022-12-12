@@ -119,7 +119,7 @@
                 Name="LinkToJoinQqGroup"
                 Click="Hyperlink_OnClick"
                 FontSize="10.667"
-                NavigateUri="{Binding Source={x:Static local:MaaUrls.LatestQqGroup}}">
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}}">
                 <Run Text="{DynamicResource ErrorQqGroupLinkText}" />
             </Hyperlink>
         </TextBlock>

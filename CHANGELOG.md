@@ -1,3 +1,21 @@
+## v4.8.0-beta.4
+
+- 优化 所有语言的 OCR Rec 模型，提升识别率 @MistEO @zhangchi0104 @mole828 @WWPXX233
+- 修复 主线关卡导航 @ABA2396
+- 修复 OTA 打包错误 @horror-proton
+- 优化 界面 @ABA2396 @MistEO
+
+### For overseas
+
+- Fix OCR detection error of overseas client @MistEO
+- Fix wake-up error in JP client @liuyifan-eric
+- Organize overseas service profiles @liuyifan-eric
+
+### For developers
+
+- Add Linux CI @horror-proton @aa889788 @hguandl
+- Add checksums for download libs @aa889788
+
 ## v4.8.0-beta.3
 
 - 重构 项目工程、目录结构，重命名 部分文件 @MistEO @horror-proton @hguandl
