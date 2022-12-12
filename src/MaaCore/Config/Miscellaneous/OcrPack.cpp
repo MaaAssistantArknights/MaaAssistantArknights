@@ -43,26 +43,42 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         return false;
     }
 
-    using namespace asst::utils::path_literals;
-    const auto dst_model_file = paddle_dir / "det"_p / "inference.pdmodel"_p;
-    const auto dst_params_file = paddle_dir / "det"_p / "inference.pdiparams"_p;
-    const auto rec_model_file = paddle_dir / "rec"_p / "inference.pdmodel"_p;
-    const auto rec_params_file = paddle_dir / "rec"_p / "inference.pdiparams"_p;
-    const auto rec_label_file = paddle_dir / "keys.txt"_p;
+    do {
+        using namespace asst::utils::path_literals;
+        const auto dst_model_file = paddle_dir / "det"_p / "inference.pdmodel"_p;
+        const auto dst_params_file = paddle_dir / "det"_p / "inference.pdiparams"_p;
+        const auto rec_model_file = paddle_dir / "rec"_p / "inference.pdmodel"_p;
+        const auto rec_params_file = paddle_dir / "rec"_p / "inference.pdiparams"_p;
+        const auto rec_label_file = paddle_dir / "keys.txt"_p;
 
-    if (!std::filesystem::exists(dst_model_file) || !std::filesystem::exists(dst_params_file) ||
-        !std::filesystem::exists(rec_model_file) || !std::filesystem::exists(rec_params_file) ||
-        !std::filesystem::exists(rec_label_file)) {
-        return false;
-    }
+        if (std::filesystem::exists(dst_model_file) && std::filesystem::exists(dst_params_file)) {
+            m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
+                asst::utils::path_to_ansi_string(dst_model_file), asst::utils::path_to_ansi_string(dst_params_file),
+                *m_ocr_option);
+        }
+        else if (!m_det) {
+            break;
+        }
+        // else 沿用原来的模型
 
-    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(asst::utils::path_to_ansi_string(dst_model_file),
-                                                                  asst::utils::path_to_ansi_string(dst_params_file),
-                                                                  *m_ocr_option);
-    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-        asst::utils::path_to_ansi_string(rec_model_file), asst::utils::path_to_ansi_string(rec_params_file),
-        asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option);
-    m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+        if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_params_file) &&
+            std::filesystem::exists(rec_label_file)) {
+            m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
+                asst::utils::path_to_ansi_string(rec_model_file), asst::utils::path_to_ansi_string(rec_params_file),
+                asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option);
+        }
+        else if (!m_rec) {
+            break;
+        }
+        // else 沿用原来的模型
+
+        if (m_det && m_rec) {
+            m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+        }
+        else {
+            break;
+        }
+    } while (false);
 
     if (use_temp_dir) {
         // files can be removed after load
