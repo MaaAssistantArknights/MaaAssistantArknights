@@ -1,1 +1,2 @@
-2022/12/12 14:58:07] ppocr INFO: best metric, acc: 0.9811424564920256, is_float16: False, norm_edit_dis: 0.996124223500862, fps: 3437.9212558936433, best_epoch: 350
+https://github.com/MaaAssistantArknights/ArknightsTrainingData/commit/ef7ee566bf14701d5bb0f1fcef0f510cacceb181
+[2022/12/12 14:58:07] ppocr INFO: best metric, acc: 0.9811424564920256, is_float16: False, norm_edit_dis: 0.996124223500862, fps: 3437.9212558936433, best_epoch: 350
