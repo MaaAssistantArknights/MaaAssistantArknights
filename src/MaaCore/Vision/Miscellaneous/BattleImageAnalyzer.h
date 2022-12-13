@@ -14,7 +14,7 @@ namespace asst
             HP = 1,         // 剩余生命值
             Home = 2,       // 蓝色的家门
             Oper = 4,       // 下方的干员信息
-            Skill = 8,      // cd 转好了可以使用的技能
+            //Skill = 8,      // cd 转好了可以使用的技能
             Kills = 16,     // 击杀数
             Cost = 32,      // 费用
             Vacancies = 64, // 剩余可部署干员数
@@ -33,7 +33,6 @@ namespace asst
         virtual const std::vector<BattleRealTimeOper>& get_opers() const noexcept;
         virtual const std::vector<Rect>& get_homes() const noexcept;
 
-        const std::vector<Rect>& get_ready_skills() const noexcept;
         int get_hp() const noexcept;
         int get_kills() const noexcept;
         int get_total_kills() const noexcept;
@@ -50,7 +49,7 @@ namespace asst
         bool oper_available_analyze(const Rect& roi);
 
         bool home_analyze();      // 识别蓝色的家门
-        bool skill_analyze();     // 识别技能是否可用
+        //bool skill_analyze();     // 识别技能是否可用
         bool hp_analyze();        // 识别剩余生命值
         bool kills_analyze();     // 识别击杀数
         bool cost_analyze();      // 识别费用

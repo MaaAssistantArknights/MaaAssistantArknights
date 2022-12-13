@@ -10,15 +10,14 @@
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/Roguelike/RoguelikeCopilotConfig.h"
 #include "Config/TaskData.h"
-#include "Config/TemplResource.h"
 #include "Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/MoreCV.hpp"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -902,11 +901,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         return false;
     }
 
-    auto task_ptr = Task.get<MatchTaskInfo>("BattleAutoSkillFlag");
-
-    const Rect& skill_roi_move = task_ptr->rect_move;
-    cv::Mat temp = TemplResource::get_instance().get_templ(task_ptr->templ_name);
-
+    BattleSkillReadyImageAnalyzer skill_analyzer(image);
     bool used = false;
     for (auto& [loc, oper_name] : m_used_tiles) {
         std::string status_key = Status::RoguelikeSkillUsagePrefix + oper_name;
@@ -920,16 +915,11 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
             continue;
         }
         const Point pos = m_normal_tile_info.at(loc).pos;
-        const Rect pos_rect(pos.x, pos.y, 1, 1);
-        auto roi = make_rect<cv::Rect>(pos_rect.move(skill_roi_move));
-        roi &= cv::Rect(0, 0, image.cols, image.rows);
-
-        auto result = find_skill_ready(image(roi), temp);
-        if (result.empty()) continue;
-
-        Log.trace(result.front().second);
-
-        ctrler()->click(pos_rect);
+        skill_analyzer.set_base_point(pos);
+        if (!skill_analyzer.analyze()) {
+            continue;
+        }
+        ctrler()->click(pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
         bool ret = ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(2).run();
         if (!ret) {

@@ -270,9 +270,6 @@
     <ClInclude Include="Utils\Meta.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\MoreCV.hpp">
-      <Filter>源文件\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\NoWarningCV.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
@@ -427,6 +424,9 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
@@ -708,6 +708,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>

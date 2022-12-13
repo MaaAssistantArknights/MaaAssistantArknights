@@ -35,6 +35,7 @@
     <ClInclude Include="Vision\Infrast\InfrastSmileyImageAnalyzer.h" />
     <ClInclude Include="Vision\MatchImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\BattleImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\CreditShopImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\DepotImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h" />
@@ -120,7 +121,6 @@
     <ClInclude Include="Utils\Http.hpp" />
     <ClInclude Include="Utils\ImageIo.hpp" />
     <ClInclude Include="Utils\Locale.hpp" />
-    <ClInclude Include="Utils\MoreCV.hpp" />
     <ClInclude Include="Utils\Logger.hpp" />
     <ClInclude Include="Utils\Meta.hpp" />
     <ClInclude Include="Utils\NoWarningCV.h" />
@@ -150,6 +150,7 @@
     <ClCompile Include="Vision\Infrast\InfrastSmileyImageAnalyzer.cpp" />
     <ClCompile Include="Vision\MatchImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\BattleImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\DepotImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp" />
