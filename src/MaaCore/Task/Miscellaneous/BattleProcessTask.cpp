@@ -7,17 +7,16 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Controller.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
-#include "Config/TemplResource.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Utils/MoreCV.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 #include "Utils/ImageIo.hpp"
 
@@ -653,21 +652,16 @@ bool asst::BattleProcessTask::wait_to_end(const BattleAction& action)
 
 bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
 {
-    auto task_ptr = Task.get<MatchTaskInfo>("BattleAutoSkillFlag");
-
-    const Rect& skill_roi_move = task_ptr->rect_move;
-    cv::Mat temp = TemplResource::get_instance().get_templ(task_ptr->templ_name);
-
+    BattleSkillReadyImageAnalyzer skill_analyzer(image);
     bool used = false;
     for (auto& info : m_used_opers | views::values) {
         if (info.info.skill_usage != BattleSkillUsage::Possibly && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;
         }
-        auto roi = make_rect<cv::Rect>(Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move));
-        roi &= cv::Rect(0, 0, image.cols, image.rows);
-
-        const auto result = find_skill_ready(image(roi), temp);
-        if (result.empty()) continue;
+        skill_analyzer.set_base_point(info.pos);
+        if (!skill_analyzer.analyze()) {
+            continue;
+        }
 
         ctrler()->click(info.pos);
         sleep(Task.get("BattleUseOper")->pre_delay);

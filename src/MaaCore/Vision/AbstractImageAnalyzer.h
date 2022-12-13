@@ -51,4 +51,4 @@ namespace asst
         using InstHelper::ctrler;
         using InstHelper::need_exit;
     };
-}
+} // namespace asst
