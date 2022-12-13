@@ -12,7 +12,7 @@
 
 bool asst::BattleSkillReadyImageAnalyzer::analyze()
 {
-    auto task_ptr = Task.get<MatchTaskInfo>("BattleAutoSkillFlag");
+    auto task_ptr = Task.get<MatchTaskInfo>("BattleSkillReady");
     const cv::Mat& templ = TemplResource::get_instance().get_templ(task_ptr->templ_name);
 
     auto key_color = [](cv::InputArray src, cv::OutputArray dst, const cv::Scalar& color,
@@ -47,13 +47,13 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
 
     // you may use something similar to MultiMatchImageAnalyzer instead
     double min_val = 255.;
-    cv::minMaxLoc(match, &min_val); 
+    cv::minMaxLoc(match, &min_val);
     return min_val < 130.;
 }
 
 void asst::BattleSkillReadyImageAnalyzer::set_base_point(const Point& pt)
 {
-    auto task_ptr = Task.get<MatchTaskInfo>("BattleAutoSkillFlag");
+    auto task_ptr = Task.get<MatchTaskInfo>("BattleSkillReady");
     const Rect& skill_roi_move = task_ptr->rect_move;
 
     set_roi(Rect(pt.x, pt.y, 0, 0).move(skill_roi_move));

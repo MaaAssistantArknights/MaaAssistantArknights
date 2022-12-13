@@ -5904,14 +5904,13 @@
             44
         ]
     },
-    "BattleAutoSkillFlag": {
-        "template": "BattleSkillReady.png",
+    "BattleSkillReady": {
         "cache": false,
         "rectMove": [
-            -40,
-            -150,
-            80,
-            100
+            -20,
+            -125,
+            45,
+            50
         ]
     },
     "BattleSkillReadyOnClick": {
@@ -6275,21 +6274,6 @@
         "hash": [
             "07e01e78700e6006e007e007e0076006700e1ffe011800700060008001800700"
         ]
-    },
-    "BattleSkillReady": {
-        "roi": [
-            0,
-            0,
-            1280,
-            580
-        ],
-        "rectMove": [
-            0,
-            100,
-            40,
-            40
-        ],
-        "maskRange_Doc": "for details ref: find_skill_ready in Utils/MoreCV.hpp"
     },
     "BattleUseSkillJustClick": {
         "algorithm": "JustReturn",
