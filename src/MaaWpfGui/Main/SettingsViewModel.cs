@@ -2174,13 +2174,22 @@ namespace MaaWpfGui
 
                 // var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
+
+                string yes = Localization.GetString("Ok", value);
+                string no = Localization.GetString("ManualRestart", value);
+                string languageChangedTip = Localization.GetString("LanguageChangedTip", value);
+                string tip = Localization.GetString("Tip", value);
+                string yes_lang = Localization.GetString("Ok", _language);
+                string no_lang = Localization.GetString("ManualRestart", _language);
+                string languageChangedTip_lang = Localization.GetString("LanguageChangedTip", _language);
+                string tip_lang = Localization.GetString("Tip", _language);
                 System.Windows.Forms.MessageBoxManager.Unregister();
-                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok", value);
-                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart", value);
+                System.Windows.Forms.MessageBoxManager.Yes = yes + "(" + yes_lang + ")";
+                System.Windows.Forms.MessageBoxManager.No = no + "(" + no_lang + ")";
                 System.Windows.Forms.MessageBoxManager.Register();
                 var result = MessageBox.Show(
-                    Localization.GetString("LanguageChangedTip", value),
-                    Localization.GetString("Tip", value),
+                    languageChangedTip + "\n" + languageChangedTip_lang,
+                    tip + "(" + tip_lang + ")",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
                 System.Windows.Forms.MessageBoxManager.Unregister();
