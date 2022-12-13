@@ -2175,21 +2175,15 @@ namespace MaaWpfGui
                 // var backup = _language;
                 ViewStatusStorage.Set("GUI.Localization", value);
 
-                string yes = Localization.GetString("Ok", value);
-                string no = Localization.GetString("ManualRestart", value);
-                string languageChangedTip = Localization.GetString("LanguageChangedTip", value);
-                string tip = Localization.GetString("Tip", value);
-                string yes_lang = Localization.GetString("Ok", _language);
-                string no_lang = Localization.GetString("ManualRestart", _language);
-                string languageChangedTip_lang = Localization.GetString("LanguageChangedTip", _language);
-                string tip_lang = Localization.GetString("Tip", _language);
+                string FormatText(string text, string key)
+                    => string.Format(text, Localization.GetString(key, value), Localization.GetString(key, _language));
                 System.Windows.Forms.MessageBoxManager.Unregister();
-                System.Windows.Forms.MessageBoxManager.Yes = yes + "(" + yes_lang + ")";
-                System.Windows.Forms.MessageBoxManager.No = no + "(" + no_lang + ")";
+                System.Windows.Forms.MessageBoxManager.Yes = FormatText("{0}({1})", "Ok");
+                System.Windows.Forms.MessageBoxManager.No = FormatText("{0}({1})", "ManualRestart");
                 System.Windows.Forms.MessageBoxManager.Register();
                 var result = MessageBox.Show(
-                    languageChangedTip + "\n" + languageChangedTip_lang,
-                    tip + "(" + tip_lang + ")",
+                    FormatText("{0}\n{1}", "LanguageChangedTip"),
+                    FormatText("{0}({1})", "Tip"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
                 System.Windows.Forms.MessageBoxManager.Unregister();
