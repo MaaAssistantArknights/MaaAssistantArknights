@@ -45,16 +45,10 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
     match /= template_mask.cols * template_mask.rows;
     cv::sqrt(match, match);
 
-    // TODO: 这块我没太看懂，等 horror 改改
-    //auto all_matched = match_template_helper(
-    //    match, { tmp.cols, tmp.rows }, [](float v) { return v < 130.; }, std::greater<> {});
-
-    //if (all_matched.empty()) {
-    //    return false;
-    //}
-
-    //m_result = all_matched.front();
-    return true;
+    // you may use something similar to MultiMatchImageAnalyzer instead
+    double min_val = 255.;
+    cv::minMaxLoc(match, &min_val); 
+    return min_val < 130.;
 }
 
 void asst::BattleSkillReadyImageAnalyzer::set_base_point(const Point& pt)
