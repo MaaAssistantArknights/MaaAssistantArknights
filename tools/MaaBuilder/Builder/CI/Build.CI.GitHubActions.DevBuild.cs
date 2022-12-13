@@ -9,25 +9,25 @@ namespace MaaBuilder;
     OnPullRequestBranches = new[] { DevBranch },
     OnPushIncludePaths = new[]
     {
-        "src/MeoAssistant/**",
-        "src/MeoAsstGui/**",  // 新 UI 发布后，移除 MeoAsstGui
+        "src/MaaCore/**",
+        "src/MaaWpfGui/**",  // 新 UI 发布后，移除 MaaWpfGui
         "3rdparty/**",  // 新 UI 发布后，移除 3rdparty/resource/**
         "tools/MaaBuilder/**",
         "tools/MaaBuilder.sln",
         "include/**",
         "resource/**", // 新 UI 发布后，DevBuild 不再包含 WPF Gui 内容，不再打包 MaaBundle，因此移除资源文件夹的监控
-        "MeoAssistantArknights.sln"
+        "MAA.sln"
     },
     OnPullRequestIncludePaths = new[]
     {
-        "src/MeoAssistant/**",
-        "src/MeoAsstGui/**",  // 新 UI 发布后，移除 MeoAsstGui
+        "src/MaaCore/**",
+        "src/MaaWpfGui/**",  // 新 UI 发布后，移除 MaaWpfGui
         "3rdparty/**",  // 新 UI 发布后，移除 3rdparty/resource/**
         "tools/MaaBuilder/**",
         "tools/MaaBuilder.sln",
         "include/**",
         "resource/**", // 新 UI 发布后，DevBuild 不再包含 WPF Gui 内容，不再打包 MaaBundle，因此移除资源文件夹的监控
-        "MeoAssistantArknights.sln"
+        "MAA.sln"
     },
     OnWorkflowDispatchRequiredInputs = new [] { "Reason", "ReleaseSimulation" },
     InvokedTargets = new[] { nameof(DevBuild) },

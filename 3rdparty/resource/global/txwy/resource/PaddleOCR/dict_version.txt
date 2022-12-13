@@ -1,1 +1,0 @@
-chinese_cht_dict.txt

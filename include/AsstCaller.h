@@ -1,53 +1,50 @@
 #pragma once
 
 #include "AsstPort.h"
+#include <stdint.h>
 
-#ifndef __cplusplus
-#include <stdbool.h>
-#endif
+struct AsstExtAPI;
+typedef struct AsstExtAPI* AsstHandle;
 
-#ifdef __cplusplus
-namespace asst
-{
-    class Assistant;
-}
-#endif
+typedef uint8_t AsstBool;
+typedef uint64_t AsstSize;
+typedef int32_t AsstMsgId;
+typedef int32_t AsstTaskId;
+typedef int32_t AsstAsyncCallId;
+typedef int32_t AsstStaticOptionKey;
+typedef int32_t AsstInstanceOptionKey;
+
+typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json, void* custom_arg);
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-#ifdef __cplusplus
-    typedef asst::Assistant* AsstHandle;
-#else
-typedef void* AsstHandle;
-#endif
-    typedef int AsstTaskId;
-    typedef int AsstProcessOptionKey;
-    typedef int AsstInstanceOptionKey;
-    typedef unsigned long long AsstSize;
-
-    typedef void(ASST_CALL* AsstApiCallback)(int msg, const char* detail_json, void* custom_arg);
-
-    bool ASSTAPI AsstSetUserDir(const char* path);
-    bool ASSTAPI AsstLoadResource(const char* path);
-    bool ASSTAPI AsstSetProcessOption(AsstProcessOptionKey key, const char* value);
+    AsstBool ASSTAPI AsstSetUserDir(const char* path);
+    AsstBool ASSTAPI AsstLoadResource(const char* path);
+    AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 
     AsstHandle ASSTAPI AsstCreate();
     AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
-    bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
-    bool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config);
+    AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
+    /* deprecated */ AsstBool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address,
+                                                  const char* config);
 
     AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params);
-    bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params);
+    AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params);
 
-    bool ASSTAPI AsstStart(AsstHandle handle);
-    bool ASSTAPI AsstStop(AsstHandle handle);
-    bool ASSTAPI AsstRunning(AsstHandle handle);
+    AsstBool ASSTAPI AsstStart(AsstHandle handle);
+    AsstBool ASSTAPI AsstStop(AsstHandle handle);
+    AsstBool ASSTAPI AsstRunning(AsstHandle handle);
 
-    bool ASSTAPI AsstClick(AsstHandle handle, int x, int y);
+    /* Aysnc with AsstMsg::AsyncCallInfo Callback*/
+    AsstAsyncCallId ASSTAPI AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address,
+                                             const char* config, AsstBool block);
+    AsstAsyncCallId ASSTAPI AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block);
+    AsstAsyncCallId ASSTAPI AsstAsyncScreencap(AsstHandle handle, AsstBool block);
+
     AsstSize ASSTAPI AsstGetImage(AsstHandle handle, void* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetTasksList(AsstHandle handle, AsstTaskId* buff, AsstSize buff_size);

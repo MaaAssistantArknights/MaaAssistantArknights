@@ -82,7 +82,8 @@
               "UseRsVersion",
               "UseTagVersion",
               "WithCompileCoreRelease",
-              "WithCompileWpfRelease"
+              "WithCompileWpfRelease",
+              "WithSyncRes"
             ]
           }
         },
@@ -110,7 +111,8 @@
               "UseRsVersion",
               "UseTagVersion",
               "WithCompileCoreRelease",
-              "WithCompileWpfRelease"
+              "WithCompileWpfRelease",
+              "WithSyncRes"
             ]
           }
         },

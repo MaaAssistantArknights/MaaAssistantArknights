@@ -33,15 +33,15 @@ class Asst:
             ``user_dir``:   用户数据（日志、调试图片等）写入文件夹路径
         """
         if platform.system().lower() == 'windows':
-            Asst.__libpath = pathlib.Path(path) / 'MeoAssistant.dll'
+            Asst.__libpath = pathlib.Path(path) / 'MaaCore.dll'
             os.environ["PATH"] += os.pathsep + str(path)
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
         elif platform.system().lower() == 'darwin':
-            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.dylib'
+            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.dylib'
             os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         else:
-            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.so'
+            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.so'
             os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()

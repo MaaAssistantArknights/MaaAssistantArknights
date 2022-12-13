@@ -18,7 +18,7 @@ pub async fn set(req: web::Json<Req>, maa_manager:web::Data<Mutex<MaaManager>>) 
     let params = match req.params {
         Value::Null => "{}".to_string(),
         Value::Object(_) => req.params.to_string(),
-        _=>return Err(Error::InvaildRequest)
+        _=>return Err(Error::InvalidRequest)
     };
     maa.set_task(req.task_id, &params)?;
     Ok(HttpResponse::Ok().json(json!({

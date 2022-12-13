@@ -22,7 +22,7 @@ namespace function {
 /** Excute the concatenate operation for input FDTensor along given axis.
     @param x The input tensor.
     @param out The output tensor which stores the result.
-    @param axisi Axis which will be concatenated.
+    @param axis Axis which will be concatenated.
 */
 
 FASTDEPLOY_DECL void Concat(const std::vector<FDTensor>& x, FDTensor* out,

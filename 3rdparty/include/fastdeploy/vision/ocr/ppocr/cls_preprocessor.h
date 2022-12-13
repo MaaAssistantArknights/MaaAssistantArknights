@@ -24,11 +24,6 @@ namespace ocr {
  */
 class FASTDEPLOY_DECL ClassifierPreprocessor {
  public:
-  /** \brief Create a preprocessor instance for Classifier serials model
-   *
-   */
-  ClassifierPreprocessor();
-
   /** \brief Process the input image and prepare input tensors for runtime
    *
    * \param[in] images The input image data list, all the elements are returned by cv::imread()
@@ -36,14 +31,13 @@ class FASTDEPLOY_DECL ClassifierPreprocessor {
    * \return true if the preprocess successed, otherwise false
    */
   bool Run(std::vector<FDMat>* images, std::vector<FDTensor>* outputs);
+  bool Run(std::vector<FDMat>* images, std::vector<FDTensor>* outputs,
+           size_t start_index, size_t end_index);
 
   std::vector<float> mean_ = {0.5f, 0.5f, 0.5f};
   std::vector<float> scale_ = {0.5f, 0.5f, 0.5f};
   bool is_scale_ = true;
   std::vector<int> cls_image_shape_ = {3, 48, 192};
-
- private:
-  bool initialized_ = false;
 };
 
 }  // namespace ocr

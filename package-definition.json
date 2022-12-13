@@ -9,31 +9,11 @@
         }
     },
     {
-        "name_template": "MAAComponent-OTA-{VERSION}-win-x64",
-        "type": "MaaBundleOta",
-        "configuration": {
-            "include": [
-                "resource/**",
-                "MeoAssistant.dll",
-                "MeoAsstGui.exe",
-                "ON.dll",
-                "onnxruntime.dll",
-                "onnxruntime_providers_shared.dll",
-                "paddle2onnx.dll",
-                "yaml-cpp.dll"
-            ],
-            "exclude": [
-                "**/PaddleOCR/**",
-                "**/PaddleCharOCR/**"
-            ]
-        }
-    },
-    {
         "name_template": "MAAComponent-Core-{VERSION}-win-x64",
         "type": "MaaCore",
         "configuration": {
             "include": [
-                "MeoAssistant.dll"
+                "MaaCore.dll"
             ]
         }
     },
@@ -42,11 +22,9 @@
         "type": "MaaDependency",
         "configuration": {
             "include": [
-                "ON.dll",
+                "fastdeploy.dll",
                 "onnxruntime.dll",
-                "onnxruntime_providers_shared.dll",
                 "paddle2onnx.dll",
-                "yaml-cpp.dll",
                 "opencv_world453.dll",
                 "**/PaddleOCR/**",
                 "**/PaddleCharOCR/**"
