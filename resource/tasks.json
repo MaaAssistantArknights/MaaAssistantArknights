@@ -5904,18 +5904,13 @@
             44
         ]
     },
-    "BattleAutoSkillFlag": {
-        "template": "BattleSkillReady.png",
+    "BattleSkillReady": {
         "cache": false,
         "rectMove": [
-            -40,
-            -150,
-            80,
-            100
-        ],
-        "maskRange": [
-            1,
-            255
+            -20,
+            -125,
+            45,
+            50
         ]
     },
     "BattleSkillReadyOnClick": {
@@ -6278,24 +6273,6 @@
         "algorithm": "Hash",
         "hash": [
             "07e01e78700e6006e007e007e0076006700e1ffe011800700060008001800700"
-        ]
-    },
-    "BattleSkillReady": {
-        "roi": [
-            0,
-            0,
-            1280,
-            580
-        ],
-        "maskRange": [
-            1,
-            255
-        ],
-        "rectMove": [
-            0,
-            100,
-            40,
-            40
         ]
     },
     "BattleUseSkillJustClick": {
