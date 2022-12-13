@@ -1,67 +1,67 @@
 中文|English|日本語|한국어
 ---|---|---|---
-基础作战记录|Drill Battle Record|入門作戦記録|기초 작전 기록
-初级作战记录|Frontline Battle Record|初級作戦記録|초급 작전 기록
-中级作战记录|Tactical Battle Record|中級作戦記録|중급 작전 기록
-高级作战记录|Strategic Battle Record|上級作戦記録|고급 작전 기록
+基础作战记录|Drill Battle Record|入門作戦記録|기초작전기록
+初级作战记录|Frontline Battle Record|初級作戦記録|초급작전기록
+中级作战记录|Tactical Battle Record|中級作戦記録|중급작전기록
+高级作战记录|Strategic Battle Record|上級作戦記録|고급작전기록
 
 中文|English|日本語|한국어
 ---|---|---|---
 源岩|Orirock|源岩鉱|원암
 异铁碎片|Oriron Shard|異鉄の欠片|이철 조각
-双酮|Diketon|アケトン試剤|다이케톤
-代糖|Sugar Substitute|ブドウ糖|감미료
-酯原料|Ester|エステル原料|에스테르
-破损装置|Damaged Device|破損装置|파손장치
-固源岩|Orirock Cube|初級源岩|고원암
+双酮|Diketon|アケトン試剤|디케톤
+代糖|Sugar Substitute|ブドウ糖|대체당
+酯原料|Ester|エステル原料|에스테르 원료
+破损装置|Damaged Device|破損装置|파손된 장치
+固源岩|Orirock Cube|初級源岩|원암 큐브
 异铁|Oriron|初級異鉄|이철
-酮凝集|Polyketon|初級アケトン|케톤 앰플
-糖|Sugar|初級糖原|설탕
+酮凝集|Polyketon|初級アケトン|아케톤 응집체
+糖|Sugar|初級糖原|포도당
 聚酸酯|Polyester|初級エステル|폴리에스테르
 装置|Device|初級装置|장치
-固源岩组|Orirock Cluster|中級源岩|고원암 더미
-异铁组|Oriron Cluster|中級異鉄|이철 결정
-酮凝集组|Aketon|中級アケトン|케톤 세트
-糖组|Sugar Pack|中級糖原|설탕 봉지
-聚酸酯组|Polyester Pack|中級エステル|폴리에스테르 세트
-全新装置|Integrated Device|中級装置|개조장치
-扭转醇|Loxic Kohl|合成コール|레조에틸렌
-轻锰矿|Manganese Ore|マンガン|망간
+固源岩组|Orirock Cluster|中級源岩|원암 번들
+异铁组|Oriron Cluster|中級異鉄|이철 번들
+酮凝集组|Aketon|中級アケトン|아케톤 응집체 번들
+糖组|Sugar Pack|中級糖原|포도당 번들
+聚酸酯组|Polyester Pack|中級エステル|폴리에스테르 번들
+全新装置|Integrated Device|中級装置|리뉴얼 장치
+扭转醇|Loxic Kohl|合成コール|로식 콜
+轻锰矿|Manganese Ore|マンガン|망간 광석
 研磨石|Grindstone|砥石|연마석
 RMA70-12|RMA70-12|RMA70-12|RMA70-12
 凝胶|Coagulating Gel|人工ゲル|젤
 炽合金|Incandescent Alloy|熾合金|열합금
-晶体元件|Crystalline Component|素子結晶|크리스탈 소자
+晶体元件|Crystalline Component|素子結晶|결정 부품
 化合切削液|Compound Cutting Fluid|切削液|중합 절삭유
 半自然溶剂|Semi-Synthetic Solvent|半自然溶剤|반합성 용제
-提纯源岩|Orirock Concentration|上級源岩|정제원암
-异铁块|Oriron Block|上級異鉄|이철 덩어리
-酮阵列|Keton Colloid|上級アケトン|케톤 진열장
-糖聚块|Sugar Lump|上級糖原|설탕 박스
-聚酸酯块|Polyester Lump|上級エステル|폴리에스테르 박스
-改量装置|Optimized Device|上級装置|개량장치
-白马醇|White Horse Kohl|上級合成コール|에틸렌바이마
-三水锰矿|Manganese Trihydrate|上級マンガン|깁사이트
-五水研磨石|Grindstone Pentahydrate|上級砥石|오수연마석
+提纯源岩|Orirock Concentration|上級源岩|정제 원암
+异铁块|Oriron Block|上級異鉄|이철 팩
+酮阵列|Keton Colloid|上級アケトン|아케톤 팩
+糖聚块|Sugar Lump|上級糖原|포도당 팩
+聚酸酯块|Polyester Lump|上級エステル|폴리에스테르 팩
+改量装置|Optimized Device|上級装置|개량 장치
+白马醇|White Horse Kohl|上級合成コール|화이트 호스 콜
+三水锰矿|Manganese Trihydrate|上級マンガン|망간 중합체
+五水研磨石|Grindstone Pentahydrate|上級砥石|고급연마석
 RMA70-24|RMA70-24|RMA70-24|RMA70-24
 聚合凝胶|Polymerized Gel|融合ゲル|중합젤
-炽合金块|Incandescent Alloy Block|上級熾合金|열합금 덩어리
-晶体电路|Crystalline Circuit|結晶回路|크리스탈 회로
+炽合金块|Incandescent Alloy Block|上級熾合金|열합금 팩
+晶体电路|Crystalline Circuit|結晶回路|결정 회로
 切削原液|Cutting Fluid Solution|上級切削液|절삭유 원액
-精炼溶剂|Refined Solvent|精錬溶剤|
-聚合剂|Polymerization Preparation|融合剤|
+精炼溶剂|Refined Solvent|精錬溶剤|정제된 용제
+聚合剂|Polymerization Preparation|融合剤|중합제
 双极纳米片|Bipolar Nanoflake|ナノフレーク|바이폴라 나노칩
 D32钢|D32 Steel|D32鋼|D32강
-晶体电子单元|Crystalline Electronic Unit|結晶制御装置|크리스탈 전자 유닛
+晶体电子单元|Crystalline Electronic Unit|結晶制御装置|결정 전자 장치
 
 中文|English|日本語|한국어
 ---|---|---|---
-基础加固建材|Light Building Material|初級補強材|기초 건축 자제
-进阶加固建材|Concrete Building Material|中級補強材|강화 건축 자제
-高级加固建材|Reinforced Building Material|上級補強材|고급 건축 자제
-碳|Carbon Stick|初級炭素材|탄소 막대
-碳素|Carbon Brick|中級炭素材|탄소 막대 묶음
-碳素组|Carbon Pack|上級炭素材|탄소 막대 세트
+基础加固建材|Light Building Material|初級補強材|초급건설자재
+进阶加固建材|Concrete Building Material|中級補強材|중급건설자재
+高级加固建材|Reinforced Building Material|上級補強材|고급건설자재
+碳|Carbon Stick|初級炭素材|카본
+碳素|Carbon Brick|中級炭素材|카본 번들
+碳素组|Carbon Pack|上級炭素材|카본 팩
 龙骨|Keel|竜骨|용골
 
 中文|English|日本語|한국어
@@ -74,17 +74,17 @@ D32钢|D32 Steel|D32鋼|D32강
 ---|---|---|---
 芯片|Chip|初級SoC|칩
 芯片组|Chip Pack|中級SoC|칩셋
-双芯片|Dualchip|上級SoC|듀얼칩
+双芯片|Dualchip|上級SoC|듀얼 칩
 芯片助剂|Chip Catalyst|SoC強化剤|칩 첨가제
 
 中文|English|日本語|한국어
 ---|---|---|---
-信物复制品|Replicated Token|★1○○の印|
-信物原件|Original Token|★2○○の印|OOO 증표 원본
-信物藏品|Antique Token|★3○○の印|OOO 앤틱 증표
-传承信物|Rare Token|★4○○の印|OOO 레어 증표
-遗产信物|Epic Token|★5○○の印|OOO 에픽 증표
-皇家信物|Royal Token|★6○○の印|OOO 로열 증표
+信物复制品|Replicated Token|★1○○の印|증표 복제품
+信物原件|Original Token|★2○○の印|증표 원본
+信物藏品|Antique Token|★3○○の印|앤틱 증표
+传承信物|Rare Token|★4○○の印|레어 증표
+遗产信物|Epic Token|★5○○の印|에픽 증표
+皇家信物|Royal Token|★6○○の印|로열 증표
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -100,9 +100,9 @@ D32钢|D32 Steel|D32鋼|D32강
 至纯源石|Originite Prime|純正源石|오리지늄
 源石碎片|Originium Shard|源石の欠片|오리지늄 조각
 寻访参数模型|Headhunting Parametric Model|特別引換証|헤드헌팅 파라미터 모델
-寻访数据契约|Headhunting Data Contract|限定契約証|
+寻访数据契约|Headhunting Data Contract|限定契約証|헤드헌팅 데이터 계약
 事相碎片|Information Fragment|事象の欠片|기록 조각
-事相结晶|Event Crystal|事象の結晶|
+事相结晶|Event Crystal|事象の結晶|기록 결정
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -125,7 +125,7 @@ D32钢|D32 Steel|D32鋼|D32강
 资深干员特训邀请函|Senior Operator Training Invitation Letter|★5特訓招待状|특별 채용 훈련 초대장
 资深干员调用凭证|Senior Operator Transfer Permit|★5招聘指名券|특별 채용 조달 허가증
 高级干员调用凭证|Top Operator Transfer Permit|★6招聘指名券|고급 오퍼레이터 조달 허가증
-庆典干员凭证|Thank-You Celebration Headhunting Permit|感謝祭記念★6招聘指名券|
+庆典干员凭证|Thank-You Celebration Headhunting Permit|感謝祭記念★6招聘指名券|감사 축제 헤드헌팅 10회 허가증
 火神因陀罗招募券|Vulcan and Indra Recruitment Voucher|公開求人★5特別指名券|벌컨/인드라 모집권
 时装自选凭证|Outfit Voucher|コーデ引換券|컬렉션 자유 선택권
 
@@ -136,5 +136,5 @@ ID信息更新卡|ID Info Update Card|ID情報更新カード|ID 정보 갱신 �
 模组数据块|Module Data Block|モジュールデータ|모듈 데이터 칩
 理智|Sanity|理性|이성
 声望|EXP|名声|경험치
-演习券|Drill Plan|演習券|
+演习券|Drill Plan|演習券|연습권
 无人机|Drone|ドローン|드론

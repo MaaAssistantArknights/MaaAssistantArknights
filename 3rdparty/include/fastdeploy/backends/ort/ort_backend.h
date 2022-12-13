@@ -68,7 +68,8 @@ class OrtBackend : public BaseBackend {
                     bool from_memory_buffer = false);
 
   bool Infer(std::vector<FDTensor>& inputs,
-             std::vector<FDTensor>* outputs) override;
+             std::vector<FDTensor>* outputs,
+             bool copy_to_fd = true) override;
 
   int NumInputs() const override { return inputs_desc_.size(); }
 
@@ -92,7 +93,7 @@ class OrtBackend : public BaseBackend {
   Ort::CustomOpDomain custom_op_domain_ = Ort::CustomOpDomain("Paddle");
 #endif
   OrtBackendOption option_;
-  void CopyToCpu(const Ort::Value& value, FDTensor* tensor,
-                 const std::string& name);
+  void OrtValueToFDTensor(const Ort::Value& value, FDTensor* tensor,
+                          const std::string& name, bool copy_to_fd);
 };
 }  // namespace fastdeploy

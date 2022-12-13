@@ -1,6 +1,6 @@
 [submodule "test"]
 	path = test
 	url = https://github.com/MaaAssistantArknights/MaaTestSet.git
-[submodule "src/MeoAsstMac"]
-	path = src/MeoAsstMac
-	url = https://github.com/MaaAssistantArknights/MeoAsstMac.git
+[submodule "src/MaaMacGui"]
+	path = src/MaaMacGui
+	url = https://github.com/MaaAssistantArknights/MaaMacGui.git

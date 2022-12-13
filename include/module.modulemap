@@ -1,4 +1,4 @@
-module MeoAssistant {
+module MaaCore {
     umbrella header "AsstCaller.h"
     export *
     link framework "Accelerate"

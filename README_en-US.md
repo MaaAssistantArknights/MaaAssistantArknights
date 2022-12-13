@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md)
+[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md) | [한국어](README_ko-KR.md)
 
 MAA means MAA Assistant Arknights
 
@@ -38,7 +38,8 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV1H841177Fk/)
-- New feature: Depot recognition! Supports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
+- Depot recognition and upports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
+- Support C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP and other interfaces, easy to integrate and call, customize your MAA!
 
 Talk is cheap. Show me the pictures!  
 
@@ -75,11 +76,11 @@ Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 ## Supports for overseas clients
 
 - Global(EN) Client  
-  Supports basic features like Combat, Credit Shopping, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
+  Supports basic features like Combat, Credit Shopping, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
 - JP Client  
-  Supports basic features like Combat, Auto Base shift, Credit Shopping, Auto Recruiting, Visiting, Collocting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
+  Supports basic features like Combat, Auto Base shift, Credit Shopping, Auto Recruiting, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
 - KR Client  
-  Supports basic features like Combat, etc. See also [README](resource/global/YoStarKR/readme.md)
+  Supports basic features like Combat, Credit Shopping, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarKR/readme.md)
 - ZH_CHT Client  
   Supports basic features like Combat, Auto Recruiting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/txwy/readme.md)
 
@@ -99,8 +100,8 @@ Due to the small number of overseas clients users and the lack of project manpow
 - Image recognition: [opencv](https://github.com/opencv/opencv.git)
 - ~~OCR: [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - OCR: [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- Deep Learning Model Deployment Toolkit: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- ML inferencing and training accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
+- ML Deployment: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- ML accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~Item drop recognition: [Penguin Stats recognizer](https://github.com/penguin-statistics/recognizer)~~
 - Map tile recognition: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
 - C++ JSON library: [meojson](https://github.com/MistEO/meojson.git)
@@ -109,7 +110,8 @@ Due to the small number of overseas clients users and the lack of project manpow
 - C++ ZIP library: [zlib](https://github.com/madler/zlib)
 - C++ Gzip library: [gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - Touch event producer for Android: [minitouch](https://github.com/openstf/minitouch)
-- WPF MVVW framework: [Stylet](https://github.com/canton7/Stylet)
+- Touch event producer for Android: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
+- WPF MVVM framework: [Stylet](https://github.com/canton7/Stylet)
 - WPF control library: [HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON library: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - Downloader: [aria2](https://github.com/aria2/aria2)
@@ -132,8 +134,8 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 ### Windows
 
-- Open `MeoAssistantArknights.sln` with Visual Studio 2022. All settings have been configured properly.
-- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](docs/en-us/2.2-CONTRIBUTING.md#using-clang-format-in-visual-studio).
+- Open `MAA.sln` with Visual Studio 2022. All settings have been configured properly.
+- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](docs/en-us/2.2-DEVELOPMENT.md#using-clang-format-in-visual-studio).
 
 ### Linux/MacOS
 
@@ -141,13 +143,14 @@ Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 
 ### API
 
-- [C interface](include/AsstCaller.h): [Integration Example](tools/TestCaller/main.cpp)
+- [C interface](include/AsstCaller.h): [Integration Example](src/CppSample/main.cpp)
 - [Python interface](src/Python/asst.py): [Integration Example](src/Python/sample.py)
-- [Golang interface](src/Golang/MaaAssistantArknights/): [Integration Example](src/Golang/MaaAssistantArknights/maa/maa.go)
+- [Golang interface](src/Golang/): [Integration Example](src/Golang/maa/maa.go)
 - [Dart interface](src/dart/)
-- [Java interface](src/Java/Maaj): [Integration Example](src/Java/Maaj/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
-- [Rust interface](src/Rust/src/maa_sys/): [HTTP api](src/Rust)
-- [HTTP interface](src/Java/Maaj/Readme.md)
+- [Java interface](src/Java): [Integration Example](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
+- [Rust interface](src/Rust/src/maa_sys/): [HTTP API](src/Rust)
+- [HTTP interface](src/Java/Readme.md)
+- [TypeScript interface](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [Integration Documentation](docs/en-us/3.1-INTEGRATION.md)
 - [Callback Schema](docs/en-us/3.2-CALLBACK_SCHEMA.md)
 - [Task Schema](docs/en-us/3.4-TASK_SCHEMA.md)
@@ -171,8 +174,8 @@ Please refer to [Issue Bot Usage](docs/en-us/2.3-ISSUE_BOT_USAGE.md) for more de
 
 ## Advertisement
 
-[User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-Copilot JSON Sharing: <https://www.prts.plus/>, [QQ Group 1(full)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3(full)](https://jq.qq.com/?_wv=1027&k=mKdOnhWV), [QQ Group 4(full)](https://jq.qq.com/?_wv=1027&k=ABkU8mCR), [QQ Group 5(full)](https://jq.qq.com/?_wv=1027&k=To6b6H6m), [QQ Group 6(full)](https://jq.qq.com/?_wv=1027&k=PYoCP2lS), [QQ Group 7](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)  
+[User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group 1(full)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3(full)](https://jq.qq.com/?_wv=1027&k=mKdOnhWV), [QQ Group 4(full)](https://jq.qq.com/?_wv=1027&k=ABkU8mCR), [QQ Group 5(full)](https://jq.qq.com/?_wv=1027&k=To6b6H6m), [QQ Group 6(full)](https://jq.qq.com/?_wv=1027&k=PYoCP2lS), [QQ Group 7(full)](https://jq.qq.com/?_wv=1027&k=xDT9vHvB), [QQ Group 8](https://jq.qq.com/?_wv=1027&k=PzvqFhOr)  
+[Copilot JSON Sharing](https://prts.plus)  
 [Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
 [Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)

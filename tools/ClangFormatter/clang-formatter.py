@@ -37,4 +37,4 @@ if __name__ == "__main__":
     else:
         print("Invalid input_path!")
 
-# example: python tools\ClangFormatter\clang-formatter.py --input=src\MeoAssistant
+# example: python tools\ClangFormatter\clang-formatter.py --input=src\MaaCore

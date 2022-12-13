@@ -35,7 +35,7 @@ jobs:
         run: |
           mkdir -pv build-ota && cd build-ota
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
-          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
+          gh release list --repo "MaaAssistantArknights/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
           head -n 1 ./release_maa.txt | awk '{ print $1 }' > ./config
 
           tail -n +1 ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
@@ -63,7 +63,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config 'MaaAssistantArknights/MaaRelease'
       - name: "Commit and setup tag"
         run: |
           cd MaaRelease

@@ -187,6 +187,16 @@
         "action": "ClickRect",
         "isAscii": true,
         "text": [],
+        "ocrReplace": [
+            [
+                " ",
+                ""
+            ],
+            [
+                "EPIS0DE",
+                "EPISODE"
+            ]
+        ],
         "roi": [
             16,
             219,
@@ -214,57 +224,57 @@
     },
     "01@EnterEpisode": {
         "text": [
-            "01"
+            "EPISODE01"
         ]
     },
     "02@EnterEpisode": {
         "text": [
-            "02"
+            "EPISODE02"
         ]
     },
     "03@EnterEpisode": {
         "text": [
-            "03"
+            "EPISODE03"
         ]
     },
     "04@EnterEpisode": {
         "text": [
-            "04"
+            "EPISODE04"
         ]
     },
     "05@EnterEpisode": {
         "text": [
-            "05"
+            "EPISODE05"
         ]
     },
     "06@EnterEpisode": {
         "text": [
-            "06"
+            "EPISODE06"
         ]
     },
     "07@EnterEpisode": {
         "text": [
-            "07"
+            "EPISODE07"
         ]
     },
     "08@EnterEpisode": {
         "text": [
-            "08"
+            "EPISODE08"
         ]
     },
     "09@EnterEpisode": {
         "text": [
-            "09"
+            "EPISODE09"
         ]
     },
     "10@EnterEpisode": {
         "text": [
-            "10"
+            "EPISODE10"
         ]
     },
     "11@EnterEpisode": {
         "text": [
-            "11"
+            "EPISODE11"
         ]
     },
     "LevelOfDifficulty": {
@@ -294,21 +304,21 @@
             122
         ]
     },
-    "Hard": {
+    "ChapterDifficultyHard": {
         "baseTask": "LevelOfDifficulty",
         "next": [
-            "EnterHard",
+            "EnterChapterDifficultyHard",
             "Return"
         ]
     },
-    "Normal": {
+    "ChapterDifficultyNormal": {
         "baseTask": "LevelOfDifficulty",
         "next": [
-            "EnterNormal",
+            "EnterChapterDifficultyNormal",
             "Return"
         ]
     },
-    "EnterHard": {
+    "EnterChapterDifficultyHard": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -321,7 +331,7 @@
             145
         ]
     },
-    "EnterNormal": {
+    "EnterChapterDifficultyNormal": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -340,6 +350,16 @@
         "action": "Swipe",
         "isAscii": true,
         "text": [],
+        "ocrReplace": [
+            [
+                " ",
+                ""
+            ],
+            [
+                "EPIS0DE",
+                "EPISODE"
+            ]
+        ],
         "roi": [
             16,
             219,
@@ -358,6 +378,12 @@
             10,
             10
         ],
+        "specialParams": [
+            200,
+            0,
+            2,
+            0
+        ],
         "maxTimes": 20,
         "next": [
             "EnterEpisode",
@@ -367,23 +393,23 @@
     },
     "11@SwipeLeftToEpisode": {
         "text": [
-            "12",
-            "13"
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "10@SwipeLeftToEpisode": {
         "text": [
-            "11",
-            "12",
-            "13"
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "09@SwipeLeftToEpisode": {
         "text": [
-            "10",
-            "11",
-            "12",
-            "13"
+            "EPISODE10",
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13"
         ]
     },
     "08@SwipeLeftToEpisode": {
@@ -393,28 +419,28 @@
     },
     "07@SwipeLeftToEpisode": {
         "text": [
-            "08"
+            "EPISODE08"
         ]
     },
     "06@SwipeLeftToEpisode": {
         "text": [
-            "07",
-            "08"
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "05@SwipeLeftToEpisode": {
         "text": [
-            "06",
-            "07",
-            "08"
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "04@SwipeLeftToEpisode": {
         "text": [
-            "05",
-            "06",
-            "07",
-            "08"
+            "EPISODE05",
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
         ]
     },
     "03@SwipeLeftToEpisode": {
@@ -424,20 +450,20 @@
     },
     "02@SwipeLeftToEpisode": {
         "text": [
-            "03"
+            "EPISODE03"
         ]
     },
     "01@SwipeLeftToEpisode": {
         "text": [
-            "02",
-            "03"
+            "EPISODE02",
+            "EPISODE03"
         ]
     },
     "00@SwipeLeftToEpisode": {
         "text": [
-            "01",
-            "02",
-            "03"
+            "EPISODE01",
+            "EPISODE02",
+            "EPISODE03"
         ]
     },
     "StageNavigationBegin": {
@@ -451,10 +477,6 @@
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
-        "next": [
-            "#self"
-        ],
-        "maxTimes": 5,
         "exceededNext": [
             "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
@@ -480,7 +502,7 @@
         "exceededNext": [
             "Home@ReturnTo"
         ],
-        "maxTimes": 10
+        "maxTimes": 20
     },
     "ClickedCorrectStageOrSwipe": {
         "baseTask": "StartButton1",
@@ -607,16 +629,17 @@
         ]
     },
     "ChapterSlowlySwipeToTheLeft": {
+        "Doc": "在上面一点滑避免点到关卡划不动",
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
-            300,
-            350,
+            200,
+            100,
             20,
             20
         ],
         "rectMove": [
-            900,
-            350,
+            1000,
+            100,
             20,
             20
         ]
@@ -625,31 +648,52 @@
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
             900,
-            350,
+            100,
             20,
             20
         ],
         "rectMove": [
             300,
-            350,
+            100,
             20,
             20
         ]
     },
     "ChapterSwipeToTheLeft": {
+        "Doc": "滑动到最左",
         "baseTask": "ChapterSlowlySwipeToTheLeft",
         "specialParams": [
             150,
             0,
             0.5
-        ]
+        ],
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5
     },
     "ChapterSwipeToTheRight": {
+        "Doc": "滑动到最右",
         "baseTask": "ChapterSlowlySwipeToTheRight",
         "specialParams": [
             150,
             0,
             0.5
+        ],
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5
+    },
+    "SwipeToStage": {
+        "Doc": "活动导航左滑找关",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            1
+        ],
+        "next": [
+            "#next"
         ]
     },
     "SwipeLeftToStage1-7": {
@@ -818,6 +862,7 @@
         ]
     },
     "SwipeToStageIS": {
+        "Doc": "IS关特殊的上下滑动",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [
@@ -889,7 +934,7 @@
         ],
         "next": [
             "StageNL-10",
-            "SwipeToStageNL-10"
+            "NL-10@SwipeToStage"
         ]
     },
     "NL-9": {
@@ -900,7 +945,7 @@
         ],
         "next": [
             "StageNL-9",
-            "SwipeToStageNL-9"
+            "NL-9@SwipeToStage"
         ]
     },
     "NL-8": {
@@ -911,7 +956,7 @@
         ],
         "next": [
             "StageNL-8",
-            "SwipeToStageNL-8"
+            "NL-8@SwipeToStage"
         ]
     },
     "NL-Open": {
@@ -943,30 +988,6 @@
         "next": [
             "NLChapterToNL",
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageNL-10": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageNL-10",
-            "SwipeToStageNL-10"
-        ]
-    },
-    "SwipeToStageNL-9": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageNL-9",
-            "SwipeToStageNL-9"
-        ]
-    },
-    "SwipeToStageNL-8": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageNL-8",
-            "SwipeToStageNL-8"
         ]
     },
     "StageNL-10": {
@@ -1128,7 +1149,8 @@
         "cache": false,
         "isAscii": true,
         "text": [
-            "OF-F3"
+            "OF-F3",
+            "0F-F3"
         ]
     },
     "StageOF-1": {
@@ -1137,7 +1159,8 @@
         "cache": false,
         "isAscii": true,
         "text": [
-            "OF-1"
+            "OF-1",
+            "0F-1"
         ]
     },
     "IC-9": {
@@ -1148,7 +1171,7 @@
         ],
         "next": [
             "StageIC-9",
-            "SwipeToStageIC-9"
+            "IC-9@SwipeToStage"
         ]
     },
     "IC-8": {
@@ -1159,7 +1182,7 @@
         ],
         "next": [
             "StageIC-8",
-            "SwipeToStageIC-8"
+            "IC-8@SwipeToStage"
         ]
     },
     "IC-7": {
@@ -1170,7 +1193,7 @@
         ],
         "next": [
             "StageIC-7",
-            "SwipeToStageIC-7"
+            "IC-7@SwipeToStage"
         ]
     },
     "IC-Open": {
@@ -1198,30 +1221,6 @@
         "next": [
             "ICChapterToIC",
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageIC-9": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageIC-9",
-            "SwipeToStageIC-9"
-        ]
-    },
-    "SwipeToStageIC-8": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageIC-8",
-            "SwipeToStageIC-8"
-        ]
-    },
-    "SwipeToStageIC-7": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageIC-7",
-            "SwipeToStageIC-7"
         ]
     },
     "StageIC-9": {
@@ -1280,7 +1279,7 @@
         ],
         "next": [
             "StageDV-8",
-            "SwipeToStageDV-8"
+            "DV-8@SwipeToStage"
         ]
     },
     "DV-7": {
@@ -1291,7 +1290,7 @@
         ],
         "next": [
             "StageDV-7",
-            "SwipeToStageDV-7"
+            "DV-7@SwipeToStage"
         ]
     },
     "DV-6": {
@@ -1302,7 +1301,7 @@
         ],
         "next": [
             "StageDV-6",
-            "SwipeToStageDV-6"
+            "DV-6@SwipeToStage"
         ]
     },
     "DV-Open": {
@@ -1340,30 +1339,6 @@
         "next": [
             "DVChapterToDV",
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageDV-8": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-8",
-            "SwipeToStageDV-8"
-        ]
-    },
-    "SwipeToStageDV-7": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-7",
-            "SwipeToStageDV-7"
-        ]
-    },
-    "SwipeToStageDV-6": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageDV-6",
-            "SwipeToStageDV-6"
         ]
     },
     "StageDV-8": {
@@ -1420,7 +1395,7 @@
         ],
         "next": [
             "StageLE-5",
-            "SwipeToStageLE-5"
+            "LE-5@SwipeToStage"
         ]
     },
     "LE-6": {
@@ -1432,7 +1407,7 @@
         ],
         "next": [
             "StageLE-6",
-            "SwipeToStageLE-6"
+            "LE-6@SwipeToStage"
         ]
     },
     "LE-7": {
@@ -1444,7 +1419,7 @@
         ],
         "next": [
             "StageLE-7",
-            "SwipeToStageLE-7"
+            "LE-7@SwipeToStage"
         ]
     },
     "LE-Open": {
@@ -1471,30 +1446,6 @@
         "action": "ClickSelf",
         "sub": [
             "ChapterSwipeToTheRight"
-        ]
-    },
-    "SwipeToStageLE-5": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageLE-5",
-            "SwipeToStageLE-5"
-        ]
-    },
-    "SwipeToStageLE-6": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageLE-6",
-            "SwipeToStageLE-6"
-        ]
-    },
-    "SwipeToStageLE-7": {
-        "algorithm": "JustReturn",
-        "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "next": [
-            "StageLE-7",
-            "SwipeToStageLE-7"
         ]
     },
     "StageLE-5": {
@@ -1631,13 +1582,28 @@
             200
         ]
     },
+    "BI-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "BI-Open",
+            "BIChapterToBI"
+        ],
+        "next": [
+            "StageBI-6",
+            "BI-6@SwipeToStage"
+        ]
+    },
     "BI-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "StageBI",
-            "StageBI7"
+            "BIChapterToBI"
+        ],
+        "next": [
+            "StageBI-7",
+            "BI-7@SwipeToStage"
         ]
     },
     "BI-8": {
@@ -1645,11 +1611,15 @@
         "action": "DoNothing",
         "sub": [
             "BI-Open",
-            "StageBI",
-            "StageBI8"
+            "BIChapterToBI"
+        ],
+        "next": [
+            "StageBI-8",
+            "BI-8@SwipeToStage"
         ]
     },
     "BI-Open": {
+        "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
             "风雪过境"
@@ -1661,7 +1631,7 @@
             150
         ]
     },
-    "StageBI": {
+    "BIChapterToBI": {
         "action": "ClickSelf",
         "roi": [
             1000,
@@ -1669,28 +1639,55 @@
             280,
             150
         ],
+        "postDelay": 2000,
         "next": [
+            "BIChapterToBI",
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageBI7": {
+    "StageBI-6": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-6",
+            "BI-6"
+        ],
         "cache": false,
         "roi": [
-            50,
-            250,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
         ]
     },
-    "StageBI8": {
+    "StageBI-7": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-7",
+            "BI-7"
+        ],
         "cache": false,
         "roi": [
-            200,
-            350,
-            200,
-            80
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageBI-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "B1-8",
+            "BI-8"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            332
         ]
     },
     "ResourceStages": {
@@ -1728,7 +1725,7 @@
     },
     "PR-A-1": {
         "baseTask": "ResourceStages",
-        "doc": "医疗/重装",
+        "Doc": "医疗/重装",
         "next": [
             "PR-A-1@StagePR-A",
             "PR-A-1@SwipeToTheRight"
@@ -1743,7 +1740,7 @@
     },
     "PR-B-1": {
         "baseTask": "ResourceStages",
-        "doc": "术士/狙击",
+        "Doc": "术士/狙击",
         "next": [
             "PR-B-1@StagePR-B",
             "PR-B-1@SwipeToTheRight"
@@ -1758,7 +1755,7 @@
     },
     "PR-C-1": {
         "baseTask": "ResourceStages",
-        "doc": "先锋/辅助",
+        "Doc": "先锋/辅助",
         "next": [
             "PR-C-1@StagePR-C",
             "PR-C-1@SwipeToTheRight"
@@ -1773,7 +1770,7 @@
     },
     "PR-D-1": {
         "baseTask": "ResourceStages",
-        "doc": "近卫/特种",
+        "Doc": "近卫/特种",
         "next": [
             "PR-D-1@StagePR-D",
             "PR-D-1@SwipeToTheRight"
@@ -1788,7 +1785,7 @@
     },
     "StageResource": {
         "action": "ClickSelf",
-        "doc": "进入资源关卡",
+        "Doc": "进入资源关卡",
         "roi": [
             455,
             562,
@@ -1976,352 +1973,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
-        "ocrReplace": [
-            [
-                "【",
-                ""
-            ],
-            [
-                "《",
-                ""
-            ],
-            [
-                ".*SLAN",
-                ""
-            ],
-            [
-                "白面.*",
-                "白面鸮"
-            ],
-            [
-                "夜营",
-                "夜莺"
-            ],
-            [
-                "蛇居箱",
-                "蛇屠箱"
-            ],
-            [
-                ".*刺",
-                "棘刺"
-            ],
-            [
-                "^E$",
-                "山"
-            ],
-            [
-                "^口$",
-                "山"
-            ],
-            [
-                "^F$",
-                "山"
-            ],
-            [
-                "^U$",
-                "山"
-            ],
-            [
-                "^1$",
-                "山"
-            ],
-            [
-                "^中$",
-                "山"
-            ],
-            [
-                "^上$",
-                "山"
-            ],
-            [
-                "^云$",
-                "山"
-            ],
-            [
-                "^峨$",
-                "嵯峨"
-            ],
-            [
-                "姜哦",
-                "嵯峨"
-            ],
-            [
-                "姜峨",
-                "嵯峨"
-            ],
-            [
-                "健影",
-                "傀影"
-            ],
-            [
-                "愧影",
-                "傀影"
-            ],
-            [
-                "赤赤黑大",
-                "赫默"
-            ],
-            [
-                "赤赤黑犬",
-                "赫默"
-            ],
-            [
-                "赫黑大",
-                "赫默"
-            ],
-            [
-                "^灵鲨",
-                "幽灵鲨"
-            ],
-            [
-                "桑甚",
-                "桑葚"
-            ],
-            [
-                "灰烟",
-                "灰烬"
-            ],
-            [
-                "迷.*香",
-                "迷迭香"
-            ],
-            [
-                "森.*",
-                "森蚺"
-            ],
-            [
-                ".*心斯卡蒂",
-                "浊心斯卡蒂"
-            ],
-            [
-                "斯卡蒂的海刷",
-                "斯卡蒂的海嗣"
-            ],
-            [
-                "^会$",
-                "令"
-            ],
-            [
-                "^心$",
-                "令"
-            ],
-            [
-                "归.+幽灵鲨",
-                "归溟幽灵鲨"
-            ],
-            [
-                "鞭便刃",
-                "鞭刃"
-            ],
-            [
-                "险星",
-                "陨星"
-            ],
-            [
-                "雪难",
-                "雪雉"
-            ],
-            [
-                "雪雄",
-                "雪雉"
-            ],
-            [
-                "狮竭",
-                "狮蝎"
-            ],
-            [
-                "扬师虫",
-                "狮蝎"
-            ],
-            [
-                "漂冬",
-                "凛冬"
-            ],
-            [
-                "笔草",
-                "苇草"
-            ],
-            [
-                "^草$",
-                "苇草"
-            ],
-            [
-                "领习",
-                "翎羽"
-            ],
-            [
-                "令羽.*",
-                "翎羽"
-            ],
-            [
-                "令翎羽",
-                "翎羽"
-            ],
-            [
-                "燃石",
-                "燧石"
-            ],
-            [
-                "卡湿利安",
-                "卡涅利安"
-            ],
-            [
-                "^研$",
-                "砾"
-            ],
-            [
-                "紫雨",
-                "絮雨"
-            ],
-            [
-                "罗比拉塔",
-                "罗比菈塔"
-            ],
-            [
-                "罗比技塔",
-                "罗比菈塔"
-            ],
-            [
-                "^叶$",
-                "吽"
-            ],
-            [
-                "慢砂",
-                "慑砂"
-            ],
-            [
-                "灌尘芙蓉",
-                "濯尘芙蓉"
-            ],
-            [
-                "^子$",
-                "孑"
-            ],
-            [
-                "凤笛",
-                "风笛"
-            ],
-            [
-                "岚笛",
-                "风笛"
-            ],
-            [
-                "罗比塔",
-                "罗比菈塔"
-            ],
-            [
-                "惊垫",
-                "惊蛰"
-            ],
-            [
-                "^惊$",
-                "惊蛰"
-            ],
-            [
-                "^岁$",
-                "夕"
-            ],
-            [
-                "特米来",
-                "特米米"
-            ],
-            [
-                "^一岁$",
-                "夕"
-            ],
-            [
-                "永月",
-                "水月"
-            ],
-            [
-                "布亍",
-                "布丁"
-            ],
-            [
-                "野景",
-                "野鬃"
-            ],
-            [
-                "野素",
-                "野鬃"
-            ],
-            [
-                "野繁",
-                "野鬃"
-            ],
-            [
-                "野聚",
-                "野鬃"
-            ],
-            [
-                "野紫",
-                "野鬃"
-            ],
-            [
-                "^柏$",
-                "柏喙"
-            ],
-            [
-                "柏哆",
-                "柏喙"
-            ],
-            [
-                "^赤黑$",
-                "赤冬"
-            ],
-            [
-                "福果",
-                "褐果"
-            ],
-            [
-                "塞雷如",
-                "塞雷娅"
-            ],
-            [
-                "限星",
-                "陨星"
-            ],
-            [
-                "般子",
-                "骰子"
-            ],
-            [
-                "8面子",
-                "8面骰子"
-            ],
-            [
-                "伊柔",
-                "伊桑"
-            ],
-            [
-                ".*默德克萨斯",
-                "缄默德克萨斯"
-            ],
-            [
-                "霸霜叶",
-                "霜叶"
-            ],
-            [
-                "千员",
-                "干员"
-            ],
-            [
-                "克克洛丝",
-                "克洛丝"
-            ],
-            [
-                "^影$",
-                "傀影"
-            ],
-            [
-                "^桑芸$",
-                "桑葚"
-            ],
-            [
-                "^罪$",
-                "斥罪"
-            ]
-        ]
+        "ocrReplace": []
     },
     "StartUpThemes": {
         "algorithm": "JustReturn",
@@ -2624,7 +2276,7 @@
         ]
     },
     "Annihilation": {
-        "doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
+        "Doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
         "templThreshold": 0.6,
         "cache": false,
@@ -2698,6 +2350,16 @@
             "UsePrts-Annihilation",
             "StartButton1"
         ]
+    },
+    "NotUsePrts": {
+        "action": "ClickSelf",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ],
+        "cache": false
     },
     "UsePrts-Annihilation": {
         "Doc": "剿灭的“全权委托”按钮",
@@ -2933,16 +2595,19 @@
         ]
     },
     "EndOfActionThenStop": {
+        "baseTask": "EndOfAction",
         "template": "EndOfAction.png",
-        "roi": [
-            0,
-            290,
-            70,
-            60
-        ],
+        "reduceOtherTimes": [],
         "preDelay": 5000,
         "next": [
             "ClickCornerThenStop"
+        ]
+    },
+    "FightMissionFailedThenStop": {
+        "baseTask": "FightMissionFailedAndStop",
+        "preDelay": 5000,
+        "next": [
+            "EndOfActionThenStop"
         ]
     },
     "EndOfActionAnnihilation": {
@@ -2989,15 +2654,8 @@
         ]
     },
     "ClickCornerThenStop": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
-        ]
+        "baseTask": "ClickCorner",
+        "next": []
     },
     "UseMedicine": {
         "action": "DoNothing",
@@ -4026,12 +3684,7 @@
     "CreditShop-ProductName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "ocrReplace": [
-            [
-                "龙门.*",
-                "龙门币"
-            ]
-        ],
+        "ocrReplace": [],
         "roi": [
             0,
             -30,
@@ -4062,24 +3715,7 @@
             480,
             120
         ],
-        "ocrReplace": [
-            [
-                "千员",
-                "干员"
-            ],
-            [
-                "王员",
-                "干员"
-            ],
-            [
-                "手员",
-                "干员"
-            ],
-            [
-                ".*击干员",
-                "狙击干员"
-            ]
-        ]
+        "ocrReplace": []
     },
     "RecruitRefresh": {
         "action": "ClickSelf",
@@ -4127,11 +3763,12 @@
         "Doc": "识别公招小时数",
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "withoutDet": true,
         "roi": [
-            400,
-            180,
-            100,
-            90
+            410,
+            195,
+            85,
+            60
         ],
         "text": [
             "01",
@@ -4149,11 +3786,12 @@
         "Doc": "识别公招分钟数",
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "withoutDet": true,
         "roi": [
-            570,
-            180,
-            100,
-            90
+            575,
+            195,
+            85,
+            60
         ],
         "text": [
             "00",
@@ -5525,7 +5163,7 @@
     },
     "SendClueFlag": {
         "action": "DoNothing",
-        "doc": "这里识别的是自己的线索的new：如果获取完自己的线索、再获取完好友送的线索，自己的线索new还亮着，则说明自己的线索没获取成功，即线索满了",
+        "Doc": "这里识别的是自己的线索的new：如果获取完自己的线索、再获取完好友送的线索，自己的线索new还亮着，则说明自己的线索没获取成功，即线索满了",
         "next": [
             "SendClues"
         ],
@@ -5888,36 +5526,7 @@
         "algorithm": "OcrDetect",
         "cache": false,
         "text": [],
-        "ocrReplace": [
-            [
-                ".*兽小屋",
-                "驯兽小屋"
-            ],
-            [
-                "分.*不均",
-                "分赃不均"
-            ],
-            [
-                "落.*骑士",
-                "落魄骑士"
-            ],
-            [
-                "邪异.*笼",
-                "邪异囚笼"
-            ],
-            [
-                "寒洲惜别",
-                "寒渊惜别"
-            ],
-            [
-                "海.*沙暴",
-                "海窟沙暴"
-            ],
-            [
-                ".*痕乐园",
-                "溟痕乐园"
-            ]
-        ],
+        "ocrReplace": [],
         "roi": [
             250,
             435,
@@ -5933,9 +5542,9 @@
             244,
             167
         ],
-        "postDelay": 1000,
         "next": [
-            "BattleSupportUnitFormationSelect"
+            "BattleSupportUnitFormationSelect",
+            "BattleSupportUnitFormation"
         ]
     },
     "BattleSupportUnitFormationSelect": {
@@ -5946,7 +5555,10 @@
             1165,
             75
         ],
-        "postDelay": 1000
+        "next": [
+            "BattleSupportUnitFormationSelect",
+            "Stop"
+        ]
     },
     "BattleQuickFormation": {
         "action": "ClickSelf",
@@ -5958,7 +5570,8 @@
         ],
         "postDelay": 1000,
         "next": [
-            "BattleQuickFormationClear"
+            "BattleQuickFormationClear",
+            "BattleQuickFormation"
         ]
     },
     "BattleQuickFormationClear": {
@@ -6340,16 +5953,16 @@
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 100,
-        "postDelay": 150,
+        "postDelay": 200,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；post 是干员上场，到设置朝向之间等待的时间"
     },
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
-        "preDelay": 200,
-        "postDelay": 80,
+        "preDelay": 400,
+        "postDelay": 150,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
         "specialParams": [
-            300,
+            400,
             2,
             0
         ],
@@ -6735,6 +6348,14 @@
             [
                 "^.+-MO-?\\d+$",
                 "_INVALID_"
+            ],
+            [
+                "Ap-",
+                "AP-"
+            ],
+            [
+                "Bl-",
+                "BI-"
             ]
         ],
         "roi": [
@@ -6884,8 +6505,28 @@
                 "1"
             ],
             [
+                "方",
+                "万"
+            ],
+            [
+                "芳",
+                "万"
+            ],
+            [
                 "萬",
                 "万"
+            ],
+            [
+                "만",
+                "万"
+            ],
+            [
+                "億",
+                "亿"
+            ],
+            [
+                "억",
+                "亿"
             ]
         ]
     },
@@ -7030,7 +6671,7 @@
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1150,
+            1000,
             350,
             20,
             20
@@ -8009,6 +7650,8 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterClickToLeave"
         ]
     },
@@ -8150,6 +7793,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
+            "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterClickToLeave"
         ]
@@ -8170,6 +7814,7 @@
         "baseTask": "Roguelike@StageEnter",
         "postDelay": 3000,
         "next": [
+            "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"

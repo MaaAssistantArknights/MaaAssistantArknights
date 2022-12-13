@@ -19,6 +19,9 @@ on:
       tag_name:
         description: 'Tag name to release'
         required: false
+      release_body:
+        type: string
+        required: false
 
 jobs:
   build-win-nightly:
@@ -103,7 +106,7 @@ jobs:
           mkdir -pv build-ota && cd build-ota
           cd ${{ needs.build-win-nightly.outputs.tag }}
           mkdir -pv content
-          unzip -q *.zip -x '*.lib' -x '*.pdb' -x '*.config' -x '*.xml' -d content
+          unzip -q *.zip -x '*.lib' -x '*.pdb' -x '*.exp' -x '*.config' -x '*.xml' -d content
           cd ..
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
@@ -146,6 +149,7 @@ jobs:
           tag: ${{ env.release_tag }}
           prerelease: true
           overwrite: true
+          body: ${{ inputs.release_body || '' }}
       - name: "Upload to server"
         uses: appleboy/scp-action@master
         with:

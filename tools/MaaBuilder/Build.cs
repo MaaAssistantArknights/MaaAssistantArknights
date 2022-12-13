@@ -10,7 +10,7 @@ public partial class Build : NukeBuild
 {
     public static int Main()
     {
-        var osValidation = 
+        var osValidation =
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
             RuntimeInformation.OSArchitecture == Architecture.X64;
 
@@ -18,31 +18,31 @@ public partial class Build : NukeBuild
         {
             return Execute<Build>(_ => _.Default);
         }
-        
+
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Error.WriteLine("仅在 Windows x64 平台可用");
 
         Console.Error.WriteLine($"当前系统：{RuntimeInformation.OSDescription}");
         Console.Error.WriteLine($"当前系统架构：{RuntimeInformation.OSArchitecture}");
-      
+
         return 1;
     }
 
-    BuildParameters Parameters;
+    private BuildParameters Parameters;
 
-    const string MasterBranch = "master";
-    const string DevBranch = "dev";
+    private const string MasterBranch = "master";
+    private const string DevBranch = "dev";
 
-    const string MaaDevBundlePackageNameTemplate = "MAA-{VERSION}-win-x64-Dev";
+    private const string MaaDevBundlePackageNameTemplate = "MAA-{VERSION}-win-x64-Dev";
 
-    string Version = "";
-    string ChangeLog = "";
+    private string Version = "";
+    private string ChangeLog = "";
 
-    string MaaDevBundlePackageName => MaaDevBundlePackageNameTemplate.Replace("{VERSION}", Version);
+    private string MaaDevBundlePackageName => MaaDevBundlePackageNameTemplate.Replace("{VERSION}", Version);
 
-    string LatestTag;
+    private string LatestTag;
 
-    List<Checksum> ArtifactChecksums = new();
+    private List<Checksum> ArtifactChecksums = new();
 
     protected override void OnBuildInitialized()
     {
@@ -67,6 +67,7 @@ public partial class Build : NukeBuild
         Information("4. 项目");
         Information($"MaaCore 项目：{Parameters.MaaCoreProject ?? "Null"}");
         Information($"MaaWpf 项目：{Parameters.MaaWpfProject ?? "Null"}");
+        Information($"SyncRes 项目：{Parameters.MaaSyncResProject ?? "Null"}");
 
         Information("5. 配置");
         Information($"构建时间：{Parameters.BuildTime ?? "Null"}");
@@ -87,9 +88,9 @@ public partial class Build : NukeBuild
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
-    Target Default => _ => _
-        .Executes(() =>
-        {
-            Assert.Fail("请指定一个 Target");
-        });
+    private Target Default => _ => _
+            .Executes(() =>
+            {
+                Assert.Fail("请指定一个 Target");
+            });
 }
