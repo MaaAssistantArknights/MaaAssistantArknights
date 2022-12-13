@@ -14,8 +14,8 @@ namespace asst::http
     class Response
     {
     private:
-        static const inline std::unordered_set<std::string_view> _accepted_protocol_version = { "HTTP/1.1",
-                                                                                                "HTTP/2.0" };
+        static const inline std::unordered_set<std::string_view> AcceptedProtocolVersions = { "HTTP/1.1", "HTTP/2.0",
+                                                                                              "HTTP/2" };
         std::string m_raw_data;
         std::string m_last_error;
         unsigned m_status_code = 0;
@@ -24,22 +24,22 @@ namespace asst::http
         std::string_view m_body;
         std::unordered_map<std::string_view, std::string_view> m_headers;
 
-        bool _analyze_status_line(std::string_view status_line)
+        bool analyze_status_line(std::string_view status_line)
         {
-            size_t _word_count = 0;
+            size_t word_count = 0;
             for (std::string_view word :
                  views::split(status_line, ' ') | views::transform([&](const auto& rng) -> std::string_view {
                      return utils::make_string_view(rng);
                  })) {
-                ++_word_count;
-                if (_word_count == 1) {
-                    if (!_accepted_protocol_version.contains(word)) {
+                ++word_count;
+                if (word_count == 1) {
+                    if (!AcceptedProtocolVersions.contains(word)) {
                         m_last_error = "unsupported protocol version`" + std::string(word) + "`";
                         return false;
                     }
                     m_protocol_version = word;
                 }
-                else if (_word_count == 2) {
+                else if (word_count == 2) {
                     if (word.length() != 3) {
                         m_last_error = "status code length is not 3";
                         return false;
@@ -54,26 +54,26 @@ namespace asst::http
                     return true;
                 }
             }
-            if (_word_count == 2) {
+            if (word_count == 2) {
                 m_status_code_info = "";
                 return true;
             }
             m_last_error = "status line too short";
             return false;
         }
-        bool _analyze_headers_line(std::string_view status_line)
+        bool analyze_headers_line(std::string_view status_line)
         {
-            size_t _colon_pos = status_line.find(':');
-            if (_colon_pos == status_line.npos) {
+            size_t colon_pos = status_line.find(':');
+            if (colon_pos == status_line.npos) {
                 m_last_error = "cannot decode header `" + std::string(status_line) + "`";
                 return false;
             }
             // 把 key 转换为小写
-            for (auto& c : status_line.substr(0, _colon_pos)) {
+            for (auto& c : status_line.substr(0, colon_pos)) {
                 const_cast<char&>(c) = static_cast<char&&>(std::tolower(c));
             }
-            m_headers[status_line.substr(0, _colon_pos)] =
-                status_line.substr(_colon_pos + 1 + status_line.substr(_colon_pos + 1).find_first_not_of(' '));
+            m_headers[status_line.substr(0, colon_pos)] =
+                status_line.substr(colon_pos + 1 + status_line.substr(colon_pos + 1).find_first_not_of(' '));
             return true;
         }
 
@@ -84,32 +84,28 @@ namespace asst::http
         {
             constexpr std::string_view delim = "\r\n";
             std::string_view this_view = m_raw_data;
-            bool _is_status_line = true;
-            bool _is_data_line = false;
+            bool is_status_line = true;
+            bool is_data_line = false;
             auto make_view = [&](const auto& rng) -> std::string_view { return utils::make_string_view(rng); };
             for (std::string_view line : views::split(this_view, delim) | views::transform(make_view)) {
                 // status
-                if (_is_status_line) {
-                    if (!_analyze_status_line(line)) {
-                        return;
-                    }
-                    _is_status_line = false;
+                if (is_status_line) {
+                    is_status_line = false;
+                    analyze_status_line(line);
                 }
                 // headers
-                else if (!_is_data_line) {
+                else if (!is_data_line) {
                     if (!line.empty()) {
-                        if (!_analyze_headers_line(line)) {
-                            return;
-                        }
+                        analyze_headers_line(line);
                     }
                     else {
-                        _is_data_line = true; // 当前行是空行，则下一行开始都是 data 段
+                        is_data_line = true; // 当前行是空行，则下一行开始都是 data 段
                     }
                 }
                 // data
                 else {
                     m_body = utils::make_string_view(line.begin(), this_view.end());
-                    return;
+                    break;
                 }
             }
         }
