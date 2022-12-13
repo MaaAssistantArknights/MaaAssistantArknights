@@ -35,7 +35,6 @@ namespace asst::http
                 if (word_count == 1) {
                     if (!AcceptedProtocolVersions.contains(word)) {
                         m_last_error = "unsupported protocol version`" + std::string(word) + "`";
-                        return false;
                     }
                     m_protocol_version = word;
                 }
