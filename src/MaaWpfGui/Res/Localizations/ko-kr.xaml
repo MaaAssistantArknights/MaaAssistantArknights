@@ -115,8 +115,8 @@
     <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
-    <system:String x:Key="Ok">재실행</system:String>
-    <system:String x:Key="ManualRestart">나중에 하기</system:String>
+    <system:String x:Key="Ok">확인</system:String>
+    <system:String x:Key="ManualRestart">나중에</system:String>
     <system:String x:Key="Tip">도움말</system:String>
 
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
