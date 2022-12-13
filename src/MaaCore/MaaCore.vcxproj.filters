@@ -426,6 +426,9 @@
     <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.h">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -705,6 +708,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>

@@ -17,6 +17,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -900,11 +901,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         return false;
     }
 
-    auto task_ptr = Task.get("BattleAutoSkillFlag");
-    const Rect& skill_roi_move = task_ptr->rect_move;
-
-    MatchImageAnalyzer analyzer(image);
-    analyzer.set_task_info(task_ptr);
+    BattleSkillReadyImageAnalyzer skill_analyzer(image);
     bool used = false;
     for (auto& [loc, oper_name] : m_used_tiles) {
         std::string status_key = Status::RoguelikeSkillUsagePrefix + oper_name;
@@ -918,13 +915,11 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
             continue;
         }
         const Point pos = m_normal_tile_info.at(loc).pos;
-        const Rect pos_rect(pos.x, pos.y, 1, 1);
-        const Rect roi = pos_rect.move(skill_roi_move);
-        analyzer.set_roi(roi);
-        if (!analyzer.analyze()) {
+        skill_analyzer.set_base_point(pos);
+        if (!skill_analyzer.analyze()) {
             continue;
         }
-        ctrler()->click(pos_rect);
+        ctrler()->click(pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
         bool ret = ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(2).run();
         if (!ret) {
