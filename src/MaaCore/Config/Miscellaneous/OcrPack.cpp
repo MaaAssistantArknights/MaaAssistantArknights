@@ -45,11 +45,13 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
 
     do {
         using namespace asst::utils::path_literals;
-        const auto dst_model_file = paddle_dir / "det"_p / "inference.pdmodel"_p;
-        const auto dst_params_file = paddle_dir / "det"_p / "inference.pdiparams"_p;
-        const auto rec_model_file = paddle_dir / "rec"_p / "inference.pdmodel"_p;
-        const auto rec_params_file = paddle_dir / "rec"_p / "inference.pdiparams"_p;
-        const auto rec_label_file = paddle_dir / "keys.txt"_p;
+        const auto det_dir = paddle_dir / "det"_p;
+        const auto dst_model_file = det_dir / "inference.pdmodel"_p;
+        const auto dst_params_file = det_dir / "inference.pdiparams"_p;
+        const auto rec_dir = paddle_dir / "rec"_p;
+        const auto rec_model_file = rec_dir / "inference.pdmodel"_p;
+        const auto rec_params_file = rec_dir / "inference.pdiparams"_p;
+        const auto rec_label_file = rec_dir / "keys.txt"_p;
 
         if (std::filesystem::exists(dst_model_file) && std::filesystem::exists(dst_params_file)) {
             m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
