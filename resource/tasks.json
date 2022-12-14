@@ -5527,12 +5527,17 @@
         "algorithm": "OcrDetect",
         "cache": false,
         "text": [],
-        "ocrReplace": [],
         "roi": [
             250,
             435,
             800,
             100
+        ],
+        "ocrReplace": [
+            [
+                "分.*不均",
+                "分赃不均"
+            ]
         ]
     },
     "BattleSupportUnitFormation": {
