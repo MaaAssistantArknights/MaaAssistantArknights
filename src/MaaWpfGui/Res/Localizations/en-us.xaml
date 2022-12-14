@@ -115,7 +115,7 @@
 
     <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
-    <system:String x:Key="LanguageChangedTip">The language setting has been changed, do you want to restart the application immediately to apply the language setting?</system:String>
+    <system:String x:Key="LanguageChangedTip">the language settings has been changed, restart the app now?</system:String>
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
@@ -249,8 +249,8 @@
     <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">Exit MAA and Emulator</system:String>
     <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate*</system:String>
-    <system:String x:Key="Hibernate">Hibernate*</system:String>
-    <system:String x:Key="Shutdown">Shutdown*</system:String>
+    <system:String x:Key="Hibernate">Hibernate</system:String>
+    <system:String x:Key="Shutdown">Shutdown</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
