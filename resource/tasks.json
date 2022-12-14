@@ -8177,6 +8177,7 @@
             "Phantom@Roguelike@StageTraderLeave",
             "Phantom@Roguelike@DropsFlag",
             "Phantom@Roguelike@ChooseOperFlag",
+            "Phantom@Roguelike@StageEncounterGiveUpRecruitConfirm",
             "Phantom@Roguelike@RecruitWithoutButton"
         ]
     },
@@ -8556,6 +8557,7 @@
             "Mizuki@Roguelike@DropsFlag",
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@DiceConfirm",
+            "Mizuki@Roguelike@StageEncounterGiveUpRecruitConfirm",
             "Mizuki@Roguelike@RecruitWithoutButton"
         ]
     },
