@@ -15,8 +15,10 @@ body:
           much information as possible to help solve the problem.
         required: true
       - label: >-
-          I filled in a short, clear title so that developers could quickly identify the general problem when going through the issue list. Instead of "Some suggestions", "Stuck", etc.
-          before raising the issue.
+          I filled in a short, clear title
+          so that developers could quickly identify the general problem
+          when going through the issue list.
+          Instead of "Some suggestions", "Stuck", etc.
         required: true
       - label: >-
           I have checked the latest beta update and there is no mention
@@ -26,7 +28,7 @@ body:
     id: describe
     attributes:
       label: Description
-      description: Describe your problem in as much detail as possible
+      description: Describe your problem in as much detail as possible.
     validations:
       required: true
   - type: textarea
@@ -34,11 +36,11 @@ body:
     attributes:
       label: Log files
       description: >-
-        Upload the `asst.log` log file from the software directory and
-        indicate the approximate point in time when the problem occurred.
+        **Upload the `asst.log` log file from the software directory and**
+        **indicate the approximate point in time when the problem occurred.**
 
-        Please drag and drop the full file in, not your own cuttings;
-        compress it before uploading if too large.
+        **Please drag and drop the full file in, not your own cuttings,**
+        **compress it before uploading if too large.**
     validations:
       required: true
   - type: textarea
@@ -50,13 +52,13 @@ body:
         including but not limited to screenshots of MAA software,
         screenshots of game screens.
 
-        **If the problem is recognition related, please help by providing**
-        **the original image taken by the emulator's own screenshot tool**
-        **(or via adb).**
+        If the problem is recognition related, please help by providing
+        the original image taken by the emulator's own screenshot tool
+        (or via adb).
 
         The `debug` folder has some automatic screenshots of the error images,
         if you have any,
-        please upload them together
+        please upload them together.
 
     validations:
       required: false
