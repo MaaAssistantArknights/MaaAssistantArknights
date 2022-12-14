@@ -248,8 +248,8 @@
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">MAA와 에뮬레이터를 종료</system:String>
     <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAA와 에뮬레이터를 종료하고 절전 모드*</system:String>
-    <system:String x:Key="Hibernate">절전 모드*</system:String>
-    <system:String x:Key="Shutdown">시스템 종료*</system:String>
+    <system:String x:Key="Hibernate">절전 모드</system:String>
+    <system:String x:Key="Shutdown">시스템 종료</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
