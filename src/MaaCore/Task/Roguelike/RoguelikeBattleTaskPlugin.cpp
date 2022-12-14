@@ -17,6 +17,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -64,11 +65,17 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     speed_up();
 
     bool timeout = false;
+    int not_in_battle_count = 0;
     auto start_time = std::chrono::steady_clock::now();
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         if (!auto_battle() && m_opers_used) {
-            break;
+            if (++not_in_battle_count > 5) {
+                break;
+            }
+        }
+        else {
+            not_in_battle_count = 0;
         }
         if (std::chrono::steady_clock::now() - start_time > 8min) {
             timeout = true;
@@ -80,10 +87,16 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         Log.info("Timeout, retreat!");
         all_melee_retreat();
 
+        not_in_battle_count = 0;
         start_time = std::chrono::steady_clock::now();
         while (!need_exit()) {
             if (!auto_battle()) {
-                break;
+                if (++not_in_battle_count > 5) {
+                    break;
+                }
+            }
+            else {
+                not_in_battle_count = 0;
             }
             if (std::chrono::steady_clock::now() - start_time > 2min) {
                 Log.info("Timeout again, abandon!");
@@ -900,11 +913,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
         return false;
     }
 
-    auto task_ptr = Task.get("BattleAutoSkillFlag");
-    const Rect& skill_roi_move = task_ptr->rect_move;
-
-    MatchImageAnalyzer analyzer(image);
-    analyzer.set_task_info(task_ptr);
+    BattleSkillReadyImageAnalyzer skill_analyzer(image);
     bool used = false;
     for (auto& [loc, oper_name] : m_used_tiles) {
         std::string status_key = Status::RoguelikeSkillUsagePrefix + oper_name;
@@ -918,13 +927,11 @@ bool asst::RoguelikeBattleTaskPlugin::try_possible_skill(const cv::Mat& image)
             continue;
         }
         const Point pos = m_normal_tile_info.at(loc).pos;
-        const Rect pos_rect(pos.x, pos.y, 1, 1);
-        const Rect roi = pos_rect.move(skill_roi_move);
-        analyzer.set_roi(roi);
-        if (!analyzer.analyze()) {
+        skill_analyzer.set_base_point(pos);
+        if (!skill_analyzer.analyze()) {
             continue;
         }
-        ctrler()->click(pos_rect);
+        ctrler()->click(pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
         bool ret = ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_retry_times(2).run();
         if (!ret) {

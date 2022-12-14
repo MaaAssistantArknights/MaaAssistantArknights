@@ -85,13 +85,8 @@ namespace MaaWpfGui
 
             set
             {
-                SetAndNotify(ref _actionAfterCompleted, value.ToString());
-                string storeValue = ActionType.DoNothing.ToString();
-                if (value != ActionType.Shutdown && value != ActionType.Hibernate && value != ActionType.ExitEmulatorAndSelfAndHibernate)
-                {
-                    storeValue = value.ToString();
-                }
-
+                string storeValue = value.ToString();
+                SetAndNotify(ref _actionAfterCompleted, storeValue);
                 ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
             }
         }

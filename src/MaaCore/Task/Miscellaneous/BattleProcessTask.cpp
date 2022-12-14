@@ -6,7 +6,6 @@
 #include <thread>
 
 #include "Utils/NoWarningCV.h"
-#include "Utils/Ranges.hpp"
 
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
@@ -16,6 +15,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 #include "Utils/ImageIo.hpp"
@@ -652,21 +652,17 @@ bool asst::BattleProcessTask::wait_to_end(const BattleAction& action)
 
 bool asst::BattleProcessTask::try_possible_skill(const cv::Mat& image)
 {
-    auto task_ptr = Task.get("BattleAutoSkillFlag");
-    const Rect& skill_roi_move = task_ptr->rect_move;
-
-    MatchImageAnalyzer analyzer(image);
-    analyzer.set_task_info(task_ptr);
+    BattleSkillReadyImageAnalyzer skill_analyzer(image);
     bool used = false;
     for (auto& info : m_used_opers | views::values) {
         if (info.info.skill_usage != BattleSkillUsage::Possibly && info.info.skill_usage != BattleSkillUsage::Once) {
             continue;
         }
-        const Rect roi = Rect { info.pos.x, info.pos.y, 0, 0 }.move(skill_roi_move);
-        analyzer.set_roi(roi);
-        if (!analyzer.analyze()) {
+        skill_analyzer.set_base_point(info.pos);
+        if (!skill_analyzer.analyze()) {
             continue;
         }
+
         ctrler()->click(info.pos);
         sleep(Task.get("BattleUseOper")->pre_delay);
         used |= ProcessTask(*this, { "BattleSkillReadyOnClick" }).set_task_delay(0).run();
