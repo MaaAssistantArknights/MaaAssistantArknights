@@ -65,11 +65,17 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     speed_up();
 
     bool timeout = false;
+    int not_in_battle_count = 0;
     auto start_time = std::chrono::steady_clock::now();
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         if (!auto_battle() && m_opers_used) {
-            break;
+            if (++not_in_battle_count > 5) {
+                break;
+            }
+        }
+        else {
+            not_in_battle_count = 0;
         }
         if (std::chrono::steady_clock::now() - start_time > 8min) {
             timeout = true;
@@ -81,10 +87,16 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         Log.info("Timeout, retreat!");
         all_melee_retreat();
 
+        not_in_battle_count = 0;
         start_time = std::chrono::steady_clock::now();
         while (!need_exit()) {
             if (!auto_battle()) {
-                break;
+                if (++not_in_battle_count > 5) {
+                    break;
+                }
+            }
+            else {
+                not_in_battle_count = 0;
             }
             if (std::chrono::steady_clock::now() - start_time > 2min) {
                 Log.info("Timeout again, abandon!");
