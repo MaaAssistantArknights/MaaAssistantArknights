@@ -1,3 +1,15 @@
+## v4.8.0-rc.1
+
+- 预新增 活动关卡导航 @ABA2396
+- 优化 自动战斗/肉鸽 技能图标识别 @horror-proton
+- 优化 界面 语言切换提示 @ABA2396
+- 优化 界面 完成后 关机、休眠 选项，将会保存该两项设置 @MistEO
+- 优化 界面 设置布局 @ABA2396
+- 修复 肉鸽 卡在放弃招募界面的问题 @MistEO
+- 修复 肉鸽 打到一半突然摆烂的问题 @MistEO
+- 修复 企鹅用户 ID 解析错误 @MistEO
+- 更新 ISSUE 模板 @MistEO
+
 ## v4.8.0-beta.4
 
 - 优化 所有语言的 OCR Rec 模型，提升识别率 @MistEO @zhangchi0104 @mole828 @WWPXX233
