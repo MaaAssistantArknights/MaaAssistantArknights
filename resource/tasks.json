@@ -774,6 +774,111 @@
             120
         ]
     },
+    "WE-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WE-Open",
+            "WEChapterToWE"
+        ],
+        "next": [
+            "StageWE-8",
+            "WE-8@SwipeToStage"
+        ]
+    },
+    "WE-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WE-Open",
+            "WEChapterToWE"
+        ],
+        "next": [
+            "StageWE-9",
+            "WE-9@SwipeToStage"
+        ]
+    },
+    "WE-10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WE-Open",
+            "WEChapterToWE"
+        ],
+        "next": [
+            "StageWE-10",
+            "WE-10@SwipeToStage"
+        ]
+    },
+    "WE-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "照我以火"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "WEChapterToWE": {
+        "action": "ClickSelf",
+        "roi": [
+            1000,
+            250,
+            280,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "WEChapterToWE",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "StageWE-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "WE-8"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageWE-9": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "WE-9"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
+    "StageWE-10": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "WE-10"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
     "IS-10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -1580,114 +1685,6 @@
             220,
             173,
             200
-        ]
-    },
-    "BI-6": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "BI-Open",
-            "BIChapterToBI"
-        ],
-        "next": [
-            "StageBI-6",
-            "BI-6@SwipeToStage"
-        ]
-    },
-    "BI-7": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "BI-Open",
-            "BIChapterToBI"
-        ],
-        "next": [
-            "StageBI-7",
-            "BI-7@SwipeToStage"
-        ]
-    },
-    "BI-8": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "BI-Open",
-            "BIChapterToBI"
-        ],
-        "next": [
-            "StageBI-8",
-            "BI-8@SwipeToStage"
-        ]
-    },
-    "BI-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "风雪过境"
-        ],
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ]
-    },
-    "BIChapterToBI": {
-        "action": "ClickSelf",
-        "roi": [
-            1000,
-            250,
-            280,
-            150
-        ],
-        "postDelay": 2000,
-        "next": [
-            "BIChapterToBI",
-            "ChapterSwipeToTheRight"
-        ]
-    },
-    "StageBI-6": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "B1-6",
-            "BI-6"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
-        ]
-    },
-    "StageBI-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "B1-7",
-            "BI-7"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
-        ]
-    },
-    "StageBI-8": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "B1-8",
-            "BI-8"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "ResourceStages": {
