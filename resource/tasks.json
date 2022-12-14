@@ -5833,7 +5833,7 @@
             100,
             255
         ],
-        "templThreshold": 0.9
+        "templThreshold": 0.88
     },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
