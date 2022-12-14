@@ -825,6 +825,10 @@
     },
     "WEChapterToWE": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "荒烟林沼"
+        ],
         "roi": [
             1000,
             250,
