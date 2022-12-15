@@ -774,6 +774,18 @@
             120
         ]
     },
+    "FC-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "FC-Open",
+            "FCChapterToFC"
+        ],
+        "next": [
+            "StageFC-5",
+            "FC-5@SwipeToStage"
+        ]
+    },
     "FC-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -796,18 +808,6 @@
         "next": [
             "StageFC-7",
             "FC-7@SwipeToStage"
-        ]
-    },
-    "FC-8": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "sub": [
-            "FC-Open",
-            "FCChapterToFC"
-        ],
-        "next": [
-            "StageFC-8",
-            "FC-8@SwipeToStage"
         ]
     },
     "FC-Open": {
@@ -841,6 +841,20 @@
             "ChapterSwipeToTheRight"
         ]
     },
+    "StageFC-5": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "FC-5"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            332
+        ]
+    },
     "StageFC-6": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -860,20 +874,6 @@
         "algorithm": "OcrDetect",
         "text": [
             "FC-7"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
-        ]
-    },
-    "StageFC-8": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "FC-8"
         ],
         "cache": false,
         "roi": [
