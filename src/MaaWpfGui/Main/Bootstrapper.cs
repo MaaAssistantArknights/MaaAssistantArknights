@@ -78,6 +78,15 @@ namespace MaaWpfGui
                 }
             }
 
+            try
+            {
+                Directory.Delete(".old", true);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
             foreach (var file in new DirectoryInfo(".").GetFiles("*.old"))
             {
                 try
