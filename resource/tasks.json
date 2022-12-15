@@ -774,43 +774,43 @@
             120
         ]
     },
-    "WE-6": {
+    "FC-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WE-Open",
-            "WEChapterToWE"
+            "FC-Open",
+            "FCChapterToFC"
         ],
         "next": [
-            "StageWE-6",
-            "WE-6@SwipeToStage"
+            "StageFC-6",
+            "FC-6@SwipeToStage"
         ]
     },
-    "WE-7": {
+    "FC-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WE-Open",
-            "WEChapterToWE"
+            "FC-Open",
+            "FCChapterToFC"
         ],
         "next": [
-            "StageWE-7",
-            "WE-7@SwipeToStage"
+            "StageFC-7",
+            "FC-7@SwipeToStage"
         ]
     },
-    "WE-8": {
+    "FC-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WE-Open",
-            "WEChapterToWE"
+            "FC-Open",
+            "FCChapterToFC"
         ],
         "next": [
-            "StageWE-8",
-            "WE-8@SwipeToStage"
+            "StageFC-8",
+            "FC-8@SwipeToStage"
         ]
     },
-    "WE-Open": {
+    "FC-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
@@ -823,7 +823,7 @@
             150
         ]
     },
-    "WEChapterToWE": {
+    "FCChapterToFC": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
@@ -837,15 +837,15 @@
         ],
         "postDelay": 2000,
         "next": [
-            "WEChapterToWE",
+            "FCChapterToFC",
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageWE-6": {
+    "StageFC-6": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "WE-6"
+            "FC-6"
         ],
         "cache": false,
         "roi": [
@@ -855,11 +855,11 @@
             332
         ]
     },
-    "StageWE-7": {
+    "StageFC-7": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "WE-7"
+            "FC-7"
         ],
         "cache": false,
         "roi": [
@@ -869,11 +869,11 @@
             332
         ]
     },
-    "StageWE-8": {
+    "StageFC-8": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "WE-8"
+            "FC-8"
         ],
         "cache": false,
         "roi": [

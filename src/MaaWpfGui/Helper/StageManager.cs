@@ -52,9 +52,9 @@ namespace MaaWpfGui
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
 
                 // SideStory「风雪过境」复刻活动
-                { "WE-8", new StageInfo { Display = "WE-8", Value = "WE-8", Activity = sideStory } },
-                { "WE-7", new StageInfo { Display = "WE-7", Value = "WE-7", Activity = sideStory } },
-                { "WE-6", new StageInfo { Display = "WE-6", Value = "WE-6", Activity = sideStory } },
+                { "FC-8", new StageInfo { Display = "FC-8", Value = "FC-8", Activity = sideStory } },
+                { "FC-7", new StageInfo { Display = "FC-7", Value = "FC-7", Activity = sideStory } },
+                { "FC-6", new StageInfo { Display = "FC-6", Value = "FC-6", Activity = sideStory } },
 
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
