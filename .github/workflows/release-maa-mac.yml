@@ -8,6 +8,11 @@ jobs:
   macos-latest:
     name: macos-latest
     runs-on: macos-12
+
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -29,28 +34,34 @@ jobs:
       - name: Configure MaaCore
         run: |
           mkdir build && cd build
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
       - name: Build libMaaCore
         run: cmake --build build
       - name: Build MAA
         working-directory: src/MaaMacGui
-        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
+        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA-${{ matrix.arch }} archive -archivePath MAA.xcarchive -configuration Release-${{ matrix.arch }}
       - name: Export MAA
         working-directory: src/MaaMacGui
         run: xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
       - name: Create disk image
         working-directory: src/MaaMacGui
-        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA.dmg Export/MAA.app
+        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA-${{ matrix.arch }}.dmg Export/MAA.app
       - name: Archive debug symbols
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
-        run: ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
+        run: ditto -c -k --keepParent MAA.app.dSYM MAA-${{ matrix.arch }}.app.dSYM.zip
+      - name: Place packages
+        run: |
+          GIT_TAG=${GITHUB_REF#refs/*/}
+          APP_DMG=MAA-${GIT_TAG}-macos-${{ matrix.arch }}.dmg
+          APP_SYM=MAAComponent-DebugSymbol-${GIT_TAG}-macos-${{ matrix.arch }}.zip
+          mkdir -p release
+          mv src/MaaMacGui/MAA-${{ matrix.arch }}.dmg release/${APP_DMG}
+          mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA-${{ matrix.arch }}.app.dSYM.zip release/${APP_SYM}
       - name: Upload products
         uses: actions/upload-artifact@v3
         with:
           name: MAA-macos
-          path: |
-            src/MaaMacGui/MAA.dmg
-            src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip
+          path: release
 
   macos-release:
     name: macos-release
@@ -61,25 +72,23 @@ jobs:
         run: |
           GIT_TAG=${GITHUB_REF#refs/*/}
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_ENV
-          echo "APP_DMG=MAA-${GIT_TAG}-macos.dmg" >> $GITHUB_ENV
-          echo "APP_SYM=MAAComponent-DebugSymbol-${GIT_TAG}-macos.zip" >> $GITHUB_ENV
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: MAA-macos
       - name: 'Verify image'
         run: |
-          mv MAA.dmg $APP_DMG
-          mv MAA.xcarchive/dSYMs/MAA.app.dSYM.zip $APP_SYM
-          hdiutil verify $APP_DMG
+          find . -name "*.dmg" -exec hdiutil verify {} \;
       - name: 'Notarize image'
         env:
           NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
           NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
           NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
         run: |
-          xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait $APP_DMG
-          xcrun stapler staple $APP_DMG
+          find . -name "*.dmg" | while read dmg; do
+            xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait ${dmg}
+            xcrun stapler staple ${dmg}
+          done
       - name: Upload image to release
         uses: svenstaro/upload-release-action@v2
         with:
