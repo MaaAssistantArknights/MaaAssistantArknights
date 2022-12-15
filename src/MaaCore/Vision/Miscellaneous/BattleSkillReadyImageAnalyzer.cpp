@@ -31,7 +31,7 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
     };
 
     cv::Mat tmp = templ.clone();
-    cv::Mat img = m_image.clone()(make_rect<cv::Rect>(m_roi));
+    cv::Mat img = m_image(make_rect<cv::Rect>(m_roi)).clone();
 
     cv::Mat template_mask;
     key_color(tmp, template_mask, { 0, 255, 0 }, { 0, 0, 0 });
