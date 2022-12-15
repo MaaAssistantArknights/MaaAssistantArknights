@@ -8,6 +8,7 @@
 - 新增 借助战打一局赚 30 信用功能，请进入设置开启~ @Hydrogina @MistEO @ABA2396
 - 新增 自定义导航 难度选择，请在关卡名后加入 `Hard` / `Normal` 使用 @ABA2396 @MistEO
 - 新增 启动时 删除 `.old` 文件 @MistEO
+- 新增 Linux Release @horror-proton
 - 合并 `访问好友` 和 `信用购物` 功能 @MistEO
 - 重构 项目工程、目录结构，重命名 部分文件 @MistEO @horror-proton @hguandl
 - 重构 内部回调体系、重构实例继承体系、重构文件结构树 @MistEO
