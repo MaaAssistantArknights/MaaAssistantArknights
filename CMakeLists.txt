@@ -81,6 +81,7 @@ else ()
         endif (INSTALL_PYTHON)
         if (INSTALL_RESOURCE)
             install(DIRECTORY resource DESTINATION .)
+            install(DIRECTORY 3rdparty/resource DESTINATION .)
         endif (INSTALL_RESOURCE)
     endif (APPLE)
 

@@ -1471,6 +1471,14 @@
         "sortId": 60009,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
+    "randomMaterialRune_9": {
+        "classifyType": "CONSUME",
+        "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
+        "icon": "randomMaterialRune_9.png",
+        "name": "補給物資・「淵黙」",
+        "sortId": 60010,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
     "randomMaterial_1": {
         "classifyType": "CONSUME",
         "description": "ロドスが各地から買い集め、貯蔵した素材の補給箱。しかし整理整頓ができていないためか、どの箱になんの素材が入っているのか誰にもわからない。",
