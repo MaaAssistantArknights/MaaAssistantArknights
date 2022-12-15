@@ -1,3 +1,7 @@
+## v4.8.1
+
+- 修复活动关卡导航错误 @ABA2396
+
 ## v4.8.0
 
 - 启用 ONNX Runtime 进行 OCR，并重新训练了各个语言的识别模型 @MistEO @horror-proton @hguandl @aa889788 @zhangchi0104 @mole828 @WWPXX233  
