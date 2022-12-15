@@ -774,43 +774,43 @@
             120
         ]
     },
-    "WE-8": {
+    "FC-5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WE-Open",
-            "WEChapterToWE"
+            "FC-Open",
+            "FCChapterToFC"
         ],
         "next": [
-            "StageWE-8",
-            "WE-8@SwipeToStage"
+            "StageFC-5",
+            "FC-5@SwipeToStage"
         ]
     },
-    "WE-9": {
+    "FC-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WE-Open",
-            "WEChapterToWE"
+            "FC-Open",
+            "FCChapterToFC"
         ],
         "next": [
-            "StageWE-9",
-            "WE-9@SwipeToStage"
+            "StageFC-6",
+            "FC-6@SwipeToStage"
         ]
     },
-    "WE-10": {
+    "FC-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WE-Open",
-            "WEChapterToWE"
+            "FC-Open",
+            "FCChapterToFC"
         ],
         "next": [
-            "StageWE-10",
-            "WE-10@SwipeToStage"
+            "StageFC-7",
+            "FC-7@SwipeToStage"
         ]
     },
-    "WE-Open": {
+    "FC-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
@@ -823,29 +823,29 @@
             150
         ]
     },
-    "WEChapterToWE": {
+    "FCChapterToFC": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
             "荒烟林沼"
         ],
         "roi": [
-            1000,
-            250,
-            280,
-            150
+            1054,
+            405,
+            202,
+            130
         ],
         "postDelay": 2000,
         "next": [
-            "WEChapterToWE",
+            "FCChapterToFC",
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageWE-8": {
+    "StageFC-5": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "WE-8"
+            "FC-5"
         ],
         "cache": false,
         "roi": [
@@ -855,11 +855,11 @@
             332
         ]
     },
-    "StageWE-9": {
+    "StageFC-6": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "WE-9"
+            "FC-6"
         ],
         "cache": false,
         "roi": [
@@ -869,11 +869,11 @@
             332
         ]
     },
-    "StageWE-10": {
+    "StageFC-7": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "WE-10"
+            "FC-7"
         ],
         "cache": false,
         "roi": [
