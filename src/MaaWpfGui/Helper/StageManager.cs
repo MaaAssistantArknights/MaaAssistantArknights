@@ -34,7 +34,7 @@ namespace MaaWpfGui
             {
                 Tip = "SideStory「照我以火」活动",
                 UtcStartTime = new DateTime(2022, 12, 15, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2022, 1, 5, 4, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2023, 1, 5, 4, 0, 0).AddHours(-8),
             };
 
             var resourceCollection = new StageActivityInfo()
@@ -52,9 +52,9 @@ namespace MaaWpfGui
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
 
                 // SideStory「风雪过境」复刻活动
-                { "WE-10", new StageInfo { Display = "WE-10", Value = "WE-10", Activity = sideStory } },
-                { "WE-9", new StageInfo { Display = "WE-9", Value = "WE-9", Activity = sideStory } },
                 { "WE-8", new StageInfo { Display = "WE-8", Value = "WE-8", Activity = sideStory } },
+                { "WE-7", new StageInfo { Display = "WE-7", Value = "WE-7", Activity = sideStory } },
+                { "WE-6", new StageInfo { Display = "WE-6", Value = "WE-6", Activity = sideStory } },
 
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
