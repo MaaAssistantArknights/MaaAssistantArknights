@@ -231,6 +231,15 @@
                 ],
                 "template": "Bskill_ctrl_lda_add.png"
             },
+            "bskill_ctrl_leader": {
+                "desc": [
+                    "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）"
+                ],
+                "name": [
+                    "领袖"
+                ],
+                "template": "Bskill_ctrl_leader.png"
+            },
             "bskill_ctrl_lonely": {
                 "desc": [
                     "进驻控制中枢时，部分设施内处于工作状态的干员心情每小时恢复+0.1；同时控制中枢内部分技能可以为其他设施内处于工作状态的干员额外提供心情恢复"
@@ -2347,6 +2356,15 @@
                 ],
                 "template": "Bskill_meet_spd&cost.png"
             },
+            "bskill_meet_spd&cost_condChar": {
+                "desc": [
+                    "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2"
+                ],
+                "name": [
+                    "双面间谍"
+                ],
+                "template": "Bskill_meet_spd&cost_condChar.png"
+            },
             "bskill_meet_spd1": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%"
@@ -2407,13 +2425,15 @@
             },
             "bskill_meet_spdNotOwned1": {
                 "desc": [
+                    "进驻会客室时，更容易获得线索板上尚未拥有的线索",
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
                 ],
                 "efficient": {
                     "all": 1
                 },
                 "name": [
-                    "不容遗漏·α"
+                    "不容遗漏·α",
+                    "情报分析"
                 ],
                 "template": "Bskill_meet_spdNotOwned1.png"
             },
