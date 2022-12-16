@@ -226,8 +226,8 @@
     <system:String x:Key="ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">MAAとエミュレータを終了する</system:String>
     <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる*</system:String>
-    <system:String x:Key="Hibernate">休止状態にする*</system:String>
-    <system:String x:Key="Shutdown">シャットダウン*</system:String>
+    <system:String x:Key="Hibernate">休止状態にする</system:String>
+    <system:String x:Key="Shutdown">シャットダウン</system:String>
 
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <!--  分かりやすく動作開始でも良い気はする  -->
@@ -447,19 +447,9 @@
     <system:String x:Key="PrtsPlus">自動攻略ファイルシェアWebサイト</system:String>
     <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
     <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
-    <system:String x:Key="QQgroup">QQグループ：</system:String>
-    <system:String x:Key="QQgroup1">グループ1</system:String>
-    <system:String x:Key="QQgroup2">グループ2</system:String>
-    <system:String x:Key="QQgroup3">グループ3</system:String>
-    <system:String x:Key="QQgroup4">グループ4</system:String>
-    <system:String x:Key="QQgroup5">グループ5</system:String>
-    <system:String x:Key="QQgroup6">グループ6</system:String>
-    <system:String x:Key="QQgroup7">グループ7</system:String>
-    <system:String x:Key="QQgroup8">グループ8</system:String>
-    <system:String x:Key="QQgroupfull">(満員)</system:String>
+    <system:String x:Key="QQgroup">QQグループ</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
-    <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/ja-jp/1.2-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F.md</uri:Uri>
     <system:String x:Key="Issue">フィードバック</system:String>
     <!--  About  -->
 

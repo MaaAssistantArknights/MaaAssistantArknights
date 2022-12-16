@@ -1,17 +1,20 @@
 
 
-set(FASTDEPLOY_URL_PREFIX "https://github.com/aa889788/build-fastdeploy/releases/download")
+set(FASTDEPLOY_URL_PREFIX "https://github.com/MaaAssistantArknights/build-fastdeploy/releases/download")
 
-set(FASTDEPLOY_TAG "1.0.0")
+set(FASTDEPLOY_TAG "g22325d23")
 
 set(COMPRESSED_SUFFIX ".tar.gz")
 
 if(UNIX)
     set(FASTDEPLOY_FILENAME "FastDeploy-Linux")
+    set(FASTDEPLOY_CHECKSUM "5e1dedc72714f6f11fb1dfbc720d675203525152b777bd2711ba26f2a95e5f99")
 elseif(WIN32)
     set(FASTDEPLOY_FILENAME "FastDeploy-Windows")
+    set(FASTDEPLOY_CHECKSUM "0ea6064921a0af50ba8a1593fe1652a11379acad53f15e100731f02c3c9edfd1")
 elseif(APPLE)
     set(FASTDEPLOY_FILENAME "FastDeploy-macOS")
+    set(FASTDEPLOY_CHECKSUM "80188fb70c5632ba5b93338d5c6d323619430dcad77043250399dce8fb480d8d")
 endif(UNIX)
 
 set(FASTDEPLOY_URL ${FASTDEPLOY_URL_PREFIX}/${FASTDEPLOY_TAG}/${FASTDEPLOY_FILENAME}${COMPRESSED_SUFFIX})
@@ -22,8 +25,9 @@ if (FASTDEPLOY_DIRECTORY)
     include_directories(${FastDeploy_INCLUDE_DIRS})
     list(APPEND DEPEND_LIBS ${FastDeploy_LIBS})
 else ()
-    download_and_decompress(${FASTDEPLOY_URL} 
-                        ${CMAKE_CURRENT_BINARY_DIR}/${FASTDEPLOY_FILENAME}${COMPRESSED_SUFFIX} 
+    download_and_decompress(${FASTDEPLOY_URL}
+                        ${CMAKE_CURRENT_BINARY_DIR}/${FASTDEPLOY_FILENAME}${COMPRESSED_SUFFIX}
+                        ${FASTDEPLOY_CHECKSUM}
                         ${THIRD_PARTY_PATH}/install/)
     set(FASTDEPLOY_FILENAME fastdeploy)
     set(FastDeploy_DIR ${THIRD_PARTY_PATH}/install/${FASTDEPLOY_FILENAME})

@@ -1,489 +1,4 @@
 {
-    "StartButton1": {
-        "text": [
-            "Start"
-        ]
-    },
-    "PRTS2": {
-        "text": [
-            "Takeover"
-        ]
-    },
-    "VisitNextOcr": {
-        "text": [
-            "Visit Next"
-        ]
-    },
-    "VisitLimited": {
-        "text": [
-            "limit",
-            "reached"
-        ]
-    },
-    "NoFriends": {
-        "text": [
-            "No friends"
-        ]
-    },
-    "RecruitTags": {
-        "ocrReplace": [
-            [
-                "Starter",
-                "新手"
-            ],
-            [
-                "Senior Operator",
-                "资深干员"
-            ],
-            [
-                "Top Operator",
-                "高级资深干员"
-            ],
-            [
-                "Melee",
-                "近战位"
-            ],
-            [
-                "Ranged",
-                "远程位"
-            ],
-            [
-                "Guard",
-                "近卫干员"
-            ],
-            [
-                "Medic",
-                "医疗干员"
-            ],
-            [
-                "Vanguard",
-                "先锋干员"
-            ],
-            [
-                "Caster",
-                "术师干员"
-            ],
-            [
-                "Sniper",
-                "狙击干员"
-            ],
-            [
-                "Defender",
-                "重装干员"
-            ],
-            [
-                "Supporter",
-                "辅助干员"
-            ],
-            [
-                "Specialist",
-                "特种干员"
-            ],
-            [
-                "Healing",
-                "治疗"
-            ],
-            [
-                "Support",
-                "支援"
-            ],
-            [
-                "DPS",
-                "输出"
-            ],
-            [
-                "AoE",
-                "群攻"
-            ],
-            [
-                "Slow",
-                "减速"
-            ],
-            [
-                "Survival",
-                "生存"
-            ],
-            [
-                "Defense",
-                "防护"
-            ],
-            [
-                "Debuff",
-                "削弱"
-            ],
-            [
-                "Shift",
-                "位移"
-            ],
-            [
-                "Crowd-Control",
-                "控场"
-            ],
-            [
-                "Nuker",
-                "爆发"
-            ],
-            [
-                "Summon",
-                "召唤"
-            ],
-            [
-                "Fast-Redeploy",
-                "快速复活"
-            ],
-            [
-                "DP-Recovery",
-                "费用回复"
-            ],
-            [
-                "Robot",
-                "支援机械"
-            ]
-        ]
-    },
-    "Mall": {
-        "text": [
-            "Store"
-        ]
-    },
-    "CreditStoreOcr": {
-        "text": [
-            "Credit Store"
-        ]
-    },
-    "CreditShop-NoMoney": {
-        "text": [
-            "Insufficient Credit",
-            "Unable to"
-        ]
-    },
-    "Roguelike@StageTraderInvestSystemFull": {
-        "text": [
-            "Storage full"
-        ]
-    },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.9
-    },
-    "BattleStageName": {
-        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
-        "ocrReplace": [
-            [
-                "A Date With Slugs",
-                "与虫为伴"
-            ],
-            [
-                "Beast Taming",
-                "驯兽小屋"
-            ],
-            [
-                "Gun Salute",
-                "礼炮小队"
-            ],
-            [
-                "Accident",
-                "意外"
-            ],
-            [
-                "The Grand Finale",
-                "压轴登场"
-            ],
-            [
-                "Patrol Squad",
-                "巡逻队"
-            ],
-            [
-                "Destitute Knights",
-                "落魄骑士"
-            ],
-            [
-                "Unequal Split",
-                "分赃不均"
-            ],
-            [
-                "Justice",
-                "正义"
-            ],
-            [
-                "A Familiar Face",
-                "似曾相识"
-            ],
-            [
-                "Vintage Transport",
-                "酒商运输队"
-            ],
-            [
-                "With The Crowd",
-                "从众效应"
-            ],
-            [
-                "Beast Fighting",
-                "斗兽笼"
-            ],
-            [
-                "Premiere",
-                "首演"
-            ],
-            [
-                "Reform",
-                "感化"
-            ],
-            [
-                "Pressing Ahead",
-                "步步紧逼"
-            ],
-            [
-                "Shrouded in Clouds",
-                "阴云笼罩"
-            ],
-            [
-                "Fireworks Show",
-                "烟花秀"
-            ],
-            [
-                "Unending",
-                "永无尽头"
-            ],
-            [
-                "Traveler From Afar",
-                "远方来客"
-            ],
-            [
-                "A Dance Together",
-                "共舞"
-            ],
-            [
-                "Bob's Beers",
-                "鲍勃酒品"
-            ],
-            [
-                "Drone Landing Zone",
-                "无人机起降库"
-            ],
-            [
-                "The Red Mist",
-                "红雾弥漫"
-            ],
-            [
-                "The Night of Ritual",
-                "仪式之夜"
-            ],
-            [
-                "The Biting Cold",
-                "彻骨冰寒"
-            ],
-            [
-                "Dangers Abound",
-                "危机四伏"
-            ],
-            [
-                "Surprise Factory",
-                "惊喜工厂"
-            ],
-            [
-                "Absurd Trickeries",
-                "荒唐把戏"
-            ],
-            [
-                "Sarkaz Desire",
-                "萨卡兹的渴求"
-            ],
-            [
-                "Ursus Desire",
-                "乌萨斯的渴求"
-            ],
-            [
-                "A Date With Slugs",
-                "与虫为伴"
-            ],
-            [
-                "Beast Taming",
-                "驯兽小屋"
-            ],
-            [
-                "Gun Salute",
-                "礼炮小队"
-            ],
-            [
-                "Accident",
-                "意外"
-            ],
-            [
-                "The Grand Finale",
-                "压轴登场"
-            ],
-            [
-                "Patrol Squad",
-                "巡逻队"
-            ],
-            [
-                "Destitute Knights",
-                "落魄骑士"
-            ],
-            [
-                "Unequal Split",
-                "分赃不均"
-            ],
-            [
-                "Justice",
-                "正义"
-            ],
-            [
-                "A Familiar Face",
-                "似曾相识"
-            ],
-            [
-                "Vintage Transport",
-                "酒商运输队"
-            ],
-            [
-                "With The Crowd",
-                "从众效应"
-            ],
-            [
-                "Beast Fighting",
-                "斗兽笼"
-            ],
-            [
-                "Premiere",
-                "首演"
-            ],
-            [
-                "Reform",
-                "感化"
-            ],
-            [
-                "Pressing Ahead",
-                "步步紧逼"
-            ],
-            [
-                "Shrouded in Clouds",
-                "阴云笼罩"
-            ],
-            [
-                "Fireworks Show",
-                "烟花秀"
-            ],
-            [
-                "Unending",
-                "永无尽头"
-            ],
-            [
-                "Traveler From Afar",
-                "远方来客"
-            ],
-            [
-                "A Dance Together",
-                "共舞"
-            ],
-            [
-                "Bob's Beers",
-                "鲍勃酒品"
-            ],
-            [
-                "Drone Landing Zone",
-                "无人机起降库"
-            ],
-            [
-                "The Red Mist",
-                "红雾弥漫"
-            ],
-            [
-                "The Night of Ritual",
-                "仪式之夜"
-            ],
-            [
-                "The Biting Cold",
-                "彻骨冰寒"
-            ],
-            [
-                "Dangers Abound",
-                "危机四伏"
-            ],
-            [
-                "Surprise Factory",
-                "惊喜工厂"
-            ],
-            [
-                "Absurd Trickeries",
-                "荒唐把戏"
-            ],
-            [
-                "Sarkaz Desire",
-                "萨卡兹的渴求"
-            ],
-            [
-                "Ursus Desire",
-                "乌萨斯的渴求"
-            ],
-            [
-                "Mind The Doors",
-                "开门请当心"
-            ],
-            [
-                "Theft from Above",
-                "大盗当头"
-            ],
-            [
-                "Terrifying Legends",
-                "恐怖传说"
-            ],
-            [
-                "Fatal Melodies",
-                "悦耳杀机"
-            ],
-            [
-                "A Cold Seperation",
-                "寒渊惜别"
-            ],
-            [
-                "Crying Over Spilt Milk",
-                "覆水难收"
-            ],
-            [
-                "Need No More",
-                "别无所求"
-            ],
-            [
-                "Nothing Ends Well",
-                "诸事不顺"
-            ],
-            [
-                "Disorderly Banquet",
-                "无序盛宴"
-            ],
-            [
-                "Demonic Cage",
-                "邪异囚笼"
-            ],
-            [
-                "This Ursus Man",
-                "这位乌萨斯人"
-            ],
-            [
-                "Duck Lord's Play",
-                "鸭爵的戏剧"
-            ],
-            [
-                "Duck Lord's Party",
-                "鸭爵的宴会"
-            ],
-            [
-                "Gopnik's Fist",
-                "高普尼克之拳"
-            ],
-            [
-                "'Knights' Duel'",
-                "“骑士对决”"
-            ]
-        ],
-        "roi": [
-            250,
-            435,
-            800,
-            100
-        ]
-    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
         "ocrReplace": [
@@ -1758,6 +1273,594 @@
             [
                 "Nethersea Brand",
                 "溟痕"
+            ],
+            [
+                "Erato",
+                "埃拉托"
+            ]
+        ]
+    },
+    "StartButton1": {
+        "text": [
+            "Start"
+        ]
+    },
+    "PRTS2": {
+        "text": [
+            "Takeover"
+        ]
+    },
+    "NoFriends": {
+        "text": [
+            "No friends"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "Visit Next"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "Store"
+        ]
+    },
+    "CreditStoreOcr": {
+        "text": [
+            "Credit Store"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "limit",
+            "reached"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "Insufficient Credit",
+            "Unable to"
+        ]
+    },
+    "RecruitTags": {
+        "ocrReplace": [
+            [
+                "Starter",
+                "新手"
+            ],
+            [
+                "Senior Operator",
+                "资深干员"
+            ],
+            [
+                "Top Operator",
+                "高级资深干员"
+            ],
+            [
+                "Melee",
+                "近战位"
+            ],
+            [
+                "Ranged",
+                "远程位"
+            ],
+            [
+                "Guard",
+                "近卫干员"
+            ],
+            [
+                "Medic",
+                "医疗干员"
+            ],
+            [
+                "Vanguard",
+                "先锋干员"
+            ],
+            [
+                "Caster",
+                "术师干员"
+            ],
+            [
+                "Sniper",
+                "狙击干员"
+            ],
+            [
+                "Defender",
+                "重装干员"
+            ],
+            [
+                "Supporter",
+                "辅助干员"
+            ],
+            [
+                "Specialist",
+                "特种干员"
+            ],
+            [
+                "Healing",
+                "治疗"
+            ],
+            [
+                "Support",
+                "支援"
+            ],
+            [
+                "DPS",
+                "输出"
+            ],
+            [
+                "AoE",
+                "群攻"
+            ],
+            [
+                "Slow",
+                "减速"
+            ],
+            [
+                "Survival",
+                "生存"
+            ],
+            [
+                "Defense",
+                "防护"
+            ],
+            [
+                "Debuff",
+                "削弱"
+            ],
+            [
+                "Shift",
+                "位移"
+            ],
+            [
+                "Crowd-Control",
+                "控场"
+            ],
+            [
+                "Nuker",
+                "爆发"
+            ],
+            [
+                "Summon",
+                "召唤"
+            ],
+            [
+                "Fast-Redeploy",
+                "快速复活"
+            ],
+            [
+                "DP-Recovery",
+                "费用回复"
+            ],
+            [
+                "Robot",
+                "支援机械"
+            ]
+        ]
+    },
+    "InfrastReward": {
+        "text": [
+            "Collectable",
+            "Orders",
+            "Acquired",
+            "Trust"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "Operator"
+        ]
+    },
+    "BattleStageName": {
+        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
+        "ocrReplace": [
+            [
+                "A Date With Slugs",
+                "与虫为伴"
+            ],
+            [
+                "Beast Taming",
+                "驯兽小屋"
+            ],
+            [
+                "Gun Salute",
+                "礼炮小队"
+            ],
+            [
+                "Accident",
+                "意外"
+            ],
+            [
+                "The Grand Finale",
+                "压轴登场"
+            ],
+            [
+                "Patrol Squad",
+                "巡逻队"
+            ],
+            [
+                "Destitute Knights",
+                "落魄骑士"
+            ],
+            [
+                "Unequal Split",
+                "分赃不均"
+            ],
+            [
+                "Justice",
+                "正义"
+            ],
+            [
+                "A Familiar Face",
+                "似曾相识"
+            ],
+            [
+                "Vintage Transport",
+                "酒商运输队"
+            ],
+            [
+                "With The Crowd",
+                "从众效应"
+            ],
+            [
+                "Beast Fighting",
+                "斗兽笼"
+            ],
+            [
+                "Premiere",
+                "首演"
+            ],
+            [
+                "Reform",
+                "感化"
+            ],
+            [
+                "Pressing Ahead",
+                "步步紧逼"
+            ],
+            [
+                "Shrouded in Clouds",
+                "阴云笼罩"
+            ],
+            [
+                "Fireworks Show",
+                "烟花秀"
+            ],
+            [
+                "Unending",
+                "永无尽头"
+            ],
+            [
+                "Traveler From Afar",
+                "远方来客"
+            ],
+            [
+                "A Dance Together",
+                "共舞"
+            ],
+            [
+                "Bob's Beers",
+                "鲍勃酒品"
+            ],
+            [
+                "Drone Landing Zone",
+                "无人机起降库"
+            ],
+            [
+                "The Red Mist",
+                "红雾弥漫"
+            ],
+            [
+                "The Night of Ritual",
+                "仪式之夜"
+            ],
+            [
+                "The Biting Cold",
+                "彻骨冰寒"
+            ],
+            [
+                "Dangers Abound",
+                "危机四伏"
+            ],
+            [
+                "Surprise Factory",
+                "惊喜工厂"
+            ],
+            [
+                "Absurd Trickeries",
+                "荒唐把戏"
+            ],
+            [
+                "Sarkaz Desire",
+                "萨卡兹的渴求"
+            ],
+            [
+                "Ursus Desire",
+                "乌萨斯的渴求"
+            ],
+            [
+                "A Date With Slugs",
+                "与虫为伴"
+            ],
+            [
+                "Beast Taming",
+                "驯兽小屋"
+            ],
+            [
+                "Gun Salute",
+                "礼炮小队"
+            ],
+            [
+                "Accident",
+                "意外"
+            ],
+            [
+                "The Grand Finale",
+                "压轴登场"
+            ],
+            [
+                "Patrol Squad",
+                "巡逻队"
+            ],
+            [
+                "Destitute Knights",
+                "落魄骑士"
+            ],
+            [
+                "Unequal Split",
+                "分赃不均"
+            ],
+            [
+                "Justice",
+                "正义"
+            ],
+            [
+                "A Familiar Face",
+                "似曾相识"
+            ],
+            [
+                "Vintage Transport",
+                "酒商运输队"
+            ],
+            [
+                "With The Crowd",
+                "从众效应"
+            ],
+            [
+                "Beast Fighting",
+                "斗兽笼"
+            ],
+            [
+                "Premiere",
+                "首演"
+            ],
+            [
+                "Reform",
+                "感化"
+            ],
+            [
+                "Pressing Ahead",
+                "步步紧逼"
+            ],
+            [
+                "Shrouded in Clouds",
+                "阴云笼罩"
+            ],
+            [
+                "Fireworks Show",
+                "烟花秀"
+            ],
+            [
+                "Unending",
+                "永无尽头"
+            ],
+            [
+                "Traveler From Afar",
+                "远方来客"
+            ],
+            [
+                "A Dance Together",
+                "共舞"
+            ],
+            [
+                "Bob's Beers",
+                "鲍勃酒品"
+            ],
+            [
+                "Drone Landing Zone",
+                "无人机起降库"
+            ],
+            [
+                "The Red Mist",
+                "红雾弥漫"
+            ],
+            [
+                "The Night of Ritual",
+                "仪式之夜"
+            ],
+            [
+                "The Biting Cold",
+                "彻骨冰寒"
+            ],
+            [
+                "Dangers Abound",
+                "危机四伏"
+            ],
+            [
+                "Surprise Factory",
+                "惊喜工厂"
+            ],
+            [
+                "Absurd Trickeries",
+                "荒唐把戏"
+            ],
+            [
+                "Sarkaz Desire",
+                "萨卡兹的渴求"
+            ],
+            [
+                "Ursus Desire",
+                "乌萨斯的渴求"
+            ],
+            [
+                "Mind The Doors",
+                "开门请当心"
+            ],
+            [
+                "Theft from Above",
+                "大盗当头"
+            ],
+            [
+                "Terrifying Legends",
+                "恐怖传说"
+            ],
+            [
+                "Fatal Melodies",
+                "悦耳杀机"
+            ],
+            [
+                "A Cold Seperation",
+                "寒渊惜别"
+            ],
+            [
+                "Crying Over Spilt Milk",
+                "覆水难收"
+            ],
+            [
+                "Need No More",
+                "别无所求"
+            ],
+            [
+                "Nothing Ends Well",
+                "诸事不顺"
+            ],
+            [
+                "Disorderly Banquet",
+                "无序盛宴"
+            ],
+            [
+                "Demonic Cage",
+                "邪异囚笼"
+            ],
+            [
+                "This Ursus Man",
+                "这位乌萨斯人"
+            ],
+            [
+                "Duck Lord's Play",
+                "鸭爵的戏剧"
+            ],
+            [
+                "Duck Lord's Party",
+                "鸭爵的宴会"
+            ],
+            [
+                "Gopnik's Fist",
+                "高普尼克之拳"
+            ],
+            [
+                "'Knights' Duel'",
+                "“骑士对决”"
+            ]
+        ],
+        "roi": [
+            250,
+            435,
+            800,
+            100
+        ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Normal": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Extra": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Furniture": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Special": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Sanity": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Reward": {
+        "templThreshold": 0.7
+    },
+    "Roguelike@StageTraderInvestSystemFull": {
+        "text": [
+            "Storage full"
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.9
+    },
+    "RoguelikeCustom-HijackCoChar": {
+        "ocrReplace": [
+            [
+                "Caster",
+                "术师"
+            ],
+            [
+                "Medic",
+                "医疗"
+            ],
+            [
+                "Vanguard",
+                "先锋"
+            ],
+            [
+                "Sniper",
+                "狙击"
+            ],
+            [
+                "Specialist",
+                "特种"
+            ],
+            [
+                "Supporter",
+                "辅助"
+            ],
+            [
+                "Defender",
+                "重装"
+            ],
+            [
+                "Guard",
+                "近卫"
+            ]
+        ],
+        "preDelay": 1000
+    },
+    "RoguelikeCustom-HijackRoles": {
+        "ocrReplace": [
+            [
+                "As Your Heart Desires",
+                "随心所欲"
+            ],
+            [
+                "First Move Advantage",
+                "先手必胜"
+            ],
+            [
+                "Slow and Steady Wins",
+                "稳扎稳打"
+            ],
+            [
+                "the Race",
+                "稳扎稳打"
+            ],
+            [
+                "Overcoming Your",
+                "取长补短"
+            ],
+            [
+                "Weaknesses",
+                "取长补短"
             ]
         ]
     },
@@ -1804,71 +1907,6 @@
                 "高规格分队"
             ]
         ]
-    },
-    "RoguelikeCustom-HijackRoles": {
-        "ocrReplace": [
-            [
-                "As Your Heart Desires",
-                "随心所欲"
-            ],
-            [
-                "First Move Advantage",
-                "先手必胜"
-            ],
-            [
-                "Slow and Steady Wins",
-                "稳扎稳打"
-            ],
-            [
-                "the Race",
-                "稳扎稳打"
-            ],
-            [
-                "Overcoming Your",
-                "取长补短"
-            ],
-            [
-                "Weaknesses",
-                "取长补短"
-            ]
-        ]
-    },
-    "RoguelikeCustom-HijackCoChar": {
-        "ocrReplace": [
-            [
-                "Caster",
-                "术师"
-            ],
-            [
-                "Medic",
-                "医疗"
-            ],
-            [
-                "Vanguard",
-                "先锋"
-            ],
-            [
-                "Sniper",
-                "狙击"
-            ],
-            [
-                "Specialist",
-                "特种"
-            ],
-            [
-                "Supporter",
-                "辅助"
-            ],
-            [
-                "Defender",
-                "重装"
-            ],
-            [
-                "Guard",
-                "近卫"
-            ]
-        ],
-        "preDelay": 1000
     },
     "RoguelikeTraderShoppingOcr": {
         "ocrReplace": [
@@ -3000,40 +3038,6 @@
                 "'The Carnival'",
                 "《欢欣鼓舞》"
             ]
-        ]
-    },
-    "StageDrops-DropType-ExpAndLMB": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Normal": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Extra": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Furniture": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Special": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Sanity": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Reward": {
-        "templThreshold": 0.7
-    },
-    "InfrastReward": {
-        "text": [
-            "Collectable",
-            "Orders",
-            "Acquired",
-            "Trust"
-        ]
-    },
-    "InfrastStationedInfo": {
-        "text": [
-            "Operator"
         ]
     }
 }

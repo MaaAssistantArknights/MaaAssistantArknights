@@ -1,1 +1,2 @@
-korean_PP-OCRv3_rec_infer
+https://github.com/MaaAssistantArknights/ArknightsTrainingData/commit/ef7ee566bf14701d5bb0f1fcef0f510cacceb181
+[2022/12/12 22:24:51] ppocr INFO: best metric, acc: 0.9786768721215384, is_float16: False, norm_edit_dis: 0.9951933614067948, fps: 2609.4666770032863, best_epoch: 238, start_epoch: 56

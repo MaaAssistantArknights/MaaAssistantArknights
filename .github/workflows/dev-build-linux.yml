@@ -9,6 +9,7 @@ on:
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'
+      - 'cmake/**'
       - CMakeLists.txt
   pull_request:
     branches:
@@ -18,6 +19,7 @@ on:
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'
+      - 'cmake/**'
       - CMakeLists.txt
 
 jobs:
@@ -46,10 +48,12 @@ jobs:
         run: |
           mkdir -p build
           cmake -B build \
-            -DINSTALL_THIRD_LIBS=ON
+            -DINSTALL_THIRD_LIBS=ON \
+            -DINSTALL_RESOURCE=OFF \
+            -DINSTALL_PYTHON=OFF
           # -DFASTDEPLOY_DIRECTORY=~/fastdeploy \
           # -DOPENCV_DIRECTORY=~/opencv/lib/cmake/opencv4 \
-          cmake --build build
+          cmake --build build --parallel $(nproc --all)
           
           mkdir -p install
           cmake --install build --prefix install

@@ -1471,6 +1471,14 @@
         "sortId": 60009,
         "usage": "Filled with an assortment of supplies and materials."
     },
+    "randomMaterialRune_9": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_9.png",
+        "name": "Operation Deepness Supplies",
+        "sortId": 60010,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
     "randomMaterial_1": {
         "classifyType": "CONSUME",
         "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",

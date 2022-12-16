@@ -32,9 +32,9 @@ namespace MaaWpfGui
         {
             var sideStory = new StageActivityInfo()
             {
-                Tip = "SideStory「风雪过境」复刻活动",
-                UtcStartTime = new DateTime(2022, 12, 1, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2022, 12, 15, 4, 0, 0).AddHours(-8),
+                Tip = "SideStory「照我以火」活动",
+                UtcStartTime = new DateTime(2022, 12, 15, 16, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2023, 1, 5, 4, 0, 0).AddHours(-8),
             };
 
             var resourceCollection = new StageActivityInfo()
@@ -52,9 +52,9 @@ namespace MaaWpfGui
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
 
                 // SideStory「风雪过境」复刻活动
-                { "BI-8", new StageInfo { Display = "BI-8", Value = "BI-8", Activity = sideStory } },
-                { "BI-7", new StageInfo { Display = "BI-7", Value = "BI-7", Activity = sideStory } },
-                { "BI-6", new StageInfo { Display = "BI-6", Value = "BI-6", Activity = sideStory } },
+                { "FC-7", new StageInfo { Display = "FC-7", Value = "FC-7", Activity = sideStory } },
+                { "FC-6", new StageInfo { Display = "FC-6", Value = "FC-6", Activity = sideStory } },
+                { "FC-5", new StageInfo { Display = "FC-5", Value = "FC-5", Activity = sideStory } },
 
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },

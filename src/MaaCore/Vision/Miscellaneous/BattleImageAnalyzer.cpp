@@ -5,11 +5,12 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/TaskData.h"
+#include "Config/TemplResource.h"
 #include "Vision/HashImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
@@ -40,18 +41,7 @@ bool asst::BattleImageAnalyzer::analyze()
 
     // 可能没有干员（全上场了），所以干员识别结果不影响返回值
     if (m_target & Target::Oper) {
-        bool oper_ret = opers_analyze();
-        if (m_target == Target::Skill) {
-            ret = oper_ret;
-        }
-    }
-
-    // 可能没有可使用的技能，所以技能识别结果不影响返回值
-    if (m_target & Target::Skill) {
-        bool skill_ret = skill_analyze();
-        if (m_target == Target::Skill) {
-            ret = skill_ret;
-        }
+        opers_analyze();
     }
 
     if (m_target & Target::Kills) {
@@ -77,11 +67,6 @@ const std::vector<asst::BattleRealTimeOper>& asst::BattleImageAnalyzer::get_oper
 const std::vector<asst::Rect>& asst::BattleImageAnalyzer::get_homes() const noexcept
 {
     return m_homes;
-}
-
-const std::vector<asst::Rect>& asst::BattleImageAnalyzer::get_ready_skills() const noexcept
-{
-    return m_ready_skills;
 }
 
 int asst::BattleImageAnalyzer::get_hp() const noexcept
@@ -352,22 +337,6 @@ bool asst::BattleImageAnalyzer::home_analyze()
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(home_rect), cv::Scalar(0, 255, 0), 5);
 #endif
 
-    return true;
-}
-
-bool asst::BattleImageAnalyzer::skill_analyze()
-{
-    const auto skill_task_ptr = Task.get("BattleSkillReady");
-    const Rect& rect_move = skill_task_ptr->rect_move;
-
-    MultiMatchImageAnalyzer mm_analyzer(m_image);
-    mm_analyzer.set_task_info(skill_task_ptr);
-    if (!mm_analyzer.analyze()) {
-        return false;
-    }
-    for (const auto& mr : mm_analyzer.get_result()) {
-        m_ready_skills.emplace_back(mr.rect.move(rect_move));
-    }
     return true;
 }
 

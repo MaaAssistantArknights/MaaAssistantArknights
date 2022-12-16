@@ -153,9 +153,6 @@
     <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Roguelike\StageDropsImageAnalyzer.h">
-      <Filter>源文件\Vision\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Config\AbstractConfig.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
@@ -426,6 +423,12 @@
     <ClInclude Include="InstHelper.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.h">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -486,9 +489,6 @@
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp">
-      <Filter>源文件\Vision\Roguelike</Filter>
-    </ClCompile>
-    <ClCompile Include="Vision\Roguelike\StageDropsImageAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\AbstractConfig.cpp">
@@ -706,6 +706,12 @@
     </ClCompile>
     <ClCompile Include="InstHelper.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.cpp">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

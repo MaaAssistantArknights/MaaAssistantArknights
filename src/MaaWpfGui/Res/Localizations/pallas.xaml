@@ -429,18 +429,8 @@
     <system:String x:Key="MapPrts">🍻🍷🍻🍸🍺🍻🍷🍺🍺🍸</system:String>
     <system:String x:Key="CustomInfrastGenerator">🍸🍺🍷🍸🍺🍺🍸🍻🕺🕺🍻</system:String>
     <system:String x:Key="QQgroup">💃🍺🍷🍺💃</system:String>
-    <system:String x:Key="QQgroup1">🍺🍻🍸</system:String>
-    <system:String x:Key="QQgroup2">🍷🍷🍷</system:String>
-    <system:String x:Key="QQgroup3">🍺🍷🍻</system:String>
-    <system:String x:Key="QQgroup4">🍷🍺🍺</system:String>
-    <system:String x:Key="QQgroup5">🍻💃💃</system:String>
-    <system:String x:Key="QQgroup6">🍻💃🍻</system:String>
-    <system:String x:Key="QQgroup7">🍻💃💃</system:String>
-    <system:String x:Key="QQgroup8">🍻🍺🍺</system:String>
-    <system:String x:Key="QQgroupfull">🍸🍸🕺🕺🍺</system:String>
     <system:String x:Key="Telegram">🍷🍷🍷🍺</system:String>
     <system:String x:Key="Help">🍸🍺🍺🍻🍺</system:String>
-    <uri:Uri x:Key="HelpUri">https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/1.2-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md</uri:Uri>
     <system:String x:Key="Issue">🍷🍷🍻💃🍺</system:String>
     <!--  About  -->
 

@@ -121,6 +121,17 @@
             ],
             "rarity": 5
         },
+        "char_1020_reed2": {
+            "name": "焰影苇草",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 6
+        },
         "char_1021_kroos2": {
             "name": "寒芒克洛丝",
             "position": "RANGED",
@@ -1540,6 +1551,17 @@
             ],
             "rarity": 5
         },
+        "char_297_hamoni": {
+            "name": "和弦",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-13",
+                "3-14",
+                "3-14"
+            ],
+            "rarity": 5
+        },
         "char_298_susuro": {
             "name": "苏苏洛",
             "position": "RANGED",
@@ -2109,6 +2131,17 @@
                 "1-1",
                 "1-1",
                 "1-1"
+            ],
+            "rarity": 5
+        },
+        "char_4017_puzzle": {
+            "name": "谜图",
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
             ],
             "rarity": 5
         },
@@ -4380,6 +4413,182 @@
         },
         "trap_095_tbsmmc": {
             "name": "芳香精油",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_098_mire": {
+            "name": "沼泽控制",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_104_dplant": {
+            "name": "改性植物激素",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_700_cdabyss": {
+            "name": "阿戈尔示波器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_701_cdabyssa": {
+            "name": "阿戈尔示波器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_702_cdabyssb": {
+            "name": "阿戈尔示波器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_703_cdcredit": {
+            "name": "自适应补给元件",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_704_cdcredita": {
+            "name": "自适应补给元件",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_705_cdcreditb": {
+            "name": "自适应补给元件",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_706_cdshield": {
+            "name": "镀膜装置导能阀",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_707_cdshielda": {
+            "name": "重整导能组件",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_708_cdshieldb": {
+            "name": "镀膜装置导能阀",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_709_cdbeacon": {
+            "name": "丛林用示踪信标",
+            "position": "MELEE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_710_cdbeacona": {
+            "name": "阻断波长",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_711_cdbeaconb": {
+            "name": "干扰波长",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_712_cdhvrk": {
+            "name": "超重绝缘水泥",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_713_cdflsb": {
+            "name": "劣质闪光弹",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [

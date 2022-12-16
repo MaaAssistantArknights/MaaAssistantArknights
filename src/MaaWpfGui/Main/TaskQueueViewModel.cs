@@ -85,13 +85,8 @@ namespace MaaWpfGui
 
             set
             {
-                SetAndNotify(ref _actionAfterCompleted, value.ToString());
-                string storeValue = ActionType.DoNothing.ToString();
-                if (value != ActionType.Shutdown && value != ActionType.Hibernate && value != ActionType.ExitEmulatorAndSelfAndHibernate)
-                {
-                    storeValue = value.ToString();
-                }
-
+                string storeValue = value.ToString();
+                SetAndNotify(ref _actionAfterCompleted, storeValue);
                 ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
             }
         }
@@ -141,7 +136,7 @@ namespace MaaWpfGui
 
         private void Timer1_Elapsed(object sender, EventArgs e)
         {
-            if (CheckAndUpdateDayOfWeek())
+            if (NeedToUpdateDatePrompt())
             {
                 UpdateDatePrompt();
                 UpdateStageList(false);
@@ -239,7 +234,7 @@ namespace MaaWpfGui
             RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
 
             InitDrops();
-            CheckAndUpdateDayOfWeek();
+            NeedToUpdateDatePrompt();
             UpdateDatePrompt();
             UpdateStageList(true);
             RefreshCustonInfrastPlan();
@@ -312,16 +307,21 @@ namespace MaaWpfGui
             }
         }
 
-        private bool CheckAndUpdateDayOfWeek()
+        private bool NeedToUpdateDatePrompt()
         {
             var now = DateTime.UtcNow.AddHours(8);
             var hour = now.Hour;
+            var min = now.Minute;
             if (hour >= 0 && hour < 4)
             {
                 now = now.AddDays(-1);
             }
 
-            if (_curDayOfWeek == now.DayOfWeek)
+            if (min == 0 && hour == 16)
+            {
+                return true;
+            }
+            else if (_curDayOfWeek == now.DayOfWeek)
             {
                 return false;
             }
