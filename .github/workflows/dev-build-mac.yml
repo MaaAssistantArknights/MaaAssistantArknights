@@ -44,12 +44,12 @@ jobs:
       - name: Configure MaaCore
         run: |
           mkdir build && cd build
-          cmake .. -GNinja -DBUILD_XCFRAMEWORK=ON -DBUILD_UNIVERSAL=ON
+          cmake .. -GNinja -DBUILD_XCFRAMEWORK=ON
       - name: Build libMaaCore
         run: cmake --build build
       - name: Build MAA
         working-directory: src/MaaMacGui
-        run: xcodebuild ARCHS="arm64 x86_64" CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA
+        run: xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA-x86_64
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-macos

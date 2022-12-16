@@ -17,10 +17,6 @@ set(CMAKE_INSTALL_RPATH "$ORIGIN/")
 set(THIRD_PARTY_PATH ${CMAKE_CURRENT_BINARY_DIR}/third_libs)
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
 
-if (APPLE)
-    include("${PROJECT_SOURCE_DIR}/cmake/macos.cmake")
-endif ()
-
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -65,25 +61,18 @@ else ()
         target_link_libraries(MaaCore range-v3::range-v3)
     endif ()
 
-    if (APPLE)
-        set(CMAKE_OSX_DEPLOYMENT_TARGET 12.0)
-        message(STATUS "MAA_DEPS_PATH: ${MAA_DEPS_PATH}")
-        find_package(OpenCV REQUIRED PATHS ${MAA_DEPS_PATH})
-        target_link_libraries(MaaCore ${OpenCV_LIBS} ${FastDeploy_LIBS})
-    else ()
-        include(${PROJECT_SOURCE_DIR}/cmake/opencv.cmake)
-        include(${PROJECT_SOURCE_DIR}/cmake/fastdeploy.cmake)
-        target_link_libraries(MaaCore ${DEPEND_LIBS})
+    include(${PROJECT_SOURCE_DIR}/cmake/opencv.cmake)
+    include(${PROJECT_SOURCE_DIR}/cmake/fastdeploy.cmake)
+    target_link_libraries(MaaCore ${DEPEND_LIBS})
 
-        install(TARGETS MaaCore DESTINATION .)
-        if (INSTALL_PYTHON)
-            install(DIRECTORY src/Python DESTINATION .)
-        endif (INSTALL_PYTHON)
-        if (INSTALL_RESOURCE)
-            install(DIRECTORY resource DESTINATION .)
-            install(DIRECTORY 3rdparty/resource DESTINATION .)
-        endif (INSTALL_RESOURCE)
-    endif (APPLE)
+    install(TARGETS MaaCore DESTINATION .)
+    if (INSTALL_PYTHON)
+        install(DIRECTORY src/Python DESTINATION .)
+    endif (INSTALL_PYTHON)
+    if (INSTALL_RESOURCE)
+        install(DIRECTORY resource DESTINATION .)
+        install(DIRECTORY 3rdparty/resource DESTINATION .)
+    endif (INSTALL_RESOURCE)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -idirafter ${PROJECT_SOURCE_DIR}/3rdparty/include")
 endif ()
@@ -93,22 +82,9 @@ if (BUILD_TEST)
     target_link_libraries(test MaaCore)
 endif (BUILD_TEST)
 
-if (BUILD_XCFRAMEWORK)
-    add_custom_command(OUTPUT MaaCore.xcframework
-        COMMAND rm -rf MaaCore.xcframework
-        COMMAND xcodebuild -create-xcframework -library libMaaCore.dylib -headers ${PROJECT_SOURCE_DIR}/include -output MaaCore.xcframework
-        DEPENDS MaaCore
-    )
-
-    add_custom_command(OUTPUT Paddle2ONNX.xcframework
-        COMMAND rm -rf Paddle2ONNX.xcframework
-        COMMAND xcodebuild -create-xcframework -library ${MAA_DEPS_PATH}/lib/libpaddle2onnx.1.0.4.dylib -output Paddle2ONNX.xcframework
-    )
-
-    add_custom_target(MaaXCFramework ALL
-        DEPENDS MaaCore Paddle2ONNX.xcframework MaaCore.xcframework
-    )
-endif (BUILD_XCFRAMEWORK)
+if (APPLE)
+    include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
+endif (APPLE)
 
 # define MAA_VERSION from git
 if (NOT MAA_VERSION)
