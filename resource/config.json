@@ -61,11 +61,11 @@
             "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111",
             "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+",
             "displayFormat": "%d%d",
-            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | nc -w 3 [NcAddress] [NcPort]\"",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncAddress": "[Adb] -s [AdbSerial] shell \" cat /proc/net/arp | grep : \"",
             "ncPort": 6723,
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p 2>/dev/null",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
             "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
@@ -79,9 +79,9 @@
         {
             "configName": "CapWithShell",
             "baseConfig": "General",
-            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap 2>/dev/null | nc -w 3 [NcAddress] [NcPort]\"",
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap 2>/dev/null | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p 2>/dev/null"
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] shell \"screencap | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] shell screencap -p"
         },
         {
             "configName": "BlueStacks",
