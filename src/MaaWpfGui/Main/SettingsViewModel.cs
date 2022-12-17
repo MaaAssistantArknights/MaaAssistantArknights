@@ -171,6 +171,7 @@ namespace MaaWpfGui
             ConnectConfigList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("General"), Value = "General" },
+                new CombData { Display = Localization.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
                 new CombData { Display = Localization.GetString("BlueStacks"), Value = "BlueStacks" },
                 new CombData { Display = Localization.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
                 new CombData { Display = Localization.GetString("LDPlayer"), Value = "LDPlayer" },

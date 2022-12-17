@@ -10,6 +10,11 @@ from enum import Enum, unique, auto
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 
 
+class InstanceOptionType(Enum):
+    touch_type: 2
+    deployment_with_pause: 3
+
+
 class Asst:
     CallBackType = ctypes.CFUNCTYPE(
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
@@ -73,14 +78,29 @@ class Asst:
         Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
-    def connect(self, adb_path: str, address: str, config: str = 'General'):
+    def set_instance_option(self, option_type: InstanceOptionType, option_value: str):
+        """
+        设置额外配置
+        参见${MaaAssistantArknights}/src/MaaCore/Assistant.cpp#set_instance_option
+
+        :params:
+            ``externa_config``: 额外配置类型
+            ``config_value``:   额外配置的值
+
+        :return: 是否设置成功
+        """
+        return Asst.__lib.AsstSetInstanceOption(self.__ptr,
+                                                option_type, option_value.encode('utf-8'))
+
+
+    def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'minitouch'):
         """
         连接设备
 
         :params:
-            ``adb_path``:   adb 程序的路径
-            ``address``:    adb 地址+端口
-            ``config``:     adb 配置，可参考 resource/config.json
+            ``adb_path``:       adb 程序的路径
+            ``address``:        adb 地址+端口
+            ``config``:         adb 配置，可参考 resource/config.json
 
         :return: 是否连接成功
         """
@@ -175,6 +195,10 @@ class Asst:
             ctypes.c_void_p, ctypes.c_void_p,)
 
         Asst.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
+
+        Asst.__lib.AsstSetInstanceOption.restype = ctypes.c_bool
+        Asst.__lib.AsstSetInstanceOption.argtypes = (
+            ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p,)
 
         Asst.__lib.AsstConnect.restype = ctypes.c_bool
         Asst.__lib.AsstConnect.argtypes = (
