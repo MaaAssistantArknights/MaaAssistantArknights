@@ -73,17 +73,22 @@ class Asst:
         Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
-    def connect(self, adb_path: str, address: str, config: str = 'General'):
+    def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'Default'):
         """
         连接设备
 
         :params:
-            ``adb_path``:   adb 程序的路径
-            ``address``:    adb 地址+端口
-            ``config``:     adb 配置，可参考 resource/config.json
+            ``adb_path``:       adb 程序的路径
+            ``address``:        adb 地址+端口
+            ``config``:         adb 配置，可参考 resource/config.json
+            ``touch_config``:   触控配置, 参见 ${MaaAssistantArknights}/src/MaaCore/AsstCaller.cpp#AsstSetInstanceOption
+                                默认配置为'minitouch', 可选配置'adb', 'maatouch'
 
         :return: 是否连接成功
         """
+        if touch_config != 'Default':
+            Asst.__lib.AsstSetInstanceOption(self.__ptr,
+                                             2, touch_config.encode('utf-8'))
         return Asst.__lib.AsstConnect(self.__ptr,
                                       adb_path.encode('utf-8'), address.encode('utf-8'), config.encode('utf-8'))
 
