@@ -10,10 +10,10 @@ from enum import Enum, unique, auto
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 
 
-
-class ExternalConfigType(Enum):
+class InstanceOptionType(Enum):
     touch_type: 2
     deployment_with_pause: 3
+
 
 class Asst:
     CallBackType = ctypes.CFUNCTYPE(
@@ -78,7 +78,7 @@ class Asst:
         Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
-    def set_external_config(self, config_type: ExternalConfigType, config_value: str):
+    def set_instance_option(self, option_type: InstanceOptionType, option_value: str):
         """
         设置额外配置
         参见${MaaAssistantArknights}/src/MaaCore/Assistant.cpp#set_instance_option
@@ -90,7 +90,7 @@ class Asst:
         :return: 是否设置成功
         """
         return Asst.__lib.AsstSetInstanceOption(self.__ptr,
-                                                config_type, config_value.encode('utf-8'))
+                                                option_type, option_value.encode('utf-8'))
 
 
     def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'minitouch'):
