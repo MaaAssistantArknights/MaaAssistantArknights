@@ -5,12 +5,12 @@ import platform
 import json
 
 from typing import Union, Dict, List, Any, Type, Optional
-from enum import Enum, unique, auto
+from enum import Enum, IntEnum, unique, auto
 
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 
 
-class InstanceOptionType(Enum):
+class InstanceOptionType(IntEnum):
     touch_type: 2
     deployment_with_pause: 3
 
@@ -90,7 +90,7 @@ class Asst:
         :return: 是否设置成功
         """
         return Asst.__lib.AsstSetInstanceOption(self.__ptr,
-                                                option_type, option_value.encode('utf-8'))
+                                                int(option_type), option_value.encode('utf-8'))
 
 
     def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'minitouch'):
