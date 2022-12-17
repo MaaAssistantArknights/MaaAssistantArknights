@@ -11,8 +11,8 @@ JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 
 
 class InstanceOptionType(IntEnum):
-    touch_type: 2
-    deployment_with_pause: 3
+    touch_type = 2
+    deployment_with_pause = 3
 
 
 class Asst:
@@ -47,7 +47,7 @@ class Asst:
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         else:
             Asst.__libpath = pathlib.Path(path) / 'libMaaCore.so'
-            os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)
+            os.environ['LD_LIBRARY_PATH'] = os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
@@ -93,7 +93,7 @@ class Asst:
                                                 int(option_type), option_value.encode('utf-8'))
 
 
-    def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'minitouch'):
+    def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
         连接设备
 
