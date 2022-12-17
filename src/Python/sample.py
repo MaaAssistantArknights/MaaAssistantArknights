@@ -2,7 +2,7 @@ import json
 import pathlib
 import time
 
-from asst import Asst, Message
+from asst import ExternalConfigType, Asst, Message
 
 
 @Asst.CallBackType
@@ -25,6 +25,12 @@ if __name__ == "__main__":
     # 若需要获取详细执行信息，请传入 callback 参数
     # 例如 asst = Asst(callback=my_callback)
     asst = Asst()
+
+    ## 设置额外配置
+    # 触控方案配置
+    # asst.set_external_config(ExternalConfigType.touch_type, 'maatouch')
+    # 暂停下干员
+    # asst.set_external_config(ExternalConfigType.deployment_with_pause, '1')
 
     # 请自行配置 adb 环境变量，或修改为 adb 可执行程序的路径
     if asst.connect('adb.exe', '127.0.0.1:5555'):
