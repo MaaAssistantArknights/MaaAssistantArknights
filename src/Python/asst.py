@@ -73,7 +73,7 @@ class Asst:
         Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
-    def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'Default'):
+    def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'minitouch'):
         """
         连接设备
 
@@ -86,9 +86,8 @@ class Asst:
 
         :return: 是否连接成功
         """
-        if touch_config != 'Default':
-            Asst.__lib.AsstSetInstanceOption(self.__ptr,
-                                             2, touch_config.encode('utf-8'))
+        Asst.__lib.AsstSetInstanceOption(self.__ptr,
+                                         2, touch_config.encode('utf-8'))
         return Asst.__lib.AsstConnect(self.__ptr,
                                       adb_path.encode('utf-8'), address.encode('utf-8'), config.encode('utf-8'))
 
@@ -180,6 +179,10 @@ class Asst:
             ctypes.c_void_p, ctypes.c_void_p,)
 
         Asst.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
+
+        Asst.__lib.AsstSetInstanceOption.restype = ctypes.c_bool
+        Asst.__lib.AsstSetInstanceOption.argtypes = (
+            ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p,)
 
         Asst.__lib.AsstConnect.restype = ctypes.c_bool
         Asst.__lib.AsstConnect.argtypes = (
