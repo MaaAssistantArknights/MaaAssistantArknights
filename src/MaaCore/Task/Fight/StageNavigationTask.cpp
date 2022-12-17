@@ -18,7 +18,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     if (Task.get(stage_name)) {
         m_is_directly = true;
         m_directly_task = stage_name;
-        Log.error("directly task", m_directly_task);
+        Log.info("directly task", m_directly_task);
         return true;
     }
     m_is_directly = false;
