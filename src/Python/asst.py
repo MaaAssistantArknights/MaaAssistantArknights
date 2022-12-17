@@ -37,18 +37,35 @@ class Asst:
             ``incremental_path``:   增量资源所在文件夹路径
             ``user_dir``:   用户数据（日志、调试图片等）写入文件夹路径
         """
-        if platform.system().lower() == 'windows':
-            Asst.__libpath = pathlib.Path(path) / 'MaaCore.dll'
-            os.environ["PATH"] += os.pathsep + str(path)
-            Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
-        elif platform.system().lower() == 'darwin':
-            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.dylib'
-            os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
-            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
+
+        platform_values = {
+            'windows': {
+                'libpath': 'MaaCore.dll',
+                'environ_var': 'PATH'
+            },
+            'darwin': {
+                'libpath': 'libMaaCore.dylib',
+                'environ_var': 'DYLD_LIBRARY_PATH'
+            },
+            'linux': {
+                'libpath': 'libMaaCore.so',
+                'environ_var': 'LD_LIBRARY_PATH'
+            }
+        }
+        lib_import_func = None
+
+        platform_type = platform.system().lower()
+        if platform_type == 'windows':
+            lib_import_func = ctypes.WinDLL
         else:
-            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.so'
-            os.environ['LD_LIBRARY_PATH'] = os.pathsep + str(path)
-            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
+            lib_import_func = ctypes.CDLL
+
+        Asst.__libpath = pathlib.Path(path) / platform_values[platform_type]['libpath']
+        try:
+            os.environ[platform_values[platform_type]['environ_var']] += os.pathsep + str(path)
+        except KeyError:
+            os.environ[platform_values[platform_type]['environ_var']] = os.pathsep + str(path)
+        Asst.__lib = lib_import_func(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
         ret: bool = True
