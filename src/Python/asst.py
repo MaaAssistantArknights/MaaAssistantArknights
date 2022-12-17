@@ -10,6 +10,11 @@ from enum import Enum, unique, auto
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 
 
+
+class ExternalConfigType(Enum):
+    touch_type: 2
+    deployment_with_pause: 3
+
 class Asst:
     CallBackType = ctypes.CFUNCTYPE(
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
@@ -73,6 +78,21 @@ class Asst:
         Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
+    def set_external_config(self, config_type: ExternalConfigType, config_value: str):
+        """
+        设置额外配置
+        参见${MaaAssistantArknights}/src/MaaCore/Assistant.cpp#set_instance_option
+
+        :params:
+            ``externa_config``: 额外配置类型
+            ``config_value``:   额外配置的值
+
+        :return: 是否设置成功
+        """
+        return Asst.__lib.AsstSetInstanceOption(self.__ptr,
+                                                config_type, config_value.encode('utf-8'))
+
+
     def connect(self, adb_path: str, address: str, config: str = 'General', touch_config: str = 'minitouch'):
         """
         连接设备
@@ -81,13 +101,9 @@ class Asst:
             ``adb_path``:       adb 程序的路径
             ``address``:        adb 地址+端口
             ``config``:         adb 配置，可参考 resource/config.json
-            ``touch_config``:   触控配置, 参见 ${MaaAssistantArknights}/src/MaaCore/AsstCaller.cpp#AsstSetInstanceOption
-                                默认配置为'minitouch', 可选配置'adb', 'maatouch'
 
         :return: 是否连接成功
         """
-        Asst.__lib.AsstSetInstanceOption(self.__ptr,
-                                         2, touch_config.encode('utf-8'))
         return Asst.__lib.AsstConnect(self.__ptr,
                                       adb_path.encode('utf-8'), address.encode('utf-8'), config.encode('utf-8'))
 
