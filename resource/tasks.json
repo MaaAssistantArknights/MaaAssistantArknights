@@ -1199,6 +1199,7 @@
             "StageEpisode",
             "StageEpisodeToOF",
             "OFToOF-Chapter",
+            "ChapterSwipeToTheLeft",
             "StageOF-1"
         ]
     },

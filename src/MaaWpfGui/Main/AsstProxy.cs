@@ -498,6 +498,10 @@ namespace MaaWpfGui
                     {
                         mainModel.IncreaseCustomInfrastPlanIndex();
                     }
+                    else if (taskChain == "Mall")
+                    {
+                        settingsModel.LastCreditFightTaskTime = DateTime.UtcNow.AddHours(4).Date.ToString();
+                    }
 
                     mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
                     if (isCoplitTaskChain)
