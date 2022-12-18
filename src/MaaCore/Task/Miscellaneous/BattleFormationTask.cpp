@@ -40,7 +40,7 @@ bool asst::BattleFormationTask::_run()
             }
             else if (has_error) {
                 // reset page
-                click_role_table(role == BattleRole::Unknown ? BattleRole::Pioneer : BattleRole::Unknown);
+                click_role_table(role == battle::Role::Unknown ? battle::Role::Pioneer : battle::Role::Unknown);
                 click_role_table(role);
                 has_error = false;
             }
@@ -164,12 +164,12 @@ bool asst::BattleFormationTask::confirm_selection()
     return ProcessTask(*this, { "BattleQuickFormationConfirm" }).run();
 }
 
-bool asst::BattleFormationTask::click_role_table(BattleRole role)
+bool asst::BattleFormationTask::click_role_table(battle::Role role)
 {
-    static const std::unordered_map<BattleRole, std::string> RoleNameType = {
-        { BattleRole::Caster, "Caster" }, { BattleRole::Medic, "Medic" },     { BattleRole::Pioneer, "Pioneer" },
-        { BattleRole::Sniper, "Sniper" }, { BattleRole::Special, "Special" }, { BattleRole::Support, "Support" },
-        { BattleRole::Tank, "Tank" },     { BattleRole::Warrior, "Warrior" },
+    static const std::unordered_map<battle::Role, std::string> RoleNameType = {
+        { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
+        { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
     };
 
     auto role_iter = RoleNameType.find(role);
@@ -193,7 +193,7 @@ bool asst::BattleFormationTask::parse_formation()
         }
         formation.array_emplace(name);
 
-        BattleRole role = BattleData.get_role(opers_vec.front().name);
+        battle::Role role = BattleData.get_role(opers_vec.front().name);
         m_formation[role].emplace_back(opers_vec);
     }
 

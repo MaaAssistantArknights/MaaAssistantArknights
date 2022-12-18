@@ -12,11 +12,11 @@ namespace asst
     public:
         virtual ~RoguelikeCopilotConfig() override = default;
 
-        std::optional<RoguelikeBattleData> get_stage_data(const std::string& stage_name) const;
+        std::optional<battle::roguelike::CombatData> get_stage_data(const std::string& stage_name) const;
 
     protected:
         virtual bool parse(const json::value& json) override;
-        std::unordered_map<std::string, RoguelikeBattleData> m_stage_data;
+        std::unordered_map<std::string, battle::roguelike::CombatData> m_stage_data;
     };
 
     inline static auto& RoguelikeCopilot = RoguelikeCopilotConfig::get_instance();

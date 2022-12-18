@@ -5,13 +5,14 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Task/AbstractTaskPlugin.h"
+#include "Task/BattleHelper.h"
+#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 
 namespace asst
 {
-    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, public BattleHelper
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
@@ -19,7 +20,7 @@ namespace asst
         inline static const std::string UnknownName = "Unknown";
 
     public:
-        using AbstractTaskPlugin::AbstractTaskPlugin;
+        RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
         virtual ~RoguelikeBattleTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
@@ -32,14 +33,14 @@ namespace asst
         // 有些特殊的角色，他的职业并不一定和正常的位置相对应，比如“掠风”是地面辅助
         // get_role_position 可以仅知道干员职业的情况下，大概猜测一下位置
         // get_oper_position 可以在已知干员名的时候获得准确的位置
-        BattleLocationType get_role_location_type(const BattleRole& role);
-        BattleLocationType get_oper_location_type(const std::string& name);
+        battle::LocationType get_role_location_type(const battle::Role& role);
+        battle::LocationType get_oper_location_type(const std::string& name);
 
-        std::vector<Point> available_locations(BattleRole role);
+        std::vector<Point> available_locations(battle::Role role);
         std::vector<Point> available_locations(const std::string& name);
-        std::vector<Point> available_locations(BattleLocationType type);
+        std::vector<Point> available_locations(battle::LocationType type);
 
-        BattleOperPosition get_role_position(const BattleRole& role);
+        battle::OperPosition get_role_position(const battle::Role& role);
 
         void wait_for_start();
         bool get_stage_info();
@@ -57,23 +58,23 @@ namespace asst
         bool cancel_oper_selection();
         bool is_oper_name_error(const std::string& name);
 
-        void set_position_full(const BattleLocationType& loc_type, bool full);
+        void set_position_full(const battle::LocationType& loc_type, bool full);
         void set_position_full(const Point& point, bool full);
-        void set_position_full(const BattleRole& role, bool full);
+        void set_position_full(const battle::Role& role, bool full);
         void set_position_full(const std::string& name, bool full);
-        bool get_position_full(const BattleRole& role);
+        bool get_position_full(const battle::Role& role);
 
         struct DeployInfo
         {
             Point placed;
             Point direction;
         };
-        BattleAttackRange get_attack_range(const BattleRealTimeOper& oper);
-        DeployInfo calc_best_plan(const BattleRealTimeOper& oper);
+        battle::AttackRange get_attack_range(const battle::DeploymentOper& oper);
+        DeployInfo calc_best_plan(const battle::DeploymentOper& oper);
 
         // 计算摆放干员的朝向
         // 返回滑动的方向、得分
-        std::pair<Point, int> calc_best_direction_and_score(Point loc, const BattleRealTimeOper& oper,
+        std::pair<Point, int> calc_best_direction_and_score(Point loc, const battle::DeploymentOper& oper,
                                                             Point recommended_direction);
 
         struct DroneTile
@@ -123,10 +124,10 @@ namespace asst
         size_t m_cur_home_index = 0;
         cv::Mat m_dice_image;
 
-        std::array<BattleRole, 9> m_role_order;
+        std::array<battle::Role, 9> m_role_order;
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
-        std::vector<ReplacementHome> m_homes;
+        std::vector<battle::roguelike::ReplacementHome> m_homes;
         std::vector<bool> m_wait_blocking;
         std::vector<bool> m_wait_medic;
         std::vector<bool> m_indeed_no_medic;
@@ -140,7 +141,7 @@ namespace asst
         std::unordered_map<std::string, Point> m_opers_in_field;
         std::unordered_map<std::string, int64_t> m_restore_status;
         std::priority_queue<DroneTile> m_need_clear_tiles;
-        std::unordered_map<Point, ForceDeployDirection> m_force_deploy_direction;
+        std::unordered_map<Point, battle::roguelike::ForceDeployDirection> m_force_deploy_direction;
 
         std::string m_stage_name;
     };

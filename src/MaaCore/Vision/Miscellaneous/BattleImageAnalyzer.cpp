@@ -7,11 +7,11 @@
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
+#include "Utils/Logger.hpp"
 #include "Vision/HashImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
 {
@@ -59,7 +59,7 @@ bool asst::BattleImageAnalyzer::analyze()
     return ret;
 }
 
-const std::vector<asst::BattleRealTimeOper>& asst::BattleImageAnalyzer::get_opers() const noexcept
+const std::vector<asst::battle::DeploymentOper>& asst::BattleImageAnalyzer::get_opers() const noexcept
 {
     return m_opers;
 }
@@ -124,7 +124,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 
     size_t index = 0;
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
-        BattleRealTimeOper oper;
+        battle::DeploymentOper oper;
         oper.rect = flag_mrect.rect.move(click_move);
         if (oper.rect.x + oper.rect.width >= m_image.cols) {
             oper.rect.width = m_image.cols - oper.rect.x;
@@ -166,17 +166,17 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     return true;
 }
 
-asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
+asst::battle::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 {
-    static const std::unordered_map<BattleRole, std::string> RolesName = {
-        { BattleRole::Caster, "Caster" }, { BattleRole::Medic, "Medic" },     { BattleRole::Pioneer, "Pioneer" },
-        { BattleRole::Sniper, "Sniper" }, { BattleRole::Special, "Special" }, { BattleRole::Support, "Support" },
-        { BattleRole::Tank, "Tank" },     { BattleRole::Warrior, "Warrior" }, { BattleRole::Drone, "Drone" }
+    static const std::unordered_map<battle::Role, std::string> RolesName = {
+        { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
+        { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" }, { battle::Role::Drone, "Drone" }
     };
 
     MatchImageAnalyzer role_analyzer(m_image);
 
-    auto result = BattleRole::Unknown;
+    auto result = battle::Role::Unknown;
     double max_score = 0;
     for (auto&& [role, role_name] : RolesName) {
         role_analyzer.set_task_info("BattleOperRole" + role_name);

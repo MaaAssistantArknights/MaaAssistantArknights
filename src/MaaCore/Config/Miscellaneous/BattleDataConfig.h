@@ -13,11 +13,11 @@ namespace asst
     public:
         virtual ~BattleDataConfig() override = default;
 
-        BattleRole get_role(const std::string& name) const
+        battle::Role get_role(const std::string& name) const
         {
             auto iter = m_chars.find(name);
             if (iter == m_chars.cend()) {
-                return BattleRole::Unknown;
+                return battle::Role::Unknown;
             }
             return iter->second.role;
         }
@@ -31,18 +31,18 @@ namespace asst
             return iter->second.rarity;
         }
 
-        BattleLocationType get_location_type(const std::string& name) const
+        battle::LocationType get_location_type(const std::string& name) const
         {
             auto iter = m_chars.find(name);
             if (iter == m_chars.cend()) {
-                return BattleLocationType::Invalid;
+                return battle::LocationType::Invalid;
             }
             return iter->second.location_type;
         }
 
-        static inline const BattleAttackRange& EmptyRange { { 0, 0 } };
+        static inline const battle::AttackRange& EmptyRange { { 0, 0 } };
 
-        const BattleAttackRange& get_range(const std::string& name, size_t index) const
+        const battle::AttackRange& get_range(const std::string& name, size_t index) const
         {
             auto char_iter = m_chars.find(name);
             if (char_iter == m_chars.cend()) {
@@ -68,8 +68,8 @@ namespace asst
         virtual bool parse(const json::value& json) override;
 
     private:
-        std::unordered_map<std::string, BattleCharData> m_chars;
-        std::unordered_map<std::string, BattleAttackRange> m_ranges;
+        std::unordered_map<std::string, battle::OperProps> m_chars;
+        std::unordered_map<std::string, battle::AttackRange> m_ranges;
     };
     inline static auto& BattleData = BattleDataConfig::get_instance();
 } // namespace asst

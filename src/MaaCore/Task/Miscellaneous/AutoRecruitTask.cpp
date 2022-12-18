@@ -19,7 +19,7 @@ namespace asst::recruit_calc
 {
     // all combinations and their operator list, excluding empty set and 6-star operators while there is no senior tag
     auto get_all_combs(const std::vector<RecruitConfig::TagId>& tags,
-                       const std::vector<RecruitOperInfo>& all_ops = RecruitData.get_all_opers())
+                       const std::vector<Recruitment>& all_ops = RecruitData.get_all_opers())
     {
         std::vector<RecruitCombs> rcs_with_single_tag;
 
@@ -92,7 +92,7 @@ namespace asst::recruit_calc
             }
             // no senior tag, remove 6-star operators
             // assuming sorted by level
-            auto iter = ranges::find_if(comb_iter->opers, [](const RecruitOperInfo& op) { return op.level >= 6; });
+            auto iter = ranges::find_if(comb_iter->opers, [](const Recruitment& op) { return op.level >= 6; });
             if (iter == comb_iter->opers.end()) {
                 ++comb_iter;
                 continue;
@@ -394,11 +394,11 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         for (RecruitCombs& rc : result_vec) {
             if (rc.min_level < 3) {
                 // find another min level (assuming operator list sorted in increment order by level)
-                auto sec = ranges::find_if(rc.opers, [](const RecruitOperInfo& op) { return op.level >= 3; });
+                auto sec = ranges::find_if(rc.opers, [](const Recruitment& op) { return op.level >= 3; });
                 if (sec != rc.opers.end()) {
                     rc.min_level = sec->level;
                     rc.avg_level = std::transform_reduce(sec, rc.opers.end(), 0., std::plus<double> {},
-                                                         std::mem_fn(&RecruitOperInfo::level)) /
+                                                         std::mem_fn(&Recruitment::level)) /
                                    static_cast<double>(std::distance(sec, rc.opers.end()));
                 }
             }
@@ -437,7 +437,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 comb_json["tags"] = json::array(get_tag_names(comb.tags));
 
                 std::vector<json::value> opers_json_vector;
-                for (const RecruitOperInfo& oper_info : ranges::reverse_view(comb.opers)) { // print reversely
+                for (const Recruitment& oper_info : ranges::reverse_view(comb.opers)) { // print reversely
                     json::value oper_json;
                     oper_json["name"] = oper_info.name;
                     oper_json["level"] = oper_info.level;

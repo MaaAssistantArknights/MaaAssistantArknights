@@ -13,19 +13,20 @@ namespace asst
         void set_support_unit_name(std::string name);
 
     protected:
-        using OperGroup = std::vector<BattleDeployOper>;
+        using OperGroup = std::vector<battle::OperUsage>;
+
         virtual bool _run() override;
 
         bool enter_selection_page();
         bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
         void swipe_page();
         bool confirm_selection();
-        bool click_role_table(BattleRole role);
+        bool click_role_table(battle::Role role);
         bool parse_formation();
         bool select_random_support_unit();
 
         std::string m_stage_name;
-        std::unordered_map<BattleRole, std::vector<OperGroup>> m_formation;
+        std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
         std::string m_the_right_name;
         std::string m_support_unit_name;
     };

@@ -1,10 +1,10 @@
 #include "RoguelikeRecruitImageAnalyzer.h"
 
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {
@@ -37,7 +37,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
             continue;
         }
 
-        BattleRecruitOperInfo info;
+        battle::roguelike::Recruitment info;
         info.rect = rect;
         info.name = name;
         info.elite = elite;
