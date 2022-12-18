@@ -1032,7 +1032,7 @@ namespace MaaWpfGui
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", DateTime.UtcNow.AddHours(4).Date.AddDays(-1).ToString());
+        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString());
 
         public string LastCreditFightTaskTime
         {
@@ -1053,7 +1053,7 @@ namespace MaaWpfGui
         {
             get
             {
-                if (DateTime.UtcNow.AddHours(4).Date > DateTime.Parse(LastCreditFightTaskTime).Date)
+                if (Utils.GetYJTimeDate() > DateTime.Parse(LastCreditFightTaskTime).Date)
                 {
                     return _creditFightTaskEnabled;
                 }
