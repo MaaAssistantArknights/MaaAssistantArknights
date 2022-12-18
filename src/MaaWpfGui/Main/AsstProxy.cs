@@ -500,7 +500,7 @@ namespace MaaWpfGui
                     }
                     else if (taskChain == "Mall")
                     {
-                        settingsModel.LastCreditFightTaskTime = DateTime.UtcNow.AddHours(4).Date.ToString();
+                        settingsModel.LastCreditFightTaskTime = Utils.GetYJTimeDateString();
                     }
 
                     mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);

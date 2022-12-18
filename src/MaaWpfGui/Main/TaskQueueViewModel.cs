@@ -309,26 +309,26 @@ namespace MaaWpfGui
 
         private bool NeedToUpdateDatePrompt()
         {
-            var now = DateTime.UtcNow.AddHours(8);
+            var now = Utils.GetYJTimeNow();
             var hour = now.Hour;
             var min = now.Minute;
-            if (hour >= 0 && hour < 4)
-            {
-                now = now.AddDays(-1);
-            }
 
-            if (min == 0 && hour == 16)
+            // yj历的16点
+            if (min == 0 && hour == 12)
             {
                 return true;
-            }
-            else if (_curDayOfWeek == now.DayOfWeek)
-            {
-                return false;
             }
             else
             {
-                _curDayOfWeek = now.DayOfWeek;
-                return true;
+                if (_curDayOfWeek == now.DayOfWeek)
+                {
+                    return false;
+                }
+                else
+                {
+                    _curDayOfWeek = now.DayOfWeek;
+                    return true;
+                }
             }
         }
 
