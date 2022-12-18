@@ -22,7 +22,7 @@ namespace asst
     class Status;
     class TaskData;
 
-    class AbstractTask : protected InstHelper
+    class AbstractTask : virtual protected InstHelper
     {
     public:
         AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
@@ -63,7 +63,6 @@ namespace asst
         bool save_img(const std::string& dirname = "debug/");
 
         json::value basic_info_with_what(std::string what) const;
-        bool sleep(unsigned millisecond);
 
         bool m_enable = true;
         bool m_ignore_error = false;

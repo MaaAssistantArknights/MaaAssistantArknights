@@ -12,14 +12,14 @@ bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
         for (const auto& goods_json : theme_json.as_array()) {
             std::string name = goods_json.at("name").as_string();
 
-            std::vector<BattleRole> roles;
+            std::vector<battle::Role> roles;
             if (auto roles_opt = goods_json.find<json::array>("roles")) {
                 for (const auto& role_json : roles_opt.value()) {
-                    static const std::unordered_map<std::string, BattleRole> RoleMap = {
-                        { "CASTER", BattleRole::Caster },   { "MEDIC", BattleRole::Medic },
-                        { "PIONEER", BattleRole::Pioneer }, { "SNIPER", BattleRole::Sniper },
-                        { "SPECIAL", BattleRole::Special }, { "SUPPORT", BattleRole::Support },
-                        { "TANK", BattleRole::Tank },       { "WARRIOR", BattleRole::Warrior },
+                    static const std::unordered_map<std::string, battle::Role> RoleMap = {
+                        { "CASTER", battle::Role::Caster },   { "MEDIC", battle::Role::Medic },
+                        { "PIONEER", battle::Role::Pioneer }, { "SNIPER", battle::Role::Sniper },
+                        { "SPECIAL", battle::Role::Special }, { "SUPPORT", battle::Role::Support },
+                        { "TANK", battle::Role::Tank },       { "WARRIOR", battle::Role::Warrior },
                     };
                     roles.emplace_back(RoleMap.at(role_json.as_string()));
                 }

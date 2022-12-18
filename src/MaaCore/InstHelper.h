@@ -20,6 +20,7 @@ namespace asst
         std::shared_ptr<Controller> ctrler() const;
         std::shared_ptr<Status> status() const;
         bool need_exit() const;
+        bool sleep(unsigned millisecond) const;
 
         InstHelper& operator=(const InstHelper&) = default;
         InstHelper& operator=(InstHelper&&) noexcept = default;

@@ -60,6 +60,8 @@ namespace asst
         static constexpr Point left() { return { -1, 0 }; }
         static constexpr Point up() { return { 0, -1 }; }
         static constexpr Point zero() { return { 0, 0 }; }
+        bool empty() const noexcept { return x == 0 && y == 0; }
+
         int x = 0;
         int y = 0;
 
@@ -408,4 +410,6 @@ namespace asst
     };
 
     inline static const std::string UploadDataSource = "MeoAssistant";
+    inline static constexpr std::string_view RoguelikePhantomThemeName = "Phantom";
+    inline static constexpr std::string_view RoguelikeMizukiThemeName = "Mizuki";
 } // namespace asst

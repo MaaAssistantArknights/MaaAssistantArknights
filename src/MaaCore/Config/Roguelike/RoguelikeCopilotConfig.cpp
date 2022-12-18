@@ -4,8 +4,10 @@
 
 #include "Utils/Logger.hpp"
 
-std::optional<asst::RoguelikeBattleData> asst::RoguelikeCopilotConfig::get_stage_data(
-    const std::string& stage_name) const
+using namespace asst::battle;
+using namespace asst::battle::roguelike;
+
+std::optional<CombatData> asst::RoguelikeCopilotConfig::get_stage_data(const std::string& stage_name) const
 {
     auto it = m_stage_data.find(stage_name);
     if (it == m_stage_data.end()) {
@@ -18,23 +20,23 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 {
     for (const auto& stage_info : json.as_array()) {
         std::string stage_name = stage_info.at("stage_name").as_string();
-        RoguelikeBattleData data;
+        CombatData data;
         data.stage_name = stage_name;
-        static const std::unordered_map<std::string, BattleDeployDirection> DeployDirectionMapping = {
-            { "Right", BattleDeployDirection::Right }, { "RIGHT", BattleDeployDirection::Right },
-            { "right", BattleDeployDirection::Right }, { "右", BattleDeployDirection::Right },
+        static const std::unordered_map<std::string, DeployDirection> DeployDirectionMapping = {
+            { "Right", DeployDirection::Right }, { "RIGHT", DeployDirection::Right },
+            { "right", DeployDirection::Right }, { "右", DeployDirection::Right },
 
-            { "Left", BattleDeployDirection::Left },   { "LEFT", BattleDeployDirection::Left },
-            { "left", BattleDeployDirection::Left },   { "左", BattleDeployDirection::Left },
+            { "Left", DeployDirection::Left },   { "LEFT", DeployDirection::Left },
+            { "left", DeployDirection::Left },   { "左", DeployDirection::Left },
 
-            { "Up", BattleDeployDirection::Up },       { "UP", BattleDeployDirection::Up },
-            { "up", BattleDeployDirection::Up },       { "上", BattleDeployDirection::Up },
+            { "Up", DeployDirection::Up },       { "UP", DeployDirection::Up },
+            { "up", DeployDirection::Up },       { "上", DeployDirection::Up },
 
-            { "Down", BattleDeployDirection::Down },   { "DOWN", BattleDeployDirection::Down },
-            { "down", BattleDeployDirection::Down },   { "下", BattleDeployDirection::Down },
+            { "Down", DeployDirection::Down },   { "DOWN", DeployDirection::Down },
+            { "down", DeployDirection::Down },   { "下", DeployDirection::Down },
 
-            { "None", BattleDeployDirection::None },   { "NONE", BattleDeployDirection::None },
-            { "none", BattleDeployDirection::None },   { "无", BattleDeployDirection::None },
+            { "None", DeployDirection::None },   { "NONE", DeployDirection::None },
+            { "none", DeployDirection::None },   { "无", DeployDirection::None },
         };
         if (auto opt = stage_info.find<json::array>("replacement_home")) {
             for (auto& point : opt.value()) {
@@ -45,7 +47,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                     home.direction = iter->second;
                 }
                 else {
-                    home.direction = BattleDeployDirection::None;
+                    home.direction = DeployDirection::None;
                 }
                 data.replacement_home.emplace_back(std::move(home));
             }
@@ -77,19 +79,19 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
         }
 
         constexpr int RoleNumber = 9;
-        static constexpr std::array<BattleRole, RoleNumber> RoleOrder = {
-            BattleRole::Warrior, BattleRole::Pioneer, BattleRole::Medic,   BattleRole::Tank,  BattleRole::Sniper,
-            BattleRole::Caster,  BattleRole::Support, BattleRole::Special, BattleRole::Drone,
+        static constexpr std::array<Role, RoleNumber> RoleOrder = {
+            Role::Warrior, Role::Pioneer, Role::Medic,   Role::Tank,  Role::Sniper,
+            Role::Caster,  Role::Support, Role::Special, Role::Drone,
         };
 
         if (auto opt = stage_info.find<json::array>("role_order")) {
             const auto& raw_roles = opt.value();
             using views::filter, views::transform;
-            std::unordered_set<BattleRole> specified_role;
-            std::vector<BattleRole> role_order;
+            std::unordered_set<Role> specified_role;
+            std::vector<Role> role_order;
             bool is_legal = true;
             if (ranges::find_if_not(raw_roles | views::all, std::mem_fn(&json::value::is_string)) != raw_roles.end()) {
-                Log.error("BattleRole should be string");
+                Log.error("Role should be string");
                 return false;
             }
             auto roles = raw_roles | filter(&json::value::is_string) | transform(&json::value::as_string) |
@@ -99,13 +101,13 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                          });
             for (const std::string& role_name : roles) {
                 const auto role = get_role_type(role_name);
-                if (role == BattleRole::Unknown) [[unlikely]] {
-                    Log.error("Unknown BattleRole:", role_name);
+                if (role == Role::Unknown) [[unlikely]] {
+                    Log.error("Unknown Role:", role_name);
                     is_legal = false;
                     break;
                 }
                 if (specified_role.contains(role)) [[unlikely]] {
-                    Log.error("Duplicated BattleRole:", role_name);
+                    Log.error("Duplicated Role:", role_name);
                     is_legal = false;
                     break;
                 }
@@ -113,7 +115,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                 role_order.emplace_back(role);
             }
             if (is_legal) [[likely]] {
-                ranges::copy(RoleOrder | filter([&](BattleRole role) { return !specified_role.contains(role); }),
+                ranges::copy(RoleOrder | filter([&](Role role) { return !specified_role.contains(role); }),
                              std::back_inserter(role_order));
                 if (role_order.size() != RoleNumber) [[unlikely]] {
                     Log.error("Unexpected role_order size:", role_order.size());
@@ -139,16 +141,16 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                     fd_dir.direction = iter->second;
                 }
                 else {
-                    fd_dir.direction = BattleDeployDirection::None;
+                    fd_dir.direction = DeployDirection::None;
                 }
-                if (fd_dir.direction == BattleDeployDirection::None) [[unlikely]] {
+                if (fd_dir.direction == DeployDirection::None) [[unlikely]] {
                     Log.error("Unknown direction");
                     return false;
                 }
-                std::unordered_set<BattleRole> fd_role;
+                std::unordered_set<Role> fd_role;
                 for (auto& role_name : point["role"].as_array()) {
                     const auto role = get_role_type(role_name.as_string());
-                    if (role == BattleRole::Unknown) [[unlikely]] {
+                    if (role == Role::Unknown) [[unlikely]] {
                         Log.error("Unknown role name:", role_name);
                         return false;
                     }
