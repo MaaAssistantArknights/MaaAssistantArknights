@@ -22,7 +22,7 @@ namespace asst
     class Status;
     class TaskData;
 
-    class AbstractTask : virtual protected InstHelper
+    class AbstractTask : protected InstHelper
     {
     public:
         AbstractTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);

@@ -17,6 +17,8 @@
 
 using namespace asst::battle;
 
+asst::BattleHelper::BattleHelper(Assistant* inst) : m_inst_helper(inst) {}
+
 bool asst::BattleHelper::set_stage_name(const std::string& name)
 {
     LogTraceFunction;
@@ -70,7 +72,7 @@ bool asst::BattleHelper::analyze_deployment_opers(bool init)
         wait_for_start();
     }
 
-    cv::Mat image = ctrler()->get_image();
+    cv::Mat image = m_inst_helper.ctrler()->get_image();
 
     if (init) {
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
@@ -105,8 +107,8 @@ bool asst::BattleHelper::analyze_deployment_opers(bool init)
 
         double max_socre = 0;
 
-        for (const auto& [name, avatars] : m_all_deployment_avatars) {
-            avatar_analyzer.set_templ(avatars);
+        for (const auto& [name, avatar] : m_all_deployment_avatars) {
+            avatar_analyzer.set_templ(avatar);
             if (!avatar_analyzer.analyze()) {
                 continue;
             }
@@ -138,12 +140,12 @@ bool asst::BattleHelper::analyze_deployment_opers(bool init)
                 break;
             }
             std::this_thread::yield();
-        } while (!need_exit());
+        } while (!m_inst_helper.need_exit());
 
         for (auto& oper : unknown_opers) {
             click_oper_on_deployment(oper.rect);
 
-            OcrWithPreprocessImageAnalyzer name_analyzer(ctrler()->get_image());
+            OcrWithPreprocessImageAnalyzer name_analyzer(m_inst_helper.ctrler()->get_image());
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
             if (name_analyzer.analyze()) {
@@ -154,7 +156,7 @@ bool asst::BattleHelper::analyze_deployment_opers(bool init)
             const std::string& name = name_analyzer.get_result().front().text;
             oper.name = name;
             m_cur_deployment_opers.insert_or_assign(name, oper);
-            m_all_deployment_avatars.insert_or_assign(name, oper);
+            m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
         }
         pause();
     }
@@ -187,10 +189,10 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
 
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
-    bool deploy_with_pause = ctrler()->support_swipe_with_pause();
-    ctrler()->swipe(oper_rect, Rect(target_point.x, target_point.y, 1, 1), duration, false,
-                    swipe_oper_task_ptr->special_params.at(1), swipe_oper_task_ptr->special_params.at(2),
-                    deploy_with_pause);
+    bool deploy_with_pause = m_inst_helper.ctrler()->support_swipe_with_pause();
+    m_inst_helper.ctrler()->swipe(oper_rect, Rect(target_point.x, target_point.y, 1, 1), duration, false,
+                                  swipe_oper_task_ptr->special_params.at(1), swipe_oper_task_ptr->special_params.at(2),
+                                  deploy_with_pause);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {
@@ -207,12 +209,12 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         static const int coeff = swipe_oper_task_ptr->special_params.at(0);
         Point end_point = target_point + (direction_target * coeff);
 
-        ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
-        sleep(use_oper_task_ptr->post_delay);
+        m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
+        m_inst_helper.sleep(use_oper_task_ptr->post_delay);
     }
 
     if (deploy_with_pause) {
-        ctrler()->press_esc();
+        m_inst_helper.ctrler()->press_esc();
     }
 
     BattlefieldOper bf_oper { .name = name, .loc = loc };
@@ -279,7 +281,7 @@ bool asst::BattleHelper::check_pause_button()
 {
     MatchImageAnalyzer battle_flag_analyzer;
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    battle_flag_analyzer.set_image(ctrler()->get_image());
+    battle_flag_analyzer.set_image(m_inst_helper.ctrler()->get_image());
     return battle_flag_analyzer.analyze();
 }
 
@@ -287,7 +289,7 @@ bool asst::BattleHelper::wait_for_start()
 {
     LogTraceFunction;
 
-    while (!need_exit() && !check_pause_button()) {
+    while (!m_inst_helper.need_exit() && !check_pause_button()) {
         std::this_thread::yield();
     }
     return true;
@@ -297,7 +299,7 @@ bool asst::BattleHelper::wait_for_end()
 {
     LogTraceFunction;
 
-    while (!need_exit() && check_pause_button()) {
+    while (!m_inst_helper.need_exit() && check_pause_button()) {
         use_all_ready_skill();
         std::this_thread::yield();
     }
@@ -306,6 +308,7 @@ bool asst::BattleHelper::wait_for_end()
 
 bool asst::BattleHelper::use_all_ready_skill()
 {
+    bool used = false;
     for (const auto& [name, loc] : m_battlefield_opers | std::views::values) {
         auto& usage = m_skill_usage[name];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Once) {
@@ -314,10 +317,13 @@ bool asst::BattleHelper::use_all_ready_skill()
         if (!check_and_use_skill(loc)) {
             continue;
         }
+        used = true;
         if (usage == SkillUsage::Once) {
             usage = SkillUsage::OnceUsed;
         }
     }
+
+    return used;
 }
 
 bool asst::BattleHelper::check_and_use_skill(const std::string& name)
@@ -336,7 +342,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc)
 {
     LogTraceFunction;
 
-    BattleSkillReadyImageAnalyzer skill_analyzer(ctrler()->get_image());
+    BattleSkillReadyImageAnalyzer skill_analyzer(m_inst_helper.ctrler()->get_image());
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
@@ -386,8 +392,8 @@ bool asst::BattleHelper::click_oper_on_deployment(const Rect& rect)
     LogTraceFunction;
 
     const auto use_oper_task_ptr = Task.get("BattleUseOper");
-    ctrler()->click(rect);
-    sleep(use_oper_task_ptr->pre_delay);
+    m_inst_helper.ctrler()->click(rect);
+    m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
 
     return true;
 }
@@ -417,8 +423,8 @@ bool asst::BattleHelper::click_oper_on_battlefiled(const Point& loc)
     }
     const Point& target_point = target_iter->second.pos;
 
-    ctrler()->click(target_point);
-    sleep(use_oper_task_ptr->pre_delay);
+    m_inst_helper.ctrler()->click(target_point);
+    m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
 
     return true;
 }

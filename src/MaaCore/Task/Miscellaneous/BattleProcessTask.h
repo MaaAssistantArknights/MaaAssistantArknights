@@ -21,7 +21,7 @@ namespace asst
         virtual bool _run() override;
 
         bool do_action(size_t action_index);
-        bool notify_action(const battle::copilot::Action& action);
+        void notify_action(const battle::copilot::Action& action);
         bool wait_condition(const battle::copilot::Action& action);
         bool enter_bullet_time_for_next_action(size_t next_index, const Point& location, const std::string& name);
         void sleep_with_use_ready_skill(unsigned millisecond);

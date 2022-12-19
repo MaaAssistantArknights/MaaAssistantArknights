@@ -11,13 +11,14 @@
 
 namespace asst
 {
-    class BattleHelper : virtual protected InstHelper
+    class BattleHelper
     {
     public:
-        using InstHelper::InstHelper;
-        virtual ~BattleHelper() override = default;
+        ~BattleHelper() = default;
 
     protected:
+        BattleHelper(Assistant* inst);
+
         virtual bool set_stage_name(const std::string& name);
         bool calc_tiles_info(const std::string& stage_name);
 
@@ -48,6 +49,7 @@ namespace asst
 
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
+        InstHelper m_inst_helper;
         std::string m_stage_name;
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;

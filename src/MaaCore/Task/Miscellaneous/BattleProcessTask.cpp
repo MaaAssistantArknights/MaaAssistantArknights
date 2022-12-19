@@ -123,7 +123,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
     return ret;
 }
 
-bool asst::BattleProcessTask::notify_action(const battle::copilot::Action& action)
+void asst::BattleProcessTask::notify_action(const battle::copilot::Action& action)
 {
     const static std::unordered_map<ActionType, std::string> ActionNames = {
         { ActionType::Deploy, "Deploy" },           { ActionType::UseSkill, "UseSkill" },
