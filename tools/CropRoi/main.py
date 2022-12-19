@@ -99,12 +99,13 @@ for filename in os.listdir("./src"):
         filename_h: int = (bottom - top) + vertical_expansion
         if filename_y + filename_h > dsize_height:
             filename_h = dsize_height - filename_y
-        print(
-            f"real roi: {left}, {top}, {right - left}, {bottom - top}, amplified roi: {filename_x}, {filename_y}, {filename_w}, {filename_h}")
 
         dst_filename: str = f'{filename}_{filename_x},{filename_y},{filename_w},{filename_h}.png'
+        print('dst:', dst_filename)
 
-        print('dst:', dst_filename, "\n")
+        print(f"original roi: {left}, {top}, {right - left}, {bottom - top}, \n"
+              f"amplified roi: {filename_x}, {filename_y}, {filename_w}, {filename_h}\n\n")
+
         cv2.imwrite('./dst/' + dst_filename, roi)
 
     refPt = []
