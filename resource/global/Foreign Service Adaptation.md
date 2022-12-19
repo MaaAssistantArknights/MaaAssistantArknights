@@ -1,0 +1,134 @@
+# Foreign Service Adaptation
+
+## Preparation
+
+Before starting this tutorial, make sure you have.
+
+1. installed and properly configured the required software. There should be information in the `readme.md` of the national service or the corresponding client to ensure that the supported features work properly.
+2. Read `MaaAssistantArknights/docs/3.4-TASK_SCHEMA.md` and have a basic understanding of the meaning and usage of each field, and can understand the meaning and usage of `@` and `#` type tasks.
+3. understand what is not mentioned or missing in the `task.json` and template image of foreign service, and use the `task.json` and template image of national service as an alternative. The content in the foreign `task.json` will overwrite and rewrite the corresponding fields of the national task.
+4. have some English ability, be able to read English logs, and be able to find out the missing pictures and other information through the logs.
+5. push the recommended changes according to the task chain. For example, for the `Award` task, replace `template image` / `text` / `modify roi` step by step according to the `next` order of the `Award` task in the national `task.json` to make sure that each step after the modification works properly or can find the error quickly. This way you can avoid not knowing which step the program is stuck on and not running because too many changes are made at once.
+
+### Preparation before making changes
+
+Before making changes, there are several preparations that need to be noted.
+
+1. refer to the national task.json and make sure you have prepared the template images and text content for the foreign service differently from the national service.
+2. Make sure you have ready access to these images and text content.
+
+## Get screenshots
+
+In order to get high quality screenshots, please follow these guidelines.
+
+1. Use the screenshot tool that comes with the emulator to take and save screenshots.
+2. Make sure the size of the screenshot is larger than `1280*720` and the aspect ratio is `16:9`. 3.
+3. Make sure that the screenshot does not contain any extraneous content, such as the taskbar, status bar, notification bar, etc.
+4. Make sure that the screenshot contains all the content that needs to be recognized.
+
+In order to crop the image and get the text/image `roi`, you need to install `python` and `opencv` and download the `MaaAssistantArknights/tools/CropRoi/main.py` file.
+
+Then, follow these steps.
+
+1. Create new `src` and `dst` folders in the same directory as `main.py`. 2.
+2. Put the **complete screenshot** that needs to be resized or get the text/image `roi` into the `src` folder. 3.
+3. Run `main.py`. 4.
+4. Select the target range by dragging with the mouse, trying not to include extraneous content. 5.
+5. Once the range is determined, press `S` to save and `Q` to exit. The cropped image will be saved in the `dst` folder.
+
+For example, the output after completing a crop would be
+
+``` log
+src: Screenshot_xxx.png
+dst: Screenshot_xxx.png_426,272,177,201.png
+original roi: 476, 322, 77, 101,
+amplified roi: 426, 272, 177, 201
+```
+
+where
+
+`Screenshot_xxx.png` is the name of the full screenshot placed in the `src` folder. `Screenshot_xxx.png_426,272,177,201.png` is the image after the capture.
+
+`original roi` is the area selected by the mouse. `amplified roi` is the expanded area, you need the expanded range, so the `roi` field in `task.json` is filled with this value.
+
+## Modify the template image
+
+Before modifying the template image, you need to open the template image folder of the corresponding client and the template image folder of the national service.
+
+For example.
+
+- The location of the template image folder for US service is `MaaAssistantArknights\resource\global\YoStarEN\resource\template`.
+- The location of the template image folder for the national service is `MaaAssistantArknights\resource\template`.
+
+Refer to the template images mentioned in `task.json`, compare the template images of national service and foreign service, and find out the missing templates in foreign service.
+
+Usually, except for images such as logos, templates that contain text need to be replaced by screenshots. If the image size is significantly larger than the corresponding template image in the national service, you need to modify the size of `roi`.
+
+Put the intercepted and renamed template image into the template image folder of the corresponding client.
+
+## Modify the text content
+
+Before modifying the text content, you need to open `task.json` of the corresponding server and `task.json` of the Chinese service.
+
+For example.
+
+- The location of `task.json` in US service is `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`.
+- The location of `task.json` for national service is `MaaAssistantArknights\resource\tasks.json`.
+
+Find the corresponding task and change the `text` field to the content displayed in the corresponding server. Note that the identified content can be a substring of the full content within the game.
+
+In general, `text` containing text needs to be replaced unless it is recognized as a pure ASCII character. If the text length is significantly longer than that of the national service, you need to modify the size of `roi`, e.g. if the difference between `"Mission"` and `"Mission"` length is too large, you need to modify the size of `roi` for that mission in the foreign service.
+
+If there is no such mission in the `task.json` of the corresponding external service, you need to add the mission, just fill in the `text` field.
+
+## Modify ROI range
+
+1. Open the `task.json` of the corresponding server, for example, the location of the US service is `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`.
+2. Find the task that corresponds to the `roi` range you need to modify, and use the screenshot you prepared of the foreign game interface to adjust the size of the `roi` range according to the `amplified roi`.
+3. Normally, `roi` does not need to be modified, but only when the difference between the size of the content and that of the national game is too large.
+4. If the task does not exist in the `task.json` of the corresponding foreign service, add the task and write the `roi` field.
+
+## Save the settings and restart the software
+
+After the changes are done, restart the software and reload the file to make the changes take effect. Or create a new `DEBUG.txt` in the software directory, so that the template and files will be reloaded every time you click Start, no need to restart.
+
+To check for success.
+
+1. Check the operation of the software to make sure the software can be used properly in the external service.
+2. If it does not work properly, you need to check if the changes are correct or check the log output so that you can find what went wrong.
+
+## Interpreting the logs
+
+Sometimes, after modifying `task.json`, we find that the program still doesn't work correctly, so we should consider checking the logs to find the error and modify the corresponding task.
+
+The log file is located in the root directory of the software and is named `asst.log`. If you compiled MAA yourself, it is in `\x64\Release` or `x64\RelWithDebInfo`, depending on the compilation mode you chose when compiling.
+
+Here is an example log.
+
+``` log
+[2022-12-18 17:43:17.535][INF][Px7ec][Tx15c8] {"taskchain":"Award","details":{"to_be_recognized":["Award@ReturnTo","Award","ReceiveAward","DailyTask","WeeklyTask","Award@CloseAnno","Award@CloseAnnoTexas","Award@TodaysSupplies","Award@FromStageSN"],"cur_retry":10,"retry_times":20},"first":["AwardBegin"],"taskid":2,"class":"asst::ProcessTask","subtask":"ProcessTask","pre_task":"AwardBegin"}
+[2022-12-18 17:43:18.398][INF][Px7ec][Tx15c8] Call ` C:\Program Files\BlueStacks_nxt\. \HD-Adb.exe -s 127.0.0.1:5555 exec-out "screencap | gzip -1" ` ret 0 , cost 862 ms , stdout size: 2074904 , socket size: 0
+[2022-12-18 17:43:18.541][TRC][Px7ec][Tx15c8] OcrPack::recognize | roi: [ 500, 50, 300, 150 ]
+[2022-12-18 17:43:18.541][TRC][Px7ec][Tx15c8] Ocr Pipeline with asst::WordOcr | enter
+[2022-12-18 17:43:18.634][TRC][Px7ec][Tx15c8] Ocr Pipeline with asst::WordOcr | leave, 93 ms
+[2022-12-18 17:43:18.634][TRC][Px7ec][Tx15c8] OcrPack::recognize | raw: [{ : [ 0, 0, 300, 150 ], score: 0.000000 }]
+[2022-12-18 17:43:18.634][TRC][Px7ec][Tx15c8] OcrPack::recognize | proc: []
+[2022-12-18 17:43:18.637][TRC][Px7ec][Tx15c8] asst::ProcessTask::_run | leave, 1101 ms
+[2022-12-18 17:43:18.638][TRC][Px7ec][Tx15c8] ready to sleep 500
+[2022-12-18 17:43:19.144][TRC][Px7ec][Tx15c8] end of sleep 500
+[2022-12-18 17:43:19.144][TRC][Px7ec][Tx15c8] asst::ProcessTask::_run | enter
+```
+
+In this log, you can see that.
+
+- `taskchain` represents the task currently in progress.
+- `details` is the content of the task, including the fields to be recognized (`to_be_recognized`) and the current number of retries (`cur_retry`) and the total number of retries (`retry_times`).
+- `first` represents the start of the task.
+- `taskid` is the task number.
+- `class` and `subtask` represent the class and subtask of the task, respectively.
+- `pre_task` represents the previous task.
+In addition, the execution of the command (e.g. `Call`) and the `OCR` information (e.g. `OcrPack::recognize`) are recorded in the log.
+
+In this log `"to_be_recognized"`,`"cur_retry":3,"retry_times":20` means that the task has been repeatedly recognized 10 times, and the maximum number of times is 20, after the maximum number of times is recognized, the task will be skipped and an error will be reported, and the next task will be continued. If there is no problem with the previous task, we can basically determine that there is a problem with the recognition here. We need to check the tasks mentioned in the log to find out whether there is a corresponding `template file`, whether the `text` of the corresponding task is wrong, and whether the `roi` range of the task recognition is correct, so as to find out where the problem lies and modify it.
+
+By looking at the corresponding template image, I found that there is a template for this picture in the US template folder, but the size is obviously larger than the picture in China, so the `roi` in China is not recognized in the US, so I need to modify the corresponding task `roi` in the US `task.json` to make it correspond to the size of the picture in the US.
