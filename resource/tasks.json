@@ -8071,7 +8071,8 @@
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
         "next": [
-            "Phantom@Roguelike@ChooseOperConfirm"
+            "Phantom@Roguelike@ChooseOperConfirm",
+            "Phantom@Roguelike@RecruitSkip"
         ]
     },
     "Phantom@Roguelike@CloseCollection": {
@@ -8257,7 +8258,8 @@
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
-            "Mizuki@Roguelike@ChooseOperConfirm"
+            "Mizuki@Roguelike@ChooseOperConfirm",
+            "Mizuki@Roguelike@RecruitSkip"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -9134,6 +9136,173 @@
         ],
         "next": [
             "RoguelikeWaitBattleStart"
+        ]
+    },
+    "RoguelikeRecruitSupportOcr": {
+        "algorithm": "OcrDetect",
+        "doc": "肉鸽招募助战时干员姓名位置，仅使用roi域",
+        "text": [],
+        "roi": [
+            120, 
+            565,
+            1160, 
+            35
+        ]
+    },
+    "RoguelikeRecruitSupportOff1": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，干员名下方颜色区域相对名字中心的偏移",
+        "rectMove": [
+            -64,
+            54,
+            45,
+            33
+        ],
+        "specificRect_Doc":"元素1为判定是否为好友的r通道阈值",
+        "specificRect": [
+            70,
+            0,
+            0,
+            0
+        ]
+    },
+    "RoguelikeRecruitSupportEliteOff": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，精英化状态相对名字中心的偏移",
+        "rectMove": [
+            -26,
+            -133,
+            50,
+            41
+        ],
+        "specificRect_Doc":"元素1为二值化的阈值",
+        "specificRect": [
+            250,
+            0,
+            0,
+            0
+        ]
+    },
+    "RoguelikeRecruitSupportLevelOff": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，等级相对名字中心的偏移",
+        "rectMove": [
+            18,
+            -81,
+            33,
+            21
+        ],
+        "specificRect_Doc":"元素1为二值化的阈值",
+        "specificRect": [
+            250,
+            0,
+            0,
+            0
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr":{
+        "algorithm": "OcrDetect",
+        "text":["更新助战列表"],
+        "roi":[
+            1097,
+            13,
+            164,
+            38
+        ],
+        "postDelay": 3000,
+        "postDelay_Doc": "点击刷新后的等待时间"
+    },
+    "RoguelikeChooseSupportBtnOcr":{
+        "algorithm": "OcrDetect",
+        "text":["选择助战"],
+        "roi":[
+            1011,
+            9,
+            177,
+            47
+        ]
+    },
+    "RoguelikeSupportSwipeRight":{
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 1000,
+        "specificRect": [
+            1000, 
+            395, 
+            20, 
+            20
+        ],
+        "rectMove": [
+            262, 
+            395, 
+            20, 
+            20
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ]
+    },
+    "RoguelikeSupportSwipeLeft":{
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 1000,
+        "specificRect": [
+            262, 
+            395, 
+            20, 
+            20
+        ],
+        "rectMove": [
+            1000, 
+            395, 
+            20, 
+            20
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ]
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "招募助战"
+        ],
+        "roi": [
+            770,
+            500,
+            160,
+            40
+        ],
+        "preDelay": 200
+    },
+    "RoguelikeRecruitSupportElite": {
+        "Doc": "base_task",
+        "template": "empty.png"
+    },
+    "RoguelikeRecruitSupportElite0": {
+        "algorithm": "MatchTemplate"
+    },
+    "RoguelikeRecruitSupportElite1": {
+        "algorithm": "MatchTemplate"
+    },
+    "RoguelikeRecruitSupportElite2": {
+        "algorithm": "MatchTemplate"
+    },
+    "RoguelikeRecruitSupportEnterFlag":{
+        "template": "Roguelike@RefreshSupportBtn.png",
+        "action": "DoNothing",
+        "roi": [
+            1094,
+            10,
+            172,
+            47
         ]
     }
 }
