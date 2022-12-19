@@ -43,6 +43,9 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             data.location_type = iter->second;
         }
 
+        const auto& rarity = char_data_json.at("rarity").as_integer();
+        data.rarity = rarity;
+
         m_chars.emplace(std::move(name), std::move(data));
     }
     for (const auto& [id, points_json] : json.at("ranges").as_object()) {

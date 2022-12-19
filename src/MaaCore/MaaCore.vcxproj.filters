@@ -153,6 +153,9 @@
     <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.h">
+      <Filter>源文件\Vision\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\AbstractConfig.h">
       <Filter>源文件\Config</Filter>
     </ClInclude>
@@ -489,6 +492,9 @@
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp">
+      <Filter>源文件\Vision\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\AbstractConfig.cpp">

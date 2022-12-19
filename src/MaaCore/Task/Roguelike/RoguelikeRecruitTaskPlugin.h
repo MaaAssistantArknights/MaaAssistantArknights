@@ -29,6 +29,9 @@ namespace asst
         void slowly_swipe(bool to_left);
 
     private:
+        bool check_support_char();
+        bool check_support_char(const std::string& name, const int max_refresh);
+
         bool check_core_char();
         BattleRole get_oper_role(const std::string& name);
         bool is_oper_melee(const std::string& name);
@@ -40,5 +43,7 @@ namespace asst
         // 返回值: 招募结果 (true: 成功; false: 失败)
         bool check_char(const std::string& char_name, bool is_rtl = false);
         void select_oper(const BattleRecruitOperInfo& oper);
+
+        inline bool get_status_bool(const std::string& key);
     };
 }
