@@ -10,7 +10,7 @@ namespace asst
 
     class InstHelper
     {
-    protected:
+    public:
         InstHelper() = default;
         InstHelper(const InstHelper&) = default;
         InstHelper(InstHelper&&) noexcept = default;

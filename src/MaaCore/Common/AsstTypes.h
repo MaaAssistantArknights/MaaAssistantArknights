@@ -61,6 +61,8 @@ namespace asst
         static constexpr Point up() { return { 0, -1 }; }
         static constexpr Point zero() { return { 0, 0 }; }
         bool empty() const noexcept { return x == 0 && y == 0; }
+        // for std::map
+        bool operator<(const Point& rhs) const noexcept { return x < rhs.x || (x == rhs.x && y < rhs.y); }
 
         int x = 0;
         int y = 0;
