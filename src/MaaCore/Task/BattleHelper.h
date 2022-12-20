@@ -20,12 +20,13 @@ namespace asst
         BattleHelper(Assistant* inst);
 
         virtual bool set_stage_name(const std::string& name);
+
         bool calc_tiles_info(const std::string& stage_name);
 
         bool pause();
         bool speed_up();
 
-        bool analyze_deployment_opers(bool init = false);
+        bool update_deployment(bool init = false);
 
         bool deploy_oper(const std::string& name, const Point& loc, battle::DeployDirection direction);
         bool retreat_oper(const std::string& name);
@@ -46,10 +47,12 @@ namespace asst
         bool click_oper_on_battlefiled(const Point& loc);
         bool click_retreat(); // 这个是不带识别的，直接点
         bool click_skill();   // 这个是带识别的，转好了才点
+        bool cancel_oper_selection();
+
+        bool is_name_invaild(const std::string& name);
 
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
-        InstHelper m_inst_helper;
         std::string m_stage_name;
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
@@ -64,5 +67,10 @@ namespace asst
 
         std::map<std::string, battle::BattlefieldOper> m_battlefield_opers;
         std::map<Point, battle::BattlefieldOper> m_used_tiles;
+
+    private:
+        virtual AbstractTask& this_task();
+
+        InstHelper m_inst_helper;
     };
-}
+} // namespace asst

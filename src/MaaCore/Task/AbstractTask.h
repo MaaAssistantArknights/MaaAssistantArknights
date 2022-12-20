@@ -29,6 +29,7 @@ namespace asst
         AbstractTask(const AbstractTask&) = default;
         AbstractTask(AbstractTask&&) noexcept = default;
         virtual ~AbstractTask() noexcept = default;
+        using InstHelper::inst;
 
         virtual bool run();
 

@@ -42,3 +42,8 @@ bool asst::InstHelper::sleep(unsigned millisecond) const
 
     return !need_exit();
 }
+
+asst::Assistant* asst::InstHelper::inst() noexcept
+{
+    return m_inst;
+}

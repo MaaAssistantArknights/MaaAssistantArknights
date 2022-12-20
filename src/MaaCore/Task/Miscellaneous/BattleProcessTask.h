@@ -9,7 +9,7 @@
 
 namespace asst
 {
-    class BattleProcessTask : public AbstractTask, public BattleHelper
+    class BattleProcessTask : public AbstractTask, private BattleHelper
     {
     public:
         BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);

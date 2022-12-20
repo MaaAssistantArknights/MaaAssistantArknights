@@ -34,18 +34,12 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name)
 {
     LogTraceFunction;
 
-    auto normal_temp = Tile.calc(stage_name, false);
-    if (normal_temp.empty()) {
+    if (!Tile.contains(stage_name)) {
         return false;
     }
 
-    auto side_temp = Tile.calc(stage_name, true);
-    if (side_temp.empty()) {
-        return false;
-    }
-
-    m_normal_tile_info = std::move(normal_temp);
-    m_side_tile_info = std::move(side_temp);
+    m_normal_tile_info = Tile.calc(stage_name, false);
+    m_side_tile_info = Tile.calc(stage_name, true);
 
     return true;
 }
@@ -54,17 +48,17 @@ bool asst::BattleHelper::pause()
 {
     LogTraceFunction;
 
-    return ProcessTask(*dynamic_cast<AbstractTask*>(this), { "BattlePause" }).run();
+    return ProcessTask(this_task(), { "BattlePause" }).run();
 }
 
 bool asst::BattleHelper::speed_up()
 {
     LogTraceFunction;
 
-    return ProcessTask(*dynamic_cast<AbstractTask*>(this), { "BattleSpeedUp" }).run();
+    return ProcessTask(this_task(), { "BattleSpeedUp" }).run();
 }
 
-bool asst::BattleHelper::analyze_deployment_opers(bool init)
+bool asst::BattleHelper::update_deployment(bool init)
 {
     LogTraceFunction;
 
@@ -433,17 +427,27 @@ bool asst::BattleHelper::click_retreat()
 {
     LogTraceFunction;
 
-    return ProcessTask(*dynamic_cast<AbstractTask*>(this), { "BattleOperRetreatJustClick" }).run();
+    return ProcessTask(this_task(), { "BattleOperRetreatJustClick" }).run();
 }
 
 bool asst::BattleHelper::click_skill()
 {
     LogTraceFunction;
 
-    return ProcessTask(*dynamic_cast<AbstractTask*>(this), { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" })
+    return ProcessTask(this_task(), { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" })
         .set_task_delay(0)
         .set_retry_times(1000)
         .run();
+}
+
+bool asst::BattleHelper::cancel_oper_selection()
+{
+    return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
+}
+
+bool asst::BattleHelper::is_name_invaild(const std::string& name)
+{
+    return BattleData.get_location_type(name) == battle::LocationType::Invalid;
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
@@ -457,4 +461,9 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
     }
 
     return oper_iter->second.rect;
+}
+
+asst::AbstractTask& asst::BattleHelper::this_task()
+{
+    return *dynamic_cast<AbstractTask*>(this);
 }
