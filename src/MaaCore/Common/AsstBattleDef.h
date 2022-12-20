@@ -221,6 +221,28 @@ namespace asst
         int level = 0;
     };
 
+    enum class RoguelikeSupportAnalyzeMode
+    {
+        ChooseSupportBtn,
+        AnalyzeChars,
+        RefreshSupportBtn
+    };
+
+    struct RoguelikeRecruitSupportCharInfo
+    {
+        BattleRecruitOperInfo oper_info;
+        bool is_friend = false; // 是否为好友助战
+        int max_elite = 0;  // 两次招募后的实际精英化与等级
+        int max_level = 0;
+    };
+
+    struct RoguelikeRefreshSupportInfo
+    {
+        Rect rect;
+        bool in_cooldown = false;
+        int remain_secs = 0; // 刷新冷却时间
+    };
+
     using BattleAttackRange = std::vector<Point>;
 
     static constexpr std::string_view RoguelikePhantomThemeName = "Phantom";
