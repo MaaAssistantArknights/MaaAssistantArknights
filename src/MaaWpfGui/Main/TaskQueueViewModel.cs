@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -285,17 +286,17 @@ namespace MaaWpfGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (!CustomStageCode && (stage1 == null))
+                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage1))
                     {
                         Stage1 = string.Empty;
                     }
 
-                    if (stage2 == null)
+                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage2))
                     {
                         Stage2 = string.Empty;
                     }
 
-                    if (stage3 == null)
+                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage3))
                     {
                         Stage3 = string.Empty;
                     }
@@ -304,6 +305,11 @@ namespace MaaWpfGui
                 {
                     // do nothing
                 }
+            }
+
+            if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == _remainingSanityStage))
+            {
+                RemainingSanityStage = string.Empty;
             }
         }
 
@@ -1450,7 +1456,16 @@ namespace MaaWpfGui
 
         public string RemainingSanityStage
         {
-            get => _remainingSanityStage;
+            get
+            {
+                if (!IsStageOpen(_remainingSanityStage))
+                {
+                    return string.Empty;
+                }
+
+                return _remainingSanityStage;
+            }
+
             set
             {
                 SetAndNotify(ref _remainingSanityStage, value);
