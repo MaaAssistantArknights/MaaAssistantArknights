@@ -307,7 +307,10 @@ namespace MaaWpfGui
                 }
             }
 
-            if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == _remainingSanityStage))
+            var remainingSanityStage = RemainingSanityStage;
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
+            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
+            if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == remainingSanityStage))
             {
                 RemainingSanityStage = string.Empty;
             }
