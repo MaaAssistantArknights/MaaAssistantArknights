@@ -54,11 +54,11 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
 
             // 判断是否为好友助战
             Rect color_roi = name_rect.move(task_off1->rect_move);
-            bool is_friend = judge_is_friend(color_roi, task_off1->specific_rect.x);
+            bool is_friend = judge_is_friend(color_roi, task_off1->special_params.front());
 
             // 匹配精英化状态
             Rect elite_roi = name_rect.move(task_off_elite->rect_move);
-            int char_elite = match_elite(elite_roi, task_off_elite->specific_rect.x);
+            int char_elite = match_elite(elite_roi, task_off_elite->special_params.front());
 
             RoguelikeRecruitSupportCharInfo char_info {
                 { char_rect.text, char_rect.rect, char_elite, char_level }, is_friend, char_elite, char_level
@@ -136,7 +136,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const in
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(roi);
-        analyzer.set_threshold(0.3);
+        analyzer.set_threshold(Task.get<MatchTaskInfo>(task_name)->templ_threshold);
 
         if (!analyzer.analyze()) {
             continue;

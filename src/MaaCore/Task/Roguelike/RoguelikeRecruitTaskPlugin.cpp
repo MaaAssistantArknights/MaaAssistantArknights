@@ -401,7 +401,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
 
     // 判断是否存在“选择助战”按钮，存在则点击
     auto screen_choose = ctrler()->get_image();
-    auto analyzer_choose = RoguelikeRecruitSupportAnalyzer(screen_choose);
+    RoguelikeRecruitSupportAnalyzer analyzer_choose(screen_choose);
     analyzer_choose.set_mode(RoguelikeSupportAnalyzeMode::ChooseSupportBtn);
     if (!analyzer_choose.analyze()) { // 非开局招募，无助战按钮
         return false;
@@ -419,7 +419,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
     for (int retry = 0; retry <= max_refresh; ++retry) {
         for (int swipe = 0; swipe < SwipeTimes; ++swipe) {
             auto screen_char = ctrler()->get_image();
-            auto analyzer_char = RoguelikeRecruitSupportAnalyzer(screen_char);
+            RoguelikeRecruitSupportAnalyzer analyzer_char(screen_char);
             analyzer_char.set_mode(RoguelikeSupportAnalyzeMode::AnalyzeChars);
             analyzer_char.set_required({ name });
             if (analyzer_char.analyze()) {
@@ -441,10 +441,10 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
         // 刷新助战
         if (retry >= max_refresh) break;
         auto screen_refresh = ctrler()->get_image();
-        auto analyzer_refresh = RoguelikeRecruitSupportAnalyzer(screen_refresh);
+        RoguelikeRecruitSupportAnalyzer analyzer_refresh(screen_refresh);
         analyzer_refresh.set_mode(RoguelikeSupportAnalyzeMode::RefreshSupportBtn);
         if (!analyzer_refresh.analyze()) {
-            ProcessTask(*this, { "Return" }).run();
+            click_return_button();
             return false;
         }
         auto& refresh_info = analyzer_refresh.get_result_refresh();
@@ -456,7 +456,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
     if (satisfied_chars.empty()) {
         // 找不到需要的助战干员，返回正常招募逻辑
         Log.info(__FUNCTION__, "| can't find support char `", name, "`");
-        ProcessTask(*this, { "Return" }).run();
+        click_return_button();
         return false;
     }
 

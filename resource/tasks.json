@@ -9158,12 +9158,9 @@
             45,
             33
         ],
-        "specificRect_Doc":"元素1为判定是否为好友的r通道阈值",
-        "specificRect": [
-            70,
-            0,
-            0,
-            0
+        "specialParams_Doc":"判定是否为好友的r通道阈值",
+        "specialParams": [
+            70
         ]
     },
     "RoguelikeRecruitSupportEliteOff": {
@@ -9175,12 +9172,9 @@
             50,
             41
         ],
-        "specificRect_Doc":"元素1为二值化的阈值",
-        "specificRect": [
-            250,
-            0,
-            0,
-            0
+        "specialParams_Doc":"二值化的阈值",
+        "specialParams": [
+            250
         ]
     },
     "RoguelikeRecruitSupportLevelOff": {
@@ -9191,13 +9185,6 @@
             -81,
             33,
             21
-        ],
-        "specificRect_Doc":"元素1为二值化的阈值",
-        "specificRect": [
-            250,
-            0,
-            0,
-            0
         ]
     },
     "RoguelikeRefreshSupportBtnOcr":{
@@ -9223,50 +9210,12 @@
         ]
     },
     "RoguelikeSupportSwipeRight":{
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "postDelay": 1000,
-        "specificRect": [
-            1000, 
-            395, 
-            20, 
-            20
-        ],
-        "rectMove": [
-            262, 
-            395, 
-            20, 
-            20
-        ],
-        "specialParams": [
-            200,
-            1,
-            2,
-            0
-        ]
+        "baseTask": "SwipeToTheRight",
+        "postDelay": 1000
     },
     "RoguelikeSupportSwipeLeft":{
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "postDelay": 1000,
-        "specificRect": [
-            262, 
-            395, 
-            20, 
-            20
-        ],
-        "rectMove": [
-            1000, 
-            395, 
-            20, 
-            20
-        ],
-        "specialParams": [
-            200,
-            1,
-            2,
-            0
-        ]
+        "baseTask": "SwipeToTheLeft",
+        "postDelay": 1000
     },
     "Roguelike@RecruitSupportConfirm": {
         "algorithm": "OcrDetect",
@@ -9284,16 +9233,17 @@
     },
     "RoguelikeRecruitSupportElite": {
         "Doc": "base_task",
-        "template": "empty.png"
+        "template": "empty.png",
+        "templThreshold": 0.6
     },
     "RoguelikeRecruitSupportElite0": {
-        "algorithm": "MatchTemplate"
+        "baseTask": "RoguelikeRecruitSupportElite"
     },
     "RoguelikeRecruitSupportElite1": {
-        "algorithm": "MatchTemplate"
+        "baseTask": "RoguelikeRecruitSupportElite"
     },
     "RoguelikeRecruitSupportElite2": {
-        "algorithm": "MatchTemplate"
+        "baseTask": "RoguelikeRecruitSupportElite"
     },
     "RoguelikeRecruitSupportEnterFlag":{
         "template": "Roguelike@RefreshSupportBtn.png",
