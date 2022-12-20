@@ -18,8 +18,6 @@ namespace asst
             Kills = 16,     // 击杀数
             Cost = 32,      // 费用
             Vacancies = 64, // 剩余可部署干员数
-            // 肉鸽模式需要用到的识别
-            Roguelike = Oper
         };
 
     public:

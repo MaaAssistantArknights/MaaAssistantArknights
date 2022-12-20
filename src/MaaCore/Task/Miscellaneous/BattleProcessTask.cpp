@@ -35,7 +35,7 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
-    analyze_deployment_opers(true);
+    update_deployment(true);
 
     for (size_t i = 0; i < m_combat_data.actions.size() && !need_exit(); ++i) {
         do_action(i);
@@ -71,7 +71,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
     if (action.pre_delay > 0) {
         sleep_with_use_ready_skill(action.pre_delay);
         // 等待之后画面可能会变化，更新下干员信息
-        analyze_deployment_opers();
+        update_deployment();
     }
 
     bool ret = false;
@@ -226,7 +226,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     if (!m_in_bullet_time && action.type == ActionType::Deploy) {
         const std::string& name = m_oper_in_group[action.group_name];
         while (!need_exit()) {
-            analyze_deployment_opers();
+            update_deployment();
             if (auto iter = m_cur_deployment_opers.find(name);
                 iter != m_cur_deployment_opers.cend() && iter->second.available) {
                 break;

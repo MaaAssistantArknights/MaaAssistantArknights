@@ -96,14 +96,14 @@ namespace asst::battle
 
     struct DeploymentOper
     {
-        int cost = 0;
+        size_t index = 0;
         Role role = Role::Unknown;
+        int cost = 0;
         bool available = false;
+        bool cooling = false;
         Rect rect;
         cv::Mat avatar;
         std::string name;
-        size_t index = 0;
-        bool cooling = false;
     };
 
     enum class OperPosition
@@ -197,7 +197,6 @@ namespace asst::battle
             std::vector<ReplacementHome> replacement_home;
             std::unordered_set<Point> blacklist_location;
             std::unordered_map<Point, ForceDeployDirection> force_deploy_direction;
-            std::vector<int> key_kills;
             std::array<Role, 9> role_order = {};
             bool use_dice_stage = true;
             int stop_deploy_blocking_num = INT_MAX;

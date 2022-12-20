@@ -57,11 +57,6 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                 data.blacklist_location.emplace(point[0].as_integer(), point[1].as_integer());
             }
         }
-        if (auto opt = stage_info.find<json::array>("key_kills")) {
-            for (const auto& key_kill : opt.value()) {
-                data.key_kills.emplace_back(static_cast<int>(key_kill));
-            }
-        }
         data.use_dice_stage = !stage_info.get("not_use_dice", false);
 
         if (auto opt = stage_info.find<json::value>("force_air_defense_when_deploy_blocking_num")) {
