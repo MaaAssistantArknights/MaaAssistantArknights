@@ -5534,12 +5534,7 @@
             800,
             100
         ],
-        "ocrReplace": [
-            [
-                "分.*不均",
-                "分赃不均"
-            ]
-        ]
+        "ocrReplace": []
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -6494,14 +6489,6 @@
             [
                 "l",
                 "1"
-            ],
-            [
-                "方",
-                "万"
-            ],
-            [
-                "芳",
-                "万"
             ],
             [
                 "萬",
@@ -9143,9 +9130,9 @@
         "doc": "肉鸽招募助战时干员姓名位置，仅使用roi域",
         "text": [],
         "roi": [
-            120, 
+            120,
             565,
-            1160, 
+            1160,
             35
         ]
     },
@@ -9158,7 +9145,7 @@
             45,
             33
         ],
-        "specialParams_Doc":"判定是否为好友的r通道阈值",
+        "specialParams_Doc": "判定是否为好友的r通道阈值",
         "specialParams": [
             70
         ]
@@ -9172,7 +9159,7 @@
             50,
             41
         ],
-        "specialParams_Doc":"二值化的阈值",
+        "specialParams_Doc": "二值化的阈值",
         "specialParams": [
             250
         ]
@@ -9187,10 +9174,10 @@
             21
         ]
     },
-    "RoguelikeRefreshSupportBtnOcr":{
+    "RoguelikeRefreshSupportBtnOcr": {
         "algorithm": "OcrDetect",
-        "text":["更新助战列表"],
-        "roi":[
+        "text": [ "更新助战列表" ],
+        "roi": [
             1097,
             13,
             164,
@@ -9199,21 +9186,21 @@
         "postDelay": 3000,
         "postDelay_Doc": "点击刷新后的等待时间"
     },
-    "RoguelikeChooseSupportBtnOcr":{
+    "RoguelikeChooseSupportBtnOcr": {
         "algorithm": "OcrDetect",
-        "text":["选择助战"],
-        "roi":[
+        "text": [ "选择助战" ],
+        "roi": [
             1011,
             9,
             177,
             47
         ]
     },
-    "RoguelikeSupportSwipeRight":{
+    "RoguelikeSupportSwipeRight": {
         "baseTask": "SwipeToTheRight",
         "postDelay": 1000
     },
-    "RoguelikeSupportSwipeLeft":{
+    "RoguelikeSupportSwipeLeft": {
         "baseTask": "SwipeToTheLeft",
         "postDelay": 1000
     },
@@ -9245,7 +9232,7 @@
     "RoguelikeRecruitSupportElite2": {
         "baseTask": "RoguelikeRecruitSupportElite"
     },
-    "RoguelikeRecruitSupportEnterFlag":{
+    "RoguelikeRecruitSupportEnterFlag": {
         "template": "Roguelike@RefreshSupportBtn.png",
         "action": "DoNothing",
         "roi": [
