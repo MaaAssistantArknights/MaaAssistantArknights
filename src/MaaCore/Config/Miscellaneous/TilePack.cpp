@@ -13,8 +13,32 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         return false;
     }
 
+    std::vector<json::object> tiles_array;
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        const auto& file_path = entry.path();
+        if (file_path.extension() != ".json") {
+            continue;
+        }
+        auto json_opt = json::open(file_path);
+        if (!json_opt) {
+            Log.error("Failed to open json file:", file_path);
+            return false;
+        }
+        auto& json = json_opt.value();
+        if (json.is_array()) {
+            tiles_array.insert(tiles_array.end(), json.as_array().begin(), json.as_array().end());
+        }
+        else if (json.is_object()) {
+            tiles_array.emplace_back(json_opt->as_object());
+        }
+        else {
+            Log.error("Invalid json file:", file_path);
+            return false;
+        }
+    }
+
     try {
-        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, path);
+        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, tiles_array);
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());
