@@ -95,9 +95,7 @@
     <PostBuildEvent>
       <Command>    xcopy /e /y /i /c "$(ProjectDir)..\..\resource" "$(TargetDir)resource"
 
-    xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\resource" "$(TargetDir)resource"
-  
-  xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"</Command>
+    xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\bin" "$(TargetDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

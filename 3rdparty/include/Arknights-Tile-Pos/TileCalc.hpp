@@ -39,7 +39,7 @@ namespace Map
     class TileCalc
     {
     public:
-        TileCalc(int width, int height, const std::filesystem::path& dir);
+        TileCalc(int width, int height, const json::array& json);
 
         bool contains(const std::string& any_key);
         bool contains(const LevelKey& key);
@@ -97,7 +97,7 @@ namespace Map
         }
     }
 
-    inline TileCalc::TileCalc(int width, int height, const std::filesystem::path& dir)
+    inline TileCalc::TileCalc(int width, int height, const json::array& json)
     {
         this->width = width;
         this->height = height;
@@ -117,21 +117,8 @@ namespace Map
                                { -sin(10 * degree), 0, cos(10 * degree), 0 },
                                { 0, 0, 0, 1 } };
         InitMat4x4(this->MatrixY, matrixY);
-        std::ifstream ifs(dir, std::ios::in);
-        if (!ifs.is_open()) {
-            std::cerr << "Read resource failed" << std::endl;
-            throw "Read resource failed";
-        }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        ifs.close();
-        std::string content = iss.str();
-        auto ret = json::parse(content);
-        if (!ret) {
-            std::cerr << "Parsing failed" << std::endl;
-            throw "Parsing failed";
-        }
-        for (const json::value& item : ret.value().as_array()) {
+
+        for (const json::value& item : json) {
             this->levels.emplace_back(item);
         }
     }

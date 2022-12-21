@@ -63,7 +63,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
 
     /* load 3rd parties resource */
-    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "levels.json"_p);
+    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
     LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
     LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
 

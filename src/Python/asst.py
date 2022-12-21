@@ -5,9 +5,14 @@ import platform
 import json
 
 from typing import Union, Dict, List, Any, Type, Optional
-from enum import Enum, unique, auto
+from enum import Enum, IntEnum, unique, auto
 
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
+
+
+class InstanceOptionType(IntEnum):
+    touch_type = 2
+    deployment_with_pause = 3
 
 
 class Asst:
@@ -32,18 +37,35 @@ class Asst:
             ``incremental_path``:   增量资源所在文件夹路径
             ``user_dir``:   用户数据（日志、调试图片等）写入文件夹路径
         """
-        if platform.system().lower() == 'windows':
-            Asst.__libpath = pathlib.Path(path) / 'MaaCore.dll'
-            os.environ["PATH"] += os.pathsep + str(path)
-            Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
-        elif platform.system().lower() == 'darwin':
-            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.dylib'
-            os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
-            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
+
+        platform_values = {
+            'windows': {
+                'libpath': 'MaaCore.dll',
+                'environ_var': 'PATH'
+            },
+            'darwin': {
+                'libpath': 'libMaaCore.dylib',
+                'environ_var': 'DYLD_LIBRARY_PATH'
+            },
+            'linux': {
+                'libpath': 'libMaaCore.so',
+                'environ_var': 'LD_LIBRARY_PATH'
+            }
+        }
+        lib_import_func = None
+
+        platform_type = platform.system().lower()
+        if platform_type == 'windows':
+            lib_import_func = ctypes.WinDLL
         else:
-            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.so'
-            os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)
-            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
+            lib_import_func = ctypes.CDLL
+
+        Asst.__libpath = pathlib.Path(path) / platform_values[platform_type]['libpath']
+        try:
+            os.environ[platform_values[platform_type]['environ_var']] += os.pathsep + str(path)
+        except KeyError:
+            os.environ[platform_values[platform_type]['environ_var']] = os.pathsep + str(path)
+        Asst.__lib = lib_import_func(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
         ret: bool = True
@@ -73,14 +95,29 @@ class Asst:
         Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
+    def set_instance_option(self, option_type: InstanceOptionType, option_value: str):
+        """
+        设置额外配置
+        参见${MaaAssistantArknights}/src/MaaCore/Assistant.cpp#set_instance_option
+
+        :params:
+            ``externa_config``: 额外配置类型
+            ``config_value``:   额外配置的值
+
+        :return: 是否设置成功
+        """
+        return Asst.__lib.AsstSetInstanceOption(self.__ptr,
+                                                int(option_type), option_value.encode('utf-8'))
+
+
     def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
         连接设备
 
         :params:
-            ``adb_path``:   adb 程序的路径
-            ``address``:    adb 地址+端口
-            ``config``:     adb 配置，可参考 resource/config.json
+            ``adb_path``:       adb 程序的路径
+            ``address``:        adb 地址+端口
+            ``config``:         adb 配置，可参考 resource/config.json
 
         :return: 是否连接成功
         """
@@ -175,6 +212,10 @@ class Asst:
             ctypes.c_void_p, ctypes.c_void_p,)
 
         Asst.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
+
+        Asst.__lib.AsstSetInstanceOption.restype = ctypes.c_bool
+        Asst.__lib.AsstSetInstanceOption.argtypes = (
+            ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p,)
 
         Asst.__lib.AsstConnect.restype = ctypes.c_bool
         Asst.__lib.AsstConnect.argtypes = (

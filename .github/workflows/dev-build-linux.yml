@@ -5,7 +5,7 @@ on:
     branches-ignore:
       - master
     paths:
-      - 'src/MeoAssistant/**'
+      - 'src/MaaCore/**'
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'
@@ -15,7 +15,7 @@ on:
     branches:
       - dev
     paths:
-      - 'src/MeoAssistant/**'
+      - 'src/MaaCore/**'
       - '3rdparty/**'
       - 'include/**'
       - 'resource/**'

@@ -85,14 +85,14 @@ UIを見れば使い方もすぐ分かる！
   基本的な作戦、自動公開求人、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/txwy/readme.md)を参照してください。
 
-海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。~~いっしょにMAAの開発に協力しましょう~~
+海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。~~いっしょにMAAの開発に協力しましょう~~ Please refer to [Overseas Clients Adaptation](#Overseas Clients Adaptation)
 
 ## 主な関連プロジェクト
 
 - 新しいGUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （開発中、貢献歓迎！）
-- 更新サーバー：[MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- 公式ウェブサイト <https://www.maa.plus>：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作業シェアサイト <https://www.prts.plus>：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)、[バックエンド](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- バックエンド：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) （開発中、貢献歓迎！）
+- [作業シェアサイト](https://www.prts.plus)：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [公式ウェブサイト](https://www.maa.plus): [フロントエンド](https://github.com/MaaAssistantArknights/maa-website)
 
 ## 謝辞
 
@@ -157,16 +157,20 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 - [タスクAPI](docs/ja-jp/3.4-タスクAPI.md)
 - [自動作戦API](docs/ja-jp/3.3-自動作戦API.md)
 
+### Overseas Clients Adaptation
+
+Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%20Adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+
+### 開発に参加したいがGitHubの使い方がよくわかりません
+
+[Githubプルリクエストのプロセス](docs/ja-jp/2.2-プルリクエスト.md)
+
 ### Issue bot
 
 - `Add {LABEL_NAME}`を使用してタグを追加し、`Remove {LABEL_NAME}` を使用してタグを削除できます。
 - `close #{ISSUE_NUMBER}` または `fix #{ISSUE_NUMBER}` を使用してissueに `fixed` タグを追加できます。
 
 詳細については[Issue bot 使用方法](docs/ja-jp/2.3-IssueBot使う方.md)を参照してください。
-
-### 開発に参加したいがGitHubの使い方がよくわかりません
-
-[Githubプルリクエストのプロセス](docs/ja-jp/2.2-プルリクエスト.md)
 
 ## 免責事項
 

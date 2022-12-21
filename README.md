@@ -85,14 +85,14 @@ MAA 的意思是 MAA Assistant Arknights
 - 繁中服  
   支持基本的刷理智、自动公招、自动肉鸽、领取日常、公招识别功能，请参考 [说明](resource/global/txwy/readme.md)
 
-由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！
+由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
 
 ## 主要关联项目
 
 - 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
-- 数据服务器：[MaaGameDataServer](https://github.com/MaaAssistantArknights/MaaGameDataServer)
-- 官网 [maa.plus](https://maa.plus)：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作业分享站 [prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)，[后端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) （正在开发中，欢迎加入！）
+- [作业站](https://prts.plus)：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
 
 ## 致谢
 
@@ -157,16 +157,20 @@ MAA 的意思是 MAA Assistant Arknights
 - [任务流程协议](docs/3.4-任务流程协议.md)
 - [自动抄作业协议](docs/3.3-战斗流程协议.md)
 
+### 外服适配
+
+请参考 [外服适配教程](docs/2.5-外服适配教程.md)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
+
+### 想参与开发，但不太会用 Github?
+
+[Github Pull Request 流程简述](docs/2.2-开发相关.md#github-pull-request-流程简述)
+
 ### Issue bot
 
 - 使用 `Add {LABEL_NAME}` 增加标签，使用 `Remove {LABEL_NAME}` 删除标签。
 - 在提交说明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 给对应议题增加 `fixed` 标签。
 
-更多说明请参考 [Issue bot 使用方法](docs/2.3-IssueBot使用方法.md)。
-
-### 想参与开发，但不太会用 Github?
-
-[Github Pull Request 流程简述](docs/2.2-开发相关.md#github-pull-request-流程简述)
+更多说明请参考 [Issue bot 使用方法](docs/2.3-IssueBot使用方法.md)
 
 ## 声明
 

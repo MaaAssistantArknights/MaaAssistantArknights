@@ -1,0 +1,2 @@
+https://github.com/MaaAssistantArknights/ArknightsTrainingData/commit/2aea7da973ae9df5615badea5f7ad15745ca7f44
+[2022/12/18 15:11:24] ppocr INFO: best metric, acc: 0.9891647850568523, is_float16: False, norm_edit_dis: 0.9968613469983616, Teacher_acc: 0.9892651111164961, Teacher_norm_edit_dis: 0.9969748109943872, fps: 2015.2396599767455, best_epoch: 91, start_epoch: 69

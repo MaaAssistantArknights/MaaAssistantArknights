@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -285,17 +286,17 @@ namespace MaaWpfGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (!CustomStageCode && (stage1 == null))
+                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage1))
                     {
                         Stage1 = string.Empty;
                     }
 
-                    if (stage2 == null)
+                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage2))
                     {
                         Stage2 = string.Empty;
                     }
 
-                    if (stage3 == null)
+                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage3))
                     {
                         Stage3 = string.Empty;
                     }
@@ -305,30 +306,38 @@ namespace MaaWpfGui
                     // do nothing
                 }
             }
+
+            var remainingSanityStage = RemainingSanityStage;
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
+            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
+            if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == remainingSanityStage))
+            {
+                RemainingSanityStage = string.Empty;
+            }
         }
 
         private bool NeedToUpdateDatePrompt()
         {
-            var now = DateTime.UtcNow.AddHours(8);
+            var now = Utils.GetYJTimeNow();
             var hour = now.Hour;
             var min = now.Minute;
-            if (hour >= 0 && hour < 4)
-            {
-                now = now.AddDays(-1);
-            }
 
-            if (min == 0 && hour == 16)
+            // yj历的16点
+            if (min == 0 && hour == 12)
             {
                 return true;
-            }
-            else if (_curDayOfWeek == now.DayOfWeek)
-            {
-                return false;
             }
             else
             {
-                _curDayOfWeek = now.DayOfWeek;
-                return true;
+                if (_curDayOfWeek == now.DayOfWeek)
+                {
+                    return false;
+                }
+                else
+                {
+                    _curDayOfWeek = now.DayOfWeek;
+                    return true;
+                }
             }
         }
 
@@ -1450,7 +1459,16 @@ namespace MaaWpfGui
 
         public string RemainingSanityStage
         {
-            get => _remainingSanityStage;
+            get
+            {
+                if (!IsStageOpen(_remainingSanityStage))
+                {
+                    return string.Empty;
+                }
+
+                return _remainingSanityStage;
+            }
+
             set
             {
                 SetAndNotify(ref _remainingSanityStage, value);

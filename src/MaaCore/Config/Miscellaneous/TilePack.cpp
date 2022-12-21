@@ -13,8 +13,35 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         return false;
     }
 
+    std::vector<json::value> tiles_array;
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        const auto& file_path = entry.path();
+        if (file_path.extension() != ".json") {
+            continue;
+        }
+        auto json_opt = json::open(file_path);
+        if (!json_opt) {
+            Log.error("Failed to open json file:", file_path);
+            return false;
+        }
+        auto& json = json_opt.value();
+        if (json.is_array()) {
+            // 兼容上游仓库的 levels.json
+            // 有些用户习惯于在游戏更新了但maa还没发版前，自己手动更新下 levels.json，可以提前用
+            tiles_array.insert(tiles_array.end(), std::make_move_iterator(json.as_array().begin()),
+                               std::make_move_iterator(json.as_array().end()));
+        }
+        else if (json.is_object()) {
+            tiles_array.emplace_back(std::move(*json_opt));
+        }
+        else {
+            Log.error("Invalid json file:", file_path);
+            return false;
+        }
+    }
+
     try {
-        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, path);
+        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, tiles_array);
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());

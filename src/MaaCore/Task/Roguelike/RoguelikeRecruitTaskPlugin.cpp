@@ -1,13 +1,16 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
-#include "Controller.h"
-#include "Vision/Roguelike/RoguelikeRecruitImageAnalyzer.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
+#include "Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
+#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/Roguelike/RoguelikeRecruitImageAnalyzer.h"
+#include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
 
 bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -51,8 +54,17 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (check_core_char()) {
-        return true;
+    // 开局干员
+    bool use_support = get_status_bool(Status::RoguelikeUseSupport);
+    if (use_support) {
+        if (check_support_char()) {
+            return true;
+        }
+    }
+    else {
+        if (check_core_char()) {
+            return true;
+        }
     }
 
     bool recruited = false;
@@ -370,6 +382,93 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
     return false;
 }
 
+bool asst::RoguelikeRecruitTaskPlugin::check_support_char()
+{
+    LogTraceFunction;
+    const int MaxRefreshTimes = 3;
+
+    auto core_opt = status()->get_str(Status::RoguelikeCoreChar);
+    status()->set_str(Status::RoguelikeCoreChar, "");
+    if (core_opt && !core_opt->empty()) {
+        if (check_support_char(core_opt.value(), MaxRefreshTimes)) return true;
+    }
+    return false;
+}
+
+bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& name, const int max_refresh)
+{
+    LogTraceFunction;
+
+    // 判断是否存在“选择助战”按钮，存在则点击
+    auto screen_choose = ctrler()->get_image();
+    RoguelikeRecruitSupportAnalyzer analyzer_choose(screen_choose);
+    analyzer_choose.set_mode(RoguelikeSupportAnalyzeMode::ChooseSupportBtn);
+    if (!analyzer_choose.analyze()) { // 非开局招募，无助战按钮
+        return false;
+    }
+    const auto& choose_btn_rect = analyzer_choose.get_result_choose_support();
+    Log.info(__FUNCTION__, "| check choose support btn ", choose_btn_rect);
+    ctrler()->click(choose_btn_rect);
+    ProcessTask(*this, { "RoguelikeRecruitSupportEnterFlag" }).run();   // 等待页面加载
+
+
+    // 识别所有干员，应该最多两页
+    const int SwipeTimes = 1;
+
+    std::vector<RoguelikeRecruitSupportCharInfo> satisfied_chars;
+    for (int retry = 0; retry <= max_refresh; ++retry) {
+        for (int swipe = 0; swipe < SwipeTimes; ++swipe) {
+            auto screen_char = ctrler()->get_image();
+            RoguelikeRecruitSupportAnalyzer analyzer_char(screen_char);
+            analyzer_char.set_mode(RoguelikeSupportAnalyzeMode::AnalyzeChars);
+            analyzer_char.set_required({ name });
+            if (analyzer_char.analyze()) {
+                auto& chars_page = analyzer_char.get_result_char();
+
+                bool use_nonfriend_support = get_status_bool(Status::RoguelikeUseNonfriendSupport);
+                auto check_satisfiy = [&use_nonfriend_support](const RoguelikeRecruitSupportCharInfo& chara) {
+                    return chara.is_friend || use_nonfriend_support;
+                };
+                std::copy_if(chars_page.begin(), chars_page.end(),
+                             std::inserter(satisfied_chars, std::begin(satisfied_chars)), check_satisfiy);
+
+                if (satisfied_chars.size()) break;
+            }
+            ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
+        }
+        if (satisfied_chars.size()) break;
+
+        // 刷新助战
+        if (retry >= max_refresh) break;
+        auto screen_refresh = ctrler()->get_image();
+        RoguelikeRecruitSupportAnalyzer analyzer_refresh(screen_refresh);
+        analyzer_refresh.set_mode(RoguelikeSupportAnalyzeMode::RefreshSupportBtn);
+        if (!analyzer_refresh.analyze()) {
+            click_return_button();
+            return false;
+        }
+        auto& refresh_info = analyzer_refresh.get_result_refresh();
+        if (refresh_info.in_cooldown) sleep(refresh_info.remain_secs * 1000);
+        ctrler()->click(refresh_info.rect);
+        sleep(Task.get("RoguelikeRefreshSupportBtnOcr")->post_delay);
+        ProcessTask(*this, { "RoguelikeSupportSwipeLeft" }).run();
+    }
+    if (satisfied_chars.empty()) {
+        // 找不到需要的助战干员，返回正常招募逻辑
+        Log.info(__FUNCTION__, "| can't find support char `", name, "`");
+        click_return_button();
+        return false;
+    }
+
+    // 点击干员并记录信息
+    auto& satisfied_char = satisfied_chars.front();
+    select_oper(satisfied_char.oper_info);
+
+    // 确认选择
+    ProcessTask(*this, { "Roguelike@RecruitSupportConfirm" }).run();
+    return true;
+}
+
 bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
 {
     LogTraceFunction;
@@ -398,6 +497,12 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
         { "level", oper.level },
     };
     status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
+}
+
+inline bool asst::RoguelikeRecruitTaskPlugin::get_status_bool(const std::string& key)
+{
+    auto value_opt = status()->get_str(key);
+    return value_opt && value_opt->size() == 1 && value_opt.value()[0] == '1';
 }
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)

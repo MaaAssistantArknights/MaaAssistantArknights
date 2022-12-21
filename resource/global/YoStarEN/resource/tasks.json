@@ -1797,7 +1797,7 @@
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.9
+        "templThreshold": 0.95
     },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
@@ -3038,6 +3038,12 @@
                 "'The Carnival'",
                 "《欢欣鼓舞》"
             ]
+        ]
+    },
+    "TodaysSupplies": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Resource Today"
         ]
     }
 }

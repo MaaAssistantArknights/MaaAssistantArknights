@@ -1199,6 +1199,7 @@
             "StageEpisode",
             "StageEpisodeToOF",
             "OFToOF-Chapter",
+            "ChapterSwipeToTheLeft",
             "StageOF-1"
         ]
     },
@@ -5533,12 +5534,7 @@
             800,
             100
         ],
-        "ocrReplace": [
-            [
-                "分.*不均",
-                "分赃不均"
-            ]
-        ]
+        "ocrReplace": []
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -6493,14 +6489,6 @@
             [
                 "l",
                 "1"
-            ],
-            [
-                "方",
-                "万"
-            ],
-            [
-                "芳",
-                "万"
             ],
             [
                 "萬",
@@ -8070,7 +8058,8 @@
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
         "next": [
-            "Phantom@Roguelike@ChooseOperConfirm"
+            "Phantom@Roguelike@ChooseOperConfirm",
+            "Phantom@Roguelike@RecruitSkip"
         ]
     },
     "Phantom@Roguelike@CloseCollection": {
@@ -8256,7 +8245,8 @@
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
-            "Mizuki@Roguelike@ChooseOperConfirm"
+            "Mizuki@Roguelike@ChooseOperConfirm",
+            "Mizuki@Roguelike@RecruitSkip"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -9133,6 +9123,123 @@
         ],
         "next": [
             "RoguelikeWaitBattleStart"
+        ]
+    },
+    "RoguelikeRecruitSupportOcr": {
+        "algorithm": "OcrDetect",
+        "doc": "肉鸽招募助战时干员姓名位置，仅使用roi域",
+        "text": [],
+        "roi": [
+            120,
+            565,
+            1160,
+            35
+        ]
+    },
+    "RoguelikeRecruitSupportOff1": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，干员名下方颜色区域相对名字中心的偏移",
+        "rectMove": [
+            -64,
+            54,
+            45,
+            33
+        ],
+        "specialParams_Doc": "判定是否为好友的r通道阈值",
+        "specialParams": [
+            70
+        ]
+    },
+    "RoguelikeRecruitSupportEliteOff": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，精英化状态相对名字中心的偏移",
+        "rectMove": [
+            -26,
+            -133,
+            50,
+            41
+        ],
+        "specialParams_Doc": "二值化的阈值",
+        "specialParams": [
+            250
+        ]
+    },
+    "RoguelikeRecruitSupportLevelOff": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募助战时，等级相对名字中心的偏移",
+        "rectMove": [
+            18,
+            -81,
+            33,
+            21
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "algorithm": "OcrDetect",
+        "text": [ "更新助战列表" ],
+        "roi": [
+            1097,
+            13,
+            164,
+            38
+        ],
+        "postDelay": 3000,
+        "postDelay_Doc": "点击刷新后的等待时间"
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "algorithm": "OcrDetect",
+        "text": [ "选择助战" ],
+        "roi": [
+            1011,
+            9,
+            177,
+            47
+        ]
+    },
+    "RoguelikeSupportSwipeRight": {
+        "baseTask": "SwipeToTheRight",
+        "postDelay": 1000
+    },
+    "RoguelikeSupportSwipeLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "postDelay": 1000
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "招募助战"
+        ],
+        "roi": [
+            770,
+            500,
+            160,
+            40
+        ],
+        "preDelay": 200
+    },
+    "RoguelikeRecruitSupportElite": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "templThreshold": 0.6
+    },
+    "RoguelikeRecruitSupportElite0": {
+        "baseTask": "RoguelikeRecruitSupportElite"
+    },
+    "RoguelikeRecruitSupportElite1": {
+        "baseTask": "RoguelikeRecruitSupportElite"
+    },
+    "RoguelikeRecruitSupportElite2": {
+        "baseTask": "RoguelikeRecruitSupportElite"
+    },
+    "RoguelikeRecruitSupportEnterFlag": {
+        "template": "Roguelike@RefreshSupportBtn.png",
+        "action": "DoNothing",
+        "roi": [
+            1094,
+            10,
+            172,
+            47
         ]
     }
 }
