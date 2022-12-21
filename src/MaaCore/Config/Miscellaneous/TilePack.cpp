@@ -13,7 +13,7 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         return false;
     }
 
-    std::vector<json::object> tiles_array;
+    std::vector<json::value> tiles_array;
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
         const auto& file_path = entry.path();
         if (file_path.extension() != ".json") {
@@ -26,10 +26,11 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         }
         auto& json = json_opt.value();
         if (json.is_array()) {
-            tiles_array.insert(tiles_array.end(), json.as_array().begin(), json.as_array().end());
+            tiles_array.insert(tiles_array.end(), std::make_move_iterator(json.as_array().begin()),
+                               std::make_move_iterator(json.as_array().end()));
         }
         else if (json.is_object()) {
-            tiles_array.emplace_back(json_opt->as_object());
+            tiles_array.emplace_back(std::move(*json_opt));
         }
         else {
             Log.error("Invalid json file:", file_path);
