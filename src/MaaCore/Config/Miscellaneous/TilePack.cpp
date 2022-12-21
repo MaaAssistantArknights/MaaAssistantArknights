@@ -26,6 +26,8 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         }
         auto& json = json_opt.value();
         if (json.is_array()) {
+            // 兼容上游仓库的 levels.json
+            // 有些用户习惯于在游戏更新了但maa还没发版前，自己手动更新下 levels.json，可以提前用
             tiles_array.insert(tiles_array.end(), std::make_move_iterator(json.as_array().begin()),
                                std::make_move_iterator(json.as_array().end()));
         }
