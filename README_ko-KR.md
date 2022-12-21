@@ -87,14 +87,14 @@ MAA는 MAA Assistant Arknights를 의미합니다
   작전, 공개모집, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
   자세한 내용은 [문서](resource/global/txwy/readme.md)를 참조해 주세요.
 
-해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요!
+해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! Please refer to [Overseas Clients Adaptation](#Overseas Clients Adaptation)
 
 ## 관련 프로젝트
 
-- 새 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (현재 개발 중입니다. 도움은 환영합니다!)
-- 업데이트 서버: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- 공식 웹사이트 [maa.plus](https://maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 전략 파일 저장소 [prts.plus](https://prts.plus): [프론트엔드](https://github.com/MaaAssistantArknights/maa-copilot-frontend), [백엔드](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 새 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (현재 개발 중입니다. 도움은 환영합니다!)
+- 백엔드: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) (현재 개발 중입니다. 도움은 환영합니다!)
+- [전략 파일 저장소](https://prts.plus)：[프론트엔드](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [공식 웹사이트](https://maa.plus)：[프론트엔드](https://github.com/MaaAssistantArknights/maa-website)
 
 ## 감사의 말
 
@@ -159,16 +159,20 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 - [임무 형식](docs/ko-kr/3.4-임무_형식.md) <!-- File Required -->
 - [전략 형식](docs/ko-kr/3.3-전략_형식.md) <!-- File Required -->
 
+### Overseas Clients Adaptation
+
+Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%20Adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+
+### GitHub에 익숙치 않은 사용자용 가이드
+
+[개발](docs/ko-kr/2.2-개발.md) 문서의 [GitHub Pull Request에 대한 설명](docs/ko-kr/2.2-개발.md#github-pull-request에-대한-설명) 문단을 참조해 주세요. <!-- File Required -->
+
 ### Issue Bot
 
 - `Add {LABEL_NAME}`로 레이블을 추가하고, `Remove {LABEL_NAME}`로 제거하세요.
 - 커밋에서 `close #{ISSUE_NUMBER}` 또는 `fix #{ISSUE_NUMBER}`로 `fixed` 태그를 이슈에 추가하세요.
 
 자세한 내용은 [Issue Bot 사용방법](docs/ko-kr/2.3-IssueBot사용방법.md)을 참조해 주세요. <!-- File Required -->
-
-### GitHub에 익숙치 않은 사용자용 가이드
-
-[개발](docs/ko-kr/2.2-개발.md) 문서의 [GitHub Pull Request에 대한 설명](docs/ko-kr/2.2-개발.md#github-pull-request에-대한-설명) 문단을 참조해 주세요. <!-- File Required -->
 
 ## 주의사항
 
