@@ -411,8 +411,13 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                 is_reconnect_success = reconnect_str.find("error") == std::string::npos;
             }
             if (is_reconnect_success) {
-                if (call_and_hup_minitouch()) {
+                if (m_minitouch_enabled && call_and_hup_minitouch()) {
+                    Log.error("reconnected with minitouch");
                     m_minitouch_available = true;
+                }
+                else {
+                    Log.error("reconnected without minitouch");
+                    m_minitouch_available = false;
                 }
                 auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
                 if (recall_ret) {
@@ -1111,7 +1116,7 @@ bool asst::Controller::click_without_scale(const Point& p)
     }
 
     if (m_minitouch_enabled && m_minitouch_available) {
-        Log.info("minitouch click:", p);
+        Log.info(m_use_maa_touch ? "maatouch" : "minitouch", "click:", p);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         return toucher.down(p.x, p.y) && toucher.up();
     }
@@ -1161,7 +1166,8 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 
     const auto& opt = Config.get_options();
     if (m_minitouch_enabled && m_minitouch_available) {
-        Log.info("minitouch swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
+        Log.info(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in,
+                 slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         toucher.down(x1, y1);
 
