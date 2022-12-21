@@ -1,3 +1,27 @@
+## v4.8.2-beta.1
+
+- 重新支持 macOS, Linux CI 打包 @hguandl @horror-proton
+- 优化 助战赚信用 功能，每天仅执行一次 @ABA2396
+- 更新 自定义基建 所有内置作业为 12 月新版 @HMZyueshen
+- 更新 OCR 部署库，重新训练 OCR 模型，再次提高识别准确率 @MistEO
+- 修复 自定义基建，宿舍内 sort 和 autofill 同为 true 时，存在的选人 bug @fearlessxjdx
+- 修复 界面 关闭关卡导航后的问题 @ABA2396
+- 更新 文档 @ABA2396 @MistEO @WWPXX233
+
+### For overseas
+
+- Support YoStarEN Auto Base function. @Pitiedwzr
+- Update EN docs @CallMeChin
+- Add Overseas Clients Adaptation docs. @ABA2396  
+    It's really simple, feel free to join us!
+
+### For develops
+
+- Update Python APIs, support to set pramas for Maa instance. @popjdh
+- Support the starting with Support Unit in Auto IS, but without gui. @WLLEGit
+- Add Overseas Clients Adaptation docs. @ABA2396
+
+
 ## v4.8.1
 
 - 修复活动关卡导航错误 @ABA2396
