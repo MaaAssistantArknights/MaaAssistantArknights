@@ -1531,6 +1531,9 @@
             "크레딜"
         ]
     },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
+    },
     "RecruitTags": {
         "ocrReplace": [
             [

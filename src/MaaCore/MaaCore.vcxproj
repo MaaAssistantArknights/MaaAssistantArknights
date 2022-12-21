@@ -12,6 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks.json" />
     <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
   <ItemGroup>
