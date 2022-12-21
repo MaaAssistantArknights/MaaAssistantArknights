@@ -3039,5 +3039,11 @@
                 "《欢欣鼓舞》"
             ]
         ]
+    },
+    "TodaysSupplies": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "Resource Today"
+        ]
     }
 }
