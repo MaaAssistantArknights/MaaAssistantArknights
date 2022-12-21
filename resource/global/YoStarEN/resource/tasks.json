@@ -1797,7 +1797,7 @@
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.9
+        "templThreshold": 0.95
     },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
