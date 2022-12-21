@@ -1,2 +1,0 @@
-https://github.com/MaaAssistantArknights/ArknightsTrainingData/commit/de26605fda8d95556078de0907aa34a3a903d929
-[2022/12/11 12:24:11] ppocr INFO: cur metric, acc: 0.9832848832743074, norm_edit_dis: 0.9963784996209694, Teacher_acc: 0.9819222379260891, Teacher_norm_edit_dis: 0.9958572877752759, fps: 607.4394522563098

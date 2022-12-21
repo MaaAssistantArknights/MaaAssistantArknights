@@ -88,9 +88,9 @@ MAA 的意思是 MAA Assistant Arknights
 ## 主要關聯項目
 
 - 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在開發中，歡迎加入！）
-- 更新伺服器：[MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- 官網 <https://www.maa.plus>：[maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- 作業分享站 <https://www.prts.plus>：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend) , [後端](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- 後端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) （正在開發中，歡迎加入！）
+- [作業站](https://prts.plus)：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [官網](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
 
 ## 致謝
 
@@ -155,16 +155,20 @@ MAA 的意思是 MAA Assistant Arknights
 - [任務流程協定](docs/zh-tw/3.4-任務流程協定.md)
 - [自動抄作業協定](docs/zh-tw/3.3-戰鬥流程協定.md)
 
+### 外服適配
+
+請參考 [外服適配教程](docs/zh-tw/2.5-外服適配教程.md)，對於國服已支持的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
+
+### 想參與開發，但不太會用 Github?
+
+[Github Pull Request 流程簡述](docs/zh-tw/2.2-開發相關.md)
+
 ### Issue Bot
 
 - 使用 `Add {LABEL_NAME}` 增加標籤，使用 `Remove {LABEL_NAME}` 刪除標籤。
 - 在提交說明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 給對應議題增加 `fixed` 標籤。
 
 更多說明請參考 [Issue Bot 使用方法](docs/zh-tw/2.3-IssueBot使用方法.md)。
-
-### 想參與開發，但不太會用 Github?
-
-[Github Pull Request 流程簡述](docs/zh-tw/2.2-開發相關.md)
 
 ## 聲明
 

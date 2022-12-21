@@ -104,6 +104,12 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     if (auto core_char_opt = params.find<std::string>("core_char"); core_char_opt && !core_char_opt->empty()) {
         m_custom_start_task_ptr->set_custom(RoguelikeCustomType::CoreChar, *core_char_opt);
     }
+    if (auto use_support_opt = params.find<bool>("use_support"); use_support_opt) {
+        m_custom_start_task_ptr->set_custom(RoguelikeCustomType::UseSupport, *use_support_opt ? "1" : "0");
+    }
+    if (auto use_nonfriend_opt = params.find<bool>("use_nonfriend_support"); use_nonfriend_opt) {
+        m_custom_start_task_ptr->set_custom(RoguelikeCustomType::UseNonfriendSupport, *use_nonfriend_opt ? "1" : "0");
+    }
 
     return true;
 }

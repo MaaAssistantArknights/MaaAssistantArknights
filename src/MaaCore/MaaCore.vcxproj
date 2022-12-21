@@ -12,6 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json" />
+    <None Include="..\..\resource\global\txwy\resource\tasks.json" />
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks.json" />
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks.json" />
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks.json" />
     <None Include="..\..\resource\tasks.json" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +51,7 @@
     <ClInclude Include="Vision\OcrWithPreprocessImageAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.h" />
+    <ClInclude Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h" />
     <ClInclude Include="Config\AbstractConfig.h" />
     <ClInclude Include="Config\AbstractConfigWithTempl.h" />
@@ -162,6 +167,7 @@
     <ClCompile Include="Vision\OcrWithPreprocessImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp" />
     <ClCompile Include="Config\AbstractConfig.cpp" />
     <ClCompile Include="Config\GeneralConfig.cpp" />

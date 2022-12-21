@@ -171,6 +171,7 @@ namespace MaaWpfGui
             ConnectConfigList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("General"), Value = "General" },
+                new CombData { Display = Localization.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
                 new CombData { Display = Localization.GetString("BlueStacks"), Value = "BlueStacks" },
                 new CombData { Display = Localization.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
                 new CombData { Display = Localization.GetString("LDPlayer"), Value = "LDPlayer" },
@@ -1031,6 +1032,18 @@ namespace MaaWpfGui
         }
 
         /* 访问好友设置 */
+        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString());
+
+        public string LastCreditFightTaskTime
+        {
+            get => _lastCreditFightTaskTime;
+            set
+            {
+                SetAndNotify(ref _lastCreditFightTaskTime, value);
+                ViewStatusStorage.Set("Visit.LastCreditFightTaskTime", value.ToString());
+            }
+        }
+
         private bool _creditFightTaskEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Visit.CreditFightTaskEnabled", bool.FalseString));
 
         /// <summary>
@@ -1038,7 +1051,16 @@ namespace MaaWpfGui
         /// </summary>
         public bool CreditFightTaskEnabled
         {
-            get => _creditFightTaskEnabled;
+            get
+            {
+                if (Utils.GetYJTimeDate() > DateTime.Parse(LastCreditFightTaskTime).Date)
+                {
+                    return _creditFightTaskEnabled;
+                }
+
+                return false;
+            }
+
             set
             {
                 SetAndNotify(ref _creditFightTaskEnabled, value);

@@ -910,7 +910,7 @@
     },
     "InfrastReward": {
         "text": [
-            "可收獲",
+            "可收穫",
             "訂單交付",
             "幹員信賴"
         ]
@@ -1309,6 +1309,9 @@
                 "高规格分队"
             ]
         ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
     },
     "RoguelikeRecruitLevel": {
         "Doc": "台服的等级字体比国服大一圈，要改roi",

@@ -54,6 +54,7 @@
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">다음 계획용으로 자동 저장</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">일반 모드(차단된 스크린샷 오류)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
