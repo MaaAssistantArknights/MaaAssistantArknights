@@ -53,6 +53,8 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
 bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir,
                               const std::filesystem::path& solution_dir);
 
+bool update_levels_json(const std::filesystem::path& input_file, const std::filesystem::path& output_dir);
+
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file,
                                                        const std::filesystem::path& en_file);
@@ -87,13 +89,10 @@ int main([[maybe_unused]] int argc, char** argv)
 
     const auto solution_dir = std::filesystem::current_path().parent_path().parent_path();
     const auto resource_dir = solution_dir / "resource";
-    const auto third_resource_dir = solution_dir / "3rdparty" / "resource";
 
     /* Update levels.json from Arknights-Bot-Resource*/
     std::cout << "------------Update levels.json------------" << std::endl;
-    if (!std::filesystem::copy_file(arkbot_res_dir / "levels.json",
-                                    third_resource_dir / "Arknights-Tile-Pos" / "levels.json",
-                                    std::filesystem::copy_options::overwrite_existing)) {
+    if (!update_levels_json(arkbot_res_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
         std::cerr << "update levels.json failed" << std::endl;
         return -1;
     }
@@ -550,6 +549,24 @@ bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std:
     int python_ret = system(python_cmd.c_str());
     if (python_ret != 0) {
         return false;
+    }
+    return true;
+}
+
+bool update_levels_json(const std::filesystem::path& input_file, const std::filesystem::path& output_dir)
+{
+    auto json_opt = json::open(input_file);
+    if (!json_opt) {
+        std::cerr << input_file << " parse failed" << std::endl;
+        return false;
+    }
+    auto& root = json_opt.value();
+    for (auto& stage_info : root.as_array()) {
+        std::string filename = stage_info["stageId"].as_string() + "-" + stage_info["levelId"].as_string() + ".json";
+        asst::utils::string_replace_all_in_place(filename, "/", "-");
+        std::ofstream ofs(output_dir / filename, std::ios::out);
+        ofs << stage_info.format(true);
+        ofs.close();
     }
     return true;
 }
