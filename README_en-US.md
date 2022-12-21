@@ -84,14 +84,14 @@ Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 - ZH_CHT Client  
   Supports basic features like Combat, Auto Recruiting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/txwy/readme.md)
 
-Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better!
+Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better! Please refer to [Overseas Clients Adaptation](#Overseas Clients Adaptation)
 
 ## Associated Projects
 
 - New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (Development in progress, welcome to join us!)
-- Update server: [MaaDownloadServer](https://github.com/MaaAssistantArknights/MaaDownloadServer)
-- [Website](https://www.maa.plus): [maa-website](https://github.com/MaaAssistantArknights/maa-website)
-- [Co-pilot (auto-battle) site](https://www.prts.plus): [frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend), [backend](https://github.com/MaaAssistantArknights/MaaCopilotServer)
+- Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) (Development in progress, welcome to join us!)
+- [Co-pilot (auto-battle) site](https://prts.plus)：[frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [Website](https://www.maa.plus): [frontend](https://github.com/MaaAssistantArknights/maa-website)
 
 ## Acknowledgements
 
@@ -156,16 +156,20 @@ Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 - [Task Schema](docs/en-us/3.4-TASK_SCHEMA.md)
 - [Copilot Schema](docs/en-us/3.3-COPILOT_SCHEMA.md)
 
+### Overseas Clients Adaptation
+
+Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%20Adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+
+### For Novice Users of GitHub
+
+[Development](docs/en-us/2.2-DEVELOPMENT.md#introduction-to-github-pull-request-flow)
+
 ### Issue Bot
 
 - Add labels with `Add {LABEL_NAME}`, and remove with `Remove {LABEL_NAME}`.
 - Add `fixed` tag to the issue with `close #{ISSUE_NUMBER}` or `fix #{ISSUE_NUMBER}` in the comments.
 
 Please refer to [Issue Bot Usage](docs/en-us/2.3-ISSUE_BOT_USAGE.md) for more details.
-
-### For Novice Users of GitHub
-
-[Development](docs/en-us/2.2-DEVELOPMENT.md#introduction-to-github-pull-request-flow)
 
 ## Disclaimer
 
