@@ -5,6 +5,7 @@
 - 更新 自定义基建 所有内置作业为 12 月新版 @HMZyueshen
 - 更新 OCR 部署库，重新训练 OCR 模型，再次提高识别准确率 @MistEO
 - 修复 自定义基建，宿舍内 sort 和 autofill 同为 true 时，存在的选人 bug @fearlessxjdx
+- 修复 繁中服 基建不收赤金的问题 @vonnoq
 - 修复 界面 关闭关卡导航后的问题 @ABA2396
 - 更新 文档 @ABA2396 @MistEO @WWPXX233
 
