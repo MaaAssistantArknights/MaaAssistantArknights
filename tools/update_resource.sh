@@ -10,6 +10,6 @@ else
 fi
 
 mkdir -p $TargetDir
-cp -r "../resource/" "../3rdparty/resource/" $TargetDir
+cp -r "../resource/" $TargetDir
 cp -r "../src/Python" $TargetDir
 exit 0

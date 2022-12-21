@@ -71,7 +71,6 @@ else ()
     endif (INSTALL_PYTHON)
     if (INSTALL_RESOURCE)
         install(DIRECTORY resource DESTINATION .)
-        install(DIRECTORY 3rdparty/resource DESTINATION .)
     endif (INSTALL_RESOURCE)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -idirafter ${PROJECT_SOURCE_DIR}/3rdparty/include")
