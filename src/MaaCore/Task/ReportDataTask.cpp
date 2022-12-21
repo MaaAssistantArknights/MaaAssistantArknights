@@ -91,12 +91,15 @@ void asst::ReportDataTask::report_to_penguin()
         "ReportToPenguinStats", Config.get_options().penguin_report.cmd_format,
         [](const http::Response& response) -> bool { return response.success(); },
         [&](const http::Response& response) -> bool {
-            bool cond = !response.status_code() || response.status_5xx();
-            if (cond) {
+            if (!response.status_code()) {
+                return true;
+            }
+            if (response.status_5xx()) {
                 backoff = static_cast<int>(backoff * 1.5);
                 sleep(backoff);
+                return true;
             }
-            return cond;
+            return false;
         },
         false);
 
