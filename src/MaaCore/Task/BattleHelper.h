@@ -69,7 +69,7 @@ namespace asst
         std::map<Point, battle::BattlefieldOper> m_used_tiles;
 
     private:
-        virtual AbstractTask& this_task();
+        virtual AbstractTask& this_task() = 0;
 
         InstHelper m_inst_helper;
     };

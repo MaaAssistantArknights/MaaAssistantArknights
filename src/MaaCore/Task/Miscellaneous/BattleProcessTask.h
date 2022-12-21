@@ -19,6 +19,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        virtual AbstractTask& this_task() override { return *this; }
 
         bool do_action(size_t action_index);
         void notify_action(const battle::copilot::Action& action);

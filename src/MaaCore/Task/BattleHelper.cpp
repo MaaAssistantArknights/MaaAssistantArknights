@@ -462,8 +462,3 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 
     return oper_iter->second.rect;
 }
-
-asst::AbstractTask& asst::BattleHelper::this_task()
-{
-    return *dynamic_cast<AbstractTask*>(this);
-}
