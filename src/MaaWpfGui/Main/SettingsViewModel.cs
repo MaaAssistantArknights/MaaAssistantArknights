@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -1070,7 +1071,7 @@ namespace MaaWpfGui
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString());
+        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
 
         public string LastCreditFightTaskTime
         {
@@ -1091,14 +1092,14 @@ namespace MaaWpfGui
         {
             get
             {
-                if (DateTime.TryParse(LastCreditFightTaskTime, out DateTime lastCreditFightTaskTime))
+                try
                 {
-                    if (Utils.GetYJTimeDate() > lastCreditFightTaskTime.Date)
+                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditFightTaskEnabled;
                     }
                 }
-                else
+                catch
                 {
                     return _creditFightTaskEnabled;
                 }
