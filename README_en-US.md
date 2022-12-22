@@ -84,7 +84,7 @@ Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
 - ZH_CHT Client  
   Supports basic features like Combat, Auto Recruiting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/txwy/readme.md)
 
-Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better! Please refer to [Overseas Clients Adaptation](#Overseas Clients Adaptation)
+Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
 
 ## Associated Projects
 

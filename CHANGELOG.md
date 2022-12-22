@@ -1,3 +1,16 @@
+## v4.8.2
+
+- 更新 `照我以火` EX 关卡地图数据 @MistEO
+- 更新 macOS, Linux OCR 部署库，提高识别准确率 @hguandl @horror-proton
+- 新增 启动模拟器时自动最小化 选项 @ABA2396
+- 修复 界面 时间转换错误 @ABA2396
+- 修复 Linux CI 任务名 @horror-proton
+
+### For overseas
+
+- 新增 繁中服 访问好友、采购中心支持 @vonnoq
+- Retrained the OCR model of the JP client @MistEO
+
 ## v4.8.2-beta.1
 
 - 重新支持 macOS, Linux CI 打包 @hguandl @horror-proton
@@ -21,7 +34,6 @@
 - Update Python APIs, support to set pramas for Maa instance. @popjdh
 - Support the starting with Support Unit in Auto IS, but without gui. @WLLEGit
 - Add Overseas Clients Adaptation docs. @ABA2396
-
 
 ## v4.8.1
 

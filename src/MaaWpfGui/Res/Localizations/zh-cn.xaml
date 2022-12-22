@@ -55,7 +55,7 @@
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自动保存为下个计划</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">通用模式(屏蔽截图报错)</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
     <system:String x:Key="MuMuEmulator">MuMu 模拟器</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
@@ -172,6 +172,7 @@
     <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
+    <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>

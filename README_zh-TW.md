@@ -83,7 +83,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 繁中服  
   支援基本的刷理智、自動公招、自動肉鴿、領取日常、公招辨識功能，請參考 [說明](resource/global/txwy/readme.md)
 
-由於外服使用者較少及項目人手不足的問題，外服目前都僅適配了基本的功能。若您有強需求，歡迎在 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，~~或加入我們一起建設 MAA~~
+由於外服使用者較少及項目人手不足的問題，外服目前都僅適配了基本的功能。若您有強需求，歡迎在 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！请参考 [外服适配教程](#外服適配)
 
 ## 主要關聯項目
 

@@ -908,6 +908,23 @@
             ]
         ]
     },
+    "VisitLimited": {
+        "text": [
+            "今日參與",
+            "已達上限"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "採"
+        ]
+    },
+	"CreditShop-NoMoney": {
+        "text": [
+            "信用不足",
+            "無法購買"
+        ]
+	},
     "InfrastReward": {
         "text": [
             "可收穫",
