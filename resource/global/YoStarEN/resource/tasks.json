@@ -1459,41 +1459,17 @@
             "Assign"
         ]
     },
-	"Award": {
-        "template": "Task.png",
-        "action": "ClickSelf",
+	"Award": {      
         "roi": [
             700,
             530,
             200,
             130
-        ],
-        "next": [
-            "ReceiveAward",
-            "DailyTask",
-            "WeeklyTask",
-            "Award",
-            "Award@CloseAnnos#next",
-            "Award@TodaysSupplies"
         ]
     },
 	"GoLastBattle": {
-        "algorithm": "OcrDetect",
         "text": [
             "To the most recent stage"
-        ],
-        "roi": [
-            916,
-            479,
-            249,
-            127
-        ],
-        "action": "ClickSelf",
-        "next": [
-            "UsePrts-Annihilation",
-            "UsePrts",
-            "UsePrts-StageSN",
-            "StartButton1"
         ]
     },
     "BattleStageName": {
