@@ -32,7 +32,7 @@ namespace MaaWpfGui
         /// <returns>yj历时间的字符串表示形式</returns>
         public static string GetYJTimeNowString()
         {
-            return GetYJTimeNow().ToString();
+            return GetYJTimeNow().ToString("yyyy/MM/dd HH:mm:ss");
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace MaaWpfGui
         /// <returns>yj历日期的字符串表示形式</returns>
         public static string GetYJTimeDateString()
         {
-            return GetYJTimeDate().ToString();
+            return GetYJTimeDate().ToString("yyyy/MM/dd HH:mm:ss");
         }
 
         /// <summary>

@@ -1451,6 +1451,27 @@
             "Operator"
         ]
     },
+    "InfrastEnterOperList": {
+        "text": [
+            "Morale",
+            "Resting",
+            "Working",
+            "Assign"
+        ]
+    },
+	"Award": {      
+        "roi": [
+            700,
+            530,
+            200,
+            130
+        ]
+    },
+	"GoLastBattle": {
+        "text": [
+            "To the most recent stage"
+        ]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
