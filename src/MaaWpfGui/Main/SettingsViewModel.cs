@@ -429,9 +429,10 @@ namespace MaaWpfGui
             process.WaitForInputIdle();
             if (MinimizingStartup)
             {
-                while (!IsIconic(process.MainWindowHandle))
+                for (int i = 0; !IsIconic(process.MainWindowHandle) && i < 5000; ++i)
                 {
                     ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                    Thread.Sleep(1);
                 }
             }
 
