@@ -814,7 +814,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "照我以火"
+            "照我以火",
+            "关卡已开放"
         ],
         "roi": [
             0,
