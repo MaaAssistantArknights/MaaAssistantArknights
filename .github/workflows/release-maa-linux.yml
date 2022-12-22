@@ -1,4 +1,4 @@
-name: dev-build-linux
+name: release-maa-linux
 
 on:
   release:
