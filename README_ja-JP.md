@@ -85,7 +85,7 @@ UIを見れば使い方もすぐ分かる！
   基本的な作戦、自動公開求人、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/txwy/readme.md)を参照してください。
 
-海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。~~いっしょにMAAの開発に協力しましょう~~ Please refer to [Overseas Clients Adaptation](#Overseas Clients Adaptation)
+海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。いっしょにMAAの開発に協力しましょう! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
 
 ## 主な関連プロジェクト
 
