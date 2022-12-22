@@ -17,9 +17,9 @@
         </Grid.RowDefinitions>
         <WrapPanel
             Grid.Row="0"
+            MaxWidth="400"
             HorizontalAlignment="Center"
-            Orientation="Horizontal"
-            MaxWidth="400">
+            Orientation="Horizontal">
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Center"
@@ -40,7 +40,7 @@
                 VerticalAlignment="Center"
                 Block.TextAlignment="Center"
                 Content="{DynamicResource CreditFight}"
-                IsChecked="{Binding CreditFightTaskEnabled}"
+                IsChecked="{Binding CreditFightTaskEnabledDisplay}"
                 ToolTip="{DynamicResource CreditFightTip}" />
         </WrapPanel>
         <StackPanel

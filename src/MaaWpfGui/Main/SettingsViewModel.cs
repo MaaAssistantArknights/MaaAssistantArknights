@@ -1060,9 +1060,24 @@ namespace MaaWpfGui
                         return _creditFightTaskEnabled;
                     }
                 }
+                else
+                {
+                    return _creditFightTaskEnabled;
+                }
 
                 return false;
             }
+
+            set
+            {
+                SetAndNotify(ref _creditFightTaskEnabled, value);
+                ViewStatusStorage.Set("Visit.CreditFightTaskEnabled", value.ToString());
+            }
+        }
+
+        public bool CreditFightTaskEnabledDisplay
+        {
+            get => _creditFightTaskEnabled;
 
             set
             {
