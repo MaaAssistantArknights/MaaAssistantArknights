@@ -1053,9 +1053,12 @@ namespace MaaWpfGui
         {
             get
             {
-                if (Utils.GetYJTimeDate() > DateTime.Parse(LastCreditFightTaskTime).Date)
+                if (DateTime.TryParse(LastCreditFightTaskTime, out DateTime lastCreditFightTaskTime))
                 {
-                    return _creditFightTaskEnabled;
+                    if (Utils.GetYJTimeDate() > lastCreditFightTaskTime.Date)
+                    {
+                        return _creditFightTaskEnabled;
+                    }
                 }
 
                 return false;
