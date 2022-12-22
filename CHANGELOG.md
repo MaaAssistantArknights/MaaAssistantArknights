@@ -1,3 +1,17 @@
+## v4.8.4
+
+- 修复 拉起模拟器时的报错 @ABA2396
+- 修复 日期解析报错 @ABA2396
+- 更新 文档 @WWPXX233
+
+### For overseas
+
+- Fix the errors of Base and Daily tasks in the EN client @Pitiedwzr
+- Fix the errors of Recruitment in the JP client @horror-proton
+- Support more Base functions of the ZH_CHT client @vonnoq
+
+## v4.8.3
+
 - 修复 `照我以火` 活动关卡导航错误 @MistEO
 
 ## v4.8.2
