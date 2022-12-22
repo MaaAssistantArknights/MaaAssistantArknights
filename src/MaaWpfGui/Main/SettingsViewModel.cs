@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using IWshRuntimeLibrary;
 using MaaWpfGui.MaaHotKeys;
-using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 
@@ -402,38 +402,11 @@ namespace MaaWpfGui
         public void TryToStartEmulator(bool manual = false)
         {
             if ((EmulatorPath.Length == 0
-                || !File.Exists(EmulatorPath))
+                || !System.IO.File.Exists(EmulatorPath))
                 || !(StartEmulator
                 || manual))
             {
                 return;
-            }
-
-            ProcessStartInfo startInfo;
-            if (EmulatorAddCommand.Length != 0)
-            {
-                startInfo = new ProcessStartInfo(EmulatorPath, EmulatorAddCommand);
-            }
-            else
-            {
-                startInfo = new ProcessStartInfo(EmulatorPath);
-            }
-
-            startInfo.UseShellExecute = false;
-            Process process = new Process
-            {
-                StartInfo = startInfo,
-            };
-
-            process.Start();
-            process.WaitForInputIdle();
-            if (MinimizingStartup)
-            {
-                for (int i = 0; !IsIconic(process.MainWindowHandle) && i < 5000; ++i)
-                {
-                    ShowWindow(process.MainWindowHandle, SWMINIMIZE);
-                    Thread.Sleep(1);
-                }
             }
 
             if (!int.TryParse(EmulatorWaitSeconds, out int delay))
@@ -441,7 +414,62 @@ namespace MaaWpfGui
                 delay = 60;
             }
 
-            Thread.Sleep(delay * 1000);
+            try
+            {
+                string fileName;
+                string arguments;
+                ProcessStartInfo startInfo;
+
+                if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
+                {
+                    WshShell shell = new WshShell();
+                    WshShortcut shortcut = (WshShortcut)shell.CreateShortcut(EmulatorPath);
+                    fileName = shortcut.TargetPath;
+                    arguments = shortcut.Arguments;
+                }
+                else
+                {
+                    fileName = EmulatorPath;
+                    arguments = EmulatorAddCommand;
+                }
+
+                if (arguments.Length != 0)
+                {
+                    startInfo = new ProcessStartInfo(fileName, arguments);
+                }
+                else
+                {
+                    startInfo = new ProcessStartInfo(fileName);
+                }
+
+                startInfo.UseShellExecute = false;
+                Process process = new Process
+                {
+                    StartInfo = startInfo,
+                };
+                process.Start();
+                process.WaitForInputIdle();
+                if (MinimizingStartup)
+                {
+                    for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                    {
+                        ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                        Thread.Sleep(1);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (EmulatorAddCommand.Length != 0)
+                {
+                    Process.Start(EmulatorPath);
+                }
+                else
+                {
+                    Process.Start(EmulatorPath, EmulatorAddCommand);
+                    Thread.Sleep(delay * 1000);
+                }
+            }
         }
 
         /// <summary>
@@ -1934,13 +1962,13 @@ namespace MaaWpfGui
                 return;
             }
 
-            if (!File.Exists(_bluestacksConfig))
+            if (!System.IO.File.Exists(_bluestacksConfig))
             {
                 ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
                 return;
             }
 
-            var all_lines = File.ReadAllLines(_bluestacksConfig);
+            var all_lines = System.IO.File.ReadAllLines(_bluestacksConfig);
             foreach (var line in all_lines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
@@ -1981,7 +2009,7 @@ namespace MaaWpfGui
 
         public async void ReplaceADB()
         {
-            if (!File.Exists(AdbPath))
+            if (!System.IO.File.Exists(AdbPath))
             {
                 Execute.OnUIThread(() =>
                 {
@@ -1993,7 +2021,7 @@ namespace MaaWpfGui
                 return;
             }
 
-            if (!File.Exists(GoogleAdbFilename))
+            if (!System.IO.File.Exists(GoogleAdbFilename))
             {
                 var downloadTask = Task.Run(() =>
                 {
@@ -2022,7 +2050,7 @@ namespace MaaWpfGui
                    process.Kill();
                }
 
-               File.Copy(AdbPath, AdbPath + ".bak", true);
+               System.IO.File.Copy(AdbPath, AdbPath + ".bak", true);
 
                const string UnzipDir = "adb_unzip";
                if (Directory.Exists(UnzipDir))
@@ -2031,7 +2059,7 @@ namespace MaaWpfGui
                }
 
                System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
-               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
+               System.IO.File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
                Directory.Delete(UnzipDir, true);
            });
             await procTask;
