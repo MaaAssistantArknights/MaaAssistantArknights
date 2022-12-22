@@ -55,7 +55,7 @@
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
 
     <system:String x:Key="General">General Mode</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">General Mode(Blocked screenshot's error)</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
@@ -172,6 +172,7 @@
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
+    <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
     <system:String x:Key="WaitForEmulator">Delay time</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>

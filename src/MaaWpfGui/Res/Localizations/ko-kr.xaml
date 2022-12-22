@@ -54,7 +54,7 @@
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">다음 계획용으로 자동 저장</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">일반 모드(차단된 스크린샷 오류)</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">일반 모드（차단된 예외 출력）</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
@@ -171,6 +171,7 @@
     <system:String x:Key="RunTaskAfterLaunch">실행 후 작업 시작</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">실행 후 에뮬레이터를 실행</system:String>
+    <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="Select">선택</system:String>

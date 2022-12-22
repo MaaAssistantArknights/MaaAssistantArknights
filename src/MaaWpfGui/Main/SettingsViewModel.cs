@@ -40,6 +40,14 @@ namespace MaaWpfGui
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        private const int SWMINIMIZE = 6;
+
+        [DllImport("user32.dll")]
+        private static extern bool IsIconic(IntPtr hWnd);
+
         private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
 
         /// <summary>
@@ -171,7 +179,6 @@ namespace MaaWpfGui
             ConnectConfigList = new List<CombData>
             {
                 new CombData { Display = Localization.GetString("General"), Value = "General" },
-                new CombData { Display = Localization.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
                 new CombData { Display = Localization.GetString("BlueStacks"), Value = "BlueStacks" },
                 new CombData { Display = Localization.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
                 new CombData { Display = Localization.GetString("LDPlayer"), Value = "LDPlayer" },
@@ -179,6 +186,7 @@ namespace MaaWpfGui
                 new CombData { Display = Localization.GetString("XYAZ"), Value = "XYAZ" },
                 new CombData { Display = Localization.GetString("WSA"), Value = "WSA" },
                 new CombData { Display = Localization.GetString("Compatible"), Value = "Compatible" },
+                new CombData { Display = Localization.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
             };
 
             TouchModeList = new List<CombData>
@@ -330,6 +338,18 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _minimizingStartup = Convert.ToBoolean(ViewStatusStorage.Get("Start.MinimizingStartup", bool.FalseString));
+
+        public bool MinimizingStartup
+        {
+            get => _minimizingStartup;
+            set
+            {
+                SetAndNotify(ref _minimizingStartup, value);
+                ViewStatusStorage.Set("Start.MinimizingStartup", value.ToString());
+            }
+        }
+
         private string _emulatorPath = ViewStatusStorage.Get("Start.EmulatorPath", string.Empty);
 
         /// <summary>
@@ -389,13 +409,31 @@ namespace MaaWpfGui
                 return;
             }
 
+            ProcessStartInfo startInfo;
             if (EmulatorAddCommand.Length != 0)
             {
-                Process.Start(EmulatorPath, EmulatorAddCommand);
+                startInfo = new ProcessStartInfo(EmulatorPath, EmulatorAddCommand);
             }
             else
             {
-                Process.Start(EmulatorPath);
+                startInfo = new ProcessStartInfo(EmulatorPath);
+            }
+
+            startInfo.UseShellExecute = false;
+            Process process = new Process
+            {
+                StartInfo = startInfo,
+            };
+
+            process.Start();
+            process.WaitForInputIdle();
+            if (MinimizingStartup)
+            {
+                for (int i = 0; !IsIconic(process.MainWindowHandle) && i < 5000; ++i)
+                {
+                    ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                    Thread.Sleep(1);
+                }
             }
 
             if (!int.TryParse(EmulatorWaitSeconds, out int delay))
@@ -1053,13 +1091,31 @@ namespace MaaWpfGui
         {
             get
             {
-                if (Utils.GetYJTimeDate() > DateTime.Parse(LastCreditFightTaskTime).Date)
+                if (DateTime.TryParse(LastCreditFightTaskTime, out DateTime lastCreditFightTaskTime))
+                {
+                    if (Utils.GetYJTimeDate() > lastCreditFightTaskTime.Date)
+                    {
+                        return _creditFightTaskEnabled;
+                    }
+                }
+                else
                 {
                     return _creditFightTaskEnabled;
                 }
 
                 return false;
             }
+
+            set
+            {
+                SetAndNotify(ref _creditFightTaskEnabled, value);
+                ViewStatusStorage.Set("Visit.CreditFightTaskEnabled", value.ToString());
+            }
+        }
+
+        public bool CreditFightTaskEnabledDisplay
+        {
+            get => _creditFightTaskEnabled;
 
             set
             {

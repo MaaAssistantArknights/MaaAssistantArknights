@@ -87,7 +87,7 @@ MAA는 MAA Assistant Arknights를 의미합니다
   작전, 공개모집, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
   자세한 내용은 [문서](resource/global/txwy/readme.md)를 참조해 주세요.
 
-해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! Please refer to [Overseas Clients Adaptation](#Overseas Clients Adaptation)
+해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
 
 ## 관련 프로젝트
 
