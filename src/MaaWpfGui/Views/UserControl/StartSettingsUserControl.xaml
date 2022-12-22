@@ -52,13 +52,25 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <CheckBox
-                Margin="20,10,10,10"
-                HorizontalAlignment="Left"
+            <StackPanel
+                HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Block.TextAlignment="Center"
-                Content="{DynamicResource OpenEmulatorAfterLaunch}"
-                IsChecked="{Binding StartEmulator}" />
+                Orientation="Vertical">
+                <CheckBox
+                    Margin="20,10,10,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource OpenEmulatorAfterLaunch}"
+                    IsChecked="{Binding StartEmulator}" />
+                <CheckBox
+                    Margin="20,10,10,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource MinimizingStartup}"
+                    IsChecked="{Binding MinimizingStartup}" />
+            </StackPanel>
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

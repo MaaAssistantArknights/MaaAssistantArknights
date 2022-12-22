@@ -40,6 +40,14 @@ namespace MaaWpfGui
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        private const int SWMINIMIZE = 6;
+
+        [DllImport("user32.dll")]
+        private static extern bool IsIconic(IntPtr hWnd);
+
         private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
 
         /// <summary>
@@ -330,6 +338,18 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _minimizingStartup = Convert.ToBoolean(ViewStatusStorage.Get("Start.MinimizingStartup", bool.FalseString));
+
+        public bool MinimizingStartup
+        {
+            get => _minimizingStartup;
+            set
+            {
+                SetAndNotify(ref _minimizingStartup, value);
+                ViewStatusStorage.Set("Start.MinimizingStartup", value.ToString());
+            }
+        }
+
         private string _emulatorPath = ViewStatusStorage.Get("Start.EmulatorPath", string.Empty);
 
         /// <summary>
@@ -389,13 +409,30 @@ namespace MaaWpfGui
                 return;
             }
 
+            ProcessStartInfo startInfo;
             if (EmulatorAddCommand.Length != 0)
             {
-                Process.Start(EmulatorPath, EmulatorAddCommand);
+                startInfo = new ProcessStartInfo(EmulatorPath, EmulatorAddCommand);
             }
             else
             {
-                Process.Start(EmulatorPath);
+                startInfo = new ProcessStartInfo(EmulatorPath);
+            }
+
+            startInfo.UseShellExecute = false;
+            Process process = new Process
+            {
+                StartInfo = startInfo,
+            };
+
+            process.Start();
+            process.WaitForInputIdle();
+            if (MinimizingStartup)
+            {
+                while (!IsIconic(process.MainWindowHandle))
+                {
+                    ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                }
             }
 
             if (!int.TryParse(EmulatorWaitSeconds, out int delay))

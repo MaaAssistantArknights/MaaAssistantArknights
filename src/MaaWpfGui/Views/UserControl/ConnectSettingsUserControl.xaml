@@ -110,7 +110,7 @@
         <CheckBox
             Grid.Row="4"
             Grid.Column="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Margin="15"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
