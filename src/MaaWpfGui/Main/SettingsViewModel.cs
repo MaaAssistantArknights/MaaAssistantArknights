@@ -434,28 +434,47 @@ namespace MaaWpfGui
                     arguments = EmulatorAddCommand;
                 }
 
-                if (arguments.Length != 0)
+                string processName = Path.GetFileNameWithoutExtension(fileName);
+                Process[] processes = Process.GetProcessesByName(processName);
+                if (processes.Length > 0)
                 {
-                    startInfo = new ProcessStartInfo(fileName, arguments);
+                    if (MinimizingStartup)
+                    {
+                        foreach (Process process in processes)
+                        {
+                            for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                            {
+                                ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                                Thread.Sleep(1);
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    startInfo = new ProcessStartInfo(fileName);
-                }
-
-                startInfo.UseShellExecute = false;
-                Process process = new Process
-                {
-                    StartInfo = startInfo,
-                };
-                process.Start();
-                process.WaitForInputIdle();
-                if (MinimizingStartup)
-                {
-                    for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                    if (arguments.Length != 0)
                     {
-                        ShowWindow(process.MainWindowHandle, SWMINIMIZE);
-                        Thread.Sleep(1);
+                        startInfo = new ProcessStartInfo(fileName, arguments);
+                    }
+                    else
+                    {
+                        startInfo = new ProcessStartInfo(fileName);
+                    }
+
+                    startInfo.UseShellExecute = false;
+                    Process process = new Process
+                    {
+                        StartInfo = startInfo,
+                    };
+                    process.Start();
+                    process.WaitForInputIdle();
+                    if (MinimizingStartup)
+                    {
+                        for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                        {
+                            ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                            Thread.Sleep(1);
+                        }
                     }
                 }
             }
@@ -468,9 +487,10 @@ namespace MaaWpfGui
                 else
                 {
                     Process.Start(EmulatorPath, EmulatorAddCommand);
-                    Thread.Sleep(delay * 1000);
                 }
             }
+
+            Thread.Sleep(delay * 1000);
         }
 
         /// <summary>
