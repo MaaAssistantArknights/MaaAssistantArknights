@@ -500,7 +500,7 @@ namespace MaaWpfGui
                     }
                     else if (taskChain == "Mall")
                     {
-                        if (settingsModel.CreditFightTaskEnabledDisplay)
+                        if (settingsModel.CreditFightTaskEnabled)
                         {
                             settingsModel.LastCreditFightTaskTime = Utils.GetYJTimeDateString();
                         }
