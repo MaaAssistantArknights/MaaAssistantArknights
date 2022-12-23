@@ -12,13 +12,13 @@
 #include "Config/TaskData.h"
 #include "Controller.h"
 #include "Task/ProcessTask.h"
+#include "Utils/Algorithm.hpp"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
-
-#include "Utils/ImageIo.hpp"
 
 using namespace asst::battle;
 using namespace asst::battle::copilot;
@@ -36,6 +36,7 @@ bool asst::BattleProcessTask::_run()
     }
 
     update_deployment(true);
+    to_group();
 
     for (size_t i = 0; i < m_combat_data.actions.size() && !need_exit(); ++i) {
         do_action(i);
@@ -56,6 +57,42 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
 
         return false;
     }
+
+    m_combat_data = Copilot.get_data();
+
+    return true;
+}
+
+bool asst::BattleProcessTask::to_group()
+{
+    std::unordered_map<std::string, std::vector<std::string>> groups;
+    for (const auto& [group_name, oper_list] : m_combat_data.groups) {
+        std::vector<std::string> oper_name_list;
+        ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) { return oper.name; });
+        groups.emplace(group_name, std::move(oper_name_list));
+    }
+
+    std::unordered_set<std::string> char_set;
+    for (const auto& oper : m_cur_deployment_opers | views::values) {
+        char_set.emplace(oper.name);
+    }
+
+    auto result_opt = algorithm::get_char_allocation_for_each_group(groups, char_set);
+    if (!result_opt) {
+        return false;
+    }
+    m_oper_in_group = *result_opt;
+
+    std::unordered_map<std::string, std::string> ungrouped;
+    const auto& grouped_view = m_oper_in_group | views::values;
+    for (const auto& name : char_set) {
+        if (ranges::find(grouped_view, name) != grouped_view.end()) {
+            continue;
+        }
+        ungrouped.emplace(name, name);
+    }
+    m_oper_in_group.merge(ungrouped);
+
     return true;
 }
 

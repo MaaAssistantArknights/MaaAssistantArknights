@@ -142,7 +142,7 @@ bool asst::BattleHelper::update_deployment(bool init)
             OcrWithPreprocessImageAnalyzer name_analyzer(m_inst_helper.ctrler()->get_image());
             name_analyzer.set_task_info("BattleOperName");
             name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-            if (name_analyzer.analyze()) {
+            if (!name_analyzer.analyze()) {
                 Log.error("ocr failed");
                 continue;
             }
@@ -153,6 +153,7 @@ bool asst::BattleHelper::update_deployment(bool init)
             m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
         }
         pause();
+        cancel_oper_selection();
     }
 
     return true;
