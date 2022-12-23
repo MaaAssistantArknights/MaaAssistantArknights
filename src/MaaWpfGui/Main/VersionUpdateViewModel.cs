@@ -392,12 +392,12 @@ namespace MaaWpfGui
                 }
             });
 
+            UpdatePackageName = _assetsObject["name"]?.ToString();
+
             if (!goDownload)
             {
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
-
-            UpdatePackageName = _assetsObject["name"]?.ToString();
 
             // 下载压缩包
             var downloaded = false;
