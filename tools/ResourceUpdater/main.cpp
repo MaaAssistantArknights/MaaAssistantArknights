@@ -646,7 +646,8 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
         range.emplace(id, std::move(points));
     }
 
-    auto& chars = result["chars"].as_object();
+    auto& chars = result["chars"];
+    std::map<std::string, std::vector<std::string>> tokens;
     for (auto& [id, char_data] : chars_json.as_object()) {
         json::value char_new_data;
         std::string name = char_data["name"].as_string();
@@ -662,15 +663,36 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
         char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
         char_new_data["position"] = char_data["position"];
 
-        chars.emplace(id, std::move(char_new_data));
+        if (auto token_opt = char_data.find<std::string>("tokenKey")) {
+            tokens[id].emplace_back(*token_opt);
+        }
+        if (auto skill_opt = char_data.find<json::array>("skills")) {
+            for (const auto& skill_obj : *skill_opt) {
+                if (auto token_opt = skill_obj.find<std::string>("overrideTokenKey")) {
+                    tokens[id].emplace_back(*token_opt);
+                }
+            }
+        }
+        chars.object_emplace(id, std::move(char_new_data));
     }
+    for (const auto& [oper_id, token_id_list] : tokens) {
+        std::vector<std::string> token_names_list;
+        for (const auto& token_id : token_id_list) {
+            std::string token_name = chars.get(token_id, "name", std::string());
+            if (!token_name.empty()) {
+                token_names_list.emplace_back(token_name);
+            }
+        }
+        chars[oper_id]["tokens"] = json::array(token_names_list);
+    }
+
     json::value Amiya_data;
     Amiya_data["name"] = "阿米娅-WARRIOR";
     Amiya_data["profession"] = "WARRIOR";
     Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
     Amiya_data["rarity"] = 5;
     Amiya_data["position"] = "MELEE";
-    chars.emplace("char_1001_amiya2", std::move(Amiya_data));
+    chars.object_emplace("char_1001_amiya2", std::move(Amiya_data));
 
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);

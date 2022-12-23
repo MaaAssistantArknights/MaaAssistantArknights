@@ -30,7 +30,7 @@ namespace json
         using array_ptr = std::unique_ptr<array>;
         using object_ptr = std::unique_ptr<object>;
     public:
-        enum class value_type : char
+        enum class value_type: char
         {
             Invalid,
             Null,
@@ -87,6 +87,9 @@ namespace json
         bool is_string() const noexcept { return _type == value_type::String; }
         bool is_array() const noexcept { return _type == value_type::Array; }
         bool is_object() const noexcept { return _type == value_type::Object; }
+        template<typename Type>
+        bool is() const noexcept;
+
         bool contains(const std::string& key) const;
         bool contains(size_t pos) const;
         bool exists(const std::string& key) const { return contains(key); }
@@ -117,6 +120,8 @@ namespace json
         const std::string as_string() const;
         const array& as_array() const;
         const object& as_object() const;
+        template<typename Type>
+        Type as() const;
 
         array& as_array();
         object& as_object();
@@ -394,11 +399,11 @@ namespace json
     // *************************
     // *   exception declare   *
     // *************************
-    class exception : public std::exception
+    class exception: public std::exception
     {
     public:
         exception() = default;
-        exception(const std::string& msg) : _what(msg) {}
+        exception(const std::string& msg): _what(msg) {}
 
         exception(const exception&) = default;
         exception& operator=(const exception&) = default;
@@ -524,6 +529,40 @@ namespace json
 
     // for Pimpl
     MEOJSON_INLINE value::~value() = default;
+
+    template<typename Type>
+    MEOJSON_INLINE bool value::is() const noexcept
+    {
+        if constexpr (std::is_same_v<Type, value>) {
+            return true;
+        }
+        else if constexpr (std::is_same_v<Type, bool>) {
+            return _type == value_type::Boolean;
+        }
+        else if constexpr (std::is_same_v<Type, int> ||
+            std::is_same_v<Type, unsigned> ||
+            std::is_same_v<Type, long> ||
+            std::is_same_v<Type, unsigned long> ||
+            std::is_same_v<Type, long long> ||
+            std::is_same_v<Type, unsigned long long> ||
+            std::is_same_v<Type, float> ||
+            std::is_same_v<Type, double> ||
+            std::is_same_v<Type, long double>) {
+            return _type == value_type::Number;
+        }
+        else if constexpr (std::is_same_v<Type, std::string>) {
+            return _type == value_type::String;
+        }
+        else if constexpr (std::is_same_v<Type, array>) {
+            return _type == value_type::Array;
+        }
+        else if constexpr (std::is_same_v<Type, object>) {
+            return _type == value_type::Object;
+        }
+        else {
+            static_assert(false, "Unsupported type");
+        }
+    }
 
     MEOJSON_INLINE bool value::contains(const std::string& key) const
     {
@@ -780,6 +819,12 @@ namespace json
         }
 
         throw exception("Wrong Type or data empty");
+    }
+
+    template<typename Type>
+    MEOJSON_INLINE Type value::as() const
+    {
+        return static_cast<Type>(*this);
     }
 
     MEOJSON_INLINE const std::string& value::as_basic_type_str() const
@@ -1308,7 +1353,8 @@ namespace json
         if (!contains(pos)) {
             return std::nullopt;
         }
-        return static_cast<Type>(_array_data.at(pos));
+        const auto& val = _array_data.at(pos);
+        return val.is<Type>() ? std::optional<Type>(val.as<Type>()) : std::nullopt;
     }
 
     MEOJSON_INLINE array::iterator array::begin() noexcept
@@ -1765,7 +1811,8 @@ namespace json
         if (iter == _object_data.end()) {
             return std::nullopt;
         }
-        return static_cast<Type>(iter->second);
+        const auto& val = iter->second;
+        return val.is<Type>() ? std::optional<Type>(val.as<Type>()) : std::nullopt;
     }
 
     MEOJSON_INLINE object::iterator object::begin() noexcept

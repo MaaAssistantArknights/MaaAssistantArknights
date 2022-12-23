@@ -6,6 +6,8 @@
 #include "Config/Miscellaneous/TilePack.h"
 #include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
+#include "Utils/Platform.hpp"
+#include "Utils/WorkingDir.hpp"
 
 #include <map>
 
@@ -13,6 +15,9 @@ namespace asst
 {
     class BattleHelper
     {
+        inline static const auto AvatarCacheDir = UserDir.get() / utils::path("cache") / utils::path("avatars");
+        inline static const std::string CacheExtension = ".png";
+
     public:
         ~BattleHelper() = default;
 
@@ -22,6 +27,8 @@ namespace asst
         virtual bool set_stage_name(const std::string& name);
 
         bool calc_tiles_info(const std::string& stage_name);
+        bool load_avatar_cache(const std::string& name);
+        void save_avatar_cache(const std::string& name, const cv::Mat& avatar);
 
         bool pause();
         bool speed_up();

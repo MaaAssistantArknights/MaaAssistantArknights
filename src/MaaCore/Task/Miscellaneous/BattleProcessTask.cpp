@@ -7,6 +7,7 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
@@ -35,6 +36,7 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
+    load_cache();
     update_deployment(true);
     to_group();
 
@@ -61,6 +63,23 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     m_combat_data = Copilot.get_data();
 
     return true;
+}
+
+void asst::BattleProcessTask::load_cache()
+{
+    LogTraceFunction;
+
+    for (const auto& oper_list : m_combat_data.groups | views::values) {
+        for (const auto& oper : oper_list) {
+            load_avatar_cache(oper.name);
+            if (auto tokens = BattleData.get_tokens(oper.name); !tokens.empty()) {
+                for (const std::string& token_name : tokens) {
+                    load_avatar_cache(token_name);
+                }
+            }
+        }
+    }
+    // TODO: 识别编队，额外加载编队中有的干员的缓存
 }
 
 bool asst::BattleProcessTask::to_group()

@@ -129,7 +129,10 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         if (oper.rect.x + oper.rect.width >= m_image.cols) {
             oper.rect.width = m_image.cols - oper.rect.x;
         }
-        oper.avatar = m_image(make_rect<cv::Rect>(oper.rect));
+        auto avatar_rect = make_rect<cv::Rect>(oper.rect);
+        avatar_rect.y += 30;
+        avatar_rect.height = 70;
+        oper.avatar = m_image(avatar_rect);
 
         Rect available_rect = flag_mrect.rect.move(avlb_move);
         oper.available = oper_available_analyze(available_rect);

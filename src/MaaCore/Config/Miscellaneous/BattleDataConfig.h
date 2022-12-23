@@ -64,6 +64,16 @@ namespace asst
             return range_iter->second;
         }
 
+        const std::vector<std::string>& get_tokens(const std::string& name) const
+        {
+            auto char_iter = m_chars.find(name);
+            if (char_iter == m_chars.cend()) {
+                static const std::vector<std::string> Empty;
+                return Empty;
+            }
+            return char_iter->second.tokens;
+        }
+
     protected:
         virtual bool parse(const json::value& json) override;
 
