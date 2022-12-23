@@ -560,7 +560,7 @@ namespace json
             return _type == value_type::Object;
         }
         else {
-            static_assert(false, "Unsupported type");
+            static_assert(!sizeof(Type), "Unsupported type");
         }
     }
 

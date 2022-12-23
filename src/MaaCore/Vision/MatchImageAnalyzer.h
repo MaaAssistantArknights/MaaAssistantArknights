@@ -13,8 +13,8 @@ namespace asst
         virtual bool analyze() override;
 
         void set_use_cache(bool is_use) noexcept;
-        void set_mask_range(int lower, int upper) noexcept;
-        void set_mask_range(std::pair<int, int> mask_range) noexcept;
+        void set_mask_range(int lower, int upper, bool mask_with_src = false) noexcept;
+        void set_mask_range(std::pair<int, int> mask_range, bool mask_with_src = false) noexcept;
         void set_templ_name(std::string templ_name) noexcept;
         void set_templ(cv::Mat templ) noexcept;
         void set_threshold(double templ_thres) noexcept;
@@ -36,6 +36,7 @@ namespace asst
         bool m_use_cache = false;
         Rect m_region_of_appeared;
         std::pair<int, int> m_mask_range;
+        bool m_mask_with_src = false;
         bool m_mask_with_close = false;
     };
 }
