@@ -7,7 +7,7 @@
 
 namespace asst::algorithm
 {
-    std::optional<std::unordered_map<std::string, std::string>> get_char_allocation_for_each_group(
+    static std::optional<std::unordered_map<std::string, std::string>> get_char_allocation_for_each_group(
         const std::unordered_map<std::string, std::vector<std::string>>& group_list,
         const std::unordered_set<std::string>& char_set)
     {

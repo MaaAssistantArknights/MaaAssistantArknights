@@ -129,6 +129,7 @@ namespace asst::battle
         std::array<std::string, 3> ranges;
         int rarity = 0;
         LocationType location_type = LocationType::None;
+        std::vector<std::string> tokens; // 召唤物名字
     };
 
     using AttackRange = std::vector<Point>;

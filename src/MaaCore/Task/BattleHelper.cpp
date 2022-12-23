@@ -44,6 +44,41 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name)
     return true;
 }
 
+bool asst::BattleHelper::load_avatar_cache(const std::string& name)
+{
+    LogTraceFunction;
+
+    if (name.empty()) {
+        return false;
+    }
+    auto path = AvatarCacheDir / utils::path(name + CacheExtension);
+    Log.info(path);
+
+    if (!std::filesystem::exists(path)) {
+        Log.info(path, "not exists");
+        return false;
+    }
+    cv::Mat avatar = asst::imread(path);
+    if (avatar.empty()) {
+        Log.info(path, "image is empty");
+        return false;
+    }
+    m_all_deployment_avatars.emplace(name, std::move(avatar));
+    Log.info(path, "loaded");
+    return true;
+}
+
+void asst::BattleHelper::save_avatar_cache(const std::string& name, const cv::Mat& avatar)
+{
+    LogTraceFunction;
+
+    auto path = AvatarCacheDir / utils::path(name + CacheExtension);
+    Log.info(path);
+
+    std::filesystem::create_directories(AvatarCacheDir);
+    asst::imwrite(path, avatar);
+}
+
 bool asst::BattleHelper::pause()
 {
     LogTraceFunction;
@@ -151,6 +186,7 @@ bool asst::BattleHelper::update_deployment(bool init)
             oper.name = name;
             m_cur_deployment_opers.insert_or_assign(name, oper);
             m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
+            save_avatar_cache(name, oper.avatar);
         }
         pause();
         cancel_oper_selection();

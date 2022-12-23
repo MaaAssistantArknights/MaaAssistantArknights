@@ -47,6 +47,12 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         const auto& rarity = char_data_json.at("rarity").as_integer();
         data.rarity = rarity;
 
+        if (auto tokens_opt = char_data_json.find<json::array>("tokens")) {
+            for (const auto& token : *tokens_opt) {
+                data.tokens.emplace_back(token.as_string());
+            }
+        }
+
         m_chars.emplace(std::move(name), std::move(data));
     }
     for (const auto& [id, points_json] : json.at("ranges").as_object()) {
