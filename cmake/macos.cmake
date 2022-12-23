@@ -7,8 +7,9 @@ if (BUILD_XCFRAMEWORK)
 
     add_custom_command(OUTPUT OpenCV.xcframework
         COMMAND rm -rf OpenCV.xcframework
-        COMMAND mv ${OPENCV_DIRECTORY}/lib/libopencv_world.4.5.3.dylib ${OPENCV_DIRECTORY}/lib/libopencv_world.4.5.dylib
-        COMMAND xcodebuild -create-xcframework -library ${OPENCV_DIRECTORY}/lib/libopencv_world.4.5.dylib -output OpenCV.xcframework
+        COMMAND rm -f libopencv_world.4.5.dylib
+        COMMAND cp ${OPENCV_DIRECTORY}/lib/libopencv_world.4.5.3.dylib libopencv_world.4.5.dylib
+        COMMAND xcodebuild -create-xcframework -library libopencv_world.4.5.dylib -output OpenCV.xcframework
     )
 
     add_custom_command(OUTPUT ONNXRuntime.xcframework
@@ -30,3 +31,7 @@ if (BUILD_XCFRAMEWORK)
         DEPENDS MaaCore Paddle2ONNX.xcframework MaaCore.xcframework OpenCV.xcframework ONNXRuntime.xcframework FastDeploy.xcframework
     )
 endif (BUILD_XCFRAMEWORK)
+
+target_compile_options(MaaCore PRIVATE
+    -Wno-deprecated-declarations
+    -Wno-gnu-zero-variadic-macro-arguments)
