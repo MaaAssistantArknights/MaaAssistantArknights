@@ -121,7 +121,7 @@ bool asst::BattleHelper::update_deployment(bool init)
         return false;
     }
 
-    MatchImageAnalyzer avatar_analyzer(image);
+    MatchImageAnalyzer avatar_analyzer;
     avatar_analyzer.set_task_info("BattleAvatarData");
 
     auto cur_opers = oper_analyzer.get_opers();
@@ -129,13 +129,15 @@ bool asst::BattleHelper::update_deployment(bool init)
 
     for (auto& oper : cur_opers) {
         if (oper.cooling) {
-            continue;
+            // 把环去掉
+            avatar_analyzer.set_mask_range(50, 255, true);
         }
-        // 把当前ROI放大一点，不然有时候像素歪了容易匹配不上
-        avatar_analyzer.set_roi(oper.rect.center_zoom(1.1, WindowWidthDefault, WindowHeightDefault));
+        else {
+            avatar_analyzer.set_mask_range(0, 0);
+        }
+        avatar_analyzer.set_image(oper.avatar);
 
         double max_socre = 0;
-
         for (const auto& [name, avatar] : m_all_deployment_avatars) {
             avatar_analyzer.set_templ(avatar);
             if (!avatar_analyzer.analyze()) {
