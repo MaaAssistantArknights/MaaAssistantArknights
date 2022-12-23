@@ -137,6 +137,7 @@
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接運行</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
+    <system:String x:Key="MinimizingStartup">最小化啟動模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
     <system:String x:Key="Select">選擇</system:String>
@@ -158,7 +159,7 @@
 
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="CreditFight">藉助戰賺信用</system:String>
-    <system:String x:Key="CreditFightTip">訪問好友後藉助戰打一把OF-1賺30信用，關卡選擇爲「當前/上次」時請勿勾選</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後藉助戰打一把OF-1賺30信用。&#x0a;關卡選擇爲「當前/上次」時此功能無效。&#x0a;別傳「火藍之心」關卡OF-1未解鎖時請勿勾選</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘許可；龍門幣</system:String>

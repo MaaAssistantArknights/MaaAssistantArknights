@@ -172,6 +172,7 @@
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
+    <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
     <system:String x:Key="WaitForEmulator">Delay time</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
@@ -198,7 +199,7 @@
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
-    <system:String x:Key="CreditFightTip">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits, do not check it if the stage is set to Current/Last</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.&#x0a;This function is invalid when the stage is selected as Current/Last.&#x0a;Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit;LMD</system:String>

@@ -172,6 +172,7 @@
     <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
+    <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
@@ -198,7 +199,7 @@
 
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="CreditFight">借助战赚信用</system:String>
-    <system:String x:Key="CreditFightTip">访问好友后借助战打一把OF-1赚30信用，关卡选择为「当前/上次」时请勿勾选，别传「火蓝之心」关卡OF-1未解锁时请勿勾选</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。&#x0a;关卡选择为「当前/上次」时此功能无效。&#x0a;别传「火蓝之心」关卡OF-1未解锁时请勿勾选</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可；龙门币</system:String>

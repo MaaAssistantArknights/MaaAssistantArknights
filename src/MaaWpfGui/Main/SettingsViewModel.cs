@@ -15,14 +15,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using IWshRuntimeLibrary;
 using MaaWpfGui.MaaHotKeys;
-using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 
@@ -39,6 +40,14 @@ namespace MaaWpfGui
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        private const int SWMINIMIZE = 6;
+
+        [DllImport("user32.dll")]
+        private static extern bool IsIconic(IntPtr hWnd);
 
         private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
 
@@ -330,6 +339,18 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _minimizingStartup = Convert.ToBoolean(ViewStatusStorage.Get("Start.MinimizingStartup", bool.FalseString));
+
+        public bool MinimizingStartup
+        {
+            get => _minimizingStartup;
+            set
+            {
+                SetAndNotify(ref _minimizingStartup, value);
+                ViewStatusStorage.Set("Start.MinimizingStartup", value.ToString());
+            }
+        }
+
         private string _emulatorPath = ViewStatusStorage.Get("Start.EmulatorPath", string.Empty);
 
         /// <summary>
@@ -382,20 +403,11 @@ namespace MaaWpfGui
         public void TryToStartEmulator(bool manual = false)
         {
             if ((EmulatorPath.Length == 0
-                || !File.Exists(EmulatorPath))
+                || !System.IO.File.Exists(EmulatorPath))
                 || !(StartEmulator
                 || manual))
             {
                 return;
-            }
-
-            if (EmulatorAddCommand.Length != 0)
-            {
-                Process.Start(EmulatorPath, EmulatorAddCommand);
-            }
-            else
-            {
-                Process.Start(EmulatorPath);
             }
 
             if (!int.TryParse(EmulatorWaitSeconds, out int delay))
@@ -403,7 +415,62 @@ namespace MaaWpfGui
                 delay = 60;
             }
 
-            Thread.Sleep(delay * 1000);
+            try
+            {
+                string fileName;
+                string arguments;
+                ProcessStartInfo startInfo;
+
+                if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
+                {
+                    WshShell shell = new WshShell();
+                    WshShortcut shortcut = (WshShortcut)shell.CreateShortcut(EmulatorPath);
+                    fileName = shortcut.TargetPath;
+                    arguments = shortcut.Arguments;
+                }
+                else
+                {
+                    fileName = EmulatorPath;
+                    arguments = EmulatorAddCommand;
+                }
+
+                if (arguments.Length != 0)
+                {
+                    startInfo = new ProcessStartInfo(fileName, arguments);
+                }
+                else
+                {
+                    startInfo = new ProcessStartInfo(fileName);
+                }
+
+                startInfo.UseShellExecute = false;
+                Process process = new Process
+                {
+                    StartInfo = startInfo,
+                };
+                process.Start();
+                process.WaitForInputIdle();
+                if (MinimizingStartup)
+                {
+                    for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                    {
+                        ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                        Thread.Sleep(1);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (EmulatorAddCommand.Length != 0)
+                {
+                    Process.Start(EmulatorPath);
+                }
+                else
+                {
+                    Process.Start(EmulatorPath, EmulatorAddCommand);
+                    Thread.Sleep(delay * 1000);
+                }
+            }
         }
 
         /// <summary>
@@ -1032,7 +1099,7 @@ namespace MaaWpfGui
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString());
+        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
 
         public string LastCreditFightTaskTime
         {
@@ -1053,12 +1120,39 @@ namespace MaaWpfGui
         {
             get
             {
-                if (Utils.GetYJTimeDate() > DateTime.Parse(LastCreditFightTaskTime).Date)
+                var task = _container.Get<TaskQueueViewModel>();
+                if (task.Stage == string.Empty)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    {
+                        return _creditFightTaskEnabled;
+                    }
+                }
+                catch
                 {
                     return _creditFightTaskEnabled;
                 }
 
                 return false;
+            }
+
+            set
+            {
+                SetAndNotify(ref _creditFightTaskEnabled, value);
+                ViewStatusStorage.Set("Visit.CreditFightTaskEnabled", value.ToString());
+            }
+        }
+
+        public bool CreditFightTaskEnabledDisplay
+        {
+            get
+            {
+                return _creditFightTaskEnabled;
             }
 
             set
@@ -1878,13 +1972,13 @@ namespace MaaWpfGui
                 return;
             }
 
-            if (!File.Exists(_bluestacksConfig))
+            if (!System.IO.File.Exists(_bluestacksConfig))
             {
                 ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
                 return;
             }
 
-            var all_lines = File.ReadAllLines(_bluestacksConfig);
+            var all_lines = System.IO.File.ReadAllLines(_bluestacksConfig);
             foreach (var line in all_lines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
@@ -1925,7 +2019,7 @@ namespace MaaWpfGui
 
         public async void ReplaceADB()
         {
-            if (!File.Exists(AdbPath))
+            if (!System.IO.File.Exists(AdbPath))
             {
                 Execute.OnUIThread(() =>
                 {
@@ -1937,7 +2031,7 @@ namespace MaaWpfGui
                 return;
             }
 
-            if (!File.Exists(GoogleAdbFilename))
+            if (!System.IO.File.Exists(GoogleAdbFilename))
             {
                 var downloadTask = Task.Run(() =>
                 {
@@ -1966,7 +2060,7 @@ namespace MaaWpfGui
                    process.Kill();
                }
 
-               File.Copy(AdbPath, AdbPath + ".bak", true);
+               System.IO.File.Copy(AdbPath, AdbPath + ".bak", true);
 
                const string UnzipDir = "adb_unzip";
                if (Directory.Exists(UnzipDir))
@@ -1975,7 +2069,7 @@ namespace MaaWpfGui
                }
 
                System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
-               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
+               System.IO.File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
                Directory.Delete(UnzipDir, true);
            });
             await procTask;
