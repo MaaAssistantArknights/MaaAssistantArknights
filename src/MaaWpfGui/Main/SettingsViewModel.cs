@@ -1120,6 +1120,12 @@ namespace MaaWpfGui
         {
             get
             {
+                var task = _container.Get<TaskQueueViewModel>();
+                if (task.Stage == string.Empty)
+                {
+                    return false;
+                }
+
                 try
                 {
                     if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
@@ -1144,7 +1150,10 @@ namespace MaaWpfGui
 
         public bool CreditFightTaskEnabledDisplay
         {
-            get => _creditFightTaskEnabled;
+            get
+            {
+                return _creditFightTaskEnabled;
+            }
 
             set
             {
