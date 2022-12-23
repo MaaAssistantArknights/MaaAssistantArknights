@@ -21,6 +21,7 @@ namespace asst
         virtual bool _run() override;
         virtual AbstractTask& this_task() override { return *this; }
 
+        bool to_group();
         bool do_action(size_t action_index);
         void notify_action(const battle::copilot::Action& action);
         bool wait_condition(const battle::copilot::Action& action);
