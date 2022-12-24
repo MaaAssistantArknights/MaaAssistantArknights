@@ -107,8 +107,6 @@ void asst::BattleImageAnalyzer::sort_opers_by_cost()
 
 bool asst::BattleImageAnalyzer::opers_analyze()
 {
-    LogTraceFunction;
-
     MultiMatchImageAnalyzer flags_analyzer(m_image);
     flags_analyzer.set_task_info("BattleOpersFlag");
     if (!flags_analyzer.analyze()) {
