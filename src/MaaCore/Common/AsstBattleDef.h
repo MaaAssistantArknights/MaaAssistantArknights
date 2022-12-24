@@ -29,12 +29,6 @@ namespace asst::battle
         SkillUsage skill_usage = SkillUsage::NotUse;
     };
 
-    struct BattlefieldOper // 战场上的干员
-    {
-        std::string name;
-        Point loc;
-    };
-
     enum class DeployDirection
     {
         Right = 0,

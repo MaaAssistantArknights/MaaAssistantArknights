@@ -72,8 +72,8 @@ namespace asst
         std::map<std::string, cv::Mat> m_all_deployment_avatars;
         std::map<std::string, battle::DeploymentOper> m_cur_deployment_opers;
 
-        std::map<std::string, battle::BattlefieldOper> m_battlefield_opers;
-        std::map<Point, battle::BattlefieldOper> m_used_tiles;
+        std::map<std::string, Point> m_battlefield_opers;
+        std::map<Point, std::string> m_used_tiles;
 
     private:
         virtual AbstractTask& this_task() = 0;

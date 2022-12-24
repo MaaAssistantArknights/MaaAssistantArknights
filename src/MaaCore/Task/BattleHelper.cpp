@@ -131,16 +131,31 @@ bool asst::BattleHelper::update_deployment(bool init)
     }
     m_cur_deployment_opers.clear();
 
-    MatchImageAnalyzer avatar_analyzer;
-    avatar_analyzer.set_task_info("BattleAvatarData");
+    const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
 
     auto cur_opers = oper_analyzer.get_opers();
     std::vector<DeploymentOper> unknown_opers;
 
+    auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
+        if (!oper.cooling) {
+            return;
+        }
+
+        auto iter = m_battlefield_opers.find(oper.name);
+        if (iter == m_battlefield_opers.end()) {
+            return;
+        }
+        auto loc = iter->second;
+        m_used_tiles.erase(loc);
+        m_battlefield_opers.erase(iter);
+    };
+
     for (auto& oper : cur_opers) {
+        MatchImageAnalyzer avatar_analyzer;
+        avatar_analyzer.set_threshold(threshold);
         if (oper.cooling) {
             // 把环去掉
-            avatar_analyzer.set_mask_range(50, 255, true);
+            avatar_analyzer.set_mask_range(0, 50, true);
         }
         else {
             avatar_analyzer.set_mask_range(0, 0);
@@ -162,6 +177,7 @@ bool asst::BattleHelper::update_deployment(bool init)
 
         if (max_socre) {
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
+            remove_cooling_from_battlefield(oper);
         }
         else {
             unknown_opers.emplace_back(oper);
@@ -196,10 +212,13 @@ bool asst::BattleHelper::update_deployment(bool init)
             name_analyzer.sort_result_by_score();
             const std::string& name = name_analyzer.get_result().front().text;
             oper.name = name;
+
             m_cur_deployment_opers.insert_or_assign(name, oper);
             m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
+            remove_cooling_from_battlefield(oper);
             save_avatar_cache(name, oper.avatar);
         }
+
         pause();
         cancel_oper_selection();
     }
@@ -260,9 +279,8 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         m_inst_helper.ctrler()->press_esc();
     }
 
-    BattlefieldOper bf_oper { .name = name, .loc = loc };
-    m_battlefield_opers.emplace(name, bf_oper);
-    m_used_tiles.emplace(loc, bf_oper);
+    m_battlefield_opers.emplace(name, loc);
+    m_used_tiles.emplace(loc, name);
 
     return true;
 }
@@ -277,7 +295,7 @@ bool asst::BattleHelper::retreat_oper(const std::string& name)
         return false;
     }
 
-    if (!retreat_oper(oper_iter->second.loc, false)) {
+    if (!retreat_oper(oper_iter->second, false)) {
         return false;
     }
 
@@ -295,7 +313,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
 
     m_used_tiles.erase(loc);
     if (manually) {
-        std::erase_if(m_battlefield_opers, [&loc](const auto& pair) -> bool { return pair.second.loc == loc; });
+        std::erase_if(m_battlefield_opers, [&loc](const auto& pair) -> bool { return pair.second == loc; });
     }
     return true;
 }
@@ -310,7 +328,7 @@ bool asst::BattleHelper::use_skill(const std::string& name)
         return false;
     }
 
-    return use_skill(oper_iter->second.loc);
+    return use_skill(oper_iter->second);
 }
 
 bool asst::BattleHelper::use_skill(const Point& loc)
@@ -352,7 +370,7 @@ bool asst::BattleHelper::wait_for_end()
 bool asst::BattleHelper::use_all_ready_skill()
 {
     bool used = false;
-    for (const auto& [name, loc] : m_battlefield_opers | views::values) {
+    for (const auto& [name, loc] : m_battlefield_opers) {
         auto& usage = m_skill_usage[name];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Once) {
             continue;
@@ -376,7 +394,7 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name)
         Log.error("No oper", name);
         return false;
     }
-    return check_and_use_skill(oper_iter->second.loc);
+    return check_and_use_skill(oper_iter->second);
 }
 
 bool asst::BattleHelper::check_and_use_skill(const Point& loc)
@@ -446,7 +464,7 @@ bool asst::BattleHelper::click_oper_on_battlefiled(const std::string& name)
         Log.error("No oper", name);
         return false;
     }
-    return click_oper_on_battlefiled(oper_iter->second.loc);
+    return click_oper_on_battlefiled(oper_iter->second);
 }
 
 bool asst::BattleHelper::click_oper_on_battlefiled(const Point& loc)

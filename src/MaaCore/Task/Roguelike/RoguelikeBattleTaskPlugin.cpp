@@ -473,16 +473,17 @@ void asst::RoguelikeBattleTaskPlugin::check_drone_tiles()
         if (auto iter = m_used_tiles.find(placed_loc); iter != m_used_tiles.end()) {
             Log.info("Drone at location (", placed_loc.x, ",", placed_loc.y, ") is recognized as retreated");
             set_position_full(placed_loc, false);
-            m_battlefield_opers.erase(iter->second.name);
+            m_battlefield_opers.erase(iter->second);
             m_used_tiles.erase(iter);
         }
         m_need_clear_tiles.pop();
     }
 }
 
-std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(
-    const std::unordered_set<std::string>& pre_cooling, const std::unordered_set<std::string>& cur_cooling,
-    const std::map<std::string, battle::BattlefieldOper>& pre_bf_opers, bool& deploy_dice_now)
+std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(const std::unordered_set<std::string>& pre_cooling,
+                                                                    const std::unordered_set<std::string>& cur_cooling,
+                                                                    const std::map<std::string, Point>& pre_bf_opers,
+                                                                    bool& deploy_dice_now)
 {
     if (m_first_deploy) {
         // No emergency
@@ -500,7 +501,7 @@ std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(
             Log.error("the oper", name, "was not on the battlefield before");
             continue;
         }
-        Point pre_loc = pre_loc_iter->second.loc;
+        Point pre_loc = pre_loc_iter->second;
 
         if (auto del_loc_blocking = m_blocking_for_home_index.find(pre_loc);
             del_loc_blocking != m_blocking_for_home_index.end()) {
@@ -906,7 +907,7 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
             case battle::Role::Medic:
                 if (auto iter = m_used_tiles.find(absolute_pos);
                     iter != m_used_tiles.cend() &&
-                    BattleData.get_role(iter->second.name) != battle::Role::Drone) // 根据哪个方向上人多决定朝向哪
+                    BattleData.get_role(iter->second) != battle::Role::Drone) // 根据哪个方向上人多决定朝向哪
                     score += 10000;
                 if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
                     score += TileKeyMedicWeights.at(iter->second.key);
