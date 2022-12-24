@@ -652,19 +652,20 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 void asst::RoguelikeBattleTaskPlugin::clear()
 {
     m_homes.clear();
+    m_allow_to_use_dice = true;
+    m_blacklist_location.clear();
+    m_force_deploy_direction.clear();
+    m_force_air_defense = decltype(m_force_air_defense)();
+
+    m_cur_home_index = 0;
+    m_first_deploy = true;
+    m_melee_full = false;
+    m_ranged_full = false;
     m_homes_status.clear();
     m_blocking_for_home_index.clear();
     m_medic_for_home_index.clear();
     m_urgent_home_index = decltype(m_urgent_home_index)();
-    m_blacklist_location.clear();
     m_need_clear_tiles = decltype(m_need_clear_tiles)();
-    m_cur_home_index = 0;
-    m_allow_to_use_dice = true;
-    m_first_deploy = true;
-    m_force_air_defense = decltype(m_force_air_defense)();
-    m_force_deploy_direction.clear();
-    m_melee_full = false;
-    m_ranged_full = false;
 }
 
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(battle::Role role) const
