@@ -183,7 +183,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::BulletTime, "BulletTime" },   { ActionType::Output, "Output" },
     };
 
-    json::value info = basic_info_with_what("Action");
+    json::value info = basic_info_with_what("CopilotAction");
     info["details"] |= json::object {
         { "action", ActionNames.at(action.type) },
         { "target", action.group_name },
@@ -324,9 +324,10 @@ void asst::BattleProcessTask::sleep_with_use_ready_skill(unsigned millisecond)
     LogTraceScope(__FUNCTION__ + std::to_string(millisecond));
 
     using namespace std::chrono_literals;
-    auto start = std::chrono::steady_clock::now();
+    const auto start = std::chrono::steady_clock::now();
+    const auto delay = millisecond * 1ms;
 
-    while (!need_exit() && std::chrono::steady_clock::now() - start < millisecond * 1ms) {
+    while (!need_exit() && std::chrono::steady_clock::now() - start < delay) {
         use_all_ready_skill();
         std::this_thread::yield();
     }

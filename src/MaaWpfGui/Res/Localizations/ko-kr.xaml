@@ -450,7 +450,7 @@
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected">오퍼레이터를 선택:</system:String>
-    <system:String x:Key="CurrentSteps">현재 단계:</system:String>
+    <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">지원하지 않는 스테이지입니다. MAA를 업데이트하거나, 작업 파일을 확인하십시오.</system:String>
     <system:String x:Key="RecruitTagsDetected">인식 결과:</system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>

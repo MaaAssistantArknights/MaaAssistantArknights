@@ -943,7 +943,7 @@ namespace MaaWpfGui
                     copilotModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"]);
                     break;
 
-                case "BattleAction":
+                case "CopilotAction":
                     {
                         string doc = subTaskDetails["doc"].ToString();
                         if (doc.Length != 0)
@@ -952,22 +952,12 @@ namespace MaaWpfGui
                             copilotModel.AddLog(doc, color.Length == 0 ? UILogColor.Message : color);
                         }
 
-                        var action = subTaskDetails["action"].ToString();
-                        if (action.Length != 0)
-                        {
-                            copilotModel.AddLog(Localization.GetString("CurrentSteps") + action);
-                        }
+                        copilotModel.AddLog(
+                            string.Format(Localization.GetString("CurrentSteps"),
+                                subTaskDetails["action"].ToString(),
+                                subTaskDetails["target"].ToString()));
                     }
 
-                    break;
-
-                case "BattleActionDoc":
-                    // {
-                    //    string title_color = subTaskDetails["title_color"].ToString();
-                    //    copilotModel.AddLog(subTaskDetails["title"].ToString(), title_color.Length == 0 ? LogColor.Message : title_color);
-                    //    string details_color = subTaskDetails["details_color"].ToString();
-                    //    copilotModel.AddLog(subTaskDetails["details"].ToString(), details_color.Length == 0 ? LogColor.Message : details_color);
-                    // }
                     break;
 
                 case "UnsupportedLevel":
