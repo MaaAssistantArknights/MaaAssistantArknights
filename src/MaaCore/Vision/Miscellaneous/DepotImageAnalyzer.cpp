@@ -324,6 +324,11 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == '.'; })) {
         return 0;
     }
+    if (auto dot_pos = digit_str.find('.'); dot_pos != std::string::npos) {
+        if (dot_pos == 0 || dot_pos == digit_str.size() - 1) {
+            return 0;
+        }
+    }
 
     int quantity = static_cast<int>(std::stod(digit_str) * multiple);
     Log.info("Quantity:", quantity);
