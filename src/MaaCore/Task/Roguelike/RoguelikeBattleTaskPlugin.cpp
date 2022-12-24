@@ -628,6 +628,9 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
     if (best_oper.name.empty()) {
         return std::nullopt;
     }
+    if (best_oper.name == "阿米娅" && best_oper.role == Role::Warrior) {
+        best_oper.name = "阿米娅-WARRIOR";
+    }
 
     return best_oper;
 }
