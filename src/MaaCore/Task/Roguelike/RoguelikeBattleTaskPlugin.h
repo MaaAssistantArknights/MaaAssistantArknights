@@ -59,8 +59,8 @@ namespace asst
 
         std::optional<size_t> check_urgent(const std::unordered_set<std::string>& pre_cooling,
                                            const std::unordered_set<std::string>& cur_cooling,
-                                           const std::map<std::string, battle::BattlefieldOper>& pre_bf_opers,
-                                           bool& deploy_dice_now);
+                                           const std::map<std::string, Point>& pre_bf_opers, bool& deploy_dice_now);
+
         std::optional<battle::DeploymentOper> calc_best_oper() const;
 
         struct DeployInfo
