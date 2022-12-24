@@ -392,9 +392,9 @@ namespace MaaWpfGui
                 }
             });
 
-            UpdatePackageName = _assetsObject["name"]?.ToString();
+            UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
 
-            if (!goDownload)
+            if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
             {
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
