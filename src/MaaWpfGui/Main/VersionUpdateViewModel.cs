@@ -825,11 +825,7 @@ namespace MaaWpfGui
             {
                 return false;
             }
-            else if (version.StartsWith("c"))
-            {
-                return false;
-            }
-            else if (version.Contains("Local"))
+            else if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
             {
                 return false;
             }
