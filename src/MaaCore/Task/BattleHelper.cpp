@@ -44,7 +44,7 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name)
     return true;
 }
 
-bool asst::BattleHelper::load_avatar_cache(const std::string& name)
+bool asst::BattleHelper::load_avatar_cache(const std::string& name, bool with_token)
 {
     LogTraceFunction;
 
@@ -65,6 +65,15 @@ bool asst::BattleHelper::load_avatar_cache(const std::string& name)
     }
     m_all_deployment_avatars.emplace(name, std::move(avatar));
     Log.info(path, "loaded");
+
+    if (with_token) {
+        if (auto tokens = BattleData.get_tokens(name); !tokens.empty()) {
+            for (const std::string& token_name : tokens) {
+                load_avatar_cache(token_name);
+            }
+        }
+    }
+
     return true;
 }
 
@@ -120,6 +129,7 @@ bool asst::BattleHelper::update_deployment(bool init)
     if (!oper_analyzer.analyze()) {
         return false;
     }
+    m_cur_deployment_opers.clear();
 
     MatchImageAnalyzer avatar_analyzer;
     avatar_analyzer.set_task_info("BattleAvatarData");
@@ -361,8 +371,6 @@ bool asst::BattleHelper::use_all_ready_skill()
 
 bool asst::BattleHelper::check_and_use_skill(const std::string& name)
 {
-    LogTraceFunction;
-
     auto oper_iter = m_battlefield_opers.find(name);
     if (oper_iter == m_battlefield_opers.cend()) {
         Log.error("No oper", name);
@@ -373,8 +381,6 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name)
 
 bool asst::BattleHelper::check_and_use_skill(const Point& loc)
 {
-    LogTraceFunction;
-
     BattleSkillReadyImageAnalyzer skill_analyzer(m_inst_helper.ctrler()->get_image());
 
     auto target_iter = m_normal_tile_info.find(loc);

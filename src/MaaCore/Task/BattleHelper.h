@@ -27,7 +27,7 @@ namespace asst
         virtual bool set_stage_name(const std::string& name);
 
         bool calc_tiles_info(const std::string& stage_name);
-        bool load_avatar_cache(const std::string& name);
+        bool load_avatar_cache(const std::string& name, bool with_token = false);
         void save_avatar_cache(const std::string& name, const cv::Mat& avatar);
 
         bool pause();
