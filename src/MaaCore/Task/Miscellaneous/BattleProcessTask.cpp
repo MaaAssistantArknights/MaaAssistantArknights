@@ -71,12 +71,7 @@ void asst::BattleProcessTask::load_cache()
 
     for (const auto& oper_list : m_combat_data.groups | views::values) {
         for (const auto& oper : oper_list) {
-            load_avatar_cache(oper.name);
-            if (auto tokens = BattleData.get_tokens(oper.name); !tokens.empty()) {
-                for (const std::string& token_name : tokens) {
-                    load_avatar_cache(token_name);
-                }
-            }
+            load_avatar_cache(oper.name, true);
         }
     }
     // TODO: 识别编队，额外加载编队中有的干员的缓存

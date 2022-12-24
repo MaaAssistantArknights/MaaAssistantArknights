@@ -16,8 +16,7 @@ namespace asst
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
-        inline static const std::string Dice = "骰子";
-        inline static const std::string UnknownName = "Unknown";
+        inline static const std::unordered_set<std::string> DiceSet = { "骰子", "8面骰子", "12面骰子" };
 
     public:
         RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
@@ -41,8 +40,9 @@ namespace asst
 
         battle::OperPosition get_role_position(const battle::Role& role) const;
 
-        bool auto_battle();
+        bool do_once();
         bool calc_stage_info();
+        void load_cache();
 
         void clear();
         void all_melee_retreat();
@@ -61,7 +61,7 @@ namespace asst
                                            const std::unordered_set<std::string>& cur_cooling,
                                            const std::map<std::string, battle::BattlefieldOper>& pre_bf_opers,
                                            bool& deploy_dice_now);
-        std::optional<battle::DeploymentOper> calc_best_oper(std::vector<std::string>& cur_available);
+        std::optional<battle::DeploymentOper> calc_best_oper() const;
 
         struct DeployInfo
         {
@@ -80,8 +80,8 @@ namespace asst
         DirectionAndScore calc_best_direction_and_score(Point loc, const battle::DeploymentOper& oper,
                                                         battle::DeployDirection recommended_direction) const;
 
-        void postproc_of_deployments(const battle::DeploymentOper& oper, const Point& placed_loc,
-                                     battle::DeployDirection direction);
+        void postproc_of_deployment_conditions(const battle::DeploymentOper& oper, const Point& placed_loc,
+                                               battle::DeployDirection direction);
 
         void check_drone_tiles();
         void wait_for_start_button_clicked();
