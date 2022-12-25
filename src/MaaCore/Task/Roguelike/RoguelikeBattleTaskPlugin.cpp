@@ -554,13 +554,13 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         }
     }
 
-    bool force_air_defense =
+    bool use_air_defense =
         has_air_defense && !m_force_air_defense.has_finished_deploy_air_defense &&
         m_force_air_defense.has_deployed_blocking_num >= m_force_air_defense.stop_blocking_deploy_num;
-    bool use_blocking = has_blocking && m_homes_status[m_cur_home_index].wait_blocking;
+    bool use_blocking = !use_air_defense && has_blocking && m_homes_status[m_cur_home_index].wait_blocking;
     bool use_medic = !use_blocking && has_medic && m_homes_status[m_cur_home_index].wait_medic;
 
-    if (force_air_defense) {
+    if (use_air_defense) {
         Log.info("RANGED ROLE IS NEEDED UNDER FORCE");
     }
 
@@ -577,7 +577,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
 
     for (auto role : m_role_order) {
         battle::OperPosition position = get_role_position(role);
-        if (force_air_defense && position != battle::OperPosition::AirDefense) {
+        if (use_air_defense && position != battle::OperPosition::AirDefense) {
             continue;
         }
         else if (use_blocking && position != battle::OperPosition::Blocking) {
