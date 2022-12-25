@@ -157,9 +157,6 @@ bool asst::BattleHelper::update_deployment(bool init)
             // 把环去掉
             avatar_analyzer.set_mask_range(0, 50, true);
         }
-        else {
-            avatar_analyzer.set_mask_range(0, 0);
-        }
         avatar_analyzer.set_image(oper.avatar);
 
         double max_socre = 0;
