@@ -452,14 +452,19 @@ namespace MaaWpfGui
 
                 try
                 {
-                    // 如果之前就启动了模拟器，这步会抛出异常
+                    // 如果之前就启动了模拟器，这步有几率会抛出异常
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
-                        for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                        int i;
+                        for (i = 0; !IsIconic(process.MainWindowHandle) && i < 100; ++i)
                         {
                             ShowWindow(process.MainWindowHandle, SWMINIMIZE);
-                            Thread.Sleep(1);
+                        }
+
+                        if (i >= 100)
+                        {
+                            throw new Exception();
                         }
                     }
                 }
@@ -475,10 +480,9 @@ namespace MaaWpfGui
                         {
                             foreach (Process p in processes)
                             {
-                                for (int i = 0; !IsIconic(p.MainWindowHandle) && i < delay * 1000; ++i)
+                                for (int i = 0; !IsIconic(p.MainWindowHandle) && i < 100; ++i)
                                 {
                                     ShowWindow(p.MainWindowHandle, SWMINIMIZE);
-                                    Thread.Sleep(1);
                                 }
                             }
                         }
