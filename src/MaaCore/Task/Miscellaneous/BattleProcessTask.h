@@ -20,6 +20,7 @@ namespace asst
     protected:
         virtual bool _run() override;
         virtual AbstractTask& this_task() override { return *this; }
+        virtual void clear() override;
 
         void load_cache();
         bool to_group();

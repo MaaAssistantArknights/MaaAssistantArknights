@@ -30,6 +30,7 @@ asst::BattleProcessTask::BattleProcessTask(const AsstCallback& callback, Assista
 bool asst::BattleProcessTask::_run()
 {
     LogTraceFunction;
+    clear();
 
     if (!calc_tiles_info(m_stage_name)) {
         Log.error("get stage info failed");
@@ -45,6 +46,15 @@ bool asst::BattleProcessTask::_run()
     }
 
     return true;
+}
+
+void asst::BattleProcessTask::clear()
+{
+    BattleHelper::clear();
+
+    m_combat_data = decltype(m_combat_data)();
+    m_oper_in_group.clear();
+    m_in_bullet_time = false;
 }
 
 bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
