@@ -96,6 +96,16 @@ void asst::RoguelikeBattleTaskPlugin::wait_for_start_button_clicked()
     ProcessTask(*this, { "RoguelikeWaitForStartButtonClicked" }).set_task_delay(0).set_retry_times(0).run();
 }
 
+std::string asst::RoguelikeBattleTaskPlugin::oper_name_in_config(const battle::DeploymentOper& oper) const
+{
+    if (oper.role == Role::Warrior && oper.name == "阿米娅") {
+        return "阿米娅-WARRIOR"; // 在 BattleData.json 中有
+    }
+    else {
+        return oper.name;
+    }
+}
+
 bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
 {
     LogTraceFunction;
@@ -213,31 +223,10 @@ void asst::RoguelikeBattleTaskPlugin::load_cache()
     }
 }
 
-asst::battle::LocationType asst::RoguelikeBattleTaskPlugin::get_role_location_type(const battle::Role& role) const
+asst::battle::LocationType asst::RoguelikeBattleTaskPlugin::get_oper_location_type(
+    const battle::DeploymentOper& oper) const
 {
-    switch (role) {
-    case battle::Role::Medic:
-    case battle::Role::Support:
-    case battle::Role::Sniper:
-    case battle::Role::Caster:
-        return battle::LocationType::Ranged;
-        break;
-    case battle::Role::Pioneer:
-    case battle::Role::Warrior:
-    case battle::Role::Tank:
-    case battle::Role::Special:
-    case battle::Role::Drone:
-        return battle::LocationType::Melee;
-        break;
-    default:
-        return battle::LocationType::None;
-        break;
-    }
-}
-
-asst::battle::LocationType asst::RoguelikeBattleTaskPlugin::get_oper_location_type(const std::string& name) const
-{
-    return BattleData.get_location_type(name);
+    return BattleData.get_location_type(oper_name_in_config(oper));
 }
 
 asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(const battle::Role& role) const
@@ -264,7 +253,7 @@ asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(co
     }
 }
 
-void asst::RoguelikeBattleTaskPlugin::set_position_full(const battle::LocationType& loc_type, bool full)
+void asst::RoguelikeBattleTaskPlugin::set_position_full(battle::LocationType loc_type, bool full)
 {
     switch (loc_type) {
     case battle::LocationType::Melee:
@@ -284,24 +273,19 @@ void asst::RoguelikeBattleTaskPlugin::set_position_full(const battle::LocationTy
     }
 }
 
-void asst::RoguelikeBattleTaskPlugin::set_position_full(const Point& point, bool full)
+void asst::RoguelikeBattleTaskPlugin::set_position_full(const Point& loc, bool full)
 {
-    if (auto tile_iter = m_normal_tile_info.find(point); tile_iter != m_normal_tile_info.end()) {
+    if (auto tile_iter = m_normal_tile_info.find(loc); tile_iter != m_normal_tile_info.end()) {
         set_position_full(tile_iter->second.buildable, full);
     }
 }
 
-void asst::RoguelikeBattleTaskPlugin::set_position_full(const battle::Role& role, bool full)
+void asst::RoguelikeBattleTaskPlugin::set_position_full(const battle::DeploymentOper& oper, bool full)
 {
-    set_position_full(get_role_location_type(role), full);
+    set_position_full(get_oper_location_type(oper), full);
 }
 
-void asst::RoguelikeBattleTaskPlugin::set_position_full(const std::string& name, bool full)
-{
-    set_position_full(get_oper_location_type(name), full);
-}
-
-bool asst::RoguelikeBattleTaskPlugin::get_position_full(const battle::LocationType& loc_type) const
+bool asst::RoguelikeBattleTaskPlugin::get_position_full(battle::LocationType loc_type) const
 {
     switch (loc_type) {
     case battle::LocationType::Melee:
@@ -321,14 +305,9 @@ bool asst::RoguelikeBattleTaskPlugin::get_position_full(const battle::LocationTy
     return false;
 }
 
-bool asst::RoguelikeBattleTaskPlugin::get_position_full(const battle::Role& role) const
+bool asst::RoguelikeBattleTaskPlugin::get_position_full(const battle::DeploymentOper& oper) const
 {
-    return get_position_full(get_role_location_type(role));
-}
-
-bool asst::RoguelikeBattleTaskPlugin::get_position_full(const std::string& name) const
-{
-    return get_position_full(get_oper_location_type(name));
+    return get_position_full(get_oper_location_type(oper));
 }
 
 bool asst::RoguelikeBattleTaskPlugin::do_once()
@@ -350,10 +329,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     }
 
     std::unordered_set<std::string> cur_cooling;
-    size_t cur_available_count = 0;   // without Dice
-    size_t cur_deployments_count = 0; // without Dice
+    size_t cur_available_count = 0;   // without drones
+    size_t cur_deployments_count = 0; // without drones
     for (const auto& [name, oper] : m_cur_deployment_opers) {
-        if (DiceSet.contains(name)) continue;
+        if (oper.role == Role::Drone) continue;
 
         ++cur_deployments_count;
         if (oper.cooling) cur_cooling.emplace(name);
@@ -405,6 +384,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     auto best_loc_opt = calc_best_loc(best_oper);
     if (!best_loc_opt) {
         Log.info("Tiles full while calc best plan.");
+        set_position_full(best_oper, true);
         return true;
     }
     const auto& [placed_loc, direction] = *best_loc_opt;
@@ -495,7 +475,7 @@ void asst::RoguelikeBattleTaskPlugin::check_drone_tiles()
 
 std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(const std::unordered_set<std::string>& pre_cooling,
                                                                     const std::unordered_set<std::string>& cur_cooling,
-                                                                    const std::map<std::string, Point>& pre_bf_opers)
+                                                                    const std::map<std::string, Point>& pre_battlefield)
 {
     std::vector<size_t> new_urgent;
     for (const auto& name : cur_cooling) {
@@ -503,8 +483,8 @@ std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(const std::u
             continue;
         }
         Log.info(name, "retreated");
-        auto pre_loc_iter = pre_bf_opers.find(name);
-        if (pre_loc_iter == pre_bf_opers.cend()) {
+        auto pre_loc_iter = pre_battlefield.find(name);
+        if (pre_loc_iter == pre_battlefield.cend()) {
             Log.error("the oper", name, "was not on the battlefield before");
             continue;
         }
@@ -583,13 +563,13 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         Log.info("RANGED ROLE IS NEEDED UNDER FORCE");
     }
 
-    std::vector<std::string> cur_available;
-    for (const auto& [name, oper] : m_cur_deployment_opers) {
-        if (oper.available) cur_available.emplace_back(name);
+    std::vector<DeploymentOper> cur_available;
+    for (const auto& oper : m_cur_deployment_opers | views::values) {
+        if (oper.available) cur_available.emplace_back(oper);
     }
     // 费用高的优先用，放前面
-    ranges::sort(cur_available, [&](const std::string& lhs, const std::string& rhs) {
-        return m_cur_deployment_opers.at(lhs).cost > m_cur_deployment_opers.at(rhs).cost;
+    ranges::sort(cur_available, [&](const auto& lhs, const auto& rhs) {
+        return m_cur_deployment_opers.at(lhs.name).cost > m_cur_deployment_opers.at(rhs.name).cost;
     });
 
     DeploymentOper best_oper;
@@ -606,18 +586,13 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
             continue;
         }
 
-        if (get_position_full(role)) {
-            continue;
-        }
-
-        for (const std::string& name : cur_available) {
-            if (DiceSet.contains(name)) {
+        for (const battle::DeploymentOper& oper : cur_available) {
+            if (DiceSet.contains(oper.name)) {
                 continue;
             }
-            if (get_position_full(name)) {
+            if (get_position_full(oper)) {
                 continue;
             }
-            const auto& oper = m_cur_deployment_opers.at(name);
 
             if (oper.role == role) {
                 best_oper = oper;
@@ -630,9 +605,6 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
     }
     if (best_oper.name.empty()) {
         return std::nullopt;
-    }
-    if (best_oper.name == "阿米娅" && best_oper.role == Role::Warrior) {
-        best_oper.name = "阿米娅-WARRIOR";
     }
 
     return best_oper;
@@ -675,14 +647,9 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_need_clear_tiles = decltype(m_need_clear_tiles)();
 }
 
-std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(battle::Role role) const
+std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(const DeploymentOper& oper) const
 {
-    return available_locations(get_role_location_type(role));
-}
-
-std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(const std::string& name) const
-{
-    return available_locations(get_oper_location_type(name));
+    return available_locations(get_oper_location_type(oper));
 }
 
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(battle::LocationType type) const
@@ -705,7 +672,7 @@ asst::battle::AttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(cons
                                                                             DeployDirection direction) const
 {
     int64_t elite = status()->get_number(Status::RoguelikeCharElitePrefix + oper.name).value_or(0);
-    battle::AttackRange right_attack_range = BattleData.get_range(oper.name, elite);
+    battle::AttackRange right_attack_range = BattleData.get_range(oper_name_in_config(oper), elite);
 
     if (right_attack_range == BattleDataConfig::EmptyRange) {
         switch (oper.role) {
@@ -775,7 +742,7 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo> asst::RoguelikeBattle
         // 距离一样选择 x 轴上的，因为一般的地图都是横向的长方向
         return lhs_dist == rhs_dist ? lhs_y_dist < rhs_y_dist : lhs_dist < rhs_dist;
     };
-    std::vector<Point> available_loc = available_locations(oper.name);
+    std::vector<Point> available_loc = available_locations(oper);
     if (available_loc.empty()) {
         Log.error("No available locations");
         return std::nullopt;
