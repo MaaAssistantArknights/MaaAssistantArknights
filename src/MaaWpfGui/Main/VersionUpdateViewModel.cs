@@ -392,12 +392,12 @@ namespace MaaWpfGui
                 }
             });
 
-            if (!goDownload)
+            UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
+
+            if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
             {
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
-
-            UpdatePackageName = _assetsObject["name"]?.ToString();
 
             // 下载压缩包
             var downloaded = false;
@@ -825,11 +825,7 @@ namespace MaaWpfGui
             {
                 return false;
             }
-            else if (version.StartsWith("c"))
-            {
-                return false;
-            }
-            else if (version.Contains("Local"))
+            else if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
             {
                 return false;
             }

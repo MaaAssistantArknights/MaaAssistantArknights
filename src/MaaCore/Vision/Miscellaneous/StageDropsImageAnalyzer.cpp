@@ -553,9 +553,15 @@ int asst::StageDropsImageAnalyzer::match_quantity(const Rect& roi, bool use_word
         digit_str.erase(k_pos, digit_str.size());
     }
 
+    constexpr char Dot = '.';
     if (digit_str.empty() ||
-        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == '.'; })) {
+        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
         return 0;
+    }
+    if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {
+        if (dot_pos == 0 || dot_pos == digit_str.size() - 1 || digit_str.find(Dot, dot_pos + 1) != std::string::npos) {
+            return 0;
+        }
     }
 
     int quantity = static_cast<int>(std::stod(digit_str) * multiple);
