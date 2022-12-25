@@ -350,8 +350,9 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         bool not_battlefield_too_few = m_battlefield_opers.size() > m_homes.size();
         bool no_new_retreat = cur_cooling.size() <= pre_cooling.size();
         bool available_too_few = cur_available_count <= cur_deployments_count / 2;
+        bool not_too_many_cooling = cur_cooling.size() < cur_available_count;
 
-        if (not_battlefield_too_few && no_new_retreat && available_too_few) {
+        if (not_battlefield_too_few && no_new_retreat && available_too_few && not_too_many_cooling) {
             Log.info("wait a minute");
             return true;
         }
