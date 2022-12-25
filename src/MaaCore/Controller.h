@@ -72,9 +72,9 @@ namespace asst
     private:
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
-        bool release();
+        void release();
         void kill_adb_daemon();
-        bool make_instance_inited(bool inited);
+        void make_instance_inited(bool inited);
 
         void close_socket() noexcept;
         std::optional<unsigned short> init_socket(const std::string& local_address);
@@ -243,7 +243,8 @@ namespace asst
             {
                 return m_input_func(up_cmd(wait_ms, with_commit, contact));
             }
-            bool key_down(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true) {
+            bool key_down(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
+            {
                 return m_input_func(key_down_cmd(key_code, wait_ms, with_commit));
             }
             bool key_up(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
@@ -300,7 +301,8 @@ namespace asst
                 return str;
             }
 
-            [[nodiscard]] std::string key_down_cmd(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
+            [[nodiscard]] std::string key_down_cmd(int key_code, int wait_ms = DefaultClickDelay,
+                                                   bool with_commit = true)
             {
                 char buff[64] = { 0 };
                 sprintf(buff, "k %d d\n", key_code);

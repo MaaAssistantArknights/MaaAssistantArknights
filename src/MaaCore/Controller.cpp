@@ -530,7 +530,10 @@ bool asst::Controller::call_and_hup_minitouch()
     pipe_parent_read = INVALID_HANDLE_VALUE;
 
     m_minitouch_parent_write = pipe_parent_write;
+
 #else // !_WIN32
+
+    std::ignore = PipeWriteBuffSize;
 
     int pipe_to_child[2];
     int pipe_from_child[2];
@@ -1595,12 +1598,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     return true;
 }
 
-bool asst::Controller::make_instance_inited(bool inited)
+void asst::Controller::make_instance_inited(bool inited)
 {
     Log.trace(__FUNCTION__, "|", inited, ", pre m_inited =", m_inited, ", pre m_instance_count =", m_instance_count);
 
     if (inited == m_inited) {
-        return true;
+        return;
     }
     m_inited = inited;
 
@@ -1610,10 +1613,9 @@ bool asst::Controller::make_instance_inited(bool inited)
     else {
         // 所有实例全部释放，执行最终的 release 函数
         if (!--m_instance_count) {
-            return release();
+            release();
         }
     }
-    return true;
 }
 
 void asst::Controller::kill_adb_daemon()
@@ -1630,7 +1632,7 @@ void asst::Controller::kill_adb_daemon()
     }
 }
 
-bool asst::Controller::release()
+void asst::Controller::release()
 {
     close_socket();
 
@@ -1638,12 +1640,9 @@ bool asst::Controller::release()
     if (m_child)
 #endif
     {
-        if (m_adb.release.empty()) {
-            return true;
-        }
-        else {
+        if (!m_adb.release.empty()) {
             m_adb_release.clear();
-            return call_command(m_adb.release, 20000, false).has_value();
+            call_command(m_adb.release, 20000, false);
         }
     }
 }
