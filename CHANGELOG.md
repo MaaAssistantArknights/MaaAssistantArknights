@@ -1,3 +1,16 @@
+## v4.8.5
+
+- 修复 macOS 依赖库闪退 @hguandl
+- 修复 未勾选自动下载更新包时无法自动更新 @ABA2396
+- 修复 关卡导航为 当前/上次 时，开启刷信用死循环的问题 @ABA2396
+- 修复 进程已存在时无法最小化启动模拟器 @ABA2396
+- 修复 掉落/仓库数量识别错误导致崩溃的问题 @MistEO
+- 优化 界面 刷信用功能提示 @ABA2396
+
+### For overseas
+
+- Fix the stage name error in the EN client @RiichiTsumo
+
 ## v4.8.4
 
 - 修复 拉起模拟器时的报错 @ABA2396
