@@ -95,7 +95,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
             auto roles = raw_roles | filter(&json::value::is_string) | transform(&json::value::as_string) |
                          transform([&](std::string name) {
                              utils::tolowers(name);
-                             return std::move(name);
+                             return name;
                          });
             for (const std::string& role_name : roles) {
                 const auto role = get_role_type(role_name);
