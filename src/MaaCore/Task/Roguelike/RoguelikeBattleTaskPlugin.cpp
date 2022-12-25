@@ -350,42 +350,55 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     }
 
     std::unordered_set<std::string> cur_cooling;
-    std::vector<std::string> cur_available;
+    size_t cur_available_count = 0;   // without Dice
+    size_t cur_deployments_count = 0; // without Dice
     for (const auto& [name, oper] : m_cur_deployment_opers) {
+        if (DiceSet.contains(name)) continue;
+
+        ++cur_deployments_count;
         if (oper.cooling) cur_cooling.emplace(name);
-        if (oper.available) cur_available.emplace_back(name);
+        if (oper.available) ++cur_available_count;
     }
 
-    bool deploy_dice_now = false;
-    auto urgent_home_opt = check_urgent(pre_cooling, cur_cooling, pre_battlefield, deploy_dice_now);
+    auto urgent_home_opt = check_urgent(pre_cooling, cur_cooling, pre_battlefield);
 
+    battle::DeploymentOper best_oper;
+    bool best_oper_is_dice = false;
     size_t normal_home_index = m_cur_home_index;
     if (!urgent_home_opt) {
-        // 超过一半的人费用都没好，且没有紧急情况，那就不下人
-        // TODO: 这个逻辑非常不好，待优化
-        size_t not_cooling_count = m_cur_deployment_opers.size() - cur_cooling.size();
-        if (cur_available.size() <= not_cooling_count / 2 && m_battlefield_opers.size() > m_homes.size()) {
-            Log.trace("now_total", m_cur_deployment_opers.size(), ", available", cur_available.size(), ", not_cooling",
-                      not_cooling_count, ", just wait a minute");
+        // 不要随便谁好了就上，等等费用，下点厉害的干员
+        // TODO: 这个逻辑目前太简单了，待优化
+        bool not_battlefield_too_few = m_battlefield_opers.size() > m_homes.size();
+        bool no_new_retreat = cur_cooling.size() <= pre_cooling.size();
+        bool available_too_few = cur_available_count <= cur_deployments_count / 2;
+
+        if (not_battlefield_too_few && no_new_retreat && available_too_few) {
+            Log.info("wait a minute");
             return true;
         }
     }
     else {
         m_cur_home_index = *urgent_home_opt;
+
+        if (m_allow_to_use_dice) {
+            auto deployment_key_views = m_cur_deployment_opers | views::keys;
+            auto dice_key_iter = ranges::find_first_of(deployment_key_views, DiceSet);
+            if (dice_key_iter != deployment_key_views.end()) {
+                best_oper_is_dice = true;
+                best_oper = m_cur_deployment_opers[*dice_key_iter];
+            }
+        }
     }
 
     Log.info("To path", m_cur_home_index);
 
-    battle::DeploymentOper best_oper;
-    if (deploy_dice_now) {
-        auto dice_key_iter = ranges::find_first_of(m_cur_deployment_opers | views::keys, DiceSet);
-        best_oper = m_cur_deployment_opers.at(*dice_key_iter);
-    }
-    else if (auto best_oper_opt = calc_best_oper()) {
-        best_oper = *best_oper_opt;
-    }
-    else {
-        return true;
+    if (!best_oper_is_dice) {
+        if (auto best_oper_opt = calc_best_oper()) {
+            best_oper = *best_oper_opt;
+        }
+        else {
+            return true;
+        }
     }
 
     // 计算最优部署位置及方向
@@ -482,8 +495,7 @@ void asst::RoguelikeBattleTaskPlugin::check_drone_tiles()
 
 std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(const std::unordered_set<std::string>& pre_cooling,
                                                                     const std::unordered_set<std::string>& cur_cooling,
-                                                                    const std::map<std::string, Point>& pre_bf_opers,
-                                                                    bool& deploy_dice_now)
+                                                                    const std::map<std::string, Point>& pre_bf_opers)
 {
     std::vector<size_t> new_urgent;
     for (const auto& name : cur_cooling) {
@@ -527,13 +539,8 @@ std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(const std::u
     }
 
     if (m_urgent_home_index.empty()) {
-        deploy_dice_now = false;
         return std::nullopt;
     }
-
-    auto deployment_key_views = m_cur_deployment_opers | views::keys;
-    deploy_dice_now =
-        m_allow_to_use_dice && ranges::find_first_of(deployment_key_views, DiceSet) != deployment_key_views.end();
     return m_urgent_home_index.front();
 }
 
