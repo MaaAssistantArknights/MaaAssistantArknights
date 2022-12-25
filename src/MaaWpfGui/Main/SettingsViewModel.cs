@@ -449,13 +449,39 @@ namespace MaaWpfGui
                     StartInfo = startInfo,
                 };
                 process.Start();
-                process.WaitForInputIdle();
-                if (MinimizingStartup)
+
+                try
                 {
-                    for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                    // 如果之前就启动了模拟器，这步会抛出异常
+                    process.WaitForInputIdle();
+                    if (MinimizingStartup)
                     {
-                        ShowWindow(process.MainWindowHandle, SWMINIMIZE);
-                        Thread.Sleep(1);
+                        for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                        {
+                            ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                            Thread.Sleep(1);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // 如果之前就启动了模拟器，如果开启了最小化启动，就把所有模拟器最小化
+                    // TODO:只最小化需要开启的模拟器
+                    string processName = Path.GetFileNameWithoutExtension(fileName);
+                    Process[] processes = Process.GetProcessesByName(processName);
+                    if (processes.Length > 0)
+                    {
+                        if (MinimizingStartup)
+                        {
+                            foreach (Process p in processes)
+                            {
+                                for (int i = 0; !IsIconic(p.MainWindowHandle) && i < delay * 1000; ++i)
+                                {
+                                    ShowWindow(p.MainWindowHandle, SWMINIMIZE);
+                                    Thread.Sleep(1);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -468,9 +494,10 @@ namespace MaaWpfGui
                 else
                 {
                     Process.Start(EmulatorPath, EmulatorAddCommand);
-                    Thread.Sleep(delay * 1000);
                 }
             }
+
+            Thread.Sleep(delay * 1000);
         }
 
         /// <summary>
@@ -1120,6 +1147,12 @@ namespace MaaWpfGui
         {
             get
             {
+                var task = _container.Get<TaskQueueViewModel>();
+                if (task.Stage == string.Empty)
+                {
+                    return false;
+                }
+
                 try
                 {
                     if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
@@ -1144,7 +1177,10 @@ namespace MaaWpfGui
 
         public bool CreditFightTaskEnabledDisplay
         {
-            get => _creditFightTaskEnabled;
+            get
+            {
+                return _creditFightTaskEnabled;
+            }
 
             set
             {
