@@ -185,11 +185,11 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             battle::Role::Support, battle::Role::Special, battle::Role::Drone,
         };
     }
-    m_homes_status.resize(m_homes.size());
     if (m_homes.empty()) {
         Log.error("Unknown home pos");
         return false;
     }
+    m_homes_status.resize(m_homes.size());
 
     auto cb_info = basic_info_with_what("StageInfo");
     auto& details = cb_info["details"];
@@ -364,7 +364,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         // 超过一半的人费用都没好，且没有紧急情况，那就不下人
         // TODO: 这个逻辑非常不好，待优化
         size_t not_cooling_count = m_cur_deployment_opers.size() - cur_cooling.size();
-        if (cur_available.size() <= not_cooling_count / 2) {
+        if (cur_available.size() <= not_cooling_count / 2 && m_battlefield_opers.size() > m_homes.size()) {
             Log.trace("now_total", m_cur_deployment_opers.size(), ", available", cur_available.size(), ", not_cooling",
                       not_cooling_count, ", just wait a minute");
             return true;
@@ -485,11 +485,6 @@ std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(const std::u
                                                                     const std::map<std::string, Point>& pre_bf_opers,
                                                                     bool& deploy_dice_now)
 {
-    if (m_first_deploy) {
-        // No emergency
-        return std::nullopt;
-    }
-
     std::vector<size_t> new_urgent;
     for (const auto& name : cur_cooling) {
         if (pre_cooling.find(name) != pre_cooling.cend()) {
@@ -654,6 +649,8 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 
 void asst::RoguelikeBattleTaskPlugin::clear()
 {
+    BattleHelper::clear();
+
     m_homes.clear();
     m_allow_to_use_dice = true;
     m_blacklist_location.clear();

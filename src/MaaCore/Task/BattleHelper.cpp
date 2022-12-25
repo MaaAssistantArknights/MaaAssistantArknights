@@ -30,6 +30,21 @@ bool asst::BattleHelper::set_stage_name(const std::string& name)
     return true;
 }
 
+void asst::BattleHelper::clear()
+{
+    m_stage_name.clear();
+    m_side_tile_info.clear();
+    m_normal_tile_info.clear();
+    m_skill_usage.clear();
+
+    m_kills = 0;
+    m_total_kills = 0;
+    m_all_deployment_avatars.clear();
+    m_cur_deployment_opers.clear();
+    m_battlefield_opers.clear();
+    m_used_tiles.clear();
+}
+
 bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name)
 {
     LogTraceFunction;
@@ -181,7 +196,7 @@ bool asst::BattleHelper::update_deployment(bool init)
         }
     }
 
-    if (!unknown_opers.empty()) {
+    if (!unknown_opers.empty() || init) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
@@ -208,6 +223,10 @@ bool asst::BattleHelper::update_deployment(bool init)
             }
             name_analyzer.sort_result_by_score();
             const std::string& name = name_analyzer.get_result().front().text;
+            if (name.empty()) {
+                Log.error("ocr failed, empty name");
+                continue;
+            }
             oper.name = name;
 
             m_cur_deployment_opers.insert_or_assign(name, oper);
@@ -217,7 +236,9 @@ bool asst::BattleHelper::update_deployment(bool init)
         }
 
         pause();
-        cancel_oper_selection();
+        if (!unknown_opers.empty()) {
+            cancel_oper_selection();
+        }
     }
 
     return true;
@@ -337,9 +358,8 @@ bool asst::BattleHelper::use_skill(const Point& loc)
 
 bool asst::BattleHelper::check_pause_button()
 {
-    MatchImageAnalyzer battle_flag_analyzer;
+    MatchImageAnalyzer battle_flag_analyzer(m_inst_helper.ctrler()->get_image());
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    battle_flag_analyzer.set_image(m_inst_helper.ctrler()->get_image());
     return battle_flag_analyzer.analyze();
 }
 

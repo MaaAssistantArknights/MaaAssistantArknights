@@ -27,6 +27,7 @@ namespace asst
     protected:
         virtual bool _run() override;
         virtual AbstractTask& this_task() override { return *this; }
+        virtual void clear() override;
 
         // 有些特殊的角色，他的职业并不一定和正常的位置相对应，比如“掠风”是地面辅助
         // get_role_location_type 可以仅知道干员职业的情况下，大概猜测一下位置
@@ -44,7 +45,6 @@ namespace asst
         bool calc_stage_info();
         void load_cache();
 
-        void clear();
         void all_melee_retreat();
         bool abandon();
 

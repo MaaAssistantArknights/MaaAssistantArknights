@@ -25,6 +25,7 @@ namespace asst
         BattleHelper(Assistant* inst);
 
         virtual bool set_stage_name(const std::string& name);
+        virtual void clear();
 
         bool calc_tiles_info(const std::string& stage_name);
         bool load_avatar_cache(const std::string& name, bool with_token = false);
