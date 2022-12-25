@@ -29,18 +29,6 @@ namespace asst
         virtual AbstractTask& this_task() override { return *this; }
         virtual void clear() override;
 
-        // 有些特殊的角色，他的职业并不一定和正常的位置相对应，比如“掠风”是地面辅助
-        // get_role_location_type 可以仅知道干员职业的情况下，大概猜测一下位置
-        // get_oper_location_type 可以在已知干员名的时候获得准确的位置
-        battle::LocationType get_role_location_type(const battle::Role& role) const;
-        battle::LocationType get_oper_location_type(const std::string& name) const;
-
-        std::vector<Point> available_locations(battle::Role role) const;
-        std::vector<Point> available_locations(const std::string& name) const;
-        std::vector<Point> available_locations(battle::LocationType type) const;
-
-        battle::OperPosition get_role_position(const battle::Role& role) const;
-
         bool do_once();
         bool calc_stage_info();
         void load_cache();
@@ -48,18 +36,9 @@ namespace asst
         void all_melee_retreat();
         bool abandon();
 
-        void set_position_full(const battle::LocationType& loc_type, bool full);
-        void set_position_full(const Point& point, bool full);
-        void set_position_full(const battle::Role& role, bool full);
-        void set_position_full(const std::string& name, bool full);
-
-        bool get_position_full(const battle::LocationType& loc_type) const;
-        bool get_position_full(const battle::Role& role) const;
-        bool get_position_full(const std::string& name) const;
-
         std::optional<size_t> check_urgent(const std::unordered_set<std::string>& pre_cooling,
                                            const std::unordered_set<std::string>& cur_cooling,
-                                           const std::map<std::string, Point>& pre_bf_opers);
+                                           const std::map<std::string, Point>& pre_battlefield);
 
         std::optional<battle::DeploymentOper> calc_best_oper() const;
 
@@ -85,6 +64,17 @@ namespace asst
 
         void check_drone_tiles();
         void wait_for_start_button_clicked();
+
+        std::string oper_name_in_config(const battle::DeploymentOper& oper) const;
+        battle::LocationType get_oper_location_type(const battle::DeploymentOper& oper) const;
+        std::vector<Point> available_locations(const battle::DeploymentOper& oper) const;
+        std::vector<Point> available_locations(battle::LocationType type) const;
+        bool get_position_full(const battle::DeploymentOper& oper) const;
+        bool get_position_full(battle::LocationType loc_type) const;
+        void set_position_full(const battle::DeploymentOper& oper, bool full);
+        void set_position_full(battle::LocationType loc_type, bool full);
+        void set_position_full(const Point& loc, bool full);
+        battle::OperPosition get_role_position(const battle::Role& role) const;
 
         /* from config */
 
