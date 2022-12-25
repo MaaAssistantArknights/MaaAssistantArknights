@@ -119,7 +119,7 @@ bool asst::BattleProcessTask::to_group()
 
     for (const auto& [group_name, oper_name] : m_oper_in_group) {
         auto& this_group = m_combat_data.groups[group_name];
-        auto iter = ranges::find_if(this_group, [&](const auto& oper) { return oper.name == oper_name; });
+        auto iter = ranges::find_if(this_group, [&oper_name](const auto& oper) { return oper.name == oper_name; });
         if (iter == this_group.end()) {
             continue;
         }
