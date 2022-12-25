@@ -107,6 +107,15 @@ bool asst::BattleProcessTask::to_group()
     }
     m_oper_in_group.merge(ungrouped);
 
+    for (const auto& [group_name, oper_name] : m_oper_in_group) {
+        auto& this_group = m_combat_data.groups[group_name];
+        auto iter = ranges::find_if(this_group, [&](const auto& oper) { return oper.name == oper_name; });
+        if (iter == this_group.end()) {
+            continue;
+        }
+        m_skill_usage.emplace(oper_name, iter->skill_usage);
+    }
+
     return true;
 }
 
