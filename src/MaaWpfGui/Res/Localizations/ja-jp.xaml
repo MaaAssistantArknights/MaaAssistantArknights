@@ -418,7 +418,7 @@
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected">オペレーターを選択：</system:String>
-    <system:String x:Key="CurrentSteps">現在の手順：</system:String>
+    <system:String x:Key="CurrentSteps">現在の手順：{0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">このステージはサポートされていません。MAAのバージョンをアップデートするか、攻略ファイルを確認してください</system:String>
     <system:String x:Key="RecruitTagsDetected">認識結果：</system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>

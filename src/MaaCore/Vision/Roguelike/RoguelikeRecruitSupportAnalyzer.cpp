@@ -16,7 +16,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
 {
     LogTraceFunction;
 
-    if (m_mode == RoguelikeSupportAnalyzeMode::ChooseSupportBtn) {
+    if (m_mode == battle::roguelike::SupportAnalyzeMode::ChooseSupportBtn) {
         // 识别“选择助战”
         OcrImageAnalyzer analyzer(m_image);
         const auto& task = Task.get<OcrTaskInfo>("RoguelikeChooseSupportBtnOcr");
@@ -27,7 +27,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         Log.info(__FUNCTION__, "| ChooseSupportBtn");
         return true;
     }
-    else if (m_mode == RoguelikeSupportAnalyzeMode::AnalyzeChars) {
+    else if (m_mode == battle::roguelike::SupportAnalyzeMode::AnalyzeChars) {
         // 识别干员
         OcrImageAnalyzer analyzer(m_image);
         analyzer.set_roi(Task.get("RoguelikeRecruitSupportOcr")->roi);
@@ -60,7 +60,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             Rect elite_roi = name_rect.move(task_off_elite->rect_move);
             int char_elite = match_elite(elite_roi, task_off_elite->special_params.front());
 
-            RoguelikeRecruitSupportCharInfo char_info {
+            battle::roguelike::RecruitSupportCharInfo char_info {
                 { char_rect.text, char_rect.rect, char_elite, char_level }, is_friend, char_elite, char_level
             };
 
@@ -87,7 +87,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         }
         return !m_char_result.empty();
     }
-    else if (m_mode == RoguelikeSupportAnalyzeMode::RefreshSupportBtn) {
+    else if (m_mode == battle::roguelike::SupportAnalyzeMode::RefreshSupportBtn) {
         // 识别“更新助战列表”
         OcrImageAnalyzer analyzer(m_image);
         const auto& task = Task.get<OcrTaskInfo>("RoguelikeRefreshSupportBtnOcr");

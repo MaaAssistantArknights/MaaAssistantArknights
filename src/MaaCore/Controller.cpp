@@ -396,8 +396,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             reconnect_info["details"]["times"] = i;
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
-            // TODO: 也许 WIN32 可以用 WaitForSingleObjectEx 做一个允许外部打断的 sleep
-            std::this_thread::sleep_for(10s);
+            sleep(10 * 1000);
             if (need_exit()) {
                 break;
             }
@@ -774,10 +773,7 @@ void asst::Controller::random_delay() const
         static std::default_random_engine rand_engine(std::random_device {}());
         static std::uniform_int_distribution<unsigned> rand_uni(opt.control_delay_lower, opt.control_delay_upper);
 
-        unsigned rand_delay = rand_uni(rand_engine);
-
-        Log.trace("random_delay |", rand_delay, "ms");
-        std::this_thread::sleep_for(std::chrono::milliseconds(rand_delay));
+        sleep(rand_uni(rand_engine));
     }
 }
 

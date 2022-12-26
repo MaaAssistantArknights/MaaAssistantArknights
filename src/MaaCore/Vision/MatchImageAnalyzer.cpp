@@ -29,14 +29,16 @@ void asst::MatchImageAnalyzer::set_use_cache(bool is_use) noexcept
     m_use_cache = is_use;
 }
 
-void asst::MatchImageAnalyzer::set_mask_range(int lower, int upper) noexcept
+void asst::MatchImageAnalyzer::set_mask_range(int lower, int upper, bool mask_with_src) noexcept
 {
     m_mask_range = std::make_pair(lower, upper);
+    m_mask_with_src = mask_with_src;
 }
 
-void asst::MatchImageAnalyzer::set_mask_range(std::pair<int, int> mask_range) noexcept
+void asst::MatchImageAnalyzer::set_mask_range(std::pair<int, int> mask_range, bool mask_with_src) noexcept
 {
     m_mask_range = std::move(mask_range);
+    m_mask_with_src = mask_with_src;
 }
 
 void asst::MatchImageAnalyzer::set_templ_name(std::string templ_name) noexcept
@@ -114,7 +116,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
     }
     else {
         cv::Mat mask;
-        cv::cvtColor(templ, mask, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(m_mask_with_src ? image_roi : templ, mask, cv::COLOR_BGR2GRAY);
         cv::inRange(mask, m_mask_range.first, m_mask_range.second, mask);
         if (m_mask_with_close) {
             cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));

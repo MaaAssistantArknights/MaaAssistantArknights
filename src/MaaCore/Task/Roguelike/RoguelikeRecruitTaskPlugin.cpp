@@ -12,6 +12,8 @@
 #include "Vision/Roguelike/RoguelikeRecruitImageAnalyzer.h"
 #include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
 
+using namespace asst::battle::roguelike;
+
 bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
@@ -37,7 +39,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 }
 
-asst::BattleRole asst::RoguelikeRecruitTaskPlugin::get_oper_role(const std::string& name)
+asst::battle::Role asst::RoguelikeRecruitTaskPlugin::get_oper_role(const std::string& name)
 {
     return BattleData.get_role(name);
 }
@@ -45,9 +47,9 @@ asst::BattleRole asst::RoguelikeRecruitTaskPlugin::get_oper_role(const std::stri
 bool asst::RoguelikeRecruitTaskPlugin::is_oper_melee(const std::string& name)
 {
     const auto role = get_oper_role(name);
-    if (role != BattleRole::Pioneer && role != BattleRole::Tank && role != BattleRole::Warrior) return false;
+    if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior) return false;
     const auto loc = BattleData.get_location_type(name);
-    return loc == BattleLocationType::Melee;
+    return loc == battle::LocationType::Melee;
 }
 
 bool asst::RoguelikeRecruitTaskPlugin::_run()
@@ -69,7 +71,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     bool recruited = false;
 
-    auto recruit_oper = [&](const BattleRecruitOperInfo& info) {
+    auto recruit_oper = [&](const battle::roguelike::Recruitment& info) {
         select_oper(info);
         recruited = true;
     };
@@ -81,11 +83,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
-    std::unordered_map<BattleRole, int> team_roles;
+    std::unordered_map<battle::Role, int> team_roles;
     int offset_melee_num = 0;
     for (const auto& oper : chars_map) {
         if (oper.first.starts_with("预备干员")) continue;
-        team_roles[get_role_type(oper.first)]++;
+        team_roles[battle::get_role_type(oper.first)]++;
         if (is_oper_melee(oper.first)) offset_melee_num++;
     }
     // 候选干员
@@ -191,7 +193,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
 
                 if (!recruit_info.is_alternate) {
-                    const BattleRole oper_role = get_oper_role(oper_info.name);
+                    const battle::Role oper_role = get_oper_role(oper_info.name);
                     int role_num = recruit_info.offset_melee ? offset_melee_num : team_roles[oper_role];
                     for (const auto& offset_pair : ranges::reverse_view(recruit_info.recruit_priority_offset)) {
                         if (role_num >= offset_pair.first) {
@@ -342,11 +344,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         if (analyzer.analyze()) {
             const auto& chars = analyzer.get_result();
             auto it = ranges::find_if(
-                chars, [&](const BattleRecruitOperInfo& oper) -> bool { return oper.name == char_name; });
+                chars, [&](const battle::roguelike::Recruitment& oper) -> bool { return oper.name == char_name; });
 
             std::unordered_set<std::string> oper_names;
             ranges::transform(chars, std::inserter(oper_names, oper_names.end()),
-                              std::mem_fn(&BattleRecruitOperInfo::name));
+                              std::mem_fn(&battle::roguelike::Recruitment::name));
             Log.info(__FUNCTION__, "| Oper list:", oper_names);
 
             if (it != chars.cend()) {
@@ -402,31 +404,30 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
     // 判断是否存在“选择助战”按钮，存在则点击
     auto screen_choose = ctrler()->get_image();
     RoguelikeRecruitSupportAnalyzer analyzer_choose(screen_choose);
-    analyzer_choose.set_mode(RoguelikeSupportAnalyzeMode::ChooseSupportBtn);
+    analyzer_choose.set_mode(SupportAnalyzeMode::ChooseSupportBtn);
     if (!analyzer_choose.analyze()) { // 非开局招募，无助战按钮
         return false;
     }
     const auto& choose_btn_rect = analyzer_choose.get_result_choose_support();
     Log.info(__FUNCTION__, "| check choose support btn ", choose_btn_rect);
     ctrler()->click(choose_btn_rect);
-    ProcessTask(*this, { "RoguelikeRecruitSupportEnterFlag" }).run();   // 等待页面加载
-
+    ProcessTask(*this, { "RoguelikeRecruitSupportEnterFlag" }).run(); // 等待页面加载
 
     // 识别所有干员，应该最多两页
     const int SwipeTimes = 1;
 
-    std::vector<RoguelikeRecruitSupportCharInfo> satisfied_chars;
+    std::vector<RecruitSupportCharInfo> satisfied_chars;
     for (int retry = 0; retry <= max_refresh; ++retry) {
         for (int swipe = 0; swipe < SwipeTimes; ++swipe) {
             auto screen_char = ctrler()->get_image();
             RoguelikeRecruitSupportAnalyzer analyzer_char(screen_char);
-            analyzer_char.set_mode(RoguelikeSupportAnalyzeMode::AnalyzeChars);
+            analyzer_char.set_mode(SupportAnalyzeMode::AnalyzeChars);
             analyzer_char.set_required({ name });
             if (analyzer_char.analyze()) {
                 auto& chars_page = analyzer_char.get_result_char();
 
                 bool use_nonfriend_support = get_status_bool(Status::RoguelikeUseNonfriendSupport);
-                auto check_satisfiy = [&use_nonfriend_support](const RoguelikeRecruitSupportCharInfo& chara) {
+                auto check_satisfiy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
                 std::copy_if(chars_page.begin(), chars_page.end(),
@@ -442,7 +443,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
         if (retry >= max_refresh) break;
         auto screen_refresh = ctrler()->get_image();
         RoguelikeRecruitSupportAnalyzer analyzer_refresh(screen_refresh);
-        analyzer_refresh.set_mode(RoguelikeSupportAnalyzeMode::RefreshSupportBtn);
+        analyzer_refresh.set_mode(SupportAnalyzeMode::RefreshSupportBtn);
         if (!analyzer_refresh.analyze()) {
             click_return_button();
             return false;
@@ -481,7 +482,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_core_char()
     return check_char(core_opt.value());
 }
 
-void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& oper)
+void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recruitment& oper)
 {
     Log.info(__FUNCTION__, "| Choose oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
 
@@ -499,10 +500,9 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const BattleRecruitOperInfo& 
     status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
 }
 
-inline bool asst::RoguelikeRecruitTaskPlugin::get_status_bool(const std::string& key)
+bool asst::RoguelikeRecruitTaskPlugin::get_status_bool(const std::string& key)
 {
-    auto value_opt = status()->get_str(key);
-    return value_opt && value_opt->size() == 1 && value_opt.value()[0] == '1';
+    return status()->get_str(key).value_or("") == "1";
 }
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)

@@ -9112,7 +9112,7 @@
             204
         ]
     },
-    "RoguelikeWaitBattleStart": {
+    "RoguelikeWaitForStartButtonClicked": {
         "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
         "template": "Roguelike@QuickFormation.png",
         "action": "DoNothing",
@@ -9123,7 +9123,7 @@
             146
         ],
         "next": [
-            "RoguelikeWaitBattleStart"
+            "RoguelikeWaitForStartButtonClicked"
         ]
     },
     "RoguelikeRecruitSupportOcr": {
