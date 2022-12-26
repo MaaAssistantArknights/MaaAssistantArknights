@@ -41,8 +41,8 @@ namespace asst
         bool deploy_oper(const std::string& name, const Point& loc, battle::DeployDirection direction);
         bool retreat_oper(const std::string& name);
         bool retreat_oper(const Point& loc, bool manually = true);
-        bool use_skill(const std::string& name);
-        bool use_skill(const Point& loc);
+        bool use_skill(const std::string& name, bool keep_waiting = true);
+        bool use_skill(const Point& loc, bool keep_waiting = true);
         bool check_pause_button();
         bool wait_for_start();
         bool wait_for_end();
@@ -56,7 +56,7 @@ namespace asst
         bool click_oper_on_battlefiled(const std::string& name);
         bool click_oper_on_battlefiled(const Point& loc);
         bool click_retreat(); // 这个是不带识别的，直接点
-        bool click_skill();   // 这个是带识别的，转好了才点
+        bool click_skill(bool keep_waiting = true);   // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
 
         bool is_name_invaild(const std::string& name);
