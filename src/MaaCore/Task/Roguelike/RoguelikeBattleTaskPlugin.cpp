@@ -557,9 +557,9 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
 
     bool use_air_defense =
         has_air_defense && !m_force_air_defense.has_finished_deploy_air_defense &&
-        m_force_air_defense.has_deployed_blocking_num >= m_force_air_defense.stop_blocking_deploy_num;
-    bool use_blocking = has_blocking && m_homes_status[m_cur_home_index].wait_blocking;
-    bool use_medic = has_medic && m_homes_status[m_cur_home_index].wait_medic;
+        m_force_air_defense.has_deployed_blocking_num >= m_force_air_defense.stop_blocking_deploy_num && !m_ranged_full;
+    bool use_blocking = has_blocking && m_homes_status[m_cur_home_index].wait_blocking && !m_melee_full;
+    bool use_medic = has_medic && m_homes_status[m_cur_home_index].wait_medic && !m_ranged_full;
     Log.trace("use_air_defense", use_air_defense, ", use_blocking", use_blocking, ", use_medic", use_medic);
 
     std::vector<DeploymentOper> cur_available;
@@ -592,14 +592,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         }
 
         for (const battle::DeploymentOper& oper : cur_available) {
-            if (DiceSet.contains(oper.name)) {
-                continue;
-            }
-            if (get_position_full(oper)) {
-                continue;
-            }
-
-            if (oper.role == role) {
+            if (oper.role == role && !DiceSet.contains(oper.name) && !get_position_full(oper)) {
                 best_oper = oper;
                 break;
             }
