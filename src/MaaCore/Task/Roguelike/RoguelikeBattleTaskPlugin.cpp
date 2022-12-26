@@ -557,12 +557,9 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
     bool use_air_defense =
         has_air_defense && !m_force_air_defense.has_finished_deploy_air_defense &&
         m_force_air_defense.has_deployed_blocking_num >= m_force_air_defense.stop_blocking_deploy_num;
-    bool use_blocking = !use_air_defense && has_blocking && m_homes_status[m_cur_home_index].wait_blocking;
-    bool use_medic = !use_blocking && has_medic && m_homes_status[m_cur_home_index].wait_medic;
-
-    if (use_air_defense) {
-        Log.info("RANGED ROLE IS NEEDED UNDER FORCE");
-    }
+    bool use_blocking = has_blocking && m_homes_status[m_cur_home_index].wait_blocking;
+    bool use_medic = has_medic && m_homes_status[m_cur_home_index].wait_medic;
+    Log.trace("use_air_defense", use_air_defense, ", use_blocking", use_blocking, ", use_medic", use_medic);
 
     std::vector<DeploymentOper> cur_available;
     for (const auto& oper : m_cur_deployment_opers | views::values) {
@@ -577,14 +574,20 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
 
     for (auto role : m_role_order) {
         battle::OperPosition position = get_role_position(role);
-        if (use_air_defense && position != battle::OperPosition::AirDefense) {
-            continue;
+        if (use_air_defense) {
+            if (position != battle::OperPosition::AirDefense) {
+                continue;
+            }
         }
-        else if (use_blocking && position != battle::OperPosition::Blocking) {
-            continue;
+        else if (use_blocking) {
+            if (position != battle::OperPosition::Blocking) {
+                continue;
+            }
         }
-        else if (use_medic && role != battle::Role::Medic) {
-            continue;
+        else if (use_medic) {
+            if (role != battle::Role::Medic) {
+                continue;
+            }
         }
 
         for (const battle::DeploymentOper& oper : cur_available) {
@@ -605,9 +608,10 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         }
     }
     if (best_oper.name.empty()) {
+        Log.info("No best oper");
         return std::nullopt;
     }
-
+    Log.info("best oper is", best_oper.name);
     return best_oper;
 }
 
