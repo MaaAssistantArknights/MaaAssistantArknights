@@ -118,7 +118,10 @@ bool asst::BattleProcessTask::to_group()
 
     for (const auto& [group_name, oper_name] : m_oper_in_group) {
         auto& this_group = m_combat_data.groups[group_name];
-        auto iter = ranges::find_if(this_group, [&oper_name](const auto& oper) { return oper.name == oper_name; });
+        // there is a build error on macOS
+        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/3779762713/jobs/6425284487
+        const std::string& oper_name_for_lambda = oper_name;
+        auto iter = ranges::find_if(this_group, [&](const auto& oper) { return oper.name == oper_name_for_lambda; });
         if (iter == this_group.end()) {
             continue;
         }
@@ -319,7 +322,7 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
         return false;
     }
 
-    return true;
+    return ret;
 }
 
 void asst::BattleProcessTask::sleep_with_use_ready_skill(unsigned millisecond)
