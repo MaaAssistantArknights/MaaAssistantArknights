@@ -9,17 +9,23 @@
 #include "Utils/Platform.hpp"
 #include "Utils/WorkingDir.hpp"
 
+#include <filesystem>
 #include <map>
 
 namespace asst
 {
     class BattleHelper
     {
-        inline static const auto AvatarCacheDir = UserDir.get() / utils::path("cache") / utils::path("avatars");
         inline static const std::string CacheExtension = ".png";
 
     public:
         ~BattleHelper() = default;
+
+        inline static const std::filesystem::path& avatar_cache_dir()
+        {
+            static const auto dir = UserDir.get() / utils::path("cache") / utils::path("avatars");
+            return dir;
+        }
 
     protected:
         BattleHelper(Assistant* inst);
