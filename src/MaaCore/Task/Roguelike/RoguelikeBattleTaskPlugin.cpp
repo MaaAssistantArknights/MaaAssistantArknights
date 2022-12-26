@@ -630,6 +630,7 @@ void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 void asst::RoguelikeBattleTaskPlugin::clear()
 {
     BattleHelper::clear();
+    m_stage_name.clear();
 
     m_homes.clear();
     m_allow_to_use_dice = true;

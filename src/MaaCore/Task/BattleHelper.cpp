@@ -32,7 +32,6 @@ bool asst::BattleHelper::set_stage_name(const std::string& name)
 
 void asst::BattleHelper::clear()
 {
-    m_stage_name.clear();
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
