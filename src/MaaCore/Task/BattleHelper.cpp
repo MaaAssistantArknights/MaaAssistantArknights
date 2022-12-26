@@ -356,7 +356,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
     return true;
 }
 
-bool asst::BattleHelper::use_skill(const std::string& name)
+bool asst::BattleHelper::use_skill(const std::string& name, bool keep_waiting)
 {
     LogTraceFunction;
 
@@ -366,14 +366,14 @@ bool asst::BattleHelper::use_skill(const std::string& name)
         return false;
     }
 
-    return use_skill(oper_iter->second);
+    return use_skill(oper_iter->second, keep_waiting);
 }
 
-bool asst::BattleHelper::use_skill(const Point& loc)
+bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 {
     LogTraceFunction;
 
-    return click_oper_on_battlefiled(loc) && click_skill();
+    return click_oper_on_battlefiled(loc) && click_skill(keep_waiting);
 }
 
 bool asst::BattleHelper::check_pause_button()
@@ -452,7 +452,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, const cv::Mat& re
         return false;
     }
 
-    return use_skill(loc);
+    return use_skill(loc, false);
 }
 
 void asst::BattleHelper::save_map(const cv::Mat& image)
@@ -533,14 +533,23 @@ bool asst::BattleHelper::click_retreat()
     return ProcessTask(this_task(), { "BattleOperRetreatJustClick" }).run();
 }
 
-bool asst::BattleHelper::click_skill()
+bool asst::BattleHelper::click_skill(bool keep_waiting)
 {
     LogTraceFunction;
 
-    return ProcessTask(this_task(), { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" })
-        .set_task_delay(0)
-        .set_retry_times(1000)
-        .run();
+    ProcessTask skill_task(this_task(), { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" });
+    skill_task.set_task_delay(0);
+
+    if (keep_waiting) {
+        return skill_task.set_retry_times(1000).run();
+    }
+    else {
+        bool ret = skill_task.set_retry_times(5).run();
+        if (!ret) {
+            cancel_oper_selection();
+        }
+        return ret;
+    }
 }
 
 bool asst::BattleHelper::cancel_oper_selection()
