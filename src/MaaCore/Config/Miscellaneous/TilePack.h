@@ -50,7 +50,7 @@ namespace asst
 
         struct TileInfo
         {
-            BattleLocationType buildable = BattleLocationType::Invalid;
+            battle::LocationType buildable = battle::LocationType::Invalid;
             HeightType height = HeightType::Invalid;
             TileKey key = TileKey::Invalid;
             Point pos; // 像素坐标

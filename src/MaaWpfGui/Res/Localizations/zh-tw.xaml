@@ -403,7 +403,7 @@
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected">選擇幹員：</system:String>
-    <system:String x:Key="CurrentSteps">當前步驟：</system:String>
+    <system:String x:Key="CurrentSteps">當前步驟：{0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的關卡，請更新 MAA 軟體版本，或檢查作業檔案</system:String>
     <system:String x:Key="RecruitTagsDetected">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>

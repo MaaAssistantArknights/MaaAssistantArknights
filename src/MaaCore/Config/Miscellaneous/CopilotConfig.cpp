@@ -5,6 +5,9 @@
 #include "TilePack.h"
 #include "Utils/Logger.hpp"
 
+using namespace asst::battle;
+using namespace asst::battle::copilot;
+
 void asst::CopilotConfig::clear()
 {
     m_data = decltype(m_data)();
@@ -26,12 +29,12 @@ bool asst::CopilotConfig::parse(const json::value& json)
     if (auto opt = json.find<json::array>("groups")) {
         for (const auto& group_info : opt.value()) {
             std::string group_name = group_info.at("name").as_string();
-            std::vector<BattleDeployOper> oper_vec;
+            std::vector<OperUsage> oper_vec;
             for (const auto& oper_info : group_info.at("opers").as_array()) {
-                BattleDeployOper oper;
+                OperUsage oper;
                 oper.name = oper_info.at("name").as_string();
                 oper.skill = oper_info.get("skill", 1);
-                oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
+                oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
                 oper_vec.emplace_back(std::move(oper));
             }
             m_data.groups.emplace(std::move(group_name), std::move(oper_vec));
@@ -40,10 +43,10 @@ bool asst::CopilotConfig::parse(const json::value& json)
 
     if (auto opt = json.find<json::array>("opers")) {
         for (const auto& oper_info : opt.value()) {
-            BattleDeployOper oper;
+            OperUsage oper;
             oper.name = oper_info.at("name").as_string();
             oper.skill = oper_info.get("skill", 1);
-            oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
+            oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
@@ -52,54 +55,54 @@ bool asst::CopilotConfig::parse(const json::value& json)
     }
 
     for (const auto& action_info : json.at("actions").as_array()) {
-        BattleAction action;
-        static const std::unordered_map<std::string, BattleActionType> ActionTypeMapping = {
-            { "Deploy", BattleActionType::Deploy },
-            { "DEPLOY", BattleActionType::Deploy },
-            { "deploy", BattleActionType::Deploy },
-            { "部署", BattleActionType::Deploy },
+        Action action;
+        static const std::unordered_map<std::string, ActionType> ActionTypeMapping = {
+            { "Deploy", ActionType::Deploy },
+            { "DEPLOY", ActionType::Deploy },
+            { "deploy", ActionType::Deploy },
+            { "部署", ActionType::Deploy },
 
-            { "Skill", BattleActionType::UseSkill },
-            { "SKILL", BattleActionType::UseSkill },
-            { "skill", BattleActionType::UseSkill },
-            { "技能", BattleActionType::UseSkill },
+            { "Skill", ActionType::UseSkill },
+            { "SKILL", ActionType::UseSkill },
+            { "skill", ActionType::UseSkill },
+            { "技能", ActionType::UseSkill },
 
-            { "Retreat", BattleActionType::Retreat },
-            { "RETREAT", BattleActionType::Retreat },
-            { "retreat", BattleActionType::Retreat },
-            { "撤退", BattleActionType::Retreat },
+            { "Retreat", ActionType::Retreat },
+            { "RETREAT", ActionType::Retreat },
+            { "retreat", ActionType::Retreat },
+            { "撤退", ActionType::Retreat },
 
-            { "SpeedUp", BattleActionType::SwitchSpeed },
-            { "SPEEDUP", BattleActionType::SwitchSpeed },
-            { "Speedup", BattleActionType::SwitchSpeed },
-            { "speedup", BattleActionType::SwitchSpeed },
-            { "二倍速", BattleActionType::SwitchSpeed },
+            { "SpeedUp", ActionType::SwitchSpeed },
+            { "SPEEDUP", ActionType::SwitchSpeed },
+            { "Speedup", ActionType::SwitchSpeed },
+            { "speedup", ActionType::SwitchSpeed },
+            { "二倍速", ActionType::SwitchSpeed },
 
-            { "BulletTime", BattleActionType::BulletTime },
-            { "BULLETTIME", BattleActionType::BulletTime },
-            { "Bullettime", BattleActionType::BulletTime },
-            { "bullettime", BattleActionType::BulletTime },
-            { "子弹时间", BattleActionType::BulletTime },
+            { "BulletTime", ActionType::BulletTime },
+            { "BULLETTIME", ActionType::BulletTime },
+            { "Bullettime", ActionType::BulletTime },
+            { "bullettime", ActionType::BulletTime },
+            { "子弹时间", ActionType::BulletTime },
 
-            { "SkillUsage", BattleActionType::SkillUsage },
-            { "SKILLUSAGE", BattleActionType::SkillUsage },
-            { "Skillusage", BattleActionType::SkillUsage },
-            { "skillusage", BattleActionType::SkillUsage },
-            { "技能用法", BattleActionType::SkillUsage },
+            { "SkillUsage", ActionType::SkillUsage },
+            { "SKILLUSAGE", ActionType::SkillUsage },
+            { "Skillusage", ActionType::SkillUsage },
+            { "skillusage", ActionType::SkillUsage },
+            { "技能用法", ActionType::SkillUsage },
 
-            { "Output", BattleActionType::Output },
-            { "OUTPUT", BattleActionType::Output },
-            { "output", BattleActionType::Output },
-            { "输出", BattleActionType::Output },
-            { "打印", BattleActionType::Output },
+            { "Output", ActionType::Output },
+            { "OUTPUT", ActionType::Output },
+            { "output", ActionType::Output },
+            { "输出", ActionType::Output },
+            { "打印", ActionType::Output },
 
-            { "SkillDaemon", BattleActionType::SkillDaemon },
-            { "skilldaemon", BattleActionType::SkillDaemon },
-            { "SKILLDAEMON", BattleActionType::SkillDaemon },
-            { "Skilldaemon", BattleActionType::SkillDaemon },
-            { "DoNothing", BattleActionType::SkillDaemon },
-            { "摆完挂机", BattleActionType::SkillDaemon },
-            { "开摆", BattleActionType::SkillDaemon },
+            { "SkillDaemon", ActionType::SkillDaemon },
+            { "skilldaemon", ActionType::SkillDaemon },
+            { "SKILLDAEMON", ActionType::SkillDaemon },
+            { "Skilldaemon", ActionType::SkillDaemon },
+            { "DoNothing", ActionType::SkillDaemon },
+            { "摆完挂机", ActionType::SkillDaemon },
+            { "开摆", ActionType::SkillDaemon },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -108,7 +111,7 @@ bool asst::CopilotConfig::parse(const json::value& json)
             action.type = iter->second;
         }
         else {
-            action.type = BattleActionType::Deploy;
+            action.type = ActionType::Deploy;
         }
         action.kills = action_info.get("kills", 0);
         action.cost_changes = action_info.get("cost_changes", 0);
@@ -119,21 +122,21 @@ bool asst::CopilotConfig::parse(const json::value& json)
         action.location.x = action_info.get("location", 0, 0);
         action.location.y = action_info.get("location", 1, 0);
 
-        static const std::unordered_map<std::string, BattleDeployDirection> DeployDirectionMapping = {
-            { "Right", BattleDeployDirection::Right }, { "RIGHT", BattleDeployDirection::Right },
-            { "right", BattleDeployDirection::Right }, { "右", BattleDeployDirection::Right },
+        static const std::unordered_map<std::string, DeployDirection> DeployDirectionMapping = {
+            { "Right", DeployDirection::Right }, { "RIGHT", DeployDirection::Right },
+            { "right", DeployDirection::Right }, { "右", DeployDirection::Right },
 
-            { "Left", BattleDeployDirection::Left },   { "LEFT", BattleDeployDirection::Left },
-            { "left", BattleDeployDirection::Left },   { "左", BattleDeployDirection::Left },
+            { "Left", DeployDirection::Left },   { "LEFT", DeployDirection::Left },
+            { "left", DeployDirection::Left },   { "左", DeployDirection::Left },
 
-            { "Up", BattleDeployDirection::Up },       { "UP", BattleDeployDirection::Up },
-            { "up", BattleDeployDirection::Up },       { "上", BattleDeployDirection::Up },
+            { "Up", DeployDirection::Up },       { "UP", DeployDirection::Up },
+            { "up", DeployDirection::Up },       { "上", DeployDirection::Up },
 
-            { "Down", BattleDeployDirection::Down },   { "DOWN", BattleDeployDirection::Down },
-            { "down", BattleDeployDirection::Down },   { "下", BattleDeployDirection::Down },
+            { "Down", DeployDirection::Down },   { "DOWN", DeployDirection::Down },
+            { "down", DeployDirection::Down },   { "下", DeployDirection::Down },
 
-            { "None", BattleDeployDirection::None },   { "NONE", BattleDeployDirection::None },
-            { "none", BattleDeployDirection::None },   { "无", BattleDeployDirection::None },
+            { "None", DeployDirection::None },   { "NONE", DeployDirection::None },
+            { "none", DeployDirection::None },   { "无", DeployDirection::None },
         };
 
         std::string direction_str = action_info.get("direction", "Right");
@@ -142,9 +145,9 @@ bool asst::CopilotConfig::parse(const json::value& json)
             action.direction = iter->second;
         }
         else {
-            action.direction = BattleDeployDirection::Right;
+            action.direction = DeployDirection::Right;
         }
-        action.modify_usage = static_cast<BattleSkillUsage>(action_info.get("skill_usage", 0));
+        action.modify_usage = static_cast<battle::SkillUsage>(action_info.get("skill_usage", 0));
         action.pre_delay = action_info.get("pre_delay", 0);
         auto post_delay_opt = action_info.find<int>("post_delay");
         // 历史遗留字段，兼容一下
