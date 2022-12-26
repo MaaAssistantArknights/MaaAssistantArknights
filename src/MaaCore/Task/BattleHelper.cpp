@@ -574,3 +574,11 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 
     return oper_iter->second.rect;
 }
+
+const std::filesystem::path& asst::BattleHelper::avatar_cache_dir()
+{
+    using namespace asst::utils::path_literals;
+
+    static const auto dir = UserDir.get() / "cache"_p / "avatars"_p;
+    return dir;
+}
