@@ -3,14 +3,16 @@ name: release-nightly-ota
 on:
   workflow_dispatch:
     inputs:
+      release_body:
+        description: 'Release note'
+        type: string
+        required: false
       ref:
         description: 'Commit to build (git checkout)'
         type: string
         required: false
       tag_name:
         description: 'Tag name to release'
-        required: false
-      release_body:
         type: string
         required: false
       limit:
