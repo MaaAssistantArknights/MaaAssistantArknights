@@ -108,7 +108,6 @@ namespace asst
         {
             bool wait_blocking = true;
             bool wait_medic = true;
-            bool indeed_no_medic = false;
             Point blocking_pos;
         };
         std::vector<HomeInfo> m_homes_status;

@@ -116,7 +116,7 @@ bool asst::BattleHelper::speed_up()
     return ProcessTask(this_task(), { "BattleSpeedUp" }).run();
 }
 
-bool asst::BattleHelper::update_deployment(bool init)
+bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 {
     LogTraceFunction;
 
@@ -124,18 +124,11 @@ bool asst::BattleHelper::update_deployment(bool init)
         wait_for_start();
     }
 
-    cv::Mat image = m_inst_helper.ctrler()->get_image();
+    cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
 
     if (init) {
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
-
-        // 识别一帧总击杀数
-        BattleImageAnalyzer kills_analyzer(image);
-        kills_analyzer.set_target(BattleImageAnalyzer::Target::Kills);
-        if (kills_analyzer.analyze()) {
-            m_kills = kills_analyzer.get_kills();
-            m_total_kills = kills_analyzer.get_total_kills();
-        }
+        update_kills(image);
     }
 
     BattleImageAnalyzer oper_analyzer(image);
@@ -240,6 +233,34 @@ bool asst::BattleHelper::update_deployment(bool init)
         }
     }
 
+    return true;
+}
+
+bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattleImageAnalyzer analyzer(image);
+    if (m_total_kills) {
+        analyzer.set_pre_total_kills(m_total_kills);
+    }
+    analyzer.set_target(BattleImageAnalyzer::Target::Kills);
+    if (!analyzer.analyze()) {
+        return false;
+    }
+    m_kills = analyzer.get_kills();
+    m_total_kills = analyzer.get_total_kills();
+    return true;
+}
+
+bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattleImageAnalyzer analyzer(image);
+    analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+    if (!analyzer.analyze()) {
+        return false;
+    }
+    m_cost = analyzer.get_cost();
     return true;
 }
 
@@ -383,39 +404,42 @@ bool asst::BattleHelper::wait_for_end()
     return true;
 }
 
-bool asst::BattleHelper::use_all_ready_skill()
+bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 {
     bool used = false;
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [name, loc] : m_battlefield_opers) {
         auto& usage = m_skill_usage[name];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Once) {
             continue;
         }
-        if (!check_and_use_skill(loc)) {
+        if (!check_and_use_skill(loc, image)) {
             continue;
         }
         used = true;
         if (usage == SkillUsage::Once) {
             usage = SkillUsage::OnceUsed;
         }
+        image = m_inst_helper.ctrler()->get_image();
     }
 
     return used;
 }
 
-bool asst::BattleHelper::check_and_use_skill(const std::string& name)
+bool asst::BattleHelper::check_and_use_skill(const std::string& name, const cv::Mat& reusable)
 {
     auto oper_iter = m_battlefield_opers.find(name);
     if (oper_iter == m_battlefield_opers.cend()) {
         Log.error("No oper", name);
         return false;
     }
-    return check_and_use_skill(oper_iter->second);
+    return check_and_use_skill(oper_iter->second, reusable);
 }
 
-bool asst::BattleHelper::check_and_use_skill(const Point& loc)
+bool asst::BattleHelper::check_and_use_skill(const Point& loc, const cv::Mat& reusable)
 {
-    BattleSkillReadyImageAnalyzer skill_analyzer(m_inst_helper.ctrler()->get_image());
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattleSkillReadyImageAnalyzer skill_analyzer(image);
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {

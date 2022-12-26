@@ -314,7 +314,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 {
     check_drone_tiles();
 
-    if (!m_first_deploy && use_all_ready_skill()) {
+    cv::Mat image = ctrler()->get_image();
+    if (!m_first_deploy && use_all_ready_skill(image)) {
         return true;
     }
 
@@ -324,7 +325,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     }
     auto pre_battlefield = m_battlefield_opers;
 
-    if (!update_deployment()) {
+    if (!update_deployment(false, image)) {
         return false;
     }
 

@@ -34,7 +34,9 @@ namespace asst
         bool pause();
         bool speed_up();
 
-        bool update_deployment(bool init = false);
+        bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat());
+        bool update_kills(const cv::Mat& reusable = cv::Mat());
+        bool update_cost(const cv::Mat& reusable = cv::Mat());
 
         bool deploy_oper(const std::string& name, const Point& loc, battle::DeployDirection direction);
         bool retreat_oper(const std::string& name);
@@ -44,9 +46,9 @@ namespace asst
         bool check_pause_button();
         bool wait_for_start();
         bool wait_for_end();
-        bool use_all_ready_skill();
-        bool check_and_use_skill(const std::string& name);
-        bool check_and_use_skill(const Point& loc);
+        bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
+        bool check_and_use_skill(const std::string& name, const cv::Mat& reusable = cv::Mat());
+        bool check_and_use_skill(const Point& loc, const cv::Mat& reusable = cv::Mat());
         void save_map(const cv::Mat& image);
 
         bool click_oper_on_deployment(const std::string& name);
@@ -69,6 +71,7 @@ namespace asst
         /* 实时更新的数据 */
         int m_kills = 0;
         int m_total_kills = 0;
+        int m_cost = 0;
 
         std::map<std::string, cv::Mat> m_all_deployment_avatars;
         std::map<std::string, battle::DeploymentOper> m_cur_deployment_opers;
