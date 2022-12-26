@@ -6,22 +6,22 @@ on:
       ref:
         description: 'Commit to build (git checkout)'
         type: string
-        required: true
-      limit:
-        description: 'Number of releases to fetch from MaaAssistantArknights'
         required: false
-        default: 30
-        type: number
-      limit_2:
-        description: 'Number of releases to fetch from MaaRelease'
-        required: false
-        default: 30
       tag_name:
         description: 'Tag name to release'
         required: false
       release_body:
         type: string
         required: false
+      limit:
+        description: 'Number of releases to fetch from MaaAssistantArknights'
+        required: true
+        default: 30
+        type: number
+      limit_2:
+        description: 'Number of releases to fetch from MaaRelease'
+        required: true
+        default: 30
 
 jobs:
   build-win-nightly:
@@ -37,7 +37,9 @@ jobs:
           fetch-depth: 0
       - name: Checkout ref
         run: |
-          git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
+          if ("${{ inputs.ref }}" -ne "") {
+            git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
+          }
       - run: |
           npm install --global --progress semver
       - name: Set tag
