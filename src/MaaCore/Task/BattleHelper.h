@@ -21,12 +21,6 @@ namespace asst
     public:
         ~BattleHelper() = default;
 
-        inline static const std::filesystem::path& avatar_cache_dir()
-        {
-            static const auto dir = UserDir.get() / utils::path("cache") / utils::path("avatars");
-            return dir;
-        }
-
     protected:
         BattleHelper(Assistant* inst);
 
@@ -61,8 +55,8 @@ namespace asst
         bool click_oper_on_deployment(const Rect& rect);
         bool click_oper_on_battlefiled(const std::string& name);
         bool click_oper_on_battlefiled(const Point& loc);
-        bool click_retreat(); // 这个是不带识别的，直接点
-        bool click_skill(bool keep_waiting = true);   // 这个是带识别的，转好了才点
+        bool click_retreat();                       // 这个是不带识别的，直接点
+        bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
 
         bool is_name_invaild(const std::string& name);
@@ -87,6 +81,7 @@ namespace asst
 
     private:
         virtual AbstractTask& this_task() = 0;
+        static const std::filesystem::path& avatar_cache_dir();
 
         InstHelper m_inst_helper;
     };
