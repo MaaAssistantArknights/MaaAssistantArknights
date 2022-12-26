@@ -24,7 +24,6 @@ namespace asst
         bool m_dorm_notstationed_enabled = false; // 设置是否启用未进驻筛选
         bool m_drom_trust_enabled = true;         // 设置是否启用蹭信赖
 
-        int m_cur_dorm_index = 0;
         int m_max_num_of_dorm = 4;
 
         enum class NextStep

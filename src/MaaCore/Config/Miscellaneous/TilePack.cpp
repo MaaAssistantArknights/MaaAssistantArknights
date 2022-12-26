@@ -97,7 +97,7 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(const std::v
             }
 
             Point loc(static_cast<int>(x), static_cast<int>(y));
-            dst.emplace(loc, TileInfo { static_cast<BattleLocationType>(tile.buildableType),
+            dst.emplace(loc, TileInfo { static_cast<battle::LocationType>(tile.buildableType),
                                         static_cast<TilePack::HeightType>(tile.heightType), key,
                                         Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)), loc });
         }

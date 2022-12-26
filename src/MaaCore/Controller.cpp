@@ -396,8 +396,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             reconnect_info["details"]["times"] = i;
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
-            // TODO: 也许 WIN32 可以用 WaitForSingleObjectEx 做一个允许外部打断的 sleep
-            std::this_thread::sleep_for(10s);
+            sleep(10 * 1000);
             if (need_exit()) {
                 break;
             }
@@ -530,7 +529,10 @@ bool asst::Controller::call_and_hup_minitouch()
     pipe_parent_read = INVALID_HANDLE_VALUE;
 
     m_minitouch_parent_write = pipe_parent_write;
+
 #else // !_WIN32
+
+    std::ignore = PipeWriteBuffSize;
 
     int pipe_to_child[2];
     int pipe_from_child[2];
@@ -771,10 +773,7 @@ void asst::Controller::random_delay() const
         static std::default_random_engine rand_engine(std::random_device {}());
         static std::uniform_int_distribution<unsigned> rand_uni(opt.control_delay_lower, opt.control_delay_upper);
 
-        unsigned rand_delay = rand_uni(rand_engine);
-
-        Log.trace("random_delay |", rand_delay, "ms");
-        std::this_thread::sleep_for(std::chrono::milliseconds(rand_delay));
+        sleep(rand_uni(rand_engine));
     }
 }
 
@@ -1595,12 +1594,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     return true;
 }
 
-bool asst::Controller::make_instance_inited(bool inited)
+void asst::Controller::make_instance_inited(bool inited)
 {
     Log.trace(__FUNCTION__, "|", inited, ", pre m_inited =", m_inited, ", pre m_instance_count =", m_instance_count);
 
     if (inited == m_inited) {
-        return true;
+        return;
     }
     m_inited = inited;
 
@@ -1610,10 +1609,9 @@ bool asst::Controller::make_instance_inited(bool inited)
     else {
         // 所有实例全部释放，执行最终的 release 函数
         if (!--m_instance_count) {
-            return release();
+            release();
         }
     }
-    return true;
 }
 
 void asst::Controller::kill_adb_daemon()
@@ -1630,7 +1628,7 @@ void asst::Controller::kill_adb_daemon()
     }
 }
 
-bool asst::Controller::release()
+void asst::Controller::release()
 {
     close_socket();
 
@@ -1638,12 +1636,9 @@ bool asst::Controller::release()
     if (m_child)
 #endif
     {
-        if (m_adb.release.empty()) {
-            return true;
-        }
-        else {
+        if (!m_adb.release.empty()) {
             m_adb_release.clear();
-            return call_command(m_adb.release, 20000, false).has_value();
+            call_command(m_adb.release, 20000, false);
         }
     }
 }

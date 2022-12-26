@@ -10,7 +10,7 @@ namespace asst
 
     class InstHelper
     {
-    protected:
+    public:
         InstHelper() = default;
         InstHelper(const InstHelper&) = default;
         InstHelper(InstHelper&&) noexcept = default;
@@ -20,6 +20,8 @@ namespace asst
         std::shared_ptr<Controller> ctrler() const;
         std::shared_ptr<Status> status() const;
         bool need_exit() const;
+        bool sleep(unsigned millisecond) const;
+        Assistant* inst() noexcept;
 
         InstHelper& operator=(const InstHelper&) = default;
         InstHelper& operator=(InstHelper&&) noexcept = default;

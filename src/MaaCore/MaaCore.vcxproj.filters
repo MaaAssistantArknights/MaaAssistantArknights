@@ -456,6 +456,12 @@
     <ClInclude Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Task\BattleHelper.h">
+      <Filter>源文件\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Algorithm.hpp">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -742,6 +748,9 @@
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\BattleSkillReadyImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\BattleHelper.cpp">
+      <Filter>源文件\Task</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

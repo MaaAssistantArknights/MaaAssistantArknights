@@ -29,6 +29,7 @@ namespace asst
         AbstractTask(const AbstractTask&) = default;
         AbstractTask(AbstractTask&&) noexcept = default;
         virtual ~AbstractTask() noexcept = default;
+        using InstHelper::inst;
 
         virtual bool run();
 
@@ -63,7 +64,6 @@ namespace asst
         bool save_img(const std::string& dirname = "debug/");
 
         json::value basic_info_with_what(std::string what) const;
-        bool sleep(unsigned millisecond);
 
         bool m_enable = true;
         bool m_ignore_error = false;
