@@ -213,91 +213,79 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
 
 bool asst::BattleProcessTask::wait_condition(const Action& action)
 {
-    // 计算初始状态
-    int cost_base = -1;
-    // int cooling_base = -1;
+    cv::Mat image;
+    auto update_image_if_empty = [&]() {
+        if (image.empty()) image = ctrler()->get_image();
+    };
+    auto use_all_ready_skill_then_update_image = [&]() {
+        use_all_ready_skill(image);
+        image = ctrler()->get_image();
+    };
 
     if (action.cost_changes != 0) {
-        BattleImageAnalyzer analyzer(ctrler()->get_image());
-        analyzer.set_target(BattleImageAnalyzer::Target::Cost);
-        if (analyzer.analyze()) {
-            cost_base = analyzer.get_cost();
-        }
-    }
-    // if (action.cooling != 0) {
-    //     BattleImageAnalyzer analyzer(image);
-    //     analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-    //     if (analyzer.analyze()) {
-    //         cooling_base =
-    //             ranges::count_if(analyzer.get_opers(), [](const auto& oper) -> bool { return oper.cooling; });
-    //     }
-    // }
+        update_image_if_empty();
+        update_cost(image);
+        int pre_cost = m_cost;
 
-    // 计算击杀数
-    while (!need_exit() && m_kills < action.kills) {
-        BattleImageAnalyzer analyzer(ctrler()->get_image());
-        if (m_total_kills) {
-            analyzer.set_pre_total_kills(m_total_kills);
-        }
-        analyzer.set_target(BattleImageAnalyzer::Target::Kills);
-        if (analyzer.analyze()) {
-            m_kills = analyzer.get_kills();
-            m_total_kills = analyzer.get_total_kills();
-            if (m_kills >= action.kills) {
-                break;
-            }
-        }
-        use_all_ready_skill();
-    }
-
-    // 计算费用变化量
-    if (action.cost_changes != 0 || action.costs) {
-        while (!need_exit()) {
-            BattleImageAnalyzer analyzer(ctrler()->get_image());
-            analyzer.set_target(BattleImageAnalyzer::Target::Cost);
-            if (analyzer.analyze()) {
-                int cost = analyzer.get_cost();
-                if (cost_base == -1) {
-                    cost_base = cost;
-                    continue;
-                }
-                if (action.cost_changes != 0) {
-                    if ((cost_base + action.cost_changes < 0) ? (cost <= cost_base + action.cost_changes)
-                                                              : (cost >= cost_base + action.cost_changes)) {
-                        break;
-                    }
-                }
-                if (action.costs && cost >= action.costs) {
+        do {
+            update_cost(image);
+            if (action.cost_changes != 0) {
+                if ((pre_cost + action.cost_changes < 0) ? (m_cost <= pre_cost + action.cost_changes)
+                                                         : (m_cost >= pre_cost + action.cost_changes)) {
                     break;
                 }
             }
-            use_all_ready_skill();
+            use_all_ready_skill_then_update_image();
+        } while (!need_exit());
+    }
+
+    if (m_kills < action.kills) {
+        update_image_if_empty();
+        while (!need_exit() && m_kills < action.kills) {
+            update_kills(image);
+            if (m_kills >= action.kills) {
+                break;
+            }
+            use_all_ready_skill_then_update_image();
+        }
+    }
+
+    if (action.costs) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            update_cost(image);
+            if (m_cost >= action.costs) {
+                break;
+            }
+            use_all_ready_skill_then_update_image();
         }
     }
 
     // 计算有几个干员在cd
     if (action.cooling >= 0) {
+        update_image_if_empty();
         while (!need_exit()) {
-            update_deployment();
+            update_deployment(false, image);
             size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
                                                     [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == action.cooling) {
                 break;
             }
-            use_all_ready_skill();
+            use_all_ready_skill_then_update_image();
         }
     }
 
     // 部署干员还有额外等待费用够或 CD 转好
     if (!m_in_bullet_time && action.type == ActionType::Deploy) {
         const std::string& name = m_oper_in_group[action.group_name];
+        update_image_if_empty();
         while (!need_exit()) {
-            update_deployment();
+            update_deployment(false, image);
             if (auto iter = m_cur_deployment_opers.find(name);
                 iter != m_cur_deployment_opers.cend() && iter->second.available) {
                 break;
             }
-            use_all_ready_skill();
+            use_all_ready_skill_then_update_image();
         }
     }
 
