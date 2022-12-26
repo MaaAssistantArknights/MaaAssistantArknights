@@ -52,7 +52,6 @@ void asst::BattleProcessTask::clear()
 {
     BattleHelper::clear();
 
-    m_combat_data = decltype(m_combat_data)();
     m_oper_in_group.clear();
     m_in_bullet_time = false;
 }
