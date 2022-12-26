@@ -24,6 +24,8 @@ namespace asst
     protected:
         BattleHelper(Assistant* inst);
 
+        virtual AbstractTask& this_task() = 0;
+
         virtual bool set_stage_name(const std::string& name);
         virtual void clear();
 
@@ -80,7 +82,6 @@ namespace asst
         std::map<Point, std::string> m_used_tiles;
 
     private:
-        virtual AbstractTask& this_task() = 0;
         static const std::filesystem::path& avatar_cache_dir();
 
         InstHelper m_inst_helper;
