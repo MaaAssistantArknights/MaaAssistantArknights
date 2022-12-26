@@ -278,14 +278,11 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     // 计算有几个干员在cd
     if (action.cooling >= 0) {
         while (!need_exit()) {
-            BattleImageAnalyzer analyzer(ctrler()->get_image());
-            analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-            if (analyzer.analyze()) {
-                int cooling_count = static_cast<int>(
-                    ranges::count_if(analyzer.get_opers(), [](const auto& oper) -> bool { return oper.cooling; }));
-                if (cooling_count == action.cooling) {
-                    break;
-                }
+            update_deployment();
+            size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
+                                                    [](const auto& oper) -> bool { return oper.cooling; });
+            if (cooling_count == action.cooling) {
+                break;
             }
             use_all_ready_skill();
         }
