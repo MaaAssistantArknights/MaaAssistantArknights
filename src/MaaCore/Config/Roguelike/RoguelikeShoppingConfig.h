@@ -11,7 +11,7 @@ namespace asst
     struct RoguelikeGoods
     {
         std::string name;
-        std::vector<BattleRole> roles;
+        std::vector<battle::Role> roles;
         std::vector<std::string> chars;
         int promotion = 0; // 晋升 N 个干员
         bool no_longer_buy = false;

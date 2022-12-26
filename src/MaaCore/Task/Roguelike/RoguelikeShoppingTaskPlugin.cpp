@@ -50,8 +50,8 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
 
-    std::unordered_map<BattleRole, size_t> map_roles_count;
-    std::unordered_map<BattleRole, size_t> map_wait_promotion;
+    std::unordered_map<battle::Role, size_t> map_roles_count;
+    std::unordered_map<battle::Role, size_t> map_wait_promotion;
     size_t total_wait_promotion = 0;
     std::unordered_set<std::string> chars_list;
     for (auto& [name, json_info] : json_chars_info.as_object()) {
@@ -67,16 +67,16 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         chars_list.emplace(name);
 
         if (name == "阿米娅") {
-            map_roles_count[BattleRole::Caster] += 1;
-            map_roles_count[BattleRole::Warrior] += 1;
+            map_roles_count[battle::Role::Caster] += 1;
+            map_roles_count[battle::Role::Warrior] += 1;
             if (elite == 1 && level == 70) {
                 total_wait_promotion += 1;
-                map_wait_promotion[BattleRole::Caster] += 1;
-                map_wait_promotion[BattleRole::Warrior] += 1;
+                map_wait_promotion[battle::Role::Caster] += 1;
+                map_wait_promotion[battle::Role::Warrior] += 1;
             }
         }
         else {
-            BattleRole role = BattleData.get_role(name);
+            battle::Role role = BattleData.get_role(name);
             map_roles_count[role] += 1;
 
             static const std::unordered_map<int, int> RarityPromotionLevel = {

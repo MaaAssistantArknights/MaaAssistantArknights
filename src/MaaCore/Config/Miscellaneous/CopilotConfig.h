@@ -9,14 +9,14 @@ namespace asst
     public:
         virtual ~CopilotConfig() override = default;
 
-        const BattleCopilotData& get_data() const noexcept { return m_data; }
+        const battle::copilot::CombatData& get_data() const noexcept { return m_data; }
         const std::string& get_stage_name() const noexcept { return m_stage_name; }
         void clear();
 
     protected:
         virtual bool parse(const json::value& json) override;
 
-        BattleCopilotData m_data;
+        battle::copilot::CombatData m_data;
         std::string m_stage_name;
     };
 

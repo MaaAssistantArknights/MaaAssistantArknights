@@ -451,7 +451,7 @@
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
-    <system:String x:Key="CurrentSteps">当前步骤：</system:String>
+    <system:String x:Key="CurrentSteps">当前步骤：{0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本，或检查作业文件</system:String>
     <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>

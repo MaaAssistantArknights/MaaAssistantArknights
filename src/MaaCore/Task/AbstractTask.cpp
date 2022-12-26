@@ -116,31 +116,6 @@ json::value asst::AbstractTask::basic_info_with_what(std::string what) const
     return info;
 }
 
-bool AbstractTask::sleep(unsigned millisecond)
-{
-    if (need_exit()) {
-        return false;
-    }
-    if (millisecond == 0) {
-        std::this_thread::yield();
-        return true;
-    }
-    auto start = std::chrono::steady_clock::now();
-    Log.trace("ready to sleep", millisecond);
-    auto millisecond_ms = std::chrono::milliseconds(millisecond);
-    auto interval = millisecond_ms / 5;
-
-    while (!need_exit()) {
-        std::this_thread::sleep_for(interval);
-        if (std::chrono::steady_clock::now() - start > millisecond_ms) {
-            break;
-        }
-    }
-    Log.trace("end of sleep", millisecond);
-
-    return !need_exit();
-}
-
 void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
     for (const TaskPluginPtr& plugin : m_plugins) {
