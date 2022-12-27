@@ -11,20 +11,42 @@ using namespace asst::battle::copilot;
 void asst::CopilotConfig::clear()
 {
     m_data = decltype(m_data)();
-    m_stage_name.clear();
 }
 
 bool asst::CopilotConfig::parse(const json::value& json)
 {
     LogTraceFunction;
+
     clear();
 
-    m_stage_name = json.at("stage_name").as_string();
+    m_data.info = parse_basic_info(json);
+    m_data.groups = parse_groups(json);
+    m_data.actions = parse_actions(json);
 
-    m_data.title = json.get("doc", "title", std::string());
-    m_data.title_color = json.get("doc", "title_color", std::string());
-    m_data.details = json.get("doc", "details", std::string());
-    m_data.details_color = json.get("doc", "details_color", std::string());
+    return true;
+}
+
+asst::battle::copilot::BasicInfo asst::CopilotConfig::parse_basic_info(const json::value& json)
+{
+    LogTraceFunction;
+
+    battle::copilot::BasicInfo info;
+
+    info.stage_name = json.at("stage_name").as_string();
+
+    info.title = json.get("doc", "title", std::string());
+    info.title_color = json.get("doc", "title_color", std::string());
+    info.details = json.get("doc", "details", std::string());
+    info.details_color = json.get("doc", "details_color", std::string());
+
+    return info;
+}
+
+asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const json::value& json)
+{
+    LogTraceFunction;
+
+    battle::copilot::OperUsageGroups groups;
 
     if (auto opt = json.find<json::array>("groups")) {
         for (const auto& group_info : opt.value()) {
@@ -37,7 +59,7 @@ bool asst::CopilotConfig::parse(const json::value& json)
                 oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
                 oper_vec.emplace_back(std::move(oper));
             }
-            m_data.groups.emplace(std::move(group_name), std::move(oper_vec));
+            groups.emplace(std::move(group_name), std::move(oper_vec));
         }
     }
 
@@ -50,9 +72,18 @@ bool asst::CopilotConfig::parse(const json::value& json)
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
-            m_data.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
+            groups.emplace(std::move(group_name), std::vector { std::move(oper) });
         }
     }
+
+    return groups;
+}
+
+std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(const json::value& json)
+{
+    LogTraceFunction;
+
+    std::vector<battle::copilot::Action> actions_list;
 
     for (const auto& action_info : json.at("actions").as_array()) {
         Action action;
@@ -103,6 +134,21 @@ bool asst::CopilotConfig::parse(const json::value& json)
             { "DoNothing", ActionType::SkillDaemon },
             { "摆完挂机", ActionType::SkillDaemon },
             { "开摆", ActionType::SkillDaemon },
+
+            { "DrawCard", ActionType::DrawCard },
+            { "drawcard", ActionType::DrawCard },
+            { "DRAWCARD", ActionType::DrawCard },
+            { "Drawcard", ActionType::DrawCard },
+            { "抽卡", ActionType::DrawCard },
+            { "抽牌", ActionType::DrawCard },
+            { "调配", ActionType::DrawCard },
+            { "调配干员", ActionType::DrawCard },
+
+            { "CheckIfStartOver", ActionType::CheckIfStartOver },
+            { "Checkifstartover", ActionType::CheckIfStartOver },
+            { "CHECKIFSTARTOVER", ActionType::CheckIfStartOver },
+            { "checkifstartover", ActionType::CheckIfStartOver },
+            { "检查重开", ActionType::CheckIfStartOver },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -121,32 +167,8 @@ bool asst::CopilotConfig::parse(const json::value& json)
 
         action.location.x = action_info.get("location", 0, 0);
         action.location.y = action_info.get("location", 1, 0);
+        action.direction = string_to_direction(action_info.get("direction", "Right"));
 
-        static const std::unordered_map<std::string, DeployDirection> DeployDirectionMapping = {
-            { "Right", DeployDirection::Right }, { "RIGHT", DeployDirection::Right },
-            { "right", DeployDirection::Right }, { "右", DeployDirection::Right },
-
-            { "Left", DeployDirection::Left },   { "LEFT", DeployDirection::Left },
-            { "left", DeployDirection::Left },   { "左", DeployDirection::Left },
-
-            { "Up", DeployDirection::Up },       { "UP", DeployDirection::Up },
-            { "up", DeployDirection::Up },       { "上", DeployDirection::Up },
-
-            { "Down", DeployDirection::Down },   { "DOWN", DeployDirection::Down },
-            { "down", DeployDirection::Down },   { "下", DeployDirection::Down },
-
-            { "None", DeployDirection::None },   { "NONE", DeployDirection::None },
-            { "none", DeployDirection::None },   { "无", DeployDirection::None },
-        };
-
-        std::string direction_str = action_info.get("direction", "Right");
-
-        if (auto iter = DeployDirectionMapping.find(direction_str); iter != DeployDirectionMapping.end()) {
-            action.direction = iter->second;
-        }
-        else {
-            action.direction = DeployDirection::Right;
-        }
         action.modify_usage = static_cast<battle::SkillUsage>(action_info.get("skill_usage", 0));
         action.pre_delay = action_info.get("pre_delay", 0);
         auto post_delay_opt = action_info.find<int>("post_delay");
@@ -156,8 +178,55 @@ bool asst::CopilotConfig::parse(const json::value& json)
         action.doc = action_info.get("doc", std::string());
         action.doc_color = action_info.get("doc_color", std::string());
 
-        m_data.actions.emplace_back(std::move(action));
+        if (action.type == ActionType::CheckIfStartOver) {
+            if (auto tool_men = action_info.find("tool_men")) {
+                action.role_counts = parse_role_counts(*tool_men);
+            }
+        }
+
+        actions_list.emplace_back(std::move(action));
     }
 
-    return true;
+    return actions_list;
+}
+
+asst::battle::RoleCounts asst::CopilotConfig::parse_role_counts(const json::value& json)
+{
+    battle::RoleCounts counts;
+    for (const auto& [role_name, count] : json.as_object()) {
+        auto role = get_role_type(role_name);
+        if (role == Role::Unknown) {
+            Log.error("Unknown role name: ", role_name);
+            throw std::runtime_error("Unknown role name: " + role_name);
+        }
+        counts.emplace(role, count.as_integer());
+    }
+    return counts;
+}
+
+asst::battle::DeployDirection asst::CopilotConfig::string_to_direction(const std::string& str)
+{
+    static const std::unordered_map<std::string, DeployDirection> DeployDirectionMapping = {
+        { "Right", DeployDirection::Right }, { "RIGHT", DeployDirection::Right },
+        { "right", DeployDirection::Right }, { "右", DeployDirection::Right },
+
+        { "Left", DeployDirection::Left },   { "LEFT", DeployDirection::Left },
+        { "left", DeployDirection::Left },   { "左", DeployDirection::Left },
+
+        { "Up", DeployDirection::Up },       { "UP", DeployDirection::Up },
+        { "up", DeployDirection::Up },       { "上", DeployDirection::Up },
+
+        { "Down", DeployDirection::Down },   { "DOWN", DeployDirection::Down },
+        { "down", DeployDirection::Down },   { "下", DeployDirection::Down },
+
+        { "None", DeployDirection::None },   { "NONE", DeployDirection::None },
+        { "none", DeployDirection::None },   { "无", DeployDirection::None },
+    };
+
+    if (auto iter = DeployDirectionMapping.find(str); iter != DeployDirectionMapping.end()) {
+        return iter->second;
+    }
+    else {
+        return DeployDirection::Right;
+    }
 }
