@@ -1,4 +1,5 @@
 - 移除 DX12 依赖，重新支持 Windows 7, Windows Server 等系统 @zhangchi0104 @MistEO
+- 修复 启动模拟器 的报错 @ABA2396
 - 修复 macOS 运行崩溃问题 @hguandl
 - 修复 Liunx 运行崩溃问题 @horror-proton
 
