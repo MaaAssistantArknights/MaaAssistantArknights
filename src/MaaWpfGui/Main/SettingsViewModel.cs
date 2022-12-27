@@ -448,6 +448,8 @@ namespace MaaWpfGui
                 {
                     StartInfo = startInfo,
                 };
+
+                AsstProxy.AsstLog("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
                 process.Start();
 
                 try
@@ -456,20 +458,29 @@ namespace MaaWpfGui
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
+                        AsstProxy.AsstLog("Try minimizing the emulator");
                         int i;
                         for (i = 0; !IsIconic(process.MainWindowHandle) && i < 100; ++i)
                         {
                             ShowWindow(process.MainWindowHandle, SWMINIMIZE);
+                            Thread.Sleep(10);
+                            if (process.HasExited)
+                            {
+                                throw new Exception();
+                            }
                         }
 
                         if (i >= 100)
                         {
+                            AsstProxy.AsstLog("Attempts to exceed the limit");
                             throw new Exception();
                         }
                     }
                 }
                 catch (Exception)
                 {
+                    AsstProxy.AsstLog("The emulator was already start");
+
                     // 如果之前就启动了模拟器，如果开启了最小化启动，就把所有模拟器最小化
                     // TODO:只最小化需要开启的模拟器
                     string processName = Path.GetFileNameWithoutExtension(fileName);
@@ -478,11 +489,19 @@ namespace MaaWpfGui
                     {
                         if (MinimizingStartup)
                         {
+                            AsstProxy.AsstLog("Try minimizing the emulator by processName: " + processName);
                             foreach (Process p in processes)
                             {
-                                for (int i = 0; !IsIconic(p.MainWindowHandle) && i < 100; ++i)
+                                int i;
+                                for (i = 0; !IsIconic(p.MainWindowHandle) && !p.HasExited && i < 100; ++i)
                                 {
                                     ShowWindow(p.MainWindowHandle, SWMINIMIZE);
+                                    Thread.Sleep(10);
+                                }
+
+                                if (i >= 100)
+                                {
+                                    AsstProxy.AsstLog("The emulator minimization failure");
                                 }
                             }
                         }
@@ -491,6 +510,9 @@ namespace MaaWpfGui
             }
             catch (Exception)
             {
+                AsstProxy.AsstLog("Start emulator error, try to start using the default: \n" +
+                    "EmulatorPath: " + EmulatorPath + "\n" +
+                    "EmulatorAddCommand: " + EmulatorAddCommand);
                 if (EmulatorAddCommand.Length != 0)
                 {
                     Process.Start(EmulatorPath);
