@@ -161,7 +161,7 @@
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
-    <system:String x:Key="CreditFightTip">戦友を借りて OF-1 で戦闘を行い、30クレジットを獲得します。ステージ設定が 現在/前回 になっている場合は確認を行いません。</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30クレジット獲得できます。&#x0a;この機能は、ステージを現在/前回に選択している場合は無効です。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
