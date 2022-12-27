@@ -127,9 +127,12 @@ namespace asst::battle
     };
 
     using AttackRange = std::vector<Point>;
+    using RoleCounts = std::unordered_map<Role, int>;
 
     namespace copilot
     {
+        using OperUsageGroups = std::unordered_map<std::string, std::vector<OperUsage>>;
+
         enum class ActionType
         {
             Deploy,      // 部署干员
@@ -140,6 +143,10 @@ namespace asst::battle
             BulletTime,  // 使用 1/5 的速度
             Output,      // 仅输出，什么都不操作，界面上也不显示
             SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
+
+            /* for SSS */
+            DrawCard,         // “调配干员”
+            CheckIfStartOver, // 检查如果没有某干员则退出重开
         };
 
         struct Action
@@ -158,17 +165,68 @@ namespace asst::battle
             int time_out = INT_MAX; // TODO
             std::string doc;
             std::string doc_color;
+            RoleCounts role_counts;
         };
 
-        struct CombatData // 作业 JSON 数据
+        struct BasicInfo
         {
+            std::string stage_name;
             std::string minimum_required;
             std::string title;
             std::string title_color;
             std::string details;
             std::string details_color;
-            std::unordered_map<std::string, std::vector<OperUsage>> groups;
+        };
+
+        struct CombatData // 作业 JSON 数据
+        {
+            BasicInfo info;
+            OperUsageGroups groups;
             std::vector<Action> actions;
+        };
+    }
+
+    namespace sss // 保全派驻
+    {
+        struct Strategy
+        {
+            std::string core;
+            RoleCounts tool_men;
+            Point location;
+            DeployDirection direction = DeployDirection::None;
+        };
+
+        struct CombatData
+        {
+            std::string stage_name;
+            std::vector<Strategy> strategies;
+            std::vector<copilot::Action> actions;
+            bool draw_as_possible = false;
+        };
+
+        enum class EquipmentType
+        {
+            NotChoose,
+            A,
+            B,
+        };
+
+        struct CompleteData
+        {
+            copilot::BasicInfo info;
+
+            std::string buff;
+            std::vector<EquipmentType> equipment;
+            std::string strategy;
+
+            copilot::OperUsageGroups groups;
+            RoleCounts tool_men;
+            std::vector<std::string> drop_buffs;
+
+            std::vector<std::string> drop_opers;
+            std::vector<Role> drop_tool_men;
+
+            std::vector<CombatData> stages_data;
         };
     }
 

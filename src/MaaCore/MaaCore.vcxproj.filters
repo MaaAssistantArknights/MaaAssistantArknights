@@ -459,8 +459,8 @@
     <ClInclude Include="Task\BattleHelper.h">
       <Filter>源文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Algorithm.hpp">
-      <Filter>源文件\Utils</Filter>
+    <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h">
+      <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -751,6 +751,9 @@
     </ClCompile>
     <ClCompile Include="Task\BattleHelper.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp">
+      <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

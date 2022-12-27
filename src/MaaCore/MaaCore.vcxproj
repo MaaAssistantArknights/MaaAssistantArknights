@@ -28,6 +28,7 @@
     <ClInclude Include="Common\AsstMsg.h" />
     <ClInclude Include="Common\AsstTypes.h" />
     <ClInclude Include="Common\AsstVersion.h" />
+    <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\BattleHelper.h" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="Assistant.cpp" />
     <ClCompile Include="AsstCaller.cpp" />
+    <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
