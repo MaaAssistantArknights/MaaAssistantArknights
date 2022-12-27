@@ -9,13 +9,13 @@
 #include "Utils/Platform.hpp"
 #include "Utils/WorkingDir.hpp"
 
+#include <filesystem>
 #include <map>
 
 namespace asst
 {
     class BattleHelper
     {
-        inline static const auto AvatarCacheDir = UserDir.get() / utils::path("cache") / utils::path("avatars");
         inline static const std::string CacheExtension = ".png";
 
     public:
@@ -23,6 +23,8 @@ namespace asst
 
     protected:
         BattleHelper(Assistant* inst);
+
+        virtual AbstractTask& this_task() = 0;
 
         virtual bool set_stage_name(const std::string& name);
         virtual void clear();
@@ -55,8 +57,8 @@ namespace asst
         bool click_oper_on_deployment(const Rect& rect);
         bool click_oper_on_battlefiled(const std::string& name);
         bool click_oper_on_battlefiled(const Point& loc);
-        bool click_retreat(); // 这个是不带识别的，直接点
-        bool click_skill(bool keep_waiting = true);   // 这个是带识别的，转好了才点
+        bool click_retreat();                       // 这个是不带识别的，直接点
+        bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
 
         bool is_name_invaild(const std::string& name);
@@ -80,7 +82,7 @@ namespace asst
         std::map<Point, std::string> m_used_tiles;
 
     private:
-        virtual AbstractTask& this_task() = 0;
+        static const std::filesystem::path& avatar_cache_dir();
 
         InstHelper m_inst_helper;
     };

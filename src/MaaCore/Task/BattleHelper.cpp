@@ -65,7 +65,7 @@ bool asst::BattleHelper::load_avatar_cache(const std::string& name, bool with_to
     if (name.empty()) {
         return false;
     }
-    auto path = AvatarCacheDir / utils::path(name + CacheExtension);
+    auto path = avatar_cache_dir() / utils::path(name + CacheExtension);
     Log.info(path);
 
     if (!std::filesystem::exists(path)) {
@@ -95,10 +95,10 @@ void asst::BattleHelper::save_avatar_cache(const std::string& name, const cv::Ma
 {
     LogTraceFunction;
 
-    auto path = AvatarCacheDir / utils::path(name + CacheExtension);
+    auto path = avatar_cache_dir() / utils::path(name + CacheExtension);
     Log.info(path);
 
-    std::filesystem::create_directories(AvatarCacheDir);
+    std::filesystem::create_directories(avatar_cache_dir());
     asst::imwrite(path, avatar);
 }
 
@@ -573,4 +573,12 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
     }
 
     return oper_iter->second.rect;
+}
+
+const std::filesystem::path& asst::BattleHelper::avatar_cache_dir()
+{
+    using namespace asst::utils::path_literals;
+
+    static const auto dir = UserDir.get() / "cache"_p / "avatars"_p;
+    return dir;
 }
