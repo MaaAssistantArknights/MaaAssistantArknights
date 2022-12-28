@@ -1525,15 +1525,16 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
+        /// <param name="type">任务类型</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation)
+        public bool AsstStartCopilot(string filename, bool formation, string type)
         {
             var task_params = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Copilot", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }

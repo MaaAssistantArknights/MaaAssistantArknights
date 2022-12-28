@@ -462,6 +462,9 @@
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Interface\SSSCopilotTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -754,6 +757,9 @@
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\SSSCopilotTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -223,8 +223,7 @@ namespace asst::battle
             RoleCounts tool_men;
             std::vector<std::string> drop_buffs;
 
-            std::vector<std::string> drop_opers;
-            std::vector<Role> drop_tool_men;
+            std::vector<std::string> drop_tool_men;
 
             std::vector<CombatData> stages_data;
         };

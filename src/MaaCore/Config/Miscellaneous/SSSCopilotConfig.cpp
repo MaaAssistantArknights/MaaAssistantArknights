@@ -25,7 +25,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
 
     m_data.buff = json.get("buff", std::string());
     m_data.strategy = json.get("strategy", std::string());
-    m_data.tool_men = CopilotConfig::parse_role_counts(json);
+    m_data.tool_men = CopilotConfig::parse_role_counts(json.at("tool_men"));
 
     if (auto equipment_opt = json.find<json::array>("equipment")) {
         static const std::unordered_map<std::string, EquipmentType> Equipment {
@@ -52,10 +52,13 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             std::string name = man.as_string();
 
             if (auto role = get_role_type(name); role != Role::Unknown) {
-                m_data.drop_tool_men.emplace_back(std::move(name));
+                m_data.drop_tool_men.emplace_back(name);
             }
             else if (BattleData.get_rarity(name) != 0) {
-                m_data.drop_opers.emplace_back(std::move(name));
+                m_data.drop_tool_men.emplace_back(name);
+            }
+            else if (name == "None") {
+                m_data.drop_tool_men.emplace_back(name);
             }
             else {
                 Log.error("Unknown drop tool man", name);
@@ -72,7 +75,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
 
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;
-            strategy.core = strategy_info.get("core").as_string();
+            strategy.core = strategy_info.get("core", std::string());
             strategy.location.x = strategy_info.at("location").at(0).as_integer();
             strategy.location.y = strategy_info.at("location").at(1).as_integer();
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));
