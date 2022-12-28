@@ -19,4 +19,6 @@ namespace asst
 
         battle::sss::CompleteData m_data;
     };
+
+    inline static auto& SSSCopilot = SSSCopilotConfig::get_instance();
 }

@@ -32,6 +32,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\BattleHelper.h" />
+    <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
     <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
     <ClInclude Include="Vision\HashImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
+    <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp" />
     <ClCompile Include="Vision\HashImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp" />
