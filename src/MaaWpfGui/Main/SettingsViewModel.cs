@@ -1297,6 +1297,15 @@ namespace MaaWpfGui
         private int _timer7hour = int.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
         private int _timer8hour = int.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
 
+        private int _timer1min = int.Parse(ViewStatusStorage.Get("Timer.Timer1Min", "0"));
+        private int _timer2min = int.Parse(ViewStatusStorage.Get("Timer.Timer2Min", "0"));
+        private int _timer3min = int.Parse(ViewStatusStorage.Get("Timer.Timer3Min", "0"));
+        private int _timer4min = int.Parse(ViewStatusStorage.Get("Timer.Timer4Min", "0"));
+        private int _timer5min = int.Parse(ViewStatusStorage.Get("Timer.Timer5Min", "0"));
+        private int _timer6min = int.Parse(ViewStatusStorage.Get("Timer.Timer6Min", "0"));
+        private int _timer7min = int.Parse(ViewStatusStorage.Get("Timer.Timer7Min", "0"));
+        private int _timer8min = int.Parse(ViewStatusStorage.Get("Timer.Timer8Min", "0"));
+
         /// <summary>
         /// Gets or sets a value indicating whether the 1st timer is set.
         /// </summary>
@@ -1502,6 +1511,110 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _timer8hour, value);
                 ViewStatusStorage.Set("Timer.Timer8Hour", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 1st timer.
+        /// </summary>
+        public int Timer1Min
+        {
+            get => _timer1min;
+            set
+            {
+                SetAndNotify(ref _timer1min, value);
+                ViewStatusStorage.Set("Timer.Timer1Min", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 2nd timer.
+        /// </summary>
+        public int Timer2Min
+        {
+            get => _timer2min;
+            set
+            {
+                SetAndNotify(ref _timer2min, value);
+                ViewStatusStorage.Set("Timer.Timer2Min", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 3rd timer.
+        /// </summary>
+        public int Timer3Min
+        {
+            get => _timer3min;
+            set
+            {
+                SetAndNotify(ref _timer3min, value);
+                ViewStatusStorage.Set("Timer.Timer3Min", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 4th timer.
+        /// </summary>
+        public int Timer4Min
+        {
+            get => _timer4min;
+            set
+            {
+                SetAndNotify(ref _timer4min, value);
+                ViewStatusStorage.Set("Timer.Timer4Min", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 5th timer.
+        /// </summary>
+        public int Timer5Min
+        {
+            get => _timer5min;
+            set
+            {
+                SetAndNotify(ref _timer5min, value);
+                ViewStatusStorage.Set("Timer.Timer5Min", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 6th timer.
+        /// </summary>
+        public int Timer6Min
+        {
+            get => _timer6min;
+            set
+            {
+                SetAndNotify(ref _timer6min, value);
+                ViewStatusStorage.Set("Timer.Timer6Min", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 7th timer.
+        /// </summary>
+        public int Timer7Min
+        {
+            get => _timer7min;
+            set
+            {
+                SetAndNotify(ref _timer7min, value);
+                ViewStatusStorage.Set("Timer.Timer7Min", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the min of the 8th timer.
+        /// </summary>
+        public int Timer8Min
+        {
+            get => _timer8min;
+            set
+            {
+                SetAndNotify(ref _timer8min, value);
+                ViewStatusStorage.Set("Timer.Timer8Min", value.ToString());
             }
         }
 
