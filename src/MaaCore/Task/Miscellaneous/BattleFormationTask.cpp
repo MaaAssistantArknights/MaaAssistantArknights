@@ -99,11 +99,11 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 
     // 按位置排个序
     ranges::sort(opers_result, [](const TextRect& lhs, const TextRect& rhs) -> bool {
-        if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
-            return lhs.rect.x < rhs.rect.x;
+        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一列的，按y排序
+            return lhs.rect.y < rhs.rect.y;
         }
         else {
-            return lhs.rect.y < rhs.rect.y;
+            return lhs.rect.x < rhs.rect.x; // 否则按x排序
         }
     });
     if (m_the_right_name == opers_result.back().text) {

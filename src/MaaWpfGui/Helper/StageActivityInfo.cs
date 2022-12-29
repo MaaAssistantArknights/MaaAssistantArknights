@@ -26,6 +26,11 @@ namespace MaaWpfGui
         public string Tip { get; set; }
 
         /// <summary>
+        /// Gets or sets the stage name
+        /// </summary>
+        public string StageName { get; set; }
+
+        /// <summary>
         /// Gets or sets the activity UTC expire time
         /// </summary>
         public DateTime UtcExpireTime { get; set; }
