@@ -145,23 +145,22 @@ namespace MaaWpfGui
 
             refreshCustomInfrastPlanIndexByPeriod();
 
-            int intMinute = DateTime.Now.Minute;
-
-            if (intMinute != 0 || Idle == false)
+            if (!Idle)
             {
                 return;
             }
 
+            int intMinute = DateTime.Now.Minute;
             int intHour = DateTime.Now.Hour;
             var settings = _container.Get<SettingsViewModel>();
-            if ((settings.Timer1 && settings.Timer1Hour == intHour) ||
-                (settings.Timer2 && settings.Timer2Hour == intHour) ||
-                (settings.Timer3 && settings.Timer3Hour == intHour) ||
-                (settings.Timer4 && settings.Timer4Hour == intHour) ||
-                (settings.Timer5 && settings.Timer5Hour == intHour) ||
-                (settings.Timer6 && settings.Timer6Hour == intHour) ||
-                (settings.Timer7 && settings.Timer7Hour == intHour) ||
-                (settings.Timer8 && settings.Timer8Hour == intHour))
+            if ((settings.Timer1 && settings.Timer1Hour == intHour && settings.Timer1Min == intMinute) ||
+                (settings.Timer2 && settings.Timer2Hour == intHour && settings.Timer2Min == intMinute) ||
+                (settings.Timer3 && settings.Timer3Hour == intHour && settings.Timer3Min == intMinute) ||
+                (settings.Timer4 && settings.Timer4Hour == intHour && settings.Timer4Min == intMinute) ||
+                (settings.Timer5 && settings.Timer5Hour == intHour && settings.Timer5Min == intMinute) ||
+                (settings.Timer6 && settings.Timer6Hour == intHour && settings.Timer6Min == intMinute) ||
+                (settings.Timer7 && settings.Timer7Hour == intHour && settings.Timer7Min == intMinute) ||
+                (settings.Timer8 && settings.Timer8Hour == intHour && settings.Timer8Min == intMinute))
             {
                 LinkStart();
             }

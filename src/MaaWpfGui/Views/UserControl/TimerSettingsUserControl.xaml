@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.TimerSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -49,12 +50,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer1Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer1}"
+                    Text="{Binding Timer1Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer1}"
+                    Text="{Binding Timer1Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -74,12 +86,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer2Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer2}"
+                    Text="{Binding Timer2Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer2}"
+                    Text="{Binding Timer2Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -99,12 +122,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer3Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer3}"
+                    Text="{Binding Timer3Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer3}"
+                    Text="{Binding Timer3Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -124,12 +158,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer4Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer4}"
+                    Text="{Binding Timer4Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer4}"
+                    Text="{Binding Timer4Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -149,12 +194,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer5Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer5}"
+                    Text="{Binding Timer5Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer5}"
+                    Text="{Binding Timer5Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -174,12 +230,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer6Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer6}"
+                    Text="{Binding Timer6Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer6}"
+                    Text="{Binding Timer6Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -199,12 +266,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer7Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer7}"
+                    Text="{Binding Timer7Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer7}"
+                    Text="{Binding Timer7Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -224,12 +302,23 @@
                     </TextBlock>
                 </CheckBox.Content>
             </CheckBox>
-            <TextBox
-                Width="50"
-                Margin="10"
-                InputMethod.IsInputMethodEnabled="False"
-                Text="{Binding Timer8Hour}"
-                TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer8}"
+                    Text="{Binding Timer8Hour, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBox
+                    Width="35"
+                    Margin="10"
+                    InputMethod.IsInputMethodEnabled="False"
+                    IsReadOnly="{c:Binding !Timer8}"
+                    Text="{Binding Timer8Min, StringFormat=D2}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
