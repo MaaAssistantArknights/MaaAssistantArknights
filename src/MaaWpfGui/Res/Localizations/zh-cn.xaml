@@ -273,7 +273,8 @@
     <system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
     <system:String x:Key="ClosedStage">活动未开放</system:String>
-    <system:String x:Key="RemainingOpeningTime">剩余开放天数：</system:String>
+    <system:String x:Key="Daysleftopen">剩余开放天数：</system:String>
+    <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
     <system:String x:Key="AP-5">红票-5</system:String>
