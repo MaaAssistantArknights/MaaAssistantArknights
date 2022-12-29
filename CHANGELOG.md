@@ -1,3 +1,10 @@
+- 修复 公招 高资 tag 识别错误 @horror-proton
+- 修复 活动关卡导航 开始时间错误，并新增活动剩余开始时间显示 @ABA2396
+- 修复 自动战斗 编队干员组排序错误 @MistEO
+- 修复 自动战斗/肉鸽战斗 不设置干员方向卡住的问题 @MistEO
+
+## v4.9.0-alpha.2
+
 - 移除 DX12 依赖，重新支持 Windows 7, Windows Server 等系统 @zhangchi0104 @MistEO
 - 修复 启动模拟器 的报错 @ABA2396
 - 修复 macOS 运行崩溃问题 @hguandl
