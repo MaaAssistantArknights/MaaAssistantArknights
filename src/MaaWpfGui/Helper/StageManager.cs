@@ -134,9 +134,11 @@ namespace MaaWpfGui
                     else if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
                     {
                         DateTime dateTime = DateTime.UtcNow;
+                        var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
                         builder.AppendLine(item.Value.Activity.StageName
-                            + Localization.GetString("RemainingOpeningTime")
-                            + (item.Value.Activity.UtcExpireTime - dateTime).Days.ToString());
+                            + " "
+                            + Localization.GetString("Daysleftopen")
+                            + (daysleftopen > 0 ? daysleftopen.ToString() : Localization.GetString("LessThanOneDay")));
                         sideStoryFlag = false;
                     }
                 }
