@@ -34,7 +34,7 @@ namespace MaaWpfGui
             {
                 Tip = "SideStory「照我以火」活动",
                 UtcStartTime = new DateTime(2022, 12, 15, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2023, 1, 5, 4, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2022, 12, 29, 4, 0, 0).AddHours(-8),
             };
 
             var resourceCollection = new StageActivityInfo()
