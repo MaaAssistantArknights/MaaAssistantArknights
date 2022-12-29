@@ -3718,7 +3718,16 @@
             480,
             120
         ],
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                "^资深.+",
+                "资深干员"
+            ],
+            [
+                ".*高级.+",
+                "高级资深干员"
+            ]
+        ]
     },
     "RecruitRefresh": {
         "action": "ClickSelf",

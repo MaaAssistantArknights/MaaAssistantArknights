@@ -309,8 +309,8 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         static const int coeff = swipe_oper_task_ptr->special_params.at(0);
         Point end_point = target_point + (direction_target * coeff);
 
-        m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
         m_inst_helper.sleep(use_oper_task_ptr->post_delay);
+        m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
     }
 
     if (deploy_with_pause) {
