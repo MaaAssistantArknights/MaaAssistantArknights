@@ -18,7 +18,7 @@ object MaaService {
 
     private val wsConnection = Collections.synchronizedSet<Connection?>(LinkedHashSet())
 
-    val MaaCore: MaaCore by lazy {
+    val maaCore: MaaCore by lazy {
         var maaPath = File(File("").absolutePath).parent
         logger.info("maaPath $maaPath")
 //        maaPath = "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3"
@@ -33,8 +33,8 @@ object MaaService {
 //        if (instancePool.containsKey(id)) {
 //            return ConnectResponse(id, true)
 //        }
-        val maaInstance = MaaInstance(MaaCore, id, adbPath, host, detailJson, ::callBackLog)
-        maaInstance.pointer = MaaCore.AsstCreateEx(maaInstance, maaInstance.id)
+        val maaInstance = MaaInstance(maaCore, id, adbPath, host, detailJson, ::callBackLog)
+        maaInstance.pointer = maaCore.AsstCreateEx(maaInstance, maaInstance.id)
         val connect = maaInstance.connect()
         if (!connect) {
             return ConnectResponse("", false)
@@ -54,7 +54,7 @@ object MaaService {
 
     fun stop(id: String) = instancePool[id]?.stop() ?: false
 
-    fun getVersion(): String = MaaCore.AsstGetVersion()
+    fun getVersion(): String = maaCore.AsstGetVersion()
 
     private fun sha1(password: String): String {
         val messageDigest = MessageDigest.getInstance("SHA")
