@@ -95,6 +95,11 @@ void asst::BattleHelper::save_avatar_cache(const std::string& name, const cv::Ma
 {
     LogTraceFunction;
 
+    if (BattleData.get_rarity(name) == 0) {
+        Log.error("wrong oper name", name);
+        return;
+    }
+
     auto path = avatar_cache_dir() / utils::path(name + CacheExtension);
     Log.info(path);
 
