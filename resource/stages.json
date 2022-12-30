@@ -55679,7 +55679,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 156000,
@@ -55709,7 +55711,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 129000,
@@ -55739,7 +55743,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 183000,
@@ -55769,7 +55775,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 185000,
@@ -55799,7 +55807,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 174000,
@@ -55829,7 +55839,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 216000,
@@ -55859,7 +55871,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 170000,
@@ -55889,7 +55903,9 @@
                 "exist": false
             },
             "US": {
-                "exist": false
+			    "closeTime": 1673348340000,
+                "exist": true,
+				"openTime": 1672160400000
             }
         },
         "minClearTime": 362000,
