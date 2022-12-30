@@ -1300,6 +1300,21 @@
             ]
         ]
     },
+	"ClickChapter1": {
+        "text": [
+            "Hour of An Awakening"
+        ]
+    },
+    "ClickChapter2": {
+        "text": [
+            "Shatter of A Vision"
+        ]
+    },
+    "ClickChapter3": {
+        "text": [
+            "Shadow of A Dying Sun"
+        ]
+    },
     "StartButton1": {
         "text": [
             "Start"
@@ -1472,6 +1487,7 @@
         ]
     },
     "InfrastEnterOperList": {
+	    "fullMatch": true,
         "text": [
             "Morale",
             "Resting",
@@ -1479,7 +1495,8 @@
             "Assign"
         ]
     },
-	"Award": {      
+    "Award": {
+        "template": "Task.png",
         "roi": [
             700,
             530,
@@ -1491,6 +1508,36 @@
         "text": [
             "To the most recent stage"
         ]
+    },
+	"StartRecruit": {
+        "text": [
+            "Recruit Now"
+        ]
+    },
+	"RecruitFlag": {
+        "text": [
+            "Recruit"
+        ]
+    },
+	    "RecruitNow": {
+        "text": [
+            "Expedite"
+        ]
+    },
+	"ShamareThumbnail1": {
+		"maskRange": [ 1, 255 ]
+    },
+    "ShamareThumbnail2": {
+		"maskRange": [ 1, 255 ]
+    },
+    "ShamareThumbnail3": {
+	    "maskRange": [ 1, 255 ]
+    },
+	    "Roguelike@StageTraderInvestSystem": {
+        "maskRange": [ 1, 255 ]
+    },
+	"Roguelike@StageTraderInvestConfirm": {
+        "templThreshold": 0.55
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
