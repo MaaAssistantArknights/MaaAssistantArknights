@@ -1207,6 +1207,14 @@
         "sortId": -10000,
         "usage": "Records already ravaged beyond playability. Can be exchanged with the long-time residents of the ruins for goods."
     },
+	"act18side_token_pieces": {
+        "classifyType": "NONE",
+        "description": "The notes scribbled on the staff are jumbled and disorderly. Only the composer himself can, at a glance, make out the soul hidden therein.",
+        "icon": "act18side_token_pieces.png",
+        "name": "Sheet Music",
+        "sortId": -10000,
+        "usage": "Musicians often misplace wheir drafts outbursts of emotion. If you straighten it out and return it to its owner, perhaps you will receive a new piece in return."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "Points gained for taking down OpFor troops, awarded to competitors in the form of medals. Owing to it being forged by Minos smiths, in each medal's engraving is the proverb 'all heroes arise from normal people.'",
