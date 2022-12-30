@@ -33,6 +33,7 @@
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
+    <ClInclude Include="Task\Miscellaneous\SSSBattleProcessTask.h" />
     <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
     <ClInclude Include="Vision\HashImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp" />
     <ClCompile Include="Vision\HashImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp" />
@@ -251,6 +253,7 @@
     <RootNamespace>MaaCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>MaaCore</ProjectName>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">

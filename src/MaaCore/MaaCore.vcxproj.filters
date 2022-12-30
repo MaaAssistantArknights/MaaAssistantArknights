@@ -465,6 +465,9 @@
     <ClInclude Include="Task\Interface\SSSCopilotTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\SSSBattleProcessTask.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -760,6 +763,9 @@
     </ClCompile>
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\SSSBattleProcessTask.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

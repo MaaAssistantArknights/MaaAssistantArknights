@@ -28,6 +28,7 @@ namespace asst
 
         virtual bool set_stage_name(const std::string& name);
         virtual void clear();
+        virtual const std::string oper_name_ocr_task_name() const noexcept { return "BattleOperName"; }
 
         bool calc_tiles_info(const std::string& stage_name);
         bool load_avatar_cache(const std::string& name, bool with_token = false);

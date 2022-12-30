@@ -68,7 +68,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
     }
     for (const auto& stage : json.at("stages").as_array()) {
         CombatData stage_data;
-        stage_data.stage_name = stage.at("stage_name").as_string();
+        stage_data.info = CopilotConfig::parse_basic_info(stage);
         stage_data.draw_as_possible = stage.at("draw_as_possible").as_boolean();
 
         stage_data.actions = CopilotConfig::parse_actions(stage);
@@ -76,6 +76,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;
             strategy.core = strategy_info.get("core", std::string());
+            strategy.tool_men = CopilotConfig::parse_role_counts(strategy_info.at("tool_men"));
             strategy.location.x = strategy_info.at("location").at(0).as_integer();
             strategy.location.y = strategy_info.at("location").at(1).as_integer();
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));

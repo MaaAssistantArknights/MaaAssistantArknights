@@ -219,7 +219,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             click_oper_on_deployment(oper.rect);
 
             OcrWithPreprocessImageAnalyzer name_analyzer(m_inst_helper.ctrler()->get_image());
-            name_analyzer.set_task_info("BattleOperName");
+            name_analyzer.set_task_info(oper_name_ocr_task_name());
             name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
             if (!name_analyzer.analyze()) {
                 Log.error("ocr failed");

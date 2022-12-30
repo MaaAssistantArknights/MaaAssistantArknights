@@ -9,7 +9,7 @@
 
 namespace asst
 {
-    class BattleProcessTask : public AbstractTask, private BattleHelper
+    class BattleProcessTask : public AbstractTask, public BattleHelper
     {
     public:
         BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
@@ -22,13 +22,18 @@ namespace asst
         virtual AbstractTask& this_task() override { return *this; }
         virtual void clear() override;
 
+        virtual bool do_derived_action([[maybe_unused]] size_t action_index) { return false; }
+        virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
+        virtual battle::copilot::CombatData& get_combat_data() { return m_combat_data; }
+
         void load_cache();
         bool to_group();
         bool do_action(size_t action_index);
+
         void notify_action(const battle::copilot::Action& action);
         bool wait_condition(const battle::copilot::Action& action);
         bool enter_bullet_time_for_next_action(size_t next_index, const Point& location, const std::string& name);
-        void sleep_with_use_ready_skill(unsigned millisecond);
+        void sleep_and_do_not_urgent(unsigned millisecond);
 
         battle::copilot::CombatData m_combat_data;
         std::unordered_map</*group*/ std::string, /*oper*/ std::string> m_oper_in_group;

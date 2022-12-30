@@ -5968,8 +5968,19 @@
         "roi": [
             0,
             182,
-            160,
+            200,
             30
+        ]
+    },
+    "SSSBattleOperName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [
+            0,
+            102,
+            190,
+            37
         ]
     },
     "BattleOfficiallyBegin": {
