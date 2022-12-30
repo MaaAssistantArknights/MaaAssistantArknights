@@ -1277,6 +1277,26 @@
             [
                 "Erato",
                 "埃拉托"
+            ],
+            [
+                "Tuba"
+                "低音号"
+            ],
+            [
+                "Resonator"
+                "谐振器"
+            ],
+            [
+                "Czerny",
+                "车尔尼"
+            ],
+            [
+                "Hibiscus the Purifier",
+                "濯尘芙蓉"
+            ],
+            [
+                "Ebenholz",
+                "黑键"
             ]
         ]
     },
@@ -1492,6 +1512,10 @@
                 "意外"
             ],
             [
+                "Fight to the Death",
+                "死斗"
+            ],
+            [
                 "The Grand Finale",
                 "压轴登场"
             ],
@@ -1506,6 +1530,10 @@
             [
                 "Unequal Split",
                 "分赃不均"
+            ],
+            [
+                "First Come, Last Served",
+                "先来后到"
             ],
             [
                 "Justice",
@@ -1536,6 +1564,10 @@
                 "感化"
             ],
             [
+                "Sculptor and Statue",
+                "雕匠与石像"
+            ],
+            [
                 "Pressing Ahead",
                 "步步紧逼"
             ],
@@ -1564,6 +1596,10 @@
                 "鲍勃酒品"
             ],
             [
+                "Alpine Visitor",
+                "雪山上的来客"
+            ],
+            [
                 "Drone Landing Zone",
                 "无人机起降库"
             ],
@@ -1590,6 +1626,10 @@
             [
                 "Absurd Trickeries",
                 "荒唐把戏"
+            ],
+            [
+                "From Afar",
+                "隔岸观火"
             ],
             [
                 "Sarkaz Desire",
@@ -1616,6 +1656,10 @@
                 "意外"
             ],
             [
+                "Fight to the Death",
+                "死斗"
+            ],
+            [
                 "The Grand Finale",
                 "压轴登场"
             ],
@@ -1630,6 +1674,10 @@
             [
                 "Unequal Split",
                 "分赃不均"
+            ],
+            [
+                "First Come, Last Served",
+                "先来后到"
             ],
             [
                 "Justice",
@@ -1660,6 +1708,10 @@
                 "感化"
             ],
             [
+                "Sculptor and Statue",
+                "雕匠与石像"
+            ],
+            [
                 "Pressing Ahead",
                 "步步紧逼"
             ],
@@ -1688,6 +1740,10 @@
                 "鲍勃酒品"
             ],
             [
+                "Alpine Visitor",
+                "雪山上的来客"
+            ],
+            [
                 "Drone Landing Zone",
                 "无人机起降库"
             ],
@@ -1714,6 +1770,10 @@
             [
                 "Absurd Trickeries",
                 "荒唐把戏"
+            ],
+            [
+                "From Afar",
+                "隔岸观火"
             ],
             [
                 "Sarkaz Desire",
@@ -1756,6 +1816,10 @@
                 "诸事不顺"
             ],
             [
+                "New Chapter",
+                "再启新篇"
+            ],
+            [
                 "Disorderly Banquet",
                 "无序盛宴"
             ],
@@ -1782,6 +1846,14 @@
             [
                 "'Knights' Duel'",
                 "“骑士对决”"
+            ],
+            [
+                "Bound by Self",
+                "自缚"
+            ],
+            [
+                "Observation",
+                "观察"
             ]
         ],
         "roi": [
@@ -3002,6 +3074,106 @@
             [
                 "'Excessiveness'",
                 "“无度”"
+            ],
+            [
+                "Dance of the Condemned",
+                "死囚之舞"
+            ],
+            [
+                "Act 1",
+                "初幕"
+            ],
+            [
+                "Today's Menu",
+                "今日菜谱"
+            ],
+            [
+                "'Intoxicated Hymnoi'",
+                "“迷醉荷谟伊”"
+            ],
+            [
+                "Empresses' Wish",
+                "女皇之愿"
+            ],
+            [
+                "Victory Horn",
+                "凯旋号角"
+            ],
+            [
+                "Flash Camera",
+                "高闪相机"
+            ],
+            [
+                "Therapy Tape",
+                "精神治疗录像带"
+            ],
+            [
+                "Royal Brooch",
+                "皇族金胸针"
+            ],
+            [
+                "'Tear of the Departed'",
+                "“逝者垂泪”"
+            ],
+            [
+                "Old Fan",
+                "老蒲扇"
+            ],
+            [
+                "Nachzehrer's Cane",
+                "食腐者手杖"
+            ],
+            [
+                "Angelina's Inspiration",
+                "安洁莉娜的创想"
+            ],
+            [
+                "Scout's Scope",
+                "Scout的狙击镜"
+            ],
+            [
+                "'Silence'",
+                "“噤声”"
+            ],
+            [
+                "'Focus'",
+                "“聚焦”"
+            ],
+            [
+                "Rhodes Island Tactical Transceiver",
+                "罗德岛战术电台"
+            ],
+            [
+                "Assault Contract - Sharp Blade",
+                "突击协议-利刃"
+            ],
+            [
+                "Assault Contract - Skirmish",
+                "突击协议-散兵"
+            ],
+            [
+                "Fortification Contract - Phalanx",
+                "堡垒协议-方阵"
+            ],
+            [
+                "Fortification Contract - Resolution",
+                "堡垒协议-固守"
+            ],
+            [
+                "Long-Range Contract - Remote Strike",
+                "远程协议-遥击"
+            ],
+            [
+                "Long-Range Contract - Assassination",
+                "远程协议-克敌"
+            ],
+            [
+                "Destruction Contract - Elimination",
+                "破坏协议-消除"
+            ],
+            [
+                "Destruction Contract - Suppression",
+                "破坏协议-压制"
             ],
             [
                 "Support Landmine Set",
