@@ -19,6 +19,7 @@
 #include <chrono>
 #include <cstdint>
 #include <memory>
+#include <regex>
 #include <utility>
 #include <vector>
 
@@ -925,6 +926,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
         clear_lf_info();
 
         auto start_time = high_resolution_clock::now();
+        Log.info("screencapRawByNC: ", m_adb.screencap_raw_by_nc);
         if (m_support_socket && m_server_started &&
             screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true)) {
             // sock 第一次截图比较长（不知道是不是初始化了什么东西耽误时间，减个额外的的时间）
@@ -1500,15 +1502,21 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
             bind_address = "127.0.0.1";
         }
 
-        // reference from
-        // https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
-        auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
-        if (nc_address_ret && !m_server_started) {
-            auto& nc_result_str = nc_address_ret.value();
+        // 自动探测 MAA 运行机器 IP 地址的方法在真实手机上并不可靠，因此优先使用用户配置的 maaAddress
+        if (!adb_cfg.maa_address.empty()) {
+            nc_address = adb_cfg.maa_address;
+        } else {
+            // reference from
+            // https://github.com/ArknightsAutoHelper/ArknightsAutoHelper/blob/master/automator/connector/ADBConnector.py#L436
+            auto nc_address_ret = call_command(cmd_replace(adb_cfg.nc_address));
+            if (nc_address_ret && !m_server_started) {
+                auto& nc_result_str = nc_address_ret.value();
             if (auto pos = nc_result_str.find(' '); pos != std::string::npos) {
                 nc_address = nc_result_str.substr(0, pos);
+                }
             }
         }
+        Log.info("NC address: ", nc_address);
 
         auto socket_opt = init_socket(bind_address);
         if (socket_opt) {

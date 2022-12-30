@@ -62,6 +62,7 @@
             "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+",
             "displayFormat": "%d%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
+            "maaAddress": "",
             "ncAddress": "[Adb] -s [AdbSerial] shell \" cat /proc/net/arp | grep : \"",
             "ncPort": 6723,
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",

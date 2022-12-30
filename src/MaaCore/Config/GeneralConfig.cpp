@@ -48,6 +48,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.display = cfg_json.get("display", base_cfg.display);
         adb.screencap_raw_with_gzip = cfg_json.get("screencapRawWithGzip", base_cfg.screencap_raw_with_gzip);
         adb.screencap_raw_by_nc = cfg_json.get("screencapRawByNC", base_cfg.screencap_raw_by_nc);
+        adb.maa_address = cfg_json.get("maaAddress", base_cfg.maa_address);
         adb.nc_address = cfg_json.get("ncAddress", base_cfg.nc_address);
         adb.nc_port = static_cast<unsigned short>(cfg_json.get("ncPort", base_cfg.nc_port));
         adb.screencap_encode = cfg_json.get("screencapEncode", base_cfg.screencap_encode);
