@@ -5,7 +5,7 @@
 
 namespace asst
 {
-    class BattleProcessTask;
+    class SSSBattleProcessTask;
     class BattleFormationTask;
     class ProcessTask;
 
@@ -23,6 +23,6 @@ namespace asst
     private:
         std::shared_ptr<ProcessTask> m_begin_task_ptr = nullptr;
         std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
-        std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
+        std::shared_ptr<SSSBattleProcessTask> m_battle_task_ptr = nullptr;
     };
 }

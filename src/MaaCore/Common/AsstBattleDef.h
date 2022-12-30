@@ -196,11 +196,9 @@ namespace asst::battle
             DeployDirection direction = DeployDirection::None;
         };
 
-        struct CombatData
+        struct CombatData : public copilot::CombatData
         {
-            std::string stage_name;
             std::vector<Strategy> strategies;
-            std::vector<copilot::Action> actions;
             bool draw_as_possible = false;
         };
 
@@ -222,7 +220,6 @@ namespace asst::battle
             copilot::OperUsageGroups groups;
             RoleCounts tool_men;
             std::vector<std::string> drop_buffs;
-
             std::vector<std::string> drop_tool_men;
 
             std::vector<CombatData> stages_data;

@@ -3,7 +3,7 @@
     "stage_name": "多索雷斯在建地块",
     "minimum_required": "v4.9.0",
     "doc": {
-        "title": "保全测试作业",
+        "title": "保全测试作业"
     },
     "buff": "镀膜装置导能阀",
     "equipment": [
@@ -24,6 +24,11 @@
         },
         {
             "name": "水月",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "桃金娘",
             "skill": 2,
             "skill_usage": 1
         }
@@ -48,28 +53,24 @@
             "stage_name": "蜂拥而上",
             "strategies": [
                 {
-                    "core": "棘刺",
+                    "core": "泥岩",
                     "tool_men": {
-                        "Pioneer": 1,
-                        "Warrior": 1,
-                        "Medic": 1
+                        "Pioneer": 2
                     },
                     "location": [
-                        10,
-                        1
+                        6,
+                        2
                     ],
                     "direction": "Left"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "水月",
                     "tool_men": {
-                        "Pioneer": 1,
-                        "Warrior": 1,
-                        "Medic": 1
+                        "Warrior": 2
                     },
                     "location": [
-                        2,
-                        8
+                        5,
+                        2
                     ],
                     "direction": "Left"
                 },
@@ -78,8 +79,8 @@
                         "Support": 100
                     },
                     "location": [
-                        2,
-                        8
+                        5,
+                        3
                     ],
                     "direction": "Left"
                 }
@@ -87,30 +88,24 @@
             "draw_as_possible": true,
             "actions": [
                 {
-                    "type": "调配干员"                
-                },
-                {
-                    "type": "CheckIfStartOver",
-                    "name": "棘刺"
-                },
-                {
-                    "type": "CheckIfStartOver",
-                    "tool_men": {
-                        "Pioneer": 2
-                    }
-                },
-                {
                     "name": "桃金娘",
                     "location": [
-                        4,
-                        5
+                        5,
+                        4
                     ],
-                    "direction": "左"
+                    "direction": "下"
                 },
                 {
-                    "kills": 10,
-                    "type": "撤退",
-                    "name": "桃金娘"
+                    "kills": 1000,
+                    "name": "桃金娘",
+                    "location": [
+                        5,
+                        4
+                    ],
+                    "direction": "下"
+                },
+                {
+                    "type": "摆完挂机"
                 }
             ],
             "retry_times": 3
