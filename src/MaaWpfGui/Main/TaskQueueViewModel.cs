@@ -899,7 +899,8 @@ namespace MaaWpfGui
             return asstProxy.AsstAppendRoguelike(
                 mode, settings.RoguelikeStartsCount,
                 settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
-                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeTheme);
+                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeUseSupportUnit,
+                settings.RoguelikeEnableNonfriendSupport, settings.RoguelikeTheme);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]

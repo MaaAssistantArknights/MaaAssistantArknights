@@ -66,6 +66,8 @@
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
     <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">開幕戦の幹部は助戦を使った</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のアシストを使用できます</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</system:String>
