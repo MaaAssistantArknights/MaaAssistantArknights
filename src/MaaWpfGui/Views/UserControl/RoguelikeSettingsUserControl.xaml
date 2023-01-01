@@ -164,6 +164,24 @@
                     TextWrapping="Wrap"
                     ToolTip="{DynamicResource StartingCoreCharTip}" />
             </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource RoguelikeUseSupportUnit}"
+                    IsChecked="{Binding RoguelikeUseSupportUnit}"/>
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource RoguelikeUseNonFriendSupport}"
+                    IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
+                    IsEnabled="{Binding RoguelikeUseSupportUnit}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

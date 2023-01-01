@@ -1078,6 +1078,36 @@ namespace MaaWpfGui
             }
         }
 
+        private string _roguelikeUseSupportUnit = ViewStatusStorage.Get("Roguelike.RoguelikeUseSupportUnit", false.ToString());
+
+        /// <summary>
+        /// Is core char a support unit
+        /// </summary>
+        public bool RoguelikeUseSupportUnit
+        {
+            get => bool.Parse(_roguelikeUseSupportUnit);
+            set
+            {
+                SetAndNotify(ref _roguelikeUseSupportUnit, value.ToString());
+                ViewStatusStorage.Set("Roguelike.RoguelikeUseSupportUnit", value.ToString());
+            }
+        }
+
+        private string _roguelikeEnableNonfriendSupport = ViewStatusStorage.Get("Roguelike.RoguelikeEnableNonfriendSupport", false.ToString());
+
+        /// <summary>
+        /// Can roguelike support unit belong to nonfriend
+        /// </summary>
+        public bool RoguelikeEnableNonfriendSupport
+        {
+            get => bool.Parse(_roguelikeEnableNonfriendSupport);
+            set
+            {
+                SetAndNotify(ref _roguelikeEnableNonfriendSupport, value.ToString());
+                ViewStatusStorage.Set("Roguelike.RoguelikeEnableNonfriendSupport", value.ToString());
+            }
+        }
+
         private string _roguelikeStartsCount = ViewStatusStorage.Get("Roguelike.StartsCount", "9999999");
 
         /// <summary>
