@@ -632,13 +632,13 @@
         "Doc": "在上面一点滑避免点到关卡划不动",
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
-            200,
+            300,
             100,
             20,
             20
         ],
         "rectMove": [
-            1000,
+            900,
             100,
             20,
             20
@@ -5985,11 +5985,15 @@
     },
     "BattleAvatarData": {
         "template": "empty.png",
-        "templThreshold": 0.6
-    },
-    "DiceAvatarMatch": {
-        "template": "empty.png",
         "templThreshold": 0.8
+    },
+    "BattleAvatarCoolingData": {
+        "template": "empty.png",
+        "templThreshold": 0.5,
+        "maskRange": [
+            0,
+            50
+        ]
     },
     "BattleKillsFlag": {
         "roi": [

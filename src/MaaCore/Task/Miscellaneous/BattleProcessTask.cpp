@@ -116,6 +116,14 @@ bool asst::BattleProcessTask::to_group()
     }
     m_oper_in_group.merge(ungrouped);
 
+    for (const auto& action : m_combat_data.actions) {
+        const std::string& action_name = action.group_name;
+        if (action_name.empty() || m_oper_in_group.contains(action_name)) {
+            continue;
+        }
+        m_oper_in_group.emplace(action_name, action_name);
+    }
+
     for (const auto& [group_name, oper_name] : m_oper_in_group) {
         auto& this_group = m_combat_data.groups[group_name];
         // there is a build error on macOS
