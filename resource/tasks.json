@@ -5985,11 +5985,15 @@
     },
     "BattleAvatarData": {
         "template": "empty.png",
-        "templThreshold": 0.6
-    },
-    "DiceAvatarMatch": {
-        "template": "empty.png",
         "templThreshold": 0.8
+    },
+    "BattleAvatarCoolingData": {
+        "template": "empty.png",
+        "templThreshold": 0.5,
+        "maskRange": [
+            0,
+            50
+        ]
     },
     "BattleKillsFlag": {
         "roi": [
