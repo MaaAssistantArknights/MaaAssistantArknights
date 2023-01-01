@@ -774,6 +774,116 @@
             120
         ]
     },
+    "IW-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IW-Open",
+            "IWChapterToIW"
+        ],
+        "next": [
+            "StageIW-6",
+            "IW-6@SwipeToStage"
+        ]
+    },
+    "IW-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IW-Open",
+            "IWChapterToIW"
+        ],
+        "next": [
+            "StageIW-7",
+            "IW-7@SwipeToStage"
+        ]
+    },
+    "IW-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IW-Open",
+            "IWChapterToIW"
+        ],
+        "next": [
+            "StageIW-8",
+            "IW-8@SwipeToStage"
+        ]
+    },
+    "IW-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "将进酒",
+            "关卡已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "IWChapterToIW": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "三山奇闻"
+        ],
+        "roi": [
+            890,
+            517,
+            210,
+            134
+        ],
+        "postDelay": 2000,
+        "next": [
+            "IWChapterToIW",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "StageIW-6": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "IW-6"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            283,
+            1280,
+            324
+        ]
+    },
+    "StageIW-7": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "IW-7"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            283,
+            1280,
+            324
+        ]
+    },
+    "StageIW-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "IW-8"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            283,
+            1280,
+            324
+        ]
+    },
     "FC-5": {
         "algorithm": "JustReturn",
         "action": "DoNothing",

@@ -1207,6 +1207,14 @@
         "sortId": -10000,
         "usage": "もう読み取れないレコード。長らく都市の廃墟で暮らしてきた人たちと物資を交換できる。"
     },
+    "act18side_token_pieces": {
+        "classifyType": "NONE",
+        "description": "五線譜の上に音符が乱雑に書かれている。作者だけがその中に潜む名曲の種を見つけ出すことができる。",
+        "icon": "act18side_token_pieces.png",
+        "name": "手書きの楽譜",
+        "sortId": -10000,
+        "usage": "激情に駆られた音楽家は、しばしば自身が書いた下書きをどこに置いたか忘れるものだ。下書きをまとめて彼に返してあげれば、新たな一曲を聴かせてもらえるかもしれない。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "仮想敵部隊を撃破することで獲得した競技ポイントは、メダルの形式で参加チームに配布される。ミノスの工匠が制作したメダルの上には、「英雄も凡人より始まる」との言葉が刻まれている。",
@@ -1383,6 +1391,22 @@
         "sortId": 90001,
         "usage": "オペレーターのモジュールを解放するために必要なデータ。"
     },
+    "mod_update_token_1": {
+        "classifyType": "MATERIAL",
+        "description": "経験をデータとして具現化し、データを武装に変換する。己を知り、戦場を知ることは、真の戦士となるための必修科目である。\nエンジニア部の心血の結晶。モジュールをレベルアップすることでオペレーターたちの戦闘能力を高めることができる。",
+        "icon": "mod_update_token_1.png",
+        "name": "データ補完チップ",
+        "sortId": 90003,
+        "usage": "モジュールのステージアップに用いられる。"
+    },
+    "mod_update_token_2": {
+        "classifyType": "MATERIAL",
+        "description": "経験をデータとして具現化し、データを武装に変換する。己を知り、戦場を知ることは、真の戦士となるための必修科目である。\nエンジニア部が心血を注いだ結晶。モジュールを更にレベルアップすることでオペレーターたちの戦術を改良し、戦闘能力を大幅に高めることができる。",
+        "icon": "mod_update_token_2.png",
+        "name": "データ補完マシン",
+        "sortId": 90002,
+        "usage": "モジュールのステージアップに用いられる。"
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "一体誰が自腹を切ったのかはわからないが、贈り主がロドスに溢れんばかりの希望を持っているのは明らかだ。",
@@ -1404,7 +1428,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_0.png",
         "name": "補給物資・「荒廃」",
-        "sortId": 60001,
+        "sortId": 60011,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_1": {
@@ -1412,7 +1436,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_1.png",
         "name": "補給物資・「黄鉄」",
-        "sortId": 60002,
+        "sortId": 60012,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_2": {
@@ -1420,7 +1444,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_2.png",
         "name": "補給物資・「利刃」",
-        "sortId": 60003,
+        "sortId": 60013,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_3": {
@@ -1428,7 +1452,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_3.png",
         "name": "補給物資・「灰燼」",
-        "sortId": 60004,
+        "sortId": 60014,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_4": {
@@ -1436,7 +1460,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_4.png",
         "name": "補給物資・「鉛封」",
-        "sortId": 60005,
+        "sortId": 60015,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_5": {
@@ -1444,7 +1468,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_5.png",
         "name": "補給物資・「分光」",
-        "sortId": 60006,
+        "sortId": 60016,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_6": {
@@ -1452,7 +1476,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_6.png",
         "name": "補給物資・「蛮鱗」",
-        "sortId": 60007,
+        "sortId": 60017,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_7": {
@@ -1460,7 +1484,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_7.png",
         "name": "補給物資・「松煙」",
-        "sortId": 60008,
+        "sortId": 60018,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_8": {
@@ -1468,7 +1492,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_8.png",
         "name": "補給物資・「探暁」",
-        "sortId": 60009,
+        "sortId": 60019,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_9": {
@@ -1476,7 +1500,7 @@
         "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
         "icon": "randomMaterialRune_9.png",
         "name": "補給物資・「淵黙」",
-        "sortId": 60010,
+        "sortId": 60020,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterial_1": {

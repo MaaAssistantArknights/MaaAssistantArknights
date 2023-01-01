@@ -32,10 +32,10 @@ namespace MaaWpfGui
         {
             var sideStory = new StageActivityInfo()
             {
-                Tip = "SideStory「照我以火」活动",
-                StageName = "FC",
-                UtcStartTime = new DateTime(2022, 12, 15, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2022, 12, 29, 4, 0, 0).AddHours(-8),
+                Tip = "SideStory「将进酒」复刻活动",
+                StageName = "IW",
+                UtcStartTime = new DateTime(2023, 1, 1, 16, 0, 0).AddHours(-8),
+                UtcExpireTime = new DateTime(2023, 1, 11, 4, 0, 0).AddHours(-8),
             };
 
             var resourceCollection = new StageActivityInfo()
@@ -52,10 +52,10 @@ namespace MaaWpfGui
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
 
-                // SideStory「照我以火」活动
-                { "FC-7", new StageInfo { Display = "FC-7", Value = "FC-7", Activity = sideStory } },
-                { "FC-6", new StageInfo { Display = "FC-6", Value = "FC-6", Activity = sideStory } },
-                { "FC-5", new StageInfo { Display = "FC-5", Value = "FC-5", Activity = sideStory } },
+                // SideStory「将进酒」复刻活动
+                { "IW-8", new StageInfo { Display = "IW-8", Value = "IW-8", Activity = sideStory } },
+                { "IW-7", new StageInfo { Display = "IW-7", Value = "IW-7", Activity = sideStory } },
+                { "IW-6", new StageInfo { Display = "IW-6", Value = "IW-6", Activity = sideStory } },
 
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
@@ -134,9 +134,11 @@ namespace MaaWpfGui
                     else if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
                     {
                         DateTime dateTime = DateTime.UtcNow;
+                        var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
                         builder.AppendLine(item.Value.Activity.StageName
-                            + Localization.GetString("RemainingOpeningTime")
-                            + (item.Value.Activity.UtcExpireTime - dateTime).Days.ToString());
+                            + " "
+                            + Localization.GetString("Daysleftopen")
+                            + (daysleftopen > 0 ? daysleftopen.ToString() : Localization.GetString("LessThanOneDay")));
                         sideStoryFlag = false;
                     }
                 }
