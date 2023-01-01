@@ -88,6 +88,9 @@
             "draw_as_possible": true,
             "actions": [
                 {
+                    "type": "二倍速"
+                },
+                {
                     "name": "桃金娘",
                     "location": [
                         5,

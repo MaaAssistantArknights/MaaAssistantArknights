@@ -72,6 +72,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
         stage_data.draw_as_possible = stage.at("draw_as_possible").as_boolean();
 
         stage_data.actions = CopilotConfig::parse_actions(stage);
+        stage_data.groups = m_data.groups;
 
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;
