@@ -74,6 +74,8 @@
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Oper (single, CN name only)</system:String>
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Oper" from support unit list</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
     <system:String x:Key="DeploymentWithPause">Deployment with Pause (Works for IS, Copilot and 保全派驻)</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>

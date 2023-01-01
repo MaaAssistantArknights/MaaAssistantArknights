@@ -65,6 +65,8 @@
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員(單個)</system:String>
     <system:String x:Key="StartingCoreCharTip">僅支持單個幹員中文名，不填寫則默認選擇</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">開局幹員使用助戰</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
 
     <system:String x:Key="DefaultSquad">默認分隊</system:String>
     <system:String x:Key="IS2NewSquad1">心勝於物分隊</system:String>
