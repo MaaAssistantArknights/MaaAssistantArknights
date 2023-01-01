@@ -5989,7 +5989,7 @@
     },
     "BattleAvatarCoolingData": {
         "template": "empty.png",
-        "templThreshold": 0.5,
+        "templThreshold": 0.6,
         "maskRange": [
             0,
             50
@@ -6164,6 +6164,15 @@
             6,
             31,
             25
+        ]
+    },
+    "BattleOperAvatar": {
+        "template": "empty.png",
+        "rectMove": [
+            7,
+            32,
+            60,
+            60
         ]
     },
     "BattleOperRoleCaster": {
