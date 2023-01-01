@@ -29,6 +29,7 @@ namespace asst
         virtual bool set_stage_name(const std::string& name);
         virtual void clear();
         virtual const std::string oper_name_ocr_task_name() const noexcept { return "BattleOperName"; }
+        virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
 
         bool calc_tiles_info(const std::string& stage_name);
         bool load_avatar_cache(const std::string& name, bool with_token = false);
@@ -36,6 +37,7 @@ namespace asst
 
         bool pause();
         bool speed_up();
+        bool abandon();
 
         bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat());
         bool update_kills(const cv::Mat& reusable = cv::Mat());
@@ -47,8 +49,8 @@ namespace asst
         bool use_skill(const std::string& name, bool keep_waiting = true);
         bool use_skill(const Point& loc, bool keep_waiting = true);
         bool check_pause_button();
-        bool wait_for_start();
-        bool wait_for_end();
+        bool wait_until_start();
+        bool wait_until_end();
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const std::string& name, const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const Point& loc, const cv::Mat& reusable = cv::Mat());

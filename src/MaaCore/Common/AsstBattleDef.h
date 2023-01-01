@@ -156,7 +156,7 @@ namespace asst::battle
             int cost_changes = 0;
             int cooling = 0;
             ActionType type = ActionType::Deploy;
-            std::string group_name; // 目标名，若 type >= SwitchSpeed, group_name 为空
+            std::string name; // 目标名，若 type >= SwitchSpeed, name 为空
             Point location;
             DeployDirection direction = DeployDirection::Right;
             SkillUsage modify_usage = SkillUsage::NotUse;

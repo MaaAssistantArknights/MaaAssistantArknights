@@ -45,6 +45,10 @@ bool asst::BattleProcessTask::_run()
         do_action(i);
     }
 
+    if (need_to_wait_until_end()) {
+        wait_until_end();
+    }
+
     return true;
 }
 
@@ -54,11 +58,6 @@ void asst::BattleProcessTask::clear()
 
     m_oper_in_group.clear();
     m_in_bullet_time = false;
-}
-
-bool asst::BattleProcessTask::do_strategic_action(const cv::Mat& reusable)
-{
-    return use_all_ready_skill(reusable);
 }
 
 bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
@@ -122,7 +121,7 @@ bool asst::BattleProcessTask::to_group()
     m_oper_in_group.merge(ungrouped);
 
     for (const auto& action : m_combat_data.actions) {
-        const std::string& action_name = action.group_name;
+        const std::string& action_name = action.name;
         if (action_name.empty() || m_oper_in_group.contains(action_name)) {
             continue;
         }
@@ -160,7 +159,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
     }
 
     bool ret = false;
-    const std::string& name = m_oper_in_group[action.group_name];
+    const std::string& name = m_oper_in_group[action.name];
     const auto& location = action.location;
 
     switch (action.type) {
@@ -189,7 +188,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         break;
 
     case ActionType::SkillUsage:
-        m_skill_usage[action.group_name] = action.modify_usage;
+        m_skill_usage[action.name] = action.modify_usage;
         ret = true;
         break;
 
@@ -199,7 +198,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         break;
 
     case ActionType::SkillDaemon:
-        ret = wait_for_end();
+        ret = wait_until_end();
         break;
     default:
         ret = do_derived_action(action_index);
@@ -223,7 +222,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
     json::value info = basic_info_with_what("CopilotAction");
     info["details"] |= json::object {
         { "action", ActionNames.at(action.type) },
-        { "target", action.group_name },
+        { "target", action.name },
         { "doc", action.doc },
         { "doc_color", action.doc_color },
     };
@@ -296,7 +295,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     // 部署干员还有额外等待费用够或 CD 转好
     if (!m_in_bullet_time && action.type == ActionType::Deploy) {
-        const std::string& name = m_oper_in_group[action.group_name];
+        const std::string& name = m_oper_in_group[action.name];
         update_image_if_empty();
         while (!need_exit()) {
             update_deployment(false, image);
