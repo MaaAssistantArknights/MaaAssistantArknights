@@ -632,13 +632,13 @@
         "Doc": "在上面一点滑避免点到关卡划不动",
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [
-            200,
+            300,
             100,
             20,
             20
         ],
         "rectMove": [
-            1000,
+            900,
             100,
             20,
             20
