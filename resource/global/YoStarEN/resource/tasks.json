@@ -1297,10 +1297,54 @@
             [
                 "Ebenholz",
                 "黑键"
+            ],
+            [
+                "L-7 'Whisperer'",
+                "L-7 “回音壁”"
+            ],
+            [
+                "Contaminated Mineral",
+                "污染晶石"
+            ],
+            [
+                "Preparation Area Transmitter",
+                "预备区发讯器"
+            ],
+            [
+                "'Resonator'",
+                "“谐振器”"
+            ],
+            [
+                "Remnants of Days Past",
+                "旧日残影"
+            ],
+            [
+                "'Tuba'",
+                "“低音号”"
+            ],
+            [
+                "Equipment Activation Valve",
+                "战备激活阀"
+            ],
+            [
+                "Emergency Recall Box",
+                "紧急召回情报箱"
+            ],
+            [
+                "Recuperation Area Transmitter",
+                "休整区发讯器"
+            ],
+            [
+                "Heat Cluster",
+                "聚热晶簇"
+            ],
+            [
+                "Reassignment Transmitter",
+                "改派发讯器"
             ]
         ]
     },
-	"ClickChapter1": {
+    "ClickChapter1": {
         "text": [
             "Hour of An Awakening"
         ]
@@ -1487,7 +1531,7 @@
         ]
     },
     "InfrastEnterOperList": {
-	    "fullMatch": true,
+        "fullMatch": true,
         "text": [
             "Morale",
             "Resting",
@@ -1504,39 +1548,51 @@
             130
         ]
     },
-	"GoLastBattle": {
+    "GoLastBattle": {
         "text": [
             "To the most recent stage"
         ]
     },
-	"StartRecruit": {
+    "StartRecruit": {
         "text": [
             "Recruit Now"
         ]
     },
-	"RecruitFlag": {
+    "RecruitFlag": {
         "text": [
             "Recruit"
         ]
     },
-	    "RecruitNow": {
+    "RecruitNow": {
         "text": [
             "Expedite"
         ]
     },
-	"ShamareThumbnail1": {
-		"maskRange": [ 1, 255 ]
+    "ShamareThumbnail1": {
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "ShamareThumbnail2": {
-		"maskRange": [ 1, 255 ]
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "ShamareThumbnail3": {
-	    "maskRange": [ 1, 255 ]
+        "maskRange": [
+            1,
+            255
+        ]
     },
-	    "Roguelike@StageTraderInvestSystem": {
-        "maskRange": [ 1, 255 ]
+    "Roguelike@StageTraderInvestSystem": {
+        "maskRange": [
+            1,
+            255
+        ]
     },
-	"Roguelike@StageTraderInvestConfirm": {
+    "Roguelike@StageTraderInvestConfirm": {
         "templThreshold": 0.55
     },
     "BattleStageName": {

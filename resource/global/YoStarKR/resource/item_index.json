@@ -1207,6 +1207,14 @@
         "sortId": -10000,
         "usage": "더 이상 재생할 수 없는 음반, 오랫동안 도시의 폐허 속에서 생활한 사람들과 물자를 교환할 수 있다."
     },
+    "act18side_token_pieces": {
+        "classifyType": "NONE",
+        "description": "오선보에는 각종 음표들이 난잡하게 그려져 있다. 오로지 원작자만이 그 속에 숨은 영감을 캐치해낼 수 있다.",
+        "icon": "act18side_token_pieces.png",
+        "name": "악보 원고",
+        "sortId": -10000,
+        "usage": "휘몰아치는 영감 속에서 헤엄치는 음악가는 원고를 어디에 두었는지 자주 잊어버린다. 원고를 정리해서 돌려주면 신곡 하나쯤은 받을 수 있을지도 모른다."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "가상의 적을 처치하여 획득하는 일종의 경기 포인트, 훈장 형식으로 참가팀에게 주어진다. 미노스의 장인이 제작한 메달에는 “영웅은 평범한 사람에서 나온다”라는 속담이 새겨져 있다.",
@@ -1383,6 +1391,22 @@
         "sortId": 90001,
         "usage": "오퍼레이터 모듈 시스템을 개방하는 데 사용된다."
     },
+    "mod_update_token_1": {
+        "classifyType": "MATERIAL",
+        "description": "경험은 데이터로 구현되고, 데이터는 무장으로 전환된다. 자신을 알고 전쟁터를 아는 것은 진정한 전사로서의 필수 과목이다.\n엔지니어링부 동료들이 심혈을 기울여 만들었다. 업그레이드된 모듈은 오퍼레이터의 작전 능력을 향상할 수 있다.",
+        "icon": "mod_update_token_1.png",
+        "name": "데이터 메모리",
+        "sortId": 90003,
+        "usage": "오퍼레이터의 모듈 업그레이드에 사용된다."
+    },
+    "mod_update_token_2": {
+        "classifyType": "MATERIAL",
+        "description": "경험은 데이터로 구현되고, 데이터는 무장으로 전환된다. 자신을 알고 전쟁터를 아는 것은 진정한 전사로서의 필수 과목이다.\n엔지니어링부 동료들이 심혈을 기울여 만들었다. 한 층 더 업그레이드된 모듈은 오퍼레이터의 전투 방식을 최적화하여, 작전 능력을 대폭 향상할 수 있다.",
+        "icon": "mod_update_token_2.png",
+        "name": "데이터 리더기",
+        "sortId": 90002,
+        "usage": "오퍼레이터의 모듈 업그레이드에 사용된다."
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "누가 꺼낸건지 알 수 없는 돈봉투. 하지만 로도스 아일랜드의 모두에게 희망이 가득하길 바라는 마음만은 진심이다.",
@@ -1404,7 +1428,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_0.png",
         "name": "황무지 작전 보급 물자",
-        "sortId": 60001,
+        "sortId": 60011,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_1": {
@@ -1412,7 +1436,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_1.png",
         "name": "파이라이트 작전 보급 물자",
-        "sortId": 60002,
+        "sortId": 60012,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_2": {
@@ -1420,7 +1444,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_2.png",
         "name": "칼날 작전 보급 물자",
-        "sortId": 60003,
+        "sortId": 60013,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_3": {
@@ -1428,7 +1452,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_3.png",
         "name": "잿불 작전 보급 물자",
-        "sortId": 60004,
+        "sortId": 60014,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_4": {
@@ -1436,7 +1460,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_4.png",
         "name": "리드씰 작전 물자 보급",
-        "sortId": 60005,
+        "sortId": 60015,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_5": {
@@ -1444,7 +1468,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_5.png",
         "name": "스펙트럼 작전 물자 보급",
-        "sortId": 60006,
+        "sortId": 60016,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_6": {
@@ -1452,7 +1476,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_6.png",
         "name": "와일드 스케일 작전 보급 물자",
-        "sortId": 60007,
+        "sortId": 60017,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_7": {
@@ -1460,7 +1484,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_7.png",
         "name": "파인 숫 작전 보급 물자",
-        "sortId": 60008,
+        "sortId": 60018,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_8": {
@@ -1468,7 +1492,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_8.png",
         "name": "돈시커 작전 보급 물자",
-        "sortId": 60009,
+        "sortId": 60019,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_9": {
@@ -1476,7 +1500,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_9.png",
         "name": "딥니스 작전 보급 물자",
-        "sortId": 60010,
+        "sortId": 60020,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterial_1": {
