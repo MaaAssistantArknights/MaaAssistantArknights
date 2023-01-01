@@ -73,8 +73,14 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
         if (m_all_cores.contains(name)) {
             exist_core.emplace(name, oper);
         }
-        else if (oper.available) {
-            available_tool_men.emplace(oper.role, oper);
+        else {
+            if (oper.available) {
+                available_tool_men.emplace(oper.role, oper);
+            }
+            if (m_skill_usage.find(name) == m_skill_usage.cend()) {
+                // 工具人的技能一概好了就用
+                m_skill_usage.emplace(name, SkillUsage::Possibly);
+            }
         }
     }
 
@@ -85,7 +91,7 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
             const auto& core = exist_core.at(strategy.core);
             if (!core.available) {
                 // 直接返回，等费用，等下次循环处理部署逻辑
-                return true;
+                break;
             }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction);
