@@ -138,18 +138,10 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
     m_cur_deployment_opers.clear();
 
-    const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
-    const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
-    const auto& cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
-
-    auto cur_opers = oper_analyzer.get_opers();
-    std::vector<DeploymentOper> unknown_opers;
-
     auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
         if (!oper.cooling) {
             return;
         }
-
         auto iter = m_battlefield_opers.find(oper.name);
         if (iter == m_battlefield_opers.end()) {
             return;
@@ -159,18 +151,22 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         m_battlefield_opers.erase(iter);
     };
 
+    auto cur_opers = oper_analyzer.get_opers();
+    std::vector<DeploymentOper> unknown_opers;
+
     for (auto& oper : cur_opers) {
-        MatchImageAnalyzer avatar_analyzer;
+        MatchImageAnalyzer avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
+            static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
+            static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
-            // 把环去掉
             avatar_analyzer.set_mask_range(cooling_mask_range, true);
         }
         else {
+            static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
             avatar_analyzer.set_threshold(threshold);
         }
-        avatar_analyzer.set_image(oper.avatar);
 
         double max_socre = 0;
         for (const auto& [name, avatar] : m_all_deployment_avatars) {
@@ -184,7 +180,6 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 oper.name = name;
             }
         }
-
         if (max_socre) {
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
@@ -193,6 +188,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             Log.info("unknown oper", oper.index);
             unknown_opers.emplace_back(oper);
         }
+
         if (oper.cooling) {
             Log.trace("stop matching cooling", oper.index);
         }
