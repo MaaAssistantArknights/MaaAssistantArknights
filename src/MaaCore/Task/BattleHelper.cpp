@@ -228,10 +228,21 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             }
             oper.name = name;
 
-            m_cur_deployment_opers.insert_or_assign(name, oper);
-            m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
             remove_cooling_from_battlefield(oper);
-            save_avatar_cache(name, oper.avatar);
+
+            if (oper.cooling) {
+                // cd 中的干员如果识别错一次，这时候保存的是cd中的图像，后面就会一直错
+                // 且一般来说，cd 的干员都是一开始上过的，m_all_deployment_avatars 中应该有他的头像
+                // 而且由于 cd 干员头像阈值设置的非常低，为了防止把正确的干员覆盖掉了
+                // 所以不进行覆盖
+                m_cur_deployment_opers.emplace(name, oper);
+                m_all_deployment_avatars.emplace(name, oper.avatar);
+            }
+            else {
+                m_cur_deployment_opers.insert_or_assign(name, oper);
+                m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
+                save_avatar_cache(name, oper.avatar);
+            }
         }
 
         pause();
