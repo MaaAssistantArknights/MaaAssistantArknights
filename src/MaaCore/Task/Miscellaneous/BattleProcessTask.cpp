@@ -157,12 +157,12 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         break;
 
     case ActionType::Retreat:
-        ret = m_in_bullet_time ? click_retreat() : (location.empty() ? retreat_oper(location) : retreat_oper(name));
+        ret = m_in_bullet_time ? click_retreat() : (location.empty() ? retreat_oper(name) : retreat_oper(location));
         if (ret) m_in_bullet_time = false;
         break;
 
     case ActionType::UseSkill:
-        ret = m_in_bullet_time ? click_skill() : (location.empty() ? use_skill(location) : use_skill(name));
+        ret = m_in_bullet_time ? click_skill() : (location.empty() ? use_skill(name) : use_skill(location));
         if (ret) m_in_bullet_time = false;
         break;
 
@@ -314,7 +314,7 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
 
     case ActionType::UseSkill:
     case ActionType::Retreat:
-        ret = location.empty() ? click_oper_on_battlefiled(location) : click_oper_on_battlefiled(name);
+        ret = location.empty() ? click_oper_on_battlefiled(name) : click_oper_on_battlefiled(location);
         break;
 
     default:
