@@ -74,6 +74,8 @@
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">“开局干员”使用助战</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
@@ -273,7 +275,8 @@
     <system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
     <system:String x:Key="ClosedStage">活动未开放</system:String>
-    <system:String x:Key="RemainingOpeningTime">剩余开放天数：</system:String>
+    <system:String x:Key="Daysleftopen">剩余开放天数：</system:String>
+    <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
     <system:String x:Key="AP-5">红票-5</system:String>

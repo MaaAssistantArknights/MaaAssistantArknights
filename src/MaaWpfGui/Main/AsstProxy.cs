@@ -1431,10 +1431,12 @@ namespace MaaWpfGui
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <param name="use_support">是否core_char使用好友助战</param>
+        /// <param name="enable_nonfriend_support">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki"]</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char, string theme)
+            string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme)
         {
             var task_params = new JObject();
             task_params["mode"] = mode;
@@ -1457,6 +1459,8 @@ namespace MaaWpfGui
             {
                 task_params["core_char"] = core_char;
             }
+            task_params["use_support"] = use_support;
+            task_params["use_nonfriend_support"] = enable_nonfriend_support;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
             _latestTaskId[TaskType.Roguelike] = id;

@@ -1535,6 +1535,14 @@
         "sortId": -10000,
         "usage": "黑曜石节官方发售的门票，用于进入各类特殊关卡。"
     },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "凝结了工程部同事心血的数据箱，庞大的数据储备能够兼顾干员模组各方面的需求。",
+        "icon": "itempack_mod_6.png",
+        "name": "模组数据整合箱",
+        "sortId": -10000,
+        "usage": "内含解锁与升级干员模组的道具。"
+    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "数据块中记录了工程部干员们为制作模组而奋斗的每个日夜。",
