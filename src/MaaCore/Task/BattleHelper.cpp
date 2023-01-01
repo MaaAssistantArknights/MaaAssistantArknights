@@ -139,6 +139,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     m_cur_deployment_opers.clear();
 
     const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
+    const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
+    const auto& cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
 
     auto cur_opers = oper_analyzer.get_opers();
     std::vector<DeploymentOper> unknown_opers;
@@ -159,10 +161,14 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 
     for (auto& oper : cur_opers) {
         MatchImageAnalyzer avatar_analyzer;
-        avatar_analyzer.set_threshold(threshold);
         if (oper.cooling) {
+            Log.trace("start matching cooling", oper.index);
+            avatar_analyzer.set_threshold(cooling_threshold);
             // 把环去掉
-            avatar_analyzer.set_mask_range(0, 50, true);
+            avatar_analyzer.set_mask_range(cooling_mask_range, true);
+        }
+        else {
+            avatar_analyzer.set_threshold(threshold);
         }
         avatar_analyzer.set_image(oper.avatar);
 
@@ -184,7 +190,11 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             remove_cooling_from_battlefield(oper);
         }
         else {
+            Log.info("unknown oper", oper.index);
             unknown_opers.emplace_back(oper);
+        }
+        if (oper.cooling) {
+            Log.trace("stop matching cooling", oper.index);
         }
     }
 
@@ -204,6 +214,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         } while (!m_inst_helper.need_exit());
 
         for (auto& oper : unknown_opers) {
+            LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             click_oper_on_deployment(oper.rect);
 
             OcrWithPreprocessImageAnalyzer name_analyzer(m_inst_helper.ctrler()->get_image());
