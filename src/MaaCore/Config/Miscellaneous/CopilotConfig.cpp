@@ -163,7 +163,7 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         action.cost_changes = action_info.get("cost_changes", 0);
         action.costs = action_info.get("costs", 0);
         action.cooling = action_info.get("cooling", -1);
-        action.group_name = action_info.get("name", std::string());
+        action.name = action_info.get("name", std::string());
 
         action.location.x = action_info.get("location", 0, 0);
         action.location.y = action_info.get("location", 1, 0);

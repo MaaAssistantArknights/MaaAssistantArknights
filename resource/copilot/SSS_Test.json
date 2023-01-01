@@ -94,18 +94,6 @@
                         4
                     ],
                     "direction": "下"
-                },
-                {
-                    "kills": 1000,
-                    "name": "桃金娘",
-                    "location": [
-                        5,
-                        4
-                    ],
-                    "direction": "下"
-                },
-                {
-                    "type": "摆完挂机"
                 }
             ],
             "retry_times": 3

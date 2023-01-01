@@ -417,9 +417,6 @@
     <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
-      <Filter>源文件\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
@@ -467,6 +464,9 @@
     </ClInclude>
     <ClInclude Include="Task\Miscellaneous\SSSBattleProcessTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
+      <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

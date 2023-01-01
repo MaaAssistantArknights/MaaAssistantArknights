@@ -23,8 +23,8 @@ namespace asst
         virtual void clear() override;
 
         virtual bool do_derived_action([[maybe_unused]] size_t action_index) { return false; }
-        virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
         virtual battle::copilot::CombatData& get_combat_data() { return m_combat_data; }
+        virtual bool need_to_wait_until_end() const { return false; }
 
         void load_cache();
         bool to_group();

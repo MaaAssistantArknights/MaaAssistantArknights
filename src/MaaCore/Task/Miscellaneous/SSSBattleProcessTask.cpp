@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
 #include "Controller.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
 using namespace asst::battle;
@@ -46,9 +47,17 @@ bool asst::SSSBattleProcessTask::do_derived_action(size_t action_index)
 {
     LogTraceFunction;
 
-    std::ignore = action_index;
+    const auto& action = get_combat_data().actions.at(action_index);
 
-    return false;
+    switch (action.type) {
+    case battle::copilot::ActionType::DrawCard:
+        return draw_card();
+    case battle::copilot::ActionType::CheckIfStartOver:
+        return check_if_start_over(action);
+    default:
+        Log.error("unknown action type", static_cast<int>(action.type));
+        return false;
+    }
 }
 
 bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
@@ -100,7 +109,47 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
         }
     }
 
+    if (m_sss_combat_data.draw_as_possible) {
+        draw_card();
+    }
+
     use_all_ready_skill(image);
 
     return true;
+}
+
+bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Action& action)
+{
+    LogTraceFunction;
+
+    update_deployment();
+
+    bool to_abandon = false;
+    if (!action.name.empty() && !m_cur_deployment_opers.contains(action.name) &&
+        !m_battlefield_opers.contains(action.name)) {
+        to_abandon = true;
+    }
+    else if (!action.role_counts.empty()) {
+        std::unordered_map<Role, size_t> cur_counts;
+        for (const auto& oper : m_cur_deployment_opers | views::values) {
+            cur_counts[oper.role] += 1;
+        }
+        for (const auto& [role, number] : action.role_counts) {
+            if (cur_counts[role] < number) {
+                to_abandon = true;
+                break;
+            }
+        }
+    }
+
+    if (to_abandon) {
+        abandon();
+    }
+
+    return true;
+}
+
+bool asst::SSSBattleProcessTask::draw_card()
+{
+    return ProcessTask(*this, { "SSSDrawCard" }).run();
 }

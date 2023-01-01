@@ -121,12 +121,17 @@ bool asst::BattleHelper::speed_up()
     return ProcessTask(this_task(), { "BattleSpeedUp" }).run();
 }
 
+bool asst::BattleHelper::abandon()
+{
+    return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
+}
+
 bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 {
     LogTraceFunction;
 
     if (init) {
-        wait_for_start();
+        wait_until_start();
     }
 
     cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
@@ -406,7 +411,7 @@ bool asst::BattleHelper::check_pause_button()
     return battle_flag_analyzer.analyze();
 }
 
-bool asst::BattleHelper::wait_for_start()
+bool asst::BattleHelper::wait_until_start()
 {
     LogTraceFunction;
 
@@ -416,15 +421,20 @@ bool asst::BattleHelper::wait_for_start()
     return true;
 }
 
-bool asst::BattleHelper::wait_for_end()
+bool asst::BattleHelper::wait_until_end()
 {
     LogTraceFunction;
 
     while (!m_inst_helper.need_exit() && check_pause_button()) {
-        use_all_ready_skill();
+        do_strategic_action();
         std::this_thread::yield();
     }
     return true;
+}
+
+bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
+{
+    return use_all_ready_skill(reusable);
 }
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)

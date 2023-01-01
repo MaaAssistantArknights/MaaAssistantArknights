@@ -91,7 +91,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     return true;
 }
 
-void asst::RoguelikeBattleTaskPlugin::wait_for_start_button_clicked()
+void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
 {
     ProcessTask(*this, { "RoguelikeWaitForStartButtonClicked" }).set_task_delay(0).set_retry_times(0).run();
 }
@@ -110,7 +110,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
 {
     LogTraceFunction;
 
-    wait_for_start_button_clicked();
+    wait_until_start_button_clicked();
     clear();
 
     bool calced = false;
@@ -607,11 +607,6 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
     }
     Log.info("best oper is", best_oper.name);
     return best_oper;
-}
-
-bool asst::RoguelikeBattleTaskPlugin::abandon()
-{
-    return ProcessTask(*this, { "RoguelikeBattleExitBegin" }).run();
 }
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
