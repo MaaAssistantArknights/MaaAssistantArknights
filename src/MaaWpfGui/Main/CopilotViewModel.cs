@@ -37,7 +37,9 @@ namespace MaaWpfGui
     /// </summary>
     public class CopilotViewModel : Screen
     {
+#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052
         private readonly IContainer _container;
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace MaaWpfGui
             ClearLog();
             Url = CopilotUiUrl;
 
-            string jsonStr = string.Empty;
+            string jsonStr;
             if (File.Exists(filename))
             {
                 try
@@ -190,19 +192,17 @@ namespace MaaWpfGui
                 var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
 
                 // 获取输入输出流
-                using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
+                using var sr = new StreamReader(httpWebResponse.GetResponseStream());
+                var text = sr.ReadToEnd();
+                var responseObject = (JObject)JsonConvert.DeserializeObject(text);
+                if (responseObject != null && responseObject.ContainsKey("status_code") && responseObject["status_code"].ToString() == "200")
                 {
-                    var text = sr.ReadToEnd();
-                    var responseObject = (JObject)JsonConvert.DeserializeObject(text);
-                    if (responseObject != null && responseObject.ContainsKey("status_code") && responseObject["status_code"].ToString() == "200")
-                    {
-                        return responseObject["data"]["content"].ToString();
-                    }
-                    else
-                    {
-                        AddLog(Localization.GetString("CopilotNoFound"), UILogColor.Error);
-                        return string.Empty;
-                    }
+                    return responseObject["data"]["content"].ToString();
+                }
+                else
+                {
+                    AddLog(Localization.GetString("CopilotNoFound"), UILogColor.Error);
+                    return string.Empty;
                 }
             }
             catch (Exception)

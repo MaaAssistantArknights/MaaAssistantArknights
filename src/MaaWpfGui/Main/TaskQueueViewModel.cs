@@ -199,8 +199,7 @@ namespace MaaWpfGui
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
-                int order;
-                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
+                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
 
@@ -228,10 +227,11 @@ namespace MaaWpfGui
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
             _stageManager = new StageManager();
-            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
-
-            // It's Cur/Last option
-            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
+            {
+                // It's Cur/Last option
+                [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+            };
 
             InitDrops();
             NeedToUpdateDatePrompt();
@@ -307,8 +307,10 @@ namespace MaaWpfGui
             }
 
             var remainingSanityStage = RemainingSanityStage;
-            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
-            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
+            {
+                [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+            };
             if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == remainingSanityStage))
             {
                 RemainingSanityStage = string.Empty;
@@ -640,7 +642,7 @@ namespace MaaWpfGui
                 }
                 else if (item.OriginalName == "AutoRoguelike")
                 {
-                    ret &= appendRoguelike();
+                    ret &= AppendRoguelike();
                 }
                 else
                 {
@@ -857,8 +859,7 @@ namespace MaaWpfGui
             // for debug
             var settings = _container.Get<SettingsViewModel>();
 
-            int max_times;
-            if (!int.TryParse(settings.RecruitMaxTimes, out max_times))
+            if (!int.TryParse(settings.RecruitMaxTimes, out var max_times))
             {
                 max_times = 0;
             }
@@ -890,7 +891,7 @@ namespace MaaWpfGui
                 settings.NotChooseLevel1, settings.IsLevel3UseShortTime);
         }
 
-        private bool appendRoguelike()
+        private bool AppendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
             int.TryParse(settings.RoguelikeMode, out var mode);
@@ -1652,10 +1653,7 @@ namespace MaaWpfGui
                 return;
             }
 
-            bool timeLess(int lHour, int lMin, int rHour, int rMin)
-            {
-                return (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
-            }
+            static bool timeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
 
             var now = DateTime.Now;
             foreach (var plan in CustomInfrastPlanInfoList)

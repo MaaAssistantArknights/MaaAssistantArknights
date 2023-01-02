@@ -23,7 +23,9 @@ namespace MaaWpfGui
     /// </summary>
     public class RecruitViewModel : Screen
     {
+#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052
         private readonly IContainer _container;
 
         /// <summary>

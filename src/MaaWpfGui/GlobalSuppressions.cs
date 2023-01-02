@@ -29,4 +29,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1308:Variable names should not be prefixed", Justification = "Keep current variable names", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1309:Field names should not begin with underscore", Justification = "Keep current variable names", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1311:Static readonly fields should begin with upper-case letter", Justification = "Keep current variable names", Scope = "module")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600", Justification = "Non-English documentation")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1629:Documentation text should end with a period", Justification = "Non-English documentation", Scope = "module")]
+[assembly: SuppressMessage("ReSharper", "IDE1006", Justification = "Non-English documentation")]
