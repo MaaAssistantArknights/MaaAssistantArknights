@@ -468,6 +468,9 @@
     <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\SSSStageManagerTask.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -765,6 +768,9 @@
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\SSSBattleProcessTask.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\SSSStageManagerTask.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>

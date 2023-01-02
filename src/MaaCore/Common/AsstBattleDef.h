@@ -200,6 +200,7 @@ namespace asst::battle
         {
             std::vector<Strategy> strategies;
             bool draw_as_possible = false;
+            int retry_times = 0;
         };
 
         enum class EquipmentType

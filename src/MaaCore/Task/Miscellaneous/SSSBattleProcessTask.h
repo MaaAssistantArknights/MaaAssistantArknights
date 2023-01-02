@@ -10,7 +10,6 @@ namespace asst
         virtual ~SSSBattleProcessTask() override = default;
 
         bool set_stage_index(size_t index);
-        virtual bool set_stage_name(const std::string& stage_name) override;
 
     protected:
         virtual bool do_derived_action(size_t action_index) override;
@@ -24,6 +23,8 @@ namespace asst
 
         battle::sss::CombatData m_sss_combat_data;
         std::unordered_set<std::string> m_all_cores;
-        size_t m_stage_index = SIZE_MAX;
+
+    private:
+        using BattleProcessTask::set_stage_name;
     };
 }

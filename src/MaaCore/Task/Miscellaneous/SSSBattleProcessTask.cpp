@@ -8,11 +8,19 @@
 using namespace asst::battle;
 using namespace asst::battle::sss;
 
-bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
+bool asst::SSSBattleProcessTask::set_stage_index(size_t index)
 {
-    LogTraceFunction;
+    Log.info(__FUNCTION__, index);
 
-    if (!BattleHelper::set_stage_name(stage_name)) {
+    if (index >= SSSCopilot.stages_size()) {
+        Log.error("SSS SSSBattleProcessTask: stage index out of range", index);
+        return false;
+    }
+    m_sss_combat_data = SSSCopilot.get_data(index);
+    ranges::transform(m_sss_combat_data.strategies, std::inserter(m_all_cores, m_all_cores.begin()),
+                      [](const auto& strategy) { return strategy.core; });
+
+    if (!BattleHelper::set_stage_name(m_sss_combat_data.info.stage_name)) {
         json::value info = basic_info_with_what("UnsupportedLevel");
         auto& details = info["details"];
         details["level"] = m_stage_name;
@@ -20,26 +28,6 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
 
         return false;
     }
-    if (m_stage_index >= SSSCopilot.stages_size()) {
-        Log.error("SSS CopilotConfig: stage index out of range", m_stage_index);
-        return false;
-    }
-
-    m_sss_combat_data = SSSCopilot.get_data(m_stage_index);
-    ranges::transform(m_sss_combat_data.strategies, std::inserter(m_all_cores, m_all_cores.begin()),
-                      [](const auto& strategy) { return strategy.core; });
-
-    return true;
-}
-
-bool asst::SSSBattleProcessTask::set_stage_index(size_t index)
-{
-    Log.info(__FUNCTION__, index);
-
-    if (index >= SSSCopilot.stages_size()) {
-        return false;
-    }
-    m_stage_index = index;
     return true;
 }
 
