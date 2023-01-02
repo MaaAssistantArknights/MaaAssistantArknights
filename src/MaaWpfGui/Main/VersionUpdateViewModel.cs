@@ -34,7 +34,9 @@ namespace MaaWpfGui
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
+#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052
         private readonly IContainer _container;
 
         /// <summary>
@@ -163,12 +165,10 @@ namespace MaaWpfGui
 
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification(Localization.GetString("NewVersionZipFileFoundTitle")))
-                {
-                    toast.AppendContentText(Localization.GetString("NewVersionZipFileFoundDescDecompressing"))
-                        .AppendContentText(UpdateTag)
-                        .ShowUpdateVersion(row: 2);
-                }
+                using var toast = new ToastNotification(Localization.GetString("NewVersionZipFileFoundTitle"));
+                toast.AppendContentText(Localization.GetString("NewVersionZipFileFoundDescDecompressing"))
+                     .AppendContentText(UpdateTag)
+                     .ShowUpdateVersion(row: 2);
             });
 
             string curDir = Directory.GetCurrentDirectory();
@@ -190,12 +190,10 @@ namespace MaaWpfGui
                 File.Delete(UpdatePackageName);
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification(Localization.GetString("NewVersionZipFileBrokenTitle")))
-                    {
-                        toast.AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
-                            .AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescDeleted"))
-                            .ShowUpdateVersion();
-                    }
+                    using var toast = new ToastNotification(Localization.GetString("NewVersionZipFileBrokenTitle"));
+                    toast.AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
+                         .AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescDeleted"))
+                         .ShowUpdateVersion();
                 });
                 return false;
             }
@@ -280,18 +278,52 @@ namespace MaaWpfGui
 
         public enum CheckUpdateRetT
         {
+            /// <summary>
+            /// 操作成功
+            /// </summary>
             OK,
+
+            /// <summary>
+            /// 未知错误
+            /// </summary>
             UnknownError,
+
+            /// <summary>
+            /// 无需更新
+            /// </summary>
             NoNeedToUpdate,
+
+            /// <summary>
+            /// 已经是最新版
+            /// </summary>
             AlreadyLatest,
+
+            /// <summary>
+            /// 网络错误
+            /// </summary>
             NetworkError,
+
+            /// <summary>
+            /// 获取信息失败
+            /// </summary>
             FailedToGetInfo,
+
+            /// <summary>
+            /// 新版正在构建中
+            /// </summary>
             NewVersionIsBeingBuilt,
         }
 
         public enum Downloader
         {
+            /// <summary>
+            /// 原生下载器
+            /// </summary>
             Native,
+
+            /// <summary>
+            /// Aria2 下载器
+            /// </summary>
             Aria2,
         }
 
@@ -353,7 +385,7 @@ namespace MaaWpfGui
             var settings = _container.Get<SettingsViewModel>();
             bool otaFound = _assetsObject != null;
             bool goDownload = otaFound && settings.AutoDownloadUpdatePackage;
-
+#pragma warning disable IDE0042
             var openUrlToastButton = (
                 text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
                 action: new Action(() =>
@@ -363,33 +395,31 @@ namespace MaaWpfGui
                         Process.Start(UpdateUrl);
                     }
                 }));
-
+#pragma warning restore IDE0042
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification(otaFound ?
+                using var toast = new ToastNotification(otaFound ?
                     Localization.GetString("NewVersionFoundTitle") :
-                    Localization.GetString("NewVersionFoundButNoPackageTitle")))
+                    Localization.GetString("NewVersionFoundButNoPackageTitle"));
+                if (goDownload)
                 {
-                    if (goDownload)
-                    {
-                        toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
-                    }
-
-                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescId") + UpdateTag);
-
-                    if (!otaFound)
-                    {
-                        toast.AppendContentText(Localization.GetString("NewVersionFoundButNoPackageDesc"));
-                    }
-
-                    var toastDesc = UpdateInfo.Length > 100 ?
-                        UpdateInfo.Substring(0, 100) + "..." :
-                        UpdateInfo;
-                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + toastDesc);
-                    toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
-                    toast.ButtonSystemUrl = UpdateUrl;
-                    toast.ShowUpdateVersion();
+                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
                 }
+
+                toast.AppendContentText(Localization.GetString("NewVersionFoundDescId") + UpdateTag);
+
+                if (!otaFound)
+                {
+                    toast.AppendContentText(Localization.GetString("NewVersionFoundButNoPackageDesc"));
+                }
+
+                var toastDesc = UpdateInfo.Length > 100 ?
+                    UpdateInfo.Substring(0, 100) + "..." :
+                    UpdateInfo;
+                toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + toastDesc);
+                toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
+                toast.ButtonSystemUrl = UpdateUrl;
+                toast.ShowUpdateVersion();
             });
 
             UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
@@ -436,13 +466,11 @@ namespace MaaWpfGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle")))
-                    {
-                        toast.ButtonSystemUrl = UpdateUrl;
-                        toast.AppendContentText(Localization.GetString("NewVersionDownloadFailedDesc"))
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .Show();
-                    }
+                    using var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle"));
+                    toast.ButtonSystemUrl = UpdateUrl;
+                    toast.AppendContentText(Localization.GetString("NewVersionDownloadFailedDesc"))
+                         .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                         .Show();
                 });
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
@@ -788,10 +816,8 @@ namespace MaaWpfGui
             // 获取输入输出流
             using (var responseStream = httpWebRequest.GetResponse().GetResponseStream())
             {
-                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                {
-                    responseStream.CopyTo(fileStream);
-                }
+                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+                responseStream.CopyTo(fileStream);
             }
 
             return true;
@@ -799,11 +825,7 @@ namespace MaaWpfGui
 
         private bool isDebugVersion(string version = null)
         {
-            if (version == null)
-            {
-                version = _curVersion;
-            }
-
+            version ??= _curVersion;
             return version == "DEBUG VERSION";
         }
 
@@ -816,10 +838,7 @@ namespace MaaWpfGui
             // Release (Local Tag)：{Tag}-Local
             // Debug (Local)：DEBUG VERSION
             // Script Compiled：c{CommitHash[..7]}
-            if (version == null)
-            {
-                version = _curVersion;
-            }
+            version ??= _curVersion;
 
             if (isDebugVersion(version))
             {
