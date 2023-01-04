@@ -13,8 +13,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MaaWpfGui
 {
@@ -53,9 +55,9 @@ namespace MaaWpfGui
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
 
                 // SideStory「将进酒」复刻活动
-                { "IW-8", new StageInfo { Display = "IW-8", Value = "IW-8", Activity = sideStory } },
-                { "IW-7", new StageInfo { Display = "IW-7", Value = "IW-7", Activity = sideStory } },
-                { "IW-6", new StageInfo { Display = "IW-6", Value = "IW-6", Activity = sideStory } },
+                { "IW-8", new StageInfo { Display = "IW-8", Value = "IW-8", Drop = "30063", Activity = sideStory } },
+                { "IW-7", new StageInfo { Display = "IW-7", Value = "IW-7", Drop = "30013", Activity = sideStory } },
+                { "IW-6", new StageInfo { Display = "IW-6", Value = "IW-6", Drop = "30103", Activity = sideStory } },
 
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
@@ -90,6 +92,40 @@ namespace MaaWpfGui
                 // new StageInfo { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
                 // new StageInfo { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
             };
+
+            var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+            string filename = string.Empty;
+            if (language == "zh-cn")
+            {
+                filename = Directory.GetCurrentDirectory() + "\\resource\\item_index.json";
+            }
+            else if (language == "pallas")
+            {
+                // DoNothing
+            }
+            else
+            {
+                Dictionary<string, string> client = new Dictionary<string, string>
+                {
+                    { "zh-tw", "txwy" },
+                    { "en-us", "YoStarEN" },
+                    { "ja-jp", "YoStarJP" },
+                    { "ko-kr", "YoStarKR" },
+                };
+                filename = Directory.GetCurrentDirectory() + "\\resource\\global\\" + client[language] + "\\resource\\item_index.json";
+            }
+
+            if (File.Exists(filename))
+            {
+                try
+                {
+                    data = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(File.ReadAllText(filename));
+                }
+                catch
+                {
+                    // DoNothing
+                }
+            }
         }
 
         /// <summary>
@@ -114,6 +150,8 @@ namespace MaaWpfGui
             return GetStageInfo(stage)?.IsStageOpen(dayOfWeek) == true;
         }
 
+        private readonly Dictionary<string, Dictionary<string, string>> data;
+
         /// <summary>
         /// Gets open stage tips at specified day of week
         /// </summary>
@@ -127,11 +165,7 @@ namespace MaaWpfGui
             {
                 if (item.Value.IsStageOpen(dayOfWeek))
                 {
-                    if (!string.IsNullOrEmpty(item.Value.Tip))
-                    {
-                        builder.AppendLine(item.Value.Tip);
-                    }
-                    else if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
+                    if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
                     {
                         DateTime dateTime = DateTime.UtcNow;
                         var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
@@ -140,6 +174,19 @@ namespace MaaWpfGui
                             + Localization.GetString("Daysleftopen")
                             + (daysleftopen > 0 ? daysleftopen.ToString() : Localization.GetString("LessThanOneDay")));
                         sideStoryFlag = false;
+                    }
+
+                    if (!string.IsNullOrEmpty(item.Value.Tip))
+                    {
+                        builder.AppendLine(item.Value.Tip);
+                    }
+
+                    if (!string.IsNullOrEmpty(item.Value.Drop))
+                    {
+                        if (data != null && data.ContainsKey(item.Value.Drop))
+                        {
+                            builder.AppendLine(item.Value.Display + ": " + data[item.Value.Drop]["name"]);
+                        }
                     }
                 }
             }
