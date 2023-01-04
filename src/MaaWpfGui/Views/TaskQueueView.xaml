@@ -164,7 +164,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="165" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <local:FightSettingsUserControl
                 Grid.Row="0"
