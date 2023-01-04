@@ -92,40 +92,6 @@ namespace MaaWpfGui
                 // new StageInfo { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
                 // new StageInfo { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
             };
-
-            var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
-            string filename = string.Empty;
-            if (language == "zh-cn")
-            {
-                filename = Directory.GetCurrentDirectory() + "\\resource\\item_index.json";
-            }
-            else if (language == "pallas")
-            {
-                // DoNothing
-            }
-            else
-            {
-                Dictionary<string, string> client = new Dictionary<string, string>
-                {
-                    { "zh-tw", "txwy" },
-                    { "en-us", "YoStarEN" },
-                    { "ja-jp", "YoStarJP" },
-                    { "ko-kr", "YoStarKR" },
-                };
-                filename = Directory.GetCurrentDirectory() + "\\resource\\global\\" + client[language] + "\\resource\\item_index.json";
-            }
-
-            if (File.Exists(filename))
-            {
-                try
-                {
-                    data = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(File.ReadAllText(filename));
-                }
-                catch
-                {
-                    // DoNothing
-                }
-            }
         }
 
         /// <summary>
@@ -149,8 +115,6 @@ namespace MaaWpfGui
         {
             return GetStageInfo(stage)?.IsStageOpen(dayOfWeek) == true;
         }
-
-        private readonly Dictionary<string, Dictionary<string, string>> data;
 
         /// <summary>
         /// Gets open stage tips at specified day of week
@@ -183,10 +147,7 @@ namespace MaaWpfGui
 
                     if (!string.IsNullOrEmpty(item.Value.Drop))
                     {
-                        if (data != null && data.ContainsKey(item.Value.Drop))
-                        {
-                            builder.AppendLine(item.Value.Display + ": " + data[item.Value.Drop]["name"]);
-                        }
+                        builder.AppendLine(item.Value.Display + ": " + Utils.GetItemName(item.Value.Drop));
                     }
                 }
             }
