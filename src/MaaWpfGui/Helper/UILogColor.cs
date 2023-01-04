@@ -52,5 +52,10 @@ namespace MaaWpfGui
         /// The recommended color for robot operator logs.
         /// </summary>
         public const string RobotOperator = "DarkGray";
+
+        /// <summary>
+        /// The recommended color for file downloading or downloaded or download failed.
+        /// </summary>
+        public const string Download = "BlueViolet";
     }
 }
