@@ -16,7 +16,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui
 {
@@ -53,12 +55,23 @@ namespace MaaWpfGui
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
+            };
 
-                // SideStory「将进酒」复刻活动
-                { "IW-8", new StageInfo { Display = "IW-8", Value = "IW-8", Drop = "30063", Activity = sideStory } },
-                { "IW-7", new StageInfo { Display = "IW-7", Value = "IW-7", Drop = "30013", Activity = sideStory } },
-                { "IW-6", new StageInfo { Display = "IW-6", Value = "IW-6", Drop = "30103", Activity = sideStory } },
+            var activity = WebService.RequestMaaApiWithCache("StageActivity.json");
+            foreach (var stageObj in activity["Official"] as JArray)
+            {
+                _stages.Add(stageObj["value"].ToString(),
+                    new StageInfo
+                    {
+                        Display = stageObj["display"].ToString(),
+                        Value = stageObj["value"].ToString(),
+                        Drop = stageObj["drop"].ToString(),
+                        Activity = sideStory,
+                    });
+            }
 
+            // TODO: 把这些也放到 web json 上
+            new Dictionary<string, StageInfo> {
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
 
