@@ -33,8 +33,11 @@ namespace asst
         bool check_roi_empty(const Rect& roi);
         size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL,
                           bool with_enlarge = true);
-        int match_quantity(const Rect& roi);
+        int match_quantity(const ItemInfo& item);
         Rect resize_rect_to_raw_size(const Rect& rect);
+
+        template <typename F>
+        static cv::Mat image_from_function(const cv::Size& size, const F& func);
 
         size_t m_match_begin_pos = 0ULL;
         Rect m_resized_rect;
