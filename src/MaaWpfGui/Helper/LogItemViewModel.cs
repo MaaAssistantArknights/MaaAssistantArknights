@@ -30,7 +30,8 @@ namespace MaaWpfGui
         /// <param name="timeColumnContent">The content in time column.</param>
         public LogItemViewModel(string content, string color = UILogColor.Message, string weight = "Regular", string timeColumnContent = null)
         {
-            Time = string.Concat(DateTime.Now.ToString("MM'-'dd'  'HH':'mm':'ss"), "\n", timeColumnContent);
+            Time = DateTime.Now.ToString("MM'-'dd'  'HH':'mm':'ss");
+            Time = string.IsNullOrWhiteSpace(timeColumnContent) ? Time : string.Concat(Time, "\n", timeColumnContent);
             Content = content;
             Color = color;
             Weight = weight;
