@@ -27,11 +27,9 @@ namespace MaaWpfGui
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        /// <param name="timeColumnContent">The content in time column.</param>
-        public LogItemViewModel(string content, string color = UILogColor.Message, string weight = "Regular", string timeColumnContent = null)
+        public LogItemViewModel(string content, string color = UILogColor.Message, string weight = "Regular")
         {
             Time = DateTime.Now.ToString("MM'-'dd'  'HH':'mm':'ss");
-            Time = string.IsNullOrWhiteSpace(timeColumnContent) ? Time : string.Concat(Time, "\n", timeColumnContent);
             Content = content;
             Color = color;
             Weight = weight;
