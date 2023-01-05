@@ -708,7 +708,7 @@ namespace MaaWpfGui
         private bool DownloadGithubAssets(string url, JObject assetsObject,
             Downloader downloader = Downloader.Native, string saveTo = null)
         {
-            _taskQueueViewModel = _container.Get<TaskQueueViewModel>();
+            _logItemViewModels = _container.Get<TaskQueueViewModel>().LogItemViewModels;
             return DownloadFile(
                 url: url,
                 fileName: assetsObject["name"].ToString(), contentType:
@@ -879,7 +879,7 @@ namespace MaaWpfGui
             return downloaded;
         }
 
-        private static TaskQueueViewModel _taskQueueViewModel = null;
+        private static System.Collections.ObjectModel.ObservableCollection<LogItemViewModel> _logItemViewModels = null;
 
         private static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
         {
@@ -893,25 +893,29 @@ namespace MaaWpfGui
 
         private static void OutputDownloadProgress(string output, bool downloading = true)
         {
-            if (_taskQueueViewModel == null)
+            if (_logItemViewModels == null)
             {
                 return;
             }
 
+            var log = new LogItemViewModel(downloading ? Localization.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UILogColor.Download);
+
             Application.Current.Dispatcher.Invoke(() =>
             {
-                // _taskQueueViewModel.LogItemViewModels.Add(log);
-                if (_taskQueueViewModel.LogItemViewModels.Count > 0 &&
-                    _taskQueueViewModel.LogItemViewModels[0].Color == UILogColor.Download)
+                if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UILogColor.Download)
                 {
-                    _taskQueueViewModel.LogItemViewModels.RemoveAt(0);
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        _logItemViewModels[0] = log;
+                    }
+                    else
+                    {
+                        _logItemViewModels.RemoveAt(0);
+                    }
                 }
-
-                if (!string.IsNullOrEmpty(output))
+                else if (!string.IsNullOrEmpty(output))
                 {
-                    var log = new LogItemViewModel(output, UILogColor.Download, timeColumnContent:
-                                                   downloading ? Localization.GetString("NewVersionFoundDescDownloading") : string.Empty);
-                    _taskQueueViewModel.LogItemViewModels.Insert(0, log);
+                    _logItemViewModels.Insert(0, log);
                 }
             });
         }
