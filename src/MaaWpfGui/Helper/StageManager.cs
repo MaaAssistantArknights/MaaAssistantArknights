@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,22 +35,6 @@ namespace MaaWpfGui
         /// </summary>
         public StageManager()
         {
-            var sideStory = new StageActivityInfo()
-            {
-                Tip = "SideStory「将进酒」复刻活动",
-                StageName = "IW",
-                UtcStartTime = new DateTime(2023, 1, 1, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2023, 1, 11, 4, 0, 0).AddHours(-8),
-            };
-
-            var resourceCollection = new StageActivityInfo()
-            {
-                Tip = "「感谢庆典」，“资源收集”限时全天开放",
-                UtcStartTime = new DateTime(2022, 11, 15, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2022, 11, 29, 4, 0, 0).AddHours(-8),
-                IsResourceCollection = true,
-            };
-
             _stages = new Dictionary<string, StageInfo>
             {
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
@@ -58,20 +43,60 @@ namespace MaaWpfGui
             };
 
             var activity = WebService.RequestMaaApiWithCache("StageActivity.json");
-            foreach (var stageObj in activity["Official"] as JArray)
+
+            // activity = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("StageActivity.json"));
+            var resourceCollection = new StageActivityInfo()
             {
-                _stages.Add(stageObj["value"].ToString(),
-                    new StageInfo
-                    {
-                        Display = stageObj["display"].ToString(),
-                        Value = stageObj["value"].ToString(),
-                        Drop = stageObj["drop"].ToString(),
-                        Activity = sideStory,
-                    });
+                IsResourceCollection = true,
+            };
+            try
+            {
+                var resource = activity["Official"]["resourceCollection"];
+                resourceCollection.Tip = resource?["Tip"]?.ToString();
+                resourceCollection.UtcStartTime = DateTime.ParseExact(resource["UtcStartTime"].ToString(),
+                    "yyyy/MM/dd HH:mm:ss",
+                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(resource?["TimeZone"].ToString() ?? "0"));
+                resourceCollection.UtcExpireTime = DateTime.ParseExact(resource["UtcExpireTime"].ToString(),
+                    "yyyy/MM/dd HH:mm:ss",
+                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(resource?["TimeZone"].ToString() ?? "0"));
+            }
+            catch
+            {
+                // DoNothing
             }
 
-            // TODO: 把这些也放到 web json 上
-            new Dictionary<string, StageInfo> {
+            foreach (var stageObj in activity["Official"]["sideStoryStage"] as JArray)
+            {
+                try
+                {
+                    _stages.Add(
+                        stageObj["Value"].ToString(),
+                        new StageInfo
+                        {
+                            Display = stageObj["Display"].ToString(),
+                            Value = stageObj["Value"].ToString(),
+                            Drop = stageObj["Drop"].ToString(),
+                            Activity = new StageActivityInfo()
+                            {
+                                Tip = stageObj["Activity"]["Tip"].ToString(),
+                                StageName = stageObj["Activity"]["StageName"].ToString(),
+                                UtcStartTime = DateTime.ParseExact(stageObj["Activity"]["UtcStartTime"].ToString(),
+                                    "yyyy/MM/dd HH:mm:ss", 
+                                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(stageObj["Activity"]?["TimeZone"]?.ToString() ?? "0")),
+                                UtcExpireTime = DateTime.ParseExact(stageObj["Activity"]["UtcExpireTime"].ToString(),
+                                    "yyyy/MM/dd HH:mm:ss", 
+                                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(stageObj["Activity"]?["TimeZone"]?.ToString() ?? "0")),
+                            },
+                        });
+                }
+                catch
+                {
+                    // DoNothing
+                }
+            }
+
+            foreach (var kvp in new Dictionary<string, StageInfo>
+            {
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
 
@@ -100,11 +125,10 @@ namespace MaaWpfGui
                 // 周一和周日的关卡提示
                 { "Pormpt1", new StageInfo { Tip = Localization.GetString("Pormpt1"), OpenDays = new[] { DayOfWeek.Monday }, IsHidden = true } },
                 { "Pormpt2", new StageInfo { Tip = Localization.GetString("Pormpt2"), OpenDays = new[] { DayOfWeek.Sunday }, IsHidden = true } },
-
-                // 老版本「当前/上次」关卡导航
-                // new StageInfo { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                // new StageInfo { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
-            };
+            })
+            {
+                _stages.Add(kvp.Key, kvp.Value);
+            }
         }
 
         /// <summary>
