@@ -403,6 +403,7 @@ namespace MaaWpfGui
                     Localization.GetString("NewVersionFoundButNoPackageTitle"));
                 if (goDownload)
                 {
+                    OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadPreparing"));
                     toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
                 }
 
@@ -426,6 +427,7 @@ namespace MaaWpfGui
 
             if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
             {
+                OutputDownloadProgress(string.Empty);
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
 
@@ -456,6 +458,7 @@ namespace MaaWpfGui
 
                     if (DownloadGithubAssets(url, _assetsObject, downloader))
                     {
+                        OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadCompletedTitle"));
                         downloaded = true;
                         break;
                     }
@@ -464,6 +467,7 @@ namespace MaaWpfGui
 
             if (!downloaded)
             {
+                OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadFailedTitle"));
                 Execute.OnUIThread(() =>
                 {
                     using var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle"));
@@ -663,9 +667,13 @@ namespace MaaWpfGui
                 httpWebResponse.Close();
                 return responseContent;
             }
-            catch (Exception info)
+            catch (WebException)
             {
-                Console.WriteLine(info.Message);
+                return null;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                 return null;
             }
         }
@@ -700,6 +708,7 @@ namespace MaaWpfGui
         private bool DownloadGithubAssets(string url, JObject assetsObject,
             Downloader downloader = Downloader.Native, string saveTo = null)
         {
+            _logItemViewModels = _container.Get<TaskQueueViewModel>().LogItemViewModels;
             return DownloadFile(
                 url: url,
                 fileName: assetsObject["name"].ToString(), contentType:
@@ -739,10 +748,16 @@ namespace MaaWpfGui
                         returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp, proxy);
                         break;
                 }
+
+                OutputDownloadProgress(string.Empty);
             }
-            catch (Exception info)
+            catch (WebException)
             {
-                Console.WriteLine(info.Message);
+                returned = false;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                 returned = false;
             }
 
@@ -783,8 +798,16 @@ namespace MaaWpfGui
                 },
                 EnableRaisingEvents = true,
             };
+            aria2Process.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
+            {
+                if (e.Data != null && e.Data.StartsWith("["))
+                {
+                    OutputDownloadProgress(e.Data);
+                }
+            });
 
             aria2Process.Start();
+            aria2Process.BeginOutputReadLine();
             aria2Process.WaitForExit();
             var exit_code = aria2Process.ExitCode;
             aria2Process.Close();
@@ -801,6 +824,8 @@ namespace MaaWpfGui
         /// <returns>是否成功</returns>
         private static bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null, string proxy = "")
         {
+            bool downloaded = false;
+
             // 创建 Http 请求
             var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
 
@@ -814,13 +839,85 @@ namespace MaaWpfGui
             }
 
             // 获取输入输出流
-            using (var responseStream = httpWebRequest.GetResponse().GetResponseStream())
+            using (var response = httpWebRequest.GetResponse())
             {
+                using var responseStream = response.GetResponseStream();
                 using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-                responseStream.CopyTo(fileStream);
+
+                // 记录初始化
+                long value = 0;
+                int valueInOneSecond = 0;
+                long fileMaximum = response.ContentLength;
+                DateTime beforDT = DateTime.Now;
+                OutputDownloadProgress();
+
+                // 输入输出初始化
+                byte[] buffer = new byte[81920];
+                int byteLen = responseStream.Read(buffer, 0, buffer.Length);
+
+                while (byteLen > 0)
+                {
+                    // 记录
+                    valueInOneSecond += byteLen;
+                    double ts = DateTime.Now.Subtract(beforDT).TotalSeconds;
+                    if (ts > 1)
+                    {
+                        beforDT = DateTime.Now;
+                        value += valueInOneSecond;
+                        OutputDownloadProgress(value, fileMaximum, valueInOneSecond, ts);
+                        valueInOneSecond = 0;
+                    }
+
+                    // 输入输出
+                    fileStream.Write(buffer, 0, byteLen);
+                    byteLen = responseStream.Read(buffer, 0, buffer.Length);
+                }
+
+                downloaded = true;
             }
 
-            return true;
+            return downloaded;
+        }
+
+        private static System.Collections.ObjectModel.ObservableCollection<LogItemViewModel> _logItemViewModels = null;
+
+        private static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
+        {
+            OutputDownloadProgress(
+                string.Format("[{0:F}MiB/{1:F}MiB({2}%) {3:F} KiB/s]",
+                    value / 1048576.0,
+                    maximum / 1048576.0,
+                    value / maximum * 100,
+                    len / ts / 1024.0));
+        }
+
+        private static void OutputDownloadProgress(string output, bool downloading = true)
+        {
+            if (_logItemViewModels == null)
+            {
+                return;
+            }
+
+            var log = new LogItemViewModel(downloading ? Localization.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UILogColor.Download);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UILogColor.Download)
+                {
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        _logItemViewModels[0] = log;
+                    }
+                    else
+                    {
+                        _logItemViewModels.RemoveAt(0);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(output))
+                {
+                    _logItemViewModels.Insert(0, log);
+                }
+            });
         }
 
         private bool isDebugVersion(string version = null)
