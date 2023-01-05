@@ -44,21 +44,22 @@ namespace MaaWpfGui
 
             var activity = WebService.RequestMaaApiWithCache("StageActivity.json");
 
-            // activity = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("StageActivity.json"));
             var resourceCollection = new StageActivityInfo()
             {
                 IsResourceCollection = true,
             };
+
+            static DateTime GetDateTime(JToken keyValuePairs, string key)
+                => DateTime.ParseExact(keyValuePairs[key].ToString(),
+                   "yyyy/MM/dd HH:mm:ss",
+                   CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
+
             try
             {
                 var resource = activity["Official"]["resourceCollection"];
                 resourceCollection.Tip = resource?["Tip"]?.ToString();
-                resourceCollection.UtcStartTime = DateTime.ParseExact(resource["UtcStartTime"].ToString(),
-                    "yyyy/MM/dd HH:mm:ss",
-                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(resource?["TimeZone"].ToString() ?? "0"));
-                resourceCollection.UtcExpireTime = DateTime.ParseExact(resource["UtcExpireTime"].ToString(),
-                    "yyyy/MM/dd HH:mm:ss",
-                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(resource?["TimeZone"].ToString() ?? "0"));
+                resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
+                resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
             }
             catch
             {
@@ -80,12 +81,8 @@ namespace MaaWpfGui
                             {
                                 Tip = stageObj["Activity"]["Tip"].ToString(),
                                 StageName = stageObj["Activity"]["StageName"].ToString(),
-                                UtcStartTime = DateTime.ParseExact(stageObj["Activity"]["UtcStartTime"].ToString(),
-                                    "yyyy/MM/dd HH:mm:ss", 
-                                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(stageObj["Activity"]?["TimeZone"]?.ToString() ?? "0")),
-                                UtcExpireTime = DateTime.ParseExact(stageObj["Activity"]["UtcExpireTime"].ToString(),
-                                    "yyyy/MM/dd HH:mm:ss", 
-                                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(stageObj["Activity"]?["TimeZone"]?.ToString() ?? "0")),
+                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
                             },
                         });
                 }
