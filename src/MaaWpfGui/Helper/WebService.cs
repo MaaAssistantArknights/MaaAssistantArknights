@@ -16,6 +16,8 @@ namespace MaaWpfGui.Helper
     {
         public const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
 
+        public static string Proxy { get; set; } = string.Empty;
+
         public static string RequestUrl(string url)
         {
             try
@@ -24,6 +26,10 @@ namespace MaaWpfGui.Helper
                 httpWebRequest.Method = "GET";
                 httpWebRequest.UserAgent = RequestUserAgent;
                 httpWebRequest.Accept = "application/vnd.github.v3+json";
+                if (!string.IsNullOrWhiteSpace(Proxy))
+                {
+                    httpWebRequest.Proxy = new WebProxy(Proxy);
+                }
 
                 var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
                 if (httpWebResponse.StatusCode != HttpStatusCode.OK)
@@ -36,11 +42,6 @@ namespace MaaWpfGui.Helper
                 streamReader.Close();
                 httpWebResponse.Close();
                 return responseContent;
-            }
-            catch (WebException e)
-            {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
-                return null;
             }
             catch (Exception e)
             {

@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using IWshRuntimeLibrary;
+using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Stylet;
 using StyletIoC;
@@ -1880,6 +1881,7 @@ namespace MaaWpfGui
             get => _proxy;
             set
             {
+                WebService.Proxy = value;
                 SetAndNotify(ref _proxy, value);
                 ViewStatusStorage.Set("VersionUpdate.Proxy", value);
             }
