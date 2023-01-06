@@ -1,14 +1,38 @@
-use std::fs;
-use serde::{Serialize, Deserialize};
 use lazy_static::lazy_static;
+use serde::{Deserialize, Serialize};
+use serde_json::json;
+use std::fs;
+use std::path::Path;
 lazy_static! {
     pub static ref CONFIG: Config = {
-        let s = fs::read("./server_config.json").unwrap();
+        let config_file = Path::new("./server_config.json");
+        if !config_file.exists() {
+            fs::write(
+                config_file,
+                json!(
+                    {
+                        "server":{
+                        "address":"0.0.0.0",
+                        "port":11451
+                        },
+                        "database":{
+                        "path":"./data/database",
+                        "drop_on_start_up":true
+                        },
+                        "resource":{
+                        "path":"./"
+                        }
+                    }
+                )
+                .to_string(),
+            )
+            .unwrap();
+        }
+        let s = fs::read(config_file).unwrap();
         let r: Config = serde_json::from_slice(&s).unwrap();
         r
     };
 }
-
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
