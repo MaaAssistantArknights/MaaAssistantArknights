@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,9 +37,14 @@ namespace MaaWpfGui.Helper
                 httpWebResponse.Close();
                 return responseContent;
             }
-            catch (Exception info)
+            catch (WebException e)
             {
-                Console.WriteLine(info.Message);
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                return null;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                 return null;
             }
         }
