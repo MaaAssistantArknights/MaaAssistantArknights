@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -146,7 +147,6 @@ namespace MaaWpfGui
         private const string MaaReleaseRequestUrlByTag = "repos/MaaAssistantArknights/MaaRelease/releases/tags/";
         private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
 
-        private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _latestJson;
         private JObject _assetsObject;
 
@@ -636,48 +636,6 @@ namespace MaaWpfGui
             }
         }
 
-        /// <summary>
-        /// 访问 API
-        /// </summary>
-        /// <param name="url">API 地址</param>
-        /// <returns>返回 API 的返回值，如出现错误则返回空字符串</returns>
-        public string RequestApi(string url)
-        {
-            try
-            {
-                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                httpWebRequest.Method = "GET";
-                httpWebRequest.UserAgent = RequestUserAgent;
-                httpWebRequest.Accept = "application/vnd.github.v3+json";
-                var settings = _container.Get<SettingsViewModel>();
-                if (!string.IsNullOrWhiteSpace(settings.Proxy))
-                {
-                    httpWebRequest.Proxy = new WebProxy(settings.Proxy);
-                }
-
-                var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
-                if (httpWebResponse.StatusCode != HttpStatusCode.OK)
-                {
-                    return null;
-                }
-
-                var streamReader = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.UTF8);
-                var responseContent = streamReader.ReadToEnd();
-                streamReader.Close();
-                httpWebResponse.Close();
-                return responseContent;
-            }
-            catch (WebException)
-            {
-                return null;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
-                return null;
-            }
-        }
-
         private string RequestGithubApi(string url, int retryTimes)
         {
             string response = string.Empty;
@@ -686,7 +644,7 @@ namespace MaaWpfGui
             {
                 for (var i = 0; i < requestSource.Length; i++)
                 {
-                    response = RequestApi(requestSource[i] + url);
+                    response = WebService.RequestUrl(requestSource[i] + url);
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
@@ -778,7 +736,7 @@ namespace MaaWpfGui
         private static bool DownloadFileForAria2(string url, string saveTo, string fileName, string proxy = "")
         {
             var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
-            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + RequestUserAgent + "\"";
+            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + WebService.RequestUserAgent + "\"";
 
             if (proxy.Length > 0)
             {
@@ -831,7 +789,7 @@ namespace MaaWpfGui
 
             // 设定相关属性
             httpWebRequest.Method = "GET";
-            httpWebRequest.UserAgent = RequestUserAgent;
+            httpWebRequest.UserAgent = WebService.RequestUserAgent;
             httpWebRequest.Accept = contentType;
             if (proxy.Length > 0)
             {
