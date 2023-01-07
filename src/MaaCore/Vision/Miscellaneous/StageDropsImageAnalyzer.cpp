@@ -569,6 +569,8 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::morphologyEx(mask, mask, cv::MORPH_OPEN, cv::getStructuringElement(cv::MORPH_RECT, { 4, 4 }));
 
     auto mask_rect = cv::boundingRect(mask);
+    mask_rect.width -= 1;
+    mask_rect.height -= 1;
     if (mask_rect.height < 20) mask_rect.height = 20;
 
     cv::Mat ocr_img = m_image.clone();
@@ -578,7 +580,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     ocr.set_task_info("StageDrops-NumberOcrReplace");
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);
-    ocr.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    ocr.set_threshold(110, 255); // TODO: do not hardcode
 
     if (!ocr.analyze()) {
         return std::nullopt;
