@@ -103,6 +103,15 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
+        if (m_is_custom && current_room_config().skip) {
+            Log.info("skip this room");
+            continue;
+        }
+        // 最近总是出现设施没选中，导致干员放错房间，多点一次，观察一段时间。最好是改为图像识别是几号。
+        sleep(tab_task_ptr->pre_delay);
+        ctrler()->click(tab);
+        sleep(tab_task_ptr->post_delay);
+
         sleep(tab_task_ptr->pre_delay);
         ctrler()->click(tab);
         sleep(tab_task_ptr->post_delay);
@@ -149,11 +158,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_use_custom_drones && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Pre &&
             m_custom_drones_config.index == m_cur_facility_index) {
             use_drone();
-        }
-
-        if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
-            continue;
         }
 
         /* 进入干员选择页面 */
@@ -526,6 +530,7 @@ bool asst::InfrastProductionTask::opers_choose()
         std::dynamic_pointer_cast<HashTaskInfo>(Task.get("InfrastOperFaceHash"))->dist_threshold;
 
     int count = 0;
+    int swipe_times = 0;
 
     while (true) {
         if (need_exit()) {
@@ -628,9 +633,13 @@ bool asst::InfrastProductionTask::opers_choose()
 
         // 因为识别完了还要点击，所以这里不能异步滑动
         swipe_of_operlist();
+        ++swipe_times;
     }
 
-    return true;
+    if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
+    swipe_times = 0;
+    ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run(); // 点下排序，让已选干员排到最前面
+    return select_opers_review(current_room_config(), count);
 }
 
 bool asst::InfrastProductionTask::use_drone()
