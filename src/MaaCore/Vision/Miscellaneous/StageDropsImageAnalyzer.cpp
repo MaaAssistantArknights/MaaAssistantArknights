@@ -543,7 +543,6 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
         Log.error("templ is empty: ", item);
         return std::nullopt;
     }
-    cv::resize(templ, templ, cv::Size {}, 0.975, 0.975); // make it more accurate
 
     MatchImageAnalyzer analyzer(m_image);
     analyzer.set_templ(templ);
