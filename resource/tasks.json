@@ -6598,7 +6598,7 @@
             22
         ],
         "maskRange": [
-            110,
+            150,
             255
         ]
     },
@@ -6718,8 +6718,8 @@
     "DepotQuantity": {
         "template": "empty.png",
         "maskRange": [
-            0,
-            110
+            110,
+            255
         ]
     },
     "DepotBegin": {
