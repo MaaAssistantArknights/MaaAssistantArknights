@@ -427,11 +427,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
                 auto& chars_page = analyzer_char.get_result_char();
 
                 bool use_nonfriend_support = get_status_bool(Status::RoguelikeUseNonfriendSupport);
-                auto check_satisfiy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
+                auto check_satisfy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
                 std::copy_if(chars_page.begin(), chars_page.end(),
-                             std::inserter(satisfied_chars, std::begin(satisfied_chars)), check_satisfiy);
+                             std::inserter(satisfied_chars, std::begin(satisfied_chars)), check_satisfy);
 
                 if (satisfied_chars.size()) break;
             }

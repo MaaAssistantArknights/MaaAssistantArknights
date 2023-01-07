@@ -55,13 +55,13 @@ namespace asst
 
         bool click_oper_on_deployment(const std::string& name);
         bool click_oper_on_deployment(const Rect& rect);
-        bool click_oper_on_battlefiled(const std::string& name);
-        bool click_oper_on_battlefiled(const Point& loc);
+        bool click_oper_on_battlefield(const std::string& name);
+        bool click_oper_on_battlefield(const Point& loc);
         bool click_retreat();                       // 这个是不带识别的，直接点
         bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
 
-        bool is_name_invaild(const std::string& name);
+        bool is_name_invalid(const std::string& name);
 
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 

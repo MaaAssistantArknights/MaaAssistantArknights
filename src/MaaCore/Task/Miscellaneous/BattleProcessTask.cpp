@@ -322,7 +322,7 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
 
     case ActionType::UseSkill:
     case ActionType::Retreat:
-        ret = location.empty() ? click_oper_on_battlefiled(name) : click_oper_on_battlefiled(location);
+        ret = location.empty() ? click_oper_on_battlefield(name) : click_oper_on_battlefield(location);
         break;
 
     default:
