@@ -13,10 +13,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui
 {
@@ -32,33 +35,65 @@ namespace MaaWpfGui
         /// </summary>
         public StageManager()
         {
-            var sideStory = new StageActivityInfo()
-            {
-                Tip = "SideStory「将进酒」复刻活动",
-                StageName = "IW",
-                UtcStartTime = new DateTime(2023, 1, 1, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2023, 1, 11, 4, 0, 0).AddHours(-8),
-            };
-
-            var resourceCollection = new StageActivityInfo()
-            {
-                Tip = "「感谢庆典」，“资源收集”限时全天开放",
-                UtcStartTime = new DateTime(2022, 11, 15, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2022, 11, 29, 4, 0, 0).AddHours(-8),
-                IsResourceCollection = true,
-            };
-
             _stages = new Dictionary<string, StageInfo>
             {
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
+            };
 
-                // SideStory「将进酒」复刻活动
-                { "IW-8", new StageInfo { Display = "IW-8", Value = "IW-8", Drop = "30063", Activity = sideStory } },
-                { "IW-7", new StageInfo { Display = "IW-7", Value = "IW-7", Drop = "30013", Activity = sideStory } },
-                { "IW-6", new StageInfo { Display = "IW-6", Value = "IW-6", Drop = "30103", Activity = sideStory } },
+            var activity = WebService.RequestMaaApiWithCache("StageActivity.json");
 
+            var resourceCollection = new StageActivityInfo()
+            {
+                IsResourceCollection = true,
+            };
+
+            static DateTime GetDateTime(JToken keyValuePairs, string key)
+                => DateTime.ParseExact(keyValuePairs[key].ToString(),
+                   "yyyy/MM/dd HH:mm:ss",
+                   CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
+
+            try
+            {
+                var resource = activity["Official"]["resourceCollection"];
+                resourceCollection.Tip = resource?["Tip"]?.ToString();
+                resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
+                resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
+            }
+            catch
+            {
+                // DoNothing
+            }
+
+            foreach (var stageObj in activity["Official"]["sideStoryStage"] as JArray)
+            {
+                try
+                {
+                    _stages.Add(
+                        stageObj["Value"].ToString(),
+                        new StageInfo
+                        {
+                            Display = stageObj["Display"].ToString(),
+                            Value = stageObj["Value"].ToString(),
+                            Drop = stageObj["Drop"].ToString(),
+                            Activity = new StageActivityInfo()
+                            {
+                                Tip = stageObj["Activity"]["Tip"].ToString(),
+                                StageName = stageObj["Activity"]["StageName"].ToString(),
+                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                            },
+                        });
+                }
+                catch
+                {
+                    // DoNothing
+                }
+            }
+
+            foreach (var kvp in new Dictionary<string, StageInfo>
+            {
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
 
@@ -87,11 +122,10 @@ namespace MaaWpfGui
                 // 周一和周日的关卡提示
                 { "Pormpt1", new StageInfo { Tip = Localization.GetString("Pormpt1"), OpenDays = new[] { DayOfWeek.Monday }, IsHidden = true } },
                 { "Pormpt2", new StageInfo { Tip = Localization.GetString("Pormpt2"), OpenDays = new[] { DayOfWeek.Sunday }, IsHidden = true } },
-
-                // 老版本「当前/上次」关卡导航
-                // new StageInfo { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                // new StageInfo { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
-            };
+            })
+            {
+                _stages.Add(kvp.Key, kvp.Value);
+            }
         }
 
         /// <summary>
