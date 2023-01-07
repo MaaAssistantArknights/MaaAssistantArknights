@@ -2086,7 +2086,12 @@
         "algorithm": "OcrDetect",
         "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                "玛恩.?",
+                "玛恩纳"
+            ]
+        ]
     },
     "StartUpThemes": {
         "algorithm": "JustReturn",

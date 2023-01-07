@@ -39,6 +39,7 @@ namespace asst
         infrast::CustomRoomConfig& current_room_config();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
         bool select_custom_opers(std::vector<std::string>& partial_result);
+        bool select_opers_review(infrast::CustomRoomConfig const& origin_room_config, size_t num_of_opers_expect = 0); // 复核干员选择是否符合期望
         void order_opers_selection(const std::vector<std::string>& names);
 
         virtual void click_return_button() override;
