@@ -363,7 +363,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
 {
     LogTraceFunction;
 
-    if (!click_oper_on_battlefiled(loc) || !click_retreat()) {
+    if (!click_oper_on_battlefield(loc) || !click_retreat()) {
         return false;
     }
 
@@ -391,7 +391,7 @@ bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 {
     LogTraceFunction;
 
-    return click_oper_on_battlefiled(loc) && click_skill(keep_waiting);
+    return click_oper_on_battlefield(loc) && click_skill(keep_waiting);
 }
 
 bool asst::BattleHelper::check_pause_button()
@@ -513,7 +513,7 @@ bool asst::BattleHelper::click_oper_on_deployment(const Rect& rect)
     return true;
 }
 
-bool asst::BattleHelper::click_oper_on_battlefiled(const std::string& name)
+bool asst::BattleHelper::click_oper_on_battlefield(const std::string& name)
 {
     LogTraceFunction;
 
@@ -522,10 +522,10 @@ bool asst::BattleHelper::click_oper_on_battlefiled(const std::string& name)
         Log.error("No oper", name);
         return false;
     }
-    return click_oper_on_battlefiled(oper_iter->second);
+    return click_oper_on_battlefield(oper_iter->second);
 }
 
-bool asst::BattleHelper::click_oper_on_battlefiled(const Point& loc)
+bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
 {
     LogTraceFunction;
 
@@ -575,7 +575,7 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-bool asst::BattleHelper::is_name_invaild(const std::string& name)
+bool asst::BattleHelper::is_name_invalid(const std::string& name)
 {
     return BattleData.get_location_type(name) == battle::LocationType::Invalid;
 }
