@@ -6598,8 +6598,8 @@
             22
         ],
         "maskRange": [
-            0,
-            110
+            110,
+            255
         ]
     },
     "NumberOcrReplace": {

@@ -1907,21 +1907,6 @@
             ]
         ]
     },
-    "StageDrops-Quantity": {
-        "template": "empty.png",
-        "templThreshold": 6,
-        "templThreshold_Doc": "这里用来作为字间距阈值",
-        "roi": [
-            62,
-            90,
-            46,
-            22
-        ],
-        "maskRange": [
-            200,
-            255
-        ]
-    },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
