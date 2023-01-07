@@ -6641,6 +6641,10 @@
             ]
         ]
     },
+    "StageDrops-NumberOcrReplace": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false
+    },
     "StageDrops-Difficulty-Tough": {
         "templThreshold": 0.7,
         "roi": [
