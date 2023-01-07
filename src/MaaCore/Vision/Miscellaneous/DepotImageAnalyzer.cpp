@@ -267,7 +267,6 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 #endif
 
     std::string digit_str = result.text;
-    utils::string_trim(digit_str, std::function<bool(char)> { [](char c) -> bool { return c != '.'; } });
     int multiple = 1;
     if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
         multiple = 10000;
