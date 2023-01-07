@@ -250,7 +250,6 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     OcrWithPreprocessImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("StageDrops-NumberOcrReplace");
     analyzer.set_roi(ocr_roi);
-    analyzer.set_expansion(0);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!analyzer.analyze()) {
