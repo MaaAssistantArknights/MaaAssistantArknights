@@ -46,7 +46,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
-    OcrWithPreprocessImageAnalyzer analyzer(m_image);
+    OcrImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
     if (!analyzer.analyze()) {
         return false;
@@ -515,7 +515,6 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     OcrWithPreprocessImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("StageDrops-NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
-    analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!analyzer.analyze()) {
@@ -579,7 +578,6 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     ocr.set_task_info("StageDrops-NumberOcrReplace");
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);
-    ocr.set_expansion(0);
     ocr.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!ocr.analyze()) {
