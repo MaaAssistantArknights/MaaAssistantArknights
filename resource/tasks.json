@@ -9529,6 +9529,15 @@
             144
         ]
     },
+    "SSSFightDirectly": {
+        "action": "ClickSelf",
+        "roi": [
+            1052,
+            360,
+            154,
+            144
+        ]
+    },
     "SSSDrawCard": {
         "action": "ClickSelf",
         "roi": [

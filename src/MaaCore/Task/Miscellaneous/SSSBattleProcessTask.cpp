@@ -39,7 +39,7 @@ bool asst::SSSBattleProcessTask::do_derived_action(size_t action_index)
 
     switch (action.type) {
     case battle::copilot::ActionType::DrawCard:
-        return draw_card();
+        return draw_card(true);
     case battle::copilot::ActionType::CheckIfStartOver:
         return check_if_start_over(action);
     default:
@@ -112,6 +112,13 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     return true;
 }
 
+bool asst::SSSBattleProcessTask::wait_until_start()
+{
+    LogTraceFunction;
+
+    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run();
+}
+
 bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Action& action)
 {
     LogTraceFunction;
@@ -143,7 +150,11 @@ bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Acti
     return true;
 }
 
-bool asst::SSSBattleProcessTask::draw_card()
+bool asst::SSSBattleProcessTask::draw_card(bool with_retry)
 {
-    return ProcessTask(*this, { "SSSDrawCard" }).run();
+    ProcessTask task(*this, { "SSSDrawCard" });
+    if (!with_retry) {
+        task.set_retry_times(0);
+    }
+    return task.run();
 }
