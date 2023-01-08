@@ -190,7 +190,11 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             }
 
             std::string item = match_item(item_roi, drop_type, size - i, size);
-            int quantity = match_quantity(item_roi, item);
+            bool use_word_model = item == LMD_ID;
+            int quantity = match_quantity(item_roi, item, use_word_model);
+            if (use_word_model && quantity == 0) {
+                quantity = match_quantity(item_roi, item, false);
+            }
             Log.info("Item id:", item, ", quantity:", quantity);
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
@@ -457,7 +461,8 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
     return result;
 }
 
-std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_string(const asst::Rect& roi)
+std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_string(const asst::Rect& roi,
+                                                                                   bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
 
@@ -513,9 +518,10 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     int far_right = contours.front().end;
 
     OcrWithPreprocessImageAnalyzer analyzer(m_image);
-    analyzer.set_task_info("StageDrops-NumberOcrReplace");
+    analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_use_char_model(!use_word_model);
 
     if (!analyzer.analyze()) {
         return std::nullopt;
@@ -525,7 +531,8 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
 }
 
 std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_string(const asst::Rect& roi,
-                                                                                   const std::string& item)
+                                                                                   const std::string& item,
+                                                                                   bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
     auto templ = TemplResource::get_instance().get_templ(item).clone();
@@ -577,10 +584,11 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::subtract(ocr_img(make_rect<cv::Rect>(new_roi)), templ * 0.41, ocr_img(make_rect<cv::Rect>(new_roi)));
 
     OcrWithPreprocessImageAnalyzer ocr(ocr_img);
-    ocr.set_task_info("StageDrops-NumberOcrReplace");
+    ocr.set_task_info("NumberOcrReplace");
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);
-    ocr.set_threshold(110, 255); // TODO: do not hardcode
+    ocr.set_use_char_model(!use_word_model);
+    ocr.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!ocr.analyze()) {
         return std::nullopt;
@@ -589,25 +597,31 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     return ocr.get_result().front();
 }
 
-int asst::StageDropsImageAnalyzer::match_quantity(const asst::Rect& roi, const std::string& item)
+int asst::StageDropsImageAnalyzer::match_quantity(const asst::Rect& roi, const std::string& item, bool use_word_model)
 {
     TextRect result;
     // is furniture?
     if (item.empty() || item == "furni") {
-        auto opt = match_quantity_string(roi);
+        auto opt = match_quantity_string(roi, use_word_model);
         if (!opt) return 0;
         result = opt.value();
     }
     else {
-        auto opt = match_quantity_string(roi, item);
+        auto opt = match_quantity_string(roi, item, use_word_model);
         if (!opt) return 0;
         result = opt.value();
     }
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
-    cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5,
-                cv::Scalar(0, 255, 0), 2);
+    if (use_word_model) {
+        cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 20), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 0, 255), 2);
+    }
+    else {
+        cv::putText(m_image_draw, result.text, cv::Point(result.rect.x, result.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 255, 0), 2);
+    }
 #endif
 
     std::string digit_str = result.text;
