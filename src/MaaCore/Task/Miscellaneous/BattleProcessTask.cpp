@@ -41,7 +41,7 @@ bool asst::BattleProcessTask::_run()
     update_deployment(true);
     to_group();
 
-    for (size_t i = 0; i < get_combat_data().actions.size() && !need_exit(); ++i) {
+    for (size_t i = 0; i < get_combat_data().actions.size() && !need_exit() && m_in_battle; ++i) {
         do_action(i);
     }
 
@@ -159,7 +159,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
     }
 
     bool ret = false;
-    const std::string& name = m_oper_in_group[action.name];
+    const std::string& name = get_name_from_group(action.name);
     const auto& location = action.location;
 
     switch (action.type) {
@@ -210,6 +210,16 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
     return ret;
 }
 
+const std::string& asst::BattleProcessTask::get_name_from_group(const std::string& action_name)
+{
+    auto iter = m_oper_in_group.find(action_name);
+    if (iter != m_oper_in_group.cend()) {
+        return iter->second;
+    }
+    m_oper_in_group.emplace(action_name, action_name);
+    return m_oper_in_group.at(action_name);
+}
+
 void asst::BattleProcessTask::notify_action(const battle::copilot::Action& action)
 {
     const static std::unordered_map<ActionType, std::string> ActionNames = {
@@ -245,7 +255,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         update_cost(image);
         int pre_cost = m_cost;
 
-        do {
+        while (!need_exit() && m_in_battle) {
             update_cost(image);
             if (action.cost_changes != 0) {
                 if ((pre_cost + action.cost_changes < 0) ? (m_cost <= pre_cost + action.cost_changes)
@@ -254,7 +264,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                 }
             }
             do_strategy_and_update_image();
-        } while (!need_exit());
+        }
     }
 
     if (m_kills < action.kills) {
@@ -270,7 +280,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     if (action.costs) {
         update_image_if_empty();
-        while (!need_exit()) {
+        while (!need_exit() && m_in_battle) {
             update_cost(image);
             if (m_cost >= action.costs) {
                 break;
@@ -282,7 +292,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     // 计算有几个干员在cd
     if (action.cooling >= 0) {
         update_image_if_empty();
-        while (!need_exit()) {
+        while (!need_exit() && m_in_battle) {
             update_deployment(false, image);
             size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
                                                     [](const auto& oper) -> bool { return oper.cooling; });
@@ -295,9 +305,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     // 部署干员还有额外等待费用够或 CD 转好
     if (!m_in_bullet_time && action.type == ActionType::Deploy) {
-        const std::string& name = m_oper_in_group[action.name];
+        const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
-        while (!need_exit()) {
+        while (!need_exit() && m_in_battle) {
             update_deployment(false, image);
             if (auto iter = m_cur_deployment_opers.find(name);
                 iter != m_cur_deployment_opers.cend() && iter->second.available) {

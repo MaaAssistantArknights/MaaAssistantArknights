@@ -48,7 +48,7 @@ namespace asst
         bool retreat_oper(const Point& loc, bool manually = true);
         bool use_skill(const std::string& name, bool keep_waiting = true);
         bool use_skill(const Point& loc, bool keep_waiting = true);
-        bool check_pause_button();
+        bool check_pause_button(const cv::Mat& reusable = cv::Mat());
         virtual bool wait_until_start();
         bool wait_until_end();
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
@@ -74,6 +74,7 @@ namespace asst
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
 
         /* 实时更新的数据 */
+        bool m_in_battle = false;
         int m_kills = 0;
         int m_total_kills = 0;
         int m_cost = 0;

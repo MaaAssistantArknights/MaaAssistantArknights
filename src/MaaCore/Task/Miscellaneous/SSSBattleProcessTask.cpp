@@ -19,6 +19,11 @@ bool asst::SSSBattleProcessTask::set_stage_index(size_t index)
     m_sss_combat_data = SSSCopilot.get_data(index);
     ranges::transform(m_sss_combat_data.strategies, std::inserter(m_all_cores, m_all_cores.begin()),
                       [](const auto& strategy) { return strategy.core; });
+    for (const auto& action : m_sss_combat_data.actions) {
+        if (action.type == battle::copilot::ActionType::Deploy) {
+            m_all_action_opers.emplace(action.name);
+        }
+    }
 
     if (!BattleHelper::set_stage_name(m_sss_combat_data.info.stage_name)) {
         json::value info = basic_info_with_what("UnsupportedLevel");
@@ -39,7 +44,7 @@ bool asst::SSSBattleProcessTask::do_derived_action(size_t action_index)
 
     switch (action.type) {
     case battle::copilot::ActionType::DrawCard:
-        return draw_card(true);
+        return draw_card();
     case battle::copilot::ActionType::CheckIfStartOver:
         return check_if_start_over(action);
     default:
@@ -54,6 +59,9 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
     update_deployment(false, image);
+    if (!m_in_battle) {
+        return false;
+    }
 
     std::unordered_map<std::string, DeploymentOper> exist_core;
     std::unordered_map<Role, DeploymentOper> available_tool_men;
@@ -91,8 +99,9 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
             }
             // for apple-clang build error
             Role role_for_lambda = role;
-            auto iter = ranges::find_if(available_tool_men,
-                                        [role_for_lambda](const auto& pair) { return pair.first == role_for_lambda; });
+            auto iter = ranges::find_if(available_tool_men, [&](const auto& pair) {
+                return pair.first == role_for_lambda && !m_all_action_opers.contains(pair.second.name);
+            });
             if (iter == available_tool_men.end()) {
                 continue;
             }
@@ -104,7 +113,7 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     }
 
     if (m_sss_combat_data.draw_as_possible) {
-        draw_card();
+        draw_card(false);
     }
 
     use_all_ready_skill(image);

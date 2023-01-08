@@ -61,8 +61,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
                 m_data.drop_tool_men.emplace_back(name);
             }
             else {
-                Log.error("Unknown drop tool man", name);
-                return false;
+                Log.warn("Unknown drop tool man", name);
             }
         }
     }

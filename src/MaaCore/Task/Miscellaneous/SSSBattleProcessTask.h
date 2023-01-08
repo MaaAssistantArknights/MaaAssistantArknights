@@ -24,6 +24,7 @@ namespace asst
 
         battle::sss::CombatData m_sss_combat_data;
         std::unordered_set<std::string> m_all_cores;
+        std::unordered_set<std::string> m_all_action_opers;
 
     private:
         using BattleProcessTask::set_stage_name;
