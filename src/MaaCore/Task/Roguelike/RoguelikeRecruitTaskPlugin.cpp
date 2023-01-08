@@ -414,11 +414,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
     ProcessTask(*this, { "RoguelikeRecruitSupportEnterFlag" }).run(); // 等待页面加载
 
     // 识别所有干员，应该最多两页
-    const int SwipeTimes = 1;
+    const int MaxPageCnt = 2;
 
     std::vector<RecruitSupportCharInfo> satisfied_chars;
     for (int retry = 0; retry <= max_refresh; ++retry) {
-        for (int swipe = 0; swipe < SwipeTimes; ++swipe) {
+        for (int page = 0; page < MaxPageCnt; ++page) {
             auto screen_char = ctrler()->get_image();
             RoguelikeRecruitSupportAnalyzer analyzer_char(screen_char);
             analyzer_char.set_mode(SupportAnalyzeMode::AnalyzeChars);
@@ -435,7 +435,8 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
 
                 if (satisfied_chars.size()) break;
             }
-            ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
+            if (page != MaxPageCnt - 1)
+                ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
         }
         if (satisfied_chars.size()) break;
 
