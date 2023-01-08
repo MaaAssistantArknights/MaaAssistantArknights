@@ -6641,6 +6641,10 @@
             ]
         ]
     },
+    "StageDrops-NumberOcrReplace": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false
+    },
     "StageDrops-Difficulty-Tough": {
         "templThreshold": 0.7,
         "roi": [
@@ -6692,8 +6696,8 @@
         "roi": [
             0,
             0,
-            1060,
-            596
+            1066,
+            599
         ],
         "roi_Doc": "作为截图的缩放尺寸使用",
         "maskRange": [
@@ -6705,35 +6709,16 @@
         "template": "empty.png",
         "roi": [
             0,
-            90,
-            219,
-            150
-        ]
+            190,
+            156,
+            190
+        ],
+        "roi_Doc": "center of item at 1280 * 720: [x_first (unknown), y_first, x_period, y_period]"
     },
     "DepotQuantity": {
         "template": "empty.png",
-        "templThreshold": 5,
-        "templThreshold_Doc": "这里用来作为字间距阈值",
-        "specialParams": [
-            120
-        ],
-        "specialParams_Doc": "背景色亮度值上限",
-        "roi": [
-            36,
-            69,
-            47,
-            20
-        ],
-        "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
-            0,
-            180
-        ],
-        "specificRect_Doc": "拿来做S、V通道的范围",
-        "specificRect": [
-            0,
-            35,
-            125,
+            110,
             255
         ]
     },
