@@ -14,14 +14,18 @@ asst::SSSCopilotTask::SSSCopilotTask(const AsstCallback& callback, Assistant* in
       m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
       m_stage_task_ptr(std::make_shared<SSSStageManagerTask>(callback, inst, TaskType))
 {
-    m_begin_task_ptr->set_tasks({ inst_string() + "@SSSBegin" }).set_ignore_error(false);
+    m_begin_task_ptr->set_tasks({ inst_string() + "@SSSBegin", "SSSStartFighting" })
+        .set_times_limit("SSSStartFighting", 0)
+        .set_ignore_error(false);
     m_subtasks.emplace_back(m_begin_task_ptr);
 
     m_formation_task_ptr->set_data_resource(BattleFormationTask::DataResource::SSSCopilot);
     m_subtasks.emplace_back(m_formation_task_ptr);
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_2_tp->set_tasks({ inst_string() + "@SSSTeamConfirm" }).set_ignore_error(false);
+    start_2_tp->set_tasks({ inst_string() + "@SSSTeamConfirm", "SSSStartFighting" })
+        .set_times_limit("SSSStartFighting", 0)
+        .set_ignore_error(false);
     m_subtasks.emplace_back(start_2_tp);
 
     m_subtasks.emplace_back(m_stage_task_ptr);
