@@ -9546,5 +9546,83 @@
             129,
             157
         ]
+    },
+    "SSSSettlement": {
+        "action": "ClickSelf",
+        "roi": [
+            1009,
+            0,
+            155,
+            143
+        ],
+        "next": [
+            "SSSSettlementConfirm"
+        ]
+    },
+    "SSSSettlementConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            756,
+            414,
+            174,
+            160
+        ]
+    },
+    "SSSComfirmBattleComplete": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "SSSDropRecruitmentFlag",
+            "SSSStartFighting",
+            "SSSClickUntilStartScreen"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "action": "DoNothing",
+        "roi": [
+            0,
+            39,
+            250,
+            203
+        ]
+    },
+    "SSSClickUntilStartScreen": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            529,
+            27,
+            227,
+            126
+        ],
+        "next": [
+            "SSSComfirmBattleComplete"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [],
+        "cache": false,
+        "roi": [
+            0,
+            434,
+            1280,
+            169
+        ]
+    },
+    "SSSDropRecruitmentConfrim": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认调用",
+            "放弃调用"
+        ],
+        "roi": [
+            1105,
+            525,
+            175,
+            132
+        ]
     }
 }
