@@ -68,7 +68,8 @@ else ()
 
     include(${PROJECT_SOURCE_DIR}/cmake/opencv.cmake)
     include(${PROJECT_SOURCE_DIR}/cmake/fastdeploy.cmake)
-    target_link_libraries(MaaCore ${DEPEND_LIBS})
+    include(${PROJECT_SOURCE_DIR}/cmake/adb-lite.cmake)
+    target_link_libraries(MaaCore ${DEPEND_LIBS} adb-lite)
 
     install(TARGETS MaaCore DESTINATION .)
     if (INSTALL_PYTHON)
