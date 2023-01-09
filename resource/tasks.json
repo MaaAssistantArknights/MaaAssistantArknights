@@ -5966,10 +5966,10 @@
         "text": [],
         "fullMatch": true,
         "roi": [
-            0,
-            182,
-            200,
-            30
+            5,
+            177,
+            191,
+            37
         ]
     },
     "SSSBattleOperName": {

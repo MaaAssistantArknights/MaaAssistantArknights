@@ -349,11 +349,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         // 不要随便谁好了就上，等等费用，下点厉害的干员
         // TODO: 这个逻辑目前太简单了，待优化
         bool not_battlefield_too_few = m_battlefield_opers.size() > m_homes.size();
-        bool no_new_retreat = cur_cooling.size() <= pre_cooling.size();
         bool available_too_few = cur_available_count <= cur_deployments_count / 2;
         bool not_too_many_cooling = cur_cooling.size() < cur_available_count;
 
-        if (not_battlefield_too_few && no_new_retreat && available_too_few && not_too_many_cooling) {
+        if (not_battlefield_too_few && available_too_few && not_too_many_cooling) {
             Log.info("wait a minute");
             return true;
         }
