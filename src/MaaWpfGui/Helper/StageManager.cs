@@ -54,41 +54,47 @@ namespace MaaWpfGui
                    "yyyy/MM/dd HH:mm:ss",
                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
-            try
-            {
-                var resource = activity["Official"]["resourceCollection"];
-                resourceCollection.Tip = resource?["Tip"]?.ToString();
-                resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
-                resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
-            }
-            catch
-            {
-                // DoNothing
-            }
-
-            foreach (var stageObj in activity["Official"]["sideStoryStage"] as JArray)
+            if (activity?["Official"]?["resourceCollection"] is JToken)
             {
                 try
                 {
-                    _stages.Add(
-                        stageObj["Value"].ToString(),
-                        new StageInfo
-                        {
-                            Display = stageObj["Display"].ToString(),
-                            Value = stageObj["Value"].ToString(),
-                            Drop = stageObj["Drop"].ToString(),
-                            Activity = new StageActivityInfo()
-                            {
-                                Tip = stageObj["Activity"]["Tip"].ToString(),
-                                StageName = stageObj["Activity"]["StageName"].ToString(),
-                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
-                            },
-                        });
+                    var resource = activity["Official"]["resourceCollection"];
+                    resourceCollection.Tip = resource?["Tip"]?.ToString();
+                    resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
+                    resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
                 }
                 catch
                 {
                     // DoNothing
+                }
+            }
+
+            if (activity?["Official"]?["sideStoryStage"] is JArray)
+            {
+                foreach (var stageObj in activity["Official"]["sideStoryStage"])
+                {
+                    try
+                    {
+                        _stages.Add(
+                            stageObj["Value"].ToString(),
+                            new StageInfo
+                            {
+                                Display = stageObj?["Display"]?.ToString() ?? string.Empty,
+                                Value = stageObj["Value"].ToString(),
+                                Drop = stageObj?["Drop"]?.ToString(),
+                                Activity = new StageActivityInfo()
+                                {
+                                    Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                    StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                    UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                    UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                },
+                            });
+                    }
+                    catch
+                    {
+                        // DoNothing
+                    }
                 }
             }
 
