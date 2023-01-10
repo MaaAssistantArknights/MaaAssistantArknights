@@ -16,10 +16,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Stylet;
 
 namespace MaaWpfGui
 {
@@ -28,21 +31,36 @@ namespace MaaWpfGui
     /// </summary>
     public class StageManager
     {
-        private readonly Dictionary<string, StageInfo> _stages;
+        private Dictionary<string, StageInfo> _stages;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StageManager"/> class.
         /// </summary>
         public StageManager()
         {
-            _stages = new Dictionary<string, StageInfo>
+            UpdateStage(false);
+
+            Execute.OnUIThread(async () =>
+            {
+                var task = Task.Run(() =>
+                {
+                    UpdateStage(true);
+                });
+                await task;
+            });
+        }
+
+        private void UpdateStage(bool fromWeb)
+        {
+            var tempStage = new Dictionary<string, StageInfo>
             {
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
             };
 
-            var activity = WebService.RequestMaaApiWithCache("StageActivity.json");
+            var stageApi = "StageActivity.json";
+            var activity = fromWeb ? WebService.RequestMaaApiWithCache(stageApi) : WebService.LoadApiCache(stageApi);
 
             var resourceCollection = new StageActivityInfo()
             {
@@ -54,7 +72,7 @@ namespace MaaWpfGui
                    "yyyy/MM/dd HH:mm:ss",
                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
-            if (activity?["Official"]?["resourceCollection"] is JToken)
+            if (activity != null)
             {
                 try
                 {
@@ -62,20 +80,10 @@ namespace MaaWpfGui
                     resourceCollection.Tip = resource?["Tip"]?.ToString();
                     resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
                     resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
-                }
-                catch
-                {
-                    // DoNothing
-                }
-            }
 
-            if (activity?["Official"]?["sideStoryStage"] is JArray)
-            {
-                foreach (var stageObj in activity["Official"]["sideStoryStage"])
-                {
-                    try
+                    foreach (var stageObj in activity["Official"]["sideStoryStage"])
                     {
-                        _stages.Add(
+                        tempStage.Add(
                             stageObj["Value"].ToString(),
                             new StageInfo
                             {
@@ -91,10 +99,10 @@ namespace MaaWpfGui
                                 },
                             });
                     }
-                    catch
-                    {
-                        // DoNothing
-                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                 }
             }
 
@@ -130,8 +138,10 @@ namespace MaaWpfGui
                 { "Pormpt2", new StageInfo { Tip = Localization.GetString("Pormpt2"), OpenDays = new[] { DayOfWeek.Sunday }, IsHidden = true } },
             })
             {
-                _stages.Add(kvp.Key, kvp.Value);
+                tempStage.Add(kvp.Key, kvp.Value);
             }
+
+            _stages = tempStage;
         }
 
         /// <summary>

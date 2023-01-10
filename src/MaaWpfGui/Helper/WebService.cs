@@ -61,30 +61,39 @@ namespace MaaWpfGui.Helper
                 Directory.CreateDirectory(CacheDir);
             }
 
-            api = api.Replace('/', '_');
-
             var url = MaaApi + api;
-            var cache = CacheDir + api;
 
             var response = RequestUrl(url);
             if (response == null)
             {
-                if (File.Exists(cache))
-                {
-                    response = File.ReadAllText(cache);
-                }
-                else
-                {
-                    return null;
-                }
+                return LoadApiCache(api);
             }
 
             try
             {
                 var json = (JObject)JsonConvert.DeserializeObject(response);
+                var cache = CacheDir + api.Replace('/', '_');
                 File.WriteAllText(cache, response);
 
                 return json;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static JObject LoadApiCache(string api)
+        {
+            var cache = CacheDir + api.Replace('/', '_');
+            if (!File.Exists(cache))
+            {
+                return null;
+            }
+
+            try
+            {
+                return (JObject)JsonConvert.DeserializeObject(File.ReadAllText(cache));
             }
             catch
             {
