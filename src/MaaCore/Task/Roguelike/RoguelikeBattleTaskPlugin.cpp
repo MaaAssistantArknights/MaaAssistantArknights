@@ -91,7 +91,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     return true;
 }
 
-void asst::RoguelikeBattleTaskPlugin::wait_for_start_button_clicked()
+void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
 {
     ProcessTask(*this, { "RoguelikeWaitForStartButtonClicked" }).set_task_delay(0).set_retry_times(0).run();
 }
@@ -110,7 +110,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
 {
     LogTraceFunction;
 
-    wait_for_start_button_clicked();
+    wait_until_start_button_clicked();
     clear();
 
     bool calced = false;
@@ -349,11 +349,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         // 不要随便谁好了就上，等等费用，下点厉害的干员
         // TODO: 这个逻辑目前太简单了，待优化
         bool not_battlefield_too_few = m_battlefield_opers.size() > m_homes.size();
-        bool no_new_retreat = cur_cooling.size() <= pre_cooling.size();
         bool available_too_few = cur_available_count <= cur_deployments_count / 2;
         bool not_too_many_cooling = cur_cooling.size() < cur_available_count;
 
-        if (not_battlefield_too_few && no_new_retreat && available_too_few && not_too_many_cooling) {
+        if (not_battlefield_too_few && available_too_few && not_too_many_cooling) {
             Log.info("wait a minute");
             return true;
         }
@@ -607,11 +606,6 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
     }
     Log.info("best oper is", best_oper.name);
     return best_oper;
-}
-
-bool asst::RoguelikeBattleTaskPlugin::abandon()
-{
-    return ProcessTask(*this, { "RoguelikeBattleExitBegin" }).run();
 }
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
