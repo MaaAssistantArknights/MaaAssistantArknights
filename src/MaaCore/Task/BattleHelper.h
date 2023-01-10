@@ -63,7 +63,7 @@ namespace asst
         bool click_retreat();                       // 这个是不带识别的，直接点
         bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
-        bool move_camera(const std::pair<double, double>& move_loc, bool clear_skills = false);
+        bool move_camera(const std::pair<double, double>& move_loc, bool clear_kills = false);
 
         bool is_name_invalid(const std::string& name);
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
