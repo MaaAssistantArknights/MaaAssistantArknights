@@ -596,7 +596,7 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, bool clear_skills)
+bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, bool clear_kills)
 {
     LogTraceFunction;
     Log.info("move", move_loc.first, move_loc.second);
@@ -633,7 +633,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, 
     move_tiles(m_side_tile_info);
     move_tiles(m_normal_tile_info);
 
-    if (clear_skills) {
+    if (clear_kills) {
         m_kills = 0;
         m_total_kills = 0;
     }
