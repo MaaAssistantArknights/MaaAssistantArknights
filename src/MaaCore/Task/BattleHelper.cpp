@@ -596,6 +596,53 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
+bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, bool clear_skills)
+{
+    LogTraceFunction;
+    Log.info("move", move_loc.first, move_loc.second);
+
+    auto move_tiles = [&](std::unordered_map<Point, TilePack::TileInfo>& tile_info) {
+        auto raw_tile_info = tile_info;
+        for (auto& [loc, tile] : tile_info) {
+            int view_loc_x = loc.x - static_cast<int>(move_loc.first);
+            int view_loc_y = loc.y - static_cast<int>(move_loc.second);
+            auto iter = raw_tile_info.find(Point(view_loc_x, view_loc_y));
+            if (iter == raw_tile_info.end()) {
+                continue;
+            }
+            tile.pos.x = iter->second.pos.x;
+            // y 的移动会导致高台和平地的坐标不对，先不管了
+            // tile.pos.y = iter->second.pos.y;
+
+            if (double view_loc_x_dec = std::fabs(loc.x - move_loc.first - view_loc_x); view_loc_x_dec > DoubleDiff) {
+                auto left_iter = raw_tile_info.find(Point(view_loc_x - 1, view_loc_y));
+                if (left_iter != raw_tile_info.end()) {
+                    tile.pos.x -= static_cast<int>((tile.pos.x - left_iter->second.pos.x) * view_loc_x_dec);
+                }
+            }
+            // if (double view_loc_y_dec = std::fabs(loc.y - move_loc.second - view_loc_y); view_loc_y_dec > DoubleDiff)
+            // {
+            //     auto top_iter = raw_tile_info.find(Point(view_loc_x, view_loc_y - 1));
+            //     if (top_iter != raw_tile_info.end()) {
+            //         tile.pos.y -= static_cast<int>((tile.pos.y - top_iter->second.pos.y) * view_loc_y_dec);
+            //     }
+            // }
+        }
+    };
+
+    move_tiles(m_side_tile_info);
+    move_tiles(m_normal_tile_info);
+
+    if (clear_skills) {
+        m_kills = 0;
+        m_total_kills = 0;
+    }
+
+    save_map(m_inst_helper.ctrler()->get_image());
+
+    return true;
+}
+
 bool asst::BattleHelper::is_name_invalid(const std::string& name)
 {
     return BattleData.get_location_type(name) == battle::LocationType::Invalid;

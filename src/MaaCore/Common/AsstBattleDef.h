@@ -144,6 +144,9 @@ namespace asst::battle
             Output,      // 仅输出，什么都不操作，界面上也不显示
             SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
 
+            /* for TRN */
+            MoveCamera, // 引航者试炼，移动镜头
+
             /* for SSS */
             DrawCard,         // “调配干员”
             CheckIfStartOver, // 检查如果没有某干员则退出重开
@@ -166,6 +169,7 @@ namespace asst::battle
             std::string doc;
             std::string doc_color;
             RoleCounts role_counts;
+            std::pair<double, double> distance;
         };
 
         struct BasicInfo
@@ -184,7 +188,7 @@ namespace asst::battle
             OperUsageGroups groups;
             std::vector<Action> actions;
         };
-    }
+    } // namespace copilot
 
     namespace sss // 保全派驻
     {

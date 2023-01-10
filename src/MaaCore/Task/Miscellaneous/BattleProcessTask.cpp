@@ -197,6 +197,10 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         ret = true;
         break;
 
+    case ActionType::MoveCamera:
+        ret = move_camera(action.distance, true);
+        break;
+
     case ActionType::SkillDaemon:
         ret = wait_until_end();
         break;
@@ -223,10 +227,17 @@ const std::string& asst::BattleProcessTask::get_name_from_group(const std::strin
 void asst::BattleProcessTask::notify_action(const battle::copilot::Action& action)
 {
     const static std::unordered_map<ActionType, std::string> ActionNames = {
-        { ActionType::Deploy, "Deploy" },           { ActionType::UseSkill, "UseSkill" },
-        { ActionType::Retreat, "Retreat" },         { ActionType::SkillDaemon, "SkillDaemon" },
-        { ActionType::SwitchSpeed, "SwitchSpeed" }, { ActionType::SkillUsage, "SkillUsage" },
-        { ActionType::BulletTime, "BulletTime" },   { ActionType::Output, "Output" },
+        { ActionType::Deploy, "Deploy" },
+        { ActionType::UseSkill, "UseSkill" },
+        { ActionType::Retreat, "Retreat" },
+        { ActionType::SkillDaemon, "SkillDaemon" },
+        { ActionType::SwitchSpeed, "SwitchSpeed" },
+        { ActionType::SkillUsage, "SkillUsage" },
+        { ActionType::BulletTime, "BulletTime" },
+        { ActionType::Output, "Output" },
+        { ActionType::MoveCamera, "MoveCamera" },
+        { ActionType::DrawCard, "DrawCard" },
+        { ActionType::CheckIfStartOver, "CheckIfStartOver" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");

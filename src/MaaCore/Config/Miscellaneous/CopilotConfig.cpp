@@ -135,6 +135,12 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "摆完挂机", ActionType::SkillDaemon },
             { "开摆", ActionType::SkillDaemon },
 
+            { "MoveCamera", ActionType::MoveCamera },
+            { "movecamera", ActionType::MoveCamera },
+            { "MOVECAMERA", ActionType::MoveCamera },
+            { "Movecamera", ActionType::MoveCamera },
+            { "移动镜头", ActionType::MoveCamera },
+
             { "DrawCard", ActionType::DrawCard },
             { "drawcard", ActionType::DrawCard },
             { "DRAWCARD", ActionType::DrawCard },
@@ -182,6 +188,10 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             if (auto tool_men = action_info.find("tool_men")) {
                 action.role_counts = parse_role_counts(*tool_men);
             }
+        }
+        else if (action.type == ActionType::MoveCamera) {
+            auto dist_arr = action_info.at("distance").as_array();
+            action.distance = std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double());
         }
 
         actions_list.emplace_back(std::move(action));
