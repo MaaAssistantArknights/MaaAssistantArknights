@@ -5883,7 +5883,8 @@
         "algorithm": "OcrDetect",
         "text": [
             "开始行动",
-            "开始突袭"
+            "开始突袭",
+            "开始试炼"
         ],
         "cache": false,
         "roi": [
