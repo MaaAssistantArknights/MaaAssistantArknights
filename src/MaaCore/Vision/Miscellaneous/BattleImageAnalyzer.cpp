@@ -467,7 +467,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     m_total_kills = std::max(cur_total_kills, m_pre_total_kills);
 
     Log.trace("Kills:", m_kills, "/", m_total_kills);
-    return true;
+    return m_kills <= m_total_kills;
 }
 
 bool asst::BattleImageAnalyzer::cost_analyze()
