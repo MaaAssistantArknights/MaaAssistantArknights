@@ -5951,6 +5951,9 @@
     "BattleStartExercise": {
         "baseTask": "BattleStart"
     },
+    "BattleStartTrials": {
+        "baseTask": "BattleStart"
+    },
     "BattleStartSimulation": {
         "action": "ClickSelf",
         "roi": [
