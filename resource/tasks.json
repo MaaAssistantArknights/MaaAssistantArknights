@@ -5737,6 +5737,41 @@
         ],
         "postDelay": 500
     },
+    "BattleQuickFormationFilter": {
+        "action": "ClickSelf",
+        "roi": [
+            1045,
+            0,
+            134,
+            123
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationFilter-Cost": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "部署费用"
+        ],
+        "roi": [
+            989,
+            433,
+            196,
+            142
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationFilterClose": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            37,
+            104,
+            291,
+            185
+        ],
+        "postDelay": 500
+    },
     "BattleQuickFormationRole-All": {
         "baseTask": "BattleQuickFormationRole",
         "roi": [
@@ -5931,10 +5966,21 @@
         "text": [],
         "fullMatch": true,
         "roi": [
+            5,
+            177,
+            191,
+            37
+        ]
+    },
+    "SSSBattleOperName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [
             0,
-            182,
-            160,
-            30
+            102,
+            190,
+            37
         ]
     },
     "BattleOfficiallyBegin": {
@@ -6084,7 +6130,7 @@
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 400,
-        "postDelay": 150,
+        "postDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
         "specialParams": [
             400,
@@ -9354,6 +9400,229 @@
             10,
             172,
             47
+        ]
+    },
+    "SSSBegin": {
+        "Doc": "保全派驻",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始保全作战"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSBuffChoose"
+        ]
+    },
+    "SSSBuffChoose": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "自适应补给元件"
+        ],
+        "roi": [
+            0,
+            136,
+            1280,
+            162
+        ],
+        "next": [
+            "SSSBuffChooseConfirm"
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "确认选择"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSEquipmentConfirm"
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "装备确认"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ]
+    },
+    "SSSTeamConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "阵容确认"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ]
+    },
+    "SSSStageNameOCR": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            121,
+            263,
+            188,
+            50
+        ]
+    },
+    "SSSCloseTip": {
+        "action": "ClickSelf",
+        "roi": [
+            54,
+            40,
+            201,
+            136
+        ],
+        "next": [
+            "SSSStartFighting"
+        ]
+    },
+    "SSSStartFighting": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始部署",
+            "重新部署"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSStartFighting2"
+        ]
+    },
+    "SSSStartFighting2": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始行动"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ]
+    },
+    "SSSFightDirectly": {
+        "action": "ClickSelf",
+        "roi": [
+            1052,
+            360,
+            154,
+            144
+        ]
+    },
+    "SSSDrawCard": {
+        "action": "ClickSelf",
+        "roi": [
+            1151,
+            319,
+            129,
+            157
+        ]
+    },
+    "SSSSettlement": {
+        "action": "ClickSelf",
+        "roi": [
+            1009,
+            0,
+            155,
+            143
+        ],
+        "next": [
+            "SSSSettlementConfirm"
+        ]
+    },
+    "SSSSettlementConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            756,
+            414,
+            174,
+            160
+        ]
+    },
+    "SSSComfirmBattleComplete": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "SSSDropRecruitmentFlag",
+            "SSSStartFighting",
+            "SSSClickUntilStartScreen"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "action": "DoNothing",
+        "roi": [
+            0,
+            39,
+            250,
+            203
+        ]
+    },
+    "SSSClickUntilStartScreen": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            529,
+            27,
+            227,
+            126
+        ],
+        "next": [
+            "SSSComfirmBattleComplete"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [],
+        "cache": false,
+        "roi": [
+            0,
+            434,
+            1280,
+            169
+        ]
+    },
+    "SSSDropRecruitmentConfrim": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认调用",
+            "放弃调用"
+        ],
+        "roi": [
+            1105,
+            525,
+            175,
+            132
         ]
     }
 }

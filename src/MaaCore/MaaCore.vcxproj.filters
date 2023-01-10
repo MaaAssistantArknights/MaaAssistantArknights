@@ -417,9 +417,6 @@
     <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
-      <Filter>源文件\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
@@ -459,8 +456,20 @@
     <ClInclude Include="Task\BattleHelper.h">
       <Filter>源文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Algorithm.hpp">
-      <Filter>源文件\Utils</Filter>
+    <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\SSSCopilotTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\SSSBattleProcessTask.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
+      <Filter>源文件\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\SSSStageManagerTask.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -751,6 +760,18 @@
     </ClCompile>
     <ClCompile Include="Task\BattleHelper.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\SSSCopilotTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\SSSBattleProcessTask.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\SSSStageManagerTask.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

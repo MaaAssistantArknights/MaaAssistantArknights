@@ -16,14 +16,14 @@
 using namespace asst;
 
 asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name)
-    : AbstractTask(abs), m_raw_tasks_name(std::move(tasks_name))
+    : AbstractTask(abs), m_raw_task_name_list(std::move(tasks_name))
 {
     m_task_delay = Config.get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
 asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept
-    : AbstractTask(std::move(abs)), m_raw_tasks_name(std::move(tasks_name))
+    : AbstractTask(std::move(abs)), m_raw_task_name_list(std::move(tasks_name))
 {
     m_task_delay = Config.get_options().task_delay;
     m_basic_info_cache = json::value();
@@ -39,7 +39,7 @@ bool asst::ProcessTask::run()
         m_task_delay = Config.get_options().task_delay;
     }
 
-    m_cur_tasks_name = m_raw_tasks_name;
+    m_cur_task_name_list = m_raw_task_name_list;
     for (m_cur_retry = 0; m_cur_retry <= m_retry_times; ++m_cur_retry) {
         if (_run()) {
             return true;
@@ -62,7 +62,7 @@ ProcessTask& asst::ProcessTask::set_task_delay(int delay) noexcept
 asst::ProcessTask& asst::ProcessTask::set_tasks(std::vector<std::string> tasks_name) noexcept
 {
     m_cur_retry = 0;
-    m_raw_tasks_name = std::move(tasks_name);
+    m_raw_task_name_list = std::move(tasks_name);
     m_pre_task_name.clear();
     return *this;
 }
@@ -83,7 +83,7 @@ bool ProcessTask::_run()
 {
     LogTraceFunction;
 
-    while (!m_cur_tasks_name.empty()) {
+    while (!m_cur_task_name_list.empty()) {
         if (need_exit()) {
             return false;
         }
@@ -93,16 +93,16 @@ bool ProcessTask::_run()
 
         json::value info = basic_info();
         info["details"] = json::object {
-            { "to_be_recognized", json::array(m_cur_tasks_name) },
+            { "to_be_recognized", json::array(m_cur_task_name_list) },
             { "cur_retry", m_cur_retry },
             { "retry_times", m_retry_times },
         };
         Log.info(info.to_string());
 
-        auto front_task_ptr = Task.get(m_cur_tasks_name.front());
+        auto front_task_ptr = Task.get(m_cur_task_name_list.front());
         // 可能有配置错误，导致不存在对应的任务
         if (front_task_ptr == nullptr) {
-            Log.error("Invalid task", m_cur_tasks_name.front());
+            Log.error("Invalid task", m_cur_task_name_list.front());
             return false;
         }
 
@@ -113,7 +113,7 @@ bool ProcessTask::_run()
         }
         else {
             const auto image = ctrler()->get_image();
-            ProcessTaskImageAnalyzer analyzer(image, m_cur_tasks_name, m_inst);
+            ProcessTaskImageAnalyzer analyzer(image, m_cur_task_name_list, m_inst);
 
             if (!analyzer.analyze()) {
                 return false;
@@ -124,28 +124,28 @@ bool ProcessTask::_run()
         if (need_exit()) {
             return false;
         }
-        std::string cur_name = m_cur_task_ptr->name;
+        m_last_task_name = m_cur_task_ptr->name;
 
         const auto& res_move = m_cur_task_ptr->rect_move;
         if (!res_move.empty()) {
             rect = rect.move(res_move);
         }
 
-        int& exec_times = m_exec_times[cur_name];
+        int& exec_times = m_exec_times[m_last_task_name];
 
         auto [max_times, limit_type] = calc_time_limit();
 
         if (limit_type == TimesLimitType::Pre && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
             info["details"] = json::object {
-                { "task", cur_name },
+                { "task", m_last_task_name },
                 { "exec_times", exec_times },
                 { "max_times", max_times },
                 { "limit_type", "pre" },
             };
             Log.info("exec times exceeded the limit", info.to_string());
             callback(AsstMsg::SubTaskExtraInfo, info);
-            m_cur_tasks_name = m_cur_task_ptr->exceeded_next;
+            m_cur_task_name_list = m_cur_task_ptr->exceeded_next;
             sleep(m_task_delay);
             continue;
         }
@@ -154,7 +154,7 @@ bool ProcessTask::_run()
         ++exec_times;
 
         info["details"] = json::object {
-            { "task", cur_name },
+            { "task", m_last_task_name },
             { "action", enum_to_string(m_cur_task_ptr->action) },
             { "exec_times", exec_times },
             { "max_times", max_times },
@@ -198,7 +198,7 @@ bool ProcessTask::_run()
             break;
         }
 
-        status()->set_number(Status::ProcessTaskLastTimePrefix + cur_name, time(nullptr));
+        status()->set_number(Status::ProcessTaskLastTimePrefix + m_last_task_name, time(nullptr));
 
         // 减少其他任务的执行次数
         // 例如，进入吃理智药的界面了，相当于上一次点蓝色开始行动没生效
@@ -237,14 +237,14 @@ bool ProcessTask::_run()
         if (limit_type == TimesLimitType::Post && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
             info["details"] = json::object {
-                { "task", cur_name },
+                { "task", m_last_task_name },
                 { "exec_times", exec_times },
                 { "max_times", max_times },
                 { "limit_type", "post" },
             };
             Log.info("exec times exceeded the limit", info.to_string());
             callback(AsstMsg::SubTaskExtraInfo, info);
-            m_cur_tasks_name = m_cur_task_ptr->exceeded_next;
+            m_cur_task_name_list = m_cur_task_ptr->exceeded_next;
             sleep(m_task_delay);
             continue;
         }
@@ -256,7 +256,7 @@ bool ProcessTask::_run()
         if (need_stop) {
             return true;
         }
-        m_cur_tasks_name = m_cur_task_ptr->next;
+        m_cur_task_name_list = m_cur_task_ptr->next;
         sleep(m_task_delay);
     }
 
@@ -308,7 +308,7 @@ int asst::ProcessTask::calc_post_delay() const
 json::value asst::ProcessTask::basic_info() const
 {
     return AbstractTask::basic_info() |
-           json::object { { "first", json::array(m_raw_tasks_name) }, { "pre_task", m_pre_task_name } };
+           json::object { { "first", json::array(m_raw_task_name_list) }, { "pre_task", m_pre_task_name } };
 }
 
 void ProcessTask::exec_click_task(const Rect& matched_rect)

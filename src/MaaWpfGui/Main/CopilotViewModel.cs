@@ -214,6 +214,7 @@ namespace MaaWpfGui
 
         private bool _isDataFromWeb = false;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
+        private string TaskType = "General";
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
@@ -307,6 +308,19 @@ namespace MaaWpfGui
                 }
 
                 AddLog(string.Format("共 {0} 名干员", count), UILogColor.Message);
+
+                if (json.ContainsKey("type"))
+                {
+                    var type = json["type"].ToString();
+                    if (type == "SSS")
+                    {
+                        TaskType = "SSSCopilot";
+                    }
+                }
+                else
+                {
+                    TaskType = "Copilot";
+                }
 
                 if (_isDataFromWeb)
                 {
@@ -420,7 +434,7 @@ namespace MaaWpfGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form);
+            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType);
             if (ret)
             {
                 AddLog(Localization.GetString("Running"));
