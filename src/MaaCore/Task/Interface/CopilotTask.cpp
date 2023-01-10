@@ -12,17 +12,23 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
       m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
       m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType))
 {
-    auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
-    m_subtasks.emplace_back(start_1_tp);
+    for (int i = 0; i != 1000; ++i) {
+        auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
+        start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
+        m_subtasks.emplace_back(start_1_tp);
 
-    m_subtasks.emplace_back(m_formation_task_ptr);
+        m_subtasks.emplace_back(m_formation_task_ptr);
 
-    auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
-    start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
-    m_subtasks.emplace_back(start_2_tp);
+        auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
+        start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
+        m_subtasks.emplace_back(start_2_tp);
 
-    m_subtasks.emplace_back(m_battle_task_ptr)->set_retry_times(0);
+        m_subtasks.emplace_back(m_battle_task_ptr)->set_retry_times(0);
+
+        auto stop_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
+        stop_task_ptr->set_tasks({ "ClickCornerUntilStartButton" });
+        m_subtasks.emplace_back(stop_task_ptr);
+    }
 }
 
 bool asst::CopilotTask::set_params(const json::value& params)
