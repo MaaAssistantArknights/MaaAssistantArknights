@@ -356,6 +356,7 @@
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
+    <system:String x:Key="LoopTimes">LoopTimes</system:String>
 
     <system:String x:Key="Start">시작</system:String>
 

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -48,25 +49,44 @@
                 ToolTip="{DynamicResource SelectTheFileTip}" />
             <CheckBox
                 Height="50"
-                Margin="10"
+                Margin="0,0,0,30"
                 HorizontalAlignment="Center"
                 Content="{DynamicResource AutoSquad}"
                 IsChecked="{Binding Form}"
+                IsEnabled="{Binding Idle}"
                 IsHitTestVisible="{Binding Idle}"
                 ToolTip="{DynamicResource AutoSquadTip}" />
-            <Button
-                Width="120"
-                Height="50"
+            <StackPanel
                 Margin="10"
-                Command="{s:Action Start}"
-                Content="{DynamicResource Start}"
-                IsEnabled="{Binding Idle}" />
-            <Button
-                Width="120"
-                Height="50"
-                Margin="10"
-                Command="{s:Action Stop}"
-                Content="{DynamicResource Stop}" />
+                HorizontalAlignment="Center"
+                IsEnabled="{Binding Idle}"
+                Orientation="Horizontal">
+                <CheckBox
+                    Margin="10"
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource LoopTimes}"
+                    IsChecked="{Binding Loop}" />
+                <hc:TextBox
+                    Width="60"
+                    Height="30"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding LoopTimes}"
+                    TextType="Int" />
+            </StackPanel>
+            <Grid Margin="0,10,0,30">
+                <Button
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Start}"
+                    Content="{DynamicResource Start}"
+                    Visibility="{Binding Idle}" />
+                <Button
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Stop}"
+                    Content="{DynamicResource Stop}"
+                    Visibility="{c:Binding !Idle}" />
+            </Grid>
             <TextBlock
                 Margin="5"
                 Block.TextAlignment="Center"
