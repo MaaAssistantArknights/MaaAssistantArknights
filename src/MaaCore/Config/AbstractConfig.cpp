@@ -14,7 +14,7 @@ bool asst::AbstractConfig::load(const std::filesystem::path& path)
         return false;
     }
 
-    auto&& ret = json::open(path, true);
+    auto ret = json::open(path, true);
     if (!ret) {
         Log.error("Json open failed", path);
         return false;
