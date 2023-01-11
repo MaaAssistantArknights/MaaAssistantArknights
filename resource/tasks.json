@@ -5943,6 +5943,18 @@
             255
         ]
     },
+    "BattleStartAll": {
+        "action": "DoNothing",
+        "algorithm": "JustReturn",
+        "next": [
+            "BattleStartNormal",
+            "BattleStartRaid",
+            "BattleStartExercise",
+            "BattleStartSimulation",
+            "BattleStartTrials",
+            "BattleStartTrialsRaid"
+        ]
+    },
     "BattleStartNormal": {
         "baseTask": "BattleStart"
     },
@@ -5953,6 +5965,9 @@
         "baseTask": "BattleStart"
     },
     "BattleStartTrials": {
+        "baseTask": "BattleStart"
+    },
+    "BattleStartTrialsRaid": {
         "baseTask": "BattleStart"
     },
     "BattleStartSimulation": {
