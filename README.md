@@ -179,7 +179,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-用户交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/)  
+用户交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
 [Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 [舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
