@@ -35,7 +35,7 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
-    m_move_camera_count = 0;
+    m_camera_count = 0;
 
     m_in_battle = false;
     m_kills = 0;
@@ -513,7 +513,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, const cv::Mat& re
     return use_skill(loc, false);
 }
 
-void asst::BattleHelper::save_map(const cv::Mat& image, std::string suffix)
+void asst::BattleHelper::save_map(const cv::Mat& image)
 {
     LogTraceFunction;
 
@@ -526,6 +526,11 @@ void asst::BattleHelper::save_map(const cv::Mat& image, std::string suffix)
     for (const auto& [loc, info] : m_normal_tile_info) {
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
         cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+    }
+
+    std::string suffix;
+    if (++m_camera_count > 1) {
+        suffix = "-" + std::to_string(m_camera_count);
     }
     asst::imwrite(MapDir / asst::utils::path(m_stage_name + suffix + ".png"), draw);
 }
@@ -620,14 +625,13 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, 
     LogTraceFunction;
     Log.info("move", move_loc.first, move_loc.second);
 
-    calc_tiles_info(m_stage_name, -move_loc.first, move_loc.second);
-
     if (clear_kills) {
         m_kills = 0;
         m_total_kills = 0;
     }
 
-    save_map(m_inst_helper.ctrler()->get_image(), "-" + std::to_string(++m_move_camera_count));
+    calc_tiles_info(m_stage_name, -move_loc.first, move_loc.second);
+    update_deployment(true);
 
     return true;
 }
