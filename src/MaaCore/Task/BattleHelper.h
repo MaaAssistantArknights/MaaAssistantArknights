@@ -54,7 +54,7 @@ namespace asst
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const std::string& name, const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const Point& loc, const cv::Mat& reusable = cv::Mat());
-        void save_map(const cv::Mat& image);
+        void save_map(const cv::Mat& image, std::string suffix = std::string());
 
         bool click_oper_on_deployment(const std::string& name);
         bool click_oper_on_deployment(const Rect& rect);
@@ -72,6 +72,7 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
+        int m_move_camera_count = 0;
 
         /* 实时更新的数据 */
         bool m_in_battle = false;
