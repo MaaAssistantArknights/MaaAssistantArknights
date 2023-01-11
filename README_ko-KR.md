@@ -181,7 +181,7 @@ Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%
 
 ## 광고
 
-[사용자 그룹 (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹 1 (만원)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ 그룹 2 (만원)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ 그룹 3 (만원)](https://jq.qq.com/?_wv=1027&k=mKdOnhWV), [QQ 그룹 4 (만원)](https://jq.qq.com/?_wv=1027&k=ABkU8mCR), [QQ 그룹 5 (만원)](https://jq.qq.com/?_wv=1027&k=To6b6H6m), [QQ 그룹 6 (만원)](https://jq.qq.com/?_wv=1027&k=PYoCP2lS), [QQ 그룹 7(만원)](https://jq.qq.com/?_wv=1027&k=xDT9vHvB), [QQ 그룹 8(만원)](https://jq.qq.com/?_wv=1027&k=PzvqFhOr), [QQ 그룹 9](https://jq.qq.com/?_wv=1027&k=rnlw30bt)  
+사용자 그룹：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/)  
 [전략 JSON 공유](https://prts.plus)  
 [빌리빌리 라이브](https://live.bilibili.com/2808861): 코딩 과정을 밤마다 방송하고 있습니다. 이 프로그램에 대부분의 시간을 할애하고 있습니다.  
 [명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  
