@@ -31,7 +31,7 @@ namespace asst
         virtual const std::string oper_name_ocr_task_name() const noexcept { return "BattleOperName"; }
         virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
 
-        bool calc_tiles_info(const std::string& stage_name);
+        bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
         bool load_avatar_cache(const std::string& name, bool with_token = false);
         void save_avatar_cache(const std::string& name, const cv::Mat& avatar);
 
