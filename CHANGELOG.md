@@ -1,32 +1,23 @@
-## v4.9.1
+## v4.10.0-alpha.1
 
-- 修复 自动战斗 无法部署召唤物的问题 @MistEO
-- 修复 自动战斗 CD 中干员识别错误导致反复点击的问题 @MistEO
-- 修复 关卡导航 在高分辨率设置下滑动过头的问题 @MistEO
-
-## v4.9.0
-
-- 更新 `将进酒` 复刻活动数据，新增 活动关卡导航 @MistEO @ABA2396
-- 重构 抄作业/肉鸽战斗 代码，新增干员头像缓存机制，优化 CD 中干员识别 @MistEO @ABA2396
-- 移除 DX12 依赖，重新支持 Windows 7, Windows Server 等系统 @zhangchi0104 @MistEO
-- 新增 肉鸽 使用助战干员选项 @WLLEGit
-- 新增 定时任务 分钟数设置 @ABA2396
-- 优化 模拟器最小化 功能的等待时间 @ABA2396
-- 更新 自定义基建 内置作业 @ABA2396
-- 修复 公招 高资 tag 识别错误 @horror-proton
-- 修复 活动关卡导航 开始时间错误，并新增活动剩余开始时间显示 @ABA2396
-- 修复 自动战斗 编队干员组排序错误 @MistEO
-- 修复 自动战斗/肉鸽战斗 不设置干员方向卡住的问题 @MistEO
-- 修复 启动模拟器 的报错 @ABA2396
-- 修复 macOS 运行崩溃问题 @hguandl
-- 修复 Liunx 运行崩溃问题 @horror-proton
+- 新增 `引航者试炼` 抄作业功能支持，新增 `MoveCamera` 字段以移动镜头 @MistEO @horror-proton  
+  请参考 [战斗流程文档](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.3-%E6%88%98%E6%96%97%E6%B5%81%E7%A8%8B%E5%8D%8F%E8%AE%AE.md) 使用
+- 新增 界面 新版本下载进度显示 @moomiji
+- 新增 界面 活动剩余时间提示 @ABA2396
+- 优化 资源加载 速度 @dantmnf @MistEO
+- 重构 界面 关卡导航列表从 web 获取 @MistEO @ABA2396
+- 重写 掉落识别/仓库识别 数量检测算法，暂时关闭上传企鹅功能 @horror-proton @MistEO
+- 修复 自动战斗/肉鸽 不停点 CD 干员的问题 @MistEO
+- 修复 自动战斗/肉鸽 偶现干员识别错误 @MistEO
+- 修复 肉鸽 助战功能 翻页后不识别的问题 @WLLEGit
+- 更新 自定义基建 内置作业界面 @ABA2396
+- 更新 文档，更新 加群链接 @MistEO @ntgmc @DavidWang19
 
 ### For overseas
 
-- Fix bugs in the recruitment, base, drops, and investment in IS of the EN client @Pitiedwzr @RiichiTsumo
-- Update the level and operator data of the JP client @MistEO
-- Update Japanese docs. @wallsman
+- Added translations for drop settings @ABA2396
 
 ### For develops
 
-- Fix loading error of Java API @BTreeNewBee
+- Optimized the Rust interface @KevinT3Hu
+- Updated Linux tutorial @horror-proton
