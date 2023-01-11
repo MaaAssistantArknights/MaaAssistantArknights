@@ -179,7 +179,7 @@ Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%
 
 ## 広告
 
-[ユーザー研究グループ（Telegram）](https://t.me/+Mgc2Zngr-hs3ZjU1)、[QQグループ1（満員）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)、[QQグループ2（満員）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)、[QQグループ3（満員）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)、[QQグループ4（満員）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)、[QQグループ5（満員）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)、[QQグループ6（満員）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)、[QQグループ7（満員）](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)、[QQグループ8](https://jq.qq.com/?_wv=1027&k=PzvqFhOr)  
+ユーザー研究グループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)、[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/)  
 [自動作戦JSON作業シェア](https://prts.plus)  
 [ビリビリ生放送](https://live.bilibili.com/2808861)：毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。  
 [アークナイツ無関係技術研究 & チャットグループ（QQ）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：インボリューション・ヘル！  
