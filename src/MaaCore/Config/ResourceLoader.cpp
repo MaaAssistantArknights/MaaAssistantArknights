@@ -85,13 +85,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 
-    if (!config_future.get() || !tile_future.get() || !ocr_future.get() || !ocr_char_future.get()) {
-        m_loaded = false;
-        return false;
-    }
-
-    m_loaded = true;
-    return true;
+    m_loaded = config_future.get() && tile_future.get() && ocr_future.get() && ocr_char_future.get();
+    return m_loaded;
 }
 
 bool asst::ResourceLoader::loaded() const noexcept
