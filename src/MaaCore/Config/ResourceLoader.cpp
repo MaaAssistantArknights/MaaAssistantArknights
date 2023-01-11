@@ -1,6 +1,7 @@
 #include "ResourceLoader.h"
 
 #include <filesystem>
+#include <future>
 
 #include "GeneralConfig.h"
 #include "Miscellaneous/BattleDataConfig.h"
@@ -48,30 +49,48 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    /* load resource with json files*/
-    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
-    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
+    auto config_future = std::async(std::launch::async, [&]() -> bool {
+        /* load resource with json files*/
+        LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
+        LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
+        LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
+        LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+        LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+        LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+        LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
 
-    /* load resource with json and template files*/
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
-    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
-    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+        /* load resource with json and template files*/
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+        LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
+        LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+        return true;
+    });
 
     /* load 3rd parties resource */
-    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
-    LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-    LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+    auto tile_future = std::async(std::launch::async, [&]() -> bool {
+        LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
+        return true;
+    });
 
-    m_loaded = true;
+    auto ocr_future = std::async(std::launch::async, [&]() -> bool {
+        LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
+        return true;
+    });
+
+    auto ocr_char_future = std::async(std::launch::async, [&]() -> bool {
+        LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+        return true;
+    });
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 
+    if (!config_future.get() || !tile_future.get() || !ocr_future.get() || !ocr_char_future.get()) {
+        m_loaded = false;
+        return false;
+    }
+
+    m_loaded = true;
     return true;
 }
 
