@@ -251,6 +251,11 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 }
             }
 
+            // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
+            if (name.empty()) {
+                Log.error("name is empty");
+                continue;
+            }
             oper.name = name;
             remove_cooling_from_battlefield(oper);
 
