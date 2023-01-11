@@ -64,8 +64,10 @@ namespace asst
 
         bool contains(const std::string& any_key) const;
         bool contains(const LevelKey& key) const;
-        std::unordered_map<Point, TileInfo> calc(const std::string& any_key, bool side) const;
-        std::unordered_map<Point, TileInfo> calc(const LevelKey& key, bool side) const;
+        std::unordered_map<Point, TileInfo> calc(const std::string& any_key, bool side, double shift_x = 0,
+                                                 double shift_y = 0) const;
+        std::unordered_map<Point, TileInfo> calc(const LevelKey& key, bool side, double shift_x = 0,
+                                                 double shift_y = 0) const;
 
     private:
         std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;
