@@ -9643,5 +9643,23 @@
             175,
             132
         ]
+    },
+    "ClickCornerUntilStartButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "next": [
+            "BattleStartPreFlag",
+            "ClickCornerUntilStartButton"
+        ]
+    },
+    "BattleStartPreFlag": {
+        "baseTask": "BattleStartPre",
+        "action": "DoNothing"
     }
 }
