@@ -224,21 +224,34 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             click_oper_on_deployment(oper.rect);
 
-            OcrImageAnalyzer name_analyzer(m_inst_helper.ctrler()->get_image());
-            name_analyzer.set_task_info(oper_name_ocr_task_name());
-            name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-            if (!name_analyzer.analyze()) {
-                Log.error("ocr failed");
-                continue;
-            }
-            name_analyzer.sort_result_by_score();
-            const std::string& name = name_analyzer.get_result().front().text;
-            if (name.empty()) {
-                Log.error("ocr failed, empty name");
-                continue;
-            }
-            oper.name = name;
+            cv::Mat name_image = m_inst_helper.ctrler()->get_image();
+            auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
+                name_analyzer.set_image(name_image);
+                name_analyzer.set_task_info(oper_name_ocr_task_name());
+                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+                if (!name_analyzer.analyze()) {
+                    return std::string();
+                }
+                name_analyzer.sort_result_by_score();
+                return name_analyzer.get_result().front().text;
+            };
 
+            OcrWithPreprocessImageAnalyzer preproc_analyzer;
+            std::string name = analyze(preproc_analyzer);
+            if (name.empty() || is_name_invalid(name)) {
+                Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
+                OcrImageAnalyzer det_analyzer;
+                std::string det_name = analyze(det_analyzer);
+                if (det_name.empty()) {
+                    Log.warn("ocr with det model failed");
+                }
+                else if (name.empty() || !is_name_invalid(det_name)) {
+                    Log.info("use ocr with det", det_name);
+                    name = det_name;
+                }
+            }
+
+            oper.name = name;
             remove_cooling_from_battlefield(oper);
 
             if (oper.cooling) {
@@ -645,7 +658,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, 
 
 bool asst::BattleHelper::is_name_invalid(const std::string& name)
 {
-    return BattleData.get_location_type(name) == battle::LocationType::Invalid;
+    return BattleData.get_rarity(name) <= 0;
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
