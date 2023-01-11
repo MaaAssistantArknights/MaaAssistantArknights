@@ -14,9 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.ConstrainedExecution;
 using System.Windows;
-using System.Windows.Input;
 
 namespace MaaWpfGui
 {

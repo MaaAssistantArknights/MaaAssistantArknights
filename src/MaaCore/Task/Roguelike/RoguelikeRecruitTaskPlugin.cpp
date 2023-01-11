@@ -414,11 +414,11 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
     ProcessTask(*this, { "RoguelikeRecruitSupportEnterFlag" }).run(); // 等待页面加载
 
     // 识别所有干员，应该最多两页
-    const int SwipeTimes = 1;
+    const int MaxPageCnt = 2;
 
     std::vector<RecruitSupportCharInfo> satisfied_chars;
     for (int retry = 0; retry <= max_refresh; ++retry) {
-        for (int swipe = 0; swipe < SwipeTimes; ++swipe) {
+        for (int page = 0; page < MaxPageCnt; ++page) {
             auto screen_char = ctrler()->get_image();
             RoguelikeRecruitSupportAnalyzer analyzer_char(screen_char);
             analyzer_char.set_mode(SupportAnalyzeMode::AnalyzeChars);
@@ -427,15 +427,16 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
                 auto& chars_page = analyzer_char.get_result_char();
 
                 bool use_nonfriend_support = get_status_bool(Status::RoguelikeUseNonfriendSupport);
-                auto check_satisfiy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
+                auto check_satisfy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
                 std::copy_if(chars_page.begin(), chars_page.end(),
-                             std::inserter(satisfied_chars, std::begin(satisfied_chars)), check_satisfiy);
+                             std::inserter(satisfied_chars, std::begin(satisfied_chars)), check_satisfy);
 
                 if (satisfied_chars.size()) break;
             }
-            ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
+            if (page != MaxPageCnt - 1)
+                ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
         }
         if (satisfied_chars.size()) break;
 

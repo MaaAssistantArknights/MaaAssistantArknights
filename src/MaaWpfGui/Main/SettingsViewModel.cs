@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using IWshRuntimeLibrary;
+using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Stylet;
 using StyletIoC;
@@ -341,6 +342,9 @@ namespace MaaWpfGui
 
         private bool _minimizingStartup = Convert.ToBoolean(ViewStatusStorage.Get("Start.MinimizingStartup", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to minimally start the emulator
+        /// </summary>
         public bool MinimizingStartup
         {
             get => _minimizingStartup;
@@ -641,6 +645,9 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> ConnectConfigList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of touch modes
+        /// </summary>
         public List<CombData> TouchModeList { get; set; }
 
         /// <summary>
@@ -1081,7 +1088,7 @@ namespace MaaWpfGui
         private string _roguelikeUseSupportUnit = ViewStatusStorage.Get("Roguelike.RoguelikeUseSupportUnit", false.ToString());
 
         /// <summary>
-        /// Is core char a support unit
+        /// Gets or sets a value indicating whether use support unit.
         /// </summary>
         public bool RoguelikeUseSupportUnit
         {
@@ -1096,7 +1103,7 @@ namespace MaaWpfGui
         private string _roguelikeEnableNonfriendSupport = ViewStatusStorage.Get("Roguelike.RoguelikeEnableNonfriendSupport", false.ToString());
 
         /// <summary>
-        /// Can roguelike support unit belong to nonfriend
+        /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend
         /// </summary>
         public bool RoguelikeEnableNonfriendSupport
         {
@@ -1799,8 +1806,19 @@ namespace MaaWpfGui
 
         public enum UpdateVersionType
         {
+            /// <summary>
+            /// 测试版
+            /// </summary>
             Nightly,
+
+            /// <summary>
+            /// 开发版
+            /// </summary>
             Beta,
+
+            /// <summary>
+            /// 稳定版
+            /// </summary>
             Stable,
         }
 
@@ -1863,6 +1881,7 @@ namespace MaaWpfGui
             get => _proxy;
             set
             {
+                WebService.Proxy = value;
                 SetAndNotify(ref _proxy, value);
                 ViewStatusStorage.Set("VersionUpdate.Proxy", value);
             }
@@ -1946,10 +1965,8 @@ namespace MaaWpfGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification(toastMessage))
-                    {
-                        toast.Show();
-                    }
+                    using var toast = new ToastNotification(toastMessage);
+                    toast.Show();
                 });
             }
         }
@@ -2219,10 +2236,8 @@ namespace MaaWpfGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists")))
-                    {
-                        toast.Show();
-                    }
+                    using var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists"));
+                    toast.Show();
                 });
                 return;
             }
@@ -2238,11 +2253,8 @@ namespace MaaWpfGui
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using (var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle")))
-                        {
-                            toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc"))
-                                .Show();
-                        }
+                        using var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle"));
+                        toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc")).Show();
                     });
                     return;
                 }
@@ -2274,10 +2286,8 @@ namespace MaaWpfGui
             ViewStatusStorage.Set("Connect.AdbReplaced", true.ToString());
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB")))
-                {
-                    toast.Show();
-                }
+                using var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB"));
+                toast.Show();
             });
         }
 
@@ -2343,10 +2353,8 @@ namespace MaaWpfGui
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using (var toast = new ToastNotification("Test test"))
-                        {
-                            toast.Show();
-                        }
+                        using var toast = new ToastNotification("Test test");
+                        toast.Show();
                     });
                 }
             }

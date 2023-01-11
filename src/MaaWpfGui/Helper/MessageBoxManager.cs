@@ -11,10 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #pragma warning disable 0618
-#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
-#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning disable IDE1006 // 命名样式
-#pragma warning disable SA1401 // Fields should be private
+#pragma warning disable SA1307
+#pragma warning disable SA1401
+#pragma warning disable IDE0051
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Text;
@@ -245,7 +244,3 @@ namespace System.Windows.Forms
         }
     }
 }
-#pragma warning restore IDE1006 // 命名样式
-#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
-#pragma warning restore SA1401 // Fields should be private

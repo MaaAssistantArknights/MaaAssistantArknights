@@ -159,6 +159,7 @@
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later.</system:String>
 
+    <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package...</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Update Package Download Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory.</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">Update Package Download Completed</system:String>
@@ -358,6 +359,7 @@
     <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">Auto squad</system:String>
     <system:String x:Key="AutoSquadTip">The operator of &quot;special focus&quot; cannot be identified at this time</system:String>
+    <system:String x:Key="LoopTimes">LoopTimes</system:String>
 
     <system:String x:Key="Start">Start</system:String>
 

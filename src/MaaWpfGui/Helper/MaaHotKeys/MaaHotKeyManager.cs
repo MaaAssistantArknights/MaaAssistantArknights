@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -123,13 +122,17 @@ namespace MaaWpfGui.MaaHotKeys
 
         private Dictionary<MaaHotKeyAction, MaaHotKey> CreateInitialHotKeys()
         {
-            var hotKeys = new Dictionary<MaaHotKeyAction, MaaHotKey>();
-
-            hotKeys.Add(MaaHotKeyAction.ShowGui,
-                new MaaHotKey(Key.M, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt));
-
-            hotKeys.Add(MaaHotKeyAction.LinkStart,
-                new MaaHotKey(Key.L, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt));
+            var hotKeys = new Dictionary<MaaHotKeyAction, MaaHotKey>
+            {
+                {
+                    MaaHotKeyAction.ShowGui,
+                    new MaaHotKey(Key.M, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
+                },
+                {
+                    MaaHotKeyAction.LinkStart,
+                    new MaaHotKey(Key.L, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
+                },
+            };
 
             return hotKeys;
         }

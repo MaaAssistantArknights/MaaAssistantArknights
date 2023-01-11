@@ -41,7 +41,8 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     }
 
     try {
-        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, tiles_array);
+        m_tile_calculator =
+            std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(tiles_array));
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());
@@ -105,15 +106,15 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(const std::v
     return dst;
 }
 
-std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const std::string& any_key,
-                                                                               bool side) const
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const std::string& any_key, bool side,
+                                                                               double shift_x, double shift_y) const
 {
     LogTraceFunction;
 
     std::vector<std::vector<cv::Point2d>> pos;
     std::vector<std::vector<Map::Tile>> tiles;
 
-    bool ret = m_tile_calculator->run(any_key, side, pos, tiles);
+    bool ret = m_tile_calculator->run(any_key, side, pos, tiles, shift_x, shift_y);
 
     if (!ret) {
         Log.info("Tiles calc error!");
@@ -123,14 +124,15 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(c
     return proc_data(pos, tiles);
 }
 
-std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const LevelKey& key, bool side) const
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const LevelKey& key, bool side,
+                                                                               double shift_x, double shift_y) const
 {
     LogTraceFunction;
 
     std::vector<std::vector<cv::Point2d>> pos;
     std::vector<std::vector<Map::Tile>> tiles;
 
-    bool ret = m_tile_calculator->run(key, side, pos, tiles);
+    bool ret = m_tile_calculator->run(key, side, pos, tiles, shift_x, shift_y);
 
     if (!ret) {
         Log.info("Tiles calc error!");

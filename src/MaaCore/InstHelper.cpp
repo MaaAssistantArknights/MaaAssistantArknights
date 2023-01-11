@@ -1,5 +1,7 @@
 #include "InstHelper.h"
 
+#include <sstream>
+
 #include "Assistant.h"
 #include "Utils/Logger.hpp"
 
@@ -46,4 +48,11 @@ bool asst::InstHelper::sleep(unsigned millisecond) const
 asst::Assistant* asst::InstHelper::inst() noexcept
 {
     return m_inst;
+}
+
+std::string asst::InstHelper::inst_string() const
+{
+    std::stringstream ss;
+    ss << m_inst;
+    return ss.str();
 }
