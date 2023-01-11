@@ -158,6 +158,7 @@
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요.</system:String>
 
+    <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중...</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">업데이트 패키지 다운로드 완료</system:String>
@@ -355,6 +356,7 @@
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
+    <system:String x:Key="LoopTimes">LoopTimes</system:String>
 
     <system:String x:Key="Start">시작</system:String>
 

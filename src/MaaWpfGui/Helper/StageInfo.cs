@@ -43,6 +43,11 @@ namespace MaaWpfGui
         public bool IsHidden { get; set; }
 
         /// <summary>
+        /// Gets or sets the stage drop
+        /// </summary>
+        public string Drop { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="StageInfo"/> class.
         /// </summary>
         public StageInfo()

@@ -22,12 +22,17 @@ namespace MaaWpfGui.MaaHotKeys
         private readonly IContainer _container;
         private readonly IMainWindowManager _mainWindowManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MaaHotKeyActionHandler"/> class.
+        /// </summary>
+        /// <param name="container"></param>
         public MaaHotKeyActionHandler(IContainer container)
         {
             _container = container;
             _mainWindowManager = container.Get<IMainWindowManager>();
         }
 
+        /// <inheritdoc/>
         public void HandleKeyPressed(MaaHotKeyAction action)
         {
             switch (action)
@@ -63,10 +68,8 @@ namespace MaaWpfGui.MaaHotKeys
                     return;
                 }
 
-                using (var toast = new ToastNotification(Localization.GetString("BackgroundLinkStarted")))
-                {
-                    toast.Show();
-                }
+                using var toast = new ToastNotification(Localization.GetString("BackgroundLinkStarted"));
+                toast.Show();
             }
             else
             {
@@ -78,10 +81,8 @@ namespace MaaWpfGui.MaaHotKeys
                     return;
                 }
 
-                using (var toast = new ToastNotification(Localization.GetString("BackgroundLinkStopped")))
-                {
-                    toast.Show();
-                }
+                using var toast = new ToastNotification(Localization.GetString("BackgroundLinkStopped"));
+                toast.Show();
             }
         }
     }

@@ -321,11 +321,12 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     src_without_alpha.copyTo(dst, mask);
 
     cv::Mat dst_resized;
-    cv::resize(dst, dst_resized, cv::Size(), 720.0 / 1080.0, 720.0 / 1080.0, cv::INTER_AREA);
-    cv::Rect quantity_roi(dst_resized.cols - 80, dst_resized.rows - 50, 80, 50);
-    dst_resized(quantity_roi).setTo(0);
+    const double scale = 720.0 / 1080.0 * 0.975;
+    cv::resize(dst, dst_resized, cv::Size(), scale, scale, cv::INTER_AREA);
 
-    dst_resized = dst_resized(cv::Rect(15, 15, 92, 92));
+    cv::Mat dst_gray;
+    cv::cvtColor(dst_resized, dst_gray, cv::COLOR_BGR2GRAY);
+    dst_resized = dst_resized(cv::boundingRect(dst_gray));
 
     cv::imwrite(output.string(), dst_resized);
     return true;

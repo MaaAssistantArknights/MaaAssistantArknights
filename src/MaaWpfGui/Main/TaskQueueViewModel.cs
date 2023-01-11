@@ -199,8 +199,7 @@ namespace MaaWpfGui
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
-                int order;
-                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
+                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
 
@@ -228,10 +227,11 @@ namespace MaaWpfGui
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
             _stageManager = new StageManager();
-            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
-
-            // It's Cur/Last option
-            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
+            {
+                // It's Cur/Last option
+                [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+            };
 
             InitDrops();
             NeedToUpdateDatePrompt();
@@ -307,8 +307,10 @@ namespace MaaWpfGui
             }
 
             var remainingSanityStage = RemainingSanityStage;
-            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
-            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
+            {
+                [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+            };
             if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == remainingSanityStage))
             {
                 RemainingSanityStage = string.Empty;
@@ -640,7 +642,7 @@ namespace MaaWpfGui
                 }
                 else if (item.OriginalName == "AutoRoguelike")
                 {
-                    ret &= appendRoguelike();
+                    ret &= AppendRoguelike();
                 }
                 else
                 {
@@ -857,8 +859,7 @@ namespace MaaWpfGui
             // for debug
             var settings = _container.Get<SettingsViewModel>();
 
-            int max_times;
-            if (!int.TryParse(settings.RecruitMaxTimes, out max_times))
+            if (!int.TryParse(settings.RecruitMaxTimes, out var max_times))
             {
                 max_times = 0;
             }
@@ -890,7 +891,7 @@ namespace MaaWpfGui
                 settings.NotChooseLevel1, settings.IsLevel3UseShortTime);
         }
 
-        private bool appendRoguelike()
+        private bool AppendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
             int.TryParse(settings.RoguelikeMode, out var mode);
@@ -1652,10 +1653,7 @@ namespace MaaWpfGui
                 return;
             }
 
-            bool timeLess(int lHour, int lMin, int rHour, int rMin)
-            {
-                return (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
-            }
+            static bool timeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
 
             var now = DateTime.Now;
             foreach (var plan in CustomInfrastPlanInfoList)
@@ -1818,8 +1816,6 @@ namespace MaaWpfGui
             }
         }
 
-        private static readonly string _DropsFilename = Environment.CurrentDirectory + "\\resource\\item_index.json";
-
         /// <summary>
         /// Gets or sets the list of all drops.
         /// </summary>
@@ -1827,8 +1823,7 @@ namespace MaaWpfGui
 
         private void InitDrops()
         {
-            string jsonStr = File.ReadAllText(_DropsFilename);
-            var reader = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            var reader = Utils.GetItemList();
             foreach (var item in reader)
             {
                 var val = item.Key;
@@ -1840,13 +1835,26 @@ namespace MaaWpfGui
                 }
 
                 var dis = item.Value["name"].ToString();
-                if (dis.EndsWith("双芯片") || dis.EndsWith("寻访凭证") || dis.EndsWith("加固建材")
-                    || dis.EndsWith("许可") || dis == "资质凭证" || dis == "高级凭证" || dis == "演习券"
-                    || dis.Contains("源石") || dis == "D32钢" || dis == "双极纳米片" || dis == "聚合剂"
-                    || dis == "晶体电子单元" || dis == "龙骨" || dis == "芯片助剂")
+#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
+                if (
+                    val.Equals("3213") || val.Equals("3223") || val.Equals("3233") || val.Equals("3243") // 双芯片
+                    || val.Equals("3253") || val.Equals("3263") || val.Equals("3273") || val.Equals("3283")
+                    || val.Equals("7001") || val.Equals("7002") || val.Equals("7003") || val.Equals("7004") // 许可/凭证
+                    || val.Equals("4004") || val.Equals("4005")
+                    || val.Equals("3105") || val.Equals("3131") || val.Equals("3132") || val.Equals("3233") // 龙骨/加固建材
+                    || val.Equals("6001") // 演习券
+                    || val.Equals("3141") || val.Equals("4002") // 源石
+                    || val.Equals("32001") // 芯片助剂
+                    || val.Equals("30115") // 聚合剂
+                    || val.Equals("30125") // 双极纳米片
+                    || val.Equals("30135") // D32钢
+                    || val.Equals("30145") // 晶体电子单元
+                    || val.Equals("30155") // 烧结核凝晶
+                    )
                 {
                     continue;
                 }
+#pragma warning restore SA1009
 
                 AllDrops.Add(new CombData { Display = dis, Value = val });
             }

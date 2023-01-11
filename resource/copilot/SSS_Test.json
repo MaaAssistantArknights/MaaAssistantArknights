@@ -1,0 +1,105 @@
+{
+    "type": "SSS",
+    "stage_name": "多索雷斯在建地块",
+    "minimum_required": "v4.9.0",
+    "doc": {
+        "title": "保全测试作业"
+    },
+    "buff": "镀膜装置导能阀",
+    "equipment": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A"
+    ],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "泥岩",
+            "skill": 2
+        },
+        {
+            "name": "水月",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "桃金娘",
+            "skill": 2,
+            "skill_usage": 1
+        }
+    ],
+    "tool_men": {
+        "Pioneer": 3,
+        "Warrior": 6,
+        "Medic": 2
+    },
+    "drop_buffs": [
+        "定向部署支援系统"
+    ],
+    "drop_tool_men": [
+        "空弦",
+        "能天使",
+        "Pioneer",
+        "Support",
+        "无需增调干员"
+    ],
+    "stages": [
+        {
+            "stage_name": "蜂拥而上",
+            "strategies": [
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "Pioneer": 2
+                    },
+                    "location": [
+                        6,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "Warrior": 2
+                    },
+                    "location": [
+                        5,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "Support": 100
+                    },
+                    "location": [
+                        5,
+                        3
+                    ],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "name": "桃金娘",
+                    "location": [
+                        5,
+                        4
+                    ],
+                    "direction": "下"
+                }
+            ],
+            "retry_times": 3
+        }
+    ]
+}

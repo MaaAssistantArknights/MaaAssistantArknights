@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 namespace asst
 {
@@ -21,7 +22,9 @@ namespace asst
         std::shared_ptr<Status> status() const;
         bool need_exit() const;
         bool sleep(unsigned millisecond) const;
+
         Assistant* inst() noexcept;
+        std::string inst_string() const;
 
         InstHelper& operator=(const InstHelper&) = default;
         InstHelper& operator=(InstHelper&&) noexcept = default;

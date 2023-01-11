@@ -209,6 +209,12 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
 {
     LogTraceFunction;
 
+    Log.warn("debug version, not upload to penguin");
+    return;
+
+    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/3290
+    // 新的掉落识别算法，在确认识别结果完全准确前，暂时禁用上传功能
+#if 0
     if (m_server != "CN" && m_server != "US" && m_server != "JP") {
         return;
     }
@@ -270,6 +276,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         .set_extra_param(extra_param)
         .set_retry_times(5)
         .run();
+#endif
 }
 
 void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)

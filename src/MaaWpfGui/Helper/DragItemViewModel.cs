@@ -27,10 +27,10 @@ namespace MaaWpfGui
         /// <param name="storageKey">The storage key.</param>
         public DragItemViewModel(string name, string storageKey)
         {
-            this.Name = name;
-            this.OriginalName = name;
-            this._isCheckedStorageKey = storageKey + name + ".IsChecked";
-            this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
+            Name = name;
+            OriginalName = name;
+            _isCheckedStorageKey = storageKey + name + ".IsChecked";
+            IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
         }
 
         /// <summary>
@@ -41,10 +41,10 @@ namespace MaaWpfGui
         /// <param name="storageKey">The storage key.</param>
         public DragItemViewModel(string name, string original_name, string storageKey)
         {
-            this.Name = name;
-            this.OriginalName = original_name;
-            this._isCheckedStorageKey = storageKey + original_name + ".IsChecked";
-            this.IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
+            Name = name;
+            OriginalName = original_name;
+            _isCheckedStorageKey = storageKey + original_name + ".IsChecked";
+            IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
         }
 
         private string _original_name;

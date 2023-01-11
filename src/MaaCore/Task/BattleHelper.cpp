@@ -35,7 +35,9 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
+    m_move_camera_count = 0;
 
+    m_in_battle = false;
     m_kills = 0;
     m_total_kills = 0;
     m_all_deployment_avatars.clear();
@@ -44,7 +46,7 @@ void asst::BattleHelper::clear()
     m_used_tiles.clear();
 }
 
-bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name)
+bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double shift_x, double shift_y)
 {
     LogTraceFunction;
 
@@ -52,8 +54,8 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name)
         return false;
     }
 
-    m_normal_tile_info = Tile.calc(stage_name, false);
-    m_side_tile_info = Tile.calc(stage_name, true);
+    m_normal_tile_info = Tile.calc(stage_name, false, shift_x, shift_y);
+    m_side_tile_info = Tile.calc(stage_name, true, shift_x, shift_y);
 
     return true;
 }
@@ -95,6 +97,11 @@ void asst::BattleHelper::save_avatar_cache(const std::string& name, const cv::Ma
 {
     LogTraceFunction;
 
+    if (BattleData.get_rarity(name) == 0) {
+        Log.error("wrong oper name", name);
+        return;
+    }
+
     auto path = avatar_cache_dir() / utils::path(name + CacheExtension);
     Log.info(path);
 
@@ -116,12 +123,17 @@ bool asst::BattleHelper::speed_up()
     return ProcessTask(this_task(), { "BattleSpeedUp" }).run();
 }
 
+bool asst::BattleHelper::abandon()
+{
+    return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
+}
+
 bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 {
     LogTraceFunction;
 
     if (init) {
-        wait_for_start();
+        wait_until_start();
     }
 
     cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
@@ -213,25 +225,54 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             click_oper_on_deployment(oper.rect);
 
-            OcrWithPreprocessImageAnalyzer name_analyzer(m_inst_helper.ctrler()->get_image());
-            name_analyzer.set_task_info("BattleOperName");
-            name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
-            if (!name_analyzer.analyze()) {
-                Log.error("ocr failed");
-                continue;
+            cv::Mat name_image = m_inst_helper.ctrler()->get_image();
+            auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
+                name_analyzer.set_image(name_image);
+                name_analyzer.set_task_info(oper_name_ocr_task_name());
+                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+                if (!name_analyzer.analyze()) {
+                    return std::string();
+                }
+                name_analyzer.sort_result_by_score();
+                return name_analyzer.get_result().front().text;
+            };
+
+            OcrWithPreprocessImageAnalyzer preproc_analyzer;
+            std::string name = analyze(preproc_analyzer);
+            if (name.empty() || is_name_invalid(name)) {
+                Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
+                OcrImageAnalyzer det_analyzer;
+                std::string det_name = analyze(det_analyzer);
+                if (det_name.empty()) {
+                    Log.warn("ocr with det model failed");
+                }
+                else if (name.empty() || !is_name_invalid(det_name)) {
+                    Log.info("use ocr with det", det_name);
+                    name = det_name;
+                }
             }
-            name_analyzer.sort_result_by_score();
-            const std::string& name = name_analyzer.get_result().front().text;
+
+            // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
             if (name.empty()) {
-                Log.error("ocr failed, empty name");
+                Log.error("name is empty");
                 continue;
             }
             oper.name = name;
-
-            m_cur_deployment_opers.insert_or_assign(name, oper);
-            m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
             remove_cooling_from_battlefield(oper);
-            save_avatar_cache(name, oper.avatar);
+
+            if (oper.cooling) {
+                // cd 中的干员如果识别错一次，这时候保存的是cd中的图像，后面就会一直错
+                // 且一般来说，cd 的干员都是一开始上过的，m_all_deployment_avatars 中应该有他的头像
+                // 而且由于 cd 干员头像阈值设置的非常低，为了防止把正确的干员覆盖掉了
+                // 所以不进行覆盖
+                m_cur_deployment_opers.emplace(name, oper);
+                m_all_deployment_avatars.emplace(name, oper.avatar);
+            }
+            else {
+                m_cur_deployment_opers.insert_or_assign(name, oper);
+                m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
+                save_avatar_cache(name, oper.avatar);
+            }
         }
 
         pause();
@@ -239,6 +280,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             cancel_oper_selection();
         }
     }
+    check_pause_button(image);
 
     return true;
 }
@@ -352,7 +394,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
 {
     LogTraceFunction;
 
-    if (!click_oper_on_battlefiled(loc) || !click_retreat()) {
+    if (!click_oper_on_battlefield(loc) || !click_retreat()) {
         return false;
     }
 
@@ -380,17 +422,20 @@ bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 {
     LogTraceFunction;
 
-    return click_oper_on_battlefiled(loc) && click_skill(keep_waiting);
+    return click_oper_on_battlefield(loc) && click_skill(keep_waiting);
 }
 
-bool asst::BattleHelper::check_pause_button()
+bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
-    MatchImageAnalyzer battle_flag_analyzer(m_inst_helper.ctrler()->get_image());
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    return battle_flag_analyzer.analyze();
+    bool ret = battle_flag_analyzer.analyze();
+    m_in_battle = ret;
+    return ret;
 }
 
-bool asst::BattleHelper::wait_for_start()
+bool asst::BattleHelper::wait_until_start()
 {
     LogTraceFunction;
 
@@ -400,15 +445,21 @@ bool asst::BattleHelper::wait_for_start()
     return true;
 }
 
-bool asst::BattleHelper::wait_for_end()
+bool asst::BattleHelper::wait_until_end()
 {
     LogTraceFunction;
 
     while (!m_inst_helper.need_exit() && check_pause_button()) {
-        use_all_ready_skill();
+        do_strategic_action();
         std::this_thread::yield();
     }
     return true;
+}
+
+bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
+{
+    check_pause_button(reusable);
+    return use_all_ready_skill(reusable);
 }
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
@@ -462,7 +513,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, const cv::Mat& re
     return use_skill(loc, false);
 }
 
-void asst::BattleHelper::save_map(const cv::Mat& image)
+void asst::BattleHelper::save_map(const cv::Mat& image, std::string suffix)
 {
     LogTraceFunction;
 
@@ -476,7 +527,7 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
         cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
     }
-    asst::imwrite(MapDir / asst::utils::path(m_stage_name + ".png"), draw);
+    asst::imwrite(MapDir / asst::utils::path(m_stage_name + suffix + ".png"), draw);
 }
 
 bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)
@@ -502,7 +553,7 @@ bool asst::BattleHelper::click_oper_on_deployment(const Rect& rect)
     return true;
 }
 
-bool asst::BattleHelper::click_oper_on_battlefiled(const std::string& name)
+bool asst::BattleHelper::click_oper_on_battlefield(const std::string& name)
 {
     LogTraceFunction;
 
@@ -511,10 +562,10 @@ bool asst::BattleHelper::click_oper_on_battlefiled(const std::string& name)
         Log.error("No oper", name);
         return false;
     }
-    return click_oper_on_battlefiled(oper_iter->second);
+    return click_oper_on_battlefield(oper_iter->second);
 }
 
-bool asst::BattleHelper::click_oper_on_battlefiled(const Point& loc)
+bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
 {
     LogTraceFunction;
 
@@ -564,9 +615,26 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-bool asst::BattleHelper::is_name_invaild(const std::string& name)
+bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, bool clear_kills)
 {
-    return BattleData.get_location_type(name) == battle::LocationType::Invalid;
+    LogTraceFunction;
+    Log.info("move", move_loc.first, move_loc.second);
+
+    calc_tiles_info(m_stage_name, -move_loc.first, move_loc.second);
+
+    if (clear_kills) {
+        m_kills = 0;
+        m_total_kills = 0;
+    }
+
+    save_map(m_inst_helper.ctrler()->get_image(), "-" + std::to_string(++m_move_camera_count));
+
+    return true;
+}
+
+bool asst::BattleHelper::is_name_invalid(const std::string& name)
+{
+    return BattleData.get_rarity(name) <= 0;
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
