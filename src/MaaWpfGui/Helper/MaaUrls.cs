@@ -32,7 +32,7 @@ namespace MaaWpfGui
 
         public static string CustomInfrastGenerator => "https://yituliu.site/riicCal";
 
-        public static string QqGroups => "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/";
+        public static string QqGroups => "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
         public static string QQchannel => "https://pd.qq.com/s/4j1ju9z47";
 
