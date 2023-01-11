@@ -400,6 +400,20 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _form, value);
         }
 
+        public bool Loop { get; set; } = false;
+
+        private int _loopTimes = int.Parse(ViewStatusStorage.Get("Copilot.LoopTimes", "1"));
+
+        public int LoopTimes
+        {
+            get => _loopTimes;
+            set
+            {
+                SetAndNotify(ref _loopTimes, value);
+                ViewStatusStorage.Set("Copilot.LoopTimes", value.ToString());
+            }
+        }
+
         private bool _caught = false;
 
         /// <summary>
@@ -434,7 +448,8 @@ namespace MaaWpfGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType);
+            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+                Loop ? LoopTimes : 1);
             if (ret)
             {
                 AddLog(Localization.GetString("Running"));

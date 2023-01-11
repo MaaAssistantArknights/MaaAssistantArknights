@@ -329,6 +329,7 @@
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
+    <system:String x:Key="LoopTimes">LoopTimes</system:String>
     <!--  現状動作内容不明のため翻訳修正候補  -->
 
     <system:String x:Key="Start">開始</system:String>

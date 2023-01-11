@@ -313,6 +313,7 @@
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
+    <system:String x:Key="LoopTimes">LoopTimes</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識“特別關注”的幹員</system:String>
 
     <system:String x:Key="Start">開始</system:String>

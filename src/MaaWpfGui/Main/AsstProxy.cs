@@ -632,6 +632,7 @@ namespace MaaWpfGui
             string subTask = details["subtask"].ToString();
 
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var copilotModel = _container.Get<CopilotViewModel>();
             if (subTask == "ProcessTask")
             {
                 string taskName = details["details"]["task"].ToString();
@@ -734,6 +735,10 @@ namespace MaaWpfGui
 
                     case "GamePass":
                         mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), UILogColor.RareOperator);
+                        break;
+
+                    case "BattleStartAll":
+                        copilotModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
                         break;
                 }
             }
@@ -1526,13 +1531,15 @@ namespace MaaWpfGui
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
         /// <param name="type">任务类型</param>
+        /// <param name="loop_times">任务重复执行次数</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, string type)
+        public bool AsstStartCopilot(string filename, bool formation, string type, int loop_times)
         {
             var task_params = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
+                ["loop_times"] = loop_times,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
             _latestTaskId[TaskType.Copilot] = id;
