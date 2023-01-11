@@ -41,7 +41,8 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     }
 
     try {
-        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, tiles_array);
+        m_tile_calculator =
+            std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(tiles_array));
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());

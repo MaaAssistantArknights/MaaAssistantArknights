@@ -1982,14 +1982,17 @@ namespace json
     //    return in;
     //}
 
-    MEOJSON_INLINE std::optional<value> open(const std::ifstream& ifs, bool check_bom = false)
+    MEOJSON_INLINE std::optional<value> open(std::ifstream& ifs, bool check_bom = false)
     {
         if (!ifs.is_open()) {
             return std::nullopt;
         }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        std::string str = iss.str();
+
+        ifs.seekg(0, std::ios::end);
+        auto file_size = ifs.tellg();
+        ifs.seekg(0, std::ios::beg);
+        std::string str(file_size, '\0');
+        ifs.read(str.data(), file_size);
 
         if (check_bom) {
             using uchar = unsigned char;
@@ -2367,6 +2370,8 @@ namespace json
             case '\n':
                 ++_cur;
                 break;
+            case '\0':
+                return false;
             default:
                 return true;
             }
