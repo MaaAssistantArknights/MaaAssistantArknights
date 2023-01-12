@@ -3,8 +3,8 @@
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
-#include "Task/Miscellaneous/SSSStageManagerTask.h"
 #include "Task/ProcessTask.h"
+#include "Task/SSS/SSSStageManagerTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
@@ -53,18 +53,31 @@ bool asst::SSSCopilotTask::set_params(const json::value& params)
         Task.get<OcrTaskInfo>(inst_string() + "@SSSBuffChoose")->text = { buff };
     }
 
-    bool with_formation = params.get("formation", false);
-    m_formation_task_ptr->set_enable(with_formation);
+    // bool with_formation = params.get("formation", false);
+    // m_formation_task_ptr->set_enable(with_formation);
 
-    std::string support_unit_name = params.get("support_unit_name", std::string());
-    m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
+    // std::string support_unit_name = params.get("support_unit_name", std::string());
+    // m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 
-    BattleFormationTask::AdditionalFormation additional_formation {
-        .filter = BattleFormationTask::Filter::Cost,
-        .double_click_filter = true,
-        .role_counts = SSSCopilot.get_data().tool_men,
-    };
-    m_formation_task_ptr->append_additional_formation(std::move(additional_formation));
+    // BattleFormationTask::AdditionalFormation additional_formation {
+    //     .filter = BattleFormationTask::Filter::Cost,
+    //     .double_click_filter = true,
+    //     .role_counts = SSSCopilot.get_data().tool_men,
+    // };
+    // m_formation_task_ptr->append_additional_formation(std::move(additional_formation));
+
+    // 暂时不支持自动编队
+    m_formation_task_ptr->set_enable(false);
+
+    size_t loop_times = params.get("loop_times", 1);
+    if (loop_times > 1) {
+        m_subtasks.reserve(m_subtasks.size() * loop_times);
+        auto raw_end = m_subtasks.end();
+        for (int i = 1; i < loop_times; ++i) {
+            // FIXME: 如果多次调用 set_params，这里复制的会有问题
+            m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
+        }
+    }
 
     return true;
 }

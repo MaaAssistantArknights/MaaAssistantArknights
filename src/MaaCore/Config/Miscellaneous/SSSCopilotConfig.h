@@ -10,8 +10,11 @@ namespace asst
         virtual ~SSSCopilotConfig() override = default;
 
         const battle::sss::CompleteData& get_data() const noexcept { return m_data; }
-        size_t stages_size() const noexcept { return m_data.stages_data.size(); }
-        const battle::sss::CombatData& get_data(size_t index) const noexcept { return m_data.stages_data.at(index); }
+        bool contains(const std::string& name) const noexcept { return m_data.stages_data.contains(name); }
+        const battle::sss::CombatData& get_data(const std::string& name) const noexcept
+        {
+            return m_data.stages_data.at(name);
+        }
         void clear();
 
     protected:

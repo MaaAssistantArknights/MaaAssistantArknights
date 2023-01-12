@@ -44,8 +44,8 @@
     "drop_tool_men": [
         "空弦",
         "能天使",
-        "Pioneer",
-        "Support",
+        "先锋",
+        "辅助",
         "无需增调干员"
     ],
     "stages": [
@@ -55,7 +55,7 @@
                 {
                     "core": "泥岩",
                     "tool_men": {
-                        "Pioneer": 2
+                        "先锋": 2
                     },
                     "location": [
                         6,
@@ -66,7 +66,7 @@
                 {
                     "core": "水月",
                     "tool_men": {
-                        "Warrior": 2
+                        "近卫": 2
                     },
                     "location": [
                         5,
@@ -76,10 +76,72 @@
                 },
                 {
                     "tool_men": {
-                        "Support": 100
+                        "辅助": 100
                     },
                     "location": [
                         5,
+                        3
+                    ],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "name": "桃金娘",
+                    "location": [
+                        5,
+                        4
+                    ],
+                    "direction": "下"
+                }
+            ],
+            "retry_times": 3
+        },
+        {
+            "stage_name": "见者有份",
+            "strategies": [
+                {
+                    "core": "水月",
+                    "tool_men": {
+                        "近卫": 3
+                    },
+                    "location": [
+                        4,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "先锋": 3
+                    },
+                    "location": [
+                        4,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "辅助": 100
+                    },
+                    "location": [
+                        5,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 100
+                    },
+                    "location": [
+                        3,
                         3
                     ],
                     "direction": "Left"
