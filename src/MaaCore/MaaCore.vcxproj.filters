@@ -465,9 +465,6 @@
     <ClInclude Include="Task\Interface\SSSCopilotTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
-      <Filter>源文件\Task\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
     </ClInclude>
@@ -476,6 +473,12 @@
     </ClInclude>
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h">
       <Filter>源文件\Task\SSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -780,6 +783,9 @@
       <Filter>源文件\Task\SSS</Filter>
     </ClCompile>
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp">
       <Filter>源文件\Task\SSS</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9604,6 +9604,11 @@
             39,
             250,
             203
+        ],
+        "postDelay": 2000,
+        "next": [
+            "SSSStartFighting2",
+            "SSSDropRecruitmentFlag"
         ]
     },
     "SSSClickUntilStartScreen": {

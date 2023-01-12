@@ -4,6 +4,7 @@
 #include "Config/TaskData.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/ProcessTask.h"
+#include "Task/SSS/SSSDropRewardsTaskPlugin.h"
 #include "Task/SSS/SSSStageManagerTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
@@ -28,6 +29,7 @@ asst::SSSCopilotTask::SSSCopilotTask(const AsstCallback& callback, Assistant* in
         .set_ignore_error(false);
     m_subtasks.emplace_back(start_2_tp);
 
+    m_stage_task_ptr->register_plugin<SSSDropRewardsTaskPlugin>();
     m_subtasks.emplace_back(m_stage_task_ptr);
 }
 
