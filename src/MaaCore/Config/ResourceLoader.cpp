@@ -27,7 +27,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         auto full_path = path / Filename;                                 \
         bool ret = load_resource<Config>(full_path);                      \
         if (!ret) {                                                       \
-            m_loaded = false;                                             \
             Log.error(#Config, " load failed, path:", full_path);         \
             return false;                                                 \
         }                                                                 \
@@ -40,7 +39,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         auto full_templ_dir = path / TemplDir;                                                   \
         bool ret = load_resource_with_templ<Config>(full_path, full_templ_dir);                  \
         if (!ret) {                                                                              \
-            m_loaded = false;                                                                    \
             Log.error(#Config, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
             return false;                                                                        \
         }                                                                                        \
@@ -73,11 +71,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     });
 
     auto ocr_future = std::async(std::launch::async, [&]() -> bool {
+        // fastdeploy 不知道有啥问题，没法异步加载两个模型，改成同步算了
         LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-        return true;
-    });
-
-    auto ocr_char_future = std::async(std::launch::async, [&]() -> bool {
         LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
         return true;
     });
@@ -85,7 +80,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 
-    m_loaded = config_future.get() && tile_future.get() && ocr_future.get() && ocr_char_future.get();
+    m_loaded = true;
+    m_loaded &= config_future.get();
+    m_loaded &= tile_future.get();
+    m_loaded &= ocr_future.get();
+
     return m_loaded;
 }
 
