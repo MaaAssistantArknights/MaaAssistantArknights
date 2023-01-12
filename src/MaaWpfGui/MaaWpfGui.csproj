@@ -4,8 +4,9 @@
     <RootNamespace>MaaWpfGui</RootNamespace>
     <AssemblyName>MAA</AssemblyName>
     <TargetFramework>net48</TargetFramework>
-	<Platforms>x64</Platforms>
-	<Configurations>Debug;Release;RelWithDebInfo</Configurations>
+    <TargetFramework Condition="'$(Platform)' == 'ARM64'">net481</TargetFramework>
+	<Platforms>x64;ARM64</Platforms>
+	<Configurations>Release;RelWithDebInfo</Configurations>
     <SupportUrl>https://github.com/MistEO/MaaCoreArknights</SupportUrl>
     <ErrorReportUrl>https://github.com/MistEO/MaaCoreArknights/issues</ErrorReportUrl>
     <ProductName>Meo明日方舟辅助</ProductName>
