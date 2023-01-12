@@ -46,28 +46,27 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     do {
         using namespace asst::utils::path_literals;
         const auto det_dir = paddle_dir / "det"_p;
-        const auto dst_model_file = det_dir / "inference.pdmodel"_p;
-        const auto dst_params_file = det_dir / "inference.pdiparams"_p;
+        const auto dst_model_file = det_dir / "inference.onnx"_p;
+        // const auto dst_params_file = det_dir / "inference.pdiparams"_p;
         const auto rec_dir = paddle_dir / "rec"_p;
-        const auto rec_model_file = rec_dir / "inference.pdmodel"_p;
-        const auto rec_params_file = rec_dir / "inference.pdiparams"_p;
+        const auto rec_model_file = rec_dir / "inference.onnx"_p;
+        // const auto rec_params_file = rec_dir / "inference.pdiparams"_p;
         const auto rec_label_file = rec_dir / "keys.txt"_p;
 
-        if (std::filesystem::exists(dst_model_file) && std::filesystem::exists(dst_params_file)) {
+        if (std::filesystem::exists(dst_model_file)) {
             m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
-                asst::utils::path_to_ansi_string(dst_model_file), asst::utils::path_to_ansi_string(dst_params_file),
-                *m_ocr_option);
+                asst::utils::path_to_ansi_string(dst_model_file), std::string(), *m_ocr_option,
+                fastdeploy::ModelFormat::ONNX);
         }
         else if (!m_det) {
             break;
         }
         // else 沿用原来的模型
 
-        if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_params_file) &&
-            std::filesystem::exists(rec_label_file)) {
+        if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_label_file)) {
             m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-                asst::utils::path_to_ansi_string(rec_model_file), asst::utils::path_to_ansi_string(rec_params_file),
-                asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option);
+                asst::utils::path_to_ansi_string(rec_model_file), std::string(),
+                asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option, fastdeploy::ModelFormat::ONNX);
         }
         else if (!m_rec) {
             break;
