@@ -50,7 +50,7 @@ namespace MaaWpfGui
             });
         }
 
-        private void UpdateStage(bool fromWeb)
+        private void UpdateStage(bool loadApi)
         {
             var tempStage = new Dictionary<string, StageInfo>
             {
@@ -60,7 +60,7 @@ namespace MaaWpfGui
             };
 
             var stageApi = "StageActivity.json";
-            var activity = fromWeb ? WebService.RequestMaaApiWithCache(stageApi) : WebService.LoadApiCache(stageApi);
+            var activity = loadApi ? WebService.RequestMaaApiWithCache(stageApi) : null;
 
             var resourceCollection = new StageActivityInfo()
             {
