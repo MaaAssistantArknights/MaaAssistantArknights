@@ -73,61 +73,13 @@ std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
 
 bool asst::SSSStageManagerTask::comfirm_battle_complete()
 {
-    ProcessTask task(*this, { "SSSComfirmBattleComplete" });
-    task.set_times_limit("SSSStartFighting", 0).set_times_limit("SSSBegin", 0);
-    if (!task.run()) {
-        return false;
-    }
-
-    if (const std::string& last = task.get_last_task_name(); last == "SSSStartFighting") {
-        return true;
-    }
-    else if (last == "SSSDropRecruitmentFlag") {
-        get_drop_rewards();
-        return false;
-    }
-    return false;
+    return ProcessTask(*this, { "SSSComfirmBattleComplete" })
+        .set_times_limit("SSSStartFighting", 0)
+        .set_times_limit("SSSBegin", 0)
+        .run();
 }
 
-bool asst::SSSStageManagerTask::get_drop_rewards()
-{
-    using namespace battle;
-    LogTraceFunction;
-
-    OcrImageAnalyzer analyzer(ctrler()->get_image());
-    analyzer.set_task_info("SSSDropRecruitmentOCR");
-    if (!analyzer.analyze()) {
-        Log.error(__FUNCTION__, "OCR failed to analyze");
-        return false;
-    }
-
-    struct DropRecruitment
-    {
-        TextRect ocr_res;
-        std::optional<Role> role;
-    };
-
-    std::vector<DropRecruitment> opers;
-    for (const auto& result : analyzer.get_result()) {
-        auto role = BattleData.get_role(result.text);
-        opers.emplace_back(DropRecruitment {
-            .ocr_res = result, .role = role == Role::Unknown ? std::nullopt : std::optional<Role>(role) });
-    }
-
-    for (const std::string& name : SSSCopilot.get_data().drop_tool_men) {
-        auto role = get_role_type(name);
-        bool is_role = role != Role::Unknown;
-        auto iter = ranges::find_if(opers, [&](const DropRecruitment& props) {
-            return (is_role && props.role) ? *props.role == role : props.ocr_res.text == name;
-        });
-        if (iter != opers.cend()) {
-            ctrler()->click(iter->ocr_res.rect);
-            break;
-        }
-    }
-
-    return ProcessTask(*this, { "SSSDropRecruitmentConfrim" }).run();
-}
+bool asst::SSSStageManagerTask::get_drop_rewards() {}
 
 bool asst::SSSStageManagerTask::click_start_button()
 {
