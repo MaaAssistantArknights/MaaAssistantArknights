@@ -61,7 +61,6 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     if (!calc_stage_info()) {
         return false;
     }
-    load_cache();
     update_deployment(true);
     speed_up();
 
@@ -208,19 +207,6 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     callback(AsstMsg::SubTaskExtraInfo, cb_info);
 
     return true;
-}
-
-void asst::RoguelikeBattleTaskPlugin::load_cache()
-{
-    if (auto overview = status()->get_str(Status::RoguelikeCharOverview)) {
-        json::value json = json::parse(*overview).value_or(json::value());
-        for (const auto& name : json.as_object() | views::keys) {
-            load_avatar_cache(name, true);
-        }
-    }
-    for (const std::string& dice : DiceSet) {
-        load_avatar_cache(dice);
-    }
 }
 
 asst::battle::LocationType asst::RoguelikeBattleTaskPlugin::get_oper_location_type(
