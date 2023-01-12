@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Configurations>Debug;RelWithDebInfo;Release</Configurations>
+    <Platforms>x64;ARM64</Platforms>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="non-exist-file" />
+    <!-- <UpToDateCheckOutput Include="NUL" /> -->
+  </ItemGroup>
+  <Target Name="CopyMaaResourceFiles" BeforeTargets="Build">
+    <ItemGroup>
+      <MaaResourceFiles Include="$(MSBuildProjectDirectory)\..\..\resource\**\*.*" />
+      <MaaMiscFiles Include="$(MSBuildProjectDirectory)\..\..\3rdparty\tools\**\*.*" />
+      <MaaPythonBinding Include="$(MSBuildProjectDirectory)\..\..\src\Python\**\*.*" />
+    </ItemGroup>
+    <Message Text="Copying resource files" Importance="High"/>
+    <Copy
+      SourceFiles="@(MaaResourceFiles)"
+      DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\%(RecursiveDir)%(Filename)%(Extension)"
+      SkipUnchangedFiles="true"
+      UseHardlinksIfPossible="true"
+    />
+    <Copy
+      SourceFiles="@(MaaMiscFiles)"
+      DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\%(RecursiveDir)%(Filename)%(Extension)"
+      SkipUnchangedFiles="true"
+    />
+    <Copy
+      SourceFiles="@(MaaPythonBinding)"
+      DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\Python\%(RecursiveDir)%(Filename)%(Extension)"
+      SkipUnchangedFiles="true"
+      UseHardlinksIfPossible="true"
+    />
+  </Target>
+</Project>
