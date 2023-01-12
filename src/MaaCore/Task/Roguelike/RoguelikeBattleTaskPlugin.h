@@ -31,7 +31,6 @@ namespace asst
 
         bool do_once();
         bool calc_stage_info();
-        void load_cache();
 
         void all_melee_retreat();
 

@@ -16,8 +16,6 @@ namespace asst
 {
     class BattleHelper
     {
-        inline static const std::string CacheExtension = ".png";
-
     public:
         ~BattleHelper() = default;
 
@@ -32,8 +30,6 @@ namespace asst
         virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
 
         bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
-        bool load_avatar_cache(const std::string& name, bool with_token = false);
-        void save_avatar_cache(const std::string& name, const cv::Mat& avatar);
 
         bool pause();
         bool speed_up();
@@ -65,7 +61,6 @@ namespace asst
         bool cancel_oper_selection();
         bool move_camera(const std::pair<double, double>& move_loc);
 
-        bool is_name_invalid(const std::string& name);
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
         std::string m_stage_name;
@@ -80,15 +75,12 @@ namespace asst
         int m_total_kills = 0;
         int m_cost = 0;
 
-        std::map<std::string, cv::Mat> m_all_deployment_avatars;
         std::map<std::string, battle::DeploymentOper> m_cur_deployment_opers;
 
         std::map<std::string, Point> m_battlefield_opers;
         std::map<Point, std::string> m_used_tiles;
 
     private:
-        static const std::filesystem::path& avatar_cache_dir();
-
         InstHelper m_inst_helper;
     };
 } // namespace asst

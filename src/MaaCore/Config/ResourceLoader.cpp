@@ -4,6 +4,7 @@
 #include <future>
 
 #include "GeneralConfig.h"
+#include "Miscellaneous/AvatarCacheManager.h"
 #include "Miscellaneous/BattleDataConfig.h"
 #include "Miscellaneous/CopilotConfig.h"
 #include "Miscellaneous/InfrastConfig.h"
@@ -44,6 +45,13 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }                                                                                        \
     }
 
+#define LoadCacheWithoutRet(Config, Dir)                              \
+    {                                                                 \
+        LogTraceScope(std::string("LoadCacheWithoutRet ") + #Config); \
+        auto full_path = UserDir.get() / "cache"_p / Dir;             \
+        load_resource<Config>(full_path);                             \
+    }
+
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
@@ -61,6 +69,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
         LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
         LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+
+        /* load cache */
+        LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
+
         return true;
     });
 
@@ -79,6 +91,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
+#undef LoadCacheWithoutRet
 
     m_loaded = true;
     m_loaded &= config_future.get();

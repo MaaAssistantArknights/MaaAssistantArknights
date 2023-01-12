@@ -471,6 +471,9 @@
     <ClInclude Include="Task\Miscellaneous\SSSStageManagerTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -772,6 +775,9 @@
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\SSSStageManagerTask.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp">
+      <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
