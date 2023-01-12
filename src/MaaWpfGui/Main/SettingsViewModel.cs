@@ -20,11 +20,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
-using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Newtonsoft.Json;
@@ -439,16 +439,36 @@ namespace MaaWpfGui
 
             try
             {
-                string fileName;
-                string arguments;
+                string fileName = string.Empty;
+                string arguments = string.Empty;
                 ProcessStartInfo startInfo;
 
                 if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
                 {
-                    WshShell shell = new WshShell();
-                    WshShortcut shortcut = (WshShortcut)shell.CreateShortcut(EmulatorPath);
-                    fileName = shortcut.TargetPath;
-                    arguments = shortcut.Arguments;
+                    var link = (IShellLink)new ShellLink();
+                    var file = (IPersistFile)link;
+                    file.Load(EmulatorPath, 0); // STGM_READ
+                    link.Resolve(IntPtr.Zero, 1); // SLR_NO_UI
+                    var buf = new char[32768];
+                    unsafe
+                    {
+                        fixed (char* ptr = buf)
+                        {
+                            link.GetPath(ptr, 260, IntPtr.Zero, 0);  // MAX_PATH
+                            var len = Array.IndexOf(buf, '\0');
+                            if (len != -1)
+                            {
+                                fileName = new string(buf, 0, len);
+                            }
+
+                            link.GetArguments(ptr, 32768);
+                            len = Array.IndexOf(buf, '\0');
+                            if (len != -1)
+                            {
+                                arguments = new string(buf, 0, len);
+                            }
+                        }
+                    }
                 }
                 else
                 {
