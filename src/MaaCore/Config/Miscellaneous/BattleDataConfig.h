@@ -74,6 +74,11 @@ namespace asst
             return char_iter->second.tokens;
         }
 
+        bool is_name_invalid(const std::string& name) const
+        {
+            return name.empty() || m_chars.find(name) == m_chars.cend();
+        }
+
     protected:
         virtual bool parse(const json::value& json) override;
 

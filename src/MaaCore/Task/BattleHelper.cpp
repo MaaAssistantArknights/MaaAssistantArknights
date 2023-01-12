@@ -3,6 +3,7 @@
 #include <future>
 #include <thread>
 
+#include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller.h"
@@ -35,12 +36,11 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
-    m_move_camera_count = 0;
+    m_camera_count = 0;
 
     m_in_battle = false;
     m_kills = 0;
     m_total_kills = 0;
-    m_all_deployment_avatars.clear();
     m_cur_deployment_opers.clear();
     m_battlefield_opers.clear();
     m_used_tiles.clear();
@@ -58,55 +58,6 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
     m_side_tile_info = Tile.calc(stage_name, true, shift_x, shift_y);
 
     return true;
-}
-
-bool asst::BattleHelper::load_avatar_cache(const std::string& name, bool with_token)
-{
-    LogTraceFunction;
-
-    if (name.empty()) {
-        return false;
-    }
-    auto path = avatar_cache_dir() / utils::path(name + CacheExtension);
-    Log.info(path);
-
-    if (!std::filesystem::exists(path)) {
-        Log.info(path, "not exists");
-        return false;
-    }
-    cv::Mat avatar = asst::imread(path);
-    if (avatar.empty()) {
-        Log.info(path, "image is empty");
-        return false;
-    }
-    m_all_deployment_avatars.emplace(name, std::move(avatar));
-    Log.info(path, "loaded");
-
-    if (with_token) {
-        if (auto tokens = BattleData.get_tokens(name); !tokens.empty()) {
-            for (const std::string& token_name : tokens) {
-                load_avatar_cache(token_name);
-            }
-        }
-    }
-
-    return true;
-}
-
-void asst::BattleHelper::save_avatar_cache(const std::string& name, const cv::Mat& avatar)
-{
-    LogTraceFunction;
-
-    if (BattleData.get_rarity(name) == 0) {
-        Log.error("wrong oper name", name);
-        return;
-    }
-
-    auto path = avatar_cache_dir() / utils::path(name + CacheExtension);
-    Log.info(path);
-
-    std::filesystem::create_directories(avatar_cache_dir());
-    asst::imwrite(path, avatar);
 }
 
 bool asst::BattleHelper::pause()
@@ -181,7 +132,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         }
 
         double max_socre = 0;
-        for (const auto& [name, avatar] : m_all_deployment_avatars) {
+        auto& avatar_cache = AvatarCache.get_avatars(oper.role);
+        for (const auto& [name, avatar] : avatar_cache) {
             avatar_analyzer.set_templ(avatar);
             if (!avatar_analyzer.analyze()) {
                 continue;
@@ -239,14 +191,14 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 
             OcrWithPreprocessImageAnalyzer preproc_analyzer;
             std::string name = analyze(preproc_analyzer);
-            if (name.empty() || is_name_invalid(name)) {
+            if (BattleData.is_name_invalid(name)) {
                 Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
                 OcrImageAnalyzer det_analyzer;
                 std::string det_name = analyze(det_analyzer);
                 if (det_name.empty()) {
                     Log.warn("ocr with det model failed");
                 }
-                else if (name.empty() || !is_name_invalid(det_name)) {
+                else if (BattleData.is_name_invalid(det_name)) {
                     Log.info("use ocr with det", det_name);
                     name = det_name;
                 }
@@ -266,12 +218,11 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 // 而且由于 cd 干员头像阈值设置的非常低，为了防止把正确的干员覆盖掉了
                 // 所以不进行覆盖
                 m_cur_deployment_opers.emplace(name, oper);
-                m_all_deployment_avatars.emplace(name, oper.avatar);
+                AvatarCache.set_avatar(name, oper.role, oper.avatar, false);
             }
             else {
                 m_cur_deployment_opers.insert_or_assign(name, oper);
-                m_all_deployment_avatars.insert_or_assign(name, oper.avatar);
-                save_avatar_cache(name, oper.avatar);
+                AvatarCache.set_avatar(name, oper.role, oper.avatar);
             }
         }
 
@@ -513,7 +464,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, const cv::Mat& re
     return use_skill(loc, false);
 }
 
-void asst::BattleHelper::save_map(const cv::Mat& image, std::string suffix)
+void asst::BattleHelper::save_map(const cv::Mat& image)
 {
     LogTraceFunction;
 
@@ -526,6 +477,11 @@ void asst::BattleHelper::save_map(const cv::Mat& image, std::string suffix)
     for (const auto& [loc, info] : m_normal_tile_info) {
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
         cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+    }
+
+    std::string suffix;
+    if (++m_camera_count > 1) {
+        suffix = "-" + std::to_string(m_camera_count);
     }
     asst::imwrite(MapDir / asst::utils::path(m_stage_name + suffix + ".png"), draw);
 }
@@ -615,26 +571,25 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, bool clear_kills)
+bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc)
 {
     LogTraceFunction;
     Log.info("move", move_loc.first, move_loc.second);
 
-    calc_tiles_info(m_stage_name, -move_loc.first, move_loc.second);
+    update_kills();
 
-    if (clear_kills) {
-        m_kills = 0;
-        m_total_kills = 0;
+    // 还没转场的时候
+    if (m_kills != 0) {
+        wait_until_end();
     }
 
-    save_map(m_inst_helper.ctrler()->get_image(), "-" + std::to_string(++m_move_camera_count));
+    m_kills = 0;
+    m_total_kills = 0;
+
+    calc_tiles_info(m_stage_name, -move_loc.first, move_loc.second);
+    update_deployment(true);
 
     return true;
-}
-
-bool asst::BattleHelper::is_name_invalid(const std::string& name)
-{
-    return BattleData.get_rarity(name) <= 0;
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
@@ -648,12 +603,4 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
     }
 
     return oper_iter->second.rect;
-}
-
-const std::filesystem::path& asst::BattleHelper::avatar_cache_dir()
-{
-    using namespace asst::utils::path_literals;
-
-    static const auto dir = UserDir.get() / "cache"_p / "avatars"_p;
-    return dir;
 }

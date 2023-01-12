@@ -71,6 +71,9 @@
     <Filter Include="资源文件\YoStarKR">
       <UniqueIdentifier>{cf25099a-e97f-417f-ab45-4da8bd351747}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Task\SSS">
+      <UniqueIdentifier>{a5775bd2-7a8a-4bcb-9465-75d899ea8ca1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -462,13 +465,19 @@
     <ClInclude Include="Task\Interface\SSSCopilotTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\SSSBattleProcessTask.h">
-      <Filter>源文件\Task\Miscellaneous</Filter>
+    <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SSS\SSSBattleProcessTask.h">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SSS\SSSStageManagerTask.h">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h">
+      <Filter>源文件\Task\SSS</Filter>
     </ClInclude>
     <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
-      <Filter>源文件\Task\Roguelike</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\SSSStageManagerTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
@@ -767,11 +776,17 @@
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\SSSBattleProcessTask.cpp">
-      <Filter>源文件\Task\Miscellaneous</Filter>
+    <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp">
+      <Filter>源文件\Config\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\SSSStageManagerTask.cpp">
-      <Filter>源文件\Task\Miscellaneous</Filter>
+    <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp">
+      <Filter>源文件\Task\SSS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
