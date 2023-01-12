@@ -227,7 +227,7 @@ namespace asst::battle
             std::vector<std::string> drop_buffs;
             std::vector<std::string> drop_tool_men;
 
-            std::vector<CombatData> stages_data;
+            std::unordered_map<std::string, CombatData> stages_data;
         };
     }
 

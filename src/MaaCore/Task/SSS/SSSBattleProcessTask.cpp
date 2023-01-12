@@ -8,15 +8,15 @@
 using namespace asst::battle;
 using namespace asst::battle::sss;
 
-bool asst::SSSBattleProcessTask::set_stage_index(size_t index)
+bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
 {
-    Log.info(__FUNCTION__, index);
+    Log.info(__FUNCTION__, stage_name);
 
-    if (index >= SSSCopilot.stages_size()) {
-        Log.error("SSS SSSBattleProcessTask: stage index out of range", index);
+    if (!SSSCopilot.contains(stage_name)) {
+        Log.error("SSS SSSBattleProcessTask: unknown name", stage_name);
         return false;
     }
-    m_sss_combat_data = SSSCopilot.get_data(index);
+    m_sss_combat_data = SSSCopilot.get_data(stage_name);
     ranges::transform(m_sss_combat_data.strategies, std::inserter(m_all_cores, m_all_cores.begin()),
                       [](const auto& strategy) { return strategy.core; });
     for (const auto& action : m_sss_combat_data.actions) {

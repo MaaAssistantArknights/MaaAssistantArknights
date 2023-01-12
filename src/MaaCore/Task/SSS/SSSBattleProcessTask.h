@@ -1,5 +1,5 @@
 #pragma once
-#include "BattleProcessTask.h"
+#include "../Miscellaneous/BattleProcessTask.h"
 
 namespace asst
 {
@@ -9,7 +9,7 @@ namespace asst
         using BattleProcessTask::BattleProcessTask;
         virtual ~SSSBattleProcessTask() override = default;
 
-        bool set_stage_index(size_t index);
+        virtual bool set_stage_name(const std::string& stage_name) override;
 
     protected:
         virtual bool do_derived_action(size_t action_index) override;
@@ -25,8 +25,5 @@ namespace asst
         battle::sss::CombatData m_sss_combat_data;
         std::unordered_set<std::string> m_all_cores;
         std::unordered_set<std::string> m_all_action_opers;
-
-    private:
-        using BattleProcessTask::set_stage_name;
     };
 }

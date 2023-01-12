@@ -82,7 +82,8 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));
             stage_data.strategies.emplace_back(std::move(strategy));
         }
-        m_data.stages_data.emplace_back(stage_data);
+        std::string name = stage_data.info.stage_name;
+        m_data.stages_data.emplace(std::move(name), std::move(stage_data));
     }
 
     return true;
