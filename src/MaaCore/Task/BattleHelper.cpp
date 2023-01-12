@@ -620,15 +620,20 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc, bool clear_kills)
+bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc)
 {
     LogTraceFunction;
     Log.info("move", move_loc.first, move_loc.second);
 
-    if (clear_kills) {
-        m_kills = 0;
-        m_total_kills = 0;
+    update_kills();
+
+    // 还没转场的时候
+    if (m_kills != 0) {
+        wait_until_end();
     }
+
+    m_kills = 0;
+    m_total_kills = 0;
 
     calc_tiles_info(m_stage_name, -move_loc.first, move_loc.second);
     update_deployment(true);
