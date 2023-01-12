@@ -26,7 +26,6 @@ namespace asst
         virtual battle::copilot::CombatData& get_combat_data() { return m_combat_data; }
         virtual bool need_to_wait_until_end() const { return false; }
 
-        void load_cache();
         bool to_group();
         bool do_action(size_t action_index);
 

@@ -1,0 +1,69 @@
+#include "AvatarCacheManager.h"
+
+#include "BattleDataConfig.h"
+#include "Utils/ImageIo.hpp"
+#include "Utils/Logger.hpp"
+
+bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
+{
+    LogTraceFunction;
+
+    if (!std::filesystem::exists(path)) {
+        return true;
+    }
+
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        if (!entry.is_regular_file()) {
+            continue;
+        }
+
+        const std::filesystem::path& filepath = entry.path();
+        std::string name = utils::path_to_utf8_string(filepath.stem());
+        auto role = BattleData.get_role(name);
+        if (role == battle::Role::Unknown) {
+            Log.warn("unknown oper", name);
+            continue;
+        }
+        Log.trace(filepath);
+        cv::Mat avatar = asst::imread(filepath);
+        if (avatar.empty()) {
+            Log.warn("failed to read", filepath);
+            continue;
+        }
+        m_avatars[role].emplace(name, std::move(avatar));
+    }
+
+    m_path = path;
+    return true;
+}
+
+const asst::AvatarCacheManager::AvatarsMap& asst::AvatarCacheManager::get_avatars(battle::Role role)
+{
+    return m_avatars[role];
+}
+
+void asst::AvatarCacheManager::set_avatar(const std::string& name, battle::Role role, const cv::Mat& avatar,
+                                          bool overlay)
+{
+    LogTraceFunction;
+    Log.info(__FUNCTION__, name, ", overlay:", overlay);
+
+    if (overlay) {
+        m_avatars[role].insert_or_assign(name, avatar);
+    }
+    else {
+        m_avatars[role].try_emplace(name, avatar);
+        return;
+    }
+
+    if (BattleData.is_name_invalid(name)) {
+        Log.error("invalid name", name);
+        return;
+    }
+
+    std::filesystem::create_directories(m_path);
+    auto path = m_path / utils::path(name + CacheExtension);
+    Log.info(path);
+
+    asst::imwrite(path, avatar);
+}

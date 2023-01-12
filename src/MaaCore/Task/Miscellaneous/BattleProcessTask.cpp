@@ -27,6 +27,7 @@ using namespace asst::battle::copilot;
 asst::BattleProcessTask::BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
     : AbstractTask(callback, inst, task_chain), BattleHelper(inst)
 {}
+
 bool asst::BattleProcessTask::_run()
 {
     LogTraceFunction;
@@ -37,7 +38,6 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
-    load_cache();
     update_deployment(true);
     to_group();
 
@@ -76,18 +76,6 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     m_combat_data = Copilot.get_data();
 
     return true;
-}
-
-void asst::BattleProcessTask::load_cache()
-{
-    LogTraceFunction;
-
-    for (const auto& oper_list : get_combat_data().groups | views::values) {
-        for (const auto& oper : oper_list) {
-            load_avatar_cache(oper.name, true);
-        }
-    }
-    // TODO: 识别编队，额外加载编队中有的干员的缓存
 }
 
 bool asst::BattleProcessTask::to_group()
@@ -198,7 +186,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         break;
 
     case ActionType::MoveCamera:
-        ret = move_camera(action.distance, true);
+        ret = move_camera(action.distance);
         break;
 
     case ActionType::SkillDaemon:

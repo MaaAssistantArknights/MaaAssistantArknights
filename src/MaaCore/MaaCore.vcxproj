@@ -28,13 +28,15 @@
     <ClInclude Include="Common\AsstMsg.h" />
     <ClInclude Include="Common\AsstTypes.h" />
     <ClInclude Include="Common\AsstVersion.h" />
+    <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
-    <ClInclude Include="Task\Miscellaneous\SSSBattleProcessTask.h" />
-    <ClInclude Include="Task\Miscellaneous\SSSStageManagerTask.h" />
+    <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
+    <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
+    <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
     <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
     <ClInclude Include="Vision\HashImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h" />
@@ -149,13 +151,15 @@
   <ItemGroup>
     <ClCompile Include="Assistant.cpp" />
     <ClCompile Include="AsstCaller.cpp" />
+    <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
-    <ClCompile Include="Task\Miscellaneous\SSSBattleProcessTask.cpp" />
-    <ClCompile Include="Task\Miscellaneous\SSSStageManagerTask.cpp" />
+    <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
+    <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
+    <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp" />
     <ClCompile Include="Vision\HashImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp" />
@@ -402,7 +406,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties _1_1_4_1_1_4resource_4config_1json__JsonSchema="" _1_1_4_1_1_4resource_4tasks_1json__JsonSchema="../docs/maa_tasks_schema.json" />
+      <UserProperties _1_1_4_1_1_4resource_4config_1json__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

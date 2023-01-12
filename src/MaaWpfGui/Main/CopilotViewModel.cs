@@ -462,7 +462,7 @@ namespace MaaWpfGui
             else
             {
                 Idle = true;
-                AddLog(Localization.GetString("CopilotFileReadError") + "\n" + Localization.GetString("CheckTheFile"), UILogColor.Error);
+                AddLog(Localization.GetString("CopilotFileReadError"), UILogColor.Error);
             }
         }
 

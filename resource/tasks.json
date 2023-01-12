@@ -9532,7 +9532,8 @@
             144
         ],
         "next": [
-            "SSSStartFighting2"
+            "SSSStartFighting2",
+            "SSSDropRecruitmentFlag"
         ]
     },
     "SSSStartFighting2": {
@@ -9591,8 +9592,8 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "SSSDropRecruitmentFlag",
             "SSSStartFighting",
+            "SSSBegin",
             "SSSClickUntilStartScreen"
         ]
     },
@@ -9603,6 +9604,11 @@
             39,
             250,
             203
+        ],
+        "postDelay": 2000,
+        "next": [
+            "SSSStartFighting2",
+            "SSSDropRecruitmentFlag"
         ]
     },
     "SSSClickUntilStartScreen": {

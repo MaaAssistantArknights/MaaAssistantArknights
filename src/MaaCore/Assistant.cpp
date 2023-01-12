@@ -49,8 +49,14 @@ Assistant::~Assistant()
 
     m_thread_exit = true;
     m_thread_idle = true;
-    m_condvar.notify_all();
-    m_msg_condvar.notify_all();
+    {
+        std::unique_lock<std::mutex> lock(m_mutex);
+        m_condvar.notify_all();
+    }
+    {
+        std::unique_lock<std::mutex> lock(m_msg_mutex);
+        m_msg_condvar.notify_all();
+    }
 
     if (m_working_thread.joinable()) {
         m_working_thread.join();
