@@ -353,6 +353,11 @@ namespace MaaWpfGui
             var stages = new[] { Stage1, Stage2, Stage3 };
             foreach (var stage in stages)
             {
+                if (stage == null)
+                {
+                    continue;
+                }
+
                 if (_stageManager.GetStageInfo(stage)?.IsActivityClosed() == true)
                 {
                     builder.Append(stage).Append(": ").AppendLine(Localization.GetString("ClosedStage"));
