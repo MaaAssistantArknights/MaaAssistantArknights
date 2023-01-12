@@ -1550,6 +1550,7 @@ namespace MaaWpfGui
         public List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; set; } = new List<CustomInfrastPlanInfo>();
 
         private bool _customInfrastPlanHasPeriod = false;
+        private bool _customInfrastInfoOutput = false;
 
         public void RefreshCustonInfrastPlan()
         {
@@ -1573,7 +1574,7 @@ namespace MaaWpfGui
                 string jsonStr = File.ReadAllText(settingsModel.CustomInfrastFile);
                 var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
-                if (root.ContainsKey("title"))
+                if (_customInfrastInfoOutput && root.ContainsKey("title"))
                 {
                     AddLog(Localization.GetString("CustomInfrastTitle"), UILogColor.Message);
                     AddLog(root["title"].ToString(), UILogColor.Info);
@@ -1592,7 +1593,10 @@ namespace MaaWpfGui
                     string desc = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty;
                     string descPost = plan.ContainsKey("description_post") ? plan["description_post"].ToString() : string.Empty;
 
-                    AddLog(display, UILogColor.Message);
+                    if (_customInfrastInfoOutput)
+                    {
+                        AddLog(display, UILogColor.Message);
+                    }
 
                     var periodList = new List<CustomInfrastPlanInfo.Period>();
                     if (plan.ContainsKey("period"))
@@ -1611,9 +1615,12 @@ namespace MaaWpfGui
                             period.EndHour = int.Parse(endSplited[0]);
                             period.EndMinute = int.Parse(endSplited[1]);
                             periodList.Add(period);
-                            AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
-                                period.BeginHour, period.BeginMinute,
-                                period.EndHour, period.EndMinute));
+                            if (_customInfrastInfoOutput)
+                            {
+                                AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
+                                    period.BeginHour, period.BeginMinute,
+                                    period.EndHour, period.EndMinute));
+                            }
                         }
 
                         if (periodList.Count != 0)
@@ -1622,12 +1629,12 @@ namespace MaaWpfGui
                         }
                     }
 
-                    if (desc != string.Empty)
+                    if (_customInfrastInfoOutput && desc != string.Empty)
                     {
                         AddLog(desc);
                     }
 
-                    if (descPost != string.Empty)
+                    if (_customInfrastInfoOutput && descPost != string.Empty)
                     {
                         AddLog(descPost);
                     }
@@ -1641,9 +1648,12 @@ namespace MaaWpfGui
                         PeriodList = periodList,
                     });
                 }
+
+                _customInfrastInfoOutput = true;
             }
             catch (Exception)
             {
+                _customInfrastInfoOutput = true;
                 AddLog(Localization.GetString("CustomInfrastFileParseFailed"), UILogColor.Error);
                 return;
             }
