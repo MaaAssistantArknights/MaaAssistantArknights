@@ -198,7 +198,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         break;
 
     case ActionType::MoveCamera:
-        ret = move_camera(action.distance, true);
+        ret = move_camera(action.distance);
         break;
 
     case ActionType::SkillDaemon:
