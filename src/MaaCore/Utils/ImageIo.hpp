@@ -37,6 +37,7 @@ namespace asst
         else {
             absolute_path = path;
         }
+        std::filesystem::create_directories(absolute_path.parent_path());
         std::ofstream of(absolute_path, std::ios::out | std::ios::binary);
         std::vector<uint8_t> encoded;
         auto ext = asst::utils::path_to_utf8_string(absolute_path.extension());

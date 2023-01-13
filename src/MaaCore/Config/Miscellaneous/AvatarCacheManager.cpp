@@ -8,6 +8,8 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
 
+    m_path = path;
+
     if (!std::filesystem::exists(path)) {
         return true;
     }
@@ -33,7 +35,6 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
         m_avatars[role].emplace(name, std::move(avatar));
     }
 
-    m_path = path;
     return true;
 }
 
@@ -61,7 +62,6 @@ void asst::AvatarCacheManager::set_avatar(const std::string& name, battle::Role 
         return;
     }
 
-    std::filesystem::create_directories(m_path);
     auto path = m_path / utils::path(name + CacheExtension);
     Log.info(path);
 

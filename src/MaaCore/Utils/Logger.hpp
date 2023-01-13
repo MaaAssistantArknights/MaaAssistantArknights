@@ -32,21 +32,17 @@ namespace asst
 
     // is_reference_wrapper
     template <typename T>
-    struct is_reference_wrapper: std::false_type
-    {
-    };
+    struct is_reference_wrapper : std::false_type
+    {};
     template <typename T>
-    struct is_reference_wrapper<std::reference_wrapper<T>>: std::true_type
-    {
-    };
+    struct is_reference_wrapper<std::reference_wrapper<T>> : std::true_type
+    {};
     template <typename T>
-    struct is_reference_wrapper<std::reference_wrapper<T>&>: std::true_type
-    {
-    };
+    struct is_reference_wrapper<std::reference_wrapper<T>&> : std::true_type
+    {};
     template <typename T>
-    struct is_reference_wrapper<std::reference_wrapper<T>&&>: std::true_type
-    {
-    };
+    struct is_reference_wrapper<std::reference_wrapper<T>&&> : std::true_type
+    {};
     template <typename T>
     inline constexpr bool is_reference_wrapper_v = is_reference_wrapper<T>::value;
 
@@ -127,12 +123,12 @@ namespace asst
         toansi_ostream& operator=(toansi_ostream&&) = default;
         toansi_ostream& operator=(const toansi_ostream&) = default;
 
-        toansi_ostream(std::ostream& stream): m_ofs(stream) {}
+        toansi_ostream(std::ostream& stream) : m_ofs(stream) {}
 
-        toansi_ostream(std::reference_wrapper<std::ostream> stream): m_ofs(stream) {}
+        toansi_ostream(std::reference_wrapper<std::ostream> stream) : m_ofs(stream) {}
 
         template <typename T>
-            requires has_stream_insertion_operator<std::ostream, T>
+        requires has_stream_insertion_operator<std::ostream, T>
         toansi_ostream& operator<<(T&& v)
         {
             if constexpr (std::convertible_to<T, std::string_view>) {
@@ -162,10 +158,10 @@ namespace asst
         ostreams& operator=(ostreams&&) = default;
         ostreams& operator=(const ostreams&) = default;
 
-        ostreams(Args&&... args): m_ofss(std::forward<Args>(args)...) {}
+        ostreams(Args&&... args) : m_ofss(std::forward<Args>(args)...) {}
 
         template <typename T>
-            requires has_stream_insertion_operator<std::ostream, T>
+        requires has_stream_insertion_operator<std::ostream, T>
         ostreams& operator<<(T&& x)
         {
             streams_put(m_ofss, x, std::index_sequence_for<Args...> {});
@@ -192,7 +188,7 @@ namespace asst
     template <typename... Args>
     ostreams(Args&&...) -> ostreams<to_reference_wrapper_t<Args>...>;
 
-    class Logger: public SingletonHolder<Logger>
+    class Logger : public SingletonHolder<Logger>
     {
     public:
         struct separator
@@ -200,7 +196,7 @@ namespace asst
             constexpr separator() = default;
             constexpr separator(const separator&) = default;
             constexpr separator(separator&&) noexcept = default;
-            constexpr explicit separator(std::string_view s) noexcept: str(s) {}
+            constexpr explicit separator(std::string_view s) noexcept : str(s) {}
             constexpr separator& operator=(const separator&) = default;
             constexpr separator& operator=(separator&&) noexcept = default;
             constexpr separator& operator=(std::string_view s) noexcept
@@ -222,7 +218,7 @@ namespace asst
         {
             constexpr level(const level&) = default;
             constexpr level(level&&) noexcept = default;
-            constexpr explicit level(std::string_view s) noexcept: str(s) {}
+            constexpr explicit level(std::string_view s) noexcept : str(s) {}
             constexpr level& operator=(const level&) = default;
             constexpr level& operator=(level&&) noexcept = default;
             constexpr level& operator=(std::string_view s) noexcept
@@ -261,7 +257,7 @@ namespace asst
             }
 
             template <typename _stream_t = stream_t>
-            LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv): m_trace_lock(mtx), m_ofs(ofs)
+            LogStream(std::mutex& mtx, _stream_t&& ofs, Logger::level lv) : m_trace_lock(mtx), m_ofs(ofs)
             {
                 *this << lv;
             }
@@ -313,7 +309,7 @@ namespace asst
                 }
                 else if constexpr (ranges::input_range<T>) {
                     s << "[";
-                    std::string_view comma_space{};
+                    std::string_view comma_space {};
                     for (const auto& elem : std::forward<T>(v)) {
                         s << comma_space;
                         stream_put(s, elem);
@@ -370,14 +366,14 @@ namespace asst
             }
             if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
-                return LogStream(m_trace_mutex, ostreams{ toansi_ostream(std::cout), m_ofs }, arg);
+                return LogStream(m_trace_mutex, ostreams { toansi_ostream(std::cout), m_ofs }, arg);
 #else
                 return LogStream(m_trace_mutex, m_ofs, arg);
 #endif
             }
             else {
 #ifdef ASST_DEBUG
-                return LogStream(m_trace_mutex, ostreams{ toansi_ostream(std::cout), m_ofs }, level::trace, arg);
+                return LogStream(m_trace_mutex, ostreams { toansi_ostream(std::cout), m_ofs }, level::trace, arg);
 #else
                 return LogStream(m_trace_mutex, m_ofs, level::trace, arg);
 #endif
@@ -428,7 +424,7 @@ namespace asst
     private:
         friend class SingletonHolder<Logger>;
 
-        Logger(): m_directory(UserDir.get())
+        Logger() : m_directory(UserDir.get())
         {
             check_filesize_and_remove();
             log_init_info();
@@ -442,6 +438,21 @@ namespace asst
                     const uintmax_t log_size = std::filesystem::file_size(m_log_path);
                     if (log_size >= MaxLogSize) {
                         std::filesystem::rename(m_log_path, m_log_bak_path);
+                    }
+                }
+                // FIXME: 迁移以前文件路径，之后版本删了这段
+                {
+                    using namespace asst::utils::path_literals;
+                    if (std::filesystem::exists(m_directory / "asst.log")) {
+                        std::filesystem::remove(m_directory / "asst.log");
+                    }
+                    if (std::filesystem::exists(m_directory / "asst.bak.log")) {
+                        std::filesystem::remove(m_directory / "asst.bak.log");
+                    }
+                    const auto& MapDir = UserDir.get() / "debug"_p / "map"_p;
+                    const auto& OldMapDir = "map"_p;
+                    if (std::filesystem::exists(OldMapDir)) {
+                        std::filesystem::rename(OldMapDir, MapDir);
                     }
                 }
             }
@@ -460,8 +471,8 @@ namespace asst
 
         std::filesystem::path m_directory;
 
-        std::filesystem::path m_log_path = m_directory / "asst.log";
-        std::filesystem::path m_log_bak_path = m_directory / "asst.bak.log";
+        std::filesystem::path m_log_path = m_directory / "debug" / "asst.log";
+        std::filesystem::path m_log_bak_path = m_directory / "debug" / "asst.bak.log";
         std::mutex m_trace_mutex;
         std::ofstream m_ofs;
     };

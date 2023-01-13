@@ -470,11 +470,9 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
     LogTraceFunction;
 
     using namespace asst::utils::path_literals;
-    const auto& MapDir = "map"_p;
+    const auto& MapRelativeDir = "debug"_p / "map"_p;
 
-    std::filesystem::create_directories(MapDir);
     auto draw = image.clone();
-
     for (const auto& [loc, info] : m_normal_tile_info) {
         std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
         cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
@@ -484,7 +482,7 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
     if (++m_camera_count > 1) {
         suffix = "-" + std::to_string(m_camera_count);
     }
-    asst::imwrite(MapDir / asst::utils::path(m_stage_name + suffix + ".png"), draw);
+    asst::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".png"), draw);
 }
 
 bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)

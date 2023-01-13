@@ -7,6 +7,7 @@
 
 #include "Common/AsstMsg.h"
 #include "InstHelper.h"
+#include "Utils/Platform.hpp"
 
 namespace cv
 {
@@ -61,7 +62,7 @@ namespace asst
         virtual bool on_run_fails() { return true; }
         virtual void callback(AsstMsg msg, const json::value& detail);
         virtual void click_return_button();
-        bool save_img(const std::string& dirname = "debug/");
+        bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
         json::value basic_info_with_what(std::string what) const;
 
