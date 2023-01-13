@@ -81,6 +81,11 @@ void asst::MatchImageAnalyzer::set_mask_with_close(int with_close) noexcept
     m_mask_with_close = with_close;
 }
 
+void asst::MatchImageAnalyzer::set_log_tracing(bool enable) noexcept
+{
+    m_log_tracing = enable;
+}
+
 const asst::MatchRect& asst::MatchImageAnalyzer::get_result() const noexcept
 {
     return m_result;
@@ -132,7 +137,7 @@ bool asst::MatchImageAnalyzer::match_templ(const cv::Mat templ)
     if (max_val > 2.0) {
         max_val = 0;
     }
-    if (max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
+    if (m_log_tracing && max_val > m_templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印
         Log.trace("match_templ |", m_templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
     }
 

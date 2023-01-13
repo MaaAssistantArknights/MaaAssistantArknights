@@ -11,6 +11,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
@@ -118,7 +119,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
-        MatchImageAnalyzer avatar_analyzer(oper.avatar);
+        BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
@@ -131,20 +132,12 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.set_threshold(threshold);
         }
 
-        double max_socre = 0;
         auto& avatar_cache = AvatarCache.get_avatars(oper.role);
         for (const auto& [name, avatar] : avatar_cache) {
-            avatar_analyzer.set_templ(avatar);
-            if (!avatar_analyzer.analyze()) {
-                continue;
-            }
-            const auto& cur_matched = avatar_analyzer.get_result();
-            if (max_socre < cur_matched.score) {
-                max_socre = cur_matched.score;
-                oper.name = name;
-            }
+            avatar_analyzer.append_templ(name, avatar);
         }
-        if (max_socre) {
+        if (avatar_analyzer.analyze()) {
+            oper.name = avatar_analyzer.get_result_name();
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
