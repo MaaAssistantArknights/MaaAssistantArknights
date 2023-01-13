@@ -73,8 +73,10 @@ namespace asst::battle
             { "sniper", Role::Sniper },      { "SNIPER", Role::Sniper },      { "Sniper", Role::Sniper },
             { "狙击", Role::Sniper },
 
-            { "caster", Role::Caster },      { "CASTER", Role::Caster },      { "Caster", Role::Caster },
-            { "术师", Role::Caster },        { "术士", Role::Caster },        { "法师", Role::Caster },
+            { "caster", Role::Caster },      { "CASTER", Role::Caster },
+
+            { "Caster", Role::Caster },      { "术师", Role::Caster },        { "术士", Role::Caster },
+            { "法师", Role::Caster },
 
             { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
             { "辅助", Role::Support },       { "支援", Role::Support },
