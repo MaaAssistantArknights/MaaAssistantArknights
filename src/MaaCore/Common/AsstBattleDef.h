@@ -55,32 +55,37 @@ namespace asst::battle
     inline static Role get_role_type(const std::string& role_name)
     {
         static const std::unordered_map<std::string, Role> NameToRole = {
-            { "warrior", Role::Warrior }, { "WARRIOR", Role::Warrior },
-            { "Warrior", Role::Warrior }, { "近卫", Role::Warrior },
+            { "warrior", Role::Warrior },    { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },
+            { "近卫", Role::Warrior },       { "GUARD", Role::Warrior },      { "gurad", Role::Warrior },
+            { "Guard", Role::Warrior },
 
-            { "pioneer", Role::Pioneer }, { "PIONEER", Role::Pioneer },
-            { "Pioneer", Role::Pioneer }, { "先锋", Role::Pioneer },
+            { "pioneer", Role::Pioneer },    { "PIONEER", Role::Pioneer },    { "Pioneer", Role::Pioneer },
+            { "先锋", Role::Pioneer },       { "VANGUARD", Role::Pioneer },   { "vanguard", Role::Pioneer },
+            { "Vanguard", Role::Pioneer },
 
-            { "medic", Role::Medic },     { "MEDIC", Role::Medic },
-            { "Medic", Role::Medic },     { "医疗", Role::Medic },
+            { "medic", Role::Medic },        { "MEDIC", Role::Medic },        { "Medic", Role::Medic },
+            { "医疗", Role::Medic },
 
-            { "tank", Role::Tank },       { "TANK", Role::Tank },
-            { "Tank", Role::Tank },       { "重装", Role::Tank },
+            { "tank", Role::Tank },          { "TANK", Role::Tank },          { "Tank", Role::Tank },
+            { "重装", Role::Tank },          { "DEFENDER", Role::Tank },      { "defender", Role::Tank },
+            { "Defender", Role::Tank },
 
-            { "sniper", Role::Sniper },   { "SNIPER", Role::Sniper },
-            { "Sniper", Role::Sniper },   { "狙击", Role::Sniper },
+            { "sniper", Role::Sniper },      { "SNIPER", Role::Sniper },      { "Sniper", Role::Sniper },
+            { "狙击", Role::Sniper },
 
-            { "caster", Role::Caster },   { "CASTER", Role::Caster },
-            { "Caster", Role::Caster },   { "术师", Role::Caster },
+            { "caster", Role::Caster },      { "CASTER", Role::Caster },      { "Caster", Role::Caster },
+            { "术师", Role::Caster },
 
-            { "support", Role::Support }, { "SUPPORT", Role::Support },
-            { "Support", Role::Support }, { "辅助", Role::Support },
+            { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
+            { "辅助", Role::Support },
 
-            { "special", Role::Special }, { "SPECIAL", Role::Special },
-            { "Special", Role::Special }, { "特种", Role::Special },
+            { "special", Role::Special },    { "SPECIAL", Role::Special },    { "Special", Role::Special },
+            { "特种", Role::Special },       { "SPECIALIST", Role::Special }, { "specialist", Role::Special },
+            { "Specialist", Role::Special },
 
-            { "drone", Role::Drone },     { "DRONE", Role::Drone },
-            { "Drone", Role::Drone },     { "无人机", Role::Drone },
+            { "drone", Role::Drone },        { "DRONE", Role::Drone },        { "Drone", Role::Drone },
+            { "无人机", Role::Drone },       { "SUMMON", Role::Drone },       { "summon", Role::Drone },
+            { "Summon", Role::Drone },       { "召唤物", Role::Drone },
         };
         if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
             return iter->second;
