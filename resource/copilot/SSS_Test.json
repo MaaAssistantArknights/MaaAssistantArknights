@@ -26,17 +26,12 @@
             "name": "水月",
             "skill": 2,
             "skill_usage": 1
-        },
-        {
-            "name": "桃金娘",
-            "skill": 2,
-            "skill_usage": 1
         }
     ],
     "tool_men": {
-        "Pioneer": 3,
-        "Warrior": 6,
-        "Medic": 2
+        "先锋": 3,
+        "近卫": 6,
+        "医疗": 2
     },
     "drop_buffs": [
         "定向部署支援系统"
@@ -89,14 +84,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "name": "桃金娘",
-                    "location": [
-                        5,
-                        4
-                    ],
-                    "direction": "下"
                 }
             ],
             "retry_times": 3
@@ -105,6 +92,27 @@
             "stage_name": "见者有份",
             "strategies": [
                 {
+                    "core": "泥岩",
+                    "tool_men": {
+                        "先锋": 3
+                    },
+                    "location": [
+                        4,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 100
+                    },
+                    "location": [
+                        3,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
                     "core": "水月",
                     "tool_men": {
                         "近卫": 3
@@ -112,17 +120,6 @@
                     "location": [
                         4,
                         3
-                    ],
-                    "direction": "Left"
-                },
-                {
-                    "core": "泥岩",
-                    "tool_men": {
-                        "先锋": 3
-                    },
-                    "location": [
-                        4,
-                        4
                     ],
                     "direction": "Left"
                 },
@@ -138,11 +135,11 @@
                 },
                 {
                     "tool_men": {
-                        "医疗": 100
+                        "近卫": 100
                     },
                     "location": [
-                        3,
-                        3
+                        4,
+                        4
                     ],
                     "direction": "Left"
                 }
@@ -151,14 +148,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "name": "桃金娘",
-                    "location": [
-                        5,
-                        4
-                    ],
-                    "direction": "下"
                 }
             ],
             "retry_times": 3

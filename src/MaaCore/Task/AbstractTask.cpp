@@ -151,17 +151,15 @@ void asst::AbstractTask::click_return_button()
     ProcessTask(*this, { "Return" }).run();
 }
 
-bool asst::AbstractTask::save_img(const std::string& dirname)
+bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir)
 {
     auto image = ctrler()->get_image();
     if (image.empty()) {
         return false;
     }
-
     std::string stem = utils::get_format_time();
     stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
-    std::filesystem::create_directories(dirname);
-    std::string full_path = dirname + stem + "_raw.png";
-    Log.trace("Save image", full_path);
-    return asst::imwrite(full_path, image);
+    auto relative_path = relative_dir / (stem + "_raw.png");
+    Log.trace("Save image", relative_path);
+    return asst::imwrite(relative_path, image);
 }

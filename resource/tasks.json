@@ -8932,6 +8932,19 @@
             "Stop"
         ]
     },
+    "NormalBattleAbandon": {
+        "action": "ClickSelf",
+        "roi": [
+            791,
+            497,
+            313,
+            157
+        ],
+        "next": [
+            "NormalBattleAbandon",
+            "Stop"
+        ]
+    },
     "RoguelikeBattleExitBegin": {
         "action": "ClickSelf",
         "roi": [
@@ -8946,7 +8959,8 @@
         ],
         "next": [
             "RoguelikeBattleAbandon",
-            "RoguelikeBattleExitBegin"
+            "RoguelikeBattleExitBegin",
+            "NormalBattleAbandon"
         ]
     },
     "RoguelikeBattleSpeedUp": {

@@ -76,7 +76,7 @@
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">“开局干员”使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
-    <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）</system:String>
+    <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队</system:String>

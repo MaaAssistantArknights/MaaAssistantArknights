@@ -27,7 +27,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
 #ifndef ASST_DEBUG
     if (!ret)
 #endif // ! ASST_DEBUG
-        save_img("debug/drops/");
+        save_img(utils::path("debug") / utils::path("drops"));
 
     return ret;
 }

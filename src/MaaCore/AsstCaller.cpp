@@ -46,14 +46,15 @@ bool inited()
 
 AsstBool AsstSetUserDir(const char* path)
 {
-    return asst::UserDir.set(path);
+    auto os_path = std::filesystem::absolute(asst::utils::path(path));
+    return asst::UserDir.set(os_path);
 }
 
 AsstBool AsstLoadResource(const char* path)
 {
     using namespace asst::utils::path_literals;
 
-    auto os_path = asst::utils::path(path);
+    auto os_path = std::filesystem::absolute(asst::utils::path(path));
     auto res_path = os_path / "resource"_p;
     if (asst::ResDir.empty()) {
         asst::ResDir.set(res_path);

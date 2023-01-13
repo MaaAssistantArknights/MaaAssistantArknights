@@ -13,6 +13,7 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
+#include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
 
 #ifdef _WIN32
@@ -29,13 +30,20 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
 asst::OcrPack::OcrPack()
     : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
 {
+    LogTraceFunction;
     m_ocr_option->UseOrtBackend();
 }
 
-asst::OcrPack::~OcrPack() {}
+asst::OcrPack::~OcrPack()
+{
+    LogTraceFunction;
+}
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
+    LogTraceFunction;
+    Log.info("load", path);
+
     bool use_temp_dir = false;
     auto paddle_dir = prepare_paddle_dir(path, &use_temp_dir);
 
@@ -184,7 +192,8 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
     static std::atomic<uint64_t> id {};
 
     *is_temp = false;
-    if (!asst::utils::path_to_ansi_string(dir).empty()) {
+    bool is_ascii = asst::ranges::all_of(dir.wstring(), [](auto ch) { return ch < 127; });
+    if (is_ascii) {
         // can be passed to paddle via path_to_ansi_string
         return dir;
     }
