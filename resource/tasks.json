@@ -6050,7 +6050,7 @@
     },
     "BattleAvatarData": {
         "template": "empty.png",
-        "templThreshold": 0.8
+        "templThreshold": 0.95
     },
     "BattleAvatarCoolingData": {
         "template": "empty.png",
