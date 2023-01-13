@@ -59,7 +59,7 @@ namespace asst
         bool click_retreat();                       // 这个是不带识别的，直接点
         bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
-        bool move_camera(const std::pair<double, double>& move_loc);
+        bool move_camera(const std::pair<double, double>& delta);
 
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
@@ -68,6 +68,7 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
         int m_camera_count = 0;
+        std::pair<double, double> m_camera_shift = { 0., 0. };
 
         /* 实时更新的数据 */
         bool m_in_battle = false;
