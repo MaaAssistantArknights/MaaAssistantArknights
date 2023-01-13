@@ -38,6 +38,7 @@
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
     <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
+    <ClInclude Include="Vision\BestMatchImageAnalyzer.h" />
     <ClInclude Include="Vision\HashImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp" />
     <ClCompile Include="Vision\HashImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp" />

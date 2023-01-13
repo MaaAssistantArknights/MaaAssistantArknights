@@ -480,6 +480,9 @@
     <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\BestMatchImageAnalyzer.h">
+      <Filter>源文件\Vision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -787,6 +790,9 @@
     </ClCompile>
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp">
       <Filter>源文件\Task\SSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp">
+      <Filter>源文件\Vision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

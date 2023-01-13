@@ -8,6 +8,7 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
+#include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/HashImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
@@ -168,40 +169,34 @@ bool asst::BattleImageAnalyzer::opers_analyze()
 
 asst::battle::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 {
-    static const std::unordered_map<battle::Role, std::string> RolesName = {
-        { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
-        { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
-        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" }, { battle::Role::Drone, "Drone" }
+    static const std::unordered_map<std::string, battle::Role> RoleMap = {
+        { "Caster", battle::Role::Caster }, { "Medic", battle::Role::Medic },     { "Pioneer", battle::Role::Pioneer },
+        { "Sniper", battle::Role::Sniper }, { "Special", battle::Role::Special }, { "Support", battle::Role::Support },
+        { "Tank", battle::Role::Tank },     { "Warrior", battle::Role::Warrior }, { "Drone", battle::Role::Drone },
     };
 
-    MatchImageAnalyzer role_analyzer(m_image);
+    static const std::string TaskName = "BattleOperRole";
+    static const std::string Ext = ".png";
+    BestMatchImageAnalyzer role_analyzer(m_image);
+    role_analyzer.set_task_info(TaskName);
+    role_analyzer.set_roi(roi);
 
-    auto result = battle::Role::Unknown;
-    double max_score = 0;
-    for (auto&& [role, role_name] : RolesName) {
-        role_analyzer.set_task_info("BattleOperRole" + role_name);
-        role_analyzer.set_roi(roi);
-        if (!role_analyzer.analyze()) {
-            continue;
-        }
-        if (double cur_score = role_analyzer.get_result().score; max_score < cur_score) {
-            result = role;
-            max_score = cur_score;
-        }
+    for (const auto& role_name : RoleMap | views::keys) {
+        role_analyzer.append_templ(TaskName + role_name + Ext);
     }
+    if (!role_analyzer.analyze()) {
+        return battle::Role::Unknown;
+    }
+
+    const auto& templ_name = role_analyzer.get_result_name();
+
+    std::string role_name = templ_name.substr(TaskName.size(), templ_name.size() - TaskName.size() - Ext.size());
 
 #ifdef ASST_DEBUG
-    std::string role_name;
-    if (auto iter = RolesName.find(result); iter == RolesName.cend()) {
-        role_name = "Unknown";
-    }
-    else {
-        role_name = iter->second;
-    }
     cv::putText(m_image_draw, role_name, cv::Point(roi.x, roi.y - 5), 1, 1, cv::Scalar(0, 255, 255));
 #endif
 
-    return result;
+    return RoleMap.at(role_name);
 }
 
 bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
@@ -230,7 +225,7 @@ bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
             }
         }
     }
-    Log.trace("oper_cooling_analyze |", count);
+    //Log.trace("oper_cooling_analyze |", count);
     return count >= cooling_task_ptr->special_params.front();
 }
 
@@ -289,7 +284,7 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
     cv::Mat hsv;
     cv::cvtColor(m_image(make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
     cv::Scalar avg = cv::mean(hsv);
-    Log.trace("oper available, mean", avg[2]);
+    //Log.trace("oper available, mean", avg[2]);
 
     const int thres = Task.get("BattleOperAvailable")->special_params.front();
     if (avg[2] < thres) {
