@@ -68,16 +68,16 @@ namespace asst::battle
 
             { "tank", Role::Tank },          { "TANK", Role::Tank },          { "Tank", Role::Tank },
             { "重装", Role::Tank },          { "DEFENDER", Role::Tank },      { "defender", Role::Tank },
-            { "Defender", Role::Tank },
+            { "Defender", Role::Tank },      { "坦克", Role::Tank },
 
             { "sniper", Role::Sniper },      { "SNIPER", Role::Sniper },      { "Sniper", Role::Sniper },
             { "狙击", Role::Sniper },
 
             { "caster", Role::Caster },      { "CASTER", Role::Caster },      { "Caster", Role::Caster },
-            { "术师", Role::Caster },
+            { "术师", Role::Caster },        { "术士", Role::Caster },        { "法师", Role::Caster },
 
             { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
-            { "辅助", Role::Support },
+            { "辅助", Role::Support },       { "支援", Role::Support },
 
             { "special", Role::Special },    { "SPECIAL", Role::Special },    { "Special", Role::Special },
             { "特种", Role::Special },       { "SPECIALIST", Role::Special }, { "specialist", Role::Special },
