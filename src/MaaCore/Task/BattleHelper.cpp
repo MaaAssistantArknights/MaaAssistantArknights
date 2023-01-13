@@ -38,6 +38,7 @@ void asst::BattleHelper::clear()
     m_normal_tile_info.clear();
     m_skill_usage.clear();
     m_camera_count = 0;
+    m_camera_shift = { 0., 0. };
 
     m_in_battle = false;
     m_kills = 0;
