@@ -351,7 +351,7 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
 
 void asst::BattleProcessTask::sleep_and_do_not_urgent(unsigned millisecond)
 {
-    LogTraceScope(__FUNCTION__ + std::to_string(millisecond));
+    LogTraceScope(__FUNCTION__ + std::string(" ms: ") + std::to_string(millisecond));
 
     using namespace std::chrono_literals;
     const auto start = std::chrono::steady_clock::now();

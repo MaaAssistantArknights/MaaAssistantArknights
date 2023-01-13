@@ -9,6 +9,9 @@ ASST_SUPPRESS_CV_WARNINGS_END
 
 bool asst::TilePack::load(const std::filesystem::path& path)
 {
+    LogTraceFunction;
+    Log.info("load", path);
+
     if (!std::filesystem::exists(path)) {
         return false;
     }
