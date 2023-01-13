@@ -13,6 +13,7 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
+#include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
 
 #ifdef _WIN32
@@ -191,7 +192,8 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
     static std::atomic<uint64_t> id {};
 
     *is_temp = false;
-    if (!asst::utils::path_to_ansi_string(dir).empty()) {
+    bool is_ascii = asst::ranges::all_of(dir.wstring(), [](auto ch) { return ch < 127; });
+    if (is_ascii) {
         // can be passed to paddle via path_to_ansi_string
         return dir;
     }
