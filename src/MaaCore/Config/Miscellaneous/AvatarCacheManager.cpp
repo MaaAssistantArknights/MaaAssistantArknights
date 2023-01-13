@@ -7,6 +7,7 @@
 bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
+    Log.info("load", path);
 
     m_path = path;
 
