@@ -79,7 +79,7 @@
                     Height="50"
                     Command="{s:Action Start}"
                     Content="{DynamicResource Start}"
-                    Visibility="{Binding Idle}" />
+                    Visibility="{c:Binding Idle}" />
                 <Button
                     Width="120"
                     Height="50"
