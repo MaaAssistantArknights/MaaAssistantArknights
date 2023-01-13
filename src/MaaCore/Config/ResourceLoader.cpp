@@ -49,7 +49,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     {                                                                 \
         LogTraceScope(std::string("LoadCacheWithoutRet ") + #Config); \
         auto full_path = UserDir.get() / "cache"_p / Dir;             \
-        load_resource<Config>(full_path);                             \
+        SingletonHolder<Config>::get_instance().load(full_path);      \
     }
 
     LogTraceFunction;
