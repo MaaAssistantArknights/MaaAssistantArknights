@@ -60,10 +60,17 @@ namespace MaaWpfGui
         protected override void OnStart()
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            Directory.CreateDirectory("debug");
+
+            {
+                // FIXME: 目录迁移，过几个版本删除这段
+                File.Delete("gui.log");
+                File.Delete("gui.bak.log");
+            }
 
             // 清理日志文件
-            var log_path = "gui.log";
-            var backup_log_path = "gui.bak.log";
+            var log_path = "debug\\gui.log";
+            var backup_log_path = "debug\\gui.bak.log";
             if (File.Exists(log_path))
             {
                 var fileInfo = new FileInfo(log_path);

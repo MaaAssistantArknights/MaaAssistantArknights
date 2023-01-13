@@ -46,7 +46,8 @@ bool inited()
 
 AsstBool AsstSetUserDir(const char* path)
 {
-    return asst::UserDir.set(path);
+    auto os_path = asst::utils::path(path);
+    return asst::UserDir.set(os_path);
 }
 
 AsstBool AsstLoadResource(const char* path)

@@ -24,8 +24,8 @@ namespace MaaWpfGui
     /// </summary>
     public class ViewStatusStorage
     {
-        private static readonly string _configFilename = Environment.CurrentDirectory + "\\gui.json";
-        private static readonly string _configBakFilename = Environment.CurrentDirectory + "\\gui.json.bak";
+        private static readonly string _configFilename = Environment.CurrentDirectory + "\\config\\gui.json";
+        private static readonly string _configBakFilename = Environment.CurrentDirectory + "\\config\\gui.json.bak";
         private static JObject _viewStatus = new JObject();
 
         /// <summary>
@@ -64,6 +64,18 @@ namespace MaaWpfGui
         /// <returns>Whether the operation is successful.</returns>
         public static bool Load(bool withRestore = true)
         {
+            // 2023-1-13 配置文件迁移
+            // FIXME: 之后的版本删了这段
+            Directory.CreateDirectory("config");
+            if (File.Exists("gui.json"))
+            {
+                File.Move("gui.json", _configFilename);
+            }
+
+            File.Delete("gui.json.bak");
+            File.Delete("gui.json.bak1");
+            File.Delete("gui.json.bak2");
+
             if (File.Exists(_configFilename))
             {
                 try
