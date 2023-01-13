@@ -29,13 +29,20 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
 asst::OcrPack::OcrPack()
     : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
 {
+    LogTraceFunction;
     m_ocr_option->UseOrtBackend();
 }
 
-asst::OcrPack::~OcrPack() {}
+asst::OcrPack::~OcrPack()
+{
+    LogTraceFunction;
+}
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
+    LogTraceFunction;
+    Log.info("load", path);
+
     bool use_temp_dir = false;
     auto paddle_dir = prepare_paddle_dir(path, &use_temp_dir);
 
