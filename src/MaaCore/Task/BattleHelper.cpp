@@ -198,7 +198,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 if (det_name.empty()) {
                     Log.warn("ocr with det model failed");
                 }
-                else if (BattleData.is_name_invalid(det_name)) {
+                else if (!BattleData.is_name_invalid(det_name)) {
                     Log.info("use ocr with det", det_name);
                     name = det_name;
                 }
