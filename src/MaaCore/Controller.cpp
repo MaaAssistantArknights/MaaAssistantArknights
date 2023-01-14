@@ -561,8 +561,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
         auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started &&
             screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true)) {
-            // sock 第一次截图比较长（不知道是不是初始化了什么东西耽误时间，减个额外的的时间）
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time) - 100ms;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 make_instance_inited(true);

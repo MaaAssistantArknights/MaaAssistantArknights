@@ -133,7 +133,7 @@ namespace asst
         std::mutex m_callcmd_mutex;
 
         // adb-lite properties
-        bool m_use_adb_lite = false;
+        bool m_use_adb_lite = true;
         std::shared_ptr<adb::client> m_adb_client = nullptr;
         std::shared_ptr<adb::io_handle> m_minitouch_handle = nullptr;
 
