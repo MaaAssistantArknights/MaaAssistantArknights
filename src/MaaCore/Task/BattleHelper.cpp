@@ -225,7 +225,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             cancel_oper_selection();
         }
     }
-    check_pause_button(image);
+    check_in_battle(image);
 
     return true;
 }
@@ -377,15 +377,22 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze();
-    m_in_battle = ret;
     return ret;
+}
+
+bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattleImageAnalyzer analyzer(image);
+    m_in_battle = analyzer.analyze();
+    return m_in_battle;
 }
 
 bool asst::BattleHelper::wait_until_start()
 {
     LogTraceFunction;
 
-    while (!m_inst_helper.need_exit() && !check_pause_button()) {
+    while (!m_inst_helper.need_exit() && !check_in_battle()) {
         std::this_thread::yield();
     }
     return true;
@@ -395,7 +402,7 @@ bool asst::BattleHelper::wait_until_end()
 {
     LogTraceFunction;
 
-    while (!m_inst_helper.need_exit() && check_pause_button()) {
+    while (!m_inst_helper.need_exit() && check_in_battle()) {
         do_strategic_action();
         std::this_thread::yield();
     }
@@ -404,8 +411,7 @@ bool asst::BattleHelper::wait_until_end()
 
 bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
-    check_pause_button(reusable);
-    return use_all_ready_skill(reusable);
+    return check_in_battle(reusable) && use_all_ready_skill(reusable);
 }
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
