@@ -79,8 +79,6 @@ bool asst::SSSStageManagerTask::comfirm_battle_complete()
         .run();
 }
 
-bool asst::SSSStageManagerTask::get_drop_rewards() {}
-
 bool asst::SSSStageManagerTask::click_start_button()
 {
     return ProcessTask(*this, { "SSSStartFighting", "SSSCloseTip" }).run();

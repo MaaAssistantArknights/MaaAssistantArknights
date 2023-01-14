@@ -11,6 +11,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
@@ -37,6 +38,7 @@ void asst::BattleHelper::clear()
     m_normal_tile_info.clear();
     m_skill_usage.clear();
     m_camera_count = 0;
+    m_camera_shift = { 0., 0. };
 
     m_in_battle = false;
     m_kills = 0;
@@ -118,7 +120,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
-        MatchImageAnalyzer avatar_analyzer(oper.avatar);
+        BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
@@ -131,20 +133,12 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.set_threshold(threshold);
         }
 
-        double max_socre = 0;
         auto& avatar_cache = AvatarCache.get_avatars(oper.role);
         for (const auto& [name, avatar] : avatar_cache) {
-            avatar_analyzer.set_templ(avatar);
-            if (!avatar_analyzer.analyze()) {
-                continue;
-            }
-            const auto& cur_matched = avatar_analyzer.get_result();
-            if (max_socre < cur_matched.score) {
-                max_socre = cur_matched.score;
-                oper.name = name;
-            }
+            avatar_analyzer.append_templ(name, avatar);
         }
-        if (max_socre) {
+        if (avatar_analyzer.analyze()) {
+            oper.name = avatar_analyzer.get_result_name();
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -198,7 +192,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 if (det_name.empty()) {
                     Log.warn("ocr with det model failed");
                 }
-                else if (BattleData.is_name_invalid(det_name)) {
+                else if (!BattleData.is_name_invalid(det_name)) {
                     Log.info("use ocr with det", det_name);
                     name = det_name;
                 }
@@ -231,7 +225,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             cancel_oper_selection();
         }
     }
-    check_pause_button(image);
+    check_in_battle(image);
 
     return true;
 }
@@ -383,15 +377,22 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze();
-    m_in_battle = ret;
     return ret;
+}
+
+bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattleImageAnalyzer analyzer(image);
+    m_in_battle = analyzer.analyze();
+    return m_in_battle;
 }
 
 bool asst::BattleHelper::wait_until_start()
 {
     LogTraceFunction;
 
-    while (!m_inst_helper.need_exit() && !check_pause_button()) {
+    while (!m_inst_helper.need_exit() && !check_in_battle()) {
         std::this_thread::yield();
     }
     return true;
@@ -401,7 +402,7 @@ bool asst::BattleHelper::wait_until_end()
 {
     LogTraceFunction;
 
-    while (!m_inst_helper.need_exit() && check_pause_button()) {
+    while (!m_inst_helper.need_exit() && check_in_battle()) {
         do_strategic_action();
         std::this_thread::yield();
     }
@@ -410,8 +411,7 @@ bool asst::BattleHelper::wait_until_end()
 
 bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
-    check_pause_button(reusable);
-    return use_all_ready_skill(reusable);
+    return check_in_battle(reusable) && use_all_ready_skill(reusable);
 }
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
@@ -570,10 +570,10 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc)
+bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
 {
     LogTraceFunction;
-    Log.info("move", move_loc.first, move_loc.second);
+    Log.info("move", delta.first, delta.second);
 
     update_kills();
 
@@ -585,7 +585,10 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& move_loc)
     m_kills = 0;
     m_total_kills = 0;
 
-    calc_tiles_info(m_stage_name, -move_loc.first, move_loc.second);
+    m_camera_shift.first += delta.first;
+    m_camera_shift.second += delta.second;
+
+    calc_tiles_info(m_stage_name, -m_camera_shift.first, m_camera_shift.second);
     update_deployment(true);
 
     return true;
