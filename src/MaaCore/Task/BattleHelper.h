@@ -45,9 +45,9 @@ namespace asst
         bool use_skill(const std::string& name, bool keep_waiting = true);
         bool use_skill(const Point& loc, bool keep_waiting = true);
         bool check_pause_button(const cv::Mat& reusable = cv::Mat());
-        bool check_in_battle(const cv::Mat& reusable = cv::Mat());
-        virtual bool wait_until_start();
-        bool wait_until_end();
+        bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = false);
+        virtual bool wait_until_start(bool weak = false);
+        bool wait_until_end(bool weak = false);
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const std::string& name, const cv::Mat& reusable = cv::Mat());
         bool check_and_use_skill(const Point& loc, const cv::Mat& reusable = cv::Mat());
