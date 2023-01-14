@@ -283,6 +283,10 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
 
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
+    // 时间太短了的压根放不上去，故意加长一点
+    if (int min_duration = swipe_oper_task_ptr->special_params.at(3); duration < min_duration) {
+        duration = min_duration;
+    }
     bool deploy_with_pause = m_inst_helper.ctrler()->support_swipe_with_pause();
     m_inst_helper.ctrler()->swipe(oper_rect, Rect(target_point.x, target_point.y, 1, 1), duration, false,
                                   swipe_oper_task_ptr->special_params.at(1), swipe_oper_task_ptr->special_params.at(2),
@@ -392,8 +396,12 @@ bool asst::BattleHelper::wait_until_start()
 {
     LogTraceFunction;
 
-    while (!m_inst_helper.need_exit() && !check_in_battle()) {
+    cv::Mat image = m_inst_helper.ctrler()->get_image();
+    while (!m_inst_helper.need_exit() && !check_pause_button(image)) {
+        do_strategic_action(image);
         std::this_thread::yield();
+
+        image = m_inst_helper.ctrler()->get_image();
     }
     return true;
 }
@@ -402,16 +410,20 @@ bool asst::BattleHelper::wait_until_end()
 {
     LogTraceFunction;
 
-    while (!m_inst_helper.need_exit() && check_in_battle()) {
-        do_strategic_action();
+    cv::Mat image = m_inst_helper.ctrler()->get_image();
+    while (!m_inst_helper.need_exit() && check_in_battle(image)) {
+        do_strategic_action(image);
         std::this_thread::yield();
+
+        image = m_inst_helper.ctrler()->get_image();
     }
     return true;
 }
 
 bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
-    return check_in_battle(reusable) && use_all_ready_skill(reusable);
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    return check_in_battle(image) && use_all_ready_skill(image);
 }
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
@@ -474,8 +486,8 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
 
     auto draw = image.clone();
     for (const auto& [loc, info] : m_normal_tile_info) {
-        std::string text = "( " + std::to_string(loc.x) + ", " + std::to_string(loc.y) + " )";
-        cv::putText(draw, text, cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
+        cv::circle(draw, cv::Point(info.pos.x, info.pos.y), 5, cv::Scalar(0, 255, 0), -1);
+        cv::putText(draw, loc.to_string(), cv::Point(info.pos.x - 30, info.pos.y), 1, 1.2, cv::Scalar(0, 0, 255), 2);
     }
 
     std::string suffix;
