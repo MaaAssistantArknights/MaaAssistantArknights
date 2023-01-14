@@ -384,20 +384,25 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     return ret;
 }
 
-bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable)
+bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleImageAnalyzer analyzer(image);
-    m_in_battle = analyzer.analyze();
+    if (weak) {
+        m_in_battle = check_pause_button(image);
+    }
+    else {
+        BattleImageAnalyzer analyzer(image);
+        m_in_battle = analyzer.analyze();
+    }
     return m_in_battle;
 }
 
-bool asst::BattleHelper::wait_until_start()
+bool asst::BattleHelper::wait_until_start(bool weak)
 {
     LogTraceFunction;
 
     cv::Mat image = m_inst_helper.ctrler()->get_image();
-    while (!m_inst_helper.need_exit() && !check_pause_button(image)) {
+    while (!m_inst_helper.need_exit() && !check_in_battle(image, weak)) {
         do_strategic_action(image);
         std::this_thread::yield();
 
@@ -406,12 +411,12 @@ bool asst::BattleHelper::wait_until_start()
     return true;
 }
 
-bool asst::BattleHelper::wait_until_end()
+bool asst::BattleHelper::wait_until_end(bool weak)
 {
     LogTraceFunction;
 
     cv::Mat image = m_inst_helper.ctrler()->get_image();
-    while (!m_inst_helper.need_exit() && check_in_battle(image)) {
+    while (!m_inst_helper.need_exit() && check_in_battle(image, weak)) {
         do_strategic_action(image);
         std::this_thread::yield();
 
@@ -591,7 +596,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
 
     // 还没转场的时候
     if (m_kills != 0) {
-        wait_until_end();
+        wait_until_end(true);
     }
 
     m_kills = 0;

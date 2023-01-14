@@ -124,11 +124,12 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     return true;
 }
 
-bool asst::SSSBattleProcessTask::wait_until_start()
+bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
 {
     LogTraceFunction;
 
-    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run();
+    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run() &&
+           BattleProcessTask::wait_until_start(weak);
 }
 
 bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Action& action)
