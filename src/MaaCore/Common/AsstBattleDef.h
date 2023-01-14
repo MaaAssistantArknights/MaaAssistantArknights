@@ -157,6 +157,7 @@ namespace asst::battle
             /* for SSS */
             DrawCard,         // “调配干员”
             CheckIfStartOver, // 检查如果没有某干员则退出重开
+            GetDrops,         // 识别并获取战斗中途的掉落物
         };
 
         struct Action
@@ -212,6 +213,7 @@ namespace asst::battle
             std::vector<Strategy> strategies;
             bool draw_as_possible = false;
             int retry_times = 0;
+            std::vector<std::string> order_of_drops;
         };
 
         enum class EquipmentType
@@ -231,8 +233,7 @@ namespace asst::battle
 
             copilot::OperUsageGroups groups;
             RoleCounts tool_men;
-            std::vector<std::string> drop_buffs;
-            std::vector<std::string> drop_tool_men;
+            std::vector<std::string> order_of_drops;
 
             std::unordered_map<std::string, CombatData> stages_data;
         };
