@@ -38,5 +38,5 @@ bool asst::BestMatchImageAnalyzer::analyze()
 
 void asst::BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)
 {
-    m_templs.emplace_back(name, templ);
+    m_templs.emplace_back(TemplInfo { std::move(name), templ });
 }
