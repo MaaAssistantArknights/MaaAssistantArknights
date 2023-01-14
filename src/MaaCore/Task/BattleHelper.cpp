@@ -86,14 +86,13 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     LogTraceFunction;
 
     if (init) {
-        wait_until_start();
+        wait_until_start(false);
     }
 
     cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
 
     if (init) {
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
-        update_kills(image);
     }
 
     BattleImageAnalyzer oper_analyzer(image);
@@ -219,11 +218,16 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 AvatarCache.set_avatar(name, oper.role, oper.avatar);
             }
         }
-
         pause();
         if (!unknown_opers.empty()) {
             cancel_oper_selection();
         }
+
+        image = m_inst_helper.ctrler()->get_image();
+    }
+
+    if (init) {
+        update_kills(image);
     }
     check_in_battle(image);
 
@@ -388,11 +392,11 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (weak) {
-        m_in_battle = check_pause_button(image);
-    }
-    else {
         BattleImageAnalyzer analyzer(image);
         m_in_battle = analyzer.analyze();
+    }
+    else {
+        m_in_battle = check_pause_button(image);
     }
     return m_in_battle;
 }
@@ -596,7 +600,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
 
     // 还没转场的时候
     if (m_kills != 0) {
-        wait_until_end(true);
+        wait_until_end(false);
     }
 
     m_kills = 0;
