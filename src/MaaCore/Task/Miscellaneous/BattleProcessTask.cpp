@@ -262,6 +262,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                     break;
                 }
             }
+            if (!check_in_battle(image)) {
+                return false;
+            }
             do_strategy_and_update_image();
         }
     }
@@ -273,6 +276,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (m_kills >= action.kills) {
                 break;
             }
+            if (!check_in_battle(image)) {
+                return false;
+            }
             do_strategy_and_update_image();
         }
     }
@@ -283,6 +289,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             update_cost(image);
             if (m_cost >= action.costs) {
                 break;
+            }
+            if (!check_in_battle(image)) {
+                return false;
             }
             do_strategy_and_update_image();
         }
@@ -298,6 +307,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (cooling_count == action.cooling) {
                 break;
             }
+            if (!check_in_battle(image)) {
+                return false;
+            }
             do_strategy_and_update_image();
         }
     }
@@ -311,6 +323,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (auto iter = m_cur_deployment_opers.find(name);
                 iter != m_cur_deployment_opers.cend() && iter->second.available) {
                 break;
+            }
+            if (!check_in_battle(image)) {
+                return false;
             }
             do_strategy_and_update_image();
         }

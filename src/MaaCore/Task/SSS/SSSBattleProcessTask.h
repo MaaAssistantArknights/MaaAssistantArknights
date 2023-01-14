@@ -21,6 +21,7 @@ namespace asst
 
         bool check_if_start_over(const battle::copilot::Action& action);
         bool draw_card(bool with_retry = true);
+        bool get_drops();
 
         battle::sss::CombatData m_sss_combat_data;
         std::unordered_set<std::string> m_all_cores;
