@@ -845,7 +845,7 @@ namespace MaaWpfGui
                 string.Format("[{0:F}MiB/{1:F}MiB({2}%) {3:F} KiB/s]",
                     value / 1048576.0,
                     maximum / 1048576.0,
-                    value / maximum * 100,
+                    100 * value / maximum,
                     len / ts / 1024.0));
         }
 

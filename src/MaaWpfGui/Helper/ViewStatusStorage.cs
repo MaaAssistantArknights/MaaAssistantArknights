@@ -60,16 +60,22 @@ namespace MaaWpfGui
         /// <summary>
         /// Loads configuration.
         /// </summary>
-        /// <param name="withRestore">Whether to restore with backup file.</param>
         /// <returns>Whether the operation is successful.</returns>
-        public static bool Load(bool withRestore = true)
+        public static bool Load()
         {
             // 2023-1-13 配置文件迁移
             // FIXME: 之后的版本删了这段
             Directory.CreateDirectory("config");
             if (File.Exists("gui.json"))
             {
-                File.Move("gui.json", _configFilename);
+                if (File.Exists(_configFilename))
+                {
+                    File.Delete("gui.json");
+                }
+                else
+                {
+                    File.Move("gui.json", _configFilename);
+                }
             }
 
             File.Delete("gui.json.bak");
@@ -95,7 +101,6 @@ namespace MaaWpfGui
                         }
                     }
 
-                    // 文件存在但为空，会读出来一个null，感觉c#这库有bug，如果是null 就赋值一个空JObject
                     _viewStatus = (JObject)JsonConvert.DeserializeObject(jsonStr) ?? new JObject();
                 }
                 catch (Exception e)
