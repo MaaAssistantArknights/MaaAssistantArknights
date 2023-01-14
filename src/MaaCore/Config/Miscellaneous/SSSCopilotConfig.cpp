@@ -42,29 +42,13 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
         }
     }
 
-    if (auto drop_buffs = json.find<json::array>("drop_buffs")) {
-        for (const auto& drop_buff : drop_buffs.value()) {
-            m_data.drop_buffs.emplace_back(drop_buff.as_string());
+    if (auto drops_opt = json.find<json::array>("drops")) {
+        m_data.order_of_drops.reserve(drops_opt->size());
+        for (const auto& drop : *drops_opt) {
+            m_data.order_of_drops.emplace_back(drop.as_string());
         }
     }
-    if (auto drop_tool_men = json.find<json::array>("drop_tool_men")) {
-        for (const auto& man : drop_tool_men.value()) {
-            std::string name = man.as_string();
 
-            if (auto role = get_role_type(name); role != Role::Unknown) {
-                m_data.drop_tool_men.emplace_back(name);
-            }
-            else if (BattleData.get_rarity(name) != 0) {
-                m_data.drop_tool_men.emplace_back(name);
-            }
-            else if (name == "None") {
-                m_data.drop_tool_men.emplace_back(name);
-            }
-            else {
-                Log.warn("Unknown drop tool man", name);
-            }
-        }
-    }
     for (const auto& stage : json.at("stages").as_array()) {
         CombatData stage_data;
         stage_data.info = CopilotConfig::parse_basic_info(stage);
@@ -72,6 +56,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
 
         stage_data.actions = CopilotConfig::parse_actions(stage);
         stage_data.groups = m_data.groups;
+        stage_data.order_of_drops = m_data.order_of_drops;
 
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;

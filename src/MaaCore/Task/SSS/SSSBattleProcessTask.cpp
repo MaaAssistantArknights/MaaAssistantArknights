@@ -1,6 +1,7 @@
 #include "SSSBattleProcessTask.h"
 
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
+#include "Config/TaskData.h"
 #include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -47,6 +48,8 @@ bool asst::SSSBattleProcessTask::do_derived_action(size_t action_index)
         return draw_card();
     case battle::copilot::ActionType::CheckIfStartOver:
         return check_if_start_over(action);
+    case battle::copilot::ActionType::GetDrops:
+        return get_drops();
     default:
         Log.error("unknown action type", static_cast<int>(action.type));
         return false;
@@ -121,11 +124,12 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     return true;
 }
 
-bool asst::SSSBattleProcessTask::wait_until_start()
+bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
 {
     LogTraceFunction;
 
-    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run();
+    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run() &&
+           BattleProcessTask::wait_until_start(weak);
 }
 
 bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Action& action)
@@ -161,9 +165,27 @@ bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Acti
 
 bool asst::SSSBattleProcessTask::draw_card(bool with_retry)
 {
+    LogTraceFunction;
+
     ProcessTask task(*this, { "SSSDrawCard" });
     if (!with_retry) {
         task.set_retry_times(0);
     }
     return task.run();
+}
+
+bool asst::SSSBattleProcessTask::get_drops()
+{
+    LogTraceFunction;
+
+    const auto& drops = m_sss_combat_data.order_of_drops;
+
+    // 不一定就有掉落界面，有可能宝箱怪压根没被打掉。所以不重试
+    if (drops.empty()) {
+        return ProcessTask(*this, { inst_string() + "@SSSHalfTimeDropsCancel" }).set_retry_times(0).run();
+    }
+    else {
+        Task.get<OcrTaskInfo>(inst_string() + "@SSSHalfTimeDrops")->text = { drops };
+        return ProcessTask(*this, { inst_string() + "@SSSHalfTimeDropsBegin" }).set_retry_times(0).run();
+    }
 }

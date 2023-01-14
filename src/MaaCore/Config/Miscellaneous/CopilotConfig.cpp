@@ -155,6 +155,14 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "CHECKIFSTARTOVER", ActionType::CheckIfStartOver },
             { "checkifstartover", ActionType::CheckIfStartOver },
             { "检查重开", ActionType::CheckIfStartOver },
+
+            { "GetDrops", ActionType::GetDrops },
+            { "Getdrops", ActionType::GetDrops },
+            { "GETDROPS", ActionType::GetDrops },
+            { "getdrops", ActionType::GetDrops },
+            { "获取战利品", ActionType::GetDrops },
+            { "获取掉落", ActionType::GetDrops },
+            { "获取装备", ActionType::GetDrops },
         };
 
         std::string type_str = action_info.get("type", "Deploy");

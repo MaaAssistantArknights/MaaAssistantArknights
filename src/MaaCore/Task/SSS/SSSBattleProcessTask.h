@@ -17,10 +17,11 @@ namespace asst
         virtual battle::copilot::CombatData& get_combat_data() override { return m_sss_combat_data; }
         virtual const std::string oper_name_ocr_task_name() const noexcept override { return "SSSBattleOperName"; }
         virtual bool need_to_wait_until_end() const noexcept override { return true; }
-        virtual bool wait_until_start() override;
+        virtual bool wait_until_start(bool weak = true) override;
 
         bool check_if_start_over(const battle::copilot::Action& action);
         bool draw_card(bool with_retry = true);
+        bool get_drops();
 
         battle::sss::CombatData m_sss_combat_data;
         std::unordered_set<std::string> m_all_cores;
