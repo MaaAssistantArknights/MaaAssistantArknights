@@ -908,7 +908,15 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_2701.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10016,
+        "sortId": 10017,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_3001": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3001.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10018,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_601": {
@@ -1215,6 +1223,54 @@
         "sortId": -10000,
         "usage": "Musicians often misplace their drafts during outbursts of emotion. If you straighten it out and return it to its owner, perhaps you will receive a new piece in return."
     },
+    "act1bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act1bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act1bossrush_relic_01": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_01.png",
+        "name": "Reuse Module",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_02": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_02.png",
+        "name": "Fast Processing",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_03": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_03.png",
+        "name": "Super Cache",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_04": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_04.png",
+        "name": "Repel Control",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act1bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "Points gained for taking down OpFor troops, awarded to competitors in the form of medals. Owing to it being forged by Minos smiths, in each medal's engraving is the proverb 'all heroes arise from normal people.'",
@@ -1222,6 +1278,14 @@
         "name": "Competition Medals",
         "sortId": -10000,
         "usage": "A small medal made from metal. Gain certain amounts and receive corresponding competition rewards."
+    },
+    "act20side_token_book": {
+        "classifyType": "NONE",
+        "description": "The pages retain handwriting of all shapes and sizes, the amount even serving to tell you how often the magazine's changed hands. Most of it is meaningless scrawls, but flashes of wisdom are scattered throughout.",
+        "icon": "act20side_token_book.png",
+        "name": "Photocopies of 'Stranger Things'",
+        "sortId": -10000,
+        "usage": "Photocopies of a gaudy magazine, the contents preposterous, yet well-loved by Durin far and wide. Can be used at the Leaping Gloompincer Market to trade with the Durin for supplies."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1321,7 +1385,7 @@
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
-        "description": "A couple blond Fortes are selling gold pieces of paper at three times the stated price. This voucher can be used to buy aid packages for competition knights in the arena, or as a bankroll to bet on, but be prepared to pay more than the number printed on it. A piece of paper, a huge sum, a knight's life of honor and shame.",
+        "description": "A low-dosage sample. To be used rationally and sensibly. If you are satisfied with this product's efficacy, you may also be interested in our other packages.",
         "icon": "ap_supply_lt_010.png",
         "name": "Emergency Sanity Sampler",
         "sortId": 30004,
