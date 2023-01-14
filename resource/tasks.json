@@ -6154,12 +6154,14 @@
         "specialParams": [
             400,
             2,
-            0
+            0,
+            100
         ],
         "specialParamsDoc": [
             "设置朝向时的滑动距离",
             "滑动初速度（平均速度是固定的，初速度快末速度慢相当于一直减速）",
-            "滑动末速度"
+            "滑动末速度",
+            "最小滑动时长"
         ]
     },
     "BattleOpersFlag": {
@@ -9437,14 +9439,19 @@
         ]
     },
     "SSSDropRecruitmentFlag": {
+        "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "roi": [
-            0,
-            39,
-            250,
-            203
+        "text": [
+            "请选择",
+            "请进行"
         ],
-        "postDelay": 2000,
+        "roi": [
+            163,
+            78,
+            900,
+            112
+        ],
+        "postDelay": 5000,
         "next": [
             "SSSStartFighting2",
             "SSSDropRecruitmentFlag"
@@ -9470,9 +9477,9 @@
         "cache": false,
         "roi": [
             0,
-            434,
+            352,
             1280,
-            169
+            263
         ]
     },
     "SSSDropRecruitmentConfrim": {
@@ -9480,13 +9487,64 @@
         "action": "ClickSelf",
         "text": [
             "确认调用",
-            "放弃调用"
+            "放弃调用",
+            "确认选择"
         ],
         "roi": [
             1105,
             525,
             175,
             132
+        ],
+        "preDelay": 1000,
+        "postDelay": 1000
+    },
+    "SSSHalfTimeDropsBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "SSSHalfTimeDrops",
+            "SSSHalfTimeDropsCancel"
+        ]
+    },
+    "SSSHalfTimeDrops": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "roi": [
+            206,
+            452,
+            897,
+            88
+        ],
+        "next": [
+            "SSSHalfTimeDropsConfirm"
+        ]
+    },
+    "SSSHalfTimeDropsConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            1073,
+            281,
+            155,
+            151
+        ]
+    },
+    "SSSHalfTimeDropsCancel": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "放弃"
+        ],
+        "roi": [
+            51,
+            251,
+            146,
+            199
         ]
     },
     "ClickCornerUntilStartButton": {

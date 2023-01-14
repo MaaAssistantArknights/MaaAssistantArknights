@@ -44,7 +44,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
             .ocr_res = result, .role = role == Role::Unknown ? std::nullopt : std::optional<Role>(role) });
     }
 
-    for (const std::string& name : SSSCopilot.get_data().drop_tool_men) {
+    for (const std::string& name : SSSCopilot.get_data().order_of_drops) {
         auto role = get_role_type(name);
         bool is_role = role != Role::Unknown;
         auto iter = ranges::find_if(opers, [&](const DropRecruitment& props) {
