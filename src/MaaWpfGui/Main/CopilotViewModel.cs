@@ -315,6 +315,21 @@ namespace MaaWpfGui
                     if (type == "SSS")
                     {
                         TaskType = "SSSCopilot";
+
+                        if (json.ContainsKey("tool_men"))
+                        {
+                            AddLog("编队工具人：\n" + json["tool_men"].ToString(), UILogColor.Message);
+                        }
+
+                        if (json.ContainsKey("equipment"))
+                        {
+                            AddLog("开局装备（横向）：\n" + json["equipment"].ToString(), UILogColor.Message);
+                        }
+
+                        if (json.ContainsKey("strategy"))
+                        {
+                            AddLog("开局策略：" + json["strategy"].ToString(), UILogColor.Message);
+                        }
                     }
                 }
                 else

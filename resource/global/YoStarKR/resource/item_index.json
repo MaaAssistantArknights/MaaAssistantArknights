@@ -908,7 +908,15 @@
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
         "icon": "LMTGS_COIN_2701.png",
         "name": "헤드헌팅 데이터 계약",
-        "sortId": 10016,
+        "sortId": 10017,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
+    "LMTGS_COIN_3001": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_3001.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10018,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
     "LMTGS_COIN_601": {
@@ -1215,6 +1223,54 @@
         "sortId": -10000,
         "usage": "휘몰아치는 영감 속에서 헤엄치는 음악가는 원고를 어디에 두었는지 자주 잊어버린다. 원고를 정리해서 돌려주면 신곡 하나쯤은 받을 수 있을지도 모른다."
     },
+    "act1bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act1bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act1bossrush_relic_01": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_01.png",
+        "name": "모듈 재활용",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_02": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_02.png",
+        "name": "신속 처리",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_03": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_03.png",
+        "name": "플래시 메모리",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_04": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_04.png",
+        "name": "반발력 제어",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act1bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "가상의 적을 처치하여 획득하는 일종의 경기 포인트, 훈장 형식으로 참가팀에게 주어진다. 미노스의 장인이 제작한 메달에는 “영웅은 평범한 사람에서 나온다”라는 속담이 새겨져 있다.",
@@ -1222,6 +1278,14 @@
         "name": "컴페티션 훈장",
         "sortId": -10000,
         "usage": "금속으로 만든 소형 훈장. 일정 수량을 수집하면 상응하는 보상을 획득할 수 있다."
+    },
+    "act20side_token_book": {
+        "classifyType": "NONE",
+        "description": "수많은 필체의 흔적으로부터 잡지가 얼마나 많은 사람들의 손을 거쳐 갔는지 알 수 있다. 대부분은 무의미한 낙서이지만, 반짝이는 지성 또한 사이사이에 숨어 있다.",
+        "icon": "act20side_token_book.png",
+        "name": "《기담괴론》 사본",
+        "sortId": -10000,
+        "usage": "어느 화사한 잡지의 사본. 터무니없는 내용으로 가득 차 있지만, 어째서인지 두린들은 참 좋아하는 것 같다. 리핑 글룸핀서 마켓에서 두린족과 물자를 교환하는 용도로 쓰인다."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",

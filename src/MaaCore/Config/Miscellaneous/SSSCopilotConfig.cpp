@@ -48,6 +48,12 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             m_data.order_of_drops.emplace_back(drop.as_string());
         }
     }
+    if (auto blacklist_opt = json.find<json::array>("blacklist")) {
+        m_data.blacklist.reserve(blacklist_opt->size());
+        for (const auto& black : *blacklist_opt) {
+            m_data.blacklist.emplace(black.as_string());
+        }
+    }
 
     for (const auto& stage : json.at("stages").as_array()) {
         CombatData stage_data;
