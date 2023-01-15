@@ -21,9 +21,12 @@ bool asst::SSSStageManagerTask::_run()
 
         auto stage_opt = analyze_stage();
         if (!stage_opt) {
-            // TODO: 在点完开始之后，加载动画时，还会有一个很大的关卡名，可能识别成功率会更高
-            // 如果这里识别失败，可以考虑再识别一下加载动画的
-            Log.warn("unknown stage, settle");
+            Log.warn("unknown stage, run!");
+            
+            auto info = basic_info_with_what("SSSSettlement");
+            info["why"] = "Recognition error or JSON does not support this.";
+            callback(AsstMsg::SubTaskExtraInfo, info);
+
             settle();
             break;
         }
@@ -34,10 +37,22 @@ bool asst::SSSStageManagerTask::_run()
         SSSBattleProcessTask battle_task(m_callback, m_inst, m_task_chain);
         battle_task.set_stage_name(stage_name);
 
+        bool success = false;
         for (int i = 0; i < times; ++i) {
+            Log.info("try to fight", i);
             if (click_start_button() && battle_task.run() && !need_exit()) {
+                success = true;
                 break;
             }
+        }
+        if (!success) {
+            Log.warn("Can't win, run!");
+            
+            auto info = basic_info_with_what("SSSSettlement");
+            info["why"] = "Can't win, run!";
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            
+            settle();
         }
     }
     return true;
@@ -64,7 +79,9 @@ std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
     const auto& stages_data = SSSCopilot.get_data().stages_data;
     for (const auto& [name, stage_info] : stages_data) {
         if (name == text) {
-            Log.info("cur sss stage", name);
+            auto info = basic_info_with_what("SSSStage");
+            info["details"]["stage"] = name;
+            callback(AsstMsg::SubTaskExtraInfo, info);
             return name;
         }
     }
