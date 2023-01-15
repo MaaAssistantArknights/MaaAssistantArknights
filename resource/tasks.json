@@ -9480,7 +9480,8 @@
             352,
             1280,
             263
-        ]
+        ],
+        "postDelay": 1000
     },
     "SSSDropRecruitmentConfrim": {
         "algorithm": "OcrDetect",
@@ -9496,7 +9497,6 @@
             175,
             132
         ],
-        "preDelay": 1000,
         "postDelay": 1000
     },
     "SSSHalfTimeDropsBegin": {

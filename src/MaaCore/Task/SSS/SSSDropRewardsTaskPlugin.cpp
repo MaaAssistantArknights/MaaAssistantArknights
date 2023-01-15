@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
+#include "Config/TaskData.h"
 #include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Task/SSS/SSSBattleProcessTask.h"
@@ -39,6 +40,9 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
 
     std::vector<DropRecruitment> opers;
     for (const auto& result : analyzer.get_result()) {
+        if (SSSCopilot.get_data().blacklist.contains(result.text)) {
+            continue;
+        }
         auto role = BattleData.get_role(result.text);
         opers.emplace_back(DropRecruitment {
             .ocr_res = result, .role = role == Role::Unknown ? std::nullopt : std::optional<Role>(role) });
@@ -52,9 +56,10 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
         });
         if (iter != opers.cend()) {
             ctrler()->click(iter->ocr_res.rect);
+            sleep(Task.get("SSSDropRecruitmentOCR")->post_delay);
             break;
         }
     }
 
-    return ProcessTask(*this, { "SSSDropRecruitmentConfrim" }).run();
+    return ProcessTask(*this, { "SSSDropRecruitmentConfrim" }).set_retry_times(5).run();
 }

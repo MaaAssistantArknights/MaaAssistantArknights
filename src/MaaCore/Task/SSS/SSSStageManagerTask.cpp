@@ -16,6 +16,9 @@ bool asst::SSSStageManagerTask::_run()
     preprocess_data();
 
     while (!need_exit()) {
+        do {
+        } while (!comfirm_battle_complete() && !need_exit()); //
+
         auto stage_opt = analyze_stage();
         if (!stage_opt) {
             // TODO: 在点完开始之后，加载动画时，还会有一个很大的关卡名，可能识别成功率会更高
@@ -36,9 +39,6 @@ bool asst::SSSStageManagerTask::_run()
                 break;
             }
         }
-
-        do {
-        } while (!comfirm_battle_complete() && !need_exit()); //
     }
     return true;
 }

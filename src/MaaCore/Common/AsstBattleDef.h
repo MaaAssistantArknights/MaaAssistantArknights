@@ -234,6 +234,7 @@ namespace asst::battle
             copilot::OperUsageGroups groups;
             RoleCounts tool_men;
             std::vector<std::string> order_of_drops;
+            std::unordered_set<std::string> blacklist;
 
             std::unordered_map<std::string, CombatData> stages_data;
         };
