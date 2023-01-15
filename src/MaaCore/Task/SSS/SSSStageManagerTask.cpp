@@ -45,7 +45,7 @@ bool asst::SSSStageManagerTask::_run()
                 break;
             }
         }
-        if (!success) {
+        if (!need_exit() && !success) {
             Log.warn("Can't win, run!");
             
             auto info = basic_info_with_what("SSSSettlement");
