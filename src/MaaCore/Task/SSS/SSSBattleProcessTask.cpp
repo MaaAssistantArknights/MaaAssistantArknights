@@ -96,22 +96,36 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
             return deploy_oper(strategy.core, strategy.location, strategy.direction);
         }
 
+        bool skip = false;
         for (auto& [role, quantity] : strategy.tool_men) {
             if (quantity <= 0) {
                 continue;
             }
             // for apple-clang build error
             Role role_for_lambda = role;
-            auto iter = ranges::find_if(available_tool_men, [&](const auto& pair) {
+            
+            // 如果有可用的干员，直接使用
+            auto available_iter = ranges::find_if(available_tool_men, [&](const auto& pair) {
                 return pair.first == role_for_lambda && !m_all_action_opers.contains(pair.second.name);
             });
-            if (iter == available_tool_men.end()) {
-                continue;
+            if (available_iter != available_tool_men.end()) {
+                --quantity;
+                // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
+                return deploy_oper(available_iter->second.name, strategy.location, strategy.direction);
             }
 
-            --quantity;
-            // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-            return deploy_oper(iter->second.name, strategy.location, strategy.direction);
+            // 如果有对应职业干员，但费用没转好，就等他转好，而不是部署下一个策略中的 tool_men
+            auto deployment_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& pair) {
+                return pair.second.role == role_for_lambda && !m_all_action_opers.contains(pair.second.name);
+            });
+            if (deployment_iter == m_cur_deployment_opers.end()) {
+                continue;
+            }
+            skip = true;
+            break;
+        }
+        if (skip) {
+            break;
         }
     }
 
