@@ -961,17 +961,14 @@ namespace MaaWpfGui
 
                 case "SSSStage":
                     {
-                        copilotModel.AddLog(
-                            string.Format(Localization.GetString("CurrentStage"),
-                                subTaskDetails["stage"].ToString()));
+                        copilotModel.AddLog("CurrentStage: " + subTaskDetails["stage"].ToString(), UILogColor.Info);
                     }
 
                     break;
 
                 case "SSSSettlement":
                     {
-                        copilotModel.AddLog(
-                            string.Format(details["why"].ToString()));
+                        copilotModel.AddLog(details["why"].ToString(), UILogColor.Info);
                     }
 
                     break;
