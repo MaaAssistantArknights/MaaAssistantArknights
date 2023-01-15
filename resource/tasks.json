@@ -9443,7 +9443,11 @@
         "action": "DoNothing",
         "text": [
             "请选择",
-            "请进行"
+            "请进行",
+            "增调斗员",
+            "定向异能",
+            "可以获得",
+            "配件甄选"
         ],
         "roi": [
             163,
@@ -9480,7 +9484,8 @@
             352,
             1280,
             263
-        ]
+        ],
+        "postDelay": 1000
     },
     "SSSDropRecruitmentConfrim": {
         "algorithm": "OcrDetect",
@@ -9496,7 +9501,6 @@
             175,
             132
         ],
-        "preDelay": 1000,
         "postDelay": 1000
     },
     "SSSHalfTimeDropsBegin": {

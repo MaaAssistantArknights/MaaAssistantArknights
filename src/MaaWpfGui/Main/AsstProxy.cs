@@ -959,6 +959,20 @@ namespace MaaWpfGui
 
                     break;
 
+                case "SSSStage":
+                    {
+                        copilotModel.AddLog("CurrentStage: " + subTaskDetails["stage"].ToString(), UILogColor.Info);
+                    }
+
+                    break;
+
+                case "SSSSettlement":
+                    {
+                        copilotModel.AddLog(details["why"].ToString(), UILogColor.Info);
+                    }
+
+                    break;
+
                 case "UnsupportedLevel":
                     copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), UILogColor.Error);
                     break;

@@ -67,19 +67,15 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     }
 
     std::unordered_map<std::string, DeploymentOper> exist_core;
-    std::unordered_map<Role, DeploymentOper> available_tool_men;
+    std::vector<DeploymentOper> tool_men;
     for (const auto& [name, oper] : m_cur_deployment_opers) {
         if (m_all_cores.contains(name)) {
             exist_core.emplace(name, oper);
         }
-        else {
-            if (oper.available) {
-                available_tool_men.emplace(oper.role, oper);
-            }
-            if (m_skill_usage.find(name) == m_skill_usage.cend()) {
-                // 工具人的技能一概好了就用
-                m_skill_usage.emplace(name, SkillUsage::Possibly);
-            }
+        else if (!m_all_action_opers.contains(oper.name)) {
+            tool_men.emplace_back(oper);
+            // 工具人的技能一概好了就用
+            m_skill_usage.try_emplace(name, SkillUsage::Possibly);
         }
     }
 
@@ -96,22 +92,35 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
             return deploy_oper(strategy.core, strategy.location, strategy.direction);
         }
 
+        bool skip = false;
         for (auto& [role, quantity] : strategy.tool_men) {
             if (quantity <= 0) {
                 continue;
             }
             // for apple-clang build error
             Role role_for_lambda = role;
-            auto iter = ranges::find_if(available_tool_men, [&](const auto& pair) {
-                return pair.first == role_for_lambda && !m_all_action_opers.contains(pair.second.name);
-            });
-            if (iter == available_tool_men.end()) {
-                continue;
+
+            // 如果有可用的干员，直接使用
+            auto available_iter = ranges::find_if(
+                tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
+            if (available_iter != tool_men.cend()) {
+                --quantity;
+                // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
+                return deploy_oper(available_iter->name, strategy.location, strategy.direction);
             }
 
-            --quantity;
-            // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-            return deploy_oper(iter->second.name, strategy.location, strategy.direction);
+            auto not_available_iter =
+                ranges::find_if(tool_men, [&](const DeploymentOper& oper) { return oper.role == role_for_lambda; });
+            if (not_available_iter == tool_men.cend()) {
+                continue;
+            }
+            // 如果有对应职业干员，但费用没转好，就等他转好，而不是部署下一个策略中的 tool_men
+            // 直接返回出去，后续逻辑交给下次循环处理
+            skip = true;
+            break;
+        }
+        if (skip) {
+            break;
         }
     }
 

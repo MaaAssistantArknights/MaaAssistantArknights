@@ -432,7 +432,7 @@ bool asst::BattleHelper::wait_until_end(bool weak)
 bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    return check_in_battle(image) && use_all_ready_skill(image);
+    return use_all_ready_skill(image);
 }
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
