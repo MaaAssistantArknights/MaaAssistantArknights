@@ -971,7 +971,7 @@ namespace MaaWpfGui
                 case "SSSSettlement":
                     {
                         copilotModel.AddLog(
-                            string.Format(details["why"].ToString());
+                            string.Format(details["why"].ToString()));
                     }
 
                     break;
