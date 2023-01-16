@@ -210,7 +210,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 // 且一般来说，cd 的干员都是一开始上过的，m_all_deployment_avatars 中应该有他的头像
                 // 而且由于 cd 干员头像阈值设置的非常低，为了防止把正确的干员覆盖掉了
                 // 所以不进行覆盖
-                m_cur_deployment_opers.emplace(name, oper);
+                m_cur_deployment_opers.try_emplace(name, oper);
                 AvatarCache.set_avatar(name, oper.role, oper.avatar, false);
             }
             else {
