@@ -64,8 +64,8 @@ endif (BUILD_TEST)
 
 find_package(OpenCV REQUIRED COMPONENTS core imgproc)
 find_package(ZLIB REQUIRED)
-find_package(FastDeploy REQUIRED)
-target_link_libraries(MaaCore ${OpenCV_LIBS} FastDeploy::FastDeploy ZLIB::ZLIB header_only_libraries)
+find_package(MaaDerpLearning REQUIRED)
+target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning ZLIB::ZLIB header_only_libraries)
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)
