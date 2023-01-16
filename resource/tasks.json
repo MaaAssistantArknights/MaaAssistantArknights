@@ -6142,7 +6142,7 @@
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
-        "preDelay": 100,
+        "preDelay": 150,
         "postDelay": 200,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；post 是干员上场，到设置朝向之间等待的时间"
     },
@@ -6161,7 +6161,7 @@
             "设置朝向时的滑动距离",
             "滑动初速度（平均速度是固定的，初速度快末速度慢相当于一直减速）",
             "滑动末速度",
-            "最小滑动时长"
+            "将干员滑动到场上的 最小滑动 duration"
         ]
     },
     "BattleOpersFlag": {
