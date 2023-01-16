@@ -1,5 +1,5 @@
 #pragma once
-#include "../Miscellaneous/BattleProcessTask.h"
+#include "Task/Miscellaneous/BattleProcessTask.h"
 
 namespace asst
 {
@@ -19,9 +19,10 @@ namespace asst
         virtual bool need_to_wait_until_end() const noexcept override { return true; }
         virtual bool wait_until_start(bool weak = true) override;
 
+        bool check_and_do_strategy(const cv::Mat& reusable = cv::Mat());
         bool check_if_start_over(const battle::copilot::Action& action);
-        bool draw_card(bool with_retry = true);
-        bool get_drops();
+        bool draw_card(bool with_retry = true, const cv::Mat& reusable = cv::Mat());
+        bool check_and_get_drops(const cv::Mat& reusable = cv::Mat());
 
         battle::sss::CombatData m_sss_combat_data;
         std::unordered_set<std::string> m_all_cores;

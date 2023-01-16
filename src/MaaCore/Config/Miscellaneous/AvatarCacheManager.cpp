@@ -16,7 +16,7 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
         return true;
     }
 
-    const auto& [_, _, w, h] = Task.get("BattleOperAvatar")->rect_move;
+    const auto& [_1, _2, w, h] = Task.get("BattleOperAvatar")->rect_move;
 
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
         if (!entry.is_regular_file()) {

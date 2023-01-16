@@ -2,6 +2,7 @@
 
 #include "AbstractTask.h"
 #include "Common/AsstTypes.h"
+#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {
@@ -34,6 +35,7 @@ namespace asst
         ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
         ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
         ProcessTask& set_post_delay(std::string name, int delay);
+        ProcessTask& set_reusable_image(const cv::Mat& reusable);
 
         const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
 
@@ -59,5 +61,6 @@ namespace asst
         std::unordered_map<std::string, int> m_exec_times;
         static constexpr int TaskDelayUnsetted = -1;
         int m_task_delay = TaskDelayUnsetted;
+        cv::Mat m_reusable;
     };
 }

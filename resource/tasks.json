@@ -9401,6 +9401,7 @@
     },
     "SSSDrawCard": {
         "action": "ClickSelf",
+        "templThreshold": 0.98,
         "roi": [
             1151,
             319,
@@ -9455,7 +9456,7 @@
             900,
             112
         ],
-        "postDelay": 5000,
+        "postDelay": 3000,
         "next": [
             "SSSStartFighting2",
             "SSSDropRecruitmentFlag"
@@ -9504,7 +9505,7 @@
         "postDelay": 1000
     },
     "SSSHalfTimeDropsBegin": {
-        "algorithm": "JustReturn",
+        "template": "SSSHalfTimeDropsConfirm.png",
         "action": "DoNothing",
         "next": [
             "SSSHalfTimeDrops",
@@ -9526,29 +9527,33 @@
         ]
     },
     "SSSHalfTimeDropsConfirm": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": [
-            "确认"
-        ],
         "roi": [
-            1073,
-            281,
-            155,
-            151
+            1034,
+            283,
+            148,
+            148
         ]
     },
     "SSSHalfTimeDropsCancel": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": [
-            "放弃"
-        ],
         "roi": [
-            51,
-            251,
-            146,
-            199
+            100,
+            284,
+            145,
+            145
+        ],
+        "next": [
+            "SSSHalfTimeDropsCancelConfirm"
+        ]
+    },
+    "SSSHalfTimeDropsCancelConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            716,
+            410,
+            254,
+            163
         ]
     },
     "ClickCornerUntilStartButton": {

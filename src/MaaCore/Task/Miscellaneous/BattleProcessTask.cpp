@@ -135,7 +135,7 @@ bool asst::BattleProcessTask::to_group()
 bool asst::BattleProcessTask::do_action(size_t action_index)
 {
     LogTraceFunction;
-    
+
     const auto& action = get_combat_data().actions.at(action_index);
 
     notify_action(action);
@@ -144,7 +144,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         return false;
     }
     if (action.pre_delay > 0) {
-        sleep_and_do_not_urgent(action.pre_delay);
+        sleep_and_do_strategy(action.pre_delay);
         // 等待之后画面可能会变化，更新下干员信息
         update_deployment();
     }
@@ -200,7 +200,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         break;
     }
 
-    sleep_and_do_not_urgent(action.post_delay);
+    sleep_and_do_strategy(action.post_delay);
 
     return ret;
 }
@@ -229,7 +229,6 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
-        { ActionType::GetDrops, "GetDrops" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
@@ -305,14 +304,13 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     if (action.cooling >= 0) {
         update_image_if_empty();
         while (!need_exit() && m_in_battle) {
-            update_deployment(false, image);
+            if (!update_deployment(false, image)) {
+                return false;
+            }
             size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
                                                     [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == action.cooling) {
                 break;
-            }
-            if (!check_in_battle(image)) {
-                return false;
             }
             do_strategy_and_update_image();
         }
@@ -323,13 +321,12 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit() && m_in_battle) {
-            update_deployment(false, image);
+            if (!update_deployment(false, image)) {
+                return false;
+            }
             if (auto iter = m_cur_deployment_opers.find(name);
                 iter != m_cur_deployment_opers.cend() && iter->second.available) {
                 break;
-            }
-            if (!check_in_battle(image)) {
-                return false;
             }
             do_strategy_and_update_image();
         }
@@ -368,7 +365,7 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
     return ret;
 }
 
-void asst::BattleProcessTask::sleep_and_do_not_urgent(unsigned millisecond)
+void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
 {
     LogTraceScope(__FUNCTION__ + std::string(" ms: ") + std::to_string(millisecond));
 
