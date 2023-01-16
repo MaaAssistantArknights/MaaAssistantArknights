@@ -41,7 +41,8 @@ bool asst::BattleProcessTask::_run()
     update_deployment(true);
     to_group();
 
-    for (size_t i = 0; i < get_combat_data().actions.size() && !need_exit() && m_in_battle; ++i) {
+    size_t action_size = get_combat_data().actions.size();
+    for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
         do_action(i);
     }
 
@@ -133,6 +134,8 @@ bool asst::BattleProcessTask::to_group()
 
 bool asst::BattleProcessTask::do_action(size_t action_index)
 {
+    LogTraceFunction;
+    
     const auto& action = get_combat_data().actions.at(action_index);
 
     notify_action(action);
@@ -226,6 +229,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
+        { ActionType::GetDrops, "GetDrops" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
