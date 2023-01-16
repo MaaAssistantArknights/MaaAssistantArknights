@@ -155,14 +155,6 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "CHECKIFSTARTOVER", ActionType::CheckIfStartOver },
             { "checkifstartover", ActionType::CheckIfStartOver },
             { "检查重开", ActionType::CheckIfStartOver },
-
-            { "GetDrops", ActionType::GetDrops },
-            { "Getdrops", ActionType::GetDrops },
-            { "GETDROPS", ActionType::GetDrops },
-            { "getdrops", ActionType::GetDrops },
-            { "获取战利品", ActionType::GetDrops },
-            { "获取掉落", ActionType::GetDrops },
-            { "获取装备", ActionType::GetDrops },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -171,7 +163,8 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             action.type = iter->second;
         }
         else {
-            action.type = ActionType::Deploy;
+            Log.warn("Unknown action type:", type_str);
+            continue;
         }
         action.kills = action_info.get("kills", 0);
         action.cost_changes = action_info.get("cost_changes", 0);

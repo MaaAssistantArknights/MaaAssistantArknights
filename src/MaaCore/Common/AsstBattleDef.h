@@ -95,18 +95,6 @@ namespace asst::battle
         return Role::Unknown;
     }
 
-    struct DeploymentOper
-    {
-        size_t index = 0;
-        Role role = Role::Unknown;
-        int cost = 0;
-        bool available = false;
-        bool cooling = false;
-        Rect rect;
-        cv::Mat avatar;
-        std::string name;
-    };
-
     enum class OperPosition
     {
         None,
@@ -123,6 +111,38 @@ namespace asst::battle
         All = 3
     };
 
+    inline static LocationType get_role_usual_location(const Role& role)
+    {
+        switch (role) {
+        case Role::Warrior:
+        case Role::Pioneer:
+        case Role::Tank:
+        case Role::Special:
+        case Role::Drone:
+            return LocationType::Melee;
+        case Role::Medic:
+        case Role::Sniper:
+        case Role::Caster:
+        case Role::Support:
+            return LocationType::Ranged;
+        default:
+            return LocationType::None;
+        }
+    }
+
+    struct DeploymentOper
+    {
+        size_t index = 0;
+        Role role = Role::Unknown;
+        int cost = 0;
+        bool available = false;
+        bool cooling = false;
+        Rect rect;
+        cv::Mat avatar;
+        std::string name;
+        LocationType location_type = LocationType::None;
+        bool is_unusual_location = false; // 地面辅助，高台先锋等
+    };
     struct OperProps
     {
         std::string name;
@@ -157,7 +177,6 @@ namespace asst::battle
             /* for SSS */
             DrawCard,         // “调配干员”
             CheckIfStartOver, // 检查如果没有某干员则退出重开
-            GetDrops,         // 识别并获取战斗中途的掉落物
         };
 
         struct Action

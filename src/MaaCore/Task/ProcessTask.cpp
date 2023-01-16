@@ -79,6 +79,12 @@ ProcessTask& asst::ProcessTask::set_post_delay(std::string name, int delay)
     return *this;
 }
 
+ProcessTask& asst::ProcessTask::set_reusable_image(const cv::Mat& reusable)
+{
+    m_reusable = reusable;
+    return *this;
+}
+
 bool ProcessTask::_run()
 {
     LogTraceFunction;
@@ -112,7 +118,8 @@ bool ProcessTask::_run()
             m_cur_task_ptr = front_task_ptr;
         }
         else {
-            const auto image = ctrler()->get_image();
+            cv::Mat image = m_reusable.empty() ? ctrler()->get_image() : m_reusable;
+            m_reusable = cv::Mat();
             ProcessTaskImageAnalyzer analyzer(image, m_cur_task_name_list, m_inst);
 
             if (!analyzer.analyze()) {
