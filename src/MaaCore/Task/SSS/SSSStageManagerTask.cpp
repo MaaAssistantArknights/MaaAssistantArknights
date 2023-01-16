@@ -32,12 +32,12 @@ bool asst::SSSStageManagerTask::_run()
         }
 
         const std::string& stage_name = stage_opt.value();
-        int times = m_remaining_times[stage_name] + 1;
 
         SSSBattleProcessTask battle_task(m_callback, m_inst, m_task_chain);
         battle_task.set_stage_name(stage_name);
 
         bool success = false;
+        int times = m_stage_try_times[stage_name];
         for (int i = 0; i < times; ++i) {
             Log.info("try to fight", i);
             if (click_start_button() && battle_task.run() && !need_exit()) {
@@ -53,6 +53,7 @@ bool asst::SSSStageManagerTask::_run()
             callback(AsstMsg::SubTaskExtraInfo, info);
             
             settle();
+            break;
         }
     }
     return true;
@@ -61,7 +62,7 @@ bool asst::SSSStageManagerTask::_run()
 void asst::SSSStageManagerTask::preprocess_data()
 {
     for (const auto& [name, stage] : SSSCopilot.get_data().stages_data) {
-        m_remaining_times[name] = stage.retry_times;
+        m_stage_try_times[name] = stage.retry_times + 1;
     }
 }
 
