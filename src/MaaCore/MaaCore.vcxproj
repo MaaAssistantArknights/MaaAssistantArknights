@@ -51,6 +51,7 @@
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
+    <ClInclude Include="Utils\File.hpp" />
     <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
     <ClInclude Include="Vision\BestMatchImageAnalyzer.h" />
     <ClInclude Include="Vision\HashImageAnalyzer.h" />
