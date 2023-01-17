@@ -9442,13 +9442,15 @@
     "SSSDropRecruitmentFlag": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
+        "cache": false,
         "text": [
             "请选择",
             "请进行",
             "增调斗员",
             "定向异能",
             "可以获得",
-            "配件甄选"
+            "配件甄选",
+            "导能阀"
         ],
         "roi": [
             163,
