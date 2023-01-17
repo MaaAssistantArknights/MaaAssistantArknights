@@ -19,7 +19,7 @@ while read tag; do
         gh release download "$tag" --repo $source_repo --pattern "MAA-$tag-win-x64.zip" --pattern "MaaBundle-$tag.zip" --clobber \
             || gh release download "$tag" --repo $source_repo_fallback --pattern "MAA-$tag-win-x64.zip" --pattern "MaaBundle-$tag.zip" --clobber
         mkdir -pv 'content'
-        unzip -q -O gbk -o "*.zip" -d 'content'
+        unzip -q -O GB2312 -o "*.zip" -d 'content'
         rm -fv *.zip
         cd $working_dir
     else
