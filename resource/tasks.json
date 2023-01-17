@@ -9364,6 +9364,23 @@
             144
         ],
         "next": [
+            "SSSBuffChoose",
+            "SSSDebuffConfirm"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "确认完毕"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
             "SSSBuffChoose"
         ]
     },
