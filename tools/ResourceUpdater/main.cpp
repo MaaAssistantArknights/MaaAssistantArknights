@@ -776,7 +776,8 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
                 continue;
             }
             if (info.rarity == 1) {
-                info.tags.emplace_back("支援机械");
+                // 2023/01/17, yj 又把支援机械加上了，我们就不额外添加了
+                //info.tags.emplace_back("支援机械");
             }
             else if (info.rarity == 5) {
                 info.tags.emplace_back("资深干员");
