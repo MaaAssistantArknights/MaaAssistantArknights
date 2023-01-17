@@ -5,7 +5,7 @@
     "doc": {
         "title": "保全阿卡胡拉丛林-泥岩水月拉普兰德（兼容应急）",
         "title_color": "dark",
-        "details": "目前只能手动编队，请尽量选择练度高费用低的干员\n请选择能回费的挡二先锋（推王除外）、阻挡数高的重装和近卫，梅尔不要默认二技能\n\n请在确认导能原件选择了第三个、战术装备全选A、手动编队并阵容确认后，再点击开始\n\n作业：萧然q\nBV1KK411z7t9\n搬运自：作业搬运工\n\n同时支持标准和应急补给模式",
+        "details": "目前只能手动编队，请尽量选择练度高费用低的干员\n请选择能回费的挡二先锋（推王除外）、阻挡数高的重装和近卫，梅尔不要选择二技能，推荐带一个三技能艾丽妮\n\n请在确认导能原件选择了第三个、战术装备全选A、手动编队并阵容确认后，再点击开始\n\n作业：萧然q\nBV1KK411z7t9\n搬运自：作业搬运工",
         "details_color": "dark"
     },
     "buff": "丛林用示踪信标",
@@ -50,8 +50,6 @@
         "辅助",
         "重装",
         "阻断波长",
-        "战备激活阀",
-        "紧急召回情报箱",
         "医疗",
         "近卫"
     ],
@@ -69,7 +67,9 @@
         "极光",
         "梅尔",
         "玛恩纳",
-        "龙舌兰"
+        "龙舌兰",
+        "耀骑士临光",
+        "幽灵鲨"
     ],
     "stages": [
         {
@@ -453,17 +453,8 @@
                 },
                 {
                     "type": "Deploy",
-                    "name": "战备激活阀",
-                    "kills": 19,
-                    "location": [
-                        5,
-                        3
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "type": "Deploy",
                     "name": "阻断波长",
+                    "kills": 19,
                     "location": [
                         6,
                         5
@@ -501,7 +492,7 @@
                     "direction": "None"
                 }
             ],
-            "retry_times": 5
+            "retry_times": 3
         },
         {
             "stage_name": "纠缠不休",
@@ -594,15 +585,6 @@
                         5
                     ],
                     "direction": "None"
-                },
-                {
-                    "type": "Deploy",
-                    "name": "战备激活阀",
-                    "location": [
-                        8,
-                        5
-                    ],
-                    "direction": "Left"
                 },
                 {
                     "type": "Deploy",
@@ -771,15 +753,6 @@
                 },
                 {
                     "type": "Deploy",
-                    "name": "战备激活阀",
-                    "location": [
-                        5,
-                        3
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "type": "Deploy",
                     "name": "阻断波长",
                     "location": [
                         4,
@@ -792,6 +765,42 @@
                     "name": "改性植物激素",
                     "location": [
                         11,
+                        4
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [
+                        11,
+                        4
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [
+                        11,
+                        4
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [
+                        11,
+                        4
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "改性植物激素",
+                    "location": [
+                        10,
                         4
                     ],
                     "direction": "None"
