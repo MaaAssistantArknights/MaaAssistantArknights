@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
+using Semver;
 using Stylet;
 
 namespace MaaWpfGui
@@ -87,8 +88,12 @@ namespace MaaWpfGui
                     // 活动关卡
                     foreach (var stageObj in activity["Official"]["sideStoryStage"])
                     {
-                        bool curParsed = Semver.SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
-                        bool minimumRequiredPared = Semver.SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, Semver.SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
+                        bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
+                        bool curParsed = !isDebugVersion ?
+                            SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
+                            SemVersion.TryParse("4.10.0", SemVersionStyles.AllowLowerV, out curVersionObj);
+                        bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
+
                         if (curParsed && minimumRequiredPared)
                         {
                             if (curVersionObj.CompareSortOrderTo(minimumRequiredObj) < 0)
