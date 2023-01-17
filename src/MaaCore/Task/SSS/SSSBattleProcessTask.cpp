@@ -58,21 +58,21 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 {
     LogTraceFunction;
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
-
-    if (check_and_do_strategy(image)) {
-        return true;
-    }
-
+    
     if (check_and_get_drops(image)) {
         return true;
     }
-
-    if (use_all_ready_skill(image)) {
-        return true;
-    }
-
+    
     if (m_sss_combat_data.draw_as_possible && draw_card(false, image)) {
-        return true;
+        image = ctrler()->get_image();
+    }
+    
+    if (check_and_do_strategy(image)) {
+        image = ctrler()->get_image();
+    }
+    
+    if (use_all_ready_skill(image)) {
+        //image = ctrler()->get_image();
     }
 
     return true;
