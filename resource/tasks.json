@@ -844,13 +844,7 @@
         "text": [
             "WB-7"
         ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
-        ]
+        "cache": false
     },
     "StageWB-8": {
         "action": "ClickSelf",
@@ -858,13 +852,7 @@
         "text": [
             "WB-8"
         ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
-        ]
+        "cache": false
     },
     "StageWB-9": {
         "action": "ClickSelf",
@@ -872,13 +860,7 @@
         "text": [
             "WB-9"
         ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
-        ]
+        "cache": false
     },
     "IW-6": {
         "algorithm": "JustReturn",
@@ -9374,6 +9356,23 @@
         "algorithm": "OcrDetect",
         "text": [
             "开始保全作战"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSBuffChoose",
+            "SSSDebuffConfirm"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "确认完毕"
         ],
         "roi": [
             992,
