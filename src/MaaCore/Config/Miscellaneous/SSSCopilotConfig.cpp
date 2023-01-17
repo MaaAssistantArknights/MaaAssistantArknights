@@ -63,6 +63,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
         stage_data.actions = CopilotConfig::parse_actions(stage);
         stage_data.groups = m_data.groups;
         stage_data.order_of_drops = m_data.order_of_drops;
+        stage_data.retry_times = stage.get("retry_times", 0);
 
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;
