@@ -98,6 +98,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     BattleImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
     if (!oper_analyzer.analyze()) {
+        check_in_battle(image);
         return false;
     }
     m_cur_deployment_opers.clear();
@@ -157,8 +158,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         }
     }
 
-    if (!unknown_opers.empty() || init)
-    {
+    if (!unknown_opers.empty() || init) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
