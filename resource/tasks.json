@@ -774,6 +774,112 @@
             120
         ]
     },
+    "WB-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WB-Open",
+            "WBChapterToWB"
+        ],
+        "next": [
+            "StageWB-7",
+            "WB-7@SwipeToStage"
+        ]
+    },
+    "WB-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WB-Open",
+            "WBChapterToWB"
+        ],
+        "next": [
+            "StageWB-8",
+            "WB-8@SwipeToStage"
+        ]
+    },
+    "WB-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WB-Open",
+            "WBChapterToWB"
+        ],
+        "next": [
+            "StageWB-9",
+            "WB-9@SwipeToStage"
+        ]
+    },
+    "WB-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "登临意",
+            "关卡已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "WBChapterToWB": {
+        "action": "ClickSelf",
+        "roi": [
+            1071,
+            589,
+            209,
+            131
+        ],
+        "postDelay": 2000,
+        "next": [
+            "WBChapterToWB",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "StageWB-7": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "WB-7"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            283,
+            1280,
+            324
+        ]
+    },
+    "StageWB-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "WB-8"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            283,
+            1280,
+            324
+        ]
+    },
+    "StageWB-9": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "WB-9"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            283,
+            1280,
+            324
+        ]
+    },
     "IW-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -6142,7 +6248,7 @@
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
-        "preDelay": 100,
+        "preDelay": 150,
         "postDelay": 200,
         "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；post 是干员上场，到设置朝向之间等待的时间"
     },
@@ -6161,7 +6267,7 @@
             "设置朝向时的滑动距离",
             "滑动初速度（平均速度是固定的，初速度快末速度慢相当于一直减速）",
             "滑动末速度",
-            "最小滑动时长"
+            "将干员滑动到场上的 最小滑动 duration"
         ]
     },
     "BattleOpersFlag": {
@@ -9401,6 +9507,7 @@
     },
     "SSSDrawCard": {
         "action": "ClickSelf",
+        "templThreshold": 0.98,
         "roi": [
             1151,
             319,
@@ -9441,13 +9548,15 @@
     "SSSDropRecruitmentFlag": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
+        "cache": false,
         "text": [
             "请选择",
             "请进行",
             "增调斗员",
             "定向异能",
             "可以获得",
-            "配件甄选"
+            "配件甄选",
+            "导能阀"
         ],
         "roi": [
             163,
@@ -9455,7 +9564,7 @@
             900,
             112
         ],
-        "postDelay": 5000,
+        "postDelay": 3000,
         "next": [
             "SSSStartFighting2",
             "SSSDropRecruitmentFlag"
@@ -9504,8 +9613,9 @@
         "postDelay": 1000
     },
     "SSSHalfTimeDropsBegin": {
-        "algorithm": "JustReturn",
+        "template": "SSSHalfTimeDropsConfirm.png",
         "action": "DoNothing",
+        "cache": false,
         "next": [
             "SSSHalfTimeDrops",
             "SSSHalfTimeDropsCancel"
@@ -9514,6 +9624,7 @@
     "SSSHalfTimeDrops": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "text": [],
         "roi": [
             206,
@@ -9526,29 +9637,35 @@
         ]
     },
     "SSSHalfTimeDropsConfirm": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": [
-            "确认"
-        ],
+        "cache": false,
         "roi": [
-            1073,
-            281,
-            155,
-            151
+            1034,
+            283,
+            148,
+            148
         ]
     },
     "SSSHalfTimeDropsCancel": {
-        "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": [
-            "放弃"
-        ],
+        "cache": false,
         "roi": [
-            51,
-            251,
-            146,
-            199
+            100,
+            284,
+            145,
+            145
+        ],
+        "next": [
+            "SSSHalfTimeDropsCancelConfirm"
+        ]
+    },
+    "SSSHalfTimeDropsCancelConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            716,
+            410,
+            254,
+            163
         ]
     },
     "ClickCornerUntilStartButton": {

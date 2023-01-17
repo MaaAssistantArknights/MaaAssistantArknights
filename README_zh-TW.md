@@ -177,10 +177,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 廣告
 
-用戶交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-[自動戰鬥 JSON 作業分享](https://prts.plus)  
-[Bilibili 直播間](https://live.bilibili.com/2808861)：每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
-[舟無關技術交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：內捲地獄！  
-[開發者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
+用戶交流QQ群：[MAA使用 & 舟遊交流群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+用戶交流TG群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus)  
+Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
+  
+技術交流群(舟無關)：[內捲地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！

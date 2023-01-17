@@ -115,6 +115,12 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         m_battlefield_opers.erase(iter);
     };
 
+    auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
+        oper.name = name;
+        oper.location_type = BattleData.get_location_type(name);
+        oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
+    };
+
     auto cur_opers = oper_analyzer.get_opers();
     std::vector<DeploymentOper> unknown_opers;
 
@@ -137,7 +143,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.append_templ(name, avatar);
         }
         if (avatar_analyzer.analyze()) {
-            oper.name = avatar_analyzer.get_result_name();
+            set_oper_name(oper, avatar_analyzer.get_result_name());
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -151,7 +157,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         }
     }
 
-    if (!unknown_opers.empty() || init) {
+    if (!unknown_opers.empty() || init)
+    {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
@@ -166,11 +173,19 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             std::this_thread::yield();
         } while (!m_inst_helper.need_exit());
 
+        if (!check_in_battle(image)) {
+            return false;
+        }
+
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             click_oper_on_deployment(oper.rect);
 
             cv::Mat name_image = m_inst_helper.ctrler()->get_image();
+            if (!check_in_battle(name_image)) {
+                return false;
+            }
+
             auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
                 name_analyzer.set_image(name_image);
                 name_analyzer.set_task_info(oper_name_ocr_task_name());
@@ -202,7 +217,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 Log.error("name is empty");
                 continue;
             }
-            oper.name = name;
+            set_oper_name(oper, name);
             remove_cooling_from_battlefield(oper);
 
             if (oper.cooling) {
@@ -210,7 +225,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 // 且一般来说，cd 的干员都是一开始上过的，m_all_deployment_avatars 中应该有他的头像
                 // 而且由于 cd 干员头像阈值设置的非常低，为了防止把正确的干员覆盖掉了
                 // 所以不进行覆盖
-                m_cur_deployment_opers.emplace(name, oper);
+                m_cur_deployment_opers.try_emplace(name, oper);
                 AvatarCache.set_avatar(name, oper.role, oper.avatar, false);
             }
             else {
@@ -229,9 +244,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     if (init) {
         update_kills(image);
     }
-    check_in_battle(image);
 
-    return true;
+    return check_in_battle(image);
 }
 
 bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
@@ -610,9 +624,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
     m_camera_shift.second += delta.second;
 
     calc_tiles_info(m_stage_name, -m_camera_shift.first, m_camera_shift.second);
-    update_deployment(true);
-
-    return true;
+    return update_deployment(true);
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
