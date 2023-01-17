@@ -47,9 +47,9 @@ bool asst::SSSStageManagerTask::_run()
         battle_task.set_stage_name(stage_name);
 
         bool success = false;
-        int times = m_stage_try_times[stage_name];
-        for (int i = 0; i < times && !need_exit(); ++i) {
-            Log.info("try to fight", i);
+        int& times = m_stage_try_times[stage_name];
+        for (; times > 0 && !need_exit(); --times) {
+            Log.info("try to fight", times);
             if (click_start_button() && battle_task.run() && !need_exit()) {
                 success = true;
                 break;
