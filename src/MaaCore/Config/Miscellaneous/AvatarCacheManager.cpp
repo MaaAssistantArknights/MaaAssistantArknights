@@ -3,6 +3,7 @@
 #include "BattleDataConfig.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "../TaskData.h"
 
 bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
 {
@@ -14,6 +15,8 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
     if (!std::filesystem::exists(path)) {
         return true;
     }
+
+    const auto& [_1, _2, w, h] = Task.get("BattleOperAvatar")->rect_move;
 
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
         if (!entry.is_regular_file()) {
@@ -27,12 +30,19 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
             Log.warn("unknown oper", name);
             continue;
         }
+        
         Log.trace(filepath);
         cv::Mat avatar = asst::imread(filepath);
+        
         if (avatar.empty()) {
             Log.warn("failed to read", filepath);
             continue;
         }
+        if (avatar.cols > w || avatar.rows > h) {
+            Log.warn("avatar size too large", filepath);
+            continue;
+        }
+
         m_avatars[role].emplace(name, std::move(avatar));
     }
 

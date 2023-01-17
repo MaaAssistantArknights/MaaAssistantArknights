@@ -14,14 +14,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Semver;
 using Stylet;
 
 namespace MaaWpfGui
@@ -31,6 +31,9 @@ namespace MaaWpfGui
     /// </summary>
     public class StageManager
     {
+        [DllImport("MaaCore.dll")]
+        private static extern IntPtr AsstGetVersion();
+
         private Dictionary<string, StageInfo> _stages;
 
         /// <summary>
@@ -76,13 +79,52 @@ namespace MaaWpfGui
             {
                 try
                 {
+                    // 资源全开放活动
                     var resource = activity["Official"]["resourceCollection"];
                     resourceCollection.Tip = resource?["Tip"]?.ToString();
                     resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
                     resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
 
+                    // 活动关卡
                     foreach (var stageObj in activity["Official"]["sideStoryStage"])
                     {
+                        bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
+                        bool curParsed = !isDebugVersion ?
+                            SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
+                            SemVersion.TryParse("4.10.1", SemVersionStyles.AllowLowerV, out curVersionObj);
+                        bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
+
+                        if (curParsed && minimumRequiredPared)
+                        {
+                            if (curVersionObj.CompareSortOrderTo(minimumRequiredObj) < 0)
+                            {
+                                if (!tempStage.ContainsKey("不支持的关卡"))
+                                {
+                                    tempStage.Add(
+                                        "不支持的关卡",
+                                        new StageInfo
+                                        {
+                                            Display = "不支持的关卡",
+                                            Value = "不支持的关卡",
+                                            Drop = "版本过低",
+                                            Activity = new StageActivityInfo()
+                                            {
+                                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                            },
+                                        });
+                                }
+
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
                         tempStage.Add(
                             stageObj["Value"].ToString(),
                             new StageInfo

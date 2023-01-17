@@ -20,6 +20,6 @@ namespace asst
         bool click_start_button();
         bool settle(); // 结算奖励（退出整局保全战斗）
 
-        std::unordered_map<std::string, int> m_remaining_times;
+        std::unordered_map<std::string, int> m_stage_try_times;
     };
 }

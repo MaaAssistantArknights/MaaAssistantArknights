@@ -33,7 +33,7 @@ namespace asst
         void notify_action(const battle::copilot::Action& action);
         bool wait_condition(const battle::copilot::Action& action);
         bool enter_bullet_time_for_next_action(size_t next_index, const Point& location, const std::string& name);
-        void sleep_and_do_not_urgent(unsigned millisecond);
+        void sleep_and_do_strategy(unsigned millisecond);
 
         battle::copilot::CombatData m_combat_data;
         std::unordered_map</*group*/ std::string, /*oper*/ std::string> m_oper_in_group;

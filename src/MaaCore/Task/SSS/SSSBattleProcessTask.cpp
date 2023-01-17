@@ -48,8 +48,6 @@ bool asst::SSSBattleProcessTask::do_derived_action(size_t action_index)
         return draw_card();
     case battle::copilot::ActionType::CheckIfStartOver:
         return check_if_start_over(action);
-    case battle::copilot::ActionType::GetDrops:
-        return get_drops();
     default:
         Log.error("unknown action type", static_cast<int>(action.type));
         return false;
@@ -59,10 +57,39 @@ bool asst::SSSBattleProcessTask::do_derived_action(size_t action_index)
 bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 {
     LogTraceFunction;
-
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
-    update_deployment(false, image);
-    if (!m_in_battle) {
+
+    if (check_and_do_strategy(image)) {
+        return true;
+    }
+
+    if (check_and_get_drops(image)) {
+        return true;
+    }
+
+    if (use_all_ready_skill(image)) {
+        return true;
+    }
+
+    if (m_sss_combat_data.draw_as_possible && draw_card(false, image)) {
+        return true;
+    }
+
+    return true;
+}
+
+bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
+{
+    LogTraceFunction;
+
+    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run() &&
+           BattleProcessTask::wait_until_start(weak);
+}
+
+bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
+    if (!update_deployment(false, image)) {
         return false;
     }
 
@@ -72,7 +99,7 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
         if (m_all_cores.contains(name)) {
             exist_core.emplace(name, oper);
         }
-        else if (!m_all_action_opers.contains(oper.name)) {
+        else if (oper.is_unusual_location && !m_all_action_opers.contains(oper.name)) {
             tool_men.emplace_back(oper);
             // 工具人的技能一概好了就用
             m_skill_usage.try_emplace(name, SkillUsage::Possibly);
@@ -124,21 +151,7 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
         }
     }
 
-    if (m_sss_combat_data.draw_as_possible) {
-        draw_card(false);
-    }
-
-    use_all_ready_skill(image);
-
-    return true;
-}
-
-bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
-{
-    LogTraceFunction;
-
-    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run() &&
-           BattleProcessTask::wait_until_start(weak);
+    return false;
 }
 
 bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Action& action)
@@ -172,29 +185,39 @@ bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Acti
     return true;
 }
 
-bool asst::SSSBattleProcessTask::draw_card(bool with_retry)
+bool asst::SSSBattleProcessTask::draw_card(bool with_retry, const cv::Mat& reusable)
 {
-    LogTraceFunction;
+    cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
 
     ProcessTask task(*this, { "SSSDrawCard" });
     if (!with_retry) {
-        task.set_retry_times(0);
+        task.set_task_delay(0).set_retry_times(0);
     }
+    task.set_reusable_image(image);
     return task.run();
 }
 
-bool asst::SSSBattleProcessTask::get_drops()
+bool asst::SSSBattleProcessTask::check_and_get_drops(const cv::Mat& reusable)
 {
-    LogTraceFunction;
+    cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
+    if (!ProcessTask(*this, { "SSSHalfTimeDropsBegin" })
+             .set_reusable_image(image)
+             .set_times_limit("SSSHalfTimeDropsBegin", 0)
+             .set_task_delay(0)
+             .set_retry_times(0)
+             .run()) {
+        return false;
+    }
 
     const auto& drops = m_sss_combat_data.order_of_drops;
-
-    // 不一定就有掉落界面，有可能宝箱怪压根没被打掉。所以不重试
+    std::string task_name;
     if (drops.empty()) {
-        return ProcessTask(*this, { inst_string() + "@SSSHalfTimeDropsCancel" }).set_retry_times(0).run();
+        task_name = inst_string() + "@SSSHalfTimeDropsCancel";
     }
     else {
         Task.get<OcrTaskInfo>(inst_string() + "@SSSHalfTimeDrops")->text = { drops };
-        return ProcessTask(*this, { inst_string() + "@SSSHalfTimeDropsBegin" }).set_retry_times(0).run();
+        task_name = inst_string() + "@SSSHalfTimeDropsBegin";
     }
+    Log.info("Get drops", drops);
+    return ProcessTask(*this, { task_name }).set_reusable_image(image).run();
 }

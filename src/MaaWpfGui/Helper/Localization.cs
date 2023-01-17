@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace MaaWpfGui
@@ -111,7 +112,7 @@ namespace MaaWpfGui
                 var dict = dictList[i];
                 if (dict.Contains(key))
                 {
-                    return dict[key].ToString();
+                    return Regex.Unescape(dict[key].ToString());
                 }
             }
 
