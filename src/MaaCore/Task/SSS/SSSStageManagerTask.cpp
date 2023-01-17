@@ -19,6 +19,10 @@ bool asst::SSSStageManagerTask::_run()
         do {
         } while (!comfirm_battle_complete() && !need_exit()); //
 
+        if (need_exit()) {
+            break;
+        }
+
         auto stage_opt = analyze_stage();
         if (!stage_opt) {
             if (check_on_start_screen()) {
@@ -44,7 +48,7 @@ bool asst::SSSStageManagerTask::_run()
 
         bool success = false;
         int times = m_stage_try_times[stage_name];
-        for (int i = 0; i < times; ++i) {
+        for (int i = 0; i < times && !need_exit(); ++i) {
             Log.info("try to fight", i);
             if (click_start_button() && battle_task.run() && !need_exit()) {
                 success = true;
