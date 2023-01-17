@@ -19,6 +19,7 @@ namespace asst
         bool comfirm_battle_complete();
         bool click_start_button();
         bool settle(); // 结算奖励（退出整局保全战斗）
+        bool check_on_start_screen();
 
         std::unordered_map<std::string, int> m_stage_try_times;
     };
