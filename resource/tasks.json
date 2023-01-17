@@ -9509,6 +9509,7 @@
     "SSSHalfTimeDropsBegin": {
         "template": "SSSHalfTimeDropsConfirm.png",
         "action": "DoNothing",
+        "cache": false,
         "next": [
             "SSSHalfTimeDrops",
             "SSSHalfTimeDropsCancel"
@@ -9517,6 +9518,7 @@
     "SSSHalfTimeDrops": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "text": [],
         "roi": [
             206,
@@ -9530,6 +9532,7 @@
     },
     "SSSHalfTimeDropsConfirm": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             1034,
             283,
@@ -9539,6 +9542,7 @@
     },
     "SSSHalfTimeDropsCancel": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             100,
             284,
