@@ -186,6 +186,24 @@
                 ],
                 "template": "Bskill_ctrl_cost_bd2.png"
             },
+            "bskill_ctrl_cost_bd3": {
+                "desc": [
+                    "进驻控制中枢时，自身心情每小时消耗+0.5；每个岁干员进驻在宿舍以外的设施则人间烟火+5（最多5名）"
+                ],
+                "name": [
+                    "知我为我"
+                ],
+                "template": "Bskill_ctrl_cost_bd3.png"
+            },
+            "bskill_ctrl_cost_bd4": {
+                "desc": [
+                    "进驻控制中枢时，其他设施内处于工作状态的干员心情每小时恢复+0.05；同时每有20点人间烟火，则额外+0.05，（与控制中枢加成有特殊比较规则）"
+                ],
+                "name": [
+                    "孤光共照"
+                ],
+                "template": "Bskill_ctrl_cost_bd4.png"
+            },
             "bskill_ctrl_h_spd": {
                 "desc": [
                     "进驻控制中枢时，人力办公室联络速度小于30%时（其中包含基础联络速度5%），则联络速度额外+20%（该加成全局效果唯一，不受其它加成影响）"
@@ -740,6 +758,15 @@
             "Chip"
         ],
         "skills": {
+            "bskill_man_bd1": {
+                "desc": [
+                    "进驻制造站时，每5点人间烟火转化为1点巫术结晶"
+                ],
+                "name": [
+                    "古老巫术"
+                ],
+                "template": "Bskill_man_bd1.png"
+            },
             "bskill_man_constrLv": {
                 "desc": [
                     "进驻制造站时，基建内每间设施每级+1个工程机器人，上限64个"
@@ -1169,6 +1196,24 @@
                     "机械辅助·β"
                 ],
                 "template": "Bskill_man_spd_bd4.png"
+            },
+            "bskill_man_spd_bd5": {
+                "desc": [
+                    "进驻制造站时，每1点巫术结晶+1%生产力"
+                ],
+                "name": [
+                    "逐水草"
+                ],
+                "template": "Bskill_man_spd_bd5.png"
+            },
+            "bskill_man_spd_bd6": {
+                "desc": [
+                    "进驻制造站时，每1点巫术结晶+2%生产力"
+                ],
+                "name": [
+                    "问枯荣"
+                ],
+                "template": "Bskill_man_spd_bd6.png"
             },
             "bskill_man_spd_bd_n1": {
                 "additional": {
@@ -1926,6 +1971,24 @@
                 ],
                 "template": "Bskill_hire_spd&cost3.png"
             },
+            "bskill_hire_spd&cost4": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25"
+                ],
+                "name": [
+                    "特殊渠道 "
+                ],
+                "template": "Bskill_hire_spd&cost4.png"
+            },
+            "bskill_hire_spd&extra1": {
+                "desc": [
+                    "进驻人力办公室时，每个招募位（不包含初始招募位）+10%人脉资源的联络速度"
+                ],
+                "name": [
+                    "用人唯才"
+                ],
+                "template": "Bskill_hire_spd&extra1.png"
+            },
             "bskill_hire_spd&ursus2": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加乌萨斯学生自治团线索的概率（工作时长和招募位影响概率）"
@@ -2545,6 +2608,15 @@
                 ],
                 "template": "Bskill_tra_bd_n2.png"
             },
+            "bskill_tra_cost1": {
+                "desc": [
+                    "进驻贸易站时，贸易站内干员心情每小时消耗-0.1"
+                ],
+                "name": [
+                    "暖场"
+                ],
+                "template": "Bskill_tra_cost1.png"
+            },
             "bskill_tra_flow_durin": {
                 "desc": [
                     "进驻贸易站时，基建内每1名杜林族干员（最多4名）为当前贸易站提供1条赤金生产线"
@@ -2668,6 +2740,15 @@
                     "投资·β"
                 ],
                 "template": "Bskill_tra_long2.png"
+            },
+            "bskill_tra_share1": {
+                "desc": [
+                    "进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+15%订单获取效率"
+                ],
+                "name": [
+                    "代为说项"
+                ],
+                "template": "Bskill_tra_share1.png"
             },
             "bskill_tra_spd&cost": {
                 "desc": [
@@ -3300,12 +3381,12 @@
         "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441"
     },
     "roomType": [
-        "Mfg",
-        "Trade",
-        "Office",
         "Power",
         "Control",
         "Reception",
-        "Dorm"
+        "Dorm",
+        "Trade",
+        "Office",
+        "Mfg"
     ]
 }
