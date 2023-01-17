@@ -21,6 +21,12 @@ bool asst::SSSStageManagerTask::_run()
 
         auto stage_opt = analyze_stage();
         if (!stage_opt) {
+            if (check_on_start_screen()) {
+                // 通关了
+                auto info = basic_info_with_what("SSSGamePass");
+                callback(AsstMsg::SubTaskExtraInfo, info);
+                return true;
+            }
             Log.warn("unknown stage, run!");
             
             auto info = basic_info_with_what("SSSSettlement");
@@ -110,4 +116,12 @@ bool asst::SSSStageManagerTask::settle()
                .set_times_limit("SSSStartFighting", 0)
                .set_times_limit("SSSBegin", 0)
                .run();
+}
+
+bool asst::SSSStageManagerTask::check_on_start_screen()
+{
+    return ProcessTask(*this, { "SSSBegin" })
+        .set_task_delay(0)
+        .set_times_limit("SSSBegin", 0)
+        .run();
 }

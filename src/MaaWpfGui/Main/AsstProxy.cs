@@ -973,6 +973,13 @@ namespace MaaWpfGui
 
                     break;
 
+                case "SSSGamePass":
+                    {
+                        copilotModel.AddLog(Localization.GetString("SSSGamePass"), UILogColor.RareOperator);
+                    }
+
+                    break;
+
                 case "UnsupportedLevel":
                     copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), UILogColor.Error);
                     break;
