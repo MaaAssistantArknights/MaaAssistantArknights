@@ -3,9 +3,9 @@
     "stage_name": "多索雷斯在建地块",
     "minimum_required": "v4.9.0",
     "doc": {
-        "title": "多索雷斯保全(应急)",
+        "title": "多索雷斯保全(应急同样适用)",
         "title_color": "dark",
-        "details": "作者:YueShen\n多索雷斯保全(应急)\n选镀膜装置导能阀\n要手动编队\n有问题群里找管理咕咕咕\n\n同时支持标准和应急补给模式",
+        "details": "作者:YueShen\n多索雷斯保全(应急同样适用)\n选镀膜装置导能阀\n要手动编队\n有问题群里找管理咕咕咕\n\n同时支持标准和应急补给模式",
         "details_color": "dark"
     },
     "buff": "镀膜装置导能阀",
