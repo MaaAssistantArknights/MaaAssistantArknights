@@ -11,6 +11,42 @@
             "LS5@StageLS"
         ]
     },
+    "ClickChapter1": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "覺醒"
+        ]
+    },
+    "ClickChapter2": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "幻滅"
+        ]
+    },
+    "ClickChapter3": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "殘陽"
+        ]
+    },
+	"LevelOfDifficulty": {
+        "text": [
+            "環境",
+            "PRTS"
+        ]
+	},
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "進入",
+			"作戰"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "進入",
+			"作戰"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
         "ocrReplace": [
@@ -737,6 +773,10 @@
 			[
                 "菲亞梅塔",
                 "菲亚梅塔"
+            ],
+            [
+                "號角",
+                "号角"
             ]
         ]
     },

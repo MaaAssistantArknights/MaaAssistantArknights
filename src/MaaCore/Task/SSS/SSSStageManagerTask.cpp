@@ -31,8 +31,6 @@ bool asst::SSSStageManagerTask::_run()
                 callback(AsstMsg::SubTaskExtraInfo, info);
                 return true;
             }
-            Log.warn("unknown stage, run!");
-            
             auto info = basic_info_with_what("SSSSettlement");
             info["why"] = "Recognition error or JSON does not support this.";
             callback(AsstMsg::SubTaskExtraInfo, info);
@@ -42,29 +40,22 @@ bool asst::SSSStageManagerTask::_run()
         }
 
         const std::string& stage_name = stage_opt.value();
-
-        SSSBattleProcessTask battle_task(m_callback, m_inst, m_task_chain);
-        battle_task.set_stage_name(stage_name);
-
-        bool success = false;
-        int times = m_stage_try_times[stage_name];
-        for (int i = 0; i < times && !need_exit(); ++i) {
-            Log.info("try to fight", i);
-            if (click_start_button() && battle_task.run() && !need_exit()) {
-                success = true;
-                break;
-            }
-        }
-        if (!need_exit() && !success) {
-            Log.warn("Can't win, run!");
-            
+        int& times = m_stage_try_times[stage_name];
+        if (times <= 0) {
             auto info = basic_info_with_what("SSSSettlement");
             info["why"] = "Can't win, run!";
             callback(AsstMsg::SubTaskExtraInfo, info);
-            
+
             settle();
             break;
         }
+        click_start_button();
+
+        SSSBattleProcessTask battle_task(m_callback, m_inst, m_task_chain);
+        battle_task.set_stage_name(stage_name);
+        battle_task.run();
+
+        --times;
     }
     return true;
 }
@@ -78,6 +69,8 @@ void asst::SSSStageManagerTask::preprocess_data()
 
 std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
 {
+    LogTraceFunction;
+
     OcrWithPreprocessImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SSSStageNameOCR");
     if (!analyzer.analyze()) {
@@ -124,8 +117,5 @@ bool asst::SSSStageManagerTask::settle()
 
 bool asst::SSSStageManagerTask::check_on_start_screen()
 {
-    return ProcessTask(*this, { "SSSBegin" })
-        .set_task_delay(0)
-        .set_times_limit("SSSBegin", 0)
-        .run();
+    return ProcessTask(*this, { "SSSBegin" }).set_task_delay(0).set_times_limit("SSSBegin", 0).set_retry_times(0).run();
 }
