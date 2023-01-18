@@ -9612,14 +9612,14 @@
         "postDelay": 1000
     },
     "SSSHalfTimeDropsBegin": {
-        "template": "SSSHalfTimeDropsConfirm.png",
+        "template": "SSSHalfTimeDropsCancel.png",
         "action": "DoNothing",
         "cache": false,
         "roi": [
-            1034,
-            283,
-            148,
-            148
+            100,
+            284,
+            145,
+            145
         ],
         "next": [
             "SSSHalfTimeDrops",
@@ -9645,10 +9645,10 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            1034,
-            283,
-            148,
-            148
+            1035,
+            284,
+            145,
+            145
         ]
     },
     "SSSHalfTimeDropsCancel": {
