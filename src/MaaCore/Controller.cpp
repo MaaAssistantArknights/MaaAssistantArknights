@@ -2009,8 +2009,9 @@ bool asst::Controller::remove_quotes(std::string& data)
 {
     if (data.size() < 2) return false;
 
-    if (data[0] == '"' && data[data.size() - 1] == '"') {
-        data = data.substr(1, data.size() - 2);
+    if (data.front() == '"' && data.back() == '"') {
+        data.erase(data.begin());
+        data.pop_back();
         return true;
     }
 
