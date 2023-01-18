@@ -9615,6 +9615,12 @@
         "template": "SSSHalfTimeDropsConfirm.png",
         "action": "DoNothing",
         "cache": false,
+        "roi": [
+            1034,
+            283,
+            148,
+            148
+        ],
         "next": [
             "SSSHalfTimeDrops",
             "SSSHalfTimeDropsCancel"
