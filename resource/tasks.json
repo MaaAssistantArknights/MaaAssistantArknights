@@ -9614,12 +9614,11 @@
     "SSSHalfTimeDropsBegin": {
         "template": "SSSHalfTimeDropsCancel.png",
         "action": "DoNothing",
-        "cache": false,
         "roi": [
-            100,
-            284,
-            145,
-            145
+            148,
+            332,
+            46,
+            46
         ],
         "next": [
             "SSSHalfTimeDrops",
