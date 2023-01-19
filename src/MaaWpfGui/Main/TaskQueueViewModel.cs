@@ -1384,6 +1384,11 @@ namespace MaaWpfGui
 
         private string ToUpperAndCheckStage(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
             value = value.ToUpper();
             if (StageList != null)
             {
