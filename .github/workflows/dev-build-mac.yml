@@ -41,6 +41,7 @@ jobs:
         run: |
           brew update --preinstall
           brew install ninja range-v3
+          python3 maadeps-download.py
       - name: Configure MaaCore
         run: |
           mkdir build && cd build
