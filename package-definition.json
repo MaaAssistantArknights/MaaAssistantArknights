@@ -1,6 +1,6 @@
 [
     {
-        "name_template": "MAA-{VERSION}-win-x64",
+        "name_template": "MAA-{VERSION}-win-{PLATFORM}",
         "type": "MaaBundle",
         "configuration": {
             "include": [
@@ -9,7 +9,7 @@
         }
     },
     {
-        "name_template": "MAAComponent-Core-{VERSION}-win-x64",
+        "name_template": "MAAComponent-Core-{VERSION}-win-{PLATFORM}",
         "type": "MaaCore",
         "configuration": {
             "include": [
@@ -18,21 +18,20 @@
         }
     },
     {
-        "name_template": "MAAComponent-Dependency-{VERSION}-win-x64",
+        "name_template": "MAAComponent-Dependency-{VERSION}-win-{PLATFORM}",
         "type": "MaaDependency",
         "configuration": {
             "include": [
-                "fastdeploy.dll",
-                "onnxruntime.dll",
-                "paddle2onnx.dll",
-                "opencv_world453.dll",
+                "MaaDerpLearning.dll",
+                "onnxruntime_maa.dll",
+                "opencv_world4_maa.dll",
                 "**/PaddleOCR/**",
                 "**/PaddleCharOCR/**"
             ]
         }
     },
     {
-        "name_template": "MAAComponent-DebugSymbol-{VERSION}-win-x64",
+        "name_template": "MAAComponent-DebugSymbol-{VERSION}-win-{PLATFORM}",
         "type": "MaaDebugSymbol",
         "configuration": {
             "include": [
