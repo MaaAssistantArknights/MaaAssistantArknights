@@ -64,7 +64,9 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Run './build.cmd DevBuild'
-        run: ./build.cmd DevBuild
+        run:  |
+          python3 maadeps-download.py
+          ./build.cmd DevBuild
         env:
           Reason: ${{ github.event.inputs.Reason }}
           ReleaseSimulation: ${{ github.event.inputs.ReleaseSimulation }}

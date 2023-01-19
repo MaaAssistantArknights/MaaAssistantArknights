@@ -35,7 +35,9 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Run './build.cmd ReleaseMaa'
-        run: ./build.cmd ReleaseMaa
+        run: |
+          python3 maadeps-download.py
+          ./build.cmd ReleaseMaa
         env:
           PUBLISH_GH_PAT: ${{ secrets.PUBLISH_GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
