@@ -1,111 +1,113 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.21)
 project(MaaAssistantArknights)
 
-if (NOT CMAKE_BUILD_TYPE)
+if (NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 option(BUILD_TEST "build a demo" OFF)
 option(BUILD_XCFRAMEWORK "build xcframework for macOS app" OFF)
 option(BUILD_UNIVERSAL "build both arm64 and x86_64 on macOS" OFF)
 option(INSTALL_PYTHON "install python ffi" OFF)
 option(INSTALL_RESOURCE "install resource" OFF)
+option(INSTALL_DEVEL "install development files" OFF)
 option(INSTALL_THIRD_LIBS "install third party libraries" ON)
-option(MAA_DEPS_PATH "path to maa dependencies" "")
+option(USE_MAADEPS "use third-party libraries built by MaaDeps" ON)
 
-set(CMAKE_INSTALL_RPATH "$ORIGIN/")
-set(THIRD_PARTY_PATH ${CMAKE_CURRENT_BINARY_DIR}/third_libs)
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(USE_MAADEPS)
+    include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
+endif()
 
 if (MSVC)
     add_compile_options("/utf-8")
     add_compile_options("/MP")
-
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-
     add_compile_options("/W4;/WX")
+    
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 else ()
     add_compile_options("-Wall;-Wextra;-Wpedantic")
 endif ()
 
-add_definitions(-DASST_DLL_EXPORTS)
-if (MSVC)
-    #注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
-    add_definitions(-D_UNICODE -DUNICODE)
-endif ()
 
-include_directories(include)
-include_directories(src/MaaCore)
+add_library(header_only_libraries INTERFACE)
+target_include_directories(header_only_libraries INTERFACE 3rdparty/include)
 
 file(GLOB_RECURSE maa_src src/MaaCore/*.cpp)
 
 add_library(MaaCore SHARED ${maa_src})
+
+if (WIN32)
+    #注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
+    target_compile_definitions(MaaCore PRIVATE ASST_DLL_EXPORTS _UNICODE UNICODE)
+endif ()
+target_include_directories(MaaCore PUBLIC include PRIVATE src/MaaCore)
+set(MaaCore_PUBLIC_HEADERS include/AsstCaller.h include/AsstPort.h)
+target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
+set_target_properties(MaaCore PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+    PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}"
+)
+
+if(UNIX)
+    set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "$ORIGIN/")
+endif()
 
 if (BUILD_TEST)
     add_executable(test src/Cpp/main.cpp)
     target_link_libraries(test MaaCore)
 endif (BUILD_TEST)
 
-if (MSVC)
-    find_library(FastDeploy_LIB NAMES fastdeploy PATHS 3rdparty/lib)
-    find_library(OpenCV NAMES opencv_world453 PATHS 3rdparty/lib)
-    find_library(ZLIB NAMES zlibstatic PATHS 3rdparty/lib)
-    target_link_libraries(MaaCore ws2_32 ${OpenCV} ${FastDeploy_LIB} ${ZLIB})
-    target_include_directories(MaaCore PRIVATE 3rdparty/include)
-else ()
-    find_package(ZLIB REQUIRED)
-    target_include_directories(MaaCore PRIVATE ${ZLIB_INCLUDE_DIRS})
-    target_link_libraries(MaaCore ${ZLIB_LIBRARY})
+find_package(OpenCV REQUIRED COMPONENTS core imgproc)
+find_package(ZLIB REQUIRED)
+find_package(FastDeploy REQUIRED)
+target_link_libraries(MaaCore ${OpenCV_LIBS} FastDeploy::FastDeploy ZLIB::ZLIB header_only_libraries)
 
-    if (CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-        find_package(range-v3 REQUIRED)
-        target_link_libraries(MaaCore range-v3::range-v3)
-    endif ()
+if(WIN32)
+    target_link_libraries(MaaCore ws2_32)
+endif()
 
-    include(${PROJECT_SOURCE_DIR}/cmake/opencv.cmake)
-    include(${PROJECT_SOURCE_DIR}/cmake/fastdeploy.cmake)
-    include(${PROJECT_SOURCE_DIR}/cmake/adb-lite.cmake)
-    target_link_libraries(MaaCore ${DEPEND_LIBS} adb-lite)
-
-    install(TARGETS MaaCore DESTINATION .)
-    if (INSTALL_PYTHON)
-        install(DIRECTORY src/Python DESTINATION .)
-    endif (INSTALL_PYTHON)
-    if (INSTALL_RESOURCE)
-        install(DIRECTORY resource DESTINATION .)
-    endif (INSTALL_RESOURCE)
-
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -idirafter ${PROJECT_SOURCE_DIR}/3rdparty/include")
+if (CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+    find_package(range-v3 REQUIRED)
+    target_link_libraries(MaaCore range-v3::range-v3)
 endif ()
+
+install(TARGETS MaaCore
+    RUNTIME DESTINATION .
+)
+
+if(INSTALL_DEVEL)
+    install(TARGETS MaaCore
+        PUBLIC_HEADER DESTINATION devel/include
+        ARCHIVE DESTINATION devel/lib
+    )
+endif()
+
+if(INSTALL_THIRD_LIBS AND USE_MAADEPS)
+    maadeps_install()
+endif()
+
+if (INSTALL_PYTHON)
+    install(DIRECTORY src/Python DESTINATION .)
+endif (INSTALL_PYTHON)
+if (INSTALL_RESOURCE)
+    install(DIRECTORY resource DESTINATION .)
+endif (INSTALL_RESOURCE)
+
 
 if (APPLE)
     include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
 endif (APPLE)
 
 # define MAA_VERSION from git
-if (NOT MAA_VERSION)
+if (NOT DEFINED MAA_VERSION)
     find_package(Git)
 endif ()
-if (GIT_FOUND)
-    execute_process(
-        COMMAND "${GIT_EXECUTABLE}" describe --tags --dirty --broken --abbrev=40
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-        RESULT_VARIABLE result
-        OUTPUT_VARIABLE output
-        ERROR_VARIABLE err
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    if (result EQUAL 0)
-        set(MAA_VERSION "${output}")
-    else ()
-        message(WARNING "git describe returning ${result}, output:\n${err}")
-    endif()
-endif ()
-if (NOT MAA_VERSION AND GIT_FOUND)
+if (NOT DEFINED MAA_VERSION AND GIT_FOUND)
     execute_process(
         COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
