@@ -1382,6 +1382,28 @@ namespace MaaWpfGui
             }
         }
 
+        private string ToUpperAndCheckStage(string value)
+        {
+            value = value.ToUpper();
+            if (StageList != null)
+            {
+                foreach (var item in StageList)
+                {
+                    if (value == item.Value)
+                    {
+                        break;
+                    }
+                    else if (value == item.Display)
+                    {
+                        value = item.Value;
+                        break;
+                    }
+                }
+            }
+
+            return value;
+        }
+
         private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty);
 
         /// <summary>
@@ -1392,6 +1414,7 @@ namespace MaaWpfGui
             get => _stage1;
             set
             {
+                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _stage1, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage1", value);
@@ -1409,6 +1432,7 @@ namespace MaaWpfGui
             get => _stage2;
             set
             {
+                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _stage2, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
@@ -1426,6 +1450,7 @@ namespace MaaWpfGui
             get => _stage3;
             set
             {
+                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _stage3, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage3", value);
@@ -1477,6 +1502,7 @@ namespace MaaWpfGui
 
             set
             {
+                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _remainingSanityStage, value);
                 SetFightRemainingSanityParams();
                 ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
