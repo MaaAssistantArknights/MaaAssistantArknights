@@ -426,6 +426,7 @@ namespace asst
 
         Logger() : m_directory(UserDir.get())
         {
+            std::filesystem::create_directories(m_log_path.parent_path());
             check_filesize_and_remove();
             log_init_info();
         }
