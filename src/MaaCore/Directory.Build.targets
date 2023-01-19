@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <MaaDepsTargetsFile>$(MSBuildThisFileDirectory)..\..\MaaDeps\msbuild\maadeps.targets</MaaDepsTargetsFile>
+  </PropertyGroup>
+  <Import Condition="Exists('$(MaaDepsTargetsFile)')" Project="$(MaaDepsTargetsFile)" />
+</Project>
