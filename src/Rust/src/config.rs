@@ -7,7 +7,7 @@ lazy_static! {
     pub static ref CONFIG: Config = {
         let config_file = Path::new("./server_config.json");
         if !config_file.exists() {
-            let default_config = include_str!("../server_config.json")
+            let default_config = include_str!("../server_config.json");
             fs::write(config_file,default_config).unwrap();
         }
         let s = fs::read(config_file).unwrap();
