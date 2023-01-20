@@ -269,14 +269,7 @@ namespace MaaWpfGui
                 // reset closed stage1 to "Last/Current"
                 if (!CustomStageCode)
                 {
-                    if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
-                    {
-                        Stage1 = string.Empty;
-                    }
-                    else
-                    {
-                        Stage1 = stage1;
-                    }
+                    Stage1 = (stage1 != null && _stageManager.IsStageOpen(stage1, _curDayOfWeek)) ? stage1 : string.Empty;
                 }
             }
             else
@@ -291,47 +284,23 @@ namespace MaaWpfGui
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage1))
+                    if (!CustomStageCode)
                     {
-                        Stage1 = string.Empty;
+                        Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                        Stage2 = StageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                        Stage3 = StageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
                     }
-                    else
-                    {
-                        Stage1 = stage1;
-                    }
-
-                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage2))
-                    {
-                        Stage2 = string.Empty;
-                    }
-                    else
-                    {
-                        Stage2 = stage2;
-                    }
-
-                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage3))
-                    {
-                        Stage3 = string.Empty;
-                    }
-                    else
-                    {
-                        Stage3 = stage3;
-                    }
-                }
-                else
-                {
-                    // do nothing
                 }
             }
 
-            var remainingSanityStage = RemainingSanityStage;
+            var rss = RemainingSanityStage;
             RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
             {
                 [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
             };
-            if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == remainingSanityStage))
+            if (!CustomStageCode)
             {
-                RemainingSanityStage = string.Empty;
+                RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
             }
         }
 
