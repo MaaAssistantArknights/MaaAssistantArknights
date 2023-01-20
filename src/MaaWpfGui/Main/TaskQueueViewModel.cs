@@ -267,10 +267,16 @@ namespace MaaWpfGui
                 StageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
 
                 // reset closed stage1 to "Last/Current"
-                if (!CustomStageCode &&
-                    (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
+                if (!CustomStageCode)
                 {
-                    Stage1 = string.Empty;
+                    if (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek))
+                    {
+                        Stage1 = string.Empty;
+                    }
+                    else
+                    {
+                        Stage1 = stage1;
+                    }
                 }
             }
             else
@@ -289,15 +295,27 @@ namespace MaaWpfGui
                     {
                         Stage1 = string.Empty;
                     }
+                    else
+                    {
+                        Stage1 = stage1;
+                    }
 
                     if (!CustomStageCode && !StageList.Any(x => x.Value == stage2))
                     {
                         Stage2 = string.Empty;
                     }
+                    else
+                    {
+                        Stage2 = stage2;
+                    }
 
                     if (!CustomStageCode && !StageList.Any(x => x.Value == stage3))
                     {
                         Stage3 = string.Empty;
+                    }
+                    else
+                    {
+                        Stage3 = stage3;
                     }
                 }
                 else
