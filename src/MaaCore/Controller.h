@@ -21,6 +21,7 @@
 #include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
+#include "adb-lite/client.hpp"
 
 namespace asst
 {
@@ -72,6 +73,21 @@ namespace asst
     private:
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
+
+#ifdef _WIN32
+        std::optional<int> call_command_win32(const std::string& cmd, const bool recv_by_socket, std::string& pipe_data,
+                                              std::string& sock_data, const int64_t timeout,
+                                              const std::chrono::steady_clock::time_point start_time);
+#else
+        std::optional<int> call_command_posix(const std::string& cmd, const bool recv_by_socket, std::string& pipe_data,
+                                              std::string& sock_data, const int64_t timeout,
+                                              const std::chrono::steady_clock::time_point start_time);
+#endif
+
+        std::optional<int> call_command_tcpip(const std::string& cmd, const bool recv_by_socket, std::string& pipe_data,
+                                              std::string& sock_data, const int64_t timeout,
+                                              const std::chrono::steady_clock::time_point start_time);
+
         void release();
         void kill_adb_daemon();
         void make_instance_inited(bool inited);
@@ -92,18 +108,34 @@ namespace asst
         void callback(AsstMsg msg, const json::value& details);
 
         bool call_and_hup_minitouch();
+#ifdef _WIN32
+        bool call_and_hup_minitouch_win32(const std::string& cmd, const auto& check_timeout, std::string& pipe_str);
+#else
+        bool call_and_hup_minitouch_posix(const std::string& cmd, const auto& check_timeout, std::string& pipe_str);
+#endif
+        bool call_and_hup_minitouch_tcpip(const std::string& cmd, const int timeout, std::string& pipe_str);
+
         bool input_to_minitouch(const std::string& cmd);
+        bool input_to_minitouch_adb(const std::string& cmd);
         void release_minitouch(bool force = false);
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
         static bool convert_lf(std::string& data);
 
+        // adb 的 shell 请求无法识别用双引号包裹的字符串，所以这里去掉双引号
+        static bool remove_quotes(std::string& data);
+
         AsstCallback m_callback;
 
         std::minstd_rand m_rand_engine;
 
         std::mutex m_callcmd_mutex;
+
+        // adb-lite properties
+        bool m_use_adb_lite = true;
+        std::shared_ptr<adb::client> m_adb_client = nullptr;
+        std::shared_ptr<adb::io_handle> m_minitouch_handle = nullptr;
 
 #ifdef _WIN32
 
