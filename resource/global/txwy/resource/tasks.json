@@ -47,6 +47,24 @@
 			"作戰"
         ]
     },
+    "StageEpisodeToOF": {
+        "text": [
+            "火藍之心"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "進入",
+            "活動"
+        ]
+    },
+	"BattleStartPre": {
+        "text": [
+            "開始行動",
+            "開始突襲",
+            "開始試煉"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
         "ocrReplace": [
@@ -64,6 +82,14 @@
             ],
             [
                 "潔西卡",
+                "杰西卡"
+            ],
+            [
+				"潔絮西卡",
+                "杰西卡"
+            ],
+			[
+				"絮西卡",
                 "杰西卡"
             ],
             [
