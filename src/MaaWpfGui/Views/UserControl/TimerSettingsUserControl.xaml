@@ -39,7 +39,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer1}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[0].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -55,16 +55,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer1}"
-                    Text="{Binding Timer1Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
+                    Text="{Binding TimerModels.Timers[0].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer1}"
-                    Text="{Binding Timer1Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
+                    Text="{Binding TimerModels.Timers[0].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
@@ -75,7 +75,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer2}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[1].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -91,16 +91,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer2}"
-                    Text="{Binding Timer2Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
+                    Text="{Binding TimerModels.Timers[1].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer2}"
-                    Text="{Binding Timer2Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
+                    Text="{Binding TimerModels.Timers[1].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
@@ -111,7 +111,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer3}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[2].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -127,16 +127,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer3}"
-                    Text="{Binding Timer3Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
+                    Text="{Binding TimerModels.Timers[2].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer3}"
-                    Text="{Binding Timer3Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
+                    Text="{Binding TimerModels.Timers[2].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
@@ -147,7 +147,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer4}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[3].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -163,16 +163,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer4}"
-                    Text="{Binding Timer4Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
+                    Text="{Binding TimerModels.Timers[3].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer4}"
-                    Text="{Binding Timer4Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
+                    Text="{Binding TimerModels.Timers[3].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
@@ -183,7 +183,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer5}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[4].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -199,16 +199,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer5}"
-                    Text="{Binding Timer5Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
+                    Text="{Binding TimerModels.Timers[4].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer5}"
-                    Text="{Binding Timer5Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
+                    Text="{Binding TimerModels.Timers[4].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
@@ -219,7 +219,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer6}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[5].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -235,16 +235,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer6}"
-                    Text="{Binding Timer6Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
+                    Text="{Binding TimerModels.Timers[5].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer6}"
-                    Text="{Binding Timer6Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
+                    Text="{Binding TimerModels.Timers[5].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
@@ -255,7 +255,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer7}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[6].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -271,16 +271,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer7}"
-                    Text="{Binding Timer7Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
+                    Text="{Binding TimerModels.Timers[6].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer7}"
-                    Text="{Binding Timer7Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
+                    Text="{Binding TimerModels.Timers[6].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
@@ -291,7 +291,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox Margin="10" IsChecked="{Binding Timer8}">
+            <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[7].IsOn}">
                 <CheckBox.Content>
                     <TextBlock>
                         <TextBlock.Text>
@@ -307,16 +307,16 @@
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer8}"
-                    Text="{Binding Timer8Hour, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
+                    Text="{Binding TimerModels.Timers[7].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
                 <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
                     InputMethod.IsInputMethodEnabled="False"
-                    IsReadOnly="{c:Binding !Timer8}"
-                    Text="{Binding Timer8Min, StringFormat=D2}"
+                    IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
+                    Text="{Binding TimerModels.Timers[7].Min, StringFormat=D2}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>
