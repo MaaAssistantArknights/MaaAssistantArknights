@@ -129,7 +129,6 @@
     <system:String x:Key="DownloadWithAria2">🍸🍻🍺🍻🍸🍻💃🍸🍸🍷🍷🕺🍷🍺</system:String>
     <system:String x:Key="UpdateCheckNow">🍺🍻🍷🍻🕺</system:String>
 
-    <system:String x:Key="TimerTip">🍺🍸🍺🍸🍷🍸🍷🍻🍻🍺💃🕺💃🕺🍻</system:String>
     <system:String x:Key="Timer">🍻🍷🍻</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">🍺🍸🍻🍸🍻🍷💃</system:String>

@@ -1,3 +1,22 @@
+**新年快乐！Happy Chinese New Year!**
+
+- 新增 adb-lite 连接方式 @hguandl
+- 新增 mac 版本 自动战斗抄作业功能 @hguandl
+- 更新 自定义基建内置作业 @ABA2396 @martinwang2002 @MistEO
+- 重构 界面 定时功能 @ABA2396
+- 优化 界面 关卡名输入支持中文 @ABA2396
+- 优化 `保全派驻` 内置作业 @HMZyueshen
+- 修复 `保全派驻` 第三关中途掉落时卡住的问题 @MistEO
+- 修复 界面 关卡名被重置的问题 @ABA2396
+- 修复 OTA 包编码错误 @horror-proton
+- 修复 mac 版本日志创建错误 @hguandl
+
+### For overseas
+
+- 新增 繁中服 火蓝之心导航、掉落识别、仓库识别支持 @vonnoq
+- Support trial mode for the EN client @RiichiTsumo
+- Fixed the operator names and recruitment tags recognition error in the JP client @cat122802501 @liuyifan-eric
+
 ## v4.10.3
 
 - 修复 `保全派驻` 无限重试、第四关前卡住、通关后卡住、战斗结束仍在执行的问题 @MistEO

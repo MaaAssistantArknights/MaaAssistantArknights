@@ -322,7 +322,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fastdeploy.lib;opencv_world453.lib;zlibstatic.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy.lib;opencv_world453.lib;zlibstatic.lib;ws2_32.lib;adb-lite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
@@ -374,7 +374,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fastdeploy.lib;opencv_world453.lib;zlibstatic.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy.lib;opencv_world453.lib;zlibstatic.lib;ws2_32.lib;adb-lite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>

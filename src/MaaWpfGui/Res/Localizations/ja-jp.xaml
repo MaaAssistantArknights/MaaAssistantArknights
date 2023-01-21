@@ -134,7 +134,6 @@
     <system:String x:Key="UpdateCheck">更新版</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
-    <system:String x:Key="TimerTip">時間のみを記入（例:15/午後3時に実行する）</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>

@@ -168,7 +168,6 @@
     <system:String x:Key="NewVersionFoundButNoPackageTitle">检测到新版本，但未找到增量包</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
 
-    <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
     <system:String x:Key="Timer">定时</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动</system:String>
