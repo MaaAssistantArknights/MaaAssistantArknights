@@ -61,7 +61,6 @@ namespace MaaWpfGui
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             Directory.CreateDirectory("debug");
-
             {
                 // FIXME: 目录迁移，过几个版本删除这段
                 File.Delete("gui.log");
