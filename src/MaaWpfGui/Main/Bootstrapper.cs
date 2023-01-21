@@ -127,6 +127,13 @@ namespace MaaWpfGui
         }
 
         /// <inheritdoc/>
+        protected override void DisplayRootView(object rootViewModel)
+        {
+            var windowManager = (WindowManager)GetInstance(typeof(WindowManager));
+            windowManager.ShowWindow(rootViewModel);
+        }
+
+        /// <inheritdoc/>
         /// <remarks>退出时执行啥自己加。</remarks>
         protected override void OnExit(ExitEventArgs e)
         {
