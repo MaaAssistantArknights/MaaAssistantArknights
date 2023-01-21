@@ -167,7 +167,6 @@
     <system:String x:Key="NewVersionFoundButNoPackageTitle">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요.</system:String>
 
-    <system:String x:Key="TimerTip">시분초 중 시만 입력해 주세요. 정각에 실행할 것입니다</system:String>
     <system:String x:Key="Timer">정시</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 실행</system:String>

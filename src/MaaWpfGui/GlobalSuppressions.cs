@@ -13,6 +13,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA0001:Comma should be followed by a space", Justification = "Comma followed by space", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "Underscores used", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1116:Split parameters should start on line after declaration", Justification = "Alignment does not matter", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1117:Parameters should be on same line or separate lines", Justification = "Alignment does not matter", Scope = "module")]
