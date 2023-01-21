@@ -14,10 +14,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +28,6 @@ using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui
 {
@@ -36,7 +37,7 @@ namespace MaaWpfGui
     public class SettingsViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
-        private readonly IContainer _container;
+        private readonly StyletIoC.IContainer _container;
         private readonly IMaaHotKeyManager _maaHotKeyManager;
 
         [DllImport("MaaCore.dll")]
@@ -74,7 +75,7 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="container">The IoC container.</param>
         /// <param name="windowManager">The window manager.</param>
-        public SettingsViewModel(IContainer container, IWindowManager windowManager)
+        public SettingsViewModel(StyletIoC.IContainer container, IWindowManager windowManager)
         {
             _container = container;
             _windowManager = windowManager;
@@ -1315,345 +1316,91 @@ namespace MaaWpfGui
         }
 
         /* 定时设置 */
-
-        private bool _timer1 = ViewStatusStorage.Get("Timer.Timer1", bool.FalseString) == bool.TrueString;
-        private bool _timer2 = ViewStatusStorage.Get("Timer.Timer2", bool.FalseString) == bool.TrueString;
-        private bool _timer3 = ViewStatusStorage.Get("Timer.Timer3", bool.FalseString) == bool.TrueString;
-        private bool _timer4 = ViewStatusStorage.Get("Timer.Timer4", bool.FalseString) == bool.TrueString;
-        private bool _timer5 = ViewStatusStorage.Get("Timer.Timer5", bool.FalseString) == bool.TrueString;
-        private bool _timer6 = ViewStatusStorage.Get("Timer.Timer6", bool.FalseString) == bool.TrueString;
-        private bool _timer7 = ViewStatusStorage.Get("Timer.Timer7", bool.FalseString) == bool.TrueString;
-        private bool _timer8 = ViewStatusStorage.Get("Timer.Timer8", bool.FalseString) == bool.TrueString;
-
-        private int _timer1hour = int.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
-        private int _timer2hour = int.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
-        private int _timer3hour = int.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
-        private int _timer4hour = int.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
-        private int _timer5hour = int.Parse(ViewStatusStorage.Get("Timer.Timer5Hour", "3"));
-        private int _timer6hour = int.Parse(ViewStatusStorage.Get("Timer.Timer6Hour", "9"));
-        private int _timer7hour = int.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
-        private int _timer8hour = int.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
-
-        private int _timer1min = int.Parse(ViewStatusStorage.Get("Timer.Timer1Min", "0"));
-        private int _timer2min = int.Parse(ViewStatusStorage.Get("Timer.Timer2Min", "0"));
-        private int _timer3min = int.Parse(ViewStatusStorage.Get("Timer.Timer3Min", "0"));
-        private int _timer4min = int.Parse(ViewStatusStorage.Get("Timer.Timer4Min", "0"));
-        private int _timer5min = int.Parse(ViewStatusStorage.Get("Timer.Timer5Min", "0"));
-        private int _timer6min = int.Parse(ViewStatusStorage.Get("Timer.Timer6Min", "0"));
-        private int _timer7min = int.Parse(ViewStatusStorage.Get("Timer.Timer7Min", "0"));
-        private int _timer8min = int.Parse(ViewStatusStorage.Get("Timer.Timer8Min", "0"));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 1st timer is set.
-        /// </summary>
-        public bool Timer1
+        public class TimerModel
         {
-            get => _timer1;
-            set
+            public class TimerProperties : INotifyPropertyChanged
             {
-                SetAndNotify(ref _timer1, value);
-                ViewStatusStorage.Set("Timer.Timer1", value.ToString());
+                public event PropertyChangedEventHandler PropertyChanged;
+
+                protected void OnPropertyChanged([CallerMemberName] string name = null)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+                }
+
+                public int TimerId { get; set; }
+
+                private bool _isOn;
+
+                /// <summary>
+                /// Gets or sets a value indicating whether the timer is set.
+                /// </summary>
+                public bool IsOn
+                {
+                    get => _isOn;
+                    set
+                    {
+                        _isOn = value;
+                        OnPropertyChanged();
+                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}", value.ToString());
+                    }
+                }
+
+                private int _hour;
+
+                /// <summary>
+                /// Gets or sets the hour of the timer.
+                /// </summary>
+                public int Hour
+                {
+                    get => _hour;
+                    set
+                    {
+                        _hour = (value >= 0 && value <= 23) ? value : _hour;
+                        OnPropertyChanged();
+                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}Hour", value.ToString());
+                    }
+                }
+
+                private int _min;
+
+                /// <summary>
+                /// Gets or sets the minute of the timer.
+                /// </summary>
+                public int Min
+                {
+                    get => _min;
+                    set
+                    {
+                        _min = (value >= 0 && value <= 59) ? value : _min;
+                        OnPropertyChanged();
+                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}Min", value.ToString());
+                    }
+                }
+
+                public TimerProperties()
+                {
+                    PropertyChanged += (sender, args) => { };
+                }
+            }
+
+            public TimerProperties[] Timers { get; set; } = new TimerProperties[8];
+
+            public TimerModel()
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    Timers[i] = new TimerProperties
+                    {
+                        TimerId = i,
+                        IsOn = ViewStatusStorage.Get($"Timer.Timer{i + 1}", bool.FalseString) == bool.TrueString,
+                        Hour = int.Parse(ViewStatusStorage.Get($"Timer.Timer{i + 1}Hour", $"{i * 3}")),
+                        Min = int.Parse(ViewStatusStorage.Get($"Timer.Timer{i + 1}Min", "0")),
+                    };
+                }
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the 2nd timer is set.
-        /// </summary>
-        public bool Timer2
-        {
-            get => _timer2;
-            set
-            {
-                SetAndNotify(ref _timer2, value);
-                ViewStatusStorage.Set("Timer.Timer2", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 3rd timer is set.
-        /// </summary>
-        public bool Timer3
-        {
-            get => _timer3;
-            set
-            {
-                SetAndNotify(ref _timer3, value);
-                ViewStatusStorage.Set("Timer.Timer3", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 4th timer is set.
-        /// </summary>
-        public bool Timer4
-        {
-            get => _timer4;
-            set
-            {
-                SetAndNotify(ref _timer4, value);
-                ViewStatusStorage.Set("Timer.Timer4", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 5th timer is set.
-        /// </summary>
-        public bool Timer5
-        {
-            get => _timer5;
-            set
-            {
-                SetAndNotify(ref _timer5, value);
-                ViewStatusStorage.Set("Timer.Timer5", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 6th timer is set.
-        /// </summary>
-        public bool Timer6
-        {
-            get => _timer6;
-            set
-            {
-                SetAndNotify(ref _timer6, value);
-                ViewStatusStorage.Set("Timer.Timer6", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 7th timer is set.
-        /// </summary>
-        public bool Timer7
-        {
-            get => _timer7;
-            set
-            {
-                SetAndNotify(ref _timer7, value);
-                ViewStatusStorage.Set("Timer.Timer7", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 8th timer is set.
-        /// </summary>
-        public bool Timer8
-        {
-            get => _timer8;
-            set
-            {
-                SetAndNotify(ref _timer8, value);
-                ViewStatusStorage.Set("Timer.Timer8", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 1st timer.
-        /// </summary>
-        public int Timer1Hour
-        {
-            get => _timer1hour;
-            set
-            {
-                SetAndNotify(ref _timer1hour, value);
-                ViewStatusStorage.Set("Timer.Timer1Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 2nd timer.
-        /// </summary>
-        public int Timer2Hour
-        {
-            get => _timer2hour;
-            set
-            {
-                SetAndNotify(ref _timer2hour, value);
-                ViewStatusStorage.Set("Timer.Timer2Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 3rd timer.
-        /// </summary>
-        public int Timer3Hour
-        {
-            get => _timer3hour;
-            set
-            {
-                SetAndNotify(ref _timer3hour, value);
-                ViewStatusStorage.Set("Timer.Timer3Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 4th timer.
-        /// </summary>
-        public int Timer4Hour
-        {
-            get => _timer4hour;
-            set
-            {
-                SetAndNotify(ref _timer4hour, value);
-                ViewStatusStorage.Set("Timer.Timer4Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 5th timer.
-        /// </summary>
-        public int Timer5Hour
-        {
-            get => _timer5hour;
-            set
-            {
-                SetAndNotify(ref _timer5hour, value);
-                ViewStatusStorage.Set("Timer.Timer5Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 6th timer.
-        /// </summary>
-        public int Timer6Hour
-        {
-            get => _timer6hour;
-            set
-            {
-                SetAndNotify(ref _timer6hour, value);
-                ViewStatusStorage.Set("Timer.Timer6Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 7th timer.
-        /// </summary>
-        public int Timer7Hour
-        {
-            get => _timer7hour;
-            set
-            {
-                SetAndNotify(ref _timer7hour, value);
-                ViewStatusStorage.Set("Timer.Timer7Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 8th timer.
-        /// </summary>
-        public int Timer8Hour
-        {
-            get => _timer8hour;
-            set
-            {
-                SetAndNotify(ref _timer8hour, value);
-                ViewStatusStorage.Set("Timer.Timer8Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 1st timer.
-        /// </summary>
-        public int Timer1Min
-        {
-            get => _timer1min;
-            set
-            {
-                SetAndNotify(ref _timer1min, value);
-                ViewStatusStorage.Set("Timer.Timer1Min", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 2nd timer.
-        /// </summary>
-        public int Timer2Min
-        {
-            get => _timer2min;
-            set
-            {
-                SetAndNotify(ref _timer2min, value);
-                ViewStatusStorage.Set("Timer.Timer2Min", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 3rd timer.
-        /// </summary>
-        public int Timer3Min
-        {
-            get => _timer3min;
-            set
-            {
-                SetAndNotify(ref _timer3min, value);
-                ViewStatusStorage.Set("Timer.Timer3Min", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 4th timer.
-        /// </summary>
-        public int Timer4Min
-        {
-            get => _timer4min;
-            set
-            {
-                SetAndNotify(ref _timer4min, value);
-                ViewStatusStorage.Set("Timer.Timer4Min", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 5th timer.
-        /// </summary>
-        public int Timer5Min
-        {
-            get => _timer5min;
-            set
-            {
-                SetAndNotify(ref _timer5min, value);
-                ViewStatusStorage.Set("Timer.Timer5Min", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 6th timer.
-        /// </summary>
-        public int Timer6Min
-        {
-            get => _timer6min;
-            set
-            {
-                SetAndNotify(ref _timer6min, value);
-                ViewStatusStorage.Set("Timer.Timer6Min", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 7th timer.
-        /// </summary>
-        public int Timer7Min
-        {
-            get => _timer7min;
-            set
-            {
-                SetAndNotify(ref _timer7min, value);
-                ViewStatusStorage.Set("Timer.Timer7Min", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the min of the 8th timer.
-        /// </summary>
-        public int Timer8Min
-        {
-            get => _timer8min;
-            set
-            {
-                SetAndNotify(ref _timer8min, value);
-                ViewStatusStorage.Set("Timer.Timer8Min", value.ToString());
-            }
-        }
+        public TimerModel TimerModels { get; set; } = new TimerModel();
 
         /* 刷理智设置 */
 
