@@ -168,7 +168,6 @@
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New Version Found, But No Update Package</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
 
-    <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
     <system:String x:Key="Timer">Timer</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>

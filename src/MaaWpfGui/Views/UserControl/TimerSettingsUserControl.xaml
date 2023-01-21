@@ -18,23 +18,14 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
-        <TextBlock
-            Grid.Row="0"
-            Grid.ColumnSpan="2"
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource TimerTip}" />
 
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -70,7 +61,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -106,7 +97,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -142,7 +133,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -178,7 +169,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -214,7 +205,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -250,7 +241,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -286,7 +277,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
