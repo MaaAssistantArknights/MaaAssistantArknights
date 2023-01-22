@@ -778,8 +778,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WB-Open",
-            "WBChapterToWB"
+            "WB-Open"
         ],
         "next": [
             "StageWB-7",
@@ -790,8 +789,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WB-Open",
-            "WBChapterToWB"
+            "WB-Open"
         ],
         "next": [
             "StageWB-8",
@@ -802,8 +800,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WB-Open",
-            "WBChapterToWB"
+            "WB-Open"
         ],
         "next": [
             "StageWB-9",
@@ -822,6 +819,10 @@
             500,
             500,
             150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "WBChapterToWB"
         ]
     },
     "WBChapterToWB": {
