@@ -1,6 +1,6 @@
 #include "RoguelikeCustomStartTaskPlugin.h"
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Vision/OcrImageAnalyzer.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"

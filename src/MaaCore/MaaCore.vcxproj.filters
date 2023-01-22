@@ -80,6 +80,9 @@
     <Filter Include="源文件\Task\Reclamation">
       <UniqueIdentifier>{97f7690d-5924-405f-a332-831e7dad3f1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Controller">
+      <UniqueIdentifier>{19fb60c0-726b-4397-80eb-cc888c77cd82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -345,9 +348,6 @@
     <ClInclude Include="Assistant.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="Status.h">
       <Filter>源文件</Filter>
     </ClInclude>
@@ -509,6 +509,9 @@
     </ClInclude>
     <ClInclude Include="Utils\File.hpp">
       <Filter>源文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controller.h">
+      <Filter>源文件\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -677,9 +680,6 @@
     <ClCompile Include="AsstCaller.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Status.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -838,6 +838,9 @@
     </ClCompile>
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp">
       <Filter>源文件\Task\Reclamation</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controller.cpp">
+      <Filter>源文件\Controller</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

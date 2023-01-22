@@ -2,7 +2,7 @@
 
 #include <regex>
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"

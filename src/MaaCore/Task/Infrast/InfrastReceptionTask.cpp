@@ -2,7 +2,7 @@
 
 #include "Utils/Ranges.hpp"
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Vision/Infrast/InfrastClueImageAnalyzer.h"
 #include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"

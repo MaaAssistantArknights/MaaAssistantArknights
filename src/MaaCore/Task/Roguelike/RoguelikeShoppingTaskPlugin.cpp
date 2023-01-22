@@ -1,6 +1,6 @@
 #include "RoguelikeShoppingTaskPlugin.h"
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Roguelike/RoguelikeShoppingConfig.h"
