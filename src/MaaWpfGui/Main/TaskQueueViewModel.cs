@@ -153,14 +153,21 @@ namespace MaaWpfGui
             int intMinute = DateTime.Now.Minute;
             int intHour = DateTime.Now.Hour;
             var settings = _container.Get<SettingsViewModel>();
+            var timeToStart = false;
             for (int i = 0; i < 8; ++i)
             {
                 if (settings.TimerModels.Timers[i].IsOn &&
                     settings.TimerModels.Timers[i].Hour == intHour &&
                     settings.TimerModels.Timers[i].Min == intMinute)
                 {
-                    LinkStart();
+                    timeToStart = true;
+                    break;
                 }
+            }
+
+            if (timeToStart)
+            {
+                LinkStart();
             }
         }
 
