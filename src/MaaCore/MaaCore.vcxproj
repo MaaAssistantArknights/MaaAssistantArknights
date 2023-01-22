@@ -38,6 +38,8 @@
     <ClInclude Include="Common\AsstVersion.h" />
     <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
+    <ClInclude Include="Controller\adb-lite\client.hpp" />
+    <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
@@ -169,6 +171,8 @@
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
+    <ClCompile Include="Controller\adb-lite\client.cpp" />
+    <ClCompile Include="Controller\adb-lite\protocol.cpp" />
     <ClCompile Include="Controller\Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
@@ -375,7 +379,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>adb-lite.lib;MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
@@ -422,7 +426,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>adb-lite.lib;MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
@@ -472,7 +476,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>adb-lite.lib;MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
@@ -522,7 +526,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>adb-lite.lib;MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>

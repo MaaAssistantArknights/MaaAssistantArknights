@@ -83,6 +83,9 @@
     <Filter Include="源文件\Controller">
       <UniqueIdentifier>{19fb60c0-726b-4397-80eb-cc888c77cd82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Controller\adb-lite">
+      <UniqueIdentifier>{a61a19a3-e1ba-45f2-9264-acb4102106b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -513,6 +516,12 @@
     <ClInclude Include="Controller\Controller.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\adb-lite\client.hpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\adb-lite\protocol.hpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -841,6 +850,12 @@
     </ClCompile>
     <ClCompile Include="Controller\Controller.cpp">
       <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\adb-lite\client.cpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\adb-lite\protocol.cpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
