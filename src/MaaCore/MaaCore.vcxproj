@@ -38,7 +38,7 @@
     <ClInclude Include="Common\AsstVersion.h" />
     <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
-    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Controller\Controller.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
@@ -169,7 +169,7 @@
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Controller\Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />

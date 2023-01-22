@@ -6,7 +6,7 @@
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/OcrPack.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/Interface/AwardTask.h"
 #include "Task/Interface/CloseDownTask.h"

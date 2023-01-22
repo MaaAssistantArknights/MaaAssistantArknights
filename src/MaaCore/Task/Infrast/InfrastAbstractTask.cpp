@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "Common/AsstMsg.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"

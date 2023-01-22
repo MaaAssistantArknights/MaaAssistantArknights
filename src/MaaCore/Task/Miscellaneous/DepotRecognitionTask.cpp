@@ -4,7 +4,7 @@
 
 #include <meojson/json.hpp>
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/CreditShopImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
