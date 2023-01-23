@@ -17,9 +17,9 @@ asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm
     return *this;
 }
 
-asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool drom_trust_enabled) noexcept
+asst::InfrastDormTask& asst::InfrastDormTask::set_trust_enabled(bool dorm_trust_enabled) noexcept
 {
-    m_drom_trust_enabled = drom_trust_enabled;
+    m_dorm_trust_enabled = dorm_trust_enabled;
     return *this;
 }
 
@@ -118,7 +118,7 @@ bool asst::InfrastDormTask::opers_choose()
                     continue;
                 }
                 // 如果所有心情不满的干员已经放入宿舍，就把信赖不满的干员放入宿舍
-                if (m_drom_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
+                if (m_dorm_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
                     // 获得干员信赖值
                     OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
@@ -179,8 +179,8 @@ bool asst::InfrastDormTask::opers_choose()
                 // 如果当前页面休息完成的人数超过5个，说明已经已经把所有心情不满的滑过一遍、没有更多的了
                 else if (++num_of_resting >= 6) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
-                    if (m_drom_trust_enabled) {
-                        Log.trace("m_drom_trust_enabled:", m_drom_trust_enabled);
+                    if (m_dorm_trust_enabled) {
+                        Log.trace("m_dorm_trust_enabled:", m_dorm_trust_enabled);
                         if (!m_if_filter_notstationed_haspressed) {
                             Log.trace("click_filter_menu_not_stationed_button");
                             click_filter_menu_not_stationed_button();
@@ -191,7 +191,7 @@ bool asst::InfrastDormTask::opers_choose()
                         m_next_step = NextStep::RestDone; // 选中未进驻标签并按信赖值排序
                     }
                     else {
-                        Log.trace("m_drom_trust_enabled:", m_drom_trust_enabled);
+                        Log.trace("m_dorm_trust_enabled:", m_dorm_trust_enabled);
                         m_next_step = NextStep::Fill;
                         // click_filter_menu_cancel_not_stationed_button();
                         // click_order_by_mood();
