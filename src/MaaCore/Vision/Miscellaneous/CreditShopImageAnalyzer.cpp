@@ -94,7 +94,8 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
-        const std::string& name = ocr_analyzer.get_result().front().text;
+        const std::string& name =
+            ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text;
         Log.info("need to buy", name);
         m_need_to_buy.emplace_back(commodity, name);
     }
