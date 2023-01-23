@@ -50,7 +50,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         future.wait();
         callback_analyze_result(false);
     }
-    return m_all_items.empty();
+    return !m_all_items.empty();
 }
 
 void asst::DepotRecognitionTask::callback_analyze_result(bool done)
