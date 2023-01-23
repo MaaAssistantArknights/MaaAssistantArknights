@@ -149,7 +149,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", cmd },
               } },
         };
-        static constexpr int ReconnectTimes = 20;
+        static constexpr int ReconnectTimes = 5;
         for (int i = 0; i < ReconnectTimes; ++i) {
             if (need_exit()) {
                 break;
@@ -1639,10 +1639,8 @@ std::optional<int> asst::Controller::call_command_tcpip(const std::string& cmd, 
     }
 
     // TODO: 实现 timeout，目前暂时忽略
-    if (false) {
-        timeout;
-        start_time;
-    }
+    std::ignore = timeout;
+    std::ignore = start_time;
 
     static const std::regex devices_regex(R"(^.+ devices$)");
     static const std::regex release_regex(R"(^.+ kill-server$)");
