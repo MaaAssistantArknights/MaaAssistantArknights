@@ -1354,7 +1354,7 @@ namespace MaaWpfGui
             return id != 0;
         }
 
-        private JObject SerializeInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+        private JObject SerializeInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)
         {
             var task_params = new JObject
@@ -1363,7 +1363,7 @@ namespace MaaWpfGui
                 ["drones"] = uses_of_drones,
                 ["threshold"] = dorm_threshold,
                 ["dorm_notstationed_enabled"] = dorm_filter_not_stationed_enabled,
-                ["drom_trust_enabled"] = dorm_drom_trust_enabled,
+                ["dorm_trust_enabled"] = dorm_dorm_trust_enabled,
                 ["replenish"] = originium_shard_auto_replenishment,
                 ["mode"] = is_custom ? 10000 : 0,
                 ["filename"] = filename,
@@ -1391,19 +1391,19 @@ namespace MaaWpfGui
         /// </param>
         /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
-        /// <param name="dorm_drom_trust_enabled">宿舍是否使用蹭信赖功能</param>
+        /// <param name="dorm_dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
         /// <param name="is_custom"></param>
         /// <param name="filename"></param>
         /// <param name="plan_index"></param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold,
-            bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+            bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)
         {
             var task_params = SerializeInfrastTaskParams(
                 order, uses_of_drones, dorm_threshold,
-                dorm_filter_not_stationed_enabled, dorm_drom_trust_enabled, originium_shard_auto_replenishment,
+                dorm_filter_not_stationed_enabled, dorm_dorm_trust_enabled, originium_shard_auto_replenishment,
                 is_custom, filename, plan_index);
             AsstTaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;
@@ -1411,7 +1411,7 @@ namespace MaaWpfGui
         }
 
         public bool AsstSetInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold,
-            bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+            bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)
         {
             var type = TaskType.Infrast;
@@ -1428,7 +1428,7 @@ namespace MaaWpfGui
 
             var task_params = SerializeInfrastTaskParams(
                 order, uses_of_drones, dorm_threshold,
-                dorm_filter_not_stationed_enabled, dorm_drom_trust_enabled, originium_shard_auto_replenishment,
+                dorm_filter_not_stationed_enabled, dorm_dorm_trust_enabled, originium_shard_auto_replenishment,
                 is_custom, filename, plan_index);
             return AsstSetTaskParamsWithEncoding(id, task_params);
         }
