@@ -68,6 +68,7 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
+        std::unordered_map<std::string, int> m_skill_error_count;
         int m_camera_count = 0;
         std::pair<double, double> m_camera_shift = { 0., 0. };
 

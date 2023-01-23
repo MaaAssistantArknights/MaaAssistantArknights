@@ -37,6 +37,7 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
+    m_skill_error_count.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
 
@@ -459,9 +460,15 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             continue;
         }
         if (!check_and_use_skill(loc, image)) {
+            constexpr int MaxRetry = 3;
+            if (++m_skill_error_count[name] >= MaxRetry) {
+                Log.warn("Skill", name, "is not ready");
+                usage = SkillUsage::NotUse;
+            }
             continue;
         }
         used = true;
+        m_skill_error_count[name] = 0;
         if (usage == SkillUsage::Once) {
             usage = SkillUsage::OnceUsed;
         }
