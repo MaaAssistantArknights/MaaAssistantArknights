@@ -1217,7 +1217,7 @@
             "bskill_man_spd_bd_n1": {
                 "additional": {
                     "思维链环": "[NumOf感知信息]",
-                    "感知信息": "[NumOfPeopleIndorm]"
+                    "感知信息": "[NumOfPeopleInDorm]"
                 },
                 "desc": [
                     "进驻制造站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点思维链环"
