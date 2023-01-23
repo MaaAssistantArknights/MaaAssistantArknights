@@ -76,12 +76,19 @@ namespace MaaWpfGui
         {
             get
             {
-                if (Enum.TryParse(_actionAfterCompleted, out ActionType action))
+                if (!Enum.TryParse(_actionAfterCompleted, out ActionType action))
                 {
-                    return action;
+                    return ActionType.DoNothing;
                 }
 
-                return ActionType.DoNothing;
+                if (action == ActionType.HibernateWithoutPersist || action == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist
+                    || action == ActionType.ShutdownWithoutPersist)
+                {
+                    _actionAfterCompleted = ActionType.DoNothing.ToString();
+                    return ActionType.DoNothing;
+                }
+
+                return action;
             }
 
             set
@@ -198,6 +205,10 @@ namespace MaaWpfGui
                 new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
+                
+                // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate") + "*", Value = ActionType.HibernateWithoutPersist },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown") + "*", Value = ActionType.ShutdownWithoutPersist },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
@@ -1111,6 +1122,21 @@ namespace MaaWpfGui
             /// Computer shutdown.
             /// </summary>
             Shutdown,
+
+            /// <summary>
+            /// Computer hibernates without Persist.
+            /// </summary>
+            HibernateWithoutPersist,
+
+            /// <summary>
+            /// Exits MAA and emulator and computer hibernates without Persist.
+            /// </summary>
+            ExitEmulatorAndSelfAndHibernateWithoutPersist,
+
+            /// <summary>
+            /// Computer shutdown without Persist.
+            /// </summary>
+            ShutdownWithoutPersist,
         }
 
         /// <summary>
@@ -1160,6 +1186,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.Shutdown:
+                case ActionType.ShutdownWithoutPersist:
                     Process.Start("shutdown.exe", "-s -t 60");
 
                     // 关机询问
@@ -1178,6 +1205,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.Hibernate:
+                case ActionType.HibernateWithoutPersist:
                     // 休眠提示
                     AddLog(Localization.GetString("HibernatePrompt"), UILogColor.Error);
 
@@ -1186,6 +1214,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelfAndHibernate:
+                case ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist:
                     if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);

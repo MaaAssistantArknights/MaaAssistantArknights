@@ -215,7 +215,7 @@
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">MAAとエミュレータを終了する</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる*</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる</system:String>
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
 
