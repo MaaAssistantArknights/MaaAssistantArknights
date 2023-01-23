@@ -5755,7 +5755,8 @@
         "next": [
             "BattleSupportUnitFormationSelect",
             "BattleSupportUnitFormation"
-        ]
+        ],
+        "postDelay": 2000
     },
     "BattleSupportUnitFormationSelect": {
         "action": "ClickSelf",
