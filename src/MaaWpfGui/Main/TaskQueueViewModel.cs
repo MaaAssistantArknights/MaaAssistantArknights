@@ -81,13 +81,6 @@ namespace MaaWpfGui
                     return ActionType.DoNothing;
                 }
 
-                if (action == ActionType.HibernateWithoutPersist || action == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist
-                    || action == ActionType.ShutdownWithoutPersist)
-                {
-                    _actionAfterCompleted = ActionType.DoNothing.ToString();
-                    return ActionType.DoNothing;
-                }
-
                 return action;
             }
 
@@ -95,6 +88,13 @@ namespace MaaWpfGui
             {
                 string storeValue = value.ToString();
                 SetAndNotify(ref _actionAfterCompleted, storeValue);
+
+                if (value == ActionType.HibernateWithoutPersist || value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist
+                    || value == ActionType.ShutdownWithoutPersist)
+                {
+                    storeValue = ActionType.DoNothing.ToString();
+                }
+
                 ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
             }
         }
