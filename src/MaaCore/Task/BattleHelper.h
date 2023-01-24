@@ -49,8 +49,8 @@ namespace asst
         virtual bool wait_until_start(bool weak = true);
         bool wait_until_end(bool weak = true);
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
-        bool check_and_use_skill(const std::string& name, const cv::Mat& reusable = cv::Mat());
-        bool check_and_use_skill(const Point& loc, const cv::Mat& reusable = cv::Mat());
+        bool check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable = cv::Mat());
+        bool check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable = cv::Mat());
         void save_map(const cv::Mat& image);
 
         bool click_oper_on_deployment(const std::string& name);
