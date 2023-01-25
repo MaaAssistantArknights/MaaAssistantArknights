@@ -186,7 +186,6 @@
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
-    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
