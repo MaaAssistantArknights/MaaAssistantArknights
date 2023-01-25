@@ -20,37 +20,39 @@ namespace MaaWpfGui
 {
     public class WindowManager : Stylet.WindowManager
     {
-        public void MoveWindowToDisplay(string displayName, Window window)
+        public WindowManager(IViewManager viewManager, Func<IMessageBoxViewModel> messageBoxViewModelFactory, IWindowManagerConfig config)
+    : base(viewManager, messageBoxViewModelFactory, config)
         {
-            if (string.IsNullOrEmpty(displayName))
-            {
-                return;
-            }
-
-            var screen = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
-            if (screen != null)
-            {
-                if (screen.Bounds.Height == ScreenHeight && screen.Bounds.Width == ScreenWidth)
-                {
-                    window.Left = (int)(screen.Bounds.Left + Left);
-                    window.Top = (int)(screen.Bounds.Top + Top);
-                    window.Width = Width;
-                    window.Height = Height;
-                }
-            }
         }
 
+        private readonly string ScreenName = ViewStatusStorage.Get("GUI.Monitor.Number", string.Empty);
         private readonly int ScreenWidth = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Width", "-1"));
         private readonly int ScreenHeight = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Height", "-1"));
-        private readonly string ScreenName = ViewStatusStorage.Get("GUI.Monitor.Number", string.Empty);
+
         private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", "NaN"));
         private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", "NaN"));
         private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", "NaN"));
         private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", "NaN"));
 
-        public WindowManager(IViewManager viewManager, Func<IMessageBoxViewModel> messageBoxViewModelFactory, IWindowManagerConfig config)
-            : base(viewManager, messageBoxViewModelFactory, config)
+        private readonly string RootView = "MaaWpfGui.RootView";
+
+        public void MoveWindowToDisplay(string displayName, Window window)
         {
+            var screen = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
+            if (screen != null)
+            {
+                var screenRect = screen.Bounds;
+                if (screenRect.Height == ScreenHeight && screenRect.Width == ScreenWidth)
+                {
+                    window.Left = (int)(screenRect.Left + Left);
+                    window.Top = (int)(screenRect.Top + Top);
+                    window.Width = Width;
+                    window.Height = Height;
+                    return;
+                }
+            }
+
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         /// <inheritdoc/>
@@ -65,17 +67,18 @@ namespace MaaWpfGui
                 }
 
                 // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
-                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                window.WindowStartupLocation = WindowStartupLocation.Manual;
 
-                if (window.ToString() == "MaaWpfGui.RootView")
+                if (window.ToString() == RootView)
                 {
                     MoveWindowToDisplay(ScreenName, window);
                 }
                 else
                 {
                     // Center other windows in MaaWpfGui.RootView
-                    window.Left = Left + ((Application.Current.MainWindow.Width - window.Width) / 2);
-                    window.Top = Top + ((Application.Current.MainWindow.Height - window.Height) / 2);
+                    var mainWindow = Application.Current.MainWindow;
+                    window.Left = mainWindow.Left + ((mainWindow.Width - window.Width) / 2);
+                    window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
                 }
             }
 

@@ -2177,17 +2177,18 @@ namespace MaaWpfGui
             ViewStatusStorage.Set("GUI.PositionAndSize.Load", LoadGUIParameters.ToString());
             ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", SaveGUIParametersOnClosing.ToString());
 
+            var mainWindow = Application.Current.MainWindow;
             System.Windows.Forms.Screen currentScreen =
-                System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(Application.Current.MainWindow).Handle);
-            var workingArea = currentScreen.Bounds;
+                System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(mainWindow).Handle);
+            var screenRect = currentScreen.Bounds;
             ViewStatusStorage.Set("GUI.Monitor.Number", currentScreen.DeviceName);
-            ViewStatusStorage.Set("GUI.Monitor.Width", workingArea.Width.ToString());
-            ViewStatusStorage.Set("GUI.Monitor.Height", workingArea.Height.ToString());
+            ViewStatusStorage.Set("GUI.Monitor.Width", screenRect.Width.ToString());
+            ViewStatusStorage.Set("GUI.Monitor.Height", screenRect.Height.ToString());
 
-            ViewStatusStorage.Set("GUI.Position.Left", (Application.Current.MainWindow.Left - workingArea.Left).ToString());
-            ViewStatusStorage.Set("GUI.Position.Top", (Application.Current.MainWindow.Top - workingArea.Top).ToString());
-            ViewStatusStorage.Set("GUI.Size.Width", Application.Current.MainWindow.Width.ToString());
-            ViewStatusStorage.Set("GUI.Size.Height", Application.Current.MainWindow.Height.ToString());
+            ViewStatusStorage.Set("GUI.Position.Left", (mainWindow.Left - screenRect.Left).ToString());
+            ViewStatusStorage.Set("GUI.Position.Top", (mainWindow.Top - screenRect.Top).ToString());
+            ViewStatusStorage.Set("GUI.Size.Width", mainWindow.Width.ToString());
+            ViewStatusStorage.Set("GUI.Size.Height", mainWindow.Height.ToString());
         }
 
         private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
