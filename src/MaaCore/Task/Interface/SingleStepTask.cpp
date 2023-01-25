@@ -18,6 +18,8 @@ bool asst::SingleStepTask::set_params(const json::value& params)
         // 请参考自动战斗协议
         task->set_actions(CopilotConfig::parse_actions(details));
         m_subtasks.emplace_back(std::move(task));
+
+        return true;
     }
 
     return false;
