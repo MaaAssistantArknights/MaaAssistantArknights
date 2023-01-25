@@ -94,6 +94,16 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             return true;
         }
         break;
+    case InstanceOptionKey::AdbLiteEnabled:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_adb_lite_enabled(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_adb_lite_enabled(false);
+            return true;
+        }
+        break;
     }
     Log.error("Unknown key or value", value);
     return false;

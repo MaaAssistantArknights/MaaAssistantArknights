@@ -1181,19 +1181,6 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
-
-        public bool DeploymentWithPause
-        {
-            get => _deploymentWithPause;
-            set
-            {
-                SetAndNotify(ref _deploymentWithPause, value);
-                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
-                UpdateInstanceSettings();
-            }
-        }
-
         /* 访问好友设置 */
         private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
 
@@ -1810,6 +1797,33 @@ namespace MaaWpfGui
             }
         }
 
+
+        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
+
+        public bool DeploymentWithPause
+        {
+            get => _deploymentWithPause;
+            set
+            {
+                SetAndNotify(ref _deploymentWithPause, value);
+                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
+        private bool _adbLiteEnabled = bool.Parse(ViewStatusStorage.Get("Connect.AdbLiteEnabled", false.ToString()));
+
+        public bool AdbLiteEnabled
+        {
+            get => _adbLiteEnabled;
+            set
+            {
+                SetAndNotify(ref _adbLiteEnabled, value);
+                ViewStatusStorage.Set("Connect.AdbLiteEnabled", value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
         private readonly Dictionary<string, List<string>> _defaultAddress = new Dictionary<string, List<string>>
         {
             { "General", new List<string> { string.Empty } },
@@ -1977,6 +1991,7 @@ namespace MaaWpfGui
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
             asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
