@@ -43,7 +43,8 @@ bool asst::BattleProcessTask::_run()
 
     size_t action_size = get_combat_data().actions.size();
     for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
-        do_action(i);
+        const auto& action = get_combat_data().actions.at(i);
+        do_action(action, i);
     }
 
     if (need_to_wait_until_end()) {
@@ -132,11 +133,9 @@ bool asst::BattleProcessTask::to_group()
     return true;
 }
 
-bool asst::BattleProcessTask::do_action(size_t action_index)
+bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t action_index)
 {
     LogTraceFunction;
-
-    const auto& action = get_combat_data().actions.at(action_index);
 
     notify_action(action);
 

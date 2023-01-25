@@ -33,7 +33,9 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\BattleHelper.h" />
+    <ClInclude Include="Task\Interface\SingleStepTask.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
+    <ClInclude Include="Task\SingleStep\SingleStepBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
@@ -157,7 +159,9 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
+    <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
+    <ClCompile Include="Task\SingleStep\SingleStepBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
