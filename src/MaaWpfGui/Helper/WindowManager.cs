@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Windows;
 using Stylet;
 
@@ -19,15 +20,37 @@ namespace MaaWpfGui
 {
     public class WindowManager : Stylet.WindowManager
     {
+        public void MoveWindowToDisplay(string displayName, Window window)
+        {
+            if (string.IsNullOrEmpty(displayName))
+            {
+                return;
+            }
+
+            var screen = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
+            if (screen != null)
+            {
+                if (screen.Bounds.Height == ScreenHeight && screen.Bounds.Width == ScreenWidth)
+                {
+                    window.Left = (int)(screen.Bounds.Left + Left);
+                    window.Top = (int)(screen.Bounds.Top + Top);
+                    window.Width = Width;
+                    window.Height = Height;
+                }
+            }
+        }
+
+        private readonly int ScreenWidth = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Width", "-1"));
+        private readonly int ScreenHeight = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Height", "-1"));
+        private readonly string ScreenName = ViewStatusStorage.Get("GUI.Monitor.Number", string.Empty);
         private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", "NaN"));
         private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", "NaN"));
+        private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", "NaN"));
+        private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", "NaN"));
 
         public WindowManager(IViewManager viewManager, Func<IMessageBoxViewModel> messageBoxViewModelFactory, IWindowManagerConfig config)
             : base(viewManager, messageBoxViewModelFactory, config)
         {
-            // Change Left and Top after adjusting multiple displays
-            Left = Left < SystemParameters.VirtualScreenWidth ? Left : double.NaN;
-            Top = Top < SystemParameters.VirtualScreenHeight ? Top : double.NaN;
         }
 
         /// <inheritdoc/>
@@ -42,17 +65,11 @@ namespace MaaWpfGui
                 }
 
                 // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
-                window.WindowStartupLocation = WindowStartupLocation.Manual;
+                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
                 if (window.ToString() == "MaaWpfGui.RootView")
                 {
-                    double width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", "NaN"));
-                    double height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", "NaN"));
-
-                    window.Left = Left;
-                    window.Top = Top;
-                    window.Width = width;
-                    window.Height = height;
+                    MoveWindowToDisplay(ScreenName, window);
                 }
                 else
                 {

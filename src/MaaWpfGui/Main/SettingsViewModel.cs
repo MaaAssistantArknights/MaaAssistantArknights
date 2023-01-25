@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
@@ -2176,8 +2177,15 @@ namespace MaaWpfGui
             ViewStatusStorage.Set("GUI.PositionAndSize.Load", LoadGUIParameters.ToString());
             ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", SaveGUIParametersOnClosing.ToString());
 
-            ViewStatusStorage.Set("GUI.Position.Left", Application.Current.MainWindow.Left.ToString());
-            ViewStatusStorage.Set("GUI.Position.Top", Application.Current.MainWindow.Top.ToString());
+            System.Windows.Forms.Screen currentScreen =
+                System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(Application.Current.MainWindow).Handle);
+            var workingArea = currentScreen.Bounds;
+            ViewStatusStorage.Set("GUI.Monitor.Number", currentScreen.DeviceName);
+            ViewStatusStorage.Set("GUI.Monitor.Width", workingArea.Width.ToString());
+            ViewStatusStorage.Set("GUI.Monitor.Height", workingArea.Height.ToString());
+
+            ViewStatusStorage.Set("GUI.Position.Left", (Application.Current.MainWindow.Left - workingArea.Left).ToString());
+            ViewStatusStorage.Set("GUI.Position.Top", (Application.Current.MainWindow.Top - workingArea.Top).ToString());
             ViewStatusStorage.Set("GUI.Size.Width", Application.Current.MainWindow.Width.ToString());
             ViewStatusStorage.Set("GUI.Size.Height", Application.Current.MainWindow.Height.ToString());
         }
