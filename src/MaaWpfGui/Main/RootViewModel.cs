@@ -86,7 +86,7 @@ namespace MaaWpfGui
 
             if (vuvm.IsFirstBootAfterUpdate)
             {
-                _windowManager.ShowWindow(vuvm);
+                _container.Get<WindowManager>().ShowWindow(vuvm);
             }
             else
             {
