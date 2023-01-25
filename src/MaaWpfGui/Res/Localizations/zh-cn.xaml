@@ -186,7 +186,6 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
-    <system:String x:Key="RoguelikeThemeTip">需在集成战略界面将对应主题PIN UP添加到终端</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="Strategy">策略</system:String>

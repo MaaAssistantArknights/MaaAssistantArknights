@@ -147,7 +147,6 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
     <system:String x:Key="RoguelikeTheme">主題</system:String>
-    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
