@@ -74,6 +74,9 @@
     <Filter Include="源文件\Task\SSS">
       <UniqueIdentifier>{a5775bd2-7a8a-4bcb-9465-75d899ea8ca1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Task\SingleStep">
+      <UniqueIdentifier>{987541fc-58f0-40eb-8b93-c0cb38881d92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -483,6 +486,12 @@
     <ClInclude Include="Vision\BestMatchImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
+    <ClInclude Include="Task\SingleStep\SingleStepBattleProcessTask.h">
+      <Filter>源文件\Task\SingleStep</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\SingleStepTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -793,6 +802,12 @@
     </ClCompile>
     <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SingleStep\SingleStepBattleProcessTask.cpp">
+      <Filter>源文件\Task\SingleStep</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\SingleStepTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
