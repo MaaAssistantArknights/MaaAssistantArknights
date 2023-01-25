@@ -7331,7 +7331,36 @@
         ],
         "next": [
             "Roguelike@IntegratedStrategies",
-            "Roguelike@FromIntegratedStrategies"
+            "Roguelike@SelectTheme"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "roi": [
+            0,
+            29,
+            515,
+            648
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "baseTask": "Roguelike@SelectTheme",
+        "text": [
+            "傀影"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "baseTask": "Roguelike@SelectTheme",
+        "text": [
+            "水月"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Roguelike@LastReward": {
