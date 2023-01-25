@@ -113,6 +113,11 @@ namespace MaaWpfGui
                     MessageBoxButton.OK, MessageBoxImage.Hand);
                 Hangover = false;
             }
+
+            if (LoadGUIParameters && SaveGUIParametersOnClosing)
+            {
+                Application.Current.MainWindow.Closing += SaveGUIParameters;
+            }
         }
 
         private List<string> _listTitle = new List<string>();
@@ -2105,6 +2110,76 @@ namespace MaaWpfGui
                     });
                 }
             }
+        }
+
+        private bool _loadGUIParameters = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to load GUI parameters.
+        /// </summary>
+        public bool LoadGUIParameters
+        {
+            get => _loadGUIParameters;
+            set
+            {
+                SetAndNotify(ref _loadGUIParameters, value);
+                ViewStatusStorage.Set("GUI.PositionAndSize.Load", value.ToString());
+                if (value)
+                {
+                    if (SaveGUIParametersOnClosing)
+                    {
+                        Application.Current.MainWindow.Closing += SaveGUIParameters;
+                    }
+                    else
+                    {
+                        SaveGUIParameters();
+                    }
+                }
+            }
+        }
+
+        private bool _saveGUIParametersOnClosing = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.SaveOnClosing", bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to save GUI parameters on closing main window.
+        /// </summary>
+        public bool SaveGUIParametersOnClosing
+        {
+            get => _saveGUIParametersOnClosing;
+            set
+            {
+                SetAndNotify(ref _saveGUIParametersOnClosing, value);
+                ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", value.ToString());
+                if (value)
+                {
+                    Application.Current.MainWindow.Closing += SaveGUIParameters;
+                }
+                else
+                {
+                    Application.Current.MainWindow.Closing -= SaveGUIParameters;
+                }
+            }
+        }
+
+        private void SaveGUIParameters(object sender, EventArgs e)
+        {
+            SaveGUIParameters();
+        }
+
+        /// <summary>
+        /// Save main window left edge, top edge, width and heigth.
+        /// </summary>
+        public void SaveGUIParameters()
+        {
+            // 请在配置文件中修改该部分配置，暂不支持从GUI设置
+            // Please modify this part of configuration in the configuration file.
+            ViewStatusStorage.Set("GUI.PositionAndSize.Load", LoadGUIParameters.ToString());
+            ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", SaveGUIParametersOnClosing.ToString());
+
+            ViewStatusStorage.Set("GUI.Position.Left", Application.Current.MainWindow.Left.ToString());
+            ViewStatusStorage.Set("GUI.Position.Top", Application.Current.MainWindow.Top.ToString());
+            ViewStatusStorage.Set("GUI.Size.Width", Application.Current.MainWindow.Width.ToString());
+            ViewStatusStorage.Set("GUI.Size.Height", Application.Current.MainWindow.Height.ToString());
         }
 
         private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
