@@ -1691,5 +1691,7 @@ namespace MaaWpfGui
         /// Indicates whether the deployment should be paused.
         /// </summary>
         DeploymentWithPause = 3,
+
+        AdbLiteEnabled = 4,
     }
 }

@@ -77,6 +77,7 @@
     <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Oper" from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
     <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
+    <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>
     <system:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</system:String>

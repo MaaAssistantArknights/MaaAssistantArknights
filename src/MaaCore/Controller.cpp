@@ -1289,6 +1289,11 @@ void asst::Controller::set_swipe_with_pause(bool enable) noexcept
     m_swipe_with_pause_enabled = enable;
 }
 
+void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
+{
+    m_use_adb_lite = enable;
+}
+
 const std::string& asst::Controller::get_uuid() const
 {
     return m_uuid;
