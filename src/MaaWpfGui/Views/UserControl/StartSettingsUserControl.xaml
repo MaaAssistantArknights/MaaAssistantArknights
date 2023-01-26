@@ -1,8 +1,8 @@
 ﻿<UserControl
     x:Class="MaaWpfGui.StartSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,87 +17,88 @@
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" VerticalAlignment="Center">
-            <StackPanel
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"
-          Orientation="Vertical" Margin="0,20,0,0">
-                <CheckBox
-            Margin="20,10,10,10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Block.TextAlignment="Center"
-            Content="{DynamicResource LaunchOnSystemStartup}"
-            IsChecked="{Binding StartSelf}" />
-                <CheckBox
-            Margin="20,10,10,10"
-            HorizontalAlignment="Left"
+        <StackPanel
+            Grid.Column="0"
+            Margin="10"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Block.TextAlignment="Center"
-            Content="{DynamicResource OpenEmulatorAfterLaunch}"
-            IsChecked="{Binding StartEmulator}" />
-                <CheckBox
-            Margin="20,10,10,10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Block.TextAlignment="Center"
-            Content="{DynamicResource RunTaskAfterLaunch}"
-            IsChecked="{Binding RunDirectly}" />
-                <CheckBox
-            Margin="20,10,10,10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Block.TextAlignment="Center"
-            Content="{DynamicResource MinimizingStartup}"
-            IsChecked="{Binding MinimizingStartup}" />
-            </StackPanel>
-            <Grid Margin="10" HorizontalAlignment="Center">
-            </Grid>
-
+            Orientation="Vertical">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Block.TextAlignment="Center"
+                Content="{DynamicResource LaunchOnSystemStartup}"
+                IsChecked="{Binding StartSelf}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Block.TextAlignment="Center"
+                Content="{DynamicResource OpenEmulatorAfterLaunch}"
+                IsChecked="{Binding StartEmulator}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Block.TextAlignment="Center"
+                Content="{DynamicResource RunTaskAfterLaunch}"
+                IsChecked="{Binding RunDirectly}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Block.TextAlignment="Center"
+                Content="{DynamicResource MinimizingStartup}"
+                IsChecked="{Binding MinimizingStartup}" />
         </StackPanel>
-        <StackPanel Grid.Column="1"  VerticalAlignment="Center" >
-            <StackPanel
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"
-          Orientation="Horizontal"
-          Visibility="{c:Binding StartEmulator}">
-                <TextBlock
-            Margin="0"
-            Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource EmulatorPath}" VerticalAlignment="Center" />
-                <Button
-            Command="{s:Action SelectEmulatorExec}"
-            Content="{DynamicResource Select}" Margin="10,0,0,0" />
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <StackPanel>
+                <StackPanel
+                    Margin="10,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Block.TextAlignment="Center"
+                        Style="{StaticResource TextBlockDefault}"
+                        Text="{DynamicResource EmulatorPath}" />
+                    <Button
+                        Margin="10,0,0,0"
+                        Command="{s:Action SelectEmulatorExec}"
+                        Content="{DynamicResource Select}" />
+                </StackPanel>
+                <TextBox Margin="20,5" Text="{Binding EmulatorPath}" />
             </StackPanel>
-            <TextBox Margin="20,5,20,5" Text="{Binding EmulatorPath}" Visibility="{c:Binding StartEmulator}"/>
-            <StackPanel
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"
-          Orientation="Horizontal"
-          Visibility="{c:Binding StartEmulator}">
-                <TextBlock
-            Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource AdditionCommand}" Margin="0,5,0,0" />
+            <StackPanel IsEnabled="{Binding EmulatorPath.Length}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Block.TextAlignment="Center"
+                        Style="{StaticResource TextBlockDefault}"
+                        Text="{DynamicResource AdditionCommand}" />
+                </StackPanel>
+                <TextBox Margin="20,5" Text="{Binding EmulatorAddCommand}" />
             </StackPanel>
-            <TextBox Margin="20,5,20,5" Text="{Binding EmulatorAddCommand}" Visibility="{c:Binding StartEmulator}"/>
             <StackPanel
-          Margin="10"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"
-          Orientation="Horizontal"
-          Visibility="{c:Binding RunDirectly}">
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
                 <TextBlock
-            Margin="3"
-            Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
-            Text="{DynamicResource WaitForEmulator}" />
+                    Margin="3"
+                    Block.TextAlignment="Center"
+                    Style="{StaticResource TextBlockDefault}"
+                    Text="{DynamicResource WaitForEmulator}" />
                 <TextBox
-            Width="50"
-            Margin="3"
-            InputMethod.IsInputMethodEnabled="False"
-            Text="{Binding EmulatorWaitSeconds}" />
+                    Width="50"
+                    Margin="3"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding EmulatorWaitSeconds}" />
             </StackPanel>
         </StackPanel>
     </Grid>
