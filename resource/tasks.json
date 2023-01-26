@@ -9322,7 +9322,11 @@
             38
         ],
         "postDelay": 3000,
-        "postDelay_Doc": "点击刷新后的等待时间"
+        "postDelay_Doc": "点击刷新后的等待时间",
+        "specialParams_Doc": "助战刷新最大次数",
+        "specialParams": [
+            5
+        ]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "algorithm": "OcrDetect",
