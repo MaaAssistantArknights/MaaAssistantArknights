@@ -19,7 +19,7 @@ bool asst::SingleStepBattleProcessTask::_run()
     }
 
     size_t action_size = m_actions.size();
-    for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
+    for (size_t i = 0; i < action_size && !need_exit(); ++i) {
         const auto& action = m_actions.at(i);
         do_action(action, i);
     }

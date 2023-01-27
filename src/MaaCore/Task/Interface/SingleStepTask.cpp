@@ -11,6 +11,8 @@ asst::SingleStepTask::SingleStepTask(const AsstCallback& callback, Assistant* in
 
 bool asst::SingleStepTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+    
     std::string type = params.get("type", "");
     std::string subtype = params.get("subtype", "");
     auto details_opt = params.find("details");
@@ -28,6 +30,8 @@ bool asst::SingleStepTask::set_params(const json::value& params)
 
 bool asst::SingleStepTask::append_copllot_start()
 {
+    LogTraceFunction;
+    
     auto start_2_tp = std::make_shared<ProcessTask>(m_callback, m_inst, TaskType);
     start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
     m_subtasks.emplace_back(std::move(start_2_tp));
@@ -37,6 +41,8 @@ bool asst::SingleStepTask::append_copllot_start()
 
 bool asst::SingleStepTask::append_copilot_action(const json::value& details)
 {
+    LogTraceFunction;
+    
     auto task = std::make_shared<SingleStepBattleProcessTask>(m_callback, m_inst, TaskType);
 
     // for debug
