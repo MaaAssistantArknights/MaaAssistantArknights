@@ -121,6 +121,7 @@
                     DisplayMemberPath="Display"
                     IsHitTestVisible="{Binding Idle}"
                     ItemsSource="{Binding RoguelikeSquadList}"
+                    MaxDropDownHeight="800"
                     SelectedValue="{Binding RoguelikeSquad}"
                     SelectedValuePath="Value" />
             </StackPanel>

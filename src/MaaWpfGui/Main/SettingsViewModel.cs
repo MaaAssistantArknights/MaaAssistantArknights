@@ -222,23 +222,7 @@ namespace MaaWpfGui
                 new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
             };
 
-            RoguelikeSquadList = new List<CombData>
-            {
-                new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
-                new CombData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
-                new CombData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
-                new CombData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
-                new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
-                new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
-                new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
-                new CombData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
-                new CombData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
-                new CombData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
-                new CombData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
-                new CombData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new CombData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
-                new CombData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
-            };
+            UpdateRoguelikeThemeList();
 
             RoguelikeRolesList = new List<CombData>
             {
@@ -630,10 +614,16 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> RoguelikeModeList { get; set; }
 
+        private ObservableCollection<CombData> _roguelikeSquadList = new ObservableCollection<CombData>();
+
         /// <summary>
         /// Gets or sets the list of roguelike squad.
         /// </summary>
-        public List<CombData> RoguelikeSquadList { get; set; }
+        public ObservableCollection<CombData> RoguelikeSquadList
+        {
+            get => _roguelikeSquadList;
+            set => SetAndNotify(ref _roguelikeSquadList, value);
+        }
 
         /// <summary>
         /// Gets or sets the list of roguelike roles.
@@ -1024,6 +1014,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
+                UpdateRoguelikeThemeList();
                 ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
             }
         }
@@ -1798,7 +1789,6 @@ namespace MaaWpfGui
             }
         }
 
-
         private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
 
         public bool DeploymentWithPause
@@ -2461,6 +2451,55 @@ namespace MaaWpfGui
             }
 
             return false;
+        }
+
+        public void UpdateRoguelikeThemeList()
+        {
+            var roguelikeSquad = RoguelikeSquad;
+
+            RoguelikeSquadList = new ObservableCollection<CombData>
+            {
+                new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
+            };
+
+            switch (RoguelikeTheme)
+            {
+                case "Phantom":
+                    // No new items
+                    break;
+                case "Mizuki":
+                    foreach (var item in new ObservableCollection<CombData>
+                    {
+                        new CombData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
+                        new CombData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
+                        new CombData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
+                    break;
+            }
+
+            // 通用分队
+            foreach (var item in new ObservableCollection<CombData>
+            {
+                new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
+                new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
+                new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
+                new CombData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
+                new CombData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
+                new CombData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
+                new CombData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
+                new CombData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
+                new CombData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
+                new CombData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
+            })
+            {
+                RoguelikeSquadList.Add(item);
+            }
+
+            RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
     }
 }
