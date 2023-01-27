@@ -259,7 +259,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         update_cost(image);
         int pre_cost = m_cost;
 
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             update_cost(image);
             if (action.cost_changes != 0) {
                 if ((pre_cost + action.cost_changes < 0) ? (m_cost <= pre_cost + action.cost_changes)
@@ -290,7 +290,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     if (action.costs) {
         update_image_if_empty();
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             update_cost(image);
             if (m_cost >= action.costs) {
                 break;
@@ -305,7 +305,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     // 计算有几个干员在cd
     if (action.cooling >= 0) {
         update_image_if_empty();
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             if (!update_deployment(false, image)) {
                 return false;
             }
@@ -322,7 +322,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     if (!m_in_bullet_time && action.type == ActionType::Deploy) {
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             if (!update_deployment(false, image)) {
                 return false;
             }
