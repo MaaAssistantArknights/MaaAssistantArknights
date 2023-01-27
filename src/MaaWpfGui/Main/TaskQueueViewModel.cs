@@ -1440,7 +1440,11 @@ namespace MaaWpfGui
             get => _stage1;
             set
             {
-                value = ToUpperAndCheckStage(value);
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _stage1, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage1", value);
@@ -1458,7 +1462,6 @@ namespace MaaWpfGui
             get => _stage2;
             set
             {
-                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _stage2, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
@@ -1476,7 +1479,6 @@ namespace MaaWpfGui
             get => _stage3;
             set
             {
-                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _stage3, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage3", value);
@@ -1528,7 +1530,11 @@ namespace MaaWpfGui
 
             set
             {
-                value = ToUpperAndCheckStage(value);
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _remainingSanityStage, value);
                 SetFightRemainingSanityParams();
                 ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
