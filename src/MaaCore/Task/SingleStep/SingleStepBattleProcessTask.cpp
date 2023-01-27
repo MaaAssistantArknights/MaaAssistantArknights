@@ -13,21 +13,9 @@ bool asst::SingleStepBattleProcessTask::_run()
 {
     LogTraceFunction;
 
-    cv::Mat image = ctrler()->get_image();
-    bool init = !check_in_battle(image);
-    if (init) {
-        clear();
-
-        if (!calc_tiles_info(m_stage_name)) {
-            Log.error("get stage info failed");
-            return false;
-        }
-    }
-
-    update_deployment(init, image);
-
-    if (init) {
-        to_group();
+    if (!calc_tiles_info(m_stage_name)) {
+        Log.error("get stage info failed");
+        return false;
     }
 
     size_t action_size = m_actions.size();

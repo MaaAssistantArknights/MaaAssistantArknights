@@ -7,10 +7,13 @@ namespace asst
     {
     public:
         using Actions = std::vector<asst::battle::copilot::Action>;
-        
+
     public:
         using BattleProcessTask::BattleProcessTask;
         virtual ~SingleStepBattleProcessTask() override = default;
+
+        using BattleProcessTask::clear;
+        using BattleProcessTask::set_stage_name;
 
         void set_actions(Actions actions);
 

@@ -1,7 +1,8 @@
 #include "SingleStepTask.h"
 
-#include "../SingleStep/SingleStepBattleProcessTask.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
+#include "Task/ProcessTask.h"
+#include "Task/SingleStep/SingleStepBattleProcessTask.h"
 #include "Utils/Logger.hpp"
 
 asst::SingleStepTask::SingleStepTask(const AsstCallback& callback, Assistant* inst)
@@ -14,28 +15,48 @@ bool asst::SingleStepTask::set_params(const json::value& params)
     std::string subtype = params.get("subtype", "");
     auto details_opt = params.find("details");
 
-    if (type == "copilot" && subtype == "action" && details_opt) {
-        auto task = std::make_shared<SingleStepBattleProcessTask>(m_callback, m_inst, TaskType);
-        // for debug
-        task->set_stage_name("OF-1");
+    if (type == "copilot") {
+        if (subtype == "start") {
+            return append_copllot_start();
+        }
+        else if (subtype == "action" && details_opt) {
+            return append_copilot_action(*details_opt);
+        }
+    }
+    return false;
+}
 
+bool asst::SingleStepTask::append_copllot_start()
+{
+    auto start_2_tp = std::make_shared<ProcessTask>(m_callback, m_inst, TaskType);
+    start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
+    m_subtasks.emplace_back(std::move(start_2_tp));
+
+    return true;
+}
+
+bool asst::SingleStepTask::append_copilot_action(const json::value& details)
+{
+    auto task = std::make_shared<SingleStepBattleProcessTask>(m_callback, m_inst, TaskType);
+
+    // for debug
+    task->set_stage_name("OF-1");
+
+    try {
         // 请参考自动战斗协议
-        try {
-            task->set_actions(CopilotConfig::parse_actions(*details_opt));
-        }
-        catch (const json::exception& e) {
-            Log.error(__FUNCTION__, e.what());
-            return false;
-        }
-        catch (const std::exception& e) {
-            Log.error(__FUNCTION__, e.what());
-            return false;
-        }
-
-        m_subtasks.emplace_back(std::move(task));
-
-        return true;
+        auto actions = CopilotConfig::parse_actions(details);
+        task->set_actions(std::move(actions));
+    }
+    catch (const json::exception& e) {
+        Log.error(__FUNCTION__, e.what());
+        return false;
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, e.what());
+        return false;
     }
 
-    return false;
+    m_subtasks.emplace_back(std::move(task));
+
+    return true;
 }

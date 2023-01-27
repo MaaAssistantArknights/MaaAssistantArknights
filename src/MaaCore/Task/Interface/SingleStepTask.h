@@ -14,5 +14,9 @@ namespace asst
         virtual ~SingleStepTask() override = default;
 
         virtual bool set_params(const json::value& params) override;
+
+    private:
+        bool append_copllot_start();
+        bool append_copilot_action(const json::value& details);
     };
 }
