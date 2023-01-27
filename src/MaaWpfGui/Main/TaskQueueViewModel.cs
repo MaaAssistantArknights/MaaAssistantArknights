@@ -1798,6 +1798,16 @@ namespace MaaWpfGui
             get => _medicineNumber;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
+                if (value == "0")
+                {
+                    UseStone = false;
+                }
+
                 SetAndNotify(ref _medicineNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
@@ -1814,6 +1824,11 @@ namespace MaaWpfGui
             get => _useStone;
             set
             {
+                if (MedicineNumber == "0")
+                {
+                    value = false;
+                }
+
                 SetAndNotify(ref _useStone, value);
                 if (value)
                 {
@@ -1834,6 +1849,11 @@ namespace MaaWpfGui
             get => _stoneNumber;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
@@ -1865,6 +1885,11 @@ namespace MaaWpfGui
             get => _maxTimes;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _maxTimes, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
@@ -2006,6 +2031,11 @@ namespace MaaWpfGui
             get => _dropsQuantity;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
