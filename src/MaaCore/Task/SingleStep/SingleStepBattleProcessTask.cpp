@@ -4,6 +4,18 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
+bool asst::SingleStepBattleProcessTask::set_stage_name_cache(const std::string& stage_name)
+{
+    LogTraceFunction;
+    
+    if (!Tile.contains(stage_name)) {
+        Log.error("get stage info failed", stage_name);
+        return false;
+    }
+    m_stage_name_cache = stage_name;
+    return true;
+}
+
 void asst::SingleStepBattleProcessTask::set_actions(Actions actions)
 {
     m_actions = std::move(actions);
@@ -13,8 +25,8 @@ bool asst::SingleStepBattleProcessTask::_run()
 {
     LogTraceFunction;
 
-    if (!calc_tiles_info(m_stage_name)) {
-        Log.error("get stage info failed");
+    if (!calc_tiles_info(m_stage_name_cache)) {
+        Log.error("get stage info failed", m_stage_name_cache);
         return false;
     }
 
