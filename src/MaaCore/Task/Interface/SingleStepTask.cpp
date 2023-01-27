@@ -18,7 +18,10 @@ bool asst::SingleStepTask::set_params(const json::value& params)
     auto details_opt = params.find("details");
 
     if (type == "copilot") {
-        if (subtype == "start") {
+        if (subtype == "stage" && details_opt) {
+            return set_copilot_stage(*details_opt);
+        }
+        else if (subtype == "start") {
             return append_copllot_start();
         }
         else if (subtype == "action" && details_opt) {
@@ -26,6 +29,11 @@ bool asst::SingleStepTask::set_params(const json::value& params)
         }
     }
     return false;
+}
+
+bool asst::SingleStepTask::set_copilot_stage(const json::value& details)
+{
+    return SingleStepBattleProcessTask::set_stage_name_cache(details.get("stage_name", ""));
 }
 
 bool asst::SingleStepTask::append_copllot_start()
@@ -44,9 +52,6 @@ bool asst::SingleStepTask::append_copilot_action(const json::value& details)
     LogTraceFunction;
     
     auto task = std::make_shared<SingleStepBattleProcessTask>(m_callback, m_inst, TaskType);
-
-    // for debug
-    task->set_stage_name("OF-1");
 
     try {
         // 请参考自动战斗协议

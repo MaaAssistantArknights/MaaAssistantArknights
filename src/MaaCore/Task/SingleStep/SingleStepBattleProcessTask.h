@@ -13,8 +13,8 @@ namespace asst
         virtual ~SingleStepBattleProcessTask() override = default;
 
         using BattleProcessTask::clear;
-        using BattleProcessTask::set_stage_name;
 
+        static bool set_stage_name_cache(const std::string& stage_name);
         void set_actions(Actions actions);
 
     protected:
@@ -23,5 +23,8 @@ namespace asst
 
     private:
         Actions m_actions;
+
+        // for debug
+        inline static std::string m_stage_name_cache;
     };
 }
