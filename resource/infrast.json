@@ -406,8 +406,7 @@
                 "template": "Bskill_ctrl_ussg.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Dorm": {
         "skills": {
@@ -1218,7 +1217,7 @@
             "bskill_man_spd_bd_n1": {
                 "additional": {
                     "思维链环": "[NumOf感知信息]",
-                    "感知信息": "[NumOfPeopleInDrom]"
+                    "感知信息": "[NumOfPeopleInDorm]"
                 },
                 "desc": [
                     "进驻制造站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点思维链环"
@@ -2086,8 +2085,7 @@
                 "template": "Bskill_hire_spd_memento.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Power": {
         "maxNumOfOpers": 1,
@@ -2204,8 +2202,7 @@
                 "template": "Bskill_pow_spd3.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Reception": {
         "Doc": "会客室",
@@ -2538,8 +2535,7 @@
                 "template": "Bskill_meet_ursus2.png"
             }
         },
-        "skillsGroup": [
-        ]
+        "skillsGroup": []
     },
     "Trade": {
         "maxNumOfOpers": 3,
@@ -3194,8 +3190,7 @@
                         ]
                     }
                 ],
-                "optional": [
-                ]
+                "optional": []
             },
             {
                 "allowExternal": false,

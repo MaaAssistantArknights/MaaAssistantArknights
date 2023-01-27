@@ -778,8 +778,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WB-Open",
-            "WBChapterToWB"
+            "WB-Open"
         ],
         "next": [
             "StageWB-7",
@@ -790,8 +789,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WB-Open",
-            "WBChapterToWB"
+            "WB-Open"
         ],
         "next": [
             "StageWB-8",
@@ -802,8 +800,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "WB-Open",
-            "WBChapterToWB"
+            "WB-Open"
         ],
         "next": [
             "StageWB-9",
@@ -822,6 +819,10 @@
             500,
             500,
             150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "WBChapterToWB"
         ]
     },
     "WBChapterToWB": {
@@ -2174,7 +2175,12 @@
         "algorithm": "OcrDetect",
         "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                "^令.+",
+                "令"
+            ]
+        ]
     },
     "StartUpThemes": {
         "algorithm": "JustReturn",
@@ -3095,7 +3101,6 @@
         "algorithm": "OcrDetect",
         "text": [
             "前往上一次作战",
-            "前往",
             "作战"
         ],
         "roi": [
@@ -5755,7 +5760,8 @@
         "next": [
             "BattleSupportUnitFormationSelect",
             "BattleSupportUnitFormation"
-        ]
+        ],
+        "postDelay": 2000
     },
     "BattleSupportUnitFormationSelect": {
         "action": "ClickSelf",
@@ -6424,10 +6430,10 @@
         "postDelay": 300,
         "action": "ClickRect",
         "specificRect": [
-            580,
-            190,
-            40,
-            30
+            562,
+            195,
+            10,
+            36
         ]
     },
     "StageDrops-StageName": {
@@ -7330,7 +7336,36 @@
         ],
         "next": [
             "Roguelike@IntegratedStrategies",
-            "Roguelike@FromIntegratedStrategies"
+            "Roguelike@SelectTheme"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "roi": [
+            0,
+            29,
+            515,
+            648
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "baseTask": "Roguelike@SelectTheme",
+        "text": [
+            "傀影"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "baseTask": "Roguelike@SelectTheme",
+        "text": [
+            "水月"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Roguelike@LastReward": {
@@ -9292,7 +9327,11 @@
             38
         ],
         "postDelay": 3000,
-        "postDelay_Doc": "点击刷新后的等待时间"
+        "postDelay_Doc": "点击刷新后的等待时间",
+        "specialParams_Doc": "助战刷新最大次数",
+        "specialParams": [
+            5
+        ]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "algorithm": "OcrDetect",

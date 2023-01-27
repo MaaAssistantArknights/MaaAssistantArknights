@@ -27,7 +27,7 @@ namespace asst
         virtual bool need_to_wait_until_end() const { return false; }
 
         bool to_group();
-        bool do_action(size_t action_index);
+        bool do_action(const battle::copilot::Action& action, size_t action_index);
 
         const std::string& get_name_from_group(const std::string& action_name);
         void notify_action(const battle::copilot::Action& action);

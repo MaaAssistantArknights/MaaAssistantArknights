@@ -167,7 +167,6 @@
     <system:String x:Key="NewVersionFoundButNoPackageTitle">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요.</system:String>
 
-    <system:String x:Key="TimerTip">시분초 중 시만 입력해 주세요. 정각에 실행할 것입니다</system:String>
     <system:String x:Key="Timer">정시</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 실행</system:String>
@@ -186,7 +185,6 @@
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
 
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
-    <system:String x:Key="RoguelikeThemeTip">통합전략 화면에서 테마를 고정시켜주어야 합니다</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
     <system:String x:Key="Strategy">전략</system:String>
@@ -252,7 +250,7 @@
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">MAA와 에뮬레이터를 종료</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAA와 에뮬레이터를 종료하고 절전 모드*</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAA와 에뮬레이터를 종료하고 절전 모드</system:String>
     <system:String x:Key="Hibernate">절전 모드</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
 

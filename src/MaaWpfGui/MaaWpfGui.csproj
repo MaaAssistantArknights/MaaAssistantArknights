@@ -105,6 +105,7 @@
     </ApplicationDefinition>
     <Compile Include="Helper\Utils.cs" />
     <Compile Include="Helper\WebService.cs" />
+    <Compile Include="Helper\WindowManager.cs" />
     <Compile Include="Main\Bootstrapper.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Main\AsstProxy.cs" />

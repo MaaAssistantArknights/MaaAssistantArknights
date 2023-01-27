@@ -77,6 +77,7 @@
     <system:String x:Key="RoguelikeUseSupportUnit">“开局干员”使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
+    <system:String x:Key="AdbLiteEnabled">使用 Adb Lite（实验性功能）</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队</system:String>
@@ -168,13 +169,12 @@
     <system:String x:Key="NewVersionFoundButNoPackageTitle">检测到新版本，但未找到增量包</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
 
-    <system:String x:Key="TimerTip">仅填写小时数，将在整点时执行</system:String>
     <system:String x:Key="Timer">定时</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup">开机自动启动</system:String>
-    <system:String x:Key="RunTaskAfterLaunch">启动后直接运行</system:String>
+    <system:String x:Key="LaunchOnSystemStartup">开机自动启动MAA</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">启动MAA后直接运行</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">启动后自动开启模拟器</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">启动MAA后自动开启模拟器</system:String>
     <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
@@ -187,7 +187,6 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
-    <system:String x:Key="RoguelikeThemeTip">需在集成战略界面将对应主题PIN UP添加到终端</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="Strategy">策略</system:String>
@@ -253,7 +252,7 @@
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模拟器</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">退出 MAA 和 模拟器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，并休眠*</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，并休眠</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
 
