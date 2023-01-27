@@ -2175,7 +2175,12 @@
         "algorithm": "OcrDetect",
         "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                "^令.+",
+                "令"
+            ]
+        ]
     },
     "StartUpThemes": {
         "algorithm": "JustReturn",
@@ -6425,10 +6430,10 @@
         "postDelay": 300,
         "action": "ClickRect",
         "specificRect": [
-            580,
-            190,
-            40,
-            30
+            562,
+            195,
+            10,
+            36
         ]
     },
     "StageDrops-StageName": {
