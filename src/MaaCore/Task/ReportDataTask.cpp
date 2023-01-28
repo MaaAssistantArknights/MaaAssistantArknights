@@ -83,11 +83,12 @@ void asst::ReportDataTask::report_to_penguin()
     key_ss << "MAA" << std::hex << tick << rand;
     std::string key = key_ss.str();
     Log.info("X-Penguin-Idempotency-Key:", key);
-
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
-    int backoff = 10 * 1000; // 10s
-
+    constexpr int DefaultBackoff = 10 * 1000; // 10s
+    int backoff = DefaultBackoff;
+    
+    auto penguin_success_cond = [](const http::Response& response) -> bool { return response.success(); };
     auto penguin_retry_cond = [&](const http::Response& response) -> bool {
         if (!response.status_code()) {
             return true;
@@ -100,9 +101,9 @@ void asst::ReportDataTask::report_to_penguin()
         return false;
     };
 
-    http::Response response = report(
-        "ReportToPenguinStats", Config.get_options().penguin_report.cmd_format,
-        [](const http::Response& response) -> bool { return response.success(); }, penguin_retry_cond, false);
+    constexpr std::string_view PenguinSubtaskName = "ReportToPenguinStats";
+    const std::string& cmd_format = Config.get_options().penguin_report.cmd_format;
+    http::Response response = report(PenguinSubtaskName, cmd_format, penguin_success_cond, penguin_retry_cond, false);
 
     auto proc_response_id = [&]() {
         if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
@@ -118,17 +119,16 @@ void asst::ReportDataTask::report_to_penguin()
     }
 
     // 重新向企鹅物流统计的 CN 域名发送数据
-    std::string new_cmd_format = Config.get_options().penguin_report.cmd_format;
-    if (new_cmd_format.find("https://penguin-stats.io") == std::string::npos) {
+    constexpr std::string_view Penguin_IO = "https://penguin-stats.io";
+    constexpr std::string_view Penguin_CN = "https://penguin-stats.cn";
+    if (cmd_format.find(Penguin_IO) == std::string::npos) {
         return;
     }
-    Log.info("Re-report to penguin-stats.cn");
-
-    utils::string_replace_all_in_place(new_cmd_format, "https://penguin-stats.io", "https://penguin-stats.cn");
-    backoff = 10 * 1000; // 10s
-    response = report(
-        "ReportToPenguinStats", new_cmd_format,
-        [](const http::Response& response) -> bool { return response.success(); }, penguin_retry_cond);
+    Log.info("Re-report to penguin-stats.cn", Penguin_CN);
+    std::string new_cmd_format = utils::string_replace_all(cmd_format, Penguin_IO, Penguin_CN);
+    
+    backoff = DefaultBackoff;
+    response = report(PenguinSubtaskName, new_cmd_format, penguin_success_cond, penguin_retry_cond);
 
     if (response.success()) {
         proc_response_id();
@@ -140,17 +140,19 @@ void asst::ReportDataTask::report_to_yituliu()
 {
     LogTraceFunction;
 
-    report("ReportToYituliu", Config.get_options().yituliu_report.cmd_format);
+    constexpr std::string_view YituliuSubtaskName = "ReportToYituliu";
+    const std::string& cmd_format = Config.get_options().yituliu_report.cmd_format;
+    report(YituliuSubtaskName, cmd_format);
 }
 
-asst::http::Response asst::ReportDataTask::report(const std::string& subtask, const std::string& format,
+asst::http::Response asst::ReportDataTask::report(std::string_view subtask, const std::string& format,
                                                   HttpResponsePred success_cond, HttpResponsePred retry_cond,
                                                   bool callback_on_failure)
 {
     LogTraceFunction;
 
     json::value cb_info = basic_info();
-    cb_info["subtask"] = subtask;
+    cb_info["subtask"] = std::string(subtask);
     callback(AsstMsg::SubTaskStart, cb_info);
 
     http::Response response;
@@ -200,12 +202,6 @@ asst::http::Response asst::ReportDataTask::escape_and_request(const std::string&
     Log.info("request:\n" + cmd_line);
     std::string response = utils::call_command(cmd_line);
     Log.info("response:\n" + response);
-
-    // Log.info("response:\n" + utils::string_replace_all(response, {
-    //                                                                  { "\n", " [LF]\n" },
-    //                                                                  { "\r [LF]\n", " [CRLF]\n" },
-    //                                                                  { "\r", " [CR]\n" },
-    //                                                              }));
-
+    
     return response;
 }
