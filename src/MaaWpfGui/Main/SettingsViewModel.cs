@@ -2190,10 +2190,10 @@ namespace MaaWpfGui
             ViewStatusStorage.Set("GUI.Monitor.Width", screenRect.Width.ToString());
             ViewStatusStorage.Set("GUI.Monitor.Height", screenRect.Height.ToString());
 
-            ViewStatusStorage.Set("GUI.Position.Left", (mainWindow.Left - screenRect.Left).ToString());
-            ViewStatusStorage.Set("GUI.Position.Top", (mainWindow.Top - screenRect.Top).ToString());
-            ViewStatusStorage.Set("GUI.Size.Width", mainWindow.Width.ToString());
-            ViewStatusStorage.Set("GUI.Size.Height", mainWindow.Height.ToString());
+            ViewStatusStorage.Set("GUI.Position.Left", (mainWindow.Left - screenRect.Left).ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set("GUI.Position.Top", (mainWindow.Top - screenRect.Top).ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set("GUI.Size.Width", mainWindow.Width.ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set("GUI.Size.Height", mainWindow.Height.ToString(CultureInfo.InvariantCulture));
         }
 
         private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
