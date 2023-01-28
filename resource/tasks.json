@@ -9618,7 +9618,7 @@
             126
         ],
         "next": [
-            "SSSComfirmBattleComplete"
+            "SSSConfirmBattleComplete"
         ]
     },
     "SSSDropRecruitmentOCR": {
