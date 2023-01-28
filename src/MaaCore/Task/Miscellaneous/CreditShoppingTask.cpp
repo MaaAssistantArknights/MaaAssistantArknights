@@ -80,7 +80,7 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
 
         ProcessTask(*this, { "CreditShop-BuyIt" }).run();
 
-        if (ProcessTask(*this, { "CreditShop-NoMoney" }).set_retry_times(0).run()) {
+        if (ProcessTask(*this, { "CreditShop-NoMoney" }).set_task_delay(0).set_retry_times(0).run()) {
             break;
         }
         if (need_exit()) {

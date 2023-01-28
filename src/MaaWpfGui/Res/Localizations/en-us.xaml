@@ -77,6 +77,7 @@
     <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Oper" from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
     <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
+    <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>
     <system:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</system:String>
@@ -186,7 +187,6 @@
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
-    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
@@ -252,7 +252,7 @@
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
     <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">Exit MAA and Emulator</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate*</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
 

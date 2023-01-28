@@ -37,6 +37,7 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
+    m_skill_error_count.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
 
@@ -458,10 +459,22 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Once) {
             continue;
         }
-        if (!check_and_use_skill(loc, image)) {
+        bool has_error = false;
+        if (!check_and_use_skill(loc, has_error, image)) {
+            continue;
+        }
+        // 识别到了，但点进去发现没有。一般来说是识别错了
+        if (has_error) {
+            Log.warn("Skill", name, "is not ready");
+            constexpr int MaxRetry = 3;
+            if (++m_skill_error_count[name] >= MaxRetry) {
+                Log.warn("Do not use skill anymore", name);
+                usage = SkillUsage::NotUse;
+            }
             continue;
         }
         used = true;
+        m_skill_error_count[name] = 0;
         if (usage == SkillUsage::Once) {
             usage = SkillUsage::OnceUsed;
         }
@@ -471,17 +484,17 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     return used;
 }
 
-bool asst::BattleHelper::check_and_use_skill(const std::string& name, const cv::Mat& reusable)
+bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable)
 {
     auto oper_iter = m_battlefield_opers.find(name);
     if (oper_iter == m_battlefield_opers.cend()) {
         Log.error("No oper", name);
         return false;
     }
-    return check_and_use_skill(oper_iter->second, reusable);
+    return check_and_use_skill(oper_iter->second, has_error, reusable);
 }
 
-bool asst::BattleHelper::check_and_use_skill(const Point& loc, const cv::Mat& reusable)
+bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattleSkillReadyImageAnalyzer skill_analyzer(image);
@@ -497,7 +510,8 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, const cv::Mat& re
         return false;
     }
 
-    return use_skill(loc, false);
+    has_error = use_skill(loc, false);
+    return true;
 }
 
 void asst::BattleHelper::save_map(const cv::Mat& image)

@@ -387,7 +387,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
 bool asst::RoguelikeRecruitTaskPlugin::check_support_char()
 {
     LogTraceFunction;
-    const int MaxRefreshTimes = 3;
+    const int MaxRefreshTimes = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
 
     auto core_opt = status()->get_str(Status::RoguelikeCoreChar);
     status()->set_str(Status::RoguelikeCoreChar, "");
