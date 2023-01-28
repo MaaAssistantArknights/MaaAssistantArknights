@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
@@ -112,6 +113,11 @@ namespace MaaWpfGui
                     Localization.GetString("Burping"),
                     MessageBoxButton.OK, MessageBoxImage.Hand);
                 Hangover = false;
+            }
+
+            if (LoadGUIParameters && SaveGUIParametersOnClosing)
+            {
+                Application.Current.MainWindow.Closing += SaveGUIParameters;
             }
         }
 
@@ -216,23 +222,7 @@ namespace MaaWpfGui
                 new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
             };
 
-            RoguelikeSquadList = new List<CombData>
-            {
-                new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
-                new CombData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
-                new CombData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
-                new CombData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
-                new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
-                new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
-                new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
-                new CombData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
-                new CombData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
-                new CombData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
-                new CombData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
-                new CombData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new CombData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
-                new CombData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
-            };
+            UpdateRoguelikeThemeList();
 
             RoguelikeRolesList = new List<CombData>
             {
@@ -624,10 +614,16 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> RoguelikeModeList { get; set; }
 
+        private ObservableCollection<CombData> _roguelikeSquadList = new ObservableCollection<CombData>();
+
         /// <summary>
         /// Gets or sets the list of roguelike squad.
         /// </summary>
-        public List<CombData> RoguelikeSquadList { get; set; }
+        public ObservableCollection<CombData> RoguelikeSquadList
+        {
+            get => _roguelikeSquadList;
+            set => SetAndNotify(ref _roguelikeSquadList, value);
+        }
 
         /// <summary>
         /// Gets or sets the list of roguelike roles.
@@ -1018,6 +1014,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
+                UpdateRoguelikeThemeList();
                 ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
             }
         }
@@ -1173,19 +1170,6 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
                 ViewStatusStorage.Set("Roguelike.StopWhenInvestmentFull", value.ToString());
-            }
-        }
-
-        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
-
-        public bool DeploymentWithPause
-        {
-            get => _deploymentWithPause;
-            set
-            {
-                SetAndNotify(ref _deploymentWithPause, value);
-                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
-                UpdateInstanceSettings();
             }
         }
 
@@ -1805,6 +1789,32 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
+
+        public bool DeploymentWithPause
+        {
+            get => _deploymentWithPause;
+            set
+            {
+                SetAndNotify(ref _deploymentWithPause, value);
+                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
+        private bool _adbLiteEnabled = bool.Parse(ViewStatusStorage.Get("Connect.AdbLiteEnabled", false.ToString()));
+
+        public bool AdbLiteEnabled
+        {
+            get => _adbLiteEnabled;
+            set
+            {
+                SetAndNotify(ref _adbLiteEnabled, value);
+                ViewStatusStorage.Set("Connect.AdbLiteEnabled", value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
         private readonly Dictionary<string, List<string>> _defaultAddress = new Dictionary<string, List<string>>
         {
             { "General", new List<string> { string.Empty } },
@@ -1972,6 +1982,7 @@ namespace MaaWpfGui
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
             asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
@@ -2105,6 +2116,84 @@ namespace MaaWpfGui
                     });
                 }
             }
+        }
+
+        private bool _loadGUIParameters = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to load GUI parameters.
+        /// </summary>
+        public bool LoadGUIParameters
+        {
+            get => _loadGUIParameters;
+            set
+            {
+                SetAndNotify(ref _loadGUIParameters, value);
+                ViewStatusStorage.Set("GUI.PositionAndSize.Load", value.ToString());
+                if (value)
+                {
+                    if (SaveGUIParametersOnClosing)
+                    {
+                        Application.Current.MainWindow.Closing += SaveGUIParameters;
+                    }
+                    else
+                    {
+                        SaveGUIParameters();
+                    }
+                }
+            }
+        }
+
+        private bool _saveGUIParametersOnClosing = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.SaveOnClosing", bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to save GUI parameters on closing main window.
+        /// </summary>
+        public bool SaveGUIParametersOnClosing
+        {
+            get => _saveGUIParametersOnClosing;
+            set
+            {
+                SetAndNotify(ref _saveGUIParametersOnClosing, value);
+                ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", value.ToString());
+                if (value)
+                {
+                    Application.Current.MainWindow.Closing += SaveGUIParameters;
+                }
+                else
+                {
+                    Application.Current.MainWindow.Closing -= SaveGUIParameters;
+                }
+            }
+        }
+
+        private void SaveGUIParameters(object sender, EventArgs e)
+        {
+            SaveGUIParameters();
+        }
+
+        /// <summary>
+        /// Save main window left edge, top edge, width and heigth.
+        /// </summary>
+        public void SaveGUIParameters()
+        {
+            // 请在配置文件中修改该部分配置，暂不支持从GUI设置
+            // Please modify this part of configuration in the configuration file.
+            ViewStatusStorage.Set("GUI.PositionAndSize.Load", LoadGUIParameters.ToString());
+            ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", SaveGUIParametersOnClosing.ToString());
+
+            var mainWindow = Application.Current.MainWindow;
+            System.Windows.Forms.Screen currentScreen =
+                System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(mainWindow).Handle);
+            var screenRect = currentScreen.Bounds;
+            ViewStatusStorage.Set("GUI.Monitor.Number", currentScreen.DeviceName);
+            ViewStatusStorage.Set("GUI.Monitor.Width", screenRect.Width.ToString());
+            ViewStatusStorage.Set("GUI.Monitor.Height", screenRect.Height.ToString());
+
+            ViewStatusStorage.Set("GUI.Position.Left", (mainWindow.Left - screenRect.Left).ToString());
+            ViewStatusStorage.Set("GUI.Position.Top", (mainWindow.Top - screenRect.Top).ToString());
+            ViewStatusStorage.Set("GUI.Size.Width", mainWindow.Width.ToString());
+            ViewStatusStorage.Set("GUI.Size.Height", mainWindow.Height.ToString());
         }
 
         private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
@@ -2362,6 +2451,55 @@ namespace MaaWpfGui
             }
 
             return false;
+        }
+
+        public void UpdateRoguelikeThemeList()
+        {
+            var roguelikeSquad = RoguelikeSquad;
+
+            RoguelikeSquadList = new ObservableCollection<CombData>
+            {
+                new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
+            };
+
+            switch (RoguelikeTheme)
+            {
+                case "Phantom":
+                    // No new items
+                    break;
+                case "Mizuki":
+                    foreach (var item in new ObservableCollection<CombData>
+                    {
+                        new CombData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
+                        new CombData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
+                        new CombData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
+                    break;
+            }
+
+            // 通用分队
+            foreach (var item in new ObservableCollection<CombData>
+            {
+                new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
+                new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
+                new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
+                new CombData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
+                new CombData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
+                new CombData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
+                new CombData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
+                new CombData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
+                new CombData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
+                new CombData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
+            })
+            {
+                RoguelikeSquadList.Add(item);
+            }
+
+            RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
     }
 }

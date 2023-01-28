@@ -1,21 +1,33 @@
-**新年快乐！Happy Chinese New Year!**
+## v4.10.4
 
 - 新增 adb-lite 连接方式 @hguandl
 - 新增 mac 版本 自动战斗抄作业功能 @hguandl
+- 新增 界面 退出时自动保存上次位置 @moomiji @ABA2396
 - 更新 自定义基建内置作业 @ABA2396 @martinwang2002 @MistEO
 - 重构 界面 定时功能 @ABA2396
 - 优化 界面 关卡名输入支持中文 @ABA2396
+- 优化 界面 启动设置项 @Sed66666 @ABA2396
 - 优化 `保全派驻` 内置作业 @HMZyueshen
-- 修复 `保全派驻` 第三关中途掉落时卡住的问题 @MistEO
+- 优化 肉鸽 Pin Up 相关提示，优化分队选项 @ABA2396
+- 优化 肉鸽 助战刷新次数 @WLLEGit
 - 修复 界面 关卡名被重置的问题 @ABA2396
 - 修复 OTA 包编码错误 @horror-proton
 - 修复 mac 版本日志创建错误 @hguandl
+- 修复了一些乱七八糟的小 bug 太多了以至于我懒得写（ @MistEO @horror-proton @ABA2396
+- 更新 文档 @WWPXX233 @martinwang2002 @Rbqwow
+
 
 ### For overseas
 
 - 新增 繁中服 火蓝之心导航、掉落识别、仓库识别支持 @vonnoq
-- Support trial mode for the EN client @RiichiTsumo
+- 修复 繁中服 基建识别 @vonnoq
+- Supported trial mode for the EN client @RiichiTsumo
+- Supported some new feautres for the JP Client @liuyifan-eric
 - Fixed the operator names and recruitment tags recognition error in the JP client @cat122802501 @liuyifan-eric
+
+### For develops
+
+- Added `SingleStep` Task API @MistEO
 
 ## v4.10.3
 

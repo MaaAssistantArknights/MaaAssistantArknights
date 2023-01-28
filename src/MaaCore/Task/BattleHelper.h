@@ -49,8 +49,8 @@ namespace asst
         virtual bool wait_until_start(bool weak = true);
         bool wait_until_end(bool weak = true);
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
-        bool check_and_use_skill(const std::string& name, const cv::Mat& reusable = cv::Mat());
-        bool check_and_use_skill(const Point& loc, const cv::Mat& reusable = cv::Mat());
+        bool check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable = cv::Mat());
+        bool check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable = cv::Mat());
         void save_map(const cv::Mat& image);
 
         bool click_oper_on_deployment(const std::string& name);
@@ -68,6 +68,7 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
+        std::unordered_map<std::string, int> m_skill_error_count;
         int m_camera_count = 0;
         std::pair<double, double> m_camera_shift = { 0., 0. };
 

@@ -149,7 +149,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", cmd },
               } },
         };
-        static constexpr int ReconnectTimes = 20;
+        static constexpr int ReconnectTimes = 5;
         for (int i = 0; i < ReconnectTimes; ++i) {
             if (need_exit()) {
                 break;
@@ -344,8 +344,6 @@ void asst::Controller::release_minitouch(bool force)
 // 返回值代表是否找到 "\r\n"，函数本身会将所有 "\r\n" 替换为 "\n"
 bool asst::Controller::convert_lf(std::string& data)
 {
-    LogTraceFunction;
-
     if (data.empty() || data.size() < 2) {
         return false;
     }
@@ -403,7 +401,6 @@ void asst::Controller::random_delay() const
 {
     auto& opt = Config.get_options();
     if (opt.control_delay_upper != 0) {
-        LogTraceFunction;
         static std::default_random_engine rand_engine(std::random_device {}());
         static std::uniform_int_distribution<unsigned> rand_uni(opt.control_delay_lower, opt.control_delay_upper);
 
@@ -1292,6 +1289,11 @@ void asst::Controller::set_swipe_with_pause(bool enable) noexcept
     m_swipe_with_pause_enabled = enable;
 }
 
+void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
+{
+    m_use_adb_lite = enable;
+}
+
 const std::string& asst::Controller::get_uuid() const
 {
     return m_uuid;
@@ -1355,8 +1357,6 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
                                                         const int64_t timeout,
                                                         const std::chrono::steady_clock::time_point start_time)
 {
-    LogTraceFunction;
-
     using namespace std::chrono;
 
     asst::platform::single_page_buffer<char> pipe_buffer;
@@ -1561,8 +1561,6 @@ std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, 
                                                         const int64_t timeout,
                                                         const std::chrono::steady_clock::time_point start_time)
 {
-    LogTraceFunction;
-
     using namespace std::chrono;
 
     asst::platform::single_page_buffer<char> pipe_buffer;
@@ -1638,8 +1636,6 @@ std::optional<int> asst::Controller::call_command_tcpip(const std::string& cmd, 
                                                         const int64_t timeout,
                                                         const std::chrono::steady_clock::time_point start_time)
 {
-    LogTraceFunction;
-
     // TODO: 从上面的 call_command_win32/posix 里抽取出 socket 接收的部分
     if (recv_by_socket) {
         Log.error("adb-lite does not support receiving data from socket");
@@ -1648,10 +1644,8 @@ std::optional<int> asst::Controller::call_command_tcpip(const std::string& cmd, 
     }
 
     // TODO: 实现 timeout，目前暂时忽略
-    if (false) {
-        timeout;
-        start_time;
-    }
+    std::ignore = timeout;
+    std::ignore = start_time;
 
     static const std::regex devices_regex(R"(^.+ devices$)");
     static const std::regex release_regex(R"(^.+ kill-server$)");
@@ -1689,9 +1683,8 @@ std::optional<int> asst::Controller::call_command_tcpip(const std::string& cmd, 
     // adb connect
     // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
     if (std::regex_match(cmd, match, connect_regex)) {
-        if (!m_adb_client) {
-            m_adb_client = adb::client::create(match[1].str());
-        }
+
+        m_adb_client = adb::client::create(match[1].str()); // TODO: compare address with existing (if any)
 
         try {
             pipe_data = m_adb_client->connect();
@@ -1769,8 +1762,6 @@ std::optional<int> asst::Controller::call_command_tcpip(const std::string& cmd, 
 bool asst::Controller::call_and_hup_minitouch_win32(const std::string& cmd, const auto& check_timeout,
                                                     std::string& pipe_str)
 {
-    LogTraceFunction;
-
     constexpr int PipeReadBuffSize = 4096ULL;
     constexpr int PipeWriteBuffSize = 64 * 1024ULL;
 
@@ -1841,8 +1832,6 @@ bool asst::Controller::call_and_hup_minitouch_win32(const std::string& cmd, cons
 bool asst::Controller::call_and_hup_minitouch_posix(const std::string& cmd, const auto& check_timeout,
                                                     std::string& pipe_str)
 {
-    LogTraceFunction;
-
     constexpr int PipeReadBuffSize = 4096ULL;
     constexpr int PipeWriteBuffSize = 64 * 1024ULL;
 
@@ -1931,8 +1920,6 @@ bool asst::Controller::call_and_hup_minitouch_posix(const std::string& cmd, cons
 
 bool asst::Controller::call_and_hup_minitouch_tcpip(const std::string& cmd, const int timeout, std::string& pipe_str)
 {
-    LogTraceFunction;
-
     static const std::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
     std::smatch match;
 
@@ -1987,8 +1974,6 @@ bool asst::Controller::call_and_hup_minitouch_tcpip(const std::string& cmd, cons
 
 bool asst::Controller::input_to_minitouch_adb(const std::string& cmd)
 {
-    LogTraceFunction;
-
     if (m_minitouch_handle == nullptr) {
         Log.error("Minitouch connect not active");
         return false;

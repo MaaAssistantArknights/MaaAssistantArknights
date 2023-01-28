@@ -76,18 +76,25 @@ namespace MaaWpfGui
         {
             get
             {
-                if (Enum.TryParse(_actionAfterCompleted, out ActionType action))
+                if (!Enum.TryParse(_actionAfterCompleted, out ActionType action))
                 {
-                    return action;
+                    return ActionType.DoNothing;
                 }
 
-                return ActionType.DoNothing;
+                return action;
             }
 
             set
             {
                 string storeValue = value.ToString();
                 SetAndNotify(ref _actionAfterCompleted, storeValue);
+
+                if (value == ActionType.HibernateWithoutPersist || value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist
+                    || value == ActionType.ShutdownWithoutPersist)
+                {
+                    storeValue = ActionType.DoNothing.ToString();
+                }
+
                 ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
             }
         }
@@ -153,14 +160,21 @@ namespace MaaWpfGui
             int intMinute = DateTime.Now.Minute;
             int intHour = DateTime.Now.Hour;
             var settings = _container.Get<SettingsViewModel>();
+            var timeToStart = false;
             for (int i = 0; i < 8; ++i)
             {
                 if (settings.TimerModels.Timers[i].IsOn &&
                     settings.TimerModels.Timers[i].Hour == intHour &&
                     settings.TimerModels.Timers[i].Min == intMinute)
                 {
-                    LinkStart();
+                    timeToStart = true;
+                    break;
                 }
+            }
+
+            if (timeToStart)
+            {
+                LinkStart();
             }
         }
 
@@ -191,6 +205,10 @@ namespace MaaWpfGui
                 new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
+
+                // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate") + "*", Value = ActionType.HibernateWithoutPersist },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown") + "*", Value = ActionType.ShutdownWithoutPersist },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
@@ -1104,6 +1122,21 @@ namespace MaaWpfGui
             /// Computer shutdown.
             /// </summary>
             Shutdown,
+
+            /// <summary>
+            /// Computer hibernates without Persist.
+            /// </summary>
+            HibernateWithoutPersist,
+
+            /// <summary>
+            /// Exits MAA and emulator and computer hibernates without Persist.
+            /// </summary>
+            ExitEmulatorAndSelfAndHibernateWithoutPersist,
+
+            /// <summary>
+            /// Computer shutdown without Persist.
+            /// </summary>
+            ShutdownWithoutPersist,
         }
 
         /// <summary>
@@ -1153,6 +1186,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.Shutdown:
+                case ActionType.ShutdownWithoutPersist:
                     Process.Start("shutdown.exe", "-s -t 60");
 
                     // 关机询问
@@ -1171,6 +1205,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.Hibernate:
+                case ActionType.HibernateWithoutPersist:
                     // 休眠提示
                     AddLog(Localization.GetString("HibernatePrompt"), UILogColor.Error);
 
@@ -1179,6 +1214,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelfAndHibernate:
+                case ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist:
                     if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
@@ -1404,7 +1440,11 @@ namespace MaaWpfGui
             get => _stage1;
             set
             {
-                value = ToUpperAndCheckStage(value);
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _stage1, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage1", value);
@@ -1422,7 +1462,6 @@ namespace MaaWpfGui
             get => _stage2;
             set
             {
-                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _stage2, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage2", value);
@@ -1440,7 +1479,6 @@ namespace MaaWpfGui
             get => _stage3;
             set
             {
-                value = ToUpperAndCheckStage(value);
                 SetAndNotify(ref _stage3, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage3", value);
@@ -1492,7 +1530,11 @@ namespace MaaWpfGui
 
             set
             {
-                value = ToUpperAndCheckStage(value);
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _remainingSanityStage, value);
                 SetFightRemainingSanityParams();
                 ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
@@ -1756,6 +1798,16 @@ namespace MaaWpfGui
             get => _medicineNumber;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
+                if (value == "0")
+                {
+                    UseStone = false;
+                }
+
                 SetAndNotify(ref _medicineNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
@@ -1772,6 +1824,11 @@ namespace MaaWpfGui
             get => _useStone;
             set
             {
+                if (MedicineNumber == "0")
+                {
+                    value = false;
+                }
+
                 SetAndNotify(ref _useStone, value);
                 if (value)
                 {
@@ -1792,6 +1849,11 @@ namespace MaaWpfGui
             get => _stoneNumber;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
@@ -1823,6 +1885,11 @@ namespace MaaWpfGui
             get => _maxTimes;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _maxTimes, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
@@ -1964,6 +2031,11 @@ namespace MaaWpfGui
             get => _dropsQuantity;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);

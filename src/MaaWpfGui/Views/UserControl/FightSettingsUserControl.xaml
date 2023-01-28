@@ -56,6 +56,7 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        PreviewTextInput="TextBox_RestrictInputInt"
                         Text="{Binding MedicineNumber}"
                         TextType="Int" />
                     <hc:TextBox
@@ -66,6 +67,7 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        PreviewTextInput="TextBox_RestrictInputInt"
                         Text="{Binding StoneNumber}"
                         TextType="Int" />
                     <hc:TextBox
@@ -76,6 +78,7 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        PreviewTextInput="TextBox_RestrictInputInt"
                         Text="{Binding MaxTimes}"
                         TextType="Int" />
                 </StackPanel>
@@ -125,6 +128,7 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        PreviewTextInput="TextBox_RestrictInputInt"
                         Text="{Binding DropsQuantity}"
                         TextType="Int"
                         Visibility="{c:Binding IsSpecifiedDrops}" />

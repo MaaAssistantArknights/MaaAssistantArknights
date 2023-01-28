@@ -82,7 +82,8 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             }
 
             Log.info(__FUNCTION__, "| AnalyzeChars append ", char_info.oper_info.name, char_info.oper_info.rect,
-                     char_elite, char_level, is_friend, char_info.max_elite, char_info.max_level);
+                     char_info.oper_info.elite, char_info.oper_info.level, is_friend, char_info.max_elite,
+                     char_info.max_level);
             m_char_result.push_back(char_info);
         }
         return !m_char_result.empty();

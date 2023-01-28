@@ -43,7 +43,8 @@ bool asst::BattleProcessTask::_run()
 
     size_t action_size = get_combat_data().actions.size();
     for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
-        do_action(i);
+        const auto& action = get_combat_data().actions.at(i);
+        do_action(action, i);
     }
 
     if (need_to_wait_until_end()) {
@@ -132,11 +133,9 @@ bool asst::BattleProcessTask::to_group()
     return true;
 }
 
-bool asst::BattleProcessTask::do_action(size_t action_index)
+bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t action_index)
 {
     LogTraceFunction;
-
-    const auto& action = get_combat_data().actions.at(action_index);
 
     notify_action(action);
 
@@ -245,7 +244,10 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 {
     cv::Mat image;
     auto update_image_if_empty = [&]() {
-        if (image.empty()) image = ctrler()->get_image();
+        if (image.empty()) {
+            image = ctrler()->get_image();
+            check_in_battle(image);
+        }     
     };
     auto do_strategy_and_update_image = [&]() {
         do_strategic_action(image);
@@ -257,7 +259,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         update_cost(image);
         int pre_cost = m_cost;
 
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             update_cost(image);
             if (action.cost_changes != 0) {
                 if ((pre_cost + action.cost_changes < 0) ? (m_cost <= pre_cost + action.cost_changes)
@@ -288,7 +290,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     if (action.costs) {
         update_image_if_empty();
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             update_cost(image);
             if (m_cost >= action.costs) {
                 break;
@@ -303,7 +305,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     // 计算有几个干员在cd
     if (action.cooling >= 0) {
         update_image_if_empty();
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             if (!update_deployment(false, image)) {
                 return false;
             }
@@ -320,7 +322,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     if (!m_in_bullet_time && action.type == ActionType::Deploy) {
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
-        while (!need_exit() && m_in_battle) {
+        while (!need_exit()) {
             if (!update_deployment(false, image)) {
                 return false;
             }

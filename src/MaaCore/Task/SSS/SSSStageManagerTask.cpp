@@ -17,7 +17,7 @@ bool asst::SSSStageManagerTask::_run()
 
     while (!need_exit()) {
         do {
-        } while (!comfirm_battle_complete() && !need_exit()); //
+        } while (!confirm_battle_complete() && !need_exit()); //
 
         if (need_exit()) {
             break;
@@ -92,9 +92,9 @@ std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
     return std::nullopt;
 }
 
-bool asst::SSSStageManagerTask::comfirm_battle_complete()
+bool asst::SSSStageManagerTask::confirm_battle_complete()
 {
-    return ProcessTask(*this, { "SSSComfirmBattleComplete" })
+    return ProcessTask(*this, { "SSSConfirmBattleComplete" })
         .set_times_limit("SSSStartFighting", 0)
         .set_times_limit("SSSBegin", 0)
         .run();
@@ -109,7 +109,7 @@ bool asst::SSSStageManagerTask::settle()
 {
     return ProcessTask(*this, { "SSSSettlement" }) //
                .run() &&
-           ProcessTask(*this, { "SSSComfirmBattleComplete" })
+           ProcessTask(*this, { "SSSConfirmBattleComplete" })
                .set_times_limit("SSSStartFighting", 0)
                .set_times_limit("SSSBegin", 0)
                .run();

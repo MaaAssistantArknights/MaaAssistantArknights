@@ -629,7 +629,11 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(const DeploymentOper& oper) const
 {
-    return available_locations(get_oper_location_type(oper));
+    auto type = get_oper_location_type(oper);
+    if (type == LocationType::Invalid || type == LocationType::None) {
+        return available_locations(get_role_usual_location(oper.role));
+    }
+    return available_locations(type);
 }
 
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(battle::LocationType type) const

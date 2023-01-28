@@ -39,6 +39,7 @@ namespace asst
         bool inited() const noexcept;
         void set_minitouch_enabled(bool enable, bool maa_touch = false) noexcept;
         void set_swipe_with_pause(bool enable) noexcept;
+        void set_adb_lite_enabled(bool enable) noexcept;
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
