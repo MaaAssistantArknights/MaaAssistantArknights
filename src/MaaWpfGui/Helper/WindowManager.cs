@@ -29,10 +29,10 @@ namespace MaaWpfGui
         private readonly int ScreenWidth = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Width", "-1"));
         private readonly int ScreenHeight = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Height", "-1"));
 
-        private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", "NaN"));
-        private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", "NaN"));
-        private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", "NaN"));
-        private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", "NaN"));
+        private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", "-1"));
+        private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", "-1"));
+        private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", "-1"));
+        private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", "-1"));
 
         private readonly string RootView = "MaaWpfGui.RootView";
 
@@ -61,7 +61,7 @@ namespace MaaWpfGui
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
             if (bool.Parse(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString)))
             {
-                if (isDialog || ownerViewModel != null || double.IsNaN(Left) || double.IsNaN(Top))
+                if (isDialog || ownerViewModel != null || Left == -1 || Top == -1)
                 {
                     return window;
                 }
