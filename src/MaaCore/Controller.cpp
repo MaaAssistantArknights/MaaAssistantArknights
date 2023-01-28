@@ -1386,7 +1386,8 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
     BOOL create_ret =
         CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
-        Log.error("Call `", cmd, "` create process failed, ret", create_ret);
+        auto err = GetLastError();
+        Log.error("Call `", cmd, "` create process failed, ret", create_ret, "error code:", err);
         return std::nullopt;
     }
 
