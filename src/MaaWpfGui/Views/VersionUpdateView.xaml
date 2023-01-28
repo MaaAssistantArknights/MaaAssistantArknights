@@ -41,6 +41,7 @@
         <mdxam:MarkdownScrollViewer
             x:Name="UpdateInfoMarkdownDocument"
             Grid.Row="1"
+            Language="zh-CN"
             Margin="16,0"
             ClickAction="DisplayWithRelativePath"
             Markdown="{Binding UpdateInfo}"
