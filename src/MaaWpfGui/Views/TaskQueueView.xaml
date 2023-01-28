@@ -127,6 +127,7 @@
                     Grid.Column="1"
                     Width="160"
                     Margin="5"
+                    MaxDropDownHeight="800"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ActionAfterCompletedList}"
                     SelectedValue="{Binding ActionAfterCompleted}"
