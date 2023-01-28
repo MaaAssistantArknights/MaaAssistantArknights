@@ -61,5 +61,5 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
         }
     }
 
-    return ProcessTask(*this, { "SSSDropRecruitmentConfrim" }).set_retry_times(5).run();
+    return ProcessTask(*this, { "SSSDropRecruitmentConfirm" }).set_retry_times(5).run();
 }

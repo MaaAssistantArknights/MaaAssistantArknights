@@ -9574,7 +9574,7 @@
             160
         ]
     },
-    "SSSComfirmBattleComplete": {
+    "SSSConfirmBattleComplete": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
@@ -9634,7 +9634,7 @@
         ],
         "postDelay": 1000
     },
-    "SSSDropRecruitmentConfrim": {
+    "SSSDropRecruitmentConfirm": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
