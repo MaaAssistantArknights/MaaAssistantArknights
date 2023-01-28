@@ -530,7 +530,7 @@ namespace MaaWpfGui
                     // 稳定版更新使用主仓库 /latest 接口
                     // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
                     var stableResponse = RequestGithubApi(StableRequestUrl, RequestRetryMaxTimes);
-                    if (stableResponse.Length == 0)
+                    if (string.IsNullOrEmpty(stableResponse))
                     {
                         return CheckUpdateRetT.NetworkError;
                     }
@@ -540,7 +540,7 @@ namespace MaaWpfGui
                     stableResponse = RequestGithubApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
 
                     // 主仓库能找到版，但是 MaaRelease 找不到，说明 MaaRelease 还没有同步（一般过个十分钟就同步好了）
-                    if (stableResponse.Length == 0)
+                    if (string.IsNullOrEmpty(stableResponse))
                     {
                         return CheckUpdateRetT.NewVersionIsBeingBuilt;
                     }
@@ -551,7 +551,7 @@ namespace MaaWpfGui
                 {
                     // 非稳定版更新使用 MaaRelease/releases 接口
                     var response = RequestGithubApi(RequestUrl, RequestRetryMaxTimes);
-                    if (response.Length == 0)
+                    if (string.IsNullOrEmpty(response))
                     {
                         return CheckUpdateRetT.NetworkError;
                     }
@@ -608,7 +608,7 @@ namespace MaaWpfGui
                 if (isStdVersion(_latestVersion))
                 {
                     var infoResponse = RequestGithubApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
-                    if (infoResponse.Length == 0)
+                    if (string.IsNullOrEmpty(infoResponse))
                     {
                         return CheckUpdateRetT.FailedToGetInfo;
                     }
@@ -699,6 +699,10 @@ namespace MaaWpfGui
                 switch (downloader)
                 {
                     case Downloader.Native:
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _logItemViewModels.Clear();
+                        });
                         returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType, proxy);
                         break;
 
@@ -791,7 +795,7 @@ namespace MaaWpfGui
             httpWebRequest.Method = "GET";
             httpWebRequest.UserAgent = WebService.RequestUserAgent;
             httpWebRequest.Accept = contentType;
-            if (proxy.Length > 0)
+            if (!string.IsNullOrEmpty(proxy))
             {
                 httpWebRequest.Proxy = new WebProxy(proxy);
             }

@@ -1361,13 +1361,12 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
 
     asst::platform::single_page_buffer<char> pipe_buffer;
     asst::platform::single_page_buffer<char> sock_buffer;
-
-    DWORD err = 0;
+    
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit,
                                              (DWORD)pipe_buffer.size(), true, false)) {
-        err = GetLastError();
+        DWORD err = GetLastError();
         Log.error("CreateOverlappablePipe failed, err", err);
         return std::nullopt;
     }
@@ -1386,7 +1385,8 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
     BOOL create_ret =
         CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
-        Log.error("Call `", cmd, "` create process failed, ret", create_ret);
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` create process failed, ret", create_ret, "error code:", err);
         return std::nullopt;
     }
 
@@ -1414,7 +1414,7 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
         if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.get(),
                                 (DWORD)sock_buffer.size() - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
                                 sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
-            err = WSAGetLastError();
+            DWORD err = WSAGetLastError();
             if (err == ERROR_IO_PENDING) {
                 accept_pending = true;
             }
@@ -1473,7 +1473,7 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
         }
         else {
             // something bad happened
-            err = GetLastError();
+            DWORD err = GetLastError();
             // throw std::system_error(std::error_code(err, std::system_category()));
             Log.error(__FUNCTION__, "A fatal error occurred", err);
             break;
@@ -1490,7 +1490,7 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
                 (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
             }
             else {
-                err = GetLastError();
+                DWORD err = GetLastError();
                 if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
                     pipe_eof = true;
                 }
