@@ -87,21 +87,22 @@ void asst::ReportDataTask::report_to_penguin()
     m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
     int backoff = 10 * 1000; // 10s
+
+    auto penguin_retry_cond = [&](const http::Response& response) -> bool {
+        if (!response.status_code()) {
+            return true;
+        }
+        if (response.status_5xx()) {
+            backoff = static_cast<int>(backoff * 1.5);
+            sleep(backoff);
+            return true;
+        }
+        return false;
+    };
+
     http::Response response = report(
         "ReportToPenguinStats", Config.get_options().penguin_report.cmd_format,
-        [](const http::Response& response) -> bool { return response.success(); },
-        [&](const http::Response& response) -> bool {
-            if (!response.status_code()) {
-                return true;
-            }
-            if (response.status_5xx()) {
-                backoff = static_cast<int>(backoff * 1.5);
-                sleep(backoff);
-                return true;
-            }
-            return false;
-        },
-        false);
+        [](const http::Response& response) -> bool { return response.success(); }, penguin_retry_cond, false);
 
     auto proc_response_id = [&]() {
         if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
@@ -127,15 +128,7 @@ void asst::ReportDataTask::report_to_penguin()
     backoff = 10 * 1000; // 10s
     response = report(
         "ReportToPenguinStats", new_cmd_format,
-        [](const http::Response& response) -> bool { return response.success(); },
-        [&](const http::Response& response) -> bool {
-            bool cond = !response.status_code() || response.status_5xx();
-            if (cond) {
-                backoff = static_cast<int>(backoff * 1.5);
-                sleep(backoff);
-            }
-            return cond;
-        });
+        [](const http::Response& response) -> bool { return response.success(); }, penguin_retry_cond);
 
     if (response.success()) {
         proc_response_id();
