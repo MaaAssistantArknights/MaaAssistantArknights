@@ -699,6 +699,10 @@ namespace MaaWpfGui
                 switch (downloader)
                 {
                     case Downloader.Native:
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _logItemViewModels.Clear();
+                        });
                         returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType, proxy);
                         break;
 
