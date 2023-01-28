@@ -150,7 +150,8 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     BOOL create_ret =
         CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
-        Log.error("Call `", cmdline, "` create process failed, ret", create_ret);
+        auto err = GetLastError();
+        Log.error("Call `", cmdline, "` create process failed, ret", create_ret, "error code:", err);
         return {};
     }
 
