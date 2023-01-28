@@ -48,7 +48,7 @@
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <hc:TextBox
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -57,9 +57,8 @@
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         PreviewTextInput="TextBox_RestrictInputInt"
-                        Text="{Binding MedicineNumber}"
-                        TextType="Int" />
-                    <hc:TextBox
+                        Text="{Binding MedicineNumber}" />
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -68,9 +67,8 @@
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         PreviewTextInput="TextBox_RestrictInputInt"
-                        Text="{Binding StoneNumber}"
-                        TextType="Int" />
-                    <hc:TextBox
+                        Text="{Binding StoneNumber}" />
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -79,8 +77,7 @@
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         PreviewTextInput="TextBox_RestrictInputInt"
-                        Text="{Binding MaxTimes}"
-                        TextType="Int" />
+                        Text="{Binding MaxTimes}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
@@ -120,7 +117,7 @@
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
 
-                    <hc:TextBox
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -130,7 +127,6 @@
                         InputMethod.IsInputMethodEnabled="False"
                         PreviewTextInput="TextBox_RestrictInputInt"
                         Text="{Binding DropsQuantity}"
-                        TextType="Int"
                         Visibility="{c:Binding IsSpecifiedDrops}" />
                 </StackPanel>
             </Grid>
