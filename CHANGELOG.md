@@ -9,6 +9,7 @@
 - 优化 界面 启动设置项 @Sed66666 @ABA2396
 - 优化 `保全派驻` 内置作业 @HMZyueshen
 - 优化 肉鸽 Pin Up 相关提示，优化分队选项 @ABA2396
+- 优化 肉鸽 助战刷新次数 @WLLEGit
 - 修复 界面 关卡名被重置的问题 @ABA2396
 - 修复 OTA 包编码错误 @horror-proton
 - 修复 mac 版本日志创建错误 @hguandl
