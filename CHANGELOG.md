@@ -1,3 +1,10 @@
+## v4.10.5
+
+- 修复 保全派驻 任务流程错误 @MistEO
+- 修复 请求更新失败时的崩溃问题 @ABA2396
+- 修复 系统语言为繁中时，启动时崩溃的问题 @MistEO @dantmnf
+- 添加 部分日志打印 @horror-proton
+
 ## v4.10.4
 
 - 新增 adb-lite 连接方式 @hguandl

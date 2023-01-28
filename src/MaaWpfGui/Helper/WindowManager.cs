@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Stylet;
@@ -29,10 +30,11 @@ namespace MaaWpfGui
         private readonly int ScreenWidth = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Width", "-1"));
         private readonly int ScreenHeight = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Height", "-1"));
 
-        private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", "NaN"));
-        private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", "NaN"));
-        private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", "NaN"));
-        private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", "NaN"));
+        private static readonly double DefaultDouble = -114514;
+        private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
 
         private readonly string RootView = "MaaWpfGui.RootView";
 
@@ -61,7 +63,7 @@ namespace MaaWpfGui
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
             if (bool.Parse(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString)))
             {
-                if (isDialog || ownerViewModel != null || double.IsNaN(Left) || double.IsNaN(Top))
+                if (isDialog || ownerViewModel != null || Left == DefaultDouble || Top == DefaultDouble)
                 {
                     return window;
                 }
