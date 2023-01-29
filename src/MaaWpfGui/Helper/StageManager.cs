@@ -214,6 +214,11 @@ namespace MaaWpfGui
         /// <returns>Whether stage is open</returns>
         public bool IsStageOpen(string stage, DayOfWeek dayOfWeek)
         {
+            if (stage == null)
+            {
+                return false;
+            }
+
             return GetStageInfo(stage)?.IsStageOpen(dayOfWeek) == true;
         }
 
