@@ -23,6 +23,7 @@ using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Stylet;
+using StyletIoC;
 
 namespace MaaWpfGui
 {
@@ -34,13 +35,16 @@ namespace MaaWpfGui
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
+        private readonly IContainer _container;
+
         private Dictionary<string, StageInfo> _stages;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StageManager"/> class.
         /// </summary>
-        public StageManager()
+        public StageManager(IContainer container)
         {
+            _container = container;
             UpdateStage(false);
 
             Execute.OnUIThread(async () =>
@@ -48,6 +52,11 @@ namespace MaaWpfGui
                 var task = Task.Run(() =>
                 {
                     UpdateStage(true);
+                    if (_container != null)
+                    {
+                        _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
+                        _container.Get<TaskQueueViewModel>().UpdateStageList(true);
+                    }
                 });
                 await task;
             });
