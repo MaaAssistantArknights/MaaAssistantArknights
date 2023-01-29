@@ -1619,6 +1619,20 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _isCheckingForUpdates = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the update is being checked.
+        /// </summary>
+        public bool IsCheckingForUpdates
+        {
+            get => _isCheckingForUpdates;
+            set
+            {
+                SetAndNotify(ref _isCheckingForUpdates, value);
+            }
+        }
+
         private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.FalseString));
 
         /// <summary>
