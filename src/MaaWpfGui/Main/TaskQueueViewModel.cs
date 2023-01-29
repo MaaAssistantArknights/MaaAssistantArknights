@@ -242,7 +242,7 @@ namespace MaaWpfGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            _stageManager = new StageManager();
+            _stageManager = new StageManager(_container);
             RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
             {
                 // It's Cur/Last option
