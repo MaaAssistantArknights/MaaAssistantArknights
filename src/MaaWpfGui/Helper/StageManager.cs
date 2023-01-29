@@ -42,6 +42,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Initializes a new instance of the <see cref="StageManager"/> class.
         /// </summary>
+        /// <param name="container">The IoC container.</param>
         public StageManager(IContainer container)
         {
             _container = container;
