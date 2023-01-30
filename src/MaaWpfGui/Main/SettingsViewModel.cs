@@ -1300,6 +1300,7 @@ namespace MaaWpfGui
         }
 
         /* 定时设置 */
+
         public class TimerModel
         {
             public class TimerProperties : INotifyPropertyChanged
@@ -1618,7 +1619,21 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.TrueString));
+        private bool _isCheckingForUpdates = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the update is being checked.
+        /// </summary>
+        public bool IsCheckingForUpdates
+        {
+            get => _isCheckingForUpdates;
+            set
+            {
+                SetAndNotify(ref _isCheckingForUpdates, value);
+            }
+        }
+
+        private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use Aria 2.

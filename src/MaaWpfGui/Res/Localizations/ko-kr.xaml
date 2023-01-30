@@ -6,6 +6,7 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
+    <system:String x:Key="GameSettings">클라이언트</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합전략</system:String>
     <system:String x:Key="RecruitingSettings">공개모집</system:String>
@@ -54,7 +55,7 @@
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">다음 계획용으로 자동 저장</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">일반 모드（차단된 예외 출력）</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (차단됨 예외 출력)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
@@ -73,9 +74,10 @@
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
     <system:String x:Key="StartingCoreCharTip">단일 오퍼레이터의 중국어 이름만 지원하며, 입력하지 않으면 기본값이 선택됩니다</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">오프닝 요원은 전투를 돕기 위해 사용합니다</system:String>
-    <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아닌 친구를 사용하여 전투를 도울 수 있습니다</system:String>
-    <system:String x:Key="DeploymentWithPause">일시정지 상태로 배치하기, 통합전략, 자동 작전, 보전파견에 적용, Beta function, Not recommended yet</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
+    <system:String x:Key="DeploymentWithPause">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용 (베타 기능, 현재 비권장)</system:String>
+    <system:String x:Key="AdbLiteEnabled">Adb Lite 사용 (실험적)</system:String>
 
     <system:String x:Key="DefaultSquad">기본값</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队 (업데이트 예정)</system:String>
@@ -167,12 +169,12 @@
     <system:String x:Key="NewVersionFoundButNoPackageTitle">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요.</system:String>
 
-    <system:String x:Key="Timer">정시</system:String>
+    <system:String x:Key="Timer">타이머</system:String>
 
-    <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 실행</system:String>
-    <system:String x:Key="RunTaskAfterLaunch">실행 후 작업 시작</system:String>
+    <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">실행 후 에뮬레이터를 실행</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
@@ -199,7 +201,7 @@
 
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="CreditFight">지원 오퍼레이터 사용으로 크레딧 얻기</system:String>
-    <system:String x:Key="CreditFightTip">OF-1을 지원 오퍼레이터와 함께 수행해 30크레딧을 얻습니다. 스테이지가 현재/최근으로 설정되어 있다면 선택하지 마세요.</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1을 지원 오퍼레이터와 함께 수행해 30크레딧을 얻습니다.&#x0a;이 기능은 현재 스테이지가 현재/최근으로 설정되어 있을 때는 작동하지 않습니다.&#x0a;OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (세미콜론으로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (세미콜론으로 구분)</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증;용문폐</system:String>
@@ -273,6 +275,8 @@
     <system:String x:Key="LastBattle">최근 작전</system:String>-->
     <system:String x:Key="DefaultStage">현재/최근</system:String>
     <system:String x:Key="ClosedStage">이벤트가 닫혀 있습니다</system:String>
+    <system:String x:Key="Daysleftopen">남은 개방일 수: </system:String>
+    <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
     <system:String x:Key="AP-5">AP-5 (구매증명서)</system:String>
@@ -431,6 +435,7 @@
     <system:String x:Key="GameCrash">게임이 강제종료되었습니다. 다시 시작해야 합니다.</system:String>
     <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다.</system:String>
     <system:String x:Key="RoguelikeGamePass">게임 클리어, 축하합니다!</system:String>
+    <system:String x:Key="SSSGamePass">게임 클리어, 축하합니다!</system:String>
     <system:String x:Key="Trader">레벨: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">레벨: 안전가옥</system:String>
     <system:String x:Key="Encounter">레벨: 우연한 만남</system:String>

@@ -492,6 +492,9 @@
     <ClInclude Include="Task\Interface\SingleStepTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Interface\ReclamationTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -807,6 +810,9 @@
       <Filter>源文件\Task\SingleStep</Filter>
     </ClCompile>
     <ClCompile Include="Task\Interface\SingleStepTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\ReclamationTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
   </ItemGroup>

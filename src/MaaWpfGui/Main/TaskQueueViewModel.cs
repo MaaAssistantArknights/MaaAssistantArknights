@@ -192,6 +192,7 @@ namespace MaaWpfGui
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
+                "ReclamationAlgorithm",
             };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
@@ -242,7 +243,7 @@ namespace MaaWpfGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            _stageManager = new StageManager();
+            _stageManager = new StageManager(_container);
             RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
             {
                 // It's Cur/Last option
@@ -279,13 +280,13 @@ namespace MaaWpfGui
             if (settingsModel.HideUnavailableStage)
             {
                 // update available stage list
-                var stage1 = Stage1;
+                var stage1 = Stage1 ??= string.Empty;
                 StageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
 
                 // reset closed stage1 to "Last/Current"
                 if (!CustomStageCode)
                 {
-                    Stage1 = (stage1 != null && _stageManager.IsStageOpen(stage1, _curDayOfWeek)) ? stage1 : string.Empty;
+                    Stage1 = _stageManager.IsStageOpen(stage1, _curDayOfWeek) ? stage1 : string.Empty;
                 }
             }
             else
@@ -293,23 +294,25 @@ namespace MaaWpfGui
                 // initializing or settings changing, update stage list forcely
                 if (forceUpdate)
                 {
-                    var stage1 = Stage1;
-                    var stage2 = Stage2;
-                    var stage3 = Stage3;
+                    var stage1 = Stage1 ??= string.Empty;
+                    var stage2 = Stage2 ??= string.Empty;
+                    var stage3 = Stage3 ??= string.Empty;
 
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
                     if (!CustomStageCode)
                     {
+                        EnableSetFightParams = false;
                         Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
                         Stage2 = StageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
                         Stage3 = StageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
+                        EnableSetFightParams = true;
                     }
                 }
             }
 
-            var rss = RemainingSanityStage;
+            var rss = RemainingSanityStage ??= string.Empty;
             RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
             {
                 [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
@@ -652,6 +655,10 @@ namespace MaaWpfGui
                 {
                     ret &= AppendRoguelike();
                 }
+                else if(item.OriginalName == "ReclamationAlgorithm")
+                {
+                    ret &= AppendReclamation();
+                }
                 else
                 {
                     --count;
@@ -774,49 +781,54 @@ namespace MaaWpfGui
             return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
         }
 
+        public bool EnableSetFightParams { get; set; } = true;
+
         /// <summary>
         /// Sets parameters.
         /// </summary>
         public void SetFightParams()
         {
-            int medicine = 0;
-            if (UseMedicine)
+            if (EnableSetFightParams)
             {
-                if (!int.TryParse(MedicineNumber, out medicine))
+                int medicine = 0;
+                if (UseMedicine)
                 {
-                    medicine = 0;
+                    if (!int.TryParse(MedicineNumber, out medicine))
+                    {
+                        medicine = 0;
+                    }
                 }
-            }
 
-            int stone = 0;
-            if (UseStone)
-            {
-                if (!int.TryParse(StoneNumber, out stone))
+                int stone = 0;
+                if (UseStone)
                 {
-                    stone = 0;
+                    if (!int.TryParse(StoneNumber, out stone))
+                    {
+                        stone = 0;
+                    }
                 }
-            }
 
-            int times = int.MaxValue;
-            if (HasTimesLimited)
-            {
-                if (!int.TryParse(MaxTimes, out times))
+                int times = int.MaxValue;
+                if (HasTimesLimited)
                 {
-                    times = 0;
+                    if (!int.TryParse(MaxTimes, out times))
+                    {
+                        times = 0;
+                    }
                 }
-            }
 
-            int drops_quantity = 0;
-            if (IsSpecifiedDrops)
-            {
-                if (!int.TryParse(DropsQuantity, out drops_quantity))
+                int drops_quantity = 0;
+                if (IsSpecifiedDrops)
                 {
-                    drops_quantity = 0;
+                    if (!int.TryParse(DropsQuantity, out drops_quantity))
+                    {
+                        drops_quantity = 0;
+                    }
                 }
-            }
 
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+                var asstProxy = _container.Get<AsstProxy>();
+                asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            }
         }
 
         public void SetFightRemainingSanityParams()
@@ -910,6 +922,12 @@ namespace MaaWpfGui
                 settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeUseSupportUnit,
                 settings.RoguelikeEnableNonfriendSupport, settings.RoguelikeTheme);
+        }
+
+        private bool AppendReclamation()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            return asstProxy.AsstAppendReclamation();
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
