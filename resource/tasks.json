@@ -9727,5 +9727,333 @@
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
+    },
+
+    "Reclamation@Begin":{
+        "algorithm": "JustReturn",
+        "next":[
+            "Reclamation@GiveupAlgorithm",
+            "Reclamation@StartAlgorithm"
+        ]
+    },
+    "Reclamation@StartAlgorithm":{
+        "roi": [
+            844,
+            569,
+            436,
+            151
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@ClickChooseInitUnits",
+            "Reclamation@StartAlgorithm"
+        ]
+    },
+    "Reclamation@ClickChooseInitUnits":{
+        "roi": [
+            1055,
+            0,
+            225,
+            178
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@InitSupplyAll",
+            "Reclamation@ClickChooseInitUnits"
+        ]
+    },
+    "Reclamation@InitSupplyAll":{
+        "roi": [
+            862, 
+            572, 
+            418, 
+            148
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@ConfirmStart",
+            "Reclamation@InitSupplyAll"
+        ]
+    },
+    "Reclamation@ConfirmStart":{
+        "roi": [
+            874,
+            503,
+            350,
+            212
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@SkipAnnounce",
+            "Reclamation@SkipDailyReport",
+            "Reclamation@Emergency",
+            "Reclamation@ClickCenterBase",
+            "Reclamation@ResetScope"
+        ]
+    },
+    "Reclamation@SkipAnnounce":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            1109, 0, 171, 151
+        ],
+        "text": [
+            "跳过"
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@ConfirmStart#next"
+        ]
+    },
+    "Reclamation@SkipDailyReport":{
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "roi": [
+            539,39,207,134
+        ],
+        "text": [
+            "今日",
+            "日报"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1190, 
+            651, 
+            52, 
+            48
+        ],
+        "next": [
+            "Reclamation@ConfirmStart#next"
+        ]
+    },
+    "Reclamation@ClickCenterBase":{
+        "roi": [
+            557, 281, 162, 155
+        ],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": [
+            "Reclamation@ClickAnyZoneOcr",
+            "Reclamation@SkipAnnounce",
+            "Reclamation@SkipDailyReport",
+            "Reclamation@ResetScope",
+            "Reclamation@ClickCenterBase"
+        ]
+    },
+    "Reclamation@ClickAnyZoneOcr":{
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "roi": [
+            308, 73, 739, 567
+        ],
+        "text": [
+            "区",
+            "Zone"
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@StartActionEnter",
+            "Reclamation@ClickAnyZoneOcr"
+        ]
+    },
+    "Reclamation@StartActionEnter":{
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "roi": [
+            995, 550, 285, 130
+        ],
+        "text": [
+            "开始行动",
+            "决断"
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@PrepareAction",
+            "Reclamation@StartActionEnter"
+        ]
+    },
+    "Reclamation@PrepareAction":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            996,590,254,130
+        ],
+        "text": [
+            "行动准备"
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@StartActionConfirm",
+            "Reclamation@PrepareAction"
+        ]
+    },
+    "Reclamation@StartActionConfirm":{
+        "roi": [
+            962, 65, 311, 522
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@StartActionPopupConfirm",
+            "Reclamation@StartActionConfirm"
+        ]
+    },
+    "Reclamation@StartActionPopupConfirm":{
+        "template": "PopupConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "Reclamation@ClickExitLevel",
+            "Reclamation@StartActionPopupConfirm"
+        ]
+    },
+    "Reclamation@ClickExitLevel":{
+        "action": "ClickRect",
+        "roi": [
+            100, 0, 164, 166
+        ],
+        "specificRect": [
+            46, 28, 59, 61
+        ],
+        "next": [
+            "Reclamation@ExitLevelConfirm",
+            "Reclamation@ExitLevelWithEnermyConfirm",
+            "Reclamation@ClickExitLevel"
+        ]
+    },
+    "Reclamation@ExitLevelConfirm":{
+        "roi": [
+            857, 337, 370, 177
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@LevelComplete",
+            "Reclamation@ExitLevelConfirm"
+        ]
+    },
+    "Reclamation@ExitLevelWithEnermyConfirm":{
+        "roi": [
+            855, 335, 372, 181
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@LevelComplete",
+            "Reclamation@ExitLevelWithEnermyConfirm"
+        ]
+    },
+    "Reclamation@LevelComplete":{
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "roi": [
+            0, 197, 469, 224
+        ],
+        "action": "ClickSelf",
+        "text": [
+            "结束",
+            "MISSON",
+            "RESULTS"
+        ],
+        "next": [
+            "Reclamation@NextDay",
+            "Reclamation@ResetScope",
+            "Reclamation@LevelComplete"
+        ]
+    },
+    "Reclamation@ResetScope":{
+        "roi": [
+            0, 605, 141, 115
+        ],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": [
+            "Reclamation@ClickCenterBase",
+            "Reclamation@ResetScope"
+        ]
+    },
+    "Reclamation@NextDay":{
+        "roi": [
+            1055, 0, 225, 177
+        ],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": [
+            "Reclamation@Emergency",
+            "Reclamation@NextDay",
+            "Reclamation@ConfirmStart#next"
+        ]
+    },
+    "Reclamation@Emergency":{
+        "action": "DoNothing",
+        "roi": [
+            1055, 0, 225, 181
+        ],
+        "next": [
+            "Reclamation@ExitAlgorithm"
+        ]
+    },
+    "Reclamation@ExitAlgorithm":{
+        "roi": [
+            0, 0, 160, 154
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@GiveupAlgorithm",
+            "Reclamation@ExitAlgorithm"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm":{
+        "roi": [
+            684, 569, 273, 151
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@GiveupAlgorithmConfirm",
+            "Reclamation@GiveupAlgorithm"
+        ]
+    },
+    "Reclamation@GiveupAlgorithmConfirm":{
+        "template": "PopupConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "Reclamation@GiveupReportSkip",
+            "Reclamation@GiveupAlgorithmConfirm"
+        ]
+    },
+    "Reclamation@GiveupReportSkip":{
+        "roi": [
+            1074, 537, 183, 180
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@GiveupReportSkip",
+            "Reclamation@GiveupSkipConfirm"
+        ]
+    },
+    "Reclamation@GiveupSkipConfirm":{
+        "roi": [
+            1082, 547, 198, 157
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@GainReword",
+            "Reclamation@GiveupSkipConfirm"
+        ]
+    },
+    "Reclamation@GainReword":{
+        "roi": [
+            556, 559, 179, 161
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@Begin"
+        ]   
     }
 }
