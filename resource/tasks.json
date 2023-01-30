@@ -9910,6 +9910,7 @@
         ]
     },
     "Reclamation@ClickExitLevel":{
+        "postDelay": 2000,
         "action": "ClickRect",
         "roi": [
             100, 0, 164, 166
