@@ -192,6 +192,7 @@ namespace MaaWpfGui
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
+                "ReclamationAlgorithm",
             };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
@@ -654,6 +655,10 @@ namespace MaaWpfGui
                 {
                     ret &= AppendRoguelike();
                 }
+                else if(item.OriginalName == "ReclamationAlgorithm")
+                {
+                    ret &= AppendReclamation();
+                }
                 else
                 {
                     --count;
@@ -917,6 +922,12 @@ namespace MaaWpfGui
                 settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeUseSupportUnit,
                 settings.RoguelikeEnableNonfriendSupport, settings.RoguelikeTheme);
+        }
+
+        private bool AppendReclamation()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            return asstProxy.AsstAppendReclamation();
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
