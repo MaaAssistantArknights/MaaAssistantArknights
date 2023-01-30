@@ -427,9 +427,11 @@ namespace MaaWpfGui
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.OriginalName == "AutoRoguelike")
+                switch (item.OriginalName)
                 {
-                    continue;
+                    case "AutoRoguelike":
+                    case "ReclamationAlgorithm":
+                        continue;
                 }
 
                 item.IsChecked = true;
