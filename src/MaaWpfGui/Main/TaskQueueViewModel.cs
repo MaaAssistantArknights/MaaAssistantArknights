@@ -298,17 +298,19 @@ namespace MaaWpfGui
                     var stage2 = Stage2 ??= string.Empty;
                     var stage3 = Stage3 ??= string.Empty;
 
+                    EnableSetFightParams = false;
+
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
                     if (!CustomStageCode)
                     {
-                        EnableSetFightParams = false;
                         Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
                         Stage2 = StageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
                         Stage3 = StageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                        EnableSetFightParams = true;
                     }
+
+                    EnableSetFightParams = true;
                 }
             }
 
@@ -533,10 +535,14 @@ namespace MaaWpfGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.OriginalName == "AutoRoguelike")
+                    switch (item.OriginalName)
                     {
-                        item.IsChecked = false;
-                        continue;
+                        case "AutoRoguelike":
+                            item.IsChecked = false;
+                            continue;
+                        case "ReclamationAlgorithm":
+                            item.IsChecked = false;
+                            continue;
                     }
 
                     item.IsChecked = !item.IsChecked;
@@ -1450,7 +1456,7 @@ namespace MaaWpfGui
             return value;
         }
 
-        private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty);
+        private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage1.
@@ -1472,7 +1478,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _stage2 = ViewStatusStorage.Get("MainFunction.Stage2", string.Empty);
+        private string _stage2 = ViewStatusStorage.Get("MainFunction.Stage2", string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1489,7 +1495,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty);
+        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1534,7 +1540,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _remainingSanityStage = ViewStatusStorage.Get("Fight.RemainingSanityStage", string.Empty);
+        private string _remainingSanityStage = ViewStatusStorage.Get("Fight.RemainingSanityStage", string.Empty) ?? string.Empty;
 
         public string RemainingSanityStage
         {

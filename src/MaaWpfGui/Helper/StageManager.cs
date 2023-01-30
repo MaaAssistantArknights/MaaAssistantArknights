@@ -53,13 +53,13 @@ namespace MaaWpfGui
                 var task = Task.Run(() =>
                 {
                     UpdateStage(true);
-                    if (_container != null)
-                    {
-                        _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
-                        _container.Get<TaskQueueViewModel>().UpdateStageList(true);
-                    }
                 });
                 await task;
+                if (_container != null)
+                {
+                    _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
+                    _container.Get<TaskQueueViewModel>().UpdateStageList(true);
+                }
             });
         }
 
