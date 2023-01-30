@@ -1,3 +1,18 @@
+## v4.10.6-beta.1
+
+- 新增 `生息演算` 简单流程支持 @WLLEGit
+- 修复 基建 会客室 不收取线索的问题 @Sed66666
+- 修复 上传 企鹅物流错误时，任务卡很久的问题 @MistEO
+- 修复 界面 更新公告语言设置错误 @horror-proton
+- 修复 界面 检查更新按钮连续点击时的错误 @ABA2396
+- 修复 界面 导航选项冲突 @ABA2396
+
+- 新增 发版镜像 @GalvinGao
+
+### For overseas
+
+- Updated Korean translation @178619
+
 ## v4.10.5
 
 - 修复 保全派驻 任务流程错误 @MistEO
