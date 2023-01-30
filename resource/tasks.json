@@ -2179,6 +2179,26 @@
             [
                 "^令.+",
                 "令"
+            ],
+            [
+                ".*弦惊.*",
+                "“弦惊”"
+            ],
+            [
+                ".*逍遥.*",
+                "“逍遥”"
+            ],
+            [
+                ".*清平.*",
+                "“清平”"
+            ],
+            [
+                ".*打字机.*",
+                "“打字机”"
+            ],
+            [
+                ".*耀阳.*",
+                "“耀阳”"
             ]
         ]
     },
@@ -9729,14 +9749,14 @@
         "action": "DoNothing"
     },
 
-    "Reclamation@Begin":{
+    "Reclamation@Begin": {
         "algorithm": "JustReturn",
-        "next":[
+        "next": [
             "Reclamation@GiveupAlgorithm",
             "Reclamation@StartAlgorithm"
         ]
     },
-    "Reclamation@StartAlgorithm":{
+    "Reclamation@StartAlgorithm": {
         "roi": [
             844,
             569,
@@ -9749,7 +9769,7 @@
             "Reclamation@StartAlgorithm"
         ]
     },
-    "Reclamation@ClickChooseInitUnits":{
+    "Reclamation@ClickChooseInitUnits": {
         "roi": [
             1055,
             0,
@@ -9762,11 +9782,11 @@
             "Reclamation@ClickChooseInitUnits"
         ]
     },
-    "Reclamation@InitSupplyAll":{
+    "Reclamation@InitSupplyAll": {
         "roi": [
-            862, 
-            572, 
-            418, 
+            862,
+            572,
+            418,
             148
         ],
         "action": "ClickSelf",
@@ -9775,12 +9795,18 @@
             "Reclamation@InitSupplyAll"
         ]
     },
-    "Reclamation@ConfirmStart":{
+    "Reclamation@ConfirmStart": {
+        "cache": false,
+        "algorithm": "OcrDetect",
+        "text": [
+            "演算",
+            "开始"
+        ],
         "roi": [
-            874,
-            503,
-            350,
-            212
+            790,
+            497,
+            465,
+            223
         ],
         "action": "ClickSelf",
         "next": [
@@ -9791,10 +9817,13 @@
             "Reclamation@ResetScope"
         ]
     },
-    "Reclamation@SkipAnnounce":{
+    "Reclamation@SkipAnnounce": {
         "algorithm": "OcrDetect",
         "roi": [
-            1109, 0, 171, 151
+            1109,
+            0,
+            171,
+            151
         ],
         "text": [
             "跳过"
@@ -9804,11 +9833,14 @@
             "Reclamation@ConfirmStart#next"
         ]
     },
-    "Reclamation@SkipDailyReport":{
+    "Reclamation@SkipDailyReport": {
         "algorithm": "OcrDetect",
         "cache": false,
         "roi": [
-            539,39,207,134
+            539,
+            39,
+            207,
+            134
         ],
         "text": [
             "今日",
@@ -9816,34 +9848,42 @@
         ],
         "action": "ClickRect",
         "specificRect": [
-            1190, 
-            651, 
-            52, 
+            1190,
+            651,
+            52,
             48
         ],
         "next": [
             "Reclamation@ConfirmStart#next"
         ]
     },
-    "Reclamation@ClickCenterBase":{
+    "Reclamation@ClickCenterBase": {
         "roi": [
-            557, 281, 162, 155
+            557,
+            281,
+            162,
+            155
         ],
         "action": "ClickSelf",
-        "postDelay": 1000,
+        "exceededNext": [
+            "Reclamation@ResetScope"
+        ],
         "next": [
+            "Reclamation@NextDay",
             "Reclamation@ClickAnyZoneOcr",
             "Reclamation@SkipAnnounce",
             "Reclamation@SkipDailyReport",
-            "Reclamation@ResetScope",
             "Reclamation@ClickCenterBase"
         ]
     },
-    "Reclamation@ClickAnyZoneOcr":{
+    "Reclamation@ClickAnyZoneOcr": {
         "algorithm": "OcrDetect",
         "cache": false,
         "roi": [
-            308, 73, 739, 567
+            308,
+            73,
+            739,
+            567
         ],
         "text": [
             "区",
@@ -9855,11 +9895,14 @@
             "Reclamation@ClickAnyZoneOcr"
         ]
     },
-    "Reclamation@StartActionEnter":{
+    "Reclamation@StartActionEnter": {
         "algorithm": "OcrDetect",
         "cache": false,
         "roi": [
-            995, 550, 285, 130
+            995,
+            550,
+            285,
+            130
         ],
         "text": [
             "开始行动",
@@ -9871,10 +9914,13 @@
             "Reclamation@StartActionEnter"
         ]
     },
-    "Reclamation@PrepareAction":{
+    "Reclamation@PrepareAction": {
         "algorithm": "OcrDetect",
         "roi": [
-            996,590,254,130
+            996,
+            590,
+            254,
+            130
         ],
         "text": [
             "行动准备"
@@ -9885,18 +9931,23 @@
             "Reclamation@PrepareAction"
         ]
     },
-    "Reclamation@StartActionConfirm":{
+    "Reclamation@StartActionConfirm": {
         "roi": [
-            962, 65, 311, 522
+            962,
+            65,
+            311,
+            522
         ],
         "action": "ClickSelf",
         "next": [
+            "Reclamation@ClickExitLevel",
             "Reclamation@StartActionPopupConfirm",
             "Reclamation@StartActionConfirm"
         ]
     },
-    "Reclamation@StartActionPopupConfirm":{
+    "Reclamation@StartActionPopupConfirm": {
         "template": "PopupConfirm.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             630,
@@ -9909,13 +9960,19 @@
             "Reclamation@StartActionPopupConfirm"
         ]
     },
-    "Reclamation@ClickExitLevel":{
+    "Reclamation@ClickExitLevel": {
         "action": "ClickRect",
         "roi": [
-            100, 0, 164, 166
+            100,
+            0,
+            164,
+            166
         ],
         "specificRect": [
-            46, 28, 59, 61
+            46,
+            28,
+            59,
+            61
         ],
         "next": [
             "Reclamation@ExitLevelConfirm",
@@ -9923,9 +9980,12 @@
             "Reclamation@ClickExitLevel"
         ]
     },
-    "Reclamation@ExitLevelConfirm":{
+    "Reclamation@ExitLevelConfirm": {
         "roi": [
-            857, 337, 370, 177
+            857,
+            337,
+            370,
+            177
         ],
         "action": "ClickSelf",
         "next": [
@@ -9933,9 +9993,12 @@
             "Reclamation@ExitLevelConfirm"
         ]
     },
-    "Reclamation@ExitLevelWithEnermyConfirm":{
+    "Reclamation@ExitLevelWithEnermyConfirm": {
         "roi": [
-            855, 335, 372, 181
+            855,
+            335,
+            372,
+            181
         ],
         "action": "ClickSelf",
         "next": [
@@ -9943,11 +10006,14 @@
             "Reclamation@ExitLevelWithEnermyConfirm"
         ]
     },
-    "Reclamation@LevelComplete":{
+    "Reclamation@LevelComplete": {
         "algorithm": "OcrDetect",
         "cache": false,
         "roi": [
-            0, 197, 469, 224
+            0,
+            197,
+            469,
+            224
         ],
         "action": "ClickSelf",
         "text": [
@@ -9961,41 +10027,55 @@
             "Reclamation@LevelComplete"
         ]
     },
-    "Reclamation@ResetScope":{
+    "Reclamation@ResetScope": {
         "roi": [
-            0, 605, 141, 115
+            0,
+            605,
+            141,
+            115
         ],
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
+            "Reclamation@NextDay",
             "Reclamation@ClickCenterBase",
             "Reclamation@ResetScope"
         ]
     },
-    "Reclamation@NextDay":{
+    "Reclamation@NextDay": {
         "roi": [
-            1055, 0, 225, 177
+            1055,
+            0,
+            225,
+            177
         ],
         "action": "ClickSelf",
-        "postDelay": 1000,
+        "postDelay": 4000,
         "next": [
             "Reclamation@Emergency",
             "Reclamation@NextDay",
             "Reclamation@ConfirmStart#next"
         ]
     },
-    "Reclamation@Emergency":{
+    "Reclamation@Emergency": {
         "action": "DoNothing",
+        "templThreshold": 0.7,
         "roi": [
-            1055, 0, 225, 181
+            1055,
+            0,
+            225,
+            181
         ],
         "next": [
             "Reclamation@ExitAlgorithm"
         ]
     },
-    "Reclamation@ExitAlgorithm":{
+    "Reclamation@ExitAlgorithm": {
         "roi": [
-            0, 0, 160, 154
+            0,
+            0,
+            160,
+            154
         ],
         "action": "ClickSelf",
         "next": [
@@ -10003,9 +10083,12 @@
             "Reclamation@ExitAlgorithm"
         ]
     },
-    "Reclamation@GiveupAlgorithm":{
+    "Reclamation@GiveupAlgorithm": {
         "roi": [
-            684, 569, 273, 151
+            684,
+            569,
+            273,
+            151
         ],
         "action": "ClickSelf",
         "next": [
@@ -10013,8 +10096,9 @@
             "Reclamation@GiveupAlgorithm"
         ]
     },
-    "Reclamation@GiveupAlgorithmConfirm":{
+    "Reclamation@GiveupAlgorithmConfirm": {
         "template": "PopupConfirm.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             630,
@@ -10027,9 +10111,12 @@
             "Reclamation@GiveupAlgorithmConfirm"
         ]
     },
-    "Reclamation@GiveupReportSkip":{
+    "Reclamation@GiveupReportSkip": {
         "roi": [
-            1074, 537, 183, 180
+            1074,
+            537,
+            183,
+            180
         ],
         "action": "ClickSelf",
         "next": [
@@ -10037,9 +10124,12 @@
             "Reclamation@GiveupSkipConfirm"
         ]
     },
-    "Reclamation@GiveupSkipConfirm":{
+    "Reclamation@GiveupSkipConfirm": {
         "roi": [
-            1082, 547, 198, 157
+            1082,
+            547,
+            198,
+            157
         ],
         "action": "ClickSelf",
         "next": [
@@ -10047,13 +10137,17 @@
             "Reclamation@GiveupSkipConfirm"
         ]
     },
-    "Reclamation@GainReword":{
+    "Reclamation@GainReword": {
         "roi": [
-            556, 559, 179, 161
+            556,
+            559,
+            179,
+            161
         ],
         "action": "ClickSelf",
         "next": [
-            "Reclamation@Begin"
-        ]   
+            "Reclamation@Begin#next",
+            "Reclamation@GainReword"
+        ]
     }
 }
