@@ -1,5 +1,4 @@
 name: release-mirrors
-description: "Upload MaaAssistantArknights Release Assets to Mirrors"
 
 on:
   release:
@@ -9,7 +8,7 @@ on:
       limit:
         description: "Number of releases to fetch from MaaAssistantArknights, 2 at least"
         required: false
-        default: 31
+        default: 30
         type: number
 
 jobs:
@@ -24,7 +23,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv upload-dir && cd upload-dir
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
           head -n 1 ./release_maa.txt | awk '{ print $1 }' > ./config
 
           echo "config:"
@@ -44,5 +43,5 @@ jobs:
           host: ${{ secrets.SSH_MIRROR_0_HOST }}
           username: ${{ secrets.SSH_MIRROR_0_USER }}
           key: ${{ secrets.SSH_MIRROR_0_KEY }}
-          source: "*.zip"
+          source: "MAA-*"
           target: ${{ format('{0}/{1}', '/data/html/MaaAssistantArknights/MaaAssistantArknights/releases/download', env.release_tag) }}
