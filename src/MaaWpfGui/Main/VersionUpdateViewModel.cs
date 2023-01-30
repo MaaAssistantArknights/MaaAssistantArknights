@@ -334,106 +334,111 @@ namespace MaaWpfGui
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public CheckUpdateRetT CheckAndDownloadUpdate(bool force = false)
         {
-            // 检查更新
-            var checkRet = CheckUpdate(force);
-            if (checkRet != CheckUpdateRetT.OK)
-            {
-                return checkRet;
-            }
+            var svm = _container.Get<SettingsViewModel>();
+            svm.IsCheckingForUpdates = true;
 
-            // 保存新版本的信息
-            var name = _latestJson["name"]?.ToString();
-            UpdateTag = name == string.Empty ? _latestJson["tag_name"]?.ToString() : name;
-            var body = _latestJson["body"]?.ToString();
-            if (body == string.Empty)
+            var checkResult = ((Func<CheckUpdateRetT>)(() =>
             {
-                string ComparableHash(string version)
+                // 检查更新
+                var checkRet = CheckUpdate(force);
+                if (checkRet != CheckUpdateRetT.OK)
                 {
-                    if (isStdVersion(version))
+                    return checkRet;
+                }
+
+                // 保存新版本的信息
+                var name = _latestJson["name"]?.ToString();
+                UpdateTag = name == string.Empty ? _latestJson["tag_name"]?.ToString() : name;
+                var body = _latestJson["body"]?.ToString();
+                if (body == string.Empty)
+                {
+                    string ComparableHash(string version)
                     {
-                        return version;
-                    }
-                    else if (Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
-                        isNightlyVersion(semVersion))
-                    {
-                        // v4.6.6-1.g{Hash}
-                        // v4.6.7-beta.2.8.g{Hash}
-                        var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
-                        if (commitHash.StartsWith("g"))
+                        if (isStdVersion(version))
                         {
-                            commitHash = commitHash.Remove(0, 1);
+                            return version;
+                        }
+                        else if (Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
+                            isNightlyVersion(semVersion))
+                        {
+                            // v4.6.6-1.g{Hash}
+                            // v4.6.7-beta.2.8.g{Hash}
+                            var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
+                            if (commitHash.StartsWith("g"))
+                            {
+                                commitHash = commitHash.Remove(0, 1);
+                            }
+
+                            return commitHash;
                         }
 
-                        return commitHash;
+                        return null;
                     }
 
-                    return null;
-                }
+                    var curHash = ComparableHash(_curVersion);
+                    var latestHash = ComparableHash(_latestVersion);
 
-                var curHash = ComparableHash(_curVersion);
-                var latestHash = ComparableHash(_latestVersion);
-
-                if (curHash != null && latestHash != null)
-                {
-                    body = $"**Full Changelog**: [{curHash} -> {latestHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{curHash}...{latestHash})";
-                }
-            }
-
-            UpdateInfo = body;
-            UpdateUrl = _latestJson["html_url"]?.ToString();
-
-            var settings = _container.Get<SettingsViewModel>();
-            bool otaFound = _assetsObject != null;
-            bool goDownload = otaFound && settings.AutoDownloadUpdatePackage;
-#pragma warning disable IDE0042
-            var openUrlToastButton = (
-                text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
-                action: new Action(() =>
-                {
-                    if (!string.IsNullOrWhiteSpace(UpdateUrl))
+                    if (curHash != null && latestHash != null)
                     {
-                        Process.Start(UpdateUrl);
+                        body = $"**Full Changelog**: [{curHash} -> {latestHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{curHash}...{latestHash})";
                     }
-                }));
+                }
+
+                UpdateInfo = body;
+                UpdateUrl = _latestJson["html_url"]?.ToString();
+
+                var settings = _container.Get<SettingsViewModel>();
+                bool otaFound = _assetsObject != null;
+                bool goDownload = otaFound && settings.AutoDownloadUpdatePackage;
+#pragma warning disable IDE0042
+                var openUrlToastButton = (
+                    text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
+                    action: new Action(() =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(UpdateUrl))
+                        {
+                            Process.Start(UpdateUrl);
+                        }
+                    }));
 #pragma warning restore IDE0042
-            Execute.OnUIThread(() =>
-            {
-                using var toast = new ToastNotification(otaFound ?
-                    Localization.GetString("NewVersionFoundTitle") :
-                    Localization.GetString("NewVersionFoundButNoPackageTitle"));
-                if (goDownload)
+                Execute.OnUIThread(() =>
                 {
-                    OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadPreparing"));
-                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
+                    using var toast = new ToastNotification(otaFound ?
+                        Localization.GetString("NewVersionFoundTitle") :
+                        Localization.GetString("NewVersionFoundButNoPackageTitle"));
+                    if (goDownload)
+                    {
+                        OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadPreparing"));
+                        toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
+                    }
+
+                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescId") + UpdateTag);
+
+                    if (!otaFound)
+                    {
+                        toast.AppendContentText(Localization.GetString("NewVersionFoundButNoPackageDesc"));
+                    }
+
+                    var toastDesc = UpdateInfo.Length > 100 ?
+                        UpdateInfo.Substring(0, 100) + "..." :
+                        UpdateInfo;
+                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + toastDesc);
+                    toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
+                    toast.ButtonSystemUrl = UpdateUrl;
+                    toast.ShowUpdateVersion();
+                });
+
+                UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
+
+                if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
+                {
+                    OutputDownloadProgress(string.Empty);
+                    return CheckUpdateRetT.NoNeedToUpdate;
                 }
 
-                toast.AppendContentText(Localization.GetString("NewVersionFoundDescId") + UpdateTag);
-
-                if (!otaFound)
-                {
-                    toast.AppendContentText(Localization.GetString("NewVersionFoundButNoPackageDesc"));
-                }
-
-                var toastDesc = UpdateInfo.Length > 100 ?
-                    UpdateInfo.Substring(0, 100) + "..." :
-                    UpdateInfo;
-                toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + toastDesc);
-                toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
-                toast.ButtonSystemUrl = UpdateUrl;
-                toast.ShowUpdateVersion();
-            });
-
-            UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
-
-            if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
-            {
-                OutputDownloadProgress(string.Empty);
-                return CheckUpdateRetT.NoNeedToUpdate;
-            }
-
-            // 下载压缩包
-            var downloaded = false;
-            var mirroredReplaceMap = new List<Tuple<string, string>>
+                // 下载压缩包
+                var downloaded = false;
+                var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
                     new Tuple<string, string>("github.com", "agent.imgg.dev"),
                     new Tuple<string, string>("https://", "https://git.114514.pro/https://"),
@@ -443,43 +448,47 @@ namespace MaaWpfGui
                     null,
                 };
 
-            string rawUrl = _assetsObject["browser_download_url"]?.ToString();
-            var downloader = settings.UseAria2 ? Downloader.Aria2 : Downloader.Native;
-            const int DownloadRetryMaxTimes = 1;
-            for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
-            {
-                var url = rawUrl;
-                foreach (var repTuple in mirroredReplaceMap)
+                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+                var downloader = settings.UseAria2 ? Downloader.Aria2 : Downloader.Native;
+                const int DownloadRetryMaxTimes = 1;
+                for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
                 {
-                    if (repTuple != null)
+                    var url = rawUrl;
+                    foreach (var repTuple in mirroredReplaceMap)
                     {
-                        url = url.Replace(repTuple.Item1, repTuple.Item2);
-                    }
+                        if (repTuple != null)
+                        {
+                            url = url.Replace(repTuple.Item1, repTuple.Item2);
+                        }
 
-                    if (DownloadGithubAssets(url, _assetsObject, downloader))
-                    {
-                        OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadCompletedTitle"));
-                        downloaded = true;
-                        break;
+                        if (DownloadGithubAssets(url, _assetsObject, downloader))
+                        {
+                            OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadCompletedTitle"));
+                            downloaded = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!downloaded)
-            {
-                OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadFailedTitle"));
-                Execute.OnUIThread(() =>
+                if (!downloaded)
                 {
-                    using var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle"));
-                    toast.ButtonSystemUrl = UpdateUrl;
-                    toast.AppendContentText(Localization.GetString("NewVersionDownloadFailedDesc"))
-                         .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                         .Show();
-                });
-                return CheckUpdateRetT.NoNeedToUpdate;
-            }
+                    OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadFailedTitle"));
+                    Execute.OnUIThread(() =>
+                    {
+                        using var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle"));
+                        toast.ButtonSystemUrl = UpdateUrl;
+                        toast.AppendContentText(Localization.GetString("NewVersionDownloadFailedDesc"))
+                                .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                                .Show();
+                    });
+                    return CheckUpdateRetT.NoNeedToUpdate;
+                }
 
-            return CheckUpdateRetT.OK;
+                return CheckUpdateRetT.OK;
+            }))();
+
+            svm.IsCheckingForUpdates = false;
+            return checkResult;
         }
 
         public void AskToRestart()

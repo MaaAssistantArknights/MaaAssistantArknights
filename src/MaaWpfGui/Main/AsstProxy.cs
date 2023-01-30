@@ -1504,6 +1504,17 @@ namespace MaaWpfGui
         }
 
         /// <summary>
+        /// 自动生息演算。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstAppendReclamation()
+        {
+            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
+            _latestTaskId[TaskType.Recruit] = id;
+            return id != 0;
+        }
+
+        /// <summary>
         /// 公招识别。
         /// </summary>
         /// <param name="select_level">会去点击标签的 Tag 等级。</param>

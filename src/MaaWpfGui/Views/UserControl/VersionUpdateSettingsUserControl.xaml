@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.VersionUpdateSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -97,7 +98,8 @@
                     Grid.Row="3"
                     Margin="10"
                     Command="{s:Action ManualUpdate}"
-                    Content="{DynamicResource UpdateCheckNow}" />
+                    Content="{DynamicResource UpdateCheckNow}"
+                    IsEnabled="{c:Binding !IsCheckingForUpdates}" />
             </Grid>
         </StackPanel>
     </Grid>
