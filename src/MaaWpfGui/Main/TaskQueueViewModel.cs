@@ -655,7 +655,7 @@ namespace MaaWpfGui
                 {
                     ret &= AppendRoguelike();
                 }
-                else if(item.OriginalName == "ReclamationAlgorithm")
+                else if (item.OriginalName == "ReclamationAlgorithm")
                 {
                     ret &= AppendReclamation();
                 }

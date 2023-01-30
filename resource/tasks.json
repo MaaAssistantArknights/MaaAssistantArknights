@@ -9777,11 +9777,13 @@
         ]
     },
     "Reclamation@ConfirmStart":{
+        "cache": false,
+        "algorithm": "OcrDetect",
+        "text": [
+            "演算", "开始"
+        ],
         "roi": [
-            874,
-            503,
-            350,
-            212
+            790, 497, 465, 223
         ],
         "action": "ClickSelf",
         "next": [
@@ -9831,12 +9833,14 @@
             557, 281, 162, 155
         ],
         "action": "ClickSelf",
-        "postDelay": 1000,
+        "exceededNext": [
+            "Reclamation@ResetScope"  
+        ],
         "next": [
+            "Reclamation@NextDay",
             "Reclamation@ClickAnyZoneOcr",
             "Reclamation@SkipAnnounce",
             "Reclamation@SkipDailyReport",
-            "Reclamation@ResetScope",
             "Reclamation@ClickCenterBase"
         ]
     },
@@ -9892,12 +9896,14 @@
         ],
         "action": "ClickSelf",
         "next": [
+            "Reclamation@ClickExitLevel",
             "Reclamation@StartActionPopupConfirm",
             "Reclamation@StartActionConfirm"
         ]
     },
     "Reclamation@StartActionPopupConfirm":{
         "template": "PopupConfirm.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             630,
@@ -9969,6 +9975,7 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
+            "Reclamation@NextDay",
             "Reclamation@ClickCenterBase",
             "Reclamation@ResetScope"
         ]
@@ -9978,7 +9985,7 @@
             1055, 0, 225, 177
         ],
         "action": "ClickSelf",
-        "postDelay": 1000,
+        "postDelay": 4000,
         "next": [
             "Reclamation@Emergency",
             "Reclamation@NextDay",
@@ -9987,6 +9994,7 @@
     },
     "Reclamation@Emergency":{
         "action": "DoNothing",
+        "templThreshold": 0.7,
         "roi": [
             1055, 0, 225, 181
         ],
@@ -10016,6 +10024,7 @@
     },
     "Reclamation@GiveupAlgorithmConfirm":{
         "template": "PopupConfirm.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             630,
@@ -10054,7 +10063,8 @@
         ],
         "action": "ClickSelf",
         "next": [
-            "Reclamation@Begin"
+            "Reclamation@Begin",
+            "Reclamation@GainReword"
         ]   
     }
 }
