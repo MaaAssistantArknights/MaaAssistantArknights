@@ -9764,9 +9764,9 @@
     },
     "Reclamation@InitSupplyAll":{
         "roi": [
-            862, 
-            572, 
-            418, 
+            862,
+            572,
+            418,
             148
         ],
         "action": "ClickSelf",
@@ -9776,6 +9776,7 @@
         ]
     },
     "Reclamation@ConfirmStart":{
+        "postDelay": 2000,
         "roi": [
             874,
             503,
@@ -9816,9 +9817,9 @@
         ],
         "action": "ClickRect",
         "specificRect": [
-            1190, 
-            651, 
-            52, 
+            1190,
+            651,
+            52,
             48
         ],
         "next": [
@@ -10054,6 +10055,6 @@
         "action": "ClickSelf",
         "next": [
             "Reclamation@Begin"
-        ]   
+        ]
     }
 }
