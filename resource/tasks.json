@@ -9763,6 +9763,7 @@
         ]
     },
     "Reclamation@InitSupplyAll":{
+        "postDelay": 3000,
         "roi": [
             862,
             572,
@@ -9776,7 +9777,6 @@
         ]
     },
     "Reclamation@ConfirmStart":{
-        "postDelay": 2000,
         "roi": [
             874,
             503,
