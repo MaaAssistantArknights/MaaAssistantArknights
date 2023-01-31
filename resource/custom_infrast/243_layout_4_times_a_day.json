@@ -3,7 +3,7 @@
     "description": "干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n\n作业作者：MistEO\n感谢公孙长乐大佬提供数据及方案支持！\n[20220119 修订] 视频地址: https://www.bilibili.com/video/BV1qD4y1H77E?t=365\n请把年放在加工站",
     "plans": [
         {
-            "name": "A+B 组 16H",
+            "name": "A+B 组 8H",
             "description": "最高效率长班",
             "description_post": "下次换班请在约8小时后进行",
             "Fiammetta": {
@@ -130,7 +130,7 @@
             }
         },
         {
-            "name": "A+B 组 16H",
+            "name": "A+B 组 8H",
             "description": "最高效率长班",
             "description_post": "下次换班请在约8小时后进行",
             "Fiammetta": {
@@ -260,6 +260,9 @@
             "name": "B+C 组 4H",
             "description": "次高效替补 1 班",
             "description_post": "下次换班请在约4小时后进行",
+            "Fiammetta": {
+                "target": "龙舌兰"
+            },
             "drones": {
                 "room": "trading",
                 "index": 1
@@ -384,9 +387,6 @@
             "name": "A+C 组 4H",
             "description": "次高效替补 2 班",
             "description_post": "下次换班请在约4小时后进行",
-            "Fiammetta": {
-                "target": "龙舌兰"
-            },
             "drones": {
                 "room": "manufacture",
                 "index": 1
