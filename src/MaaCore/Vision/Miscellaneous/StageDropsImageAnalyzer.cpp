@@ -573,6 +573,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::bitwise_not(templ_mask, templ_mask);
     cv::bitwise_and(mask, templ_mask, mask);
     mask(cv::Rect { 0, 0, mask.cols / 4, mask.rows }) = cv::Scalar { 0, 0, 0 };
+    mask(cv::Rect { 0, 0, mask.cols, mask.rows * 2 / 3 }) = cv::Scalar { 0, 0, 0 };
     cv::morphologyEx(mask, mask, cv::MORPH_OPEN, cv::getStructuringElement(cv::MORPH_RECT, { 4, 4 }));
 
     auto mask_rect = cv::boundingRect(mask);
