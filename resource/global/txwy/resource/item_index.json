@@ -1151,13 +1151,21 @@
         "sortId": -10000,
         "usage": "夕自製的墨，沒有人知道製作方法，也許可以用來向她本人詢問一些事情。"
     },
-    "act17d0_token_form": {
+    "": {
         "classifyType": "NONE",
         "description": "證書上有著負責人的簽名、防偽標誌、以及幹員所需調配物資和原因的詳細記錄。在核實這三點後，負責物資調配的幹員會收取隨證書附上的票卷，將物資分發給外勤幹員。",
         "icon": "act17d0_token_form.png",
         "name": "羅德島物資配給證書",
         "sortId": -10000,
         "usage": "羅德島為外勤幹員頒發的配給證書，附有票卷，可在羅德島本艦、各地羅德島分部及安全屋兌換資源。"
+    },
+    "act17side_token_compass": {
+        "classifyType": "NONE",
+        "description": "曾經的伊比利亞人以羅盤為自己指引航向，旋轉的指針中承載著他們磅礴的野心、金色的夢想。如今這不過是舊時代的囈語，指針已折斷，黃銅已蒙塵，巨艦不知所終，唯余寂靜的海。",
+        "icon": "act17side_token_compass.png",
+        "name": "銹蝕的羅盤",
+        "sortId": -10000,
+        "usage": "一切妄圖踏足海洋的努力皆屬徒勞，羅盤所指必為苦澀，必為渾濁，必為沈沒。"
     },
     "act18d0_token_page": {
         "classifyType": "NONE",
