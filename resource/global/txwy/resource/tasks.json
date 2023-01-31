@@ -1,16 +1,4 @@
 {
-    "CE-6": {
-        "baseTask": "ResourceStages",
-        "next": [
-            "CE5@StageCE"
-        ]
-    },
-    "LS-6": {
-        "baseTask": "ResourceStages",
-        "next": [
-            "LS5@StageLS"
-        ]
-    },
     "ClickChapter1": {
         "baseTask": "ClickChapter",
         "text": [
@@ -811,6 +799,22 @@
             [
                 "號角",
                 "号角"
+            ],
+			[
+                "歸溟幽靈鯊",
+                "归溟幽灵鲨"
+            ],
+			[
+                "掠風",
+                "掠风"
+            ],
+			[
+                "流明",
+                "流明"
+            ],
+			[
+                "艾麗妮",
+                "艾丽妮"
             ]
         ]
     },
@@ -996,6 +1000,11 @@
                 "支援機械",
                 "支援机械"
             ]
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "行動結束"
         ]
     },
     "VisitLimited": {
