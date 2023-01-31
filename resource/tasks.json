@@ -5342,6 +5342,7 @@
         ],
         "next": [
             "InfrastClueSelfFull",
+            "InfrastClueFriendNew",
             "CloseCluePage",
             "ReceptionFlag"
         ]
