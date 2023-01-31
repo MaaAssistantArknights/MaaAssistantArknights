@@ -46,6 +46,12 @@
             "活動"
         ]
     },
+    "SN-Chapter3": {
+        "next": [
+            "SN-Chapter3",
+            "ChapterSwipeToTheLeft"
+        ]
+    },
 	"BattleStartPre": {
         "text": [
             "開始行動",
