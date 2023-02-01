@@ -77,6 +77,9 @@
     <Filter Include="源文件\Task\SingleStep">
       <UniqueIdentifier>{987541fc-58f0-40eb-8b93-c0cb38881d92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Task\Reclamation">
+      <UniqueIdentifier>{97f7690d-5924-405f-a332-831e7dad3f1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -495,6 +498,9 @@
     <ClInclude Include="Task\Interface\ReclamationTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h">
+      <Filter>源文件\Task\Reclamation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -814,6 +820,9 @@
     </ClCompile>
     <ClCompile Include="Task\Interface\ReclamationTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp">
+      <Filter>源文件\Task\Reclamation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

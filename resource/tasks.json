@@ -9833,7 +9833,9 @@
         "next": [
             "Reclamation@AtHomePageFlag",
             "Reclamation@ResetScope",
-            "Reclamation@ClickExitLevel",
+            "Reclamation@LevelForceExitConfirm",
+            "Reclamation@LevelForceExit",
+            "Reclamation@LevelComplete",
             "Reclamation@ExitAlgorithm",
             "Reclamation@SmallReturn",
             "Reclamation@ReturnInFocus",
@@ -9860,16 +9862,16 @@
             "Reclamation@StartAlgorithm",
             "Reclamation@ConfirmStart#next",
             "Reclamation@ReturnTo#next",
-            "Reclamation@ClickExitLevel#next",
+            "Reclamation@BattleStart#next",
             "Reclamation@LevelComplete",
             "Reclamation@GiveupReportSkip",
             "Reclamation@GiveupSkipConfirm",
-            "Reclamation@GainReword",
+            "Reclamation@GainReward",
             "Reclamation@StartUpThemes#next"
         ]
     },
     "Reclamation@StartAlgorithm": {
-        "Doc": "继续演算的图标也能match，所以就单独写了",
+        "Doc": "继续演算的图标也能match，所以就不单独写了",
         "roi": [
             844,
             569,
@@ -10061,7 +10063,7 @@
         ],
         "action": "ClickSelf",
         "next": [
-            "Reclamation@ClickExitLevel",
+            "Reclamation@BattleStart",
             "Reclamation@StartActionPopupConfirm",
             "Reclamation@StartActionConfirm"
         ]
@@ -10071,61 +10073,70 @@
         "baseTask": "Reclamation@PopupConfirm",
         "postDelay": 4000,
         "next": [
-            "Reclamation@ClickExitLevel",
+            "Reclamation@BattleStart",
             "Reclamation@StartActionPopupConfirm"
         ]
     },
-    "Reclamation@ClickExitLevel": {
-        "action": "ClickRect",
+    "Reclamation@BattlePackIconTemplate":{
+        "template": "Reclamation@ClickExitLevel.png",
         "roi": [
             100,
             0,
             164,
             166
+        ]
+    },
+    "Reclamation@BattleStart":{
+        "baseTask": "Reclamation@BattlePackIconTemplate",
+        "template": "Reclamation@ClickExitLevel.png",
+        "Doc": "注册插件ReclamationBattlePlugin",
+        "onErrorNext": [
+            "Reclamation@Begin"
         ],
+        "next": [
+            "Reclamation@LevelComplete"
+        ],
+        "specialParams_Doc": "二次复核前的delay，完成后的delay",
+        "specialParams": [
+            1000,
+            2000
+        ]
+    },
+    "Reclamation@ClickExitLevel": {
+        "action": "ClickRect",
+        "baseTask": "Reclamation@BattlePackIconTemplate",
+        "template": "Reclamation@ClickExitLevel.png",
         "specificRect": [
             46,
             28,
             59,
             61
-        ],
-        "next": [
-            "Reclamation@ExitLevelConfirm",
-            "Reclamation@ExitLevelWithEnermyConfirm",
-            "Reclamation@ClickExitLevel"
         ]
     },
     "Reclamation@ExitLevelConfirm": {
+        "algorithm": "OcrDetect",
         "roi": [
-            857,
-            337,
-            370,
-            177
+            856, 336, 371, 177
         ],
-        "action": "ClickSelf",
-        "postDelay": 2000,
-        "exceededNext": [
-            "Reclamation@ClickExitLevelSlowly"
+        "text": [
+            "确认", "离开"
         ],
+        "action": "ClickSelf"
+    },
+    "Reclamation@LevelForceExit":{
+        "baseTask": "Reclamation@ClickExitLevel",
+        "template": "Reclamation@ClickExitLevel.png",
+        "postDelay": 3000,
         "next": [
-            "Reclamation@LevelComplete",
-            "Reclamation@ExitLevelConfirm",
-            "Reclamation@ClickExitLevel"
+            "Reclamation@LevelForceExitConfirm",
+            "Reclamation@LevelForceExit",
+            "Reclamation@ReturnTo#next"
         ]
     },
-    "Reclamation@ExitLevelWithEnermyConfirm": {
-        "roi": [
-            855,
-            335,
-            372,
-            181
-        ],
-        "action": "ClickSelf",
-        "postDelay": 2000,
+    "Reclamation@LevelForceExitConfirm":{
+        "baseTask":"Reclamation@ExitLevelConfirm",
         "next": [
-            "Reclamation@LevelComplete",
-            "Reclamation@ExitLevelWithEnermyConfirm",
-            "Reclamation@ClickExitLevel"
+            "Reclamation@ReturnTo#next"
         ]
     },
     "Reclamation@LevelComplete": {
@@ -10256,13 +10267,13 @@
         ],
         "action": "ClickSelf",
         "next": [
-            "Reclamation@GainReword",
+            "Reclamation@GainReward",
             "Reclamation@AtHomePageFlag",
             "Reclamation@GiveupSkipConfirm",
             "Reclamation@ClickChooseInitUnits"
         ]
     },
-    "Reclamation@GainReword": {
+    "Reclamation@GainReward": {
         "roi": [
             556,
             559,
@@ -10272,7 +10283,7 @@
         "action": "ClickSelf",
         "next": [
             "Reclamation@Begin#next",
-            "Reclamation@GainReword"
+            "Reclamation@GainReward"
         ]
     },
     "Reclamation@GiveupCrossdomainPageFlag":{

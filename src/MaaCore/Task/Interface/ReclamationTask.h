@@ -4,11 +4,6 @@
 namespace asst
 {
     class ProcessTask;
-    class RoguelikeRecruitTaskPlugin;
-    class RoguelikeSkillSelectionTaskPlugin;
-    class RoguelikeBattleTaskPlugin;
-    class RoguelikeCustomStartTaskPlugin;
-    class RoguelikeDebugTaskPlugin;
 
     class ReclamationTask : public InterfaceTask
     {
