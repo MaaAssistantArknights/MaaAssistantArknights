@@ -9760,6 +9760,10 @@
             400,
             650,
             160
+        ],
+        "next": [
+            "Reclamation@ReturnTo#next",
+            "Reclamation@ReturnToConfirm#next"
         ]
     },
     "Reclamation@AtMapFlag":{
@@ -9779,14 +9783,93 @@
             "Reclamation@Begin"
         ]
     },
+    "Reclamation":{
+        "template": "Terminal.png",
+        "action": "ClickSelf",
+        "roi": [
+            880,
+            100,
+            180,
+            120
+        ],
+        "next": [
+            "Reclamation",
+            "Reclamation@CloseAnnos#next",
+            "Reclamation@TodoEnter"
+        ],
+        "postDelay": 1000 
+    },
+    "Reclamation@TodoEnter": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "生息演算",
+            "沙中之火"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "Reclamation@Begin",
+            "Reclamation@TodoEnter"
+        ]
+    },
+    "Reclamation@SmallReturn":{
+        "roi": [
+            0, 0, 148, 148
+        ],
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@ReturnTo#next"
+        ]
+    },
+    "Reclamation@ReturnTo":{
+        "template": "Return.png",
+        "next": [
+            "Reclamation@AtHomePageFlag",
+            "Reclamation@ResetScope",
+            "Reclamation@ClickExitLevel",
+            "Reclamation@ExitAlgorithm",
+            "Reclamation@SmallReturn",
+            "Reclamation@ReturnInFocus",
+            "Reclamation",
+            "Reclamation@ReturnTo",
+            "Reclamation@PopupConfirm",
+            "Reclamation@CloseAnnos#next"
+        ]
+    },
+    "Reclamation@ReturnInFocus":{
+        "roi": [
+            0, 0, 147, 145
+        ],
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@ReturnTo#next"
+        ]
+    },
     "Reclamation@Begin": {
         "algorithm": "JustReturn",
         "next": [
             "Reclamation@GiveupAlgorithm",
-            "Reclamation@StartAlgorithm"
+            "Reclamation@StartAlgorithm",
+            "Reclamation@ConfirmStart#next",
+            "Reclamation@ReturnTo#next",
+            "Reclamation@ClickExitLevel#next",
+            "Reclamation@LevelComplete",
+            "Reclamation@GiveupReportSkip",
+            "Reclamation@GiveupSkipConfirm",
+            "Reclamation@GainReword",
+            "Reclamation@StartUpThemes#next"
         ]
     },
     "Reclamation@StartAlgorithm": {
+        "Doc": "继续演算的图标也能match，所以就单独写了",
         "roi": [
             844,
             569,
@@ -9810,7 +9893,8 @@
         "postDelay": 500,
         "next": [
             "Reclamation@InitSupplyAll",
-            "Reclamation@ClickChooseInitUnits"
+            "Reclamation@ClickChooseInitUnits",
+            "Reclamation@ReturnTo"
         ]
     },
     "Reclamation@InitSupplyAll": {
@@ -9923,9 +10007,11 @@
         ],
         "postDelay": 500,
         "action": "ClickSelf",
+        "exceededNext": [
+            "Reclamation@ResetScope"
+        ],
         "next": [
-            "Reclamation@StartActionEnter",
-            "Reclamation@ClickAnyZoneOcr"
+            "Reclamation@StartActionEnter"
         ]
     },
     "Reclamation@StartActionEnter": {
@@ -9944,11 +10030,13 @@
         "action": "ClickSelf",
         "next": [
             "Reclamation@PrepareAction",
-            "Reclamation@StartActionEnter"
+            "Reclamation@StartActionEnter",
+            "Reclamation@StartActionConfirm"
         ]
     },
     "Reclamation@PrepareAction": {
         "algorithm": "OcrDetect",
+        "cache": false,
         "roi": [
             996,
             590,
@@ -10016,9 +10104,13 @@
         ],
         "action": "ClickSelf",
         "postDelay": 2000,
+        "exceededNext": [
+            "Reclamation@ClickExitLevelSlowly"
+        ],
         "next": [
             "Reclamation@LevelComplete",
-            "Reclamation@ExitLevelConfirm"
+            "Reclamation@ExitLevelConfirm",
+            "Reclamation@ClickExitLevel"
         ]
     },
     "Reclamation@ExitLevelWithEnermyConfirm": {
@@ -10032,7 +10124,8 @@
         "postDelay": 2000,
         "next": [
             "Reclamation@LevelComplete",
-            "Reclamation@ExitLevelWithEnermyConfirm"
+            "Reclamation@ExitLevelWithEnermyConfirm",
+            "Reclamation@ClickExitLevel"
         ]
     },
     "Reclamation@LevelComplete": {
@@ -10069,6 +10162,7 @@
         "next": [
             "Reclamation@NextDay",
             "Reclamation@ClickCenterBase",
+            "Reclamation@ClickChooseInitUnits",
             "Reclamation@ResetScope"
         ]
     },
@@ -10149,7 +10243,8 @@
         "action": "ClickSelf",
         "next": [
             "Reclamation@GiveupReportSkip",
-            "Reclamation@GiveupSkipConfirm"
+            "Reclamation@GiveupSkipConfirm",
+            "Reclamation@GiveupSkipConfirm#next"
         ]
     },
     "Reclamation@GiveupSkipConfirm": {
@@ -10163,7 +10258,8 @@
         "next": [
             "Reclamation@GainReword",
             "Reclamation@AtHomePageFlag",
-            "Reclamation@GiveupSkipConfirm"
+            "Reclamation@GiveupSkipConfirm",
+            "Reclamation@ClickChooseInitUnits"
         ]
     },
     "Reclamation@GainReword": {
@@ -10225,7 +10321,8 @@
         ],
         "next": [
             "Reclamation@GiveupTakeNothing",
-            "Reclamation@GiveupCheckRemainItems"
+            "Reclamation@GiveupCheckRemainItems",
+            "Reclamation@GiveupTakeNothing#next"
         ]
     },
     "Reclamation@GiveupTakeNothing":{
@@ -10395,7 +10492,8 @@
         "action": "ClickSelf",
         "next": [
             "Reclamation@LabArriveMap",
-            "Reclamation@LabReturnToMap"
+            "Reclamation@LabReturnToMap",
+            "Reclamation@AtHomePageFlag"
         ]
     },
     "Reclamation@LabArriveMap":{
