@@ -43,6 +43,11 @@
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
+                Content="{DynamicResource UseRemainingSanityStage}"
+                IsChecked="{Binding UseRemainingSanityStage}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}"
                 IsEnabled="{c:Binding !CustomStageCode}" />
