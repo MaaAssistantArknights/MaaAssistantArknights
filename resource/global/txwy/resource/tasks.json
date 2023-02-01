@@ -835,6 +835,11 @@
             "反饋至神經"
         ]
     },
+    "GoLastBattle": {
+        "text": [
+            "前往上一次作戰"
+        ]
+    },
     "StartButton1": {
         "text": [
             "開始行動"
