@@ -781,12 +781,13 @@ namespace MaaWpfGui
 
             var asstProxy = _container.Get<AsstProxy>();
             bool mainFightRet = asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-            if (!mainFightRet || RemainingSanityStage == string.Empty)
+
+            if (mainFightRet && UseRemainingSanityStage && (RemainingSanityStage != string.Empty))
             {
-                return mainFightRet;
+                return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
             }
 
-            return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+            return mainFightRet;
         }
 
         public bool EnableSetFightParams { get; set; } = true;
@@ -1522,6 +1523,38 @@ namespace MaaWpfGui
         {
             get => _alternateStageDisplay;
             set => SetAndNotify(ref _alternateStageDisplay, value);
+        }
+
+        private bool _useRemainingSanityStage = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
+
+        public bool UseRemainingSanityStage
+        {
+            get => _useRemainingSanityStage;
+            set
+            {
+                SetAndNotify(ref _useRemainingSanityStage, value);
+                var settingsModel = _container.Get<SettingsViewModel>();
+                RemainingSanityStageDisplay1 = value && !settingsModel.CustomStageCode;
+                RemainingSanityStageDisplay2 = value && settingsModel.CustomStageCode;
+            }
+        }
+
+        private bool _remainingSanityStageDisplay1 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
+            && !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        private bool _remainingSanityStageDisplay2 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
+            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        public bool RemainingSanityStageDisplay1
+        {
+            get => _remainingSanityStageDisplay1;
+            set => SetAndNotify(ref _remainingSanityStageDisplay1, value);
+        }
+
+        public bool RemainingSanityStageDisplay2
+        {
+            get => _remainingSanityStageDisplay2;
+            set => SetAndNotify(ref _remainingSanityStageDisplay2, value);
         }
 
         private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
