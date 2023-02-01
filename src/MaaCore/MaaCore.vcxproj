@@ -32,6 +32,7 @@
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="InstHelper.h" />
+    <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
     <ClInclude Include="Task\Interface\ReclamationTask.h" />
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SingleStepTask.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
     <ClCompile Include="Task\Interface\ReclamationTask.cpp" />
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
