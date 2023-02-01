@@ -1,16 +1,4 @@
 {
-    "CE-6": {
-        "baseTask": "ResourceStages",
-        "next": [
-            "CE5@StageCE"
-        ]
-    },
-    "LS-6": {
-        "baseTask": "ResourceStages",
-        "next": [
-            "LS5@StageLS"
-        ]
-    },
     "ClickChapter1": {
         "baseTask": "ClickChapter",
         "text": [
@@ -56,6 +44,12 @@
         "text": [
             "進入",
             "活動"
+        ]
+    },
+    "SN-Chapter3": {
+        "next": [
+            "SN-Chapter3",
+            "ChapterSwipeToTheLeft"
         ]
     },
 	"BattleStartPre": {
@@ -811,6 +805,22 @@
             [
                 "號角",
                 "号角"
+            ],
+			[
+                "歸溟幽靈鯊",
+                "归溟幽灵鲨"
+            ],
+			[
+                "掠風",
+                "掠风"
+            ],
+			[
+                "流明",
+                "流明"
+            ],
+			[
+                "艾麗妮",
+                "艾丽妮"
             ]
         ]
     },
@@ -823,6 +833,11 @@
         "text": [
             "正在提交",
             "反饋至神經"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "前往上一次作戰"
         ]
     },
     "StartButton1": {
@@ -996,6 +1011,11 @@
                 "支援機械",
                 "支援机械"
             ]
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "行動結束"
         ]
     },
     "VisitLimited": {
