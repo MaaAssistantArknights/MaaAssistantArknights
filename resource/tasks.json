@@ -9815,8 +9815,7 @@
         ],
         "postDelay": 2000,
         "next": [
-            "Reclamation@Begin",
-            "Reclamation@TodoEnter"
+            "Reclamation@Begin"
         ]
     },
     "Reclamation@SmallReturn":{
@@ -9868,7 +9867,8 @@
             "Reclamation@GiveupReportSkip",
             "Reclamation@GiveupSkipConfirm",
             "Reclamation@GainReward",
-            "Reclamation@StartUpThemes#next"
+            "Reclamation@StartUpThemes#next",
+            "Reclamation@TodoEnter"
         ]
     },
     "Reclamation@StartAlgorithm": {
