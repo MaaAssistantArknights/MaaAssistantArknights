@@ -25,7 +25,7 @@ namespace asst
         virtual void sort_result_by_required(); // 按传入的需求数组排序，传入的在前面结果接在前面
 
         void set_required(std::vector<std::string> required) noexcept;
-        void set_replace(std::unordered_map<std::string, std::string> replace) noexcept;
+        void set_replace(const std::unordered_map<std::string, std::string>& replace) noexcept;
 
         virtual void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
         virtual void set_task_info(const std::string& task_name);
@@ -37,6 +37,9 @@ namespace asst
         void set_pred(const TextRectProc& pred);
         virtual const std::vector<TextRect>& get_result() const noexcept;
         virtual std::vector<TextRect>& get_result() noexcept;
+
+        // normalize similar characters into the same one
+        static std::string equivalent_class_preprocess(const std::string& in);
 
     protected:
         virtual void set_task_info(OcrTaskInfo task_info) noexcept;
