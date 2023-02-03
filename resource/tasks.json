@@ -9896,9 +9896,60 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
+            "Reclamation@EmptyInitUnits",
             "Reclamation@InitSupplyAll",
             "Reclamation@ClickChooseInitUnits",
             "Reclamation@ReturnTo"
+        ]
+    },
+    "Reclamation@EmptyInitUnits":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            592, 595, 336, 125
+        ],
+        "text": [
+            "请选择", "参加", "演算"
+        ],
+        "next": [
+            "Reclamation@QuickFormation",
+            "Reclamation@QuickFormationSelectOneUnit"
+        ]
+    },
+    "Reclamation@QuickFormation":{
+        "roi": [
+            958, 0, 175, 144
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@QuickFormationSelectOneUnit",
+            "Reclamation@QuickFormation"
+        ]
+    },
+    "Reclamation@FormationConfirmBase":{
+        "template": "Reclamation@FormationConfirm.png",
+        "roi": [
+            862, 604, 358, 116
+        ]
+    },
+    "Reclamation@QuickFormationSelectOneUnit":{
+        "baseTask": "Reclamation@FormationConfirmBase",
+        "template": "Reclamation@FormationConfirm.png",
+        "action": "ClickRect",
+        "specificRect": [
+            506, 116, 186, 57
+        ],
+        "next": [
+            "Reclamation@QuickFormationConfirm"
+        ]
+    },
+    "Reclamation@QuickFormationConfirm":{
+        "baseTask": "Reclamation@FormationConfirmBase",
+        "template": "Reclamation@FormationConfirm.png",
+        "action": "ClickSelf",
+        "next": [
+            "Reclamation@EmptyInitUnits",
+            "Reclamation@InitSupplyAll",
+            "Reclamation@ConfirmStart"
         ]
     },
     "Reclamation@InitSupplyAll": {
