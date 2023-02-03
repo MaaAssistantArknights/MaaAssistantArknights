@@ -514,6 +514,10 @@
                 "假日威龙陈"
             ],
             [
+                "젠더홀룹데이",
+                "假日威龙陈"
+            ],
+            [
                 "토디폰스",
                 "熔泉"
             ],
@@ -842,11 +846,19 @@
                 "蜜蜡"
             ],
             [
+                "비즈와스",
+                "蜜蜡"
+            ],
+            [
                 "클릭",
                 "卡达"
             ],
             [
                 "클릴",
+                "卡达"
+            ],
+            [
+                "^클리$",
                 "卡达"
             ],
             [
@@ -891,6 +903,14 @@
             ],
             [
                 "에이야프들라",
+                "艾雅法拉"
+            ],
+            [
+                "페이야프들라",
+                "艾雅法拉"
+            ],
+            [
+                "페이야퍄들라",
                 "艾雅法拉"
             ],
             [
@@ -1570,9 +1590,6 @@
             "크레딪",
             "크레딜"
         ]
-    },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.8
     },
     "RecruitTags": {
         "ocrReplace": [
@@ -3385,6 +3402,30 @@
     "Roguelike@StageTraderInvestSystemFull": {
         "text": [
             "예치금잔액최대달성"
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.8
+    },
+    "Phantom@Roguelike@FromIntegratedStrategies": {
+        "text": [
+            "테마진입"
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "팬텀",
+            "팬럼"
+        ]
+    },
+    "Mizuki@Roguelike@FromIntegratedStrategies": {
+        "text": [
+            "테마진입"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "미즈키"
         ]
     },
     "EnterChapterDifficultyHard": {
