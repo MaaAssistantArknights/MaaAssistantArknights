@@ -38,23 +38,37 @@ bool asst::ReclamationBattlePlugin::_run()
     wait_until_start(false);
 
     while (!need_exit()) {
+        int retry = 0;
         while (!need_exit()) {
-            bool stage1 = ProcessTask(*this, { "Reclamation@ClickExitLevel" }).run();
-            bool stage2 = ProcessTask(*this, { "Reclamation@ExitLevelConfirm" }).run();
+            bool stage1 = ProcessTask(*this, { "Reclamation@ClickExitLevel" }).set_retry_times(0).run();
+            bool stage2 = ProcessTask(*this, { "Reclamation@ExitLevelConfirm" }).set_retry_times(3).run();
+            Log.info(__FUNCTION__, "| click exit level perform ", stage1, stage2);
             if (stage2) break;
-            if (!stage1 && !stage2) {
-                Log.info(__FUNCTION__, "| fail to operate");
+            retry++;    // stage1==true&&stage2==false，应该是手动按了确定或是没按到退出
+            if ((!stage1 && !stage2) || retry > 5) {
+                // 已经到了结算界面，或是用户手动操作了
+                Log.error(__FUNCTION__, "| fail to operate");
                 return ProcessTask(*this, { "Reclamation@Begin" }).run();
             }
         }
 
         sleep(Task.get("Reclamation@BattleStart")->special_params.front());
+        
         const auto img = ctrler()->get_image();
-        bool check1 = check_in_battle(img, false);
+        bool check1 = check_in_battle(img, false); 
+
         OcrImageAnalyzer confirmAnalyzer(img);
         confirmAnalyzer.set_task_info("Reclamation@ExitLevelConfirm");
         bool check2 = confirmAnalyzer.analyze();
-        if (!check1 && !check2) break;
+
+        // 出现Loading转一会儿就结算了，没结算还有error_next
+        OcrImageAnalyzer loadingAnalyzer(img);
+        loadingAnalyzer.set_task_info("Loading");
+        bool check3 = loadingAnalyzer.analyze();
+
+        Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
+
+        if ((!check1 && !check2) || check3) break;
     }
 
     sleep(Task.get("Reclamation@BattleStart")->special_params.at(1));
