@@ -367,7 +367,7 @@
     <!--  로그  -->
     <system:String x:Key="CopilotTip">팁:</system:String>
     <system:String x:Key="CopilotTip1">에뮬레이터와 게임의 프레임 레이트를 60FPS 이상으로 설정하십시오.</system:String>
-    <system:String x:Key="CopilotTip2">'작전 시작' 버튼이 있는 화면에 이 기능을 사용하십시오.</system:String>
+    <system:String x:Key="CopilotTip2">'작전 개시' 버튼이 있는 화면에 이 기능을 사용하십시오.</system:String>
     <system:String x:Key="CopilotTip3">친구의 오퍼레이터를 사용하는 경우에는 '자동 편성'을 선택하지 말고 수동으로 오퍼레이터를 선택하고 시작하십시오.</system:String>
     <system:String x:Key="CopilotTip4">패러독스 시뮬레이션의 경우에는 '자동 편성'을 선택하지 말고, 스킬을 선택하고 '시뮬레이션 시작' 버튼이 있는 화면에 시작하십시오.</system:String>
     <system:String x:Key="CopilotTip5">자동 편성은 '즐겨찾기''선호' 오퍼레이터를 인식할 수 없습니다. 필요한 경우 선호 오퍼레이터 표시를 취소하고 수동으로 편성할 수 있습니다.</system:String>
