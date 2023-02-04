@@ -68,10 +68,13 @@ bool asst::ReclamationBattlePlugin::_run()
 
         Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
 
-        if ((!check1 && !check2) || check3) break;
+        if (!check1 && !check2) break;
+        if (check3) {
+            sleep(Task.get("Reclamation@BattleStart")->special_params.at(1));
+            break;
+        }
     }
 
-    sleep(Task.get("Reclamation@BattleStart")->special_params.at(1));
     return true;
 }
 
