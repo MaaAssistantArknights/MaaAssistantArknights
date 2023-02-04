@@ -59,6 +59,16 @@
             "開始試煉"
         ]
     },
+    "FightMissionFailed": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "text": [
+            "任務失敗"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
         "ocrReplace": [
