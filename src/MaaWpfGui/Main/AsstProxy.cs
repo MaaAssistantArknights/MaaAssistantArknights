@@ -740,6 +740,12 @@ namespace MaaWpfGui
                     case "BattleStartAll":
                         copilotModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
                         break;
+
+                    /* 生息演算 */
+                    case "StartAlgorithm":
+                        mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        break;
+
                 }
             }
         }
@@ -997,6 +1003,16 @@ namespace MaaWpfGui
                     }
 
                     mainModel.AddLog(nameStr.ToString());
+                    break;
+
+                /* 生息演算 */
+                case "ReclamationReport":
+                    {
+                        mainModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
+                            Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
+                            Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
+                    }
+
                     break;
             }
         }
