@@ -10152,9 +10152,9 @@
         "next": [
             "Reclamation@LevelComplete"
         ],
-        "specialParams_Doc": "二次复核前的delay，完成后的delay",
+        "specialParams_Doc": "二次复核前的delay，网络不佳delay",
         "specialParams": [
-            1000,
+            2000,
             2000
         ]
     },
