@@ -2,7 +2,9 @@ import json
 import pathlib
 import time
 
-from asst import InstanceOptionType, Asst, Message, Updater, Version
+from asst.asst import Asst
+from asst.utils import Message, Version
+from asst.updater import Updater
 
 
 @Asst.CallBackType
