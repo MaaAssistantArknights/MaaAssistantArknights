@@ -2028,8 +2028,10 @@
     },
     "ResourceStageLevel5": {
         "Doc": "base_task",
-        "template": "empty.png",
+        "algorithm": "OcrDetect",
         "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
         "roi": [
             850,
             140,
@@ -2039,8 +2041,10 @@
     },
     "ResourceStageLevel6": {
         "Doc": "base_task",
-        "template": "empty.png",
+        "algorithm": "OcrDetect",
         "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
         "roi": [
             936,
             101,
@@ -2053,6 +2057,7 @@
         ]
     },
     "ChipStageLevel1": {
+        "Doc": "base_task",
         "algorithm": "OcrDetect",
         "baseTask": "Stage",
         "isAscii": true,
@@ -2065,6 +2070,7 @@
         ]
     },
     "ChipStageLevel2": {
+        "Doc": "base_task",
         "algorithm": "OcrDetect",
         "baseTask": "Stage",
         "isAscii": true,
@@ -2102,27 +2108,39 @@
     },
     "CE5@Stage": {
         "baseTask": "ResourceStageLevel5",
-        "template": "StageCE5.png"
+        "text": [
+            "CE-5"
+        ]
     },
     "CE6@Stage": {
         "baseTask": "CE5@ResourceStageLevel6",
-        "template": "StageCE6.png"
+        "text": [
+            "CE-6"
+        ]
     },
     "LS5@Stage": {
         "baseTask": "ResourceStageLevel5",
-        "template": "StageLS5.png"
+        "text": [
+            "LS-5"
+        ]
     },
     "LS6@Stage": {
         "baseTask": "LS5@ResourceStageLevel6",
-        "template": "StageLS6.png"
+        "text": [
+            "LS-6"
+        ]
     },
     "CA5@Stage": {
         "baseTask": "ResourceStageLevel5",
-        "template": "StageCA5.png"
+        "text": [
+            "CA-5"
+        ]
     },
     "AP5@Stage": {
         "baseTask": "ResourceStageLevel5",
-        "template": "StageAP5.png"
+        "text": [
+            "AP-5"
+        ]
     },
     "PR-A-1@Stage": {
         "baseTask": "ChipStageLevel1",
@@ -9751,7 +9769,7 @@
         "action": "DoNothing"
     },
 
-    
+
     "Reclamation@PopupConfirm":{
         "Doc":"base_task",
         "template": "PopupConfirm.png",
@@ -9799,7 +9817,7 @@
             "Reclamation@CloseAnnos#next",
             "Reclamation@TodoEnter"
         ],
-        "postDelay": 1000 
+        "postDelay": 1000
     },
     "Reclamation@TodoEnter": {
         "action": "ClickSelf",
@@ -10431,7 +10449,7 @@
         "next": [
             "Reclamation@EnterResearchLab",
             "Reclamation@CmdCenterSwipeRight"
-        ] 
+        ]
     },
     "Reclamation@EnterResearchLab":{
         "algorithm": "OcrDetect",
