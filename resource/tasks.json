@@ -6729,6 +6729,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "DepotEnter@ReturnTo",
             "DepotEnter",
             "DepotMaterialTab",
             "DepotMaterialTabClicked"
