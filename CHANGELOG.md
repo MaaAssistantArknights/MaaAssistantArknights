@@ -1,3 +1,29 @@
+## v4.10.6-beta.5
+
+- 新增 `生息演算` 界面日志显示 @WLLEGit
+- 修复 `生息演算` 无初始干员卡住的问题，添加集成文档 @WLLEGit
+- 修复 `生息演算` 网络不佳时退出慢的问题 @WLLEGit
+- 修复 界面 下载更新时日志兰被清空的问题 @ABA2396
+- 修复 界面 关卡导航问题、剩余理智下拉框不可选问题 @ABA2396
+- 修复 自定义基建 内置作业错误 @lhhxxxxx
+- 优化 肉鸽 干员权重 @lhhxxxxx
+
+### For overseas
+
+- Added resource stage pathfinding for all overseas clients @liuyifan-eric
+- Added support for trial function in copilot of JP @liuyifan-eric
+- Updated JP operator json regex @liuyifan-eric
+- Added Copilot function for KR @178619
+- Fixed OCR for YoStarKR @178619
+- Fixed some recognition bugs, updated resources and documentation for YostarKR @178619
+- Fixed Base function stuck and some minor issues for YostarEN @RiichiTsumo
+- 修复 繁中服 部分识别错误 @vonnoq
+
+### For develops
+
+- Added an updater to the python interface @SaiCateDoan
+- Refactored python APIs @Chr0nixz
+
 ## v4.10.6-beta.4
 
 - 新增 `生息演算` 关卡导航，并大幅优化稳定性 @WLLEGit
