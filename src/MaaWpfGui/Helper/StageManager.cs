@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
 using Semver;
@@ -85,18 +86,28 @@ namespace MaaWpfGui
                    "yyyy/MM/dd HH:mm:ss",
                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
-            if (activity != null)
+            var settingsModel = _container.Get<SettingsViewModel>();
+            var clientType = settingsModel.ClientType;
+            
+
+            // 官服和B服使用同样的资源
+            if (clientType == "Bilibili")
+            {
+                clientType = "Official";
+            }
+
+            if (activity?[clientType] != null)
             {
                 try
                 {
                     // 资源全开放活动
-                    var resource = activity["Official"]["resourceCollection"];
+                    var resource = activity[clientType]["resourceCollection"];
                     resourceCollection.Tip = resource?["Tip"]?.ToString();
                     resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
                     resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
 
                     // 活动关卡
-                    foreach (var stageObj in activity["Official"]["sideStoryStage"])
+                    foreach (var stageObj in activity[clientType]["sideStoryStage"])
                     {
                         bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
                         bool curParsed = !isDebugVersion ?
