@@ -334,6 +334,12 @@
                     "promote_priority_when_team_full": 850
                 },
                 {
+                    "name": "号角",
+                    "skill": 1,
+                    "recruit_priority": 750,
+                    "promote_priority": 650
+                },
+                {
                     "name": "瑕光",
                     "skill": 1,
                     "recruit_priority": 200,
@@ -671,7 +677,7 @@
                     "name": "凯尔希",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 650,
+                    "recruit_priority": 0,
                     "promote_priority": 600
                 },
                 {
@@ -1488,7 +1494,7 @@
                     "name": "凯尔希",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 650,
+                    "recruit_priority": 0,
                     "promote_priority": 600
                 },
                 {

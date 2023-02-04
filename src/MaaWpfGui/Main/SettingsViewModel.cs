@@ -2232,6 +2232,20 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _useRemainingSanityStage = bool.Parse(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
+
+        public bool UseRemainingSanityStage
+        {
+            get => _useRemainingSanityStage;
+            set
+            {
+                SetAndNotify(ref _useRemainingSanityStage, value);
+                var mainModel = _container.Get<TaskQueueViewModel>();
+                mainModel.UseRemainingSanityStage = value;
+                ViewStatusStorage.Set("Fight.UseRemainingSanityStage", value.ToString());
+            }
+        }
+
         private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.HideUnavailableStage", bool.TrueString));
 
         /// <summary>
