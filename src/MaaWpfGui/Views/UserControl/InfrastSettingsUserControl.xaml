@@ -62,7 +62,6 @@
                         Width="150"
                         Margin="0,5"
                         DisplayMemberPath="Display"
-                        IsEnabled="{c:Binding !CustomInfrastEnabled}"
                         ItemsSource="{Binding UsesOfDronesList}"
                         SelectedValue="{Binding UsesOfDrones}"
                         SelectedValuePath="Value" />
