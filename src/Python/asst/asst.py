@@ -1,18 +1,11 @@
 import ctypes
+import json
 import os
 import pathlib
 import platform
-import json
+from typing import Union, Optional
 
-from typing import Union, Dict, List, Any, Type, Optional
-from enum import Enum, IntEnum, unique, auto
-
-JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
-
-
-class InstanceOptionType(IntEnum):
-    touch_type = 2
-    deployment_with_pause = 3
+from utils import InstanceOptionType, JSON
 
 
 class Asst:
@@ -28,7 +21,8 @@ class Asst:
     """
 
     @staticmethod
-    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None, user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
+    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None,
+             user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
 
@@ -57,6 +51,12 @@ class Asst:
         platform_type = platform.system().lower()
         if platform_type == 'windows':
             lib_import_func = ctypes.WinDLL
+            # 手动加载onnxruntime.dll以避免部分版本的python错误地从System32加载旧版本
+            try:
+                lib_import_func(str(pathlib.Path(path) / 'onnxruntime.dll'))
+            except Exception as e:
+                print(e)
+                pass
         else:
             lib_import_func = ctypes.CDLL
 
@@ -109,7 +109,6 @@ class Asst:
         return Asst.__lib.AsstSetInstanceOption(self.__ptr,
                                                 int(option_type), option_value.encode('utf-8'))
 
-
     def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
         连接设备
@@ -136,7 +135,8 @@ class Asst:
 
         :return: 任务 ID, 可用于 set_task_params 接口
         """
-        return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'), json.dumps(params, ensure_ascii=False).encode('utf-8'))
+        return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'),
+                                         json.dumps(params, ensure_ascii=False).encode('utf-8'))
 
     def set_task_params(self, task_id: TaskId, params: JSON) -> bool:
         """
@@ -176,13 +176,13 @@ class Asst:
 
     @staticmethod
     def log(level: str, message: str) -> None:
-        '''
+        """
         打印日志
 
         :params:
             ``level``:      日志等级标签
             ``message``:    日志内容
-        '''
+        """
 
         Asst.__lib.AsstLog(level.encode('utf-8'), message.encode('utf-8'))
 
@@ -243,39 +243,3 @@ class Asst:
         Asst.__lib.AsstLog.restype = None
         Asst.__lib.AsstLog.argtypes = (
             ctypes.c_char_p, ctypes.c_char_p)
-
-
-@unique
-class Message(Enum):
-    """
-    回调消息
-
-    请参考 docs/回调消息.md
-    """
-    InternalError = 0
-
-    InitFailed = auto()
-
-    ConnectionInfo = auto()
-
-    AllTasksCompleted = auto()
-
-    TaskChainError = 10000
-
-    TaskChainStart = auto()
-
-    TaskChainCompleted = auto()
-
-    TaskChainExtraInfo = auto()
-
-    TaskChainStopped = auto()
-
-    SubTaskError = 20000
-
-    SubTaskStart = auto()
-
-    SubTaskCompleted = auto()
-
-    SubTaskExtraInfo = auto()
-
-    SubTaskStopped = auto()

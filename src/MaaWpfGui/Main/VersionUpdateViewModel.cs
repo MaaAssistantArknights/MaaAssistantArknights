@@ -708,10 +708,6 @@ namespace MaaWpfGui
                 switch (downloader)
                 {
                     case Downloader.Native:
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            _logItemViewModels.Clear();
-                        });
                         returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType, proxy);
                         break;
 
@@ -886,7 +882,8 @@ namespace MaaWpfGui
                 }
                 else if (!string.IsNullOrEmpty(output))
                 {
-                    _logItemViewModels.Insert(0, log);
+                    _logItemViewModels.Clear();
+                    _logItemViewModels.Add(log);
                 }
             });
         }

@@ -79,8 +79,7 @@ asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv:
 
 bool asst::AbstractImageAnalyzer::save_img(const std::filesystem::path& relative_dir)
 {
-    std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
+    std::string stem = utils::get_random_filestem();
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
     bool ret = asst::imwrite(relative_path, m_image);

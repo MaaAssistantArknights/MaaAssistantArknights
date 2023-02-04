@@ -30,6 +30,7 @@ BattleSkillReady.png
 BattleSkillReadyOnClick.png
 BattleSkillStopOnClick.png
 BattleSpeedUp.png
+BattleSupportUnitFormationSelect.png
 BuyIt.png
 CloseAnno.png
 CloseAnnoTexas.png
@@ -47,8 +48,10 @@ ClusCanBeSent.png
 CreditPoint.png
 CreditShop-Bought.png
 DroneAssistMfg.png
+empty.png
 EndOfAction.png
 EnterChapterIS2.png
+EnterChooseLevelOfDifficulty.png
 EnterEpisode0.png
 EnterEpisode4.png
 EnterEpisode9.png
@@ -77,15 +80,15 @@ RecruitSkip.png
 RecruitTimerDecrement.png
 ReplenishToMaxConfirm.png
 Return.png
-SN-10.png
-SN-8.png
-SN-9.png
 SendClueConfirm.png
 SendClues.png
 SkipThePreBattlePlotConfirm.png
 SmileyOnDistract.png
 SmileyOnRest.png
 SmileyOnWork.png
+SN-10.png
+SN-8.png
+SN-9.png
 StageAP5.png
 StageBI7.png
 StageBI8.png
@@ -107,4 +110,3 @@ StartLoginBServer.png
 UnableToAgent.png
 UseMedicine.png
 UseStone.png
-empty.png
