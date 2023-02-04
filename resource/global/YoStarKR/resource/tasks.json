@@ -1769,9 +1769,9 @@
             "오더납품",
             "획득",
             "납품",
-            ".*신뢰도$",
-            ".*센리도$",
-            ".*센뢰도$"
+            "신뢰도",
+            "센리도",
+            "센뢰도"
         ]
     },
     "BattleStageName": {
@@ -3475,17 +3475,17 @@
             "보안작전개시"
         ]
     },
-    "InfrastStationedInfo_Temp": {
+    "InfrastStationedInfo": {
         "text": [
-            "配属情報"
+            "배치정보"
         ]
     },
-    "InfrastEnterOperList_Temp": {
+    "InfrastEnterOperList": {
         "text": [
-            "体力",
-            "休憩中",
-            "仕事中",
-            "配属"
+            "컨디션",
+            "휴식중",
+            "업무중",
+            "배치"
         ]
     }
 }
