@@ -6649,6 +6649,10 @@
                 "1"
             ],
             [
+                "十",
+                "+"
+            ],
+            [
                 "萬",
                 "万"
             ],
@@ -10167,9 +10171,9 @@
         "next": [
             "Reclamation@LevelComplete"
         ],
-        "specialParams_Doc": "二次复核前的delay，完成后的delay",
+        "specialParams_Doc": "二次复核前的delay，网络不佳delay",
         "specialParams": [
-            1000,
+            2000,
             2000
         ]
     },
@@ -10344,6 +10348,24 @@
             "Reclamation@ClickChooseInitUnits"
         ]
     },
+    "Reclamation@ConclusionReportBadgeIcon":{
+        "template": "Reclamation@Badge.png",
+        "roi": [
+            560, 345, 552, 210
+        ]
+    },
+    "Reclamation@ReportBadgesOcr":{
+        "template": "empty.png",
+        "roi": [
+            639, 392, 427, 102
+        ]
+    },
+    "Reclamation@ReportConstructPointsOcr":{
+        "template": "empty.png",
+        "roi": [
+            548, 580, 80, 60
+        ]
+    },
     "Reclamation@GainReward": {
         "roi": [
             556,
@@ -10351,6 +10373,7 @@
             179,
             161
         ],
+        "postDelay": 1000,
         "action": "ClickSelf",
         "next": [
             "Reclamation@Begin#next",
