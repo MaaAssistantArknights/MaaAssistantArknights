@@ -17,5 +17,13 @@ namespace asst
         virtual bool _run() override;
         virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat()) override;
         virtual AbstractTask& this_task() override { return *this; }
+
+        bool quit_action();
+        
+        bool buy_water();
+        bool communicate_with(const std::string& npcName);
+        bool communicate_with_aux(const std::string& npcName,
+                                  std::function<bool(const MatchRect&, const MatchRect&)> orderComp);
+        bool do_dialog_procedure(const std::vector<std::string>& procedure);
     };
 }
