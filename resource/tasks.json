@@ -6753,7 +6753,8 @@
         "next": [
             "DepotEnter",
             "DepotMaterialTab",
-            "DepotMaterialTabClicked"
+            "DepotMaterialTabClicked",
+            "DepotEnter@ReturnTo"
         ]
     },
     "DepotEnter": {
