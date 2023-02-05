@@ -549,6 +549,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _clientType, value);
                 ViewStatusStorage.Set("Start.ClientType", value);
+                UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
             }
         }
 
