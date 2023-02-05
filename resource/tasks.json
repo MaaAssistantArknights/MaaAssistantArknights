@@ -6729,10 +6729,10 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "DepotEnter@ReturnTo",
             "DepotEnter",
             "DepotMaterialTab",
-            "DepotMaterialTabClicked"
+            "DepotMaterialTabClicked",
+            "DepotEnter@ReturnTo"
         ]
     },
     "DepotEnter": {
