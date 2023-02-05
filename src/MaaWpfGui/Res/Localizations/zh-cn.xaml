@@ -11,7 +11,7 @@
     <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
     <system:String x:Key="RecruitingSettings">自动公招</system:String>
     <system:String x:Key="MallSettings">信用相关</system:String>
-    <system:String x:Key="OtherCombatSettings">理智设置</system:String>
+    <system:String x:Key="OtherCombatSettings">战斗设置</system:String>
     <system:String x:Key="ConnectionSettings">连接设置</system:String>
     <system:String x:Key="StartupSettings">启动设置</system:String>
     <system:String x:Key="ScheduleSettings">定时执行</system:String>
