@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.PenguinReportSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,12 +16,51 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <CheckBox
-            Margin="10"
+        <StackPanel
+            Grid.Row="0"
             HorizontalAlignment="Center"
-            Content="{DynamicResource DrGrandet}"
-            IsChecked="{Binding IsDrGrandet}"
-            ToolTip="{DynamicResource DrGrandetTip}" />
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Content="{DynamicResource DrGrandet}"
+                    IsChecked="{Binding IsDrGrandet}"
+                    ToolTip="{DynamicResource DrGrandetTip}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Content="{DynamicResource CustomStageCode}"
+                    IsChecked="{Binding CustomStageCode}"
+                    ToolTip="{DynamicResource CustomStageCodeTip}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Content="{DynamicResource UseAlternateStage}"
+                    IsChecked="{Binding UseAlternateStage}"
+                    IsEnabled="{c:Binding !CustomStageCode}" />
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Content="{DynamicResource UseRemainingSanityStage}"
+                    IsChecked="{Binding UseRemainingSanityStage}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Content="{DynamicResource HideUnavailableStage}"
+                    IsChecked="{Binding HideUnavailableStage}"
+                    IsEnabled="{c:Binding !CustomStageCode}" />
+            </StackPanel>
+        </StackPanel>
         <StackPanel
             Grid.Row="1"
             HorizontalAlignment="Center"
