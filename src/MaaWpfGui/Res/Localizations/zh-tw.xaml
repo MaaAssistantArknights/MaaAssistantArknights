@@ -10,7 +10,7 @@
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
     <system:String x:Key="MallSettings">信用相關</system:String>
-    <system:String x:Key="OtherCombatSettings">理智設定</system:String>
+    <system:String x:Key="OtherCombatSettings">戰鬥設定</system:String>
     <system:String x:Key="ConnectionSettings">連接設定</system:String>
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>

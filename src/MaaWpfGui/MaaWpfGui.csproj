@@ -173,8 +173,8 @@
       <DependentUpon>FightSettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\DragItemViewModel.cs" />
-    <Compile Include="Views\UserControl\PenguinReportSettingsUserControl.xaml.cs">
-      <DependentUpon>PenguinReportSettingsUserControl.xaml</DependentUpon>
+    <Compile Include="Views\UserControl\OtherCombatSettingsUserControl.xaml.cs">
+      <DependentUpon>OtherCombatSettingsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControl\AboutUserControl.xaml.cs">
       <DependentUpon>AboutUserControl.xaml</DependentUpon>
@@ -257,7 +257,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControl\PenguinReportSettingsUserControl.xaml">
+    <Page Include="Views\UserControl\OtherCombatSettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
