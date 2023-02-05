@@ -2216,10 +2216,30 @@
             "OfflineConfirm"
         ]
     },
+    "Loading3": {
+        "Doc": "在启动后的更新界面中等待下载，以免超时",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在释放神经递质"
+        ],
+        "roi": [
+            430,
+            650,
+            380,
+            60
+        ],
+        "next": [
+            "Loading3",
+            "#next",
+            "#back"
+        ]
+    },
     "StartUpBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "StartUpBegin@Loading3",
             "StartUp@StartUpThemes#next",
             "StartUpBegin@Loading2",
             "StartUp@ReturnTo",
