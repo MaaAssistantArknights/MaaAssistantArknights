@@ -10707,5 +10707,49 @@
         "next": [
             "Reclamation@ExitAlgorithm"
         ]
+    },
+    "Reclamation@Liaison":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            0, 141, 179, 130
+        ],
+        "text": [
+            "联络员"
+        ]
+    },
+    "Reclamation@BalckMarketDialogOption":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            721, 78, 543, 492
+        ],
+        "text": [],
+        "postDelay": 500
+    },
+    "Reclamation@BuyWaterProcedure":{
+        "algorithm": "OcrDetect",
+        "text": [
+            "Skip",
+            "建材",
+            "清水",
+            "Skip"
+        ]
+    },
+    "Reclamation@SkillReadyRoleOffset":{
+        "Doc": "技能准备完成距离npc中心的偏移",
+        "template": "empty.png",
+        "specialParams": [
+            100
+        ]
+    },
+    "Reclamation@BattleSkillReadyOnClick": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillReadyOnClick.png",
+        "roi": [
+            439, 76, 841, 644
+        ]
+    },
+    "Reclamation@DialogSkip":{
+        "baseTask": "Reclamation@SkipAnnounce",
+        "next": []
     }
 }
