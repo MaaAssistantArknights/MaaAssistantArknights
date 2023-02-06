@@ -58,13 +58,28 @@ namespace MaaWpfGui
             }
         }
 
+        private static string _clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
+
+        public static string ClientType { get => _clientType; set => _clientType = value; }
+
+        private static readonly Dictionary<string, int> clientList = new Dictionary<string, int>
+        {
+            { string.Empty, 4 },
+            { "Official", 4 },
+            { "Bilibili", 4 },
+            { "txwy", 4 },
+            { "YoStarEN", 4 },
+            { "YoStarJP", 5 },
+            { "YoStarKR", 4 },
+        };
+
         /// <summary>
         /// 获取yj历时间
         /// </summary>
         /// <returns>yj历时间</returns>
         public static DateTime GetYJTimeNow()
         {
-            return DateTime.UtcNow.AddHours(4);
+            return DateTime.UtcNow.AddHours(clientList[ClientType]);
         }
 
         /// <summary>
@@ -101,7 +116,7 @@ namespace MaaWpfGui
         /// <returns>yj历格式的时间</returns>
         public static DateTime ToYJTime(DateTime dt)
         {
-            return dt.AddHours(4);
+            return dt.AddHours(clientList[ClientType]);
         }
 
         private static readonly JObject _itemList = new JObject();
