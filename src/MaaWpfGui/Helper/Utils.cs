@@ -62,7 +62,7 @@ namespace MaaWpfGui
 
         public static string ClientType { get => _clientType; set => _clientType = value; }
 
-        private static readonly Dictionary<string, int> clientList = new Dictionary<string, int>
+        private static readonly Dictionary<string, int> _clientTypeTimeOffsetMap = new Dictionary<string, int>
         {
             { string.Empty, 4 },
             { "Official", 4 },
@@ -79,7 +79,7 @@ namespace MaaWpfGui
         /// <returns>yj历时间</returns>
         public static DateTime GetYJTimeNow()
         {
-            return DateTime.UtcNow.AddHours(clientList[ClientType]);
+            return DateTime.UtcNow.AddHours(_clientTypeTimeOffsetMap[ClientType]);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace MaaWpfGui
         /// <returns>yj历格式的时间</returns>
         public static DateTime ToYJTime(DateTime dt)
         {
-            return dt.AddHours(clientList[ClientType]);
+            return dt.AddHours(_clientTypeTimeOffsetMap[ClientType]);
         }
 
         private static readonly JObject _itemList = new JObject();
