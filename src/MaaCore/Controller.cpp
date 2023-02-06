@@ -1361,7 +1361,7 @@ std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, 
 
     asst::platform::single_page_buffer<char> pipe_buffer;
     asst::platform::single_page_buffer<char> sock_buffer;
-    
+
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit,
@@ -1599,6 +1599,7 @@ std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, 
                 int client_socket = ::accept(m_server_sock, &addr, &len);
                 if (client_socket < 0) {
                     Log.error("accept failed:", strerror(errno));
+                    ::kill(m_child, SIGKILL);
                     return std::nullopt;
                 }
 
@@ -1610,14 +1611,14 @@ std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, 
                 }
 
                 ::close(client_socket);
-                break;
             }
+            else {
+                ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
 
-            ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
-
-            while (read_num > 0) {
-                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
-                read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+                while (read_num > 0) {
+                    pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
+                    read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+                }
             }
         } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
     }
