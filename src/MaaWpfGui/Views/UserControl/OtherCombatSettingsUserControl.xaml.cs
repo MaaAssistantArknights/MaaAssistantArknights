@@ -1,4 +1,4 @@
-// <copyright file="PenguinReportSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="OtherCombatSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -16,14 +16,14 @@ using System.Windows.Controls;
 namespace MaaWpfGui
 {
     /// <summary>
-    /// PenguinReportSettingsUserControl.xaml 的交互逻辑
+    /// OtherCombatSettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class PenguinReportSettingsUserControl : UserControl
+    public partial class OtherCombatSettingsUserControl : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PenguinReportSettingsUserControl"/> class.
+        /// Initializes a new instance of the <see cref="OtherCombatSettingsUserControl"/> class.
         /// </summary>
-        public PenguinReportSettingsUserControl()
+        public OtherCombatSettingsUserControl()
         {
             InitializeComponent();
         }

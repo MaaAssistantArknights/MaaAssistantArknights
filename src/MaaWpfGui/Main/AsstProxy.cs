@@ -745,7 +745,6 @@ namespace MaaWpfGui
                     case "StartAlgorithm":
                         mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
-
                 }
             }
         }

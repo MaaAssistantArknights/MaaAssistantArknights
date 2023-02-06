@@ -1,10 +1,28 @@
+## v4.10.6-rc.1
+
+- 优化 仓库识别 在匹配不到时返回主页重进 @bigqiao
+- 优化 界面 设置布局、标题显示等 @ABA2396
+- 更新 文档 模拟器支持相关内容 @FSPaul2498
+
+### For overseas
+
+- Updated the template image and translation for YostarKR @178619
+- Fixed overseas servers infrast dorm/power issue @liuyifan-eric
+- 更新 繁中服 基建和 `愚人号` 模板图片 @vonnoq
+
+### For develops
+
+- Fixed python APIs package path error @Chr0nixz
+
+
 ## v4.10.6-beta.5
 
+- 新增 界面 剩余理智可选关闭 @ABA2396
 - 新增 `生息演算` 界面日志显示 @WLLEGit
 - 修复 `生息演算` 无初始干员卡住的问题，添加集成文档 @WLLEGit
 - 修复 `生息演算` 网络不佳时退出慢的问题 @WLLEGit
-- 修复 界面 下载更新时日志兰被清空的问题 @ABA2396
-- 修复 界面 关卡导航问题、剩余理智下拉框不可选问题 @ABA2396
+- 修复 界面 下载更新时日志栏被清空的问题 @ABA2396
+- 修复 界面 关卡导航问题 @ABA2396
 - 修复 自定义基建 内置作业错误 @lhhxxxxx
 - 优化 肉鸽 干员权重 @lhhxxxxx
 
