@@ -1,3 +1,20 @@
+## v4.10.6-rc.1
+
+- 优化 仓库识别 在匹配不到时返回主页重进 @bigqiao
+- 优化 界面 设置布局、标题显示等 @ABA2396
+
+
+### For overseas
+
+- Updated the template image and translation for YostarKR @178619
+- Fixed overseas servers infrast dorm/power issue @liuyifan-eric
+- 更新 繁中服 基建和 `愚人号` 模板图片 @vonnoq
+
+### For develops
+
+- Fixed python APIs package path error @Chr0nixz
+
+
 ## v4.10.6-beta.5
 
 - 新增 界面 剩余理智可选关闭 @ABA2396
