@@ -88,7 +88,6 @@ namespace MaaWpfGui
 
             var settingsModel = _container.Get<SettingsViewModel>();
             var clientType = settingsModel.ClientType;
-            
 
             // 官服和B服使用同样的资源
             if (clientType == "Bilibili")
@@ -101,16 +100,16 @@ namespace MaaWpfGui
                 try
                 {
                     // 资源全开放活动
-                    if (activity[clientType]?["resourceCollection"] != null)
+                    var resource = activity[clientType]["resourceCollection"];
+                    if (resource != null)
                     {
-                        var resource = activity[clientType]["resourceCollection"];
-                        resourceCollection.Tip = resource?["Tip"]?.ToString();
+                        resourceCollection.Tip = resource["Tip"]?.ToString();
                         resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
                         resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
                     }
 
                     // 活动关卡
-                    foreach (var stageObj in activity[clientType]["sideStoryStage"])
+                    foreach (var stageObj in activity[clientType]["sideStoryStage"] ?? Enumerable.Empty<JToken>())
                     {
                         bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
                         bool curParsed = !isDebugVersion ?
