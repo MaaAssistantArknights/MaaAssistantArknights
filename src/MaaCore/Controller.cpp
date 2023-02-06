@@ -1,6 +1,7 @@
 #include "Controller.h"
 
 #include "Utils/Platform.hpp"
+#include <sys/socket.h>
 
 #ifdef _WIN32
 #include <ws2tcpip.h>
@@ -1608,6 +1609,7 @@ std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, 
                 sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + read_num);
                 read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
             }
+            ::shutdown(client_socket, SHUT_RDWR);
             ::close(client_socket);
         }
         else {
