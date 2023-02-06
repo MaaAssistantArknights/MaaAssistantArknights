@@ -19,7 +19,7 @@ using System.Windows.Documents;
 namespace MaaWpfGui
 {
     /// <summary>
-    /// PenguinReportSettingsUserControl.xaml 的交互逻辑
+    /// OtherCombatSettingsUserControl.xaml 的交互逻辑
     /// </summary>
     public partial class AboutUserControl : UserControl
     {

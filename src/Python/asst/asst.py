@@ -5,7 +5,7 @@ import pathlib
 import platform
 from typing import Union, Optional
 
-from utils import InstanceOptionType, JSON
+from .utils import InstanceOptionType, JSON
 
 
 class Asst:

@@ -9,8 +9,8 @@ from urllib import request
 from urllib.error import HTTPError, URLError
 from urllib.request import Request
 
-from asst import Asst
-from utils import Version
+from .asst import Asst
+from .utils import Version
 
 
 class Updater:
