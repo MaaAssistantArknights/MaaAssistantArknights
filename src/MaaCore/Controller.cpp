@@ -1,7 +1,6 @@
 #include "Controller.h"
 
 #include "Utils/Platform.hpp"
-#include <sys/socket.h>
 
 #ifdef _WIN32
 #include <ws2tcpip.h>
@@ -9,6 +8,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/errno.h>
+#include <sys/socket.h>
 #ifndef __APPLE__
 #include <sys/prctl.h>
 #endif
