@@ -1590,37 +1590,36 @@ std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, 
     }
     else if (m_child > 0) {
         // parent process
-        do {
-            if (recv_by_socket) {
-                sockaddr addr {};
-                socklen_t len = sizeof(addr);
-                sock_buffer = asst::platform::single_page_buffer<char>();
+        if (recv_by_socket) {
+            sockaddr addr {};
+            socklen_t len = sizeof(addr);
+            sock_buffer = asst::platform::single_page_buffer<char>();
 
-                int client_socket = ::accept(m_server_sock, &addr, &len);
-                if (client_socket < 0) {
-                    Log.error("accept failed:", strerror(errno));
-                    ::kill(m_child, SIGKILL);
-                    return std::nullopt;
-                }
-
-                ssize_t read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
-
-                while (read_num > 0) {
-                    sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + read_num);
-                    read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
-                }
-
-                ::close(client_socket);
+            int client_socket = ::accept(m_server_sock, &addr, &len);
+            if (client_socket < 0) {
+                Log.error("accept failed:", strerror(errno));
+                ::kill(m_child, SIGKILL);
+                ::waitpid(m_child, &exit_ret, 0); 
+                return std::nullopt;
             }
-            else {
-                ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
 
+            ssize_t read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
+            while (read_num > 0) {
+                sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + read_num);
+                read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
+            }
+            ::close(client_socket);
+        }
+        else {
+            do {
+                ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
                 while (read_num > 0) {
                     pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
                     read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
                 }
-            }
-        } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
+            } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
+        }
+        ::waitpid(m_child, &exit_ret, 0); // if ::waitpid(m_child, &exit_ret, WNOHANG) == 0, repeat it will cause ECHILD, so not check the return value
     }
     else {
         // failed to create child process
