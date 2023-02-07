@@ -116,31 +116,6 @@ json::value asst::AbstractTask::basic_info_with_what(std::string what) const
     return info;
 }
 
-bool AbstractTask::sleep(unsigned millisecond)
-{
-    if (need_exit()) {
-        return false;
-    }
-    if (millisecond == 0) {
-        std::this_thread::yield();
-        return true;
-    }
-    auto start = std::chrono::steady_clock::now();
-    Log.trace("ready to sleep", millisecond);
-    auto millisecond_ms = std::chrono::milliseconds(millisecond);
-    auto interval = millisecond_ms / 5;
-
-    while (!need_exit()) {
-        std::this_thread::sleep_for(interval);
-        if (std::chrono::steady_clock::now() - start > millisecond_ms) {
-            break;
-        }
-    }
-    Log.trace("end of sleep", millisecond);
-
-    return !need_exit();
-}
-
 void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
 {
     for (const TaskPluginPtr& plugin : m_plugins) {
@@ -176,17 +151,14 @@ void asst::AbstractTask::click_return_button()
     ProcessTask(*this, { "Return" }).run();
 }
 
-bool asst::AbstractTask::save_img(const std::string& dirname)
+bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir)
 {
     auto image = ctrler()->get_image();
     if (image.empty()) {
         return false;
     }
-
-    std::string stem = utils::get_format_time();
-    stem = utils::string_replace_all(stem, { { ":", "-" }, { " ", "_" } });
-    std::filesystem::create_directories(dirname);
-    std::string full_path = dirname + stem + "_raw.png";
-    Log.trace("Save image", full_path);
-    return asst::imwrite(full_path, image);
+    std::string stem = utils::get_random_filestem();
+    auto relative_path = relative_dir / (stem + "_raw.png");
+    Log.trace("Save image", relative_path);
+    return asst::imwrite(relative_path, image);
 }

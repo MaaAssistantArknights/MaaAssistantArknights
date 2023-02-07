@@ -192,7 +192,7 @@ Stormeye|Stormeye|Stormeye|Stormeye
 暮落|Shalem|シャレム|샬렘
 炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼거토리
 寒芒克洛丝|Kroos the keen Glint|寒芒クルース|크루스 더 킨 글린트
-濯尘芙蓉|Hibiscus the Purifier||히비스커스 더 퓨리파이어
+濯尘芙蓉|Hibiscus the Purifier|濯塵ハイビスカス|히비스커스 더 퓨리파이어
 承曦格雷伊|Greyy the Lightningbearer||그레이 더 라이트닝베어러
 耶拉|Kjera|イェラ|쉐라
 风丸|Kazemaru|カゼマル|카제마루
@@ -200,9 +200,9 @@ Stormeye|Stormeye|Stormeye|Stormeye
 暮落|Shalem|シャレム|샬렘
 见行者|Enforcer|エンフォーサー|인포서
 洛洛|Rockrock|ロックロック|락락
-埃拉托|Erato||에라토
+埃拉托|Erato|エラト|에라토
 海蒂|Heidi|ハイディ|하이디
-车尔尼|Czerny||체르니
+车尔尼|Czerny|ツェルニー|체르니
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -264,6 +264,6 @@ W|W|W|W
 艾丽妮|Irene|アイリーニ|아이린
 号角|Horn|ホルン|혼
 流明|Lumen|ルーメン|루멘
-黑键|Ebenholz||에벤홀츠
+黑键|Ebenholz|エーベンホルツ|에벤홀츠
 多萝西|Dorothy||도로시
 

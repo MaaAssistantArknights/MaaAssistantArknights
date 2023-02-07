@@ -127,6 +127,7 @@
                     Grid.Column="1"
                     Width="160"
                     Margin="5"
+                    MaxDropDownHeight="800"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ActionAfterCompletedList}"
                     SelectedValue="{Binding ActionAfterCompleted}"
@@ -164,7 +165,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="165" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <local:FightSettingsUserControl
                 Grid.Row="0"

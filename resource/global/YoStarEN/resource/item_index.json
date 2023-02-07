@@ -313,7 +313,7 @@
     },
     "30125": {
         "classifyType": "MATERIAL",
-        "description": "A device that is sensitive to Originium within a certain range. It can significantly improve the sensitive of nearby weapons and equipment to Originium, making them near vessels for Originium Arts.",
+        "description": "A device that is sensitive to Originium within a certain range. It can significantly improve the sensitivity of nearby weapons and equipment to Originium, making them near vessels for Originium Arts.",
         "icon": "30125.png",
         "name": "Bipolar Nanoflake",
         "sortId": 100002,
@@ -908,7 +908,15 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_2701.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10016,
+        "sortId": 10017,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_3001": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3001.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10018,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_601": {
@@ -1207,6 +1215,62 @@
         "sortId": -10000,
         "usage": "Records already ravaged beyond playability. Can be exchanged with the long-time residents of the ruins for goods."
     },
+    "act18side_token_pieces": {
+        "classifyType": "NONE",
+        "description": "The notes scribbled on the staff are jumbled and disorderly. Only the composer himself can, at a glance, make out the soul hidden therein.",
+        "icon": "act18side_token_pieces.png",
+        "name": "Sheet Music",
+        "sortId": -10000,
+        "usage": "Musicians often misplace their drafts during outbursts of emotion. If you straighten it out and return it to its owner, perhaps you will receive a new piece in return."
+    },
+    "act1bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act1bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act1bossrush_relic_01": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_01.png",
+        "name": "Reuse Module",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_02": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_02.png",
+        "name": "Fast Processing",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_03": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_03.png",
+        "name": "Super Cache",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_04": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_04.png",
+        "name": "Repel Control",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act1bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "Points gained for taking down OpFor troops, awarded to competitors in the form of medals. Owing to it being forged by Minos smiths, in each medal's engraving is the proverb 'all heroes arise from normal people.'",
@@ -1214,6 +1278,14 @@
         "name": "Competition Medals",
         "sortId": -10000,
         "usage": "A small medal made from metal. Gain certain amounts and receive corresponding competition rewards."
+    },
+    "act20side_token_book": {
+        "classifyType": "NONE",
+        "description": "The pages retain handwriting of all shapes and sizes, the amount even serving to tell you how often the magazine's changed hands. Most of it is meaningless scrawls, but flashes of wisdom are scattered throughout.",
+        "icon": "act20side_token_book.png",
+        "name": "Photocopies of 'Stranger Things'",
+        "sortId": -10000,
+        "usage": "Photocopies of a gaudy magazine, the contents preposterous, yet well-loved by Durin far and wide. Can be used at the Leaping Gloompincer Market to trade with the Durin for supplies."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1313,7 +1385,7 @@
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
-        "description": "A couple blond Fortes are selling gold pieces of paper at three times the stated price. This voucher can be used to buy aid packages for competition knights in the arena, or as a bankroll to bet on, but be prepared to pay more than the number printed on it. A piece of paper, a huge sum, a knight's life of honor and shame.",
+        "description": "A low-dosage sample. To be used rationally and sensibly. If you are satisfied with this product's efficacy, you may also be interested in our other packages.",
         "icon": "ap_supply_lt_010.png",
         "name": "Emergency Sanity Sampler",
         "sortId": 30004,
@@ -1383,6 +1455,22 @@
         "sortId": 90001,
         "usage": "Used to unlock Operator modules."
     },
+    "mod_update_token_1": {
+        "classifyType": "MATERIAL",
+        "description": "Experience is abstracted into data, and the data become a weapon. All true warriors must come to know both themselves and the battlefield.\nThe crystallization of the entire Engineering Department's blood, sweat, and tears. Once upgraded, the modules will greatly improve our Operators' combat abilities.",
+        "icon": "mod_update_token_1.png",
+        "name": "Data Supplement Stick",
+        "sortId": 90003,
+        "usage": "Used to upgrade Operator modules."
+    },
+    "mod_update_token_2": {
+        "classifyType": "MATERIAL",
+        "description": "Experience is abstracted into data, and the data become a weapon. All true warriors must come to know both themselves and the battlefield.\nThe crystallization of the entire Engineering Department's blood, sweat, and tears. Once further upgraded, the modules will help optimize our Operators' combat styles and vastly improve their abilities.",
+        "icon": "mod_update_token_2.png",
+        "name": "Data Supplement Instrument",
+        "sortId": 90002,
+        "usage": "Used to upgrade Operator modules."
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
@@ -1404,7 +1492,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_0.png",
         "name": "Operation Barrenland Supplies",
-        "sortId": 60001,
+        "sortId": 60011,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_1": {
@@ -1412,7 +1500,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_1.png",
         "name": "Operation Pyrite Supplies",
-        "sortId": 60002,
+        "sortId": 60012,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_2": {
@@ -1420,7 +1508,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_2.png",
         "name": "Operation Blade Supplies",
-        "sortId": 60003,
+        "sortId": 60013,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_3": {
@@ -1428,7 +1516,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_3.png",
         "name": "Operation Cinder Supplies",
-        "sortId": 60004,
+        "sortId": 60014,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_4": {
@@ -1436,7 +1524,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_4.png",
         "name": "Operation Lead Seal Supplies",
-        "sortId": 60005,
+        "sortId": 60015,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_5": {
@@ -1444,7 +1532,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_5.png",
         "name": "Operation Spectrum Supplies",
-        "sortId": 60006,
+        "sortId": 60016,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_6": {
@@ -1452,7 +1540,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_6.png",
         "name": "Operation Wild Scales Supplies",
-        "sortId": 60007,
+        "sortId": 60017,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_7": {
@@ -1460,7 +1548,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_7.png",
         "name": "Operation Pine Soot Supplies",
-        "sortId": 60008,
+        "sortId": 60018,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_8": {
@@ -1468,7 +1556,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_8.png",
         "name": "Operation Dawnseeker Supplies",
-        "sortId": 60009,
+        "sortId": 60019,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_9": {
@@ -1476,7 +1564,7 @@
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
         "icon": "randomMaterialRune_9.png",
         "name": "Operation Deepness Supplies",
-        "sortId": 60010,
+        "sortId": 60020,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterial_1": {

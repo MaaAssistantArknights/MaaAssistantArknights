@@ -19,6 +19,6 @@ namespace asst
         int match_elite(const Rect& raw_roi);
         static int match_level(const cv::Mat& image, const Rect& raw_roi);
 
-        std::vector<BattleRecruitOperInfo> m_result;
+        std::vector<battle::roguelike::Recruitment> m_result;
     };
 }

@@ -1,14 +1,95 @@
 {
-    "CE-6": {
-        "baseTask": "ResourceStages",
-        "next": [
-            "CE5@StageCE"
+    "ClickChapter1": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "覺醒"
         ]
     },
-    "LS-6": {
-        "baseTask": "ResourceStages",
+    "ClickChapter2": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "幻滅"
+        ]
+    },
+    "ClickChapter3": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "殘陽"
+        ]
+    },
+	"LevelOfDifficulty": {
+        "text": [
+            "環境",
+            "PRTS"
+        ]
+	},
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "進入",
+			"作戰"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "進入",
+			"作戰"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "火藍之心"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "進入",
+            "活動"
+        ]
+    },
+    "SN-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "愚人號",
+			"活動",
+            "關卡已開放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+	"SN-Chapter2": {
+		"preDelay":2000,
         "next": [
-            "LS5@StageLS"
+            "SN-Chapter2",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "SN-Chapter3": {
+		"preDelay":2000,
+        "next": [
+            "SN-Chapter3",
+            "ChapterSwipeToTheLeft"
+        ]
+    },
+	"BattleStartPre": {
+        "text": [
+            "開始行動",
+            "開始突襲",
+            "開始試煉"
+        ]
+    },
+    "FightMissionFailed": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "text": [
+            "任務失敗"
         ]
     },
     "CharsNameOcrReplace": {
@@ -28,6 +109,14 @@
             ],
             [
                 "潔西卡",
+                "杰西卡"
+            ],
+            [
+				"潔絮西卡",
+                "杰西卡"
+            ],
+			[
+				"絮西卡",
                 "杰西卡"
             ],
             [
@@ -139,6 +228,10 @@
                 "砾"
             ],
             [
+                "樂",
+                "砾"
+            ],
+            [
                 "炎獄炎熔",
                 "炎狱炎熔"
             ],
@@ -168,6 +261,10 @@
             ],
             [
                 "霜葉",
+                "霜叶"
+            ],
+            [
+                "霜菜",
                 "霜叶"
             ],
             [
@@ -725,6 +822,38 @@
             [
                 "澄閃",
                 "澄闪"
+            ],
+			[
+                "風丸",
+                "风丸"
+            ],
+			[
+                "見行者",
+                "见行者"
+            ],
+			[
+                "菲亞梅塔",
+                "菲亚梅塔"
+            ],
+            [
+                "號角",
+                "号角"
+            ],
+			[
+                "歸溟幽靈鯊",
+                "归溟幽灵鲨"
+            ],
+			[
+                "掠風",
+                "掠风"
+            ],
+			[
+                "流明",
+                "流明"
+            ],
+			[
+                "艾麗妮",
+                "艾丽妮"
             ]
         ]
     },
@@ -737,6 +866,11 @@
         "text": [
             "正在提交",
             "反饋至神經"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "前往上一次作戰"
         ]
     },
     "StartButton1": {
@@ -912,6 +1046,11 @@
             ]
         ]
     },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "行動結束"
+        ]
+    },
     "VisitLimited": {
         "text": [
             "今日參與",
@@ -938,7 +1077,8 @@
     },
     "InfrastStationedInfo": {
         "text": [
-            "進駐資訊"
+            "進駐資訊",
+            "焦駐資訊"
         ]
     },
     "InfrastEnterOperList": {

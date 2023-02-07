@@ -7,6 +7,7 @@
 
 #include "Common/AsstMsg.h"
 #include "InstHelper.h"
+#include "Utils/Platform.hpp"
 
 namespace cv
 {
@@ -29,6 +30,7 @@ namespace asst
         AbstractTask(const AbstractTask&) = default;
         AbstractTask(AbstractTask&&) noexcept = default;
         virtual ~AbstractTask() noexcept = default;
+        using InstHelper::inst;
 
         virtual bool run();
 
@@ -60,10 +62,9 @@ namespace asst
         virtual bool on_run_fails() { return true; }
         virtual void callback(AsstMsg msg, const json::value& detail);
         virtual void click_return_button();
-        bool save_img(const std::string& dirname = "debug/");
+        bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
         json::value basic_info_with_what(std::string what) const;
-        bool sleep(unsigned millisecond);
 
         bool m_enable = true;
         bool m_ignore_error = false;

@@ -5,101 +5,156 @@
 #include "TilePack.h"
 #include "Utils/Logger.hpp"
 
+using namespace asst::battle;
+using namespace asst::battle::copilot;
+
 void asst::CopilotConfig::clear()
 {
     m_data = decltype(m_data)();
-    m_stage_name.clear();
 }
 
 bool asst::CopilotConfig::parse(const json::value& json)
 {
     LogTraceFunction;
+
     clear();
 
-    m_stage_name = json.at("stage_name").as_string();
+    m_data.info = parse_basic_info(json);
+    m_data.groups = parse_groups(json);
+    m_data.actions = parse_actions(json);
 
-    m_data.title = json.get("doc", "title", std::string());
-    m_data.title_color = json.get("doc", "title_color", std::string());
-    m_data.details = json.get("doc", "details", std::string());
-    m_data.details_color = json.get("doc", "details_color", std::string());
+    return true;
+}
+
+asst::battle::copilot::BasicInfo asst::CopilotConfig::parse_basic_info(const json::value& json)
+{
+    LogTraceFunction;
+
+    battle::copilot::BasicInfo info;
+
+    info.stage_name = json.at("stage_name").as_string();
+
+    info.title = json.get("doc", "title", std::string());
+    info.title_color = json.get("doc", "title_color", std::string());
+    info.details = json.get("doc", "details", std::string());
+    info.details_color = json.get("doc", "details_color", std::string());
+
+    return info;
+}
+
+asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const json::value& json)
+{
+    LogTraceFunction;
+
+    battle::copilot::OperUsageGroups groups;
 
     if (auto opt = json.find<json::array>("groups")) {
         for (const auto& group_info : opt.value()) {
             std::string group_name = group_info.at("name").as_string();
-            std::vector<BattleDeployOper> oper_vec;
+            std::vector<OperUsage> oper_vec;
             for (const auto& oper_info : group_info.at("opers").as_array()) {
-                BattleDeployOper oper;
+                OperUsage oper;
                 oper.name = oper_info.at("name").as_string();
                 oper.skill = oper_info.get("skill", 1);
-                oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
+                oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
                 oper_vec.emplace_back(std::move(oper));
             }
-            m_data.groups.emplace(std::move(group_name), std::move(oper_vec));
+            groups.emplace(std::move(group_name), std::move(oper_vec));
         }
     }
 
     if (auto opt = json.find<json::array>("opers")) {
         for (const auto& oper_info : opt.value()) {
-            BattleDeployOper oper;
+            OperUsage oper;
             oper.name = oper_info.at("name").as_string();
             oper.skill = oper_info.get("skill", 1);
-            oper.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 0));
+            oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
-            m_data.groups.emplace(std::move(group_name), std::vector { std::move(oper) });
+            groups.emplace(std::move(group_name), std::vector { std::move(oper) });
         }
     }
 
+    return groups;
+}
+
+std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(const json::value& json)
+{
+    LogTraceFunction;
+
+    std::vector<battle::copilot::Action> actions_list;
+
     for (const auto& action_info : json.at("actions").as_array()) {
-        BattleAction action;
-        static const std::unordered_map<std::string, BattleActionType> ActionTypeMapping = {
-            { "Deploy", BattleActionType::Deploy },
-            { "DEPLOY", BattleActionType::Deploy },
-            { "deploy", BattleActionType::Deploy },
-            { "部署", BattleActionType::Deploy },
+        Action action;
+        static const std::unordered_map<std::string, ActionType> ActionTypeMapping = {
+            { "Deploy", ActionType::Deploy },
+            { "DEPLOY", ActionType::Deploy },
+            { "deploy", ActionType::Deploy },
+            { "部署", ActionType::Deploy },
 
-            { "Skill", BattleActionType::UseSkill },
-            { "SKILL", BattleActionType::UseSkill },
-            { "skill", BattleActionType::UseSkill },
-            { "技能", BattleActionType::UseSkill },
+            { "Skill", ActionType::UseSkill },
+            { "SKILL", ActionType::UseSkill },
+            { "skill", ActionType::UseSkill },
+            { "技能", ActionType::UseSkill },
 
-            { "Retreat", BattleActionType::Retreat },
-            { "RETREAT", BattleActionType::Retreat },
-            { "retreat", BattleActionType::Retreat },
-            { "撤退", BattleActionType::Retreat },
+            { "Retreat", ActionType::Retreat },
+            { "RETREAT", ActionType::Retreat },
+            { "retreat", ActionType::Retreat },
+            { "撤退", ActionType::Retreat },
 
-            { "SpeedUp", BattleActionType::SwitchSpeed },
-            { "SPEEDUP", BattleActionType::SwitchSpeed },
-            { "Speedup", BattleActionType::SwitchSpeed },
-            { "speedup", BattleActionType::SwitchSpeed },
-            { "二倍速", BattleActionType::SwitchSpeed },
+            { "SpeedUp", ActionType::SwitchSpeed },
+            { "SPEEDUP", ActionType::SwitchSpeed },
+            { "Speedup", ActionType::SwitchSpeed },
+            { "speedup", ActionType::SwitchSpeed },
+            { "二倍速", ActionType::SwitchSpeed },
 
-            { "BulletTime", BattleActionType::BulletTime },
-            { "BULLETTIME", BattleActionType::BulletTime },
-            { "Bullettime", BattleActionType::BulletTime },
-            { "bullettime", BattleActionType::BulletTime },
-            { "子弹时间", BattleActionType::BulletTime },
+            { "BulletTime", ActionType::BulletTime },
+            { "BULLETTIME", ActionType::BulletTime },
+            { "Bullettime", ActionType::BulletTime },
+            { "bullettime", ActionType::BulletTime },
+            { "子弹时间", ActionType::BulletTime },
 
-            { "SkillUsage", BattleActionType::SkillUsage },
-            { "SKILLUSAGE", BattleActionType::SkillUsage },
-            { "Skillusage", BattleActionType::SkillUsage },
-            { "skillusage", BattleActionType::SkillUsage },
-            { "技能用法", BattleActionType::SkillUsage },
+            { "SkillUsage", ActionType::SkillUsage },
+            { "SKILLUSAGE", ActionType::SkillUsage },
+            { "Skillusage", ActionType::SkillUsage },
+            { "skillusage", ActionType::SkillUsage },
+            { "技能用法", ActionType::SkillUsage },
 
-            { "Output", BattleActionType::Output },
-            { "OUTPUT", BattleActionType::Output },
-            { "output", BattleActionType::Output },
-            { "输出", BattleActionType::Output },
-            { "打印", BattleActionType::Output },
+            { "Output", ActionType::Output },
+            { "OUTPUT", ActionType::Output },
+            { "output", ActionType::Output },
+            { "输出", ActionType::Output },
+            { "打印", ActionType::Output },
 
-            { "SkillDaemon", BattleActionType::SkillDaemon },
-            { "skilldaemon", BattleActionType::SkillDaemon },
-            { "SKILLDAEMON", BattleActionType::SkillDaemon },
-            { "Skilldaemon", BattleActionType::SkillDaemon },
-            { "DoNothing", BattleActionType::SkillDaemon },
-            { "摆完挂机", BattleActionType::SkillDaemon },
-            { "开摆", BattleActionType::SkillDaemon },
+            { "SkillDaemon", ActionType::SkillDaemon },
+            { "skilldaemon", ActionType::SkillDaemon },
+            { "SKILLDAEMON", ActionType::SkillDaemon },
+            { "Skilldaemon", ActionType::SkillDaemon },
+            { "DoNothing", ActionType::SkillDaemon },
+            { "摆完挂机", ActionType::SkillDaemon },
+            { "开摆", ActionType::SkillDaemon },
+
+            { "MoveCamera", ActionType::MoveCamera },
+            { "movecamera", ActionType::MoveCamera },
+            { "MOVECAMERA", ActionType::MoveCamera },
+            { "Movecamera", ActionType::MoveCamera },
+            { "移动镜头", ActionType::MoveCamera },
+
+            { "DrawCard", ActionType::DrawCard },
+            { "drawcard", ActionType::DrawCard },
+            { "DRAWCARD", ActionType::DrawCard },
+            { "Drawcard", ActionType::DrawCard },
+            { "抽卡", ActionType::DrawCard },
+            { "抽牌", ActionType::DrawCard },
+            { "调配", ActionType::DrawCard },
+            { "调配干员", ActionType::DrawCard },
+
+            { "CheckIfStartOver", ActionType::CheckIfStartOver },
+            { "Checkifstartover", ActionType::CheckIfStartOver },
+            { "CHECKIFSTARTOVER", ActionType::CheckIfStartOver },
+            { "checkifstartover", ActionType::CheckIfStartOver },
+            { "检查重开", ActionType::CheckIfStartOver },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -108,43 +163,20 @@ bool asst::CopilotConfig::parse(const json::value& json)
             action.type = iter->second;
         }
         else {
-            action.type = BattleActionType::Deploy;
+            Log.warn("Unknown action type:", type_str);
+            continue;
         }
         action.kills = action_info.get("kills", 0);
         action.cost_changes = action_info.get("cost_changes", 0);
         action.costs = action_info.get("costs", 0);
         action.cooling = action_info.get("cooling", -1);
-        action.group_name = action_info.get("name", std::string());
+        action.name = action_info.get("name", std::string());
 
         action.location.x = action_info.get("location", 0, 0);
         action.location.y = action_info.get("location", 1, 0);
+        action.direction = string_to_direction(action_info.get("direction", "Right"));
 
-        static const std::unordered_map<std::string, BattleDeployDirection> DeployDirectionMapping = {
-            { "Right", BattleDeployDirection::Right }, { "RIGHT", BattleDeployDirection::Right },
-            { "right", BattleDeployDirection::Right }, { "右", BattleDeployDirection::Right },
-
-            { "Left", BattleDeployDirection::Left },   { "LEFT", BattleDeployDirection::Left },
-            { "left", BattleDeployDirection::Left },   { "左", BattleDeployDirection::Left },
-
-            { "Up", BattleDeployDirection::Up },       { "UP", BattleDeployDirection::Up },
-            { "up", BattleDeployDirection::Up },       { "上", BattleDeployDirection::Up },
-
-            { "Down", BattleDeployDirection::Down },   { "DOWN", BattleDeployDirection::Down },
-            { "down", BattleDeployDirection::Down },   { "下", BattleDeployDirection::Down },
-
-            { "None", BattleDeployDirection::None },   { "NONE", BattleDeployDirection::None },
-            { "none", BattleDeployDirection::None },   { "无", BattleDeployDirection::None },
-        };
-
-        std::string direction_str = action_info.get("direction", "Right");
-
-        if (auto iter = DeployDirectionMapping.find(direction_str); iter != DeployDirectionMapping.end()) {
-            action.direction = iter->second;
-        }
-        else {
-            action.direction = BattleDeployDirection::Right;
-        }
-        action.modify_usage = static_cast<BattleSkillUsage>(action_info.get("skill_usage", 0));
+        action.modify_usage = static_cast<battle::SkillUsage>(action_info.get("skill_usage", 0));
         action.pre_delay = action_info.get("pre_delay", 0);
         auto post_delay_opt = action_info.find<int>("post_delay");
         // 历史遗留字段，兼容一下
@@ -153,8 +185,59 @@ bool asst::CopilotConfig::parse(const json::value& json)
         action.doc = action_info.get("doc", std::string());
         action.doc_color = action_info.get("doc_color", std::string());
 
-        m_data.actions.emplace_back(std::move(action));
+        if (action.type == ActionType::CheckIfStartOver) {
+            if (auto tool_men = action_info.find("tool_men")) {
+                action.role_counts = parse_role_counts(*tool_men);
+            }
+        }
+        else if (action.type == ActionType::MoveCamera) {
+            auto dist_arr = action_info.at("distance").as_array();
+            action.distance = std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double());
+        }
+
+        actions_list.emplace_back(std::move(action));
     }
 
-    return true;
+    return actions_list;
+}
+
+asst::battle::RoleCounts asst::CopilotConfig::parse_role_counts(const json::value& json)
+{
+    battle::RoleCounts counts;
+    for (const auto& [role_name, count] : json.as_object()) {
+        auto role = get_role_type(role_name);
+        if (role == Role::Unknown) {
+            Log.error("Unknown role name: ", role_name);
+            throw std::runtime_error("Unknown role name: " + role_name);
+        }
+        counts.emplace(role, count.as_integer());
+    }
+    return counts;
+}
+
+asst::battle::DeployDirection asst::CopilotConfig::string_to_direction(const std::string& str)
+{
+    static const std::unordered_map<std::string, DeployDirection> DeployDirectionMapping = {
+        { "Right", DeployDirection::Right }, { "RIGHT", DeployDirection::Right },
+        { "right", DeployDirection::Right }, { "右", DeployDirection::Right },
+
+        { "Left", DeployDirection::Left },   { "LEFT", DeployDirection::Left },
+        { "left", DeployDirection::Left },   { "左", DeployDirection::Left },
+
+        { "Up", DeployDirection::Up },       { "UP", DeployDirection::Up },
+        { "up", DeployDirection::Up },       { "上", DeployDirection::Up },
+
+        { "Down", DeployDirection::Down },   { "DOWN", DeployDirection::Down },
+        { "down", DeployDirection::Down },   { "下", DeployDirection::Down },
+
+        { "None", DeployDirection::None },   { "NONE", DeployDirection::None },
+        { "none", DeployDirection::None },   { "无", DeployDirection::None },
+    };
+
+    if (auto iter = DeployDirectionMapping.find(str); iter != DeployDirectionMapping.end()) {
+        return iter->second;
+    }
+    else {
+        return DeployDirection::Right;
+    }
 }

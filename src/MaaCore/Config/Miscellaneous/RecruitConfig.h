@@ -14,7 +14,7 @@
 namespace asst
 {
     // 干员信息，公开招募相关
-    struct RecruitOperInfo
+    struct Recruitment
     {
         std::string name;
         int level = 0;
@@ -22,7 +22,7 @@ namespace asst
 
         bool has_tag(const std::string& tag) const { return tags.contains(tag); }
 
-        friend std::strong_ordering operator<=>(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
+        friend std::strong_ordering operator<=>(const Recruitment& lhs, const Recruitment& rhs)
         {
             if (lhs.level != rhs.level) return lhs.level <=> rhs.level; // increment order
 #ifdef __clang__
@@ -37,7 +37,7 @@ namespace asst
 #endif
         }
 
-        friend bool operator==(const RecruitOperInfo& lhs, const RecruitOperInfo& rhs)
+        friend bool operator==(const Recruitment& lhs, const Recruitment& rhs)
         {
             return lhs.name == rhs.name && lhs.level == rhs.level;
         }
@@ -48,7 +48,7 @@ namespace asst
     {
         // TODO: using vector here can be expensive
         std::vector<std::string> tags;
-        std::vector<RecruitOperInfo> opers;
+        std::vector<Recruitment> opers;
         int max_level = 0;
         int min_level = 0;
         double avg_level = 0;
@@ -57,14 +57,14 @@ namespace asst
         {
             min_level = std::transform_reduce(
                 opers.cbegin(), opers.cend(), 7, [](int a, int b) -> int { return (std::min)(a, b); },
-                std::mem_fn(&RecruitOperInfo::level));
+                std::mem_fn(&Recruitment::level));
 
             max_level = std::transform_reduce(
                 opers.cbegin(), opers.cend(), 0, [](int a, int b) -> int { return (std::max)(a, b); },
-                std::mem_fn(&RecruitOperInfo::level));
+                std::mem_fn(&Recruitment::level));
 
             avg_level = std::transform_reduce(opers.cbegin(), opers.cend(), 0., std::plus<double> {},
-                                              std::mem_fn(&RecruitOperInfo::level)) /
+                                              std::mem_fn(&Recruitment::level)) /
                         static_cast<double>(opers.size());
         }
 
@@ -98,7 +98,7 @@ namespace asst
         static constexpr int CorrectNumberOfTags = 5;
 
         const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
-        const std::vector<RecruitOperInfo>& get_all_opers() const noexcept { return m_all_opers; }
+        const std::vector<Recruitment>& get_all_opers() const noexcept { return m_all_opers; }
         std::string get_tag_name(const TagId& id) const noexcept;
 
     protected:
@@ -107,7 +107,7 @@ namespace asst
         void clear();
 
         std::unordered_set<std::string> m_all_tags;
-        std::vector<RecruitOperInfo> m_all_opers;
+        std::vector<Recruitment> m_all_opers;
         std::unordered_map<TagId, std::string> m_all_tags_name;
     };
     inline static auto& RecruitData = RecruitConfig::get_instance();

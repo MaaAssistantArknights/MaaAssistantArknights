@@ -12,11 +12,52 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui
 {
     public static class Utils
     {
+        static Utils()
+        {
+            var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+            string filename = string.Empty;
+            if (language == "zh-cn")
+            {
+                filename = Directory.GetCurrentDirectory() + "\\resource\\item_index.json";
+            }
+            else if (language == "pallas")
+            {
+                // DoNothing
+            }
+            else
+            {
+                Dictionary<string, string> client = new Dictionary<string, string>
+                {
+                    { "zh-tw", "txwy" },
+                    { "en-us", "YoStarEN" },
+                    { "ja-jp", "YoStarJP" },
+                    { "ko-kr", "YoStarKR" },
+                };
+                filename = Directory.GetCurrentDirectory() + "\\resource\\global\\" + client[language] + "\\resource\\item_index.json";
+            }
+
+            if (File.Exists(filename))
+            {
+                try
+                {
+                    _itemList = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(filename));
+                }
+                catch
+                {
+                    // DoNothing
+                }
+            }
+        }
+
         /// <summary>
         /// 获取yj历时间
         /// </summary>
@@ -61,6 +102,22 @@ namespace MaaWpfGui
         public static DateTime ToYJTime(DateTime dt)
         {
             return dt.AddHours(4);
+        }
+
+        private static readonly JObject _itemList = new JObject();
+
+        public static JObject GetItemList() => _itemList;
+
+        public static string GetItemName(string id)
+        {
+            if (_itemList.ContainsKey(id))
+            {
+                return _itemList[id]["name"].ToString();
+            }
+            else
+            {
+                return id;
+            }
         }
     }
 }

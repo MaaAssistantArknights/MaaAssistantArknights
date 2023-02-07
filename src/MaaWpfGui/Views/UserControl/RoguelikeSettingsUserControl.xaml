@@ -30,8 +30,7 @@
                     IsHitTestVisible="{Binding Idle}"
                     ItemsSource="{Binding RoguelikeThemeList}"
                     SelectedValue="{Binding RoguelikeTheme}"
-                    SelectedValuePath="Value"
-                    ToolTip="{DynamicResource RoguelikeThemeTip}" />
+                    SelectedValuePath="Value" />
             </StackPanel>
 
             <StackPanel
@@ -122,6 +121,7 @@
                     DisplayMemberPath="Display"
                     IsHitTestVisible="{Binding Idle}"
                     ItemsSource="{Binding RoguelikeSquadList}"
+                    MaxDropDownHeight="800"
                     SelectedValue="{Binding RoguelikeSquad}"
                     SelectedValuePath="Value" />
             </StackPanel>
@@ -163,6 +163,24 @@
                     Text="{Binding RoguelikeCoreChar}"
                     TextWrapping="Wrap"
                     ToolTip="{DynamicResource StartingCoreCharTip}" />
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource RoguelikeUseSupportUnit}"
+                    IsChecked="{Binding RoguelikeUseSupportUnit}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource RoguelikeUseNonFriendSupport}"
+                    IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
+                    IsEnabled="{Binding RoguelikeUseSupportUnit}" />
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -12,12 +12,7 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
 
 namespace MaaWpfGui
 {
@@ -33,7 +28,7 @@ namespace MaaWpfGui
             Log(function + " Error: " + message);
         }
 
-        private static readonly string Filename = "gui.log";
+        private static readonly string Filename = "debug\\gui.log";
         private static readonly object _lock = new object();
 
         private static void Log(string message)

@@ -951,6 +951,14 @@
         "sortId": 10019,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_3501": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_3501.png",
+        "name": "寻访数据契约",
+        "sortId": 10019,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1335,6 +1343,30 @@
         "sortId": -10000,
         "usage": "随手抄下了塔拉歌谣与传说的纸页。收集到一定数量，可以向河谷巡回商队换取物资。"
     },
+    "act23side_token_spirit": {
+        "classifyType": "NONE",
+        "description": "玉门特产的高纯度烈酒。人人好饮，家家会酿。取塞上风沙、长空烈日、胡杨飞絮一同酿入酒，一口入喉，仿佛吞刀饮火，再冷的寒夜也不用怕。",
+        "icon": "act23side_token_spirit.png",
+        "name": "新酿烈刀子",
+        "sortId": -10000,
+        "usage": "带上一坛新酿的烈酒，去和老铁匠换一把新开刃的好剑。“血换水，酒换刀，适逢知己，快意恩仇”。"
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "试炼经验",
+        "sortId": -10000,
+        "usage": "试炼结束后获得的经验，可以提升试炼等级。"
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解码的数据方块。永远记住，信息转换往往伴随着不可避免的损耗。善用信息储存工具，但别依赖它们。",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "数据黑盒",
+        "sortId": -10000,
+        "usage": "用于对遏制单元进行数据迭代。"
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "无论是任务回馈、战利品收集、材料研究、论文交流还是战场清扫，罗德岛那高效的情报系统会不断地运作，从种种行动中收集庞杂的信息，并分别计算归纳以得出各类结论；作为情报黑箱外的人，看看已经量化的数值就好。",
@@ -1534,6 +1566,86 @@
         "name": "黑曜石节门票",
         "sortId": -10000,
         "usage": "黑曜石节官方发售的门票，用于进入各类特殊关卡。"
+    },
+    "itempack_mod_10": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_10.png",
+        "name": "狙击芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+    },
+    "itempack_mod_11": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_11.png",
+        "name": "术士芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+    },
+    "itempack_mod_12": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_12.png",
+        "name": "医疗芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+    },
+    "itempack_mod_13": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_13.png",
+        "name": "辅助芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+    },
+    "itempack_mod_14": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_14.png",
+        "name": "特种芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "凝结了工程部同事心血的数据块，内含的数据信息可以满足干员模组的基础需求。",
+        "icon": "itempack_mod_4.png",
+        "name": "模组数据整合块",
+        "sortId": -10000,
+        "usage": "内含解锁与升级干员模组的道具。"
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "凝结了工程部同事心血的数据箱，庞大的数据储备能够兼顾干员模组各方面的需求。",
+        "icon": "itempack_mod_6.png",
+        "name": "模组数据整合箱",
+        "sortId": -10000,
+        "usage": "内含解锁与升级干员模组的道具。"
+    },
+    "itempack_mod_7": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_7.png",
+        "name": "先锋芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+    },
+    "itempack_mod_8": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_8.png",
+        "name": "近卫芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+    },
+    "itempack_mod_9": {
+        "classifyType": "CONSUME",
+        "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
+        "icon": "itempack_mod_9.png",
+        "name": "重装芯片组印刻仪",
+        "sortId": -10000,
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",

@@ -11,13 +11,14 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #pragma warning disable 0618
-#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
-#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning disable IDE1006 // 命名样式
-#pragma warning disable SA1401 // Fields should be private
+#pragma warning disable SA1307
+#pragma warning disable SA1401
+#pragma warning disable IDE0051
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Text;
+using System.Windows.Interop;
 
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, UnmanagedCode = true)]
 
@@ -45,6 +46,12 @@ namespace System.Windows.Forms
         private const int MBIgnore = 5;
         private const int MBYes = 6;
         private const int MBNo = 7;
+
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
+
+        [DllImport("user32.dll")]
+        private static extern int MoveWindow(IntPtr hWnd, int x, int y, int nWidth, int nHeight, bool bRepaint);
 
         [DllImport("user32.dll")]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
@@ -201,9 +208,45 @@ namespace System.Windows.Forms
                         }
                     }
                 }
+
+                source = CreateHwndSource(Windows.Application.Current.MainWindow);
+                if (source != null)
+                {
+                    CenterWindow(msg.hwnd);
+                }
             }
 
             return CallNextHookEx(hook, nCode, wParam, lParam);
+        }
+
+        private static HwndSource source = null;
+
+        private static HwndSource CreateHwndSource(Window owner)
+        {
+            return (HwndSource)PresentationSource.FromVisual(owner);
+        }
+
+        private static void CenterWindow(IntPtr hChildWnd)
+        {
+            Rectangle recChild = new Rectangle(0, 0, 0, 0);
+            bool success = GetWindowRect(hChildWnd, ref recChild);
+
+            int width = recChild.Width - recChild.X;
+            int height = recChild.Height - recChild.Y;
+
+            Rectangle recParent = new Rectangle(0, 0, 0, 0);
+            success = GetWindowRect(source.Handle, ref recParent);
+
+            Point ptCenter = new Point(0, 0);
+            ptCenter.X = recParent.X + ((recParent.Width - recParent.X) / 2);
+            ptCenter.Y = recParent.Y + ((recParent.Height - recParent.Y) / 2);
+
+            Point ptStart = new Point(0, 0);
+            ptStart.X = ptCenter.X - (width / 2);
+            ptStart.Y = ptCenter.Y - (height / 2);
+
+            int result = MoveWindow(hChildWnd, Convert.ToInt32(ptStart.X), Convert.ToInt32(ptStart.Y),
+                                    width, height, false);
         }
 
         private static bool MessageBoxEnumProc(IntPtr hWnd, IntPtr lParam)
@@ -245,7 +288,3 @@ namespace System.Windows.Forms
         }
     }
 }
-#pragma warning restore IDE1006 // 命名样式
-#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
-#pragma warning restore SA1401 // Fields should be private

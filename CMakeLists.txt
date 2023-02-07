@@ -45,6 +45,11 @@ file(GLOB_RECURSE maa_src src/MaaCore/*.cpp)
 
 add_library(MaaCore SHARED ${maa_src})
 
+if (BUILD_TEST)
+    add_executable(test src/Cpp/main.cpp)
+    target_link_libraries(test MaaCore)
+endif (BUILD_TEST)
+
 if (MSVC)
     find_library(FastDeploy_LIB NAMES fastdeploy PATHS 3rdparty/lib)
     find_library(OpenCV NAMES opencv_world453 PATHS 3rdparty/lib)
@@ -63,7 +68,8 @@ else ()
 
     include(${PROJECT_SOURCE_DIR}/cmake/opencv.cmake)
     include(${PROJECT_SOURCE_DIR}/cmake/fastdeploy.cmake)
-    target_link_libraries(MaaCore ${DEPEND_LIBS})
+    include(${PROJECT_SOURCE_DIR}/cmake/adb-lite.cmake)
+    target_link_libraries(MaaCore ${DEPEND_LIBS} adb-lite)
 
     install(TARGETS MaaCore DESTINATION .)
     if (INSTALL_PYTHON)
@@ -75,11 +81,6 @@ else ()
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -idirafter ${PROJECT_SOURCE_DIR}/3rdparty/include")
 endif ()
-
-if (BUILD_TEST)
-    add_executable(test src/Cpp/main.cpp)
-    target_link_libraries(test MaaCore)
-endif (BUILD_TEST)
 
 if (APPLE)
     include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)

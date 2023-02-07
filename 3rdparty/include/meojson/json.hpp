@@ -1,18 +1,18 @@
 #pragma once
 
+#include <algorithm>
+#include <fstream>
 #include <initializer_list>
 #include <memory>
 #include <optional>
 #include <ostream>
-#include <string>
-#include <unordered_map>
-#include <vector>
-#include <tuple>
-#include <variant>
-#include <string_view>
-#include <algorithm>
-#include <fstream>
 #include <sstream>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <unordered_map>
+#include <variant>
+#include <vector>
 
 #define MEOJSON_INLINE inline
 
@@ -29,6 +29,7 @@ namespace json
     {
         using array_ptr = std::unique_ptr<array>;
         using object_ptr = std::unique_ptr<object>;
+
     public:
         enum class value_type : char
         {
@@ -72,10 +73,12 @@ namespace json
         // init_list); // for object
 
         // Constructed from raw data
-        template <typename... Args> value(value_type type, Args &&...args);
+        template <typename... Args>
+        value(value_type type, Args&&... args);
 
         // Prohibit conversion of other types to value
-        template <typename T> value(T) = delete;
+        template <typename T>
+        value(T) = delete;
 
         ~value();
 
@@ -87,6 +90,9 @@ namespace json
         bool is_string() const noexcept { return _type == value_type::String; }
         bool is_array() const noexcept { return _type == value_type::Array; }
         bool is_object() const noexcept { return _type == value_type::Object; }
+        template <typename Type>
+        bool is() const noexcept;
+
         bool contains(const std::string& key) const;
         bool contains(size_t pos) const;
         bool exists(const std::string& key) const { return contains(key); }
@@ -97,7 +103,7 @@ namespace json
 
         // usage: get(key, key_child, ..., default_value);
         template <typename... KeysThenDefaultValue>
-        decltype(auto) get(KeysThenDefaultValue &&... keys_then_default_value) const;
+        decltype(auto) get(KeysThenDefaultValue&&... keys_then_default_value) const;
 
         template <typename Type = value>
         std::optional<Type> find(size_t pos) const;
@@ -117,18 +123,22 @@ namespace json
         const std::string as_string() const;
         const array& as_array() const;
         const object& as_object() const;
+        template <typename Type>
+        Type as() const;
 
         array& as_array();
         object& as_object();
 
-        template<typename... Args> decltype(auto) array_emplace(Args &&...args);
-        template<typename... Args> decltype(auto) object_emplace(Args &&...args);
+        template <typename... Args>
+        decltype(auto) array_emplace(Args&&... args);
+        template <typename... Args>
+        decltype(auto) object_emplace(Args&&... args);
         void clear() noexcept;
 
         // return raw string
         const std::string to_string() const;
-        const std::string format(bool ordered = false,
-            std::string shift_str = "    ", size_t basic_shift_count = 0) const;
+        const std::string format(bool ordered = false, std::string shift_str = "    ",
+                                 size_t basic_shift_count = 0) const;
 
         value& operator=(const value& rhs);
         value& operator=(value&&) noexcept;
@@ -138,26 +148,26 @@ namespace json
         value& operator[](const std::string& key);
         value& operator[](std::string&& key);
 
-        value operator|(const object& rhs)&;
-        value operator|(object&& rhs)&;
-        value operator|(const object& rhs)&&;
-        value operator|(object&& rhs)&&;
+        value operator|(const object& rhs) &;
+        value operator|(object&& rhs) &;
+        value operator|(const object& rhs) &&;
+        value operator|(object&& rhs) &&;
 
         value& operator|=(const object& rhs);
         value& operator|=(object&& rhs);
 
-        //value operator&(const object& rhs)&;
-        //value operator&(object&& rhs)&;
-        //value operator&(const object& rhs)&&;
-        //value operator&(object&& rhs)&&;
+        // value operator&(const object& rhs)&;
+        // value operator&(object&& rhs)&;
+        // value operator&(const object& rhs)&&;
+        // value operator&(object&& rhs)&&;
 
-        //value& operator&=(const object& rhs);
-        //value& operator&=(object&& rhs);
+        // value& operator&=(const object& rhs);
+        // value& operator&=(object&& rhs);
 
-        value operator+(const array& rhs)&;
-        value operator+(array&& rhs)&;
-        value operator+(const array& rhs)&&;
-        value operator+(array&& rhs)&&;
+        value operator+(const array& rhs) &;
+        value operator+(array&& rhs) &;
+        value operator+(const array& rhs) &&;
+        value operator+(array&& rhs) &&;
 
         value& operator+=(const array& rhs);
         value& operator+=(array&& rhs);
@@ -177,12 +187,11 @@ namespace json
         static var_t deep_copy(const var_t& src);
 
         template <typename... KeysThenDefaultValue, size_t... KeysIndexes>
-        decltype(auto) get(
-            std::tuple<KeysThenDefaultValue...> keys_then_default_value,
-            std::index_sequence<KeysIndexes...>) const;
+        decltype(auto) get(std::tuple<KeysThenDefaultValue...> keys_then_default_value,
+                           std::index_sequence<KeysIndexes...>) const;
 
         template <typename T, typename FirstKey, typename... RestKeys>
-        decltype(auto) get_aux(T&& default_value, FirstKey&& first, RestKeys &&... rest) const;
+        decltype(auto) get_aux(T&& default_value, FirstKey&& first, RestKeys&&... rest) const;
         template <typename T, typename UniqueKey>
         decltype(auto) get_aux(T&& default_value, UniqueKey&& first) const;
 
@@ -220,9 +229,9 @@ namespace json
 
         explicit array(const value& val);
         explicit array(value&& val);
-        template<typename ArrayType, typename EnableT = std::enable_if_t<
-            std::is_constructible_v<value, typename ArrayType::value_type>>>
-            array(ArrayType arr);
+        template <typename ArrayType,
+                  typename EnableT = std::enable_if_t<std::is_constructible_v<value, typename ArrayType::value_type>>>
+        array(ArrayType arr);
 
         ~array() noexcept = default;
 
@@ -232,16 +241,15 @@ namespace json
         bool exists(size_t pos) const { return contains(pos); }
         const value& at(size_t pos) const;
         const std::string to_string() const;
-        const std::string format(bool ordered = false,
-            std::string shift_str = "    ", size_t basic_shift_count = 0) const;
+        const std::string format(bool ordered = false, std::string shift_str = "    ",
+                                 size_t basic_shift_count = 0) const;
 
         bool get(size_t pos, bool default_value) const;
         int get(size_t pos, int default_value) const;
         long get(size_t pos, long default_value) const;
         unsigned long get(size_t pos, unsigned default_value) const;
         long long get(size_t pos, long long default_value) const;
-        unsigned long long get(size_t pos,
-                                     unsigned long long default_value) const;
+        unsigned long long get(size_t pos, unsigned long long default_value) const;
         float get(size_t pos, float default_value) const;
         double get(size_t pos, double default_value) const;
         long double get(size_t pos, long double default_value) const;
@@ -252,7 +260,8 @@ namespace json
         template <typename Type = value>
         std::optional<Type> find(size_t pos) const;
 
-        template <typename... Args> decltype(auto) emplace_back(Args &&...args);
+        template <typename... Args>
+        decltype(auto) emplace_back(Args&&... args);
 
         void clear() noexcept;
         // void erase(size_t pos);
@@ -274,10 +283,10 @@ namespace json
         const value& operator[](size_t pos) const;
         value& operator[](size_t pos);
 
-        array operator+(const array& rhs)&;
-        array operator+(array&& rhs)&;
-        array operator+(const array& rhs)&&;
-        array operator+(array&& rhs)&&;
+        array operator+(const array& rhs) &;
+        array operator+(array&& rhs) &;
+        array operator+(const array& rhs) &&;
+        array operator+(array&& rhs) &&;
 
         array& operator+=(const array& rhs);
         array& operator+=(array&& rhs);
@@ -314,8 +323,8 @@ namespace json
         explicit object(const value& val);
         explicit object(value&& val);
         template <typename MapType, typename EnableT = std::enable_if_t<
-            std::is_constructible_v<value_type, typename MapType::value_type>>>
-            object(MapType map);
+                                        std::is_constructible_v<value_type, typename MapType::value_type>>>
+        object(MapType map);
 
         ~object() = default;
 
@@ -325,31 +334,29 @@ namespace json
         bool exists(const std::string& key) const { return contains(key); }
         const value& at(const std::string& key) const;
         const std::string to_string() const;
-        const std::string format(bool ordered = false,
-            std::string shift_str = "    ", size_t basic_shift_count = 0) const;
+        const std::string format(bool ordered = false, std::string shift_str = "    ",
+                                 size_t basic_shift_count = 0) const;
 
         bool get(const std::string& key, bool default_value) const;
         int get(const std::string& key, int default_value) const;
         long get(const std::string& key, long default_value) const;
         unsigned long get(const std::string& key, unsigned default_value) const;
         long long get(const std::string& key, long long default_value) const;
-        unsigned long long get(const std::string& key,
-                                     unsigned long long default_value) const;
+        unsigned long long get(const std::string& key, unsigned long long default_value) const;
         float get(const std::string& key, float default_value) const;
         double get(const std::string& key, double default_value) const;
-        long double get(const std::string& key,
-                              long double default_value) const;
-        const std::string get(const std::string& key,
-                              std::string default_value) const;
-        const std::string get(const std::string& key,
-                              const char* default_value) const;
+        long double get(const std::string& key, long double default_value) const;
+        const std::string get(const std::string& key, std::string default_value) const;
+        const std::string get(const std::string& key, const char* default_value) const;
         const value& get(const std::string& key) const;
 
         template <typename Type = value>
         std::optional<Type> find(const std::string& key) const;
 
-        template <typename... Args> decltype(auto) emplace(Args &&...args);
-        template <typename... Args> decltype(auto) insert(Args &&...args);
+        template <typename... Args>
+        decltype(auto) emplace(Args&&... args);
+        template <typename... Args>
+        decltype(auto) insert(Args&&... args);
 
         void clear() noexcept;
         bool erase(const std::string& key);
@@ -364,21 +371,21 @@ namespace json
         value& operator[](const std::string& key);
         value& operator[](std::string&& key);
 
-        object operator|(const object& rhs)&;
-        object operator|(object&& rhs)&;
-        object operator|(const object& rhs)&&;
-        object operator|(object&& rhs)&&;
+        object operator|(const object& rhs) &;
+        object operator|(object&& rhs) &;
+        object operator|(const object& rhs) &&;
+        object operator|(object&& rhs) &&;
 
         object& operator|=(const object& rhs);
         object& operator|=(object&& rhs);
 
-        //object operator&(const object& rhs)&;
-        //object operator&(object&& rhs)&;
-        //object operator&(const object& rhs)&&;
-        //object operator&(object&& rhs)&&;
+        // object operator&(const object& rhs)&;
+        // object operator&(object&& rhs)&;
+        // object operator&(const object& rhs)&&;
+        // object operator&(object&& rhs)&&;
 
-        //object& operator&=(const object& rhs);
-        //object& operator&=(object&& rhs);
+        // object& operator&=(const object& rhs);
+        // object& operator&=(object&& rhs);
 
         object& operator=(const object&) = default;
         object& operator=(object&&) = default;
@@ -427,103 +434,116 @@ namespace json
     // *************************
     MEOJSON_INLINE value::value() = default;
 
-    MEOJSON_INLINE value::value(const value& rhs)
-        : _type(rhs._type), _raw_data(deep_copy(rhs._raw_data))
+    MEOJSON_INLINE value::value(const value& rhs) : _type(rhs._type), _raw_data(deep_copy(rhs._raw_data))
     {
         ;
     }
 
     MEOJSON_INLINE value::value(value&& rhs) noexcept = default;
 
-    MEOJSON_INLINE value::value(bool b)
-        : _type(value_type::Boolean), _raw_data(std::string(b ? "true" : "false"))
+    MEOJSON_INLINE value::value(bool b) : _type(value_type::Boolean), _raw_data(std::string(b ? "true" : "false"))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(int num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(int num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(unsigned num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(unsigned num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(long num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(long num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(unsigned long num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(unsigned long num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(long long num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(long long num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(unsigned long long num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(unsigned long long num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(float num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(float num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(double num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(double num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(long double num)
-        : _type(value_type::Number), _raw_data(std::to_string(num))
+    MEOJSON_INLINE value::value(long double num) : _type(value_type::Number), _raw_data(std::to_string(num))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(const char* str)
-        : _type(value_type::String), _raw_data(unescape_string(str))
+    MEOJSON_INLINE value::value(const char* str) : _type(value_type::String), _raw_data(unescape_string(str))
     {
         ;
     }
 
-    MEOJSON_INLINE value::value(std::string str)
-        : _type(value_type::String),
-        _raw_data(unescape_string(std::move(str)))
+    MEOJSON_INLINE value::value(std::string str) : _type(value_type::String), _raw_data(unescape_string(std::move(str)))
     {
         ;
     }
 
     MEOJSON_INLINE value::value(array arr)
-        : _type(value_type::Array),
-        _raw_data(std::make_unique<array>(std::move(arr)))
+        : _type(value_type::Array), _raw_data(std::make_unique<array>(std::move(arr)))
     {
         ;
     }
 
     MEOJSON_INLINE value::value(object obj)
-        : _type(value_type::Object),
-        _raw_data(std::make_unique<object>(std::move(obj)))
+        : _type(value_type::Object), _raw_data(std::make_unique<object>(std::move(obj)))
     {
         ;
     }
 
     // for Pimpl
     MEOJSON_INLINE value::~value() = default;
+
+    template <typename Type>
+    MEOJSON_INLINE bool value::is() const noexcept
+    {
+        if constexpr (std::is_same_v<Type, value>) {
+            return true;
+        }
+        else if constexpr (std::is_same_v<Type, bool>) {
+            return _type == value_type::Boolean;
+        }
+        else if constexpr (std::is_same_v<Type, int> || std::is_same_v<Type, unsigned> || std::is_same_v<Type, long> ||
+                           std::is_same_v<Type, unsigned long> || std::is_same_v<Type, long long> ||
+                           std::is_same_v<Type, unsigned long long> || std::is_same_v<Type, float> ||
+                           std::is_same_v<Type, double> || std::is_same_v<Type, long double>) {
+            return _type == value_type::Number;
+        }
+        else if constexpr (std::is_same_v<Type, std::string>) {
+            return _type == value_type::String;
+        }
+        else if constexpr (std::is_same_v<Type, array>) {
+            return _type == value_type::Array;
+        }
+        else if constexpr (std::is_same_v<Type, object>) {
+            return _type == value_type::Object;
+        }
+        else {
+            static_assert(!sizeof(Type), "Unsupported type");
+        }
+    }
 
     MEOJSON_INLINE bool value::contains(const std::string& key) const
     {
@@ -546,41 +566,35 @@ namespace json
     }
 
     template <typename... KeysThenDefaultValue>
-    MEOJSON_INLINE decltype(auto) value::get(
-        KeysThenDefaultValue &&... keys_then_default_value) const
+    MEOJSON_INLINE decltype(auto) value::get(KeysThenDefaultValue&&... keys_then_default_value) const
     {
-        return get(
-            std::forward_as_tuple(keys_then_default_value...),
-            std::make_index_sequence<sizeof...(keys_then_default_value) - 1>{});
+        return get(std::forward_as_tuple(keys_then_default_value...),
+                   std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
     }
 
     template <typename... KeysThenDefaultValue, size_t... KeysIndexes>
-    MEOJSON_INLINE decltype(auto) value::get(
-        std::tuple<KeysThenDefaultValue...> keys_then_default_value,
-        std::index_sequence<KeysIndexes...>) const
+    MEOJSON_INLINE decltype(auto) value::get(std::tuple<KeysThenDefaultValue...> keys_then_default_value,
+                                             std::index_sequence<KeysIndexes...>) const
     {
         constexpr unsigned long DefaultValueIndex = sizeof...(KeysThenDefaultValue) - 1;
-        return get_aux(
-            std::get<DefaultValueIndex>(keys_then_default_value),
-            std::get<KeysIndexes>(keys_then_default_value)...);
+        return get_aux(std::get<DefaultValueIndex>(keys_then_default_value),
+                       std::get<KeysIndexes>(keys_then_default_value)...);
     }
 
     template <typename T, typename FirstKey, typename... RestKeys>
-    MEOJSON_INLINE decltype(auto) value::get_aux(T&& default_value, FirstKey&& first, RestKeys &&... rest) const
+    MEOJSON_INLINE decltype(auto) value::get_aux(T&& default_value, FirstKey&& first, RestKeys&&... rest) const
     {
         if constexpr (std::is_constructible<std::string, FirstKey>::value) {
-            return is_object() ?
-                as_object().get(
-                    std::forward<FirstKey>(first)).get_aux(
-                        std::forward<T>(default_value), std::forward<RestKeys>(rest)...)
-                : default_value;
+            return is_object() ? as_object()
+                                     .get(std::forward<FirstKey>(first))
+                                     .get_aux(std::forward<T>(default_value), std::forward<RestKeys>(rest)...)
+                               : default_value;
         }
         else if constexpr (std::is_integral<typename std::remove_reference<FirstKey>::type>::value) {
-            return is_array()
-                ? as_array().get(
-                    std::forward<FirstKey>(first)).get_aux(
-                        std::forward<T>(default_value), std::forward<RestKeys>(rest)...)
-                : default_value;
+            return is_array() ? as_array()
+                                    .get(std::forward<FirstKey>(first))
+                                    .get_aux(std::forward<T>(default_value), std::forward<RestKeys>(rest)...)
+                              : default_value;
         }
         else {
             static_assert(!sizeof(FirstKey), "Parameter must be integral or std::string constructible");
@@ -591,14 +605,12 @@ namespace json
     MEOJSON_INLINE decltype(auto) value::get_aux(T&& default_value, UniqueKey&& first) const
     {
         if constexpr (std::is_constructible<std::string, UniqueKey>::value) {
-            return is_object() ?
-                as_object().get(std::forward<UniqueKey>(first), std::forward<T>(default_value))
-                : default_value;
+            return is_object() ? as_object().get(std::forward<UniqueKey>(first), std::forward<T>(default_value))
+                               : default_value;
         }
         else if constexpr (std::is_integral<typename std::remove_reference<UniqueKey>::type>::value) {
-            return is_array() ?
-                as_array().get(std::forward<UniqueKey>(first), std::forward<T>(default_value))
-                : default_value;
+            return is_array() ? as_array().get(std::forward<UniqueKey>(first), std::forward<T>(default_value))
+                              : default_value;
         }
         else {
             static_assert(!sizeof(UniqueKey), "Parameter must be integral or std::string constructible");
@@ -620,8 +632,7 @@ namespace json
     MEOJSON_INLINE bool value::as_boolean() const
     {
         if (is_boolean()) {
-            if (const std::string& b_str = as_basic_type_str();
-                b_str == "true") {
+            if (const std::string& b_str = as_basic_type_str(); b_str == "true") {
                 return true;
             }
             else if (b_str == "false") {
@@ -782,6 +793,12 @@ namespace json
         throw exception("Wrong Type or data empty");
     }
 
+    template <typename Type>
+    MEOJSON_INLINE Type value::as() const
+    {
+        return static_cast<Type>(*this);
+    }
+
     MEOJSON_INLINE const std::string& value::as_basic_type_str() const
     {
         return std::get<std::string>(_raw_data);
@@ -791,14 +808,14 @@ namespace json
         return std::get<std::string>(_raw_data);
     }
 
-    template<typename... Args>
-    MEOJSON_INLINE decltype(auto) value::array_emplace(Args &&...args)
+    template <typename... Args>
+    MEOJSON_INLINE decltype(auto) value::array_emplace(Args&&... args)
     {
         return as_array().emplace_back(std::forward<Args>(args)...);
     }
 
-    template<typename... Args>
-    MEOJSON_INLINE decltype(auto) value::object_emplace(Args &&...args)
+    template <typename... Args>
+    MEOJSON_INLINE decltype(auto) value::object_emplace(Args&&... args)
     {
         return as_object().emplace(std::forward<Args>(args)...);
     }
@@ -827,8 +844,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE const std::string value::format(bool ordered,
-        std::string shift_str, size_t basic_shift_count) const
+    MEOJSON_INLINE const std::string value::format(bool ordered, std::string shift_str, size_t basic_shift_count) const
     {
         switch (_type) {
         case value_type::Null:
@@ -889,22 +905,22 @@ namespace json
         return as_object()[std::move(key)];
     }
 
-    MEOJSON_INLINE value value::operator|(const object& rhs)&
+    MEOJSON_INLINE value value::operator|(const object& rhs) &
     {
         return as_object() | rhs;
     }
 
-    MEOJSON_INLINE value value::operator|(object&& rhs)&
+    MEOJSON_INLINE value value::operator|(object&& rhs) &
     {
         return as_object() | std::move(rhs);
     }
 
-    MEOJSON_INLINE value value::operator|(const object& rhs)&&
+    MEOJSON_INLINE value value::operator|(const object& rhs) &&
     {
         return std::move(as_object()) | rhs;
     }
 
-    MEOJSON_INLINE value value::operator|(object&& rhs)&&
+    MEOJSON_INLINE value value::operator|(object&& rhs) &&
     {
         return std::move(as_object()) | std::move(rhs);
     }
@@ -921,54 +937,54 @@ namespace json
         return *this;
     }
 
-    //MEOJSON_INLINE value value::operator&(const object& rhs)&
+    // MEOJSON_INLINE value value::operator&(const object& rhs)&
     //{
-    //    return as_object() & rhs;
-    //}
+    //     return as_object() & rhs;
+    // }
 
-    //MEOJSON_INLINE value value::operator&(object&& rhs)&
+    // MEOJSON_INLINE value value::operator&(object&& rhs)&
     //{
-    //    return as_object() & std::move(rhs);
-    //}
+    //     return as_object() & std::move(rhs);
+    // }
 
-    //MEOJSON_INLINE value value::operator&(const object& rhs)&&
+    // MEOJSON_INLINE value value::operator&(const object& rhs)&&
     //{
-    //    return std::move(as_object()) & rhs;
-    //}
+    //     return std::move(as_object()) & rhs;
+    // }
 
-    //MEOJSON_INLINE value value::operator&(object&& rhs)&&
+    // MEOJSON_INLINE value value::operator&(object&& rhs)&&
     //{
-    //    return std::move(as_object()) & std::move(rhs);
-    //}
+    //     return std::move(as_object()) & std::move(rhs);
+    // }
 
-    //MEOJSON_INLINE value& value::operator&=(const object& rhs)
+    // MEOJSON_INLINE value& value::operator&=(const object& rhs)
     //{
-    //    as_object() &= rhs;
-    //    return *this;
-    //}
+    //     as_object() &= rhs;
+    //     return *this;
+    // }
 
-    //MEOJSON_INLINE value& value::operator&=(object&& rhs)
+    // MEOJSON_INLINE value& value::operator&=(object&& rhs)
     //{
-    //    as_object() &= std::move(rhs);
-    //    return *this;
-    //}
+    //     as_object() &= std::move(rhs);
+    //     return *this;
+    // }
 
-    MEOJSON_INLINE value value::operator+(const array& rhs)&
+    MEOJSON_INLINE value value::operator+(const array& rhs) &
     {
         return as_array() + rhs;
     }
 
-    MEOJSON_INLINE value value::operator+(array&& rhs)&
+    MEOJSON_INLINE value value::operator+(array&& rhs) &
     {
         return as_array() + std::move(rhs);
     }
 
-    MEOJSON_INLINE value value::operator+(const array& rhs)&&
+    MEOJSON_INLINE value value::operator+(const array& rhs) &&
     {
         return std::move(as_array()) + rhs;
     }
 
-    MEOJSON_INLINE value value::operator+(array&& rhs)&&
+    MEOJSON_INLINE value value::operator+(array&& rhs) &&
     {
         return std::move(as_array()) + std::move(rhs);
     }
@@ -986,11 +1002,9 @@ namespace json
     }
 
     template <typename... Args>
-    value::value(value_type type, Args &&...args)
-        : _type(type), _raw_data(std::forward<Args>(args)...)
+    value::value(value_type type, Args&&... args) : _type(type), _raw_data(std::forward<Args>(args)...)
     {
-        static_assert(std::is_constructible<var_t, Args...>::value,
-                      "Parameter can't be used to construct a var_t");
+        static_assert(std::is_constructible<var_t, Args...>::value, "Parameter can't be used to construct a var_t");
     }
 
     MEOJSON_INLINE value::var_t value::deep_copy(const var_t& src)
@@ -1015,53 +1029,50 @@ namespace json
     // *************************
     // *       array impl      *
     // *************************
-    template <typename... Args> decltype(auto) array::emplace_back(Args &&...args)
+    template <typename... Args>
+    decltype(auto) array::emplace_back(Args&&... args)
     {
         static_assert(std::is_constructible<value_type, Args...>::value,
                       "Parameter can't be used to construct a raw_array::value_type");
         return _array_data.emplace_back(std::forward<Args>(args)...);
     }
 
-    MEOJSON_INLINE array::array(const raw_array& arr) : _array_data(arr) { ; }
+    MEOJSON_INLINE array::array(const raw_array& arr) : _array_data(arr)
+    {
+        ;
+    }
 
-    MEOJSON_INLINE array::array(raw_array&& arr) noexcept
-        : _array_data(std::move(arr))
+    MEOJSON_INLINE array::array(raw_array&& arr) noexcept : _array_data(std::move(arr))
     {
         ;
     }
 
     MEOJSON_INLINE
-        array::array(std::initializer_list<value_type> init_list)
-        : _array_data(init_list)
+    array::array(std::initializer_list<value_type> init_list) : _array_data(init_list)
     {
         ;
     }
 
     MEOJSON_INLINE
-        array::array(raw_array::size_type size)
-        : _array_data(size)
+    array::array(raw_array::size_type size) : _array_data(size)
     {
         ;
     }
 
-    MEOJSON_INLINE array::array(const value& val)
-        : array(val.as_array())
+    MEOJSON_INLINE array::array(const value& val) : array(val.as_array())
     {
         ;
     }
 
-    MEOJSON_INLINE array::array(value&& val)
-        : array(std::move(val.as_array()))
+    MEOJSON_INLINE array::array(value&& val) : array(std::move(val.as_array()))
     {
         ;
     }
 
-    template<typename ArrayType, typename EnableT>
+    template <typename ArrayType, typename EnableT>
     MEOJSON_INLINE array::array(ArrayType arr)
     {
-        _array_data.assign(
-            std::make_move_iterator(arr.begin()),
-            std::make_move_iterator(arr.end()));
+        _array_data.assign(std::make_move_iterator(arr.begin()), std::make_move_iterator(arr.end()));
     }
 
     MEOJSON_INLINE const value& array::at(size_t pos) const
@@ -1069,7 +1080,10 @@ namespace json
         return _array_data.at(pos);
     }
 
-    MEOJSON_INLINE void array::clear() noexcept { _array_data.clear(); }
+    MEOJSON_INLINE void array::clear() noexcept
+    {
+        _array_data.clear();
+    }
 
     MEOJSON_INLINE const std::string array::to_string() const
     {
@@ -1084,8 +1098,7 @@ namespace json
         return str;
     }
 
-    MEOJSON_INLINE const std::string array::format(bool ordered,
-        std::string shift_str, size_t basic_shift_count) const
+    MEOJSON_INLINE const std::string array::format(bool ordered, std::string shift_str, size_t basic_shift_count) const
     {
         std::string shift;
         for (size_t i = 0; i != basic_shift_count + 1; ++i) {
@@ -1156,8 +1169,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE unsigned long array::get(size_t pos,
-                                                  unsigned default_value) const
+    MEOJSON_INLINE unsigned long array::get(size_t pos, unsigned default_value) const
     {
         if (contains(pos)) {
             value value = _array_data.at(pos);
@@ -1173,8 +1185,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE long long array::get(size_t pos,
-                                              long long default_value) const
+    MEOJSON_INLINE long long array::get(size_t pos, long long default_value) const
     {
         if (contains(pos)) {
             value value = _array_data.at(pos);
@@ -1190,8 +1201,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE unsigned long long
-        array::get(size_t pos, unsigned long long default_value) const
+    MEOJSON_INLINE unsigned long long array::get(size_t pos, unsigned long long default_value) const
     {
         if (contains(pos)) {
             value value = _array_data.at(pos);
@@ -1239,8 +1249,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE long double array::get(size_t pos,
-                                                long double default_value) const
+    MEOJSON_INLINE long double array::get(size_t pos, long double default_value) const
     {
         if (contains(pos)) {
             value value = _array_data.at(pos);
@@ -1256,8 +1265,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE const std::string array::get(size_t pos,
-                                                std::string default_value) const
+    MEOJSON_INLINE const std::string array::get(size_t pos, std::string default_value) const
     {
         if (contains(pos)) {
             value value = _array_data.at(pos);
@@ -1273,8 +1281,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE const std::string array::get(size_t pos,
-                                                const char* default_value) const
+    MEOJSON_INLINE const std::string array::get(size_t pos, const char* default_value) const
     {
         if (contains(pos)) {
             value value = _array_data.at(pos);
@@ -1308,7 +1315,8 @@ namespace json
         if (!contains(pos)) {
             return std::nullopt;
         }
-        return static_cast<Type>(_array_data.at(pos));
+        const auto& val = _array_data.at(pos);
+        return val.is<Type>() ? std::optional<Type>(val.as<Type>()) : std::nullopt;
     }
 
     MEOJSON_INLINE array::iterator array::begin() noexcept
@@ -1371,40 +1379,40 @@ namespace json
         return _array_data.crend();
     }
 
-    MEOJSON_INLINE value& array::operator[](size_t pos) { return _array_data[pos]; }
+    MEOJSON_INLINE value& array::operator[](size_t pos)
+    {
+        return _array_data[pos];
+    }
 
     MEOJSON_INLINE const value& array::operator[](size_t pos) const
     {
         return _array_data[pos];
     }
 
-    MEOJSON_INLINE array array::operator+(const array& rhs)&
+    MEOJSON_INLINE array array::operator+(const array& rhs) &
     {
         array temp = *this;
         temp._array_data.insert(_array_data.end(), rhs.begin(), rhs.end());
         return temp;
     }
 
-    MEOJSON_INLINE array array::operator+(array&& rhs)&
+    MEOJSON_INLINE array array::operator+(array&& rhs) &
     {
         array temp = *this;
-        temp._array_data.insert(_array_data.end(),
-            std::make_move_iterator(rhs.begin()),
-            std::make_move_iterator(rhs.end()));
+        temp._array_data.insert(_array_data.end(), std::make_move_iterator(rhs.begin()),
+                                std::make_move_iterator(rhs.end()));
         return temp;
     }
 
-    MEOJSON_INLINE array array::operator+(const array& rhs)&&
+    MEOJSON_INLINE array array::operator+(const array& rhs) &&
     {
         _array_data.insert(_array_data.end(), rhs.begin(), rhs.end());
         return std::move(*this);
     }
 
-    MEOJSON_INLINE array array::operator+(array&& rhs)&&
+    MEOJSON_INLINE array array::operator+(array&& rhs) &&
     {
-        _array_data.insert(_array_data.end(),
-            std::make_move_iterator(rhs.begin()),
-            std::make_move_iterator(rhs.end()));
+        _array_data.insert(_array_data.end(), std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
         return std::move(*this);
     }
 
@@ -1416,9 +1424,7 @@ namespace json
 
     MEOJSON_INLINE array& array::operator+=(array&& rhs)
     {
-        _array_data.insert(_array_data.end(),
-            std::make_move_iterator(rhs.begin()),
-            std::make_move_iterator(rhs.end()));
+        _array_data.insert(_array_data.end(), std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
         return *this;
     }
 
@@ -1430,15 +1436,16 @@ namespace json
     // *************************
     // *      object impl      *
     // *************************
-    template <typename... Args> decltype(auto) object::emplace(Args &&...args)
+    template <typename... Args>
+    decltype(auto) object::emplace(Args&&... args)
     {
-        static_assert(
-            std::is_constructible<value_type, Args...>::value,
-            "Parameter can't be used to construct a raw_object::value_type");
+        static_assert(std::is_constructible<value_type, Args...>::value,
+                      "Parameter can't be used to construct a raw_object::value_type");
         return _object_data.emplace(std::forward<Args>(args)...);
     }
 
-    template <typename... Args> decltype(auto) object::insert(Args &&...args)
+    template <typename... Args>
+    decltype(auto) object::insert(Args&&... args)
     {
         return _object_data.insert(std::forward<Args>(args)...);
     }
@@ -1451,20 +1458,18 @@ namespace json
         return out;
     }
 
-    MEOJSON_INLINE object::object(const raw_object& raw_obj)
-        : _object_data(raw_obj)
+    MEOJSON_INLINE object::object(const raw_object& raw_obj) : _object_data(raw_obj)
     {
         ;
     }
 
-    MEOJSON_INLINE object::object(raw_object&& raw_obj)
-        : _object_data(std::move(raw_obj))
+    MEOJSON_INLINE object::object(raw_object&& raw_obj) : _object_data(std::move(raw_obj))
     {
         ;
     }
 
     MEOJSON_INLINE
-        object::object(std::initializer_list<raw_object::value_type> init_list)
+    object::object(std::initializer_list<raw_object::value_type> init_list)
     {
         _object_data.reserve(init_list.size());
         for (const auto& [key, val] : init_list) {
@@ -1472,14 +1477,12 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE object::object(const value& val)
-        : object(val.as_object())
+    MEOJSON_INLINE object::object(const value& val) : object(val.as_object())
     {
         ;
     }
 
-    MEOJSON_INLINE object::object(value&& val)
-        : object(std::move(val.as_object()))
+    MEOJSON_INLINE object::object(value&& val) : object(std::move(val.as_object()))
     {
         ;
     }
@@ -1494,7 +1497,10 @@ namespace json
         return _object_data.at(key);
     }
 
-    MEOJSON_INLINE void object::clear() noexcept { _object_data.clear(); }
+    MEOJSON_INLINE void object::clear() noexcept
+    {
+        _object_data.clear();
+    }
 
     MEOJSON_INLINE bool object::erase(const std::string& key)
     {
@@ -1514,9 +1520,7 @@ namespace json
         return str;
     }
 
-    MEOJSON_INLINE const std::string
-        object::format(bool ordered,
-        std::string shift_str, size_t basic_shift_count) const
+    MEOJSON_INLINE const std::string object::format(bool ordered, std::string shift_str, size_t basic_shift_count) const
     {
         std::string shift;
         for (size_t i = 0; i != basic_shift_count + 1; ++i) {
@@ -1526,7 +1530,7 @@ namespace json
         std::string str = "{";
         auto append_kv = [&](const std::string& key, const value& val) {
             str += "\n" + shift + "\"" + unescape_string(key) +
-                "\": " + val.format(ordered, shift_str, basic_shift_count + 1) + ",";
+                   "\": " + val.format(ordered, shift_str, basic_shift_count + 1) + ",";
         };
 
         if (ordered) {
@@ -1535,9 +1539,7 @@ namespace json
                 ordered_data.emplace_back(it);
             }
             std::sort(ordered_data.begin(), ordered_data.end(),
-                [](const auto& lhs, const auto& rhs) {
-                    return lhs->first < rhs->first;
-                });
+                      [](const auto& lhs, const auto& rhs) { return lhs->first < rhs->first; });
             for (const auto& it : ordered_data) {
                 append_kv(it->first, it->second);
             }
@@ -1559,8 +1561,7 @@ namespace json
         return str;
     }
 
-    MEOJSON_INLINE bool object::get(const std::string& key,
-                                          bool default_value) const
+    MEOJSON_INLINE bool object::get(const std::string& key, bool default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1576,8 +1577,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE int object::get(const std::string& key,
-                                         int default_value) const
+    MEOJSON_INLINE int object::get(const std::string& key, int default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1593,8 +1593,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE long object::get(const std::string& key,
-                                          long default_value) const
+    MEOJSON_INLINE long object::get(const std::string& key, long default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1610,8 +1609,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE unsigned long object::get(const std::string& key,
-                                                   unsigned default_value) const
+    MEOJSON_INLINE unsigned long object::get(const std::string& key, unsigned default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1627,8 +1625,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE long long object::get(const std::string& key,
-                                               long long default_value) const
+    MEOJSON_INLINE long long object::get(const std::string& key, long long default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1644,8 +1641,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE unsigned long long
-        object::get(const std::string& key, unsigned long long default_value) const
+    MEOJSON_INLINE unsigned long long object::get(const std::string& key, unsigned long long default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1661,8 +1657,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE float object::get(const std::string& key,
-                                           float default_value) const
+    MEOJSON_INLINE float object::get(const std::string& key, float default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1678,8 +1673,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE double object::get(const std::string& key,
-                                            double default_value) const
+    MEOJSON_INLINE double object::get(const std::string& key, double default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1695,8 +1689,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE long double object::get(const std::string& key,
-                                                 long double default_value) const
+    MEOJSON_INLINE long double object::get(const std::string& key, long double default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1712,8 +1705,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE const std::string object::get(const std::string& key,
-                                                 std::string default_value) const
+    MEOJSON_INLINE const std::string object::get(const std::string& key, std::string default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1729,8 +1721,7 @@ namespace json
         }
     }
 
-    MEOJSON_INLINE const std::string object::get(const std::string& key,
-                                                 const char* default_value) const
+    MEOJSON_INLINE const std::string object::get(const std::string& key, const char* default_value) const
     {
         if (contains(key)) {
             value value = _object_data.at(key);
@@ -1765,7 +1756,8 @@ namespace json
         if (iter == _object_data.end()) {
             return std::nullopt;
         }
-        return static_cast<Type>(iter->second);
+        const auto& val = iter->second;
+        return val.is<Type>() ? std::optional<Type>(val.as<Type>()) : std::nullopt;
     }
 
     MEOJSON_INLINE object::iterator object::begin() noexcept
@@ -1808,35 +1800,31 @@ namespace json
         return _object_data[std::move(key)];
     }
 
-    MEOJSON_INLINE object object::operator|(const object& rhs)&
+    MEOJSON_INLINE object object::operator|(const object& rhs) &
     {
         object temp = *this;
         temp._object_data.insert(rhs.begin(), rhs.end());
         return temp;
     }
 
-    MEOJSON_INLINE object object::operator|(object&& rhs)&
+    MEOJSON_INLINE object object::operator|(object&& rhs) &
     {
         object temp = *this;
-        //temp._object_data.merge(std::move(rhs._object_data));
-        temp._object_data.insert(
-            std::make_move_iterator(rhs.begin()),
-            std::make_move_iterator(rhs.end()));
+        // temp._object_data.merge(std::move(rhs._object_data));
+        temp._object_data.insert(std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
         return temp;
     }
 
-    MEOJSON_INLINE object object::operator|(const object& rhs)&&
+    MEOJSON_INLINE object object::operator|(const object& rhs) &&
     {
         _object_data.insert(rhs.begin(), rhs.end());
         return std::move(*this);
     }
 
-    MEOJSON_INLINE object object::operator|(object&& rhs)&&
+    MEOJSON_INLINE object object::operator|(object&& rhs) &&
     {
         //_object_data.merge(std::move(rhs._object_data));
-        _object_data.insert(
-            std::make_move_iterator(rhs.begin()),
-            std::make_move_iterator(rhs.end()));
+        _object_data.insert(std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
         return std::move(*this);
     }
 
@@ -1848,67 +1836,65 @@ namespace json
 
     MEOJSON_INLINE object& object::operator|=(object&& rhs)
     {
-        _object_data.insert(
-            std::make_move_iterator(rhs.begin()),
-            std::make_move_iterator(rhs.end()));
+        _object_data.insert(std::make_move_iterator(rhs.begin()), std::make_move_iterator(rhs.end()));
         return *this;
     }
 
-    //MEOJSON_INLINE object object::operator&(const object& rhs)&
+    // MEOJSON_INLINE object object::operator&(const object& rhs)&
     //{
-    //    object temp;
-    //    for (const auto& [key, value] : *this) {
-    //        if (rhs.contains(key)) {
-    //            temp.emplace(key, value);
-    //        }
-    //    }
-    //    return temp;
-    //}
+    //     object temp;
+    //     for (const auto& [key, value] : *this) {
+    //         if (rhs.contains(key)) {
+    //             temp.emplace(key, value);
+    //         }
+    //     }
+    //     return temp;
+    // }
 
-    //MEOJSON_INLINE object object::operator&(object&& rhs)&
+    // MEOJSON_INLINE object object::operator&(object&& rhs)&
     //{
-    //    object temp;
-    //    for (const auto& [key, value] : *this) {
-    //        if (rhs.contains(key)) {
-    //            temp.emplace(key, value);
-    //        }
-    //    }
-    //    return temp;
-    //}
+    //     object temp;
+    //     for (const auto& [key, value] : *this) {
+    //         if (rhs.contains(key)) {
+    //             temp.emplace(key, value);
+    //         }
+    //     }
+    //     return temp;
+    // }
 
-    //MEOJSON_INLINE object object::operator&(const object& rhs)&&
+    // MEOJSON_INLINE object object::operator&(const object& rhs)&&
     //{
-    //    object temp;
-    //    for (auto&& [key, value] : *this) {
-    //        if (rhs.contains(key)) {
-    //            temp.emplace(key, std::move(value));
-    //        }
-    //    }
-    //    return temp;
-    //}
+    //     object temp;
+    //     for (auto&& [key, value] : *this) {
+    //         if (rhs.contains(key)) {
+    //             temp.emplace(key, std::move(value));
+    //         }
+    //     }
+    //     return temp;
+    // }
 
-    //MEOJSON_INLINE object object::operator&(object&& rhs)&&
+    // MEOJSON_INLINE object object::operator&(object&& rhs)&&
     //{
-    //    object temp;
-    //    for (auto&& [key, value] : *this) {
-    //        if (rhs.contains(key)) {
-    //            temp.emplace(key, std::move(value));
-    //        }
-    //    }
-    //    return temp;
-    //}
+    //     object temp;
+    //     for (auto&& [key, value] : *this) {
+    //         if (rhs.contains(key)) {
+    //             temp.emplace(key, std::move(value));
+    //         }
+    //     }
+    //     return temp;
+    // }
 
-    //MEOJSON_INLINE object& object::operator&=(const object& rhs)
+    // MEOJSON_INLINE object& object::operator&=(const object& rhs)
     //{
-    //    *this = std::move(*this) & rhs;
-    //    return *this;
-    //}
+    //     *this = std::move(*this) & rhs;
+    //     return *this;
+    // }
 
-    //MEOJSON_INLINE object& object::operator&=(object&& rhs)
+    // MEOJSON_INLINE object& object::operator&=(object&& rhs)
     //{
-    //    *this = std::move(*this) & std::move(rhs);
-    //    return *this;
-    //}
+    //     *this = std::move(*this) & std::move(rhs);
+    //     return *this;
+    // }
 
     // const raw_object &object::raw_data() const
     // {
@@ -1926,9 +1912,7 @@ namespace json
     template <typename MapType, typename EnableT>
     object::object(MapType map)
     {
-        _object_data.insert(
-            std::make_move_iterator(map.begin()),
-            std::make_move_iterator(map.end()));
+        _object_data.insert(std::make_move_iterator(map.begin()), std::make_move_iterator(map.end()));
     }
 
     // *************************
@@ -1942,8 +1926,7 @@ namespace json
         static std::optional<value> parse(const std::string& content);
 
     private:
-        parser(const std::string::const_iterator& cbegin,
-               const std::string::const_iterator& cend) noexcept
+        parser(const std::string::const_iterator& cbegin, const std::string::const_iterator& cend) noexcept
             : _cur(cbegin), _end(cend)
         {
             ;
@@ -1994,19 +1977,22 @@ namespace json
     }
 
     // TODO
-    //std::istream &operator>>(std::istream &in, value &val)
+    // std::istream &operator>>(std::istream &in, value &val)
     //{
     //    return in;
     //}
 
-    MEOJSON_INLINE std::optional<value> open(const std::ifstream& ifs, bool check_bom = false)
+    MEOJSON_INLINE std::optional<value> open(std::ifstream& ifs, bool check_bom = false)
     {
         if (!ifs.is_open()) {
             return std::nullopt;
         }
-        std::stringstream iss;
-        iss << ifs.rdbuf();
-        std::string str = iss.str();
+
+        ifs.seekg(0, std::ios::end);
+        auto file_size = ifs.tellg();
+        ifs.seekg(0, std::ios::beg);
+        std::string str(file_size, '\0');
+        ifs.read(str.data(), file_size);
 
         if (check_bom) {
             using uchar = unsigned char;
@@ -2014,9 +2000,7 @@ namespace json
             static constexpr uchar Bom_1 = 0xBB;
             static constexpr uchar Bom_2 = 0xBF;
 
-            if (str.size() >= 3 &&
-                static_cast<uchar>(str.at(0)) == Bom_0 &&
-                static_cast<uchar>(str.at(1)) == Bom_1 &&
+            if (str.size() >= 3 && static_cast<uchar>(str.at(0)) == Bom_0 && static_cast<uchar>(str.at(1)) == Bom_1 &&
                 static_cast<uchar>(str.at(2)) == Bom_2) {
                 str.assign(str.begin() + 3, str.end());
             }
@@ -2025,11 +2009,11 @@ namespace json
         return parse(str);
     }
 
-    template<typename InputFilename>
+    template <typename InputFilename>
     MEOJSON_INLINE std::optional<value> open(const InputFilename& filepath, bool check_bom = false)
     {
         static_assert(std::is_constructible<std::ifstream, InputFilename>::value,
-            "InputFilename can't be used to construct a std::ifstream");
+                      "InputFilename can't be used to construct a std::ifstream");
 
         std::ifstream ifs(filepath, std::ios::in);
         auto opt = open(ifs, check_bom);
@@ -2163,8 +2147,7 @@ namespace json
         }
 
         // Numbers cannot have leading zeroes
-        if (_cur != _end && *_cur == '0' && _cur + 1 != _end &&
-            std::isdigit(*(_cur + 1))) {
+        if (_cur != _end && *_cur == '0' && _cur + 1 != _end && std::isdigit(*(_cur + 1))) {
             return invalid_value();
         }
 
@@ -2387,6 +2370,8 @@ namespace json
             case '\n':
                 ++_cur;
                 break;
+            case '\0':
+                return false;
             default:
                 return true;
             }

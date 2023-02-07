@@ -20,7 +20,7 @@ bool asst::RecruitConfig::parse(const json::value& json)
     clear();
 
     for (const json::value& oper : json.at("operators").as_array()) {
-        RecruitOperInfo oper_temp;
+        Recruitment oper_temp;
         oper_temp.name = oper.at("name").as_string();
 
         oper_temp.level = oper.at("rarity").as_integer();
@@ -36,7 +36,7 @@ bool asst::RecruitConfig::parse(const json::value& json)
     }
 
     // 按干员等级排个序
-    ranges::sort(m_all_opers, std::greater {}, std::mem_fn(&RecruitOperInfo::level));
+    ranges::sort(m_all_opers, std::greater {}, std::mem_fn(&Recruitment::level));
 
     return true;
 }

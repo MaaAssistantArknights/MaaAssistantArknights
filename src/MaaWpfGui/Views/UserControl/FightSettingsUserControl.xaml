@@ -48,7 +48,7 @@
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <hc:TextBox
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -56,9 +56,9 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
-                        Text="{Binding MedicineNumber}"
-                        TextType="Int" />
-                    <hc:TextBox
+                        PreviewTextInput="TextBox_RestrictInputInt"
+                        Text="{Binding MedicineNumber}" />
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -66,9 +66,9 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
-                        Text="{Binding StoneNumber}"
-                        TextType="Int" />
-                    <hc:TextBox
+                        PreviewTextInput="TextBox_RestrictInputInt"
+                        Text="{Binding StoneNumber}" />
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -76,8 +76,8 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
-                        Text="{Binding MaxTimes}"
-                        TextType="Int" />
+                        PreviewTextInput="TextBox_RestrictInputInt"
+                        Text="{Binding MaxTimes}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
@@ -117,7 +117,7 @@
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
 
-                    <hc:TextBox
+                    <TextBox
                         Width="60"
                         Height="30"
                         Margin="0,6"
@@ -125,8 +125,8 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        PreviewTextInput="TextBox_RestrictInputInt"
                         Text="{Binding DropsQuantity}"
-                        TextType="Int"
                         Visibility="{c:Binding IsSpecifiedDrops}" />
                 </StackPanel>
             </Grid>
@@ -167,7 +167,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42">
+                    <Grid Height="42" Visibility="{c:Binding UseRemainingSanityStage}">
                         <TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
@@ -234,7 +234,7 @@
                         ItemsSource="{Binding RemainingSanityStageList}"
                         SelectedValue="{Binding RemainingSanityStage}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding !CustomStageCode}" />
+                        Visibility="{c:Binding RemainingSanityStageDisplay1}" />
                     <TextBox
                         Height="30"
                         Margin="0,6"
@@ -243,7 +243,7 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding CustomStageCode}" />
+                        Visibility="{c:Binding RemainingSanityStageDisplay2}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">

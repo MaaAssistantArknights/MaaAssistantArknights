@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -34,7 +35,9 @@ namespace MaaWpfGui
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
+#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052
         private readonly IContainer _container;
 
         /// <summary>
@@ -144,7 +147,6 @@ namespace MaaWpfGui
         private const string MaaReleaseRequestUrlByTag = "repos/MaaAssistantArknights/MaaRelease/releases/tags/";
         private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
 
-        private const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
         private JObject _latestJson;
         private JObject _assetsObject;
 
@@ -163,12 +165,10 @@ namespace MaaWpfGui
 
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification(Localization.GetString("NewVersionZipFileFoundTitle")))
-                {
-                    toast.AppendContentText(Localization.GetString("NewVersionZipFileFoundDescDecompressing"))
-                        .AppendContentText(UpdateTag)
-                        .ShowUpdateVersion(row: 2);
-                }
+                using var toast = new ToastNotification(Localization.GetString("NewVersionZipFileFoundTitle"));
+                toast.AppendContentText(Localization.GetString("NewVersionZipFileFoundDescDecompressing"))
+                     .AppendContentText(UpdateTag)
+                     .ShowUpdateVersion(row: 2);
             });
 
             string curDir = Directory.GetCurrentDirectory();
@@ -190,12 +190,10 @@ namespace MaaWpfGui
                 File.Delete(UpdatePackageName);
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification(Localization.GetString("NewVersionZipFileBrokenTitle")))
-                    {
-                        toast.AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
-                            .AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescDeleted"))
-                            .ShowUpdateVersion();
-                    }
+                    using var toast = new ToastNotification(Localization.GetString("NewVersionZipFileBrokenTitle"));
+                    toast.AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
+                         .AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescDeleted"))
+                         .ShowUpdateVersion();
                 });
                 return false;
             }
@@ -280,18 +278,52 @@ namespace MaaWpfGui
 
         public enum CheckUpdateRetT
         {
+            /// <summary>
+            /// 操作成功
+            /// </summary>
             OK,
+
+            /// <summary>
+            /// 未知错误
+            /// </summary>
             UnknownError,
+
+            /// <summary>
+            /// 无需更新
+            /// </summary>
             NoNeedToUpdate,
+
+            /// <summary>
+            /// 已经是最新版
+            /// </summary>
             AlreadyLatest,
+
+            /// <summary>
+            /// 网络错误
+            /// </summary>
             NetworkError,
+
+            /// <summary>
+            /// 获取信息失败
+            /// </summary>
             FailedToGetInfo,
+
+            /// <summary>
+            /// 新版正在构建中
+            /// </summary>
             NewVersionIsBeingBuilt,
         }
 
         public enum Downloader
         {
+            /// <summary>
+            /// 原生下载器
+            /// </summary>
             Native,
+
+            /// <summary>
+            /// Aria2 下载器
+            /// </summary>
             Aria2,
         }
 
@@ -302,76 +334,81 @@ namespace MaaWpfGui
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public CheckUpdateRetT CheckAndDownloadUpdate(bool force = false)
         {
-            // 检查更新
-            var checkRet = CheckUpdate(force);
-            if (checkRet != CheckUpdateRetT.OK)
-            {
-                return checkRet;
-            }
+            var svm = _container.Get<SettingsViewModel>();
+            svm.IsCheckingForUpdates = true;
 
-            // 保存新版本的信息
-            var name = _latestJson["name"]?.ToString();
-            UpdateTag = name == string.Empty ? _latestJson["tag_name"]?.ToString() : name;
-            var body = _latestJson["body"]?.ToString();
-            if (body == string.Empty)
+            var checkResult = ((Func<CheckUpdateRetT>)(() =>
             {
-                string ComparableHash(string version)
+                // 检查更新
+                var checkRet = CheckUpdate(force);
+                if (checkRet != CheckUpdateRetT.OK)
                 {
-                    if (isStdVersion(version))
+                    return checkRet;
+                }
+
+                // 保存新版本的信息
+                var name = _latestJson["name"]?.ToString();
+                UpdateTag = name == string.Empty ? _latestJson["tag_name"]?.ToString() : name;
+                var body = _latestJson["body"]?.ToString();
+                if (body == string.Empty)
+                {
+                    string ComparableHash(string version)
                     {
-                        return version;
-                    }
-                    else if (Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
-                        isNightlyVersion(semVersion))
-                    {
-                        // v4.6.6-1.g{Hash}
-                        // v4.6.7-beta.2.8.g{Hash}
-                        var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
-                        if (commitHash.StartsWith("g"))
+                        if (isStdVersion(version))
                         {
-                            commitHash = commitHash.Remove(0, 1);
+                            return version;
+                        }
+                        else if (Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
+                            isNightlyVersion(semVersion))
+                        {
+                            // v4.6.6-1.g{Hash}
+                            // v4.6.7-beta.2.8.g{Hash}
+                            var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
+                            if (commitHash.StartsWith("g"))
+                            {
+                                commitHash = commitHash.Remove(0, 1);
+                            }
+
+                            return commitHash;
                         }
 
-                        return commitHash;
+                        return null;
                     }
 
-                    return null;
-                }
+                    var curHash = ComparableHash(_curVersion);
+                    var latestHash = ComparableHash(_latestVersion);
 
-                var curHash = ComparableHash(_curVersion);
-                var latestHash = ComparableHash(_latestVersion);
-
-                if (curHash != null && latestHash != null)
-                {
-                    body = $"**Full Changelog**: [{curHash} -> {latestHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{curHash}...{latestHash})";
-                }
-            }
-
-            UpdateInfo = body;
-            UpdateUrl = _latestJson["html_url"]?.ToString();
-
-            var settings = _container.Get<SettingsViewModel>();
-            bool otaFound = _assetsObject != null;
-            bool goDownload = otaFound && settings.AutoDownloadUpdatePackage;
-
-            var openUrlToastButton = (
-                text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
-                action: new Action(() =>
-                {
-                    if (!string.IsNullOrWhiteSpace(UpdateUrl))
+                    if (curHash != null && latestHash != null)
                     {
-                        Process.Start(UpdateUrl);
+                        body = $"**Full Changelog**: [{curHash} -> {latestHash}](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/{curHash}...{latestHash})";
                     }
-                }));
+                }
 
-            Execute.OnUIThread(() =>
-            {
-                using (var toast = new ToastNotification(otaFound ?
-                    Localization.GetString("NewVersionFoundTitle") :
-                    Localization.GetString("NewVersionFoundButNoPackageTitle")))
+                UpdateInfo = body;
+                UpdateUrl = _latestJson["html_url"]?.ToString();
+
+                var settings = _container.Get<SettingsViewModel>();
+                bool otaFound = _assetsObject != null;
+                bool goDownload = otaFound && settings.AutoDownloadUpdatePackage;
+#pragma warning disable IDE0042
+                var openUrlToastButton = (
+                    text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
+                    action: new Action(() =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(UpdateUrl))
+                        {
+                            Process.Start(UpdateUrl);
+                        }
+                    }));
+#pragma warning restore IDE0042
+                Execute.OnUIThread(() =>
                 {
+                    using var toast = new ToastNotification(otaFound ?
+                        Localization.GetString("NewVersionFoundTitle") :
+                        Localization.GetString("NewVersionFoundButNoPackageTitle"));
                     if (goDownload)
                     {
+                        OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadPreparing"));
                         toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
                     }
 
@@ -389,19 +426,19 @@ namespace MaaWpfGui
                     toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
                     toast.ButtonSystemUrl = UpdateUrl;
                     toast.ShowUpdateVersion();
+                });
+
+                UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
+
+                if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
+                {
+                    OutputDownloadProgress(string.Empty);
+                    return CheckUpdateRetT.NoNeedToUpdate;
                 }
-            });
 
-            UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
-
-            if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
-            {
-                return CheckUpdateRetT.NoNeedToUpdate;
-            }
-
-            // 下载压缩包
-            var downloaded = false;
-            var mirroredReplaceMap = new List<Tuple<string, string>>
+                // 下载压缩包
+                var downloaded = false;
+                var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
                     new Tuple<string, string>("github.com", "agent.imgg.dev"),
                     new Tuple<string, string>("https://", "https://git.114514.pro/https://"),
@@ -411,43 +448,47 @@ namespace MaaWpfGui
                     null,
                 };
 
-            string rawUrl = _assetsObject["browser_download_url"]?.ToString();
-            var downloader = settings.UseAria2 ? Downloader.Aria2 : Downloader.Native;
-            const int DownloadRetryMaxTimes = 1;
-            for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
-            {
-                var url = rawUrl;
-                foreach (var repTuple in mirroredReplaceMap)
+                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+                var downloader = settings.UseAria2 ? Downloader.Aria2 : Downloader.Native;
+                const int DownloadRetryMaxTimes = 1;
+                for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
                 {
-                    if (repTuple != null)
+                    var url = rawUrl;
+                    foreach (var repTuple in mirroredReplaceMap)
                     {
-                        url = url.Replace(repTuple.Item1, repTuple.Item2);
-                    }
+                        if (repTuple != null)
+                        {
+                            url = url.Replace(repTuple.Item1, repTuple.Item2);
+                        }
 
-                    if (DownloadGithubAssets(url, _assetsObject, downloader))
-                    {
-                        downloaded = true;
-                        break;
+                        if (DownloadGithubAssets(url, _assetsObject, downloader))
+                        {
+                            OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadCompletedTitle"));
+                            downloaded = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!downloaded)
-            {
-                Execute.OnUIThread(() =>
+                if (!downloaded)
                 {
-                    using (var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle")))
+                    OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadFailedTitle"));
+                    Execute.OnUIThread(() =>
                     {
+                        using var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
                         toast.AppendContentText(Localization.GetString("NewVersionDownloadFailedDesc"))
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .Show();
-                    }
-                });
-                return CheckUpdateRetT.NoNeedToUpdate;
-            }
+                                .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                                .Show();
+                    });
+                    return CheckUpdateRetT.NoNeedToUpdate;
+                }
 
-            return CheckUpdateRetT.OK;
+                return CheckUpdateRetT.OK;
+            }))();
+
+            svm.IsCheckingForUpdates = false;
+            return checkResult;
         }
 
         public void AskToRestart()
@@ -498,7 +539,7 @@ namespace MaaWpfGui
                     // 稳定版更新使用主仓库 /latest 接口
                     // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
                     var stableResponse = RequestGithubApi(StableRequestUrl, RequestRetryMaxTimes);
-                    if (stableResponse.Length == 0)
+                    if (string.IsNullOrEmpty(stableResponse))
                     {
                         return CheckUpdateRetT.NetworkError;
                     }
@@ -508,7 +549,7 @@ namespace MaaWpfGui
                     stableResponse = RequestGithubApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
 
                     // 主仓库能找到版，但是 MaaRelease 找不到，说明 MaaRelease 还没有同步（一般过个十分钟就同步好了）
-                    if (stableResponse.Length == 0)
+                    if (string.IsNullOrEmpty(stableResponse))
                     {
                         return CheckUpdateRetT.NewVersionIsBeingBuilt;
                     }
@@ -519,7 +560,7 @@ namespace MaaWpfGui
                 {
                     // 非稳定版更新使用 MaaRelease/releases 接口
                     var response = RequestGithubApi(RequestUrl, RequestRetryMaxTimes);
-                    if (response.Length == 0)
+                    if (string.IsNullOrEmpty(response))
                     {
                         return CheckUpdateRetT.NetworkError;
                     }
@@ -576,7 +617,7 @@ namespace MaaWpfGui
                 if (isStdVersion(_latestVersion))
                 {
                     var infoResponse = RequestGithubApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
-                    if (infoResponse.Length == 0)
+                    if (string.IsNullOrEmpty(infoResponse))
                     {
                         return CheckUpdateRetT.FailedToGetInfo;
                     }
@@ -604,44 +645,6 @@ namespace MaaWpfGui
             }
         }
 
-        /// <summary>
-        /// 访问 API
-        /// </summary>
-        /// <param name="url">API 地址</param>
-        /// <returns>返回 API 的返回值，如出现错误则返回空字符串</returns>
-        public string RequestApi(string url)
-        {
-            try
-            {
-                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                httpWebRequest.Method = "GET";
-                httpWebRequest.UserAgent = RequestUserAgent;
-                httpWebRequest.Accept = "application/vnd.github.v3+json";
-                var settings = _container.Get<SettingsViewModel>();
-                if (!string.IsNullOrWhiteSpace(settings.Proxy))
-                {
-                    httpWebRequest.Proxy = new WebProxy(settings.Proxy);
-                }
-
-                var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
-                if (httpWebResponse.StatusCode != HttpStatusCode.OK)
-                {
-                    return null;
-                }
-
-                var streamReader = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.UTF8);
-                var responseContent = streamReader.ReadToEnd();
-                streamReader.Close();
-                httpWebResponse.Close();
-                return responseContent;
-            }
-            catch (Exception info)
-            {
-                Console.WriteLine(info.Message);
-                return null;
-            }
-        }
-
         private string RequestGithubApi(string url, int retryTimes)
         {
             string response = string.Empty;
@@ -650,7 +653,7 @@ namespace MaaWpfGui
             {
                 for (var i = 0; i < requestSource.Length; i++)
                 {
-                    response = RequestApi(requestSource[i] + url);
+                    response = WebService.RequestUrl(requestSource[i] + url);
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
@@ -672,6 +675,7 @@ namespace MaaWpfGui
         private bool DownloadGithubAssets(string url, JObject assetsObject,
             Downloader downloader = Downloader.Native, string saveTo = null)
         {
+            _logItemViewModels = _container.Get<TaskQueueViewModel>().LogItemViewModels;
             return DownloadFile(
                 url: url,
                 fileName: assetsObject["name"].ToString(), contentType:
@@ -711,10 +715,16 @@ namespace MaaWpfGui
                         returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp, proxy);
                         break;
                 }
+
+                OutputDownloadProgress(string.Empty);
             }
-            catch (Exception info)
+            catch (WebException)
             {
-                Console.WriteLine(info.Message);
+                returned = false;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
                 returned = false;
             }
 
@@ -735,7 +745,7 @@ namespace MaaWpfGui
         private static bool DownloadFileForAria2(string url, string saveTo, string fileName, string proxy = "")
         {
             var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
-            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + RequestUserAgent + "\"";
+            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + WebService.RequestUserAgent + "\"";
 
             if (proxy.Length > 0)
             {
@@ -755,8 +765,16 @@ namespace MaaWpfGui
                 },
                 EnableRaisingEvents = true,
             };
+            aria2Process.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
+            {
+                if (e.Data != null && e.Data.StartsWith("["))
+                {
+                    OutputDownloadProgress(e.Data);
+                }
+            });
 
             aria2Process.Start();
+            aria2Process.BeginOutputReadLine();
             aria2Process.WaitForExit();
             var exit_code = aria2Process.ExitCode;
             aria2Process.Close();
@@ -773,37 +791,106 @@ namespace MaaWpfGui
         /// <returns>是否成功</returns>
         private static bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null, string proxy = "")
         {
+            bool downloaded = false;
+
             // 创建 Http 请求
             var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
 
             // 设定相关属性
             httpWebRequest.Method = "GET";
-            httpWebRequest.UserAgent = RequestUserAgent;
+            httpWebRequest.UserAgent = WebService.RequestUserAgent;
             httpWebRequest.Accept = contentType;
-            if (proxy.Length > 0)
+            if (!string.IsNullOrEmpty(proxy))
             {
                 httpWebRequest.Proxy = new WebProxy(proxy);
             }
 
             // 获取输入输出流
-            using (var responseStream = httpWebRequest.GetResponse().GetResponseStream())
+            using (var response = httpWebRequest.GetResponse())
             {
-                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                using var responseStream = response.GetResponseStream();
+                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+
+                // 记录初始化
+                long value = 0;
+                int valueInOneSecond = 0;
+                long fileMaximum = response.ContentLength;
+                DateTime beforDT = DateTime.Now;
+                OutputDownloadProgress();
+
+                // 输入输出初始化
+                byte[] buffer = new byte[81920];
+                int byteLen = responseStream.Read(buffer, 0, buffer.Length);
+
+                while (byteLen > 0)
                 {
-                    responseStream.CopyTo(fileStream);
+                    // 记录
+                    valueInOneSecond += byteLen;
+                    double ts = DateTime.Now.Subtract(beforDT).TotalSeconds;
+                    if (ts > 1)
+                    {
+                        beforDT = DateTime.Now;
+                        value += valueInOneSecond;
+                        OutputDownloadProgress(value, fileMaximum, valueInOneSecond, ts);
+                        valueInOneSecond = 0;
+                    }
+
+                    // 输入输出
+                    fileStream.Write(buffer, 0, byteLen);
+                    byteLen = responseStream.Read(buffer, 0, buffer.Length);
                 }
+
+                downloaded = true;
             }
 
-            return true;
+            return downloaded;
+        }
+
+        private static System.Collections.ObjectModel.ObservableCollection<LogItemViewModel> _logItemViewModels = null;
+
+        private static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
+        {
+            OutputDownloadProgress(
+                string.Format("[{0:F}MiB/{1:F}MiB({2}%) {3:F} KiB/s]",
+                    value / 1048576.0,
+                    maximum / 1048576.0,
+                    100 * value / maximum,
+                    len / ts / 1024.0));
+        }
+
+        private static void OutputDownloadProgress(string output, bool downloading = true)
+        {
+            if (_logItemViewModels == null)
+            {
+                return;
+            }
+
+            var log = new LogItemViewModel(downloading ? Localization.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UILogColor.Download);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UILogColor.Download)
+                {
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        _logItemViewModels[0] = log;
+                    }
+                    else
+                    {
+                        _logItemViewModels.RemoveAt(0);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(output))
+                {
+                    _logItemViewModels.Clear();
+                    _logItemViewModels.Add(log);
+                }
+            });
         }
 
         private bool isDebugVersion(string version = null)
         {
-            if (version == null)
-            {
-                version = _curVersion;
-            }
-
+            version ??= _curVersion;
             return version == "DEBUG VERSION";
         }
 
@@ -816,10 +903,7 @@ namespace MaaWpfGui
             // Release (Local Tag)：{Tag}-Local
             // Debug (Local)：DEBUG VERSION
             // Script Compiled：c{CommitHash[..7]}
-            if (version == null)
-            {
-                version = _curVersion;
-            }
+            version ??= _curVersion;
 
             if (isDebugVersion(version))
             {

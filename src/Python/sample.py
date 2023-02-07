@@ -2,7 +2,9 @@ import json
 import pathlib
 import time
 
-from asst import InstanceOptionType, Asst, Message
+from asst.asst import Asst
+from asst.utils import Message, Version
+from asst.updater import Updater
 
 
 @Asst.CallBackType
@@ -17,6 +19,9 @@ if __name__ == "__main__":
 
     # 请设置为存放 dll 文件及资源的路径
     path = pathlib.Path.cwd().parent
+
+    # 设置更新器的路径和目标版本并更新
+    Updater(path, Version.Stable).update()
 
     # 外服需要再额外传入增量资源路径，例如
     # incremental_path=path / 'resource' / 'global' / 'YoStarEN'

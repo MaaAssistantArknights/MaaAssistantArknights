@@ -20,7 +20,7 @@
 
 [简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md) | [한국어](README_ko-KR.md)
 
-MAA는 MAA Assistant Arknights를 의미합니다
+MAA는 MAA Assistant Arknights의 약자입니다
 
 명일방주 어시스턴트
 
@@ -42,9 +42,8 @@ MAA는 MAA Assistant Arknights를 의미합니다
 
 말로만 설명하기보다는 사진으로 보여드리겠습니다!
 
-![image](https://user-images.githubusercontent.com/18511905/198692842-1ad89bd0-f943-4763-bdd1-c212e09dc832.png) <!-- New Image Required -->
-![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png) <!-- New Image Required -->
-![image](https://user-images.githubusercontent.com/18511905/198689839-612f3bfc-c308-4d62-969d-8544764e794d.png) <!-- New Image Required -->
+![Screenshot 2023-02-04 011534](https://user-images.githubusercontent.com/61264540/216660360-dc8b96b4-2daa-41d1-a6fc-024886861e4c.png)
+![Screenshot 2023-02-04 013950](https://user-images.githubusercontent.com/61264540/216660420-2b0c759e-f8fd-48bf-ae7f-112105faa3a4.png)
 
 ## 다운로드
 
@@ -87,7 +86,7 @@ MAA는 MAA Assistant Arknights를 의미합니다
   작전, 공개모집, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
   자세한 내용은 [문서](resource/global/txwy/readme.md)를 참조해 주세요.
 
-해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
+해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! [해외 클라이언트 현지화](docs/ko-kr/2.5-해외_클라이언트_현지화.md) 문서도 참고해 주세요.
 
 ## 관련 프로젝트
 
@@ -159,9 +158,9 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 - [임무 형식](docs/ko-kr/3.4-임무_형식.md) <!-- File Required -->
 - [전략 형식](docs/ko-kr/3.3-전략_형식.md) <!-- File Required -->
 
-### Overseas Clients Adaptation
+### 해외 클라이언트 현지화
 
-Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%20Adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+[해외 클라이언트 현지화](docs/ko-kr/2.5-해외_클라이언트_현지화.md) 문서를 참고하세요. 대부분의 경우 CN 서버에서 이미 지원하는 기능들은 스크린샷과 간단한 JSON 파일 조작만으로도 타 서버에서 사용 가능합니다. <!-- File Required -->
 
 ### GitHub에 익숙치 않은 사용자용 가이드
 
@@ -177,11 +176,11 @@ Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%
 ## 주의사항
 
 - 이 프로그램의 로고는 AGPL 3.0 라이센스의 적용 대상이 아닙니다. [耗毛](https://weibo.com/u/3251357314)와 Vie 두 명의 아티스트와 프로그램의 개발자들이 모든 권리를 가집니다. 프로젝트가 AGPL 3.0 라이센스 하에 있다고 하더라도 프로그램의 로고는 동의 없이 사용되어서는 안 되며, 동의 없는 상업적 이용 또한 금지됩니다.
-- 이 프로그램이 오픈소스이자 무료이며 학습 및 커뮤니케이션 전용입니다. 이 프로그램을 이용해 장비값이나 시간당 수수료 등을 대가로 서비스를 제공하는 판매자로 인해 발생하는 문제와 결과는 프로그램의 개발자들에게는 책임이 없습니다.
+- 이 프로그램은 오픈소스이자 무료이며 학습 및 커뮤니케이션 전용입니다. 이 프로그램을 이용해 장비값이나 시간당 수수료 등을 대가로 서비스를 제공하는 판매자로 인해 발생하는 문제와 결과는 프로그램의 개발자들에게는 책임이 없습니다.
 
 ## 광고
 
-[사용자 그룹 (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹 1 (만원)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ 그룹 2 (만원)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ 그룹 3 (만원)](https://jq.qq.com/?_wv=1027&k=mKdOnhWV), [QQ 그룹 4 (만원)](https://jq.qq.com/?_wv=1027&k=ABkU8mCR), [QQ 그룹 5 (만원)](https://jq.qq.com/?_wv=1027&k=To6b6H6m), [QQ 그룹 6 (만원)](https://jq.qq.com/?_wv=1027&k=PYoCP2lS), [QQ 그룹 7(만원)](https://jq.qq.com/?_wv=1027&k=xDT9vHvB), [QQ 그룹 8](https://jq.qq.com/?_wv=1027&k=PzvqFhOr)  
+사용자 그룹：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 [전략 JSON 공유](https://prts.plus)  
 [빌리빌리 라이브](https://live.bilibili.com/2808861): 코딩 과정을 밤마다 방송하고 있습니다. 이 프로그램에 대부분의 시간을 할애하고 있습니다.  
 [명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  

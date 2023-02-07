@@ -7,11 +7,11 @@
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
-#include "Vision/HashImageAnalyzer.h"
+#include "Utils/Logger.hpp"
+#include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Utils/Logger.hpp"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
 {
@@ -29,7 +29,7 @@ bool asst::BattleImageAnalyzer::analyze()
     clear();
 
     // HP 作为 flag，无论如何都识别。表明当前画面是在战斗场景的
-    bool ret = hp_analyze() || flag_analyze();
+    bool ret = flag_analyze();
 
     if (m_target & Target::Home) {
         ret |= home_analyze();
@@ -59,7 +59,7 @@ bool asst::BattleImageAnalyzer::analyze()
     return ret;
 }
 
-const std::vector<asst::BattleRealTimeOper>& asst::BattleImageAnalyzer::get_opers() const noexcept
+const std::vector<asst::battle::DeploymentOper>& asst::BattleImageAnalyzer::get_opers() const noexcept
 {
     return m_opers;
 }
@@ -107,8 +107,6 @@ void asst::BattleImageAnalyzer::sort_opers_by_cost()
 
 bool asst::BattleImageAnalyzer::opers_analyze()
 {
-    LogTraceFunction;
-
     MultiMatchImageAnalyzer flags_analyzer(m_image);
     flags_analyzer.set_task_info("BattleOpersFlag");
     if (!flags_analyzer.analyze()) {
@@ -121,15 +119,17 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     // const auto cost_move = Task.get("BattleOperCostRange")->rect_move;
     const auto avlb_move = Task.get("BattleOperAvailable")->rect_move;
     const auto cooling_move = Task.get("BattleOperCooling")->rect_move;
+    const auto avatar_move = Task.get("BattleOperAvatar")->rect_move;
 
     size_t index = 0;
     for (const MatchRect& flag_mrect : flags_analyzer.get_result()) {
-        BattleRealTimeOper oper;
+        battle::DeploymentOper oper;
         oper.rect = flag_mrect.rect.move(click_move);
         if (oper.rect.x + oper.rect.width >= m_image.cols) {
             oper.rect.width = m_image.cols - oper.rect.x;
         }
-        oper.avatar = m_image(make_rect<cv::Rect>(oper.rect));
+        Rect avatar_rect = oper.rect.move(avatar_move);
+        oper.avatar = m_image(make_rect<cv::Rect>(avatar_rect));
 
         Rect available_rect = flag_mrect.rect.move(avlb_move);
         oper.available = oper_available_analyze(available_rect);
@@ -166,42 +166,36 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     return true;
 }
 
-asst::BattleRole asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
+asst::battle::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 {
-    static const std::unordered_map<BattleRole, std::string> RolesName = {
-        { BattleRole::Caster, "Caster" }, { BattleRole::Medic, "Medic" },     { BattleRole::Pioneer, "Pioneer" },
-        { BattleRole::Sniper, "Sniper" }, { BattleRole::Special, "Special" }, { BattleRole::Support, "Support" },
-        { BattleRole::Tank, "Tank" },     { BattleRole::Warrior, "Warrior" }, { BattleRole::Drone, "Drone" }
+    static const std::unordered_map<std::string, battle::Role> RoleMap = {
+        { "Caster", battle::Role::Caster }, { "Medic", battle::Role::Medic },     { "Pioneer", battle::Role::Pioneer },
+        { "Sniper", battle::Role::Sniper }, { "Special", battle::Role::Special }, { "Support", battle::Role::Support },
+        { "Tank", battle::Role::Tank },     { "Warrior", battle::Role::Warrior }, { "Drone", battle::Role::Drone },
     };
 
-    MatchImageAnalyzer role_analyzer(m_image);
+    static const std::string TaskName = "BattleOperRole";
+    static const std::string Ext = ".png";
+    BestMatchImageAnalyzer role_analyzer(m_image);
+    role_analyzer.set_task_info(TaskName);
+    role_analyzer.set_roi(roi);
 
-    auto result = BattleRole::Unknown;
-    double max_score = 0;
-    for (auto&& [role, role_name] : RolesName) {
-        role_analyzer.set_task_info("BattleOperRole" + role_name);
-        role_analyzer.set_roi(roi);
-        if (!role_analyzer.analyze()) {
-            continue;
-        }
-        if (double cur_score = role_analyzer.get_result().score; max_score < cur_score) {
-            result = role;
-            max_score = cur_score;
-        }
+    for (const auto& role_name : RoleMap | views::keys) {
+        role_analyzer.append_templ(TaskName + role_name + Ext);
     }
+    if (!role_analyzer.analyze()) {
+        return battle::Role::Unknown;
+    }
+
+    const auto& templ_name = role_analyzer.get_result_name();
+
+    std::string role_name = templ_name.substr(TaskName.size(), templ_name.size() - TaskName.size() - Ext.size());
 
 #ifdef ASST_DEBUG
-    std::string role_name;
-    if (auto iter = RolesName.find(result); iter == RolesName.cend()) {
-        role_name = "Unknown";
-    }
-    else {
-        role_name = iter->second;
-    }
     cv::putText(m_image_draw, role_name, cv::Point(roi.x, roi.y - 5), 1, 1, cv::Scalar(0, 255, 255));
 #endif
 
-    return result;
+    return RoleMap.at(role_name);
 }
 
 bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
@@ -230,58 +224,14 @@ bool asst::BattleImageAnalyzer::oper_cooling_analyze(const Rect& roi)
             }
         }
     }
-    Log.trace("oper_cooling_analyze |", count);
+    // Log.trace("oper_cooling_analyze |", count);
     return count >= cooling_task_ptr->special_params.front();
 }
 
 int asst::BattleImageAnalyzer::oper_cost_analyze(const Rect& roi)
 {
-    static const std::array<std::string, 10> NumName = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-    static bool inited = false;
-    static cv::Scalar range_lower, range_upper;
-
-    static HashImageAnalyzer hash_analyzer;
-    if (!inited) {
-        auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCostChannelH"))->mask_range;
-        auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCostChannelS"))->mask_range;
-        auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCostChannelV"))->mask_range;
-        range_lower = cv::Scalar(h_l, s_l, v_l);
-        range_upper = cv::Scalar(h_u, s_u, v_u);
-        std::unordered_map<std::string, std::string> num_hashes;
-        for (auto&& num : NumName) {
-            auto hashes_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleOperCost" + num))->hashes;
-            for (size_t i = 0; i != hashes_vec.size(); ++i) {
-                num_hashes.emplace(num + "_" + std::to_string(i), hashes_vec.at(i));
-            }
-        }
-        hash_analyzer.set_hash_templates(std::move(num_hashes));
-        hash_analyzer.set_need_bound(true);
-        hash_analyzer.set_need_split(true);
-        inited = true;
-    }
-
-    cv::Mat hsv;
-    cv::cvtColor(m_image(make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
-    cv::Mat bin;
-    cv::inRange(hsv, range_lower, range_upper, bin);
-    hash_analyzer.set_image(bin);
-    hash_analyzer.analyze();
-
-    int cost = 0;
-    for (const std::string& num_name : hash_analyzer.get_min_dist_name()) {
-        if (num_name.empty()) {
-            Log.error("hash result is empty");
-            return 0;
-        }
-        cost *= 10;
-        cost += num_name.at(0) - '0';
-    }
-
-#ifdef ASST_DEBUG
-    cv::putText(m_image_draw, std::to_string(cost), cv::Point(roi.x, roi.y - 20), 1, 1, cv::Scalar(0, 0, 255));
-#endif
-
-    return cost;
+    std::ignore = roi;
+    return 0;
 }
 
 bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
@@ -289,7 +239,7 @@ bool asst::BattleImageAnalyzer::oper_available_analyze(const Rect& roi)
     cv::Mat hsv;
     cv::cvtColor(m_image(make_rect<cv::Rect>(roi)), hsv, cv::COLOR_BGR2HSV);
     cv::Scalar avg = cv::mean(hsv);
-    Log.trace("oper available, mean", avg[2]);
+    // Log.trace("oper available, mean", avg[2]);
 
     const int thres = Task.get("BattleOperAvailable")->special_params.front();
     if (avg[2] < thres) {
@@ -354,54 +304,6 @@ bool asst::BattleImageAnalyzer::hp_analyze()
             return false;
         }
     }
-    Rect roi_rect = flag_analyzer.get_result().rect.move(flag_task_ptr->rect_move);
-    cv::Mat roi = m_image(make_rect<cv::Rect>(roi_rect));
-
-    static const std::array<std::string, 10> NumName = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-    static bool inited = false;
-    static cv::Scalar range_lower, range_upper;
-    static HashImageAnalyzer hash_analyzer;
-    if (!inited) {
-        auto [h_l, h_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHpChannelH"))->mask_range;
-        auto [s_l, s_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHpChannelS"))->mask_range;
-        auto [v_l, v_u] = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHpChannelV"))->mask_range;
-        range_lower = cv::Scalar(h_l, s_l, v_l);
-        range_upper = cv::Scalar(h_u, s_u, v_u);
-        std::unordered_map<std::string, std::string> num_hashes;
-        for (auto&& num : NumName) {
-            const auto& hashes_vec = std::dynamic_pointer_cast<HashTaskInfo>(Task.get("BattleHp" + num))->hashes;
-            for (size_t i = 0; i != hashes_vec.size(); ++i) {
-                num_hashes.emplace(num + "_" + std::to_string(i), hashes_vec.at(i));
-            }
-        }
-        hash_analyzer.set_hash_templates(std::move(num_hashes));
-        hash_analyzer.set_need_bound(true);
-        hash_analyzer.set_need_split(true);
-        inited = true;
-    }
-
-    cv::Mat hsv;
-    cv::cvtColor(roi, hsv, cv::COLOR_BGR2HSV);
-    cv::Mat bin;
-    cv::inRange(hsv, range_lower, range_upper, bin);
-    hash_analyzer.set_image(bin);
-    hash_analyzer.analyze();
-
-    int hp = 0;
-    for (const std::string& num_name : hash_analyzer.get_min_dist_name()) {
-        if (num_name.empty()) {
-            Log.error("hash result is empty");
-            return false;
-        }
-        hp *= 10;
-        hp += num_name.at(0) - '0';
-    }
-
-#ifdef ASST_DEBUG
-    cv::putText(m_image_draw, "HP: " + std::to_string(hp), cv::Point(roi_rect.x, roi_rect.y + 50), 2, 1,
-                cv::Scalar(0, 0, 255));
-#endif
-    m_hp = hp;
     return true;
 }
 
@@ -467,7 +369,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
     m_total_kills = std::max(cur_total_kills, m_pre_total_kills);
 
     Log.trace("Kills:", m_kills, "/", m_total_kills);
-    return true;
+    return m_kills <= m_total_kills;
 }
 
 bool asst::BattleImageAnalyzer::cost_analyze()
@@ -499,5 +401,14 @@ bool asst::BattleImageAnalyzer::flag_analyze()
 {
     MatchImageAnalyzer flag_analyzer(m_image);
     flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    return flag_analyzer.analyze();
+    if (flag_analyzer.analyze()) {
+        return true;
+    }
+
+    flag_analyzer.set_task_info("BattleKillsFlag");
+    if (flag_analyzer.analyze()) {
+        return true;
+    }
+
+    return hp_analyze();
 }
