@@ -782,6 +782,17 @@ namespace MaaWpfGui
             var asstProxy = _container.Get<AsstProxy>();
             bool mainFightRet = asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
 
+            if (mainFightRet && (Stage == "Annihilation") && _container.Get<SettingsViewModel>().UseAlternateStage)
+            {
+                foreach (var stage in new[] { Stage1, Stage2, Stage3 })
+                {
+                    if (IsStageOpen(stage) && (stage != Stage))
+                    {
+                        mainFightRet = asstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
+                    }
+                }
+            }
+
             if (mainFightRet && UseRemainingSanityStage && (RemainingSanityStage != string.Empty))
             {
                 return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
