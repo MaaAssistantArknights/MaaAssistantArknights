@@ -62,15 +62,18 @@ namespace MaaWpfGui
 
         public static string ClientType { get => _clientType; set => _clientType = value; }
 
-        private static readonly Dictionary<string, int> _clientTypeTimeOffsetMap = new Dictionary<string, int>
+        // YJ历每一天从4点开始，计算日期的时候第二天4点前仍然算作前一天
+        private static readonly int YJDayStartHour = 4;
+
+        private static readonly Dictionary<string, int> _clientTypeTimezone = new Dictionary<string, int>
         {
-            { string.Empty, 4 },
-            { "Official", 4 },
-            { "Bilibili", 4 },
-            { "txwy", 4 },
-            { "YoStarEN", 4 },
-            { "YoStarJP", 5 },
-            { "YoStarKR", 4 },
+            { string.Empty, 8 },
+            { "Official", 8 },
+            { "Bilibili", 8 },
+            { "txwy", 8 },
+            { "YoStarEN", -7 },
+            { "YoStarJP", 9 },
+            { "YoStarKR", 9 },
         };
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace MaaWpfGui
         /// <returns>yj历时间</returns>
         public static DateTime GetYJTimeNow()
         {
-            return DateTime.UtcNow.AddHours(_clientTypeTimeOffsetMap[ClientType]);
+            return ToYJTime(DateTime.UtcNow);
         }
 
         /// <summary>
@@ -116,7 +119,7 @@ namespace MaaWpfGui
         /// <returns>yj历格式的时间</returns>
         public static DateTime ToYJTime(DateTime dt)
         {
-            return dt.AddHours(_clientTypeTimeOffsetMap[ClientType]);
+            return dt.AddHours(_clientTypeTimezone[ClientType] - YJDayStartHour);
         }
 
         private static readonly JObject _itemList = new JObject();
