@@ -26,23 +26,28 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <CheckBox
+        <StackPanel
             Grid.Row="0"
             Grid.Column="1"
-            Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Content="{DynamicResource AutoDetectConnection}"
-            IsChecked="{Binding AutoDetectConnection}"
-            ToolTip="{DynamicResource AutoDetectConnectionTip}" />
-        <CheckBox
-            Grid.Column="2"
-            Margin="10"
-            VerticalAlignment="Center"
-            Content="{DynamicResource AlwaysAutoDetectConnection}"
-            IsChecked="{Binding AlwaysAutoDetectConnection}"
-            Visibility="{c:Binding AutoDetectConnection}" />
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource AutoDetectConnection}"
+                IsChecked="{Binding AutoDetectConnection}"
+                ToolTip="{DynamicResource AutoDetectConnectionTip}" />
+            <CheckBox
+                Margin="10"
+                VerticalAlignment="Center"
+                Content="{DynamicResource AlwaysAutoDetectConnection}"
+                IsChecked="{Binding AlwaysAutoDetectConnection}"
+                Visibility="{c:Binding AutoDetectConnection}" />
+        </StackPanel>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
@@ -145,6 +150,15 @@
             Content="{DynamicResource ForcedReplaceADB}" />
         <CheckBox
             Grid.Row="6"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{DynamicResource AdbLiteEnabled}"
+            IsChecked="{Binding AdbLiteEnabled}" />
+        <CheckBox
+            Grid.Row="7"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Margin="10"

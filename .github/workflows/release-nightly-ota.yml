@@ -3,25 +3,27 @@ name: release-nightly-ota
 on:
   workflow_dispatch:
     inputs:
+      release_body:
+        description: 'Release note'
+        type: string
+        required: false
       ref:
         description: 'Commit to build (git checkout)'
         type: string
-        required: true
+        required: false
+      tag_name:
+        description: 'Tag name to release'
+        type: string
+        required: false
       limit:
         description: 'Number of releases to fetch from MaaAssistantArknights'
-        required: false
+        required: true
         default: 30
         type: number
       limit_2:
         description: 'Number of releases to fetch from MaaRelease'
-        required: false
+        required: true
         default: 30
-      tag_name:
-        description: 'Tag name to release'
-        required: false
-      release_body:
-        type: string
-        required: false
 
 jobs:
   build-win-nightly:
@@ -37,7 +39,9 @@ jobs:
           fetch-depth: 0
       - name: Checkout ref
         run: |
-          git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
+          if ("${{ inputs.ref }}" -ne "") {
+            git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
+          }
       - run: |
           npm install --global --progress semver
       - name: Set tag
@@ -106,7 +110,7 @@ jobs:
           mkdir -pv build-ota && cd build-ota
           cd ${{ needs.build-win-nightly.outputs.tag }}
           mkdir -pv content
-          unzip -q *.zip -x '*.lib' -x '*.pdb' -x '*.exp' -x '*.config' -x '*.xml' -d content
+          unzip -q -O GB2312 -o *.zip -x '*.lib' -x '*.pdb' -x '*.exp' -x '*.config' -x '*.xml' -d content
           cd ..
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt

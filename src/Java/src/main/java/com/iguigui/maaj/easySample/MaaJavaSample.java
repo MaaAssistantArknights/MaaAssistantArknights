@@ -20,7 +20,7 @@ public class MaaJavaSample {
      */
     public static void main(String[] args) {
         //设定JNA寻找maa的dll的地址，同时也要把这个路径添加到环境变量中的Path中！
-        String maaPath = "C:/Users/iguigui/Desktop/MaaCoreArknights3";
+        String maaPath = "C:\\Users\\gui\\Desktop\\MeoAssistantArknights";
         System.setProperty("jna.library.path", maaPath);
         //adb地址，自己看着办
         String adbPath = maaPath + "/platform-tools/adb.exe";

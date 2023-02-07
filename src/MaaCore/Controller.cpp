@@ -19,6 +19,7 @@
 #include <chrono>
 #include <cstdint>
 #include <memory>
+#include <regex>
 #include <utility>
 #include <vector>
 
@@ -60,7 +61,7 @@ asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
 #endif
 
     if (!m_support_socket) {
-        Log.error("sokcet not supports");
+        Log.error("socket not supported");
     }
 }
 
@@ -100,261 +101,21 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
     auto start_time = steady_clock::now();
     std::unique_lock<std::mutex> callcmd_lock(m_callcmd_mutex);
 
+    std::optional<int> exit_res;
+    if (m_use_adb_lite) {
+        exit_res = call_command_tcpip(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
+    }
+    if (!exit_res) {
 #ifdef _WIN32
-
-    DWORD err = 0;
-    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
-    SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
-    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit,
-                                             (DWORD)pipe_buffer.size(), true, false)) {
-        err = GetLastError();
-        Log.error("CreateOverlappablePipe failed, err", err);
-        return std::nullopt;
-    }
-
-    STARTUPINFOW si {};
-    si.cb = sizeof(STARTUPINFOW);
-    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-    si.hStdOutput = pipe_child_write;
-    si.hStdError = pipe_child_write;
-    ASST_AUTO_DEDUCED_ZERO_INIT_START
-    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
-    ASST_AUTO_DEDUCED_ZERO_INIT_END
-
-    auto cmdline_osstr = asst::utils::to_osstring(cmd);
-    BOOL create_ret =
-        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
-    if (!create_ret) {
-        Log.error("Call `", cmd, "` create process failed, ret", create_ret);
-        return std::nullopt;
-    }
-
-    CloseHandle(pipe_child_write);
-    pipe_child_write = INVALID_HANDLE_VALUE;
-
-    std::vector<HANDLE> wait_handles;
-    wait_handles.reserve(3);
-    bool process_running = true;
-    bool pipe_eof = false;
-    bool accept_pending = false;
-    bool socket_eof = false;
-
-    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
-    (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
-
-    OVERLAPPED sockov {};
-    SOCKET client_socket = INVALID_SOCKET;
-
-    if (recv_by_socket) {
-        sock_buffer = asst::platform::single_page_buffer<char>();
-        sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
-        client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        DWORD dummy;
-        if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.get(),
-                                (DWORD)sock_buffer.size() - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
-                                sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
-            err = WSAGetLastError();
-            if (err == ERROR_IO_PENDING) {
-                accept_pending = true;
-            }
-            else {
-                Log.trace("AcceptEx failed, err:", err);
-                accept_pending = false;
-                socket_eof = true;
-                ::closesocket(client_socket);
-            }
-        }
-    }
-
-    while (!need_exit()) {
-        wait_handles.clear();
-        if (process_running) wait_handles.push_back(process_info.hProcess);
-        if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
-        if (recv_by_socket && ((accept_pending && process_running) || !socket_eof)) {
-            wait_handles.push_back(sockov.hEvent);
-        }
-        if (wait_handles.empty()) break;
-        auto elapsed = steady_clock::now() - start_time;
-        // TODO: 这里目前是隔 5000ms 判断一次，应该可以加一个 wait_handle 来判断外部中断（need_exit）
-        auto wait_time =
-            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 5LL * 1000 : 0LL);
-        if (wait_time < 0) break;
-        auto wait_result =
-            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, (DWORD)wait_time, TRUE);
-        HANDLE signaled_object = INVALID_HANDLE_VALUE;
-        if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
-            signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
-        }
-        else if (wait_result == WAIT_TIMEOUT) {
-            if (wait_time == 0) {
-                std::vector<std::string> handle_string {};
-                for (auto handle : wait_handles) {
-                    if (handle == process_info.hProcess) {
-                        handle_string.emplace_back("process_info.hProcess");
-                    }
-                    else if (handle == pipeov.hEvent) {
-                        handle_string.emplace_back("pipeov.hEvent");
-                    }
-                    else if (recv_by_socket && handle == sockov.hEvent) {
-                        handle_string.emplace_back("sockov.hEvent");
-                    }
-                    else {
-                        handle_string.emplace_back("UnknownHandle");
-                    }
-                }
-                Log.warn("Wait handles:", handle_string, "timeout.");
-                if (process_running) {
-                    TerminateProcess(process_info.hProcess, 0);
-                }
-                break;
-            }
-            continue;
-        }
-        else {
-            // something bad happened
-            err = GetLastError();
-            // throw std::system_error(std::error_code(err, std::system_category()));
-            Log.error(__FUNCTION__, "A fatal error occurred", err);
-            break;
-        }
-
-        if (signaled_object == process_info.hProcess) {
-            process_running = false;
-        }
-        else if (signaled_object == pipeov.hEvent) {
-            // pipe read
-            DWORD len = 0;
-            if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
-                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + len);
-                (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
-            }
-            else {
-                err = GetLastError();
-                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
-                    pipe_eof = true;
-                }
-            }
-        }
-        else if (signaled_object == sockov.hEvent) {
-            if (accept_pending) {
-                // AcceptEx, client_socker is connected and first chunk of data is received
-                DWORD len = 0;
-                if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
-                    accept_pending = false;
-                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
-
-                    if (len == 0) {
-                        socket_eof = true;
-                        ::closesocket(client_socket);
-                    }
-                    else {
-                        // reset the overlapped since we reuse it for different handle
-                        auto event = sockov.hEvent;
-                        sockov = {};
-                        sockov.hEvent = event;
-
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
-                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
-                    }
-                }
-            }
-            else {
-                // ReadFile
-                DWORD len = 0;
-                if (GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &len, FALSE)) {
-                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
-                    if (len == 0) {
-                        socket_eof = true;
-                        ::closesocket(client_socket);
-                    }
-                    else {
-                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
-                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
-                    }
-                }
-                else {
-                    // err = GetLastError();
-                    socket_eof = true;
-                    ::closesocket(client_socket);
-                }
-            }
-        }
-    }
-
-    DWORD exit_ret = 0;
-    GetExitCodeProcess(process_info.hProcess, &exit_ret);
-    CloseHandle(process_info.hProcess);
-    CloseHandle(process_info.hThread);
-    CloseHandle(pipe_parent_read);
-    CloseHandle(pipeov.hEvent);
-    if (recv_by_socket) {
-        if (!socket_eof) closesocket(client_socket);
-        CloseHandle(sockov.hEvent);
-    }
-
+        exit_res = call_command_win32(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
 #else
-    auto check_timeout = [&]() -> bool {
-        return timeout && timeout < duration_cast<milliseconds>(steady_clock::now() - start_time).count();
-    };
-
-    int exit_ret = 0;
-    m_child = ::fork();
-    if (m_child == 0) {
-        // child process
-
-        ::dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
-        ::dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
-        ::dup2(m_pipe_out[PIPE_WRITE], STDERR_FILENO);
-
-        // all these are for use by parent only
-        // close(m_pipe_in[PIPE_READ]);
-        // close(m_pipe_in[PIPE_WRITE]);
-        // close(m_pipe_out[PIPE_READ]);
-        // close(m_pipe_out[PIPE_WRITE]);
-
-        exit_ret = execlp("sh", "sh", "-c", cmd.c_str(), nullptr);
-        ::exit(exit_ret);
+        exit_res = call_command_posix(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
+#endif
     }
-    else if (m_child > 0) {
-        // parent process
-        do {
-            if (recv_by_socket) {
-                sockaddr addr {};
-                socklen_t len = sizeof(addr);
-                sock_buffer = asst::platform::single_page_buffer<char>();
-
-                int client_socket = ::accept(m_server_sock, &addr, &len);
-                if (client_socket < 0) {
-                    Log.error("accept failed:", strerror(errno));
-                    return std::nullopt;
-                }
-
-                ssize_t read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
-
-                while (read_num > 0) {
-                    sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + read_num);
-                    read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
-                }
-
-                ::close(client_socket);
-                break;
-            }
-
-            ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
-
-            while (read_num > 0) {
-                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
-                read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
-            }
-        } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
-    }
-    else {
-        // failed to create child process
-        Log.error("Call `", cmd, "` create process failed, child:", m_child);
+    if (!exit_res) {
         return std::nullopt;
     }
-#endif
+    const int exit_ret = exit_res.value();
 
     callcmd_lock.unlock();
 
@@ -388,7 +149,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
                   { "cmd", cmd },
               } },
         };
-        static constexpr int ReconnectTimes = 20;
+        static constexpr int ReconnectTimes = 5;
         for (int i = 0; i < ReconnectTimes; ++i) {
             if (need_exit()) {
                 break;
@@ -396,8 +157,7 @@ std::optional<std::string> asst::Controller::call_command(const std::string& cmd
             reconnect_info["details"]["times"] = i;
             callback(AsstMsg::ConnectionInfo, reconnect_info);
 
-            // TODO: 也许 WIN32 可以用 WaitForSingleObjectEx 做一个允许外部打断的 sleep
-            std::this_thread::sleep_for(10s);
+            sleep(10 * 1000);
             if (need_exit()) {
                 break;
             }
@@ -459,8 +219,6 @@ bool asst::Controller::call_and_hup_minitouch()
     std::string cmd = m_use_maa_touch ? m_adb.call_maatouch : m_adb.call_minitouch;
     Log.info(cmd);
 
-    constexpr int PipeReadBuffSize = 4096ULL;
-    constexpr int PipeWriteBuffSize = 64 * 1024ULL;
     std::string pipe_str;
 
     auto check_timeout = [&](const auto& start_time) -> bool {
@@ -468,149 +226,20 @@ bool asst::Controller::call_and_hup_minitouch()
         return std::chrono::steady_clock::now() - start_time < 3s;
     };
 
-#ifdef _WIN32
-    SECURITY_ATTRIBUTES sa_attr_inherit {
-        .nLength = sizeof(SECURITY_ATTRIBUTES),
-        .lpSecurityDescriptor = nullptr,
-        .bInheritHandle = TRUE,
-    };
-    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
-    HANDLE pipe_child_read = INVALID_HANDLE_VALUE, pipe_parent_write = INVALID_HANDLE_VALUE;
-    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_attr_inherit,
-                                             PipeReadBuffSize, true, false) ||
-        !asst::win32::CreateOverlappablePipe(&pipe_child_read, &pipe_parent_write, &sa_attr_inherit, nullptr,
-                                             PipeWriteBuffSize, false, false)) {
-        DWORD err = GetLastError();
-        Log.error("Failed to create pipe for minitouch, err", err);
-        return false;
-    }
-
-    STARTUPINFOW si {};
-    si.cb = sizeof(STARTUPINFOW);
-    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-    si.hStdInput = pipe_child_read;
-    si.hStdOutput = pipe_child_write;
-    si.hStdError = pipe_child_write;
-
-    auto cmd_osstr = utils::to_osstring(cmd);
-    BOOL create_ret = CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
-                                     &m_minitouch_process_info);
-    CloseHandle(pipe_child_write);
-    CloseHandle(pipe_child_read);
-    pipe_child_write = INVALID_HANDLE_VALUE;
-    pipe_child_read = INVALID_HANDLE_VALUE;
-
-    if (!create_ret) {
-        DWORD err = GetLastError();
-        Log.error("Failed to create process for minitouch, err", err);
-        release_minitouch(true);
-        return false;
-    }
-
-    auto start_time = std::chrono::steady_clock::now();
-
-    auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
-    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
-    std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
-
-    while (!need_exit() && check_timeout(start_time)) {
-        if (pipe_str.find('$') != std::string::npos) {
-            break;
-        }
-        DWORD len = 0;
-        if (!GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
-            continue;
-        }
-        pipe_str.insert(pipe_str.end(), pipe_buffer.get(), pipe_buffer.get() + len);
-        std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
-    }
-
-    CloseHandle(pipe_parent_read);
-    pipe_parent_read = INVALID_HANDLE_VALUE;
-
-    m_minitouch_parent_write = pipe_parent_write;
-#else // !_WIN32
-
-    int pipe_to_child[2];
-    int pipe_from_child[2];
-
-    if (::pipe(pipe_to_child)) return false;
-    if (::pipe(pipe_from_child)) {
-        ::close(pipe_to_child[0]);
-        ::close(pipe_to_child[1]);
-        return false;
-    }
-
-    ::pid_t pid = fork();
-    if (pid < 0) {
-        Log.error("failed to create process");
-        return false;
-    }
-    if (pid == 0) { // child process
-        if (::dup2(pipe_to_child[0], STDIN_FILENO) < 0 || ::close(pipe_to_child[1]) < 0 ||
-            ::close(pipe_from_child[0]) < 0 || ::dup2(pipe_from_child[1], STDOUT_FILENO) < 0 ||
-            ::dup2(pipe_from_child[1], STDERR_FILENO) < 0) {
-            ::exit(-1);
-        }
-
-        // set stdin of child to blocking
-        if (int val = ::fcntl(STDIN_FILENO, F_GETFL); val != -1 && (val & O_NONBLOCK)) {
-            val &= ~O_NONBLOCK;
-            ::fcntl(STDIN_FILENO, F_SETFL, val);
-        }
-
-#ifndef __APPLE__
-        ::prctl(PR_SET_PDEATHSIG, SIGTERM);
-#endif
-
-        ::execlp("/bin/sh", "sh", "-c", cmd.c_str(), nullptr);
-        exit(-1);
-    }
-
-    m_minitouch_process = pid;
-    m_write_to_minitouch_fd = pipe_to_child[1];
-
-    if (::close(pipe_from_child[1]) < 0 || ::close(pipe_to_child[0]) < 0) {
-        release_minitouch(true);
-        return false;
-    }
-
-    // set stdout to non blocking
-    if (int val = ::fcntl(pipe_from_child[0], F_GETFL); val != -1) {
-        val |= O_NONBLOCK;
-        ::fcntl(pipe_from_child[0], F_SETFL, val);
+    bool call_minitouch_success = false;
+    if (m_use_adb_lite) {
+        call_minitouch_success = call_and_hup_minitouch_tcpip(cmd, 3, pipe_str);
     }
     else {
-        release_minitouch(true);
+#ifdef _WIN32
+        call_minitouch_success = call_and_hup_minitouch_win32(cmd, check_timeout, pipe_str);
+#else  // !_WIN32
+        call_minitouch_success = call_and_hup_minitouch_posix(cmd, check_timeout, pipe_str);
+#endif // _WIN32
+    }
+    if (!call_minitouch_success) {
         return false;
     }
-    const auto start_time = std::chrono::steady_clock::now();
-
-    while (true) {
-        if (need_exit()) {
-            release_minitouch(true);
-            return false;
-        }
-        if (!check_timeout(start_time)) {
-            Log.info("unable to find $ from pipe_str:", Logger::separator::newline, pipe_str);
-            release_minitouch(true);
-            return false;
-        }
-
-        if (pipe_str.find('$') != std::string::npos) {
-            break;
-        }
-
-        char buf_from_child[PipeReadBuffSize];
-        ssize_t ret = ::read(pipe_from_child[0], buf_from_child, PipeReadBuffSize);
-        if (ret <= 0) continue;
-        pipe_str.insert(pipe_str.end(), buf_from_child, buf_from_child + ret);
-    }
-
-    ::dup2(::open("/dev/null", O_WRONLY), pipe_from_child[0]);
-
-#endif // _WIN32
 
     Log.info("pipe str", Logger::separator::newline, pipe_str);
 
@@ -646,6 +275,9 @@ bool asst::Controller::call_and_hup_minitouch()
 bool asst::Controller::input_to_minitouch(const std::string& cmd)
 {
     // Log.debug("Input to minitouch", Logger::separator::newline, cmd);
+    if (m_use_adb_lite) {
+        return input_to_minitouch_adb(cmd);
+    }
 
 #ifdef _WIN32
     if (m_minitouch_parent_write == INVALID_HANDLE_VALUE) {
@@ -678,6 +310,10 @@ void asst::Controller::release_minitouch(bool force)
     }
     m_minitouch_available = false;
 
+    if (m_use_adb_lite) {
+        m_minitouch_handle = nullptr;
+    }
+
 #ifdef _WIN32
 
     if (m_minitouch_process_info.hProcess != INVALID_HANDLE_VALUE) {
@@ -708,8 +344,6 @@ void asst::Controller::release_minitouch(bool force)
 // 返回值代表是否找到 "\r\n"，函数本身会将所有 "\r\n" 替换为 "\n"
 bool asst::Controller::convert_lf(std::string& data)
 {
-    LogTraceFunction;
-
     if (data.empty() || data.size() < 2) {
         return false;
     }
@@ -767,14 +401,10 @@ void asst::Controller::random_delay() const
 {
     auto& opt = Config.get_options();
     if (opt.control_delay_upper != 0) {
-        LogTraceFunction;
         static std::default_random_engine rand_engine(std::random_device {}());
         static std::uniform_int_distribution<unsigned> rand_uni(opt.control_delay_lower, opt.control_delay_upper);
 
-        unsigned rand_delay = rand_uni(rand_engine);
-
-        Log.trace("random_delay |", rand_delay, "ms");
-        std::this_thread::sleep_for(std::chrono::milliseconds(rand_delay));
+        sleep(rand_uni(rand_engine));
     }
 }
 
@@ -928,8 +558,7 @@ bool asst::Controller::screencap(bool allow_reconnect)
         auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started &&
             screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true)) {
-            // sock 第一次截图比较长（不知道是不是初始化了什么东西耽误时间，减个额外的的时间）
-            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time) - 100ms;
+            auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
                 make_instance_inited(true);
@@ -1595,12 +1224,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     return true;
 }
 
-bool asst::Controller::make_instance_inited(bool inited)
+void asst::Controller::make_instance_inited(bool inited)
 {
     Log.trace(__FUNCTION__, "|", inited, ", pre m_inited =", m_inited, ", pre m_instance_count =", m_instance_count);
 
     if (inited == m_inited) {
-        return true;
+        return;
     }
     m_inited = inited;
 
@@ -1610,10 +1239,9 @@ bool asst::Controller::make_instance_inited(bool inited)
     else {
         // 所有实例全部释放，执行最终的 release 函数
         if (!--m_instance_count) {
-            return release();
+            release();
         }
     }
-    return true;
 }
 
 void asst::Controller::kill_adb_daemon()
@@ -1630,7 +1258,7 @@ void asst::Controller::kill_adb_daemon()
     }
 }
 
-bool asst::Controller::release()
+void asst::Controller::release()
 {
     close_socket();
 
@@ -1638,12 +1266,9 @@ bool asst::Controller::release()
     if (m_child)
 #endif
     {
-        if (m_adb.release.empty()) {
-            return true;
-        }
-        else {
+        if (!m_adb.release.empty()) {
             m_adb_release.clear();
-            return call_command(m_adb.release, 20000, false).has_value();
+            call_command(m_adb.release, 20000, false);
         }
     }
 }
@@ -1662,6 +1287,11 @@ void asst::Controller::set_minitouch_enabled(bool enable, bool maa_touch) noexce
 void asst::Controller::set_swipe_with_pause(bool enable) noexcept
 {
     m_swipe_with_pause_enabled = enable;
+}
+
+void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
+{
+    m_use_adb_lite = enable;
 }
 
 const std::string& asst::Controller::get_uuid() const
@@ -1719,4 +1349,656 @@ cv::Mat asst::Controller::get_image(bool raw)
 cv::Mat asst::Controller::get_image_cache() const
 {
     return get_resized_image_cache();
+}
+
+#ifdef _WIN32
+std::optional<int> asst::Controller::call_command_win32(const std::string& cmd, const bool recv_by_socket,
+                                                        std::string& pipe_data, std::string& sock_data,
+                                                        const int64_t timeout,
+                                                        const std::chrono::steady_clock::time_point start_time)
+{
+    using namespace std::chrono;
+
+    asst::platform::single_page_buffer<char> pipe_buffer;
+    asst::platform::single_page_buffer<char> sock_buffer;
+    
+    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
+    SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit,
+                                             (DWORD)pipe_buffer.size(), true, false)) {
+        DWORD err = GetLastError();
+        Log.error("CreateOverlappablePipe failed, err", err);
+        return std::nullopt;
+    }
+
+    STARTUPINFOW si {};
+    si.cb = sizeof(STARTUPINFOW);
+    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = pipe_child_write;
+    si.hStdError = pipe_child_write;
+    ASST_AUTO_DEDUCED_ZERO_INIT_START
+    PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
+    ASST_AUTO_DEDUCED_ZERO_INIT_END
+
+    auto cmdline_osstr = asst::utils::to_osstring(cmd);
+    BOOL create_ret =
+        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
+    if (!create_ret) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` create process failed, ret", create_ret, "error code:", err);
+        return std::nullopt;
+    }
+
+    CloseHandle(pipe_child_write);
+    pipe_child_write = INVALID_HANDLE_VALUE;
+
+    std::vector<HANDLE> wait_handles;
+    wait_handles.reserve(3);
+    bool process_running = true;
+    bool pipe_eof = false;
+    bool accept_pending = false;
+    bool socket_eof = false;
+
+    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
+    (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
+
+    OVERLAPPED sockov {};
+    SOCKET client_socket = INVALID_SOCKET;
+
+    if (recv_by_socket) {
+        sock_buffer = asst::platform::single_page_buffer<char>();
+        sockov.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+        client_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        DWORD dummy;
+        if (!m_server_accept_ex(m_server_sock, client_socket, sock_buffer.get(),
+                                (DWORD)sock_buffer.size() - ((sizeof(sockaddr_in) + 16) * 2), sizeof(sockaddr_in) + 16,
+                                sizeof(sockaddr_in) + 16, &dummy, &sockov)) {
+            DWORD err = WSAGetLastError();
+            if (err == ERROR_IO_PENDING) {
+                accept_pending = true;
+            }
+            else {
+                Log.trace("AcceptEx failed, err:", err);
+                accept_pending = false;
+                socket_eof = true;
+                ::closesocket(client_socket);
+            }
+        }
+    }
+
+    while (!need_exit()) {
+        wait_handles.clear();
+        if (process_running) wait_handles.push_back(process_info.hProcess);
+        if (!pipe_eof) wait_handles.push_back(pipeov.hEvent);
+        if (recv_by_socket && ((accept_pending && process_running) || !socket_eof)) {
+            wait_handles.push_back(sockov.hEvent);
+        }
+        if (wait_handles.empty()) break;
+        auto elapsed = steady_clock::now() - start_time;
+        // TODO: 这里目前是隔 5000ms 判断一次，应该可以加一个 wait_handle 来判断外部中断（need_exit）
+        auto wait_time =
+            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 5LL * 1000 : 0LL);
+        if (wait_time < 0) break;
+        auto wait_result =
+            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, (DWORD)wait_time, TRUE);
+        HANDLE signaled_object = INVALID_HANDLE_VALUE;
+        if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
+            signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
+        }
+        else if (wait_result == WAIT_TIMEOUT) {
+            if (wait_time == 0) {
+                std::vector<std::string> handle_string {};
+                for (auto handle : wait_handles) {
+                    if (handle == process_info.hProcess) {
+                        handle_string.emplace_back("process_info.hProcess");
+                    }
+                    else if (handle == pipeov.hEvent) {
+                        handle_string.emplace_back("pipeov.hEvent");
+                    }
+                    else if (recv_by_socket && handle == sockov.hEvent) {
+                        handle_string.emplace_back("sockov.hEvent");
+                    }
+                    else {
+                        handle_string.emplace_back("UnknownHandle");
+                    }
+                }
+                Log.warn("Wait handles:", handle_string, "timeout.");
+                if (process_running) {
+                    TerminateProcess(process_info.hProcess, 0);
+                }
+                break;
+            }
+            continue;
+        }
+        else {
+            // something bad happened
+            DWORD err = GetLastError();
+            // throw std::system_error(std::error_code(err, std::system_category()));
+            Log.error(__FUNCTION__, "A fatal error occurred", err);
+            break;
+        }
+
+        if (signaled_object == process_info.hProcess) {
+            process_running = false;
+        }
+        else if (signaled_object == pipeov.hEvent) {
+            // pipe read
+            DWORD len = 0;
+            if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
+                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + len);
+                (void)ReadFile(pipe_parent_read, pipe_buffer.get(), (DWORD)pipe_buffer.size(), nullptr, &pipeov);
+            }
+            else {
+                DWORD err = GetLastError();
+                if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
+                    pipe_eof = true;
+                }
+            }
+        }
+        else if (signaled_object == sockov.hEvent) {
+            if (accept_pending) {
+                // AcceptEx, client_socker is connected and first chunk of data is received
+                DWORD len = 0;
+                if (GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &len, FALSE)) {
+                    accept_pending = false;
+                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
+
+                    if (len == 0) {
+                        socket_eof = true;
+                        ::closesocket(client_socket);
+                    }
+                    else {
+                        // reset the overlapped since we reuse it for different handle
+                        auto event = sockov.hEvent;
+                        sockov = {};
+                        sockov.hEvent = event;
+
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
+                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
+                    }
+                }
+            }
+            else {
+                // ReadFile
+                DWORD len = 0;
+                if (GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &len, FALSE)) {
+                    if (recv_by_socket) sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + len);
+                    if (len == 0) {
+                        socket_eof = true;
+                        ::closesocket(client_socket);
+                    }
+                    else {
+                        (void)ReadFile(reinterpret_cast<HANDLE>(client_socket), sock_buffer.get(),
+                                       (DWORD)sock_buffer.size(), nullptr, &sockov);
+                    }
+                }
+                else {
+                    // err = GetLastError();
+                    socket_eof = true;
+                    ::closesocket(client_socket);
+                }
+            }
+        }
+    }
+
+    DWORD exit_ret = 0;
+    GetExitCodeProcess(process_info.hProcess, &exit_ret);
+    CloseHandle(process_info.hProcess);
+    CloseHandle(process_info.hThread);
+    CloseHandle(pipe_parent_read);
+    CloseHandle(pipeov.hEvent);
+    if (recv_by_socket) {
+        if (!socket_eof) closesocket(client_socket);
+        CloseHandle(sockov.hEvent);
+    }
+
+    return static_cast<int>(exit_ret);
+}
+#else
+std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, const bool recv_by_socket,
+                                                        std::string& pipe_data, std::string& sock_data,
+                                                        const int64_t timeout,
+                                                        const std::chrono::steady_clock::time_point start_time)
+{
+    using namespace std::chrono;
+
+    asst::platform::single_page_buffer<char> pipe_buffer;
+    asst::platform::single_page_buffer<char> sock_buffer;
+
+    auto check_timeout = [&]() -> bool {
+        return timeout && timeout < duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+    };
+
+    int exit_ret = 0;
+    m_child = ::fork();
+    if (m_child == 0) {
+        // child process
+
+        ::dup2(m_pipe_in[PIPE_READ], STDIN_FILENO);
+        ::dup2(m_pipe_out[PIPE_WRITE], STDOUT_FILENO);
+        ::dup2(m_pipe_out[PIPE_WRITE], STDERR_FILENO);
+
+        // all these are for use by parent only
+        // close(m_pipe_in[PIPE_READ]);
+        // close(m_pipe_in[PIPE_WRITE]);
+        // close(m_pipe_out[PIPE_READ]);
+        // close(m_pipe_out[PIPE_WRITE]);
+
+        exit_ret = execlp("sh", "sh", "-c", cmd.c_str(), nullptr);
+        ::exit(exit_ret);
+    }
+    else if (m_child > 0) {
+        // parent process
+        do {
+            if (recv_by_socket) {
+                sockaddr addr {};
+                socklen_t len = sizeof(addr);
+                sock_buffer = asst::platform::single_page_buffer<char>();
+
+                int client_socket = ::accept(m_server_sock, &addr, &len);
+                if (client_socket < 0) {
+                    Log.error("accept failed:", strerror(errno));
+                    return std::nullopt;
+                }
+
+                ssize_t read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
+
+                while (read_num > 0) {
+                    sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + read_num);
+                    read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
+                }
+
+                ::close(client_socket);
+                break;
+            }
+
+            ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+
+            while (read_num > 0) {
+                pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
+                read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+            }
+        } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
+    }
+    else {
+        // failed to create child process
+        Log.error("Call `", cmd, "` create process failed, child:", m_child);
+        return std::nullopt;
+    }
+
+    return exit_ret;
+}
+#endif
+
+std::optional<int> asst::Controller::call_command_tcpip(const std::string& cmd, const bool recv_by_socket,
+                                                        std::string& pipe_data, std::string& sock_data,
+                                                        const int64_t timeout,
+                                                        const std::chrono::steady_clock::time_point start_time)
+{
+    // TODO: 从上面的 call_command_win32/posix 里抽取出 socket 接收的部分
+    if (recv_by_socket) {
+        Log.error("adb-lite does not support receiving data from socket");
+        sock_data.clear();
+        return std::nullopt;
+    }
+
+    // TODO: 实现 timeout，目前暂时忽略
+    std::ignore = timeout;
+    std::ignore = start_time;
+
+    static const std::regex devices_regex(R"(^.+ devices$)");
+    static const std::regex release_regex(R"(^.+ kill-server$)");
+    static const std::regex connect_regex(R"(^.+ connect (\S+)$)");
+    static const std::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
+    static const std::regex exec_regex(R"(^.+ -s \S+ exec-out (.+)$)");
+    static const std::regex push_regex(R"#(^.+ -s \S+ push "(.+)" "(.+)"$)#");
+
+    // adb devices
+    if (std::regex_match(cmd, devices_regex)) {
+        try {
+            pipe_data = adb::devices();
+            return 0;
+        }
+        catch (const std::exception& e) {
+            Log.error("adb devices failed:", e.what());
+            return std::nullopt;
+        }
+    }
+
+    // adb kill-server
+    if (std::regex_match(cmd, release_regex)) {
+        try {
+            adb::kill_server();
+            return 0;
+        }
+        catch (const std::exception& e) {
+            Log.error("adb kill-server failed:", e.what());
+            return std::nullopt;
+        }
+    }
+
+    std::smatch match;
+
+    // adb connect
+    // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
+    if (std::regex_match(cmd, match, connect_regex)) {
+
+        m_adb_client = adb::client::create(match[1].str()); // TODO: compare address with existing (if any)
+
+        try {
+            pipe_data = m_adb_client->connect();
+            return 0;
+        }
+        catch (const std::exception& e) {
+            Log.error("adb connect failed:", e.what());
+            // fallback 到 fork adb 进程的方式
+            return std::nullopt;
+        }
+    }
+
+    // adb shell
+    if (std::regex_match(cmd, match, shell_regex)) {
+        if (!m_adb_client) {
+            Log.error("adb client not initialized");
+            return std::nullopt;
+        }
+
+        std::string command = match[1].str();
+        remove_quotes(command);
+
+        try {
+            pipe_data = m_adb_client->shell(command);
+            return 0;
+        }
+        catch (const std::exception& e) {
+            Log.error("adb shell failed:", e.what());
+            return -1;
+        }
+    }
+
+    // adb exec-out
+    if (std::regex_match(cmd, match, exec_regex)) {
+        if (!m_adb_client) {
+            Log.error("adb client not initialized");
+            return std::nullopt;
+        }
+
+        std::string command = match[1].str();
+        remove_quotes(command);
+
+        try {
+            pipe_data = m_adb_client->exec(command);
+            return 0;
+        }
+        catch (const std::exception& e) {
+            Log.error("adb exec-out failed:", e.what());
+            return -1;
+        }
+    }
+
+    // adb push
+    if (std::regex_match(cmd, match, push_regex)) {
+        if (!m_adb_client) {
+            Log.error("adb client not initialized");
+            return std::nullopt;
+        }
+
+        try {
+            m_adb_client->push(match[1].str(), match[2].str(), 0644);
+            return 0;
+        }
+        catch (const std::exception& e) {
+            Log.error("adb push failed:", e.what());
+            return -1;
+        }
+    }
+
+    Log.info("adb-lite does not support command:", cmd);
+    return std::nullopt;
+}
+
+#ifdef _WIN32
+bool asst::Controller::call_and_hup_minitouch_win32(const std::string& cmd, const auto& check_timeout,
+                                                    std::string& pipe_str)
+{
+    constexpr int PipeReadBuffSize = 4096ULL;
+    constexpr int PipeWriteBuffSize = 64 * 1024ULL;
+
+    SECURITY_ATTRIBUTES sa_attr_inherit {
+        .nLength = sizeof(SECURITY_ATTRIBUTES),
+        .lpSecurityDescriptor = nullptr,
+        .bInheritHandle = TRUE,
+    };
+    HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
+    HANDLE pipe_child_read = INVALID_HANDLE_VALUE, pipe_parent_write = INVALID_HANDLE_VALUE;
+    if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_attr_inherit,
+                                             PipeReadBuffSize, true, false) ||
+        !asst::win32::CreateOverlappablePipe(&pipe_child_read, &pipe_parent_write, &sa_attr_inherit, nullptr,
+                                             PipeWriteBuffSize, false, false)) {
+        DWORD err = GetLastError();
+        Log.error("Failed to create pipe for minitouch, err", err);
+        return false;
+    }
+
+    STARTUPINFOW si {};
+    si.cb = sizeof(STARTUPINFOW);
+    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+    si.hStdInput = pipe_child_read;
+    si.hStdOutput = pipe_child_write;
+    si.hStdError = pipe_child_write;
+
+    auto cmd_osstr = utils::to_osstring(cmd);
+    BOOL create_ret = CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si,
+                                     &m_minitouch_process_info);
+    CloseHandle(pipe_child_write);
+    CloseHandle(pipe_child_read);
+    pipe_child_write = INVALID_HANDLE_VALUE;
+    pipe_child_read = INVALID_HANDLE_VALUE;
+
+    if (!create_ret) {
+        DWORD err = GetLastError();
+        Log.error("Failed to create process for minitouch, err", err);
+        release_minitouch(true);
+        return false;
+    }
+
+    auto start_time = std::chrono::steady_clock::now();
+
+    auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
+    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
+    std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
+
+    while (!need_exit() && check_timeout(start_time)) {
+        if (pipe_str.find('$') != std::string::npos) {
+            break;
+        }
+        DWORD len = 0;
+        if (!GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
+            continue;
+        }
+        pipe_str.insert(pipe_str.end(), pipe_buffer.get(), pipe_buffer.get() + len);
+        std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
+    }
+
+    CloseHandle(pipe_parent_read);
+    pipe_parent_read = INVALID_HANDLE_VALUE;
+
+    m_minitouch_parent_write = pipe_parent_write;
+    return true;
+}
+#else
+bool asst::Controller::call_and_hup_minitouch_posix(const std::string& cmd, const auto& check_timeout,
+                                                    std::string& pipe_str)
+{
+    constexpr int PipeReadBuffSize = 4096ULL;
+    constexpr int PipeWriteBuffSize = 64 * 1024ULL;
+
+    std::ignore = PipeWriteBuffSize;
+
+    int pipe_to_child[2];
+    int pipe_from_child[2];
+
+    if (::pipe(pipe_to_child)) return false;
+    if (::pipe(pipe_from_child)) {
+        ::close(pipe_to_child[0]);
+        ::close(pipe_to_child[1]);
+        return false;
+    }
+
+    ::pid_t pid = fork();
+    if (pid < 0) {
+        Log.error("failed to create process");
+        return false;
+    }
+    if (pid == 0) { // child process
+        if (::dup2(pipe_to_child[0], STDIN_FILENO) < 0 || ::close(pipe_to_child[1]) < 0 ||
+            ::close(pipe_from_child[0]) < 0 || ::dup2(pipe_from_child[1], STDOUT_FILENO) < 0 ||
+            ::dup2(pipe_from_child[1], STDERR_FILENO) < 0) {
+            ::exit(-1);
+        }
+
+        // set stdin of child to blocking
+        if (int val = ::fcntl(STDIN_FILENO, F_GETFL); val != -1 && (val & O_NONBLOCK)) {
+            val &= ~O_NONBLOCK;
+            ::fcntl(STDIN_FILENO, F_SETFL, val);
+        }
+
+#ifndef __APPLE__
+        ::prctl(PR_SET_PDEATHSIG, SIGTERM);
+#endif
+
+        ::execlp("/bin/sh", "sh", "-c", cmd.c_str(), nullptr);
+        exit(-1);
+    }
+
+    m_minitouch_process = pid;
+    m_write_to_minitouch_fd = pipe_to_child[1];
+
+    if (::close(pipe_from_child[1]) < 0 || ::close(pipe_to_child[0]) < 0) {
+        release_minitouch(true);
+        return false;
+    }
+
+    // set stdout to non blocking
+    if (int val = ::fcntl(pipe_from_child[0], F_GETFL); val != -1) {
+        val |= O_NONBLOCK;
+        ::fcntl(pipe_from_child[0], F_SETFL, val);
+    }
+    else {
+        release_minitouch(true);
+        return false;
+    }
+    const auto start_time = std::chrono::steady_clock::now();
+
+    while (true) {
+        if (need_exit()) {
+            release_minitouch(true);
+            return false;
+        }
+        if (!check_timeout(start_time)) {
+            Log.info("unable to find $ from pipe_str:", Logger::separator::newline, pipe_str);
+            release_minitouch(true);
+            return false;
+        }
+
+        if (pipe_str.find('$') != std::string::npos) {
+            break;
+        }
+
+        char buf_from_child[PipeReadBuffSize];
+        ssize_t ret = ::read(pipe_from_child[0], buf_from_child, PipeReadBuffSize);
+        if (ret <= 0) continue;
+        pipe_str.insert(pipe_str.end(), buf_from_child, buf_from_child + ret);
+    }
+
+    ::dup2(::open("/dev/null", O_WRONLY), pipe_from_child[0]);
+    return true;
+}
+#endif
+
+bool asst::Controller::call_and_hup_minitouch_tcpip(const std::string& cmd, const int timeout, std::string& pipe_str)
+{
+    static const std::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
+    std::smatch match;
+
+    if (std::regex_match(cmd, match, shell_regex)) {
+        if (!m_adb_client) {
+            Log.error("adb client not initialized");
+            return false;
+        }
+
+        std::string command = match[1].str();
+        remove_quotes(command);
+
+        try {
+            m_minitouch_handle = m_adb_client->interactive_shell(command);
+        }
+        catch (const std::exception& e) {
+            Log.error("adb shell failed:", e.what());
+            release_minitouch(true);
+            return false;
+        }
+    }
+    else {
+        Log.error("unknown command to call minitouch:", cmd);
+        return false;
+    }
+
+    while (true) {
+        std::string buffer;
+        try {
+            buffer += m_minitouch_handle->read(timeout);
+        }
+        catch (const std::exception& e) {
+            Log.error("read minitouch handle failed", e.what());
+            release_minitouch(true);
+            return false;
+        }
+        // Timeout
+        if (buffer.empty()) {
+            Log.info("unable to find $ from pipe_str:", Logger::separator::newline, pipe_str);
+            release_minitouch(true);
+            return false;
+        }
+        // Read new data
+        pipe_str += buffer;
+        if (pipe_str.find('$') != std::string::npos) {
+            break;
+        }
+    }
+
+    return true;
+}
+
+bool asst::Controller::input_to_minitouch_adb(const std::string& cmd)
+{
+    if (m_minitouch_handle == nullptr) {
+        Log.error("Minitouch connect not active");
+        return false;
+    }
+
+    try {
+        m_minitouch_handle->write(cmd);
+    }
+    catch (const std::exception& e) {
+        Log.error("Failed to write to minitouch", e.what());
+        return false;
+    }
+
+    return true;
+}
+
+bool asst::Controller::remove_quotes(std::string& data)
+{
+    if (data.size() < 2) return false;
+
+    if (data.front() == '"' && data.back() == '"') {
+        data.erase(data.begin());
+        data.pop_back();
+        return true;
+    }
+
+    return false;
 }

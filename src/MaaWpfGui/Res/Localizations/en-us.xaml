@@ -74,7 +74,10 @@
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Oper (single, CN name only)</system:String>
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
-    <system:String x:Key="DeploymentWithPause">Deployment with Pause (Works for IS, Copilot and 保全派驻)</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Oper" from support unit list</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
+    <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
+    <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>
     <system:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</system:String>
@@ -157,6 +160,7 @@
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later.</system:String>
 
+    <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package...</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Update Package Download Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory.</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">Update Package Download Completed</system:String>
@@ -165,7 +169,6 @@
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New Version Found, But No Update Package</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
 
-    <system:String x:Key="TimerTip">Hours only(15 means start tasks at 3 p.m.)</system:String>
     <system:String x:Key="Timer">Timer</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
@@ -184,7 +187,6 @@
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
-    <system:String x:Key="RoguelikeThemeTip">You need to add the theme PIN UP to the terminal on the I.S. page</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
@@ -212,6 +214,7 @@
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
+    <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
@@ -250,7 +253,7 @@
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
     <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">Exit MAA and Emulator</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate*</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
 
@@ -269,10 +272,12 @@
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
 
-    <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
     <system:String x:Key="LastBattle">Last Battle</system:String>-->
+    <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
     <system:String x:Key="ClosedStage">The event not open</system:String>
+    <system:String x:Key="Daysleftopen" xml:space="preserve">Days left open: </system:String>
+    <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
     <system:String x:Key="AP-5">AP-5</system:String>
@@ -354,6 +359,7 @@
     <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">Auto squad</system:String>
     <system:String x:Key="AutoSquadTip">The operator of &quot;special focus&quot; cannot be identified at this time</system:String>
+    <system:String x:Key="LoopTimes">LoopTimes</system:String>
 
     <system:String x:Key="Start">Start</system:String>
 
@@ -430,6 +436,7 @@
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
     <system:String x:Key="RoguelikeGamePass">Game cleared! congratulations!</system:String>
+    <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Trader">Stage: Trader</system:String>
     <system:String x:Key="SafeHouse">Stage: SafeHouse</system:String>
     <system:String x:Key="Encounter">Stage: Encounter</system:String>
@@ -451,7 +458,7 @@
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
-    <system:String x:Key="CurrentSteps" xml:space="preserve">Current step: </system:String>
+    <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported levels, please update the MAA, or check input file</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identify results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>

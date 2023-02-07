@@ -1,11 +1,11 @@
 {
     "title": "243 极限效率，一天三换",
-    "description": "干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n\n作业作者：MistEO\n感谢公孙长乐大佬提供数据及方案支持！",
+    "description": "干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n\n作业作者：MistEO\n感谢公孙长乐大佬提供数据及方案支持！\n[20220119 修订] 视频地址: https://www.bilibili.com/video/BV1qD4y1H77E?t=365\n请把年放在加工站",
     "plans": [
         {
-            "name": "A+B 组 8H",
+            "name": "A+B 组 16H",
             "description": "最高效率长班",
-            "description_post": "下次换班请在约8小时后进行",
+            "description_post": "下次换班请在约16小时后进行",
             "Fiammetta": {
                 "target": "巫恋"
             },
@@ -18,7 +18,7 @@
                     {
                         "operators": [
                             "阿米娅",
-                            "凯尔希",
+                            "重岳",
                             "琴柳",
                             "令",
                             "夕"
@@ -38,7 +38,7 @@
                     {
                         "operators": [
                             "但书",
-                            "伺夜",
+                            "乌有",
                             "黑键"
                         ],
                         "product": "LMD"
@@ -130,9 +130,9 @@
             }
         },
         {
-            "name": "A+Y 组 8H",
-            "description": "次高效替补 1 班",
-            "description_post": "下次换班请在约8小时后进行",
+            "name": "A+Y 组 4H",
+            "description": "次高效替补 2 班",
+            "description_post": "下次换班请在约4小时后进行",
             "Fiammetta": {
                 "target": "龙舌兰"
             },
@@ -258,12 +258,9 @@
             }
         },
         {
-            "name": "B+Y 组 8H",
-            "description": "次高效替补 2 班",
-            "description_post": "下次换班请在约8小时后进行",
-            "Fiammetta": {
-                "target": "但书"
-            },
+            "name": "B+Y 组 4H",
+            "description": "次高效替补 1 班",
+            "description_post": "下次换班请在约4小时后进行",
             "drones": {
                 "room": "trading",
                 "index": 1
@@ -273,7 +270,7 @@
                     {
                         "operators": [
                             "阿米娅",
-                            "夕",
+                            "重岳",
                             "琴柳",
                             "令",
                             "焰尾"
@@ -293,7 +290,7 @@
                     {
                         "operators": [
                             "但书",
-                            "空弦",
+                            "乌有",
                             "黑键"
                         ],
                         "product": "LMD"

@@ -52,9 +52,7 @@ namespace MaaWpfGui
 
         private static void AutoScrollPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var scrollViewer = d as ScrollViewer;
-
-            if (scrollViewer != null)
+            if (d is ScrollViewer scrollViewer)
             {
                 bool alwaysScrollToEnd = (e.NewValue != null) && (bool)e.NewValue;
                 if (alwaysScrollToEnd)
@@ -75,8 +73,7 @@ namespace MaaWpfGui
 
         private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            ScrollViewer scroll = sender as ScrollViewer;
-            if (scroll == null)
+            if (!(sender is ScrollViewer scroll))
             {
                 throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
             }

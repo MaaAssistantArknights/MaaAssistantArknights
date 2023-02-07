@@ -37,7 +37,9 @@ namespace MaaWpfGui
     /// </summary>
     public class CopilotViewModel : Screen
     {
+#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052
         private readonly IContainer _container;
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace MaaWpfGui
             ClearLog();
             Url = CopilotUiUrl;
 
-            string jsonStr = string.Empty;
+            string jsonStr;
             if (File.Exists(filename))
             {
                 try
@@ -190,19 +192,17 @@ namespace MaaWpfGui
                 var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
 
                 // 获取输入输出流
-                using (var sr = new StreamReader(httpWebResponse.GetResponseStream()))
+                using var sr = new StreamReader(httpWebResponse.GetResponseStream());
+                var text = sr.ReadToEnd();
+                var responseObject = (JObject)JsonConvert.DeserializeObject(text);
+                if (responseObject != null && responseObject.ContainsKey("status_code") && responseObject["status_code"].ToString() == "200")
                 {
-                    var text = sr.ReadToEnd();
-                    var responseObject = (JObject)JsonConvert.DeserializeObject(text);
-                    if (responseObject != null && responseObject.ContainsKey("status_code") && responseObject["status_code"].ToString() == "200")
-                    {
-                        return responseObject["data"]["content"].ToString();
-                    }
-                    else
-                    {
-                        AddLog(Localization.GetString("CopilotNoFound"), UILogColor.Error);
-                        return string.Empty;
-                    }
+                    return responseObject["data"]["content"].ToString();
+                }
+                else
+                {
+                    AddLog(Localization.GetString("CopilotNoFound"), UILogColor.Error);
+                    return string.Empty;
                 }
             }
             catch (Exception)
@@ -214,6 +214,7 @@ namespace MaaWpfGui
 
         private bool _isDataFromWeb = false;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
+        private string TaskType = "General";
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
@@ -308,6 +309,34 @@ namespace MaaWpfGui
 
                 AddLog(string.Format("共 {0} 名干员", count), UILogColor.Message);
 
+                if (json.ContainsKey("type"))
+                {
+                    var type = json["type"].ToString();
+                    if (type == "SSS")
+                    {
+                        TaskType = "SSSCopilot";
+
+                        if (json.ContainsKey("tool_men"))
+                        {
+                            AddLog("编队工具人：\n" + json["tool_men"].ToString(), UILogColor.Message);
+                        }
+
+                        if (json.ContainsKey("equipment"))
+                        {
+                            AddLog("开局装备（横向）：\n" + json["equipment"].ToString(), UILogColor.Message);
+                        }
+
+                        if (json.ContainsKey("strategy"))
+                        {
+                            AddLog("开局策略：" + json["strategy"].ToString(), UILogColor.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    TaskType = "Copilot";
+                }
+
                 if (_isDataFromWeb)
                 {
                     File.Delete(TempCopilotFile);
@@ -386,6 +415,20 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _form, value);
         }
 
+        public bool Loop { get; set; } = false;
+
+        private int _loopTimes = int.Parse(ViewStatusStorage.Get("Copilot.LoopTimes", "1"));
+
+        public int LoopTimes
+        {
+            get => _loopTimes;
+            set
+            {
+                SetAndNotify(ref _loopTimes, value);
+                ViewStatusStorage.Set("Copilot.LoopTimes", value.ToString());
+            }
+        }
+
         private bool _caught = false;
 
         /// <summary>
@@ -420,7 +463,8 @@ namespace MaaWpfGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form);
+            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+                Loop ? LoopTimes : 1);
             if (ret)
             {
                 AddLog(Localization.GetString("Running"));
@@ -433,7 +477,7 @@ namespace MaaWpfGui
             else
             {
                 Idle = true;
-                AddLog(Localization.GetString("CopilotFileReadError") + "\n" + Localization.GetString("CheckTheFile"), UILogColor.Error);
+                AddLog(Localization.GetString("CopilotFileReadError"), UILogColor.Error);
             }
         }
 

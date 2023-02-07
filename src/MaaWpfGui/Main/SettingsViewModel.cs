@@ -14,18 +14,21 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using IWshRuntimeLibrary;
+using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui
 {
@@ -35,7 +38,7 @@ namespace MaaWpfGui
     public class SettingsViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
-        private readonly IContainer _container;
+        private readonly StyletIoC.IContainer _container;
         private readonly IMaaHotKeyManager _maaHotKeyManager;
 
         [DllImport("MaaCore.dll")]
@@ -73,7 +76,7 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="container">The IoC container.</param>
         /// <param name="windowManager">The window manager.</param>
-        public SettingsViewModel(IContainer container, IWindowManager windowManager)
+        public SettingsViewModel(StyletIoC.IContainer container, IWindowManager windowManager)
         {
             _container = container;
             _windowManager = windowManager;
@@ -110,6 +113,11 @@ namespace MaaWpfGui
                     Localization.GetString("Burping"),
                     MessageBoxButton.OK, MessageBoxImage.Hand);
                 Hangover = false;
+            }
+
+            if (LoadGUIParameters && SaveGUIParametersOnClosing)
+            {
+                Application.Current.MainWindow.Closing += SaveGUIParameters;
             }
         }
 
@@ -214,23 +222,7 @@ namespace MaaWpfGui
                 new CombData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
             };
 
-            RoguelikeSquadList = new List<CombData>
-            {
-                new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
-                new CombData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
-                new CombData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
-                new CombData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
-                new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
-                new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
-                new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
-                new CombData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
-                new CombData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
-                new CombData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
-                new CombData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
-                new CombData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new CombData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
-                new CombData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
-            };
+            UpdateRoguelikeThemeList();
 
             RoguelikeRolesList = new List<CombData>
             {
@@ -341,6 +333,9 @@ namespace MaaWpfGui
 
         private bool _minimizingStartup = Convert.ToBoolean(ViewStatusStorage.Get("Start.MinimizingStartup", bool.FalseString));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to minimally start the emulator
+        /// </summary>
         public bool MinimizingStartup
         {
             get => _minimizingStartup;
@@ -448,23 +443,39 @@ namespace MaaWpfGui
                 {
                     StartInfo = startInfo,
                 };
+
+                AsstProxy.AsstLog("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
                 process.Start();
 
                 try
                 {
-                    // 如果之前就启动了模拟器，这步会抛出异常
+                    // 如果之前就启动了模拟器，这步有几率会抛出异常
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
-                        for (int i = 0; !IsIconic(process.MainWindowHandle) && i < delay * 1000; ++i)
+                        AsstProxy.AsstLog("Try minimizing the emulator");
+                        int i;
+                        for (i = 0; !IsIconic(process.MainWindowHandle) && i < 100; ++i)
                         {
                             ShowWindow(process.MainWindowHandle, SWMINIMIZE);
-                            Thread.Sleep(1);
+                            Thread.Sleep(10);
+                            if (process.HasExited)
+                            {
+                                throw new Exception();
+                            }
+                        }
+
+                        if (i >= 100)
+                        {
+                            AsstProxy.AsstLog("Attempts to exceed the limit");
+                            throw new Exception();
                         }
                     }
                 }
                 catch (Exception)
                 {
+                    AsstProxy.AsstLog("The emulator was already start");
+
                     // 如果之前就启动了模拟器，如果开启了最小化启动，就把所有模拟器最小化
                     // TODO:只最小化需要开启的模拟器
                     string processName = Path.GetFileNameWithoutExtension(fileName);
@@ -473,12 +484,19 @@ namespace MaaWpfGui
                     {
                         if (MinimizingStartup)
                         {
+                            AsstProxy.AsstLog("Try minimizing the emulator by processName: " + processName);
                             foreach (Process p in processes)
                             {
-                                for (int i = 0; !IsIconic(p.MainWindowHandle) && i < delay * 1000; ++i)
+                                int i;
+                                for (i = 0; !IsIconic(p.MainWindowHandle) && !p.HasExited && i < 100; ++i)
                                 {
                                     ShowWindow(p.MainWindowHandle, SWMINIMIZE);
-                                    Thread.Sleep(1);
+                                    Thread.Sleep(10);
+                                }
+
+                                if (i >= 100)
+                                {
+                                    AsstProxy.AsstLog("The emulator minimization failure");
                                 }
                             }
                         }
@@ -487,6 +505,9 @@ namespace MaaWpfGui
             }
             catch (Exception)
             {
+                AsstProxy.AsstLog("Start emulator error, try to start using the default: \n" +
+                    "EmulatorPath: " + EmulatorPath + "\n" +
+                    "EmulatorAddCommand: " + EmulatorAddCommand);
                 if (EmulatorAddCommand.Length != 0)
                 {
                     Process.Start(EmulatorPath);
@@ -528,6 +549,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _clientType, value);
                 ViewStatusStorage.Set("Start.ClientType", value);
+                UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
             }
         }
 
@@ -593,10 +615,16 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> RoguelikeModeList { get; set; }
 
+        private ObservableCollection<CombData> _roguelikeSquadList = new ObservableCollection<CombData>();
+
         /// <summary>
         /// Gets or sets the list of roguelike squad.
         /// </summary>
-        public List<CombData> RoguelikeSquadList { get; set; }
+        public ObservableCollection<CombData> RoguelikeSquadList
+        {
+            get => _roguelikeSquadList;
+            set => SetAndNotify(ref _roguelikeSquadList, value);
+        }
 
         /// <summary>
         /// Gets or sets the list of roguelike roles.
@@ -615,6 +643,9 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> ConnectConfigList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of touch modes
+        /// </summary>
         public List<CombData> TouchModeList { get; set; }
 
         /// <summary>
@@ -984,6 +1015,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
+                UpdateRoguelikeThemeList();
                 ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
             }
         }
@@ -1052,6 +1084,36 @@ namespace MaaWpfGui
             }
         }
 
+        private string _roguelikeUseSupportUnit = ViewStatusStorage.Get("Roguelike.RoguelikeUseSupportUnit", false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether use support unit.
+        /// </summary>
+        public bool RoguelikeUseSupportUnit
+        {
+            get => bool.Parse(_roguelikeUseSupportUnit);
+            set
+            {
+                SetAndNotify(ref _roguelikeUseSupportUnit, value.ToString());
+                ViewStatusStorage.Set("Roguelike.RoguelikeUseSupportUnit", value.ToString());
+            }
+        }
+
+        private string _roguelikeEnableNonfriendSupport = ViewStatusStorage.Get("Roguelike.RoguelikeEnableNonfriendSupport", false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend
+        /// </summary>
+        public bool RoguelikeEnableNonfriendSupport
+        {
+            get => bool.Parse(_roguelikeEnableNonfriendSupport);
+            set
+            {
+                SetAndNotify(ref _roguelikeEnableNonfriendSupport, value.ToString());
+                ViewStatusStorage.Set("Roguelike.RoguelikeEnableNonfriendSupport", value.ToString());
+            }
+        }
+
         private string _roguelikeStartsCount = ViewStatusStorage.Get("Roguelike.StartsCount", "9999999");
 
         /// <summary>
@@ -1109,19 +1171,6 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
                 ViewStatusStorage.Set("Roguelike.StopWhenInvestmentFull", value.ToString());
-            }
-        }
-
-        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
-
-        public bool DeploymentWithPause
-        {
-            get => _deploymentWithPause;
-            set
-            {
-                SetAndNotify(ref _deploymentWithPause, value);
-                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
-                UpdateInstanceSettings();
             }
         }
 
@@ -1253,231 +1302,91 @@ namespace MaaWpfGui
 
         /* 定时设置 */
 
-        private bool _timer1 = ViewStatusStorage.Get("Timer.Timer1", bool.FalseString) == bool.TrueString;
-        private bool _timer2 = ViewStatusStorage.Get("Timer.Timer2", bool.FalseString) == bool.TrueString;
-        private bool _timer3 = ViewStatusStorage.Get("Timer.Timer3", bool.FalseString) == bool.TrueString;
-        private bool _timer4 = ViewStatusStorage.Get("Timer.Timer4", bool.FalseString) == bool.TrueString;
-        private bool _timer5 = ViewStatusStorage.Get("Timer.Timer5", bool.FalseString) == bool.TrueString;
-        private bool _timer6 = ViewStatusStorage.Get("Timer.Timer6", bool.FalseString) == bool.TrueString;
-        private bool _timer7 = ViewStatusStorage.Get("Timer.Timer7", bool.FalseString) == bool.TrueString;
-        private bool _timer8 = ViewStatusStorage.Get("Timer.Timer8", bool.FalseString) == bool.TrueString;
-
-        private int _timer1hour = int.Parse(ViewStatusStorage.Get("Timer.Timer1Hour", "0"));
-        private int _timer2hour = int.Parse(ViewStatusStorage.Get("Timer.Timer2Hour", "6"));
-        private int _timer3hour = int.Parse(ViewStatusStorage.Get("Timer.Timer3Hour", "12"));
-        private int _timer4hour = int.Parse(ViewStatusStorage.Get("Timer.Timer4Hour", "18"));
-        private int _timer5hour = int.Parse(ViewStatusStorage.Get("Timer.Timer5Hour", "3"));
-        private int _timer6hour = int.Parse(ViewStatusStorage.Get("Timer.Timer6Hour", "9"));
-        private int _timer7hour = int.Parse(ViewStatusStorage.Get("Timer.Timer7Hour", "15"));
-        private int _timer8hour = int.Parse(ViewStatusStorage.Get("Timer.Timer8Hour", "21"));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 1st timer is set.
-        /// </summary>
-        public bool Timer1
+        public class TimerModel
         {
-            get => _timer1;
-            set
+            public class TimerProperties : INotifyPropertyChanged
             {
-                SetAndNotify(ref _timer1, value);
-                ViewStatusStorage.Set("Timer.Timer1", value.ToString());
+                public event PropertyChangedEventHandler PropertyChanged;
+
+                protected void OnPropertyChanged([CallerMemberName] string name = null)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+                }
+
+                public int TimerId { get; set; }
+
+                private bool _isOn;
+
+                /// <summary>
+                /// Gets or sets a value indicating whether the timer is set.
+                /// </summary>
+                public bool IsOn
+                {
+                    get => _isOn;
+                    set
+                    {
+                        _isOn = value;
+                        OnPropertyChanged();
+                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}", value.ToString());
+                    }
+                }
+
+                private int _hour;
+
+                /// <summary>
+                /// Gets or sets the hour of the timer.
+                /// </summary>
+                public int Hour
+                {
+                    get => _hour;
+                    set
+                    {
+                        _hour = (value >= 0 && value <= 23) ? value : _hour;
+                        OnPropertyChanged();
+                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}Hour", value.ToString());
+                    }
+                }
+
+                private int _min;
+
+                /// <summary>
+                /// Gets or sets the minute of the timer.
+                /// </summary>
+                public int Min
+                {
+                    get => _min;
+                    set
+                    {
+                        _min = (value >= 0 && value <= 59) ? value : _min;
+                        OnPropertyChanged();
+                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}Min", value.ToString());
+                    }
+                }
+
+                public TimerProperties()
+                {
+                    PropertyChanged += (sender, args) => { };
+                }
+            }
+
+            public TimerProperties[] Timers { get; set; } = new TimerProperties[8];
+
+            public TimerModel()
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    Timers[i] = new TimerProperties
+                    {
+                        TimerId = i,
+                        IsOn = ViewStatusStorage.Get($"Timer.Timer{i + 1}", bool.FalseString) == bool.TrueString,
+                        Hour = int.Parse(ViewStatusStorage.Get($"Timer.Timer{i + 1}Hour", $"{i * 3}")),
+                        Min = int.Parse(ViewStatusStorage.Get($"Timer.Timer{i + 1}Min", "0")),
+                    };
+                }
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the 2nd timer is set.
-        /// </summary>
-        public bool Timer2
-        {
-            get => _timer2;
-            set
-            {
-                SetAndNotify(ref _timer2, value);
-                ViewStatusStorage.Set("Timer.Timer2", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 3rd timer is set.
-        /// </summary>
-        public bool Timer3
-        {
-            get => _timer3;
-            set
-            {
-                SetAndNotify(ref _timer3, value);
-                ViewStatusStorage.Set("Timer.Timer3", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 4th timer is set.
-        /// </summary>
-        public bool Timer4
-        {
-            get => _timer4;
-            set
-            {
-                SetAndNotify(ref _timer4, value);
-                ViewStatusStorage.Set("Timer.Timer4", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 5th timer is set.
-        /// </summary>
-        public bool Timer5
-        {
-            get => _timer5;
-            set
-            {
-                SetAndNotify(ref _timer5, value);
-                ViewStatusStorage.Set("Timer.Timer5", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 6th timer is set.
-        /// </summary>
-        public bool Timer6
-        {
-            get => _timer6;
-            set
-            {
-                SetAndNotify(ref _timer6, value);
-                ViewStatusStorage.Set("Timer.Timer6", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 7th timer is set.
-        /// </summary>
-        public bool Timer7
-        {
-            get => _timer7;
-            set
-            {
-                SetAndNotify(ref _timer7, value);
-                ViewStatusStorage.Set("Timer.Timer7", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the 8th timer is set.
-        /// </summary>
-        public bool Timer8
-        {
-            get => _timer8;
-            set
-            {
-                SetAndNotify(ref _timer8, value);
-                ViewStatusStorage.Set("Timer.Timer8", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 1st timer.
-        /// </summary>
-        public int Timer1Hour
-        {
-            get => _timer1hour;
-            set
-            {
-                SetAndNotify(ref _timer1hour, value);
-                ViewStatusStorage.Set("Timer.Timer1Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 2nd timer.
-        /// </summary>
-        public int Timer2Hour
-        {
-            get => _timer2hour;
-            set
-            {
-                SetAndNotify(ref _timer2hour, value);
-                ViewStatusStorage.Set("Timer.Timer2Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 3rd timer.
-        /// </summary>
-        public int Timer3Hour
-        {
-            get => _timer3hour;
-            set
-            {
-                SetAndNotify(ref _timer3hour, value);
-                ViewStatusStorage.Set("Timer.Timer3Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 4th timer.
-        /// </summary>
-        public int Timer4Hour
-        {
-            get => _timer4hour;
-            set
-            {
-                SetAndNotify(ref _timer4hour, value);
-                ViewStatusStorage.Set("Timer.Timer4Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 5th timer.
-        /// </summary>
-        public int Timer5Hour
-        {
-            get => _timer5hour;
-            set
-            {
-                SetAndNotify(ref _timer5hour, value);
-                ViewStatusStorage.Set("Timer.Timer5Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 6th timer.
-        /// </summary>
-        public int Timer6Hour
-        {
-            get => _timer6hour;
-            set
-            {
-                SetAndNotify(ref _timer6hour, value);
-                ViewStatusStorage.Set("Timer.Timer6Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 7th timer.
-        /// </summary>
-        public int Timer7Hour
-        {
-            get => _timer7hour;
-            set
-            {
-                SetAndNotify(ref _timer7hour, value);
-                ViewStatusStorage.Set("Timer.Timer7Hour", value.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the hour of the 8th timer.
-        /// </summary>
-        public int Timer8Hour
-        {
-            get => _timer8hour;
-            set
-            {
-                SetAndNotify(ref _timer8hour, value);
-                ViewStatusStorage.Set("Timer.Timer8Hour", value.ToString());
-            }
-        }
+        public TimerModel TimerModels { get; set; } = new TimerModel();
 
         /* 刷理智设置 */
 
@@ -1630,8 +1539,19 @@ namespace MaaWpfGui
 
         public enum UpdateVersionType
         {
+            /// <summary>
+            /// 测试版
+            /// </summary>
             Nightly,
+
+            /// <summary>
+            /// 开发版
+            /// </summary>
             Beta,
+
+            /// <summary>
+            /// 稳定版
+            /// </summary>
             Stable,
         }
 
@@ -1694,12 +1614,27 @@ namespace MaaWpfGui
             get => _proxy;
             set
             {
+                WebService.Proxy = value;
                 SetAndNotify(ref _proxy, value);
                 ViewStatusStorage.Set("VersionUpdate.Proxy", value);
             }
         }
 
-        private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.TrueString));
+        private bool _isCheckingForUpdates = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the update is being checked.
+        /// </summary>
+        public bool IsCheckingForUpdates
+        {
+            get => _isCheckingForUpdates;
+            set
+            {
+                SetAndNotify(ref _isCheckingForUpdates, value);
+            }
+        }
+
+        private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use Aria 2.
@@ -1777,10 +1712,8 @@ namespace MaaWpfGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification(toastMessage))
-                    {
-                        toast.Show();
-                    }
+                    using var toast = new ToastNotification(toastMessage);
+                    toast.Show();
                 });
             }
         }
@@ -1869,6 +1802,32 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _retryOnDisconnected, value);
                 ViewStatusStorage.Set("Connect.RetryOnDisconnected", value.ToString());
+            }
+        }
+
+        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
+
+        public bool DeploymentWithPause
+        {
+            get => _deploymentWithPause;
+            set
+            {
+                SetAndNotify(ref _deploymentWithPause, value);
+                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
+        private bool _adbLiteEnabled = bool.Parse(ViewStatusStorage.Get("Connect.AdbLiteEnabled", false.ToString()));
+
+        public bool AdbLiteEnabled
+        {
+            get => _adbLiteEnabled;
+            set
+            {
+                SetAndNotify(ref _adbLiteEnabled, value);
+                ViewStatusStorage.Set("Connect.AdbLiteEnabled", value.ToString());
+                UpdateInstanceSettings();
             }
         }
 
@@ -2039,6 +1998,7 @@ namespace MaaWpfGui
             var asstProxy = _container.Get<AsstProxy>();
             asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
             asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
+            asstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
@@ -2050,10 +2010,8 @@ namespace MaaWpfGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists")))
-                    {
-                        toast.Show();
-                    }
+                    using var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists"));
+                    toast.Show();
                 });
                 return;
             }
@@ -2069,11 +2027,8 @@ namespace MaaWpfGui
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using (var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle")))
-                        {
-                            toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc"))
-                                .Show();
-                        }
+                        using var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle"));
+                        toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc")).Show();
                     });
                     return;
                 }
@@ -2105,10 +2060,8 @@ namespace MaaWpfGui
             ViewStatusStorage.Set("Connect.AdbReplaced", true.ToString());
             Execute.OnUIThread(() =>
             {
-                using (var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB")))
-                {
-                    toast.Show();
-                }
+                using var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB"));
+                toast.Show();
             });
         }
 
@@ -2174,13 +2127,89 @@ namespace MaaWpfGui
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using (var toast = new ToastNotification("Test test"))
-                        {
-                            toast.Show();
-                        }
+                        using var toast = new ToastNotification("Test test");
+                        toast.Show();
                     });
                 }
             }
+        }
+
+        private bool _loadGUIParameters = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to load GUI parameters.
+        /// </summary>
+        public bool LoadGUIParameters
+        {
+            get => _loadGUIParameters;
+            set
+            {
+                SetAndNotify(ref _loadGUIParameters, value);
+                ViewStatusStorage.Set("GUI.PositionAndSize.Load", value.ToString());
+                if (value)
+                {
+                    if (SaveGUIParametersOnClosing)
+                    {
+                        Application.Current.MainWindow.Closing += SaveGUIParameters;
+                    }
+                    else
+                    {
+                        SaveGUIParameters();
+                    }
+                }
+            }
+        }
+
+        private bool _saveGUIParametersOnClosing = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.SaveOnClosing", bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to save GUI parameters on closing main window.
+        /// </summary>
+        public bool SaveGUIParametersOnClosing
+        {
+            get => _saveGUIParametersOnClosing;
+            set
+            {
+                SetAndNotify(ref _saveGUIParametersOnClosing, value);
+                ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", value.ToString());
+                if (value)
+                {
+                    Application.Current.MainWindow.Closing += SaveGUIParameters;
+                }
+                else
+                {
+                    Application.Current.MainWindow.Closing -= SaveGUIParameters;
+                }
+            }
+        }
+
+        private void SaveGUIParameters(object sender, EventArgs e)
+        {
+            SaveGUIParameters();
+        }
+
+        /// <summary>
+        /// Save main window left edge, top edge, width and heigth.
+        /// </summary>
+        public void SaveGUIParameters()
+        {
+            // 请在配置文件中修改该部分配置，暂不支持从GUI设置
+            // Please modify this part of configuration in the configuration file.
+            ViewStatusStorage.Set("GUI.PositionAndSize.Load", LoadGUIParameters.ToString());
+            ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", SaveGUIParametersOnClosing.ToString());
+
+            var mainWindow = Application.Current.MainWindow;
+            System.Windows.Forms.Screen currentScreen =
+                System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(mainWindow).Handle);
+            var screenRect = currentScreen.Bounds;
+            ViewStatusStorage.Set("GUI.Monitor.Number", currentScreen.DeviceName);
+            ViewStatusStorage.Set("GUI.Monitor.Width", screenRect.Width.ToString());
+            ViewStatusStorage.Set("GUI.Monitor.Height", screenRect.Height.ToString());
+
+            ViewStatusStorage.Set("GUI.Position.Left", (mainWindow.Left - screenRect.Left).ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set("GUI.Position.Top", (mainWindow.Top - screenRect.Top).ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set("GUI.Size.Width", mainWindow.Width.ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set("GUI.Size.Height", mainWindow.Height.ToString(CultureInfo.InvariantCulture));
         }
 
         private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
@@ -2201,6 +2230,20 @@ namespace MaaWpfGui
                 {
                     HideUnavailableStage = false;
                 }
+            }
+        }
+
+        private bool _useRemainingSanityStage = bool.Parse(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
+
+        public bool UseRemainingSanityStage
+        {
+            get => _useRemainingSanityStage;
+            set
+            {
+                SetAndNotify(ref _useRemainingSanityStage, value);
+                var mainModel = _container.Get<TaskQueueViewModel>();
+                mainModel.UseRemainingSanityStage = value;
+                ViewStatusStorage.Set("Fight.UseRemainingSanityStage", value.ToString());
             }
         }
 
@@ -2438,6 +2481,55 @@ namespace MaaWpfGui
             }
 
             return false;
+        }
+
+        public void UpdateRoguelikeThemeList()
+        {
+            var roguelikeSquad = RoguelikeSquad;
+
+            RoguelikeSquadList = new ObservableCollection<CombData>
+            {
+                new CombData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
+            };
+
+            switch (RoguelikeTheme)
+            {
+                case "Phantom":
+                    // No new items
+                    break;
+                case "Mizuki":
+                    foreach (var item in new ObservableCollection<CombData>
+                    {
+                        new CombData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
+                        new CombData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
+                        new CombData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
+                    break;
+            }
+
+            // 通用分队
+            foreach (var item in new ObservableCollection<CombData>
+            {
+                new CombData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
+                new CombData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
+                new CombData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
+                new CombData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
+                new CombData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
+                new CombData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
+                new CombData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
+                new CombData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
+                new CombData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
+                new CombData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
+            })
+            {
+                RoguelikeSquadList.Add(item);
+            }
+
+            RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
     }
 }

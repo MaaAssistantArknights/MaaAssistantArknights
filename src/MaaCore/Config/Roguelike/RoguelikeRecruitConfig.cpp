@@ -18,9 +18,9 @@ const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const
 }
 
 const std::vector<std::pair<int, int>> asst::RoguelikeRecruitConfig::get_role_info(
-    const std::string& theme, const BattleRole& role) const noexcept
+    const std::string& theme, const battle::Role& role) const noexcept
 {
-    if (role == BattleRole::Unknown) {
+    if (role == battle::Role::Unknown) {
         return std::vector<std::pair<int, int>>();
     }
     auto& map = m_role_offset_map.at(theme);
@@ -47,7 +47,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                     role_offset.emplace_back(offset_pair);
                 }
             }
-            m_role_offset_map[theme].emplace(get_role_type(str_role), std::move(role_offset));
+            m_role_offset_map[theme].emplace(battle::get_role_type(str_role), std::move(role_offset));
             for (const auto& oper_info : role_json.at("opers").as_array()) {
                 std::string name = oper_info.at("name").as_string();
                 RoguelikeOperInfo info;
@@ -61,8 +61,8 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                 info.is_alternate = oper_info.get("is_alternate", false);
                 info.skill = oper_info.at("skill").as_integer();
                 info.alternate_skill = oper_info.get("alternate_skill", 0);
-                info.skill_usage = static_cast<BattleSkillUsage>(oper_info.get("skill_usage", 1));
-                info.alternate_skill_usage = static_cast<BattleSkillUsage>(oper_info.get("alternate_skill_usage", 1));
+                info.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 1));
+                info.alternate_skill_usage = static_cast<battle::SkillUsage>(oper_info.get("alternate_skill_usage", 1));
                 if (auto opt = oper_info.find<json::array>("recruit_priority_offset")) {
                     for (const auto& offset : opt.value()) {
                         std::pair<int, int> offset_pair =

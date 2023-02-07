@@ -3,6 +3,7 @@
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
+#include "Utils/Platform.hpp"
 
 // #ifndef  ASST_DEBUG
 // #define ASST_DEBUG
@@ -32,7 +33,7 @@ namespace asst
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
 
-        bool save_img(const std::string& dirname = "debug/");
+        bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
     protected:
         using InstHelper::status;

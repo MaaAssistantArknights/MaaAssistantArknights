@@ -47,6 +47,16 @@ namespace asst::utils
         string_replace_all_in_place(str, replace_pair.first, replace_pair.second);
     }
 
+    template <typename StringT>
+    requires IsSomeKindOfString<StringT>
+    inline constexpr void string_replace_all_in_place(StringT& str,
+                                                      std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
+    {
+        for (auto&& [from, to] : replace_pairs) {
+            string_replace_all_in_place(str, from, to);
+        }
+    }
+
 #ifdef ASST_USE_RANGES_RANGE_V3
     // workaround for P2210R2
     template <ranges::forward_range Rng>

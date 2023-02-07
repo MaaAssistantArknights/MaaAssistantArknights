@@ -908,7 +908,15 @@
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
         "icon": "LMTGS_COIN_2701.png",
         "name": "헤드헌팅 데이터 계약",
-        "sortId": 10016,
+        "sortId": 10017,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
+    "LMTGS_COIN_3001": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_3001.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10018,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
     "LMTGS_COIN_601": {
@@ -1207,6 +1215,62 @@
         "sortId": -10000,
         "usage": "더 이상 재생할 수 없는 음반, 오랫동안 도시의 폐허 속에서 생활한 사람들과 물자를 교환할 수 있다."
     },
+    "act18side_token_pieces": {
+        "classifyType": "NONE",
+        "description": "오선보에는 각종 음표들이 난잡하게 그려져 있다. 오로지 원작자만이 그 속에 숨은 영감을 캐치해낼 수 있다.",
+        "icon": "act18side_token_pieces.png",
+        "name": "악보 원고",
+        "sortId": -10000,
+        "usage": "휘몰아치는 영감 속에서 헤엄치는 음악가는 원고를 어디에 두었는지 자주 잊어버린다. 원고를 정리해서 돌려주면 신곡 하나쯤은 받을 수 있을지도 모른다."
+    },
+    "act1bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act1bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act1bossrush_relic_01": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_01.png",
+        "name": "모듈 재활용",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_02": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_02.png",
+        "name": "신속 처리",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_03": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_03.png",
+        "name": "플래시 메모리",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_relic_04": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "act1bossrush_relic_04.png",
+        "name": "반발력 제어",
+        "sortId": -10000,
+        "usage": null
+    },
+    "act1bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act1bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "가상의 적을 처치하여 획득하는 일종의 경기 포인트, 훈장 형식으로 참가팀에게 주어진다. 미노스의 장인이 제작한 메달에는 “영웅은 평범한 사람에서 나온다”라는 속담이 새겨져 있다.",
@@ -1214,6 +1278,14 @@
         "name": "컴페티션 훈장",
         "sortId": -10000,
         "usage": "금속으로 만든 소형 훈장. 일정 수량을 수집하면 상응하는 보상을 획득할 수 있다."
+    },
+    "act20side_token_book": {
+        "classifyType": "NONE",
+        "description": "수많은 필체의 흔적으로부터 잡지가 얼마나 많은 사람들의 손을 거쳐 갔는지 알 수 있다. 대부분은 무의미한 낙서이지만, 반짝이는 지성 또한 사이사이에 숨어 있다.",
+        "icon": "act20side_token_book.png",
+        "name": "《기담괴론》 사본",
+        "sortId": -10000,
+        "usage": "어느 화사한 잡지의 사본. 터무니없는 내용으로 가득 차 있지만, 어째서인지 두린들은 참 좋아하는 것 같다. 리핑 글룸핀서 마켓에서 두린족과 물자를 교환하는 용도로 쓰인다."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1383,6 +1455,22 @@
         "sortId": 90001,
         "usage": "오퍼레이터 모듈 시스템을 개방하는 데 사용된다."
     },
+    "mod_update_token_1": {
+        "classifyType": "MATERIAL",
+        "description": "경험은 데이터로 구현되고, 데이터는 무장으로 전환된다. 자신을 알고 전쟁터를 아는 것은 진정한 전사로서의 필수 과목이다.\n엔지니어링부 동료들이 심혈을 기울여 만들었다. 업그레이드된 모듈은 오퍼레이터의 작전 능력을 향상할 수 있다.",
+        "icon": "mod_update_token_1.png",
+        "name": "데이터 메모리",
+        "sortId": 90003,
+        "usage": "오퍼레이터의 모듈 업그레이드에 사용된다."
+    },
+    "mod_update_token_2": {
+        "classifyType": "MATERIAL",
+        "description": "경험은 데이터로 구현되고, 데이터는 무장으로 전환된다. 자신을 알고 전쟁터를 아는 것은 진정한 전사로서의 필수 과목이다.\n엔지니어링부 동료들이 심혈을 기울여 만들었다. 한 층 더 업그레이드된 모듈은 오퍼레이터의 전투 방식을 최적화하여, 작전 능력을 대폭 향상할 수 있다.",
+        "icon": "mod_update_token_2.png",
+        "name": "데이터 리더기",
+        "sortId": 90002,
+        "usage": "오퍼레이터의 모듈 업그레이드에 사용된다."
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "누가 꺼낸건지 알 수 없는 돈봉투. 하지만 로도스 아일랜드의 모두에게 희망이 가득하길 바라는 마음만은 진심이다.",
@@ -1404,7 +1492,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_0.png",
         "name": "황무지 작전 보급 물자",
-        "sortId": 60001,
+        "sortId": 60011,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_1": {
@@ -1412,7 +1500,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_1.png",
         "name": "파이라이트 작전 보급 물자",
-        "sortId": 60002,
+        "sortId": 60012,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_2": {
@@ -1420,7 +1508,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_2.png",
         "name": "칼날 작전 보급 물자",
-        "sortId": 60003,
+        "sortId": 60013,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_3": {
@@ -1428,7 +1516,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_3.png",
         "name": "잿불 작전 보급 물자",
-        "sortId": 60004,
+        "sortId": 60014,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_4": {
@@ -1436,7 +1524,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_4.png",
         "name": "리드씰 작전 물자 보급",
-        "sortId": 60005,
+        "sortId": 60015,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_5": {
@@ -1444,7 +1532,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_5.png",
         "name": "스펙트럼 작전 물자 보급",
-        "sortId": 60006,
+        "sortId": 60016,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_6": {
@@ -1452,7 +1540,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_6.png",
         "name": "와일드 스케일 작전 보급 물자",
-        "sortId": 60007,
+        "sortId": 60017,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_7": {
@@ -1460,7 +1548,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_7.png",
         "name": "파인 숫 작전 보급 물자",
-        "sortId": 60008,
+        "sortId": 60018,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_8": {
@@ -1468,7 +1556,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_8.png",
         "name": "돈시커 작전 보급 물자",
-        "sortId": 60009,
+        "sortId": 60019,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_9": {
@@ -1476,7 +1564,7 @@
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
         "icon": "randomMaterialRune_9.png",
         "name": "딥니스 작전 보급 물자",
-        "sortId": 60010,
+        "sortId": 60020,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterial_1": {

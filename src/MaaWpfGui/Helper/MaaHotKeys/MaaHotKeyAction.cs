@@ -18,7 +18,14 @@ namespace MaaWpfGui.MaaHotKeys
     [Flags]
     public enum MaaHotKeyAction
     {
+        /// <summary>
+        /// Shows the GUI.
+        /// </summary>
         ShowGui,
+
+        /// <summary>
+        /// Starts the link.
+        /// </summary>
         LinkStart,
     }
 }

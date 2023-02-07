@@ -40,6 +40,7 @@ namespace asst
         /* Deprecated */         // MinitouchEnabled = 1,
         TouchMode = 2,           // 触控模式设置， "minitouch" | "maatouch" | "adb"
         DeploymentWithPause = 3, // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
+        AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
     };
 
     struct Point
@@ -60,6 +61,10 @@ namespace asst
         static constexpr Point left() { return { -1, 0 }; }
         static constexpr Point up() { return { 0, -1 }; }
         static constexpr Point zero() { return { 0, 0 }; }
+        bool empty() const noexcept { return x == 0 && y == 0; }
+        // for std::map
+        bool operator<(const Point& rhs) const noexcept { return x < rhs.x || (x == rhs.x && y < rhs.y); }
+
         int x = 0;
         int y = 0;
 
@@ -408,4 +413,6 @@ namespace asst
     };
 
     inline static const std::string UploadDataSource = "MeoAssistant";
+    inline static constexpr std::string_view RoguelikePhantomThemeName = "Phantom";
+    inline static constexpr std::string_view RoguelikeMizukiThemeName = "Mizuki";
 } // namespace asst

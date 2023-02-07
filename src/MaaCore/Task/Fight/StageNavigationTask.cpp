@@ -49,6 +49,9 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     if (!difficulty.empty()) {
         std::string upper_difficulty = difficulty;
         upper_difficulty[0] = static_cast<char>(::toupper(upper_difficulty[0]));
+        for (int i = 1; i < upper_difficulty.size(); ++i) {
+            upper_difficulty[i] = static_cast<char>(::tolower(upper_difficulty[i]));
+        }
         static const std::string DifficultyTaskPrefix = "ChapterDifficulty";
         m_difficulty_task = DifficultyTaskPrefix + upper_difficulty;
         Log.info("difficulty task", m_difficulty_task);
@@ -72,7 +75,7 @@ bool asst::StageNavigationTask::_run()
     LogTraceFunction;
 
     if (m_is_directly) {
-        return ProcessTask(*this, { m_directly_task }).run();
+        return ProcessTask(*this, { m_directly_task }).set_retry_times(RetryTimesDefault).run();
     }
 
     return chapter_wayfinding() && swipe_and_find_stage();
@@ -91,12 +94,12 @@ bool asst::StageNavigationTask::chapter_wayfinding()
 {
     LogTraceFunction;
 
-    if (!ProcessTask(*this, { m_chapter_task }).run()) {
+    if (!ProcessTask(*this, { m_chapter_task }).set_retry_times(RetryTimesDefault).run()) {
         return false;
     }
 
     if (!m_difficulty_task.empty()) {
-        return ProcessTask(*this, { m_difficulty_task }).run();
+        return ProcessTask(*this, { m_difficulty_task }).set_retry_times(RetryTimesDefault).run();
     }
 
     return true;
@@ -108,5 +111,5 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
 
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickStageName")->text = { m_stage_code };
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStage")->text = { m_stage_code };
-    return ProcessTask(*this, { m_stage_code + "@StageNavigationBegin" }).run();
+    return ProcessTask(*this, { m_stage_code + "@StageNavigationBegin" }).set_retry_times(RetryTimesDefault).run();
 }

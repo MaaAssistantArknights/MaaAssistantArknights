@@ -24,8 +24,8 @@ namespace asst
         bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
         int skill = 0;
         int alternate_skill = 0;
-        BattleSkillUsage skill_usage = BattleSkillUsage::Possibly;
-        BattleSkillUsage alternate_skill_usage = BattleSkillUsage::Possibly;
+        battle::SkillUsage skill_usage = battle::SkillUsage::Possibly;
+        battle::SkillUsage alternate_skill_usage = battle::SkillUsage::Possibly;
     };
 
     class RoguelikeRecruitConfig final : public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig
@@ -35,7 +35,7 @@ namespace asst
 
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) const noexcept;
         const std::vector<std::pair<int, int>> get_role_info(const std::string& theme,
-                                                             const BattleRole& role) const noexcept;
+                                                             const battle::Role& role) const noexcept;
 
     protected:
         virtual bool parse(const json::value& json) override;
@@ -43,7 +43,7 @@ namespace asst
         void clear();
 
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
-        std::unordered_map<std::string, std::unordered_map<BattleRole, std::vector<std::pair<int, int>>>>
+        std::unordered_map<std::string, std::unordered_map<battle::Role, std::vector<std::pair<int, int>>>>
             m_role_offset_map;
     };
 
