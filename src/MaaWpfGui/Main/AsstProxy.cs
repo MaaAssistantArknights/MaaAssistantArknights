@@ -476,6 +476,11 @@ namespace MaaWpfGui
                         copilotModel.AddLog(Localization.GetString("CombatError"), UILogColor.Error);
                     }
 
+                    if (taskChain == "Fight" && (mainModel.Stage == "Annihilation"))
+                    {
+                        mainModel.AddLog(Localization.GetString("AnnihilationTaskFailed"), UILogColor.Warning);
+                    }
+
                     break;
 
                 case AsstMsg.TaskChainStart:
