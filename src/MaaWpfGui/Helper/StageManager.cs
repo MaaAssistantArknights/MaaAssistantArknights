@@ -90,7 +90,7 @@ namespace MaaWpfGui
             var clientType = settingsModel.ClientType;
 
             // 官服和B服使用同样的资源
-            if (clientType == "Bilibili")
+            if (clientType == "Bilibili" || clientType == string.Empty)
             {
                 clientType = "Official";
             }
