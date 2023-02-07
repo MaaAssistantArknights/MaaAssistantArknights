@@ -74,7 +74,7 @@
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Oper (single, CN name only)</system:String>
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Oper" from support unit list</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">Select &quot;Starting Oper&quot; from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
     <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
     <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
@@ -99,6 +99,10 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
     <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
+
+    <system:String x:Key="AlgorithmFinish">Algorithm Finish</system:String>
+    <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
+    <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
 
     <system:String x:Key="NotSelected">Not selected</system:String>
     <system:String x:Key="Official">Official (CN)</system:String>
@@ -242,6 +246,7 @@
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect mission rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
+    <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
 
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>
@@ -324,6 +329,7 @@
     <system:String x:Key="AboutToShutdown">All tasks are completed shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
+    <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective</system:String>
     <!--  Logs  -->
     <!--  Farming  -->
 

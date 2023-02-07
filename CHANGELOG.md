@@ -1,3 +1,9 @@
+## v4.10.7-beta.1
+
+- 优化 界面关卡选择及提示支持外服 @liuyifan-eric @ABA2396
+- 修复 Unix 的 socket 连接错误 @HerrCai0907
+- 修复 IssueBot 文档链接错误 @Rbqwow
+
 ## v4.10.6
 
 - 新增 `生息演算` 流程支持，修复大量错误，优化界面支持等 @WLLEGit @hguandl @MistEO
