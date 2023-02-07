@@ -46,7 +46,30 @@
             "活動"
         ]
     },
+    "SN-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "愚人號",
+			"活動",
+            "關卡已開放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+	"SN-Chapter2": {
+		"preDelay":2000,
+        "next": [
+            "SN-Chapter2",
+            "ChapterSwipeToTheRight"
+        ]
+    },
     "SN-Chapter3": {
+		"preDelay":2000,
         "next": [
             "SN-Chapter3",
             "ChapterSwipeToTheLeft"
