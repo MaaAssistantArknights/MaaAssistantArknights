@@ -551,6 +551,8 @@ namespace MaaWpfGui
                 Utils.ClientType = value;
                 ViewStatusStorage.Set("Start.ClientType", value);
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
+                _container.Get<TaskQueueViewModel>().UpdateStageList(true);
+                _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
             }
         }
 
