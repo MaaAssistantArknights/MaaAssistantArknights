@@ -15,9 +15,6 @@ jobs:
   upload-mirrors:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v3
-        with:
-          path: MaaAssistantArknights
       - name: "Fetch release info"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,5 +41,5 @@ jobs:
           username: ${{ secrets.SSH_MIRROR_0_USER }}
           key: ${{ secrets.SSH_MIRROR_0_KEY }}
           source: "upload-dir/${{ env.release_tag }}"
-          target: ${{ format('{0}/{1}', '/data/html/MaaAssistantArknights/MaaAssistantArknights/releases/download', env.release_tag) }}
+          target: "/data/html/MaaAssistantArknights/MaaAssistantArknights/releases/download"
           strip_components: 1
