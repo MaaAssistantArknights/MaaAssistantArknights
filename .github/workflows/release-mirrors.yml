@@ -43,5 +43,5 @@ jobs:
           host: ${{ secrets.SSH_MIRROR_0_HOST }}
           username: ${{ secrets.SSH_MIRROR_0_USER }}
           key: ${{ secrets.SSH_MIRROR_0_KEY }}
-          source: "MAA-*"
+          source: "upload-dir/MAA-*"
           target: ${{ format('{0}/{1}', '/data/html/MaaAssistantArknights/MaaAssistantArknights/releases/download', env.release_tag) }}
