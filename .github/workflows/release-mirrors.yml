@@ -35,7 +35,8 @@ jobs:
           mkdir -pv upload-dir/${{ env.release_tag }}
           cd upload-dir/${{ env.release_tag }}
           gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-*" --clobber
-          ls
+          # list all files under current directory, join with comma, and save to env
+          echo "release_files=$(ls -1 | paste -sd ',' -)" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Upload to mirror 0"
@@ -44,5 +45,5 @@ jobs:
           host: ${{ secrets.SSH_MIRROR_0_HOST }}
           username: ${{ secrets.SSH_MIRROR_0_USER }}
           key: ${{ secrets.SSH_MIRROR_0_KEY }}
-          source: "*"
+          source: ${{ env.release_files }}
           target: ${{ format('{0}/{1}', '/data/html/MaaAssistantArknights/MaaAssistantArknights/releases/download', env.release_tag) }}
