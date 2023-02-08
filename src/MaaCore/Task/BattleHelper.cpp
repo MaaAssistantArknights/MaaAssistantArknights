@@ -510,7 +510,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, 
         return false;
     }
 
-    has_error = use_skill(loc, false);
+    has_error = !use_skill(loc, false);
     return true;
 }
 
