@@ -1,8 +1,11 @@
-## v4.10.7-beta.1
+## v4.10.7
 
 - 优化 界面关卡选择及提示支持外服 @liuyifan-eric @ABA2396
+- 修复 自动战斗 技能开启错误 @HerrCai0907
+- 修复 关卡 导航识别错误 @ABA2396
 - 修复 Unix 的 socket 连接错误 @HerrCai0907
 - 修复 IssueBot 文档链接错误 @Rbqwow
+- 修复 发版镜像 @GalvinGao
 
 ## v4.10.6
 
