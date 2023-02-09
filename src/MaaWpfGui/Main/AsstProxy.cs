@@ -226,10 +226,8 @@ namespace MaaWpfGui
             {
                 Execute.OnUIThread(() =>
                 {
-                    using (var toast = new ToastNotification("Auto Reload"))
-                    {
-                        toast.Show();
-                    }
+                    using var toast = new ToastNotification("Auto Reload");
+                    toast.Show();
                 });
             }
 
@@ -478,6 +476,11 @@ namespace MaaWpfGui
                         copilotModel.AddLog(Localization.GetString("CombatError"), UILogColor.Error);
                     }
 
+                    if (taskChain == "Fight" && (mainModel.Stage == "Annihilation"))
+                    {
+                        mainModel.AddLog(Localization.GetString("AnnihilationTaskFailed"), UILogColor.Warning);
+                    }
+
                     break;
 
                 case AsstMsg.TaskChainStart:
@@ -634,6 +637,7 @@ namespace MaaWpfGui
             string subTask = details["subtask"].ToString();
 
             var mainModel = _container.Get<TaskQueueViewModel>();
+            var copilotModel = _container.Get<CopilotViewModel>();
             if (subTask == "ProcessTask")
             {
                 string taskName = details["details"]["task"].ToString();
@@ -737,6 +741,15 @@ namespace MaaWpfGui
                     case "GamePass":
                         mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), UILogColor.RareOperator);
                         break;
+
+                    case "BattleStartAll":
+                        copilotModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
+                        break;
+
+                    /* 生息演算 */
+                    case "StartAlgorithm":
+                        mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        break;
                 }
             }
         }
@@ -824,10 +837,8 @@ namespace MaaWpfGui
                             break;
                         }
 
-                        using (var toast = new ToastNotification(Localization.GetString("RecruitingTips")))
-                        {
-                            toast.AppendContentText(special).ShowRecruit();
-                        }
+                        using var toast = new ToastNotification(Localization.GetString("RecruitingTips"));
+                        toast.AppendContentText(special).ShowRecruit();
                     }
 
                     break;
@@ -835,10 +846,8 @@ namespace MaaWpfGui
                 case "RecruitRobotTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        using (var toast = new ToastNotification(Localization.GetString("RecruitingTips")))
-                        {
-                            toast.AppendContentText(special).ShowRecruitRobot();
-                        }
+                        using var toast = new ToastNotification(Localization.GetString("RecruitingTips"));
+                        toast.AppendContentText(special).ShowRecruitRobot();
                     }
 
                     break;
@@ -960,6 +969,27 @@ namespace MaaWpfGui
 
                     break;
 
+                case "SSSStage":
+                    {
+                        copilotModel.AddLog("CurrentStage: " + subTaskDetails["stage"].ToString(), UILogColor.Info);
+                    }
+
+                    break;
+
+                case "SSSSettlement":
+                    {
+                        copilotModel.AddLog(details["why"].ToString(), UILogColor.Info);
+                    }
+
+                    break;
+
+                case "SSSGamePass":
+                    {
+                        copilotModel.AddLog(Localization.GetString("SSSGamePass"), UILogColor.RareOperator);
+                    }
+
+                    break;
+
                 case "UnsupportedLevel":
                     copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), UILogColor.Error);
                     break;
@@ -977,6 +1007,16 @@ namespace MaaWpfGui
                     }
 
                     mainModel.AddLog(nameStr.ToString());
+                    break;
+
+                /* 生息演算 */
+                case "ReclamationReport":
+                    {
+                        mainModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
+                            Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
+                            Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
+                    }
+
                     break;
             }
         }
@@ -1111,7 +1151,7 @@ namespace MaaWpfGui
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject task_params = null)
         {
-            task_params = task_params ?? new JObject();
+            task_params ??= new JObject();
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(task_params));
         }
 
@@ -1122,7 +1162,7 @@ namespace MaaWpfGui
                 return false;
             }
 
-            task_params = task_params ?? new JObject();
+            task_params ??= new JObject();
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(task_params));
         }
 
@@ -1146,16 +1186,20 @@ namespace MaaWpfGui
 
         private JObject SerializeFightTaskParams(string stage, int max_medicine, int max_stone, int max_times, string drops_item_id, int drops_item_quantity)
         {
-            var task_params = new JObject();
-            task_params["stage"] = stage;
-            task_params["medicine"] = max_medicine;
-            task_params["stone"] = max_stone;
-            task_params["times"] = max_times;
-            task_params["report_to_penguin"] = true;
+            var task_params = new JObject
+            {
+                ["stage"] = stage,
+                ["medicine"] = max_medicine,
+                ["stone"] = max_stone,
+                ["times"] = max_times,
+                ["report_to_penguin"] = true,
+            };
             if (drops_item_quantity != 0 && !string.IsNullOrWhiteSpace(drops_item_id))
             {
-                task_params["drops"] = new JObject();
-                task_params["drops"][drops_item_id] = drops_item_quantity;
+                task_params["drops"] = new JObject
+                {
+                    [drops_item_id] = drops_item_quantity,
+                };
             }
 
             var settings = _container.Get<SettingsViewModel>();
@@ -1241,9 +1285,11 @@ namespace MaaWpfGui
         /// <returns>是否成功。</returns>
         public bool AsstAppendStartUp(string client_type, bool enable)
         {
-            var task_params = new JObject();
-            task_params["client_type"] = client_type;
-            task_params["start_game_enabled"] = enable;
+            var task_params = new JObject
+            {
+                ["client_type"] = client_type,
+                ["start_game_enabled"] = enable,
+            };
             AsstTaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
             return id != 0;
@@ -1272,12 +1318,14 @@ namespace MaaWpfGui
         /// <returns>是否成功。</returns>
         public bool AsstAppendMall(bool credit_fight, bool with_shopping, string[] first_list, string[] blacklist, bool force_shopping_if_credit_full)
         {
-            var task_params = new JObject();
-            task_params["credit_fight"] = credit_fight;
-            task_params["shopping"] = with_shopping;
-            task_params["buy_first"] = new JArray { first_list };
-            task_params["blacklist"] = new JArray { blacklist };
-            task_params["force_shopping_if_credit_full"] = force_shopping_if_credit_full;
+            var task_params = new JObject
+            {
+                ["credit_fight"] = credit_fight,
+                ["shopping"] = with_shopping,
+                ["buy_first"] = new JArray { first_list },
+                ["blacklist"] = new JArray { blacklist },
+                ["force_shopping_if_credit_full"] = force_shopping_if_credit_full,
+            };
             AsstTaskId id = AsstAppendTaskWithEncoding("Mall", task_params);
             _latestTaskId[TaskType.Mall] = id;
             return id != 0;
@@ -1296,19 +1344,23 @@ namespace MaaWpfGui
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int max_times, int[] select_level, int[] confirm_level, bool need_refresh, bool use_expedited, bool skip_robot, bool is_level3_use_short_time)
         {
-            var task_params = new JObject();
-            task_params["refresh"] = need_refresh;
-            task_params["select"] = new JArray(select_level);
-            task_params["confirm"] = new JArray(confirm_level);
-            task_params["times"] = max_times;
-            task_params["set_time"] = true;
-            task_params["expedite"] = use_expedited;
-            task_params["expedite_times"] = max_times;
-            task_params["skip_robot"] = skip_robot;
+            var task_params = new JObject
+            {
+                ["refresh"] = need_refresh,
+                ["select"] = new JArray(select_level),
+                ["confirm"] = new JArray(confirm_level),
+                ["times"] = max_times,
+                ["set_time"] = true,
+                ["expedite"] = use_expedited,
+                ["expedite_times"] = max_times,
+                ["skip_robot"] = skip_robot,
+            };
             if (is_level3_use_short_time)
             {
-                task_params["recruitment_time"] = new JObject();
-                task_params["recruitment_time"]["3"] = 460; // 7:40
+                task_params["recruitment_time"] = new JObject
+                {
+                    ["3"] = 460, // 7:40
+                };
             }
 
             task_params["report_to_penguin"] = true;
@@ -1322,20 +1374,21 @@ namespace MaaWpfGui
             return id != 0;
         }
 
-        private JObject SerializeInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+        private JObject SerializeInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold, bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)
         {
-            var task_params = new JObject();
-
-            task_params["facility"] = new JArray(order);
-            task_params["drones"] = uses_of_drones;
-            task_params["threshold"] = dorm_threshold;
-            task_params["dorm_notstationed_enabled"] = dorm_filter_not_stationed_enabled;
-            task_params["drom_trust_enabled"] = dorm_drom_trust_enabled;
-            task_params["replenish"] = originium_shard_auto_replenishment;
-            task_params["mode"] = is_custom ? 10000 : 0;
-            task_params["filename"] = filename;
-            task_params["plan_index"] = plan_index;
+            var task_params = new JObject
+            {
+                ["facility"] = new JArray(order),
+                ["drones"] = uses_of_drones,
+                ["threshold"] = dorm_threshold,
+                ["dorm_notstationed_enabled"] = dorm_filter_not_stationed_enabled,
+                ["dorm_trust_enabled"] = dorm_dorm_trust_enabled,
+                ["replenish"] = originium_shard_auto_replenishment,
+                ["mode"] = is_custom ? 10000 : 0,
+                ["filename"] = filename,
+                ["plan_index"] = plan_index,
+            };
 
             return task_params;
         }
@@ -1358,19 +1411,19 @@ namespace MaaWpfGui
         /// </param>
         /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
-        /// <param name="dorm_drom_trust_enabled">宿舍是否使用蹭信赖功能</param>
+        /// <param name="dorm_dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
         /// <param name="is_custom"></param>
         /// <param name="filename"></param>
         /// <param name="plan_index"></param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold,
-            bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+            bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)
         {
             var task_params = SerializeInfrastTaskParams(
                 order, uses_of_drones, dorm_threshold,
-                dorm_filter_not_stationed_enabled, dorm_drom_trust_enabled, originium_shard_auto_replenishment,
+                dorm_filter_not_stationed_enabled, dorm_dorm_trust_enabled, originium_shard_auto_replenishment,
                 is_custom, filename, plan_index);
             AsstTaskId id = AsstAppendTaskWithEncoding("Infrast", task_params);
             _latestTaskId[TaskType.Infrast] = id;
@@ -1378,7 +1431,7 @@ namespace MaaWpfGui
         }
 
         public bool AsstSetInfrastTaskParams(string[] order, string uses_of_drones, double dorm_threshold,
-            bool dorm_filter_not_stationed_enabled, bool dorm_drom_trust_enabled, bool originium_shard_auto_replenishment,
+            bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
             bool is_custom, string filename, int plan_index)
         {
             var type = TaskType.Infrast;
@@ -1395,7 +1448,7 @@ namespace MaaWpfGui
 
             var task_params = SerializeInfrastTaskParams(
                 order, uses_of_drones, dorm_threshold,
-                dorm_filter_not_stationed_enabled, dorm_drom_trust_enabled, originium_shard_auto_replenishment,
+                dorm_filter_not_stationed_enabled, dorm_dorm_trust_enabled, originium_shard_auto_replenishment,
                 is_custom, filename, plan_index);
             return AsstSetTaskParamsWithEncoding(id, task_params);
         }
@@ -1438,13 +1491,15 @@ namespace MaaWpfGui
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
             string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme)
         {
-            var task_params = new JObject();
-            task_params["mode"] = mode;
-            task_params["starts_count"] = starts;
-            task_params["investment_enabled"] = investment_enabled;
-            task_params["investments_count"] = invests;
-            task_params["stop_when_investment_full"] = stop_when_full;
-            task_params["theme"] = theme;
+            var task_params = new JObject
+            {
+                ["mode"] = mode,
+                ["starts_count"] = starts,
+                ["investment_enabled"] = investment_enabled,
+                ["investments_count"] = invests,
+                ["stop_when_investment_full"] = stop_when_full,
+                ["theme"] = theme,
+            };
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;
@@ -1459,11 +1514,23 @@ namespace MaaWpfGui
             {
                 task_params["core_char"] = core_char;
             }
+
             task_params["use_support"] = use_support;
             task_params["use_nonfriend_support"] = enable_nonfriend_support;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
             _latestTaskId[TaskType.Roguelike] = id;
+            return id != 0;
+        }
+
+        /// <summary>
+        /// 自动生息演算。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstAppendReclamation()
+        {
+            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
+            _latestTaskId[TaskType.Recruit] = id;
             return id != 0;
         }
 
@@ -1475,17 +1542,19 @@ namespace MaaWpfGui
         /// <returns>是否成功。</returns>
         public bool AsstStartRecruitCalc(int[] select_level, bool set_time)
         {
-            var task_params = new JObject();
-            task_params["refresh"] = false;
-            task_params["select"] = new JArray(select_level);
-            task_params["confirm"] = new JArray();
-            task_params["times"] = 0;
-            task_params["set_time"] = set_time;
-            task_params["expedite"] = false;
-            task_params["expedite_times"] = 0;
+            var task_params = new JObject
+            {
+                ["refresh"] = false,
+                ["select"] = new JArray(select_level),
+                ["confirm"] = new JArray(),
+                ["times"] = 0,
+                ["set_time"] = set_time,
+                ["expedite"] = false,
+                ["expedite_times"] = 0,
 
-            task_params["report_to_penguin"] = true;
-            task_params["report_to_yituliu"] = true;
+                ["report_to_penguin"] = true,
+                ["report_to_yituliu"] = true,
+            };
             var settings = _container.Get<SettingsViewModel>();
             task_params["penguin_id"] = settings.PenguinId;
             task_params["yituliu_id"] = settings.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
@@ -1513,13 +1582,18 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
+        /// <param name="type">任务类型</param>
+        /// <param name="loop_times">任务重复执行次数</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation)
+        public bool AsstStartCopilot(string filename, bool formation, string type, int loop_times)
         {
-            var task_params = new JObject();
-            task_params["filename"] = filename;
-            task_params["formation"] = formation;
-            AsstTaskId id = AsstAppendTaskWithEncoding("Copilot", task_params);
+            var task_params = new JObject
+            {
+                ["filename"] = filename,
+                ["formation"] = formation,
+                ["loop_times"] = loop_times,
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }
@@ -1638,9 +1712,17 @@ namespace MaaWpfGui
     public enum InstanceOptionKey
     {
         /* Deprecated */ // MinitouchEnabled = 1,
+
+        /// <summary>
+        /// Indicates the touch mode.
+        /// </summary>
         TouchMode = 2,
+
+        /// <summary>
+        /// Indicates whether the deployment should be paused.
+        /// </summary>
         DeploymentWithPause = 3,
+
+        AdbLiteEnabled = 4,
     }
 }
-
-#pragma warning restore SA1121 // Use built-in type alias

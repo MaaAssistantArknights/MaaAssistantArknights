@@ -71,6 +71,15 @@
     <Filter Include="资源文件\YoStarKR">
       <UniqueIdentifier>{cf25099a-e97f-417f-ab45-4da8bd351747}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Task\SSS">
+      <UniqueIdentifier>{a5775bd2-7a8a-4bcb-9465-75d899ea8ca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Task\SingleStep">
+      <UniqueIdentifier>{987541fc-58f0-40eb-8b93-c0cb38881d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Task\Reclamation">
+      <UniqueIdentifier>{97f7690d-5924-405f-a332-831e7dad3f1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -417,9 +426,6 @@
     <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
-      <Filter>源文件\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
@@ -459,8 +465,44 @@
     <ClInclude Include="Task\BattleHelper.h">
       <Filter>源文件\Task</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Algorithm.hpp">
-      <Filter>源文件\Utils</Filter>
+    <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\SSSCopilotTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SSS\SSSBattleProcessTask.h">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SSS\SSSStageManagerTask.h">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\BestMatchImageAnalyzer.h">
+      <Filter>源文件\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\SingleStep\SingleStepBattleProcessTask.h">
+      <Filter>源文件\Task\SingleStep</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\SingleStepTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\ReclamationTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h">
+      <Filter>源文件\Task\Reclamation</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h">
+      <Filter>源文件\Task\Reclamation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -751,6 +793,42 @@
     </ClCompile>
     <ClCompile Include="Task\BattleHelper.cpp">
       <Filter>源文件\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\SSSCopilotTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp">
+      <Filter>源文件\Config\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp">
+      <Filter>源文件\Task\SSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp">
+      <Filter>源文件\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\SingleStep\SingleStepBattleProcessTask.cpp">
+      <Filter>源文件\Task\SingleStep</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\SingleStepTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\ReclamationTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp">
+      <Filter>源文件\Task\Reclamation</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp">
+      <Filter>源文件\Task\Reclamation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

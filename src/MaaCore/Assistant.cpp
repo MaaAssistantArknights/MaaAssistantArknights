@@ -14,9 +14,12 @@
 #include "Task/Interface/DepotTask.h"
 #include "Task/Interface/FightTask.h"
 #include "Task/Interface/InfrastTask.h"
+#include "Task/Interface/SingleStepTask.h"
 #include "Task/Interface/MallTask.h"
 #include "Task/Interface/RecruitTask.h"
+#include "Task/Interface/ReclamationTask.h"
 #include "Task/Interface/RoguelikeTask.h"
+#include "Task/Interface/SSSCopilotTask.h"
 #include "Task/Interface/StartUpTask.h"
 #include "Utils/Logger.hpp"
 #ifdef ASST_DEBUG
@@ -48,8 +51,14 @@ Assistant::~Assistant()
 
     m_thread_exit = true;
     m_thread_idle = true;
-    m_condvar.notify_all();
-    m_msg_condvar.notify_all();
+    {
+        std::unique_lock<std::mutex> lock(m_mutex);
+        m_condvar.notify_all();
+    }
+    {
+        std::unique_lock<std::mutex> lock(m_msg_mutex);
+        m_msg_condvar.notify_all();
+    }
 
     if (m_working_thread.joinable()) {
         m_working_thread.join();
@@ -84,6 +93,16 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
         }
         else if (constexpr std::string_view Disable = "0"; value == Disable) {
             m_ctrler->set_swipe_with_pause(false);
+            return true;
+        }
+        break;
+    case InstanceOptionKey::AdbLiteEnabled:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_adb_lite_enabled(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_adb_lite_enabled(false);
             return true;
         }
         break;
@@ -141,7 +160,10 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SSSCopilotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
 #ifdef ASST_DEBUG
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif

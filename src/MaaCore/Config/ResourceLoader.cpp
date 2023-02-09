@@ -1,8 +1,10 @@
 #include "ResourceLoader.h"
 
 #include <filesystem>
+#include <future>
 
 #include "GeneralConfig.h"
+#include "Miscellaneous/AvatarCacheManager.h"
 #include "Miscellaneous/BattleDataConfig.h"
 #include "Miscellaneous/CopilotConfig.h"
 #include "Miscellaneous/InfrastConfig.h"
@@ -26,7 +28,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         auto full_path = path / Filename;                                 \
         bool ret = load_resource<Config>(full_path);                      \
         if (!ret) {                                                       \
-            m_loaded = false;                                             \
             Log.error(#Config, " load failed, path:", full_path);         \
             return false;                                                 \
         }                                                                 \
@@ -39,40 +40,65 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         auto full_templ_dir = path / TemplDir;                                                   \
         bool ret = load_resource_with_templ<Config>(full_path, full_templ_dir);                  \
         if (!ret) {                                                                              \
-            m_loaded = false;                                                                    \
             Log.error(#Config, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
             return false;                                                                        \
         }                                                                                        \
     }
 
+#define LoadCacheWithoutRet(Config, Dir)                              \
+    {                                                                 \
+        LogTraceScope(std::string("LoadCacheWithoutRet ") + #Config); \
+        auto full_path = UserDir.get() / "cache"_p / Dir;             \
+        SingletonHolder<Config>::get_instance().load(full_path);      \
+    }
+
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    /* load resource with json files*/
-    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
-    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
+    auto config_future = std::async(std::launch::async, [&]() -> bool {
+        /* load resource with json files*/
+        LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
+        LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
+        LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
+        LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+        LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+        LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+        LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
 
-    /* load resource with json and template files*/
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
-    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
-    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+        /* load resource with json and template files*/
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+        LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
+        LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+
+        /* load cache */
+        LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
+
+        return true;
+    });
 
     /* load 3rd parties resource */
-    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
-    LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-    LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+    auto tile_future = std::async(std::launch::async, [&]() -> bool {
+        LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
+        return true;
+    });
 
-    m_loaded = true;
+    auto ocr_future = std::async(std::launch::async, [&]() -> bool {
+        // fastdeploy 不知道有啥问题，没法异步加载两个模型，改成同步算了
+        LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
+        LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+        return true;
+    });
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
+#undef LoadCacheWithoutRet
 
-    return true;
+    m_loaded = true;
+    m_loaded &= config_future.get();
+    m_loaded &= tile_future.get();
+    m_loaded &= ocr_future.get();
+
+    return m_loaded;
 }
 
 bool asst::ResourceLoader::loaded() const noexcept

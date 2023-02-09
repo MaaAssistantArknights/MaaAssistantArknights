@@ -49,8 +49,7 @@ namespace MaaWpfGui
         public static readonly DependencyProperty PagePaddingProperty =
             DependencyProperty.RegisterAttached("PagePadding", typeof(Thickness), typeof(FlowDocumentPagePadding), new UIPropertyMetadata(new Thickness(double.NegativeInfinity), (o, args) =>
             {
-                var fd = o as FlowDocument;
-                if (fd == null)
+                if (!(o is FlowDocument fd))
                 {
                     return;
                 }

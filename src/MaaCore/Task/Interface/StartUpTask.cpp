@@ -2,6 +2,7 @@
 
 #include <utility>
 
+#include "Config/GeneralConfig.h"
 #include "Task/ProcessTask.h"
 
 asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst)
@@ -11,7 +12,7 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst)
 {
     m_start_up_task_ptr->set_tasks({ "StartUpBegin" })
         .set_times_limit("ReturnTo", 0)
-        .set_task_delay(1000)
+        .set_task_delay(Config.get_options().task_delay * 2)
         .set_retry_times(30);
     m_subtasks.emplace_back(m_start_game_task_ptr)->set_ignore_error(true);
     m_subtasks.emplace_back(m_start_up_task_ptr);

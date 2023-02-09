@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,7 +25,9 @@ namespace MaaWpfGui
     /// </summary>
     public class DepotViewModel : Screen
     {
+#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052
         private readonly IContainer _container;
 
         /// <summary>

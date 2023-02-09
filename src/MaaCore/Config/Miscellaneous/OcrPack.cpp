@@ -13,6 +13,7 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
+#include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
 
 #ifdef _WIN32
@@ -29,13 +30,20 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
 asst::OcrPack::OcrPack()
     : m_ocr_option(std::make_unique<fastdeploy::RuntimeOption>()), m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
 {
+    LogTraceFunction;
     m_ocr_option->UseOrtBackend();
 }
 
-asst::OcrPack::~OcrPack() {}
+asst::OcrPack::~OcrPack()
+{
+    LogTraceFunction;
+}
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
+    LogTraceFunction;
+    Log.info("load", path);
+
     bool use_temp_dir = false;
     auto paddle_dir = prepare_paddle_dir(path, &use_temp_dir);
 
@@ -46,28 +54,27 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     do {
         using namespace asst::utils::path_literals;
         const auto det_dir = paddle_dir / "det"_p;
-        const auto dst_model_file = det_dir / "inference.pdmodel"_p;
-        const auto dst_params_file = det_dir / "inference.pdiparams"_p;
+        const auto dst_model_file = det_dir / "inference.onnx"_p;
+        // const auto dst_params_file = det_dir / "inference.pdiparams"_p;
         const auto rec_dir = paddle_dir / "rec"_p;
-        const auto rec_model_file = rec_dir / "inference.pdmodel"_p;
-        const auto rec_params_file = rec_dir / "inference.pdiparams"_p;
+        const auto rec_model_file = rec_dir / "inference.onnx"_p;
+        // const auto rec_params_file = rec_dir / "inference.pdiparams"_p;
         const auto rec_label_file = rec_dir / "keys.txt"_p;
 
-        if (std::filesystem::exists(dst_model_file) && std::filesystem::exists(dst_params_file)) {
+        if (std::filesystem::exists(dst_model_file)) {
             m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
-                asst::utils::path_to_ansi_string(dst_model_file), asst::utils::path_to_ansi_string(dst_params_file),
-                *m_ocr_option);
+                asst::utils::path_to_ansi_string(dst_model_file), std::string(), *m_ocr_option,
+                fastdeploy::ModelFormat::ONNX);
         }
         else if (!m_det) {
             break;
         }
         // else 沿用原来的模型
 
-        if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_params_file) &&
-            std::filesystem::exists(rec_label_file)) {
+        if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_label_file)) {
             m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-                asst::utils::path_to_ansi_string(rec_model_file), asst::utils::path_to_ansi_string(rec_params_file),
-                asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option);
+                asst::utils::path_to_ansi_string(rec_model_file), std::string(),
+                asst::utils::path_to_ansi_string(rec_label_file), *m_ocr_option, fastdeploy::ModelFormat::ONNX);
         }
         else if (!m_rec) {
             break;
@@ -185,23 +192,29 @@ static std::filesystem::path prepare_paddle_dir(const std::filesystem::path& dir
     static std::atomic<uint64_t> id {};
 
     *is_temp = false;
-    if (!asst::utils::path_to_ansi_string(dir).empty()) {
+    auto is_ascii = [](const std::filesystem::path& path) {
+        return asst::ranges::all_of(path.wstring(), [](auto ch) { return ch < 127; });
+    };
+
+    if (is_ascii(dir)) {
         // can be passed to paddle via path_to_ansi_string
         return dir;
     }
     // fallback: create junction (reparse point) in user temp directory
-    wchar_t tempbuf[MAX_PATH + 1];
-    auto templen = GetTempPathW(MAX_PATH + 1, tempbuf);
-    std::filesystem::path tempdir(std::wstring_view(tempbuf, templen));
-    if (asst::utils::path_to_ansi_string(tempdir).empty()) {
-        asst::Log.error("failed to escape unicode path: temp dir cannot be escaped");
-        // cannot escape temp dir, no luck
-        return {};
+    std::filesystem::path tempdir = std::filesystem::temp_directory_path();
+    if (!is_ascii(tempdir)) {
+        // 临时目录（如 C:\Users\XXX\AppData\Local\Temp）也是中文路径，无法使用
+        asst::Log.warn("failed to escape unicode path: temp dir cannot be escaped", tempdir);
+        // 只能随地拉屎了。这里使用盘符根目录
+        tempdir = dir.root_path();
     }
+
     auto pid = GetCurrentProcessId();
-    while (1) {
+    while (true) {
         auto dirname = std::format(L"MaaLink-{}-{}", pid, id++);
         auto linkdir = tempdir / dirname;
+        asst::Log.info("tempdir", tempdir, "linkdir", linkdir);
+
         if (CreateDirectoryW(linkdir.c_str(), nullptr)) {
             auto success = asst::win32::SetDirectoryReparsePoint(linkdir, dir);
             if (success) {

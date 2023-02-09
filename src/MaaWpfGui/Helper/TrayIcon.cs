@@ -12,7 +12,6 @@
 // </copyright>
 
 using System;
-using System.Windows;
 using System.Windows.Forms;
 using StyletIoC;
 

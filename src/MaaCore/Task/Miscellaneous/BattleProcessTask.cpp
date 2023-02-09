@@ -27,6 +27,7 @@ using namespace asst::battle::copilot;
 asst::BattleProcessTask::BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
     : AbstractTask(callback, inst, task_chain), BattleHelper(inst)
 {}
+
 bool asst::BattleProcessTask::_run()
 {
     LogTraceFunction;
@@ -37,12 +38,17 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
-    load_cache();
     update_deployment(true);
     to_group();
 
-    for (size_t i = 0; i < m_combat_data.actions.size() && !need_exit(); ++i) {
-        do_action(i);
+    size_t action_size = get_combat_data().actions.size();
+    for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
+        const auto& action = get_combat_data().actions.at(i);
+        do_action(action, i);
+    }
+
+    if (need_to_wait_until_end()) {
+        wait_until_end();
     }
 
     return true;
@@ -74,22 +80,10 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     return true;
 }
 
-void asst::BattleProcessTask::load_cache()
-{
-    LogTraceFunction;
-
-    for (const auto& oper_list : m_combat_data.groups | views::values) {
-        for (const auto& oper : oper_list) {
-            load_avatar_cache(oper.name, true);
-        }
-    }
-    // TODO: 识别编队，额外加载编队中有的干员的缓存
-}
-
 bool asst::BattleProcessTask::to_group()
 {
     std::unordered_map<std::string, std::vector<std::string>> groups;
-    for (const auto& [group_name, oper_list] : m_combat_data.groups) {
+    for (const auto& [group_name, oper_list] : get_combat_data().groups) {
         std::vector<std::string> oper_name_list;
         ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) { return oper.name; });
         groups.emplace(group_name, std::move(oper_name_list));
@@ -117,7 +111,7 @@ bool asst::BattleProcessTask::to_group()
     m_oper_in_group.merge(ungrouped);
 
     for (const auto& action : m_combat_data.actions) {
-        const std::string& action_name = action.group_name;
+        const std::string& action_name = action.name;
         if (action_name.empty() || m_oper_in_group.contains(action_name)) {
             continue;
         }
@@ -125,7 +119,7 @@ bool asst::BattleProcessTask::to_group()
     }
 
     for (const auto& [group_name, oper_name] : m_oper_in_group) {
-        auto& this_group = m_combat_data.groups[group_name];
+        auto& this_group = get_combat_data().groups[group_name];
         // there is a build error on macOS
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/3779762713/jobs/6425284487
         const std::string& oper_name_for_lambda = oper_name;
@@ -139,9 +133,9 @@ bool asst::BattleProcessTask::to_group()
     return true;
 }
 
-bool asst::BattleProcessTask::do_action(size_t action_index)
+bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t action_index)
 {
-    const auto& action = m_combat_data.actions.at(action_index);
+    LogTraceFunction;
 
     notify_action(action);
 
@@ -149,13 +143,13 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         return false;
     }
     if (action.pre_delay > 0) {
-        sleep_with_use_ready_skill(action.pre_delay);
+        sleep_and_do_strategy(action.pre_delay);
         // 等待之后画面可能会变化，更新下干员信息
         update_deployment();
     }
 
     bool ret = false;
-    const std::string& name = m_oper_in_group[action.group_name];
+    const std::string& name = get_name_from_group(action.name);
     const auto& location = action.location;
 
     switch (action.type) {
@@ -184,7 +178,7 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         break;
 
     case ActionType::SkillUsage:
-        m_skill_usage[action.group_name] = action.modify_usage;
+        m_skill_usage[action.name] = action.modify_usage;
         ret = true;
         break;
 
@@ -193,29 +187,53 @@ bool asst::BattleProcessTask::do_action(size_t action_index)
         ret = true;
         break;
 
+    case ActionType::MoveCamera:
+        ret = move_camera(action.distance);
+        break;
+
     case ActionType::SkillDaemon:
-        ret = wait_for_end();
+        ret = wait_until_end();
+        break;
+    default:
+        ret = do_derived_action(action_index);
         break;
     }
 
-    sleep_with_use_ready_skill(action.post_delay);
+    sleep_and_do_strategy(action.post_delay);
 
     return ret;
+}
+
+const std::string& asst::BattleProcessTask::get_name_from_group(const std::string& action_name)
+{
+    auto iter = m_oper_in_group.find(action_name);
+    if (iter != m_oper_in_group.cend()) {
+        return iter->second;
+    }
+    m_oper_in_group.emplace(action_name, action_name);
+    return m_oper_in_group.at(action_name);
 }
 
 void asst::BattleProcessTask::notify_action(const battle::copilot::Action& action)
 {
     const static std::unordered_map<ActionType, std::string> ActionNames = {
-        { ActionType::Deploy, "Deploy" },           { ActionType::UseSkill, "UseSkill" },
-        { ActionType::Retreat, "Retreat" },         { ActionType::SkillDaemon, "SkillDaemon" },
-        { ActionType::SwitchSpeed, "SwitchSpeed" }, { ActionType::SkillUsage, "SkillUsage" },
-        { ActionType::BulletTime, "BulletTime" },   { ActionType::Output, "Output" },
+        { ActionType::Deploy, "Deploy" },
+        { ActionType::UseSkill, "UseSkill" },
+        { ActionType::Retreat, "Retreat" },
+        { ActionType::SkillDaemon, "SkillDaemon" },
+        { ActionType::SwitchSpeed, "SwitchSpeed" },
+        { ActionType::SkillUsage, "SkillUsage" },
+        { ActionType::BulletTime, "BulletTime" },
+        { ActionType::Output, "Output" },
+        { ActionType::MoveCamera, "MoveCamera" },
+        { ActionType::DrawCard, "DrawCard" },
+        { ActionType::CheckIfStartOver, "CheckIfStartOver" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
     info["details"] |= json::object {
         { "action", ActionNames.at(action.type) },
-        { "target", action.group_name },
+        { "target", action.name },
         { "doc", action.doc },
         { "doc_color", action.doc_color },
     };
@@ -226,10 +244,13 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 {
     cv::Mat image;
     auto update_image_if_empty = [&]() {
-        if (image.empty()) image = ctrler()->get_image();
+        if (image.empty()) {
+            image = ctrler()->get_image();
+            check_in_battle(image);
+        }     
     };
-    auto use_all_ready_skill_then_update_image = [&]() {
-        use_all_ready_skill(image);
+    auto do_strategy_and_update_image = [&]() {
+        do_strategic_action(image);
         image = ctrler()->get_image();
     };
 
@@ -238,7 +259,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         update_cost(image);
         int pre_cost = m_cost;
 
-        do {
+        while (!need_exit()) {
             update_cost(image);
             if (action.cost_changes != 0) {
                 if ((pre_cost + action.cost_changes < 0) ? (m_cost <= pre_cost + action.cost_changes)
@@ -246,8 +267,11 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                     break;
                 }
             }
-            use_all_ready_skill_then_update_image();
-        } while (!need_exit());
+            if (!check_in_battle(image)) {
+                return false;
+            }
+            do_strategy_and_update_image();
+        }
     }
 
     if (m_kills < action.kills) {
@@ -257,7 +281,10 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (m_kills >= action.kills) {
                 break;
             }
-            use_all_ready_skill_then_update_image();
+            if (!check_in_battle(image)) {
+                return false;
+            }
+            do_strategy_and_update_image();
         }
     }
 
@@ -268,7 +295,10 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (m_cost >= action.costs) {
                 break;
             }
-            use_all_ready_skill_then_update_image();
+            if (!check_in_battle(image)) {
+                return false;
+            }
+            do_strategy_and_update_image();
         }
     }
 
@@ -276,27 +306,31 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     if (action.cooling >= 0) {
         update_image_if_empty();
         while (!need_exit()) {
-            update_deployment(false, image);
+            if (!update_deployment(false, image)) {
+                return false;
+            }
             size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
                                                     [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == action.cooling) {
                 break;
             }
-            use_all_ready_skill_then_update_image();
+            do_strategy_and_update_image();
         }
     }
 
     // 部署干员还有额外等待费用够或 CD 转好
     if (!m_in_bullet_time && action.type == ActionType::Deploy) {
-        const std::string& name = m_oper_in_group[action.group_name];
+        const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
-            update_deployment(false, image);
+            if (!update_deployment(false, image)) {
+                return false;
+            }
             if (auto iter = m_cur_deployment_opers.find(name);
                 iter != m_cur_deployment_opers.cend() && iter->second.available) {
                 break;
             }
-            use_all_ready_skill_then_update_image();
+            do_strategy_and_update_image();
         }
     }
 
@@ -308,11 +342,11 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
 {
     LogTraceFunction;
 
-    if (next_index > m_combat_data.actions.size()) {
+    if (next_index > get_combat_data().actions.size()) {
         Log.error("Bullet time does not have the next step!");
         return false;
     }
-    const auto& next_action = m_combat_data.actions.at(next_index);
+    const auto& next_action = get_combat_data().actions.at(next_index);
 
     bool ret = false;
     switch (next_action.type) {
@@ -322,7 +356,7 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
 
     case ActionType::UseSkill:
     case ActionType::Retreat:
-        ret = location.empty() ? click_oper_on_battlefiled(name) : click_oper_on_battlefiled(location);
+        ret = location.empty() ? click_oper_on_battlefield(name) : click_oper_on_battlefield(location);
         break;
 
     default:
@@ -333,16 +367,16 @@ bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_inde
     return ret;
 }
 
-void asst::BattleProcessTask::sleep_with_use_ready_skill(unsigned millisecond)
+void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
 {
-    LogTraceScope(__FUNCTION__ + std::to_string(millisecond));
+    LogTraceScope(__FUNCTION__ + std::string(" ms: ") + std::to_string(millisecond));
 
     using namespace std::chrono_literals;
     const auto start = std::chrono::steady_clock::now();
     const auto delay = millisecond * 1ms;
 
     while (!need_exit() && std::chrono::steady_clock::now() - start < delay) {
-        use_all_ready_skill();
+        do_strategic_action();
         std::this_thread::yield();
     }
 }

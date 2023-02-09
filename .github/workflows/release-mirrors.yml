@@ -1,0 +1,45 @@
+name: release-mirrors
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Number of releases to fetch from MaaAssistantArknights, 2 at least"
+        required: false
+        default: 30
+        type: number
+
+jobs:
+  upload-mirrors:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Fetch release info"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -pv upload-dir && cd upload-dir
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
+          head -n 1 ./release_maa.txt | awk '{ print $1 }' > ./config
+
+          echo "config:"
+          cat ./config
+
+          echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_ENV
+      - name: "Download latest version for server"
+        run: |
+          mkdir -pv upload-dir/${{ env.release_tag }}
+          cd upload-dir/${{ env.release_tag }}
+          gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-*" --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Upload to mirror 0"
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_MIRROR_0_HOST }}
+          username: ${{ secrets.SSH_MIRROR_0_USER }}
+          key: ${{ secrets.SSH_MIRROR_0_KEY }}
+          source: "upload-dir/${{ env.release_tag }}"
+          target: "/data/html/MaaAssistantArknights/MaaAssistantArknights/releases/download"
+          strip_components: 1

@@ -13,8 +13,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Documents;
+using MaaWpfGui.Helper;
+using Newtonsoft.Json.Linq;
+using Semver;
+using Stylet;
+using StyletIoC;
 
 namespace MaaWpfGui
 {
@@ -23,40 +33,146 @@ namespace MaaWpfGui
     /// </summary>
     public class StageManager
     {
-        private readonly Dictionary<string, StageInfo> _stages;
+        [DllImport("MaaCore.dll")]
+        private static extern IntPtr AsstGetVersion();
+
+        private readonly IContainer _container;
+
+        private Dictionary<string, StageInfo> _stages;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StageManager"/> class.
         /// </summary>
-        public StageManager()
+        /// <param name="container">The IoC container.</param>
+        public StageManager(IContainer container)
         {
-            var sideStory = new StageActivityInfo()
-            {
-                Tip = "SideStory「将进酒」复刻活动",
-                StageName = "IW",
-                UtcStartTime = new DateTime(2023, 1, 1, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2023, 1, 11, 4, 0, 0).AddHours(-8),
-            };
+            _container = container;
+            UpdateStage(false);
 
-            var resourceCollection = new StageActivityInfo()
+            Execute.OnUIThread(async () =>
             {
-                Tip = "「感谢庆典」，“资源收集”限时全天开放",
-                UtcStartTime = new DateTime(2022, 11, 15, 16, 0, 0).AddHours(-8),
-                UtcExpireTime = new DateTime(2022, 11, 29, 4, 0, 0).AddHours(-8),
-                IsResourceCollection = true,
-            };
+                var task = Task.Run(() =>
+                {
+                    UpdateStage(true);
+                });
+                await task;
+                if (_container != null)
+                {
+                    _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
+                    _container.Get<TaskQueueViewModel>().UpdateStageList(true);
+                }
+            });
+        }
 
-            _stages = new Dictionary<string, StageInfo>
+        private void UpdateStage(bool fromWeb)
+        {
+            var tempStage = new Dictionary<string, StageInfo>
             {
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
                 // 「当前/上次」关卡导航
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
+            };
 
-                // SideStory「将进酒」复刻活动
-                { "IW-8", new StageInfo { Display = "IW-8", Value = "IW-8", Activity = sideStory } },
-                { "IW-7", new StageInfo { Display = "IW-7", Value = "IW-7", Activity = sideStory } },
-                { "IW-6", new StageInfo { Display = "IW-6", Value = "IW-6", Activity = sideStory } },
+            var stageApi = "StageActivity.json";
+            var activity = fromWeb ? WebService.RequestMaaApiWithCache(stageApi) : WebService.LoadApiCache(stageApi);
 
+            var resourceCollection = new StageActivityInfo()
+            {
+                IsResourceCollection = true,
+            };
+
+            static DateTime GetDateTime(JToken keyValuePairs, string key)
+                => DateTime.ParseExact(keyValuePairs[key].ToString(),
+                   "yyyy/MM/dd HH:mm:ss",
+                   CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
+
+            var settingsModel = _container.Get<SettingsViewModel>();
+            var clientType = settingsModel.ClientType;
+
+            // 官服和B服使用同样的资源
+            if (clientType == "Bilibili" || clientType == string.Empty)
+            {
+                clientType = "Official";
+            }
+
+            if (activity?[clientType] != null)
+            {
+                try
+                {
+                    // 资源全开放活动
+                    var resource = activity[clientType]["resourceCollection"];
+                    if (resource != null)
+                    {
+                        resourceCollection.Tip = resource["Tip"]?.ToString();
+                        resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
+                        resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
+                    }
+
+                    // 活动关卡
+                    foreach (var stageObj in activity[clientType]["sideStoryStage"] ?? Enumerable.Empty<JToken>())
+                    {
+                        bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
+                        bool curParsed = !isDebugVersion ?
+                            SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
+                            SemVersion.TryParse("4.10.1", SemVersionStyles.AllowLowerV, out curVersionObj);
+                        bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
+
+                        if (curParsed && minimumRequiredPared)
+                        {
+                            if (curVersionObj.CompareSortOrderTo(minimumRequiredObj) < 0)
+                            {
+                                if (!tempStage.ContainsKey("不支持的关卡"))
+                                {
+                                    tempStage.Add(
+                                        "不支持的关卡",
+                                        new StageInfo
+                                        {
+                                            Display = "不支持的关卡",
+                                            Value = "不支持的关卡",
+                                            Drop = "版本过低",
+                                            Activity = new StageActivityInfo()
+                                            {
+                                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                            },
+                                        });
+                                }
+
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        tempStage.Add(
+                            stageObj["Value"].ToString(),
+                            new StageInfo
+                            {
+                                Display = stageObj?["Display"]?.ToString() ?? string.Empty,
+                                Value = stageObj["Value"].ToString(),
+                                Drop = stageObj?["Drop"]?.ToString(),
+                                Activity = new StageActivityInfo()
+                                {
+                                    Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                    StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                    UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                    UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                },
+                            });
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                }
+            }
+
+            foreach (var kvp in new Dictionary<string, StageInfo>
+            {
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
 
@@ -85,11 +201,12 @@ namespace MaaWpfGui
                 // 周一和周日的关卡提示
                 { "Pormpt1", new StageInfo { Tip = Localization.GetString("Pormpt1"), OpenDays = new[] { DayOfWeek.Monday }, IsHidden = true } },
                 { "Pormpt2", new StageInfo { Tip = Localization.GetString("Pormpt2"), OpenDays = new[] { DayOfWeek.Sunday }, IsHidden = true } },
+            })
+            {
+                tempStage.Add(kvp.Key, kvp.Value);
+            }
 
-                // 老版本「当前/上次」关卡导航
-                // new StageInfo { Display = Localization.GetString("CurrentStage"), Value = string.Empty },
-                // new StageInfo { Display = Localization.GetString("LastBattle"), Value = "LastBattle" },
-            };
+            _stages = tempStage;
         }
 
         /// <summary>
@@ -111,6 +228,11 @@ namespace MaaWpfGui
         /// <returns>Whether stage is open</returns>
         public bool IsStageOpen(string stage, DayOfWeek dayOfWeek)
         {
+            if (stage == null)
+            {
+                return false;
+            }
+
             return GetStageInfo(stage)?.IsStageOpen(dayOfWeek) == true;
         }
 
@@ -127,11 +249,7 @@ namespace MaaWpfGui
             {
                 if (item.Value.IsStageOpen(dayOfWeek))
                 {
-                    if (!string.IsNullOrEmpty(item.Value.Tip))
-                    {
-                        builder.AppendLine(item.Value.Tip);
-                    }
-                    else if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
+                    if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
                     {
                         DateTime dateTime = DateTime.UtcNow;
                         var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
@@ -140,6 +258,16 @@ namespace MaaWpfGui
                             + Localization.GetString("Daysleftopen")
                             + (daysleftopen > 0 ? daysleftopen.ToString() : Localization.GetString("LessThanOneDay")));
                         sideStoryFlag = false;
+                    }
+
+                    if (!string.IsNullOrEmpty(item.Value.Tip))
+                    {
+                        builder.AppendLine(item.Value.Tip);
+                    }
+
+                    if (!string.IsNullOrEmpty(item.Value.Drop))
+                    {
+                        builder.AppendLine(item.Value.Display + ": " + Utils.GetItemName(item.Value.Drop));
                     }
                 }
             }

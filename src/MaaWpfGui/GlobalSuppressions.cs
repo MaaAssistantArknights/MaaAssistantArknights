@@ -13,6 +13,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA0001:Comma should be followed by a space", Justification = "Comma followed by space", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "Underscores used", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1116:Split parameters should start on line after declaration", Justification = "Alignment does not matter", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1117:Parameters should be on same line or separate lines", Justification = "Alignment does not matter", Scope = "module")]
@@ -29,4 +30,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1308:Variable names should not be prefixed", Justification = "Keep current variable names", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1309:Field names should not begin with underscore", Justification = "Keep current variable names", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1311:Static readonly fields should begin with upper-case letter", Justification = "Keep current variable names", Scope = "module")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600", Justification = "Non-English documentation")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1629:Documentation text should end with a period", Justification = "Non-English documentation", Scope = "module")]
+[assembly: SuppressMessage("ReSharper", "IDE1006", Justification = "Non-English documentation")]

@@ -7,6 +7,7 @@ namespace asst
 {
     class BattleProcessTask;
     class BattleFormationTask;
+    class ProcessTask;
 
     // 抄作业任务
     class CopilotTask final : public InterfaceTask
@@ -23,6 +24,7 @@ namespace asst
     private:
         std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
         std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> m_stop_task_ptr = nullptr;
         std::string m_stage_name;
     };
 }

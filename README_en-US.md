@@ -178,7 +178,7 @@ Please refer to [Issue Bot Usage](docs/en-us/2.3-ISSUE_BOT_USAGE.md) for more de
 
 ## Advertisement
 
-[User Group (Telegram)](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group 1(full)](https://jq.qq.com/?_wv=1027&k=1giyMpPb), [QQ Group 2(full)](https://jq.qq.com/?_wv=1027&k=R3oleoKc), [QQ Group 3(full)](https://jq.qq.com/?_wv=1027&k=mKdOnhWV), [QQ Group 4(full)](https://jq.qq.com/?_wv=1027&k=ABkU8mCR), [QQ Group 5(full)](https://jq.qq.com/?_wv=1027&k=To6b6H6m), [QQ Group 6(full)](https://jq.qq.com/?_wv=1027&k=PYoCP2lS), [QQ Group 7(full)](https://jq.qq.com/?_wv=1027&k=xDT9vHvB), [QQ Group 8](https://jq.qq.com/?_wv=1027&k=PzvqFhOr)  
+User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 [Copilot JSON Sharing](https://prts.plus)  
 [Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
 [Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  

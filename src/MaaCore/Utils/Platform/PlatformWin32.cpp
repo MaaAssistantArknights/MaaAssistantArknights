@@ -126,12 +126,11 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     auto pipe_buffer = std::make_unique<char[]>(PipeBuffSize);
     std::string pipe_str;
 
-    DWORD err = 0;
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
     SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
     if (!asst::win32::CreateOverlappablePipe(&pipe_parent_read, &pipe_child_write, nullptr, &sa_inherit, PipeBuffSize,
                                              true, false)) {
-        err = GetLastError();
+        DWORD err = GetLastError();
         asst::Log.error("CreateOverlappablePipe failed, err", err);
         return {};
     }
@@ -150,7 +149,8 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     BOOL create_ret =
         CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
     if (!create_ret) {
-        Log.error("Call `", cmdline, "` create process failed, ret", create_ret);
+        DWORD err = GetLastError();
+        Log.error("Call `", cmdline, "` create process failed, ret", create_ret, "error code:", err);
         return {};
     }
 
@@ -180,7 +180,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
         }
         else {
             // something bad happened
-            err = GetLastError();
+            DWORD err = GetLastError();
             // throw std::system_error(std::error_code(err, std::system_category()));
             Log.error(__FUNCTION__, "A fatal error occurred", err);
             break;
@@ -197,7 +197,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
                 (void)ReadFile(pipe_parent_read, pipe_buffer.get(), PipeBuffSize, nullptr, &pipeov);
             }
             else {
-                err = GetLastError();
+                DWORD err = GetLastError();
                 if (err == ERROR_HANDLE_EOF || err == ERROR_BROKEN_PIPE) {
                     pipe_eof = true;
                 }

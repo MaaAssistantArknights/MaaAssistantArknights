@@ -2686,6 +2686,56 @@
         }
     },
     {
+        "stage_name": "酒商运输队",
+        "replacement_home": [
+            {
+                "location": [
+                    9,
+                    3
+                ],
+                "direction": "left"
+            }
+        ],
+        "blacklist_location": [
+            [
+                1,
+                4
+            ],
+            [
+                2,
+                2
+            ],
+            [
+                3,
+                4
+            ],
+            [
+                4,
+                2
+            ],
+            [
+                5,
+                4
+            ],
+            [
+                6,
+                2
+            ],
+            [
+                7,
+                4
+            ],
+            [
+                8,
+                2
+            ],
+            [
+                9,
+                4
+            ]
+        ]
+    },
+    {
         "stage_name": "意外",
         "replacement_home": [
             {
