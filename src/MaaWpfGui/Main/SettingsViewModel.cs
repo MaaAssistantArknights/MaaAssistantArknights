@@ -28,6 +28,7 @@ using System.Windows.Interop;
 using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
+using Newtonsoft.Json;
 using Stylet;
 
 namespace MaaWpfGui
@@ -118,6 +119,12 @@ namespace MaaWpfGui
             if (LoadGUIParameters && SaveGUIParametersOnClosing)
             {
                 Application.Current.MainWindow.Closing += SaveGUIParameters;
+            }
+
+            var addressesJson = ViewStatusStorage.Get("Connect.Addresses", string.Empty);
+            if (!string.IsNullOrEmpty(addressesJson))
+            {
+                ConnectAddresses = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressesJson);
             }
         }
 
@@ -1747,6 +1754,14 @@ namespace MaaWpfGui
             }
         }
 
+        private ObservableCollection<string> _connectAddresses = new ObservableCollection<string>();
+
+        public ObservableCollection<string> ConnectAddresses
+        {
+            get => _connectAddresses;
+            set => SetAndNotify(ref _connectAddresses, value);
+        }
+
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
         /// <summary>
@@ -1757,7 +1772,27 @@ namespace MaaWpfGui
             get => _connectAddress;
             set
             {
+                if (ConnectAddress == value || string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+
+                if (!ConnectAddresses.Contains(value))
+                {
+                    ConnectAddresses.Insert(0, value);
+                    while (ConnectAddresses.Count > 5)
+                    {
+                        ConnectAddresses.RemoveAt(ConnectAddresses.Count - 1);
+                    }
+                }
+                else
+                {
+                    ConnectAddresses.Remove(value);
+                    ConnectAddresses.Insert(0, value);
+                }
+
                 SetAndNotify(ref _connectAddress, value);
+                ViewStatusStorage.Set("Connect.Addresses", JsonConvert.SerializeObject(ConnectAddresses));
                 ViewStatusStorage.Set("Connect.Address", value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
