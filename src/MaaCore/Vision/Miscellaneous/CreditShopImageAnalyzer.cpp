@@ -8,15 +8,20 @@
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
+#include "Utils/Logger.hpp"
 
 void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)
 {
+    Log.info(__FUNCTION__, black_list);
+    
     m_shopping_list = std::move(black_list);
     m_is_white_list = false;
 }
 
 void asst::CreditShopImageAnalyzer::set_white_list(std::vector<std::string> black_list)
 {
+    Log.info(__FUNCTION__, black_list);
+    
     m_shopping_list = std::move(black_list);
     m_is_white_list = true;
 }
@@ -61,6 +66,8 @@ bool asst::CreditShopImageAnalyzer::commodities_analyze()
 
 bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 {
+    Log.info(__FUNCTION__, m_shopping_list, "mode", m_is_white_list);
+    
     const auto product_name_task_ptr = Task.get<OcrTaskInfo>("CreditShop-ProductName");
 
     for (const Rect& commodity : m_commodities) {
@@ -87,15 +94,17 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
-        m_need_to_buy.emplace_back(
-            commodity, ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text);
+        const std::string& name =
+            ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text;
+        Log.info("need to buy", name);
+        m_need_to_buy.emplace_back(commodity, name);
     }
 
     if (m_is_white_list) {
         ranges::sort(m_need_to_buy, std::less {},
                      [&](const auto& pair) { return ranges::find(m_shopping_list, pair.second); });
     }
-
+    
     return !m_need_to_buy.empty();
 }
 

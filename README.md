@@ -179,10 +179,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-用户交流群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)，[QQ 一群（已满）](https://jq.qq.com/?_wv=1027&k=ig786LJZ)，[QQ 二群（已满）](https://jq.qq.com/?_wv=1027&k=R3oleoKc)，[QQ 三群（已满）](https://jq.qq.com/?_wv=1027&k=mKdOnhWV)，[QQ 四群（已满）](https://jq.qq.com/?_wv=1027&k=ABkU8mCR)，[QQ 五群（已满）](https://jq.qq.com/?_wv=1027&k=To6b6H6m)，[QQ 六群（已满）](https://jq.qq.com/?_wv=1027&k=PYoCP2lS)，[QQ 七群（已满）](https://jq.qq.com/?_wv=1027&k=xDT9vHvB)，[QQ 八群](https://jq.qq.com/?_wv=1027&k=PzvqFhOr)  
+用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
-[Bilibili 直播间](https://live.bilibili.com/2808861)：每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
-[舟无关技术交流 & 吹水群（QQ 群）](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)：内卷地狱！  
-[开发者群（QQ 群）](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
+Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
+  
+技术 & 吹水群（舟无关）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！

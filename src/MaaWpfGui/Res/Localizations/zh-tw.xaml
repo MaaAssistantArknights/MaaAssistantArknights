@@ -10,7 +10,7 @@
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
     <system:String x:Key="MallSettings">信用相關</system:String>
-    <system:String x:Key="OtherCombatSettings">理智設定</system:String>
+    <system:String x:Key="OtherCombatSettings">戰鬥設定</system:String>
     <system:String x:Key="ConnectionSettings">連接設定</system:String>
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
@@ -132,7 +132,6 @@
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
 
-    <system:String x:Key="TimerTip">僅填寫小時數，將在整點時執行</system:String>
     <system:String x:Key="Timer">定時</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動</system:String>
@@ -146,7 +145,6 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
-    <system:String x:Key="RoguelikeThemeTip">需在集成戰略界面將對應主題PIN UP添加到終端</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="Strategy">策略</system:String>
@@ -174,7 +172,7 @@
     <system:String x:Key="MinimizeToTray">最小化時隱藏至托盤</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
-    <system:String x:Key="HideUnavailableStage">關卡選擇隱藏當日不開放關卡</system:String>
+    <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主線關卡名與原列表的關卡名（如4-10、AP-5、H10-1-Hard）&#x0a;可在關卡結尾輸入&quot;Normal/Hard&quot;表示需要切換標準與磨難難度</system:String>
@@ -211,7 +209,7 @@
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模擬器</system:String>
     <system:String x:Key="ExitEmulatorAndSelf">退出 MAA 和 模擬器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，並休眠*</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，並休眠</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">關機</system:String>
 
@@ -313,6 +311,7 @@
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
+    <system:String x:Key="LoopTimes">LoopTimes</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識“特別關注”的幹員</system:String>
 
     <system:String x:Key="Start">開始</system:String>

@@ -12,7 +12,7 @@ namespace asst
         virtual size_t max_num_of_opers() const noexcept override { return 5ULL; }
 
         InfrastDormTask& set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept;
-        InfrastDormTask& set_trust_enabled(bool m_drom_trust_enabled) noexcept;
+        InfrastDormTask& set_trust_enabled(bool m_dorm_trust_enabled) noexcept;
 
     private:
         virtual bool _run() override;
@@ -22,7 +22,7 @@ namespace asst
         bool click_order_by_mood();
 
         bool m_dorm_notstationed_enabled = false; // 设置是否启用未进驻筛选
-        bool m_drom_trust_enabled = true;         // 设置是否启用蹭信赖
+        bool m_dorm_trust_enabled = true;         // 设置是否启用蹭信赖
 
         int m_max_num_of_dorm = 4;
 

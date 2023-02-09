@@ -30,9 +30,9 @@ namespace MaaWpfGui
         public LogItemViewModel(string content, string color = UILogColor.Message, string weight = "Regular")
         {
             Time = DateTime.Now.ToString("MM'-'dd'  'HH':'mm':'ss");
-            this.Content = content;
-            this.Color = color;
-            this.Weight = weight;
+            Content = content;
+            Color = color;
+            Weight = weight;
         }
 
         private string _time;

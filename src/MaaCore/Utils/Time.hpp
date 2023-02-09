@@ -11,6 +11,8 @@
 #include <sys/time.h>
 #endif
 
+#include "StringMisc.hpp"
+
 namespace asst::utils
 {
     inline std::string get_format_time()
@@ -36,5 +38,12 @@ namespace asst::utils
         sprintf(buff, "%s.%03ld", buff, static_cast<long int>(tv.tv_usec / 1000));
 #endif // END _WIN32
         return buff;
+    }
+
+    inline std::string get_random_filestem()
+    {
+        std::string stem = utils::get_format_time();
+        string_replace_all_in_place(stem, { { ":", "-" }, { " ", "_" }, { ".", "-" } });
+        return stem;
     }
 } // namespace asst::utils

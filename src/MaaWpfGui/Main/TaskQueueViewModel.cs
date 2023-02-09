@@ -76,18 +76,25 @@ namespace MaaWpfGui
         {
             get
             {
-                if (Enum.TryParse(_actionAfterCompleted, out ActionType action))
+                if (!Enum.TryParse(_actionAfterCompleted, out ActionType action))
                 {
-                    return action;
+                    return ActionType.DoNothing;
                 }
 
-                return ActionType.DoNothing;
+                return action;
             }
 
             set
             {
                 string storeValue = value.ToString();
                 SetAndNotify(ref _actionAfterCompleted, storeValue);
+
+                if (value == ActionType.HibernateWithoutPersist || value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist
+                    || value == ActionType.ShutdownWithoutPersist)
+                {
+                    storeValue = ActionType.DoNothing.ToString();
+                }
+
                 ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
             }
         }
@@ -153,14 +160,19 @@ namespace MaaWpfGui
             int intMinute = DateTime.Now.Minute;
             int intHour = DateTime.Now.Hour;
             var settings = _container.Get<SettingsViewModel>();
-            if ((settings.Timer1 && settings.Timer1Hour == intHour && settings.Timer1Min == intMinute) ||
-                (settings.Timer2 && settings.Timer2Hour == intHour && settings.Timer2Min == intMinute) ||
-                (settings.Timer3 && settings.Timer3Hour == intHour && settings.Timer3Min == intMinute) ||
-                (settings.Timer4 && settings.Timer4Hour == intHour && settings.Timer4Min == intMinute) ||
-                (settings.Timer5 && settings.Timer5Hour == intHour && settings.Timer5Min == intMinute) ||
-                (settings.Timer6 && settings.Timer6Hour == intHour && settings.Timer6Min == intMinute) ||
-                (settings.Timer7 && settings.Timer7Hour == intHour && settings.Timer7Min == intMinute) ||
-                (settings.Timer8 && settings.Timer8Hour == intHour && settings.Timer8Min == intMinute))
+            var timeToStart = false;
+            for (int i = 0; i < 8; ++i)
+            {
+                if (settings.TimerModels.Timers[i].IsOn &&
+                    settings.TimerModels.Timers[i].Hour == intHour &&
+                    settings.TimerModels.Timers[i].Min == intMinute)
+                {
+                    timeToStart = true;
+                    break;
+                }
+            }
+
+            if (timeToStart)
             {
                 LinkStart();
             }
@@ -180,6 +192,7 @@ namespace MaaWpfGui
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
+                "ReclamationAlgorithm",
             };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
@@ -193,14 +206,17 @@ namespace MaaWpfGui
                 new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
                 new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
+
+                // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Hibernate") + "*", Value = ActionType.HibernateWithoutPersist },
+                new GenericCombData<ActionType> { Display = Localization.GetString("Shutdown") + "*", Value = ActionType.ShutdownWithoutPersist },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
-                int order;
-                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out order);
+                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
 
@@ -227,11 +243,12 @@ namespace MaaWpfGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            _stageManager = new StageManager();
-            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
-
-            // It's Cur/Last option
-            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
+            _stageManager = new StageManager(_container);
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
+            {
+                // It's Cur/Last option
+                [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+            };
 
             InitDrops();
             NeedToUpdateDatePrompt();
@@ -263,14 +280,13 @@ namespace MaaWpfGui
             if (settingsModel.HideUnavailableStage)
             {
                 // update available stage list
-                var stage1 = Stage1;
+                var stage1 = Stage1 ??= string.Empty;
                 StageList = new ObservableCollection<CombData>(_stageManager.GetStageList(_curDayOfWeek));
 
                 // reset closed stage1 to "Last/Current"
-                if (!CustomStageCode &&
-                    (stage1 == null || !_stageManager.IsStageOpen(stage1, _curDayOfWeek)))
+                if (!CustomStageCode)
                 {
-                    Stage1 = string.Empty;
+                    Stage1 = _stageManager.IsStageOpen(stage1, _curDayOfWeek) ? stage1 : string.Empty;
                 }
             }
             else
@@ -278,40 +294,34 @@ namespace MaaWpfGui
                 // initializing or settings changing, update stage list forcely
                 if (forceUpdate)
                 {
-                    var stage1 = Stage1;
-                    var stage2 = Stage2;
-                    var stage3 = Stage3;
+                    var stage1 = Stage1 ??= string.Empty;
+                    var stage2 = Stage2 ??= string.Empty;
+                    var stage3 = Stage3 ??= string.Empty;
+
+                    EnableSetFightParams = false;
 
                     StageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
 
                     // reset closed stages to "Last/Current"
-                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage1))
+                    if (!CustomStageCode)
                     {
-                        Stage1 = string.Empty;
+                        Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                        Stage2 = StageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                        Stage3 = StageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
                     }
 
-                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage2))
-                    {
-                        Stage2 = string.Empty;
-                    }
-
-                    if (!CustomStageCode && !StageList.Any(x => x.Value == stage3))
-                    {
-                        Stage3 = string.Empty;
-                    }
-                }
-                else
-                {
-                    // do nothing
+                    EnableSetFightParams = true;
                 }
             }
 
-            var remainingSanityStage = RemainingSanityStage;
-            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList());
-            RemainingSanityStageList[0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty };
-            if (!CustomStageCode && !RemainingSanityStageList.Any(x => x.Value == remainingSanityStage))
+            var rss = RemainingSanityStage ??= string.Empty;
+            RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
             {
-                RemainingSanityStage = string.Empty;
+                [0] = new CombData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+            };
+            if (!CustomStageCode)
+            {
+                RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
             }
         }
 
@@ -351,6 +361,11 @@ namespace MaaWpfGui
             var stages = new[] { Stage1, Stage2, Stage3 };
             foreach (var stage in stages)
             {
+                if (stage == null)
+                {
+                    continue;
+                }
+
                 if (_stageManager.GetStageInfo(stage)?.IsActivityClosed() == true)
                 {
                     builder.Append(stage).Append(": ").AppendLine(Localization.GetString("ClosedStage"));
@@ -414,9 +429,11 @@ namespace MaaWpfGui
         {
             foreach (var item in TaskItemViewModels)
             {
-                if (item.OriginalName == "AutoRoguelike")
+                switch (item.OriginalName)
                 {
-                    continue;
+                    case "AutoRoguelike":
+                    case "ReclamationAlgorithm":
+                        continue;
                 }
 
                 item.IsChecked = true;
@@ -518,10 +535,14 @@ namespace MaaWpfGui
             {
                 foreach (var item in TaskItemViewModels)
                 {
-                    if (item.OriginalName == "AutoRoguelike")
+                    switch (item.OriginalName)
                     {
-                        item.IsChecked = false;
-                        continue;
+                        case "AutoRoguelike":
+                            item.IsChecked = false;
+                            continue;
+                        case "ReclamationAlgorithm":
+                            item.IsChecked = false;
+                            continue;
                     }
 
                     item.IsChecked = !item.IsChecked;
@@ -640,7 +661,11 @@ namespace MaaWpfGui
                 }
                 else if (item.OriginalName == "AutoRoguelike")
                 {
-                    ret &= appendRoguelike();
+                    ret &= AppendRoguelike();
+                }
+                else if (item.OriginalName == "ReclamationAlgorithm")
+                {
+                    ret &= AppendReclamation();
                 }
                 else
                 {
@@ -756,57 +781,74 @@ namespace MaaWpfGui
 
             var asstProxy = _container.Get<AsstProxy>();
             bool mainFightRet = asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
-            if (!mainFightRet || RemainingSanityStage == string.Empty)
+
+            if (mainFightRet && (Stage == "Annihilation") && _container.Get<SettingsViewModel>().UseAlternateStage)
             {
-                return mainFightRet;
+                foreach (var stage in new[] { Stage1, Stage2, Stage3 })
+                {
+                    if (IsStageOpen(stage) && (stage != Stage))
+                    {
+                        mainFightRet = asstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
+                    }
+                }
             }
 
-            return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+            if (mainFightRet && UseRemainingSanityStage && (RemainingSanityStage != string.Empty))
+            {
+                return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+            }
+
+            return mainFightRet;
         }
+
+        public bool EnableSetFightParams { get; set; } = true;
 
         /// <summary>
         /// Sets parameters.
         /// </summary>
         public void SetFightParams()
         {
-            int medicine = 0;
-            if (UseMedicine)
+            if (EnableSetFightParams)
             {
-                if (!int.TryParse(MedicineNumber, out medicine))
+                int medicine = 0;
+                if (UseMedicine)
                 {
-                    medicine = 0;
+                    if (!int.TryParse(MedicineNumber, out medicine))
+                    {
+                        medicine = 0;
+                    }
                 }
-            }
 
-            int stone = 0;
-            if (UseStone)
-            {
-                if (!int.TryParse(StoneNumber, out stone))
+                int stone = 0;
+                if (UseStone)
                 {
-                    stone = 0;
+                    if (!int.TryParse(StoneNumber, out stone))
+                    {
+                        stone = 0;
+                    }
                 }
-            }
 
-            int times = int.MaxValue;
-            if (HasTimesLimited)
-            {
-                if (!int.TryParse(MaxTimes, out times))
+                int times = int.MaxValue;
+                if (HasTimesLimited)
                 {
-                    times = 0;
+                    if (!int.TryParse(MaxTimes, out times))
+                    {
+                        times = 0;
+                    }
                 }
-            }
 
-            int drops_quantity = 0;
-            if (IsSpecifiedDrops)
-            {
-                if (!int.TryParse(DropsQuantity, out drops_quantity))
+                int drops_quantity = 0;
+                if (IsSpecifiedDrops)
                 {
-                    drops_quantity = 0;
+                    if (!int.TryParse(DropsQuantity, out drops_quantity))
+                    {
+                        drops_quantity = 0;
+                    }
                 }
-            }
 
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+                var asstProxy = _container.Get<AsstProxy>();
+                asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            }
         }
 
         public void SetFightRemainingSanityParams()
@@ -857,8 +899,7 @@ namespace MaaWpfGui
             // for debug
             var settings = _container.Get<SettingsViewModel>();
 
-            int max_times;
-            if (!int.TryParse(settings.RecruitMaxTimes, out max_times))
+            if (!int.TryParse(settings.RecruitMaxTimes, out var max_times))
             {
                 max_times = 0;
             }
@@ -890,7 +931,7 @@ namespace MaaWpfGui
                 settings.NotChooseLevel1, settings.IsLevel3UseShortTime);
         }
 
-        private bool appendRoguelike()
+        private bool AppendRoguelike()
         {
             var settings = _container.Get<SettingsViewModel>();
             int.TryParse(settings.RoguelikeMode, out var mode);
@@ -901,6 +942,12 @@ namespace MaaWpfGui
                 settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
                 settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeUseSupportUnit,
                 settings.RoguelikeEnableNonfriendSupport, settings.RoguelikeTheme);
+        }
+
+        private bool AppendReclamation()
+        {
+            var asstProxy = _container.Get<AsstProxy>();
+            return asstProxy.AsstAppendReclamation();
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
@@ -1113,6 +1160,21 @@ namespace MaaWpfGui
             /// Computer shutdown.
             /// </summary>
             Shutdown,
+
+            /// <summary>
+            /// Computer hibernates without Persist.
+            /// </summary>
+            HibernateWithoutPersist,
+
+            /// <summary>
+            /// Exits MAA and emulator and computer hibernates without Persist.
+            /// </summary>
+            ExitEmulatorAndSelfAndHibernateWithoutPersist,
+
+            /// <summary>
+            /// Computer shutdown without Persist.
+            /// </summary>
+            ShutdownWithoutPersist,
         }
 
         /// <summary>
@@ -1162,6 +1224,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.Shutdown:
+                case ActionType.ShutdownWithoutPersist:
                     Process.Start("shutdown.exe", "-s -t 60");
 
                     // 关机询问
@@ -1180,6 +1243,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.Hibernate:
+                case ActionType.HibernateWithoutPersist:
                     // 休眠提示
                     AddLog(Localization.GetString("HibernatePrompt"), UILogColor.Error);
 
@@ -1188,6 +1252,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelfAndHibernate:
+                case ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist:
                     if (!KillEumlatorbyWindow())
                     {
                         AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
@@ -1376,7 +1441,34 @@ namespace MaaWpfGui
             }
         }
 
-        private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty);
+        private string ToUpperAndCheckStage(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            value = value.ToUpper();
+            if (StageList != null)
+            {
+                foreach (var item in StageList)
+                {
+                    if (value == item.Value)
+                    {
+                        break;
+                    }
+                    else if (value == item.Display)
+                    {
+                        value = item.Value;
+                        break;
+                    }
+                }
+            }
+
+            return value;
+        }
+
+        private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage1.
@@ -1386,6 +1478,11 @@ namespace MaaWpfGui
             get => _stage1;
             set
             {
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _stage1, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Stage1", value);
@@ -1393,7 +1490,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _stage2 = ViewStatusStorage.Get("MainFunction.Stage2", string.Empty);
+        private string _stage2 = ViewStatusStorage.Get("MainFunction.Stage2", string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1410,7 +1507,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty);
+        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1439,6 +1536,38 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _alternateStageDisplay, value);
         }
 
+        private bool _useRemainingSanityStage = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
+
+        public bool UseRemainingSanityStage
+        {
+            get => _useRemainingSanityStage;
+            set
+            {
+                SetAndNotify(ref _useRemainingSanityStage, value);
+                var settingsModel = _container.Get<SettingsViewModel>();
+                RemainingSanityStageDisplay1 = value && !settingsModel.CustomStageCode;
+                RemainingSanityStageDisplay2 = value && settingsModel.CustomStageCode;
+            }
+        }
+
+        private bool _remainingSanityStageDisplay1 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
+            && !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        private bool _remainingSanityStageDisplay2 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
+            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+
+        public bool RemainingSanityStageDisplay1
+        {
+            get => _remainingSanityStageDisplay1;
+            set => SetAndNotify(ref _remainingSanityStageDisplay1, value);
+        }
+
+        public bool RemainingSanityStageDisplay2
+        {
+            get => _remainingSanityStageDisplay2;
+            set => SetAndNotify(ref _remainingSanityStageDisplay2, value);
+        }
+
         private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
 
         /// <summary>
@@ -1455,7 +1584,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _remainingSanityStage = ViewStatusStorage.Get("Fight.RemainingSanityStage", string.Empty);
+        private string _remainingSanityStage = ViewStatusStorage.Get("Fight.RemainingSanityStage", string.Empty) ?? string.Empty;
 
         public string RemainingSanityStage
         {
@@ -1471,6 +1600,11 @@ namespace MaaWpfGui
 
             set
             {
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _remainingSanityStage, value);
                 SetFightRemainingSanityParams();
                 ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
@@ -1544,6 +1678,7 @@ namespace MaaWpfGui
         public List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; set; } = new List<CustomInfrastPlanInfo>();
 
         private bool _customInfrastPlanHasPeriod = false;
+        private bool _customInfrastInfoOutput = false;
 
         public void RefreshCustonInfrastPlan()
         {
@@ -1567,7 +1702,7 @@ namespace MaaWpfGui
                 string jsonStr = File.ReadAllText(settingsModel.CustomInfrastFile);
                 var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
-                if (root.ContainsKey("title"))
+                if (_customInfrastInfoOutput && root.ContainsKey("title"))
                 {
                     AddLog(Localization.GetString("CustomInfrastTitle"), UILogColor.Message);
                     AddLog(root["title"].ToString(), UILogColor.Info);
@@ -1586,7 +1721,10 @@ namespace MaaWpfGui
                     string desc = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty;
                     string descPost = plan.ContainsKey("description_post") ? plan["description_post"].ToString() : string.Empty;
 
-                    AddLog(display, UILogColor.Message);
+                    if (_customInfrastInfoOutput)
+                    {
+                        AddLog(display, UILogColor.Message);
+                    }
 
                     var periodList = new List<CustomInfrastPlanInfo.Period>();
                     if (plan.ContainsKey("period"))
@@ -1605,9 +1743,12 @@ namespace MaaWpfGui
                             period.EndHour = int.Parse(endSplited[0]);
                             period.EndMinute = int.Parse(endSplited[1]);
                             periodList.Add(period);
-                            AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
-                                period.BeginHour, period.BeginMinute,
-                                period.EndHour, period.EndMinute));
+                            if (_customInfrastInfoOutput)
+                            {
+                                AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
+                                    period.BeginHour, period.BeginMinute,
+                                    period.EndHour, period.EndMinute));
+                            }
                         }
 
                         if (periodList.Count != 0)
@@ -1616,12 +1757,12 @@ namespace MaaWpfGui
                         }
                     }
 
-                    if (desc != string.Empty)
+                    if (_customInfrastInfoOutput && desc != string.Empty)
                     {
                         AddLog(desc);
                     }
 
-                    if (descPost != string.Empty)
+                    if (_customInfrastInfoOutput && descPost != string.Empty)
                     {
                         AddLog(descPost);
                     }
@@ -1635,9 +1776,12 @@ namespace MaaWpfGui
                         PeriodList = periodList,
                     });
                 }
+
+                _customInfrastInfoOutput = true;
             }
             catch (Exception)
             {
+                _customInfrastInfoOutput = true;
                 AddLog(Localization.GetString("CustomInfrastFileParseFailed"), UILogColor.Error);
                 return;
             }
@@ -1652,10 +1796,7 @@ namespace MaaWpfGui
                 return;
             }
 
-            bool timeLess(int lHour, int lMin, int rHour, int rMin)
-            {
-                return (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
-            }
+            static bool timeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
 
             var now = DateTime.Now;
             foreach (var plan in CustomInfrastPlanInfoList)
@@ -1727,6 +1868,16 @@ namespace MaaWpfGui
             get => _medicineNumber;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
+                if (value == "0")
+                {
+                    UseStone = false;
+                }
+
                 SetAndNotify(ref _medicineNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
@@ -1743,6 +1894,11 @@ namespace MaaWpfGui
             get => _useStone;
             set
             {
+                if (MedicineNumber == "0")
+                {
+                    value = false;
+                }
+
                 SetAndNotify(ref _useStone, value);
                 if (value)
                 {
@@ -1763,6 +1919,11 @@ namespace MaaWpfGui
             get => _stoneNumber;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
@@ -1794,6 +1955,11 @@ namespace MaaWpfGui
             get => _maxTimes;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _maxTimes, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
@@ -1818,8 +1984,6 @@ namespace MaaWpfGui
             }
         }
 
-        private static readonly string _DropsFilename = Environment.CurrentDirectory + "\\resource\\item_index.json";
-
         /// <summary>
         /// Gets or sets the list of all drops.
         /// </summary>
@@ -1827,8 +1991,7 @@ namespace MaaWpfGui
 
         private void InitDrops()
         {
-            string jsonStr = File.ReadAllText(_DropsFilename);
-            var reader = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            var reader = Utils.GetItemList();
             foreach (var item in reader)
             {
                 var val = item.Key;
@@ -1840,13 +2003,26 @@ namespace MaaWpfGui
                 }
 
                 var dis = item.Value["name"].ToString();
-                if (dis.EndsWith("双芯片") || dis.EndsWith("寻访凭证") || dis.EndsWith("加固建材")
-                    || dis.EndsWith("许可") || dis == "资质凭证" || dis == "高级凭证" || dis == "演习券"
-                    || dis.Contains("源石") || dis == "D32钢" || dis == "双极纳米片" || dis == "聚合剂"
-                    || dis == "晶体电子单元" || dis == "龙骨" || dis == "芯片助剂")
+#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
+                if (
+                    val.Equals("3213") || val.Equals("3223") || val.Equals("3233") || val.Equals("3243") // 双芯片
+                    || val.Equals("3253") || val.Equals("3263") || val.Equals("3273") || val.Equals("3283")
+                    || val.Equals("7001") || val.Equals("7002") || val.Equals("7003") || val.Equals("7004") // 许可/凭证
+                    || val.Equals("4004") || val.Equals("4005")
+                    || val.Equals("3105") || val.Equals("3131") || val.Equals("3132") || val.Equals("3233") // 龙骨/加固建材
+                    || val.Equals("6001") // 演习券
+                    || val.Equals("3141") || val.Equals("4002") // 源石
+                    || val.Equals("32001") // 芯片助剂
+                    || val.Equals("30115") // 聚合剂
+                    || val.Equals("30125") // 双极纳米片
+                    || val.Equals("30135") // D32钢
+                    || val.Equals("30145") // 晶体电子单元
+                    || val.Equals("30155") // 烧结核凝晶
+                    )
                 {
                     continue;
                 }
+#pragma warning restore SA1009
 
                 AllDrops.Add(new CombData { Display = dis, Value = val });
             }
@@ -1925,6 +2101,11 @@ namespace MaaWpfGui
             get => _dropsQuantity;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = "0";
+                }
+
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);

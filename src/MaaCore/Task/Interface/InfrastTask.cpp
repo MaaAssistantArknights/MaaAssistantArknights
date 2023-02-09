@@ -118,8 +118,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
 
-    bool drom_trust_enabled = params.get("drom_trust_enabled", true);
-    m_dorm_task_ptr->set_trust_enabled(drom_trust_enabled);
+    bool dorm_trust_enabled = params.get("dorm_trust_enabled", true);
+    m_dorm_task_ptr->set_trust_enabled(dorm_trust_enabled);
 
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);

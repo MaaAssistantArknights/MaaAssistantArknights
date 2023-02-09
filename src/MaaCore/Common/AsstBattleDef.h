@@ -55,50 +55,45 @@ namespace asst::battle
     inline static Role get_role_type(const std::string& role_name)
     {
         static const std::unordered_map<std::string, Role> NameToRole = {
-            { "warrior", Role::Warrior }, { "WARRIOR", Role::Warrior },
-            { "Warrior", Role::Warrior }, { "近卫", Role::Warrior },
+            { "warrior", Role::Warrior },    { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },
+            { "近卫", Role::Warrior },       { "GUARD", Role::Warrior },      { "gurad", Role::Warrior },
+            { "Guard", Role::Warrior },
 
-            { "pioneer", Role::Pioneer }, { "PIONEER", Role::Pioneer },
-            { "Pioneer", Role::Pioneer }, { "先锋", Role::Pioneer },
+            { "pioneer", Role::Pioneer },    { "PIONEER", Role::Pioneer },    { "Pioneer", Role::Pioneer },
+            { "先锋", Role::Pioneer },       { "VANGUARD", Role::Pioneer },   { "vanguard", Role::Pioneer },
+            { "Vanguard", Role::Pioneer },
 
-            { "medic", Role::Medic },     { "MEDIC", Role::Medic },
-            { "Medic", Role::Medic },     { "医疗", Role::Medic },
+            { "medic", Role::Medic },        { "MEDIC", Role::Medic },        { "Medic", Role::Medic },
+            { "医疗", Role::Medic },
 
-            { "tank", Role::Tank },       { "TANK", Role::Tank },
-            { "Tank", Role::Tank },       { "重装", Role::Tank },
+            { "tank", Role::Tank },          { "TANK", Role::Tank },          { "Tank", Role::Tank },
+            { "重装", Role::Tank },          { "DEFENDER", Role::Tank },      { "defender", Role::Tank },
+            { "Defender", Role::Tank },      { "坦克", Role::Tank },
 
-            { "sniper", Role::Sniper },   { "SNIPER", Role::Sniper },
-            { "Sniper", Role::Sniper },   { "狙击", Role::Sniper },
+            { "sniper", Role::Sniper },      { "SNIPER", Role::Sniper },      { "Sniper", Role::Sniper },
+            { "狙击", Role::Sniper },
 
-            { "caster", Role::Caster },   { "CASTER", Role::Caster },
-            { "Caster", Role::Caster },   { "术师", Role::Caster },
+            { "caster", Role::Caster },      { "CASTER", Role::Caster },
 
-            { "support", Role::Support }, { "SUPPORT", Role::Support },
-            { "Support", Role::Support }, { "辅助", Role::Support },
+            { "Caster", Role::Caster },      { "术师", Role::Caster },        { "术士", Role::Caster },
+            { "法师", Role::Caster },
 
-            { "special", Role::Special }, { "SPECIAL", Role::Special },
-            { "Special", Role::Special }, { "特种", Role::Special },
+            { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
+            { "辅助", Role::Support },       { "支援", Role::Support },
 
-            { "drone", Role::Drone },     { "DRONE", Role::Drone },
-            { "Drone", Role::Drone },     { "无人机", Role::Drone },
+            { "special", Role::Special },    { "SPECIAL", Role::Special },    { "Special", Role::Special },
+            { "特种", Role::Special },       { "SPECIALIST", Role::Special }, { "specialist", Role::Special },
+            { "Specialist", Role::Special },
+
+            { "drone", Role::Drone },        { "DRONE", Role::Drone },        { "Drone", Role::Drone },
+            { "无人机", Role::Drone },       { "SUMMON", Role::Drone },       { "summon", Role::Drone },
+            { "Summon", Role::Drone },       { "召唤物", Role::Drone },
         };
         if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
             return iter->second;
         }
         return Role::Unknown;
     }
-
-    struct DeploymentOper
-    {
-        size_t index = 0;
-        Role role = Role::Unknown;
-        int cost = 0;
-        bool available = false;
-        bool cooling = false;
-        Rect rect;
-        cv::Mat avatar;
-        std::string name;
-    };
 
     enum class OperPosition
     {
@@ -116,6 +111,38 @@ namespace asst::battle
         All = 3
     };
 
+    inline static LocationType get_role_usual_location(const Role& role)
+    {
+        switch (role) {
+        case Role::Warrior:
+        case Role::Pioneer:
+        case Role::Tank:
+        case Role::Special:
+        case Role::Drone:
+            return LocationType::Melee;
+        case Role::Medic:
+        case Role::Sniper:
+        case Role::Caster:
+        case Role::Support:
+            return LocationType::Ranged;
+        default:
+            return LocationType::None;
+        }
+    }
+
+    struct DeploymentOper
+    {
+        size_t index = 0;
+        Role role = Role::Unknown;
+        int cost = 0;
+        bool available = false;
+        bool cooling = false;
+        Rect rect;
+        cv::Mat avatar;
+        std::string name;
+        LocationType location_type = LocationType::None;
+        bool is_unusual_location = false; // 地面辅助，高台先锋等
+    };
     struct OperProps
     {
         std::string name;
@@ -127,9 +154,12 @@ namespace asst::battle
     };
 
     using AttackRange = std::vector<Point>;
+    using RoleCounts = std::unordered_map<Role, int>;
 
     namespace copilot
     {
+        using OperUsageGroups = std::unordered_map<std::string, std::vector<OperUsage>>;
+
         enum class ActionType
         {
             Deploy,      // 部署干员
@@ -140,6 +170,13 @@ namespace asst::battle
             BulletTime,  // 使用 1/5 的速度
             Output,      // 仅输出，什么都不操作，界面上也不显示
             SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
+
+            /* for TRN */
+            MoveCamera, // 引航者试炼，移动镜头
+
+            /* for SSS */
+            DrawCard,         // “调配干员”
+            CheckIfStartOver, // 检查如果没有某干员则退出重开
         };
 
         struct Action
@@ -149,7 +186,7 @@ namespace asst::battle
             int cost_changes = 0;
             int cooling = 0;
             ActionType type = ActionType::Deploy;
-            std::string group_name; // 目标名，若 type >= SwitchSpeed, group_name 为空
+            std::string name; // 目标名，若 type >= SwitchSpeed, name 为空
             Point location;
             DeployDirection direction = DeployDirection::Right;
             SkillUsage modify_usage = SkillUsage::NotUse;
@@ -158,17 +195,67 @@ namespace asst::battle
             int time_out = INT_MAX; // TODO
             std::string doc;
             std::string doc_color;
+            RoleCounts role_counts;
+            std::pair<double, double> distance;
         };
 
-        struct CombatData // 作业 JSON 数据
+        struct BasicInfo
         {
+            std::string stage_name;
             std::string minimum_required;
             std::string title;
             std::string title_color;
             std::string details;
             std::string details_color;
-            std::unordered_map<std::string, std::vector<OperUsage>> groups;
+        };
+
+        struct CombatData // 作业 JSON 数据
+        {
+            BasicInfo info;
+            OperUsageGroups groups;
             std::vector<Action> actions;
+        };
+    } // namespace copilot
+
+    namespace sss // 保全派驻
+    {
+        struct Strategy
+        {
+            std::string core;
+            RoleCounts tool_men;
+            Point location;
+            DeployDirection direction = DeployDirection::None;
+        };
+
+        struct CombatData : public copilot::CombatData
+        {
+            std::vector<Strategy> strategies;
+            bool draw_as_possible = false;
+            int retry_times = 0;
+            std::vector<std::string> order_of_drops;
+        };
+
+        enum class EquipmentType
+        {
+            NotChoose,
+            A,
+            B,
+        };
+
+        struct CompleteData
+        {
+            copilot::BasicInfo info;
+
+            std::string buff;
+            std::vector<EquipmentType> equipment;
+            std::string strategy;
+
+            copilot::OperUsageGroups groups;
+            RoleCounts tool_men;
+            std::vector<std::string> order_of_drops;
+            std::unordered_set<std::string> blacklist;
+
+            std::unordered_map<std::string, CombatData> stages_data;
         };
     }
 

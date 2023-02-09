@@ -120,7 +120,7 @@
                     Foreground="Gray"
                     Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[5]}" />
-                <local:PenguinReportSettingsUserControl
+                <local:OtherCombatSettingsUserControl
                     Margin="20"
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}" />

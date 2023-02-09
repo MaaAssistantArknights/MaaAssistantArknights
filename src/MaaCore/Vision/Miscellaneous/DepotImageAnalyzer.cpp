@@ -4,9 +4,12 @@
 
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
+#include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
+
+#include <numbers>
 
 bool asst::DepotImageAnalyzer::analyze()
 {
@@ -27,7 +30,7 @@ bool asst::DepotImageAnalyzer::analyze()
 #ifdef ASST_DEBUG
     m_image_draw = m_image_draw_resized;
 #endif
-    save_img("debug/depot/");
+    save_img(utils::path("debug") / utils::path("depot"));
     return ret;
 }
 
@@ -53,47 +56,56 @@ void asst::DepotImageAnalyzer::resize()
 #endif
 }
 
+template <typename F>
+cv::Mat asst::DepotImageAnalyzer::image_from_function(const cv::Size& size, const F& func)
+{
+    auto result = cv::Mat1f { size, CV_32F };
+    for (int i = 0; i < result.cols; ++i)
+        for (int j = 0; j < result.rows; ++j) {
+            result.at<float>(j, i) = func(i, j);
+        }
+    return result;
+}
+
 bool asst::DepotImageAnalyzer::analyze_base_rect()
 {
     LogTraceFunction;
 
-    Rect base_roi = Task.get("DepotBaseRect")->roi;
-    ItemInfo base_item_info;
-    size_t pos = match_item(base_roi, base_item_info, 0ULL, false);
-    if (pos == NPos) {
-        return false;
-    }
-    const auto& base_rect = base_item_info.rect;
-    const auto& [base_x, base_y, base_w, base_h] = base_rect;
-#ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(base_rect), cv::Scalar(0, 0, 255), 2);
-#endif
+    static constexpr int tm_size = 183 * 720 / 1080;
 
-    // 每个材料之间有间隔，这里 高度 * 2 的 roi, 一定有一个完整的材料 + 一个不完整的材料。
-    // 所以识别结果只会有一个（除非这个间隔非常大）
-    const Rect vertical_rect(base_x, base_y + base_h, base_w, base_h * 2);
-    ItemInfo vertical_item_info;
-    pos = match_item(vertical_rect, vertical_item_info, pos + 1);
+    auto task_ptr = Task.get<MatchTaskInfo>("DepotBaseRect");
+    int x_period = task_ptr->roi.width * m_image_resized.cols / WindowWidthDefault;
+    int y_first = task_ptr->roi.y * m_image_resized.rows / WindowHeightDefault;
+    int y_period = task_ptr->roi.height * m_image_resized.rows / WindowHeightDefault;
 
-#ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(vertical_item_info.rect), cv::Scalar(0, 0, 255), 2);
-#endif
+    cv::Mat hist_x;
+    cv::Mat resized_gray;
+    cv::cvtColor(m_image_resized, resized_gray, cv::COLOR_RGB2GRAY);
+    cv::reduce(resized_gray, hist_x, 0, cv::REDUCE_AVG, CV_32F);
 
-    // 宽度 * 2，同上
-    const Rect horizontal_roi(base_x + base_w, base_y, base_w * 2, base_h);
-    ItemInfo horizontal_item_info;
-    pos = match_item(horizontal_roi, horizontal_item_info, pos + 1);
+    cv::Mat sine_image = image_from_function({ resized_gray.cols, 1 }, [=](int x, int) -> float {
+        return static_cast<float>(std::sin(2. * std::numbers::pi_v<double> * x / x_period));
+    });
 
-#ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(horizontal_item_info.rect), cv::Scalar(0, 0, 255), 2);
-#endif
+    cv::Mat cosine_image = image_from_function({ resized_gray.cols, 1 }, [=](int x, int) -> float {
+        return static_cast<float>(std::cos(2. * std::numbers::pi_v<double> * x / x_period));
+    });
 
-    const int horizontal_spacing = horizontal_item_info.rect.x - (base_x + base_w);
-    const int vertical_spacing = vertical_item_info.rect.y - (base_y + base_h);
+    cv::Mat hist_sine;
+    cv::Mat hist_cosine;
+    cv::multiply(hist_x, sine_image, hist_sine);
+    cv::multiply(hist_x, cosine_image, hist_cosine);
 
-    for (int x = base_x; x <= m_image_resized.cols; x += (base_w + horizontal_spacing)) {
-        for (int y = base_y; y <= m_image_resized.rows; y += (base_h + vertical_spacing)) {
-            Rect item_roi = Rect(x, y, base_w, base_h);
+    const double s_v = cv::sum(hist_sine)[0];
+    const double c_v = cv::sum(hist_cosine)[0];
+
+    const double phase = std::atan2(s_v, c_v);
+    double x_first = phase / (2. * std::numbers::pi_v<double>)*x_period + x_period / 2.;
+    if (phase < 0) x_first += x_period;
+
+    for (int x = static_cast<int>(x_first); x <= m_image_resized.cols; x += x_period) {
+        for (int y = y_first; y <= m_image_resized.rows; y += y_period) {
+            Rect item_roi = Rect(x - tm_size / 2, y - tm_size / 2, tm_size, tm_size);
             if (!m_resized_rect.include(item_roi)) {
                 continue;
             }
@@ -123,7 +135,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         std::string item_id = info.item_id;
 
         m_match_begin_pos = cur_pos + 1;
-        info.quantity = match_quantity(info.rect);
+        info.quantity = match_quantity(info);
         info.item_name = ItemData.get_item_name(item_id);
 #ifdef ASST_DEBUG
         cv::putText(m_image_draw_resized, item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
@@ -174,7 +186,11 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     size_t matched_index = NPos;
     for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
         const std::string& item_id = all_items.at(index);
-        analyzer.set_templ_name(item_id);
+        // analyzer.set_templ_name(item_id);
+        // TODO: too slow? find a way to set mask directly
+        cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
+        templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
+        analyzer.set_templ(templ);
         if (!analyzer.analyze()) {
             continue;
         }
@@ -199,94 +215,43 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     return matched_index;
 }
 
-int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
+int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
+    auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
+    auto item_image = m_image_resized(make_rect<cv::Rect>(item.rect));
+    cv::Mat quotient;
+    cv::divide(item_image + cv::Scalar { 1, 1, 1 }, // I've forgot why I should plus 1 here
+               item_templ + cv::Scalar { 1, 1, 1 }, // plus 1 to avoid divide by zero
+               quotient, 255);
 
-    Rect quantity_roi = roi.move(task_ptr->roi);
-    cv::Mat quantity_img = m_image_resized(make_rect<cv::Rect>(quantity_roi));
-    cv::Mat hsv;
-    cv::cvtColor(quantity_img, hsv, cv::COLOR_BGR2HSV);
+    cv::Mat mask_r;
+    cv::Mat mask_g;
+    cv::Mat mask_b;
+    static constexpr int lb = 60;
+    static constexpr int ub = 140;
+    cv::inRange(quotient, cv::Scalar { lb, 0, 0 }, cv::Scalar { ub, 255, 255 }, mask_r);
+    cv::inRange(quotient, cv::Scalar { 0, lb, 0 }, cv::Scalar { 255, ub, 255 }, mask_g);
+    cv::inRange(quotient, cv::Scalar { 0, 0, lb }, cv::Scalar { 255, 255, ub }, mask_b);
+    cv::Mat mask;
+    cv::bitwise_or(mask_r, mask_g, mask);
+    cv::bitwise_or(mask, mask_b, mask);
 
-    const int h_lower = task_ptr->mask_range.first;
-    const int h_upper = task_ptr->mask_range.second;
-    const int s_lower = task_ptr->specific_rect.x;
-    const int s_upper = task_ptr->specific_rect.y;
-    const int v_lower = task_ptr->specific_rect.width;
-    const int v_upper = task_ptr->specific_rect.height;
+    cv::morphologyEx(mask, mask, cv::MORPH_OPEN, cv::getStructuringElement(cv::MORPH_RECT, { 4, 4 }));
+    auto mask_rect = cv::boundingRect(mask);
+    mask_rect.width -= 1;
+    mask_rect.height -= 1;
+    if (mask_rect.height < 18) mask_rect.height = 18;
+    // minus 1 to trim white pixels
+    Rect ocr_roi { item.rect.x + mask_rect.x, item.rect.y + mask_rect.y, mask_rect.width, mask_rect.height };
 
-    cv::Mat bin;
-    cv::inRange(hsv, cv::Scalar(h_lower, s_lower, v_lower), cv::Scalar(h_upper, s_upper, v_upper), bin);
-
-    // split
-    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
-    const int bg_v_upper = task_ptr->special_params.front();
-    std::vector<cv::Range> contours;
-    int i_right = bin.cols - 1, i_left = 0;
-    bool in = false;
-    int spacing = 0;
-
-    for (int i = bin.cols - 1; i >= 0; --i) {
-        bool has_white = false;
-        for (int j = 0; j < bin.rows; ++j) {
-            if (bin.at<uchar>(j, i)) {
-                has_white = true;
-                break;
-            }
-        }
-        if (in && !has_white) { // leave
-            i_left = i;
-            in = false;
-            spacing = 0;
-            contours.emplace_back(i_left, i_right + 1); // range 是前闭后开的
-        }
-        else if (!in && has_white) { // enter
-            i_right = i;
-            in = true;
-        }
-        else if (!in) {
-            ++spacing;
-            uchar bg_top_v = hsv.at<cv::Vec3b>(0, i)[2];
-            uchar bg_btm_v = hsv.at<cv::Vec3b>(bin.rows - 1, i)[2];
-            if (i_left != 0 && (spacing > max_spacing || bg_top_v > bg_v_upper || bg_btm_v > bg_v_upper)) {
-                // filter out noise
-                break;
-            }
-        }
-    }
-
-    cv::Rect y_bounding_rect;
-    for (int i = 0; i < contours.size(); ++i) {
-        if (y_bounding_rect.empty()) {
-            auto temp = cv::boundingRect(bin(cv::Range::all(), contours.at(i)));
-            if (temp.height > 10) {
-                y_bounding_rect = temp;
-            }
-            else {
-                continue;
-            }
-        }
-        auto left_elem_rect = cv::boundingRect(bin(cv::Range::all(), contours.back()));
-        if (std::abs(left_elem_rect.height - y_bounding_rect.height) > 2 ||
-            std::abs(left_elem_rect.y - y_bounding_rect.y) > 1 || left_elem_rect.width > 12) {
-            contours.pop_back();
-        }
-        else {
-            break;
-        }
-    }
-    if (contours.empty()) {
-        return 0;
-    }
-    int far_left = contours.back().start;
-    int far_right = contours.front().end;
+    cv::Mat ocr_img = m_image_resized.clone();
+    cv::subtract(m_image_resized(make_rect<cv::Rect>(item.rect)), item_templ * 0.41,
+                 ocr_img(make_rect<cv::Rect>(item.rect)));
 
     OcrWithPreprocessImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
-    Rect ocr_roi(quantity_roi.x + far_left, quantity_roi.y + y_bounding_rect.y, far_right - far_left,
-                 y_bounding_rect.height);
     analyzer.set_roi(ocr_roi);
-    analyzer.set_expansion(1);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!analyzer.analyze()) {
@@ -307,7 +272,7 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         multiple = 10000;
         digit_str.erase(w_pos, digit_str.size());
     }
-    else if (size_t k_pos = digit_str.find("K"); k_pos != std::string::npos) {
+    else if (size_t k_pos = digit_str.find('K'); k_pos != std::string::npos) {
         multiple = 1000;
         digit_str.erase(k_pos, digit_str.size());
     }
@@ -315,7 +280,7 @@ int asst::DepotImageAnalyzer::match_quantity(const Rect& roi)
         multiple = 100000000;
         digit_str.erase(e_pos, digit_str.size());
     }
-    else if (size_t m_pos = digit_str.find("M"); m_pos != std::string::npos) {
+    else if (size_t m_pos = digit_str.find('M'); m_pos != std::string::npos) {
         multiple = 1000000;
         digit_str.erase(m_pos, digit_str.size());
     }

@@ -31,10 +31,8 @@ namespace asst
 
         bool do_once();
         bool calc_stage_info();
-        void load_cache();
 
         void all_melee_retreat();
-        bool abandon();
 
         std::optional<size_t> check_urgent(const std::unordered_set<std::string>& pre_cooling,
                                            const std::unordered_set<std::string>& cur_cooling,
@@ -63,7 +61,7 @@ namespace asst
                                                battle::DeployDirection direction);
 
         void check_drone_tiles();
-        void wait_for_start_button_clicked();
+        void wait_until_start_button_clicked();
 
         std::string oper_name_in_config(const battle::DeploymentOper& oper) const;
         battle::LocationType get_oper_location_type(const battle::DeploymentOper& oper) const;
