@@ -22,8 +22,15 @@ namespace MaaWpfGui
     /// </summary>
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private readonly IContainer _container;
         private readonly IWindowManager _windowManager;
+
+        private readonly AsstProxy _asstProxy;
+        private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly RecruitViewModel _recruitViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
+        private readonly CopilotViewModel _copilotViewModel;
+        private readonly DepotViewModel _depotViewModel;
+        private readonly VersionUpdateViewModel _versionUpdateViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RootViewModel"/> class.
@@ -32,8 +39,15 @@ namespace MaaWpfGui
         /// <param name="windowManager">The window manager.</param>
         public RootViewModel(IContainer container, IWindowManager windowManager)
         {
-            _container = container;
             _windowManager = windowManager;
+
+            _asstProxy = container.Get<AsstProxy>();
+            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _recruitViewModel = container.Get<RecruitViewModel>();
+            _settingsViewModel = container.Get<SettingsViewModel>();
+            _copilotViewModel = container.Get<CopilotViewModel>();
+            _depotViewModel = container.Get<DepotViewModel>();
+            _versionUpdateViewModel = container.Get<VersionUpdateViewModel>();
         }
 
         /// <inheritdoc/>
@@ -47,58 +61,40 @@ namespace MaaWpfGui
 
         private async void InitProxy()
         {
-            var task = Task.Run(() =>
-            {
-                var p = _container.Get<AsstProxy>();
-                p.Init();
-            });
-
-            await task;
+            await Task.Run(_asstProxy.Init);
         }
 
         private void InitViewModels()
         {
-            var farming = _container.Get<TaskQueueViewModel>();
-            var recruit = _container.Get<RecruitViewModel>();
-            var settings = _container.Get<SettingsViewModel>();
-            var copilot = _container.Get<CopilotViewModel>();
-            var depot = _container.Get<DepotViewModel>();
+            Items.Add(_taskQueueViewModel);
+            Items.Add(_copilotViewModel);
+            Items.Add(_recruitViewModel);
+            Items.Add(_depotViewModel);
+            Items.Add(_settingsViewModel);
 
-            Items.Add(farming);
-            Items.Add(copilot);
-            Items.Add(recruit);
-            Items.Add(depot);
-            Items.Add(settings);
-
-            settings.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
-            ActiveItem = farming;
+            _settingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
+            ActiveItem = _taskQueueViewModel;
         }
 
         private bool CheckAndUpdateNow()
         {
-            var vuvm = _container.Get<VersionUpdateViewModel>();
-            return vuvm.CheckAndUpdateNow();
+            return _versionUpdateViewModel.CheckAndUpdateNow();
         }
 
         private async void ShowUpdateOrDownload()
         {
-            var vuvm = _container.Get<VersionUpdateViewModel>();
-
-            if (vuvm.IsFirstBootAfterUpdate)
+            if (_versionUpdateViewModel.IsFirstBootAfterUpdate)
             {
-                _container.Get<WindowManager>().ShowWindow(vuvm);
+                _windowManager.ShowWindow(_versionUpdateViewModel);
             }
+
             else
             {
-                var task = Task.Run(() =>
-                {
-                    return vuvm.CheckAndDownloadUpdate();
-                });
+                var ret = await Task.Run(() => _versionUpdateViewModel.CheckAndDownloadUpdate());
 
-                var ret = await task;
                 if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
                 {
-                    vuvm.AskToRestart();
+                    _versionUpdateViewModel.AskToRestart();
                 }
             }
         }
