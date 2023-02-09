@@ -1825,6 +1825,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
+                UpdateWindowTitle(); /* 每次修改连接配置时更新WindowTitle */
             }
         }
 
