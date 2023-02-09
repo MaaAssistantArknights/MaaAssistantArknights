@@ -91,7 +91,7 @@
             Margin="10"
             IsEditable="True"
             IsEnabled="{c:Binding !AutoDetectConnection}"
-            ItemsSource="{Binding ConnectAddresses}"
+            ItemsSource="{Binding ConnectAddressHistory}"
             Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
             ToolTip="{DynamicResource ConnectionAddressTip}" />
 

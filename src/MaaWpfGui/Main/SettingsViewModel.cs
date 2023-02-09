@@ -121,10 +121,10 @@ namespace MaaWpfGui
                 Application.Current.MainWindow.Closing += SaveGUIParameters;
             }
 
-            var addressesJson = ViewStatusStorage.Get("Connect.Addresses", string.Empty);
-            if (!string.IsNullOrEmpty(addressesJson))
+            var addressListJson = ViewStatusStorage.Get("Connect.AddressHistory", string.Empty);
+            if (!string.IsNullOrEmpty(addressListJson))
             {
-                ConnectAddresses = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressesJson);
+                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
         }
 
@@ -1754,12 +1754,12 @@ namespace MaaWpfGui
             }
         }
 
-        private ObservableCollection<string> _connectAddresses = new ObservableCollection<string>();
+        private ObservableCollection<string> _connectAddressHistory = new ObservableCollection<string>();
 
-        public ObservableCollection<string> ConnectAddresses
+        public ObservableCollection<string> ConnectAddressHistory
         {
-            get => _connectAddresses;
-            set => SetAndNotify(ref _connectAddresses, value);
+            get => _connectAddressHistory;
+            set => SetAndNotify(ref _connectAddressHistory, value);
         }
 
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
@@ -1777,22 +1777,22 @@ namespace MaaWpfGui
                     return;
                 }
 
-                if (!ConnectAddresses.Contains(value))
+                if (!ConnectAddressHistory.Contains(value))
                 {
-                    ConnectAddresses.Insert(0, value);
-                    while (ConnectAddresses.Count > 5)
+                    ConnectAddressHistory.Insert(0, value);
+                    while (ConnectAddressHistory.Count > 5)
                     {
-                        ConnectAddresses.RemoveAt(ConnectAddresses.Count - 1);
+                        ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
                     }
                 }
                 else
                 {
-                    ConnectAddresses.Remove(value);
-                    ConnectAddresses.Insert(0, value);
+                    ConnectAddressHistory.Remove(value);
+                    ConnectAddressHistory.Insert(0, value);
                 }
 
                 SetAndNotify(ref _connectAddress, value);
-                ViewStatusStorage.Set("Connect.Addresses", JsonConvert.SerializeObject(ConnectAddresses));
+                ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
                 ViewStatusStorage.Set("Connect.Address", value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
