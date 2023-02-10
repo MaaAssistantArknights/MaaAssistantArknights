@@ -3,6 +3,7 @@
 #include "Utils/Ranges.hpp"
 #include <chrono>
 #include <future>
+#include <vector>
 
 #include "Utils/NoWarningCV.h"
 
@@ -596,12 +597,16 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
 
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 {
+    std::vector<Point const*> retreat_locs{};
     for (const auto& loc : m_used_tiles | views::keys) {
         auto& tile_info = m_normal_tile_info[loc];
         auto& type = tile_info.buildable;
         if (type == battle::LocationType::Melee || type == battle::LocationType::All) {
-            retreat_oper(loc);
+            retreat_locs.push_back(&loc);
         }
+    }
+    for (const auto&loc: retreat_locs) {
+        retreat_oper(*loc);
     }
 }
 
