@@ -27,6 +27,7 @@ using System.Windows.Interop;
 using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
+using Newtonsoft.Json;
 using Stylet;
 using StyletIoC;
 
@@ -131,6 +132,12 @@ namespace MaaWpfGui
             if (LoadGUIParameters && SaveGUIParametersOnClosing)
             {
                 Application.Current.MainWindow.Closing += SaveGUIParameters;
+            }
+
+            var addressListJson = ViewStatusStorage.Get("Connect.AddressHistory", string.Empty);
+            if (!string.IsNullOrEmpty(addressListJson))
+            {
+                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
         }
 
@@ -1756,6 +1763,14 @@ namespace MaaWpfGui
             }
         }
 
+        private ObservableCollection<string> _connectAddressHistory = new ObservableCollection<string>();
+
+        public ObservableCollection<string> ConnectAddressHistory
+        {
+            get => _connectAddressHistory;
+            set => SetAndNotify(ref _connectAddressHistory, value);
+        }
+
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
         /// <summary>
@@ -1766,7 +1781,27 @@ namespace MaaWpfGui
             get => _connectAddress;
             set
             {
+                if (ConnectAddress == value || string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+
+                if (!ConnectAddressHistory.Contains(value))
+                {
+                    ConnectAddressHistory.Insert(0, value);
+                    while (ConnectAddressHistory.Count > 5)
+                    {
+                        ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
+                    }
+                }
+                else
+                {
+                    ConnectAddressHistory.Remove(value);
+                    ConnectAddressHistory.Insert(0, value);
+                }
+
                 SetAndNotify(ref _connectAddress, value);
+                ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
                 ViewStatusStorage.Set("Connect.Address", value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
@@ -1799,6 +1834,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
+                UpdateWindowTitle(); /* 每次修改连接配置时更新WindowTitle */
             }
         }
 
@@ -2289,6 +2325,8 @@ namespace MaaWpfGui
                 SetAndNotify(ref _customStageCode, value);
                 ViewStatusStorage.Set("GUI.CustomStageCode", value.ToString());
                 _taskQueueViewModel.CustomStageCode = value;
+                _taskQueueViewModel.RemainingSanityStageDisplay1 = UseRemainingSanityStage && !value;
+                _taskQueueViewModel.RemainingSanityStageDisplay2 = UseRemainingSanityStage && value;
             }
         }
 

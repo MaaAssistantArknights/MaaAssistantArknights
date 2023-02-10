@@ -83,14 +83,16 @@
             Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ConnectionAddress}"
             TextWrapping="Wrap" />
-        <TextBox
+        <ComboBox
             Grid.Row="2"
             Grid.Column="1"
             Width="250"
             Height="30"
             Margin="10"
+            IsEditable="True"
             IsEnabled="{c:Binding !AutoDetectConnection}"
-            Text="{Binding ConnectAddress}"
+            ItemsSource="{Binding ConnectAddressHistory}"
+            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
             ToolTip="{DynamicResource ConnectionAddressTip}" />
 
         <TextBlock
