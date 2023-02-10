@@ -5692,6 +5692,7 @@
             41,
             41
         ],
+        "preDelay": 2500,
         "next": [
             "InfrastClueSelfNew",
             "InfrastClueFriendNew",
