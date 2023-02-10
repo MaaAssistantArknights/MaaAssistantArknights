@@ -29,16 +29,15 @@ bool asst::InstHelper::sleep(unsigned millisecond) const
         std::this_thread::yield();
         return true;
     }
-    auto start = std::chrono::steady_clock::now();
     Log.trace("ready to sleep", millisecond);
     auto millisecond_ms = std::chrono::milliseconds(millisecond);
-    auto interval = millisecond_ms / 5;
+    auto interval = std::chrono::milliseconds(std::min(millisecond, 5000U));
 
-    while (!need_exit()) {
+    for (auto sleep_time = interval; sleep_time <= millisecond_ms && !need_exit(); sleep_time += interval) {
         std::this_thread::sleep_for(interval);
-        if (std::chrono::steady_clock::now() - start > millisecond_ms) {
-            break;
-        }
+    }
+    if (!need_exit()) {
+        std::this_thread::sleep_for(millisecond_ms % interval);
     }
     Log.trace("end of sleep", millisecond);
 
