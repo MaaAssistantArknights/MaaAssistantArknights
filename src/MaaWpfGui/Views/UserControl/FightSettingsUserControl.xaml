@@ -97,7 +97,6 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource Quantity}"
                             TextAlignment="Center" />
                     </Grid>
@@ -141,7 +140,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource StageSelect}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -151,7 +149,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource StageSelect2}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -162,7 +159,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text=""
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -172,7 +168,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource RemainingSanityStage}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -257,7 +252,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource CustomInfrastPlan}"
                             TextAlignment="Center"
                             TextWrapping="Wrap"

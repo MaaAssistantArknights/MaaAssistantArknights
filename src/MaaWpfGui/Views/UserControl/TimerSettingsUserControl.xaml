@@ -49,7 +49,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
                     Text="{Binding TimerModels.Timers[0].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -85,7 +85,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
                     Text="{Binding TimerModels.Timers[1].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -121,7 +121,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
                     Text="{Binding TimerModels.Timers[2].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -157,7 +157,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
                     Text="{Binding TimerModels.Timers[3].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -193,7 +193,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
                     Text="{Binding TimerModels.Timers[4].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -229,7 +229,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
                     Text="{Binding TimerModels.Timers[5].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -265,7 +265,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
                     Text="{Binding TimerModels.Timers[6].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -301,7 +301,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
                     Text="{Binding TimerModels.Timers[7].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Style="{StaticResource TextBlockDefault}" Text=":" />
+                <TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"

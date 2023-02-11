@@ -33,7 +33,6 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     FontSize="14"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding RecruitResult}"
                     TextWrapping="Wrap" />
             </StackPanel>
