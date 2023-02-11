@@ -127,7 +127,6 @@ namespace MaaWpfGui
             _trayIcon.SetVisible(UseTray);
             _trayIcon.SetSettingsViewModel(this);
             _mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
-            Bootstrapper.SetTrayIconInSettingsViewModel(this);
 
             if (LoadGUIParameters && SaveGUIParametersOnClosing)
             {

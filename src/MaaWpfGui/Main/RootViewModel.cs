@@ -109,6 +109,14 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _windowTitle, value);
         }
 
+        protected override void OnInitialActivate()
+        {
+            base.OnInitialActivate();
+
+            // TrayIcon应该在显示rootViewModel之后再加载
+            Bootstrapper.SetTrayIconInSettingsViewModel(_settingsViewModel);
+        }
+
         /// <inheritdoc/>
         protected override void OnClose()
         {
