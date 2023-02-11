@@ -274,7 +274,9 @@ namespace MaaWpfGui
 
             _taskQueueViewModel.SetInited();
             _taskQueueViewModel.Idle = true;
-            _settingsViewModel.UpdateInstanceSettings();
+            this.AsstSetInstanceOption(InstanceOptionKey.TouchMode, _settingsViewModel.TouchMode);
+            this.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, _settingsViewModel.DeploymentWithPause ? "1" : "0");
+            this.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, _settingsViewModel.AdbLiteEnabled ? "1" : "0");
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
