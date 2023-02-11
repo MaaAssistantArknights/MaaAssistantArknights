@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Stylet;
@@ -140,6 +141,21 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _autoSetTime, value);
                 ViewStatusStorage.Set("Recruit.AutoSetTime", value.ToString());
+            }
+        }
+
+        private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("Recruit.IsLevel3UseShortTime", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to shorten the time for level 3.
+        /// </summary>
+        public bool IsLevel3UseShortTime
+        {
+            get => _isLevel3UseShortTime;
+            set
+            {
+                SetAndNotify(ref _isLevel3UseShortTime, value);
+                ViewStatusStorage.Set("Recruit.IsLevel3UseShortTime", value.ToString());
             }
         }
 
