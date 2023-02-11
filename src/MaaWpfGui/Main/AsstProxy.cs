@@ -1536,10 +1536,12 @@ namespace MaaWpfGui
                 ["set_time"] = set_time,
                 ["expedite"] = false,
                 ["expedite_times"] = 0,
-
                 ["report_to_penguin"] = true,
                 ["report_to_yituliu"] = true,
             };
+            task_params["recruitment_time"] = _recruitViewModel.IsLevel3UseShortTime ?
+                new JObject { { "3", 460 } } :
+                new JObject { { "3", 540 } };
             task_params["penguin_id"] = _settingsViewModel.PenguinId;
             task_params["yituliu_id"] = _settingsViewModel.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
             task_params["server"] = _settingsViewModel.ServerType;
