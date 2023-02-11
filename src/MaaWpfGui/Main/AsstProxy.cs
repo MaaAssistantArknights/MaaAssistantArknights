@@ -574,7 +574,6 @@ namespace MaaWpfGui
             // 下面几行注释暂时没用到，先注释起来...
             // string taskChain = details["taskchain"].ToString();
             // string classType = details["class"].ToString();
-
             switch (msg)
             {
                 case AsstMsg.SubTaskError:
@@ -1706,6 +1705,9 @@ namespace MaaWpfGui
         /// </summary>
         DeploymentWithPause = 3,
 
+        /// <summary>
+        /// Indicates whether AdbLite is used.
+        /// </summary>
         AdbLiteEnabled = 4,
     }
 }

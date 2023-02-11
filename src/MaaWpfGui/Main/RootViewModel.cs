@@ -87,7 +87,6 @@ namespace MaaWpfGui
             {
                 _windowManager.ShowWindow(_versionUpdateViewModel);
             }
-
             else
             {
                 var ret = await Task.Run(() => _versionUpdateViewModel.CheckAndDownloadUpdate());
