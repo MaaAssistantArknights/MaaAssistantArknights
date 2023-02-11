@@ -2325,8 +2325,6 @@ namespace MaaWpfGui
                 SetAndNotify(ref _customStageCode, value);
                 ViewStatusStorage.Set("GUI.CustomStageCode", value.ToString());
                 _taskQueueViewModel.CustomStageCode = value;
-                _taskQueueViewModel.RemainingSanityStageDisplay1 = UseRemainingSanityStage && !value;
-                _taskQueueViewModel.RemainingSanityStageDisplay2 = UseRemainingSanityStage && value;
             }
         }
 

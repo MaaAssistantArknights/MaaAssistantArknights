@@ -1526,30 +1526,7 @@ namespace MaaWpfGui
         public bool UseRemainingSanityStage
         {
             get => _useRemainingSanityStage;
-            set
-            {
-                SetAndNotify(ref _useRemainingSanityStage, value);
-                RemainingSanityStageDisplay1 = value && !_settingsViewModel.CustomStageCode;
-                RemainingSanityStageDisplay2 = value && _settingsViewModel.CustomStageCode;
-            }
-        }
-
-        private bool _remainingSanityStageDisplay1 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
-            && !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
-
-        private bool _remainingSanityStageDisplay2 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
-            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
-
-        public bool RemainingSanityStageDisplay1
-        {
-            get => _remainingSanityStageDisplay1;
-            set => SetAndNotify(ref _remainingSanityStageDisplay1, value);
-        }
-
-        public bool RemainingSanityStageDisplay2
-        {
-            get => _remainingSanityStageDisplay2;
-            set => SetAndNotify(ref _remainingSanityStageDisplay2, value);
+            set => SetAndNotify(ref _useRemainingSanityStage, value);
         }
 
         private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
