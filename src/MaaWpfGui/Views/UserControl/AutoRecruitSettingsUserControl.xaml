@@ -55,7 +55,6 @@
                     Margin="5"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource RecruitMaxTimes}"
                     TextWrapping="Wrap" />
                 <TextBox
