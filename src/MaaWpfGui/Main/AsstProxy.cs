@@ -1206,6 +1206,7 @@ namespace MaaWpfGui
             task_params["client_type"] = settings.ClientType;
             task_params["penguin_id"] = settings.PenguinId;
             task_params["DrGrandet"] = settings.IsDrGrandet;
+            task_params["expiring_medicine"] = settings.UseExpiringMedicine ? 9999 : 0;
             task_params["server"] = settings.ServerType;
             return task_params;
         }
