@@ -741,11 +741,6 @@ namespace MaaWpfGui
                     case "BattleStartAll":
                         _copilotViewModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
                         break;
-
-                    /* 生息演算 */
-                    case "StartAlgorithm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
-                        break;
                 }
             }
         }
@@ -1002,12 +997,12 @@ namespace MaaWpfGui
 
                 /* 生息演算 */
                 case "ReclamationReport":
-                    {
-                        _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
-                            Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
-                            Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
-                    }
-
+                    mainModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
+                        Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
+                        Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
+                    break;
+                case "ReclamationProcedureStart":
+                    mainModel.AddLog(Localization.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"), UILogColor.Info);
                     break;
             }
         }

@@ -5,6 +5,14 @@
 
 namespace asst
 {
+    enum class ReclamationBattleMode
+    {
+        Giveup,
+        BuyWater
+    };
+
+    enum class ReclamationTaskMode;
+
     class ReclamationBattlePlugin : public AbstractTaskPlugin, private BattleHelper
     {
     public:
@@ -12,6 +20,8 @@ namespace asst
         virtual ~ReclamationBattlePlugin() override = default;
         
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+
+        ReclamationBattlePlugin& set_task_mode(const ReclamationTaskMode& mode);
 
     protected:
         virtual bool _run() override;
@@ -25,5 +35,7 @@ namespace asst
         bool communicate_with_aux(const std::string& npcName,
                                   std::function<bool(const MatchRect&, const MatchRect&)> orderComp);
         bool do_dialog_procedure(const std::vector<std::string>& procedure);
+
+        ReclamationBattleMode m_task_mode = ReclamationBattleMode::Giveup;
     };
 }

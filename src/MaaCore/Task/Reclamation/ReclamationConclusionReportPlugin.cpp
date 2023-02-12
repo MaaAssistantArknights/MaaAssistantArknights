@@ -18,7 +18,7 @@ bool asst::ReclamationConclusionReportPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "Reclamation@GiveupSkipConfirm") {
+    if (task.ends_with("Reclamation@GiveupSkipConfirm")) {
         return true;
     }
     return false;
