@@ -9822,7 +9822,12 @@
             "Reclamation@Begin"
         ]
     },
-    "Reclamation": {
+    "Reclamation@BetweenDayFlag":{
+        "roi": [
+            508, 142, 267, 283
+        ]
+    },
+    "Reclamation":{
         "template": "Terminal.png",
         "action": "ClickSelf",
         "roi": [
@@ -9873,7 +9878,6 @@
         "template": "Return.png",
         "next": [
             "Reclamation@AtHomePageFlag",
-            "Reclamation@ResetScope",
             "Reclamation@LevelForceExitConfirm",
             "Reclamation@LevelForceExit",
             "Reclamation@LevelComplete",
@@ -10057,7 +10061,9 @@
         ],
         "action": "ClickSelf",
         "next": [
-            "Reclamation@ConfirmStart#next"
+            "Reclamation@SkipAnnounce",
+            "Reclamation@SkipDailyReport",
+            "Reclamation@AtMapFlag"
         ]
     },
     "Reclamation@SkipDailyReport": {
@@ -10081,7 +10087,9 @@
             48
         ],
         "next": [
-            "Reclamation@ConfirmStart#next"
+            "Reclamation@SkipAnnounce",
+            "Reclamation@SkipDailyReport",
+            "Reclamation@AtMapFlag"
         ]
     },
     "Reclamation@ClickCenterBase": {
@@ -10199,10 +10207,6 @@
     "Reclamation@BattleStart": {
         "baseTask": "Reclamation@BattlePackIconTemplate",
         "template": "Reclamation@ClickExitLevel.png",
-        "Doc": "注册插件ReclamationBattlePlugin",
-        "onErrorNext": [
-            "Reclamation@Begin"
-        ],
         "next": [
             "Reclamation@LevelComplete"
         ],
@@ -10299,7 +10303,6 @@
             177
         ],
         "action": "ClickSelf",
-        "postDelay": 4000,
         "next": [
             "Reclamation@Emergency",
             "Reclamation@NextDay",
@@ -10384,8 +10387,7 @@
         "next": [
             "Reclamation@GainReward",
             "Reclamation@AtHomePageFlag",
-            "Reclamation@GiveupSkipConfirm",
-            "Reclamation@ClickChooseInitUnits"
+            "Reclamation@GiveupSkipConfirm"
         ]
     },
     "Reclamation@ConclusionReportBadgeIcon": {
@@ -10751,5 +10753,153 @@
     "Reclamation@DialogSkip":{
         "baseTask": "Reclamation@SkipAnnounce",
         "next": []
+    },
+
+    "NavigateHome@Reclamation@Begin":{
+        "algorithm": "JustReturn",
+        "next": [
+            "NavigateHome@Reclamation@AtHomePageFlag",
+            "NavigateHome@Reclamation@ReturnTo#next",
+            "NavigateHome@Reclamation@SkipAnnounce",
+            "NavigateHome@Reclamation@SkipDailyReport",
+            "NavigateHome@Reclamation@LevelComplete",
+            "NavigateHome@Reclamation@GiveupReportSkip",
+            "NavigateHome@Reclamation@GiveupSkipConfirm",
+            "NavigateHome@Reclamation@GainReward",
+            "NavigateHome@Reclamation@StartUpThemes#next",
+            "NavigateHome@Reclamation@TodoEnter"
+        ]
+    },
+    "NavigateHome@Reclamation@AtHomePageFlag":{
+        "template": "Reclamation@AtHomePageFlag.png",
+        "next": [
+            "Stop"
+        ]
+    },
+    "NavigateHome@Reclamation@ResetScope":{
+        "template": "Reclamation@ResetScope.png",
+        "next": [
+            "NavigateHome@Reclamation@Begin"
+        ]
+    },
+    "NavigateHome@Reclamation@AtMapFlag":{
+        "template": "Reclamation@ResetScope.png",
+        "next": [
+            "NavigateHome@Reclamation@Begin"
+        ]
+    },
+    "GiveupAlgorithm@Reclamation@Begin":{
+        "algorithm": "JustReturn",
+        "next": [
+            "GiveupAlgorithm@Reclamation@AtHomePageFlag",
+            "GiveupAlgorithm@Reclamation@GiveupAlgorithmConfirm",
+            "GiveupAlgorithm@Reclamation@GiveupAlgorithm"
+        ]
+    },
+    "GiveupAlgorithm@Reclamation@AtHomePageFlag":{
+        "template": "Reclamation@AtHomePageFlag.png",
+        "next": [
+            "GiveupAlgorithm@Reclamation@GiveupAlgorithmConfirm",
+            "GiveupAlgorithm@Reclamation@GiveupAlgorithm",
+            "Stop"
+        ]
+    },
+    "StartWithDefaultFormation@Reclamation@StartAlgorithm":{
+        "template": "Reclamation@StartAlgorithm.png",
+        "next": [
+            "StartWithDefaultFormation@Reclamation@ClickChooseInitUnits",
+            "StartWithDefaultFormation@Reclamation@StartAlgorithm"
+        ]
+    },
+    "StartWithDefaultFormation@Reclamation@ConfirmStart":{
+        "next": [
+            "Stop"
+        ]
+    },
+    "SkipAnnounceReport@Reclamation@Begin":{
+        "algorithm": "JustReturn",
+        "next": [
+            "SkipAnnounceReport@Reclamation@SkipAnnounce",
+            "SkipAnnounceReport@Reclamation@SkipDailyReport",
+            "SkipAnnounceReport@Reclamation@AtMapFlag"
+        ]
+    },
+    "SkipAnnounceReport@Reclamation@AtMapFlag":{
+        "template": "Reclamation@ResetScope.png",
+        "next": [
+            "Stop"
+        ]
+    },
+    "StartActionEnter@Reclamation@StartActionEnter":{
+        "next": [
+            "Stop"
+        ]
+    },
+    "BattleDefaultFormationStart@Reclamation@Begin":{
+        "algorithm": "JustReturn",
+        "next": [
+            "BattleDefaultFormationStart@Reclamation@PrepareAction"
+        ]
+    },
+    "BattleDefaultFormationStart@Reclamation@BattleStart":{
+        "template": "Reclamation@ClickExitLevel.png",
+        "next": [
+            "Stop"
+        ]
+    },
+    "LevelCompleteConfirm@Reclamation@LevelComplete":{
+        "next": [
+            "LevelCompleteConfirm@Reclamation@AtMapFlag",
+            "LevelCompleteConfirm@Reclamation@LevelComplete"
+        ]
+    },
+    "LevelCompleteConfirm@Reclamation@AtMapFlag":{
+        "template": "Reclamation@ResetScope.png",
+        "next": [
+            "Stop"
+        ]
+    },
+    "CheckNextDay@Reclamation@NextDay":{
+        "template": "Reclamation@NextDay.png",
+        "postDelay": 0,
+        "next": ["Stop"]
+    },
+    "EnterNextDay@Reclamation@Begin":{
+        "baseTask": "Reclamation@NextDay",
+        "template": "Reclamation@NextDay.png",
+        "next": ["Stop"]        
+    },
+    "WaitNextDayFlag@Reclamation@BetweenDayFlag":{
+        "template": "Reclamation@BetweenDayFlag.png",
+        "postDelay": 500,
+        "next": [
+            "Stop"
+        ]
+    },
+    "CheckEmergency@Reclamation@Emergency":{
+        "template": "Reclamation@Emergency.png",
+        "next": [
+            "Stop"
+        ]
+    },
+    "ClickCenterBase@Reclamation@Begin":{
+        "baseTask": "Reclamation@ClickCenterBase",
+        "template": "Reclamation@ClickCenterBase.png",
+        "next": [
+            "Stop"
+        ]
+    },
+    "ClickAnyZone@Reclamation@Begin":{
+        "baseTask": "Reclamation@ClickAnyZoneOcr",
+        "next": [
+            "Stop"
+        ]
+    },
+    "ResetScope@Reclamation@Begin":{
+        "baseTask": "Reclamation@ResetScope",
+        "template": "Reclamation@ResetScope.png",
+        "next": [
+            "Stop"
+        ]
     }
 }

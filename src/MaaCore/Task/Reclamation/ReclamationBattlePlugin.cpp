@@ -10,6 +10,9 @@
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Config/TaskData.h"
+#include "ReclamationControlTask.h"
+
+using namespace asst;
 
 
 asst::ReclamationBattlePlugin::ReclamationBattlePlugin(const AsstCallback& callback, Assistant* inst,
@@ -17,20 +20,26 @@ asst::ReclamationBattlePlugin::ReclamationBattlePlugin(const AsstCallback& callb
     : AbstractTaskPlugin(callback, inst, task_chain), BattleHelper(inst)
 {}
 
-bool asst::ReclamationBattlePlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::ReclamationBattlePlugin::verify(AsstMsg, const json::value&) const
 {
-    if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
-        return false;
-    }
+    // 直接调用run()
+    return false;
+}
 
-    const std::string& task = details.get("details", "task", "");
-    std::string_view task_view = task;
-    if (task_view == "Reclamation@BattleStart") {
-        return true;
+ReclamationBattlePlugin& asst::ReclamationBattlePlugin::set_task_mode(const ReclamationTaskMode& mode)
+{
+    switch (mode) {
+    case ReclamationTaskMode::GiveupUponFight:
+        m_task_mode = ReclamationBattleMode::Giveup;
+        break;
+    case ReclamationTaskMode::SmeltGold:
+        m_task_mode = ReclamationBattleMode::BuyWater;
+        break;
+    default:
+        Log.error(__FUNCTION__, " | ", "unknown task mode");
+        break;
     }
-    else {
-        return false;
-    }
+    return *this;
 }
 
 bool asst::ReclamationBattlePlugin::_run()
@@ -39,7 +48,15 @@ bool asst::ReclamationBattlePlugin::_run()
 
     wait_until_start(false);
 
-    return quit_action();
+    if (m_task_mode == ReclamationBattleMode::Giveup) {
+        return quit_action();
+    }
+    else if (m_task_mode == ReclamationBattleMode::BuyWater) {
+        buy_water();
+        return quit_action();
+    }
+
+    return false;
 }
 
 bool asst::ReclamationBattlePlugin::do_strategic_action(const cv::Mat&)
