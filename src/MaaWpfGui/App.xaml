@@ -26,6 +26,8 @@
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!--  A Style that affects all TextBlocks  -->
+            <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="TextBlock" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

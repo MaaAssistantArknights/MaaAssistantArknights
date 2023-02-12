@@ -19,7 +19,6 @@
             Margin="10,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ClientType}" />
         <ComboBox
             Width="200"

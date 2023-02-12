@@ -21,10 +21,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <TextBlock
-                    Margin="10"
-                    Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource RoguelikeTheme}" />
+                <TextBlock Margin="10" Text="{DynamicResource RoguelikeTheme}" />
                 <ComboBox
                     Width="110"
                     IsHitTestVisible="{Binding Idle}"
@@ -40,7 +37,6 @@
                 <TextBlock
                     Margin="10"
                     VerticalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource Strategy}" />
                 <ComboBox
                     Width="300"
@@ -57,7 +53,6 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource StartTimesLimit}"
                         TextWrapping="Wrap" />
                     <hc:TextBox
@@ -79,7 +74,6 @@
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource GoldTimesLimit}"
                         TextWrapping="Wrap" />
                     <hc:TextBox
@@ -113,7 +107,6 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingSquad}" />
                 <ComboBox
                     Width="300"
@@ -133,7 +126,6 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingRoles}" />
                 <ComboBox
                     Width="300"
@@ -153,7 +145,6 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingCoreChar}"
                     TextWrapping="Wrap" />
                 <hc:TextBox

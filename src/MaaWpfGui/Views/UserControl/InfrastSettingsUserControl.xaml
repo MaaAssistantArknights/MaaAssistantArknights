@@ -34,8 +34,8 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
-                            <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
+                            <!--<TextBlock  Text="{Binding ID}" />
+                            <TextBlock  Text=". " />-->
                             <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
                         </StackPanel>
                     </DataTemplate>
@@ -56,7 +56,6 @@
                         Margin="0,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource DroneUsage}" />
                     <ComboBox
                         Width="150"
@@ -75,7 +74,6 @@
                         Margin="0,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{Binding DormThresholdLabel}"
                         ToolTip="{DynamicResource InfrastThresholdTip}" />
                     <Slider
@@ -151,7 +149,6 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     HorizontalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource DefaultInfrast}" />
                 <ComboBox
                     Grid.Row="1"
@@ -166,8 +163,7 @@
                     Grid.Column="1"
                     Margin="5"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}">
+                    VerticalAlignment="Center">
                     <Hyperlink
                         Click="Hyperlink_Click"
                         NavigateUri="{Binding Source={x:Static local:MaaUrls.CustomInfrastGenerator}}"

@@ -43,7 +43,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[0]}" />
                 <local:GameClientUserControl
                     Margin="20"
@@ -58,7 +57,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[1]}" />
                 <local:InfrastSettingsUserControl
                     Margin="20"
@@ -73,7 +71,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[2]}" />
                 <local:RoguelikeSettingsUserControl
                     Margin="20"
@@ -88,7 +85,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[3]}" />
                 <local:AutoRecruitSettingsUserControl
                     Margin="20"
@@ -103,7 +99,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[4]}" />
                 <local:MallSettingsUserControl
                     Margin="20"
@@ -118,7 +113,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[5]}" />
                 <local:OtherCombatSettingsUserControl
                     Margin="20"
@@ -133,7 +127,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[6]}" />
                 <local:ConnectSettingsUserControl
                     Margin="20"
@@ -148,7 +141,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[7]}" />
                 <local:StartSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
@@ -160,7 +152,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[8]}" />
                 <local:TimerSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
@@ -172,7 +163,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[9]}" />
                 <local:GUISettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
@@ -184,7 +174,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[10]}" />
                 <local:HotKeySettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
@@ -196,7 +185,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[11]}" />
                 <local:VersionUpdateSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
@@ -208,7 +196,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[12]}" />
                 <local:AboutUserControl Margin="20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->
