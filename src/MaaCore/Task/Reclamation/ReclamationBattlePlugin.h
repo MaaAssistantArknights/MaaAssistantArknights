@@ -21,7 +21,7 @@ namespace asst
         
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-        ReclamationBattlePlugin& set_task_mode(const ReclamationTaskMode& mode);
+        ReclamationBattlePlugin& set_battle_mode(const ReclamationBattleMode& mode);
 
     protected:
         virtual bool _run() override;
@@ -36,6 +36,6 @@ namespace asst
                                   std::function<bool(const MatchRect&, const MatchRect&)> orderComp);
         bool do_dialog_procedure(const std::vector<std::string>& procedure);
 
-        ReclamationBattleMode m_task_mode = ReclamationBattleMode::Giveup;
+        ReclamationBattleMode m_battle_mode = ReclamationBattleMode::Giveup;
     };
 }

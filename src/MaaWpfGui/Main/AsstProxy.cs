@@ -997,12 +997,15 @@ namespace MaaWpfGui
 
                 /* 生息演算 */
                 case "ReclamationReport":
-                    mainModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
+                    _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
                         Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
                         Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
                     break;
                 case "ReclamationProcedureStart":
-                    mainModel.AddLog(Localization.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                    _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                    break;
+                case "ReclamationSmeltGold":
+                    _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"));
                     break;
             }
         }

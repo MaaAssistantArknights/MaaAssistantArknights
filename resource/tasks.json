@@ -10092,6 +10092,19 @@
             "Reclamation@AtMapFlag"
         ]
     },
+    "Reclamation@ClickBlackMarketCorner":{
+        "roi": [
+            318, 40, 115, 113
+        ],
+        "action": "ClickSelf"
+    },
+    "Reclamation@ClickBlackMarket":{
+        "roi": [
+            302, 28, 146, 126
+        ],
+        "cache": false,
+        "action": "ClickSelf"
+    },
     "Reclamation@ClickCenterBase": {
         "roi": [
             557,
@@ -10221,10 +10234,7 @@
         "baseTask": "Reclamation@BattlePackIconTemplate",
         "template": "Reclamation@ClickExitLevel.png",
         "specificRect": [
-            46,
-            28,
-            59,
-            61
+            49, 30, 58, 54
         ]
     },
     "Reclamation@ExitLevelConfirm": {
@@ -10532,20 +10542,46 @@
         ],
         "action": "ClickSelf",
         "next": [
-            "Reclamation@EnterResearchLab",
-            "Reclamation@ClickCmdCenter",
-            "Reclamation@CmdCenterSwipeRight"
+            "Reclamation@AtCmdCenterFlag",
+            "Reclamation@ClickCmdCenter"
         ]
     },
-    "Reclamation@CmdCenterSwipeRight": {
-        "baseTask": "SwipeToTheRight",
-        "postDelay": 1500,
+    "Reclamation@AtCmdCenterFlag":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            68, 0, 326, 137
+        ],
+        "cache": false,
+        "text": [
+            "COM",
+            "MAND",
+            "ENTER"
+        ],
         "next": [
-            "Reclamation@EnterResearchLab",
-            "Reclamation@CmdCenterSwipeRight"
+            "Stop"
         ]
     },
-    "Reclamation@EnterResearchLab": {
+    "Reclamation@CmdCenterSwipeRight":{
+        "baseTask": "SwipeToTheRight",
+        "postDelay": 1000
+    },
+    "Reclamation@CmdCenterSwipeLeft":{
+        "baseTask": "SwipeToTheLeft",
+        "postDelay": 1000
+    },
+    "Reclamation@EnterSmeltGoldPage":{
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "roi": [
+            0, 31, 1280, 175
+        ],
+        "text": [
+            "粗制",
+            "赤金"
+        ],
+        "action": "ClickSelf"
+    },
+    "Reclamation@EnterResearchLab":{
         "algorithm": "OcrDetect",
         "roi": [
             0,
@@ -10559,11 +10595,7 @@
             "所"
         ],
         "action": "ClickSelf",
-        "postDelay": 500,
-        "next": [
-            "Reclamation@LabClickDetailView",
-            "Reclamation@EnterResearchLab"
-        ]
+        "postDelay": 500
     },
     "Reclamation@LabClickDetailView": {
         "algorithm": "OcrDetect",
@@ -10580,11 +10612,7 @@
             "图"
         ],
         "postDelay": 500,
-        "action": "ClickSelf",
-        "next": [
-            "Reclamation@LabClickAssembleable",
-            "Reclamation@LabReturnToMap"
-        ]
+        "action": "ClickSelf"
     },
     "Reclamation@LabClickAssembleable": {
         "algorithm": "OcrDetect",
@@ -10596,15 +10624,10 @@
         ],
         "action": "ClickSelf",
         "text": [
-            "可",
-            "组",
-            "装"
-        ],
-        "next": [
-            "Reclamation@LabAssembleIncrease"
+            "可", "组", "装"
         ]
     },
-    "Reclamation@LabAssembleStatus": {
+    "Reclamation@ManufactureStatus":{
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "roi": [
@@ -10615,8 +10638,8 @@
         ],
         "text": []
     },
-    "Reclamation@LabAssembleIncrease": {
-        "baseTask": "Reclamation@LabAssembleStatus",
+    "Reclamation@ManufactureIncrease": {
+        "baseTask": "Reclamation@ManufactureStatus",
         "action": "ClickRect",
         "specificRect": [
             1120,
@@ -10625,18 +10648,11 @@
             26
         ],
         "text": [
-            "开",
-            "始",
-            "组",
-            "装"
-        ],
-        "next": [
-            "Reclamation@LabAssembleIncrease",
-            "Reclamation@LabAssembleDecrease"
+            "开", "始"
         ]
     },
-    "Reclamation@LabAssembleDecrease": {
-        "baseTask": "Reclamation@LabAssembleStatus",
+    "Reclamation@ManufactureDecrease": {
+        "baseTask": "Reclamation@ManufactureStatus",
         "action": "ClickRect",
         "specificRect": [
             1096,
@@ -10645,69 +10661,27 @@
             28
         ],
         "text": [
-            "材",
-            "料",
-            "不",
-            "足"
-        ],
-        "next": [
-            "Reclamation@LabDoAssemble",
-            "Reclamation@LabAssembleDecrease"
+            "材", "料", "不", "足"
         ]
     },
-    "Reclamation@LabDoAssemble": {
-        "baseTask": "Reclamation@LabAssembleStatus",
+    "Reclamation@DoManufacture":{
+        "baseTask": "Reclamation@ManufactureStatus",
         "action": "ClickSelf",
         "text": [
-            "开",
-            "始",
-            "组",
-            "装"
+            "开", "始"
         ],
-        "postDelay": 1000,
-        "next": [
-            "Reclamation@LabClickDetailView"
-        ]
+        "postDelay": 1000
     },
-    "Reclamation@LabInsufficientMaterial": {
-        "algorithm": "OcrDetect",
-        "roi": [
-            1080,
-            320,
-            200,
-            139
-        ],
-        "action": "DoNothing",
+    "Reclamation@ManufactureInsufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
         "text": [
-            "材",
-            "料",
-            "不",
-            "足"
-        ],
-        "next": [
-            "Reclamation@LabClickDetailView"
+            "材", "料", "不", "足"
         ]
     },
-    "Reclamation@LabReturnToMap": {
-        "roi": [
-            0,
-            0,
-            148,
-            148
-        ],
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "next": [
-            "Reclamation@LabArriveMap",
-            "Reclamation@LabReturnToMap",
-            "Reclamation@AtHomePageFlag"
-        ]
-    },
-    "Reclamation@LabArriveMap": {
-        "baseTask": "Reclamation@AtMapFlag",
-        "template": "Reclamation@ResetScope.png",
-        "next": [
-            "Reclamation@ExitAlgorithm"
+    "Reclamation@ManufactureSufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "开", "始"
         ]
     },
     "Reclamation@Liaison":{
