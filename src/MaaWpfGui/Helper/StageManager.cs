@@ -36,8 +36,11 @@ namespace MaaWpfGui
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
-        private readonly IContainer _container;
+        // model references
+        private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
 
+        // datas
         private Dictionary<string, StageInfo> _stages;
 
         /// <summary>
@@ -46,7 +49,8 @@ namespace MaaWpfGui
         /// <param name="container">The IoC container.</param>
         public StageManager(IContainer container)
         {
-            _container = container;
+            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _settingsViewModel = container.Get<SettingsViewModel>();
             UpdateStage(false);
 
             Execute.OnUIThread(async () =>
@@ -56,10 +60,10 @@ namespace MaaWpfGui
                     UpdateStage(true);
                 });
                 await task;
-                if (_container != null)
+                if (_taskQueueViewModel != null)
                 {
-                    _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
-                    _container.Get<TaskQueueViewModel>().UpdateStageList(true);
+                    _taskQueueViewModel.UpdateDatePrompt();
+                    _taskQueueViewModel.UpdateStageList(true);
                 }
             });
         }
@@ -86,8 +90,7 @@ namespace MaaWpfGui
                    "yyyy/MM/dd HH:mm:ss",
                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
-            var settingsModel = _container.Get<SettingsViewModel>();
-            var clientType = settingsModel.ClientType;
+            var clientType = _settingsViewModel.ClientType;
 
             // 官服和B服使用同样的资源
             if (clientType == "Bilibili" || clientType == string.Empty)

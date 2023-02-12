@@ -55,7 +55,6 @@
                 <TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource Blacklist}" />
                 <TextBox
                     Width="250"
@@ -71,7 +70,6 @@
                 <TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource HighPriority}" />
                 <TextBox
                     Width="250"

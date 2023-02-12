@@ -77,13 +77,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
         return false;
     }
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
-    MatchImageAnalyzer add_analyzer;
-
-    const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
-    add_analyzer.set_task_info(add_task_ptr);
-    MultiMatchImageAnalyzer locked_analyzer;
-
-    locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
 
     for (; m_cur_facility_index < m_facility_list_tabs.size(); ++m_cur_facility_index) {
         Rect tab = m_facility_list_tabs.at(m_cur_facility_index);
@@ -109,7 +102,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = ctrler()->get_image();
-        add_analyzer.set_image(image);
+        MatchImageAnalyzer add_analyzer(image);
+        const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
+        add_analyzer.set_task_info(add_task_ptr);
         if (!add_analyzer.analyze()) {
             Log.error("no add button, just continue");
             continue;
@@ -137,7 +132,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
 
-        locked_analyzer.set_image(image);
+        MultiMatchImageAnalyzer locked_analyzer(image);
+        locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
         if (locked_analyzer.analyze()) {
             m_cur_num_of_locked_opers = static_cast<int>(locked_analyzer.get_result().size());
         }

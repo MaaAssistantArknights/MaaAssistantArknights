@@ -58,21 +58,21 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 {
     LogTraceFunction;
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
-    
+
     if (check_and_get_drops(image)) {
         return true;
     }
-    
+
     if (m_sss_combat_data.draw_as_possible && draw_card(false, image)) {
         image = ctrler()->get_image();
     }
-    
+
     if (check_and_do_strategy(image)) {
         image = ctrler()->get_image();
     }
-    
+
     if (use_all_ready_skill(image)) {
-        //image = ctrler()->get_image();
+        // image = ctrler()->get_image();
     }
 
     return true;
@@ -88,6 +88,10 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
 
 bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 {
+    if (m_all_cores.empty()) {
+        return false;
+    }
+
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
     if (!update_deployment(false, image)) {
         return false;
@@ -115,6 +119,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
+            m_all_cores.erase(strategy.core);
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction);
         }

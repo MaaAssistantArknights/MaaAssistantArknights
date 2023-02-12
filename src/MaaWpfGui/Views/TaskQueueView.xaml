@@ -58,8 +58,8 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
-                            <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
+                                    <!--<TextBlock  Text="{Binding ID}" />
+                            <TextBlock  Text=". " />-->
                                     <CheckBox
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
@@ -120,16 +120,15 @@
                     Padding="5,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource Then}"
                     TextWrapping="Wrap" />
                 <ComboBox
                     Grid.Column="1"
                     Width="160"
                     Margin="5"
-                    MaxDropDownHeight="800"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ActionAfterCompletedList}"
+                    MaxDropDownHeight="800"
                     SelectedValue="{Binding ActionAfterCompleted}"
                     SelectedValuePath="Value" />
             </Grid>
@@ -176,7 +175,6 @@
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{Binding StagesOfToday}" />
         </Grid>
 
@@ -201,7 +199,6 @@
                                 Margin="0,5"
                                 VerticalAlignment="Top"
                                 Foreground="Gray"
-                                Style="{StaticResource TextBlockDefault}"
                                 Text="{Binding Time}"
                                 TextWrapping="Wrap" />
                             <TextBlock
@@ -210,7 +207,6 @@
                                 VerticalAlignment="Top"
                                 FontWeight="{Binding Weight}"
                                 Foreground="{Binding Color}"
-                                Style="{StaticResource TextBlockDefault}"
                                 Text="{Binding Content}"
                                 TextWrapping="Wrap" />
                         </StackPanel>

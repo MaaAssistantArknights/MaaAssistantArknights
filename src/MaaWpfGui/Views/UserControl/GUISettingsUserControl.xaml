@@ -36,7 +36,6 @@
             <TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource MainViewButtonFeature}" />
             <ComboBox
                 Width="85"
@@ -54,7 +53,6 @@
             <TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource Language}" />
             <ComboBox
                 x:Name="LanguageSelector"
