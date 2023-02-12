@@ -9,8 +9,10 @@
 
 #include "ReclamationBattlePlugin.h"
 
-#define RunCheckSuccess(func)  \
-    do { if (!func()) return false; } while(false);
+#define RunCheckSuccess(func, ...)  \
+    do {                                      \
+        if (!func(__VA_ARGS__)) return false; \
+    } while (false);
 
 bool asst::ReclamationControlTask::_run()
 {
@@ -24,7 +26,12 @@ bool asst::ReclamationControlTask::_run()
         }
     }
     else if (m_task_mode == ReclamationTaskMode::SmeltGold) {
-        return false;
+        m_total_gold = 0;
+        int times = 0;
+        while (!need_exit()) {
+            procedure_start_callback(++times);
+            run_smelt_gold_procedure();
+        }
     }
 
     return false;
@@ -47,7 +54,9 @@ bool asst::ReclamationControlTask::run_giveup_upon_fight_procedure()
         RunCheckSuccess(click_any_zone);
         RunCheckSuccess(start_action_enter);
         RunCheckSuccess(battle_default_formation_start);
-        RunCheckSuccess(ReclamationBattlePlugin(m_callback, m_inst, m_task_chain).set_task_mode(m_task_mode).run);
+        RunCheckSuccess(ReclamationBattlePlugin(m_callback, m_inst, m_task_chain)
+                            .set_battle_mode(ReclamationBattleMode::Giveup)
+                            .run);
         RunCheckSuccess(level_complete_comfirm);
 
         if (enter_next_day_if_useup()) {
@@ -55,6 +64,45 @@ bool asst::ReclamationControlTask::run_giveup_upon_fight_procedure()
             skip_announce_report();
         }
     }
+    return navigate_to_reclamation_home();
+}
+
+bool asst::ReclamationControlTask::run_smelt_gold_procedure()
+{
+    LogTraceFunction;
+
+    RunCheckSuccess(navigate_to_reclamation_home);
+    give_up_last_algorithm_if();
+    RunCheckSuccess(start_with_default_formation);
+
+    RunCheckSuccess(wait_between_day);
+    skip_announce_report();
+
+    bool buy_result = false;
+    while (!need_exit() && !buy_result) {
+
+        RunCheckSuccess(reset_scope);
+        RunCheckSuccess(click_corner_black_market);
+        RunCheckSuccess(click_black_market);
+        RunCheckSuccess(start_action_enter);
+        buy_result = ReclamationBattlePlugin(m_callback, m_inst, m_task_chain)
+                         .set_battle_mode(ReclamationBattleMode::BuyWater)
+                         .set_retry_times(0)
+                         .run();
+        RunCheckSuccess(level_complete_comfirm);
+    }
+
+    RunCheckSuccess(enter_command_center);
+    for (int i = 0; i < 2; ++i)
+        swipe_right();
+    RunCheckSuccess(ProcessTask(*this, { "Reclamation@EnterSmeltGoldPage" }).run);
+    
+    if (check_manufacture_status() != 1) return false;
+    while (!need_exit() && check_manufacture_status() == 1) {
+        smelt_gold_callback(++m_total_gold);
+        do_manufacture();
+    }
+
     return navigate_to_reclamation_home();
 }
 
@@ -121,6 +169,16 @@ bool asst::ReclamationControlTask::reset_scope()
     return ProcessTask(*this, { "ResetScope@Reclamation@Begin" }).run();
 }
 
+bool asst::ReclamationControlTask::enter_command_center()
+{
+    return ProcessTask(*this, { "Reclamation@ClickCmdCenter" }).run();
+}
+
+bool asst::ReclamationControlTask::do_manufacture()
+{
+    return ProcessTask(*this, { "Reclamation@DoManufacture" }).run();
+}
+
 bool asst::ReclamationControlTask::check_next_day()
 {
     return ProcessTask(*this, { "CheckNextDay@Reclamation@NextDay" }).set_retry_times(0).run();
@@ -131,9 +189,24 @@ bool asst::ReclamationControlTask::check_emergency()
     return ProcessTask(*this, { "CheckEmergency@Reclamation@Emergency" }).set_retry_times(0).run();
 }
 
+int asst::ReclamationControlTask::check_manufacture_status()
+{
+    if (ProcessTask(*this, { "Reclamation@ManufactureInsufficientMaterial" }).set_retry_times(0).run())
+        return 0;
+    else if (ProcessTask(*this, { "Reclamation@ManufactureSufficientMaterial" }).set_retry_times(0).run())
+        return 1;
+    else
+        return -1;
+}
+
 bool asst::ReclamationControlTask::click_center_base()
 {
     return ProcessTask(*this, { "ClickCenterBase@Reclamation@Begin" }).run();
+}
+
+bool asst::ReclamationControlTask::click_corner_black_market()
+{
+    return ProcessTask(*this, { "Reclamation@ClickBlackMarketCorner" }).run();
 }
 
 bool asst::ReclamationControlTask::click_any_zone()
@@ -141,10 +214,31 @@ bool asst::ReclamationControlTask::click_any_zone()
     return ProcessTask(*this, { "ClickAnyZone@Reclamation@Begin" }).run();
 }
 
+bool asst::ReclamationControlTask::click_black_market()
+{
+    return ProcessTask(*this, { "Reclamation@ClickBlackMarket" }).run();
+}
+
+bool asst::ReclamationControlTask::swipe_right()
+{
+    return ProcessTask(*this, { "Reclamation@CmdCenterSwipeRight" }).run();
+}
+
+bool asst::ReclamationControlTask::swipe_left()
+{
+    return ProcessTask(*this, { "Reclamation@CmdCenterSwipeLeft" }).run();
+}
+
 void asst::ReclamationControlTask::procedure_start_callback(int times) {
     json::value info = basic_info_with_what("ReclamationProcedureStart");
     json::value& details = info["details"];
     details["times"] = times;
     callback(AsstMsg::SubTaskExtraInfo, info);
+}
 
+void asst::ReclamationControlTask::smelt_gold_callback(int times) {
+    json::value info = basic_info_with_what("ReclamationSmeltGold");
+    json::value& details = info["details"];
+    details["times"] = times;
+    callback(AsstMsg::SubTaskExtraInfo, info);
 }

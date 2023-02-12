@@ -26,19 +26,9 @@ bool asst::ReclamationBattlePlugin::verify(AsstMsg, const json::value&) const
     return false;
 }
 
-ReclamationBattlePlugin& asst::ReclamationBattlePlugin::set_task_mode(const ReclamationTaskMode& mode)
+ReclamationBattlePlugin& asst::ReclamationBattlePlugin::set_battle_mode(const ReclamationBattleMode& mode)
 {
-    switch (mode) {
-    case ReclamationTaskMode::GiveupUponFight:
-        m_task_mode = ReclamationBattleMode::Giveup;
-        break;
-    case ReclamationTaskMode::SmeltGold:
-        m_task_mode = ReclamationBattleMode::BuyWater;
-        break;
-    default:
-        Log.error(__FUNCTION__, " | ", "unknown task mode");
-        break;
-    }
+    m_battle_mode = mode;
     return *this;
 }
 
@@ -48,12 +38,14 @@ bool asst::ReclamationBattlePlugin::_run()
 
     wait_until_start(false);
 
-    if (m_task_mode == ReclamationBattleMode::Giveup) {
+    if (m_battle_mode == ReclamationBattleMode::Giveup) {
         return quit_action();
     }
-    else if (m_task_mode == ReclamationBattleMode::BuyWater) {
-        buy_water();
-        return quit_action();
+    else if (m_battle_mode == ReclamationBattleMode::BuyWater) {
+        sleep(1500);    // 等待技能图标
+        bool result = buy_water();
+        quit_action();
+        return result;
     }
 
     return false;
@@ -77,7 +69,7 @@ bool asst::ReclamationBattlePlugin::quit_action()
             if ((!stage1 && !stage2) || retry > 5) {
                 // 已经到了结算界面，或是用户手动操作了
                 Log.error(__FUNCTION__, "| fail to operate");
-                return ProcessTask(*this, { "Reclamation@Begin" }).run();
+                return false;
             }
         }
 
