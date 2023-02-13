@@ -53,7 +53,6 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ADBPath}"
             TextWrapping="Wrap" />
         <TextBox
@@ -80,17 +79,18 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ConnectionAddress}"
             TextWrapping="Wrap" />
-        <TextBox
+        <ComboBox
             Grid.Row="2"
             Grid.Column="1"
             Width="250"
             Height="30"
             Margin="10"
+            IsEditable="True"
             IsEnabled="{c:Binding !AutoDetectConnection}"
-            Text="{Binding ConnectAddress}"
+            ItemsSource="{Binding ConnectAddressHistory}"
+            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
             ToolTip="{DynamicResource ConnectionAddressTip}" />
 
         <TextBlock
@@ -98,7 +98,6 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ConnectionPreset}"
             TextWrapping="Wrap" />
         <ComboBox
@@ -126,7 +125,6 @@
             Grid.Row="5"
             Grid.Column="0"
             VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource TouchMode}" />
         <ComboBox
             Grid.Row="5"

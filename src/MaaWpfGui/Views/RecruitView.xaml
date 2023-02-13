@@ -33,7 +33,6 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     FontSize="14"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding RecruitResult}"
                     TextWrapping="Wrap" />
             </StackPanel>
@@ -45,7 +44,15 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <StackPanel Margin="40,0,40,0" VerticalAlignment="Center">
-                <CheckBox Content="{DynamicResource AutoSettingTime}" IsChecked="{Binding AutoSetTime}" />
+                <CheckBox Content="{DynamicResource AutoSettingTime}" IsChecked="{Binding AutoSetTime}" Margin="5"/>
+                <CheckBox
+                    MaxWidth="170"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding IsLevel3UseShortTime}"
+                    ToolTip="{DynamicResource Level3UseShortTimeTip}">
+                    <TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
+                </CheckBox>
             </StackPanel>
 
             <StackPanel Margin="40,0,40,0" VerticalAlignment="Center">
