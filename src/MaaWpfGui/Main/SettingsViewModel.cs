@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -28,7 +27,9 @@ using System.Windows.Interop;
 using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
+using Newtonsoft.Json;
 using Stylet;
+using StyletIoC;
 
 namespace MaaWpfGui
 {
@@ -38,8 +39,13 @@ namespace MaaWpfGui
     public class SettingsViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
-        private readonly StyletIoC.IContainer _container;
-        private readonly IMaaHotKeyManager _maaHotKeyManager;
+        private readonly IContainer _container;
+        private IMaaHotKeyManager _maaHotKeyManager;
+        private TrayIcon _trayIcon;
+        private IMainWindowManager _mainWindowManager;
+        private TaskQueueViewModel _taskQueueViewModel;
+        private AsstProxy _asstProxy;
+        private VersionUpdateViewModel _versionUpdateViewModel;
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
@@ -76,13 +82,12 @@ namespace MaaWpfGui
         /// </summary>
         /// <param name="container">The IoC container.</param>
         /// <param name="windowManager">The window manager.</param>
-        public SettingsViewModel(StyletIoC.IContainer container, IWindowManager windowManager)
+        public SettingsViewModel(IContainer container, IWindowManager windowManager)
         {
             _container = container;
             _windowManager = windowManager;
-            _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
-            DisplayName = Localization.GetString("Settings");
 
+            DisplayName = Localization.GetString("Settings");
             _listTitle.Add(Localization.GetString("GameSettings"));
             _listTitle.Add(Localization.GetString("BaseSettings"));
             _listTitle.Add(Localization.GetString("RoguelikeSettings"));
@@ -99,13 +104,6 @@ namespace MaaWpfGui
 
             InfrastInit();
 
-            var trayObj = _container.Get<TrayIcon>();
-            var mainWindowManager = _container.Get<IMainWindowManager>();
-            trayObj.SetVisible(UseTray);
-            trayObj.SetSettingsViewModel(this);
-            mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
-            Bootstrapper.SetTrayIconInSettingsViewModel(this);
-
             if (Hangover)
             {
                 _windowManager.ShowMessageBox(
@@ -114,10 +112,31 @@ namespace MaaWpfGui
                     MessageBoxButton.OK, MessageBoxImage.Hand);
                 Hangover = false;
             }
+        }
+
+        protected override void OnInitialActivate()
+        {
+            base.OnInitialActivate();
+            _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
+            _trayIcon = _container.Get<TrayIcon>();
+            _mainWindowManager = _container.Get<IMainWindowManager>();
+            _taskQueueViewModel = _container.Get<TaskQueueViewModel>();
+            _asstProxy = _container.Get<AsstProxy>();
+            _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
+
+            _trayIcon.SetVisible(UseTray);
+            _trayIcon.SetSettingsViewModel(this);
+            _mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
 
             if (LoadGUIParameters && SaveGUIParametersOnClosing)
             {
                 Application.Current.MainWindow.Closing += SaveGUIParameters;
+            }
+
+            var addressListJson = ViewStatusStorage.Get("Connect.AddressHistory", string.Empty);
+            if (!string.IsNullOrEmpty(addressListJson))
+            {
+                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
         }
 
@@ -551,8 +570,8 @@ namespace MaaWpfGui
                 Utils.ClientType = value;
                 ViewStatusStorage.Set("Start.ClientType", value);
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
-                _container.Get<TaskQueueViewModel>().UpdateStageList(true);
-                _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
+                _taskQueueViewModel.UpdateStageList(true);
+                _taskQueueViewModel.UpdateDatePrompt();
             }
         }
 
@@ -837,8 +856,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _customInfrastEnabled, value);
                 ViewStatusStorage.Set("Infrast.CustomInfrastEnabled", value.ToString());
-                var mainModel = _container.Get<TaskQueueViewModel>();
-                mainModel.CustomInfrastEnabled = value;
+                _taskQueueViewModel.CustomInfrastEnabled = value;
             }
         }
 
@@ -869,8 +887,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _customInfrastFile, value);
                 ViewStatusStorage.Set("Infrast.CustomInfrastFile", value);
-                var mainModel = _container.Get<TaskQueueViewModel>();
-                mainModel.RefreshCustonInfrastPlan();
+                _taskQueueViewModel.RefreshCustonInfrastPlan();
             }
         }
 
@@ -1199,8 +1216,7 @@ namespace MaaWpfGui
         {
             get
             {
-                var task = _container.Get<TaskQueueViewModel>();
-                if (task.Stage == string.Empty)
+                if (_taskQueueViewModel.Stage == string.Empty)
                 {
                     return false;
                 }
@@ -1307,13 +1323,13 @@ namespace MaaWpfGui
 
         public class TimerModel
         {
-            public class TimerProperties : INotifyPropertyChanged
+            public class TimerProperties : System.ComponentModel.INotifyPropertyChanged
             {
-                public event PropertyChangedEventHandler PropertyChanged;
+                public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
                 protected void OnPropertyChanged([CallerMemberName] string name = null)
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+                    PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
                 }
 
                 public int TimerId { get; set; }
@@ -1673,10 +1689,9 @@ namespace MaaWpfGui
         // TODO: 你确定要用 async void 不是 async Task？
         public async void ManualUpdate()
         {
-            var updateModel = _container.Get<VersionUpdateViewModel>();
             var task = Task.Run(() =>
             {
-                return updateModel.CheckAndDownloadUpdate(true);
+                return _versionUpdateViewModel.CheckAndDownloadUpdate(true);
             });
             var ret = await task;
 
@@ -1703,7 +1718,7 @@ namespace MaaWpfGui
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                    updateModel.AskToRestart();
+                    _versionUpdateViewModel.AskToRestart();
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
@@ -1747,6 +1762,14 @@ namespace MaaWpfGui
             }
         }
 
+        private ObservableCollection<string> _connectAddressHistory = new ObservableCollection<string>();
+
+        public ObservableCollection<string> ConnectAddressHistory
+        {
+            get => _connectAddressHistory;
+            set => SetAndNotify(ref _connectAddressHistory, value);
+        }
+
         private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
 
         /// <summary>
@@ -1757,7 +1780,27 @@ namespace MaaWpfGui
             get => _connectAddress;
             set
             {
+                if (ConnectAddress == value || string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+
+                if (!ConnectAddressHistory.Contains(value))
+                {
+                    ConnectAddressHistory.Insert(0, value);
+                    while (ConnectAddressHistory.Count > 5)
+                    {
+                        ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
+                    }
+                }
+                else
+                {
+                    ConnectAddressHistory.Remove(value);
+                    ConnectAddressHistory.Insert(0, value);
+                }
+
                 SetAndNotify(ref _connectAddress, value);
+                ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
                 ViewStatusStorage.Set("Connect.Address", value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
@@ -1790,6 +1833,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _connectConfig, value);
                 ViewStatusStorage.Set("Connect.ConnectConfig", value);
+                UpdateWindowTitle(); /* 每次修改连接配置时更新WindowTitle */
             }
         }
 
@@ -1882,6 +1926,12 @@ namespace MaaWpfGui
 
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
+            if (!string.IsNullOrEmpty(AdbPath))
+            {
+                error = Localization.GetString("AdbException");
+                return false;
+            }
+
             if (ConnectAddress.Length == 0)
             {
                 var addresses = adapter.GetAdbAddresses(AdbPath);
@@ -1998,10 +2048,9 @@ namespace MaaWpfGui
 
         public void UpdateInstanceSettings()
         {
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
-            asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
-            asstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
+            _asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
+            _asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
+            _asstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
@@ -2087,8 +2136,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _useTray, value);
                 ViewStatusStorage.Set("GUI.UseTray", value.ToString());
-                var trayObj = _container.Get<TrayIcon>();
-                trayObj.SetVisible(value);
+                _trayIcon.SetVisible(value);
 
                 if (!Convert.ToBoolean(value))
                 {
@@ -2109,8 +2157,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ViewStatusStorage.Set("GUI.MinimizeToTray", value.ToString());
-                var mainWindowManager = _container.Get<IMainWindowManager>();
-                mainWindowManager.SetMinimizeToTaskbar(value);
+                _mainWindowManager.SetMinimizeToTaskbar(value);
             }
         }
 
@@ -2226,8 +2273,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _useAlternateStage, value);
-                var taskQueueViewModel = _container.Get<TaskQueueViewModel>();
-                taskQueueViewModel.AlternateStageDisplay = value;
+                _taskQueueViewModel.AlternateStageDisplay = value;
                 ViewStatusStorage.Set("GUI.UseAlternateStage", value.ToString());
                 if (value)
                 {
@@ -2244,8 +2290,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _useRemainingSanityStage, value);
-                var mainModel = _container.Get<TaskQueueViewModel>();
-                mainModel.UseRemainingSanityStage = value;
+                _taskQueueViewModel.UseRemainingSanityStage = value;
                 ViewStatusStorage.Set("Fight.UseRemainingSanityStage", value.ToString());
             }
         }
@@ -2268,8 +2313,7 @@ namespace MaaWpfGui
                     UseAlternateStage = false;
                 }
 
-                var mainModel = _container.Get<TaskQueueViewModel>();
-                mainModel.UpdateStageList(true);
+                _taskQueueViewModel.UpdateStageList(true);
             }
         }
 
@@ -2285,8 +2329,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _customStageCode, value);
                 ViewStatusStorage.Set("GUI.CustomStageCode", value.ToString());
-                var mainModel = _container.Get<TaskQueueViewModel>();
-                mainModel.CustomStageCode = value;
+                _taskQueueViewModel.CustomStageCode = value;
             }
         }
 
@@ -2317,24 +2360,23 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _inverseClearMode, tempEnumValue);
                 ViewStatusStorage.Set("GUI.InverseClearMode", value);
-                var taskQueueModel = _container.Get<TaskQueueViewModel>();
                 switch (tempEnumValue)
                 {
                     case InverseClearType.Clear:
-                        taskQueueModel.InverseMode = false;
-                        taskQueueModel.ShowInverse = false;
-                        taskQueueModel.SelectedAllWidth = 90;
+                        _taskQueueViewModel.InverseMode = false;
+                        _taskQueueViewModel.ShowInverse = false;
+                        _taskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
                     case InverseClearType.Inverse:
-                        taskQueueModel.InverseMode = true;
-                        taskQueueModel.ShowInverse = false;
-                        taskQueueModel.SelectedAllWidth = 90;
+                        _taskQueueViewModel.InverseMode = true;
+                        _taskQueueViewModel.ShowInverse = false;
+                        _taskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
                     case InverseClearType.ClearInverse:
-                        taskQueueModel.ShowInverse = true;
-                        taskQueueModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
+                        _taskQueueViewModel.ShowInverse = true;
+                        _taskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
                 }
             }

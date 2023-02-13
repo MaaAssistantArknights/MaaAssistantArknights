@@ -69,7 +69,6 @@
             <TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource PenguinID}" />
             <TextBox
                 Width="150"

@@ -15,8 +15,7 @@
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
+            VerticalAlignment="Center">
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
@@ -29,8 +28,7 @@
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
+            VerticalAlignment="Center">
             <Hyperlink
                 Click="Hyperlink_Click"
                 NavigateUri="{Binding Source={x:Static local:MaaUrls.GitHub}}"
@@ -42,8 +40,7 @@
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
+            VerticalAlignment="Center">
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
@@ -56,8 +53,7 @@
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
+            VerticalAlignment="Center">
             <Hyperlink
                 Click="Hyperlink_Click"
                 NavigateUri="{Binding Source={x:Static local:MaaUrls.QQchannel}}"
@@ -69,8 +65,7 @@
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
+            VerticalAlignment="Center">
             <Hyperlink
                 Click="Hyperlink_Click"
                 NavigateUri="{Binding Source={x:Static local:MaaUrls.Telegram}}"
@@ -82,8 +77,7 @@
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
+            VerticalAlignment="Center">
             <Hyperlink
                 Click="Hyperlink_Click"
                 NavigateUri="{Binding Source={x:Static local:MaaUrls.HelpUri}}"
@@ -95,8 +89,7 @@
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}">
+            VerticalAlignment="Center">
             <Hyperlink
                 Click="Hyperlink_Click"
                 NavigateUri="{Binding Source={x:Static local:MaaUrls.GitHubIssues}}"

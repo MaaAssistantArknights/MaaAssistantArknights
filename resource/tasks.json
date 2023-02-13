@@ -3662,9 +3662,9 @@
             "暂无好友"
         ],
         "roi": [
-            650,
+            600,
             100,
-            300,
+            350,
             150
         ],
         "action": "DoNothing",
@@ -5692,6 +5692,7 @@
             41,
             41
         ],
+        "preDelay": 2500,
         "next": [
             "InfrastClueSelfNew",
             "InfrastClueFriendNew",
@@ -9701,6 +9702,8 @@
     "SSSHalfTimeDropsBegin": {
         "template": "SSSHalfTimeDropsCancel.png",
         "action": "DoNothing",
+        "templThreshold": 0.7,
+        "cache": false,
         "roi": [
             148,
             332,
@@ -9729,6 +9732,7 @@
     },
     "SSSHalfTimeDropsConfirm": {
         "action": "ClickSelf",
+        "templThreshold": 0.7,
         "cache": false,
         "roi": [
             1035,
@@ -9739,6 +9743,7 @@
     },
     "SSSHalfTimeDropsCancel": {
         "action": "ClickSelf",
+        "templThreshold": 0.7,
         "cache": false,
         "roi": [
             100,
@@ -9752,6 +9757,7 @@
     },
     "SSSHalfTimeDropsCancelConfirm": {
         "action": "ClickSelf",
+        "templThreshold": 0.7,
         "roi": [
             716,
             410,

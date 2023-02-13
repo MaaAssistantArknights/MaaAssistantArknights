@@ -50,8 +50,18 @@ namespace MaaWpfGui
         public bool IsResourceCollection { get; set; } = false;
 
         /// <summary>
+        /// Gets a value indicating whether the activity is open or not
+        /// </summary>
+        public bool BeingOpen => !NotOpenYet && !IsExpired;
+
+        /// <summary>
         /// Gets a value indicating whether the activity is expired
         /// </summary>
-        public bool IsExpired => DateTime.UtcNow >= UtcExpireTime || DateTime.UtcNow <= UtcStartTime;
+        public bool IsExpired => DateTime.UtcNow >= UtcExpireTime;
+
+        /// <summary>
+        /// Gets a value indicating whether the activity is expired
+        /// </summary>
+        public bool NotOpenYet => DateTime.UtcNow <= UtcStartTime;
     }
 }

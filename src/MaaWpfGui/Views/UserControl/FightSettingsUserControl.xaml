@@ -97,7 +97,6 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource Quantity}"
                             TextAlignment="Center" />
                     </Grid>
@@ -141,7 +140,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource StageSelect}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -151,7 +149,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource StageSelect2}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -162,7 +159,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text=""
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -172,7 +168,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource RemainingSanityStage}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -234,7 +229,7 @@
                         ItemsSource="{Binding RemainingSanityStageList}"
                         SelectedValue="{Binding RemainingSanityStage}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding RemainingSanityStageDisplay1}" />
+                        Visibility="{c:Binding UseRemainingSanityStage and !CustomStageCode}" />
                     <TextBox
                         Height="30"
                         Margin="0,6"
@@ -243,7 +238,7 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding RemainingSanityStageDisplay2}" />
+                        Visibility="{c:Binding UseRemainingSanityStage and CustomStageCode}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">
@@ -257,7 +252,6 @@
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource TextBlockDefault}"
                             Text="{DynamicResource CustomInfrastPlan}"
                             TextAlignment="Center"
                             TextWrapping="Wrap"

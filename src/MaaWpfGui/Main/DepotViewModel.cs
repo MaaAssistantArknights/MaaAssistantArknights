@@ -25,10 +25,10 @@ namespace MaaWpfGui
     /// </summary>
     public class DepotViewModel : Screen
     {
-#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
-#pragma warning restore IDE0052
         private readonly IContainer _container;
+
+        private AsstProxy _asstProxy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DepotViewModel"/> class.
@@ -40,6 +40,12 @@ namespace MaaWpfGui
             _container = container;
             _windowManager = windowManager;
             DisplayName = Localization.GetString("DepotRecognition");
+        }
+
+        protected override void OnInitialActivate()
+        {
+            base.OnInitialActivate();
+            _asstProxy = _container.Get<AsstProxy>();
         }
 
         private string _depotInfo = Localization.GetString("DepotRecognitionTip");
@@ -150,12 +156,11 @@ namespace MaaWpfGui
         /// </summary>
         public async void Start()
         {
-            var asstProxy = _container.Get<AsstProxy>();
             string errMsg = string.Empty;
             DepotInfo = Localization.GetString("ConnectingToEmulator");
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg);
+                return _asstProxy.AsstConnect(ref errMsg);
             });
             bool caught = await task;
             if (!caught)
@@ -167,7 +172,7 @@ namespace MaaWpfGui
             DepotInfo = Localization.GetString("Identifying");
             Clear();
 
-            asstProxy.AsstStartDepot();
+            _asstProxy.AsstStartDepot();
         }
     }
 }
