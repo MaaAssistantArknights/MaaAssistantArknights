@@ -117,7 +117,7 @@ namespace MaaWpfGui
                         bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
                         bool curParsed = !isDebugVersion ?
                             SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
-                            SemVersion.TryParse("4.10.1", SemVersionStyles.AllowLowerV, out curVersionObj);
+                            SemVersion.TryParse("4.10.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
 
                         if (curParsed && minimumRequiredPared)
@@ -151,21 +151,24 @@ namespace MaaWpfGui
                             continue;
                         }
 
-                        tempStage.Add(
-                            stageObj["Value"].ToString(),
-                            new StageInfo
+                        var stageInfo = new StageInfo
+                        {
+                            Display = stageObj?["Display"]?.ToString() ?? string.Empty,
+                            Value = stageObj["Value"].ToString(),
+                            Drop = stageObj?["Drop"]?.ToString(),
+                            Activity = new StageActivityInfo()
                             {
-                                Display = stageObj?["Display"]?.ToString() ?? string.Empty,
-                                Value = stageObj["Value"].ToString(),
-                                Drop = stageObj?["Drop"]?.ToString(),
-                                Activity = new StageActivityInfo()
-                                {
-                                    Tip = stageObj["Activity"]?["Tip"]?.ToString(),
-                                    StageName = stageObj["Activity"]?["StageName"]?.ToString(),
-                                    UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                    UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
-                                },
-                            });
+                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                            },
+                        };
+
+                        if (!stageInfo.Activity.IsExpired)
+                        {
+                            tempStage.Add(stageObj["Value"].ToString(), stageInfo);
+                        }
                     }
                 }
                 catch (Exception e)
