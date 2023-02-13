@@ -195,7 +195,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Initializes items.
         /// </summary>
-        public void InitializeItems()
+        private void InitializeItems()
         {
             string[] task_list = new string[]
             {
@@ -286,6 +286,8 @@ namespace MaaWpfGui
         /// Updates stage list.
         /// </summary>
         /// <param name="forceUpdate">Whether or not to update the stage list for selection forcely</param>
+        // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
+        // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
         {
             if (_settingsViewModel.HideUnavailableStage)
@@ -364,6 +366,8 @@ namespace MaaWpfGui
         /// <summary>
         /// Updates date prompt.
         /// </summary>
+        // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
+        // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateDatePrompt()
         {
             var builder = new StringBuilder(Localization.GetString("TodaysStageTip") + "\n");
@@ -885,7 +889,12 @@ namespace MaaWpfGui
                 black_list[i] = black_list[i].Trim();
             }
 
-            return _asstProxy.AsstAppendMall(_settingsViewModel.CreditFightTaskEnabled, _settingsViewModel.CreditShopping, buy_first, black_list, _settingsViewModel.CreditForceShoppingIfCreditFull);
+            return _asstProxy.AsstAppendMall(
+                this.Stage != string.Empty && _settingsViewModel.CreditFightTaskEnabled,
+                _settingsViewModel.CreditShopping,
+                buy_first,
+                black_list,
+                _settingsViewModel.CreditForceShoppingIfCreditFull);
         }
 
         private bool appendRecruit()

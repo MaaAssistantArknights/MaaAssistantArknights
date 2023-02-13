@@ -505,7 +505,7 @@ namespace MaaWpfGui
                     }
                     else if (taskChain == "Mall")
                     {
-                        if (_settingsViewModel.CreditFightTaskEnabled)
+                        if (_taskQueueViewModel.Stage != string.Empty && _settingsViewModel.CreditFightTaskEnabled)
                         {
                             _settingsViewModel.LastCreditFightTaskTime = Utils.GetYJTimeDateString();
                         }
