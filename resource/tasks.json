@@ -2971,6 +2971,7 @@
         "action": "DoNothing",
         "algorithm": "OcrDetect",
         "text": [
+            "分钟",
             "小时",
             "1天"
         ],
@@ -2978,6 +2979,10 @@
             [
                 ".+小时",
                 "小时"
+            ],
+            [
+                ".+分钟",
+                "分钟"
             ]
         ],
         "roi": [
@@ -6821,15 +6826,12 @@
         ]
     },
     "DepotMaterialTab": {
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "roi": [
             1026,
             0,
             254,
             138
-        ],
-        "next": [
-            "DepotMaterialTabClicked"
         ]
     },
     "DepotMaterialTabClicked": {
