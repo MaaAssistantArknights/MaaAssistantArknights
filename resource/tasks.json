@@ -6826,15 +6826,12 @@
         ]
     },
     "DepotMaterialTab": {
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "roi": [
             1026,
             0,
             254,
             138
-        ],
-        "next": [
-            "DepotMaterialTabClicked"
         ]
     },
     "DepotMaterialTabClicked": {
