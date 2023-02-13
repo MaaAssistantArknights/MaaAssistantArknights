@@ -118,6 +118,7 @@
     <system:String x:Key="ADBProgram">adb程序</system:String>
 
     <system:String x:Key="EmulatorException">检测模拟器出错&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
+    <system:String x:Key="AdbException">检测ADB出错&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器&#x0a;请关闭不需要的模拟器&#x0a;或手动设置连接</system:String>
 
