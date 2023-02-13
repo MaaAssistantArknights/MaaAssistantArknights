@@ -167,7 +167,7 @@ namespace MaaWpfGui
 
                         if (!stageInfo.Activity.IsExpired)
                         {
-                            tempStage.Add(stageObj["Value"].ToString(), stageInfo);
+                            tempStage.Add(stageInfo.Display, stageInfo);
                         }
                     }
                 }
