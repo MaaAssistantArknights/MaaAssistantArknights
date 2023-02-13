@@ -504,6 +504,9 @@
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h">
       <Filter>源文件\Task\Reclamation</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Reclamation\ReclamationControlTask.h">
+      <Filter>源文件\Task\Reclamation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -828,6 +831,9 @@
       <Filter>源文件\Task\Reclamation</Filter>
     </ClCompile>
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp">
+      <Filter>源文件\Task\Reclamation</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp">
       <Filter>源文件\Task\Reclamation</Filter>
     </ClCompile>
   </ItemGroup>
