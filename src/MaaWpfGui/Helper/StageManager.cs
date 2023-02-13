@@ -120,27 +120,30 @@ namespace MaaWpfGui
                             SemVersion.TryParse("4.10.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
 
+                        var stageInfo = new StageInfo();
                         if (curParsed && minimumRequiredPared)
                         {
                             if (curVersionObj.CompareSortOrderTo(minimumRequiredObj) < 0)
                             {
-                                if (!tempStage.ContainsKey("不支持的关卡"))
+                                if (!tempStage.ContainsKey(Localization.GetString("UnsupportedStages")))
                                 {
-                                    tempStage.Add(
-                                        "不支持的关卡",
-                                        new StageInfo
+                                    stageInfo = new StageInfo
+                                    {
+                                        Display = Localization.GetString("UnsupportedStages"),
+                                        Value = Localization.GetString("UnsupportedStages"),
+                                        Drop = Localization.GetString("LowVersion"),
+                                        Activity = new StageActivityInfo()
                                         {
-                                            Display = "不支持的关卡",
-                                            Value = "不支持的关卡",
-                                            Drop = "版本过低",
-                                            Activity = new StageActivityInfo()
-                                            {
-                                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
-                                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
-                                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
-                                            },
-                                        });
+                                            Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                            StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                            UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                            UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                        },
+                                    };
+                                    if (!stageInfo.Activity.IsExpired)
+                                    {
+                                        tempStage.Add(stageInfo.Display, stageInfo);
+                                    }
                                 }
 
                                 continue;
@@ -151,7 +154,7 @@ namespace MaaWpfGui
                             continue;
                         }
 
-                        var stageInfo = new StageInfo
+                        stageInfo = new StageInfo
                         {
                             Display = stageObj?["Display"]?.ToString() ?? string.Empty,
                             Value = stageObj["Value"].ToString(),
