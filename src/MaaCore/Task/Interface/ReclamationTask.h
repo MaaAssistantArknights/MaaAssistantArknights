@@ -4,6 +4,7 @@
 namespace asst
 {
     class ProcessTask;
+    class ReclamationControlTask;
 
     class ReclamationTask : public InterfaceTask
     {
@@ -13,9 +14,9 @@ namespace asst
         ReclamationTask(const AsstCallback& callback, Assistant* inst);
         virtual ~ReclamationTask() override = default;
 
-        //virtual bool set_params(const json::value& params) override;
+        virtual bool set_params(const json::value& params) override;
 
     private:
-        std::shared_ptr<ProcessTask> m_reclamation_task_ptr = nullptr;
+        std::shared_ptr<ReclamationControlTask> m_reclamation_task_ptr = nullptr;
     };
 }

@@ -103,6 +103,9 @@
     <system:String x:Key="AlgorithmFinish">演算结束</system:String>
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
+    <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
+    
+
 
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
