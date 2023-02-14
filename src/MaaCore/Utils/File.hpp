@@ -1,7 +1,7 @@
 #pragma once
 
 #include <filesystem>
-#include <ranges>
+#include <Utils/Ranges.hpp>
 
 namespace asst::utils
 {
@@ -11,7 +11,7 @@ namespace asst::utils
     template <typename ContainerType>
     concept AppendableBytesContainer = requires(ContainerType a)
     {
-        requires std::ranges::contiguous_range<ContainerType>;
+        requires ranges::contiguous_range<ContainerType>;
         requires ByteValueType<typename ContainerType::value_type>;
         requires std::is_constructible_v<ContainerType>;
         requires std::is_constructible_v<ContainerType, size_t, typename ContainerType::value_type>; // std::string(count, ch), std::vector(count, value)
