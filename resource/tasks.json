@@ -9847,14 +9847,11 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "生息演算",
-            "沙中之火"
+            "WITHIN",
+            "沙", "中", "之", "火"
         ],
         "roi": [
-            0,
-            500,
-            500,
-            150
+            686, 164, 207, 133
         ],
         "postDelay": 2000,
         "next": [
