@@ -30,12 +30,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install GCC-12
-        run: |
-          sudo apt update
-          sudo apt upgrade
-          sudo apt install gcc-12 g++-12
-
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
         with:
