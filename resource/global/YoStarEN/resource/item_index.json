@@ -999,6 +999,14 @@
         "sortId": -10000,
         "usage": "A warrant issued by Wolumonde's Gendarmerie, authorizing entry into occupied zones to hunt down ruffians who fled amidst the chaos."
     },
+    "act11mini_token_card": {
+        "classifyType": "NONE",
+        "description": "With this library card, you can read any story that piques your interest. No matter what events may ensue, the time that you spend will all be recorded.",
+        "icon": "act11mini_token_card.png",
+        "name": "Library Card",
+        "sortId": -10000,
+        "usage": "A library card independently issued by the private library. Can be used to read any material, however no items may be removed from the premises."
+    },
     "act12d0_token_components": {
         "classifyType": "NONE",
         "description": "Originally seen only in Zumama's tribe, these eventually scattered throughout various places in the rainforests and wilds. Each one seems imaginative to the point of defying the laws of physics, but falls short of the industrial standards of any country.",
@@ -1501,6 +1509,14 @@
         "icon": "randomMaterialRune_1.png",
         "name": "Operation Pyrite Supplies",
         "sortId": 60012,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_10": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_10.png",
+        "name": "Operation Ashring Supplies",
+        "sortId": 60021,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_2": {

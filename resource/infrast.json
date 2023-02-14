@@ -406,7 +406,8 @@
                 "template": "Bskill_ctrl_ussg.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Dorm": {
         "skills": {
@@ -2085,7 +2086,8 @@
                 "template": "Bskill_hire_spd_memento.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Power": {
         "maxNumOfOpers": 1,
@@ -2202,7 +2204,8 @@
                 "template": "Bskill_pow_spd3.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Reception": {
         "Doc": "会客室",
@@ -2535,7 +2538,8 @@
                 "template": "Bskill_meet_ursus2.png"
             }
         },
-        "skillsGroup": []
+        "skillsGroup": [
+        ]
     },
     "Trade": {
         "maxNumOfOpers": 3,
@@ -2585,6 +2589,24 @@
                     "违约索赔·β"
                 ],
                 "template": "Bskill_tra_against2.png"
+            },
+            "bskill_tra_bd_cost1": {
+                "desc": [
+                    "进驻贸易站时，贸易站内全体干员每小时心情消耗-0.1，每有10点人间烟火，则额外-0.01"
+                ],
+                "name": [
+                    "跋山涉水"
+                ],
+                "template": "Bskill_tra_bd_cost1.png"
+            },
+            "bskill_tra_bd_cost2": {
+                "desc": [
+                    "进驻贸易站时，贸易站内全体干员每小时心情消耗-0.1，每有10点人间烟火，则额外-0.02"
+                ],
+                "name": [
+                    "万里传书"
+                ],
+                "template": "Bskill_tra_bd_cost2.png"
             },
             "bskill_tra_bd_n1": {
                 "desc": [
@@ -3190,7 +3212,8 @@
                         ]
                     }
                 ],
-                "optional": []
+                "optional": [
+                ]
             },
             {
                 "allowExternal": false,
