@@ -164,7 +164,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Starts calculation.
         /// </summary>
-        private async void StartCalc()
+        public async void StartCalc()
         {
             string errMsg = string.Empty;
             RecruitInfo = Localization.GetString("ConnectingToEmulator");
