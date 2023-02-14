@@ -18,6 +18,7 @@ BattleOpersFlag.png
 BattleQuickFormation-OperNameFlag-SpecialFocus.png
 BattleQuickFormation-OperNameFlag.png
 BattleQuickFormation.png
+BattleQuickFormationFilter
 BattleQuickFormationRole-Caster.png
 BattleQuickFormationRole-Medic.png
 BattleQuickFormationRole-Pioneer.png
@@ -89,6 +90,12 @@ SmileyOnWork.png
 SN-10.png
 SN-8.png
 SN-9.png
+SSSDrawCard.png
+SSSFightDirectly.png
+SSSHalfTimeDropsCancel.png
+SSSHalfTimeDropsConfirm.png
+SSSSettlement.png
+SSSSettlementConfirm.png
 StageAP5.png
 StageBI7.png
 StageBI8.png

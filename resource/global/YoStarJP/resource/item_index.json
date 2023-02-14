@@ -999,6 +999,14 @@
         "sortId": -10000,
         "usage": "ウォルモンドの憲兵隊が発行する書状。被占領地に入り、動乱の中で逃走した暴徒を逮捕するのに使う。"
     },
+    "act11mini_token_card": {
+        "classifyType": "NONE",
+        "description": "この閲覧証があれば、好きな物語をどれでも自由に閲覧できる。たとえ続きがどうなっていようと、移ろう時はすべてを記録する。",
+        "icon": "act11mini_token_card.png",
+        "name": "閲覧証",
+        "sortId": -10000,
+        "usage": "私設図書室が独自に発行している閲覧証。図書室の書物を閲読する際に必要である。書籍を図書室の外に持ち出すことは許されない。"
+    },
     "act12d0_token_components": {
         "classifyType": "NONE",
         "description": "最初はズゥママの部族でしか見られなかった工業部品だが、段々とジャングルと荒野の至るところまで散らばっているのが見られるようになった。この部品は、想像力に富み物理法則に対する抵抗心に溢れているが、どの国のどんな工業規格も満たしていない。",
@@ -1501,6 +1509,14 @@
         "icon": "randomMaterialRune_1.png",
         "name": "補給物資・「黄鉄」",
         "sortId": 60012,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
+    "randomMaterialRune_10": {
+        "classifyType": "CONSUME",
+        "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
+        "icon": "randomMaterialRune_10.png",
+        "name": "補給物資・「塵環」",
+        "sortId": 60021,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_2": {
