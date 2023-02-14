@@ -1216,11 +1216,6 @@ namespace MaaWpfGui
         {
             get
             {
-                if (_taskQueueViewModel.Stage == string.Empty)
-                {
-                    return false;
-                }
-
                 try
                 {
                     if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
