@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -32,13 +33,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[0].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 1">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -49,7 +50,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
                     Text="{Binding TimerModels.Timers[0].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -68,13 +69,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[1].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 2">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -85,7 +86,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
                     Text="{Binding TimerModels.Timers[1].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -104,13 +105,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[2].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 3">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -121,7 +122,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
                     Text="{Binding TimerModels.Timers[2].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -140,13 +141,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[3].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 4">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -157,7 +158,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
                     Text="{Binding TimerModels.Timers[3].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -176,13 +177,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[4].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 5">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -193,7 +194,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
                     Text="{Binding TimerModels.Timers[4].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -212,13 +213,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[5].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 6">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -229,7 +230,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
                     Text="{Binding TimerModels.Timers[5].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -248,13 +249,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[6].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 7">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -265,7 +266,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
                     Text="{Binding TimerModels.Timers[6].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"
@@ -284,13 +285,13 @@
             Orientation="Horizontal">
             <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[7].IsOn}">
                 <CheckBox.Content>
-                    <TextBlock>
-                        <TextBlock.Text>
+                    <maa:TextBlock>
+                        <maa:TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} 8">
                                 <Binding Source="{StaticResource Timer}" />
                             </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        </maa:TextBlock.Text>
+                    </maa:TextBlock>
                 </CheckBox.Content>
             </CheckBox>
             <StackPanel Orientation="Horizontal">
@@ -301,7 +302,7 @@
                     IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
                     Text="{Binding TimerModels.Timers[7].Hour, StringFormat=D2}"
                     TextWrapping="Wrap" />
-                <TextBlock Text=":" />
+                <maa:TextBlock Text=":" />
                 <TextBox
                     Width="35"
                     Margin="10"

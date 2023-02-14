@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -94,7 +95,7 @@
                         IsChecked="{Binding IsSpecifiedDrops}"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
                     <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
-                        <TextBlock
+                        <maa:TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{DynamicResource Quantity}"
@@ -136,7 +137,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="2" Orientation="Vertical">
                     <Grid Height="42">
-                        <TextBlock
+                        <maa:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -145,7 +146,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
                     <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
-                        <TextBlock
+                        <maa:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -155,7 +156,7 @@
                     </Grid>
                     <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
                         <!--  a placeholder  -->
-                        <TextBlock
+                        <maa:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -164,7 +165,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
                     <Grid Height="42" Visibility="{c:Binding UseRemainingSanityStage}">
-                        <TextBlock
+                        <maa:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -248,7 +249,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="2" Orientation="Vertical">
                     <Grid Height="42">
-                        <TextBlock
+                        <maa:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"

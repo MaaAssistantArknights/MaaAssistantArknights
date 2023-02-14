@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -45,7 +46,7 @@
                     IsChecked="{Binding UseAria2}"
                     IsEnabled="{Binding UpdateCheck}" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock
+                    <maa:TextBlock
                         Margin="10,10,0,10"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource UpdateCheck}" />
@@ -73,7 +74,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <TextBlock
+                <maa:TextBlock
                     Grid.Row="0"
                     Margin="1"
                     VerticalAlignment="Center"
@@ -85,7 +86,7 @@
                     VerticalAlignment="Center"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding Proxy}" />
-                <TextBlock
+                <maa:TextBlock
                     Grid.Row="2"
                     Margin="10"
                     HorizontalAlignment="Center"
