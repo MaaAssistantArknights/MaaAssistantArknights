@@ -58,13 +58,31 @@ namespace MaaWpfGui
             }
         }
 
+        private static string _clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
+
+        public static string ClientType { get => _clientType; set => _clientType = value; }
+
+        // YJ历每一天从4点开始，计算日期的时候第二天4点前仍然算作前一天
+        private static readonly int YJDayStartHour = 4;
+
+        private static readonly Dictionary<string, int> _clientTypeTimezone = new Dictionary<string, int>
+        {
+            { string.Empty, 8 },
+            { "Official", 8 },
+            { "Bilibili", 8 },
+            { "txwy", 8 },
+            { "YoStarEN", -7 },
+            { "YoStarJP", 9 },
+            { "YoStarKR", 9 },
+        };
+
         /// <summary>
         /// 获取yj历时间
         /// </summary>
         /// <returns>yj历时间</returns>
         public static DateTime GetYJTimeNow()
         {
-            return DateTime.UtcNow.AddHours(4);
+            return ToYJTime(DateTime.UtcNow);
         }
 
         /// <summary>
@@ -101,7 +119,7 @@ namespace MaaWpfGui
         /// <returns>yj历格式的时间</returns>
         public static DateTime ToYJTime(DateTime dt)
         {
-            return dt.AddHours(4);
+            return dt.AddHours(_clientTypeTimezone[ClientType] - YJDayStartHour);
         }
 
         private static readonly JObject _itemList = new JObject();
