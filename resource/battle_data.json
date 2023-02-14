@@ -2536,6 +2536,28 @@
             ],
             "rarity": 6
         },
+        "char_4082_qiubai": {
+            "name": "仇白",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ],
+            "rarity": 6
+        },
+        "char_4083_chimes": {
+            "name": "铎铃",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_411_tomimi": {
             "name": "特米米",
             "position": "RANGED",
@@ -4611,6 +4633,413 @@
                 "x-5",
                 "x-5",
                 "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_400_xbfarm": {
+            "name": "便携式种植槽",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_401_xbfato": {
+            "name": "采集实习站",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-15",
+                "3-15",
+                "3-15"
+            ],
+            "rarity": 1
+        },
+        "trap_403_wfactory": {
+            "name": "蟹蟹抽水泵",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_404_xbfortress": {
+            "name": "坚固筑台",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_405_xbroadblock": {
+            "name": "都市风壁障",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_406_xboverwatch": {
+            "name": "监控塔",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_408_xbbase": {
+            "name": "基地",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_409_xbwood": {
+            "name": "杂木林",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_410_xbstone": {
+            "name": "巨大岩石",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_411_xbiron": {
+            "name": "奇异矿脉",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_412_redtower": {
+            "name": "移动战塔",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_413_hiddenstone": {
+            "name": "遗迹残骸",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_414_vegetation": {
+            "name": "灌木丛",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_415_trademan": {
+            "name": "联络员",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_416_gtreasure": {
+            "name": "埋没金属箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_417_shielder": {
+            "name": "护盾遥控器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_418_smokebomb": {
+            "name": "安眠迷香",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_419_enhancer": {
+            "name": "醒神秘药",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_420_umbrella": {
+            "name": "反侦察藏匿机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_421_repairman": {
+            "name": "应急修理车",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_422_streasure": {
+            "name": "宝刺金属箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_423_bondtw": {
+            "name": "缚网发射台",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_424_pushtw": {
+            "name": "喷拒器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_425_xbwall": {
+            "name": "防御工事",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_426_xbmrcl": {
+            "name": "模块演算设施",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_427_xbprsh": {
+            "name": "资源规划站",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_428_xblrsh": {
+            "name": "备勤激活站",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_429_xbescp": {
+            "name": "跨地块通讯站",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_430_wdescp": {
+            "name": "逃脱点",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_431_xbgldn": {
+            "name": "冶铸台",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_432_oldisin": {
+            "name": "老伊辛",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_433_sandsdr": {
+            "name": "“沙卒”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-1",
+                "3-1",
+                "3-1"
+            ],
+            "rarity": 1
+        },
+        "trap_434_klmantc": {
+            "name": "曼提柯杀手",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "y-1",
+                "y-1",
+                "y-1"
+            ],
+            "rarity": 1
+        },
+        "trap_435_trsrhuntr": {
+            "name": "寻宝人",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_437_poachr": {
+            "name": "老练猎手",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-3",
+                "x-3",
+                "x-3"
+            ],
+            "rarity": 1
+        },
+        "trap_438_xbfato2": {
+            "name": "采集专员站",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-15",
+                "3-15",
+                "3-15"
+            ],
+            "rarity": 1
+        },
+        "trap_439_xbfato3": {
+            "name": "采集主任站",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-15",
+                "3-15",
+                "3-15"
             ],
             "rarity": 1
         },
