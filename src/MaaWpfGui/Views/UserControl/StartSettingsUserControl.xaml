@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -60,7 +61,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <TextBlock
+                    <maa:TextBlock
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource EmulatorPath}" />
@@ -76,7 +77,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <TextBlock Block.TextAlignment="Center" Text="{DynamicResource AdditionCommand}" />
+                    <maa:TextBlock Block.TextAlignment="Center" Text="{DynamicResource AdditionCommand}" />
                 </StackPanel>
                 <TextBox Margin="20,5" Text="{Binding EmulatorAddCommand}" />
             </StackPanel>
@@ -85,7 +86,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBlock
+                <maa:TextBlock
                     Margin="3"
                     Block.TextAlignment="Center"
                     Text="{DynamicResource WaitForEmulator}" />

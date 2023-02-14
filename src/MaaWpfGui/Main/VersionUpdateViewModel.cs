@@ -42,7 +42,6 @@ namespace MaaWpfGui
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
         /// </summary>
         /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
         public VersionUpdateViewModel(IContainer container)
         {
             _settingsViewModel = container.Get<SettingsViewModel>();

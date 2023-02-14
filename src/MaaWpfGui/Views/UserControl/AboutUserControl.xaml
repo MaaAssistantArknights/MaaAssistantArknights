@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -12,7 +13,7 @@
     d:DesignWidth="550"
     mc:Ignorable="d">
     <StackPanel Margin="10" VerticalAlignment="Center">
-        <TextBlock
+        <maa:TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -23,9 +24,9 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Website}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
 
-        <TextBlock
+        <maa:TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -35,9 +36,9 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Github}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
 
-        <TextBlock
+        <maa:TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -48,9 +49,9 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource QQgroup}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
 
-        <TextBlock
+        <maa:TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -60,9 +61,9 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource QQchannel}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
 
-        <TextBlock
+        <maa:TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -72,9 +73,9 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Telegram}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
 
-        <TextBlock
+        <maa:TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -84,9 +85,9 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Help}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
 
-        <TextBlock
+        <maa:TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
@@ -96,6 +97,6 @@
                 TextDecorations="None">
                 <TextBlock Text="{DynamicResource Issue}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
     </StackPanel>
 </UserControl>

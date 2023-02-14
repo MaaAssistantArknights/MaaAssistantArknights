@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -28,7 +29,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Vertical">
-            <TextBlock
+            <maa:TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
                 Text="{DynamicResource CopilotLocation}" />
@@ -86,16 +87,16 @@
                     Content="{DynamicResource Stop}"
                     Visibility="{c:Binding !Idle}" />
             </Grid>
-            <TextBlock Margin="5" Block.TextAlignment="Center">
+            <maa:TextBlock Margin="5" Block.TextAlignment="Center">
                 <Hyperlink Command="{s:Action Hyperlink_Click}" CommandParameter="{Binding Url}">
                     <TextBlock Text="{Binding Url}" />
                 </Hyperlink>
-            </TextBlock>
-            <TextBlock Margin="5" Block.TextAlignment="Center">
+            </maa:TextBlock>
+            <maa:TextBlock Margin="5" Block.TextAlignment="Center">
                 <Hyperlink Command="{s:Action Hyperlink_Click2}">
                     <TextBlock Text="{DynamicResource MapPrts}" />
                 </Hyperlink>
-            </TextBlock>
+            </maa:TextBlock>
         </StackPanel>
 
         <ScrollViewer
@@ -109,7 +110,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock
+                            <maa:TextBlock
                                 Width="350"
                                 Margin="5"
                                 FontWeight="{Binding Weight}"
