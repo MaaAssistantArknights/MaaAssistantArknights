@@ -442,7 +442,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Starts copilot.
         /// </summary>
-        private async void Start()
+        public async void Start()
         {
             /*
             if (_form)
@@ -490,7 +490,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Stops copilot.
         /// </summary>
-        private void Stop()
+        public void Stop()
         {
             _asstProxy.AsstStop();
             Idle = true;
