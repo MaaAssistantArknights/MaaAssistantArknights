@@ -1199,6 +1199,14 @@
         "sortId": -10000,
         "usage": "骑士之国的缩影，常被摆放在会客室精巧的礼盒里。"
     },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "谋善村居民手工雕刻的祈福用的平安符。带去移山庙，让庙祝用朱砂画上一笔，更能让人心安。\n",
+        "icon": "act14mini_token_fu.png",
+        "name": "平安符",
+        "sortId": -10000,
+        "usage": "粗桃木雕成的木牌。在年景好的时候，也会有人愿意用一些粮食，向手艺精湛的老人换这样一块牌子，以求吉利。"
+    },
     "act14side_token_stone": {
         "classifyType": "NONE",
         "description": "耶拉冈德的意志寄宿其中，谢拉格人会向之祈祷，以求幸福安康。",
@@ -1318,6 +1326,14 @@
         "name": "赛事奖章",
         "sortId": -10000,
         "usage": "一枚金属制的小型奖牌。获取一定数量的奖章将得到相应的赛事奖励。"
+    },
+    "act1sandbox_milestone_point": {
+        "classifyType": "NONE",
+        "description": "生息繁荣，代代相传，以此为证。",
+        "icon": "act1sandbox_milestone_point.png",
+        "name": "繁荣证章",
+        "sortId": -10000,
+        "usage": "用以在里程碑处兑换奖励。"
     },
     "act20side_token_book": {
         "classifyType": "NONE",
@@ -1573,7 +1589,7 @@
         "icon": "itempack_mod_10.png",
         "name": "狙击芯片组印刻仪",
         "sortId": -10000,
-        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据狙击干员们的需求，可以轻松印刻出芯片组合。"
     },
     "itempack_mod_11": {
         "classifyType": "CONSUME",
@@ -1581,7 +1597,7 @@
         "icon": "itempack_mod_11.png",
         "name": "术士芯片组印刻仪",
         "sortId": -10000,
-        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据术士干员们的需求，可以轻松印刻出芯片组合。"
     },
     "itempack_mod_12": {
         "classifyType": "CONSUME",
@@ -1589,7 +1605,7 @@
         "icon": "itempack_mod_12.png",
         "name": "医疗芯片组印刻仪",
         "sortId": -10000,
-        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据医疗干员们的需求，可以轻松印刻出芯片组合。"
     },
     "itempack_mod_13": {
         "classifyType": "CONSUME",
@@ -1597,7 +1613,7 @@
         "icon": "itempack_mod_13.png",
         "name": "辅助芯片组印刻仪",
         "sortId": -10000,
-        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据辅助干员们的需求，可以轻松印刻出芯片组合。"
     },
     "itempack_mod_14": {
         "classifyType": "CONSUME",
@@ -1605,7 +1621,7 @@
         "icon": "itempack_mod_14.png",
         "name": "特种芯片组印刻仪",
         "sortId": -10000,
-        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据特种干员们的需求，可以轻松印刻出芯片组合。"
     },
     "itempack_mod_4": {
         "classifyType": "NONE",
@@ -1637,7 +1653,7 @@
         "icon": "itempack_mod_8.png",
         "name": "近卫芯片组印刻仪",
         "sortId": -10000,
-        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据近卫干员们的需求，可以轻松印刻出芯片组合。"
     },
     "itempack_mod_9": {
         "classifyType": "CONSUME",
@@ -1645,7 +1661,7 @@
         "icon": "itempack_mod_9.png",
         "name": "重装芯片组印刻仪",
         "sortId": -10000,
-        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据先锋干员们的需求，可以轻松印刻出芯片组合。"
+        "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据重装干员们的需求，可以轻松印刻出芯片组合。"
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
