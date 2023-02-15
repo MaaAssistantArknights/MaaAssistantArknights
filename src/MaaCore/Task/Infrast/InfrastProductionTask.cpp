@@ -5,17 +5,17 @@
 
 #include <calculator/calculator.hpp>
 
+#include "Config/Miscellaneous/InfrastConfig.h"
+#include "Config/TaskData.h"
 #include "Controller.h"
+#include "Status.h"
+#include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
 #include "Vision/HashImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
-#include "Config/Miscellaneous/InfrastConfig.h"
-#include "Config/TaskData.h"
-#include "Status.h"
-#include "Task/ProcessTask.h"
-#include "Utils/Logger.hpp"
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std::string uses_of_drones) noexcept
 {
@@ -632,10 +632,15 @@ bool asst::InfrastProductionTask::opers_choose()
         ++swipe_times;
     }
 
-    if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
-    swipe_times = 0;
+    if (swipe_times) {
+        swipe_to_the_left_of_operlist(swipe_times + 1);
+    }
+
     ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run(); // 点下排序，让已选干员排到最前面
-    return select_opers_review(current_room_config(), count);
+    bool reviews = select_opers_review(current_room_config(), count);
+    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run(); // 还原工作状态排序
+
+    return reviews;
 }
 
 bool asst::InfrastProductionTask::use_drone()
