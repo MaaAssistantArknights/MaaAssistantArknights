@@ -7,6 +7,7 @@
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -58,8 +59,8 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <!--<TextBlock  Text="{Binding ID}" />
-                            <TextBlock  Text=". " />-->
+                                    <!--<maa:TextBlock  Text="{Binding ID}" />
+                            <maa:TextBlock  Text=". " />-->
                                     <CheckBox
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
@@ -116,7 +117,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock
+                <maa:TextBlock
                     Padding="5,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -171,7 +172,7 @@
                 Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top" />
-            <TextBlock
+            <maa:TextBlock
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
@@ -194,14 +195,14 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock
+                            <maa:TextBlock
                                 Width="95"
                                 Margin="0,5"
                                 VerticalAlignment="Top"
                                 Foreground="Gray"
                                 Text="{Binding Time}"
                                 TextWrapping="Wrap" />
-                            <TextBlock
+                            <maa:TextBlock
                                 Width="135"
                                 Margin="0,5"
                                 VerticalAlignment="Top"

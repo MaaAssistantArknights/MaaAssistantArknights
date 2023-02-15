@@ -741,11 +741,6 @@ namespace MaaWpfGui
                     case "BattleStartAll":
                         _copilotViewModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
                         break;
-
-                    /* 生息演算 */
-                    case "StartAlgorithm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
-                        break;
                 }
             }
         }
@@ -1002,12 +997,15 @@ namespace MaaWpfGui
 
                 /* 生息演算 */
                 case "ReclamationReport":
-                    {
-                        _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
-                            Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
-                            Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
-                    }
-
+                    _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
+                        Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
+                        Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
+                    break;
+                case "ReclamationProcedureStart":
+                    _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                    break;
+                case "ReclamationSmeltGold":
+                    _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"));
                     break;
             }
         }
@@ -1192,6 +1190,7 @@ namespace MaaWpfGui
             task_params["client_type"] = _settingsViewModel.ClientType;
             task_params["penguin_id"] = _settingsViewModel.PenguinId;
             task_params["DrGrandet"] = _settingsViewModel.IsDrGrandet;
+            task_params["expiring_medicine"] = _settingsViewModel.UseExpiringMedicine ? 9999 : 0;
             task_params["server"] = _settingsViewModel.ServerType;
             return task_params;
         }

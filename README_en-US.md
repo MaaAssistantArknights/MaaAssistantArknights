@@ -56,11 +56,11 @@ Talk is cheap. Show me the pictures!
 
 ### Basic Settings
 
-1. Please refer to [Emulator Supports](docs/en-us/1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
+1. Please refer to [Emulator Supports](https://maa.plus/docs/en-us/1.3-EMULATOR_SUPPORTS.html) to configure your emulator.
 2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
 3. Enjoy it!
 
-See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
+See also: [User Manual](https://maa.plus/docs/en-us/1.1-USER_MANUAL.html)
 
 ## FAQ
 
@@ -71,7 +71,7 @@ See also: [User Manual](docs/en-us/1.1-USER_MANUAL.md)
 - Download speed is too slow, or the mirror site is not accessible.
 - Download halfway and prompt "login"/"authentication"
 
-Please refer to: [FAQ](docs/en-us/1.2-FAQ.md)
+Please refer to: [FAQ](https://maa.plus/docs/en-us/1.2-FAQ.html)
 
 ## Supports for overseas clients
 
@@ -135,41 +135,41 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 ### Windows
 
 - Open `MAA.sln` with Visual Studio 2022. All settings have been configured properly.
-- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](docs/en-us/2.2-DEVELOPMENT.md#using-clang-format-in-visual-studio).
+- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#using-clang-format-in-visual-studio).
 
 ### Linux/MacOS
 
-Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
+Please refer to [Linux Tutorial](https://maa.plus/docs/en-us/2.1-LINUX_TUTORIAL.html)
 
 ### API
 
-- [C interface](include/AsstCaller.h): [Integration Example](src/CppSample/main.cpp)
-- [Python interface](src/Python/asst.py): [Integration Example](src/Python/sample.py)
+- [C interface](include/AsstCaller.h): [Integration Example](src/Cpp/main.cpp)
+- [Python interface](src/Python/asst/asst.py): [Integration Example](src/Python/sample.py)
 - [Golang interface](src/Golang/): [Integration Example](src/Golang/maa/maa.go)
-- [Dart interface](src/dart/)
+- [Dart interface](src/Dart/)
 - [Java interface](src/Java): [Integration Example](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/): [HTTP API](src/Rust)
 - [HTTP interface](src/Java/Readme.md)
 - [TypeScript interface](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [Integration Documentation](docs/en-us/3.1-INTEGRATION.md)
-- [Callback Schema](docs/en-us/3.2-CALLBACK_SCHEMA.md)
-- [Task Schema](docs/en-us/3.4-TASK_SCHEMA.md)
-- [Copilot Schema](docs/en-us/3.3-COPILOT_SCHEMA.md)
+- [Integration Documentation](https://maa.plus/docs/en-us/3.1-INTEGRATION.html)
+- [Callback Schema](https://maa.plus/docs/en-us/3.2-CALLBACK_SCHEMA.html)
+- [Task Schema](https://maa.plus/docs/en-us/3.4-TASK_SCHEMA.html)
+- [Copilot Schema](https://maa.plus/docs/en-us/3.3-COPILOT_SCHEMA.html)
 
 ### Overseas Clients Adaptation
 
-Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%20Adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+Please refer to [Overseas clients Adaptation](https://maa.plus/docs/en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.html). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
 
 ### For Novice Users of GitHub
 
-[Development](docs/en-us/2.2-DEVELOPMENT.md#introduction-to-github-pull-request-flow)
+[Development](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#introduction-to-github-pull-request-flow)
 
 ### Issue Bot
 
 - Add labels with `Add {LABEL_NAME}`, and remove with `Remove {LABEL_NAME}`.
 - Add `fixed` tag to the issue with `close #{ISSUE_NUMBER}` or `fix #{ISSUE_NUMBER}` in the comments.
 
-Please refer to [Issue Bot Usage](docs/en-us/2.3-ISSUE_BOT_USAGE.md) for more details.
+Please refer to [Issue Bot Usage](https://maa.plus/docs/en-us/2.3-ISSUE_BOT_USAGE.html) for more details.
 
 ## Disclaimer
 

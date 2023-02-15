@@ -55,11 +55,11 @@ UIを見れば使い方もすぐ分かる！
 
 ### 基本設定
 
-1. [エミュレータのサポート](docs/ja-jp/1.3-エミュレータのサポート.md)を参照して、対応するエミュレーターの操作に進んでください。
+1. [エミュレータのサポート](https://maa.plus/docs/ja-jp/1.3-エミュレータのサポート.html)を参照して、対応するエミュレーターの操作に進んでください。
 2. エミュレータ解像度を `16:9`、`1280 * 720` 以上に変更してください。それより大きい解像度でも大丈夫です。
 3. ゲームスタート！
 
-詳しいマニュアルは[MAA使用説明書](docs/ja-jp/1.1-詳細説明.md)を参照してください。
+詳しいマニュアルは[MAA使用説明書](https://maa.plus/docs/ja-jp/1.1-詳細説明.html)を参照してください。
 
 ## よくある質問
 
@@ -68,7 +68,7 @@ UIを見れば使い方もすぐ分かる！
 - 認識エラー、またはオペレーション開始した後に反応がない。
 - カスタムポート設定について。
 
-[よくある質問](docs/ja-jp/1.2-よくある質問.md)を参照してください。
+[よくある質問](https://maa.plus/docs/ja-jp/1.2-よくある質問.html)を参照してください。
 
 ## サーバーに応じてサポートされる機能
 
@@ -136,41 +136,41 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 ### Windows
 
 - Visual Studio 2022で `MAA.sln` を開きます。環境がすでに構成されています。
-- clang-formatのサポートを有効にすることをお勧めします。詳細については、[Visual Studioでclang-formatを有効にする](docs/ja-jp/2.2-プルリクエスト.md)を参照してください。
+- clang-formatのサポートを有効にすることをお勧めします。詳細については、[Visual Studioでclang-formatを有効にする](https://maa.plus/docs/ja-jp/2.2-プルリクエスト.html)を参照してください。
 
 ### Linux | macOS
 
-[Linuxチュートリアル](docs/ja-jp/2.1-Linuxチュートリアル.md)を参照してください。
+[Linuxチュートリアル](https://maa.plus/docs/ja-jp/2.1-Linuxチュートリアル.html)を参照してください。
 
 ### API
 
-- [Cインターフェース](include/AsstCaller.h)：[統合例](src/CppSample/main.cpp)
-- [Pythonインターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
+- [Cインターフェース](include/AsstCaller.h)：[統合例](src/Cpp/main.cpp)
+- [Pythonインターフェース](src/Python/asst/asst.py)：[統合例](src/Python/sample.py)
 - [Golangインターフェース](src/Golang/)：[統合例](src/Golang/maa/maa.go)
-- [Dartインターフェース](src/dart/)
+- [Dartインターフェース](src/Dart/)
 - [Javaインターフェース](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[統合例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)
 - [HTTPインターフェース](src/Java/Readme.md)
 - [TypeScriptインターフェース](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [統合ドキュメント](docs/ja-jp/3.1-統合ドキュメント.md)
-- [コールバックAPI](docs/ja-jp/3.2-コールバックAPI.md)
-- [タスクAPI](docs/ja-jp/3.4-タスクAPI.md)
-- [自動作戦API](docs/ja-jp/3.3-自動作戦API.md)
+- [統合ドキュメント](https://maa.plus/docs/ja-jp/3.1-統合ドキュメント.html)
+- [コールバックAPI](https://maa.plus/docs/ja-jp/3.2-コールバックAPI.html)
+- [タスクAPI](https://maa.plus/docs/ja-jp/3.4-タスクAPI.html)
+- [自動作戦API](https://maa.plus/docs/ja-jp/3.3-自動作戦API.html)
 
 ### Overseas Clients Adaptation
 
-Please refer to [Overseas clients Adaptation](docs/en-us/2.5-Overseas%20Clients%20Adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+Please refer to [Overseas clients Adaptation](https://maa.plus/docs/ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
 
 ### 開発に参加したいがGitHubの使い方がよくわかりません
 
-[Githubプルリクエストのプロセス](docs/ja-jp/2.2-プルリクエスト.md)
+[Githubプルリクエストのプロセス](https://maa.plus/docs/ja-jp/2.2-プルリクエスト.html)
 
 ### Issue bot
 
 - `Add {LABEL_NAME}`を使用してタグを追加し、`Remove {LABEL_NAME}` を使用してタグを削除できます。
 - `close #{ISSUE_NUMBER}` または `fix #{ISSUE_NUMBER}` を使用してissueに `fixed` タグを追加できます。
 
-詳細については[Issue bot 使用方法](docs/ja-jp/2.3-IssueBot使う方.md)を参照してください。
+詳細については[Issue bot 使用方法](https://maa.plus/docs/ja-jp/2.3-IssueBot使う方.html)を参照してください。
 
 ## 免責事項
 
