@@ -39,6 +39,11 @@ namespace MaaWpfGui
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
 
+        private StageManager _stageManager;
+        private SettingsViewModel _settingsViewModel;
+        private AsstProxy _asstProxy;
+        private TrayIcon _trayIcon;
+
         /// <summary>
         /// Gets or sets the view models of task items.
         /// </summary>
@@ -106,14 +111,24 @@ namespace MaaWpfGui
         /// <param name="windowManager">The window manager.</param>
         public TaskQueueViewModel(IContainer container, IWindowManager windowManager)
         {
-            _container = container;
             _windowManager = windowManager;
+            _container = container;
+        }
+
+        protected override void OnInitialActivate()
+        {
+            base.OnInitialActivate();
+            _settingsViewModel = _container.Get<SettingsViewModel>();
+            _asstProxy = _container.Get<AsstProxy>();
+            _trayIcon = _container.Get<TrayIcon>();
+            _stageManager = _container.Get<StageManager>();
+
+            _trayIcon.SetTaskQueueViewModel(this);
+
             DisplayName = Localization.GetString("Farming");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
-            var trayIcon = _container.Get<TrayIcon>();
-            trayIcon.SetTaskQueueViewModel(this);
         }
 
         /*
@@ -159,13 +174,12 @@ namespace MaaWpfGui
 
             int intMinute = DateTime.Now.Minute;
             int intHour = DateTime.Now.Hour;
-            var settings = _container.Get<SettingsViewModel>();
             var timeToStart = false;
             for (int i = 0; i < 8; ++i)
             {
-                if (settings.TimerModels.Timers[i].IsOn &&
-                    settings.TimerModels.Timers[i].Hour == intHour &&
-                    settings.TimerModels.Timers[i].Min == intMinute)
+                if (_settingsViewModel.TimerModels.Timers[i].IsOn &&
+                    _settingsViewModel.TimerModels.Timers[i].Hour == intHour &&
+                    _settingsViewModel.TimerModels.Timers[i].Min == intMinute)
                 {
                     timeToStart = true;
                     break;
@@ -181,7 +195,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Initializes items.
         /// </summary>
-        public void InitializeItems()
+        private void InitializeItems()
         {
             string[] task_list = new string[]
             {
@@ -243,7 +257,6 @@ namespace MaaWpfGui
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            _stageManager = new StageManager(_container);
             RemainingSanityStageList = new ObservableCollection<CombData>(_stageManager.GetStageList())
             {
                 // It's Cur/Last option
@@ -257,7 +270,6 @@ namespace MaaWpfGui
             RefreshCustonInfrastPlan();
         }
 
-        private StageManager _stageManager;
         private DayOfWeek _curDayOfWeek;
 
         /// <summary>
@@ -274,10 +286,11 @@ namespace MaaWpfGui
         /// Updates stage list.
         /// </summary>
         /// <param name="forceUpdate">Whether or not to update the stage list for selection forcely</param>
+        // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
+        // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
         {
-            var settingsModel = _container.Get<SettingsViewModel>();
-            if (settingsModel.HideUnavailableStage)
+            if (_settingsViewModel.HideUnavailableStage)
             {
                 // update available stage list
                 var stage1 = Stage1 ??= string.Empty;
@@ -353,6 +366,8 @@ namespace MaaWpfGui
         /// <summary>
         /// Updates date prompt.
         /// </summary>
+        // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
+        // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateDatePrompt()
         {
             var builder = new StringBuilder(Localization.GetString("TodaysStageTip") + "\n");
@@ -571,17 +586,16 @@ namespace MaaWpfGui
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
-            _container.Get<SettingsViewModel>().InfrastOrderSelectionChanged();
+            _settingsViewModel.InfrastOrderSelectionChanged();
 
             ClearLog();
 
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
-            var asstProxy = _container.Get<AsstProxy>();
             string errMsg = string.Empty;
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg);
+                return _asstProxy.AsstConnect(ref errMsg);
             });
             bool caught = await task;
 
@@ -596,15 +610,14 @@ namespace MaaWpfGui
             {
                 AddLog(errMsg, UILogColor.Error);
                 AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
-                var settingsModel = _container.Get<SettingsViewModel>();
                 var subtask = Task.Run(() =>
                 {
-                    settingsModel.TryToStartEmulator(true);
+                    _settingsViewModel.TryToStartEmulator(true);
                 });
                 await subtask;
                 task = Task.Run(() =>
                 {
-                    return asstProxy.AsstConnect(ref errMsg);
+                    return _asstProxy.AsstConnect(ref errMsg);
                 });
                 caught = await task;
                 if (!caught)
@@ -657,7 +670,7 @@ namespace MaaWpfGui
                 }
                 else if (item.OriginalName == "Mission")
                 {
-                    ret &= asstProxy.AsstAppendAward();
+                    ret &= _asstProxy.AsstAppendAward();
                 }
                 else if (item.OriginalName == "AutoRoguelike")
                 {
@@ -690,13 +703,12 @@ namespace MaaWpfGui
                 return;
             }
 
-            ret &= asstProxy.AsstStart();
+            ret &= _asstProxy.AsstStart();
 
             if (ret)
             {
                 AddLog(Localization.GetString("Running"));
-                var settingsModel = _container.Get<SettingsViewModel>();
-                if (!settingsModel.AdbReplaced && !settingsModel.IsAdbTouchMode())
+                if (!_settingsViewModel.AdbReplaced && !_settingsViewModel.IsAdbTouchMode())
                 {
                     AddLog(Localization.GetString("AdbReplacementTips"), UILogColor.Info);
                 }
@@ -714,10 +726,7 @@ namespace MaaWpfGui
         {
             Stopping = true;
             AddLog(Localization.GetString("Stopping"));
-            var task = Task.Run(() =>
-            {
-                return _container.Get<AsstProxy>().AsstStop();
-            });
+            var task = Task.Run(_asstProxy.AsstStop);
             await task;
         }
 
@@ -734,11 +743,9 @@ namespace MaaWpfGui
 
         private bool appendStart()
         {
-            var settings = _container.Get<SettingsViewModel>();
-            var asstProxy = _container.Get<AsstProxy>();
-            var mode = settings.ClientType;
+            var mode = _settingsViewModel.ClientType;
             var enable = mode.Length != 0;
-            return asstProxy.AsstAppendStartUp(mode, enable);
+            return _asstProxy.AsstAppendStartUp(mode, enable);
         }
 
         private bool appendFight()
@@ -779,23 +786,22 @@ namespace MaaWpfGui
                 }
             }
 
-            var asstProxy = _container.Get<AsstProxy>();
-            bool mainFightRet = asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            bool mainFightRet = _asstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
 
-            if (mainFightRet && (Stage == "Annihilation") && _container.Get<SettingsViewModel>().UseAlternateStage)
+            if (mainFightRet && (Stage == "Annihilation") && _settingsViewModel.UseAlternateStage)
             {
                 foreach (var stage in new[] { Stage1, Stage2, Stage3 })
                 {
                     if (IsStageOpen(stage) && (stage != Stage))
                     {
-                        mainFightRet = asstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
+                        mainFightRet = _asstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
                     }
                 }
             }
 
             if (mainFightRet && UseRemainingSanityStage && (RemainingSanityStage != string.Empty))
             {
-                return asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+                return _asstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
             }
 
             return mainFightRet;
@@ -846,41 +852,33 @@ namespace MaaWpfGui
                     }
                 }
 
-                var asstProxy = _container.Get<AsstProxy>();
-                asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+                _asstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
             }
         }
 
         public void SetFightRemainingSanityParams()
         {
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+            _asstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
         }
 
         public void SetInfrastParams()
         {
-            var settings = _container.Get<SettingsViewModel>();
-            var order = settings.GetInfrastOrderList();
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstSetInfrastTaskParams(order.ToArray(), settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment,
-                settings.CustomInfrastEnabled, settings.CustomInfrastFile, CustomInfrastPlanIndex);
+            var order = _settingsViewModel.GetInfrastOrderList();
+            _asstProxy.AsstSetInfrastTaskParams(order.ToArray(), _settingsViewModel.UsesOfDrones, _settingsViewModel.DormThreshold / 100.0, _settingsViewModel.DormFilterNotStationedEnabled, _settingsViewModel.DormTrustEnabled, _settingsViewModel.OriginiumShardAutoReplenishment,
+                _settingsViewModel.CustomInfrastEnabled, _settingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool appendInfrast()
         {
-            var settings = _container.Get<SettingsViewModel>();
-            var order = settings.GetInfrastOrderList();
-            var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendInfrast(order.ToArray(), settings.UsesOfDrones, settings.DormThreshold / 100.0, settings.DormFilterNotStationedEnabled, settings.DormTrustEnabled, settings.OriginiumShardAutoReplenishment,
-                settings.CustomInfrastEnabled, settings.CustomInfrastFile, CustomInfrastPlanIndex);
+            var order = _settingsViewModel.GetInfrastOrderList();
+            return _asstProxy.AsstAppendInfrast(order.ToArray(), _settingsViewModel.UsesOfDrones, _settingsViewModel.DormThreshold / 100.0, _settingsViewModel.DormFilterNotStationedEnabled, _settingsViewModel.DormTrustEnabled, _settingsViewModel.OriginiumShardAutoReplenishment,
+                _settingsViewModel.CustomInfrastEnabled, _settingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool appendMall()
         {
-            var settings = _container.Get<SettingsViewModel>();
-            var asstProxy = _container.Get<AsstProxy>();
-            var buy_first = settings.CreditFirstList.Split(new char[] { ';', '；' });
-            var black_list = settings.CreditBlackList.Split(new char[] { ';', '；' });
+            var buy_first = _settingsViewModel.CreditFirstList.Split(new char[] { ';', '；' });
+            var black_list = _settingsViewModel.CreditBlackList.Split(new char[] { ';', '；' });
             for (var i = 0; i < buy_first.Length; ++i)
             {
                 buy_first[i] = buy_first[i].Trim();
@@ -891,15 +889,18 @@ namespace MaaWpfGui
                 black_list[i] = black_list[i].Trim();
             }
 
-            return asstProxy.AsstAppendMall(settings.CreditFightTaskEnabled, settings.CreditShopping, buy_first, black_list, settings.CreditForceShoppingIfCreditFull);
+            return _asstProxy.AsstAppendMall(
+                this.Stage != string.Empty && _settingsViewModel.CreditFightTaskEnabled,
+                _settingsViewModel.CreditShopping,
+                buy_first,
+                black_list,
+                _settingsViewModel.CreditForceShoppingIfCreditFull);
         }
 
         private bool appendRecruit()
         {
             // for debug
-            var settings = _container.Get<SettingsViewModel>();
-
-            if (!int.TryParse(settings.RecruitMaxTimes, out var max_times))
+            if (!int.TryParse(_settingsViewModel.RecruitMaxTimes, out var max_times))
             {
                 max_times = 0;
             }
@@ -907,47 +908,43 @@ namespace MaaWpfGui
             var reqList = new List<int>();
             var cfmList = new List<int>();
 
-            if (settings.ChooseLevel3)
+            if (_settingsViewModel.ChooseLevel3)
             {
                 cfmList.Add(3);
             }
 
-            if (settings.ChooseLevel4)
+            if (_settingsViewModel.ChooseLevel4)
             {
                 reqList.Add(4);
                 cfmList.Add(4);
             }
 
-            if (settings.ChooseLevel5)
+            if (_settingsViewModel.ChooseLevel5)
             {
                 reqList.Add(5);
                 cfmList.Add(5);
             }
 
-            var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendRecruit(
+            return _asstProxy.AsstAppendRecruit(
                 max_times, reqList.ToArray(), cfmList.ToArray(),
-                settings.RefreshLevel3, settings.UseExpedited,
-                settings.NotChooseLevel1, settings.IsLevel3UseShortTime);
+                _settingsViewModel.RefreshLevel3, _settingsViewModel.UseExpedited,
+                _settingsViewModel.NotChooseLevel1, _settingsViewModel.IsLevel3UseShortTime);
         }
 
         private bool AppendRoguelike()
         {
-            var settings = _container.Get<SettingsViewModel>();
-            int.TryParse(settings.RoguelikeMode, out var mode);
+            int.TryParse(_settingsViewModel.RoguelikeMode, out var mode);
 
-            var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendRoguelike(
-                mode, settings.RoguelikeStartsCount,
-                settings.RoguelikeInvestmentEnabled, settings.RoguelikeInvestsCount, settings.RoguelikeStopWhenInvestmentFull,
-                settings.RoguelikeSquad, settings.RoguelikeRoles, settings.RoguelikeCoreChar, settings.RoguelikeUseSupportUnit,
-                settings.RoguelikeEnableNonfriendSupport, settings.RoguelikeTheme);
+            return _asstProxy.AsstAppendRoguelike(
+                mode, _settingsViewModel.RoguelikeStartsCount,
+                _settingsViewModel.RoguelikeInvestmentEnabled, _settingsViewModel.RoguelikeInvestsCount, _settingsViewModel.RoguelikeStopWhenInvestmentFull,
+                _settingsViewModel.RoguelikeSquad, _settingsViewModel.RoguelikeRoles, _settingsViewModel.RoguelikeCoreChar, _settingsViewModel.RoguelikeUseSupportUnit,
+                _settingsViewModel.RoguelikeEnableNonfriendSupport, _settingsViewModel.RoguelikeTheme);
         }
 
         private bool AppendReclamation()
         {
-            var asstProxy = _container.Get<AsstProxy>();
-            return asstProxy.AsstAppendReclamation();
+            return _asstProxy.AsstAppendReclamation();
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
@@ -1188,8 +1185,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.StopGame:
-                    var asstProxy = _container.Get<AsstProxy>();
-                    if (!asstProxy.AsstStartCloseDown())
+                    if (!_asstProxy.AsstStartCloseDown())
                     {
                         AddLog(Localization.GetString("CloseArknightsFailed"), UILogColor.Error);
                     }
@@ -1300,8 +1296,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _idle, value);
-                var settings = _container.Get<SettingsViewModel>();
-                settings.Idle = value;
+                _settingsViewModel.Idle = value;
                 if (value)
                 {
                     FightTaskRunning = false;
@@ -1413,13 +1408,12 @@ namespace MaaWpfGui
         {
             get
             {
-                var settingsModel = _container.Get<SettingsViewModel>();
                 if (CustomStageCode)
                 {
                     return Stage1;
                 }
 
-                if (settingsModel.UseAlternateStage)
+                if (_settingsViewModel.UseAlternateStage)
                 {
                     if (IsStageOpen(Stage1))
                     {
@@ -1541,31 +1535,7 @@ namespace MaaWpfGui
         public bool UseRemainingSanityStage
         {
             get => _useRemainingSanityStage;
-            set
-            {
-                SetAndNotify(ref _useRemainingSanityStage, value);
-                var settingsModel = _container.Get<SettingsViewModel>();
-                RemainingSanityStageDisplay1 = value && !settingsModel.CustomStageCode;
-                RemainingSanityStageDisplay2 = value && settingsModel.CustomStageCode;
-            }
-        }
-
-        private bool _remainingSanityStageDisplay1 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
-            && !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
-
-        private bool _remainingSanityStageDisplay2 = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString))
-            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
-
-        public bool RemainingSanityStageDisplay1
-        {
-            get => _remainingSanityStageDisplay1;
-            set => SetAndNotify(ref _remainingSanityStageDisplay1, value);
-        }
-
-        public bool RemainingSanityStageDisplay2
-        {
-            get => _remainingSanityStageDisplay2;
-            set => SetAndNotify(ref _remainingSanityStageDisplay2, value);
+            set => SetAndNotify(ref _useRemainingSanityStage, value);
         }
 
         private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
@@ -1579,8 +1549,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _customStageCode, value);
-                var settingsModel = _container.Get<SettingsViewModel>();
-                AlternateStageDisplay = !value && settingsModel.UseAlternateStage;
+                AlternateStageDisplay = !value && _settingsViewModel.UseAlternateStage;
             }
         }
 
@@ -1691,15 +1660,14 @@ namespace MaaWpfGui
                 return;
             }
 
-            var settingsModel = _container.Get<SettingsViewModel>();
-            if (!File.Exists(settingsModel.CustomInfrastFile))
+            if (!File.Exists(_settingsViewModel.CustomInfrastFile))
             {
                 return;
             }
 
             try
             {
-                string jsonStr = File.ReadAllText(settingsModel.CustomInfrastFile);
+                string jsonStr = File.ReadAllText(_settingsViewModel.CustomInfrastFile);
                 var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
                 if (_customInfrastInfoOutput && root.ContainsKey("title"))

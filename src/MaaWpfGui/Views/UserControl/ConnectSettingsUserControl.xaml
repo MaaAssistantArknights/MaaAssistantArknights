@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -48,12 +49,11 @@
                 IsChecked="{Binding AlwaysAutoDetectConnection}"
                 Visibility="{c:Binding AutoDetectConnection}" />
         </StackPanel>
-        <TextBlock
+        <maa:TextBlock
             Grid.Row="1"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ADBPath}"
             TextWrapping="Wrap" />
         <TextBox
@@ -75,30 +75,30 @@
             Content="{DynamicResource Select}"
             IsEnabled="{c:Binding !AutoDetectConnection}" />
 
-        <TextBlock
+        <maa:TextBlock
             Grid.Row="2"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ConnectionAddress}"
             TextWrapping="Wrap" />
-        <TextBox
+        <ComboBox
             Grid.Row="2"
             Grid.Column="1"
             Width="250"
             Height="30"
             Margin="10"
+            IsEditable="True"
             IsEnabled="{c:Binding !AutoDetectConnection}"
-            Text="{Binding ConnectAddress}"
+            ItemsSource="{Binding ConnectAddressHistory}"
+            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
             ToolTip="{DynamicResource ConnectionAddressTip}" />
 
-        <TextBlock
+        <maa:TextBlock
             Grid.Row="3"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource ConnectionPreset}"
             TextWrapping="Wrap" />
         <ComboBox
@@ -122,11 +122,10 @@
             Content="{DynamicResource RetryOnDisconnected}"
             IsChecked="{Binding RetryOnDisconnected}"
             ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
-        <TextBlock
+        <maa:TextBlock
             Grid.Row="5"
             Grid.Column="0"
             VerticalAlignment="Center"
-            Style="{StaticResource TextBlockDefault}"
             Text="{DynamicResource TouchMode}" />
         <ComboBox
             Grid.Row="5"

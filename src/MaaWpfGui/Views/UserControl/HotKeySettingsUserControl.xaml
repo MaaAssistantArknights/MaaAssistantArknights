@@ -7,6 +7,7 @@
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -20,10 +21,9 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <TextBlock
+            <maa:TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource HotKeyShowGui}" />
             <local:HotKeyEditorUserControl
                 Margin="10"
@@ -34,10 +34,9 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <TextBlock
+            <maa:TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource HotKeyLinkStart}" />
             <local:HotKeyEditorUserControl
                 Margin="10"

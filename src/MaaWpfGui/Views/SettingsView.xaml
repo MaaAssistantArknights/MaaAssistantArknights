@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -38,12 +39,11 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[0]}" />
                 <local:GameClientUserControl
                     Margin="20"
@@ -53,12 +53,11 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[1]}" />
                 <local:InfrastSettingsUserControl
                     Margin="20"
@@ -68,12 +67,11 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[2]}" />
                 <local:RoguelikeSettingsUserControl
                     Margin="20"
@@ -83,12 +81,11 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[3]}" />
                 <local:AutoRecruitSettingsUserControl
                     Margin="20"
@@ -98,12 +95,11 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[4]}" />
                 <local:MallSettingsUserControl
                     Margin="20"
@@ -113,12 +109,11 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[5]}" />
                 <local:OtherCombatSettingsUserControl
                     Margin="20"
@@ -128,12 +123,11 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[6]}" />
                 <local:ConnectSettingsUserControl
                     Margin="20"
@@ -143,72 +137,66 @@
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[7]}" />
                 <local:StartSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[8]}" />
                 <local:TimerSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[9]}" />
                 <local:GUISettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[10]}" />
                 <local:HotKeySettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[11]}" />
                 <local:VersionUpdateSettingsUserControl Margin="20" HorizontalAlignment="Center" />
                 <Rectangle
                     Height="1"
                     HorizontalAlignment="Stretch"
                     Fill="LightGray" />
-                <TextBlock
+                <maa:TextBlock
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="Gray"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{Binding ListTitle[12]}" />
                 <local:AboutUserControl Margin="20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1" />-->

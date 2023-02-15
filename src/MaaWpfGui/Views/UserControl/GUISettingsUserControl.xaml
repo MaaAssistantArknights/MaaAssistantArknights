@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -33,10 +34,9 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <TextBlock
+            <maa:TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource MainViewButtonFeature}" />
             <ComboBox
                 Width="85"
@@ -51,10 +51,9 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <TextBlock
+            <maa:TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource Language}" />
             <ComboBox
                 x:Name="LanguageSelector"

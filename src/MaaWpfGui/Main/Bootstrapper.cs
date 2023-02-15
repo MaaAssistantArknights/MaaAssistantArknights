@@ -124,6 +124,7 @@ namespace MaaWpfGui
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
+            builder.Bind<StageManager>().ToSelf();
         }
 
         /// <inheritdoc/>

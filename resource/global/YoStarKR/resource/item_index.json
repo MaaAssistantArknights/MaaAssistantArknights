@@ -999,6 +999,14 @@
         "sortId": -10000,
         "usage": "월루몽드 헌병에서 내린 수배령. 함락된 지역으로 잠입하여 폭동 중 도주한 폭도들을 체포하는 데 쓰인다."
     },
+    "act11mini_token_card": {
+        "classifyType": "NONE",
+        "description": "이 열람증이 있으면 평소 신경 쓰이던 이야기를 자유롭게 읽을 수 있다. 이야기의 속편이 어떻든, 시간은 모든 것을 기록할 것이다.",
+        "icon": "act11mini_token_card.png",
+        "name": "열람증",
+        "sortId": -10000,
+        "usage": "사립 도서실에서 독자적으로 발행한 열람증. 서적을 빌려 열람할 수는 있지만, 외부 반출은 불가능하다."
+    },
     "act12d0_token_components": {
         "classifyType": "NONE",
         "description": "처음엔 주마마의 부족에서만 볼 수 있었지만, 점차 정글과 황야의 여러 곳에서도 보이게 되었다. 어느 국가 공업 표준에도 부합하지는 않지만, 이 부품들 하나하나엔 전부 상상력과 물리법칙에 대한 반항 심리가 깃들어 있다.",
@@ -1501,6 +1509,14 @@
         "icon": "randomMaterialRune_1.png",
         "name": "파이라이트 작전 보급 물자",
         "sortId": 60012,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterialRune_10": {
+        "classifyType": "CONSUME",
+        "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
+        "icon": "randomMaterialRune_10.png",
+        "name": "애쉬링 작전 보급 물자",
+        "sortId": 60021,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_2": {

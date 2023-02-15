@@ -80,7 +80,7 @@ namespace MaaWpfGui
         /// <returns>Whether activity is closed</returns>
         public bool IsActivityClosed()
         {
-            return Activity != null && Activity.IsExpired && !Activity.IsResourceCollection;
+            return Activity != null && !Activity.BeingOpen && !Activity.IsResourceCollection;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace MaaWpfGui
         {
             if (Activity != null)
             {
-                if (!Activity.IsExpired)
+                if (Activity.BeingOpen)
                 {
                     return true;
                 }

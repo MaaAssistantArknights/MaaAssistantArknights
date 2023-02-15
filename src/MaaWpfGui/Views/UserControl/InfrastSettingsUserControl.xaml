@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -34,8 +35,8 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <!--<TextBlock Style="{StaticResource TextBlockDefault}" Text="{Binding ID}" />
-                            <TextBlock Style="{StaticResource TextBlockDefault}" Text=". " />-->
+                            <!--<maa:TextBlock  Text="{Binding ID}" />
+                            <maa:TextBlock  Text=". " />-->
                             <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
                         </StackPanel>
                     </DataTemplate>
@@ -52,11 +53,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
-                    <TextBlock
+                    <maa:TextBlock
                         Margin="0,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource DroneUsage}" />
                     <ComboBox
                         Width="150"
@@ -71,11 +71,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
-                    <TextBlock
+                    <maa:TextBlock
                         Margin="0,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{Binding DormThresholdLabel}"
                         ToolTip="{DynamicResource InfrastThresholdTip}" />
                     <Slider
@@ -105,7 +104,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsChecked="{Binding DormFilterNotStationedEnabled}">
-                        <TextBlock
+                        <maa:TextBlock
                             MaxWidth="180"
                             Text="{DynamicResource DormFilterNotStationedEnabled}"
                             TextWrapping="Wrap" />
@@ -115,7 +114,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsChecked="{Binding OriginiumShardAutoReplenishment}">
-                        <TextBlock
+                        <maa:TextBlock
                             MaxWidth="180"
                             Text="{DynamicResource OriginiumShardAutoReplenishment}"
                             TextWrapping="Wrap" />
@@ -132,7 +131,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{Binding CustomInfrastEnabled}">
-                <TextBlock
+                <maa:TextBlock
                     MaxWidth="180"
                     Text="{DynamicResource CustomInfrastEnabled}"
                     TextWrapping="Wrap" />
@@ -147,11 +146,10 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock
+                <maa:TextBlock
                     Grid.Row="0"
                     Grid.Column="0"
                     HorizontalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource DefaultInfrast}" />
                 <ComboBox
                     Grid.Row="1"
@@ -161,20 +159,19 @@
                     ItemsSource="{Binding DefaultInfrastList}"
                     SelectedValue="{Binding DefaultInfrast}"
                     SelectedValuePath="Value" />
-                <TextBlock
+                <maa:TextBlock
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="5"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}">
+                    VerticalAlignment="Center">
                     <Hyperlink
                         Click="Hyperlink_Click"
                         NavigateUri="{Binding Source={x:Static local:MaaUrls.CustomInfrastGenerator}}"
                         TextDecorations="None">
                         <TextBlock Text="{DynamicResource CustomInfrastGenerator}" />
                     </Hyperlink>
-                </TextBlock>
+                </maa:TextBlock>
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="1"

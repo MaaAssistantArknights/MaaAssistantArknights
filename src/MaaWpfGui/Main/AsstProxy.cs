@@ -152,6 +152,13 @@ namespace MaaWpfGui
 
         private readonly CallbackDelegate _callback;
 
+        // model references
+        private readonly SettingsViewModel _settingsViewModel;
+        private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly RecruitViewModel _recruitViewModel;
+        private readonly CopilotViewModel _copilotViewModel;
+        private readonly DepotViewModel _depotViewModel;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AsstProxy"/> class.
         /// </summary>
@@ -159,7 +166,12 @@ namespace MaaWpfGui
         /// <param name="windowManager">当前窗口。</param>
         public AsstProxy(IContainer container, IWindowManager windowManager)
         {
-            _container = container;
+            _settingsViewModel = container.Get<SettingsViewModel>();
+            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _recruitViewModel = container.Get<RecruitViewModel>();
+            _copilotViewModel = container.Get<CopilotViewModel>();
+            _depotViewModel = container.Get<DepotViewModel>();
+
             _windowManager = windowManager;
             _callback = CallbackFunction;
         }
@@ -185,15 +197,14 @@ namespace MaaWpfGui
         /// <returns>是否成功。</returns>
         public bool LoadResource()
         {
-            var settingsModel = _container.Get<SettingsViewModel>();
-            if (!ForcedReloadResource && settingsModel.ClientType == _curResource)
+            if (!ForcedReloadResource && _settingsViewModel.ClientType == _curResource)
             {
                 return true;
             }
 
             bool loaded = false;
-            if (settingsModel.ClientType == string.Empty
-                || settingsModel.ClientType == "Official" || settingsModel.ClientType == "Bilibili")
+            if (_settingsViewModel.ClientType == string.Empty
+                || _settingsViewModel.ClientType == "Official" || _settingsViewModel.ClientType == "Bilibili")
             {
                 // The resources of Official and Bilibili are the same
                 if (!ForcedReloadResource && (_curResource == "Official" || _curResource == "Bilibili"))
@@ -207,14 +218,14 @@ namespace MaaWpfGui
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
-                loaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
+                loaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
             }
             else
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
                 loaded = AsstLoadResource(Directory.GetCurrentDirectory())
-                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + settingsModel.ClientType);
+                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
             }
 
             if (!loaded)
@@ -231,13 +242,13 @@ namespace MaaWpfGui
                 });
             }
 
-            if (settingsModel.ClientType == string.Empty)
+            if (_settingsViewModel.ClientType == string.Empty)
             {
                 _curResource = "Official";
             }
             else
             {
-                _curResource = settingsModel.ClientType;
+                _curResource = _settingsViewModel.ClientType;
             }
 
             return loaded;
@@ -261,21 +272,21 @@ namespace MaaWpfGui
                 });
             }
 
-            var mainModel = _container.Get<TaskQueueViewModel>();
-            mainModel.SetInited();
-            mainModel.Idle = true;
-            var settingsModel = _container.Get<SettingsViewModel>();
-            settingsModel.UpdateInstanceSettings();
+            _taskQueueViewModel.SetInited();
+            _taskQueueViewModel.Idle = true;
+            this.AsstSetInstanceOption(InstanceOptionKey.TouchMode, _settingsViewModel.TouchMode);
+            this.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, _settingsViewModel.DeploymentWithPause ? "1" : "0");
+            this.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, _settingsViewModel.AdbLiteEnabled ? "1" : "0");
             Execute.OnUIThread(async () =>
             {
                 var task = Task.Run(() =>
                 {
-                    settingsModel.TryToStartEmulator();
+                    _settingsViewModel.TryToStartEmulator();
                 });
                 await task;
-                if (settingsModel.RunDirectly)
+                if (_settingsViewModel.RunDirectly)
                 {
-                    mainModel.LinkStart();
+                    _taskQueueViewModel.LinkStart();
                 }
             });
         }
@@ -324,7 +335,6 @@ namespace MaaWpfGui
         }
 
         private readonly IWindowManager _windowManager;
-        private readonly IContainer _container;
         private IntPtr _handle;
 
         private void ProcMsg(AsstMsg msg, JObject details)
@@ -368,67 +378,64 @@ namespace MaaWpfGui
         private void ProcConnectInfo(JObject details)
         {
             var what = details["what"].ToString();
-            var svm = _container.Get<SettingsViewModel>();
-            var mainModel = _container.Get<TaskQueueViewModel>();
             switch (what)
             {
                 case "Connected":
                     connected = true;
                     connectedAdb = details["details"]["adb"].ToString();
                     connectedAddress = details["details"]["address"].ToString();
-                    svm.ConnectAddress = connectedAddress;
+                    _settingsViewModel.ConnectAddress = connectedAddress;
                     break;
 
                 case "UnsupportedResolution":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ResolutionNotSupported"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ResolutionNotSupported"), UILogColor.Error);
                     break;
 
                 case "ResolutionError":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), UILogColor.Error);
                     break;
 
                 case "Reconnecting":
-                    mainModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", UILogColor.Error);
+                    _taskQueueViewModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", UILogColor.Error);
                     break;
 
                 case "Reconnected":
-                    mainModel.AddLog(Localization.GetString("ReconnectSuccess"));
+                    _taskQueueViewModel.AddLog(Localization.GetString("ReconnectSuccess"));
                     break;
 
                 case "Disconnect":
                     connected = false;
-                    mainModel.AddLog(Localization.GetString("ReconnectFailed"), UILogColor.Error);
-                    if (mainModel.Idle)
+                    _taskQueueViewModel.AddLog(Localization.GetString("ReconnectFailed"), UILogColor.Error);
+                    if (_taskQueueViewModel.Idle)
                     {
                         break;
                     }
 
                     AsstStop();
 
-                    var settingsModel = _container.Get<SettingsViewModel>();
                     Execute.OnUIThread(async () =>
                     {
-                        if (settingsModel.RetryOnDisconnected)
+                        if (_settingsViewModel.RetryOnDisconnected)
                         {
-                            mainModel.AddLog(Localization.GetString("TryToStartEmulator"), UILogColor.Error);
-                            mainModel.KillEmulator();
+                            _taskQueueViewModel.AddLog(Localization.GetString("TryToStartEmulator"), UILogColor.Error);
+                            _taskQueueViewModel.KillEmulator();
                             await Task.Delay(3000);
-                            mainModel.Stop();
-                            mainModel.SetStopped();
-                            mainModel.LinkStart();
+                            _taskQueueViewModel.Stop();
+                            _taskQueueViewModel.SetStopped();
+                            _taskQueueViewModel.LinkStart();
                         }
                     });
 
                     break;
 
                 case "ScreencapFailed":
-                    mainModel.AddLog(Localization.GetString("ScreencapFailed"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ScreencapFailed"), UILogColor.Error);
                     break;
 
                 case "TouchModeNotAvaiable":
-                    mainModel.AddLog(Localization.GetString("TouchModeNotAvaiable"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("TouchModeNotAvaiable"), UILogColor.Error);
                     break;
             }
         }
@@ -446,39 +453,34 @@ namespace MaaWpfGui
             {
                 if (msg == AsstMsg.TaskChainError)
                 {
-                    var recruitModel = _container.Get<RecruitViewModel>();
-                    recruitModel.RecruitInfo = Localization.GetString("IdentifyTheMistakes");
+                    _recruitViewModel.RecruitInfo = Localization.GetString("IdentifyTheMistakes");
                 }
             }
-
-            var mainModel = _container.Get<TaskQueueViewModel>();
-            var settingsModel = _container.Get<SettingsViewModel>();
-            var copilotModel = _container.Get<CopilotViewModel>();
 
             bool isCoplitTaskChain = taskChain == "Copilot";
 
             switch (msg)
             {
                 case AsstMsg.TaskChainStopped:
-                    mainModel.SetStopped();
+                    _taskQueueViewModel.SetStopped();
                     if (isCoplitTaskChain)
                     {
-                        copilotModel.Idle = true;
+                        _copilotViewModel.Idle = true;
                     }
 
                     break;
 
                 case AsstMsg.TaskChainError:
-                    mainModel.AddLog(Localization.GetString("TaskError") + taskChain, UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("TaskError") + taskChain, UILogColor.Error);
                     if (isCoplitTaskChain)
                     {
-                        copilotModel.Idle = true;
-                        copilotModel.AddLog(Localization.GetString("CombatError"), UILogColor.Error);
+                        _copilotViewModel.Idle = true;
+                        _copilotViewModel.AddLog(Localization.GetString("CombatError"), UILogColor.Error);
                     }
 
-                    if (taskChain == "Fight" && (mainModel.Stage == "Annihilation"))
+                    if (taskChain == "Fight" && (_taskQueueViewModel.Stage == "Annihilation"))
                     {
-                        mainModel.AddLog(Localization.GetString("AnnihilationTaskFailed"), UILogColor.Warning);
+                        _taskQueueViewModel.AddLog(Localization.GetString("AnnihilationTaskFailed"), UILogColor.Warning);
                     }
 
                     break;
@@ -486,34 +488,34 @@ namespace MaaWpfGui
                 case AsstMsg.TaskChainStart:
                     if (taskChain == "Fight")
                     {
-                        mainModel.FightTaskRunning = true;
+                        _taskQueueViewModel.FightTaskRunning = true;
                     }
                     else if (taskChain == "Infrast")
                     {
-                        mainModel.InfrastTaskRunning = true;
+                        _taskQueueViewModel.InfrastTaskRunning = true;
                     }
 
-                    mainModel.AddLog(Localization.GetString("StartTask") + taskChain);
+                    _taskQueueViewModel.AddLog(Localization.GetString("StartTask") + taskChain);
                     break;
 
                 case AsstMsg.TaskChainCompleted:
                     if (taskChain == "Infrast")
                     {
-                        mainModel.IncreaseCustomInfrastPlanIndex();
+                        _taskQueueViewModel.IncreaseCustomInfrastPlanIndex();
                     }
                     else if (taskChain == "Mall")
                     {
-                        if (settingsModel.CreditFightTaskEnabled)
+                        if (_taskQueueViewModel.Stage != string.Empty && _settingsViewModel.CreditFightTaskEnabled)
                         {
-                            settingsModel.LastCreditFightTaskTime = Utils.GetYJTimeDateString();
+                            _settingsViewModel.LastCreditFightTaskTime = Utils.GetYJTimeDateString();
                         }
                     }
 
-                    mainModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
+                    _taskQueueViewModel.AddLog(Localization.GetString("CompleteTask") + taskChain);
                     if (isCoplitTaskChain)
                     {
-                        copilotModel.Idle = true;
-                        copilotModel.AddLog(Localization.GetString("CompleteCombat"), UILogColor.Info);
+                        _copilotViewModel.Idle = true;
+                        _copilotViewModel.AddLog(Localization.GetString("CompleteCombat"), UILogColor.Info);
                     }
 
                     break;
@@ -537,32 +539,32 @@ namespace MaaWpfGui
                     }
 
                     bool buy_wine = false;
-                    if (_latestTaskId.ContainsKey(TaskType.Mall) && settingsModel.DidYouBuyWine())
+                    if (_latestTaskId.ContainsKey(TaskType.Mall) && _settingsViewModel.DidYouBuyWine())
                     {
                         buy_wine = true;
                     }
 
                     _latestTaskId.Clear();
 
-                    mainModel.Idle = true;
-                    mainModel.UseStone = false;
-                    copilotModel.Idle = true;
+                    _taskQueueViewModel.Idle = true;
+                    _taskQueueViewModel.UseStone = false;
+                    _copilotViewModel.Idle = true;
 
                     if (isMainTaskQueueAllCompleted)
                     {
-                        mainModel.AddLog(Localization.GetString("AllTasksComplete"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("AllTasksComplete"));
                         using (var toast = new ToastNotification(Localization.GetString("AllTasksComplete")))
                         {
                             toast.Show();
                         }
 
-                        // mainModel.CheckAndShutdown();
-                        mainModel.CheckAfterCompleted();
+                        // _taskQueueViewModel.CheckAndShutdown();
+                        _taskQueueViewModel.CheckAfterCompleted();
                     }
 
                     if (buy_wine)
                     {
-                        settingsModel.Cheers = true;
+                        _settingsViewModel.Cheers = true;
                     }
 
                     break;
@@ -574,8 +576,6 @@ namespace MaaWpfGui
             // 下面几行注释暂时没用到，先注释起来...
             // string taskChain = details["taskchain"].ToString();
             // string classType = details["class"].ToString();
-
-            // var mainModel = _container.Get<TaskQueueViewModel>();
             switch (msg)
             {
                 case AsstMsg.SubTaskError:
@@ -600,34 +600,32 @@ namespace MaaWpfGui
         {
             string subTask = details["subtask"].ToString();
 
-            var mainModel = _container.Get<TaskQueueViewModel>();
-
             switch (subTask)
             {
                 case "StartGameTask":
-                    mainModel.AddLog(Localization.GetString("FailedToOpenClient"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("FailedToOpenClient"), UILogColor.Error);
                     break;
 
                 case "AutoRecruitTask":
                     {
                         var why_str = details.TryGetValue("why", out var why) ? why.ToString() : Localization.GetString("ErrorOccurred");
-                        mainModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), UILogColor.Error);
                         break;
                     }
 
                 case "RecognizeDrops":
-                    mainModel.AddLog(Localization.GetString("DropRecognitionError"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("DropRecognitionError"), UILogColor.Error);
                     break;
 
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"].ToString();
-                        mainModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), UILogColor.Error);
                         break;
                     }
 
                 case "CheckStageValid":
-                    mainModel.AddLog(Localization.GetString("TheEX"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("TheEX"), UILogColor.Error);
                     break;
             }
         }
@@ -636,8 +634,6 @@ namespace MaaWpfGui
         {
             string subTask = details["subtask"].ToString();
 
-            var mainModel = _container.Get<TaskQueueViewModel>();
-            var copilotModel = _container.Get<CopilotViewModel>();
             if (subTask == "ProcessTask")
             {
                 string taskName = details["details"]["task"].ToString();
@@ -647,108 +643,103 @@ namespace MaaWpfGui
                 {
                     case "StartButton2":
                     case "AnnihilationConfirm":
-                        mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "MedicineConfirm":
-                        mainModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "StoneConfirm":
-                        mainModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "AbandonAction":
-                        mainModel.AddLog(Localization.GetString("ActingCommandError"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("ActingCommandError"), UILogColor.Error);
                         break;
 
                     case "RecruitRefreshConfirm":
-                        mainModel.AddLog(Localization.GetString("LabelsRefreshed"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("LabelsRefreshed"), UILogColor.Info);
                         break;
 
                     case "RecruitConfirm":
-                        mainModel.AddLog(Localization.GetString("RecruitConfirm"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("RecruitConfirm"), UILogColor.Info);
                         break;
 
                     case "InfrastDormDoubleConfirmButton":
-                        mainModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), UILogColor.Error);
                         break;
 
                     /* 肉鸽相关 */
                     case "StartExplore":
-                        mainModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "StageTraderInvestConfirm":
-                        mainModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
                         break;
 
                     case "ExitThenAbandon":
-                        mainModel.AddLog(Localization.GetString("ExplorationAbandoned"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("ExplorationAbandoned"));
                         break;
 
                     // case "StartAction":
-                    //    mainModel.AddLog("开始战斗");
+                    //    _taskQueueViewModel.AddLog("开始战斗");
                     //    break;
                     case "MissionCompletedFlag":
-                        mainModel.AddLog(Localization.GetString("FightCompleted"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("FightCompleted"));
                         break;
 
                     case "MissionFailedFlag":
-                        mainModel.AddLog(Localization.GetString("FightFailed"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("FightFailed"));
                         break;
 
                     case "StageTraderEnter":
-                        mainModel.AddLog(Localization.GetString("Trader"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("Trader"));
                         break;
 
                     case "StageSafeHouseEnter":
-                        mainModel.AddLog(Localization.GetString("SafeHouse"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("SafeHouse"));
                         break;
 
                     case "StageEncounterEnter":
-                        mainModel.AddLog(Localization.GetString("Encounter"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("Encounter"));
                         break;
 
                     // case "StageBoonsEnter":
-                    //    mainModel.AddLog("古堡馈赠");
+                    //    _taskQueueViewModel.AddLog("古堡馈赠");
                     //    break;
                     case "StageCambatDpsEnter":
-                        mainModel.AddLog(Localization.GetString("CambatDps"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("CambatDps"));
                         break;
 
                     case "StageEmergencyDps":
-                        mainModel.AddLog(Localization.GetString("EmergencyDps"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("EmergencyDps"));
                         break;
 
                     case "StageDreadfulFoe":
                     case "StageDreadfulFoe-5Enter":
-                        mainModel.AddLog(Localization.GetString("DreadfulFoe"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("DreadfulFoe"));
                         break;
 
                     case "StageTraderInvestSystemFull":
-                        mainModel.AddLog(Localization.GetString("UpperLimit"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("UpperLimit"), UILogColor.Info);
                         break;
 
                     case "RestartGameAndContinue":
-                        mainModel.AddLog(Localization.GetString("GameCrash"), UILogColor.Warning);
+                        _taskQueueViewModel.AddLog(Localization.GetString("GameCrash"), UILogColor.Warning);
                         break;
 
                     case "OfflineConfirm":
-                        mainModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
+                        _taskQueueViewModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
                         break;
 
                     case "GamePass":
-                        mainModel.AddLog(Localization.GetString("RoguelikeGamePass"), UILogColor.RareOperator);
+                        _taskQueueViewModel.AddLog(Localization.GetString("RoguelikeGamePass"), UILogColor.RareOperator);
                         break;
 
                     case "BattleStartAll":
-                        copilotModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
-                        break;
-
-                    /* 生息演算 */
-                    case "StartAlgorithm":
-                        mainModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _copilotViewModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
                         break;
                 }
             }
@@ -770,15 +761,11 @@ namespace MaaWpfGui
             var subTaskDetails = details["details"];
             if (taskChain == "Depot")
             {
-                var depotModel = _container.Get<DepotViewModel>();
-                depotModel.Parse((JObject)subTaskDetails);
+                _depotViewModel.Parse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
 
-            var mainModel = _container.Get<TaskQueueViewModel>();
-            var copilotModel = _container.Get<CopilotViewModel>();
-            var settingsModel = _container.Get<SettingsViewModel>();
             switch (what)
             {
                 case "StageDrops":
@@ -800,17 +787,17 @@ namespace MaaWpfGui
                         }
 
                         all_drops = all_drops.EndsWith("\n") ? all_drops.TrimEnd('\n') : Localization.GetString("NoDrop");
-                        mainModel.AddLog(Localization.GetString("TotalDrop") + "\n" + all_drops);
+                        _taskQueueViewModel.AddLog(Localization.GetString("TotalDrop") + "\n" + all_drops);
                     }
 
                     break;
 
                 case "EnterFacility":
-                    mainModel.AddLog(Localization.GetString("ThisFacility") + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ThisFacility") + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
                     break;
 
                 case "ProductIncorrect":
-                    mainModel.AddLog(Localization.GetString("ProductIncorrect"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ProductIncorrect"), UILogColor.Error);
                     break;
 
                 case "RecruitTagsDetected":
@@ -824,7 +811,7 @@ namespace MaaWpfGui
                         }
 
                         log_content = log_content.EndsWith("\n") ? log_content.TrimEnd('\n') : Localization.GetString("Error");
-                        mainModel.AddLog(Localization.GetString("RecruitingResults") + "\n" + log_content);
+                        _taskQueueViewModel.AddLog(Localization.GetString("RecruitingResults") + "\n" + log_content);
                     }
 
                     break;
@@ -832,7 +819,7 @@ namespace MaaWpfGui
                 case "RecruitSpecialTag":
                     {
                         string special = subTaskDetails["tag"].ToString();
-                        if (special == "支援机械" && settingsModel.NotChooseLevel1 == false)
+                        if (special == "支援机械" && _settingsViewModel.NotChooseLevel1 == false)
                         {
                             break;
                         }
@@ -862,11 +849,11 @@ namespace MaaWpfGui
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
 
-                            mainModel.AddLog(level + " ★ Tags", UILogColor.RareOperator, "Bold");
+                            _taskQueueViewModel.AddLog(level + " ★ Tags", UILogColor.RareOperator, "Bold");
                         }
                         else
                         {
-                            mainModel.AddLog(level + " ★ Tags", UILogColor.Info);
+                            _taskQueueViewModel.AddLog(level + " ★ Tags", UILogColor.Info);
                         }
 
                         /*
@@ -878,7 +865,7 @@ namespace MaaWpfGui
                                 toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
                             }
 
-                            mainModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
+                            _taskQueueViewModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
                         }
                         */
                     }
@@ -896,7 +883,7 @@ namespace MaaWpfGui
 
                         selected_log = selected_log.EndsWith("\n") ? selected_log.TrimEnd('\n') : Localization.GetString("NoDrop");
 
-                        mainModel.AddLog(Localization.GetString("Choose") + " Tags：\n" + selected_log);
+                        _taskQueueViewModel.AddLog(Localization.GetString("Choose") + " Tags：\n" + selected_log);
                     }
 
                     break;
@@ -904,13 +891,13 @@ namespace MaaWpfGui
                 case "RecruitTagsRefreshed":
                     {
                         int refresh_count = (int)subTaskDetails["count"];
-                        mainModel.AddLog(Localization.GetString("Refreshed") + refresh_count + Localization.GetString("UnitTime"));
+                        _taskQueueViewModel.AddLog(Localization.GetString("Refreshed") + refresh_count + Localization.GetString("UnitTime"));
                         break;
                     }
 
                 case "NotEnoughStaff":
                     {
-                        mainModel.AddLog(Localization.GetString("NotEnoughStaff"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("NotEnoughStaff"), UILogColor.Error);
                     }
 
                     break;
@@ -918,25 +905,24 @@ namespace MaaWpfGui
                 /* Roguelike */
                 case "StageInfo":
                     {
-                        mainModel.AddLog(Localization.GetString("StartCombat") + subTaskDetails["name"]);
+                        _taskQueueViewModel.AddLog(Localization.GetString("StartCombat") + subTaskDetails["name"]);
                     }
 
                     break;
 
                 case "StageInfoError":
                     {
-                        mainModel.AddLog(Localization.GetString("StageInfoError"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("StageInfoError"), UILogColor.Error);
                     }
 
                     break;
 
                 case "PenguinId":
                     {
-                        var settings = _container.Get<SettingsViewModel>();
-                        if (settings.PenguinId == string.Empty)
+                        if (_settingsViewModel.PenguinId == string.Empty)
                         {
                             string id = subTaskDetails["id"].ToString();
-                            settings.PenguinId = id;
+                            _settingsViewModel.PenguinId = id;
 
                             // AsstSetPenguinId(id);
                         }
@@ -945,11 +931,11 @@ namespace MaaWpfGui
                     break;
 
                 case "BattleFormation":
-                    copilotModel.AddLog(Localization.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
+                    _copilotViewModel.AddLog(Localization.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
                     break;
 
                 case "BattleFormationSelected":
-                    copilotModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"]);
+                    _copilotViewModel.AddLog(Localization.GetString("BattleFormationSelected") + subTaskDetails["selected"]);
                     break;
 
                 case "CopilotAction":
@@ -958,10 +944,10 @@ namespace MaaWpfGui
                         if (doc.Length != 0)
                         {
                             string color = subTaskDetails["doc_color"].ToString();
-                            copilotModel.AddLog(doc, color.Length == 0 ? UILogColor.Message : color);
+                            _copilotViewModel.AddLog(doc, color.Length == 0 ? UILogColor.Message : color);
                         }
 
-                        copilotModel.AddLog(
+                        _copilotViewModel.AddLog(
                             string.Format(Localization.GetString("CurrentSteps"),
                                 subTaskDetails["action"].ToString(),
                                 subTaskDetails["target"].ToString()));
@@ -971,27 +957,27 @@ namespace MaaWpfGui
 
                 case "SSSStage":
                     {
-                        copilotModel.AddLog("CurrentStage: " + subTaskDetails["stage"].ToString(), UILogColor.Info);
+                        _copilotViewModel.AddLog("CurrentStage: " + subTaskDetails["stage"].ToString(), UILogColor.Info);
                     }
 
                     break;
 
                 case "SSSSettlement":
                     {
-                        copilotModel.AddLog(details["why"].ToString(), UILogColor.Info);
+                        _copilotViewModel.AddLog(details["why"].ToString(), UILogColor.Info);
                     }
 
                     break;
 
                 case "SSSGamePass":
                     {
-                        copilotModel.AddLog(Localization.GetString("SSSGamePass"), UILogColor.RareOperator);
+                        _copilotViewModel.AddLog(Localization.GetString("SSSGamePass"), UILogColor.RareOperator);
                     }
 
                     break;
 
                 case "UnsupportedLevel":
-                    copilotModel.AddLog(Localization.GetString("UnsupportedLevel"), UILogColor.Error);
+                    _copilotViewModel.AddLog(Localization.GetString("UnsupportedLevel"), UILogColor.Error);
                     break;
 
                 case "CustomInfrastRoomOperators":
@@ -1006,17 +992,20 @@ namespace MaaWpfGui
                         nameStr = nameStr.Remove(nameStr.Length - 2);
                     }
 
-                    mainModel.AddLog(nameStr.ToString());
+                    _taskQueueViewModel.AddLog(nameStr.ToString());
                     break;
 
                 /* 生息演算 */
                 case "ReclamationReport":
-                    {
-                        mainModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
-                            Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
-                            Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
-                    }
-
+                    _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmFinish") + "\n" +
+                        Localization.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
+                        Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
+                    break;
+                case "ReclamationProcedureStart":
+                    _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                    break;
+                case "ReclamationSmeltGold":
+                    _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"));
                     break;
             }
         }
@@ -1025,8 +1014,6 @@ namespace MaaWpfGui
         {
             string what = details["what"].ToString();
             var subTaskDetails = details["details"];
-
-            var recruitModel = _container.Get<RecruitViewModel>();
 
             switch (what)
             {
@@ -1040,7 +1027,7 @@ namespace MaaWpfGui
                             info_content += tag_str + "    ";
                         }
 
-                        recruitModel.RecruitInfo = info_content;
+                        _recruitViewModel.RecruitInfo = info_content;
                     }
 
                     break;
@@ -1068,7 +1055,7 @@ namespace MaaWpfGui
                             resultContent += "\n\n";
                         }
 
-                        recruitModel.RecruitResult = resultContent;
+                        _recruitViewModel.RecruitResult = resultContent;
                     }
 
                     break;
@@ -1093,42 +1080,40 @@ namespace MaaWpfGui
                 return false;
             }
 
-            var settings = _container.Get<SettingsViewModel>();
+            _settingsViewModel.TryToSetBlueStacksHyperVAddress();
 
-            settings.TryToSetBlueStacksHyperVAddress();
-
-            if (!settings.AutoDetectConnection
+            if (!_settingsViewModel.AutoDetectConnection
                 && connected
-                && connectedAdb == settings.AdbPath
-                && connectedAddress == settings.ConnectAddress)
+                && connectedAdb == _settingsViewModel.AdbPath
+                && connectedAddress == _settingsViewModel.ConnectAddress)
             {
                 return true;
             }
 
-            if (settings.AutoDetectConnection)
+            if (_settingsViewModel.AutoDetectConnection)
             {
-                if (!settings.DetectAdbConfig(ref error))
+                if (!_settingsViewModel.DetectAdbConfig(ref error))
                 {
                     return false;
                 }
             }
 
-            bool ret = AsstConnect(_handle, settings.AdbPath, settings.ConnectAddress, settings.ConnectConfig);
+            bool ret = AsstConnect(_handle, _settingsViewModel.AdbPath, _settingsViewModel.ConnectAddress, _settingsViewModel.ConnectConfig);
 
             // 尝试默认的备选端口
-            if (!ret && settings.AutoDetectConnection)
+            if (!ret && _settingsViewModel.AutoDetectConnection)
             {
-                foreach (var address in settings.DefaultAddress[settings.ConnectConfig])
+                foreach (var address in _settingsViewModel.DefaultAddress[_settingsViewModel.ConnectConfig])
                 {
-                    if (settings.Idle)
+                    if (_settingsViewModel.Idle)
                     {
                         break;
                     }
 
-                    ret = AsstConnect(_handle, settings.AdbPath, address, settings.ConnectConfig);
+                    ret = AsstConnect(_handle, _settingsViewModel.AdbPath, address, _settingsViewModel.ConnectConfig);
                     if (ret)
                     {
-                        settings.ConnectAddress = address;
+                        _settingsViewModel.ConnectAddress = address;
                         break;
                     }
                 }
@@ -1136,9 +1121,9 @@ namespace MaaWpfGui
 
             if (ret)
             {
-                if (!settings.AlwaysAutoDetectConnection)
+                if (!_settingsViewModel.AlwaysAutoDetectConnection)
                 {
-                    settings.AutoDetectConnection = false;
+                    _settingsViewModel.AutoDetectConnection = false;
                 }
             }
             else
@@ -1202,11 +1187,11 @@ namespace MaaWpfGui
                 };
             }
 
-            var settings = _container.Get<SettingsViewModel>();
-            task_params["client_type"] = settings.ClientType;
-            task_params["penguin_id"] = settings.PenguinId;
-            task_params["DrGrandet"] = settings.IsDrGrandet;
-            task_params["server"] = settings.ServerType;
+            task_params["client_type"] = _settingsViewModel.ClientType;
+            task_params["penguin_id"] = _settingsViewModel.PenguinId;
+            task_params["DrGrandet"] = _settingsViewModel.IsDrGrandet;
+            task_params["expiring_medicine"] = _settingsViewModel.UseExpiringMedicine ? 9999 : 0;
+            task_params["server"] = _settingsViewModel.ServerType;
             return task_params;
         }
 
@@ -1365,9 +1350,8 @@ namespace MaaWpfGui
 
             task_params["report_to_penguin"] = true;
             task_params["report_to_yituliu"] = true;
-            var settings = _container.Get<SettingsViewModel>();
-            task_params["penguin_id"] = settings.PenguinId;
-            task_params["server"] = settings.ServerType;
+            task_params["penguin_id"] = _settingsViewModel.PenguinId;
+            task_params["server"] = _settingsViewModel.ServerType;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.Recruit] = id;
@@ -1551,14 +1535,15 @@ namespace MaaWpfGui
                 ["set_time"] = set_time,
                 ["expedite"] = false,
                 ["expedite_times"] = 0,
-
                 ["report_to_penguin"] = true,
                 ["report_to_yituliu"] = true,
             };
-            var settings = _container.Get<SettingsViewModel>();
-            task_params["penguin_id"] = settings.PenguinId;
-            task_params["yituliu_id"] = settings.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
-            task_params["server"] = settings.ServerType;
+            task_params["recruitment_time"] = _recruitViewModel.IsLevel3UseShortTime ?
+                new JObject { { "3", 460 } } :
+                new JObject { { "3", 540 } };
+            task_params["penguin_id"] = _settingsViewModel.PenguinId;
+            task_params["yituliu_id"] = _settingsViewModel.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
+            task_params["server"] = _settingsViewModel.ServerType;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Recruit", task_params);
             _latestTaskId[TaskType.RecruitCalc] = id;
@@ -1723,6 +1708,9 @@ namespace MaaWpfGui
         /// </summary>
         DeploymentWithPause = 3,
 
+        /// <summary>
+        /// Indicates whether AdbLite is used.
+        /// </summary>
         AdbLiteEnabled = 4,
     }
 }
