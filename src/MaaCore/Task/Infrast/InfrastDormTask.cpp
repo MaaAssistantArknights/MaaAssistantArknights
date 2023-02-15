@@ -41,6 +41,7 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
+        auto origin_room_config = current_room_config();
         if (is_use_custom_opers()) {
             swipe_and_select_custom_opers(true);
         }
@@ -56,7 +57,15 @@ bool asst::InfrastDormTask::_run()
         }
 
         if (!m_is_custom || current_room_config().autofill) {
-            opers_choose();
+            if (!opers_choose(origin_room_config)) {
+                return false;
+            }
+        }
+        else {
+            if (!select_opers_review(origin_room_config)) {
+                current_room_config() = std::move(origin_room_config);
+                return false;
+            }
         }
 
         click_confirm_button();
@@ -69,11 +78,12 @@ bool asst::InfrastDormTask::_run()
     return true;
 }
 
-bool asst::InfrastDormTask::opers_choose()
+bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& origin_room_config)
 {
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
     bool to_fill = false;
+    int swipe_times = 0;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -217,6 +227,7 @@ bool asst::InfrastDormTask::opers_choose()
             // 如果是之前设置的to_fill，走不到这里，一定是当次设置的
             if (to_fill) {
                 swipe_of_operlist();
+                ++swipe_times;
                 break;
             }
         }
@@ -235,8 +246,18 @@ bool asst::InfrastDormTask::opers_choose()
         }
         else {
             swipe_of_operlist();
+            ++swipe_times;
         }
     }
+
+    if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
+    swipe_times = 0;
+    ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
+    if (!select_opers_review(origin_room_config, num_of_selected)) {
+        current_room_config() = origin_room_config;
+        return false;
+    }
+
     return true;
 }
 
