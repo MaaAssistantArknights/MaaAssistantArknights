@@ -18,10 +18,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -163,18 +166,19 @@ namespace MaaWpfGui
                 }
 
                 _isDataFromWeb = false;
+                _copilotId = 0;
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
-                int.TryParse(copilotIdStr, out int copilotID);
-                jsonStr = RequestCopilotServer(copilotID);
+                int.TryParse(copilotIdStr, out _copilotId);
+                jsonStr = RequestCopilotServer(_copilotId);
                 _isDataFromWeb = true;
             }
             else if (int.TryParse(filename, out _))
             {
-                int.TryParse(filename, out int copilotID);
-                jsonStr = RequestCopilotServer(copilotID);
+                int.TryParse(filename, out _copilotId);
+                jsonStr = RequestCopilotServer(_copilotId);
                 _isDataFromWeb = true;
             }
             else
@@ -221,6 +225,7 @@ namespace MaaWpfGui
         }
 
         private bool _isDataFromWeb = false;
+        private int _copilotId = 0;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
         private string TaskType = "General";
 
@@ -494,6 +499,44 @@ namespace MaaWpfGui
         {
             _asstProxy.AsstStop();
             Idle = true;
+        }
+
+        private readonly string _copilotRatingUrl = "https://prts.maa.plus/copilot/rating";
+
+        public bool CouldLikeWebJson()
+        {
+            // TODO: 还要加个限制，如果点过赞了就不让再点了
+            return _isDataFromWeb && _copilotId != 0;
+        }
+
+        public void LikeWebJson()
+        {
+            if (!CouldLikeWebJson())
+            {
+                return;
+            }
+
+            string jsonParam = JsonConvert.SerializeObject(new
+            {
+                id = _copilotId,
+                rating = "Like",
+            });
+            WebService.RequestPost(_copilotRatingUrl, jsonParam);
+        }
+
+        public void DislikeWebJson()
+        {
+            if (!CouldLikeWebJson())
+            {
+                return;
+            }
+
+            string jsonParam = JsonConvert.SerializeObject(new
+            {
+                id = _copilotId,
+                rating = "Dislike",
+            });
+            WebService.RequestPost(_copilotRatingUrl, jsonParam);
         }
 
         private const string CopilotUiUrl = "https://www.prts.plus/";
