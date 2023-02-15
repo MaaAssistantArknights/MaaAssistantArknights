@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{DynamicResource UnknownErrorOccurs}"
     Width="628"
@@ -20,7 +21,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock
+        <maa:TextBlock
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="115,20,0,0"
@@ -43,7 +44,7 @@
             Text="{DynamicResource UnknownErrorOccurs}"
             TextWrapping="Wrap" />
 
-        <TextBlock
+        <maa:TextBlock
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="115,95,0,0"
@@ -66,7 +67,7 @@
             Text="{DynamicResource UnknownErrorOccurs}"
             TextWrapping="Wrap" />
 
-        <TextBlock
+        <maa:TextBlock
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="115,170,0,0"
@@ -89,7 +90,7 @@
             Text="{DynamicResource UnknownErrorOccurs}"
             TextWrapping="Wrap" />
 
-        <TextBlock
+        <maa:TextBlock
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Width="129"
@@ -104,9 +105,9 @@
                 NavigateUri="{Binding Source={x:Static local:MaaUrls.GitHubIssues}}">
                 <Run Text="{DynamicResource ErrorFeedbackLinkText}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
 
-        <TextBlock
+        <maa:TextBlock
             x:Name="ErrorQqGroupLink"
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -122,6 +123,6 @@
                 NavigateUri="{Binding Source={x:Static local:MaaUrls.QqGroups}}">
                 <Run Text="{DynamicResource ErrorQqGroupLinkText}" />
             </Hyperlink>
-        </TextBlock>
+        </maa:TextBlock>
     </Grid>
 </Window>

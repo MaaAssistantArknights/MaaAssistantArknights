@@ -1,6 +1,22 @@
-## v4.10.8-rc.1
+## v4.11.0-alpha.1
 
-- 修复 界面 启动时崩溃的问题 @ChingCdesu
+- 重构 生息演算，支持黑市 npc 对话，支持刷粗制赤金 @WLLEGit
+- 新增 刷理智 吃 48 小时、60分钟 临期理智药功能 @bigqiao
+- 优化 基建 复核干员是否正确选择 @fearlessxjdx
+- 修复 界面 崩溃问题 @ChingCdesu @ABA2396 @lhhxxxxx
+- 修复 `春分` 故事集 关卡上传企鹅错误 @MistEO
+- 修复 抄作业 神秘代码无法使用的问题 @zzyyyl
+- 修复 抄作业 干员名识别错误 @cenfusheng
+- 迁移 文档 至[官网](https://maa.plus/docs/)，主仓库内不再更新 @ABA2396
+
+
+## v4.10.10
+
+- 更新 `春分` 故事集 游戏数据 @MistEO
+
+## v4.10.9-rc.1
+
+- 回滚 v4.10.8 版本 GUI 相关改动，后续修复后再次发布 @MistEO
 
 ## v4.10.8-beta.1
 

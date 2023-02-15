@@ -32,6 +32,7 @@
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="InstHelper.h" />
+    <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
     <ClInclude Include="Task\Interface\ReclamationTask.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
+    <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
     <ClCompile Include="Task\Interface\ReclamationTask.cpp" />

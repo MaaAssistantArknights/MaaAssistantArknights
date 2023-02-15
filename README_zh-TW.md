@@ -55,11 +55,11 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本說明
 
-1. 請根据 [模擬器支援情況](docs/zh-tw/1.3-模擬器支援.md)，進行對應的操作。
+1. 請根据 [模擬器支援情況](https://maa.plus/docs/zh-tw/1.3-模擬器支援.html)，進行對應的操作。
 2. 修改模擬器解析度為 `16:9` 比例，最低 `1280 * 720`, 更高不限。
 3. 開始使用吧！
 
-更多使用說明請參考 [詳細介紹](docs/zh-tw/1.1-詳細介紹.md)
+更多使用說明請參考 [詳細介紹](https://maa.plus/docs/zh-tw/1.1-詳細介紹.html)
 
 ## 常見問題
 
@@ -70,7 +70,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 下載速度慢，且鏡像站無法打開網頁
 - 下載到一半提示“登陸”/“鑑權”
 
-請參考 [常見問題](docs/zh-tw/1.2-常見問題.md)
+請參考 [常見問題](https://maa.plus/docs/zh-tw/1.2-常見問題.html)
 
 ## 外服支援
 
@@ -134,41 +134,41 @@ MAA 的意思是 MAA Assistant Arknights
 ### Windows
 
 - 直接使用 Visual Studio 2022 打開 `MAA.sln` 即可，所有環境都是配置好的
-- 建議啟用 clang-format 支援，詳細內容可以參考 [在 Visual Studio 中啟用 clang-format](docs/2.2-开发相关.md#在-visual-studio-中启用-clang-format)
+- 建議啟用 clang-format 支援，詳細內容可以參考 [在 Visual Studio 中啟用 clang-format](https://maa.plus/docs/zh-tw/2.2-開發相關.html#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
-請參考 [Linux 編譯教程](docs/zh-tw/2.1-Linux編譯教程.md)
+請參考 [Linux 編譯教程](https://maa.plus/docs/zh-tw/2.1-Linux編譯教程.html)
 
 ### API
 
-- [C 介面](include/AsstCaller.h)：[整合示例](src/CppSample/main.cpp)
-- [Python 介面](src/Python/asst.py)：[整合示例](src/Python/sample.py)
+- [C 介面](include/AsstCaller.h)：[整合示例](src/Cpp/main.cpp)
+- [Python 介面](src/Python/asst/asst.py)：[整合示例](src/Python/sample.py)
 - [Golang 介面](src/Golang/)：[整合示例](src/Golang/maa/maa.go)
-- [Dart 介面](src/dart/)
+- [Dart 介面](src/Dart/)
 - [Java 介面](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[整合示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rust 介面](src/Rust/src/maa_sys/)：[HTTP 介面](src/Rust)
 - [HTTP 介面](src/Java/Readme.md)
 - [TypeScript 介面](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [整合文件](docs/zh-tw/3.1-集成文件.md)
-- [回呼訊息協定](docs/zh-tw/3.2-回呼訊息協定.md)
-- [任務流程協定](docs/zh-tw/3.4-任務流程協定.md)
-- [自動抄作業協定](docs/zh-tw/3.3-戰鬥流程協定.md)
+- [整合文件](https://maa.plus/docs/zh-tw/3.1-集成文件.html)
+- [回呼訊息協定](https://maa.plus/docs/zh-tw/3.2-回呼訊息協定.html)
+- [任務流程協定](https://maa.plus/docs/zh-tw/3.4-任務流程協定.html)
+- [自動抄作業協定](https://maa.plus/docs/zh-tw/3.3-戰鬥流程協定.html)
 
 ### 外服適配
 
-請參考 [外服適配教程](docs/zh-tw/2.5-外服適配教程.md)，對於國服已支持的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
+請參考 [外服適配教程](https://maa.plus/docs/zh-tw/2.5-外服適配教程.html)，對於國服已支持的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
 
 ### 想參與開發，但不太會用 Github?
 
-[Github Pull Request 流程簡述](docs/zh-tw/2.2-開發相關.md)
+[Github Pull Request 流程簡述](https://maa.plus/docs/zh-tw/2.2-開發相關.html)
 
 ### Issue Bot
 
 - 使用 `Add {LABEL_NAME}` 增加標籤，使用 `Remove {LABEL_NAME}` 刪除標籤。
 - 在提交說明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 給對應議題增加 `fixed` 標籤。
 
-更多說明請參考 [Issue Bot 使用方法](docs/zh-tw/2.3-IssueBot使用方法.md)。
+更多說明請參考 [Issue Bot 使用方法](https://maa.plus/docs/zh-tw/2.3-IssueBot使用方法.html)。
 
 ## 聲明
 

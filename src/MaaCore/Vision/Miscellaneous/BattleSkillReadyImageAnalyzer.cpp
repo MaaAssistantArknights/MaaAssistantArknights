@@ -45,10 +45,34 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
     match /= template_mask.cols * template_mask.rows;
     cv::sqrt(match, match);
 
-    // you may use something similar to MultiMatchImageAnalyzer instead
-    double min_val = 255.;
-    cv::minMaxLoc(match, &min_val);
-    return min_val < 130.;
+    // 修改自MultiMatchImageAnalyzer
+    const double templ_thres = 130.;
+    int mini_distance = (std::min)(templ.cols, templ.rows) / 2;
+    for (int i = 0; i != match.rows; ++i) {
+        for (int j = 0; j != match.cols; ++j) {
+            auto value = match.at<float>(i, j);
+            if (value < templ_thres) {
+                Rect rect(j + m_roi.x, i + m_roi.y, templ.cols, templ.rows);
+                bool need_push = true;
+                for (auto& iter : ranges::reverse_view(m_result)) {
+                    if (std::abs(j + m_roi.x - iter.rect.x) < mini_distance &&
+                        std::abs(i + m_roi.y - iter.rect.y) < mini_distance) {
+                        if (iter.score > value) {
+                            iter.rect = rect;
+                            iter.score = value;
+                        } 
+                        need_push = false;
+                        break;
+                    }
+                }
+                if (need_push) {
+                    m_result.emplace_back(value, rect);
+                }
+            }
+        }
+    }
+
+    return !m_result.empty();
 }
 
 void asst::BattleSkillReadyImageAnalyzer::set_base_point(const Point& pt)

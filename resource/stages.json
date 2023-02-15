@@ -126,6 +126,9 @@
             }
         },
         "minClearTime": 63700,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-01",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -257,6 +260,9 @@
             }
         },
         "minClearTime": 73000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-02",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -388,6 +394,9 @@
             }
         },
         "minClearTime": 88600,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-03",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -519,6 +528,9 @@
             }
         },
         "minClearTime": 120600,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-04",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -650,6 +662,9 @@
             }
         },
         "minClearTime": 95000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-05",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -781,6 +796,9 @@
             }
         },
         "minClearTime": 101800,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-06",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -912,6 +930,9 @@
             }
         },
         "minClearTime": 92000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-07",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1043,6 +1064,9 @@
             }
         },
         "minClearTime": 102000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-08",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1174,6 +1198,9 @@
             }
         },
         "minClearTime": 102000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-09",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1305,6 +1332,9 @@
             }
         },
         "minClearTime": 113600,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-10",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1436,6 +1466,9 @@
             }
         },
         "minClearTime": 103000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_00-11",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1559,6 +1592,9 @@
             }
         },
         "minClearTime": 137000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-01",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -1749,6 +1785,9 @@
             }
         },
         "minClearTime": 112000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-03",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -1872,6 +1911,9 @@
             }
         },
         "minClearTime": 135000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-04",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2003,6 +2045,9 @@
             }
         },
         "minClearTime": 165000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-05",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2134,6 +2179,9 @@
             }
         },
         "minClearTime": 174000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-06",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2265,6 +2313,9 @@
             }
         },
         "minClearTime": 118000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-07",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2396,6 +2447,9 @@
             }
         },
         "minClearTime": 130100,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-08",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2527,6 +2581,9 @@
             }
         },
         "minClearTime": 120000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-09",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2658,6 +2715,9 @@
             }
         },
         "minClearTime": 120000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-10",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2848,6 +2908,9 @@
             }
         },
         "minClearTime": 144000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_01-12",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2979,6 +3042,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-01",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3110,6 +3176,9 @@
             }
         },
         "minClearTime": 166700,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-02",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3241,6 +3310,9 @@
             }
         },
         "minClearTime": 218700,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-03",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3372,6 +3444,9 @@
             }
         },
         "minClearTime": 149000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-04",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3503,6 +3578,9 @@
             }
         },
         "minClearTime": 170500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-05",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3634,6 +3712,9 @@
             }
         },
         "minClearTime": 174000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-06",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3757,6 +3838,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-07",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3888,6 +3972,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-08",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4019,6 +4106,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-09",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4150,6 +4240,9 @@
             }
         },
         "minClearTime": 171000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_02-10",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4281,6 +4374,9 @@
             }
         },
         "minClearTime": 113000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-01",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4404,6 +4500,9 @@
             }
         },
         "minClearTime": 132000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-02",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4535,6 +4634,9 @@
             }
         },
         "minClearTime": 130000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-03",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4658,6 +4760,9 @@
             }
         },
         "minClearTime": 144000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-04",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4789,6 +4894,9 @@
             }
         },
         "minClearTime": 178000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-05",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4920,6 +5028,9 @@
             }
         },
         "minClearTime": 142000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-06",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5051,6 +5162,9 @@
             }
         },
         "minClearTime": 166000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-07",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5182,6 +5296,9 @@
             }
         },
         "minClearTime": 110000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-08",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5313,6 +5430,9 @@
             }
         },
         "minClearTime": 142000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-09",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5444,6 +5564,9 @@
             }
         },
         "minClearTime": 172000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-10",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5567,6 +5690,9 @@
             }
         },
         "minClearTime": 179000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-11",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5690,6 +5816,9 @@
             }
         },
         "minClearTime": 135000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_02-12",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5821,6 +5950,9 @@
             }
         },
         "minClearTime": 181000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-01",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -5944,6 +6076,9 @@
             }
         },
         "minClearTime": 173000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-02",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6067,6 +6202,9 @@
             }
         },
         "minClearTime": 172700,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-03",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6190,6 +6328,9 @@
             }
         },
         "minClearTime": 216400,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-04",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6313,6 +6454,9 @@
             }
         },
         "minClearTime": 165000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-05",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6436,6 +6580,9 @@
             }
         },
         "minClearTime": 138000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-06",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6567,6 +6714,9 @@
             }
         },
         "minClearTime": 238700,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-07",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6722,6 +6872,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_03-08",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6853,6 +7006,9 @@
             }
         },
         "minClearTime": 130000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_03-1-1",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -6976,6 +7132,9 @@
             }
         },
         "minClearTime": 125000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_03-1-2",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7107,6 +7266,9 @@
             }
         },
         "minClearTime": 208000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_03-2-1",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7230,6 +7392,9 @@
             }
         },
         "minClearTime": 136000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_03-2-2",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7353,6 +7518,9 @@
             }
         },
         "minClearTime": 147200,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_03-2-3",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7492,6 +7660,9 @@
             }
         },
         "minClearTime": 201000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-01",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -7663,6 +7834,9 @@
             }
         },
         "minClearTime": 140000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-02",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -7810,6 +7984,9 @@
             }
         },
         "minClearTime": 217500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-03",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -7965,6 +8142,9 @@
             }
         },
         "minClearTime": 174000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-04",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8120,6 +8300,9 @@
             }
         },
         "minClearTime": 173000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-05",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8275,6 +8458,9 @@
             }
         },
         "minClearTime": 198000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-06",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8430,6 +8616,9 @@
             }
         },
         "minClearTime": 200000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-07",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8593,6 +8782,9 @@
             }
         },
         "minClearTime": 166000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-08",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8756,6 +8948,9 @@
             }
         },
         "minClearTime": 216500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-09",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8903,6 +9098,9 @@
             }
         },
         "minClearTime": 240500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_04-10",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -9074,6 +9272,9 @@
             }
         },
         "minClearTime": 179000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-1-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9213,6 +9414,9 @@
             }
         },
         "minClearTime": 214000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-1-2",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9368,6 +9572,9 @@
             }
         },
         "minClearTime": 160000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-1-3",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9523,6 +9730,9 @@
             }
         },
         "minClearTime": 181000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-2-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9662,6 +9872,9 @@
             }
         },
         "minClearTime": 150000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-2-2",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9817,6 +10030,9 @@
             }
         },
         "minClearTime": 120000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-2-3",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9972,6 +10188,9 @@
             }
         },
         "minClearTime": 199000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-3-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10111,6 +10330,9 @@
             }
         },
         "minClearTime": 195000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-3-2",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10274,6 +10496,9 @@
             }
         },
         "minClearTime": 247000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-3-3",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10557,6 +10782,9 @@
             }
         },
         "minClearTime": 99000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_armor_1",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -10624,6 +10852,9 @@
             }
         },
         "minClearTime": 118000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_armor_2",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -10699,6 +10930,9 @@
             }
         },
         "minClearTime": 136000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_armor_3",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -10774,6 +11008,9 @@
             }
         },
         "minClearTime": 121000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_armor_4",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -10849,6 +11086,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_armor_5",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -10916,6 +11156,9 @@
             }
         },
         "minClearTime": 97000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_fly_1",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -10983,6 +11226,9 @@
             }
         },
         "minClearTime": 101000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_fly_2",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11058,6 +11304,9 @@
             }
         },
         "minClearTime": 152000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_fly_3",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11141,6 +11390,9 @@
             }
         },
         "minClearTime": 191000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_fly_4",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11224,6 +11476,9 @@
             }
         },
         "minClearTime": 173000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_fly_5",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11375,6 +11630,9 @@
             }
         },
         "minClearTime": 166000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-01",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -11534,6 +11792,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-02",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -11613,6 +11874,9 @@
             }
         },
         "minClearTime": 218000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-03",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -11764,6 +12028,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-04",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -11923,6 +12190,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-05",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12090,6 +12360,9 @@
             }
         },
         "minClearTime": 314000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-06",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12169,6 +12442,9 @@
             }
         },
         "minClearTime": 182800,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-07",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12328,6 +12604,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-08",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12479,6 +12758,9 @@
             }
         },
         "minClearTime": 194000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-09",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12561,6 +12843,9 @@
             }
         },
         "minClearTime": 337000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_05-10",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12640,6 +12925,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-1-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -12799,6 +13087,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-1-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -12870,6 +13161,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-2-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -12949,6 +13243,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-2-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -13020,6 +13317,9 @@
             }
         },
         "minClearTime": 208000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-3-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -13187,6 +13487,9 @@
             }
         },
         "minClearTime": 196000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-3-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -14266,6 +14569,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-01",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -14425,6 +14731,9 @@
             }
         },
         "minClearTime": 206000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-02",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -14576,6 +14885,9 @@
             }
         },
         "minClearTime": 172000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-03",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -14735,6 +15047,9 @@
             }
         },
         "minClearTime": 155000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-04",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -14814,6 +15129,9 @@
             }
         },
         "minClearTime": 241000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-05",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15044,6 +15362,9 @@
             }
         },
         "minClearTime": 140000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-07",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15123,6 +15444,9 @@
             }
         },
         "minClearTime": 158000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-08",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15274,6 +15598,9 @@
             }
         },
         "minClearTime": 174200,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-09",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15353,6 +15680,9 @@
             }
         },
         "minClearTime": 236000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-10",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15528,6 +15858,9 @@
             }
         },
         "minClearTime": 171000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-11",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15679,6 +16012,9 @@
             }
         },
         "minClearTime": 194000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-12",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15838,6 +16174,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-13",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15917,6 +16256,9 @@
             }
         },
         "minClearTime": 312000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_06-14",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -16103,6 +16445,9 @@
             }
         },
         "minClearTime": 122000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_03-3-1",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -16250,6 +16595,9 @@
             }
         },
         "minClearTime": 129000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_04-4-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -16409,6 +16757,9 @@
             }
         },
         "minClearTime": 148000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-4-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -16568,6 +16919,9 @@
             }
         },
         "minClearTime": 148000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-4-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -16719,6 +17073,9 @@
             }
         },
         "minClearTime": 172000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_06-1-1",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -16790,6 +17147,9 @@
             }
         },
         "minClearTime": 203000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_06-1-2",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -16869,6 +17229,9 @@
             }
         },
         "minClearTime": 195000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_06-2-1",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -17012,6 +17375,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_06-2-2",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -17865,6 +18231,9 @@
             }
         },
         "minClearTime": 125000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_melee_1",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -17924,6 +18293,9 @@
             }
         },
         "minClearTime": 144000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_melee_2",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -17983,6 +18355,9 @@
             }
         },
         "minClearTime": 141000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_melee_3",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18042,6 +18417,9 @@
             }
         },
         "minClearTime": 172800,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_melee_4",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18101,6 +18479,9 @@
             }
         },
         "minClearTime": 196000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_melee_5",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18161,7 +18542,8 @@
         },
         "minClearTime": 83000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act14mini_token_fu"
         ],
         "stageId": "wk_toxic_1",
         "stageType": "DAILY",
@@ -18223,7 +18605,8 @@
         },
         "minClearTime": 139000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act14mini_token_fu"
         ],
         "stageId": "wk_toxic_2",
         "stageType": "DAILY",
@@ -18285,7 +18668,8 @@
         },
         "minClearTime": 160000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act14mini_token_fu"
         ],
         "stageId": "wk_toxic_3",
         "stageType": "DAILY",
@@ -18347,7 +18731,8 @@
         },
         "minClearTime": 123000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act14mini_token_fu"
         ],
         "stageId": "wk_toxic_4",
         "stageType": "DAILY",
@@ -18409,7 +18794,8 @@
         },
         "minClearTime": 208000,
         "recognitionOnly": [
-            "4006"
+            "4006",
+            "act14mini_token_fu"
         ],
         "stageId": "wk_toxic_5",
         "stageType": "DAILY",
@@ -19229,6 +19615,9 @@
             }
         },
         "minClearTime": 175000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-01",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -19300,6 +19689,9 @@
             }
         },
         "minClearTime": 233000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-02",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -19467,6 +19859,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-03",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -19626,6 +20021,9 @@
             }
         },
         "minClearTime": 213000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-04",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -19705,6 +20103,9 @@
             }
         },
         "minClearTime": 209000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-05",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -19880,6 +20281,9 @@
             }
         },
         "minClearTime": 182000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-06",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20047,6 +20451,9 @@
             }
         },
         "minClearTime": 207000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-07",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20198,6 +20605,9 @@
             }
         },
         "minClearTime": 170000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-08",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20277,6 +20687,9 @@
             }
         },
         "minClearTime": 199000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-09",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20356,6 +20769,9 @@
             }
         },
         "minClearTime": 226000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-10",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20507,6 +20923,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-11",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20658,6 +21077,9 @@
             }
         },
         "minClearTime": 196000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-12",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20825,6 +21247,9 @@
             }
         },
         "minClearTime": 200000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-13",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20904,6 +21329,9 @@
             }
         },
         "minClearTime": 195000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-14",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21079,6 +21507,9 @@
             }
         },
         "minClearTime": 219000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-15",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21158,6 +21589,9 @@
             }
         },
         "minClearTime": 227000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_07-16",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21301,6 +21735,9 @@
             }
         },
         "minClearTime": 141000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_07-1-1",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21372,6 +21809,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_07-1-2",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21650,6 +22090,9 @@
             }
         },
         "minClearTime": 167800,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_a_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -21725,6 +22168,9 @@
             }
         },
         "minClearTime": 214500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_a_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -21800,6 +22246,9 @@
             }
         },
         "minClearTime": 151000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_b_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -21875,6 +22324,9 @@
             }
         },
         "minClearTime": 213000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_b_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -21950,6 +22402,9 @@
             }
         },
         "minClearTime": 145000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_c_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22025,6 +22480,9 @@
             }
         },
         "minClearTime": 179000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_c_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22100,6 +22558,9 @@
             }
         },
         "minClearTime": 173800,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_d_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22175,6 +22636,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "pro_d_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22250,6 +22714,9 @@
             }
         },
         "minClearTime": 112000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_kc_1",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -22325,6 +22792,9 @@
             }
         },
         "minClearTime": 111000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_kc_2",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -22408,6 +22878,9 @@
             }
         },
         "minClearTime": 140000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_kc_3",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -22499,6 +22972,9 @@
             }
         },
         "minClearTime": 130000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_kc_4",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -22582,6 +23058,9 @@
             }
         },
         "minClearTime": 174500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_kc_5",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -24687,6 +25166,9 @@
             }
         },
         "minClearTime": 147000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_05-4-3",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -24766,6 +25248,9 @@
             }
         },
         "minClearTime": 147000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_03-3-2",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -24909,6 +25394,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-01",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25084,6 +25572,9 @@
             }
         },
         "minClearTime": 171000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-02",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25243,6 +25734,9 @@
             }
         },
         "minClearTime": 169000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-03",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25314,6 +25808,9 @@
             }
         },
         "minClearTime": 163000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-04",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25393,6 +25890,9 @@
             }
         },
         "minClearTime": 219000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-05",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25544,6 +26044,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-06",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25719,6 +26222,9 @@
             }
         },
         "minClearTime": 211000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-07",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25798,6 +26304,9 @@
             }
         },
         "minClearTime": 280000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-08",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25877,6 +26386,9 @@
             }
         },
         "minClearTime": 220000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-09",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26028,6 +26540,9 @@
             }
         },
         "minClearTime": 207000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-10",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26187,6 +26702,9 @@
             }
         },
         "minClearTime": 175000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-11",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26266,6 +26784,9 @@
             }
         },
         "minClearTime": 157000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-12",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26417,6 +26938,9 @@
             }
         },
         "minClearTime": 274000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-13",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26568,6 +27092,9 @@
             }
         },
         "minClearTime": 257000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-14",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26798,6 +27325,9 @@
             }
         },
         "minClearTime": 187000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-16",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26965,6 +27495,9 @@
             }
         },
         "minClearTime": 295000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_08-17",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -38954,6 +39487,9 @@
             }
         },
         "minClearTime": null,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-01",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39025,6 +39561,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-02",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39184,6 +39723,9 @@
             }
         },
         "minClearTime": 219000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-03",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39359,6 +39901,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-04",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39518,6 +40063,9 @@
             }
         },
         "minClearTime": 231000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-05",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39677,6 +40225,9 @@
             }
         },
         "minClearTime": 176000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-06",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39836,6 +40387,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-07",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40003,6 +40557,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-08",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40154,6 +40711,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-09",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40313,6 +40873,9 @@
             }
         },
         "minClearTime": 193000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-10",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40472,6 +41035,9 @@
             }
         },
         "minClearTime": 184000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-11",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40615,6 +41181,9 @@
             }
         },
         "minClearTime": 208000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-12",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40774,6 +41343,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-13",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40853,6 +41425,9 @@
             }
         },
         "minClearTime": 218000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-14",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41012,6 +41587,9 @@
             }
         },
         "minClearTime": 182000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-15",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41187,6 +41765,9 @@
             }
         },
         "minClearTime": 225000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-16",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41346,6 +41927,9 @@
             }
         },
         "minClearTime": 276000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_09-17",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41521,6 +42105,9 @@
             }
         },
         "minClearTime": 204000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "sub_09-1-1",
         "stageType": "SUB",
         "zoneId": "main_9"
@@ -48785,6 +49372,9 @@
             }
         },
         "minClearTime": 170000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-01",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -48928,6 +49518,9 @@
             }
         },
         "minClearTime": 170000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-01",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -49103,6 +49696,9 @@
             }
         },
         "minClearTime": 158000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-02",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -49278,6 +49874,9 @@
             }
         },
         "minClearTime": 158000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-02",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -49357,6 +49956,9 @@
             }
         },
         "minClearTime": 189000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-03",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -49436,6 +50038,9 @@
             }
         },
         "minClearTime": 189000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-03",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -49603,6 +50208,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-04",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -49770,6 +50378,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-04",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -49913,6 +50524,9 @@
             }
         },
         "minClearTime": 182000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-05",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -50056,6 +50670,9 @@
             }
         },
         "minClearTime": 182000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-05",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50207,6 +50824,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-06",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50358,6 +50978,9 @@
             }
         },
         "minClearTime": 205000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-06",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -50517,6 +51140,9 @@
             }
         },
         "minClearTime": 158000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-07",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -50676,6 +51302,9 @@
             }
         },
         "minClearTime": 158000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-07",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50835,6 +51464,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-08",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50994,6 +51626,9 @@
             }
         },
         "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-08",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -51145,6 +51780,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-09",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -51296,6 +51934,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-09",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -51471,6 +52112,9 @@
             }
         },
         "minClearTime": 212000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-10",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -51646,6 +52290,9 @@
             }
         },
         "minClearTime": 212000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-10",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -51813,6 +52460,9 @@
             }
         },
         "minClearTime": 191000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-11",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -51980,6 +52630,9 @@
             }
         },
         "minClearTime": 191000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-11",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -52147,6 +52800,9 @@
             }
         },
         "minClearTime": 157000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-12",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -52314,6 +52970,9 @@
             }
         },
         "minClearTime": 157000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-12",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -52481,6 +53140,9 @@
             }
         },
         "minClearTime": 177000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-13",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -52648,6 +53310,9 @@
             }
         },
         "minClearTime": 177000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-13",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -52727,6 +53392,9 @@
             }
         },
         "minClearTime": 199000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-14",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -52806,6 +53474,9 @@
             }
         },
         "minClearTime": 199000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-14",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -52949,6 +53620,9 @@
             }
         },
         "minClearTime": 283000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_10-15",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -53092,6 +53766,9 @@
             }
         },
         "minClearTime": 283000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_10-15",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -53739,6 +54416,9 @@
             }
         },
         "minClearTime": 172000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_melee_6",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -53814,6 +54494,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "wk_kc_6",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -59601,6 +60284,9 @@
             }
         },
         "minClearTime": 106000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-01",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -59741,6 +60427,9 @@
             }
         },
         "minClearTime": 106000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-01",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -59817,6 +60506,9 @@
             }
         },
         "minClearTime": 190000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-02",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -59893,6 +60585,9 @@
             }
         },
         "minClearTime": 190000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-02",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -60065,6 +60760,9 @@
             }
         },
         "minClearTime": 134000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-03",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -60237,6 +60935,9 @@
             }
         },
         "minClearTime": 134000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-03",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -60401,6 +61102,9 @@
             }
         },
         "minClearTime": 177000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-04",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -60565,6 +61269,9 @@
             }
         },
         "minClearTime": 177000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-04",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -60641,6 +61348,9 @@
             }
         },
         "minClearTime": 207000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-05",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -60717,6 +61427,9 @@
             }
         },
         "minClearTime": 207000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-05",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -60857,6 +61570,9 @@
             }
         },
         "minClearTime": 201000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-06",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -60997,6 +61713,9 @@
             }
         },
         "minClearTime": 201000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-06",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -61169,6 +61888,9 @@
             }
         },
         "minClearTime": 150000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-07",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -61341,6 +62063,9 @@
             }
         },
         "minClearTime": 150000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-07",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -61497,6 +62222,9 @@
             }
         },
         "minClearTime": 160000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-08",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -61653,6 +62381,9 @@
             }
         },
         "minClearTime": 160000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-08",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -61817,6 +62548,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-09",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -61981,6 +62715,9 @@
             }
         },
         "minClearTime": 183000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-09",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -62145,6 +62882,9 @@
             }
         },
         "minClearTime": 211000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-10",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -62309,6 +63049,9 @@
             }
         },
         "minClearTime": 211000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-10",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -62457,6 +63200,9 @@
             }
         },
         "minClearTime": 196500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-11",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -62605,6 +63351,9 @@
             }
         },
         "minClearTime": 196500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-11",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -62777,6 +63526,9 @@
             }
         },
         "minClearTime": 165000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-12",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -62949,6 +63701,9 @@
             }
         },
         "minClearTime": 165000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-12",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63097,6 +63852,9 @@
             }
         },
         "minClearTime": 203000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-13",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63245,6 +64003,9 @@
             }
         },
         "minClearTime": 203000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-13",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -63409,6 +64170,9 @@
             }
         },
         "minClearTime": 186000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-14",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -63573,6 +64337,9 @@
             }
         },
         "minClearTime": 186000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-14",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63625,6 +64392,9 @@
             }
         },
         "minClearTime": 167000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-15",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -63773,6 +64543,9 @@
             }
         },
         "minClearTime": 219500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-16",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -63921,6 +64694,9 @@
             }
         },
         "minClearTime": 219500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-16",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63973,6 +64749,9 @@
             }
         },
         "minClearTime": 111500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-17",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -64145,6 +64924,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "tough_11-18",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -64317,6 +65099,9 @@
             }
         },
         "minClearTime": 188000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
         "stageId": "main_11-18",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -67295,85 +68080,6 @@
             "ko": "WB-1",
             "zh": "WB-1"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67391,9 +68097,6 @@
             }
         },
         "minClearTime": 171000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_01",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -67407,85 +68110,6 @@
             "ko": "WB-2",
             "zh": "WB-2"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67503,9 +68127,6 @@
             }
         },
         "minClearTime": 190000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_02",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -67519,85 +68140,6 @@
             "ko": "WB-3",
             "zh": "WB-3"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67615,9 +68157,6 @@
             }
         },
         "minClearTime": 154000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_03",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -67631,53 +68170,6 @@
             "ko": "WB-4",
             "zh": "WB-4"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67695,9 +68187,6 @@
             }
         },
         "minClearTime": 220000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_04",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -67711,53 +68200,6 @@
             "ko": "WB-5",
             "zh": "WB-5"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30052"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67775,9 +68217,6 @@
             }
         },
         "minClearTime": 204000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_05",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -67791,53 +68230,6 @@
             "ko": "WB-6",
             "zh": "WB-6"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67855,9 +68247,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_06",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -67871,45 +68260,6 @@
             "ko": "WB-7",
             "zh": "WB-7"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30053"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67927,9 +68277,6 @@
             }
         },
         "minClearTime": 200000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_07",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -67943,45 +68290,6 @@
             "ko": "WB-8",
             "zh": "WB-8"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30083"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -67999,9 +68307,6 @@
             }
         },
         "minClearTime": 219000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_08",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -68015,45 +68320,6 @@
             "ko": "WB-9",
             "zh": "WB-9"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "31033"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1675108800000,
@@ -68071,9 +68337,6 @@
             }
         },
         "minClearTime": 264000,
-        "recognitionOnly": [
-            "act23side_token_spirit"
-        ],
         "stageId": "act23side_09",
         "stageType": "ACTIVITY",
         "zoneId": "act23side_zone1"
@@ -70273,5 +70536,1021 @@
         "stageId": "act15side_09_perm",
         "stageType": "ACTIVITY",
         "zoneId": "permanent_sidestory_12_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "DC-1",
+        "code_i18n": {
+            "en": "DC-1",
+            "ja": "DC-1",
+            "ko": "DC-1",
+            "zh": "DC-1"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 180000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_01",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "DC-2",
+        "code_i18n": {
+            "en": "DC-2",
+            "ja": "DC-2",
+            "ko": "DC-2",
+            "zh": "DC-2"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 139500,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_02",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "DC-3",
+        "code_i18n": {
+            "en": "DC-3",
+            "ja": "DC-3",
+            "ko": "DC-3",
+            "zh": "DC-3"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 205000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_03",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "DC-4",
+        "code_i18n": {
+            "en": "DC-4",
+            "ja": "DC-4",
+            "ko": "DC-4",
+            "zh": "DC-4"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 214000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_04",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "DC-5",
+        "code_i18n": {
+            "en": "DC-5",
+            "ja": "DC-5",
+            "ko": "DC-5",
+            "zh": "DC-5"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2001"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "2002"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 181000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_05",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "DC-6",
+        "code_i18n": {
+            "en": "DC-6",
+            "ja": "DC-6",
+            "ko": "DC-6",
+            "zh": "DC-6"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 219000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_06",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "DC-7",
+        "code_i18n": {
+            "en": "DC-7",
+            "ja": "DC-7",
+            "ko": "DC-7",
+            "zh": "DC-7"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "3003"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30063"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30073"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 206000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_07",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "DC-8",
+        "code_i18n": {
+            "en": "DC-8",
+            "ja": "DC-8",
+            "ko": "DC-8",
+            "zh": "DC-8"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30093"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30053"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30093"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "30103"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31043"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "EXTRA_DROP",
+                "itemId": "31053"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1676923200000,
+                "exist": true,
+                "openTime": 1676361600000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 265000,
+        "recognitionOnly": [
+            "act14mini_token_fu"
+        ],
+        "stageId": "act14mini_08",
+        "stageType": "ACTIVITY",
+        "zoneId": "act14mini_zone1"
     }
 ]

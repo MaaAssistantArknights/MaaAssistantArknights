@@ -154,7 +154,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Starts depot recognition.
         /// </summary>
-        private async void Start()
+        public async void Start()
         {
             string errMsg = string.Empty;
             DepotInfo = Localization.GetString("ConnectingToEmulator");

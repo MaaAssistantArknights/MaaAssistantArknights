@@ -194,7 +194,7 @@ namespace MaaWpfGui
             try
             {
                 // 创建 Http 请求
-                var httpWebRequest = WebRequest.Create($@"https://api.prts.plus/copilot/get/{copilotID}") as HttpWebRequest;
+                var httpWebRequest = WebRequest.Create($@"https://prts.maa.plus/copilot/get/{copilotID}") as HttpWebRequest;
                 httpWebRequest.Method = "GET";
                 httpWebRequest.ContentType = "application/json";
                 var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
@@ -442,7 +442,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Starts copilot.
         /// </summary>
-        private async void Start()
+        public async void Start()
         {
             /*
             if (_form)
@@ -490,7 +490,7 @@ namespace MaaWpfGui
         /// <summary>
         /// Stops copilot.
         /// </summary>
-        private void Stop()
+        public void Stop()
         {
             _asstProxy.AsstStop();
             Idle = true;
