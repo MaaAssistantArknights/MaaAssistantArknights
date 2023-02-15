@@ -54,11 +54,11 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### 기본 설정
 
-1. [에뮬레이터 지원](docs/ko-kr/1.3-에뮬레이터_지원.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
+1. [에뮬레이터 지원](https://maa.plus/docs/ko-kr/1.3-에뮬레이터_지원.html) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
 2. 에뮬레이터/기기의 해상도를 `1280 × 720` 또는 그 이상의 `16:9` 비율인 해상도로 맞춰주세요.
 3. 어시스턴트 시작!
 
-자세한 내용은 [사용자 설명서](docs/ko-kr/1.1-사용자_설명서.md)를 참조해 주세요.
+자세한 내용은 [사용자 설명서](https://maa.plus/docs/ko-kr/1.1-사용자_설명서.html)를 참조해 주세요.
 
 ## FAQ
 
@@ -69,7 +69,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 - 다운로드 속도가 너무 느려요/미러 사이트가 접속이 안 돼요
 - 다운로드 도중에 “로그인”이나 “인증”이라는 메시지가 떠요
 
-[FAQ](docs/ko-kr/1.2-FAQ.md) 문서를 참조해 주세요.
+[FAQ](https://maa.plus/docs/ko-kr/1.2-FAQ.html) 문서를 참조해 주세요.
 
 ## 해외 서버 지원
 
@@ -86,7 +86,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
   작전, 공개모집, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
   자세한 내용은 [문서](resource/global/txwy/readme.md)를 참조해 주세요.
 
-해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! [해외 클라이언트 현지화](docs/ko-kr/2.5-해외_클라이언트_현지화.md) 문서도 참고해 주세요.
+해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! [해외 클라이언트 현지화](https://maa.plus/docs/ko-kr/2.5-해외_클라이언트_현지화.html) 문서도 참고해 주세요.
 
 ## 관련 프로젝트
 
@@ -137,11 +137,11 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 ### Windows
 
 - `MAA.sln`를 Visual Studio 2022로 열어주세요. 모든 설정이 제대로 구성되어 있습니다.
-- clang-format 기능을 활성화해 주세요. 자세한 내용은 [개발](docs/ko-kr/2.2-개발.md) 문서의 [Visual Studio에서 clang-format 활성화](docs/ko-kr/2.2-개발.md#visual-studio에서-clang-format-활성화) 문단을 참조해 주세요. <!-- File Required -->
+- clang-format 기능을 활성화해 주세요. 자세한 내용은 [개발](https://maa.plus/docs/ko-kr/2.2-개발.html) 문서의 [Visual Studio에서 clang-format 활성화](https://maa.plus/docs/ko-kr/2.2-개발.html#visual-studio에서-clang-format-활성화) 문단을 참조해 주세요. <!-- File Required -->
 
 ### Linux/MacOS
 
-[Linux_튜토리얼](docs/ko-kr/2.1-Linux_튜토리얼.md) 문서를 참조해 주세요. <!-- File Required -->
+[Linux_튜토리얼](https://maa.plus/docs/ko-kr/2.1-Linux_튜토리얼.html) 문서를 참조해 주세요. <!-- File Required -->
 
 ### API
 
@@ -153,25 +153,25 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 - [Rust 인터페이스](src/Rust/src/maa_sys/): [HTTP 인터페이스](src/Rust)
 - [HTTP 인터페이스](src/Java/Readme.md)
 - [TypeScript 인터페이스](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [통합](docs/ko-kr/3.1-통합.md) <!-- File Required -->
-- [콜백 형식](docs/ko-kr/3.2-콜백_형식.md) <!-- File Required -->
-- [임무 형식](docs/ko-kr/3.4-임무_형식.md) <!-- File Required -->
-- [전략 형식](docs/ko-kr/3.3-전략_형식.md) <!-- File Required -->
+- [통합](https://maa.plus/docs/ko-kr/3.1-통합.html) <!-- File Required -->
+- [콜백 형식](https://maa.plus/docs/ko-kr/3.2-콜백_형식.html) <!-- File Required -->
+- [임무 형식](https://maa.plus/docs/ko-kr/3.4-임무_형식.html) <!-- File Required -->
+- [전략 형식](https://maa.plus/docs/ko-kr/3.3-전략_형식.html) <!-- File Required -->
 
 ### 해외 클라이언트 현지화
 
-[해외 클라이언트 현지화](docs/ko-kr/2.5-해외_클라이언트_현지화.md) 문서를 참고하세요. 대부분의 경우 CN 서버에서 이미 지원하는 기능들은 스크린샷과 간단한 JSON 파일 조작만으로도 타 서버에서 사용 가능합니다. <!-- File Required -->
+[해외 클라이언트 현지화](https://maa.plus/docs/ko-kr/2.5-해외_클라이언트_현지화.html) 문서를 참고하세요. 대부분의 경우 CN 서버에서 이미 지원하는 기능들은 스크린샷과 간단한 JSON 파일 조작만으로도 타 서버에서 사용 가능합니다. <!-- File Required -->
 
 ### GitHub에 익숙치 않은 사용자용 가이드
 
-[개발](docs/ko-kr/2.2-개발.md) 문서의 [GitHub Pull Request에 대한 설명](docs/ko-kr/2.2-개발.md#github-pull-request에-대한-설명) 문단을 참조해 주세요. <!-- File Required -->
+[개발](https://maa.plus/docs/ko-kr/2.2-개발.html) 문서의 [GitHub Pull Request에 대한 설명](https://maa.plus/docs/ko-kr/2.2-개발.html#github-pull-request에-대한-설명) 문단을 참조해 주세요. <!-- File Required -->
 
 ### Issue Bot
 
 - `Add {LABEL_NAME}`로 레이블을 추가하고, `Remove {LABEL_NAME}`로 제거하세요.
 - 커밋에서 `close #{ISSUE_NUMBER}` 또는 `fix #{ISSUE_NUMBER}`로 `fixed` 태그를 이슈에 추가하세요.
 
-자세한 내용은 [Issue Bot 사용방법](docs/ko-kr/2.3-IssueBot사용방법.md)을 참조해 주세요. <!-- File Required -->
+자세한 내용은 [Issue Bot 사용방법](https://maa.plus/docs/ko-kr/2.3-IssueBot사용방법.html)을 참조해 주세요. <!-- File Required -->
 
 ## 주의사항
 
