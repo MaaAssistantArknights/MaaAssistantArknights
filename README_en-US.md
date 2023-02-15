@@ -143,10 +143,10 @@ Please refer to [Linux Tutorial](docs/en-us/2.1-LINUX_TUTORIAL.md)
 
 ### API
 
-- [C interface](include/AsstCaller.h): [Integration Example](src/CppSample/main.cpp)
-- [Python interface](src/Python/asst.py): [Integration Example](src/Python/sample.py)
+- [C interface](include/AsstCaller.h): [Integration Example](src/Cpp/main.cpp)
+- [Python interface](src/Python/asst/asst.py): [Integration Example](src/Python/sample.py)
 - [Golang interface](src/Golang/): [Integration Example](src/Golang/maa/maa.go)
-- [Dart interface](src/dart/)
+- [Dart interface](src/Dart/)
 - [Java interface](src/Java): [Integration Example](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
 - [Rust interface](src/Rust/src/maa_sys/): [HTTP API](src/Rust)
 - [HTTP interface](src/Java/Readme.md)
