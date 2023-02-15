@@ -165,21 +165,23 @@ namespace MaaWpfGui
                     return;
                 }
 
-                _isDataFromWeb = false;
-                _copilotId = 0;
+                IsDataFromWeb = false;
+                CopilotId = 0;
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
-                int.TryParse(copilotIdStr, out _copilotId);
-                jsonStr = RequestCopilotServer(_copilotId);
-                _isDataFromWeb = true;
+                int.TryParse(copilotIdStr, out var numberStyles);
+                CopilotId = numberStyles;
+                jsonStr = RequestCopilotServer(CopilotId);
+                IsDataFromWeb = true;
             }
             else if (int.TryParse(filename, out _))
             {
-                int.TryParse(filename, out _copilotId);
-                jsonStr = RequestCopilotServer(_copilotId);
-                _isDataFromWeb = true;
+                int.TryParse(filename, out var numberStyles);
+                CopilotId = numberStyles;
+                jsonStr = RequestCopilotServer(CopilotId);
+                IsDataFromWeb = true;
             }
             else
             {
@@ -350,7 +352,7 @@ namespace MaaWpfGui
                     TaskType = "Copilot";
                 }
 
-                if (_isDataFromWeb)
+                if (IsDataFromWeb)
                 {
                     File.Delete(TempCopilotFile);
                     File.WriteAllText(TempCopilotFile, json.ToString());
@@ -475,7 +477,7 @@ namespace MaaWpfGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            bool ret = _asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+            bool ret = _asstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {
@@ -506,7 +508,19 @@ namespace MaaWpfGui
         public bool CouldLikeWebJson()
         {
             // TODO: 还要加个限制，如果点过赞了就不让再点了
-            return _isDataFromWeb && _copilotId != 0;
+            return IsDataFromWeb && CopilotId != 0;
+        }
+
+        public bool IsDataFromWeb
+        {
+            get => _isDataFromWeb;
+            set => SetAndNotify(ref _isDataFromWeb, value);
+        }
+
+        public int CopilotId
+        {
+            get => _copilotId;
+            set => SetAndNotify(ref _copilotId, value);
         }
 
         public void LikeWebJson()
@@ -518,7 +532,7 @@ namespace MaaWpfGui
 
             string jsonParam = JsonConvert.SerializeObject(new
             {
-                id = _copilotId,
+                id = CopilotId,
                 rating = "Like",
             });
             WebService.RequestPost(_copilotRatingUrl, jsonParam);
@@ -533,7 +547,7 @@ namespace MaaWpfGui
 
             string jsonParam = JsonConvert.SerializeObject(new
             {
-                id = _copilotId,
+                id = CopilotId,
                 rating = "Dislike",
             });
             WebService.RequestPost(_copilotRatingUrl, jsonParam);
