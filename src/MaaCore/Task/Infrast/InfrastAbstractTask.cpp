@@ -141,7 +141,6 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     LogTraceFunction;
 
     auto& room_config = current_room_config();
-    auto origin_room_config = room_config;
     {
         json::value cb_info = basic_info_with_what("CustomInfrastRoomOperators");
         auto& details = cb_info["details"];
@@ -220,87 +219,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         order_opers_selection(opers_order);
     }
 
-    if (!room_config.names.empty()) {
-        return false;
-    }
-
-    if (!is_dorm_order) {
-        if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
-        swipe_times = 0;
-        if (!select_opers_review(origin_room_config)) {
-            // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
-            current_room_config() = std::move(origin_room_config);
-            return false;
-        }
-    }
-
-    return true;
-}
-
-/// @brief 复核干员选择是否符合期望。如果是自定义的，会检查自定义的人选全了没。
-/// @brief 调用该函数前，需保证停留在干员选择页面第一页，且已选干员排在最前面。
-/// @param origin_room_config 期望的配置
-/// @param num_of_opers_expect 期望选中的人数，空置则按names.size()判断
-/// @return 是否符合期望
-bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig const& origin_room_config, size_t num_of_opers_expect)
-{
-    LogTraceFunction;
-    // save_img("debug/");
-    auto room_config = origin_room_config;
-
-    const auto image = ctrler()->get_image();
-    InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
-    if (!oper_analyzer.analyze()) {
-        Log.warn("No oper");
-        return false;
-    }
-    oper_analyzer.sort_by_loc();
-    const auto& oper_analyzer_res = oper_analyzer.get_result();
-    size_t selected_count = ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
-    Log.info("selected_count,config.names.size,num_of_opers_expect = ", selected_count, ",", room_config.names.size(), ",", num_of_opers_expect);
-
-    if (selected_count < num_of_opers_expect) {
-        Log.warn("select opers review fail: 选中干员数与期望不符");
-        return false;
-    }
-    if (selected_count < room_config.names.size()) {
-        Log.warn("select opers review fail: 存在自定义干员未选中");
-        return false;
-    }
-
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
-    for (const auto& oper : oper_analyzer_res) {
-        OcrWithPreprocessImageAnalyzer name_analyzer;
-        name_analyzer.set_replace(ocr_replace);
-        name_analyzer.set_image(oper.name_img);
-        name_analyzer.set_expansion(0);
-        if (!name_analyzer.analyze()) {
-            continue;
-        }
-        if (!oper.selected) {
-            break;
-        }
-
-        const std::string& name = name_analyzer.get_result().front().text;
-        if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
-            Log.info(name, "在\"operators\"中，且已选中");
-            room_config.names.erase(iter);
-        } else { // 备选干员或自动选择，只要不选工作中的干员即可
-            if (oper.doing == infrast::Doing::Working) {
-                Log.warn("select opers review fail: 非自定义情况下，选了正在工作的干员");
-                return false;
-            }
-        }
-    }
-
-    if (room_config.names.size()) {
-        Log.warn("select opers review fail: 存在自定义干员未选中");
-        return false;
-    }
-
-    Log.info("select opers review passed");
-    return true;
+    return room_config.names.empty();
 }
 
 bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& partial_result)

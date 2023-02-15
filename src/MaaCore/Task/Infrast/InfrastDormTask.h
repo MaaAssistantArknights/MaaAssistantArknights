@@ -18,7 +18,7 @@ namespace asst
         virtual bool _run() override;
         // virtual bool click_confirm_button() override;
 
-        bool opers_choose(asst::infrast::CustomRoomConfig const& origin_room_config);
+        bool opers_choose();
         bool click_order_by_mood();
 
         bool m_dorm_notstationed_enabled = false; // 设置是否启用未进驻筛选
