@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Stylet;
@@ -23,10 +24,10 @@ namespace MaaWpfGui
     /// </summary>
     public class RecruitViewModel : Screen
     {
-#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
-#pragma warning restore IDE0052
         private readonly IContainer _container;
+
+        private AsstProxy _asstProxy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecruitViewModel"/> class.
@@ -38,6 +39,12 @@ namespace MaaWpfGui
             _container = container;
             _windowManager = windowManager;
             DisplayName = Localization.GetString("RecruitmentRecognition");
+        }
+
+        protected override void OnInitialActivate()
+        {
+            base.OnInitialActivate();
+            _asstProxy = _container.Get<AsstProxy>();
         }
 
         private string _recruitInfo = Localization.GetString("RecruitmentRecognitionTip");
@@ -137,6 +144,21 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("Recruit.IsLevel3UseShortTime", bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to shorten the time for level 3.
+        /// </summary>
+        public bool IsLevel3UseShortTime
+        {
+            get => _isLevel3UseShortTime;
+            set
+            {
+                SetAndNotify(ref _isLevel3UseShortTime, value);
+                ViewStatusStorage.Set("Recruit.IsLevel3UseShortTime", value.ToString());
+            }
+        }
+
         private bool _caught = false;
 
         /// <summary>
@@ -144,12 +166,11 @@ namespace MaaWpfGui
         /// </summary>
         public async void StartCalc()
         {
-            var asstProxy = _container.Get<AsstProxy>();
             string errMsg = string.Empty;
             RecruitInfo = Localization.GetString("ConnectingToEmulator");
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg);
+                return _asstProxy.AsstConnect(ref errMsg);
             });
             _caught = await task;
             if (!_caught)
@@ -183,7 +204,7 @@ namespace MaaWpfGui
                 levelList.Add(6);
             }
 
-            asstProxy.AsstStartRecruitCalc(levelList.ToArray(), AutoSetTime);
+            _asstProxy.AsstStartRecruitCalc(levelList.ToArray(), AutoSetTime);
         }
     }
 }

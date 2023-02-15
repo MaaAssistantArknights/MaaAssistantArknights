@@ -16,18 +16,29 @@
 # 1. Install Python
 # 2. Run "$python diff_resource.py xxx" in the terminal where xxx is the desired
 # server name i.e. YoStarJP/YoStarEN/YoStarKR/txwy
-# 3. Results can be found in the diff_image folder
+# 3. Results can be found in the missing_templates folder
 #
 
 
 import os
 import sys
 import shutil
+import re
 
+# NOTE
 # Put the file names of text-less images (so that global servers use the same
 # image as the ZH (ZH_CN) server does) in this file.
 # Note you have to manually update the content of this file.
-ignore_list_file_name = "ignore_list.txt"
+ignore_list_file_name = "ignore_list_of_templates.txt"
+
+# NOTE
+# You may customize here
+regex_ignore_list = [
+    "Mizuki",
+    "SSS",
+    "Reclamation",
+    "Rogue"
+]
 
 server_list = [
     "YoStarJP",
@@ -67,27 +78,23 @@ with open(os.path.join(cur_dir, ignore_list_file_name)) as f:
     ignore_files = [line.rstrip('\n') for line in f]
 
 # ZH server pics not found in global server nor ignored will be filtered here
-diff_files = [i for i in zh_files if
-
-              # NOTE: You May Customize Here
-              # not i.startswith("Mizuki@Roguelike") and
-              "Rogue" not in i and
-
-              i not in gl_files and
-              i not in ignore_files
+diff_files = [f for f in zh_files if
+              not any(map(lambda x: re.search(x, f), regex_ignore_list)) and
+              f not in gl_files and
+              f not in ignore_files
               ]
 
-# These pictures will be copied to the diff_image folder for reference.
+# These pictures will be copied to the missing_templates folder for reference.
 # Contributors of global servers may screenshot the corresponding files.
 # Note this folder is in .gitignore so it will not be uploaded.
-out_dir = os.path.join(cur_dir, "diff_image/", server_name)
+out_dir = os.path.join(cur_dir, "missing_templates/", server_name)
 if os.path.exists(out_dir):
     shutil.rmtree(out_dir)
 os.makedirs(out_dir)
 
-for i in diff_files:
-    # print(i)
-    shutil.copyfile(os.path.join(zh_dir, i), os.path.join(out_dir, i))
+for f in diff_files:
+    # print(f)
+    shutil.copyfile(os.path.join(zh_dir, f), os.path.join(out_dir, f))
 
 print("Pictures not included in", server_name,
-      "server resources is copied to diff_image/" + server_name)
+      "server resources is copied to missing_templates/" + server_name)

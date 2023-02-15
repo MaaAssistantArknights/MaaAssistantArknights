@@ -144,10 +144,10 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### API
 
-- [Cインターフェース](include/AsstCaller.h)：[統合例](src/CppSample/main.cpp)
-- [Pythonインターフェース](src/Python/asst.py)：[統合例](src/Python/sample.py)
+- [Cインターフェース](include/AsstCaller.h)：[統合例](src/Cpp/main.cpp)
+- [Pythonインターフェース](src/Python/asst/asst.py)：[統合例](src/Python/sample.py)
 - [Golangインターフェース](src/Golang/)：[統合例](src/Golang/maa/maa.go)
-- [Dartインターフェース](src/dart/)
+- [Dartインターフェース](src/Dart/)
 - [Javaインターフェース](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[統合例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)
 - [HTTPインターフェース](src/Java/Readme.md)

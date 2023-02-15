@@ -19,8 +19,9 @@ namespace MaaWpfGui.MaaHotKeys
 {
     public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
     {
-        private readonly IContainer _container;
         private readonly IMainWindowManager _mainWindowManager;
+
+        private readonly TaskQueueViewModel _taskQueueViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MaaHotKeyActionHandler"/> class.
@@ -28,7 +29,7 @@ namespace MaaWpfGui.MaaHotKeys
         /// <param name="container"></param>
         public MaaHotKeyActionHandler(IContainer container)
         {
-            _container = container;
+            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
             _mainWindowManager = container.Get<IMainWindowManager>();
         }
 
@@ -52,16 +53,14 @@ namespace MaaWpfGui.MaaHotKeys
 
         protected virtual void HandleLinkStart()
         {
-            var mainModel = _container.Get<TaskQueueViewModel>();
-
-            if (mainModel.Stopping)
+            if (_taskQueueViewModel.Stopping)
             {
                 return;
             }
 
-            if (mainModel.Idle)
+            if (_taskQueueViewModel.Idle)
             {
-                mainModel.LinkStart();
+                _taskQueueViewModel.LinkStart();
 
                 if (_mainWindowManager.GetWindowState() != WindowState.Minimized)
                 {
@@ -73,7 +72,7 @@ namespace MaaWpfGui.MaaHotKeys
             }
             else
             {
-                mainModel.Stop();
+                _taskQueueViewModel.Stop();
 
                 if (Application.Current.MainWindow == null ||
                     Application.Current.MainWindow.WindowState != WindowState.Minimized)

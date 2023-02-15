@@ -36,8 +36,11 @@ namespace MaaWpfGui
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
-        private readonly IContainer _container;
+        // model references
+        private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
 
+        // datas
         private Dictionary<string, StageInfo> _stages;
 
         /// <summary>
@@ -46,7 +49,8 @@ namespace MaaWpfGui
         /// <param name="container">The IoC container.</param>
         public StageManager(IContainer container)
         {
-            _container = container;
+            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _settingsViewModel = container.Get<SettingsViewModel>();
             UpdateStage(false);
 
             Execute.OnUIThread(async () =>
@@ -56,10 +60,10 @@ namespace MaaWpfGui
                     UpdateStage(true);
                 });
                 await task;
-                if (_container != null)
+                if (_taskQueueViewModel != null)
                 {
-                    _container.Get<TaskQueueViewModel>().UpdateDatePrompt();
-                    _container.Get<TaskQueueViewModel>().UpdateStageList(true);
+                    _taskQueueViewModel.UpdateDatePrompt();
+                    _taskQueueViewModel.UpdateStageList(true);
                 }
             });
         }
@@ -86,8 +90,7 @@ namespace MaaWpfGui
                    "yyyy/MM/dd HH:mm:ss",
                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
-            var settingsModel = _container.Get<SettingsViewModel>();
-            var clientType = settingsModel.ClientType;
+            var clientType = _settingsViewModel.ClientType;
 
             // 官服和B服使用同样的资源
             if (clientType == "Bilibili" || clientType == string.Empty)
@@ -114,30 +117,33 @@ namespace MaaWpfGui
                         bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
                         bool curParsed = !isDebugVersion ?
                             SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
-                            SemVersion.TryParse("4.10.1", SemVersionStyles.AllowLowerV, out curVersionObj);
+                            SemVersion.TryParse("4.10.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
 
+                        var stageInfo = new StageInfo();
                         if (curParsed && minimumRequiredPared)
                         {
                             if (curVersionObj.CompareSortOrderTo(minimumRequiredObj) < 0)
                             {
-                                if (!tempStage.ContainsKey("不支持的关卡"))
+                                if (!tempStage.ContainsKey(Localization.GetString("UnsupportedStages")))
                                 {
-                                    tempStage.Add(
-                                        "不支持的关卡",
-                                        new StageInfo
+                                    stageInfo = new StageInfo
+                                    {
+                                        Display = Localization.GetString("UnsupportedStages"),
+                                        Value = Localization.GetString("UnsupportedStages"),
+                                        Drop = Localization.GetString("LowVersion"),
+                                        Activity = new StageActivityInfo()
                                         {
-                                            Display = "不支持的关卡",
-                                            Value = "不支持的关卡",
-                                            Drop = "版本过低",
-                                            Activity = new StageActivityInfo()
-                                            {
-                                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
-                                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
-                                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
-                                            },
-                                        });
+                                            Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                            StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                            UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                            UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                        },
+                                    };
+                                    if (!stageInfo.Activity.IsExpired)
+                                    {
+                                        tempStage.Add(stageInfo.Display, stageInfo);
+                                    }
                                 }
 
                                 continue;
@@ -148,21 +154,24 @@ namespace MaaWpfGui
                             continue;
                         }
 
-                        tempStage.Add(
-                            stageObj["Value"].ToString(),
-                            new StageInfo
+                        stageInfo = new StageInfo
+                        {
+                            Display = stageObj?["Display"]?.ToString() ?? string.Empty,
+                            Value = stageObj["Value"].ToString(),
+                            Drop = stageObj?["Drop"]?.ToString(),
+                            Activity = new StageActivityInfo()
                             {
-                                Display = stageObj?["Display"]?.ToString() ?? string.Empty,
-                                Value = stageObj["Value"].ToString(),
-                                Drop = stageObj?["Drop"]?.ToString(),
-                                Activity = new StageActivityInfo()
-                                {
-                                    Tip = stageObj["Activity"]?["Tip"]?.ToString(),
-                                    StageName = stageObj["Activity"]?["StageName"]?.ToString(),
-                                    UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                    UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
-                                },
-                            });
+                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                            },
+                        };
+
+                        if (!stageInfo.Activity.IsExpired)
+                        {
+                            tempStage.Add(stageInfo.Display, stageInfo);
+                        }
                     }
                 }
                 catch (Exception e)

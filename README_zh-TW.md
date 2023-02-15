@@ -142,10 +142,10 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### API
 
-- [C 介面](include/AsstCaller.h)：[整合示例](src/CppSample/main.cpp)
-- [Python 介面](src/Python/asst.py)：[整合示例](src/Python/sample.py)
+- [C 介面](include/AsstCaller.h)：[整合示例](src/Cpp/main.cpp)
+- [Python 介面](src/Python/asst/asst.py)：[整合示例](src/Python/sample.py)
 - [Golang 介面](src/Golang/)：[整合示例](src/Golang/maa/maa.go)
-- [Dart 介面](src/dart/)
+- [Dart 介面](src/Dart/)
 - [Java 介面](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[整合示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Rust 介面](src/Rust/src/maa_sys/)：[HTTP 介面](src/Rust)
 - [HTTP 介面](src/Java/Readme.md)

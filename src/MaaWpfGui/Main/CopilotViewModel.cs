@@ -37,10 +37,11 @@ namespace MaaWpfGui
     /// </summary>
     public class CopilotViewModel : Screen
     {
-#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
-#pragma warning restore IDE0052
         private readonly IContainer _container;
+
+        private AsstProxy _asstProxy;
+        private SettingsViewModel _settingsViewModel;
 
         /// <summary>
         /// Gets or sets the view models of log items.
@@ -66,6 +67,13 @@ namespace MaaWpfGui
                 "3. " + Localization.GetString("CopilotTip4"),
                 /* Localization.GetString("CopilotTip5"),*/
                 UILogColor.Message);
+        }
+
+        protected override void OnInitialActivate()
+        {
+            base.OnInitialActivate();
+            _asstProxy = _container.Get<AsstProxy>();
+            _settingsViewModel = _container.Get<SettingsViewModel>();
         }
 
         /// <summary>
@@ -186,7 +194,7 @@ namespace MaaWpfGui
             try
             {
                 // 创建 Http 请求
-                var httpWebRequest = WebRequest.Create($@"https://api.prts.plus/copilot/get/{copilotID}") as HttpWebRequest;
+                var httpWebRequest = WebRequest.Create($@"https://prts.maa.plus/copilot/get/{copilotID}") as HttpWebRequest;
                 httpWebRequest.Method = "GET";
                 httpWebRequest.ContentType = "application/json";
                 var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
@@ -445,11 +453,10 @@ namespace MaaWpfGui
 
             AddLog(Localization.GetString("ConnectingToEmulator"));
 
-            var asstProxy = _container.Get<AsstProxy>();
             string errMsg = string.Empty;
             var task = Task.Run(() =>
             {
-                return asstProxy.AsstConnect(ref errMsg);
+                return _asstProxy.AsstConnect(ref errMsg);
             });
             _caught = await task;
             if (!_caught)
@@ -463,13 +470,12 @@ namespace MaaWpfGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            bool ret = asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+            bool ret = _asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {
                 AddLog(Localization.GetString("Running"));
-                var settingsModel = _container.Get<SettingsViewModel>();
-                if (!settingsModel.AdbReplaced && !settingsModel.IsAdbTouchMode())
+                if (!_settingsViewModel.AdbReplaced && !_settingsViewModel.IsAdbTouchMode())
                 {
                     AddLog(Localization.GetString("AdbReplacementTips"), UILogColor.Info);
                 }
@@ -486,8 +492,7 @@ namespace MaaWpfGui
         /// </summary>
         public void Stop()
         {
-            var asstProxy = _container.Get<AsstProxy>();
-            asstProxy.AsstStop();
+            _asstProxy.AsstStop();
             Idle = true;
         }
 

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -42,7 +43,7 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding IsLevel3UseShortTime}"
                     ToolTip="{DynamicResource Level3UseShortTimeTip}">
-                    <TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
+                    <maa:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
                 </CheckBox>
             </StackPanel>
             <StackPanel
@@ -50,12 +51,11 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <TextBlock
+                <maa:TextBlock
                     Width="90"
                     Margin="5"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource RecruitMaxTimes}"
                     TextWrapping="Wrap" />
                 <TextBox

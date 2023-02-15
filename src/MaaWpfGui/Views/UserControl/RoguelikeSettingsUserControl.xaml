@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -21,10 +22,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <TextBlock
-                    Margin="10"
-                    Style="{StaticResource TextBlockDefault}"
-                    Text="{DynamicResource RoguelikeTheme}" />
+                <maa:TextBlock Margin="10" Text="{DynamicResource RoguelikeTheme}" />
                 <ComboBox
                     Width="110"
                     IsHitTestVisible="{Binding Idle}"
@@ -37,10 +35,9 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <TextBlock
+                <maa:TextBlock
                     Margin="10"
                     VerticalAlignment="Center"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource Strategy}" />
                 <ComboBox
                     Width="300"
@@ -54,10 +51,9 @@
             </StackPanel>
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <TextBlock
+                    <maa:TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource StartTimesLimit}"
                         TextWrapping="Wrap" />
                     <hc:TextBox
@@ -77,9 +73,8 @@
                     Content="{DynamicResource InvestmentEnabled}"
                     IsChecked="{Binding RoguelikeInvestmentEnabled}" />
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <TextBlock
+                    <maa:TextBlock
                         VerticalAlignment="Center"
-                        Style="{StaticResource TextBlockDefault}"
                         Text="{DynamicResource GoldTimesLimit}"
                         TextWrapping="Wrap" />
                     <hc:TextBox
@@ -109,11 +104,10 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <TextBlock
+                <maa:TextBlock
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingSquad}" />
                 <ComboBox
                     Width="300"
@@ -129,11 +123,10 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBlock
+                <maa:TextBlock
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingRoles}" />
                 <ComboBox
                     Width="300"
@@ -148,12 +141,11 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBlock
+                <maa:TextBlock
                     MaxWidth="150"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
-                    Style="{StaticResource TextBlockDefault}"
                     Text="{DynamicResource StartingCoreChar}"
                     TextWrapping="Wrap" />
                 <hc:TextBox

@@ -103,6 +103,9 @@
     <system:String x:Key="AlgorithmFinish">演算结束</system:String>
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
+    <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
+    
+
 
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
@@ -118,6 +121,7 @@
     <system:String x:Key="ADBProgram">adb程序</system:String>
 
     <system:String x:Key="EmulatorException">检测模拟器出错&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
+    <system:String x:Key="AdbException">检测ADB出错&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器&#x0a;请关闭不需要的模拟器&#x0a;或手动设置连接</system:String>
 
@@ -219,6 +223,7 @@
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
+    <system:String x:Key="UseExpiringMedicine">无限吃48小时内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
@@ -281,6 +286,8 @@
     <system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
     <system:String x:Key="ClosedStage">活动未开放</system:String>
+    <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
+    <system:String x:Key="LowVersion">版本过低</system:String>
     <system:String x:Key="Daysleftopen">剩余开放天数：</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>

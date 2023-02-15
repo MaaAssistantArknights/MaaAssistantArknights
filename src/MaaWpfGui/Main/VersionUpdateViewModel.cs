@@ -35,20 +35,17 @@ namespace MaaWpfGui
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
-#pragma warning disable IDE0052
-        private readonly IWindowManager _windowManager;
-#pragma warning restore IDE0052
-        private readonly IContainer _container;
+        private readonly SettingsViewModel _settingsViewModel;
+        private readonly TaskQueueViewModel _taskQueueViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
         /// </summary>
         /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public VersionUpdateViewModel(IContainer container, IWindowManager windowManager)
+        public VersionUpdateViewModel(IContainer container)
         {
-            _container = container;
-            _windowManager = windowManager;
+            _settingsViewModel = container.Get<SettingsViewModel>();
+            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
         }
 
         [DllImport("MaaCore.dll")]
@@ -334,8 +331,7 @@ namespace MaaWpfGui
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public CheckUpdateRetT CheckAndDownloadUpdate(bool force = false)
         {
-            var svm = _container.Get<SettingsViewModel>();
-            svm.IsCheckingForUpdates = true;
+            _settingsViewModel.IsCheckingForUpdates = true;
 
             var checkResult = ((Func<CheckUpdateRetT>)(() =>
             {
@@ -387,9 +383,8 @@ namespace MaaWpfGui
                 UpdateInfo = body;
                 UpdateUrl = _latestJson["html_url"]?.ToString();
 
-                var settings = _container.Get<SettingsViewModel>();
                 bool otaFound = _assetsObject != null;
-                bool goDownload = otaFound && settings.AutoDownloadUpdatePackage;
+                bool goDownload = otaFound && _settingsViewModel.AutoDownloadUpdatePackage;
 #pragma warning disable IDE0042
                 var openUrlToastButton = (
                     text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
@@ -449,7 +444,7 @@ namespace MaaWpfGui
                 };
 
                 string rawUrl = _assetsObject["browser_download_url"]?.ToString();
-                var downloader = settings.UseAria2 ? Downloader.Aria2 : Downloader.Native;
+                var downloader = _settingsViewModel.UseAria2 ? Downloader.Aria2 : Downloader.Native;
                 const int DownloadRetryMaxTimes = 1;
                 for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
                 {
@@ -487,7 +482,7 @@ namespace MaaWpfGui
                 return CheckUpdateRetT.OK;
             }))();
 
-            svm.IsCheckingForUpdates = false;
+            _settingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
         }
 
@@ -517,10 +512,8 @@ namespace MaaWpfGui
         /// <returns>检查到更新返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         private CheckUpdateRetT CheckUpdate(bool force = false)
         {
-            var settings = _container.Get<SettingsViewModel>();
-
             // 自动更新或者手动触发
-            if (!(settings.UpdateCheck || force))
+            if (!(_settingsViewModel.UpdateCheck || force))
             {
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
@@ -534,7 +527,7 @@ namespace MaaWpfGui
             const int RequestRetryMaxTimes = 2;
             try
             {
-                if (!settings.UpdateBeta && !settings.UpdateNightly)
+                if (!_settingsViewModel.UpdateBeta && !_settingsViewModel.UpdateNightly)
                 {
                     // 稳定版更新使用主仓库 /latest 接口
                     // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
@@ -570,7 +563,7 @@ namespace MaaWpfGui
                     _latestJson = null;
                     foreach (var item in releaseArray)
                     {
-                        if (!settings.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
+                        if (!_settingsViewModel.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
                         {
                             continue;
                         }
@@ -588,7 +581,7 @@ namespace MaaWpfGui
                 _latestVersion = _latestJson["tag_name"].ToString();
                 var releaseAssets = _latestJson["assets"] as JArray;
 
-                if (settings.UpdateNightly)
+                if (_settingsViewModel.UpdateNightly)
                 {
                     if (_curVersion == _latestVersion)
                     {
@@ -675,14 +668,14 @@ namespace MaaWpfGui
         private bool DownloadGithubAssets(string url, JObject assetsObject,
             Downloader downloader = Downloader.Native, string saveTo = null)
         {
-            _logItemViewModels = _container.Get<TaskQueueViewModel>().LogItemViewModels;
+            _logItemViewModels = _taskQueueViewModel.LogItemViewModels;
             return DownloadFile(
                 url: url,
                 fileName: assetsObject["name"].ToString(), contentType:
                 assetsObject["content_type"].ToString(),
                 downloader: downloader,
                 saveTo: saveTo,
-                proxy: _container.Get<SettingsViewModel>().Proxy);
+                proxy: _settingsViewModel.Proxy);
         }
 
         /// <summary>
