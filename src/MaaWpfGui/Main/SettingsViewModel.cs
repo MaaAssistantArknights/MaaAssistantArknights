@@ -2290,6 +2290,18 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _useExpiringMedicine = bool.Parse(ViewStatusStorage.Get("Fight.UseExpiringMedicine", bool.FalseString));
+
+        public bool UseExpiringMedicine
+        {
+            get => _useExpiringMedicine;
+            set
+            {
+                SetAndNotify(ref _useExpiringMedicine, value);
+                ViewStatusStorage.Set("Fight.UseExpiringMedicine", value.ToString());
+            }
+        }
+
         private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.HideUnavailableStage", bool.TrueString));
 
         /// <summary>
