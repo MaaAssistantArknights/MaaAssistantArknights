@@ -1190,6 +1190,7 @@ namespace MaaWpfGui
             task_params["client_type"] = _settingsViewModel.ClientType;
             task_params["penguin_id"] = _settingsViewModel.PenguinId;
             task_params["DrGrandet"] = _settingsViewModel.IsDrGrandet;
+            task_params["expiring_medicine"] = _settingsViewModel.UseExpiringMedicine ? 9999 : 0;
             task_params["server"] = _settingsViewModel.ServerType;
             return task_params;
         }

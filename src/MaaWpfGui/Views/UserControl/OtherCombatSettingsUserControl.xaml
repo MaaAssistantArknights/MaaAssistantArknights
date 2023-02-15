@@ -57,6 +57,11 @@
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"
+                    Content="{DynamicResource UseExpiringMedicine}"
+                    IsChecked="{Binding UseExpiringMedicine}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
                     Content="{DynamicResource HideUnavailableStage}"
                     IsChecked="{Binding HideUnavailableStage}"
                     IsEnabled="{c:Binding !CustomStageCode}" />
