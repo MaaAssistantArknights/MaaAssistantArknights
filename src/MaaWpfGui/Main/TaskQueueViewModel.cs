@@ -123,7 +123,7 @@ namespace MaaWpfGui
             _trayIcon = _container.Get<TrayIcon>();
             _stageManager = _container.Get<StageManager>();
 
-            _trayIcon.SetTaskQueueViewModel(this);
+            //_trayIcon.SetTaskQueueViewModel(this);
 
             DisplayName = Localization.GetString("Farming");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();

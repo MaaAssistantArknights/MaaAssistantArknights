@@ -136,8 +136,8 @@ namespace MaaWpfGui
             _asstProxy = _container.Get<AsstProxy>();
             _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
 
-            _trayIcon.SetVisible(UseTray);
-            _trayIcon.SetSettingsViewModel(this);
+            //_trayIcon.SetVisible(UseTray);
+            //_trayIcon.SetSettingsViewModel(this);
             _mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
 
             if (LoadGUIParameters && SaveGUIParametersOnClosing)
