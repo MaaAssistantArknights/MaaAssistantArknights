@@ -24,8 +24,8 @@ namespace MaaWpfGui
     {
         private readonly IMainWindowManager _mainWindowManager;
         private readonly NotifyIcon notifyIcon = new NotifyIcon();
-        private TaskQueueViewModel _taskQueueViewModel;
-        private SettingsViewModel _settingsViewModel;
+        private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrayIcon"/> class.
@@ -74,27 +74,6 @@ namespace MaaWpfGui
             MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
             this.notifyIcon.ContextMenu = new ContextMenu(menuItems);
         }
-
-        /// <summary>
-        /// Sets task queue view model.
-        /// </summary>
-        /// <param name="taskQueueViewModel">一个<b>不是随便 <see langword="new"/> 出来的</b> <see cref="TaskQueueViewModel"/></param>
-        /// <remarks>
-        /// 只应该在 <see cref="TaskQueueViewModel"/> 的构造函数中调用这个函数，不要传入一个随便 <see langword="new"/> 出来的 <see cref="TaskQueueViewModel"/>。
-        /// </remarks>
-        //public void SetTaskQueueViewModel(TaskQueueViewModel taskQueueViewModel)
-        //{
-        //    this._taskQueueViewModel = taskQueueViewModel;
-        //}
-
-        /// <summary>
-        /// Sets settings view model.
-        /// </summary>
-        /// <param name="settingsViewModel">The settings view model.</param>
-        //public void SetSettingsViewModel(SettingsViewModel settingsViewModel)
-        //{
-        //    this._settingsViewModel = settingsViewModel;
-        //}
 
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {

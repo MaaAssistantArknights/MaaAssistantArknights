@@ -42,7 +42,6 @@ namespace MaaWpfGui
         private StageManager _stageManager;
         private SettingsViewModel _settingsViewModel;
         private AsstProxy _asstProxy;
-        private TrayIcon _trayIcon;
 
         /// <summary>
         /// Gets or sets the view models of task items.
@@ -120,10 +119,7 @@ namespace MaaWpfGui
             base.OnInitialActivate();
             _settingsViewModel = _container.Get<SettingsViewModel>();
             _asstProxy = _container.Get<AsstProxy>();
-            _trayIcon = _container.Get<TrayIcon>();
             _stageManager = _container.Get<StageManager>();
-
-            //_trayIcon.SetTaskQueueViewModel(this);
 
             DisplayName = Localization.GetString("Farming");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
