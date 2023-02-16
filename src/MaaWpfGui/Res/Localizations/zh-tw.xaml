@@ -162,8 +162,8 @@
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後藉助戰打一把OF-1賺30信用。&#x0a;關卡選擇爲「當前/上次」時此功能無效。&#x0a;別傳「火藍之心」關卡OF-1未解鎖時請勿勾選</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分号分隔</system:String>
-    <system:String x:Key="HighPriorityDefault">招聘許可；龍門幣</system:String>
-    <system:String x:Key="BlacklistDefault">碳；傢俱</system:String>
+    <system:String x:Key="HighPriorityDefault">招聘許可</system:String>
+    <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
 
