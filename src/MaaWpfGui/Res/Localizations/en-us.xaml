@@ -209,8 +209,8 @@
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.&#x0a;This function is invalid when the stage is selected as Current/Last.&#x0a;Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
-    <system:String x:Key="HighPriorityDefault">Recruitment Permit;LMD</system:String>
-    <system:String x:Key="BlacklistDefault">Carbon;Furniture Part</system:String>
+    <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>
+    <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credit overflow</system:String>
 
