@@ -1780,19 +1780,22 @@ namespace MaaWpfGui
                     return;
                 }
 
-                if (!ConnectAddressHistory.Contains(value))
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    ConnectAddressHistory.Insert(0, value);
-                    while (ConnectAddressHistory.Count > 5)
+                    if (!ConnectAddressHistory.Contains(value))
                     {
-                        ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
+                        ConnectAddressHistory.Insert(0, value);
+                        while (ConnectAddressHistory.Count > 5)
+                        {
+                            ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
+                        }
                     }
-                }
-                else
-                {
-                    ConnectAddressHistory.Remove(value);
-                    ConnectAddressHistory.Insert(0, value);
-                }
+                    else
+                    {
+                        ConnectAddressHistory.Remove(value);
+                        ConnectAddressHistory.Insert(0, value);
+                    }
+                });
 
                 SetAndNotify(ref _connectAddress, value);
                 ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
