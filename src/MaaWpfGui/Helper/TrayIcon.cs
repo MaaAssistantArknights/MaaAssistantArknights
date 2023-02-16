@@ -24,8 +24,8 @@ namespace MaaWpfGui
     {
         private readonly IMainWindowManager _mainWindowManager;
         private readonly NotifyIcon notifyIcon = new NotifyIcon();
-        private TaskQueueViewModel taskQueueViewModel;
-        private SettingsViewModel settingsViewModel;
+        private TaskQueueViewModel _taskQueueViewModel;
+        private SettingsViewModel _settingsViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrayIcon"/> class.
@@ -34,7 +34,10 @@ namespace MaaWpfGui
         public TrayIcon(IContainer container)
         {
             _mainWindowManager = container.Get<IMainWindowManager>();
+            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _settingsViewModel = container.Get<SettingsViewModel>();
             InitIcon();
+            this.SetVisible(true);
         }
 
         private void InitIcon()
@@ -61,7 +64,7 @@ namespace MaaWpfGui
                 var langMenu = new MenuItem(lang.Value);
                 langMenu.Click += (sender, e) =>
                 {
-                    settingsViewModel.Language = lang.Key;
+                    _settingsViewModel.Language = lang.Key;
                 };
                 switchLangMenu.MenuItems.Add(langMenu);
             }
@@ -79,19 +82,19 @@ namespace MaaWpfGui
         /// <remarks>
         /// 只应该在 <see cref="TaskQueueViewModel"/> 的构造函数中调用这个函数，不要传入一个随便 <see langword="new"/> 出来的 <see cref="TaskQueueViewModel"/>。
         /// </remarks>
-        public void SetTaskQueueViewModel(TaskQueueViewModel taskQueueViewModel)
-        {
-            this.taskQueueViewModel = taskQueueViewModel;
-        }
+        //public void SetTaskQueueViewModel(TaskQueueViewModel taskQueueViewModel)
+        //{
+        //    this._taskQueueViewModel = taskQueueViewModel;
+        //}
 
         /// <summary>
         /// Sets settings view model.
         /// </summary>
         /// <param name="settingsViewModel">The settings view model.</param>
-        public void SetSettingsViewModel(SettingsViewModel settingsViewModel)
-        {
-            this.settingsViewModel = settingsViewModel;
-        }
+        //public void SetSettingsViewModel(SettingsViewModel settingsViewModel)
+        //{
+        //    this._settingsViewModel = settingsViewModel;
+        //}
 
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
@@ -106,12 +109,12 @@ namespace MaaWpfGui
         private void StartTask(object sender, EventArgs e)
         {
             // taskQueueViewModel意外为null了是不是也可以考虑Log一下
-            taskQueueViewModel?.LinkStart();
+            _taskQueueViewModel?.LinkStart();
         }
 
         private void StopTask(object sender, EventArgs e)
         {
-            taskQueueViewModel?.Stop();
+            _taskQueueViewModel?.Stop();
         }
 
         private void App_exit(object sender, EventArgs e)
