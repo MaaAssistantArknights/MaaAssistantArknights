@@ -104,8 +104,6 @@
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
-    
-
 
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
@@ -143,7 +141,7 @@
     <system:String x:Key="UpdateAutoCheck">自动检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="UpdateCheckStable">稳定版</system:String>
-    <system:String x:Key="UpdateCheckBeta">开发版</system:String>
+    <system:String x:Key="UpdateCheckBeta">公测版</system:String>
     <system:String x:Key="UpdateCheckNightly">内测版</system:String>
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
