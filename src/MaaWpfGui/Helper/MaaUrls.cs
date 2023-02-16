@@ -50,7 +50,7 @@ namespace MaaWpfGui
             get
             {
                 var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
-                return $"https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/docs/{_helpUrl[language]}";
+                return $"https://maa.plus/docs/{_helpUrl[language]}";
             }
         }
     }
