@@ -1921,7 +1921,7 @@ namespace MaaWpfGui
 
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
-            if (!string.IsNullOrEmpty(AdbPath))
+            if (string.IsNullOrEmpty(AdbPath))
             {
                 error = Localization.GetString("AdbException");
                 return false;
