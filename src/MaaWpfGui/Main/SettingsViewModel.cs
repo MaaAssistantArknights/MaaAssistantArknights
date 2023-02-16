@@ -41,7 +41,6 @@ namespace MaaWpfGui
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
         private IMaaHotKeyManager _maaHotKeyManager;
-        private TrayIcon _trayIcon;
         private IMainWindowManager _mainWindowManager;
         private TaskQueueViewModel _taskQueueViewModel;
         private AsstProxy _asstProxy;
@@ -130,14 +129,11 @@ namespace MaaWpfGui
         {
             base.OnInitialActivate();
             _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
-            _trayIcon = _container.Get<TrayIcon>();
             _mainWindowManager = _container.Get<IMainWindowManager>();
             _taskQueueViewModel = _container.Get<TaskQueueViewModel>();
             _asstProxy = _container.Get<AsstProxy>();
             _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
 
-            //_trayIcon.SetVisible(UseTray);
-            //_trayIcon.SetSettingsViewModel(this);
             _mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
 
             if (LoadGUIParameters && SaveGUIParametersOnClosing)
@@ -2135,25 +2131,6 @@ namespace MaaWpfGui
         /// Gets a value indicating whether to use tray icon.
         /// </summary>
         public bool UseTray => true;
-
-        /*
-        private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
-
-        public bool UseTray
-        {
-            get => _useTray;
-            set
-            {
-                SetAndNotify(ref _useTray, value);
-                ViewStatusStorage.Set("GUI.UseTray", value.ToString());
-                _trayIcon.SetVisible(value);
-
-                if (!Convert.ToBoolean(value))
-                {
-                    MinimizeToTray = false;
-                }
-            }
-        }*/
 
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
