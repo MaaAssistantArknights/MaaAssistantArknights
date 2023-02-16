@@ -96,10 +96,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
-        if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
-            continue;
-        }
         // 最近总是出现设施没选中，导致干员放错房间，多点一次，观察一段时间。最好是改为图像识别是几号。
         sleep(tab_task_ptr->pre_delay);
         ctrler()->click(tab);
@@ -154,6 +150,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_use_custom_drones && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Pre &&
             m_custom_drones_config.index == m_cur_facility_index) {
             use_drone();
+        }
+
+        if (m_is_custom && current_room_config().skip) {
+            Log.info("skip this room");
+            continue;
         }
 
         /* 进入干员选择页面 */
