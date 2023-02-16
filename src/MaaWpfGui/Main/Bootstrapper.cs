@@ -31,6 +31,7 @@ namespace MaaWpfGui
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
+        private static SettingsViewModel _settingsViewModel;
         private static TrayIcon _trayIconInSettingsViewModel;
 
         private static readonly FieldInfo _settingsViewModelIContainerFiled =
@@ -46,6 +47,7 @@ namespace MaaWpfGui
         /// </remarks>
         internal static void SetTrayIconInSettingsViewModel(SettingsViewModel settingsViewModel)
         {
+            _settingsViewModel = settingsViewModel;
             var container = (IContainer)_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
             if (container != null)
             {
@@ -139,6 +141,7 @@ namespace MaaWpfGui
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            _settingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
             var os = RuntimeInformation.OSDescription;

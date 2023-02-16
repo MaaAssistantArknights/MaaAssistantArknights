@@ -106,11 +106,23 @@ namespace MaaWpfGui
 
             if (Hangover)
             {
+                Hangover = false;
                 _windowManager.ShowMessageBox(
                     Localization.GetString("Hangover"),
                     Localization.GetString("Burping"),
                     MessageBoxButton.OK, MessageBoxImage.Hand);
-                Hangover = false;
+                Application.Current.Shutdown();
+                System.Windows.Forms.Application.Restart();
+            }
+        }
+
+        public void Sober()
+        {
+            if (Cheers && Language == PallasLangKey)
+            {
+                ViewStatusStorage.Set("GUI.Localization", SoberLanguage);
+                Hangover = true;
+                Cheers = false;
             }
         }
 
@@ -2392,6 +2404,18 @@ namespace MaaWpfGui
             }
         }
 
+        private string _soberLanguage = ViewStatusStorage.Get("GUI.SoberLanguage", Localization.DefaultLanguage);
+
+        public string SoberLanguage
+        {
+            get => _soberLanguage;
+            set
+            {
+                SetAndNotify(ref _soberLanguage, value);
+                ViewStatusStorage.Set("GUI.SoberLanguage", value);
+            }
+        }
+
         private string _language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
 
         /// <summary>
@@ -2411,6 +2435,11 @@ namespace MaaWpfGui
                 {
                     Hangover = true;
                     Cheers = false;
+                }
+
+                if (value != PallasLangKey)
+                {
+                    SoberLanguage = value;
                 }
 
                 // var backup = _language;
@@ -2552,6 +2581,7 @@ namespace MaaWpfGui
                 case "Phantom":
                     // No new items
                     break;
+
                 case "Mizuki":
                     foreach (var item in new ObservableCollection<CombData>
                     {

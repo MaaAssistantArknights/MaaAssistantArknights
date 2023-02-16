@@ -43,6 +43,7 @@ namespace MaaWpfGui
             { "ja-jp", "ja-jp/1.2-よくある質問.md" },
             { "ko-kr", "ko-kr/1.2-FAQ.md" },
             { "zh-tw", "zh-tw/1.2-常見問題.md" },
+            { "pallas", "KeepDrinking" },
         };
 
         public static string HelpUri
