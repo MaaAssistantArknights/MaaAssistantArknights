@@ -2224,7 +2224,7 @@
                 "“耀阳”"
             ],
             [
-                "玛恩.+",
+                "玛恩.*",
                 "玛恩纳"
             ],
             [
@@ -4825,6 +4825,7 @@
     },
     "InfrastSortByTrustButtonClickAgain": {
         "action": "ClickSelf",
+        "templThreshold": 0.7,
         "cache": false,
         "roi": [
             1000,
