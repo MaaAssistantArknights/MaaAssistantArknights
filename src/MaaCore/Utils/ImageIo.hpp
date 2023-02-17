@@ -1,3 +1,4 @@
+#pragma once
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -35,11 +36,11 @@ namespace asst
             absolute_path = path;
         }
         std::filesystem::create_directories(absolute_path.parent_path());
-        std::basic_ofstream<uint8_t> of(absolute_path, std::ios::out | std::ios::binary);
+        std::ofstream of(absolute_path, std::ios::out | std::ios::binary);
         std::vector<uint8_t> encoded;
         auto ext = asst::utils::path_to_utf8_string(absolute_path.extension());
-        if (cv::imencode(ext.c_str(), img, encoded, params)) {
-            of.write(encoded.data(), encoded.size());
+        if (cv::imencode(ext, img, encoded, params)) {
+            of.write(reinterpret_cast<char*>(encoded.data()), encoded.size());
             return true;
         }
         return false;
@@ -50,4 +51,4 @@ namespace asst
     {
         return imwrite(asst::utils::path(utf8_path), img, params);
     }
-}
+}  // namespace asst
