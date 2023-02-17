@@ -230,6 +230,7 @@
                         ItemsSource="{Binding RemainingSanityStageList}"
                         SelectedValue="{Binding RemainingSanityStage}"
                         SelectedValuePath="Value"
+                        ToolTip="{DynamicResource UseRemainingSanityStageTip}"
                         Visibility="{c:Binding UseRemainingSanityStage and !CustomStageCode}" />
                     <TextBox
                         Height="30"
@@ -238,7 +239,7 @@
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage}"
-                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        ToolTip="{DynamicResource UseRemainingSanityStageTip}"
                         Visibility="{c:Binding UseRemainingSanityStage and CustomStageCode}" />
                 </StackPanel>
             </Grid>

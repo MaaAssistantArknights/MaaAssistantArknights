@@ -220,6 +220,7 @@
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, no longer automatically revert to sanity</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
