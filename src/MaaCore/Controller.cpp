@@ -746,7 +746,7 @@ bool asst::Controller::click_without_scale(const Point& p)
     }
 
     if (m_minitouch_enabled && m_minitouch_available) {
-        Log.info(m_use_maa_touch ? "maatouch" : "minitouch", "click:", p);
+        Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "click:", p);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         return toucher.down(p.x, p.y) && toucher.up();
     }
@@ -796,7 +796,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
 
     const auto& opt = Config.get_options();
     if (m_minitouch_enabled && m_minitouch_available) {
-        Log.info(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in,
+        Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in,
                  slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         toucher.down(x1, y1);
