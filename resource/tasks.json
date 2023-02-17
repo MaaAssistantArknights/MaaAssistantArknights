@@ -6247,6 +6247,10 @@
     },
     "BattleAvatarData": {
         "template": "empty.png",
+        "templThreshold": 0.9
+    },
+    "BattleDroneAvatarData": {
+        "template": "empty.png",
         "templThreshold": 0.7
     },
     "BattleAvatarCoolingData": {
