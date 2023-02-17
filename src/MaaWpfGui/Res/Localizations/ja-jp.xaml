@@ -164,8 +164,8 @@
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30クレジット獲得できます。&#x0a;この機能は、ステージを現在/前回に選択している場合は無効です。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
-    <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
-    <system:String x:Key="BlacklistDefault">炭素材;家具</system:String>
+    <system:String x:Key="HighPriorityDefault">求人票</system:String>
+    <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
 
