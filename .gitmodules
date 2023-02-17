@@ -8,3 +8,4 @@
 	path = MaaDeps
 	url = https://github.com/MaaAssistantArknights/MaaDeps
 	shallow = true
+	branch = master
