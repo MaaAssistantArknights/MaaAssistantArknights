@@ -96,10 +96,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
-        if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
-            continue;
-        }
         // 最近总是出现设施没选中，导致干员放错房间，多点一次，观察一段时间。最好是改为图像识别是几号。
         sleep(tab_task_ptr->pre_delay);
         ctrler()->click(tab);
@@ -154,6 +150,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_use_custom_drones && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Pre &&
             m_custom_drones_config.index == m_cur_facility_index) {
             use_drone();
+        }
+
+        if (m_is_custom && current_room_config().skip) {
+            Log.info("skip this room");
+            continue;
         }
 
         /* 进入干员选择页面 */
@@ -635,12 +636,10 @@ bool asst::InfrastProductionTask::opers_choose()
     if (swipe_times) {
         swipe_to_the_left_of_operlist(swipe_times + 1);
     }
-
-    ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run(); // 点下排序，让已选干员排到最前面
-    bool reviews = select_opers_review(current_room_config(), count);
-    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run(); // 还原工作状态排序
-
-    return reviews;
+    // 点两次排序，让已选干员排到最前面
+    ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run();
+    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
+    return select_opers_review(current_room_config(), count);
 }
 
 bool asst::InfrastProductionTask::use_drone()

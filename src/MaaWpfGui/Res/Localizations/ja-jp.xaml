@@ -164,8 +164,8 @@
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30クレジット獲得できます。&#x0a;この機能は、ステージを現在/前回に選択している場合は無効です。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
-    <system:String x:Key="HighPriorityDefault">求人票;龍門幣</system:String>
-    <system:String x:Key="BlacklistDefault">炭素材;家具</system:String>
+    <system:String x:Key="HighPriorityDefault">求人票</system:String>
+    <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
 
@@ -174,6 +174,8 @@
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
+    <system:String x:Key="UseRemainingSanityStage">残留理性の使用</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">メインクエストクリア後に指定されたレベルをスワイプしても、自動的に理性を取り戻さなくなった</system:String>
     <!--  現状動作内容不明のため翻訳修正候補  -->
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
