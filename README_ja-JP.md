@@ -39,6 +39,7 @@ MAAは、MAA Assistant Arknightsです。
 - 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集！（現在JPはベータ対応）
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（現在JP未対応/中文）
 - **新機能！倉庫のアイテム認識機能（アルファ）** [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
+- C、Python、Java、Rust、Golang、Java HTTP、Rust HTTPなどの多種多様なインターフェースに対応、統合や呼び出しが簡単で、自分好みにMAAをカスタマイズできます!
 
 UIを見れば使い方もすぐ分かる！  
 
@@ -67,6 +68,7 @@ UIを見れば使い方もすぐ分かる！
 - 接続エラー、adbパスがわからない場合。
 - 認識エラー、またはオペレーション開始した後に反応がない。
 - カスタムポート設定について。
+- ダウンロードが中途半端になり "ログイン"/"認証 "のプロンプトが出る。
 
 [よくある質問](https://maa.plus/docs/ja-jp/1.2-よくある質問.html)を参照してください。
 
@@ -85,7 +87,7 @@ UIを見れば使い方もすぐ分かる！
   基本的な作戦、自動公開求人、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
   サポート内容については[README](resource/global/txwy/readme.md)を参照してください。
 
-海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。いっしょにMAAの開発に協力しましょう! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
+海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。いっしょにMAAの開発に協力しましょう! [海外版クライアントの対応について](#overseas-clients-adaptation)をご覧ください。
 
 ## 主な関連プロジェクト
 
@@ -157,9 +159,9 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 - [タスクAPI](https://maa.plus/docs/ja-jp/3.4-タスクAPI.html)
 - [自動作戦API](https://maa.plus/docs/ja-jp/3.3-自動作戦API.html)
 
-### Overseas Clients Adaptation
+### グローバル版を含む海外クライアントの対応について
 
-Please refer to [Overseas clients Adaptation](https://maa.plus/docs/ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+[海外版クライアントの対応について](https://maa.plus/docs/ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html)をご覧ください。 大陸版で既にサポートされている機能については、海外クライアントに必要な適応作業は、必要スクリーンショットの提出と簡単なJSONの修正で済みます。
 
 ### 開発に参加したいがGitHubの使い方がよくわかりません
 
