@@ -1850,12 +1850,10 @@ namespace MaaWpfGui
                     return;
                 }
 
-                if (value == "0" || !int.TryParse(value, out _))
-                {
-                    UseStone = false;
-                }
-
                 SetAndNotify(ref _medicineNumber, value);
+
+                // If the amount of medicine is 0, the stone is not used.
+                UseStone = UseStone;
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             }
@@ -1871,7 +1869,8 @@ namespace MaaWpfGui
             get => _useStone;
             set
             {
-                if (MedicineNumber == "0")
+                // If the amount of medicine is 0, the stone is not used.
+                if (!int.TryParse(MedicineNumber, out int result) || result == 0)
                 {
                     value = false;
                 }
