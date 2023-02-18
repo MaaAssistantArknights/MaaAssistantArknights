@@ -199,7 +199,6 @@
                         Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        LostFocus="FightSettingsTextBoxLostFocus"
                         Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
                         Visibility="{c:Binding CustomStageCode}" />
@@ -243,7 +242,6 @@
                         Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        LostFocus="FightSettingsTextBoxLostFocus"
                         Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
                         Visibility="{c:Binding UseRemainingSanityStage and CustomStageCode}" />

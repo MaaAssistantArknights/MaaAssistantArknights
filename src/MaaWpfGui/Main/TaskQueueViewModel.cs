@@ -1468,6 +1468,11 @@ namespace MaaWpfGui
             get => _stage1;
             set
             {
+                if (_stage1 == value)
+                {
+                    return;
+                }
+
                 if (CustomStageCode)
                 {
                     value = ToUpperAndCheckStage(value);
@@ -1555,9 +1560,12 @@ namespace MaaWpfGui
         {
             get
             {
-                if (!IsStageOpen(_remainingSanityStage))
+                if (!CustomStageCode)
                 {
-                    return string.Empty;
+                    if (!IsStageOpen(_remainingSanityStage))
+                    {
+                        return string.Empty;
+                    }
                 }
 
                 return _remainingSanityStage;
@@ -1565,6 +1573,11 @@ namespace MaaWpfGui
 
             set
             {
+                if (_remainingSanityStage == value)
+                {
+                    return;
+                }
+
                 if (CustomStageCode)
                 {
                     value = ToUpperAndCheckStage(value);
@@ -1832,6 +1845,11 @@ namespace MaaWpfGui
             get => _medicineNumber;
             set
             {
+                if (_medicineNumber == value)
+                {
+                    return;
+                }
+
                 if (value == "0" || !int.TryParse(value, out _))
                 {
                     UseStone = false;
@@ -1878,6 +1896,11 @@ namespace MaaWpfGui
             get => _stoneNumber;
             set
             {
+                if (_stoneNumber == value)
+                {
+                    return;
+                }
+
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
@@ -1909,9 +1932,9 @@ namespace MaaWpfGui
             get => _maxTimes;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (MaxTimes == value)
                 {
-                    value = "0";
+                    return;
                 }
 
                 SetAndNotify(ref _maxTimes, value);
@@ -2055,11 +2078,6 @@ namespace MaaWpfGui
             get => _dropsQuantity;
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = "0";
-                }
-
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
