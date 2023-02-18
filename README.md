@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[简体中文](README.md) | [繁體中文](README_zh-TW.md) | [English](README_en-US.md) | [日本語](README_ja-JP.md) | [한국어](README_ko-KR.md)
+[简体中文](https://maa.plus/docs/) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -26,7 +26,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 基于图像识别技术，一键完成全部日常任务！
 
-绝赞更新中  ✿✿ヽ(°▽°)ノ✿  
+绝赞更新中  ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
@@ -41,7 +41,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 仓库识别并支持导出至 [企鹅物流刷图规划器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)
 - 支持 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多种接口，方便集成调用，自定义你的 MAA！
 
-话不多说，看图！  
+话不多说，看图！
 
 ![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
 ![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
@@ -49,7 +49,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载地址
 
-[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
 [开发版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用说明
@@ -76,13 +76,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支持
 
-- 国际服（美服）  
+- 国际服（美服）
   支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarEN/readme.md)
-- 日服  
+- 日服
   支持基本的刷理智、自动基建、信用购物、自动公招、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarJP/readme.md)
-- 韩服  
+- 韩服
   支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarKR/readme.md)
-- 繁中服  
+- 繁中服
   支持基本的刷理智、自动公招、自动肉鸽、领取日常、公招识别功能，请参考 [说明](resource/global/txwy/readme.md)
 
 由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
@@ -179,12 +179,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 广告
 
-用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
-Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
-  
-技术 & 吹水群（舟无关）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
-开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)
+用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)
+自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)
+Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~
+
+技术 & 吹水群（舟无关）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)
+开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
