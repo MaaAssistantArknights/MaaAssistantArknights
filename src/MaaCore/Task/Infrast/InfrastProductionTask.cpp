@@ -636,12 +636,10 @@ bool asst::InfrastProductionTask::opers_choose()
     if (swipe_times) {
         swipe_to_the_left_of_operlist(swipe_times + 1);
     }
-
-    ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run(); // 点下排序，让已选干员排到最前面
-    bool reviews = select_opers_review(current_room_config(), count);
-    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run(); // 还原工作状态排序
-
-    return reviews;
+    // 点两次排序，让已选干员排到最前面
+    ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run();
+    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
+    return select_opers_review(current_room_config(), count);
 }
 
 bool asst::InfrastProductionTask::use_drone()
