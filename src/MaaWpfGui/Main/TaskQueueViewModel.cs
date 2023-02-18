@@ -1832,12 +1832,7 @@ namespace MaaWpfGui
             get => _medicineNumber;
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = "0";
-                }
-
-                if (value == "0")
+                if (value == "0" || !int.TryParse(value, out _))
                 {
                     UseStone = false;
                 }
@@ -1883,11 +1878,6 @@ namespace MaaWpfGui
             get => _stoneNumber;
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = "0";
-                }
-
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
