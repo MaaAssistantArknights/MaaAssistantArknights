@@ -126,8 +126,8 @@
     <system:String x:Key="UpdateAutoCheck">自動檢查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新包</system:String>
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
-    <system:String x:Key="UpdateCheckBeta">開發版</system:String>
-    <system:String x:Key="UpdateCheckNightly">内測版</system:String>
+    <system:String x:Key="UpdateCheckBeta">公測版</system:String>
+    <system:String x:Key="UpdateCheckNightly">內測版</system:String>
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
@@ -162,8 +162,8 @@
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後藉助戰打一把OF-1賺30信用。&#x0a;關卡選擇爲「當前/上次」時此功能無效。&#x0a;別傳「火藍之心」關卡OF-1未解鎖時請勿勾選</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分号分隔</system:String>
-    <system:String x:Key="HighPriorityDefault">招聘許可；龍門幣</system:String>
-    <system:String x:Key="BlacklistDefault">碳；傢俱</system:String>
+    <system:String x:Key="HighPriorityDefault">招聘許可</system:String>
+    <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
 
@@ -172,6 +172,8 @@
     <system:String x:Key="MinimizeToTray">最小化時隱藏至托盤</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
+    <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不再自動回復理智</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
