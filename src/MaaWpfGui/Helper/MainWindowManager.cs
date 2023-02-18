@@ -35,6 +35,9 @@ namespace MaaWpfGui
         public MainWindowManager()
         {
             MainWindow.StateChanged += MainWindow_StateChanged;
+
+            bool minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
+            SetMinimizeToTaskbar(minimizeToTray);
         }
 
         /// <inheritdoc/>
