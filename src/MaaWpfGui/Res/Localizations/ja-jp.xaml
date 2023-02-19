@@ -76,7 +76,7 @@
     <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">&quot;最初のオペレーター&quot;をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
-    <system:String x:Key="DeploymentWithPause">統合戦略/保全戦略でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
+    <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量Adbを使用(実験機能)</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
