@@ -1560,14 +1560,6 @@ namespace MaaWpfGui
         {
             get
             {
-                if (!CustomStageCode)
-                {
-                    if (!IsStageOpen(_remainingSanityStage))
-                    {
-                        return string.Empty;
-                    }
-                }
-
                 return _remainingSanityStage;
             }
 
