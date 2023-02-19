@@ -45,7 +45,7 @@
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
     <system:String x:Key="153_3">153 3周/日</system:String>
     <system:String x:Key="243_3">243 3周/日<</system:String>
-    <system:String x:Key="243_4">243 4周/日<y</system:String>
+    <system:String x:Key="243_4">243 4周/日<</system:String>
     <system:String x:Key="252_3">252 3周/日<</system:String>
     <system:String x:Key="333_3">333 3周/日<</system:String>
     <system:String x:Key="CustomInfrastFile">基地構成ファイルの指定</system:String>
