@@ -2985,8 +2985,7 @@
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone",
-            "EndOfAction"
+            "NoStone"
         ],
         "onErrorNext": [
             "RestartGameAndContinue"
