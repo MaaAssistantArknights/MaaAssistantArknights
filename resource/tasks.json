@@ -2585,15 +2585,6 @@
         ]
     },
     "StartUp@ClickCorner": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
-        ],
         "next": [
             "StartUp@ReturnTo",
             "StartUp",
@@ -2601,9 +2592,6 @@
             "StartUp@FromStageSN",
             "StartUp@TodaysSupplies",
             "StartUp@OfflineConfirm"
-        ],
-        "onErrorNext": [
-            "StartUp@RestartGameAndContinue"
         ]
     },
     "FromStageSN": {
