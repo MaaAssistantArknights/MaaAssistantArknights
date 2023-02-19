@@ -6150,7 +6150,8 @@
             "BattleStartExercise",
             "BattleStartSimulation",
             "BattleStartTrials",
-            "BattleStartTrialsRaid"
+            "BattleStartTrialsRaid",
+            "BattleStartOCR"
         ]
     },
     "BattleStartNormal": {
@@ -6167,6 +6168,20 @@
     },
     "BattleStartTrialsRaid": {
         "baseTask": "BattleStart"
+    },
+    "BattleStartOCR": {
+        "baseTask": "BattleStart",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始",
+            "行动"
+        ],
+        "roi": [
+            999,
+            398,
+            222,
+            237
+        ]
     },
     "BattleStartSimulation": {
         "action": "ClickSelf",
