@@ -6,8 +6,9 @@
     xmlns:uri="clr-namespace:System;assembly=System.Runtime">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
+    <system:String x:Key="GameSettings">対象クライアント</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
-    <system:String x:Key="RoguelikeSettings">ローグ設定</system:String>
+    <system:String x:Key="RoguelikeSettings">統合戦略設定</system:String>
     <system:String x:Key="RecruitingSettings">公開求人設定</system:String>
     <system:String x:Key="MallSettings">FP設定</system:String>
     <system:String x:Key="OtherCombatSettings">戦闘設定</system:String>
@@ -37,15 +38,21 @@
     <system:String x:Key="OriginStone">製造所-源石の欠片</system:String>
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
     <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">作業中のオペレーターを宿舎に移動しない</system:String>
-    <!--  現状動作不明のため対応次第訳修正  -->
-    <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片は自動で補充する</system:String>
-    <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（Alpha）</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">作業中の人員を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
+    <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
+    <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>
+    <system:String x:Key="DefaultInfrast">標準設定</system:String>
+    <system:String x:Key="UserDefined">ユーザー定義</system:String>
+    <system:String x:Key="153_3">153 3周/日</system:String>
+    <system:String x:Key="243_3">243 3周/日<</system:String>
+    <system:String x:Key="243_4">243 4周/日<y</system:String>
+    <system:String x:Key="252_3">252 3周/日<</system:String>
+    <system:String x:Key="333_3">333 3周/日<</system:String>
     <system:String x:Key="CustomInfrastFile">基地構成ファイルの指定</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">基地構成ファイルのパースエラー！</system:String>
     <system:String x:Key="CustomInfrastTitle">基地構成ファイルの設定：</system:String>
     <system:String x:Key="CustomInfrastPlan">基地計画</system:String>
-    <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
+    <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">次の計画を自動保存</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</system:String>
@@ -54,26 +61,28 @@
     <system:String x:Key="LDPlayer">LDPlayer</system:String>
     <system:String x:Key="Nox">NoxPlayer</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
-    <system:String x:Key="WSA">WSA 古いバージョン</system:String>
+    <system:String x:Key="WSA">古いバージョンのWSA</system:String>
+    <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">互換モード</system:String>
 
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
     <system:String x:Key="InfrastThresholdTip">カスタムシフトが有効な場合、この項目は自動入力された部屋に対してのみ有効です。</system:String>
 
-    <system:String x:Key="RoguelikeStrategyExp">経験値を取得する、できるだけクリアする</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">源石錐を集めて、2階に到着後止める</system:String>
+    <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2階到着後終了</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
     <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">開幕戦の幹部は助戦を使った</system:String>
-    <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のアシストを使用できます</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">&quot;最初のオペレーター&quot;をサポートから選択</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
+    <system:String x:Key="DeploymentWithPause">統合戦略/保全戦略でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
+    <system:String x:Key="AdbLiteEnabled">軽量Adbを使用(実験機能)</system:String>
 
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</system:String>
     <system:String x:Key="IS2NewSquad2">（ミヅキ）物尽其用分队</system:String>
     <system:String x:Key="IS2NewSquad3">（ミヅキ）以人为本分队</system:String>
-    <!--  追加されているため先行対応  -->
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -91,6 +100,11 @@
     <system:String x:Key="OvercomingYourWeaknesses">前線支援</system:String>
     <system:String x:Key="AsYourHeartDesires">自由自在</system:String>
 
+    <system:String x:Key="AlgorithmFinish">演算结束</system:String>
+    <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
+    <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
+    <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
+        
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
@@ -105,6 +119,7 @@
     <system:String x:Key="ADBProgram">ADBプログラム</system:String>
 
     <system:String x:Key="EmulatorException">エミュレータのエラー検出&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</system:String>
+    <system:String x:Key="AdbException">ADB検出エラー&#x0a;このソフトウェアを開くには管理者権限を使用するか&#x0a;手動で接続を設定してください。</system:String>
     <system:String x:Key="EmulatorNotFound">エミュレータが検出されない&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため&#x0a;不要なエミュレータを閉じるか&#x0a;手動で接続設定を行ってください</system:String>
 
@@ -130,10 +145,39 @@
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
     <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
     <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
+    <system:String x:Key="UpdateCheck">Update version</system:String>        
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheck">更新版</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
+    <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloading">バックグラウンドでダウンロードを行います・・・</system:String>
+    <system:String x:Key="NewVersionFoundDescId">バージョン:</system:String>
+    <system:String x:Key="NewVersionFoundDescInfo">内容:</system:String>
+    <system:String x:Key="NewVersionFoundButtonGoWebpage">Webサイトで確認</system:String>
+
+    <system:String x:Key="NewVersionZipFileFoundTitle">アップデートパッケージが見つかりました</system:String>
+    <system:String x:Key="NewVersionZipFileFoundDescDecompressing">解凍中です、お待ち下さい・・・</system:String>
+
+    <system:String x:Key="NewVersionZipFileBrokenTitle">パッケージが壊れています</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescFilename">ファイル名:</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescDeleted">消去しました。</system:String>
+
+    <system:String x:Key="AlreadyLatest">最新版をインストール済みです。</system:String>
+    <system:String x:Key="NewVersionDetectFailedTitle">アップデートパッケージを見つけるのに失敗しました</system:String>
+    <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
+    <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
+    <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください。</system:String>
+
+    <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です・・・</system:String>
+    <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
+    <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください。</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedTitle">アップデートパッケージのダウンロードが完了しました</system:String>
+    <system:String x:Key="NewVersionDownloadCompletedDesc">MAAをすぐにアップグレードしますか？(処理を再開)</system:String>
+
+    <system:String x:Key="NewVersionFoundButNoPackageTitle">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
+    <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください。</system:String>
+        
     <system:String x:Key="Timer">タイマー</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
@@ -144,6 +188,11 @@
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
     <system:String x:Key="Select">選択</system:String>
+    <system:String x:Key="ForcedReplaceADB">ADB強制置き換え</system:String>
+    <system:String x:Key="TouchMode">タッチモード</system:String>
+    <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
+    <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
+    <system:String x:Key="AdbTouchMode">Adb Input (互換性)</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
 
     <system:String x:Key="RoguelikeTheme">主題</system:String>
@@ -174,9 +223,9 @@
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
-    <system:String x:Key="UseRemainingSanityStage">残留理性の使用</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">メインクエストクリア後に指定されたレベルをスワイプしても、自動的に理性を取り戻さなくなった</system:String>
-    <!--  現状動作内容不明のため翻訳修正候補  -->
+    <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、自動的に理性を回復しません</system:String>
+    <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる理性剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
@@ -191,7 +240,6 @@
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="RetryOnDisconnected">adb再接続失敗時にエミュレータを自動で再起動</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
-    <system:String x:Key="ForcedReplaceADB">ADBの強制置き換え</system:String>
     <!--  設定  -->
 
     <!--  スタート  -->
@@ -205,6 +253,7 @@
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
+    <system:String x:Key="ReclamationAlgorithm">生息演算（大陸版）</system:String>
 
     <system:String x:Key="SelectAll">全て選択</system:String>
     <system:String x:Key="Inverse">逆選択</system:String>
@@ -242,6 +291,10 @@
     <!--<system:String x:Key="CurrentStage">現在ステージ</system:String>
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="ClosedStage">イベントは未公開か既に終了</system:String>
+    <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
+    <system:String x:Key="LowVersion">バージョンを上げてください</system:String>
+    <system:String x:Key="Daysleftopen" xml:space="preserve">公開日まで: </system:String>
+    <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <!--  動作不明  -->
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>
@@ -282,9 +335,8 @@
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
-    <system:String x:Key="Stopping">動作停止中……</system:String>
     <system:String x:Key="AdbReplacementTips">もし全てでスタックする場合は、設定 - 接続設定 - ADBの強制置き換え、もしくは 互換性 タッチモード をチェックしてください。</system:String>
-    <!--  need help  -->
+    <system:String x:Key="Stopping">動作停止中……</system:String>
     <system:String x:Key="Stopped">動作停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
     <system:String x:Key="SetSuccessfully">設定に成功しました</system:String>
@@ -294,6 +346,7 @@
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています。</system:String>
+    <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>
     <!--  ログ  -->
     <!--  スタート  -->
 
@@ -329,7 +382,7 @@
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
-    <system:String x:Key="LoopTimes">LoopTimes</system:String>
+    <system:String x:Key="LoopTimes">ループ回数</system:String>
     <!--  現状動作内容不明のため翻訳修正候補  -->
 
     <system:String x:Key="Start">開始</system:String>
@@ -400,6 +453,7 @@
     <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
     <system:String x:Key="GameDrop">回線が落ちました。再接続を行います</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
+    <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ：怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ：安全な片隅</system:String>
     <system:String x:Key="Encounter">ステージ：思わぬ遭遇</system:String>
@@ -440,6 +494,7 @@
     <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
     <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
     <system:String x:Key="QQgroup">QQグループ</system:String>
+    <system:String x:Key="QQchannel">QQ channel</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
