@@ -59,6 +59,10 @@ endif()
 
 if (BUILD_TEST)
     add_executable(test src/Cpp/main.cpp)
+    set_target_properties(test PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
     target_link_libraries(test MaaCore)
 endif (BUILD_TEST)
 
