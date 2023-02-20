@@ -35,8 +35,7 @@ jobs:
             python3 maadeps-download.py ${triplet}
       - name: Configure MaaCore
         run: |
-          mkdir build && cd build
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
       - name: Build libMaaCore
         run: cmake --build build
       - name: Build MAA
