@@ -7,23 +7,21 @@ if (BUILD_XCFRAMEWORK)
 
     add_custom_command(OUTPUT OpenCV.xcframework
         COMMAND rm -rf OpenCV.xcframework
-        COMMAND rm -f libopencv_world.4.6.dylib
-        COMMAND cp ${OpenCV_INSTALL_PATH}/lib/libopencv_world4.4.6.0.dylib libopencv_world.4.6.dylib
-        COMMAND xcodebuild -create-xcframework -library libopencv_world.4.6.dylib -output OpenCV.xcframework
+        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libopencv_world4.406.dylib" -output OpenCV.xcframework
     )
 
     add_custom_command(OUTPUT ONNXRuntime.xcframework
         COMMAND rm -rf ONNXRuntime.xcframework
-        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/vcpkg/installed/${MAADEPS_TRIPLET}/lib/libonnxruntime.1.12.1.dylib" -output ONNXRuntime.xcframework
+        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libonnxruntime.1.12.1.dylib" -output ONNXRuntime.xcframework
     )
 
     add_custom_command(OUTPUT MaaDerpLearning.xcframework
-        COMMAND rm -rf FastDeploy.xcframework
-        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/vcpkg/installed/${MAADEPS_TRIPLET}/lib/libMaaDerpLearning.dylib" -output MaaDerpLearning.xcframework
+        COMMAND rm -rf MaaDerpLearning.xcframework
+        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libMaaDerpLearning.dylib" -output MaaDerpLearning.xcframework
     )
 
     add_custom_target(MaaXCFramework ALL
-        DEPENDS MaaCore MaaCore.xcframework OpenCV.xcframework MaaDerpLearning.xcframework
+        DEPENDS MaaCore MaaCore.xcframework OpenCV.xcframework ONNXRuntime.xcframework MaaDerpLearning.xcframework
     )
 endif (BUILD_XCFRAMEWORK)
 
