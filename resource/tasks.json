@@ -5311,17 +5311,17 @@
     },
     "InfrastOperSelected": {
         "template": "empty.png",
-        "templThreshold": 5000,
+        "templThreshold": 800,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "maskRange": [
             95,
             105
         ],
         "rectMove": [
-            0,
-            -230,
-            74,
-            283
+            -18,
+            -220,
+            10,
+            160
         ]
     },
     "InfrastOperOnShift": {
