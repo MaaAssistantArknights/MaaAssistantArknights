@@ -117,7 +117,7 @@ namespace MaaWpfGui
                         bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
                         bool curParsed = !isDebugVersion ?
                             SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
-                            SemVersion.TryParse("4.10.7", SemVersionStyles.AllowLowerV, out curVersionObj);
+                            SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
 
                         var stageInfo = new StageInfo();

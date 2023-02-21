@@ -778,6 +778,99 @@
             120
         ]
     },
+    "GA-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "StageGA-6",
+            "GA-6@SwipeToStage"
+        ]
+    },
+    "GA-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "StageGA-7",
+            "GA-7@SwipeToStage"
+        ]
+    },
+    "GA-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "StageGA-8",
+            "GA-8@SwipeToStage"
+        ]
+    },
+    "GA-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "吾导先路",
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA"
+        ]
+    },
+    "GAChapterToGA": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "万国峰会"
+        ],
+        "roi": [
+            1007,
+            431,
+            227,
+            140
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "StageGA-6": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "GA-6"
+        ],
+        "cache": false
+    },
+    "StageGA-7": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "GA-7"
+        ],
+        "cache": false
+    },
+    "StageGA-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "GA-8"
+        ],
+        "cache": false
+    },
     "WB-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
