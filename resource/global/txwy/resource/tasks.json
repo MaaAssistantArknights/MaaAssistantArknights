@@ -93,7 +93,7 @@
         ]
     },
     "CharsNameOcrReplace": {
-        "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用",
         "ocrReplace": [
             [
                 "安比爾",
