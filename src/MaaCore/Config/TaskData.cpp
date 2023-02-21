@@ -263,7 +263,10 @@ std::optional<asst::TaskData::tasklistptr_t> asst::TaskData::perform_op(std::str
             ret->emplace_back(task_name);
             break;
         }
-        else if (type == "back") {
+        if (type == "none") {
+            break;
+        }
+        if (type == "back") {
             // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
             if (!x->front().empty()) {
                 ret->emplace_back(x->front());
@@ -447,19 +450,19 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
         $sharp_type   = $subtask_type
                       | self
                       | back
-                      | none                       // 推迟实现 3
+                      | none
 
         $subtask      = $subtask_type ( $tasks )
 
-        $lambda_task  = { $subtask , ... }         // 推迟实现 1
-                      | { $tasks }                 // 推迟实现 1；不写 subtask_type 默认为 sub
+        $lambda_task  = { $subtask , ... }         // 推迟实现
+                      | { $tasks }                 // 推迟实现；不写 subtask_type 默认为 sub
 
         $parens       = # $sharp_type
                       | $name
-                      | $name $lambda_task         // 推迟实现 1
+                      | $name $lambda_task         // 推迟实现
                       | ( $tasks )
 
-        $top_tasks    = $top_tasks @ $parens       // 推迟实现 2
+        $top_tasks    = $top_tasks @ $parens
                       | $top_tasks # $sharp_type
                       | $parens
 
