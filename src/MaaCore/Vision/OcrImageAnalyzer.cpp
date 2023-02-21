@@ -16,13 +16,26 @@ bool asst::OcrImageAnalyzer::analyze()
     std::vector<TextRectProc> preds_vec;
 
     if (!m_replace.empty()) {
-        TextRectProc text_replace = [&](TextRect& tr) -> bool {
-            for (const auto& [regex, new_str] : m_replace) {
-                tr.text = std::regex_replace(tr.text, std::regex(regex), new_str);
-            }
-            return true;
-        };
-        preds_vec.emplace_back(text_replace);
+        if (m_replace_full) {
+            TextRectProc text_replace = [&](TextRect& tr) -> bool {
+                for (const auto& [regex, new_str] : m_replace) {
+                    if (std::regex_search(tr.text, std::regex(regex))) {
+                        tr.text = new_str;
+                    }
+                }
+                return true;
+            };
+            preds_vec.emplace_back(text_replace);
+        }
+        else {
+            TextRectProc text_replace = [&](TextRect& tr) -> bool {
+                for (const auto& [regex, new_str] : m_replace) {
+                    tr.text = std::regex_replace(tr.text, std::regex(regex), new_str);
+                }
+                return true;
+            };
+            preds_vec.emplace_back(text_replace);
+        }
     }
 
     if (!m_required.empty()) {
@@ -96,9 +109,10 @@ void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noe
     m_required = std::move(required);
 }
 
-void asst::OcrImageAnalyzer::set_replace(std::unordered_map<std::string, std::string> replace) noexcept
+void asst::OcrImageAnalyzer::set_replace(std::unordered_map<std::string, std::string> replace, bool replace_full) noexcept
 {
     m_replace = std::move(replace);
+    m_replace_full = replace_full;
 }
 
 void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
