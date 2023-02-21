@@ -250,9 +250,16 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
         }
     }
 
+    if (m_next_step == NextStep::RestDone || m_next_step == NextStep::Trust) {
+        ProcessTask(*this, { "InfrastSortByTrustButtonClickAgain" }).run();
+        ProcessTask(*this, { "InfrastSortByTrustButtonClickAgain" }).run();
+    }
+    else {
+        ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
+        sleep(200);
+    }
     if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
     swipe_times = 0;
-    ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
     if (!select_opers_review(origin_room_config, num_of_selected)) {
         current_room_config() = origin_room_config;
         return false;

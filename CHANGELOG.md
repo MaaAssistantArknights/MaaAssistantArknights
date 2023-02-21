@@ -1,9 +1,14 @@
-## v4.11.0-alpha.1
+## v4.11.0-beta.1
 
 - 重构 生息演算，支持黑市 npc 对话，支持刷粗制赤金 @WLLEGit
 - 新增 刷理智 吃 48 小时、60分钟 临期理智药功能 @bigqiao
-- 优化 基建 复核干员是否正确选择 @fearlessxjdx
+- 优化 基建 复核干员是否正确选择 @fearlessxjdx @MistEO @ABA2396
+- 优化 信用购物 默认选项 @sakuraxp
+- 优化 牛牛喝酒 彩蛋 @MistEO
+- 修复 战斗中 干员头像识别错误 @MistEO
 - 修复 界面 崩溃问题 @ChingCdesu @ABA2396 @lhhxxxxx
+- 修复 界面 adb 自动检测错误 @lanhao34
+- 修复 界面 托盘不显示问题 @ChingCdesu
 - 修复 `春分` 故事集 关卡上传企鹅错误 @MistEO
 - 修复 抄作业 神秘代码无法使用的问题 @zzyyyl
 - 修复 抄作业 干员名识别错误 @cenfusheng

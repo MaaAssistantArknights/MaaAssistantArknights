@@ -43,6 +43,7 @@ namespace MaaWpfGui
             { "ja-jp", "ja-jp/1.2-よくある質問.md" },
             { "ko-kr", "ko-kr/1.2-FAQ.md" },
             { "zh-tw", "zh-tw/1.2-常見問題.md" },
+            { "pallas", "KeepDrinking" },
         };
 
         public static string HelpUri
@@ -50,7 +51,7 @@ namespace MaaWpfGui
             get
             {
                 var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
-                return $"https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/docs/{_helpUrl[language]}";
+                return $"https://maa.plus/docs/{_helpUrl[language]}";
             }
         }
     }
