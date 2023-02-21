@@ -42,7 +42,6 @@ namespace MaaWpfGui
         private StageManager _stageManager;
         private SettingsViewModel _settingsViewModel;
         private AsstProxy _asstProxy;
-        private TrayIcon _trayIcon;
 
         /// <summary>
         /// Gets or sets the view models of task items.
@@ -120,10 +119,7 @@ namespace MaaWpfGui
             base.OnInitialActivate();
             _settingsViewModel = _container.Get<SettingsViewModel>();
             _asstProxy = _container.Get<AsstProxy>();
-            _trayIcon = _container.Get<TrayIcon>();
             _stageManager = _container.Get<StageManager>();
-
-            _trayIcon.SetTaskQueueViewModel(this);
 
             DisplayName = Localization.GetString("Farming");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
@@ -1472,6 +1468,11 @@ namespace MaaWpfGui
             get => _stage1;
             set
             {
+                if (_stage1 == value)
+                {
+                    return;
+                }
+
                 if (CustomStageCode)
                 {
                     value = ToUpperAndCheckStage(value);
@@ -1559,16 +1560,16 @@ namespace MaaWpfGui
         {
             get
             {
-                if (!IsStageOpen(_remainingSanityStage))
-                {
-                    return string.Empty;
-                }
-
                 return _remainingSanityStage;
             }
 
             set
             {
+                if (_remainingSanityStage == value)
+                {
+                    return;
+                }
+
                 if (CustomStageCode)
                 {
                     value = ToUpperAndCheckStage(value);
@@ -1836,17 +1837,15 @@ namespace MaaWpfGui
             get => _medicineNumber;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (_medicineNumber == value)
                 {
-                    value = "0";
-                }
-
-                if (value == "0")
-                {
-                    UseStone = false;
+                    return;
                 }
 
                 SetAndNotify(ref _medicineNumber, value);
+
+                // If the amount of medicine is 0, the stone is not used.
+                UseStone = UseStone;
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             }
@@ -1862,7 +1861,8 @@ namespace MaaWpfGui
             get => _useStone;
             set
             {
-                if (MedicineNumber == "0")
+                // If the amount of medicine is 0, the stone is not used.
+                if (!int.TryParse(MedicineNumber, out int result) || result == 0)
                 {
                     value = false;
                 }
@@ -1887,9 +1887,9 @@ namespace MaaWpfGui
             get => _stoneNumber;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (_stoneNumber == value)
                 {
-                    value = "0";
+                    return;
                 }
 
                 SetAndNotify(ref _stoneNumber, value);
@@ -1923,9 +1923,9 @@ namespace MaaWpfGui
             get => _maxTimes;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (MaxTimes == value)
                 {
-                    value = "0";
+                    return;
                 }
 
                 SetAndNotify(ref _maxTimes, value);
@@ -2069,11 +2069,6 @@ namespace MaaWpfGui
             get => _dropsQuantity;
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = "0";
-                }
-
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);

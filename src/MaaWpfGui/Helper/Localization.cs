@@ -70,6 +70,11 @@ namespace MaaWpfGui
         /// </summary>
         public static void Load()
         {
+            if (_culture == "pallas")
+            {
+                return;
+            }
+
             var culureList = new string[] { "zh-cn", "en-us", _culture, };
             foreach (var cur in culureList)
             {
@@ -102,8 +107,13 @@ namespace MaaWpfGui
                 };
                 if (dictionary.Contains(key))
                 {
-                    return dictionary[key].ToString();
+                    return Regex.Unescape(dictionary[key].ToString());
                 }
+            }
+
+            if (_culture == "pallas")
+            {
+                return GetPallasString();
             }
 
             var dictList = Application.Current.Resources.MergedDictionaries;
@@ -117,6 +127,21 @@ namespace MaaWpfGui
             }
 
             return $"{{{{ {key} }}}}";
+        }
+
+        private static readonly string[] _PallasChars = { "💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻", };
+        private static readonly Random _PallasRand = new Random();
+
+        private static string GetPallasString()
+        {
+            int len = _PallasRand.Next(3, 6);
+            string cheers = string.Empty;
+            for (int i = 0; i < len; i++)
+            {
+                cheers += _PallasChars[_PallasRand.Next(0, _PallasChars.Length)];
+            }
+
+            return cheers;
         }
     }
 }

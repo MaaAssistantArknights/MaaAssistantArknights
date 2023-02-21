@@ -137,7 +137,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         }
         else {
             static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
-            avatar_analyzer.set_threshold(threshold);
+            static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
+            avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }
 
         auto& avatar_cache = AvatarCache.get_avatars(oper.role);

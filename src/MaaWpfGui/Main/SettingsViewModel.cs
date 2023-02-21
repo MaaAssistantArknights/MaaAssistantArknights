@@ -41,7 +41,6 @@ namespace MaaWpfGui
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
         private IMaaHotKeyManager _maaHotKeyManager;
-        private TrayIcon _trayIcon;
         private IMainWindowManager _mainWindowManager;
         private TaskQueueViewModel _taskQueueViewModel;
         private AsstProxy _asstProxy;
@@ -106,11 +105,23 @@ namespace MaaWpfGui
 
             if (Hangover)
             {
+                Hangover = false;
                 _windowManager.ShowMessageBox(
                     Localization.GetString("Hangover"),
                     Localization.GetString("Burping"),
                     MessageBoxButton.OK, MessageBoxImage.Hand);
-                Hangover = false;
+                Application.Current.Shutdown();
+                System.Windows.Forms.Application.Restart();
+            }
+        }
+
+        public void Sober()
+        {
+            if (Cheers && Language == PallasLangKey)
+            {
+                ViewStatusStorage.Set("GUI.Localization", SoberLanguage);
+                Hangover = true;
+                Cheers = false;
             }
         }
 
@@ -118,15 +129,10 @@ namespace MaaWpfGui
         {
             base.OnInitialActivate();
             _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
-            _trayIcon = _container.Get<TrayIcon>();
             _mainWindowManager = _container.Get<IMainWindowManager>();
             _taskQueueViewModel = _container.Get<TaskQueueViewModel>();
             _asstProxy = _container.Get<AsstProxy>();
             _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
-
-            _trayIcon.SetVisible(UseTray);
-            _trayIcon.SetSettingsViewModel(this);
-            _mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
 
             if (LoadGUIParameters && SaveGUIParametersOnClosing)
             {
@@ -1780,19 +1786,22 @@ namespace MaaWpfGui
                     return;
                 }
 
-                if (!ConnectAddressHistory.Contains(value))
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    ConnectAddressHistory.Insert(0, value);
-                    while (ConnectAddressHistory.Count > 5)
+                    if (!ConnectAddressHistory.Contains(value))
                     {
-                        ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
+                        ConnectAddressHistory.Insert(0, value);
+                        while (ConnectAddressHistory.Count > 5)
+                        {
+                            ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
+                        }
                     }
-                }
-                else
-                {
-                    ConnectAddressHistory.Remove(value);
-                    ConnectAddressHistory.Insert(0, value);
-                }
+                    else
+                    {
+                        ConnectAddressHistory.Remove(value);
+                        ConnectAddressHistory.Insert(0, value);
+                    }
+                });
 
                 SetAndNotify(ref _connectAddress, value);
                 ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
@@ -1921,7 +1930,7 @@ namespace MaaWpfGui
 
             ConnectConfig = emulators.First();
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
-            if (!string.IsNullOrEmpty(AdbPath))
+            if (string.IsNullOrEmpty(AdbPath))
             {
                 error = Localization.GetString("AdbException");
                 return false;
@@ -2120,25 +2129,6 @@ namespace MaaWpfGui
         /// Gets a value indicating whether to use tray icon.
         /// </summary>
         public bool UseTray => true;
-
-        /*
-        private bool _useTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseTray", bool.TrueString));
-
-        public bool UseTray
-        {
-            get => _useTray;
-            set
-            {
-                SetAndNotify(ref _useTray, value);
-                ViewStatusStorage.Set("GUI.UseTray", value.ToString());
-                _trayIcon.SetVisible(value);
-
-                if (!Convert.ToBoolean(value))
-                {
-                    MinimizeToTray = false;
-                }
-            }
-        }*/
 
         private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
 
@@ -2389,6 +2379,18 @@ namespace MaaWpfGui
             }
         }
 
+        private string _soberLanguage = ViewStatusStorage.Get("GUI.SoberLanguage", Localization.DefaultLanguage);
+
+        public string SoberLanguage
+        {
+            get => _soberLanguage;
+            set
+            {
+                SetAndNotify(ref _soberLanguage, value);
+                ViewStatusStorage.Set("GUI.SoberLanguage", value);
+            }
+        }
+
         private string _language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
 
         /// <summary>
@@ -2408,6 +2410,11 @@ namespace MaaWpfGui
                 {
                     Hangover = true;
                     Cheers = false;
+                }
+
+                if (value != PallasLangKey)
+                {
+                    SoberLanguage = value;
                 }
 
                 // var backup = _language;
@@ -2549,6 +2556,7 @@ namespace MaaWpfGui
                 case "Phantom":
                     // No new items
                     break;
+
                 case "Mizuki":
                     foreach (var item in new ObservableCollection<CombData>
                     {

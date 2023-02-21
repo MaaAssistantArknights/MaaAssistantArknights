@@ -53,7 +53,8 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     Content="{DynamicResource UseRemainingSanityStage}"
-                    IsChecked="{Binding UseRemainingSanityStage}" />
+                    IsChecked="{Binding UseRemainingSanityStage}"
+                    ToolTip="{DynamicResource UseRemainingSanityStageTip}" />
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"
