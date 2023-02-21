@@ -107,7 +107,7 @@ namespace MaaWpfGui
                 };
                 if (dictionary.Contains(key))
                 {
-                    return dictionary[key].ToString();
+                    return Regex.Unescape(dictionary[key].ToString());
                 }
             }
 

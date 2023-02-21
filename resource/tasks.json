@@ -778,6 +778,99 @@
             120
         ]
     },
+    "GA-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "StageGA-6",
+            "GA-6@SwipeToStage"
+        ]
+    },
+    "GA-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "StageGA-7",
+            "GA-7@SwipeToStage"
+        ]
+    },
+    "GA-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "StageGA-8",
+            "GA-8@SwipeToStage"
+        ]
+    },
+    "GA-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "吾导先路",
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA"
+        ]
+    },
+    "GAChapterToGA": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "万国峰会"
+        ],
+        "roi": [
+            1007,
+            431,
+            227,
+            140
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "StageGA-6": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "GA-6"
+        ],
+        "cache": false
+    },
+    "StageGA-7": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "GA-7"
+        ],
+        "cache": false
+    },
+    "StageGA-8": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "GA-8"
+        ],
+        "cache": false
+    },
     "WB-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -5218,17 +5311,17 @@
     },
     "InfrastOperSelected": {
         "template": "empty.png",
-        "templThreshold": 5000,
+        "templThreshold": 800,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "maskRange": [
             95,
             105
         ],
         "rectMove": [
-            0,
-            -230,
-            74,
-            283
+            -18,
+            -220,
+            10,
+            160
         ]
     },
     "InfrastOperOnShift": {
@@ -6150,7 +6243,8 @@
             "BattleStartExercise",
             "BattleStartSimulation",
             "BattleStartTrials",
-            "BattleStartTrialsRaid"
+            "BattleStartTrialsRaid",
+            "BattleStartOCR"
         ]
     },
     "BattleStartNormal": {
@@ -6167,6 +6261,20 @@
     },
     "BattleStartTrialsRaid": {
         "baseTask": "BattleStart"
+    },
+    "BattleStartOCR": {
+        "baseTask": "BattleStart",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始",
+            "行动"
+        ],
+        "roi": [
+            999,
+            398,
+            222,
+            237
+        ]
     },
     "BattleStartSimulation": {
         "action": "ClickSelf",
