@@ -15,7 +15,7 @@
         ]
     },
     "CharsNameOcrReplace": {
-        "Doc": "该任务的ocrReplace被所有涉及干员名的日文识别任务复用",
+        "Doc": "该任务的ocrReplace被所有涉及干员名的韩文识别任务复用 이 작업의 'ocrReplace'는 운영자 이름과 관련된 모든 인식 작업에서 재사용됩니다",
         "ocrReplace": [
             [
                 "실버애쉬",
