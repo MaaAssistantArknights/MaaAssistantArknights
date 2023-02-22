@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "Config/Miscellaneous/OcrPack.h"
+#include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -16,7 +17,7 @@ bool asst::OcrImageAnalyzer::analyze()
     std::vector<TextRectProc> preds_vec;
 
     preds_vec.emplace_back([](TextRect& tr) -> bool {
-        tr.text = equivalent_class_preprocess(tr.text);
+        tr.text = OcrData.process_equivalence_class(tr.text);
         return true;
     });
 
@@ -98,7 +99,7 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
 
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
-    ranges::for_each(required, [](std::string& str) { str = equivalent_class_preprocess(str); });
+    ranges::for_each(required, [](std::string& str) { str = OcrData.process_equivalence_class(str); });
     m_required = std::move(required);
 }
 
@@ -106,8 +107,8 @@ void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, s
 {
     m_replace = {};
     for (auto&& [key, val] : replace) {
-        auto new_key = equivalent_class_preprocess(key);
-        auto new_val = equivalent_class_preprocess(val);
+        auto new_key = OcrData.process_equivalence_class(key);
+        auto new_val = OcrData.process_equivalence_class(val);
         m_replace[new_key] = new_val;
     }
 }
@@ -133,44 +134,6 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
 std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() noexcept
 {
     return m_ocr_result;
-}
-
-std::string asst::OcrImageAnalyzer::equivalent_class_preprocess(const std::string& in)
-{
-    using equivalent_class = std::vector<std::string>;
-    static const std::vector<equivalent_class> classes {
-            // hiragana
-            { "あ", "ぁ" },
-            { "い", "ぃ" },
-            { "う", "ぅ" },
-            { "え", "ぇ" },
-            { "お", "ぉ" },
-            { "つ", "っ" },
-            { "や", "ゃ" },
-            { "ゆ", "ゅ" },
-            { "よ", "ょ" },
-            { "わ", "ゎ" },
-            // katakana
-            { "ア", "ァ" },
-            { "イ", "ィ" },
-            { "ウ", "ゥ" },
-            { "エ", "ェ" },
-            { "オ", "ォ" },
-            { "ツ", "ッ" },
-            { "ヤ", "ャ" },
-            { "ユ", "ュ" },
-            { "ヨ", "ョ" },
-            { "ワ", "ヮ" },
-    }; // TODO: store this into a file
-
-    auto result = in;
-    for (const auto& cls : classes) {
-        // replace the elements in group into the first one
-        ranges::for_each(cls.begin() + 1, cls.end(),
-                      [&](const std::string& elem) { utils::string_replace_all_in_place(result, elem, cls.front()); });
-    }
-
-    return result;
 }
 
 void asst::OcrImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)

@@ -38,9 +38,6 @@ namespace asst
         virtual const std::vector<TextRect>& get_result() const noexcept;
         virtual std::vector<TextRect>& get_result() noexcept;
 
-        // normalize similar characters into the same one
-        static std::string equivalent_class_preprocess(const std::string& in);
-
     protected:
         virtual void set_task_info(OcrTaskInfo task_info) noexcept;
 
