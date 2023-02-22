@@ -142,10 +142,8 @@ namespace asst
         {
             return m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
-        std::optional<tasklistptr_t> perform_op(std::string_view task_name, std::string_view subtask_name, char op,
-                                                tasklistptr_t x, tasklistptr_t y);
         bool explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_tasks, std::string_view name,
-                           bool& task_changed, std::unordered_set<std::string_view>& tasks_set, bool multi);
+                           bool& task_changed, bool multi);
         std::optional<taskptr_t> expend_task(std::string_view name, taskptr_t old_task);
 #ifdef ASST_DEBUG
         bool syntax_check(const std::string& task_name, const json::value& task_json);
