@@ -414,6 +414,12 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
         for (auto p = task_expr.begin(); p != task_expr.end(); ++p) {
             switch (*p) {
             case ' ':
+            case '\t':
+            case '\r':
+            case '\n':
+                emplace_symbol_if_not_empty(y_begin, p);
+                y_begin = p + 1;
+                break;
             case ',':
             case '(':
             case ')':
@@ -428,9 +434,10 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
             case '@':
                 emplace_symbol_if_not_empty(y_begin, p);
                 y_begin = p + 1;
-                if (*p != ' ') {
-                    symbol_stream.emplace_back(symbols_id[std::string(1, *p)]);
-                }
+                symbol_stream.emplace_back(symbols_id[std::string(1, *p)]);
+                break;
+            default:
+                break;
             }
         }
         emplace_symbol_if_not_empty(y_begin, task_expr.end());
