@@ -262,6 +262,7 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
         return is_symbl_subtask_type(x) || x == symbl_name_self || x == symbl_name_back || x == symbl_name_none;
     };
 
+    // perform_op 的结果不保证符合参数 multi 的要求
     auto perform_op = [&](std::string_view task_expr, symbl_t op, tasklistptr_t x,
                           tasklistptr_t y) -> std::optional<asst::TaskData::tasklistptr_t> {
         auto ret = std::make_shared<tasklist_t>();
@@ -304,8 +305,15 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
             break;
         }
         case symbl_at: {
-            for (std::string_view s : *x) {
-                ranges::copy(append_prefix(*y, s), std::back_inserter(*ret));
+            if (y->empty()) { // A@#none = A
+                ranges::copy(*x, std::back_inserter(*ret));
+            }
+            else if (x->empty()) { // #none@A = A
+                ranges::copy(*y, std::back_inserter(*ret));
+            }
+            else { // (A+B)@(C+D) = A@C + A@D + B@C + B@D
+                ranges::for_each(
+                    *x, [&](std::string_view s) { ranges::copy(append_prefix(*y, s), std::back_inserter(*ret)); });
             }
             break;
         }
