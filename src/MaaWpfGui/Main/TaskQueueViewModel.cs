@@ -157,8 +157,12 @@ namespace MaaWpfGui
         {
             if (NeedToUpdateDatePrompt())
             {
-                UpdateDatePrompt();
-                UpdateStageList(false);
+                Execute.OnUIThread(() =>
+                {
+                    _stageManager.UpdateStage(true);
+                    UpdateDatePrompt();
+                    UpdateStageList(false);
+                });
             }
 
             refreshCustomInfrastPlanIndexByPeriod();
