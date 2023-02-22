@@ -318,29 +318,28 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
             break;
         }
         case symbl_sharp: {
-            if (y->size() != 1) {
-                Log.error("There is more than one y:", *y, "while perform op", symbl_table[op], "in", task_expr,
-                          "of task:", task_name);
+            if (y->empty()) {
+                Log.error("There is no sharp_type while perform op", symbl_table[op], "in", task_expr, "of task:", task_name);
                 return std::nullopt;
             }
-            std::string_view type = y->front();
-            if (!x || x->empty()) {
-                x = std::make_shared<tasklist_t>(tasklist_t { "" });
-            }
-            for (const auto& task : *x) {
-                if (type == "self") {
-                    ret->emplace_back(task_name);
-                    continue;
+            for (std::string_view type : *y) {
+                if (!x || x->empty()) { // unary
+                    x = std::make_shared<tasklist_t>(tasklist_t { "" });
                 }
-                if (type == "none") {
-                    continue;
-                }
-                if (type == "back") {
-                    // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
-                    if (!task.empty()) ret->emplace_back(task);
-                    continue;
-                }
-                taskptr_t other_task_info_ptr = task.empty() ? default_task_info_ptr : get_raw(task);
+                for (const auto& task : *x) {
+                    if (type == "self") {
+                        ret->emplace_back(task_name);
+                        continue;
+                    }
+                    if (type == "none") {
+                        continue;
+                    }
+                    if (type == "back") {
+                        // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
+                        if (!task.empty()) ret->emplace_back(task);
+                        continue;
+                    }
+                    taskptr_t other_task_info_ptr = task.empty() ? default_task_info_ptr : get_raw(task);
 
 #define ASST_TASKDATA_PERFORM_OP_IF_BRANCH(t, m)                                                                      \
     else if (type == #t)                                                                                              \
@@ -352,23 +351,24 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
             return std::nullopt;                                                                                      \
         }                                                                                                             \
     }
-                if (other_task_info_ptr == nullptr) [[unlikely]] {
-                    Log.error("Task", task, "not found while perform op", symbl_table[op], "in", task_expr,
-                              "of task:", task_name);
-                    return std::nullopt;
-                }
-                ASST_TASKDATA_PERFORM_OP_IF_BRANCH(next, false)
-                ASST_TASKDATA_PERFORM_OP_IF_BRANCH(sub, true)
-                ASST_TASKDATA_PERFORM_OP_IF_BRANCH(on_error_next, false)
-                ASST_TASKDATA_PERFORM_OP_IF_BRANCH(exceeded_next, false)
-                ASST_TASKDATA_PERFORM_OP_IF_BRANCH(reduce_other_times, true)
-                else [[unlikely]]
-                {
-                    Log.error("Unknown symbol", type, "while perform op", symbl_table[op], "in", task_expr,
-                              "of task:", task_name);
-                    return std::nullopt;
-                }
+                    if (other_task_info_ptr == nullptr) [[unlikely]] {
+                        Log.error("Task", task, "not found while perform op", symbl_table[op], "in", task_expr,
+                                  "of task:", task_name);
+                        return std::nullopt;
+                    }
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(next, false)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(sub, true)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(on_error_next, false)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(exceeded_next, false)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(reduce_other_times, true)
+                    else [[unlikely]]
+                    {
+                        Log.error("Unknown symbol", type, "while perform op", symbl_table[op], "in", task_expr,
+                                  "of task:", task_name);
+                        return std::nullopt;
+                    }
 #undef ASST_TASKDATA_PERFORM_OP_IF_BRANCH
+                }
             }
 
             break;
