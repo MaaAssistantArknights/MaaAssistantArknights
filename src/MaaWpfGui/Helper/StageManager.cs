@@ -38,7 +38,6 @@ namespace MaaWpfGui
 
         // model references
         private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
 
         // datas
         private Dictionary<string, StageInfo> _stages;
@@ -50,7 +49,6 @@ namespace MaaWpfGui
         public StageManager(IContainer container)
         {
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _settingsViewModel = container.Get<SettingsViewModel>();
             UpdateStage(false);
 
             Execute.OnUIThread(async () =>
@@ -68,7 +66,7 @@ namespace MaaWpfGui
             });
         }
 
-        private void UpdateStage(bool fromWeb)
+        public void UpdateStage(bool fromWeb)
         {
             var tempStage = new Dictionary<string, StageInfo>
             {
@@ -90,7 +88,7 @@ namespace MaaWpfGui
                    "yyyy/MM/dd HH:mm:ss",
                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
-            var clientType = _settingsViewModel.ClientType;
+            var clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
 
             // 官服和B服使用同样的资源
             if (clientType == "Bilibili" || clientType == string.Empty)
