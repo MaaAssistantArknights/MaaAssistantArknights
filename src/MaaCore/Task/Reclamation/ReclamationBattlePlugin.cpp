@@ -84,7 +84,7 @@ bool asst::ReclamationBattlePlugin::quit_action()
 
         // 出现Loading转一会儿就结算了，没结算还有error_next
         OcrImageAnalyzer loadingAnalyzer(img);
-        loadingAnalyzer.set_task_info("Loading");
+        loadingAnalyzer.set_task_info("LoadingText");
         bool check3 = loadingAnalyzer.analyze();
 
         Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
