@@ -2817,6 +2817,7 @@
     },
     "PRTS": {
         "algorithm": "JustReturn",
+        "postDelay": 5000,
         "next": [
             "PRTS1",
             "PRTS2",
