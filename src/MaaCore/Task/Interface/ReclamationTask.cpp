@@ -9,7 +9,6 @@
 #include "Task/Reclamation/ReclamationConclusionReportPlugin.h"
 #include "Task/Reclamation/ReclamationControlTask.h"
 
-
 asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType),
       m_reclamation_task_ptr(std::make_shared<ReclamationControlTask>(callback, inst, TaskType))

@@ -1,9 +1,9 @@
 #include "AvatarCacheManager.h"
 
+#include "../TaskData.h"
 #include "BattleDataConfig.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "../TaskData.h"
 
 bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
 {
@@ -30,10 +30,10 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
             Log.warn("unknown oper", name);
             continue;
         }
-        
+
         Log.trace(filepath);
         cv::Mat avatar = asst::imread(filepath);
-        
+
         if (avatar.empty()) {
             Log.warn("failed to read", filepath);
             continue;

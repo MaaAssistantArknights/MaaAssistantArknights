@@ -319,7 +319,8 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
         }
         case symbl_sharp: {
             if (y->empty()) {
-                Log.error("There is no sharp_type while perform op", symbl_table[op], "in", task_expr, "of task:", task_name);
+                Log.error("There is no sharp_type while perform op", symbl_table[op], "in", task_expr,
+                          "of task:", task_name);
                 return std::nullopt;
             }
             for (std::string_view type : *y) {

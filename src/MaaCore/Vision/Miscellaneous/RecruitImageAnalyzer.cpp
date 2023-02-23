@@ -1,10 +1,10 @@
 #include "RecruitImageAnalyzer.h"
 
+#include "Config/Miscellaneous/RecruitConfig.h"
+#include "Config/TaskData.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
-#include "Config/Miscellaneous/RecruitConfig.h"
-#include "Config/TaskData.h"
 
 bool asst::RecruitImageAnalyzer::analyze()
 {

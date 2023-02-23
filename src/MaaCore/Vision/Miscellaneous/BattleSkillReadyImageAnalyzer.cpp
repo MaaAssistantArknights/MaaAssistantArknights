@@ -60,7 +60,7 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
                         if (iter.score > value) {
                             iter.rect = rect;
                             iter.score = value;
-                        } 
+                        }
                         need_push = false;
                         break;
                     }
