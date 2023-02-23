@@ -6556,24 +6556,15 @@
         "template": "empty.png",
         "templThreshold": 0.75
     },
-    "BattleOperRoleCaster": {
-    },
-    "BattleOperRoleMedic": {
-    },
-    "BattleOperRolePioneer": {
-    },
-    "BattleOperRoleSniper": {
-    },
-    "BattleOperRoleSpecial": {
-    },
-    "BattleOperRoleSupport": {
-    },
-    "BattleOperRoleTank": {
-    },
-    "BattleOperRoleWarrior": {
-    },
-    "BattleOperRoleDrone": {
-    },
+    "BattleOperRoleCaster": {},
+    "BattleOperRoleMedic": {},
+    "BattleOperRolePioneer": {},
+    "BattleOperRoleSniper": {},
+    "BattleOperRoleSpecial": {},
+    "BattleOperRoleSupport": {},
+    "BattleOperRoleTank": {},
+    "BattleOperRoleWarrior": {},
+    "BattleOperRoleDrone": {},
     "BattleOperCostRange": {
         "algorithm": "Hash",
         "hash": [],
@@ -9540,7 +9531,9 @@
     },
     "RoguelikeRefreshSupportBtnOcr": {
         "algorithm": "OcrDetect",
-        "text": [ "更新助战列表" ],
+        "text": [
+            "更新助战列表"
+        ],
         "roi": [
             1097,
             13,
@@ -9556,7 +9549,9 @@
     },
     "RoguelikeChooseSupportBtnOcr": {
         "algorithm": "OcrDetect",
-        "text": [ "选择助战" ],
+        "text": [
+            "选择助战"
+        ],
         "roi": [
             1011,
             9,
@@ -11049,12 +11044,16 @@
     "CheckNextDay@Reclamation@NextDay": {
         "template": "Reclamation@NextDay.png",
         "postDelay": 0,
-        "next": [ "Stop" ]
+        "next": [
+            "Stop"
+        ]
     },
     "EnterNextDay@Reclamation@Begin": {
         "baseTask": "Reclamation@NextDay",
         "template": "Reclamation@NextDay.png",
-        "next": [ "Stop" ]
+        "next": [
+            "Stop"
+        ]
     },
     "WaitNextDayFlag@Reclamation@BetweenDayFlag": {
         "template": "Reclamation@BetweenDayFlag.png",

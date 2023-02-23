@@ -5,16 +5,16 @@
 #include <utility>
 
 #include "Common/AsstMsg.h"
+#include "Config/TaskData.h"
 #include "Controller.h"
+#include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
+#include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
-#include "Config/TaskData.h"
-#include "Task/ProcessTask.h"
-#include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
 
 asst::InfrastAbstractTask::InfrastAbstractTask(const AsstCallback& callback, Assistant* inst,
                                                std::string_view task_chain)
@@ -242,7 +242,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
 /// @param origin_room_config 期望的配置
 /// @param num_of_opers_expect 期望选中的人数，空置则按names.size()判断
 /// @return 是否符合期望
-bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig const& origin_room_config, size_t num_of_opers_expect)
+bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig const& origin_room_config,
+                                                    size_t num_of_opers_expect)
 {
     LogTraceFunction;
     // save_img("debug/");
@@ -250,15 +251,18 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
     const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected |
+                                   InfrastOperImageAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
     }
     oper_analyzer.sort_by_loc();
     const auto& oper_analyzer_res = oper_analyzer.get_result();
-    size_t selected_count = ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
-    Log.info("selected_count,config.names.size,num_of_opers_expect = ", selected_count, ",", room_config.names.size(), ",", num_of_opers_expect);
+    size_t selected_count =
+        ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
+    Log.info("selected_count,config.names.size,num_of_opers_expect = ", selected_count, ",", room_config.names.size(),
+             ",", num_of_opers_expect);
 
     if (selected_count < num_of_opers_expect) {
         Log.warn("select opers review fail: 选中干员数与期望不符");
@@ -289,7 +293,8 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
             Log.info(name, "在\"operators\"中，且已选中");
             room_config.names.erase(iter);
-        } else { // 备选干员或自动选择，只要不选工作中的干员即可
+        }
+        else { // 备选干员或自动选择，只要不选工作中的干员即可
             if (oper.doing == infrast::Doing::Working) {
                 Log.warn("选了工作中的干员:", name);
                 Log.warn("select opers review fail: 非自定义配置，却选了工作中的干员");

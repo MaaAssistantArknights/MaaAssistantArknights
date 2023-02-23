@@ -797,7 +797,7 @@ bool asst::Controller::swipe_without_scale(const Point& p1, const Point& p2, int
     const auto& opt = Config.get_options();
     if (m_minitouch_enabled && m_minitouch_available) {
         Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in,
-                 slope_out);
+                  slope_out);
         Minitoucher toucher(std::bind(&Controller::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
         toucher.down(x1, y1);
 
@@ -1600,7 +1600,7 @@ std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, 
             if (client_socket < 0) {
                 Log.error("accept failed:", strerror(errno));
                 ::kill(m_child, SIGKILL);
-                ::waitpid(m_child, &exit_ret, 0); 
+                ::waitpid(m_child, &exit_ret, 0);
                 return std::nullopt;
             }
 
@@ -1621,7 +1621,8 @@ std::optional<int> asst::Controller::call_command_posix(const std::string& cmd, 
                 }
             } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
         }
-        ::waitpid(m_child, &exit_ret, 0); // if ::waitpid(m_child, &exit_ret, WNOHANG) == 0, repeat it will cause ECHILD, so not check the return value
+        ::waitpid(m_child, &exit_ret, 0); // if ::waitpid(m_child, &exit_ret, WNOHANG) == 0, repeat it will cause
+                                          // ECHILD, so not check the return value
     }
     else {
         // failed to create child process

@@ -435,8 +435,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_support_char(const std::string& nam
 
                 if (satisfied_chars.size()) break;
             }
-            if (page != MaxPageCnt - 1)
-                ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
+            if (page != MaxPageCnt - 1) ProcessTask(*this, { "RoguelikeSupportSwipeRight" }).run();
         }
         if (satisfied_chars.size()) break;
 

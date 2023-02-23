@@ -3,12 +3,12 @@
 #include "Utils/NoWarningCV.h"
 #include "Utils/Ranges.hpp"
 
-#include "Vision/HashImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "InfrastSmileyImageAnalyzer.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
 #include "Config/TaskData.h"
+#include "InfrastSmileyImageAnalyzer.h"
 #include "Utils/Logger.hpp"
+#include "Vision/HashImageAnalyzer.h"
+#include "Vision/MatchImageAnalyzer.h"
 
 bool asst::InfrastOperImageAnalyzer::analyze()
 {
