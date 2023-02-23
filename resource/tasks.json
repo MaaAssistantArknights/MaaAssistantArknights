@@ -778,6 +778,13 @@
             120
         ]
     },
+    "SideStoryStage": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": []
+    },
     "GA-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -785,7 +792,7 @@
             "GA-Open"
         ],
         "next": [
-            "StageGA-6",
+            "GA-6@SideStoryStage",
             "GA-6@SwipeToStage"
         ]
     },
@@ -796,7 +803,7 @@
             "GA-Open"
         ],
         "next": [
-            "StageGA-7",
+            "GA-7@SideStoryStage",
             "GA-7@SwipeToStage"
         ]
     },
@@ -807,7 +814,7 @@
             "GA-Open"
         ],
         "next": [
-            "StageGA-8",
+            "GA-8@SideStoryStage",
             "GA-8@SwipeToStage"
         ]
     },
@@ -847,29 +854,23 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageGA-6": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "GA-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "GA-6"
-        ],
-        "cache": false
+        ]
     },
-    "StageGA-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "GA-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "GA-7"
-        ],
-        "cache": false
+        ]
     },
-    "StageGA-8": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "GA-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "GA-8"
-        ],
-        "cache": false
+        ]
     },
     "WB-7": {
         "algorithm": "JustReturn",
@@ -878,7 +879,7 @@
             "WB-Open"
         ],
         "next": [
-            "StageWB-7",
+            "WB-7@SideStoryStage",
             "WB-7@SwipeToStage"
         ]
     },
@@ -889,7 +890,7 @@
             "WB-Open"
         ],
         "next": [
-            "StageWB-8",
+            "WB-8@SideStoryStage",
             "WB-8@SwipeToStage"
         ]
     },
@@ -900,7 +901,7 @@
             "WB-Open"
         ],
         "next": [
-            "StageWB-9",
+            "WB-9@SideStoryStage",
             "WB-9@SwipeToStage"
         ]
     },
@@ -936,29 +937,23 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageWB-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "WB-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "WB-7"
-        ],
-        "cache": false
+        ]
     },
-    "StageWB-8": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "WB-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "WB-8"
-        ],
-        "cache": false
+        ]
     },
-    "StageWB-9": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "WB-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "WB-9"
-        ],
-        "cache": false
+        ]
     },
     "IW-6": {
         "algorithm": "JustReturn",
@@ -968,7 +963,7 @@
             "IWChapterToIW"
         ],
         "next": [
-            "StageIW-6",
+            "IW-6@SideStoryStage",
             "IW-6@SwipeToStage"
         ]
     },
@@ -980,7 +975,7 @@
             "IWChapterToIW"
         ],
         "next": [
-            "StageIW-7",
+            "IW-7@SideStoryStage",
             "IW-7@SwipeToStage"
         ]
     },
@@ -992,7 +987,7 @@
             "IWChapterToIW"
         ],
         "next": [
-            "StageIW-8",
+            "IW-8@SideStoryStage",
             "IW-8@SwipeToStage"
         ]
     },
@@ -1028,46 +1023,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageIW-6": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "IW-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IW-6"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
         ]
     },
-    "StageIW-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "IW-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IW-7"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
         ]
     },
-    "StageIW-8": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "IW-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IW-8"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
         ]
     },
     "FC-5": {
@@ -1078,7 +1049,7 @@
             "FCChapterToFC"
         ],
         "next": [
-            "StageFC-5",
+            "FC-5@SideStoryStage",
             "FC-5@SwipeToStage"
         ]
     },
@@ -1090,7 +1061,7 @@
             "FCChapterToFC"
         ],
         "next": [
-            "StageFC-6",
+            "FC-6@SideStoryStage",
             "FC-6@SwipeToStage"
         ]
     },
@@ -1102,7 +1073,7 @@
             "FCChapterToFC"
         ],
         "next": [
-            "StageFC-7",
+            "FC-7@SideStoryStage",
             "FC-7@SwipeToStage"
         ]
     },
@@ -1138,46 +1109,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageFC-5": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-5@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "FC-5"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageFC-6": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "FC-6"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageFC-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "FC-7"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "IS-10": {
@@ -1187,7 +1134,7 @@
             "IS-Open"
         ],
         "next": [
-            "StageIS-10",
+            "IS-10@SideStoryStage",
             "IS-10@SwipeToStageIS"
         ]
     },
@@ -1198,7 +1145,7 @@
             "IS-Open"
         ],
         "next": [
-            "StageIS-9",
+            "IS-9@SideStoryStage",
             "IS-9@SwipeToStageIS"
         ]
     },
@@ -1209,7 +1156,7 @@
             "IS-Open"
         ],
         "next": [
-            "StageIS-8",
+            "IS-8@SideStoryStage",
             "IS-8@SwipeToStageIS"
         ]
     },
@@ -1287,49 +1234,22 @@
             "#next"
         ]
     },
-    "StageIS-10": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
+    "IS-10@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IS-10"
-        ],
-        "isAscii": true,
-        "roi": [
-            47,
-            42,
-            222,
-            640
         ]
     },
-    "StageIS-9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
+    "IS-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IS-9"
-        ],
-        "isAscii": true,
-        "roi": [
-            47,
-            42,
-            222,
-            640
         ]
     },
-    "StageIS-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
+    "IS-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IS-8"
-        ],
-        "isAscii": true,
-        "roi": [
-            47,
-            42,
-            222,
-            640
         ]
     },
     "NL-10": {
@@ -1339,7 +1259,7 @@
             "NL-Open"
         ],
         "next": [
-            "StageNL-10",
+            "NL-10@SideStoryStage",
             "NL-10@SwipeToStage"
         ]
     },
@@ -1350,7 +1270,7 @@
             "NL-Open"
         ],
         "next": [
-            "StageNL-9",
+            "NL-9@SideStoryStage",
             "NL-9@SwipeToStage"
         ]
     },
@@ -1361,7 +1281,7 @@
             "NL-Open"
         ],
         "next": [
-            "StageNL-8",
+            "NL-8@SideStoryStage",
             "NL-8@SwipeToStage"
         ]
     },
@@ -1396,49 +1316,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageNL-10": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "NL-10@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "NL-10"
-        ],
-        "roi": [
-            0,
-            63,
-            1280,
-            577
         ]
     },
-    "StageNL-9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "NL-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "NL-9"
-        ],
-        "roi": [
-            0,
-            63,
-            1280,
-            577
         ]
     },
-    "StageNL-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "NL-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "NL-8"
-        ],
-        "roi": [
-            0,
-            63,
-            1280,
-            577
         ]
     },
     "GT-5": {
@@ -1448,7 +1341,7 @@
             "StageEpisode",
             "StageEpisodeToGT",
             "GTToGT-5",
-            "StageGT-5"
+            "GT-5@SideStoryStage"
         ]
     },
     "StageEpisodeToGT": {
@@ -1480,11 +1373,8 @@
             168
         ]
     },
-    "StageGT-5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "GT-5@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "GT-5"
         ]
@@ -1497,7 +1387,7 @@
             "StageEpisodeToOF",
             "OFToOF-Chapter",
             "ChapterSwipeToTheLeft",
-            "StageOF-1"
+            "OF-1@SideStoryStage"
         ]
     },
     "OF-F3": {
@@ -1560,11 +1450,8 @@
             "0F-F3"
         ]
     },
-    "StageOF-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "OF-1@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "OF-1",
             "0F-1"
@@ -1577,7 +1464,7 @@
             "IC-Open"
         ],
         "next": [
-            "StageIC-9",
+            "IC-9@SideStoryStage",
             "IC-9@SwipeToStage"
         ]
     },
@@ -1588,7 +1475,7 @@
             "IC-Open"
         ],
         "next": [
-            "StageIC-8",
+            "IC-8@SideStoryStage",
             "IC-8@SwipeToStage"
         ]
     },
@@ -1599,7 +1486,7 @@
             "IC-Open"
         ],
         "next": [
-            "StageIC-7",
+            "IC-7@SideStoryStage",
             "IC-7@SwipeToStage"
         ]
     },
@@ -1630,52 +1517,25 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageIC-9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "IC-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IC-9",
             "1C-9"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageIC-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "IC-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IC-8",
             "1C-8"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageIC-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "IC-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IC-7",
             "1C-7"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "DV-8": {
@@ -1685,7 +1545,7 @@
             "DV-Open"
         ],
         "next": [
-            "StageDV-8",
+            "DV-8@SideStoryStage",
             "DV-8@SwipeToStage"
         ]
     },
@@ -1696,7 +1556,7 @@
             "DV-Open"
         ],
         "next": [
-            "StageDV-7",
+            "DV-7@SideStoryStage",
             "DV-7@SwipeToStage"
         ]
     },
@@ -1707,7 +1567,7 @@
             "DV-Open"
         ],
         "next": [
-            "StageDV-6",
+            "DV-6@SideStoryStage",
             "DV-6@SwipeToStage"
         ]
     },
@@ -1748,49 +1608,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageDV-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "DV-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "DV-8"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageDV-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "DV-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "DV-7"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageDV-6": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "DV-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "DV-6"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "LE-5": {
@@ -1801,7 +1634,7 @@
             "LEChapterToLE"
         ],
         "next": [
-            "StageLE-5",
+            "LE-5@SideStoryStage",
             "LE-5@SwipeToStage"
         ]
     },
@@ -1813,7 +1646,7 @@
             "LEChapterToLE"
         ],
         "next": [
-            "StageLE-6",
+            "LE-6@SideStoryStage",
             "LE-6@SwipeToStage"
         ]
     },
@@ -1825,7 +1658,7 @@
             "LEChapterToLE"
         ],
         "next": [
-            "StageLE-7",
+            "LE-7@SideStoryStage",
             "LE-7@SwipeToStage"
         ]
     },
@@ -1855,49 +1688,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageLE-5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "LE-5@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "LE-5"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageLE-6": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "LE-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "LE-6"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageLE-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "LE-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "LE-7"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "SN-8": {
@@ -1906,7 +1712,7 @@
         "sub": [
             "SN-Open",
             "SN-Chapter2",
-            "StageSN-8"
+            "SN-8@SideStoryStage"
         ]
     },
     "SN-9": {
@@ -1915,7 +1721,7 @@
         "sub": [
             "SN-Open",
             "SN-Chapter3",
-            "StageSN-9"
+            "SN-9@SideStoryStage"
         ]
     },
     "SN-10": {
@@ -1924,7 +1730,7 @@
         "sub": [
             "SN-Open",
             "SN-Chapter3",
-            "StageSN-10"
+            "SN-10@SideStoryStage"
         ]
     },
     "SN-Open": {
@@ -1956,7 +1762,8 @@
             "SwipeToTheLeft"
         ]
     },
-    "StageSN-8": {
+    "SN-8@SideStoryStage": {
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SN-8.png",
         "cache": false,
@@ -1967,7 +1774,8 @@
             195
         ]
     },
-    "StageSN-9": {
+    "SN-9@SideStoryStage": {
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SN-9.png",
         "cache": false,
@@ -1978,7 +1786,8 @@
             198
         ]
     },
-    "StageSN-10": {
+    "SN-10@SideStoryStage": {
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SN-10.png",
         "cache": false,
