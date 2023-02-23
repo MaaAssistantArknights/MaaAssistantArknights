@@ -2746,16 +2746,7 @@
             "Stop"
         ],
         "reduceOtherTimes": [
-            "ClickCornerAfterPRTS",
-            "ClickCornerAfterPRTS",
-            "ClickCornerAfterPRTS",
-            "ClickCornerAfterPRTS",
-            "ClickCornerAfterPRTS",
-            "ClickCorner",
-            "ClickCorner",
-            "ClickCorner",
-            "ClickCorner",
-            "ClickCorner"
+            "(ClickCornerAfterPRTS+ClickCorner)*5"
         ],
         "next": [
             "StartButton2",
@@ -2888,8 +2879,8 @@
             "PRTS2",
             "PRTS3",
             "EndOfAction",
-            "WaitAfterPRTS@LoadingText",
-            "WaitAfterPRTS@LoadingIcon",
+            "#self@LoadingText",
+            "#self@LoadingIcon",
             "ClickCornerAfterPRTS"
         ]
     },
@@ -2908,14 +2899,7 @@
         "postDelay": 3000,
         "next": [
             "EndOfAction",
-            "StartButton1",
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "WaitAfterPRTS@LoadingText",
-            "WaitAfterPRTS@LoadingIcon",
-            "StartUpThemes#next",
+            "((ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ ClickCornerAfterPRTS)",
             "#self"
         ],
         "exceededNext": [
@@ -2991,7 +2975,7 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "ClickCorner@LoadingIcon",
+            "#self@LoadingIcon",
             "#self"
         ],
         "exceededNext": [
