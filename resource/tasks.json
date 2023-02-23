@@ -2729,6 +2729,7 @@
     },
     "StartButton1": {
         "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "text": [
             "开始行动"
         ],
@@ -2744,7 +2745,18 @@
             "StageSNReturnFlag",
             "Stop"
         ],
-        "action": "ClickSelf",
+        "reduceOtherTimes": [
+            "ClickCornerAfterPRTS",
+            "ClickCornerAfterPRTS",
+            "ClickCornerAfterPRTS",
+            "ClickCornerAfterPRTS",
+            "ClickCornerAfterPRTS",
+            "ClickCorner",
+            "ClickCorner",
+            "ClickCorner",
+            "ClickCorner",
+            "ClickCorner"
+        ],
         "next": [
             "StartButton2",
             "UseMedicine",
@@ -2878,20 +2890,21 @@
             "EndOfAction",
             "WaitAfterPRTS@LoadingText",
             "WaitAfterPRTS@LoadingIcon",
-            "ClickCornerAfterPRTS_1"
+            "ClickCornerAfterPRTS"
         ]
     },
     "ClickCornerAfterPRTS": {
-        "Doc": "base_task",
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "Doc2": "在比较卡的时候点击屏幕，或是在升级时点击屏幕以进入到结算界面，最多 5 次，间隔 3s",
         "specificRect": [
             1000,
             120,
             270,
             10
         ],
+        "maxTimes": 5,
         "postDelay": 3000,
         "next": [
             "EndOfAction",
@@ -2902,19 +2915,10 @@
             "NoStone",
             "WaitAfterPRTS@LoadingText",
             "WaitAfterPRTS@LoadingIcon",
-            "StartUpThemes#next"
-        ]
-    },
-    "ClickCornerAfterPRTS_1": {
-        "baseTask": "ClickCornerAfterPRTS",
-        "next": [
-            "ClickCornerAfterPRTS#next",
-            "ClickCornerAfterPRTS_2"
-        ]
-    },
-    "ClickCornerAfterPRTS_2": {
-        "baseTask": "ClickCornerAfterPRTS",
-        "onErrorNext": [
+            "StartUpThemes#next",
+            "#self"
+        ],
+        "exceededNext": [
             "RestartGameAndContinue"
         ]
     },
@@ -2971,7 +2975,7 @@
         "preDelay": 5000
     },
     "ClickCorner": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -2980,14 +2984,17 @@
             270,
             10
         ],
+        "maxTimes": 5,
         "next": [
             "StartButton1",
             "StartButton2",
             "UseMedicine",
             "UseStone",
-            "NoStone"
+            "NoStone",
+            "ClickCorner@LoadingIcon",
+            "#self"
         ],
-        "onErrorNext": [
+        "exceededNext": [
             "RestartGameAndContinue"
         ]
     },
@@ -3228,7 +3235,7 @@
             "FightMissionFailedAndStop"
         ],
         "onErrorNext": [
-            "ClickCornerAfterPRTS_1"
+            "ClickCornerAfterPRTS"
         ]
     },
     "FightMissionFailedAndStop": {
