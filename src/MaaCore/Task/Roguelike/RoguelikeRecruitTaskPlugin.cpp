@@ -124,9 +124,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         const auto& oper_list = analyzer.get_result();
         bool stop_swipe = false;
 
+        int max_oper_x = 0;
         for (const auto& oper_info : oper_list) {
             oper_names.emplace(oper_info.name);
 
+            max_oper_x = std::max(max_oper_x, oper_info.rect.x);
             // 查询上次识别位置
             const auto& rect_it = last_oper_rects.find(oper_info.name);
             if (rect_it == last_oper_rects.cend()) {
@@ -251,7 +253,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         // 向右滑动
         Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
-        slowly_swipe(false);
+        slowly_swipe(false, max_oper_x - 200);
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
 
@@ -329,7 +331,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
 {
     LogTraceFunction;
 
-    constexpr int SwipeTimes = 5;
+    int SwipeTimes = Task.get("RoguelikeRecruitSwipeMaxTime")->max_times;
     std::unordered_set<std::string> pre_oper_names;
     bool has_been_same = false;
     int i = 0;
@@ -341,8 +343,10 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
         RoguelikeRecruitImageAnalyzer analyzer(image);
 
         // 只处理识别成功的情况，失败(无任何结果)时继续滑动
+        int max_oper_x = 700;
         if (analyzer.analyze()) {
             const auto& chars = analyzer.get_result();
+            max_oper_x = ranges::max(chars | views::transform([&](const auto& x) { return x.rect.x; }));
             auto it = ranges::find_if(
                 chars, [&](const battle::roguelike::Recruitment& oper) -> bool { return oper.name == char_name; });
 
@@ -375,7 +379,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
             slowly_swipe(true);
         }
         else {
-            slowly_swipe(false);
+            slowly_swipe(false, max_oper_x - 200);
         }
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
@@ -513,12 +517,28 @@ void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_ti
     ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
 }
 
-void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left)
+void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left, int swipe_dist)
 {
     if (to_left) {
-        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheLeft" }).run();
+        auto swipe_task = Task.get("RoguelikeRecruitOperListSlowlySwipeToTheLeft");
+        const Rect& StartPoint = swipe_task->specific_rect;
+        ctrler()->swipe(
+            StartPoint,
+            { StartPoint.x + swipe_dist - StartPoint.width, StartPoint.y, StartPoint.width, StartPoint.height },
+            swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
+            (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
+            (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
+            (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
     }
     else {
-        ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
+        auto swipe_task = Task.get("RoguelikeRecruitOperListSlowlySwipeToTheRight");
+        const Rect& StartPoint = swipe_task->specific_rect;
+        ctrler()->swipe(
+            StartPoint,
+            { StartPoint.x - swipe_dist - StartPoint.width, StartPoint.y, StartPoint.width, StartPoint.height },
+            swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
+            (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
+            (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
+            (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
     }
 }
