@@ -255,11 +255,26 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
 
     auto is_symbl_name = [&](symbl_t x) { return x >= symbl_name_start; };
     auto is_symbl_subtask_type = [&](symbl_t x) {
-        return x == symbl_name_sub || x == symbl_name_next || x == symbl_name_on_error_next ||
-               x == symbl_name_exceeded_next || x == symbl_name_reduce_other_times;
+        switch (x) {
+        case symbl_name_sub:
+        case symbl_name_next:
+        case symbl_name_on_error_next:
+        case symbl_name_exceeded_next:
+        case symbl_name_reduce_other_times:
+            return true;
+        default:
+            return false;
+        }
     };
     auto is_symbl_sharp_type = [&](symbl_t x) {
-        return is_symbl_subtask_type(x) || x == symbl_name_self || x == symbl_name_back || x == symbl_name_none;
+        switch (x) {
+        case symbl_name_self:
+        case symbl_name_back:
+        case symbl_name_none:
+            return true;
+        default:
+            return is_symbl_subtask_type(x);
+        }
     };
 
     // perform_op 的结果不保证符合参数 multi 的要求

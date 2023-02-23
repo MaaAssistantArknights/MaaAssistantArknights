@@ -1961,6 +1961,26 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> AllDrops { get; set; } = new List<CombData>();
 
+        /// <summary>
+        /// 关卡不可掉落的材料
+        /// </summary>
+        private static readonly HashSet<string> excludedValues = new HashSet<string>()
+        {
+            "3213", "3223", "3233", "3243", // 双芯片
+            "3253", "3263", "3273", "3283",
+            "7001", "7002", "7003", "7004", // 许可/凭证
+            "4004", "4005",
+            "3105", "3131", "3132", "3233", // 龙骨/加固建材
+            "6001",                         // 演习券
+            "3141", "4002",                 // 源石
+            "32001",                        // 芯片助剂
+            "30115",                        // 聚合剂
+            "30125",                        // 双极纳米片
+            "30135",                        // D32钢
+            "30145",                        // 晶体电子单元
+            "30155",                        // 烧结核凝晶
+        };
+
         private void InitDrops()
         {
             var reader = Utils.GetItemList();
@@ -1975,26 +1995,11 @@ namespace MaaWpfGui
                 }
 
                 var dis = item.Value["name"].ToString();
-#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
-                if (
-                    val.Equals("3213") || val.Equals("3223") || val.Equals("3233") || val.Equals("3243") // 双芯片
-                    || val.Equals("3253") || val.Equals("3263") || val.Equals("3273") || val.Equals("3283")
-                    || val.Equals("7001") || val.Equals("7002") || val.Equals("7003") || val.Equals("7004") // 许可/凭证
-                    || val.Equals("4004") || val.Equals("4005")
-                    || val.Equals("3105") || val.Equals("3131") || val.Equals("3132") || val.Equals("3233") // 龙骨/加固建材
-                    || val.Equals("6001") // 演习券
-                    || val.Equals("3141") || val.Equals("4002") // 源石
-                    || val.Equals("32001") // 芯片助剂
-                    || val.Equals("30115") // 聚合剂
-                    || val.Equals("30125") // 双极纳米片
-                    || val.Equals("30135") // D32钢
-                    || val.Equals("30145") // 晶体电子单元
-                    || val.Equals("30155") // 烧结核凝晶
-                    )
+
+                if (excludedValues.Contains(val))
                 {
                     continue;
                 }
-#pragma warning restore SA1009
 
                 AllDrops.Add(new CombData { Display = dis, Value = val });
             }
