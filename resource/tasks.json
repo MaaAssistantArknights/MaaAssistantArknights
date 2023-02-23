@@ -2651,9 +2651,7 @@
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
-            "Fight@PRTS3",
-            "Fight@PRTS",
-            "Fight@PRTS2",
+            "Fight@PRTS#next",
             "Fight@EndOfAction"
         ]
     },
@@ -2670,9 +2668,7 @@
             "Fight@CloseAnnos#next",
             "Fight@FromStageSN",
             "Fight@TodaysSupplies",
-            "Fight@PRTS3",
-            "Fight@PRTS",
-            "Fight@PRTS2",
+            "Fight@PRTS#next",
             "Fight@EndOfAction"
         ]
     },
@@ -2811,9 +2807,7 @@
             340
         ],
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
             "StartButton2",
             "PrtsErrorConfirm",
@@ -2822,6 +2816,14 @@
         ]
     },
     "PRTS": {
+        "algorithm": "JustReturn",
+        "next": [
+            "PRTS1",
+            "PRTS2",
+            "PRTS3"
+        ]
+    },
+    "PRTS1": {
         "action": "DoNothing",
         "template": "BattleOfficiallyBegin.png",
         "roi": [
@@ -2836,9 +2838,7 @@
         ],
         "postDelay": 5000,
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
@@ -2846,7 +2846,7 @@
         ]
     },
     "PRTS2": {
-        "baseTask": "PRTS",
+        "baseTask": "PRTS1",
         "algorithm": "OcrDetect",
         "text": [
             "接管"
@@ -2859,7 +2859,7 @@
         ]
     },
     "PRTS3": {
-        "baseTask": "PRTS",
+        "baseTask": "PRTS1",
         "algorithm": "OcrDetect",
         "text": [
             "角色"
@@ -2875,9 +2875,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
             "#self@LoadingText",
             "#self@LoadingIcon",
@@ -3166,9 +3164,7 @@
             160
         ],
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartUpThemes#next",
