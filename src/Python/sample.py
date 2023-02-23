@@ -5,6 +5,7 @@ import time
 from asst.asst import Asst
 from asst.utils import Message, Version
 from asst.updater import Updater
+from asst.emulator import Bluestacks
 
 
 @Asst.CallBackType
@@ -36,6 +37,12 @@ if __name__ == "__main__":
     # asst.set_instance_option(InstanceOptionType.touch_type, 'maatouch')
     # 暂停下干员
     # asst.set_instance_option(InstanceOptionType.deployment_with_pause, '1')
+
+    # 启动模拟器。例如启动蓝叠模拟器的多开Pie64_1，并等待30s
+    # Bluestacks.launch_emulator_win(r'C:\Program Files\BlueStacks_nxt\HD-Player.exe', 30, "Pie64_1")
+
+    # 获取Hyper-v蓝叠的adb port
+    # port = Bluestacks.get_hyperv_port(r"C:\ProgramData\BlueStacks_nxt\bluestacks.conf", "Pie64_1")
 
     # 请自行配置 adb 环境变量，或修改为 adb 可执行程序的路径
     if asst.connect('adb.exe', '127.0.0.1:5555'):
