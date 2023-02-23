@@ -529,6 +529,7 @@ void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left, int swipe_dist
             (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
             (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
             (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+        sleep(swipe_task->post_delay);
     }
     else {
         auto swipe_task = Task.get("RoguelikeRecruitOperListSlowlySwipeToTheRight");
@@ -540,5 +541,6 @@ void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left, int swipe_dist
             (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
             (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
             (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+        sleep(swipe_task->post_delay);
     }
 }

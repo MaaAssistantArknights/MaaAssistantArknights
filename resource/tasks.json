@@ -9104,7 +9104,6 @@
         ]
     },
     "RoguelikeRecruitOcrFlag": {
-        "maxTimes": 5,
         "roi": [
             525,
             110,
@@ -9170,7 +9169,7 @@
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
         "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
-        "maxTimes": 4
+        "maxTimes": 5
     },
     "RoguelikeSkillSelectionFlag": {
         "templThreshold": 0.9,
