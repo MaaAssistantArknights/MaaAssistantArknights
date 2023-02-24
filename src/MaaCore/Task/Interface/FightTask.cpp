@@ -26,9 +26,9 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
         .set_times_limit("MedicineConfirm", 0)
         .set_times_limit("StoneConfirm", 0)
         .set_times_limit("StageSNReturnFlag", 0)
-        .set_times_limit("PRTS3", 0)
-        .set_times_limit("PRTS", 0)
+        .set_times_limit("PRTS1", 0)
         .set_times_limit("PRTS2", 0)
+        .set_times_limit("PRTS3", 0)
         .set_times_limit("EndOfAction", 0)
         .set_retry_times(5);
 
