@@ -109,10 +109,9 @@ void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noe
     m_required = std::move(required);
 }
 
-void asst::OcrImageAnalyzer::set_replace(std::unordered_map<std::string, std::string> replace, bool replace_full) noexcept
+void asst::OcrImageAnalyzer::set_replace(std::unordered_map<std::string, std::string> replace) noexcept
 {
     m_replace = std::move(replace);
-    m_replace_full = replace_full;
 }
 
 void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept

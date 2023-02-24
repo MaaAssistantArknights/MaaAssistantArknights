@@ -133,12 +133,12 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 
     OcrWithFlagTemplImageAnalyzer name_analyzer(image);
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
-    name_analyzer.set_replace(ocr_replace, true);
+    name_analyzer.set_replace(ocr_replace);
     name_analyzer.analyze();
 
     OcrWithFlagTemplImageAnalyzer special_focus_analyzer(image);
     special_focus_analyzer.set_task_info("BattleQuickFormation-OperNameFlag-SpecialFocus", "BattleQuickFormationOCR");
-    special_focus_analyzer.set_replace(ocr_replace, true);
+    special_focus_analyzer.set_replace(ocr_replace);
     special_focus_analyzer.analyze();
 
     auto opers_result = name_analyzer.get_result();
