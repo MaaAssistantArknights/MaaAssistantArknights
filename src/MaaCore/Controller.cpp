@@ -896,7 +896,7 @@ bool asst::Controller::support_swipe_with_pause() const noexcept
     return m_minitouch_enabled && m_minitouch_available && m_swipe_with_pause_enabled && !m_adb.press_esc.empty();
 }
 
-bool asst::Controller::support_swipe_without_adb() const noexcept
+bool asst::Controller::support_precise_swipe() const noexcept
 {
     return m_minitouch_enabled && m_minitouch_available;
 }
