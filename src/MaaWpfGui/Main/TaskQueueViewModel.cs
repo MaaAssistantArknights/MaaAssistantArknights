@@ -994,32 +994,25 @@ namespace MaaWpfGui
                 {
                     emulator = Process.GetProcessById(pid);
                     emulator.CloseMainWindow();
+                    if (!emulator.WaitForExit(5000))
+                    {
+                        emulator.Kill();
+                        emulator.WaitForExit(5000);
+                    }
+                    else
+                    {
+                        // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
+                        // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
+                        KillEmulator();
+
+                        // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
+                        return true;
+                    }
                 }
                 catch
                 {
                     break;
                 }
-
-                if (emulator.HasExited)
-                {
-                    break;
-                }
-
-                try
-                {
-                    emulator.Kill();
-                }
-                catch
-                {
-                    break;
-                }
-
-                // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
-                // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
-                KillEmulator();
-
-                // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
-                return true;
             }
             while (false);
 
@@ -1103,6 +1096,10 @@ namespace MaaWpfGui
             catch
             {
                 return false;
+            }
+            finally
+            {
+                checkCmd.Close();
             }
 
             return true;
