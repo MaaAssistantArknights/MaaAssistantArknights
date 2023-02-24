@@ -519,28 +519,22 @@ void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_ti
 
 void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left, int swipe_dist)
 {
-    if (to_left) {
-        auto swipe_task = Task.get("RoguelikeRecruitOperListSlowlySwipeToTheLeft");
-        const Rect& StartPoint = swipe_task->specific_rect;
-        ctrler()->swipe(
-            StartPoint,
-            { StartPoint.x + swipe_dist - StartPoint.width, StartPoint.y, StartPoint.width, StartPoint.height },
-            swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
-            (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
-            (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
-            (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
-        sleep(swipe_task->post_delay);
+    std::string swipe_task_name =
+        to_left ? "RoguelikeRecruitOperListSlowlySwipeToTheLeft" : "RoguelikeRecruitOperListSlowlySwipeToTheRight";
+    if (!ctrler()->support_swipe_without_adb()) { // adb 容易滑飞，不方便精细控制，不使用 swipe_dist 参数
+        ProcessTask(*this, { swipe_task_name }).run();
+        return;
     }
-    else {
-        auto swipe_task = Task.get("RoguelikeRecruitOperListSlowlySwipeToTheRight");
-        const Rect& StartPoint = swipe_task->specific_rect;
-        ctrler()->swipe(
-            StartPoint,
-            { StartPoint.x - swipe_dist - StartPoint.width, StartPoint.y, StartPoint.width, StartPoint.height },
-            swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
-            (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
-            (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
-            (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
-        sleep(swipe_task->post_delay);
-    }
+
+    if (!to_left) swipe_dist = -swipe_dist;
+    auto swipe_task = Task.get(swipe_task_name);
+    const Rect& StartPoint = swipe_task->specific_rect;
+    ctrler()->swipe(
+        StartPoint,
+        { StartPoint.x + swipe_dist - StartPoint.width, StartPoint.y, StartPoint.width, StartPoint.height },
+        swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
+        (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
+        (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
+        (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+    sleep(swipe_task->post_delay);
 }
