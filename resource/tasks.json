@@ -2153,7 +2153,7 @@
         "action": "DoNothing",
         "next": [
             "StartUp@StartUpThemes#next",
-            "StartUpBegin@Loading2",
+            "StartUpBegin@LoadingIcon",
             "StartUp@ReturnTo",
             "StartUp@EndOfAction",
             "StartUp@FromStageSN"
@@ -2180,7 +2180,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "GameStart@Loading2"
+            "GameStart@LoadingIcon"
         ]
     },
     "StartToWakeUp": {
@@ -2193,7 +2193,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "StartToWakeUp@Loading2"
+            "StartToWakeUp@LoadingIcon"
         ]
     },
     "StartLoginBServer": {
@@ -2206,7 +2206,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "StartLoginBServer@Loading2"
+            "StartLoginBServer@LoadingIcon"
         ]
     },
     "StartUpConnectingFlag": {
@@ -2219,7 +2219,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "StartUpConnectingFlag@Loading2"
+            "StartUpConnectingFlag@LoadingIcon"
         ]
     },
     "StartUp": {
@@ -2287,7 +2287,7 @@
             "#back"
         ]
     },
-    "Loading": {
+    "LoadingText": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "text": [
@@ -2301,12 +2301,12 @@
             120
         ],
         "next": [
-            "Loading",
+            "LoadingText",
             "#next",
             "#back"
         ]
     },
-    "Loading2": {
+    "LoadingIcon": {
         "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
         "roi": [
             480,
@@ -2315,7 +2315,7 @@
             280
         ],
         "next": [
-            "Loading2",
+            "LoadingIcon",
             "#next",
             "#back"
         ]
@@ -2335,7 +2335,7 @@
             "#back",
             "ReturnTo",
             "ReturnToConfirm",
-            "ReturnTo@Loading2",
+            "ReturnTo@LoadingIcon",
             "CloseAnnos#next",
             "FromStageSN",
             "TodaysSupplies"
@@ -2353,7 +2353,7 @@
         "next": [
             "ReturnTo",
             "#back",
-            "ReturnToConfirm@Loading2",
+            "ReturnToConfirm@LoadingIcon",
             "CloseAnnos#next",
             "FromStageSN",
             "TodaysSupplies",
@@ -2394,15 +2394,6 @@
         ]
     },
     "StartUp@ClickCorner": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
-        ],
         "next": [
             "StartUp@ReturnTo",
             "StartUp",
@@ -2410,9 +2401,6 @@
             "StartUp@FromStageSN",
             "StartUp@TodaysSupplies",
             "StartUp@OfflineConfirm"
-        ],
-        "onErrorNext": [
-            "StartUp@RestartGameAndContinue"
         ]
     },
     "FromStageSN": {
@@ -2472,9 +2460,7 @@
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
-            "Fight@PRTS3",
-            "Fight@PRTS",
-            "Fight@PRTS2",
+            "Fight@PRTS#next",
             "Fight@EndOfAction"
         ]
     },
@@ -2491,9 +2477,7 @@
             "Fight@CloseAnnos#next",
             "Fight@FromStageSN",
             "Fight@TodaysSupplies",
-            "Fight@PRTS3",
-            "Fight@PRTS",
-            "Fight@PRTS2",
+            "Fight@PRTS#next",
             "Fight@EndOfAction"
         ]
     },
@@ -2550,6 +2534,7 @@
     },
     "StartButton1": {
         "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "text": [
             "开始行动"
         ],
@@ -2565,7 +2550,9 @@
             "StageSNReturnFlag",
             "Stop"
         ],
-        "action": "ClickSelf",
+        "reduceOtherTimes": [
+            "(ClickCornerAfterPRTS+ClickCorner)*5"
+        ],
         "next": [
             "StartButton2",
             "UseMedicine",
@@ -2629,9 +2616,7 @@
             340
         ],
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
             "StartButton2",
             "PrtsErrorConfirm",
@@ -2640,6 +2625,15 @@
         ]
     },
     "PRTS": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "next": [
+            "PRTS1",
+            "PRTS2",
+            "PRTS3"
+        ]
+    },
+    "PRTS1": {
         "action": "DoNothing",
         "template": "BattleOfficiallyBegin.png",
         "roi": [
@@ -2654,9 +2648,7 @@
         ],
         "postDelay": 5000,
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
@@ -2664,7 +2656,7 @@
         ]
     },
     "PRTS2": {
-        "baseTask": "PRTS",
+        "baseTask": "PRTS1",
         "algorithm": "OcrDetect",
         "text": [
             "接管"
@@ -2677,7 +2669,7 @@
         ]
     },
     "PRTS3": {
-        "baseTask": "PRTS",
+        "baseTask": "PRTS1",
         "algorithm": "OcrDetect",
         "text": [
             "角色"
@@ -2693,49 +2685,32 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
-            "WaitAfterPRTS@Loading",
-            "WaitAfterPRTS@Loading2",
-            "ClickCornerAfterPRTS_1"
+            "#self@LoadingText",
+            "#self@LoadingIcon",
+            "ClickCornerAfterPRTS"
         ]
     },
     "ClickCornerAfterPRTS": {
-        "Doc": "base_task",
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "Doc2": "在比较卡的时候点击屏幕，或是在升级时点击屏幕以进入到结算界面，最多 5 次，间隔 3s",
         "specificRect": [
             1000,
             120,
             270,
             10
         ],
+        "maxTimes": 5,
         "postDelay": 3000,
         "next": [
             "EndOfAction",
-            "StartButton1",
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "WaitAfterPRTS@Loading",
-            "WaitAfterPRTS@Loading2",
-            "StartUpThemes#next"
-        ]
-    },
-    "ClickCornerAfterPRTS_1": {
-        "baseTask": "ClickCornerAfterPRTS",
-        "next": [
-            "ClickCornerAfterPRTS#next",
-            "ClickCornerAfterPRTS_2"
-        ]
-    },
-    "ClickCornerAfterPRTS_2": {
-        "baseTask": "ClickCornerAfterPRTS",
-        "onErrorNext": [
+            "((ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ ClickCornerAfterPRTS)",
+            "#self"
+        ],
+        "exceededNext": [
             "RestartGameAndContinue"
         ]
     },
@@ -2792,7 +2767,7 @@
         "preDelay": 5000
     },
     "ClickCorner": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -2801,15 +2776,17 @@
             270,
             10
         ],
+        "maxTimes": 5,
         "next": [
             "StartButton1",
             "StartButton2",
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "EndOfAction"
+            "#self@LoadingIcon",
+            "#self"
         ],
-        "onErrorNext": [
+        "exceededNext": [
             "RestartGameAndContinue"
         ]
     },
@@ -2997,9 +2974,7 @@
             160
         ],
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartUpThemes#next",
@@ -3050,7 +3025,7 @@
             "FightMissionFailedAndStop"
         ],
         "onErrorNext": [
-            "ClickCornerAfterPRTS_1"
+            "ClickCornerAfterPRTS"
         ]
     },
     "FightMissionFailedAndStop": {
@@ -3073,7 +3048,7 @@
         "postDelay": 5000,
         "next": [
             "StartUpThemes#next",
-            "RestartGameAndContinue@Loading2",
+            "RestartGameAndContinue@LoadingIcon",
             "ReturnTo",
             "FromStageSN"
         ]
@@ -3147,7 +3122,7 @@
             255
         ],
         "next": [
-            "RecruitBegin@Loading",
+            "RecruitBegin@LoadingText",
             "RecruitBegin"
         ]
     },
@@ -3162,7 +3137,7 @@
             420
         ],
         "next": [
-            "RecruitFinish@Loading",
+            "RecruitFinish@LoadingText",
             "RecruitFinish",
             "Recruit",
             "RecruitSkip",
@@ -3848,7 +3823,7 @@
         ],
         "next": [
             "CreditShop-Bought",
-            "CreditShop-BuyIt@Loading",
+            "CreditShop-BuyIt@LoadingText",
             "CreditShop-NoMoney"
         ]
     },
@@ -3969,7 +3944,7 @@
         "preDelay": 500,
         "postDelay": 500,
         "next": [
-            "RecruitRefreshConfirm@Loading",
+            "RecruitRefreshConfirm@LoadingText",
             "SleepThenStop"
         ]
     },
@@ -4030,7 +4005,7 @@
             80
         ],
         "next": [
-            "RecruitConfirm@Loading",
+            "RecruitConfirm@LoadingText",
             "RecruitFlag"
         ]
     },
@@ -4249,7 +4224,7 @@
             165
         ],
         "next": [
-            "DroneConfirm@Loading",
+            "DroneConfirm@LoadingText",
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
             "DroneAssistMfg"
@@ -4308,7 +4283,7 @@
         ],
         "postDelay": 1000,
         "next": [
-            "ReplenishToMaxConfirm@Loading",
+            "ReplenishToMaxConfirm@LoadingText",
             "Stop"
         ]
     },
@@ -5542,7 +5517,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo1stConfirm@Loading",
+            "ClueGiveTo1stConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5575,7 +5550,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo2ndConfirm@Loading",
+            "ClueGiveTo2ndConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5608,7 +5583,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo3rdConfirm@Loading",
+            "ClueGiveTo3rdConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5641,7 +5616,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo4thConfirm@Loading",
+            "ClueGiveTo4thConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -8104,8 +8079,8 @@
             "Roguelike@GamePassSkip1",
             "Roguelike@GamePassTheEndConfirm",
             "Roguelike@GamePass",
-            "Roguelike@StartAction@Loading",
-            "Roguelike@StartAction@Loading2"
+            "Roguelike@StartAction@LoadingText",
+            "Roguelike@StartAction@LoadingIcon"
         ]
     },
     "Roguelike@StartExplore": {
