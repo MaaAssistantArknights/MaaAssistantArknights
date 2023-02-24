@@ -65,7 +65,7 @@ namespace asst
 
         bool press_esc();
         bool support_swipe_with_pause() const noexcept;
-        bool support_swipe_without_adb() const noexcept;
+        bool support_precise_swipe() const noexcept;
 
         std::pair<int, int> get_scale_size() const noexcept;
 
