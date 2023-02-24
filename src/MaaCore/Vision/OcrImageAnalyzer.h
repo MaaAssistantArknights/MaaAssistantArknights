@@ -25,8 +25,7 @@ namespace asst
         virtual void sort_result_by_required(); // 按传入的需求数组排序，传入的在前面结果接在前面
 
         void set_required(std::vector<std::string> required) noexcept;
-        void set_replace(std::unordered_map<std::string, std::string> replace, bool replace_full = false) noexcept; // The whole string is replaced when replace_full is set to true,
-                                                                                                                    // while only the matched part is replaced when it is set to false
+        void set_replace(std::unordered_map<std::string, std::string> replace) noexcept;
 
         virtual void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
         virtual void set_task_info(const std::string& task_name);
