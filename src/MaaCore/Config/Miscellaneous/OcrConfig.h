@@ -27,6 +27,5 @@ namespace asst
 
         std::vector<equivalence_class> m_eq_classes;
     };
-    inline static auto& OcrData = OcrConfig::get_instance();
 
 } // namespace asst
