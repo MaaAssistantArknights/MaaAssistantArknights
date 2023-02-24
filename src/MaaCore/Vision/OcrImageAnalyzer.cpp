@@ -17,7 +17,7 @@ bool asst::OcrImageAnalyzer::analyze()
     std::vector<TextRectProc> preds_vec;
 
     preds_vec.emplace_back([](TextRect& tr) -> bool {
-        tr.text = OcrData.process_equivalence_class(tr.text);
+        tr.text = OcrConfig::get_instance().process_equivalence_class(tr.text);
         return true;
     });
 
@@ -99,7 +99,7 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
 
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
-    ranges::for_each(required, [](std::string& str) { str = OcrData.process_equivalence_class(str); });
+    ranges::for_each(required, [](std::string& str) { str = OcrConfig::get_instance().process_equivalence_class(str); });
     m_required = std::move(required);
 }
 
@@ -107,8 +107,8 @@ void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, s
 {
     m_replace = {};
     for (auto&& [key, val] : replace) {
-        auto new_key = OcrData.process_equivalence_class(key);
-        auto new_val = OcrData.process_equivalence_class(val);
+        auto new_key = OcrConfig::get_instance().process_equivalence_class(key);
+        auto new_val = OcrConfig::get_instance().process_equivalence_class(val);
         m_replace[new_key] = new_val;
     }
 }
