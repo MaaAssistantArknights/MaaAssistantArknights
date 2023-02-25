@@ -8,7 +8,7 @@
     xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    Title="版本已更新"
+    Title="{DynamicResource VersionUpdated}"
     Width="600"
     Height="500"
     d:DataContext="{d:DesignInstance {x:Type vm:VersionUpdateViewModel}}"
@@ -28,7 +28,7 @@
                 Margin="0,20"
                 FontSize="24"
                 Style="{StaticResource TextBlockDefaultBold}"
-                Text="已更新："
+                Text="{DynamicResource VersionUpdatedTo}"
                 TextWrapping="Wrap" />
             <maa:TextBlock
                 Margin="0,20"
@@ -60,7 +60,7 @@
                 Height="60"
                 Margin="20"
                 Command="{s:Action Close}"
-                Content="好的！" />
+                Content="{DynamicResource UpdateNotificationOK}" />
         </StackPanel>
     </Grid>
 </Window>
