@@ -896,6 +896,11 @@ bool asst::Controller::support_swipe_with_pause() const noexcept
     return m_minitouch_enabled && m_minitouch_available && m_swipe_with_pause_enabled && !m_adb.press_esc.empty();
 }
 
+bool asst::Controller::support_precise_swipe() const noexcept
+{
+    return m_minitouch_enabled && m_minitouch_available;
+}
+
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
