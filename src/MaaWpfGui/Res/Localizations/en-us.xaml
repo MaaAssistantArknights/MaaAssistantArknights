@@ -376,12 +376,17 @@
     <system:String x:Key="VideoLink">Video Link</system:String>
 
     <!--  Logs  -->
-    <system:String x:Key="CopilotTip">Tips：</system:String>
-    <system:String x:Key="CopilotTip1">Please set the emulator and game to 60 FPS at least.</system:String>
-    <system:String x:Key="CopilotTip2">Please use this function only when &quot;Start&quot; is visible in game.</system:String>
-    <system:String x:Key="CopilotTip3">You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.</system:String>
-    <system:String x:Key="CopilotTip4">For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.</system:String>
-    <system:String x:Key="CopilotTip5">&quot;Auto squad&quot; can not identify the &quot;special focus&quot; crew members temporarily, please cancel the special attention or manual formation if necessary.</system:String>
+    <system:String x:Key="CopilotTip" xml:space="preserve">Tips：
+
+1. Please use this function only when &quot;Start&quot; is visible in game.
+
+2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.
+
+3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.
+
+4. For SSS, There are two built-in files under the resource/copilot folder.
+Please start on the "Start Deployment" screen after manual formation (can be used with "Loop times")
+</system:String>
 
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
@@ -513,10 +518,10 @@
     <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
-    
+
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOK">OK!</system:String>
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
-    <system:String x:Key="VersionUpdatedTo">Version: </system:String>
+    <system:String x:Key="VersionUpdatedTo">Version:</system:String>
     <!--  VersionUpdatePopup  -->
 </ResourceDictionary>
