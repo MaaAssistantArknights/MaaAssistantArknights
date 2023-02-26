@@ -2,13 +2,13 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 {

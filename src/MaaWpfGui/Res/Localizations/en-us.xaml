@@ -513,4 +513,10 @@
     <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
+    
+    <!--  VersionUpdatePopup  -->
+    <system:String x:Key="UpdateNotificationOK">OK!</system:String>
+    <system:String x:Key="VersionUpdated">Version Updated</system:String>
+    <system:String x:Key="VersionUpdatedTo">Version: </system:String>
+    <!--  VersionUpdatePopup  -->
 </ResourceDictionary>

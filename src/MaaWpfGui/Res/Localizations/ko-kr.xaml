@@ -277,7 +277,7 @@
     <system:String x:Key="LastBattle">최근 작전</system:String>-->
     <system:String x:Key="DefaultStage">현재/최근</system:String>
     <system:String x:Key="ClosedStage">이벤트가 닫혀 있습니다</system:String>
-    <system:String x:Key="Daysleftopen">남은 개방일 수: </system:String>
+    <system:String x:Key="Daysleftopen">남은 개방일 수:</system:String>
     <system:String x:Key="LessThanOneDay">1일 미만</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6 (용문폐)</system:String>
@@ -424,7 +424,7 @@
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
-    <system:String x:Key="ActingcommanActingCommandErrorderror">PRTS 오류</system:String>
+    <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
     <system:String x:Key="LabelsRefreshed">태그가 새로 고쳐졌습니다.</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 오퍼레이터 충돌</system:String>

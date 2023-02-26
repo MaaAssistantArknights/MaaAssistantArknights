@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "Config/Miscellaneous/OcrPack.h"
+#include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -14,6 +15,11 @@ bool asst::OcrImageAnalyzer::analyze()
     m_ocr_result.clear();
 
     std::vector<TextRectProc> preds_vec;
+
+    preds_vec.emplace_back([](TextRect& tr) -> bool {
+        tr.text = OcrConfig::get_instance().process_equivalence_class(tr.text);
+        return true;
+    });
 
     if (!m_replace.empty()) {
         if (m_replace_full) {
@@ -106,19 +112,25 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
 
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
+    ranges::for_each(required, [](std::string& str) { str = OcrConfig::get_instance().process_equivalence_class(str); });
     m_required = std::move(required);
 }
 
-void asst::OcrImageAnalyzer::set_replace(std::unordered_map<std::string, std::string> replace) noexcept
+void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace) noexcept
 {
-    m_replace = std::move(replace);
+    m_replace = {};
+    for (auto&& [key, val] : replace) {
+        auto new_key = OcrConfig::get_instance().process_equivalence_class(key);
+        auto new_val = OcrConfig::get_instance().process_equivalence_class(val);
+        m_replace.emplace(std::move(new_key), std::move(new_val));
+    }
 }
 
 void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
 {
-    m_required = std::move(task_info.text);
+    set_required(std::move(task_info.text));
     m_full_match = task_info.full_match;
-    m_replace = std::move(task_info.replace_map);
+    set_replace(task_info.replace_map);
     m_use_cache = task_info.cache;
     m_use_char_model = task_info.is_ascii;
     m_replace_full = task_info.replace_full;

@@ -104,7 +104,7 @@
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
-        
+
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
@@ -122,8 +122,6 @@
     <system:String x:Key="AdbException">ADB検出エラー&#x0a;このソフトウェアを開くには管理者権限を使用するか&#x0a;手動で接続を設定してください。</system:String>
     <system:String x:Key="EmulatorNotFound">エミュレータが検出されない&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため&#x0a;不要なエミュレータを閉じるか&#x0a;手動で接続設定を行ってください</system:String>
-
-    <system:String x:Key="AlreadyLatest">すでに最新版です～</system:String>
 
     <system:String x:Key="SwitchLanguage">言語を切り替える</system:String>
     <system:String x:Key="Language">言語</system:String>
@@ -145,9 +143,8 @@
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
     <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
     <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
-    <system:String x:Key="UpdateCheck">Update version</system:String>        
+    <system:String x:Key="UpdateCheck">Update version</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
-    <system:String x:Key="UpdateCheck">更新版</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
@@ -177,7 +174,7 @@
 
     <system:String x:Key="NewVersionFoundButNoPackageTitle">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください。</system:String>
-        
+
     <system:String x:Key="Timer">タイマー</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>

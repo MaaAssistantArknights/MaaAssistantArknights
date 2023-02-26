@@ -520,4 +520,10 @@
     <system:String x:Key="Hangover">下次不能喝、喝这么多了......</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
+
+    <!--  VersionUpdatePopup  -->
+    <system:String x:Key="UpdateNotificationOK">好的！</system:String>
+    <system:String x:Key="VersionUpdated">版本已更新</system:String>
+    <system:String x:Key="VersionUpdatedTo">已更新：</system:String>
+    <!--  VersionUpdatePopup  -->
 </ResourceDictionary>
