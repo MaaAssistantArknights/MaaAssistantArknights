@@ -611,6 +611,18 @@ namespace MaaWpfGui
             { "txwy", "ZH_TW" },
         };
 
+        private bool _autoRestartOnDrop = bool.Parse(ViewStatusStorage.Get("Start.AutoRestartOnDrop", "True"));
+
+        public bool AutoRestartOnDrop
+        {
+            get => _autoRestartOnDrop;
+            set
+            {
+                SetAndNotify(ref _autoRestartOnDrop, value);
+                ViewStatusStorage.Set("Start.AutoRestartOnDrop", value.ToString());
+            }
+        }
+
         /// <summary>
         /// Gets the server type.
         /// </summary>
