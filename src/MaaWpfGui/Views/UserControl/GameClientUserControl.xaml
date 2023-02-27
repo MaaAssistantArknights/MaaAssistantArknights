@@ -31,5 +31,11 @@
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
+        <CheckBox
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsChecked="{Binding AutoRestartOnDrop}"
+            Content="{DynamicResource AutoRestartOption}" />
     </StackPanel>
 </UserControl>
