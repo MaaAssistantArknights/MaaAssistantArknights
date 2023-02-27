@@ -174,6 +174,7 @@
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
+    <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
@@ -442,6 +443,7 @@ Please start on the "Start Deployment" screen after manual formation (can be use
     <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
     <system:String x:Key="GameCrash">게임이 강제종료되었습니다. 다시 시작해야 합니다.</system:String>
     <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다.</system:String>
+    <system:String x:Key="GameDropNoRestart">게임 중단, 다시 연결되지 않음, 퀘스트 중지</system:String>
     <system:String x:Key="RoguelikeGamePass">게임 클리어, 축하합니다!</system:String>
     <system:String x:Key="SSSGamePass">게임 클리어, 축하합니다!</system:String>
     <system:String x:Key="Trader">레벨: 교활한 상인</system:String>
