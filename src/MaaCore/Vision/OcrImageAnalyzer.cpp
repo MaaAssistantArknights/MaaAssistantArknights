@@ -116,7 +116,7 @@ void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noe
     m_required = std::move(required);
 }
 
-void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace) noexcept
+void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace, bool replace_full) noexcept
 {
     m_replace = {};
     for (auto&& [key, val] : replace) {
@@ -124,16 +124,16 @@ void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, s
         auto new_val = OcrConfig::get_instance().process_equivalence_class(val);
         m_replace.emplace(std::move(new_key), std::move(new_val));
     }
+    m_replace_full = replace_full;
 }
 
 void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
 {
     set_required(std::move(task_info.text));
     m_full_match = task_info.full_match;
-    set_replace(task_info.replace_map);
+    set_replace(task_info.replace_map, task_info.replace_full);
     m_use_cache = task_info.cache;
     m_use_char_model = task_info.is_ascii;
-    m_replace_full = task_info.replace_full;
 
     if (m_use_cache && !m_region_of_appeared.empty()) {
         m_roi = m_region_of_appeared;

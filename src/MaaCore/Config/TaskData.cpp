@@ -899,7 +899,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
           {
               "action",        "algorithm", "baseTask",        "cache",          "exceededNext",     "fullMatch",
               "hash",          "isAscii",   "maskRange",       "maxTimes",       "next",             "ocrReplace",
-              "onErrorNext",   "postDelay", "preDelay",        "rectMove",       "reduceOtherTimes", "roi",
+              "onErrorNext",   "postDelay", "preDelay",        "rectMove",       "reduceOtherTimes", "replaceFull", "roi",
               "specialParams", "sub",       "subErrorIgnored", "templThreshold", "template",         "text",
               "threshold",     "withoutDet",
           } },
@@ -914,7 +914,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
           {
               "action",      "algorithm", "baseTask",        "cache",    "exceededNext",
               "fullMatch",   "isAscii",   "maxTimes",        "next",     "ocrReplace",
-              "onErrorNext", "postDelay", "preDelay",        "rectMove", "reduceOtherTimes",
+              "onErrorNext", "postDelay", "preDelay",        "rectMove", "reduceOtherTimes", "replaceFull",
               "roi",         "sub",       "subErrorIgnored", "text",     "withoutDet",
               "specialParams"
           } },
