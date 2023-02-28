@@ -129,7 +129,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = ctrler()->get_image();
-    auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
     OcrWithFlagTemplImageAnalyzer name_analyzer(image);
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
