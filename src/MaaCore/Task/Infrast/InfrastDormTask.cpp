@@ -84,6 +84,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
     size_t num_of_fulltrust = 0;
     bool to_fill = false;
     int swipe_times = 0;
+    m_next_step = NextStep::Rest;
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
