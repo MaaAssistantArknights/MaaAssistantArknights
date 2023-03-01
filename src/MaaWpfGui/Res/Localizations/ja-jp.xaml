@@ -388,12 +388,14 @@
     <!--  Where use it?  -->
 
     <!--  ログ  -->
-    <system:String x:Key="CopilotTip">ヒント：</system:String>
-    <system:String x:Key="CopilotTip1">エミュレータとゲーム内設定のフレームレートを60fps以上に設定してください；</system:String>
-    <system:String x:Key="CopilotTip2">「行動開始」ボタンのあるインターフェースでこの機能を使用してください；</system:String>
-    <system:String x:Key="CopilotTip3">サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；</system:String>
-    <system:String x:Key="CopilotTip4">逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；</system:String>
-    <system:String x:Key="CopilotTip5">「自動編成」では、一時的に「戦術要員」オペレーターを認識できません。必要に応じて、戦術要員をキャンセルまたは手動に編成してください。</system:String>
+    <system:String x:Key="CopilotTip">
+        ヒント：\n\n
+        1. 「行動開始」ボタンのあるインターフェースでこの機能を使用してください；\n\n
+        2. サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
+        3. 逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；\n\n
+        4. For SSS, There are two built-in files under the resource/copilot folder.\n
+        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+    </system:String>
 
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
