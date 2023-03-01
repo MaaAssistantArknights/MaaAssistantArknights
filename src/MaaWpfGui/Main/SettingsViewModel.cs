@@ -134,11 +134,6 @@ namespace MaaWpfGui
             _asstProxy = _container.Get<AsstProxy>();
             _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
 
-            if (LoadGUIParameters && SaveGUIParametersOnClosing)
-            {
-                Application.Current.MainWindow.Closing += SaveGUIParameters;
-            }
-
             var addressListJson = ViewStatusStorage.Get("Connect.AddressHistory", string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
             {
@@ -2186,6 +2181,7 @@ namespace MaaWpfGui
                     if (SaveGUIParametersOnClosing)
                     {
                         Application.Current.MainWindow.Closing += SaveGUIParameters;
+                        Application.Current.Exit += SaveGUIParameters;
                     }
                     else
                     {
@@ -2210,15 +2206,17 @@ namespace MaaWpfGui
                 if (value)
                 {
                     Application.Current.MainWindow.Closing += SaveGUIParameters;
+                    Application.Current.Exit += SaveGUIParameters;
                 }
                 else
                 {
                     Application.Current.MainWindow.Closing -= SaveGUIParameters;
+                    Application.Current.Exit -= SaveGUIParameters;
                 }
             }
         }
 
-        private void SaveGUIParameters(object sender, EventArgs e)
+        public void SaveGUIParameters(object sender, EventArgs e)
         {
             SaveGUIParameters();
         }

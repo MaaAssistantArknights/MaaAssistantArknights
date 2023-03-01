@@ -125,6 +125,12 @@ namespace MaaWpfGui
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
+
+            if (_settingsViewModel.LoadGUIParameters && _settingsViewModel.SaveGUIParametersOnClosing)
+            {
+                Application.Current.MainWindow.Closing += _settingsViewModel.SaveGUIParameters;
+                Application.Current.Exit += _settingsViewModel.SaveGUIParameters;
+            }
         }
 
         /*
