@@ -2181,7 +2181,7 @@ namespace MaaWpfGui
                     if (SaveGUIParametersOnClosing)
                     {
                         Application.Current.MainWindow.Closing += SaveGUIParameters;
-                        Application.Current.Exit += SaveGUIParameters;
+                        Application.Current.MainWindow.Closed += SaveGUIParameters;
                     }
                     else
                     {
@@ -2206,12 +2206,12 @@ namespace MaaWpfGui
                 if (value)
                 {
                     Application.Current.MainWindow.Closing += SaveGUIParameters;
-                    Application.Current.Exit += SaveGUIParameters;
+                    Application.Current.MainWindow.Closed += SaveGUIParameters;
                 }
                 else
                 {
                     Application.Current.MainWindow.Closing -= SaveGUIParameters;
-                    Application.Current.Exit -= SaveGUIParameters;
+                    Application.Current.MainWindow.Closed -= SaveGUIParameters;
                 }
             }
         }
