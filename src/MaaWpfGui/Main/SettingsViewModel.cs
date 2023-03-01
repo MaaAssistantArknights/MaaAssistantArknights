@@ -2426,6 +2426,10 @@ namespace MaaWpfGui
                 System.Windows.Forms.MessageBoxManager.Yes = FormatText("{0}({1})", "Ok");
                 System.Windows.Forms.MessageBoxManager.No = FormatText("{0}({1})", "ManualRestart");
                 System.Windows.Forms.MessageBoxManager.Register();
+                Window mainWindow = Application.Current.MainWindow;
+                mainWindow.Show();
+                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Activate();
                 var result = MessageBox.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),
