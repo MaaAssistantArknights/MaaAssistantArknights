@@ -716,6 +716,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]
     ocr_task_info_ptr->full_match = task_json.get("fullMatch", default_ptr->full_match);
     ocr_task_info_ptr->is_ascii = task_json.get("isAscii", default_ptr->is_ascii);
     ocr_task_info_ptr->without_det = task_json.get("withoutDet", default_ptr->without_det);
+    ocr_task_info_ptr->replace_full = task_json.get("replaceFull", default_ptr->replace_full);
     if (auto opt = task_json.find<json::array>("ocrReplace")) {
         for (const json::value& rep : opt.value()) {
             ocr_task_info_ptr->replace_map.emplace(rep[0].as_string(), rep[1].as_string());
@@ -855,6 +856,7 @@ std::shared_ptr<asst::OcrTaskInfo> asst::TaskData::_default_ocr_task_info()
     ocr_task_info_ptr->full_match = false;
     ocr_task_info_ptr->is_ascii = false;
     ocr_task_info_ptr->without_det = false;
+    ocr_task_info_ptr->replace_full = false;
 
     return ocr_task_info_ptr;
 }
@@ -897,7 +899,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
           {
               "action",        "algorithm", "baseTask",        "cache",          "exceededNext",     "fullMatch",
               "hash",          "isAscii",   "maskRange",       "maxTimes",       "next",             "ocrReplace",
-              "onErrorNext",   "postDelay", "preDelay",        "rectMove",       "reduceOtherTimes", "roi",
+              "onErrorNext",   "postDelay", "preDelay",        "rectMove",       "reduceOtherTimes", "replaceFull", "roi",
               "specialParams", "sub",       "subErrorIgnored", "templThreshold", "template",         "text",
               "threshold",     "withoutDet",
           } },
@@ -912,7 +914,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
           {
               "action",      "algorithm", "baseTask",        "cache",    "exceededNext",
               "fullMatch",   "isAscii",   "maxTimes",        "next",     "ocrReplace",
-              "onErrorNext", "postDelay", "preDelay",        "rectMove", "reduceOtherTimes",
+              "onErrorNext", "postDelay", "preDelay",        "rectMove", "reduceOtherTimes", "replaceFull",
               "roi",         "sub",       "subErrorIgnored", "text",     "withoutDet",
               "specialParams"
           } },

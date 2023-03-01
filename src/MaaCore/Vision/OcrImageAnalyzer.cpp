@@ -22,13 +22,26 @@ bool asst::OcrImageAnalyzer::analyze()
     });
 
     if (!m_replace.empty()) {
-        TextRectProc text_replace = [&](TextRect& tr) -> bool {
-            for (const auto& [regex, new_str] : m_replace) {
-                tr.text = std::regex_replace(tr.text, std::regex(regex), new_str);
-            }
-            return true;
-        };
-        preds_vec.emplace_back(text_replace);
+        if (m_replace_full) {
+            TextRectProc text_replace = [&](TextRect& tr) -> bool {
+                for (const auto& [regex, new_str] : m_replace) {
+                    if (std::regex_search(tr.text, std::regex(regex))) {
+                        tr.text = new_str;
+                    }
+                }
+                return true;
+            };
+            preds_vec.emplace_back(text_replace);
+        }
+        else {
+            TextRectProc text_replace = [&](TextRect& tr) -> bool {
+                for (const auto& [regex, new_str] : m_replace) {
+                    tr.text = std::regex_replace(tr.text, std::regex(regex), new_str);
+                }
+                return true;
+            };
+            preds_vec.emplace_back(text_replace);
+        }
     }
 
     if (!m_required.empty()) {
@@ -103,7 +116,7 @@ void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noe
     m_required = std::move(required);
 }
 
-void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace) noexcept
+void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace, bool replace_full) noexcept
 {
     m_replace = {};
     for (auto&& [key, val] : replace) {
@@ -111,13 +124,14 @@ void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, s
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
         m_replace.emplace(std::move(new_key), val);
     }
+    m_replace_full = replace_full;
 }
 
 void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
 {
     set_required(std::move(task_info.text));
     m_full_match = task_info.full_match;
-    set_replace(task_info.replace_map);
+    set_replace(task_info.replace_map, task_info.replace_full);
     m_use_cache = task_info.cache;
     m_use_char_model = task_info.is_ascii;
 
