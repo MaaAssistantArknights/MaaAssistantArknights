@@ -121,8 +121,8 @@ void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, s
     m_replace = {};
     for (auto&& [key, val] : replace) {
         auto new_key = OcrConfig::get_instance().process_equivalence_class(key);
-        auto new_val = OcrConfig::get_instance().process_equivalence_class(val);
-        m_replace.emplace(std::move(new_key), std::move(new_val));
+        // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
+        m_replace.emplace(std::move(new_key), val);
     }
     m_replace_full = replace_full;
 }
