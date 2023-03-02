@@ -32,6 +32,8 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         OcrImageAnalyzer analyzer(m_image);
         analyzer.set_roi(Task.get("RoguelikeRecruitSupportOcr")->roi);
         analyzer.set_required(m_required);
+        analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                             Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
         if (!analyzer.analyze()) return false;
 
         const auto& char_name_rects = analyzer.get_result();

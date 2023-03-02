@@ -2,8 +2,8 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Vision/MultiMatchImageAnalyzer.h"
 #include "Utils/StringMisc.hpp"
+#include "Vision/MultiMatchImageAnalyzer.h"
 
 bool asst::InfrastSmileyImageAnalyzer::analyze()
 {

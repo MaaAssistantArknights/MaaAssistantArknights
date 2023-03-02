@@ -17,6 +17,7 @@ namespace asst
     {
     private:
         using tasklist_t = std::vector<std::string>;
+        using tasklistptr_t = std::shared_ptr<tasklist_t>;
         using taskptr_t = std::shared_ptr<TaskInfo>;
 
         std::shared_ptr<MatchTaskInfo> _default_match_task_info();
@@ -141,7 +142,9 @@ namespace asst
         {
             return m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
-        std::optional<taskptr_t> expend_sharp_task(std::string_view name, taskptr_t old_task);
+        bool explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_tasks, std::string_view name,
+                           bool& task_changed, bool multi);
+        std::optional<taskptr_t> expend_task(std::string_view name, taskptr_t old_task);
 #ifdef ASST_DEBUG
         bool syntax_check(const std::string& task_name, const json::value& task_json);
 #endif
