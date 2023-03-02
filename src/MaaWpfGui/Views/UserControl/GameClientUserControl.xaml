@@ -34,7 +34,14 @@
             SelectedValuePath="Value" />
         <maa:TextBlock
             HorizontalAlignment="Center"
-            Text="帮帮"
-            Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}" />
+            Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}" >
+            <Hyperlink
+                Click="Hyperlink_Click"
+                Cursor="Hand"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.OverseasAdaptation}}"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}" />
+            </Hyperlink>
+        </maa:TextBlock>
     </StackPanel>
 </UserControl>
