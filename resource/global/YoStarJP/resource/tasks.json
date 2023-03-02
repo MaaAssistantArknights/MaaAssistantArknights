@@ -3570,17 +3570,20 @@
     },
     "RoguelikeRefreshSupportBtnOcr": {
         "text": [
-            "サポート更新"
+            "サポート",
+            "更新"
         ]
     },
     "RoguelikeChooseSupportBtnOcr": {
         "text": [
-            "サポート"
+            "サポー"
         ]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": [
-            "サポート招集"
+            "サ.*ート",
+            "招集",
+            "召集"
         ]
     }
 }
