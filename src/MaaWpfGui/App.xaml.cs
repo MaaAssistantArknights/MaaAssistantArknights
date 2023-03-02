@@ -11,7 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Diagnostics;
+using System.Security.Policy;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace MaaWpfGui
 {
@@ -20,5 +24,13 @@ namespace MaaWpfGui
     /// </summary>
     public partial class App : Application
     {
+        public void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            if (!string.IsNullOrEmpty(link.NavigateUri.AbsoluteUri))
+            {
+                Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
+            }
+        }
     }
 }
