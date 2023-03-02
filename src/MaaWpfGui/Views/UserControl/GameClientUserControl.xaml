@@ -32,9 +32,7 @@
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
-        <maa:TextBlock
-            HorizontalAlignment="Center"
-            Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}" >
+        <maa:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}">
             <Hyperlink
                 Click="Hyperlink_Click"
                 Cursor="Hand"
