@@ -37,7 +37,6 @@ namespace asst
         void swipe_of_operlist();
         bool is_use_custom_opers();
         infrast::CustomRoomConfig& current_room_config();
-        bool swipe_and_select_custom_opers(bool is_dorm_order = false);
         bool select_custom_opers(std::vector<std::string>& partial_result);
         bool select_opers_review(infrast::CustomRoomConfig const& origin_room_config,
                                  size_t num_of_opers_expect = 0); // 复核干员选择是否符合期望
@@ -48,9 +47,9 @@ namespace asst
         virtual bool click_clear_button();         // 点击干员选择页面的“清空选择”按钮
         virtual bool click_sort_by_trust_button(); // 点击干员选择页面的“按信赖值排序”按钮
         virtual bool click_filter_menu_not_stationed_button(); // 点击干员选择页面的筛选菜单按钮的“未进驻”按钮
-        virtual bool
-        click_filter_menu_cancel_not_stationed_button(); // 取消点击干员选择页面的筛选菜单按钮的“未进驻”按钮
+        virtual bool click_filter_menu_cancel_not_stationed_button(); // 取消点击干员选择页面的筛选菜单按钮的“未进驻”按钮
         virtual bool click_confirm_button(); // 点击干员选择页面的“确认”按钮
+        virtual bool swipe_and_select_custom_opers();
 
         int m_last_swipe_id = 0;
         const std::string m_work_mode_name =

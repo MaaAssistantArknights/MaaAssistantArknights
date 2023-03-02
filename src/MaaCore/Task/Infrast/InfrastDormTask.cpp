@@ -41,19 +41,20 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
 
-        auto origin_room_config = current_room_config();
-        if (is_use_custom_opers()) {
-            swipe_and_select_custom_opers(true);
-        }
-        else {
-            click_clear_button(); // 宿舍若未指定干员，则清空后按照原约定逻辑选择干员
+        infrast::CustomRoomConfig origin_room_config = current_room_config();
+
+        // 尽量保障第一个宿舍是按心情升序排序，且未打开未进驻筛选
+        if (m_cur_facility_index == 0) {
+            ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked" }).run();
+            click_filter_menu_cancel_not_stationed_button();
         }
 
-        Log.trace("m_dorm_notstationed_enabled:", m_dorm_notstationed_enabled);
-        if (m_dorm_notstationed_enabled && !m_if_filter_notstationed_haspressed) {
-            Log.trace("click_filter_menu_not_stationed_button");
+        if (is_use_custom_opers()) {
+            swipe_and_select_custom_opers();
+        }
+        else {
             click_filter_menu_not_stationed_button();
-            m_if_filter_notstationed_haspressed = true;
+            click_clear_button(); // 宿舍若未指定干员，则清空后按照原约定逻辑选择干员
         }
 
         if (!m_is_custom || current_room_config().autofill) {
@@ -64,6 +65,7 @@ bool asst::InfrastDormTask::_run()
         else {
             if (!select_opers_review(origin_room_config)) {
                 current_room_config() = std::move(origin_room_config);
+                m_filter_notstationed = FilterNotstationed::Unknown;
                 return false;
             }
         }
@@ -84,6 +86,10 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
     size_t num_of_fulltrust = 0;
     bool to_fill = false;
     int swipe_times = 0;
+
+    if (m_next_step == NextStep::Trust) {
+        click_sort_by_trust_button();
+    }
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -156,9 +162,6 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                         Log.trace("num_of_fulltrust:", num_of_fulltrust);
                         m_next_step = NextStep::Fill;
                         to_fill = true;
-                        if (!m_dorm_notstationed_enabled && m_if_filter_notstationed_haspressed) {
-                            click_filter_menu_cancel_not_stationed_button();
-                        }
                         click_order_by_mood();
                         break;
                     }
@@ -190,11 +193,9 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                 else if (++num_of_resting >= 6) {
                     Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
                     if (m_dorm_trust_enabled) {
-                        Log.trace("m_dorm_trust_enabled:", m_dorm_trust_enabled);
-                        if (!m_if_filter_notstationed_haspressed) {
-                            Log.trace("click_filter_menu_not_stationed_button");
-                            click_filter_menu_not_stationed_button();
-                            m_if_filter_notstationed_haspressed = true;
+                        if (swipe_times) {
+                            swipe_to_the_left_of_operlist(swipe_times);
+                            swipe_times = 0;
                         }
                         Log.trace("click_sort_by_trust_button");
                         click_sort_by_trust_button();
@@ -250,18 +251,96 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
         }
     }
 
-    ProcessTask(*this, { "InfrastOperListTabMoodClick", "InfrastOperListTabWorkStatusUnClicked" }).run();
-    if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
-    swipe_times = 0;
+    if (m_next_step == NextStep::Trust) {
+        // 随便点个排序，防止遮挡名字
+        ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
+    }
+    // 由于下个宿舍大概率要关闭筛选开关，这里又要翻页，索性用筛选功能来翻页和排序
+    click_filter_menu_cancel_not_stationed_button();
     bool review = select_opers_review(origin_room_config, num_of_selected);
-    if (m_next_step == NextStep::RestDone || m_next_step == NextStep::Trust) {
-        click_sort_by_trust_button();
-    }
-    else {
-        ProcessTask(*this, { "InfrastOperListTabMoodClick" }).run();
-    }
     if (!review) {
         current_room_config() = origin_room_config;
+        m_filter_notstationed = FilterNotstationed::Unknown;
+        return false;
+    }
+
+    return true;
+}
+
+bool asst::InfrastDormTask::swipe_and_select_custom_opers()
+{
+    LogTraceFunction;
+
+    auto& room_config = current_room_config();
+    infrast::CustomRoomConfig origin_room_config = room_config;
+    {
+        json::value cb_info = basic_info_with_what("CustomInfrastRoomOperators");
+        auto& details = cb_info["details"];
+        details["names"] = json::array(room_config.names);
+        details["candidates"] = json::array(room_config.candidates);
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
+    }
+
+    // 关闭未进驻筛选开关，避免不合理的基建配置导致找不到人(比如其他宿舍)，说我们程序有问题
+    // 后面也正好可以利用再次打开筛选开关，来跳过翻页步骤
+    click_filter_menu_cancel_not_stationed_button();
+    click_order_by_mood();
+    click_clear_button(); // 先排序后清空，加速干员变化不大时的选择速度
+
+    std::vector<std::string> opers_order = room_config.names;
+    opers_order.insert(opers_order.end(), room_config.candidates.cbegin(), room_config.candidates.cend());
+
+    std::vector<std::string> pre_partial_result;
+    bool retried = false;
+    bool pre_result_no_changes = false;
+    int swipe_times = 0;
+    while (true) {
+        if (need_exit()) {
+            return false;
+        }
+        std::vector<std::string> partial_result;
+        if (!select_custom_opers(partial_result)) {
+            return false;
+        }
+        if (room_config.selected >= max_num_of_opers() ||
+            (room_config.names.empty() && room_config.candidates.empty())) {
+            break;
+        }
+        if (partial_result == pre_partial_result) {
+            if (pre_result_no_changes) {
+                Log.warn("partial result is not changed, reset the page");
+                if (retried) {
+                    Log.error("already retring");
+                    break;
+                }
+                swipe_to_the_left_of_operlist(swipe_times + 1);
+                swipe_times = 0;
+                retried = true;
+            }
+            else {
+                pre_result_no_changes = true;
+            }
+        }
+        else {
+            pre_result_no_changes = false;
+        }
+        pre_partial_result = partial_result;
+        swipe_of_operlist();
+        ++swipe_times;
+    }
+
+    // 使用筛选功能可以自动切换到第一页，并将已经选中的人放到最前面
+    // 这样可以防止后面的autofill选了其他宿舍的人，并使得每个宿舍人尽量满
+    click_filter_menu_not_stationed_button();
+    swipe_times = 0;
+
+    // 如果只选了一个人没必要排序
+    if (room_config.sort && room_config.selected > 1) {
+        click_clear_button();
+        order_opers_selection(opers_order);
+    }
+
+    if (!room_config.names.empty()) {
         return false;
     }
 
@@ -270,7 +349,24 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
 
 bool asst::InfrastDormTask::click_order_by_mood()
 {
+    if (m_next_step == NextStep::Rest) return true;
     return ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked", "Stop" }).run();
+}
+
+bool asst::InfrastDormTask::click_filter_menu_not_stationed_button()
+{
+    if (m_filter_notstationed == FilterNotstationed::Pressed) return true;
+    Log.trace("click_filter_menu_not_stationed_button");
+    return asst::InfrastAbstractTask::click_filter_menu_not_stationed_button() \
+        && (m_filter_notstationed = FilterNotstationed::Pressed) == FilterNotstationed::Pressed;
+}
+
+bool asst::InfrastDormTask::click_filter_menu_cancel_not_stationed_button()
+{
+    if (m_filter_notstationed == FilterNotstationed::Unpressed) return true;
+    Log.trace("click_filter_menu_cancel_not_stationed_button");
+    return asst::InfrastAbstractTask::click_filter_menu_cancel_not_stationed_button() \
+        && (m_filter_notstationed = FilterNotstationed::Unpressed) == FilterNotstationed::Unpressed;
 }
 
 // bool asst::InfrastDormTask::click_confirm_button()

@@ -4785,7 +4785,7 @@
         ],
         "next": [
             "InfrastFilterMenuNotStationedButton",
-            "InfrastFilterMenuNotStationedButtonAlreadyClicked"
+            "InfrastFilterMenuConfirmButton"
         ],
         "postDelay": 1000
     },
@@ -4829,7 +4829,7 @@
         ],
         "next": [
             "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
-            "InfrastFilterMenuCancelNotStationedButton"
+            "InfrastFilterMenuConfirmButton"
         ],
         "postDelay": 1000
     },
@@ -4852,6 +4852,7 @@
     "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
+        "templThreshold": 0.9,
         "cache": false,
         "roi": [
             300,
@@ -5739,7 +5740,7 @@
             119
         ],
         "templThreshold": 0.7,
-        "postDelay": 1500
+        "postDelay": 200
     },
     "InfrastOperListTabMoodDoubleClick": {
         "action": "ClickSelf",
@@ -5770,6 +5771,17 @@
     },
     "InfrastOperListTabMoodClick": {
         "template": "InfrastOperListTabMoodDoubleClick.png",
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            131,
+            117
+        ],
+        "templThreshold": 0.7
+    },
+    "InfrastOperListTabMoodClickWhenUnclicked": {
+        "template": "InfrastOperListTabMoodDoubleClickWhenUnclicked.png",
         "action": "ClickSelf",
         "roi": [
             900,

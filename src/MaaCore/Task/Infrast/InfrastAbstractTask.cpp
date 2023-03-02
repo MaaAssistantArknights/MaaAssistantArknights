@@ -8,6 +8,7 @@
 #include "Config/TaskData.h"
 #include "Controller.h"
 #include "Task/ProcessTask.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
@@ -136,12 +137,12 @@ bool asst::InfrastAbstractTask::is_use_custom_opers()
 }
 
 /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
-bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order)
+bool asst::InfrastAbstractTask::swipe_and_select_custom_opers()
 {
     LogTraceFunction;
 
     auto& room_config = current_room_config();
-    auto origin_room_config = room_config;
+    infrast::CustomRoomConfig origin_room_config = room_config;
     {
         json::value cb_info = basic_info_with_what("CustomInfrastRoomOperators");
         auto& details = cb_info["details"];
@@ -150,12 +151,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
     }
 
-    if (!is_dorm_order) {
-        ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
-    }
-    else {
-        ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked" }).run();
-    }
+    ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
 
     if (max_num_of_opers() > 1) {
         click_clear_button(); // 先排序后清空，加速干员变化不大时的选择速度
@@ -205,17 +201,10 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
     // 因为后面autofill要按工作状态排序，所以直接按工作状态排序好了
-    // 然后滑动到最左边，清空一下，在走后面的识别+按序点击逻辑
-    if (is_dorm_order) {
-        ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
-        sleep(200);
-    }
-    else {
-        ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
-    }
-
+    // 然后滑动到最左边，清空一下，再走后面的识别+按序点击逻辑
+    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
     if (swipe_times) {
-        swipe_to_the_left_of_operlist(swipe_times + 1);
+        swipe_to_the_left_of_operlist(swipe_times);
         swipe_times = 0;
     }
     // 如果只选了一个人没必要排序
@@ -228,7 +217,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         return false;
     }
 
-    if (!is_dorm_order && !select_opers_review(origin_room_config)) {
+    if (!select_opers_review(origin_room_config)) {
         // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
         current_room_config() = std::move(origin_room_config);
         return false;
@@ -246,10 +235,11 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
                                                     size_t num_of_opers_expect)
 {
     LogTraceFunction;
-    // save_img("debug/");
-    auto room_config = origin_room_config;
-
+    infrast::CustomRoomConfig room_config = origin_room_config;
     const auto image = ctrler()->get_image();
+    #ifdef ASST_DEBUG
+        asst::imwrite("debug/" + utils::get_random_filestem() + "_raw.png", image);
+    #endif
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected |
                                    InfrastOperImageAnalyzer::ToBeCalced::Doing);
@@ -261,7 +251,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
     const auto& oper_analyzer_res = oper_analyzer.get_result();
     size_t selected_count =
         ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
-    Log.info("selected_count,config.names.size,num_of_opers_expect = ", selected_count, ",", room_config.names.size(),
+    Log.info("selected_count,config.names.size,num_of_opers_expect =", selected_count, ",", room_config.names.size(),
              ",", num_of_opers_expect);
 
     if (selected_count < num_of_opers_expect) {
@@ -297,7 +287,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
         else { // 备选干员或自动选择，只要不选工作中的干员即可
             if (oper.doing == infrast::Doing::Working) {
                 Log.warn("选了工作中的干员:", name);
-                Log.warn("select opers review fail: 非自定义配置，却选了工作中的干员");
+                Log.warn("select opers review fail: 误选了工作中的干员");
                 return false;
             }
         }
@@ -412,7 +402,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
             Log.error("name not in this page", name);
         }
     }
-    sleep(500); // 此处刚刚选择了一位干员，因后续任务需截图识别，所以需要一个延迟，以保证后续截图选中状态无误
+    sleep(200); // 此处刚刚选择了一位干员，因后续任务需截图识别，所以需要一个延迟，以保证后续截图选中状态无误
 }
 
 void asst::InfrastAbstractTask::click_return_button()
