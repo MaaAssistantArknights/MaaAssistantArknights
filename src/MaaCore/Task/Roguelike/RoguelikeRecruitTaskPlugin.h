@@ -26,7 +26,7 @@ namespace asst
         // 滑动到干员列表的最左侧
         void swipe_to_the_left_of_operlist(int loop_times = 2);
         // 缓慢向干员列表的左侧/右侧滑动
-        void slowly_swipe(bool to_left);
+        void slowly_swipe(bool to_left, int swipe_dist = 500);
 
     private:
         bool check_support_char();

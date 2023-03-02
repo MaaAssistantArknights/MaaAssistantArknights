@@ -38,11 +38,11 @@ namespace MaaWpfGui
 
         private static readonly Dictionary<string, string> _helpUrl = new Dictionary<string, string>
         {
-            { "zh-cn", "1.2-常见问题.md" },
-            { "en-us", "en-us/1.2-FAQ.md" },
-            { "ja-jp", "ja-jp/1.2-よくある質問.md" },
-            { "ko-kr", "ko-kr/1.2-FAQ.md" },
-            { "zh-tw", "zh-tw/1.2-常見問題.md" },
+            { "zh-cn", "1.2-常见问题.html" },
+            { "en-us", "en-us/1.2-FAQ.html" },
+            { "ja-jp", "ja-jp/1.2-よくある質問.html" },
+            { "ko-kr", "ko-kr/1.2-FAQ.html" },
+            { "zh-tw", "zh-tw/1.2-常見問題.html" },
             { "pallas", "KeepDrinking" },
         };
 

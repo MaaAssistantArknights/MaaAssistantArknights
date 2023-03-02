@@ -247,7 +247,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         if (image.empty()) {
             image = ctrler()->get_image();
             check_in_battle(image);
-        }     
+        }
     };
     auto do_strategy_and_update_image = [&]() {
         do_strategic_action(image);

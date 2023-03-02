@@ -1,6 +1,20 @@
 #include "TilePack.h"
 
 #include "Common/AsstConf.h"
+#include "meojson/json.hpp"
+
+#include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <filesystem>
+#include <future>
+#include <list>
+#include <mutex>
+#include <numeric>
+#include <optional>
+#include <queue>
+
 ASST_SUPPRESS_CV_WARNINGS_START
 #include <Arknights-Tile-Pos/TileCalc.hpp>
 ASST_SUPPRESS_CV_WARNINGS_END
@@ -16,36 +30,101 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         return false;
     }
 
-    std::vector<json::value> tiles_array;
-    for (const auto& entry : std::filesystem::directory_iterator(path)) {
-        const auto& file_path = entry.path();
-        if (file_path.extension() != ".json") {
-            continue;
-        }
-        auto json_opt = json::open(file_path);
-        if (!json_opt) {
-            Log.error("Failed to open json file:", file_path);
-            return false;
-        }
-        auto& json = json_opt.value();
-        if (json.is_array()) {
-            // 兼容上游仓库的 levels.json
-            // 有些用户习惯于在游戏更新了但maa还没发版前，自己手动更新下 levels.json，可以提前用
-            tiles_array.insert(tiles_array.end(), std::make_move_iterator(json.as_array().begin()),
-                               std::make_move_iterator(json.as_array().end()));
-        }
-        else if (json.is_object()) {
-            tiles_array.emplace_back(std::move(*json_opt));
-        }
-        else {
-            Log.error("Invalid json file:", file_path);
-            return false;
+    std::list<json::value> tiles_array;
+    std::queue<std::pair<std::filesystem::path, std::string>> file_strings;
+
+    std::atomic_bool eoq = false;
+    std::mutex queue_mut;
+    std::condition_variable condvar;
+
+    using result_type = std::optional<std::list<json::value>>;
+    std::vector<std::future<result_type>> workers;
+
+    {
+        auto n_workers = std::max(1U, std::thread::hardware_concurrency());
+        workers.reserve(n_workers);
+        for (auto thi = 0U; thi < n_workers; ++thi) {
+            workers.emplace_back(std::async(std::launch::async, [&]() -> result_type {
+                std::list<json::value> result;
+                while (true) {
+                    std::unique_lock lk { queue_mut };
+                    condvar.wait(lk, [&]() -> bool { return !file_strings.empty() || eoq.load(); });
+                    if (file_strings.empty()) return result;
+
+                    std::string buf {};
+                    buf.swap(file_strings.front().second);
+                    auto path = file_strings.front().first;
+                    file_strings.pop();
+                    lk.unlock();
+
+                    auto json_opt = json::parse(buf);
+                    if (!json_opt) {
+                        Log.error("Unable to parse json file:", path);
+                        eoq.store(true);
+                        return std::nullopt;
+                    }
+
+                    auto& json = json_opt.value();
+                    if (json.is_array()) {
+                        // 兼容上游仓库的 levels.json
+                        // 有些用户习惯于在游戏更新了但maa还没发版前，自己手动更新下 levels.json，可以提前用
+                        result.insert(tiles_array.end(), std::make_move_iterator(json.as_array().begin()),
+                                      std::make_move_iterator(json.as_array().end()));
+                    }
+                    else if (json.is_object()) {
+                        result.emplace_back(std::move(json));
+                    }
+                    else {
+                        Log.error("Invalid json file:", path);
+                        eoq.store(true);
+                        return std::nullopt;
+                    }
+                }
+            }));
         }
     }
 
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+
+        if (eoq.load()) break; // this means parsing went wrong
+
+        const auto& file_path = entry.path();
+        if (file_path.extension() != ".json") continue;
+
+        const auto f_size = std::filesystem::file_size(file_path);
+        std::ifstream ifs(file_path, std::ios::in);
+        auto buf = std::string(f_size, '\0');
+        ifs.read(buf.data(), static_cast<std::streamsize>(buf.size()));
+        {
+            std::unique_lock lk(queue_mut);
+            file_strings.push(std::make_pair(file_path, std::move(buf)));
+        }
+        condvar.notify_one();
+    }
+
+    eoq.store(true);
+    condvar.notify_all();
+
+    auto result = std::transform_reduce(
+        workers.begin(), workers.end(), std::optional { std::list<json::value> {} },
+        [](result_type lhs, result_type rhs) -> result_type {
+            if (!lhs || !rhs) return std::nullopt;
+            lhs->splice(lhs->end(), std::move(rhs).value());
+            return lhs;
+        },
+        [&](std::future<result_type>& fut) -> result_type {
+            while (fut.wait_for(std::chrono::milliseconds(10)) == std::future_status::timeout)
+                condvar.notify_all(); // is this necessary?
+            return fut.get();
+        });
+
+    if (!result) return false;
+    Log.info("got", result->size(), "maps");
+
     try {
+        // TODO: this move has no effect
         m_tile_calculator =
-            std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(tiles_array));
+            std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(result).value());
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());

@@ -10,7 +10,6 @@
 #include "Status.h"
 #include "Utils/NoWarningCVMat.h"
 
-
 namespace asst
 {
     class ProcessTask;
