@@ -1,8 +1,12 @@
 from PIL import Image, ImageTk
 import tkinter as tk
+from tkinter import simpledialog
 import argparse
 
 img = ""
+
+# Whether the previous rectangles will be cleared when creating a new one
+KEEP_RECT = True
 
 class ImageRectSelector:
     def __init__(self, image_path):
@@ -30,31 +34,34 @@ class ImageRectSelector:
         # Bind the keyboard event handler to the root window
         self.root.bind("<Key>", self.on_key)
 
+        # Set the flag so the program loops in run()
         self.is_quit = False
 
         # Initialize the rectangle coordinates
         self.rect_start_x, self.rect_start_y = None, None
         self.rect_end_x, self.rect_end_y = None, None
 
-    def draw_rectangle(self):
+    def draw_rectangle(self, tags="rect"):
+        # Erase previous temporary rectangles
+        self.canvas.delete("tmp")
+
+        # Erase the previous rectangles if KEEP_RECT is set to False
+        if not KEEP_RECT:
+            self.canvas.delete("rect")
+
+        # Draw the rectangle with the given tags
         self.canvas.create_rectangle(self.rect_start_x, self.rect_start_y, self.rect_end_x, self.rect_end_y,
-                                     outline='red', tags="rect")
+                                     outline='red', tags=tags)
 
     def on_mouse_down(self, event):
         self.rect_start_x, self.rect_start_y = event.x, event.y
 
     def on_mouse_drag(self, event):
-        # Erase the previous rectangle
-        self.canvas.delete("rect")
-
-        # Draw the new rectangle on the canvas
+        # Draw the new temporary rectangle on the canvas
         self.rect_end_x, self.rect_end_y = event.x, event.y
-        self.draw_rectangle()
+        self.draw_rectangle("tmp")
 
     def on_mouse_up(self, event):
-        # Erase the final rectangle
-        self.canvas.delete("rect")
-
         # Draw the new rectangle on the canvas
         self.rect_end_x, self.rect_end_y = event.x, event.y
         self.draw_rectangle()
@@ -70,17 +77,25 @@ class ImageRectSelector:
         if event.char == "q":
             self.is_quit = True
             self.root.quit()
+
+        # Handle the 'c' key to clear all rectangles
         elif event.char == "c":
             self.canvas.delete("rect")
+            self.canvas.delete("tmp")
+
+        # Handle the 'i' key to take an input and draw the corresponding rectangle
         elif event.char == "i":
             self.prompt_rect_coords()
             self.draw_rectangle()
 
     def prompt_rect_coords(self):
         # Prompt the user to enter the rectangle coordinates
-        x, y, w, h = input(
-            "Enter the rectangle coordinates (x y w h): ").split()
-        x, y, w, h = int(x), int(y), int(w), int(h)
+        # x, y, w, h = input(
+            # "Enter the rectangle coordinates (x y w h): ").replace(',', ' ').split()
+        # x, y, w, h = map(int, (x, y, w, h))
+        coords_str = simpledialog.askstring(
+            "Input", "Enter rectangle coordinates (x1 y1 x2 y2):")
+        x, y, w, h = map(int, coords_str.replace(',', ' ').split())
 
         # Set the rectangle coordinates
         self.rect_start_x, self.rect_start_y = x, y
@@ -92,11 +107,6 @@ class ImageRectSelector:
             self.root.update_idletasks()
             self.root.update()
             self.root.after(10)  # wait 10 ms between event loop iterations
-
-    # def run(self):
-    #     # Start the Tkinter event loop
-    #     self.root.mainloop()
-
 
 if __name__ == "__main__":
     import os
@@ -121,12 +131,16 @@ if __name__ == "__main__":
     # Parse command-line arguments
     args = parser.parse_args()
 
+    # Handle image path in different situations
     if args.image_path:
         image_path = args.image_path
     elif img:
         image_path = img
     else:
         image_path = input("Enter path to image file: ")
+
+    # Print the prompt
+    print("drag to select and see coordinates, q to quit, c to clean, i to input coordinates")
 
     # Create an ImageRectSelector instance with the image path
     selector = ImageRectSelector(image_path)
