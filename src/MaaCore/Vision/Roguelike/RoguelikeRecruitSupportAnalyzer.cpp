@@ -93,24 +93,35 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
     else if (m_mode == battle::roguelike::SupportAnalyzeMode::RefreshSupportBtn) {
         // 识别“更新助战列表”
         OcrImageAnalyzer analyzer(m_image);
-        const auto& task = Task.get<OcrTaskInfo>("RoguelikeRefreshSupportBtnOcr");
-        analyzer.set_roi(task->roi);
-        if (!analyzer.analyze()) return false;
+
+        // 未处在冷却时间
+        analyzer.set_task_info("RoguelikeRefreshSupportBtnOcr");
+        if (analyzer.analyze()) {
+            m_refresh_result = { analyzer.get_result().front().rect, false, 0 };
+            return true;
+        }
+
+        // 刷新冷却中
+        analyzer.set_required({});
+        analyzer.set_replace({ { "：", ":" } });
+        if (!analyzer.analyze()) {
+            Log.info(__FUNCTION__, "| RefreshSupportBtn analyse failed");
+            return false;
+        }
         const auto& results = analyzer.get_result();
         for (const auto& result : results) {
             Log.info(__FUNCTION__, "| RefreshSupportBtn parse `", result.text, "`", result.score);
-            if (std::count(task->text.begin(), task->text.end(), result.text)) {
-                m_refresh_result = { result.rect, false, 0 };
-                return true;
-            }
-            else if (std::regex_match(result.text, std::regex("[0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
-                const auto& hour = std::atoi(result.text.substr(2).c_str());
-                const auto& min = std::atoi(result.text.substr(3, 2).c_str());
-                const auto& sec = std::atoi(result.text.substr(7, 2).c_str());
+            std::smatch match_results;
+            if (std::regex_search(result.text, match_results, std::regex("[0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
+                const auto& match_str = match_results[0].str();
+                const auto& hour = std::atoi(match_str.substr(2).c_str());
+                const auto& min = std::atoi(match_str.substr(3, 2).c_str());
+                const auto& sec = std::atoi(match_str.substr(7, 2).c_str());
                 m_refresh_result = { result.rect, true, 3600 * hour + 60 * min + sec };
                 return true;
             }
         }
+        Log.info(__FUNCTION__, "| RefreshSupportBtn failed: no matched reusults");
         return false;
     }
 

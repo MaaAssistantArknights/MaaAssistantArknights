@@ -9442,14 +9442,9 @@
         "baseTask": "RoguelikeRecruitSupportElite"
     },
     "RoguelikeRecruitSupportEnterFlag": {
-        "template": "Roguelike@RefreshSupportBtn.png",
-        "action": "DoNothing",
-        "roi": [
-            1094,
-            10,
-            172,
-            47
-        ]
+        "baseTask": "RoguelikeRefreshSupportBtnOcr",
+        "postDelay": 0,
+        "action": "DoNothing"
     },
     "SSSBegin": {
         "Doc": "保全派驻",
