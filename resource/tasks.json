@@ -3166,7 +3166,8 @@
             "Recruit@ReturnTo",
             "Recruit@CloseAnnos#next",
             "Recruit@FromStageSN",
-            "Recruit@TodaysSupplies"
+            "Recruit@TodaysSupplies",
+            "Recruit@OfflineConfirm"
         ]
     },
     "Recruit": {
@@ -4006,6 +4007,7 @@
         "postDelay": 500,
         "next": [
             "RecruitRefreshConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "SleepThenStop"
         ]
     },
@@ -4067,6 +4069,7 @@
         ],
         "next": [
             "RecruitConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "RecruitFlag"
         ]
     },
