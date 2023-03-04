@@ -81,16 +81,15 @@ if (CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
     target_link_libraries(MaaCore range-v3::range-v3)
 endif ()
 
+if(INSTALL_DEVEL)
+    set(MaaCore_install_extra_args PUBLIC_HEADER DESTINATION devel/include ARCHIVE DESTINATION devel/lib)
+endif()
+
 install(TARGETS MaaCore
     RUNTIME DESTINATION .
+    LIBRARY DESTINATION .
+    ${MaaCore_install_extra_args}
 )
-
-if(INSTALL_DEVEL)
-    install(TARGETS MaaCore
-        PUBLIC_HEADER DESTINATION devel/include
-        ARCHIVE DESTINATION devel/lib
-    )
-endif()
 
 if(INSTALL_THIRD_LIBS AND USE_MAADEPS)
     maadeps_install()
