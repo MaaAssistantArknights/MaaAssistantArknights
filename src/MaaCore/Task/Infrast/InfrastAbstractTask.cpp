@@ -276,10 +276,10 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
         return false;
     }
 
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer_res) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
-        name_analyzer.set_replace(ocr_replace);
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
@@ -332,10 +332,10 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     oper_analyzer.sort_by_loc();
     partial_result.clear();
 
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer.get_result()) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
-        name_analyzer.set_replace(ocr_replace);
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
@@ -387,12 +387,12 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
         return;
     }
     oper_analyzer.sort_by_loc();
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
     std::vector<TextRect> page_result;
     for (const auto& oper : oper_analyzer.get_result()) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
-        name_analyzer.set_replace(ocr_replace);
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
