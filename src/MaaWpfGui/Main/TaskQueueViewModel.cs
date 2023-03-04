@@ -125,6 +125,11 @@ namespace MaaWpfGui
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
+
+            if (_settingsViewModel.LoadGUIParameters && _settingsViewModel.SaveGUIParametersOnClosing)
+            {
+                Application.Current.MainWindow.Closing += _settingsViewModel.SaveGUIParameters;
+            }
         }
 
         /*
@@ -157,8 +162,12 @@ namespace MaaWpfGui
         {
             if (NeedToUpdateDatePrompt())
             {
-                UpdateDatePrompt();
-                UpdateStageList(false);
+                Execute.OnUIThread(() =>
+                {
+                    _stageManager.UpdateStage(true);
+                    UpdateDatePrompt();
+                    UpdateStageList(false);
+                });
             }
 
             refreshCustomInfrastPlanIndexByPeriod();
@@ -990,32 +999,25 @@ namespace MaaWpfGui
                 {
                     emulator = Process.GetProcessById(pid);
                     emulator.CloseMainWindow();
+                    if (!emulator.WaitForExit(5000))
+                    {
+                        emulator.Kill();
+                        emulator.WaitForExit(5000);
+                    }
+                    else
+                    {
+                        // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
+                        // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
+                        KillEmulator();
+
+                        // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
+                        return true;
+                    }
                 }
                 catch
                 {
                     break;
                 }
-
-                if (emulator.HasExited)
-                {
-                    break;
-                }
-
-                try
-                {
-                    emulator.Kill();
-                }
-                catch
-                {
-                    break;
-                }
-
-                // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
-                // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
-                KillEmulator();
-
-                // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
-                return true;
             }
             while (false);
 
@@ -1099,6 +1101,10 @@ namespace MaaWpfGui
             catch
             {
                 return false;
+            }
+            finally
+            {
+                checkCmd.Close();
             }
 
             return true;
@@ -1468,6 +1474,11 @@ namespace MaaWpfGui
             get => _stage1;
             set
             {
+                if (_stage1 == value)
+                {
+                    return;
+                }
+
                 if (CustomStageCode)
                 {
                     value = ToUpperAndCheckStage(value);
@@ -1555,16 +1566,16 @@ namespace MaaWpfGui
         {
             get
             {
-                if (!IsStageOpen(_remainingSanityStage))
-                {
-                    return string.Empty;
-                }
-
                 return _remainingSanityStage;
             }
 
             set
             {
+                if (_remainingSanityStage == value)
+                {
+                    return;
+                }
+
                 if (CustomStageCode)
                 {
                     value = ToUpperAndCheckStage(value);
@@ -1832,17 +1843,15 @@ namespace MaaWpfGui
             get => _medicineNumber;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (_medicineNumber == value)
                 {
-                    value = "0";
-                }
-
-                if (value == "0")
-                {
-                    UseStone = false;
+                    return;
                 }
 
                 SetAndNotify(ref _medicineNumber, value);
+
+                // If the amount of medicine is 0, the stone is not used.
+                UseStone = UseStone;
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
             }
@@ -1858,7 +1867,8 @@ namespace MaaWpfGui
             get => _useStone;
             set
             {
-                if (MedicineNumber == "0")
+                // If the amount of medicine is 0, the stone is not used.
+                if (!int.TryParse(MedicineNumber, out int result) || result == 0)
                 {
                     value = false;
                 }
@@ -1883,9 +1893,9 @@ namespace MaaWpfGui
             get => _stoneNumber;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (_stoneNumber == value)
                 {
-                    value = "0";
+                    return;
                 }
 
                 SetAndNotify(ref _stoneNumber, value);
@@ -1919,9 +1929,9 @@ namespace MaaWpfGui
             get => _maxTimes;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (MaxTimes == value)
                 {
-                    value = "0";
+                    return;
                 }
 
                 SetAndNotify(ref _maxTimes, value);
@@ -1953,6 +1963,26 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> AllDrops { get; set; } = new List<CombData>();
 
+        /// <summary>
+        /// 关卡不可掉落的材料
+        /// </summary>
+        private static readonly HashSet<string> excludedValues = new HashSet<string>()
+        {
+            "3213", "3223", "3233", "3243", // 双芯片
+            "3253", "3263", "3273", "3283",
+            "7001", "7002", "7003", "7004", // 许可/凭证
+            "4004", "4005",
+            "3105", "3131", "3132", "3233", // 龙骨/加固建材
+            "6001",                         // 演习券
+            "3141", "4002",                 // 源石
+            "32001",                        // 芯片助剂
+            "30115",                        // 聚合剂
+            "30125",                        // 双极纳米片
+            "30135",                        // D32钢
+            "30145",                        // 晶体电子单元
+            "30155",                        // 烧结核凝晶
+        };
+
         private void InitDrops()
         {
             var reader = Utils.GetItemList();
@@ -1967,26 +1997,11 @@ namespace MaaWpfGui
                 }
 
                 var dis = item.Value["name"].ToString();
-#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
-                if (
-                    val.Equals("3213") || val.Equals("3223") || val.Equals("3233") || val.Equals("3243") // 双芯片
-                    || val.Equals("3253") || val.Equals("3263") || val.Equals("3273") || val.Equals("3283")
-                    || val.Equals("7001") || val.Equals("7002") || val.Equals("7003") || val.Equals("7004") // 许可/凭证
-                    || val.Equals("4004") || val.Equals("4005")
-                    || val.Equals("3105") || val.Equals("3131") || val.Equals("3132") || val.Equals("3233") // 龙骨/加固建材
-                    || val.Equals("6001") // 演习券
-                    || val.Equals("3141") || val.Equals("4002") // 源石
-                    || val.Equals("32001") // 芯片助剂
-                    || val.Equals("30115") // 聚合剂
-                    || val.Equals("30125") // 双极纳米片
-                    || val.Equals("30135") // D32钢
-                    || val.Equals("30145") // 晶体电子单元
-                    || val.Equals("30155") // 烧结核凝晶
-                    )
+
+                if (excludedValues.Contains(val))
                 {
                     continue;
                 }
-#pragma warning restore SA1009
 
                 AllDrops.Add(new CombData { Display = dis, Value = val });
             }
@@ -2065,11 +2080,6 @@ namespace MaaWpfGui
             get => _dropsQuantity;
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = "0";
-                }
-
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
                 ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);

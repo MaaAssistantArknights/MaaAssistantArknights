@@ -3,20 +3,19 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Controller/Controller.h"
+#include "Config/TaskData.h"
+#include "ReclamationControlTask.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
-#include "Config/TaskData.h"
-#include "ReclamationControlTask.h"
+#include "Vision/OcrImageAnalyzer.h"
 
 using namespace asst;
 
-
 asst::ReclamationBattlePlugin::ReclamationBattlePlugin(const AsstCallback& callback, Assistant* inst,
-                                                           std::string_view task_chain)
+                                                       std::string_view task_chain)
     : AbstractTaskPlugin(callback, inst, task_chain), BattleHelper(inst)
 {}
 
@@ -42,7 +41,7 @@ bool asst::ReclamationBattlePlugin::_run()
         return quit_action();
     }
     else if (m_battle_mode == ReclamationBattleMode::BuyWater) {
-        sleep(1500);    // 等待技能图标
+        sleep(1500); // 等待技能图标
         bool result = buy_water();
         quit_action();
         return result;
@@ -84,7 +83,7 @@ bool asst::ReclamationBattlePlugin::quit_action()
 
         // 出现Loading转一会儿就结算了，没结算还有error_next
         OcrImageAnalyzer loadingAnalyzer(img);
-        loadingAnalyzer.set_task_info("Loading");
+        loadingAnalyzer.set_task_info("LoadingText");
         bool check3 = loadingAnalyzer.analyze();
 
         Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
@@ -121,7 +120,8 @@ bool asst::ReclamationBattlePlugin::communicate_with(const std::string& npcName)
     return false;
 }
 
-bool asst::ReclamationBattlePlugin::communicate_with_aux(const std::string& npcName, std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
+bool asst::ReclamationBattlePlugin::communicate_with_aux(
+    const std::string& npcName, std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
 {
     auto image = ctrler()->get_image();
     BattleSkillReadyImageAnalyzer skillReadyAnalyzer(image);
@@ -181,9 +181,9 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
         }
         else {
             const int max_retry = 5;
-            int retry = 0; 
+            int retry = 0;
             bool succeed = false;
-            while (!need_exit()){
+            while (!need_exit()) {
                 if (retry == max_retry) break;
 
                 const auto& image = ctrler()->get_image();
@@ -196,7 +196,7 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
                     }
                     else {
                         retry++;
-                        continue; 
+                        continue;
                     }
                 }
                 const auto& rect = dialogAnalyzer.get_result().front().rect;

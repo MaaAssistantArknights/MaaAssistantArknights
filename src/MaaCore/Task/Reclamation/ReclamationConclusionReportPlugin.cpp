@@ -1,16 +1,14 @@
 #include "ReclamationConclusionReportPlugin.h"
 
-
 #include <regex>
 
 #include "Controller/Controller.h"
+#include "Config/TaskData.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
-#include "Config/TaskData.h"
-
+#include "Vision/OcrImageAnalyzer.h"
 
 bool asst::ReclamationConclusionReportPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -42,10 +40,11 @@ bool asst::ReclamationConclusionReportPlugin::check_page_valid(const cv::Mat& im
     return pageAnalyzer.analyze();
 }
 
-void asst::ReclamationConclusionReportPlugin::analyze(const cv::Mat& image) {
+void asst::ReclamationConclusionReportPlugin::analyze(const cv::Mat& image)
+{
     m_badges = analyze_badges(image);
     m_construction_points = analyze_construction_points(image);
-    
+
     m_total_badges += (m_badges == -1 ? 0 : m_badges);
     m_total_cons_points += (m_construction_points == -1 ? 0 : m_construction_points);
 }
@@ -89,7 +88,8 @@ int asst::ReclamationConclusionReportPlugin::analyze_construction_points(const c
     }
 }
 
-void asst::ReclamationConclusionReportPlugin::info_callback() {
+void asst::ReclamationConclusionReportPlugin::info_callback()
+{
     json::value info = basic_info_with_what("ReclamationReport");
     json::value& details = info["details"];
     details["badges"] = m_badges;

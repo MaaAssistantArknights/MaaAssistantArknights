@@ -778,6 +778,157 @@
             120
         ]
     },
+    "SideStoryStage": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": []
+    },
+    "DH-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DH-Open"
+        ],
+        "next": [
+            "DH-9@SideStoryStage",
+            "DH-9@SwipeToStage"
+        ]
+    },
+    "DH-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "假日",
+            "复刻",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH"
+        ]
+    },
+    "DHChapterToDH": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "极限",
+            "铁人",
+            "大奖"
+        ],
+        "roi": [
+            934,
+            280,
+            234,
+            124
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "DH-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
+        "text": [
+            "DH-9"
+        ]
+    },
+    "GA-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "GA-6@SideStoryStage",
+            "GA-6@SwipeToStage"
+        ]
+    },
+    "GA-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "GA-7@SideStoryStage",
+            "GA-7@SwipeToStage"
+        ]
+    },
+    "GA-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "GA-8@SideStoryStage",
+            "GA-8@SwipeToStage"
+        ]
+    },
+    "GA-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "吾导先路",
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA"
+        ]
+    },
+    "GAChapterToGA": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "万国峰会"
+        ],
+        "roi": [
+            1007,
+            431,
+            227,
+            140
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "GA-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
+        "text": [
+            "GA-6"
+        ]
+    },
+    "GA-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
+        "text": [
+            "GA-7"
+        ]
+    },
+    "GA-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
+        "text": [
+            "GA-8"
+        ]
+    },
     "WB-7": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -785,7 +936,7 @@
             "WB-Open"
         ],
         "next": [
-            "StageWB-7",
+            "WB-7@SideStoryStage",
             "WB-7@SwipeToStage"
         ]
     },
@@ -796,7 +947,7 @@
             "WB-Open"
         ],
         "next": [
-            "StageWB-8",
+            "WB-8@SideStoryStage",
             "WB-8@SwipeToStage"
         ]
     },
@@ -807,7 +958,7 @@
             "WB-Open"
         ],
         "next": [
-            "StageWB-9",
+            "WB-9@SideStoryStage",
             "WB-9@SwipeToStage"
         ]
     },
@@ -843,29 +994,23 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageWB-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "WB-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "WB-7"
-        ],
-        "cache": false
+        ]
     },
-    "StageWB-8": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "WB-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "WB-8"
-        ],
-        "cache": false
+        ]
     },
-    "StageWB-9": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "WB-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "WB-9"
-        ],
-        "cache": false
+        ]
     },
     "IW-6": {
         "algorithm": "JustReturn",
@@ -875,7 +1020,7 @@
             "IWChapterToIW"
         ],
         "next": [
-            "StageIW-6",
+            "IW-6@SideStoryStage",
             "IW-6@SwipeToStage"
         ]
     },
@@ -887,7 +1032,7 @@
             "IWChapterToIW"
         ],
         "next": [
-            "StageIW-7",
+            "IW-7@SideStoryStage",
             "IW-7@SwipeToStage"
         ]
     },
@@ -899,7 +1044,7 @@
             "IWChapterToIW"
         ],
         "next": [
-            "StageIW-8",
+            "IW-8@SideStoryStage",
             "IW-8@SwipeToStage"
         ]
     },
@@ -935,46 +1080,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageIW-6": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "IW-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IW-6"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
         ]
     },
-    "StageIW-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "IW-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IW-7"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
         ]
     },
-    "StageIW-8": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "IW-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IW-8"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            283,
-            1280,
-            324
         ]
     },
     "FC-5": {
@@ -985,7 +1106,7 @@
             "FCChapterToFC"
         ],
         "next": [
-            "StageFC-5",
+            "FC-5@SideStoryStage",
             "FC-5@SwipeToStage"
         ]
     },
@@ -997,7 +1118,7 @@
             "FCChapterToFC"
         ],
         "next": [
-            "StageFC-6",
+            "FC-6@SideStoryStage",
             "FC-6@SwipeToStage"
         ]
     },
@@ -1009,7 +1130,7 @@
             "FCChapterToFC"
         ],
         "next": [
-            "StageFC-7",
+            "FC-7@SideStoryStage",
             "FC-7@SwipeToStage"
         ]
     },
@@ -1045,46 +1166,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageFC-5": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-5@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "FC-5"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageFC-6": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "FC-6"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageFC-7": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "FC-7"
-        ],
-        "cache": false,
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "IS-10": {
@@ -1094,7 +1191,7 @@
             "IS-Open"
         ],
         "next": [
-            "StageIS-10",
+            "IS-10@SideStoryStage",
             "IS-10@SwipeToStageIS"
         ]
     },
@@ -1105,7 +1202,7 @@
             "IS-Open"
         ],
         "next": [
-            "StageIS-9",
+            "IS-9@SideStoryStage",
             "IS-9@SwipeToStageIS"
         ]
     },
@@ -1116,7 +1213,7 @@
             "IS-Open"
         ],
         "next": [
-            "StageIS-8",
+            "IS-8@SideStoryStage",
             "IS-8@SwipeToStageIS"
         ]
     },
@@ -1194,49 +1291,22 @@
             "#next"
         ]
     },
-    "StageIS-10": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
+    "IS-10@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IS-10"
-        ],
-        "isAscii": true,
-        "roi": [
-            47,
-            42,
-            222,
-            640
         ]
     },
-    "StageIS-9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
+    "IS-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IS-9"
-        ],
-        "isAscii": true,
-        "roi": [
-            47,
-            42,
-            222,
-            640
         ]
     },
-    "StageIS-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
+    "IS-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IS-8"
-        ],
-        "isAscii": true,
-        "roi": [
-            47,
-            42,
-            222,
-            640
         ]
     },
     "NL-10": {
@@ -1246,7 +1316,7 @@
             "NL-Open"
         ],
         "next": [
-            "StageNL-10",
+            "NL-10@SideStoryStage",
             "NL-10@SwipeToStage"
         ]
     },
@@ -1257,7 +1327,7 @@
             "NL-Open"
         ],
         "next": [
-            "StageNL-9",
+            "NL-9@SideStoryStage",
             "NL-9@SwipeToStage"
         ]
     },
@@ -1268,7 +1338,7 @@
             "NL-Open"
         ],
         "next": [
-            "StageNL-8",
+            "NL-8@SideStoryStage",
             "NL-8@SwipeToStage"
         ]
     },
@@ -1303,49 +1373,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageNL-10": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "NL-10@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "NL-10"
-        ],
-        "roi": [
-            0,
-            63,
-            1280,
-            577
         ]
     },
-    "StageNL-9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "NL-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "NL-9"
-        ],
-        "roi": [
-            0,
-            63,
-            1280,
-            577
         ]
     },
-    "StageNL-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "NL-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "NL-8"
-        ],
-        "roi": [
-            0,
-            63,
-            1280,
-            577
         ]
     },
     "GT-5": {
@@ -1355,7 +1398,7 @@
             "StageEpisode",
             "StageEpisodeToGT",
             "GTToGT-5",
-            "StageGT-5"
+            "GT-5@SideStoryStage"
         ]
     },
     "StageEpisodeToGT": {
@@ -1387,11 +1430,8 @@
             168
         ]
     },
-    "StageGT-5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "GT-5@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "GT-5"
         ]
@@ -1404,7 +1444,7 @@
             "StageEpisodeToOF",
             "OFToOF-Chapter",
             "ChapterSwipeToTheLeft",
-            "StageOF-1"
+            "OF-1@SideStoryStage"
         ]
     },
     "OF-F3": {
@@ -1467,11 +1507,8 @@
             "0F-F3"
         ]
     },
-    "StageOF-1": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "OF-1@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "OF-1",
             "0F-1"
@@ -1484,7 +1521,7 @@
             "IC-Open"
         ],
         "next": [
-            "StageIC-9",
+            "IC-9@SideStoryStage",
             "IC-9@SwipeToStage"
         ]
     },
@@ -1495,7 +1532,7 @@
             "IC-Open"
         ],
         "next": [
-            "StageIC-8",
+            "IC-8@SideStoryStage",
             "IC-8@SwipeToStage"
         ]
     },
@@ -1506,7 +1543,7 @@
             "IC-Open"
         ],
         "next": [
-            "StageIC-7",
+            "IC-7@SideStoryStage",
             "IC-7@SwipeToStage"
         ]
     },
@@ -1537,52 +1574,25 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageIC-9": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "IC-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IC-9",
             "1C-9"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageIC-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "IC-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IC-8",
             "1C-8"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageIC-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "IC-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "IC-7",
             "1C-7"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "DV-8": {
@@ -1592,7 +1602,7 @@
             "DV-Open"
         ],
         "next": [
-            "StageDV-8",
+            "DV-8@SideStoryStage",
             "DV-8@SwipeToStage"
         ]
     },
@@ -1603,7 +1613,7 @@
             "DV-Open"
         ],
         "next": [
-            "StageDV-7",
+            "DV-7@SideStoryStage",
             "DV-7@SwipeToStage"
         ]
     },
@@ -1614,7 +1624,7 @@
             "DV-Open"
         ],
         "next": [
-            "StageDV-6",
+            "DV-6@SideStoryStage",
             "DV-6@SwipeToStage"
         ]
     },
@@ -1655,49 +1665,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageDV-8": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "DV-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "DV-8"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageDV-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "DV-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "DV-7"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageDV-6": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "DV-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "DV-6"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "LE-5": {
@@ -1708,7 +1691,7 @@
             "LEChapterToLE"
         ],
         "next": [
-            "StageLE-5",
+            "LE-5@SideStoryStage",
             "LE-5@SwipeToStage"
         ]
     },
@@ -1720,7 +1703,7 @@
             "LEChapterToLE"
         ],
         "next": [
-            "StageLE-6",
+            "LE-6@SideStoryStage",
             "LE-6@SwipeToStage"
         ]
     },
@@ -1732,7 +1715,7 @@
             "LEChapterToLE"
         ],
         "next": [
-            "StageLE-7",
+            "LE-7@SideStoryStage",
             "LE-7@SwipeToStage"
         ]
     },
@@ -1762,49 +1745,22 @@
             "ChapterSwipeToTheRight"
         ]
     },
-    "StageLE-5": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "LE-5@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "LE-5"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageLE-6": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "LE-6@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "LE-6"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
-    "StageLE-7": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "isAscii": true,
+    "LE-7@SideStoryStage": {
+        "baseTask": "SideStoryStage",
         "text": [
             "LE-7"
-        ],
-        "roi": [
-            0,
-            145,
-            1280,
-            332
         ]
     },
     "SN-8": {
@@ -1813,7 +1769,7 @@
         "sub": [
             "SN-Open",
             "SN-Chapter2",
-            "StageSN-8"
+            "SN-8@SideStoryStage"
         ]
     },
     "SN-9": {
@@ -1822,7 +1778,7 @@
         "sub": [
             "SN-Open",
             "SN-Chapter3",
-            "StageSN-9"
+            "SN-9@SideStoryStage"
         ]
     },
     "SN-10": {
@@ -1831,7 +1787,7 @@
         "sub": [
             "SN-Open",
             "SN-Chapter3",
-            "StageSN-10"
+            "SN-10@SideStoryStage"
         ]
     },
     "SN-Open": {
@@ -1863,7 +1819,8 @@
             "SwipeToTheLeft"
         ]
     },
-    "StageSN-8": {
+    "SN-8@SideStoryStage": {
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SN-8.png",
         "cache": false,
@@ -1874,7 +1831,8 @@
             195
         ]
     },
-    "StageSN-9": {
+    "SN-9@SideStoryStage": {
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SN-9.png",
         "cache": false,
@@ -1885,7 +1843,8 @@
             198
         ]
     },
-    "StageSN-10": {
+    "SN-10@SideStoryStage": {
+        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SN-10.png",
         "cache": false,
@@ -2224,12 +2183,16 @@
                 "“耀阳”"
             ],
             [
-                "玛恩.+",
+                "玛恩.*",
                 "玛恩纳"
             ],
             [
                 ".*默德克萨斯",
                 "缄默德克萨斯"
+            ],
+            [
+                "^重岳.+",
+                "重岳"
             ]
         ]
     },
@@ -2251,7 +2214,7 @@
         "action": "DoNothing",
         "next": [
             "StartUp@StartUpThemes#next",
-            "StartUpBegin@Loading2",
+            "StartUpBegin@LoadingIcon",
             "StartUp@ReturnTo",
             "StartUp@EndOfAction",
             "StartUp@FromStageSN"
@@ -2278,7 +2241,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "GameStart@Loading2"
+            "GameStart@LoadingIcon"
         ]
     },
     "StartToWakeUp": {
@@ -2291,7 +2254,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "StartToWakeUp@Loading2"
+            "StartToWakeUp@LoadingIcon"
         ]
     },
     "StartLoginBServer": {
@@ -2304,7 +2267,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "StartLoginBServer@Loading2"
+            "StartLoginBServer@LoadingIcon"
         ]
     },
     "StartUpConnectingFlag": {
@@ -2317,7 +2280,7 @@
         ],
         "next": [
             "StartUpThemes#next",
-            "StartUpConnectingFlag@Loading2"
+            "StartUpConnectingFlag@LoadingIcon"
         ]
     },
     "StartUp": {
@@ -2385,7 +2348,7 @@
             "#back"
         ]
     },
-    "Loading": {
+    "LoadingText": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "text": [
@@ -2399,12 +2362,12 @@
             120
         ],
         "next": [
-            "Loading",
+            "LoadingText",
             "#next",
             "#back"
         ]
     },
-    "Loading2": {
+    "LoadingIcon": {
         "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
         "roi": [
             480,
@@ -2413,7 +2376,7 @@
             280
         ],
         "next": [
-            "Loading2",
+            "LoadingIcon",
             "#next",
             "#back"
         ]
@@ -2433,7 +2396,7 @@
             "#back",
             "ReturnTo",
             "ReturnToConfirm",
-            "ReturnTo@Loading2",
+            "ReturnTo@LoadingIcon",
             "CloseAnnos#next",
             "FromStageSN",
             "TodaysSupplies"
@@ -2451,7 +2414,7 @@
         "next": [
             "ReturnTo",
             "#back",
-            "ReturnToConfirm@Loading2",
+            "ReturnToConfirm@LoadingIcon",
             "CloseAnnos#next",
             "FromStageSN",
             "TodaysSupplies",
@@ -2492,15 +2455,6 @@
         ]
     },
     "StartUp@ClickCorner": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            1000,
-            120,
-            270,
-            10
-        ],
         "next": [
             "StartUp@ReturnTo",
             "StartUp",
@@ -2508,9 +2462,6 @@
             "StartUp@FromStageSN",
             "StartUp@TodaysSupplies",
             "StartUp@OfflineConfirm"
-        ],
-        "onErrorNext": [
-            "StartUp@RestartGameAndContinue"
         ]
     },
     "FromStageSN": {
@@ -2570,9 +2521,7 @@
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
-            "Fight@PRTS3",
-            "Fight@PRTS",
-            "Fight@PRTS2",
+            "Fight@PRTS#next",
             "Fight@EndOfAction"
         ]
     },
@@ -2589,9 +2538,7 @@
             "Fight@CloseAnnos#next",
             "Fight@FromStageSN",
             "Fight@TodaysSupplies",
-            "Fight@PRTS3",
-            "Fight@PRTS",
-            "Fight@PRTS2",
+            "Fight@PRTS#next",
             "Fight@EndOfAction"
         ]
     },
@@ -2648,6 +2595,7 @@
     },
     "StartButton1": {
         "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "text": [
             "开始行动"
         ],
@@ -2663,7 +2611,9 @@
             "StageSNReturnFlag",
             "Stop"
         ],
-        "action": "ClickSelf",
+        "reduceOtherTimes": [
+            "(ClickCornerAfterPRTS+ClickCorner)*5"
+        ],
         "next": [
             "StartButton2",
             "UseMedicine",
@@ -2727,9 +2677,7 @@
             340
         ],
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
             "StartButton2",
             "PrtsErrorConfirm",
@@ -2738,6 +2686,15 @@
         ]
     },
     "PRTS": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "next": [
+            "PRTS1",
+            "PRTS2",
+            "PRTS3"
+        ]
+    },
+    "PRTS1": {
         "action": "DoNothing",
         "template": "BattleOfficiallyBegin.png",
         "roi": [
@@ -2752,9 +2709,7 @@
         ],
         "postDelay": 5000,
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
             "PrtsErrorConfirm",
             "OfflineConfirm",
@@ -2762,7 +2717,7 @@
         ]
     },
     "PRTS2": {
-        "baseTask": "PRTS",
+        "baseTask": "PRTS1",
         "algorithm": "OcrDetect",
         "text": [
             "接管"
@@ -2775,7 +2730,7 @@
         ]
     },
     "PRTS3": {
-        "baseTask": "PRTS",
+        "baseTask": "PRTS1",
         "algorithm": "OcrDetect",
         "text": [
             "角色"
@@ -2791,49 +2746,32 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "EndOfAction",
-            "WaitAfterPRTS@Loading",
-            "WaitAfterPRTS@Loading2",
-            "ClickCornerAfterPRTS_1"
+            "#self@LoadingText",
+            "#self@LoadingIcon",
+            "ClickCornerAfterPRTS"
         ]
     },
     "ClickCornerAfterPRTS": {
-        "Doc": "base_task",
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "Doc2": "在比较卡的时候点击屏幕，或是在升级时点击屏幕以进入到结算界面，最多 5 次，间隔 3s",
         "specificRect": [
             1000,
             120,
             270,
             10
         ],
+        "maxTimes": 5,
         "postDelay": 3000,
         "next": [
             "EndOfAction",
-            "StartButton1",
-            "StartButton2",
-            "UseMedicine",
-            "UseStone",
-            "NoStone",
-            "WaitAfterPRTS@Loading",
-            "WaitAfterPRTS@Loading2",
-            "StartUpThemes#next"
-        ]
-    },
-    "ClickCornerAfterPRTS_1": {
-        "baseTask": "ClickCornerAfterPRTS",
-        "next": [
-            "ClickCornerAfterPRTS#next",
-            "ClickCornerAfterPRTS_2"
-        ]
-    },
-    "ClickCornerAfterPRTS_2": {
-        "baseTask": "ClickCornerAfterPRTS",
-        "onErrorNext": [
+            "((ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ ClickCornerAfterPRTS)",
+            "#self"
+        ],
+        "exceededNext": [
             "RestartGameAndContinue"
         ]
     },
@@ -2890,7 +2828,7 @@
         "preDelay": 5000
     },
     "ClickCorner": {
-        "ClickCorner_Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -2899,15 +2837,17 @@
             270,
             10
         ],
+        "maxTimes": 5,
         "next": [
             "StartButton1",
             "StartButton2",
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "EndOfAction"
+            "#self@LoadingIcon",
+            "#self"
         ],
-        "onErrorNext": [
+        "exceededNext": [
             "RestartGameAndContinue"
         ]
     },
@@ -3095,9 +3035,7 @@
             160
         ],
         "next": [
-            "PRTS",
-            "PRTS2",
-            "PRTS3",
+            "PRTS#next",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartUpThemes#next",
@@ -3148,7 +3086,7 @@
             "FightMissionFailedAndStop"
         ],
         "onErrorNext": [
-            "ClickCornerAfterPRTS_1"
+            "ClickCornerAfterPRTS"
         ]
     },
     "FightMissionFailedAndStop": {
@@ -3171,7 +3109,7 @@
         "postDelay": 5000,
         "next": [
             "StartUpThemes#next",
-            "RestartGameAndContinue@Loading2",
+            "RestartGameAndContinue@LoadingIcon",
             "ReturnTo",
             "FromStageSN"
         ]
@@ -3228,7 +3166,8 @@
             "Recruit@ReturnTo",
             "Recruit@CloseAnnos#next",
             "Recruit@FromStageSN",
-            "Recruit@TodaysSupplies"
+            "Recruit@TodaysSupplies",
+            "Recruit@OfflineConfirm"
         ]
     },
     "Recruit": {
@@ -3245,7 +3184,7 @@
             255
         ],
         "next": [
-            "RecruitBegin@Loading",
+            "RecruitBegin@LoadingText",
             "RecruitBegin"
         ]
     },
@@ -3260,7 +3199,7 @@
             420
         ],
         "next": [
-            "RecruitFinish@Loading",
+            "RecruitFinish@LoadingText",
             "RecruitFinish",
             "Recruit",
             "RecruitSkip",
@@ -3946,7 +3885,7 @@
         ],
         "next": [
             "CreditShop-Bought",
-            "CreditShop-BuyIt@Loading",
+            "CreditShop-BuyIt@LoadingText",
             "CreditShop-NoMoney"
         ]
     },
@@ -4067,7 +4006,8 @@
         "preDelay": 500,
         "postDelay": 500,
         "next": [
-            "RecruitRefreshConfirm@Loading",
+            "RecruitRefreshConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "SleepThenStop"
         ]
     },
@@ -4128,7 +4068,8 @@
             80
         ],
         "next": [
-            "RecruitConfirm@Loading",
+            "RecruitConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "RecruitFlag"
         ]
     },
@@ -4347,7 +4288,7 @@
             165
         ],
         "next": [
-            "DroneConfirm@Loading",
+            "DroneConfirm@LoadingText",
             "DeliverableOrder",
             "DroneAssist-Trade-Stop",
             "DroneAssistMfg"
@@ -4406,7 +4347,7 @@
         ],
         "postDelay": 1000,
         "next": [
-            "ReplenishToMaxConfirm@Loading",
+            "ReplenishToMaxConfirm@LoadingText",
             "Stop"
         ]
     },
@@ -4475,9 +4416,9 @@
         "text": [],
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
-            0,
+            -8,
             20,
-            113,
+            125,
             22
         ]
     },
@@ -4825,6 +4766,7 @@
     },
     "InfrastSortByTrustButtonClickAgain": {
         "action": "ClickSelf",
+        "templThreshold": 0.7,
         "cache": false,
         "roi": [
             1000,
@@ -5217,17 +5159,17 @@
     },
     "InfrastOperSelected": {
         "template": "empty.png",
-        "templThreshold": 8000,
+        "templThreshold": 800,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
         "maskRange": [
             95,
             105
         ],
         "rectMove": [
-            0,
-            -230,
-            74,
-            283
+            -18,
+            -220,
+            10,
+            160
         ]
     },
     "InfrastOperOnShift": {
@@ -5639,7 +5581,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo1stConfirm@Loading",
+            "ClueGiveTo1stConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5672,7 +5614,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo2ndConfirm@Loading",
+            "ClueGiveTo2ndConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5705,7 +5647,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo3rdConfirm@Loading",
+            "ClueGiveTo3rdConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -5738,7 +5680,7 @@
             160
         ],
         "next": [
-            "ClueGiveTo4thConfirm@Loading",
+            "ClueGiveTo4thConfirm@LoadingText",
             "SelectClue",
             "CloseSendClue"
         ]
@@ -6149,7 +6091,8 @@
             "BattleStartExercise",
             "BattleStartSimulation",
             "BattleStartTrials",
-            "BattleStartTrialsRaid"
+            "BattleStartTrialsRaid",
+            "BattleStartOCR"
         ]
     },
     "BattleStartNormal": {
@@ -6166,6 +6109,20 @@
     },
     "BattleStartTrialsRaid": {
         "baseTask": "BattleStart"
+    },
+    "BattleStartOCR": {
+        "baseTask": "BattleStart",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始",
+            "行动"
+        ],
+        "roi": [
+            999,
+            398,
+            222,
+            237
+        ]
     },
     "BattleStartSimulation": {
         "action": "ClickSelf",
@@ -6247,7 +6204,7 @@
     },
     "BattleAvatarData": {
         "template": "empty.png",
-        "templThreshold": 0.9
+        "templThreshold": 0.8
     },
     "BattleDroneAvatarData": {
         "template": "empty.png",
@@ -6447,24 +6404,15 @@
         "template": "empty.png",
         "templThreshold": 0.75
     },
-    "BattleOperRoleCaster": {
-    },
-    "BattleOperRoleMedic": {
-    },
-    "BattleOperRolePioneer": {
-    },
-    "BattleOperRoleSniper": {
-    },
-    "BattleOperRoleSpecial": {
-    },
-    "BattleOperRoleSupport": {
-    },
-    "BattleOperRoleTank": {
-    },
-    "BattleOperRoleWarrior": {
-    },
-    "BattleOperRoleDrone": {
-    },
+    "BattleOperRoleCaster": {},
+    "BattleOperRoleMedic": {},
+    "BattleOperRolePioneer": {},
+    "BattleOperRoleSniper": {},
+    "BattleOperRoleSpecial": {},
+    "BattleOperRoleSupport": {},
+    "BattleOperRoleTank": {},
+    "BattleOperRoleWarrior": {},
+    "BattleOperRoleDrone": {},
     "BattleOperCostRange": {
         "algorithm": "Hash",
         "hash": [],
@@ -7986,7 +7934,7 @@
             1035,
             370,
             226,
-            225
+            300
         ]
     },
     "Roguelike@StageEnterBattle": {
@@ -8195,8 +8143,8 @@
             "Roguelike@GamePassSkip1",
             "Roguelike@GamePassTheEndConfirm",
             "Roguelike@GamePass",
-            "Roguelike@StartAction@Loading",
-            "Roguelike@StartAction@Loading2"
+            "Roguelike@StartAction@LoadingText",
+            "Roguelike@StartAction@LoadingIcon"
         ]
     },
     "Roguelike@StartExplore": {
@@ -9205,6 +9153,7 @@
     },
     "RoguelikeRecruitOperListSlowlySwipeToTheLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
+        "Doc": "为了保证每次滑动至少多出一列 且 不能跳过一列，应保证滑动距离在400-500之间。",
         "specificRect": [
             500,
             340,
@@ -9212,7 +9161,7 @@
             20
         ],
         "rectMove": [
-            1150,
+            980,
             340,
             20,
             20
@@ -9227,7 +9176,7 @@
             20
         ],
         "rectMove": [
-            500,
+            670,
             340,
             20,
             20
@@ -9259,7 +9208,7 @@
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
         "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
-        "maxTimes": 4
+        "maxTimes": 5
     },
     "RoguelikeSkillSelectionFlag": {
         "templThreshold": 0.9,
@@ -9431,7 +9380,9 @@
     },
     "RoguelikeRefreshSupportBtnOcr": {
         "algorithm": "OcrDetect",
-        "text": [ "更新助战列表" ],
+        "text": [
+            "更新助战列表"
+        ],
         "roi": [
             1097,
             13,
@@ -9447,7 +9398,9 @@
     },
     "RoguelikeChooseSupportBtnOcr": {
         "algorithm": "OcrDetect",
-        "text": [ "选择助战" ],
+        "text": [
+            "选择助战"
+        ],
         "roi": [
             1011,
             9,
@@ -9470,9 +9423,9 @@
             "招募助战"
         ],
         "roi": [
-            770,
+            810,
             500,
-            160,
+            200,
             40
         ],
         "preDelay": 200
@@ -9492,14 +9445,9 @@
         "baseTask": "RoguelikeRecruitSupportElite"
     },
     "RoguelikeRecruitSupportEnterFlag": {
-        "template": "Roguelike@RefreshSupportBtn.png",
-        "action": "DoNothing",
-        "roi": [
-            1094,
-            10,
-            172,
-            47
-        ]
+        "baseTask": "RoguelikeRefreshSupportBtnOcr",
+        "postDelay": 0,
+        "action": "DoNothing"
     },
     "SSSBegin": {
         "Doc": "保全派驻",
@@ -10940,12 +10888,16 @@
     "CheckNextDay@Reclamation@NextDay": {
         "template": "Reclamation@NextDay.png",
         "postDelay": 0,
-        "next": [ "Stop" ]
+        "next": [
+            "Stop"
+        ]
     },
     "EnterNextDay@Reclamation@Begin": {
         "baseTask": "Reclamation@NextDay",
         "template": "Reclamation@NextDay.png",
-        "next": [ "Stop" ]
+        "next": [
+            "Stop"
+        ]
     },
     "WaitNextDayFlag@Reclamation@BetweenDayFlag": {
         "template": "Reclamation@BetweenDayFlag.png",
