@@ -30,7 +30,7 @@ namespace MaaWpfGui
 
         public static string MapPrts => "https://map.ark-nights.com/areas?coord_override=maa";
 
-        public static string CustomInfrastGenerator => "https://yituliu.site/riicCal";
+        public static string CustomInfrastGenerator => "https://yituliu.site/riicCal/";
 
         public static string QqGroups => "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
