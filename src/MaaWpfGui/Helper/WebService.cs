@@ -63,7 +63,7 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private const string CacheDir = "cache/gui/";
+        private const string CacheDir = "cache/";
         private const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
 
         // 如果请求失败，则读取缓存。否则写入缓存
@@ -85,7 +85,8 @@ namespace MaaWpfGui.Helper
             try
             {
                 var json = (JObject)JsonConvert.DeserializeObject(response);
-                var cache = CacheDir + api.Replace('/', '_');
+                var cache = CacheDir + api;
+                Directory.CreateDirectory(Path.GetDirectoryName(cache));
                 File.WriteAllText(cache, response);
 
                 return json;
@@ -98,7 +99,7 @@ namespace MaaWpfGui.Helper
 
         public static JObject LoadApiCache(string api)
         {
-            var cache = CacheDir + api.Replace('/', '_');
+            var cache = CacheDir + api;
             if (!File.Exists(cache))
             {
                 return null;

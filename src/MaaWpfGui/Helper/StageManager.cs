@@ -19,7 +19,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
 using Semver;
@@ -75,8 +74,38 @@ namespace MaaWpfGui
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
             };
 
-            var stageApi = "StageActivity.json";
-            var activity = fromWeb ? WebService.RequestMaaApiWithCache(stageApi) : WebService.LoadApiCache(stageApi);
+            var clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
+
+            // 官服和B服使用同样的资源
+            if (clientType == "Bilibili" || clientType == string.Empty)
+            {
+                clientType = "Official";
+            }
+
+            // Download the activities
+            var stageApi = "gui/StageActivity.json";
+            JObject activity = fromWeb ? WebService.RequestMaaApiWithCache(stageApi) : WebService.LoadApiCache(stageApi);
+
+            // Download the tasks resources into cache so MaaCore can load them later
+            var tasksPath = "resource/tasks.json";
+            JObject tasksJson = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.LoadApiCache(tasksPath);
+
+            // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
+            // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
+            JObject tasksJsonClient = null;
+            if (clientType != "Official" && tasksJson != null)
+            {
+                tasksPath = clientType + '/' + tasksPath;
+                tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
+            }
+
+            bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
+            bool curVerParsed = !isDebugVersion ?
+                SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
+                SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
+            bool curResourceVerParsed = SemVersion.TryParse(
+                tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
+                SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
 
             var resourceCollection = new StageActivityInfo()
             {
@@ -88,40 +117,31 @@ namespace MaaWpfGui
                    "yyyy/MM/dd HH:mm:ss",
                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
-            var clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
-
-            // 官服和B服使用同样的资源
-            if (clientType == "Bilibili" || clientType == string.Empty)
-            {
-                clientType = "Official";
-            }
-
             if (activity?[clientType] != null)
             {
                 try
                 {
                     // 资源全开放活动
-                    var resource = activity[clientType]["resourceCollection"];
-                    if (resource != null)
+                    var resourceCollectionData = activity[clientType]["resourceCollection"];
+                    if (resourceCollectionData != null)
                     {
-                        resourceCollection.Tip = resource["Tip"]?.ToString();
-                        resourceCollection.UtcStartTime = GetDateTime(resource, "UtcStartTime");
-                        resourceCollection.UtcExpireTime = GetDateTime(resource, "UtcExpireTime");
+                        resourceCollection.Tip = resourceCollectionData["Tip"]?.ToString();
+                        resourceCollection.UtcStartTime = GetDateTime(resourceCollectionData, "UtcStartTime");
+                        resourceCollection.UtcExpireTime = GetDateTime(resourceCollectionData, "UtcExpireTime");
                     }
 
                     // 活动关卡
                     foreach (var stageObj in activity[clientType]["sideStoryStage"] ?? Enumerable.Empty<JToken>())
                     {
-                        bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
-                        bool curParsed = !isDebugVersion ?
-                            SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
-                            SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
-                        bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
+                        // MinimumResourceRequired is not necessarily provided in json, in which case it is ok even if there are no cached resources
+                        bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
+                        bool minRequiredParsed = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minRequiredObj);
 
                         var stageInfo = new StageInfo();
-                        if (curParsed && minimumRequiredPared)
+                        if (curVerParsed && minRequiredParsed && (!minResourceRequiredParsed || curResourceVerParsed))
                         {
-                            if (curVersionObj.CompareSortOrderTo(minimumRequiredObj) < 0)
+                            if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0 &&
+                                (!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0))
                             {
                                 if (!tempStage.ContainsKey(Localization.GetString("UnsupportedStages")))
                                 {
