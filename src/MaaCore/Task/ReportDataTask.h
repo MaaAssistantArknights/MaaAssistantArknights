@@ -41,7 +41,8 @@ namespace asst
         void report_to_penguin();
         void report_to_yituliu();
         http::Response escape_and_request(const std::string& format);
-        http::Response report(std::string_view subtask, const std::string& format,
+        http::Response report(
+            std::string_view subtask, const std::string& format,
             HttpResponsePred success_cond = [](const http::Response& response) -> bool { return response.success(); },
             HttpResponsePred retry_cond = [](const http::Response& response) -> bool {
                 return !response.status_code() || response.status_5xx();

@@ -1,7 +1,7 @@
 #pragma once
-#include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
+#include "Task/Miscellaneous/BattleProcessTask.h"
 
 namespace asst
 {
@@ -18,7 +18,7 @@ namespace asst
     public:
         ReclamationBattlePlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
         virtual ~ReclamationBattlePlugin() override = default;
-        
+
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
         ReclamationBattlePlugin& set_battle_mode(const ReclamationBattleMode& mode);
@@ -29,7 +29,7 @@ namespace asst
         virtual AbstractTask& this_task() override { return *this; }
 
         bool quit_action();
-        
+
         bool buy_water();
         bool communicate_with(const std::string& npcName);
         bool communicate_with_aux(const std::string& npcName,
