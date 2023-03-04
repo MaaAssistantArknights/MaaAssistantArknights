@@ -95,14 +95,14 @@ namespace MaaWpfGui
             JObject tasksJsonClient = null;
             if (clientType != "Official" && tasksJson != null)
             {
-                tasksPath = clientType + '/' + tasksPath;
+                tasksPath = "resource/global/" + clientType + '/' + tasksPath;
                 tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
             }
 
             bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
             bool curVerParsed = !isDebugVersion ?
                 SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
-                SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
+                SemVersion.TryParse("5.1.7", SemVersionStyles.AllowLowerV, out curVersionObj);
             bool curResourceVerParsed = SemVersion.TryParse(
                 tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
                 SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
