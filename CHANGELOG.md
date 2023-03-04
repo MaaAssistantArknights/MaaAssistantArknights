@@ -49,22 +49,22 @@ N/A
 
 #### Common
 
-- Supported the use of medicine that is about to expire @liuyifan-eric
-- Localized for the release note view @liuyifan-eric
-- Added help links for overseas clients @liuyifan-eric @ABA2396
+- Supported the use of medicine that is about to expire. @liuyifan-eric
+- Localized for the release note view. @liuyifan-eric
+- Added help links for overseas clients. @liuyifan-eric @ABA2396
 
 #### YostarJP / Japanese
 
-- Fixed DH-9 navigation@liuyifan-eric
-- Added selection support unit for IS function @liuyifan-eric
-- Fixed IS function stuck of some levels @liuyifan-eric
-- Fixed operator name OCR error @liuyifan-eric
-- Fixed client language file error @ABA2396
-- Blue-ray items @wallsman
+- Fixed DH-9 navigation. @liuyifan-eric
+- Added selection support unit for IS function. @liuyifan-eric
+- Fixed IS function stuck of some levels. @liuyifan-eric
+- Fixed operator name OCR error. @liuyifan-eric
+- Fixed client language file error. @ABA2396
+- Blue-ray items. @wallsman
 
 #### YostarKR
 
-- Fixed typos of resource file for YoStarKR @ABA2396
+- Fixed typos of resource file. @ABA2396
 
 ### For develop
 
