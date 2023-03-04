@@ -13,6 +13,7 @@
 #include "Miscellaneous/RecruitConfig.h"
 #include "Miscellaneous/StageDropsConfig.h"
 #include "Miscellaneous/TilePack.h"
+#include "Miscellaneous/OcrConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
@@ -64,6 +65,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
         LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
         LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
+        LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
 
         /* load resource with json and template files*/
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);

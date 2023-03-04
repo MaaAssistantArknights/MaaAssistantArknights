@@ -76,16 +76,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支持
 
-- 国际服（美服）<br>
-  支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarEN/readme.md)
-- 日服<br>
-  支持基本的刷理智、自动基建、信用购物、自动公招、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarJP/readme.md)
-- 韩服<br>
-  支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarKR/readme.md)
-- 繁中服<br>
-  支持基本的刷理智、自动公招、自动肉鸽、领取日常、公招识别功能，请参考 [说明](resource/global/txwy/readme.md)
-
-由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
+目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
+若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
 
 ## 主要关联项目
 
@@ -122,7 +114,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
 - 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
-- 游戏数据及資源：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
+- 游戏数据及资源：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
 - 游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)
 
 ### 贡献/参与者
