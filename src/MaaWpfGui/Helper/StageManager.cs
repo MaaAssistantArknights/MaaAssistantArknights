@@ -100,9 +100,7 @@ namespace MaaWpfGui
             }
 
             bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
-            bool curVerParsed = !isDebugVersion ?
-                SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
-                SemVersion.TryParse("5.1.7", SemVersionStyles.AllowLowerV, out curVersionObj);
+            bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
             bool curResourceVerParsed = SemVersion.TryParse(
                 tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
                 SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
@@ -137,12 +135,11 @@ namespace MaaWpfGui
                         bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
                         bool minRequiredParsed = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minRequiredObj);
 
-                        // DEBUG VISION
-                        // curParsed = SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         var stageInfo = new StageInfo();
-                        if (curVerParsed && minRequiredParsed && (!minResourceRequiredParsed || curResourceVerParsed))
+                        if ((isDebugVersion || (curVerParsed && minRequiredParsed)) && (!minResourceRequiredParsed || curResourceVerParsed))
                         {
-                            if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0 &&
+                            // Debug Version will be considered satisfying min version requirement, but the resource version needs a comparison
+                            if ((isDebugVersion || (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)) &&
                                 (!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0))
                             {
                                 if (!tempStage.ContainsKey(Localization.GetString("UnsupportedStages")))
