@@ -57,8 +57,9 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        LostFocus="FightSettingsTextBoxLostFocus"
                         PreviewTextInput="TextBox_RestrictInputInt"
-                        Text="{Binding MedicineNumber}" />
+                        Text="{Binding MedicineNumber, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
                         Width="60"
                         Height="30"
@@ -67,8 +68,9 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        LostFocus="FightSettingsTextBoxLostFocus"
                         PreviewTextInput="TextBox_RestrictInputInt"
-                        Text="{Binding StoneNumber}" />
+                        Text="{Binding StoneNumber, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
                         Width="60"
                         Height="30"
@@ -77,8 +79,9 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        LostFocus="FightSettingsTextBoxLostFocus"
                         PreviewTextInput="TextBox_RestrictInputInt"
-                        Text="{Binding MaxTimes}" />
+                        Text="{Binding MaxTimes, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
@@ -125,8 +128,9 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        LostFocus="FightSettingsTextBoxLostFocus"
                         PreviewTextInput="TextBox_RestrictInputInt"
-                        Text="{Binding DropsQuantity}"
+                        Text="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}"
                         Visibility="{c:Binding IsSpecifiedDrops}" />
                 </StackPanel>
             </Grid>
@@ -195,7 +199,7 @@
                         Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding Stage1}"
+                        Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
                         Visibility="{c:Binding CustomStageCode}" />
                     <ComboBox
@@ -238,7 +242,7 @@
                         Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding RemainingSanityStage}"
+                        Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
                         Visibility="{c:Binding UseRemainingSanityStage and CustomStageCode}" />
                 </StackPanel>

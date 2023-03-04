@@ -5,11 +5,11 @@
 #include <meojson/json.hpp>
 
 #include "Controller/Controller.h"
-#include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 
 bool asst::DepotRecognitionTask::_run()
 {

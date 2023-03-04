@@ -3,11 +3,11 @@
 #include "Utils/Ranges.hpp"
 
 #include "Controller/Controller.h"
-#include "Vision/Roguelike/RoguelikeFormationImageAnalyzer.h"
 #include "Config/TaskData.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Roguelike/RoguelikeFormationImageAnalyzer.h"
 
 bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

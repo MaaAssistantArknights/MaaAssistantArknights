@@ -6,15 +6,15 @@
 
 #include "Common/AsstMsg.h"
 #include "Controller/Controller.h"
+#include "Config/TaskData.h"
+#include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
+#include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
-#include "Config/TaskData.h"
-#include "Task/ProcessTask.h"
-#include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
 
 asst::InfrastAbstractTask::InfrastAbstractTask(const AsstCallback& callback, Assistant* inst,
                                                std::string_view task_chain)
@@ -153,6 +153,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     if (!is_dorm_order) {
         ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
     }
+    else {
+        ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked" }).run();
+    }
 
     if (max_num_of_opers() > 1) {
         click_clear_button(); // 先排序后清空，加速干员变化不大时的选择速度
@@ -205,12 +208,13 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     // 然后滑动到最左边，清空一下，在走后面的识别+按序点击逻辑
     if (is_dorm_order) {
         ProcessTask(*this, { "InfrastOperListTabMoodDoubleClick" }).run();
+        sleep(200);
     }
     else {
         ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
     }
 
-    if (room_config.sort || room_config.autofill) {
+    if (swipe_times) {
         swipe_to_the_left_of_operlist(swipe_times + 1);
         swipe_times = 0;
     }
@@ -224,14 +228,10 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         return false;
     }
 
-    if (!is_dorm_order) {
-        if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
-        swipe_times = 0;
-        if (!select_opers_review(origin_room_config)) {
-            // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
-            current_room_config() = std::move(origin_room_config);
-            return false;
-        }
+    if (!is_dorm_order && !select_opers_review(origin_room_config)) {
+        // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
+        current_room_config() = std::move(origin_room_config);
+        return false;
     }
 
     return true;
@@ -242,7 +242,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
 /// @param origin_room_config 期望的配置
 /// @param num_of_opers_expect 期望选中的人数，空置则按names.size()判断
 /// @return 是否符合期望
-bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig const& origin_room_config, size_t num_of_opers_expect)
+bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig const& origin_room_config,
+                                                    size_t num_of_opers_expect)
 {
     LogTraceFunction;
     // save_img("debug/");
@@ -250,29 +251,35 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
     const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected |
+                                   InfrastOperImageAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
     }
     oper_analyzer.sort_by_loc();
     const auto& oper_analyzer_res = oper_analyzer.get_result();
-    size_t selected_count = ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
-    Log.info("selected_count,config.names.size,num_of_opers_expect = ", selected_count, ",", room_config.names.size(), ",", num_of_opers_expect);
+    size_t selected_count =
+        ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
+    Log.info("selected_count,config.names.size,num_of_opers_expect = ", selected_count, ",", room_config.names.size(),
+             ",", num_of_opers_expect);
 
     if (selected_count < num_of_opers_expect) {
         Log.warn("select opers review fail: 选中干员数与期望不符");
         return false;
+    }
+    if (facility_name() != "Dorm" && (!m_is_custom || room_config.names.empty() && room_config.candidates.empty())) {
+        return true;
     }
     if (selected_count < room_config.names.size()) {
         Log.warn("select opers review fail: 存在自定义干员未选中");
         return false;
     }
 
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer_res) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
-        name_analyzer.set_replace(ocr_replace);
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
@@ -286,9 +293,11 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
             Log.info(name, "在\"operators\"中，且已选中");
             room_config.names.erase(iter);
-        } else { // 备选干员或自动选择，只要不选工作中的干员即可
+        }
+        else { // 备选干员或自动选择，只要不选工作中的干员即可
             if (oper.doing == infrast::Doing::Working) {
-                Log.warn("select opers review fail: 非自定义情况下，选了正在工作的干员");
+                Log.warn("选了工作中的干员:", name);
+                Log.warn("select opers review fail: 非自定义配置，却选了工作中的干员");
                 return false;
             }
         }
@@ -323,10 +332,10 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     oper_analyzer.sort_by_loc();
     partial_result.clear();
 
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer.get_result()) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
-        name_analyzer.set_replace(ocr_replace);
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
@@ -378,12 +387,12 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
         return;
     }
     oper_analyzer.sort_by_loc();
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
     std::vector<TextRect> page_result;
     for (const auto& oper : oper_analyzer.get_result()) {
         OcrWithPreprocessImageAnalyzer name_analyzer;
-        name_analyzer.set_replace(ocr_replace);
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_expansion(0);
         if (!name_analyzer.analyze()) {
@@ -403,7 +412,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
             Log.error("name not in this page", name);
         }
     }
-    sleep(100); // 此处刚刚选择了一位干员，因后续任务需截图识别，所以需要一个延迟，以保证后续截图选中状态无误
+    sleep(500); // 此处刚刚选择了一位干员，因后续任务需截图识别，所以需要一个延迟，以保证后续截图选中状态无误
 }
 
 void asst::InfrastAbstractTask::click_return_button()

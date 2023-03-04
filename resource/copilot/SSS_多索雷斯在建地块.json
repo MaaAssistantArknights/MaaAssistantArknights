@@ -14,11 +14,11 @@
         "A", "A", "A", "A"
     ],
     "strategy": "优选策略",
-    "opers":[
+    "opers": [
         {
             "name": "棘刺",
             "skill": 3,
-            "skill_usage":1
+            "skill_usage": 1
         },
         {
             "name": "泥岩",
@@ -41,14 +41,14 @@
             "skill_usage": 0
         }
     ],
-    "tool_men":{
+    "tool_men": {
         "先锋": 1,
         "近卫": 2,
         "辅助": 7,
         "重装": 2,
         "术士": 3
     },
-    "drops":[
+    "drops": [
         "近卫",
         "无需增调干员",
         "辅助",
@@ -86,7 +86,7 @@
         "梅尔",
         "罗小黑"
     ],
-    "stages":[
+    "stages": [
         {
             "stage_name": "蜂拥而上",
             "strategies": [
@@ -197,7 +197,7 @@
                         5,
                         3
                     ],
-                    "direction": "Left" 
+                    "direction": "Left"
                 },
                 {
                     "core": "泥岩",
@@ -268,7 +268,8 @@
                         "近卫": 3
                     },
                     "location": [
-                        6,1
+                        6,
+                        1
                     ],
                     "direction": "Left"
                 },

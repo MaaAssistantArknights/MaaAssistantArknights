@@ -442,3 +442,9 @@ enc_temp_folder/*
 
 # Nuke
 .nuke/temp/*
+
+# 引航者试炼地图，手动改的参数
+/resource/Arknights-Tile-Pos/act2bossrush_01-activities-act2bossrush-level_bossrush2_01.json
+/resource/Arknights-Tile-Pos/act2bossrush_02-activities-act2bossrush-level_bossrush2_02.json
+/resource/Arknights-Tile-Pos/act2bossrush_03-activities-act2bossrush-level_bossrush2_03.json
+/resource/Arknights-Tile-Pos/act2bossrush_04-activities-act2bossrush-level_bossrush2_04.json

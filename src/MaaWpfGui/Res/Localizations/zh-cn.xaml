@@ -378,12 +378,14 @@
     <system:String x:Key="VideoLink">视频链接</system:String>
 
     <!--  日志  -->
-    <system:String x:Key="CopilotTip">小提示：</system:String>
-    <system:String x:Key="CopilotTip1">请将模拟器及游戏帧率设置到 60 帧或更高；</system:String>
-    <system:String x:Key="CopilotTip2">请在有“开始行动”按钮的界面再使用本功能；</system:String>
-    <system:String x:Key="CopilotTip3">使用好友助战可以关闭“自动编队”，手动选择干员后开始；</system:String>
-    <system:String x:Key="CopilotTip4">模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；</system:String>
-    <system:String x:Key="CopilotTip5">“自动编队”暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队；</system:String>
+    <system:String x:Key="CopilotTip">
+        小提示：\n\n
+        1. 请在有“开始行动”按钮的界面再使用本功能；\n\n
+        2. 使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n
+        3. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n
+        4. 保全派驻 在 resource/copilot 文件夹下内置了两份作业。\n
+        请手动编队后在“开始部署”界面开始（可配合“循环次数”使用）
+    </system:String>
 
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -471,11 +473,11 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
     <system:String x:Key="CurrentSteps">当前步骤：{0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel" xml:space="preserve">不支持的关卡，请更新 MAA 软件版本！
-不支持的关卡，请更新 MAA 软件版本！
-不支持的关卡，请更新 MAA 软件版本！
-
-若提示已是最新版本，请尝试检查开发版或内测版。
+    <system:String x:Key="UnsupportedLevel">
+        不支持的关卡，请更新 MAA 软件版本！\n
+        不支持的关卡，请更新 MAA 软件版本！\n
+        不支持的关卡，请更新 MAA 软件版本！\n\n
+        若提示已是最新版本，请尝试检查开发版或内测版。
     </system:String>
     <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
@@ -520,4 +522,10 @@
     <system:String x:Key="Hangover">下次不能喝、喝这么多了......</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
+
+    <!--  VersionUpdatePopup  -->
+    <system:String x:Key="UpdateNotificationOK">好的！</system:String>
+    <system:String x:Key="VersionUpdated">版本已更新</system:String>
+    <system:String x:Key="VersionUpdatedTo">已更新：</system:String>
+    <!--  VersionUpdatePopup  -->
 </ResourceDictionary>

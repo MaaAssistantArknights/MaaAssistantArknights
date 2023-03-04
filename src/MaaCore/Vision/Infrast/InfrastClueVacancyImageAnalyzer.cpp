@@ -1,8 +1,8 @@
 #include "InfrastClueVacancyImageAnalyzer.h"
 
-#include "Vision/MatchImageAnalyzer.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/MatchImageAnalyzer.h"
 
 bool asst::InfrastClueVacancyImageAnalyzer::analyze()
 {

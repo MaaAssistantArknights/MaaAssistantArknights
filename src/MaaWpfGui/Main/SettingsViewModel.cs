@@ -134,13 +134,6 @@ namespace MaaWpfGui
             _asstProxy = _container.Get<AsstProxy>();
             _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
 
-            _mainWindowManager.SetMinimizeToTaskbar(MinimizeToTray);
-
-            if (LoadGUIParameters && SaveGUIParametersOnClosing)
-            {
-                Application.Current.MainWindow.Closing += SaveGUIParameters;
-            }
-
             var addressListJson = ViewStatusStorage.Get("Connect.AddressHistory", string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
             {
@@ -2240,7 +2233,7 @@ namespace MaaWpfGui
             }
         }
 
-        private void SaveGUIParameters(object sender, EventArgs e)
+        public void SaveGUIParameters(object sender, EventArgs e)
         {
             SaveGUIParameters();
         }
@@ -2448,6 +2441,10 @@ namespace MaaWpfGui
                 System.Windows.Forms.MessageBoxManager.Yes = FormatText("{0}({1})", "Ok");
                 System.Windows.Forms.MessageBoxManager.No = FormatText("{0}({1})", "ManualRestart");
                 System.Windows.Forms.MessageBoxManager.Register();
+                Window mainWindow = Application.Current.MainWindow;
+                mainWindow.Show();
+                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Activate();
                 var result = MessageBox.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),

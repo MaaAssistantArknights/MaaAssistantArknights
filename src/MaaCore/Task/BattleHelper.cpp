@@ -191,7 +191,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
                 name_analyzer.set_image(name_image);
                 name_analyzer.set_task_info(oper_name_ocr_task_name());
-                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                 if (!name_analyzer.analyze()) {
                     return std::string();
                 }
