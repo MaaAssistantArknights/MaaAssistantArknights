@@ -112,12 +112,11 @@ namespace MaaWpfGui
                     // 活动关卡
                     foreach (var stageObj in activity[clientType]["sideStoryStage"] ?? Enumerable.Empty<JToken>())
                     {
-                        bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
-                        bool curParsed = !isDebugVersion ?
-                            SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj) :
-                            SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         bool minimumRequiredPared = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minimumRequiredObj);
+                        bool curParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
 
+                        // DEBUG VISION
+                        // curParsed = SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         var stageInfo = new StageInfo();
                         if (curParsed && minimumRequiredPared)
                         {
