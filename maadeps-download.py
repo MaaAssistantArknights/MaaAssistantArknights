@@ -2,6 +2,7 @@
 import os
 import sys
 import urllib.request
+import urllib.error
 import json
 import time
 from pathlib import Path
@@ -69,6 +70,26 @@ def sanitize_filename(filename: str):
     return filename
 
 
+def retry_load(url: str):
+    import time
+    import http.client
+    for _ in range(5):
+        resp: http.client.HTTPResponse = urllib.request.urlopen(url)
+        if resp.status == 403 and resp.headers.get("x-ratelimit-remaining") == "0":
+            # rate limit
+            resp.close()
+            t0 = time.time()
+            reset_time = t0 + 10
+            try:
+                reset_time = int(resp.headers.get("x-ratelimit-reset", 0))
+            except ValueError:
+                pass
+            reset_time = max(reset_time, t0 + 10)
+            print(f"rate limit exceeded, retrying after {reset_time - t0:.1f} seconds")
+            time.sleep(reset_time - t0)
+            continue
+        return resp.read()
+
 
 def main():
     target_triplet = detect_host_triplet()
@@ -79,7 +100,7 @@ def main():
         print(f"to specify another triplet, run `{sys.argv[0]} <target triplet>`")
         print(f"e.g. `{sys.argv[0]} arm64-windows`")
     
-    resp = urllib.request.urlopen("https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases").read()
+    resp = retry_load("https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases")
     releases = json.loads(resp)
     def split_asset_name(name: str):
         *remainder, component_suffix = name.rsplit('-', 1)
