@@ -137,6 +137,8 @@ namespace MaaWpfGui
                         bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
                         bool minRequiredParsed = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minRequiredObj);
 
+                        // DEBUG VISION
+                        // curParsed = SemVersion.TryParse("4.11.7", SemVersionStyles.AllowLowerV, out curVersionObj);
                         var stageInfo = new StageInfo();
                         if (curVerParsed && minRequiredParsed && (!minResourceRequiredParsed || curResourceVerParsed))
                         {

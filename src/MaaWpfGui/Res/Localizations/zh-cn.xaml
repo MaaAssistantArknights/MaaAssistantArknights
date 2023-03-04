@@ -146,6 +146,7 @@
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
+    <system:String x:Key="ShowChangelog">更新日志</system:String>
 
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
@@ -180,6 +181,7 @@
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动MAA</system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动MAA后直接运行</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动MAA后自动开启模拟器</system:String>
     <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
