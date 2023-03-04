@@ -322,17 +322,14 @@
     <system:String x:Key="VideoLink">影片連結</system:String>
 
     <!--  日誌  -->
-    <system:String x:Key="CopilotTip" xml:space="preserve">小提示：
-
-1. 請在有“開始行動”按鈕的介面再使用本功能；
-
-2. 使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；
-
-3. 模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；
-
-4. 保全派駐 在 resource/copilot 文件夾下內置了兩份作業。
-請手動編隊後在“開始部署”界面開始（可配合“循環次數”使用）
-</system:String>
+    <system:String x:Key="CopilotTip">
+        小提示：\n\n
+        1. 請在有“開始行動”按鈕的介面再使用本功能；\n\n
+        2. 使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；\n\n
+        3. 模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；\n\n
+        4. 保全派駐 在 resource/copilot 文件夾下內置了兩份作業。\n
+        請手動編隊後在“開始部署”界面開始（可配合“循環次數”使用）
+    </system:String>
 
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>

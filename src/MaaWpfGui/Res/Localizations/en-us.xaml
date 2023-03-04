@@ -377,17 +377,14 @@
     <system:String x:Key="VideoLink">Video Link</system:String>
 
     <!--  Logs  -->
-    <system:String x:Key="CopilotTip" xml:space="preserve">Tips：
-
-1. Please use this function only when &quot;Start&quot; is visible in game.
-
-2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.
-
-3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.
-
-4. For SSS, There are two built-in files under the resource/copilot folder.
-Please start on the "Start Deployment" screen after manual formation (can be used with "Loop times")
-</system:String>
+    <system:String x:Key="CopilotTip">
+        Tips：\n\n
+        1. Please use this function only when &quot;Start&quot; is visible in game.\n\n
+        2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.\n\n
+        3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.\n\n
+        4. For SSS, There are two built-in files under the resource/copilot folder.\n
+        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+    </system:String>
 
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>

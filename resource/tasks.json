@@ -785,6 +785,63 @@
         "isAscii": true,
         "text": []
     },
+    "DH-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DH-Open"
+        ],
+        "next": [
+            "DH-9@SideStoryStage",
+            "DH-9@SwipeToStage"
+        ]
+    },
+    "DH-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "假日",
+            "复刻",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH"
+        ]
+    },
+    "DHChapterToDH": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "极限",
+            "铁人",
+            "大奖"
+        ],
+        "roi": [
+            934,
+            280,
+            234,
+            124
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "DH-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
+        "text": [
+            "DH-9"
+        ]
+    },
     "GA-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -2132,6 +2189,10 @@
             [
                 ".*默德克萨斯",
                 "缄默德克萨斯"
+            ],
+            [
+                "^重岳.+",
+                "重岳"
             ]
         ]
     },
@@ -3105,7 +3166,8 @@
             "Recruit@ReturnTo",
             "Recruit@CloseAnnos#next",
             "Recruit@FromStageSN",
-            "Recruit@TodaysSupplies"
+            "Recruit@TodaysSupplies",
+            "Recruit@OfflineConfirm"
         ]
     },
     "Recruit": {
@@ -3945,6 +4007,7 @@
         "postDelay": 500,
         "next": [
             "RecruitRefreshConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "SleepThenStop"
         ]
     },
@@ -4006,6 +4069,7 @@
         ],
         "next": [
             "RecruitConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "RecruitFlag"
         ]
     },
@@ -4352,9 +4416,9 @@
         "text": [],
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [
-            0,
+            -8,
             20,
-            113,
+            125,
             22
         ]
     },
@@ -7870,7 +7934,7 @@
             1035,
             370,
             226,
-            225
+            300
         ]
     },
     "Roguelike@StageEnterBattle": {
@@ -9359,9 +9423,9 @@
             "招募助战"
         ],
         "roi": [
-            770,
+            810,
             500,
-            160,
+            200,
             40
         ],
         "preDelay": 200
@@ -9381,14 +9445,9 @@
         "baseTask": "RoguelikeRecruitSupportElite"
     },
     "RoguelikeRecruitSupportEnterFlag": {
-        "template": "Roguelike@RefreshSupportBtn.png",
-        "action": "DoNothing",
-        "roi": [
-            1094,
-            10,
-            172,
-            47
-        ]
+        "baseTask": "RoguelikeRefreshSupportBtnOcr",
+        "postDelay": 0,
+        "action": "DoNothing"
     },
     "SSSBegin": {
         "Doc": "保全派驻",
