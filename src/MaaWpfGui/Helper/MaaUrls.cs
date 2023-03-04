@@ -30,7 +30,7 @@ namespace MaaWpfGui
 
         public static string MapPrts => "https://map.ark-nights.com/areas?coord_override=maa";
 
-        public static string CustomInfrastGenerator => "https://yituliu.site/riicCal";
+        public static string CustomInfrastGenerator => "https://yituliu.site/riicCal/";
 
         public static string QqGroups => "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
@@ -52,6 +52,25 @@ namespace MaaWpfGui
             {
                 var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
                 return $"https://maa.plus/docs/{_helpUrl[language]}";
+            }
+        }
+
+        private static readonly Dictionary<string, string> _overseasAdaptation = new Dictionary<string, string>
+        {
+            { "zh-cn", "2.5-外服适配教程.html" },
+            { "en-us", "en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
+            { "ja-jp", "ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
+            { "ko-kr", "ko-kr/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
+            { "zh-tw", "zh-tw/2.5-外服適配教程.html" },
+            { "pallas", "KeepDrinking" },
+        };
+
+        public static string OverseasAdaptation
+        {
+            get
+            {
+                var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+                return $"https://maa.plus/docs/{_overseasAdaptation[language]}";
             }
         }
     }
