@@ -1732,6 +1732,11 @@ namespace MaaWpfGui
             }
         }
 
+        public void ShowChangelog()
+        {
+            _windowManager.ShowWindow(_versionUpdateViewModel);
+        }
+
         /* 连接设置 */
 
         private bool _autoDetectConnection = bool.Parse(ViewStatusStorage.Get("Connect.AutoDetect", true.ToString()));
