@@ -7,11 +7,11 @@
     <TargetFramework Condition="'$(Platform)' == 'ARM64'">net481</TargetFramework>
 	<Platforms>x64;ARM64</Platforms>
 	<Configurations>Release;RelWithDebInfo</Configurations>
-    <SupportUrl>https://github.com/MistEO/MaaCoreArknights</SupportUrl>
-    <ErrorReportUrl>https://github.com/MistEO/MaaCoreArknights/issues</ErrorReportUrl>
-    <ProductName>Meo明日方舟辅助</ProductName>
+    <SupportUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights</SupportUrl>
+    <ErrorReportUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues</ErrorReportUrl>
+    <ProductName>MAA</ProductName>
     <PublisherName>MistEO</PublisherName>
-    <SuiteName>MaaCore</SuiteName>
+    <SuiteName>MAA</SuiteName>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>4.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -30,7 +30,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
