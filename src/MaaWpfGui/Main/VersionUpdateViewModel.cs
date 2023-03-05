@@ -125,10 +125,20 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _updateUrl, value);
         }
 
+        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.isfirstboot", bool.FalseString));
+
         /// <summary>
-        /// Gets a value indicating whether it is the first boot after updating.
+        /// Gets or sets a value indicating whether it is the first boot after updating.
         /// </summary>
-        public bool IsFirstBootAfterUpdate => UpdateTag != string.Empty && UpdateTag == _curVersion;
+        public bool IsFirstBootAfterUpdate
+        {
+            get => _isFirstBootAfterUpdate;
+            set
+            {
+                SetAndNotify(ref _isFirstBootAfterUpdate, value);
+                ViewStatusStorage.Set("VersionUpdate.isfirstboot", value.ToString());
+            }
+        }
 
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
 
@@ -958,16 +968,6 @@ namespace MaaWpfGui
             {
                 File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
             }
-        }
-
-        /// <summary>
-        /// Closes view model.
-        /// </summary>
-        public void Close()
-        {
-            RequestClose();
-            /* UpdateTag = string.Empty; */
-            /* UpdateInfo = string.Empty; */
         }
 
         /// <summary>
