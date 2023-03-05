@@ -22,7 +22,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Documents;
 using MaaWpfGui.Helper;
+using Markdig;
+using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -107,6 +110,9 @@ namespace MaaWpfGui
                 ViewStatusStorage.Set("VersionUpdate.body", value);
             }
         }
+
+        public FlowDocument UpdateInfoDoc => MarkdownXaml.ToFlowDocument(UpdateInfo,
+                new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build());
 
         private string _updateUrl;
 
