@@ -14,16 +14,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -227,8 +224,6 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _isDataFromWeb = false;
-        private int _copilotId = 0;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
         private string TaskType = "General";
 
@@ -498,13 +493,12 @@ namespace MaaWpfGui
         }
 
         private readonly string _copilotRatingUrl = "https://prts.maa.plus/copilot/rating";
-        private readonly List<int> _recentlyRatedCopilotId = new List<int>();
+        private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
 
         private bool _couldLikeWebJson = false;
 
         public bool CouldLikeWebJson
         {
-            // TODO: 还要加个限制，如果点过赞了就不让再点了
             get => _couldLikeWebJson;
             set => SetAndNotify(ref _couldLikeWebJson, value);
         }
@@ -516,6 +510,8 @@ namespace MaaWpfGui
                 _recentlyRatedCopilotId.IndexOf(CopilotId) == -1;
         }
 
+        private bool _isDataFromWeb = false;
+
         public bool IsDataFromWeb
         {
             get => _isDataFromWeb;
@@ -525,6 +521,8 @@ namespace MaaWpfGui
                 UpdateCouldLikeWebJson();
             }
         }
+
+        private int _copilotId = 0;
 
         public int CopilotId
         {
@@ -564,8 +562,6 @@ namespace MaaWpfGui
             AddLog(Localization.GetString("ThanksForLikeWebJson"), UILogColor.Info);
         }
 
-        private const string CopilotUiUrl = "https://www.prts.plus/";
-        private string _url = CopilotUiUrl;
         private readonly string CopilotUiUrl = MaaUrls.PrtsPlus;
         private string _url = MaaUrls.PrtsPlus;
         private string _urlText = Localization.GetString("PrtsPlus");
