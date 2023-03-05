@@ -17,22 +17,22 @@
             "殘陽"
         ]
     },
-	"LevelOfDifficulty": {
+    "LevelOfDifficulty": {
         "text": [
             "環境",
             "PRTS"
         ]
-	},
+    },
     "EnterChapterDifficultyHard": {
         "text": [
             "進入",
-			"作戰"
+            "作戰"
         ]
     },
     "EnterChapterDifficultyNormal": {
         "text": [
             "進入",
-			"作戰"
+            "作戰"
         ]
     },
     "StageEpisodeToOF": {
@@ -51,7 +51,7 @@
         "algorithm": "OcrDetect",
         "text": [
             "愚人號",
-			"活動",
+            "活動",
             "關卡已開放"
         ],
         "roi": [
@@ -61,21 +61,21 @@
             150
         ]
     },
-	"SN-Chapter2": {
-		"preDelay":2000,
+    "SN-Chapter2": {
+        "preDelay": 2000,
         "next": [
             "SN-Chapter2",
             "ChapterSwipeToTheRight"
         ]
     },
     "SN-Chapter3": {
-		"preDelay":2000,
+        "preDelay": 2000,
         "next": [
             "SN-Chapter3",
             "ChapterSwipeToTheLeft"
         ]
     },
-	"BattleStartPre": {
+    "BattleStartPre": {
         "text": [
             "開始行動",
             "開始突襲",
@@ -93,7 +93,7 @@
         ]
     },
     "CharsNameOcrReplace": {
-        "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用",
         "ocrReplace": [
             [
                 "安比爾",
@@ -112,11 +112,11 @@
                 "杰西卡"
             ],
             [
-				"潔絮西卡",
+                "潔絮西卡",
                 "杰西卡"
             ],
-			[
-				"絮西卡",
+            [
+                "絮西卡",
                 "杰西卡"
             ],
             [
@@ -823,15 +823,15 @@
                 "澄閃",
                 "澄闪"
             ],
-			[
+            [
                 "風丸",
                 "风丸"
             ],
-			[
+            [
                 "見行者",
                 "见行者"
             ],
-			[
+            [
                 "菲亞梅塔",
                 "菲亚梅塔"
             ],
@@ -839,19 +839,19 @@
                 "號角",
                 "号角"
             ],
-			[
+            [
                 "歸溟幽靈鯊",
                 "归溟幽灵鲨"
             ],
-			[
+            [
                 "掠風",
                 "掠风"
             ],
-			[
+            [
                 "流明",
                 "流明"
             ],
-			[
+            [
                 "艾麗妮",
                 "艾丽妮"
             ]
@@ -862,7 +862,7 @@
             "今日配給"
         ]
     },
-    "Loading": {
+    "LoadingText": {
         "text": [
             "正在提交",
             "反饋至神經"
@@ -1062,12 +1062,12 @@
             "採"
         ]
     },
-	"CreditShop-NoMoney": {
+    "CreditShop-NoMoney": {
         "text": [
             "信用不足",
             "無法購買"
         ]
-	},
+    },
     "InfrastReward": {
         "text": [
             "可收穫",

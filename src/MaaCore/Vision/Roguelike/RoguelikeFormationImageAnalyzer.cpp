@@ -2,9 +2,9 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Vision/MultiMatchImageAnalyzer.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Vision/MultiMatchImageAnalyzer.h"
 
 bool asst::RoguelikeFormationImageAnalyzer::analyze()
 {

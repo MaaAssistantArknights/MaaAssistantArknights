@@ -1,6 +1,6 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
+#include "Vision/AbstractImageAnalyzer.h"
 
 #include <optional>
 
@@ -31,7 +31,8 @@ namespace asst
 
         int match_quantity(const Rect& roi, const std::string& item, bool use_word_model = false);
         std::optional<TextRect> match_quantity_string(const Rect& roi, bool use_word_model = false);
-        std::optional<TextRect> match_quantity_string(const Rect& roi, const std::string& item, bool use_word_model = false);
+        std::optional<TextRect> match_quantity_string(const Rect& roi, const std::string& item,
+                                                      bool use_word_model = false);
 
         StageDropType match_droptype(const Rect& roi);
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);

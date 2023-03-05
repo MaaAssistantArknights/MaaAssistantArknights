@@ -88,12 +88,18 @@
                     Visibility="{c:Binding !Idle}" />
             </Grid>
             <maa:TextBlock Margin="5" Block.TextAlignment="Center">
-                <Hyperlink Command="{s:Action Hyperlink_Click}" CommandParameter="{Binding Url}">
-                    <TextBlock Text="{Binding Url}" />
+                <Hyperlink
+                    Cursor="Hand"
+                    NavigateUri="{Binding Url}"
+                    TextDecorations="None">
+                    <TextBlock Text="{Binding UrlText}" />
                 </Hyperlink>
             </maa:TextBlock>
             <maa:TextBlock Margin="5" Block.TextAlignment="Center">
-                <Hyperlink Command="{s:Action Hyperlink_Click2}">
+                <Hyperlink
+                    Cursor="Hand"
+                    NavigateUri="{Binding Source={x:Static local:MaaUrls.MapPrts}}"
+                    TextDecorations="None">
                     <TextBlock Text="{DynamicResource MapPrts}" />
                 </Hyperlink>
             </maa:TextBlock>
