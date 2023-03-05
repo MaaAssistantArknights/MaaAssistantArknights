@@ -550,6 +550,7 @@ namespace MaaWpfGui
             {
                 return;
             }
+            CouldLikeWebJson = false;
 
             string jsonParam = JsonConvert.SerializeObject(new
             {
@@ -558,7 +559,6 @@ namespace MaaWpfGui
             });
             WebService.RequestPost(_copilotRatingUrl, jsonParam);
             _recentlyRatedCopilotId.Add(CopilotId);
-            CouldLikeWebJson = false;
             AddLog(Localization.GetString("ThanksForLikeWebJson"), UILogColor.Info);
         }
 
