@@ -172,16 +172,24 @@ namespace MaaWpfGui
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
                 int.TryParse(copilotIdStr, out var numberStyles);
-                CopilotId = numberStyles;
-                jsonStr = RequestCopilotServer(CopilotId);
-                IsDataFromWeb = true;
+                int tempCopilotId = numberStyles;
+                jsonStr = RequestCopilotServer(tempCopilotId);
+                if (!string.IsNullOrEmpty(jsonStr))
+                {
+                    IsDataFromWeb = true;
+                    CopilotId = tempCopilotId;
+                }
             }
             else if (int.TryParse(filename, out _))
             {
                 int.TryParse(filename, out var numberStyles);
-                CopilotId = numberStyles;
-                jsonStr = RequestCopilotServer(CopilotId);
-                IsDataFromWeb = true;
+                int tempCopilotId = numberStyles;
+                jsonStr = RequestCopilotServer(tempCopilotId);
+                if (!string.IsNullOrEmpty(jsonStr))
+                {
+                    IsDataFromWeb = true;
+                    CopilotId = tempCopilotId;
+                }
             }
             else
             {
@@ -504,43 +512,57 @@ namespace MaaWpfGui
         }
 
         private readonly string _copilotRatingUrl = "https://prts.maa.plus/copilot/rating";
+        private readonly List<int> _recentlyRatedCopilotId = new List<int>();
 
-        public bool CouldLikeWebJson()
+        private bool _couldLikeWebJson = false;
+
+        public bool CouldLikeWebJson
         {
             // TODO: 还要加个限制，如果点过赞了就不让再点了
-            return IsDataFromWeb && CopilotId != 0;
+            get => _couldLikeWebJson;
+            set => SetAndNotify(ref _couldLikeWebJson, value);
+        }
+
+        private void UpdateCouldLikeWebJson()
+        {
+            CouldLikeWebJson = IsDataFromWeb &&
+                CopilotId > 0 &&
+                _recentlyRatedCopilotId.IndexOf(CopilotId) == -1;
         }
 
         public bool IsDataFromWeb
         {
             get => _isDataFromWeb;
-            set => SetAndNotify(ref _isDataFromWeb, value);
+            set
+            {
+                SetAndNotify(ref _isDataFromWeb, value);
+                UpdateCouldLikeWebJson();
+            }
         }
 
         public int CopilotId
         {
             get => _copilotId;
-            set => SetAndNotify(ref _copilotId, value);
+            set
+            {
+                SetAndNotify(ref _copilotId, value);
+                UpdateCouldLikeWebJson();
+            }
         }
 
         public void LikeWebJson()
         {
-            if (!CouldLikeWebJson())
-            {
-                return;
-            }
-
-            string jsonParam = JsonConvert.SerializeObject(new
-            {
-                id = CopilotId,
-                rating = "Like",
-            });
-            WebService.RequestPost(_copilotRatingUrl, jsonParam);
+            RateWebJson("Like");
         }
 
         public void DislikeWebJson()
         {
-            if (!CouldLikeWebJson())
+            RateWebJson("Dislike");
+        }
+
+        private void RateWebJson(string rating)
+        {
+            if (!CouldLikeWebJson)
             {
                 return;
             }
@@ -548,9 +570,12 @@ namespace MaaWpfGui
             string jsonParam = JsonConvert.SerializeObject(new
             {
                 id = CopilotId,
-                rating = "Dislike",
+                rating = rating,
             });
             WebService.RequestPost(_copilotRatingUrl, jsonParam);
+            _recentlyRatedCopilotId.Add(CopilotId);
+            CouldLikeWebJson = false;
+            AddLog(Localization.GetString("ThanksForLikeWebJson"), UILogColor.Info);
         }
 
         private const string CopilotUiUrl = "https://www.prts.plus/";

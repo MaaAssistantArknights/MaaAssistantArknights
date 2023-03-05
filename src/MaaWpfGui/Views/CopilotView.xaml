@@ -130,7 +130,12 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal"
-                Visibility="{c:Binding IsDataFromWeb and (CopilotId > 0)}">
+                Visibility="{c:Binding CouldLikeWebJson}">
+                <maa:TextBlock
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource DoYouLikeThisWebJson}" />
                 <Button
                     Width="50"
                     Height="30"

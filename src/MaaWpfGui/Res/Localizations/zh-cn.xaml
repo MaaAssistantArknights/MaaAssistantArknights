@@ -369,6 +369,8 @@
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
+    <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页端即将开放评论区，敬请期待！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别“特别关注”的干员</system:String>
