@@ -1,4 +1,5 @@
 import ctypes
+import ctypes.util
 import json
 import os
 import pathlib
@@ -65,7 +66,13 @@ class Asst:
             os.environ[platform_values[platform_type]['environ_var']] += os.pathsep + str(path)
         except KeyError:
             os.environ[platform_values[platform_type]['environ_var']] = os.pathsep + str(path)
-        Asst.__lib = lib_import_func(str(Asst.__libpath))
+
+        try:
+            Asst.__lib = lib_import_func(str(Asst.__libpath))
+        except OSError:
+            Asst.__libpath = ctypes.util.find_library('MaaCore')
+            Asst.__lib = lib_import_func(str(Asst.__libpath))
+
         Asst.__set_lib_properties()
 
         ret: bool = True
