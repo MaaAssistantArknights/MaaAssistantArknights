@@ -19,7 +19,7 @@ public partial class Build
                 .SetProjectFile(Parameters.MaaCoreProject)
                 .SetTargets("ReBuild")
                 .SetConfiguration(BuildConfiguration.Release)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
+                .SetTargetPlatform(Parameters.TargetPlatform)
                 .SetProcessEnvironmentVariable("ExternalCompilerOptions", versionEnv)
             );
         });
@@ -35,7 +35,7 @@ public partial class Build
                 .SetProjectFile(Parameters.MaaWpfProject)
                 .SetTargets("ReBuild")
                 .SetConfiguration(BuildConfiguration.Release)
-                .SetTargetPlatform(MSBuildTargetPlatform.x64)
+                .SetTargetPlatform(Parameters.TargetPlatform)
                 .EnableRestore()
             );
         });
@@ -50,7 +50,7 @@ public partial class Build
             .SetProjectFile(Parameters.MaaSyncResProject)
             .SetTargets("ReBuild")
             .SetConfiguration(BuildConfiguration.Release)
-            .SetTargetPlatform(MSBuildTargetPlatform.x64)
+            .SetTargetPlatform(Parameters.TargetPlatform)
             .EnableRestore()
         );
     });
