@@ -1,0 +1,2 @@
+python coordinate.py %*
+pause

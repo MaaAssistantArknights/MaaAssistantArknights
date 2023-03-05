@@ -87,7 +87,7 @@ void asst::ReportDataTask::report_to_penguin()
 
     constexpr int DefaultBackoff = 10 * 1000; // 10s
     int backoff = DefaultBackoff;
-    
+
     auto penguin_success_cond = [](const http::Response& response) -> bool { return response.success(); };
     auto penguin_retry_cond = [&](const http::Response& response) -> bool {
         if (!response.status_code()) {
@@ -126,7 +126,7 @@ void asst::ReportDataTask::report_to_penguin()
     }
     Log.info("Re-report to penguin-stats.cn", Penguin_CN);
     std::string new_cmd_format = utils::string_replace_all(cmd_format, Penguin_IO, Penguin_CN);
-    
+
     backoff = DefaultBackoff;
     response = report(PenguinSubtaskName, new_cmd_format, penguin_success_cond, penguin_retry_cond);
 
@@ -202,6 +202,6 @@ asst::http::Response asst::ReportDataTask::escape_and_request(const std::string&
     Log.info("request:\n" + cmd_line);
     std::string response = utils::call_command(cmd_line);
     Log.info("response:\n" + response);
-    
+
     return response;
 }

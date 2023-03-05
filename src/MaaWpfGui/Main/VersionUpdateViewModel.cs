@@ -960,8 +960,8 @@ namespace MaaWpfGui
         public void Close()
         {
             RequestClose();
-            UpdateTag = string.Empty;
-            UpdateInfo = string.Empty;
+            /* UpdateTag = string.Empty; */
+            /* UpdateInfo = string.Empty; */
         }
 
         /// <summary>

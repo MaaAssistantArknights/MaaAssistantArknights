@@ -62,14 +62,7 @@ namespace MaaWpfGui
             _windowManager = windowManager;
             DisplayName = Localization.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog(
-                Localization.GetString("CopilotTip") + "\n\n" +
-                /* Localization.GetString("CopilotTip1") + "\n\n" + */
-                "1. " + Localization.GetString("CopilotTip2") + "\n\n" +
-                "2. " + Localization.GetString("CopilotTip3") + "\n\n" +
-                "3. " + Localization.GetString("CopilotTip4"),
-                /* Localization.GetString("CopilotTip5"),*/
-                UILogColor.Message);
+            AddLog(Localization.GetString("CopilotTip"), UILogColor.Message);
         }
 
         protected override void OnInitialActivate()
@@ -366,14 +359,7 @@ namespace MaaWpfGui
                     File.WriteAllText(TempCopilotFile, json.ToString());
                 }
 
-                AddLog(
-                    "\n\n" +
-                    Localization.GetString("CopilotTip") + "\n\n" +
-                    Localization.GetString("CopilotTip1") + "\n\n" +
-                    Localization.GetString("CopilotTip2") + "\n\n" +
-                    Localization.GetString("CopilotTip3") + "\n\n" +
-                    Localization.GetString("CopilotTip4"));
-                /*  Localization.GetString("CopilotTip5"));*/
+                AddLog(Localization.GetString("CopilotTip"));
             }
             catch (Exception)
             {
@@ -580,49 +566,29 @@ namespace MaaWpfGui
 
         private const string CopilotUiUrl = "https://www.prts.plus/";
         private string _url = CopilotUiUrl;
+        private readonly string CopilotUiUrl = MaaUrls.PrtsPlus;
+        private string _url = MaaUrls.PrtsPlus;
+        private string _urlText = Localization.GetString("PrtsPlus");
+
+        /// <summary>
+        /// Gets or sets the UrlText.
+        /// </summary>
+        public string UrlText
+        {
+            get => _urlText;
+            set => SetAndNotify(ref _urlText, value);
+        }
 
         /// <summary>
         /// Gets or sets the copilot URL.
         /// </summary>
         public string Url
         {
-            get => _url == CopilotUiUrl ? Localization.GetString("PrtsPlus") : Localization.GetString("VideoLink");
-            set => SetAndNotify(ref _url, value);
-        }
-
-        /// <summary>
-        /// The event handler of clicking hyperlink.
-        /// </summary>
-        public void Hyperlink_Click()
-        {
-            try
+            get => _url;
+            set
             {
-                if (!string.IsNullOrEmpty(_url))
-                {
-                    Process.Start(new ProcessStartInfo(_url));
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        private readonly string _url2 = MaaUrls.MapPrts;
-
-        /// <summary>
-        /// The event handler of clicking hyperlink.
-        /// </summary>
-        public void Hyperlink_Click2()
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(_url2))
-                {
-                    Process.Start(new ProcessStartInfo(_url2));
-                }
-            }
-            catch (Exception)
-            {
+                UrlText = value == CopilotUiUrl ? Localization.GetString("PrtsPlus") : Localization.GetString("VideoLink");
+                SetAndNotify(ref _url, value);
             }
         }
 

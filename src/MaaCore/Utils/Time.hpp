@@ -34,8 +34,8 @@ namespace asst::utils
         gettimeofday(&tv, nullptr);
         time_t nowtime = tv.tv_sec;
         struct tm* tm_info = localtime(&nowtime);
-        strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
-        sprintf(buff, "%s.%03ld", buff, static_cast<long int>(tv.tv_usec / 1000));
+        auto offset = strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
+        sprintf(buff + offset, ".%03ld", static_cast<long int>(tv.tv_usec / 1000));
 #endif // END _WIN32
         return buff;
     }
