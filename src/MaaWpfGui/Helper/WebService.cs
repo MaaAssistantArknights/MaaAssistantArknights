@@ -31,7 +31,7 @@ namespace MaaWpfGui.Helper
 
         public static string Proxy { get; set; } = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
 
-        public static string RequestUrl(string url)
+        public static string RequestGet(string url)
         {
             try
             {
@@ -42,6 +42,46 @@ namespace MaaWpfGui.Helper
                 if (!string.IsNullOrWhiteSpace(Proxy))
                 {
                     httpWebRequest.Proxy = new WebProxy(Proxy);
+                }
+
+                var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+                if (httpWebResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    return null;
+                }
+
+                var streamReader = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.UTF8);
+                var responseContent = streamReader.ReadToEnd();
+                streamReader.Close();
+                httpWebResponse.Close();
+                return responseContent;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                return null;
+            }
+        }
+
+        public static string RequestPost(string url, string body)
+        {
+            try
+            {
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.Method = "POST";
+                httpWebRequest.UserAgent = RequestUserAgent;
+                httpWebRequest.Accept = "application/vnd.github.v3+json";
+                if (!string.IsNullOrWhiteSpace(Proxy))
+                {
+                    httpWebRequest.Proxy = new WebProxy(Proxy);
+                }
+
+                var bytes = Encoding.UTF8.GetBytes(body);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.ContentLength = bytes.Length;
+                using (var requestStream = httpWebRequest.GetRequestStream())
+                {
+                    requestStream.Write(bytes, 0, bytes.Length);
                 }
 
                 var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
@@ -76,7 +116,7 @@ namespace MaaWpfGui.Helper
 
             var url = MaaApi + api;
 
-            var response = RequestUrl(url);
+            var response = RequestGet(url);
             if (response == null)
             {
                 return LoadApiCache(api);

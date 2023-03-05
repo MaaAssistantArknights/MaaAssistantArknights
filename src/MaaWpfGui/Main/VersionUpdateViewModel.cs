@@ -646,7 +646,7 @@ namespace MaaWpfGui
             {
                 for (var i = 0; i < requestSource.Length; i++)
                 {
-                    response = WebService.RequestUrl(requestSource[i] + url);
+                    response = WebService.RequestGet(requestSource[i] + url);
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
