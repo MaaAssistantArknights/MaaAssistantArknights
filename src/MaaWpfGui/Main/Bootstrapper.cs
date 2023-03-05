@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
+using MaaWpfGui.Helper.Services;
 using MaaWpfGui.MaaHotKeys;
 using MaaWpfGui.Views;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -127,6 +128,9 @@ namespace MaaWpfGui
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
             builder.Bind<StageManager>().ToSelf();
+
+            builder.Bind<IHttpClientService>().To<HttpClientService>().InSingletonScope();
+            builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
         }
 
         /// <inheritdoc/>

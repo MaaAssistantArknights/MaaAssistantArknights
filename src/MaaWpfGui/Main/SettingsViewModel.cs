@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using IWshRuntimeLibrary;
-using MaaWpfGui.Helper;
+using MaaWpfGui.Helper.Services;
 using MaaWpfGui.MaaHotKeys;
 using Newtonsoft.Json;
 using Stylet;
@@ -45,6 +45,7 @@ namespace MaaWpfGui
         private TaskQueueViewModel _taskQueueViewModel;
         private AsstProxy _asstProxy;
         private VersionUpdateViewModel _versionUpdateViewModel;
+        private IHttpClientService _httpClientService;
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
@@ -67,6 +68,17 @@ namespace MaaWpfGui
         private static readonly string s_versionInfo = Localization.GetString("Version") + ": " + s_versionId;
 
         /// <summary>
+        /// ProxyUrlUpdatedEvent delegate. Accept a string param, no return value.
+        /// </summary>
+        /// <param name="url">Proxy url</param>
+        public delegate void ProxyUrlUpdatedEventHandler(string url);
+
+        /// <summary>
+        /// Triggered when proxy url updated.
+        /// </summary>
+        public static event ProxyUrlUpdatedEventHandler ProxyUrlUpdatedEvent;
+
+        /// <summary>
         /// Gets the version info.
         /// </summary>
         public string VersionInfo => s_versionInfo;
@@ -85,6 +97,7 @@ namespace MaaWpfGui
         {
             _container = container;
             _windowManager = windowManager;
+            _httpClientService = _container.Get<IHttpClientService>();
 
             DisplayName = Localization.GetString("Settings");
             _listTitle.Add(Localization.GetString("GameSettings"));
@@ -1629,9 +1642,10 @@ namespace MaaWpfGui
             get => _proxy;
             set
             {
-                WebService.Proxy = value;
                 SetAndNotify(ref _proxy, value);
                 ViewStatusStorage.Set("VersionUpdate.Proxy", value);
+
+                ProxyUrlUpdatedEvent?.Invoke(value);
             }
         }
 
@@ -2064,7 +2078,7 @@ namespace MaaWpfGui
         {
             if (!System.IO.File.Exists(AdbPath))
             {
-                Execute.OnUIThread(() =>
+                await Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists"));
                     toast.Show();
@@ -2074,14 +2088,10 @@ namespace MaaWpfGui
 
             if (!System.IO.File.Exists(GoogleAdbFilename))
             {
-                var downloadTask = Task.Run(() =>
-                {
-                    return VersionUpdateViewModel.DownloadFile(GoogleAdbDownloadUrl, GoogleAdbFilename);
-                });
-                var downloadResult = await downloadTask;
+                var downloadResult = await _httpClientService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
                 if (!downloadResult)
                 {
-                    Execute.OnUIThread(() =>
+                    await Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle"));
                         toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc")).Show();

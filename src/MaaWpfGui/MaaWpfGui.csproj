@@ -104,8 +104,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\CustomStyle\TextBlock.cs" />
+    <Compile Include="Helper\Services\HttpClientService.cs" />
+    <Compile Include="Helper\Services\IHttpClientService.cs" />
+    <Compile Include="Helper\Services\IMaaApiService.cs" />
+    <Compile Include="Helper\Services\MaaApiService.cs" />
     <Compile Include="Helper\Utils.cs" />
-    <Compile Include="Helper\WebService.cs" />
     <Compile Include="Helper\WindowManager.cs" />
     <Compile Include="Main\Bootstrapper.cs" />
     <Compile Include="GlobalSuppressions.cs" />

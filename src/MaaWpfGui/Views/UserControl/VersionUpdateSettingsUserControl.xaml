@@ -38,13 +38,6 @@
                     Content="{DynamicResource UpdateAutoDownload}"
                     IsChecked="{Binding AutoDownloadUpdatePackage}"
                     IsEnabled="{Binding UpdateCheck}" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource DownloadWithAria2}"
-                    IsChecked="{Binding UseAria2}"
-                    IsEnabled="{Binding UpdateCheck}" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <maa:TextBlock
                         Margin="10,10,0,10"

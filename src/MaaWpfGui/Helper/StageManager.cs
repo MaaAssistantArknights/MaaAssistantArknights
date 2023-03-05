@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Helper.Services;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Stylet;
@@ -38,6 +39,7 @@ namespace MaaWpfGui
 
         // model references
         private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly IMaaApiService _maaApiService;
 
         // datas
         private Dictionary<string, StageInfo> _stages;
@@ -49,6 +51,7 @@ namespace MaaWpfGui
         public StageManager(IContainer container)
         {
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _maaApiService = container.Get<IMaaApiService>();
             UpdateStage(false);
 
             Execute.OnUIThread(async () =>
@@ -76,7 +79,9 @@ namespace MaaWpfGui
             };
 
             var stageApi = "StageActivity.json";
-            var activity = fromWeb ? WebService.RequestMaaApiWithCache(stageApi) : WebService.LoadApiCache(stageApi);
+            var activity = fromWeb
+                ? _maaApiService.RequestMaaApiWithCache(stageApi).ConfigureAwait(false).GetAwaiter().GetResult()
+                : _maaApiService.LoadApiCache(stageApi);
 
             var resourceCollection = new StageActivityInfo()
             {
