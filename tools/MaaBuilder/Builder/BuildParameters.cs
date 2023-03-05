@@ -16,6 +16,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using MaaBuilder.Models;
 using static Nuke.Common.Tools.VSWhere.VSWhereTasks;
+using Nuke.Common.Tools.MSBuild;
 
 namespace MaaBuilder;
 
@@ -88,6 +89,7 @@ public partial class Build
 
         public string CommitHash { get; }
         public string CommitHashFull { get; }
+        public string TargetPlatform { get; }
         public List<Package> Packages { get; } = null;
 
         // CI
@@ -114,6 +116,8 @@ public partial class Build
             Assert.True(msbuild is not null, "找不到 MSBuild");
             MsBuildPath = (AbsolutePath)msbuild;
 
+            TargetPlatform = Environment.GetEnvironmentVariable("MAABUILDER_TARGET_PLATFORM") ?? HostPlatform;
+
             // 仓库
             MainRepo = "MaaAssistantArknights/MaaAssistantArknights";
 
@@ -122,7 +126,7 @@ public partial class Build
             ReleaseTagRefPrefix = "refs/tags/v";
 
             // 路径
-            BuildOutput = RootDirectory / "x64";
+            BuildOutput = RootDirectory / TargetPlatform;
             ArtifactOutput = RootDirectory / "artifacts";
 
             MaaChangelogFile = RootDirectory / "CHANGELOG.md";
