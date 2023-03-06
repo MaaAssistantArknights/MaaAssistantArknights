@@ -129,8 +129,15 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-- 直接使用 Visual Studio 2022 打开 `MAA.sln` 即可，所有环境都是配置好的
-- 建议启用 clang-format 支持，详细内容可以参考 [在 Visual Studio 中启用 clang-format](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
+1. 下载预构建的第三方库
+
+    ```cmd
+    python maadeps-download.py
+    ```
+
+2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
+3. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
+4. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
@@ -161,10 +168,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Issue bot
 
-- 使用 `Add {LABEL_NAME}` 增加标签，使用 `Remove {LABEL_NAME}` 删除标签。
-- 在提交说明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 给对应议题增加 `fixed` 标签。
-
-更多说明请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
+请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
 
 ## 声明
 
