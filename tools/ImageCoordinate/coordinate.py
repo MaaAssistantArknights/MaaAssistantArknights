@@ -12,6 +12,7 @@ KEEP_RECT = True
 # The prompt message
 PROMPT_TEXT = "Press 'q': quit, 'n': next image, 't': toggle text, 's': save last rect, 'c': clear all, 'i': input coords"
 
+
 class ImageRectSelector:
     def __init__(self, image_path):
         # Load the image using PIL
@@ -186,7 +187,7 @@ if __name__ == "__main__":
     # get the directory containing the current file
     current_dir_path = os.path.dirname(current_file_path)
 
-    # set the current working directory to the directory containing the current file
+    # set the current working directory to the directory containing the current file so that we can save the cropped images in the same directory
     os.chdir(current_dir_path)
 
     # Define command-line arguments
@@ -223,4 +224,10 @@ if __name__ == "__main__":
 
         # break if the user presses the 'q' key
         if selector.is_quit_all:
+            # delete the class instance
+            del selector
+
             break
+
+        # delete the class instance
+        del selector
