@@ -12,11 +12,27 @@ KEEP_RECT = True
 # The prompt message
 PROMPT_TEXT = "Press 'q': quit, 'n': next image, 't': toggle text, 's': save last rect, 'c': clear all, 'i': input coords"
 
+# resize the image to 1280x720. If the image is 16:9, scale it; if not, stretch it and return a false flag
+def resize_image(image):
+    # Get the width and height of the image
+    w, h = image.size
+
+    # If the image is 16:9, scale it to 1280x720
+    if w / h == 16 / 9:
+        image = image.resize((1280, 720))
+        return image, True
+
+    # If the image is not 16:9, stretch it to 1280x720
+    image = image.resize((1280, 720), Image.BICUBIC)
+    return image, False
 
 class ImageRectSelector:
     def __init__(self, image_path):
         # Load the image using PIL
         self.image = Image.open(image_path)
+
+        # resize the image to 1280x720
+        self.image, self.is_16_9 = resize_image(self.image)
 
         # Create a Tkinter window
         self.root = tk.Tk()
@@ -171,6 +187,12 @@ class ImageRectSelector:
         self.rect_end_x, self.rect_end_y = x + w, y + h
 
     def run(self):
+        # If the image is not 16:9, show a message box and continue
+        if not self.is_16_9:
+            tk.messagebox.showinfo("Warning", "The image is not 16:9! Proceeding to next image...")
+            self.root.destroy()
+            return
+
         # Start the Tkinter event loop and periodically check for user input
         while not self.is_quit:
             self.root.update_idletasks()
