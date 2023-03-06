@@ -29,6 +29,10 @@
             </ResourceDictionary.MergedDictionaries>
             <!--  A Style that affects all TextBlocks  -->
             <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="maa:TextBlock" />
+
+            <Style TargetType="Hyperlink">
+                <EventSetter Event="Click" Handler="Hyperlink_Click" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

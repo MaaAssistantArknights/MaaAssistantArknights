@@ -3022,7 +3022,8 @@
         "action": "DoNothing",
         "next": [
             "AbandonAction",
-            "OfflineConfirmAfterBattle"
+            "OfflineConfirmAfterBattle",
+            "WaitAfterPRTS"
         ]
     },
     "OfflineConfirmAfterBattle": {
