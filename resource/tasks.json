@@ -8190,6 +8190,9 @@
     "Phantom@Roguelike@Abandon": {},
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
+        "onErrorNext":[
+            "Phantom@Roguelike@RecruitWithoutButton"
+        ],
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
             "Phantom@Roguelike@RecruitSkip"
@@ -8375,6 +8378,9 @@
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseOper": {
+        "onErrorNext":[
+            "Mizuki@Roguelike@RecruitWithoutButton"
+        ],
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
