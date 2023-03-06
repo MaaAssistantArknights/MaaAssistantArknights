@@ -62,6 +62,7 @@ namespace MaaWpfGui.Helper
                 return null;
             }
         }
+
         public static string RequestPost(string url, string body)
         {
             try
