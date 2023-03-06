@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -22,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -155,20 +155,31 @@ namespace MaaWpfGui
                     return;
                 }
 
-                _isDataFromWeb = false;
+                IsDataFromWeb = false;
+                CopilotId = 0;
             }
             else if (filename.ToLower().StartsWith(CopilotIdPrefix))
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
-                int.TryParse(copilotIdStr, out int copilotID);
-                jsonStr = RequestCopilotServer(copilotID);
-                _isDataFromWeb = true;
+                int.TryParse(copilotIdStr, out var numberStyles);
+                int tempCopilotId = numberStyles;
+                jsonStr = RequestCopilotServer(tempCopilotId);
+                if (!string.IsNullOrEmpty(jsonStr))
+                {
+                    IsDataFromWeb = true;
+                    CopilotId = tempCopilotId;
+                }
             }
             else if (int.TryParse(filename, out _))
             {
-                int.TryParse(filename, out int copilotID);
-                jsonStr = RequestCopilotServer(copilotID);
-                _isDataFromWeb = true;
+                int.TryParse(filename, out var numberStyles);
+                int tempCopilotId = numberStyles;
+                jsonStr = RequestCopilotServer(tempCopilotId);
+                if (!string.IsNullOrEmpty(jsonStr))
+                {
+                    IsDataFromWeb = true;
+                    CopilotId = tempCopilotId;
+                }
             }
             else
             {
@@ -213,7 +224,6 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _isDataFromWeb = false;
         private const string TempCopilotFile = "resource/_temp_copilot.json";
         private string TaskType = "General";
 
@@ -338,7 +348,7 @@ namespace MaaWpfGui
                     TaskType = "Copilot";
                 }
 
-                if (_isDataFromWeb)
+                if (IsDataFromWeb)
                 {
                     File.Delete(TempCopilotFile);
                     File.WriteAllText(TempCopilotFile, json.ToString());
@@ -456,7 +466,7 @@ namespace MaaWpfGui
                 AddLog(errMsg, UILogColor.Error);
             }
 
-            bool ret = _asstProxy.AsstStartCopilot(_isDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+            bool ret = _asstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {
@@ -482,51 +492,99 @@ namespace MaaWpfGui
             Idle = true;
         }
 
-        private const string CopilotUiUrl = "https://www.prts.plus/";
-        private string _url = CopilotUiUrl;
+        private readonly string _copilotRatingUrl = "https://prts.maa.plus/copilot/rating";
+        private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
+
+        private bool _couldLikeWebJson = false;
+
+        public bool CouldLikeWebJson
+        {
+            get => _couldLikeWebJson;
+            set => SetAndNotify(ref _couldLikeWebJson, value);
+        }
+
+        private void UpdateCouldLikeWebJson()
+        {
+            CouldLikeWebJson = IsDataFromWeb &&
+                CopilotId > 0 &&
+                _recentlyRatedCopilotId.IndexOf(CopilotId) == -1;
+        }
+
+        private bool _isDataFromWeb = false;
+
+        public bool IsDataFromWeb
+        {
+            get => _isDataFromWeb;
+            set
+            {
+                SetAndNotify(ref _isDataFromWeb, value);
+                UpdateCouldLikeWebJson();
+            }
+        }
+
+        private int _copilotId = 0;
+
+        public int CopilotId
+        {
+            get => _copilotId;
+            set
+            {
+                SetAndNotify(ref _copilotId, value);
+                UpdateCouldLikeWebJson();
+            }
+        }
+
+        public void LikeWebJson()
+        {
+            RateWebJson("Like");
+        }
+
+        public void DislikeWebJson()
+        {
+            RateWebJson("Dislike");
+        }
+
+        private void RateWebJson(string rating)
+        {
+            if (!CouldLikeWebJson)
+            {
+                return;
+            }
+            CouldLikeWebJson = false;
+
+            string jsonParam = JsonConvert.SerializeObject(new
+            {
+                id = CopilotId,
+                rating = rating,
+            });
+            WebService.RequestPost(_copilotRatingUrl, jsonParam);
+            _recentlyRatedCopilotId.Add(CopilotId);
+            AddLog(Localization.GetString("ThanksForLikeWebJson"), UILogColor.Info);
+        }
+
+        private readonly string CopilotUiUrl = MaaUrls.PrtsPlus;
+        private string _url = MaaUrls.PrtsPlus;
+        private string _urlText = Localization.GetString("PrtsPlus");
+
+        /// <summary>
+        /// Gets or sets the UrlText.
+        /// </summary>
+        public string UrlText
+        {
+            get => _urlText;
+            set => SetAndNotify(ref _urlText, value);
+        }
 
         /// <summary>
         /// Gets or sets the copilot URL.
         /// </summary>
         public string Url
         {
-            get => _url == CopilotUiUrl ? Localization.GetString("PrtsPlus") : Localization.GetString("VideoLink");
-            set => SetAndNotify(ref _url, value);
-        }
-
-        /// <summary>
-        /// The event handler of clicking hyperlink.
-        /// </summary>
-        public void Hyperlink_Click()
-        {
-            try
+            get => _url;
+            set
             {
-                if (!string.IsNullOrEmpty(_url))
-                {
-                    Process.Start(new ProcessStartInfo(_url));
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        private readonly string _url2 = MaaUrls.MapPrts;
-
-        /// <summary>
-        /// The event handler of clicking hyperlink.
-        /// </summary>
-        public void Hyperlink_Click2()
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(_url2))
-                {
-                    Process.Start(new ProcessStartInfo(_url2));
-                }
-            }
-            catch (Exception)
-            {
+                UrlText = value == CopilotUiUrl ? Localization.GetString("PrtsPlus") : Localization.GetString("VideoLink");
+                SetAndNotify(ref _url, value);
             }
         }
 

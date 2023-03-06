@@ -43,7 +43,6 @@ namespace asst
     protected:
         OcrPack();
 
-        std::unique_ptr<fastdeploy::RuntimeOption> m_ocr_option;
         std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
         std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
         std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;

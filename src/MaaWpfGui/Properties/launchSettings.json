@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MaaWpfGui": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

@@ -85,6 +85,7 @@ namespace MaaWpfGui
         {
             if (_versionUpdateViewModel.IsFirstBootAfterUpdate)
             {
+                _versionUpdateViewModel.IsFirstBootAfterUpdate = false;
                 _windowManager.ShowWindow(_versionUpdateViewModel);
             }
             else
@@ -93,6 +94,7 @@ namespace MaaWpfGui
 
                 if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
                 {
+                    _versionUpdateViewModel.IsFirstBootAfterUpdate = true;
                     _versionUpdateViewModel.AskToRestart();
                 }
             }

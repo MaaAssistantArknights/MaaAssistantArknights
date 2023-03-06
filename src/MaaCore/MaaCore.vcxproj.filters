@@ -80,6 +80,12 @@
     <Filter Include="源文件\Task\Reclamation">
       <UniqueIdentifier>{97f7690d-5924-405f-a332-831e7dad3f1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Controller">
+      <UniqueIdentifier>{19fb60c0-726b-4397-80eb-cc888c77cd82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Controller\adb-lite">
+      <UniqueIdentifier>{a61a19a3-e1ba-45f2-9264-acb4102106b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -345,9 +351,6 @@
     <ClInclude Include="Assistant.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="Status.h">
       <Filter>源文件</Filter>
     </ClInclude>
@@ -506,6 +509,18 @@
     </ClInclude>
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h">
       <Filter>源文件\Task\Reclamation</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\File.hpp">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controller.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\adb-lite\client.hpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\adb-lite\protocol.hpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h">
       <Filter>源文件\Config\Miscellaneous</Filter>
@@ -677,9 +692,6 @@
     <ClCompile Include="AsstCaller.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Status.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -838,6 +850,15 @@
     </ClCompile>
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp">
       <Filter>源文件\Task\Reclamation</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controller.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\adb-lite\client.cpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\adb-lite\protocol.cpp">
+      <Filter>源文件\Controller\adb-lite</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp">
       <Filter>源文件\Config\Miscellaneous</Filter>

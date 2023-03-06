@@ -92,12 +92,18 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Text="{Binding VersionInfo, Mode=OneWay}" />
+                <StackPanel Grid.Row="3" Margin="5" VerticalAlignment="Center">
                 <Button
-                    Grid.Row="3"
-                    Margin="10"
-                    Command="{s:Action ManualUpdate}"
-                    Content="{DynamicResource UpdateCheckNow}"
-                    IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                    Margin="5"
+                        Command="{s:Action ManualUpdate}"
+                        Content="{DynamicResource UpdateCheckNow}"
+                        IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                    <Button
+                        Margin="5"
+                        Command="{s:Action ShowChangelog}"
+                        Content="{DynamicResource ShowChangelog}"
+                        IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                </StackPanel>
             </Grid>
         </StackPanel>
     </Grid>

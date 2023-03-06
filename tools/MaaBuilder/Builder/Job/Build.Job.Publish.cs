@@ -35,7 +35,7 @@ public partial class Build
             {
                 Information($"运行 ReleaseMaa 将在 {Parameters.MainRepo} 创建 Release {Parameters.GhTag}");
 
-                CreateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, Version);
+                CreateOrUpdateGitHubRelease(Parameters.MainRepo, Parameters.CommitHashFull, Version);
             }
         });
 }
