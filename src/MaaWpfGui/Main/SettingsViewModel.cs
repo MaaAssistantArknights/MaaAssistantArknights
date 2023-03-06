@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
@@ -1803,6 +1804,12 @@ namespace MaaWpfGui
                 ViewStatusStorage.Set("Connect.Address", value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
+        }
+
+        public void RemoveAddress_Click(string address)
+        {
+            ConnectAddressHistory.Remove(address);
+            ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
         }
 
         private string _adbPath = ViewStatusStorage.Get("Connect.AdbPath", string.Empty);
