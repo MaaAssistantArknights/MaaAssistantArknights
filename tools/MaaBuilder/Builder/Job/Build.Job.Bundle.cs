@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json;
 using Nuke.Common;
@@ -25,7 +25,7 @@ public partial class Build
 
             foreach (var package in Parameters.Packages)
             {
-                var name = package.NameTemplate.Replace("{VERSION}", Version);
+                var name = package.NameTemplate.Replace("{VERSION}", Version).Replace("{PLATFORM}", Parameters.TargetPlatform.ToLower());
 
                 BundleMaaBundle(releaseBuildOutput, name, package);
             }

@@ -1,6 +1,6 @@
 #include "InfrastPowerTask.h"
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 
