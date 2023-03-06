@@ -4,6 +4,7 @@
 
 Generate a transition graph for nodes whose name begin with a specific keyword
 
+```
 optional arguments:
   -h, --help            show this help message and exit
   --keyword KEYWORD     the keyword to generate the graph for, case sensitive
@@ -11,3 +12,4 @@ optional arguments:
   --arrowsize [20-50]   the size of arrows in the graph
   --fontsize [5-10]     the size of font in the graph
   --list                if list all the names of nodes matched
+```
