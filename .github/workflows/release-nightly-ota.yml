@@ -75,6 +75,8 @@ jobs:
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
           $env:MAA_BUILDER_MAA_VERSION = "${{steps.set_tag.outputs.tag}}"
           echo "tag: " $env:MAA_BUILDER_MAA_VERSION
+
+          python3 maadeps-download.py x64-windows
           ./build.cmd DevBuild
         env:
           Reason: 'Build nightly version'

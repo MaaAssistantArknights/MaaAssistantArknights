@@ -1,325 +1,44 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FFDC8F49-8EAF-45BE-B0A8-7EF0DB9875A2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MaaWpfGui</RootNamespace>
     <AssemblyName>MAA</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <SupportUrl>https://github.com/MistEO/MaaCoreArknights</SupportUrl>
-    <ErrorReportUrl>https://github.com/MistEO/MaaCoreArknights/issues</ErrorReportUrl>
-    <ProductName>Meo明日方舟辅助</ProductName>
+    <TargetFramework>net48</TargetFramework>
+    <TargetFramework Condition="'$(Platform)' == 'ARM64'">net481</TargetFramework>
+	<Platforms>x64;ARM64</Platforms>
+	<Configurations>Release;RelWithDebInfo</Configurations>
+    <SupportUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights</SupportUrl>
+    <ErrorReportUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues</ErrorReportUrl>
+    <ProductName>MAA</ProductName>
     <PublisherName>MistEO</PublisherName>
-    <SuiteName>MaaCore</SuiteName>
+    <SuiteName>MAA</SuiteName>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>4.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationIcon>newlogo.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
     <StartupObject>MaaWpfGui.App</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\..\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>8.0</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <DocumentationFile>..\..\x64\Release\MAA.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<UseWpf>true</UseWpf>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutputPath>..\..\$(Platform)\$(Configuration)\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RelWithDebInfo|x64'">
-    <OutputPath>..\..\x64\RelWithDebInfo\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <Optimize>false</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>8.0</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+
   <!-- StyleCop -->
   <PropertyGroup>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <!-- StyleCop -->
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Helper\CustomStyle\TextBlock.cs" />
-    <Compile Include="Helper\Utils.cs" />
-    <Compile Include="Helper\WebService.cs" />
-    <Compile Include="Helper\WindowManager.cs" />
-    <Compile Include="Main\Bootstrapper.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Main\AsstProxy.cs" />
-    <Compile Include="Helper\AutoScroll.cs" />
-    <Compile Include="Helper\CombData.cs" />
-    <Compile Include="Helper\ComboBoxExtensions.cs" />
-    <Compile Include="Helper\GenericCombData{TValueType}.cs" />
-    <Compile Include="Helper\IMainWindowManager.cs" />
-    <Compile Include="Helper\Localization.cs" />
-    <Compile Include="Helper\Logger.cs" />
-    <Compile Include="Helper\UILogColor.cs" />
-    <Compile Include="Helper\LogItemViewModel.cs" />
-    <Compile Include="Helper\MaaHotKeys\IMaaHotKeyActionHandler.cs" />
-    <Compile Include="Helper\MaaHotKeys\IMaaHotKeyManager.cs" />
-    <Compile Include="Helper\MaaHotKeys\MaaHotKey.cs" />
-    <Compile Include="Helper\MaaHotKeys\MaaHotKeyAction.cs" />
-    <Compile Include="Helper\MaaHotKeys\MaaHotKeyActionHandler.cs" />
-    <Compile Include="Helper\MaaHotKeys\MaaHotKeyManager.cs" />
-    <Compile Include="Helper\MaaUrls.cs" />
-    <Compile Include="Helper\MainWindowManager.cs" />
-    <Compile Include="Helper\MessageBoxManager.cs" />
-    <Compile Include="Helper\ToastNotification.cs" />
-    <Compile Include="Helper\ScrollViewerBinding.cs" />
-    <Compile Include="Helper\StageActivityInfo.cs" />
-    <Compile Include="Helper\StageInfo.cs" />
-    <Compile Include="Helper\StageManager.cs" />
-    <Compile Include="Helper\ViewStatusStorage.cs" />
-    <Compile Include="Helper\FlowDocumentPagePadding.cs" />
-    <Compile Include="Views\UserControl\GameClientUserControl.xaml.cs">
-      <DependentUpon>GameClientUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\GUISettingsUserControl.xaml.cs">
-      <DependentUpon>GUISettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Helper\WinAdapter.cs" />
-    <Compile Include="Helper\TrayIcon.cs" />
-    <Compile Include="Views\UserControl\HotKeyEditorUserControl.xaml.cs">
-      <DependentUpon>HotKeyEditorUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\HotKeySettingsUserControl.xaml.cs">
-      <DependentUpon>HotKeySettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\StartSettingsUserControl.xaml.cs">
-      <DependentUpon>StartSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\TimerSettingsUserControl.xaml.cs">
-      <DependentUpon>TimerSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\AutoRecruitSettingsUserControl.xaml.cs">
-      <DependentUpon>AutoRecruitSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\ConnectSettingsUserControl.xaml.cs">
-      <DependentUpon>ConnectSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\RoguelikeSettingsUserControl.xaml.cs">
-      <DependentUpon>RoguelikeSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\MallSettingsUserControl.xaml.cs">
-      <DependentUpon>MallSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\InfrastSettingsUserControl.xaml.cs">
-      <DependentUpon>InfrastSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\FightSettingsUserControl.xaml.cs">
-      <DependentUpon>FightSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Helper\DragItemViewModel.cs" />
-    <Compile Include="Views\UserControl\OtherCombatSettingsUserControl.xaml.cs">
-      <DependentUpon>OtherCombatSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\AboutUserControl.xaml.cs">
-      <DependentUpon>AboutUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControl\VersionUpdateSettingsUserControl.xaml.cs">
-      <DependentUpon>VersionUpdateSettingsUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Main\DepotViewModel.cs" />
-    <Compile Include="Helper\AutoStart.cs" />
-    <Compile Include="Main\RecruitViewModel.cs" />
-    <Compile Include="Main\RootViewModel.cs" />
-    <Compile Include="Main\CopilotViewModel.cs" />
-    <Compile Include="Main\SettingsViewModel.cs" />
-    <Compile Include="Main\TaskQueueViewModel.cs" />
-    <Compile Include="Main\VersionUpdateViewModel.cs" />
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Helper\ErrorView.xaml.cs" />
-    <Page Include="Res\Localizations\ko-kr.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Res\Localizations\ja-jp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Res\Localizations\en-us.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Res\Localizations\zh-cn.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Res\Localizations\zh-tw.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\GameClientUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\HotKeyEditorUserControl.xaml" />
-    <Page Include="Views\UserControl\HotKeySettingsUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\StartSettingsUserControl.xaml" />
-    <Page Include="Views\UserControl\TimerSettingsUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\AutoRecruitSettingsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControl\ConnectSettingsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControl\RoguelikeSettingsUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\MallSettingsUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\InfrastSettingsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControl\FightSettingsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControl\OtherCombatSettingsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControl\AboutUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\GUISettingsUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UserControl\VersionUpdateSettingsUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CopilotView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DepotView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ErrorView.xaml" />
-    <Page Include="Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TaskQueueView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RecruitView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RootView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\VersionUpdateView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <None Include=".editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CalcBinding">
@@ -341,20 +60,11 @@
     <PackageReference Include="MdXaml">
       <Version>1.15.0</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.Platforms">
-      <Version>6.0.4</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>7.1.2</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Win32.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
     <PackageReference Include="Neo.Markdig.Xaml">
       <Version>1.0.10</Version>
-    </PackageReference>
-    <PackageReference Include="NETStandard.Library">
-      <Version>2.0.3</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
@@ -373,141 +83,9 @@
     <PackageReference Include="Stylet">
       <Version>1.3.6</Version>
     </PackageReference>
-    <PackageReference Include="System.AppContext">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Collections">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Collections.Concurrent">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Console">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.Debug">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.DiagnosticSource">
-      <Version>6.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.Tools">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.Tracing">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Globalization">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Globalization.Calendars">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO.Compression">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO.Compression.ZipFile">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO.FileSystem">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Linq">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Linq.Expressions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Primitives">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Sockets">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.ObjectModel">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection.Extensions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Resources.ResourceManager">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.Extensions">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.Handles">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.Numerics">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Algorithms">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.X509Certificates">
-      <Version>4.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Encoding">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Encoding.Extensions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.RegularExpressions">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Tasks">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Timer">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Xml.ReaderWriter">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Xml.XDocument">
-      <Version>4.3.0</Version>
-    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="newlogo.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="IWshRuntimeLibrary">
-      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /e /y /i /c "$(ProjectDir)..\..\3rdparty\tools" "$(TargetDir)"
-xcopy /e /y /i /c "$(ProjectDir)..\..\src\Python" "$(TargetDir)\Python"</PostBuildEvent>
-  </PropertyGroup>
 </Project>
