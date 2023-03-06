@@ -731,7 +731,18 @@ namespace MaaWpfGui
                         break;
 
                     case "OfflineConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
+                        if (_settingsViewModel.AutoRestartOnDrop)
+                        {
+                            _taskQueueViewModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
+                        }
+                        else
+                        {
+                            _taskQueueViewModel.AddLog(Localization.GetString("GameDropNoRestart"), UILogColor.Warning);
+                            using var toast = new ToastNotification(Localization.GetString("GameDropNoRestart"));
+                            toast.Show();
+                            _taskQueueViewModel.Stop();
+                        }
+
                         break;
 
                     case "GamePass":
