@@ -18,7 +18,7 @@ jobs:
         with:
           submodules: recursive
       - name: 'Install Developer ID Certificate'
-        uses: apple-actions/import-codesign-certs@v1
+        uses: ssrobins/import-codesign-certs@v2
         with:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
@@ -30,11 +30,12 @@ jobs:
       - name: Install Dependencies
         run: |
             brew update --preinstall
-            brew install ninja range-v3 create-dmg
+            brew install create-dmg ninja pkg-config range-v3
+            [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
+            python3 maadeps-download.py ${triplet}
       - name: Configure MaaCore
         run: |
-          mkdir build && cd build
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
       - name: Build libMaaCore
         run: cmake --build build
       - name: Build MAA

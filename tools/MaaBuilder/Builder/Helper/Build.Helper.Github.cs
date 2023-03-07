@@ -10,9 +10,9 @@ namespace MaaBuilder;
 public partial class Build
 {
     
-    void CreateGitHubRelease(string repo, string commitish, string releaseName)
+    void CreateOrUpdateGitHubRelease(string repo, string commitish, string releaseName)
     {
-        var assets = Parameters.ArtifactOutput.GlobFiles("*.zip", "checksum.json");
+        var assets = Parameters.ArtifactOutput.GlobFiles("*.zip");
         
         var release = new NewRelease(Version)
         {
@@ -25,8 +25,15 @@ public partial class Build
         var repoOwner = repo.Split('/')[0];
         var repoName = repo.Split('/')[1];
 
-        var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(repoOwner, repoName, release).Result;
-        Information($"创建 Release {Parameters.GhTag} 成功");
+        Release createdRelease;
+        try {
+            createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(repoOwner, repoName, release).GetAwaiter().GetResult();
+            Information($"创建 Release {Parameters.GhTag} 成功");
+        } catch(ApiException) {
+            // release exists
+            createdRelease = GitHubTasks.GitHubClient.Repository.Release.Get(repoOwner, repoName, Parameters.GhTag).GetAwaiter().GetResult();
+            Information($"获取 Release {Parameters.GhTag} 成功");
+        }
         if (Parameters.IsPreRelease)
         {
             Information("当前为预发布版本");

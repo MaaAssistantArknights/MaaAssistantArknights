@@ -30,7 +30,6 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         return false;
     }
 
-    std::list<json::value> tiles_array;
     std::queue<std::pair<std::filesystem::path, std::string>> file_strings;
 
     std::atomic_bool eoq = false;
@@ -45,7 +44,7 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         workers.reserve(n_workers);
         for (auto thi = 0U; thi < n_workers; ++thi) {
             workers.emplace_back(std::async(std::launch::async, [&]() -> result_type {
-                std::list<json::value> result;
+                std::list<json::value> result {};
                 while (true) {
                     std::unique_lock lk { queue_mut };
                     condvar.wait(lk, [&]() -> bool { return !file_strings.empty() || eoq.load(); });
@@ -68,7 +67,7 @@ bool asst::TilePack::load(const std::filesystem::path& path)
                     if (json.is_array()) {
                         // 兼容上游仓库的 levels.json
                         // 有些用户习惯于在游戏更新了但maa还没发版前，自己手动更新下 levels.json，可以提前用
-                        result.insert(tiles_array.end(), std::make_move_iterator(json.as_array().begin()),
+                        result.insert(result.end(), std::make_move_iterator(json.as_array().begin()),
                                       std::make_move_iterator(json.as_array().end()));
                     }
                     else if (json.is_object()) {

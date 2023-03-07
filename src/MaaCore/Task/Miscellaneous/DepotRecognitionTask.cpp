@@ -4,9 +4,9 @@
 
 #include <meojson/json.hpp>
 
+#include "Controller/Controller.h"
 #include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
