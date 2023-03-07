@@ -42,6 +42,10 @@
     <ClInclude Include="Controller\adb-lite\client.hpp" />
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
+    <ClInclude Include="Controller\ControllerAdbLite.h" />
+    <ClInclude Include="Controller\ControllerPosix.h" />
+    <ClInclude Include="Controller\ControllerWin32.h" />
+    <ClInclude Include="Controller\NativeController.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
@@ -176,6 +180,9 @@
     <ClCompile Include="Controller\adb-lite\client.cpp" />
     <ClCompile Include="Controller\adb-lite\protocol.cpp" />
     <ClCompile Include="Controller\Controller.cpp" />
+    <ClCompile Include="Controller\ControllerAdbLite.cpp" />
+    <ClCompile Include="Controller\ControllerPosix.cpp" />
+    <ClCompile Include="Controller\ControllerWin32.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />

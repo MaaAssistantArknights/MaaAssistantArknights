@@ -516,6 +516,18 @@
     <ClInclude Include="Controller\Controller.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\ControllerWin32.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\NativeController.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ControllerAdbLite.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ControllerPosix.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
     <ClInclude Include="Controller\adb-lite\client.hpp">
       <Filter>源文件\Controller\adb-lite</Filter>
     </ClInclude>
@@ -852,6 +864,15 @@
       <Filter>源文件\Task\Reclamation</Filter>
     </ClCompile>
     <ClCompile Include="Controller\Controller.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ControllerWin32.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ControllerAdbLite.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ControllerPosix.cpp">
       <Filter>源文件\Controller</Filter>
     </ClCompile>
     <ClCompile Include="Controller\adb-lite\client.cpp">

@@ -1,14 +1,5 @@
 #pragma once
 
-#ifdef _WIN32
-#include "Utils/Platform/SafeWindows.h"
-#include <mswsock.h>
-#else
-#include <fcntl.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#endif
-
 #include <memory>
 #include <optional>
 #include <random>
@@ -19,6 +10,7 @@
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
+#include "NativeController.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/SingletonHolder.hpp"
 #include "adb-lite/client.hpp"
@@ -76,20 +68,6 @@ namespace asst
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
 
-#ifdef _WIN32
-        std::optional<int> call_command_win32(const std::string& cmd, const bool recv_by_socket, std::string& pipe_data,
-                                              std::string& sock_data, const int64_t timeout,
-                                              const std::chrono::steady_clock::time_point start_time);
-#else
-        std::optional<int> call_command_posix(const std::string& cmd, const bool recv_by_socket, std::string& pipe_data,
-                                              std::string& sock_data, const int64_t timeout,
-                                              const std::chrono::steady_clock::time_point start_time);
-#endif
-
-        std::optional<int> call_command_tcpip(const std::string& cmd, const bool recv_by_socket, std::string& pipe_data,
-                                              std::string& sock_data, const int64_t timeout,
-                                              const std::chrono::steady_clock::time_point start_time);
-
         void release();
         void kill_adb_daemon();
         void make_instance_inited(bool inited);
@@ -110,23 +88,15 @@ namespace asst
         void callback(AsstMsg msg, const json::value& details);
 
         bool call_and_hup_minitouch();
-#ifdef _WIN32
-        bool call_and_hup_minitouch_win32(const std::string& cmd, const auto& check_timeout, std::string& pipe_str);
-#else
-        bool call_and_hup_minitouch_posix(const std::string& cmd, const auto& check_timeout, std::string& pipe_str);
-#endif
-        bool call_and_hup_minitouch_tcpip(const std::string& cmd, const int timeout, std::string& pipe_str);
 
         bool input_to_minitouch(const std::string& cmd);
-        bool input_to_minitouch_adb(const std::string& cmd);
         void release_minitouch(bool force = false);
 
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
         static bool convert_lf(std::string& data);
 
-        // adb 的 shell 请求无法识别用双引号包裹的字符串，所以这里去掉双引号
-        static bool remove_quotes(std::string& data);
+        std::shared_ptr<NativeController> current_controller() { return m_controller_map[m_platform_controller]; }
 
         AsstCallback m_callback;
 
@@ -134,29 +104,16 @@ namespace asst
 
         std::mutex m_callcmd_mutex;
 
-        // adb-lite properties
-        bool m_use_adb_lite = false;
-        std::shared_ptr<adb::client> m_adb_client = nullptr;
-        std::shared_ptr<adb::io_handle> m_minitouch_handle = nullptr;
+        std::shared_ptr<NativeController> m_native_controller = nullptr;
+        std::shared_ptr<NativeController> m_adblite_controller = nullptr;
 
-#ifdef _WIN32
+        enum class PlatformController
+        {
+            Native,
+            AdbLite
+        } m_platform_controller = PlatformController::Native;
 
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        WSADATA m_wsa_data {};
-        SOCKET m_server_sock = INVALID_SOCKET;
-        sockaddr_in m_server_sock_addr {};
-        LPFN_ACCEPTEX m_server_accept_ex = nullptr;
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-
-#else
-        int m_server_sock = -1;
-        sockaddr_in m_server_sock_addr {};
-        static constexpr int PIPE_READ = 0;
-        static constexpr int PIPE_WRITE = 1;
-        int m_pipe_in[2] = { 0 };
-        int m_pipe_out[2] = { 0 };
-        int m_child = 0;
-#endif
+        std::unordered_map<PlatformController, std::shared_ptr<NativeController>> m_controller_map;
 
         struct AdbProperty
         {
@@ -200,17 +157,6 @@ namespace asst
         bool m_minitouch_enabled = true; // 开关
         bool m_use_maa_touch = false;
         bool m_minitouch_available = false; // 状态
-
-#ifdef _WIN32
-        HANDLE m_minitouch_parent_write = INVALID_HANDLE_VALUE;
-        ASST_AUTO_DEDUCED_ZERO_INIT_START
-        PROCESS_INFORMATION m_minitouch_process_info = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, 0, 0 };
-        ASST_AUTO_DEDUCED_ZERO_INIT_END
-#else
-        ::pid_t m_minitouch_process = -1;
-        int m_write_to_minitouch_fd = -1;
-        // TODO
-#endif
 
         std::string m_uuid;
         inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，
@@ -408,26 +354,5 @@ namespace asst
             int m_wait_ms_count = ExtraDelay;
             bool m_auto_sleep = false;
         };
-
-    private:
-#ifdef _WIN32
-        // for Windows socket
-        class WsaHelper : public SingletonHolder<WsaHelper>
-        {
-            friend class SingletonHolder<WsaHelper>;
-
-        public:
-            virtual ~WsaHelper() override { WSACleanup(); }
-            bool operator()() const noexcept { return m_supports; }
-
-        private:
-            WsaHelper()
-            {
-                m_supports = WSAStartup(MAKEWORD(2, 2), &m_wsa_data) == 0 && m_wsa_data.wVersion == MAKEWORD(2, 2);
-            }
-            WSADATA m_wsa_data = { 0 };
-            bool m_supports = false;
-        };
-#endif
     };
 } // namespace asst
