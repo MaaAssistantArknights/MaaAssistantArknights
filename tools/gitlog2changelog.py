@@ -2,6 +2,7 @@ import os
 import json
 import re
 
+# 期待有人能实现一个更好的 contributor 名字处理方案！
 contributors = {
     "@[Yifan Liu]": "@liuyifan-eric",
     "@[ABA2396]": "@ABA2396",
@@ -11,6 +12,9 @@ contributors = {
     "@[MistEO]": "@MistEO",
     "@[dantmnf]": "@dantmnf",
     "@[Hao Guan]": "@hguandl",
+    "@[lincer_x42]": "@LCAR979",
+    "@[LambdaLe]": "@WLLEGit",
+    "@[KevinT3Hu]": "@KevinT3Hu",
 }
 
 # dfs 建树，Merge commit 是非叶子节点
@@ -128,7 +132,6 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
 if __name__ == "__main__":
     # 从哪个 tag 开始
     latest = os.popen("git describe --abbrev=0 --tags").read()[:-1]
-    latest = "v4.12.0-beta.1"
     nightly = os.popen("git describe --tags").read()[:-1]
     print("From:", latest, ", To:", nightly, "\n")
 
