@@ -101,10 +101,10 @@ namespace MaaWpfGui
 
             bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
             bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
-            bool curResourceVerParsed = SemVersion.TryParse(
-                tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
-                SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
 
+            // bool curResourceVerParsed = SemVersion.TryParse(
+            //    tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
+            //    SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
             var resourceCollection = new StageActivityInfo()
             {
                 IsResourceCollection = true,
@@ -131,39 +131,45 @@ namespace MaaWpfGui
                     // 活动关卡
                     foreach (var stageObj in activity[clientType]["sideStoryStage"] ?? Enumerable.Empty<JToken>())
                     {
+                        // 现在只有导航，暂不判断版本
                         // MinimumResourceRequired is not necessarily provided in json, in which case it is ok even if there are no cached resources
-                        bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
+                        // bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
                         bool minRequiredParsed = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minRequiredObj);
 
                         var stageInfo = new StageInfo();
-                        if ((isDebugVersion || (curVerParsed && minRequiredParsed)) && (!minResourceRequiredParsed || curResourceVerParsed))
+
+                        // && (!minResourceRequiredParsed || curResourceVerParsed))
+                        if (isDebugVersion || (curVerParsed && minRequiredParsed))
                         {
                             // Debug Version will be considered satisfying min version requirement, but the resource version needs a comparison
-                            if ((isDebugVersion || (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)) &&
-                                (!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0))
+                            if (!isDebugVersion)
                             {
-                                if (!tempStage.ContainsKey(Localization.GetString("UnsupportedStages")))
+                                // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
+                                if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
                                 {
-                                    stageInfo = new StageInfo
+                                    if (!tempStage.ContainsKey(Localization.GetString("UnsupportedStages")))
                                     {
-                                        Display = Localization.GetString("UnsupportedStages"),
-                                        Value = Localization.GetString("UnsupportedStages"),
-                                        Drop = Localization.GetString("LowVersion"),
-                                        Activity = new StageActivityInfo()
+                                        stageInfo = new StageInfo
                                         {
-                                            Tip = stageObj["Activity"]?["Tip"]?.ToString(),
-                                            StageName = stageObj["Activity"]?["StageName"]?.ToString(),
-                                            UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                            UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
-                                        },
-                                    };
-                                    if (!stageInfo.Activity.IsExpired)
-                                    {
-                                        tempStage.Add(stageInfo.Display, stageInfo);
+                                            Display = Localization.GetString("UnsupportedStages"),
+                                            Value = Localization.GetString("UnsupportedStages"),
+                                            Drop = Localization.GetString("LowVersion"),
+                                            Activity = new StageActivityInfo()
+                                            {
+                                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
+                                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
+                                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
+                                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                            },
+                                        };
+                                        if (!stageInfo.Activity.IsExpired)
+                                        {
+                                            tempStage.Add(stageInfo.Display, stageInfo);
+                                        }
                                     }
-                                }
 
-                                continue;
+                                    continue;
+                                }
                             }
                         }
                         else
