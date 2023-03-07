@@ -8,7 +8,7 @@
 
 #include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/ProcessTaskImageAnalyzer.h"

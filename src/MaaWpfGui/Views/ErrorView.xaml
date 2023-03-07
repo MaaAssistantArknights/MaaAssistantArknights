@@ -95,6 +95,23 @@
             Grid.ColumnSpan="2"
             Width="129"
             Height="23"
+            Margin="465,350,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Hyperlink
+                Name="LinkToFAQ"
+                Click="Hyperlink_OnClick"
+                FontSize="10.667"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.HelpUri}}">
+                <Run Text="{DynamicResource Help}" />
+            </Hyperlink>
+        </maa:TextBlock>
+
+        <maa:TextBlock
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Width="129"
+            Height="23"
             Margin="465,375,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">

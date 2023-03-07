@@ -22,7 +22,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Documents;
 using MaaWpfGui.Helper;
+using Markdig;
+using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -108,6 +111,9 @@ namespace MaaWpfGui
             }
         }
 
+        public FlowDocument UpdateInfoDoc => MarkdownXaml.ToFlowDocument(UpdateInfo,
+                new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build());
+
         private string _updateUrl;
 
         /// <summary>
@@ -119,10 +125,20 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _updateUrl, value);
         }
 
+        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.isfirstboot", bool.FalseString));
+
         /// <summary>
-        /// Gets a value indicating whether it is the first boot after updating.
+        /// Gets or sets a value indicating whether it is the first boot after updating.
         /// </summary>
-        public bool IsFirstBootAfterUpdate => UpdateTag != string.Empty && UpdateTag == _curVersion;
+        public bool IsFirstBootAfterUpdate
+        {
+            get => _isFirstBootAfterUpdate;
+            set
+            {
+                SetAndNotify(ref _isFirstBootAfterUpdate, value);
+                ViewStatusStorage.Set("VersionUpdate.isfirstboot", value.ToString());
+            }
+        }
 
         private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
 
@@ -646,7 +662,7 @@ namespace MaaWpfGui
             {
                 for (var i = 0; i < requestSource.Length; i++)
                 {
-                    response = WebService.RequestUrl(requestSource[i] + url);
+                    response = WebService.RequestGet(requestSource[i] + url);
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
@@ -952,16 +968,6 @@ namespace MaaWpfGui
             {
                 File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
             }
-        }
-
-        /// <summary>
-        /// Closes view model.
-        /// </summary>
-        public void Close()
-        {
-            RequestClose();
-            UpdateTag = string.Empty;
-            UpdateInfo = string.Empty;
         }
 
         /// <summary>

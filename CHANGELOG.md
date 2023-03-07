@@ -1,3 +1,47 @@
+## v4.12.0-beta.2
+
+### 新增
+
+- 新增 Windows ARM64 支持 (#3346)  @dantmnf @horror-proton @hguandl
+- 新增给作业点赞的功能 (#3719)  @MistEO @ABA2396
+- 增加 “更新日志” 按钮  @zzyyyl
+- 添加连接历史记录的删除按钮 (#3899)  @ABA2396
+- 新增游戏掉线时不重连选项 (#3839)  @KevinT3Hu
+
+### 改进
+
+- 更新游戏资源 2023/3/7 @MistEO
+- 第三方依赖重构 (#3346)  @dantmnf @horror-proton @hguandl
+- 为所有资源添加 OTA 支持 (#3872)  @liuyifan-eric
+- 优化 changelog 弹窗 (#3882) @zzyyyl
+- 新增 dll not found 错误处理 @ABA2396
+- 错误处理界面添加常见问题链接 @ABA2396
+
+### 修复
+
+- 修复 MacGui 基建设施选择 @hguandl
+- 修复 肉鸽助战 招募后卡在干员立绘界面的问题 @WLLEGit
+- 修复 levels.json 读取错误 @horror-proton
+
+### 其他
+
+- 更新内测版构建脚本 @horror-proton
+- 更新文档 @MistEO
+- Changelog 生成器 (#3903) @zzyyyl
+
+### For Overseas
+
+#### YostarJP
+
+- JP 48h medicine recognition issue @liuyifan-eric
+
+### For Develops
+
+- 默认关闭 adb-lite @MistEO
+- 增加了一个分析 task 转移关系画图的脚本 (#3901) @LCAR979
+- add fallback for python library search, etc. @horror-proton
+- add new functions to the coordinate tool @liuyifan-eric
+
 ## v4.12.0-beta.1
 
 <!-- ### 新增 -->

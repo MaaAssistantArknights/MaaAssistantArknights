@@ -213,12 +213,18 @@ namespace MaaWpfGui
                 }
 
                 loaded = AsstLoadResource(Directory.GetCurrentDirectory());
+
+                // Load the cached incremental resources
+                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache");
             }
             else if (_curResource == "Official" || _curResource == "Bilibili")
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
                 loaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
+
+                // Load the cached incremental resources
+                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + _settingsViewModel.ClientType);
             }
             else
             {
@@ -226,6 +232,10 @@ namespace MaaWpfGui
                 // Then load global incremental resources
                 loaded = AsstLoadResource(Directory.GetCurrentDirectory())
                     && AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
+
+                // Load the cached incremental resources
+                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache")
+                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + _settingsViewModel.ClientType);
             }
 
             if (!loaded)
@@ -731,7 +741,18 @@ namespace MaaWpfGui
                         break;
 
                     case "OfflineConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
+                        if (_settingsViewModel.AutoRestartOnDrop)
+                        {
+                            _taskQueueViewModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
+                        }
+                        else
+                        {
+                            _taskQueueViewModel.AddLog(Localization.GetString("GameDropNoRestart"), UILogColor.Warning);
+                            using var toast = new ToastNotification(Localization.GetString("GameDropNoRestart"));
+                            toast.Show();
+                            _taskQueueViewModel.Stop();
+                        }
+
                         break;
 
                     case "GamePass":

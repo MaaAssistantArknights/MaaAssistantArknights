@@ -1,6 +1,6 @@
 #include "StopGameTaskPlugin.h"
 
-#include "Controller.h"
+#include "Controller/Controller.h"
 
 using namespace asst;
 

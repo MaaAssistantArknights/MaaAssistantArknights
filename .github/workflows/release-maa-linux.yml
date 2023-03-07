@@ -27,6 +27,7 @@ jobs:
           CC: ccache gcc-12
           CXX: ccache g++-12
         run: |
+          python3 maadeps-download.py
           mkdir -p build
           cmake -B build \
             -DINSTALL_THIRD_LIBS=ON \

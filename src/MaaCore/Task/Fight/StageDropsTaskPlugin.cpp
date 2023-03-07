@@ -8,7 +8,7 @@
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"

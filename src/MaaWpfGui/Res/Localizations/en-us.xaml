@@ -145,6 +145,7 @@
     <system:String x:Key="UpdateCheck">Update version</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
+    <system:String x:Key="ShowChangelog">Changelog</system:String>
 
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background...</system:String>
@@ -179,6 +180,7 @@
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
+    <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
     <system:String x:Key="WaitForEmulator">Delay time</system:String>
@@ -367,6 +369,8 @@
     <system:String x:Key="CopilotLocation">Task file / url</system:String>
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse (oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file?</system:String>
+    <system:String x:Key="ThanksForLikeWebJson">Thanks for the review!\nThe comment section will be opened soon on the web page, so stay tuned!</system:String>
     <system:String x:Key="AutoSquad">Auto squad</system:String>
     <system:String x:Key="AutoSquadTip">The operator of &quot;special focus&quot; cannot be identified at this time</system:String>
     <system:String x:Key="LoopTimes">LoopTimes</system:String>
@@ -447,6 +451,7 @@
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
+    <system:String x:Key="GameDropNoRestart">Game disconnected, not restarting, stopping</system:String>
     <system:String x:Key="RoguelikeGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Trader">Stage: Trader</system:String>
