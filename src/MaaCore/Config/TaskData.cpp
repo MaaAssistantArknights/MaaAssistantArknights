@@ -952,6 +952,11 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         return task_json.find(key + "_Doc") || task_json.find(key + "_doc");
     };
 
+    if (!task_json.is_object()) {
+        Log.error(task_name, "is not a json object.");
+        return false;
+    }
+
     bool validity = true;
     if (!m_all_tasks_info.contains(task_name)) {
         Log.error("TaskData::syntax_check | Task", task_name, "has not been generated.");
