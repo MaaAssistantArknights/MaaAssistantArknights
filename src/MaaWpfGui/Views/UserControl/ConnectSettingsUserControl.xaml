@@ -92,7 +92,30 @@
             IsEnabled="{c:Binding !AutoDetectConnection}"
             ItemsSource="{Binding ConnectAddressHistory}"
             Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
-            ToolTip="{DynamicResource ConnectionAddressTip}" />
+            ToolTip="{DynamicResource ConnectionAddressTip}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="{c:Binding ActualWidth - 20, RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                        <Button
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Command="{s:Action RemoveAddress_Click}"
+                            CommandParameter="{Binding}"
+                            Content="×"
+                            FontWeight="Bold" />
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <maa:TextBlock
             Grid.Row="3"
