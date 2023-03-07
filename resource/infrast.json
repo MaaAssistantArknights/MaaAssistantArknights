@@ -204,6 +204,24 @@
                 ],
                 "template": "Bskill_ctrl_cost_bd4.png"
             },
+            "bskill_ctrl_cost_felyne": {
+                "desc": [
+                    "进驻控制中枢时，自身心情每小时消耗+0.5，木天蓼+8"
+                ],
+                "name": [
+                    "耐力回复"
+                ],
+                "template": "Bskill_ctrl_cost_felyne.png"
+            },
+            "bskill_ctrl_felyne": {
+                "desc": [
+                    "进驻控制中枢时，控制中枢内每有1名怪物猎人小队干员，则木天蓼+2"
+                ],
+                "name": [
+                    "团队合作"
+                ],
+                "template": "Bskill_ctrl_felyne.png"
+            },
             "bskill_ctrl_h_spd": {
                 "desc": [
                     "进驻控制中枢时，人力办公室联络速度小于30%时（其中包含基础联络速度5%），则联络速度额外+20%（该加成全局效果唯一，不受其它加成影响）"
@@ -392,6 +410,24 @@
                     "超频"
                 ],
                 "template": "Bskill_ctrl_token_p_spd.png"
+            },
+            "bskill_ctrl_token_p_spd2": {
+                "desc": [
+                    "当与怪物猎人小队干员进驻控制中枢一起工作时，所有制造站生产力+2%（同种效果取最高）"
+                ],
+                "name": [
+                    "以身作则"
+                ],
+                "template": "Bskill_ctrl_token_p_spd2.png"
+            },
+            "bskill_ctrl_token_t_spd": {
+                "desc": [
+                    "当与怪物猎人小队干员进驻控制中枢一起工作时，所有贸易站订单效率+7%（同种效果取最高）"
+                ],
+                "name": [
+                    "秘传交涉术"
+                ],
+                "template": "Bskill_ctrl_token_t_spd.png"
             },
             "bskill_ctrl_ussg": {
                 "desc": [
@@ -1029,6 +1065,15 @@
                     "仓库整备·β"
                 ],
                 "template": "Bskill_man_spd&limit3.png"
+            },
+            "bskill_man_spd&limit_felyne": {
+                "desc": [
+                    "进驻制造站时，仓库容量上限+8，生产力+5%，同时每有1个木天蓼，则生产力+1%"
+                ],
+                "name": [
+                    "可靠的随从们"
+                ],
+                "template": "Bskill_man_spd&limit_felyne.png"
             },
             "bskill_man_spd&power1": {
                 "desc": [
@@ -2901,6 +2946,15 @@
                     "少当家"
                 ],
                 "template": "Bskill_tra_spd&limit7.png"
+            },
+            "bskill_tra_spd&limit_felyne": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+5%，且订单上限+2，同时每有1个木天蓼，则订单获取效率+3%"
+                ],
+                "name": [
+                    "可爱的艾露猫"
+                ],
+                "template": "Bskill_tra_spd&limit_felyne.png"
             },
             "bskill_tra_spd&meet1": {
                 "desc": [
