@@ -90,13 +90,14 @@ namespace MaaWpfGui
             var tasksPath = "resource/tasks.json";
             JObject tasksJson = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.LoadApiCache(tasksPath);
 
-            // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
-            // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
-            JObject tasksJsonClient = null;
             if (clientType != "Official" && tasksJson != null)
             {
                 tasksPath = "resource/global/" + clientType + '/' + tasksPath;
-                tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
+
+                // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
+                // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
+                // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
+                _ = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
             }
 
             bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
