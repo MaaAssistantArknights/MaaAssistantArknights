@@ -27,6 +27,8 @@ def build_commits_tree(commit_hash: str):
             print(author_raw_name, ":", author_name)
         except:
             print(f"Cannot get author: {author_raw_name}.")
+    else:
+        author_name = contributors[author_raw_name]
     raw_commit_info.update({"visited": True})
     commit_key = raw_commit_info["message"] + f" ({raw_commit_info['hash']})" + f" @{author_name}"
     res[commit_key] = {}
@@ -56,12 +58,12 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
         for x in commits.keys():
             if False:
                 pass
+            elif x.find("修复") != -1:
+                sorted_commits["fix"][x] = commits[x]
             elif x.find("新增") != -1:
                 sorted_commits["feat"][x] = commits[x]
             elif x.find("改进") != -1 or x.find("更新") != -1 or x.find("优化") != -1 or x.find("重构") != -1:
                 sorted_commits["perf"][x] = commits[x]
-            elif x.find("修复") != -1:
-                sorted_commits["fix"][x] = commits[x]
             elif x.startswith("feat"):
                 sorted_commits["feat"][x] = commits[x]
             elif x.startswith("perf"):
