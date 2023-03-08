@@ -69,8 +69,16 @@ endif (BUILD_TEST)
 find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs)
 find_package(ZLIB REQUIRED)
 find_package(MaaDerpLearning REQUIRED)
-find_package(onnxruntime REQUIRED)
 find_package(asio REQUIRED)
+
+find_path(ONNXRuntime_INCLUDE_DIR NAMES onnxruntime/core/session/onnxruntime_c_api.h)
+find_library(ONNXRuntime_LIBRARY NAMES onnxruntime)
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(
+    ONNXRuntime
+    REQUIRED_VARS ONNXRuntime_LIBRARY ONNXRuntime_INCLUDE_DIR
+)
+
 target_link_libraries(MaaCore ${OpenCV_LIBS} onnxruntime MaaDerpLearning asio::asio ZLIB::ZLIB header_only_libraries)
 
 if(WIN32)
