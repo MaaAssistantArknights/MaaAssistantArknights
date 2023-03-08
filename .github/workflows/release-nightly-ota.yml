@@ -109,7 +109,7 @@ jobs:
     needs: [set-tag, build-win-nightly]
     strategy:
       matrix:
-        target: [x64, ARM64]
+        target: [x64, arm64]
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.set-tag.outputs.tag }}
@@ -155,7 +155,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config "${{ github.repository_owner }}/MaaRelease"
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
           mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
       - name: "Commit and setup tag"
         run: |
