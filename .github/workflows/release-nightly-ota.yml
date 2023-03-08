@@ -26,24 +26,11 @@ on:
         default: 30
 
 jobs:
-  build-win-nightly:
+  set-tag:
     runs-on: windows-latest
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          # repository: 'MaaAssistantArknights/MaaAssistantArknights'
-          submodules: recursive
-          #ref: ${{ inputs.ref }}
-          fetch-depth: 0
-      - name: Checkout ref
-        run: |
-          if ("${{ inputs.ref }}" -ne "") {
-            git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
-          }
-      - run: |
-          npm install --global --progress semver
       - name: Set tag
         id: set_tag
         run: |
@@ -63,6 +50,34 @@ jobs:
             exit 0
           }
           exit 1
+  build-win-nightly:
+    needs: set-tag
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - msbuild_target: x64
+            lowercase_target: x64
+          - msbuild_target: ARM64
+            lowercase_target: arm64
+      fail-fast: false
+    env:
+      MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # repository: 'MaaAssistantArknights/MaaAssistantArknights'
+          submodules: recursive
+          #ref: ${{ inputs.ref }}
+          fetch-depth: 0
+      - name: Checkout ref
+        run: |
+          if ("${{ inputs.ref }}" -ne "") {
+            git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
+          }
+      - run: |
+          npm install --global --progress semver
+
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v3
         with:
@@ -70,27 +85,34 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
       - name: Run './build.cmd DevBuild'
         run: |
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
-          $env:MAA_BUILDER_MAA_VERSION = "${{steps.set_tag.outputs.tag}}"
+          $env:MAA_BUILDER_MAA_VERSION = "${{ needs.set-tag.outputs.tag }}"
           echo "tag: " $env:MAA_BUILDER_MAA_VERSION
 
-          python3 maadeps-download.py x64-windows
           ./build.cmd DevBuild
         env:
           Reason: 'Build nightly version'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v3
         with:
-          name: MAA-win-x64
+          name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
 
   make-ota:
-    needs: build-win-nightly
+    needs: [set-tag, build-win-nightly]
+    strategy:
+      matrix:
+        target: [x64, arm64]
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.build-win-nightyl.outputs.tag }}
+      - run: echo ${{ needs.set-tag.outputs.tag }}
       - name: "Fetch MaaRelease"
         uses: actions/checkout@v3
         with:
@@ -103,7 +125,7 @@ jobs:
           path: MaaAssistantArknights
       - uses: actions/download-artifact@v3
         with:
-          name: MAA-win-x64
+          name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
       - name: "Fetch release info"
         env:
@@ -133,8 +155,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config "${{ github.repository_owner }}/MaaRelease"
-          mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-x64.zip
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
+          mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
       - name: "Commit and setup tag"
         run: |
           cd MaaRelease

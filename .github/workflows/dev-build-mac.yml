@@ -41,6 +41,10 @@ jobs:
         run: |
           brew update --preinstall
           brew install ninja pkg-config range-v3
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           python3 maadeps-download.py
       - name: Configure MaaCore
         run: |

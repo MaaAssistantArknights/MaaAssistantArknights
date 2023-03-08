@@ -31,8 +31,12 @@ jobs:
         run: |
             brew update --preinstall
             brew install create-dmg ninja pkg-config range-v3
-            [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
-            python3 maadeps-download.py ${triplet}
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
+          python3 maadeps-download.py ${triplet}
       - name: Configure MaaCore
         run: |
           cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}

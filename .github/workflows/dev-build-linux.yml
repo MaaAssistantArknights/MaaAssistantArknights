@@ -34,13 +34,16 @@ jobs:
         uses: Chocobo1/setup-ccache-action@v1
         with:
           remove_stale_cache: false
-
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py
       - name: Build MAA
         env:
           CC: ccache gcc-12
           CXX: ccache g++-12
         run: |
-          python3 maadeps-download.py
           mkdir -p build
           cmake -B build \
             -DINSTALL_THIRD_LIBS=ON \
