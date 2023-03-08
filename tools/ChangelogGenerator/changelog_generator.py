@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 import os
 import json
 import re
@@ -7,17 +8,22 @@ cur_dir = os.path.dirname(__file__)
 contributors_path = os.path.abspath(os.path.join(cur_dir, 'contributors.json'))
 changelog_path = os.path.abspath(os.path.join(cur_dir, '../../CHANGELOG.md'))
 
+with_hash = False
+with_commitizen = False
+
 contributors = {}
 raw_commits_info = {}
 
 # dfs 建树，Merge commit 是非叶子节点
 def build_commits_tree(commit_hash: str):
-    res = {}
+    global with_hash
     if commit_hash not in raw_commits_info:
-        return res
+        return {}
     raw_commit_info = raw_commits_info[commit_hash]
     if "visited" in raw_commit_info:
-        return res
+        return {}
+    raw_commit_info.update({"visited": True})
+
     author_raw_name = raw_commit_info['author']
     author_name = author_raw_name
     if author_raw_name not in contributors:
@@ -29,8 +35,13 @@ def build_commits_tree(commit_hash: str):
             print(f"Cannot get author: {author_raw_name}.")
     else:
         author_name = contributors[author_raw_name]
-    raw_commit_info.update({"visited": True})
-    commit_key = raw_commit_info["message"] + f" ({raw_commit_info['hash']})" + f" @{author_name}"
+
+    if with_hash:
+        commit_key = raw_commit_info["message"] + f" ({raw_commit_info['hash']})" + f" @{author_name}"
+    else:
+        commit_key = raw_commit_info["message"] + f" @{author_name}"
+
+    res = {}
     res[commit_key] = {}
     res.update(build_commits_tree(raw_commit_info["parent"][0]))
     if len(raw_commit_info["parent"]) == 2:
@@ -44,6 +55,7 @@ def build_commits_tree(commit_hash: str):
     return res
 
 def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (str, list):
+    global with_commitizen
     if not commits: return ("", [])
     ret_message = ""
     ret_contributor = []
@@ -106,6 +118,9 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
     else:
         for x in reversed(sorted([x for x in commits.keys()])):
             commit_message = x
+            if not with_commitizen:
+                commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)"
+                commit_message = re.sub(rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *", "", commit_message)
             # Contributors 名字转换
             contributor_re = re.search(r"@\S*", x)
             if not contributor_re:
@@ -129,7 +144,7 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
 
     return ret_message, ret_contributor
 
-def main():
+def main(tagname=None):
     global contributors, raw_commits_info
     try:
         with open(contributors_path, "r") as f:
@@ -138,7 +153,10 @@ def main():
         pass
     # 从哪个 tag 开始
     latest = os.popen("git describe --abbrev=0 --tags").read()[:-1]
-    nightly = os.popen("git describe --tags").read()[:-1]
+    if tagname:
+        nightly = tagname
+    else:
+        nightly = os.popen("git describe --tags").read()[:-1]
     print("From:", latest, ", To:", nightly, "\n")
 
     # 输出一张好看的 git log 图到控制台
@@ -166,5 +184,16 @@ def main():
     with open(contributors_path, "w") as f:
         json.dump(contributors, f)
 
+def ArgParser():
+    parser = ArgumentParser()
+    parser.add_argument("--tag", help="release tag name", metavar="NAME", dest="tag_name", default=None)
+    parser.add_argument("-wh", "--with-hash", help="print commit message with hash", action="store_true", dest="with_hash")
+    parser.add_argument("-wc", "--with-commitizen", help="print commit message with commitizen", action="store_true", dest="with_commitizen")
+    return parser
+
 if __name__ == "__main__":
-    main()
+    args = ArgParser().parse_args()
+    with_hash = args.with_hash
+    with_commitizen = args.with_commitizen
+    tag_name = args.tag_name
+    main(tag_name)
