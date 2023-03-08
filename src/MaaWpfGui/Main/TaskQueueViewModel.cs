@@ -211,7 +211,8 @@ namespace MaaWpfGui
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
-                "ReclamationAlgorithm",
+
+                // "ReclamationAlgorithm",
             };
             ActionAfterCompletedList = new List<GenericCombData<ActionType>>
             {
