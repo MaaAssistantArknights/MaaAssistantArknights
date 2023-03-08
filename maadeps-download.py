@@ -70,37 +70,43 @@ def sanitize_filename(filename: str):
     return filename
 
 
-def retry_load(url: str):
+def retry_urlopen(*args, **kwargs):
     import time
     import http.client
     for _ in range(5):
-        resp: http.client.HTTPResponse = urllib.request.urlopen(url)
-        if resp.status == 403 and resp.headers.get("x-ratelimit-remaining") == "0":
-            # rate limit
-            resp.close()
-            t0 = time.time()
-            reset_time = t0 + 10
-            try:
-                reset_time = int(resp.headers.get("x-ratelimit-reset", 0))
-            except ValueError:
-                pass
-            reset_time = max(reset_time, t0 + 10)
-            print(f"rate limit exceeded, retrying after {reset_time - t0:.1f} seconds")
-            time.sleep(reset_time - t0)
-            continue
-        return resp.read()
+        try:
+            resp: http.client.HTTPResponse = urllib.request.urlopen(*args, **kwargs)
+            return resp
+        except urllib.error.HTTPError as e:
+            if e.status == 403 and e.headers.get("x-ratelimit-remaining") == "0":
+                # rate limit
+                t0 = time.time()
+                reset_time = t0 + 10
+                try:
+                    reset_time = int(e.headers.get("x-ratelimit-reset", 0))
+                except ValueError:
+                    pass
+                reset_time = max(reset_time, t0 + 10)
+                print(f"rate limit exceeded, retrying after {reset_time - t0:.1f} seconds")
+                time.sleep(reset_time - t0)
+                continue
+            raise
 
 
 def main():
-    target_triplet = detect_host_triplet()
     if len(sys.argv) == 2:
         target_triplet = sys.argv[1]
+    else:
+        target_triplet = detect_host_triplet()
     print("about to download prebuilt dependency libraries for", target_triplet)
     if len(sys.argv) == 1:
         print(f"to specify another triplet, run `{sys.argv[0]} <target triplet>`")
         print(f"e.g. `{sys.argv[0]} arm64-windows`")
-    
-    resp = retry_load("https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases")
+    req = urllib.request.Request("https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases")
+    token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
+    if token:
+        req.add_header("Authorization", f"Bearer {token}")
+    resp = retry_urlopen(req).read()
     releases = json.loads(resp)
     def split_asset_name(name: str):
         *remainder, component_suffix = name.rsplit('-', 1)
