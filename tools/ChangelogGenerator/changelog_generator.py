@@ -1,21 +1,14 @@
 import os
 import json
 import re
+import requests
 
-# 期待有人能实现一个更好的 contributor 名字处理方案！
-contributors = {
-    "@[Yifan Liu]": "@liuyifan-eric",
-    "@[ABA2396]": "@ABA2396",
-    "@[uye]": "@ABA2396",
-    "@[Horror Proton]": "@horror-proton",
-    "@[zzyyyl]": "@zzyyyl",
-    "@[MistEO]": "@MistEO",
-    "@[dantmnf]": "@dantmnf",
-    "@[Hao Guan]": "@hguandl",
-    "@[lincer_x42]": "@LCAR979",
-    "@[LambdaLe]": "@WLLEGit",
-    "@[KevinT3Hu]": "@KevinT3Hu",
-}
+cur_dir = os.path.dirname(__file__)
+contributors_path = os.path.abspath(os.path.join(cur_dir, 'contributors.json'))
+changelog_path = os.path.abspath(os.path.join(cur_dir, '../../CHANGELOG.md'))
+
+contributors = {}
+raw_commits_info = {}
 
 # dfs 建树，Merge commit 是非叶子节点
 def build_commits_tree(commit_hash: str):
@@ -25,8 +18,17 @@ def build_commits_tree(commit_hash: str):
     raw_commit_info = raw_commits_info[commit_hash]
     if "visited" in raw_commit_info:
         return res
+    author_raw_name = raw_commit_info['author']
+    author_name = author_raw_name
+    if author_raw_name not in contributors:
+        try:
+            github_info = requests.get(f"https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits/{commit_hash}")
+            author_name = contributors[author_raw_name] = json.loads(github_info.text)['author']['login']
+            print(author_raw_name, ":", author_name)
+        except:
+            print(f"Cannot get author: {author_raw_name}.")
     raw_commit_info.update({"visited": True})
-    commit_key = raw_commit_info["message"] + f" ({raw_commit_info['hash']})" + f" @[{raw_commit_info['author']}]"
+    commit_key = raw_commit_info["message"] + f" ({raw_commit_info['hash']})" + f" @{author_name}"
     res[commit_key] = {}
     res.update(build_commits_tree(raw_commit_info["parent"][0]))
     if len(raw_commit_info["parent"]) == 2:
@@ -103,16 +105,12 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
         for x in reversed(sorted([x for x in commits.keys()])):
             commit_message = x
             # Contributors 名字转换
-            contributor_re = re.search(r"@\[.*\]", x)
+            contributor_re = re.search(r"@\S*", x)
             if not contributor_re:
                 print(f"Warning: `{x}` has no contributor!")
             else:
                 contributor = contributor_re.group()
-                if contributor not in contributors:
-                    print(f"Warning: New contributor `{contributor}`.")
-                else:
-                    contributor = contributors[contributor]
-                commit_message = re.sub(r"@\[.*\]", "", commit_message)
+                commit_message = re.sub(r"@\S*", "", commit_message)
 
             mes, ctrs = print_commits(commits[x], indent + "   ", False)
             ret_message += indent + "- " + commit_message
@@ -122,14 +120,20 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
                 if ret_contributor.count(contributor) == 0:
                     ret_contributor.append(contributor)
             for ctr in ctrs:
-                ret_message += " " + ctr
                 if ret_contributor.count(ctr) == 0:
                     ret_contributor.append(ctr)
+                ret_message += " " + ctr
             ret_message += "\n" + mes
 
     return ret_message, ret_contributor
 
-if __name__ == "__main__":
+def main():
+    global contributors, raw_commits_info
+    try:
+        with open(contributors_path, "r") as f:
+            contributors = json.load(f)
+    except:
+        pass
     # 从哪个 tag 开始
     latest = os.popen("git describe --abbrev=0 --tags").read()[:-1]
     nightly = os.popen("git describe --tags").read()[:-1]
@@ -154,5 +158,11 @@ if __name__ == "__main__":
 
     res = print_commits(build_commits_tree([x for x in raw_commits_info.keys()][0]))
 
-    with open("../changelog.md", "w", encoding="utf8") as f:
+    with open(changelog_path, "w", encoding="utf8") as f:
         f.write("## " + nightly + "\n" + res[0])
+
+    with open(contributors_path, "w") as f:
+        json.dump(contributors, f)
+
+if __name__ == "__main__":
+    main()
