@@ -26,11 +26,36 @@ on:
         default: 30
 
 jobs:
-  set-tag:
+
+  build-win-nightly:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - msbuild_target: x64
+            lowercase_target: x64
+          - msbuild_target: ARM64
+            lowercase_target: arm64
+      fail-fast: false
+    env:
+      MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
     steps:
+      - uses: actions/checkout@v3
+        with:
+          # repository: 'MaaAssistantArknights/MaaAssistantArknights'
+          submodules: recursive
+          #ref: ${{ inputs.ref }}
+          fetch-depth: 0
+      - name: Checkout ref
+        run: |
+          if ("${{ inputs.ref }}" -ne "") {
+            git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
+          }
+      - run: |
+          npm install --global --progress semver
+
       - name: Set tag
         id: set_tag
         run: |
@@ -50,33 +75,6 @@ jobs:
             exit 0
           }
           exit 1
-  build-win-nightly:
-    needs: set-tag
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        include:
-          - msbuild_target: x64
-            lowercase_target: x64
-          - msbuild_target: ARM64
-            lowercase_target: arm64
-      fail-fast: false
-    env:
-      MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          # repository: 'MaaAssistantArknights/MaaAssistantArknights'
-          submodules: recursive
-          #ref: ${{ inputs.ref }}
-          fetch-depth: 0
-      - name: Checkout ref
-        run: |
-          if ("${{ inputs.ref }}" -ne "") {
-            git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
-          }
-      - run: |
-          npm install --global --progress semver
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v3
@@ -93,7 +91,7 @@ jobs:
       - name: Run './build.cmd DevBuild'
         run: |
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
-          $env:MAA_BUILDER_MAA_VERSION = "${{ needs.set-tag.outputs.tag }}"
+          $env:MAA_BUILDER_MAA_VERSION = "${{ steps.set_tag.outputs.tag }}"
           echo "tag: " $env:MAA_BUILDER_MAA_VERSION
 
           ./build.cmd DevBuild
@@ -106,13 +104,13 @@ jobs:
           path: artifacts
 
   make-ota:
-    needs: [set-tag, build-win-nightly]
+    needs: build-win-nightly
     strategy:
       matrix:
         target: [x64, arm64]
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.set-tag.outputs.tag }}
+      - run: echo ${{ needs.build-win-nightly.outputs.tag }}
       - name: "Fetch MaaRelease"
         uses: actions/checkout@v3
         with:
