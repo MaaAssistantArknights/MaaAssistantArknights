@@ -103,21 +103,34 @@ jobs:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
 
-  make-ota:
+  push-tag:
     needs: build-win-nightly
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Fetch MaaRelease"
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
+          fetch-depth: 0
+          token: ${{ secrets.MAARELEASE_RELEASE }}
+      - name: Commit and setup tag
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan __temp
+          git rm -rf .
+          git commit --allow-empty --message ${{ needs.build-win-nightly.outputs.tag }}
+          git tag ${{ needs.build-win-nightly.outputs.tag }} || exit 0 # do nothing if the tag already exists
+          git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
+
+  make-ota:
+    needs: [build-win-nightly, push-tag]
     strategy:
       matrix:
         target: [x64, arm64]
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.build-win-nightly.outputs.tag }}
-      - name: "Fetch MaaRelease"
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
-          path: MaaRelease
-          fetch-depth: 0
-          token: ${{ secrets.MAARELEASE_RELEASE }}
       - uses: actions/checkout@v3
         with:
           path: MaaAssistantArknights
@@ -155,16 +168,7 @@ jobs:
           cd build-ota
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
           mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
-      - name: "Commit and setup tag"
-        run: |
-          cd MaaRelease
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git checkout --orphan __temp
-          git rm -rf .
-          git commit --allow-empty --message ${{ env.release_tag }}
-          git tag ${{ env.release_tag }} || exit 0 # do nothing if the tag already exists
-          git push --tags
+
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
         with:
