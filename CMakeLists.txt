@@ -79,7 +79,7 @@ find_package_handle_standard_args(
     REQUIRED_VARS ONNXRuntime_LIBRARY ONNXRuntime_INCLUDE_DIR
 )
 
-target_link_libraries(MaaCore ${OpenCV_LIBS} onnxruntime MaaDerpLearning asio::asio ZLIB::ZLIB header_only_libraries)
+target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime header_only_libraries)
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)
