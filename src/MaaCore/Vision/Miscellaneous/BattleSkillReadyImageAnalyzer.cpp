@@ -69,11 +69,17 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
 
     Ort::RunOptions run_options;
     session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
-    Log.trace("raw result, 0: ", results[0], ", 1: ", results[1]);
+
     softmax(results);
+
     Log.info("after softmax, 0: ", results[0], ", 1: ", results[1]);
 
-    // result_ = std::distance(results_.begin(), std::max_element(results_.begin(), results_.end()));
+    auto max_iter = std::max_element(results.begin(), results.end());
+    if (*max_iter < 0.7) {
+        Log.warn("Skill ready recognition confidence too low: ", *max_iter, ", roi:", m_roi);
+        save_img(utils::path("debug") / utils::path("skill_ready_rec"));
+    }
+
     return results[1] > results[0];
 }
 
