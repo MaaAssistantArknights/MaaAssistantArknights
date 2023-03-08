@@ -19,7 +19,7 @@ jobs:
   make-ota:
     runs-on: "ubuntu-latest"
     matrix: 
-      target: [x64, ARM64]
+      target: [x64, arm64]
     steps:
       - name: "Fetch MaaRelease"
         uses: actions/checkout@v3
@@ -65,7 +65,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config 'MaaAssistantArknights/MaaRelease'
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
       - name: "Commit and setup tag"
         run: |
           cd MaaRelease
