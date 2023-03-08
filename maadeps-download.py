@@ -94,9 +94,10 @@ def retry_urlopen(*args, **kwargs):
 
 
 def main():
-    target_triplet = detect_host_triplet()
     if len(sys.argv) == 2:
         target_triplet = sys.argv[1]
+    else:
+        target_triplet = detect_host_triplet()
     print("about to download prebuilt dependency libraries for", target_triplet)
     if len(sys.argv) == 1:
         print(f"to specify another triplet, run `{sys.argv[0]} <target triplet>`")
