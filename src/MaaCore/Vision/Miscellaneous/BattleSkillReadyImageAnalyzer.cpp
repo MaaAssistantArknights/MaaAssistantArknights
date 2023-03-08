@@ -3,76 +3,84 @@
 #include "Utils/NoWarningCV.h"
 
 #include <algorithm>
-#include <functional>
-#include <vector>
+#include <array>
+#include <cmath>
 
+#include <onnxruntime/core/session/onnxruntime_cxx_api.h>
+
+#include "Config/OnnxSession.h"
 #include "Config/TaskData.h"
-#include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
+
+template <typename T>
+static void softmax(T& input)
+{
+    float rowmax = *std::max_element(input.begin(), input.end());
+    std::vector<float> y(input.size());
+    float sum = 0.0f;
+    for (size_t i = 0; i != input.size(); ++i) {
+        sum += y[i] = std::exp(input[i] - rowmax);
+    }
+    for (size_t i = 0; i != input.size(); ++i) {
+        input[i] = y[i] / sum;
+    }
+}
 
 bool asst::BattleSkillReadyImageAnalyzer::analyze()
 {
-    auto task_ptr = Task.get<MatchTaskInfo>("BattleSkillReady");
-    const cv::Mat& templ = TemplResource::get_instance().get_templ(task_ptr->templ_name);
+    LogTraceFunction;
 
-    auto key_color = [](cv::InputArray src, cv::OutputArray dst, const cv::Scalar& color,
-                        const cv::Scalar& tolerance = {}) {
-        cv::inRange(src, color - tolerance, color + tolerance, dst);
-    };
-    auto preprocess = [&](cv::Mat& img) {
-        cv::Mat mask_y2;
-        key_color(img, mask_y2, { 40, 94, 103 }, { 10, 10, 10 }); // BGR
-        img.setTo(cv::Scalar { 2, 216, 255 }, mask_y2);           // BGR
-        cv::Mat mask_y1;
-        key_color(img, mask_y1, { 2, 216, 255 }, { 20, 20, 20 });
-        cv::dilate(mask_y1, mask_y1, cv::getStructuringElement(cv::MORPH_RECT, { 4, 4 }));
-        cv::bitwise_not(mask_y1, mask_y1);
-        img.setTo(cv::Scalar { 0, 0, 0 }, mask_y1);
-    };
+    cv::Mat image = m_image(make_rect<cv::Rect>(m_roi));
+    cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
 
-    cv::Mat tmp = templ.clone();
-    cv::Mat img = m_image(make_rect<cv::Rect>(m_roi)).clone();
-
-    cv::Mat template_mask;
-    key_color(tmp, template_mask, { 0, 255, 0 }, { 0, 0, 0 });
-    cv::bitwise_not(template_mask, template_mask);
-
-    preprocess(img);
-    preprocess(tmp);
-
-    cv::Mat match;
-    cv::matchTemplate(img, tmp, match, cv::TM_SQDIFF, template_mask);
-    match /= template_mask.cols * template_mask.rows;
-    cv::sqrt(match, match);
-
-    // 修改自MultiMatchImageAnalyzer
-    const double templ_thres = 130.;
-    int mini_distance = (std::min)(templ.cols, templ.rows) / 2;
-    for (int i = 0; i != match.rows; ++i) {
-        for (int j = 0; j != match.cols; ++j) {
-            auto value = match.at<float>(i, j);
-            if (value < templ_thres) {
-                Rect rect(j + m_roi.x, i + m_roi.y, templ.cols, templ.rows);
-                bool need_push = true;
-                for (auto& iter : ranges::reverse_view(m_result)) {
-                    if (std::abs(j + m_roi.x - iter.rect.x) < mini_distance &&
-                        std::abs(i + m_roi.y - iter.rect.y) < mini_distance) {
-                        if (iter.score > value) {
-                            iter.rect = rect;
-                            iter.score = value;
-                        }
-                        need_push = false;
-                        break;
-                    }
-                }
-                if (need_push) {
-                    m_result.emplace_back(value, rect);
-                }
+    size_t input_size = 1ULL * image.cols * image.rows * image.channels();
+    std::vector<float> input(input_size);
+    std::vector<float> output;
+    size_t count = 0;
+    for (int k = 0; k < image.channels(); k++) {
+        for (int i = 0; i < image.rows; i++) {
+            for (int j = 0; j < image.cols; j++) {
+                float value = static_cast<float>(image.at<cv::Vec3b>(i, j)[k]);
+                value /= 255;
+                value -= 0.5f; // mean
+                value /= 0.5f; // std
+                input[count++] = value;
             }
         }
     }
 
-    return !m_result.empty();
+    auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
+    constexpr int64_t batch_size = 1;
+    std::array<int64_t, 4> input_shape { batch_size, image.channels(), image.cols, image.rows };
+
+    Ort::Value input_tensor =
+        Ort::Value::CreateTensor<float>(memory_info, input.data(), input_size, input_shape.data(), input_shape.size());
+
+    constexpr size_t classification_size = 2;
+    std::array<float, classification_size> results;
+    std::array<int64_t, 2> output_shape { batch_size, classification_size };
+    Ort::Value output_tensor = Ort::Value::CreateTensor<float>(memory_info, results.data(), results.size(),
+                                                               output_shape.data(), output_shape.size());
+
+    auto& session = OnnxSession::get_instance().get("skill_ready_rec");
+    // 这俩是hardcode在模型里的
+    constexpr const char* input_names[] = { "input" };   // session.GetInputName()
+    constexpr const char* output_names[] = { "output" }; // session.GetOutputName()
+
+    Ort::RunOptions run_options;
+    session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
+
+    softmax(results);
+
+    Log.info("after softmax, 0: ", results[0], ", 1: ", results[1]);
+
+    auto max_iter = std::max_element(results.begin(), results.end());
+    if (*max_iter < 0.7) {
+        Log.warn("Skill ready recognition confidence too low: ", *max_iter, ", roi:", m_roi);
+        save_img(utils::path("debug") / utils::path("skill_ready_rec"));
+    }
+
+    return results[1] > results[0];
 }
 
 void asst::BattleSkillReadyImageAnalyzer::set_base_point(const Point& pt)

@@ -2,8 +2,8 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Controller/Controller.h"
 #include "Config/TaskData.h"
+#include "Controller/Controller.h"
 #include "ReclamationControlTask.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
@@ -123,52 +123,54 @@ bool asst::ReclamationBattlePlugin::communicate_with(const std::string& npcName)
 bool asst::ReclamationBattlePlugin::communicate_with_aux(
     const std::string& npcName, std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
 {
-    auto image = ctrler()->get_image();
-    BattleSkillReadyImageAnalyzer skillReadyAnalyzer(image);
-    if (!skillReadyAnalyzer.analyze()) {
-        Log.info(__FUNCTION__, " | ", "no ready skills");
-        return false;
-    }
-    std::vector<MatchRect> skill_results = skillReadyAnalyzer.get_result();
-
-    std::sort(skill_results.begin(), skill_results.end(), orderComp);
-    for (const auto& [score, rect] : skill_results) {
-        Rect center(rect.x + rect.width / 2,
-                    rect.y + rect.height / 2 + Task.get("Reclamation@SkillReadyRoleOffset")->special_params.front(), 5,
-                    5);
-
-        const auto use_oper_task_ptr = Task.get("BattleUseOper");
-        ctrler()->click(center);
-        sleep(use_oper_task_ptr->pre_delay);
-
-        image = ctrler()->get_image();
-        OcrImageAnalyzer npcNameAnalyzer(image);
-        npcNameAnalyzer.set_task_info("Reclamation@Liaison");
-        npcNameAnalyzer.set_required({});
-        if (!npcNameAnalyzer.analyze()) {
-            // 地图发生了移动
-            Log.info(__FUNCTION__, " | ", "map moved ");
-            break;
-        }
-        if (npcNameAnalyzer.get_result().front() != npcName) {
-            // npc名称不正确
-            Log.info(__FUNCTION__, " | ", "npc name not match ", npcNameAnalyzer.get_result().front());
-            cancel_oper_selection();
-            continue;
-        }
-
-        ProcessTask skill_task(this_task(), { "Reclamation@BattleSkillReadyOnClick" });
-        skill_task.set_task_delay(0);
-
-        bool ret = skill_task.set_retry_times(5).run();
-        if (!ret) {
-            cancel_oper_selection();
-            Log.info(__FUNCTION__, " | ", "fail to click skill of npc");
-            return false;
-        }
-
-        return true;
-    }
+    std::ignore = npcName;
+    std::ignore = orderComp;
+    //    auto image = ctrler()->get_image();
+    //    BattleSkillReadyImageAnalyzer skillReadyAnalyzer(image);
+    //    if (!skillReadyAnalyzer.analyze()) {
+    //        Log.info(__FUNCTION__, " | ", "no ready skills");
+    //        return false;
+    //    }
+    //    std::vector<MatchRect> skill_results = skillReadyAnalyzer.get_result();
+    //
+    //    std::sort(skill_results.begin(), skill_results.end(), orderComp);
+    //    for (const auto& [score, rect] : skill_results) {
+    //        Rect center(rect.x + rect.width / 2,
+    //                    rect.y + rect.height / 2 +
+    //                    Task.get("Reclamation@SkillReadyRoleOffset")->special_params.front(), 5, 5);
+    //
+    //        const auto use_oper_task_ptr = Task.get("BattleUseOper");
+    //        ctrler()->click(center);
+    //        sleep(use_oper_task_ptr->pre_delay);
+    //
+    //        image = ctrler()->get_image();
+    //        OcrImageAnalyzer npcNameAnalyzer(image);
+    //        npcNameAnalyzer.set_task_info("Reclamation@Liaison");
+    //        npcNameAnalyzer.set_required({});
+    //        if (!npcNameAnalyzer.analyze()) {
+    //            // 地图发生了移动
+    //            Log.info(__FUNCTION__, " | ", "map moved ");
+    //            break;
+    //        }
+    //        if (npcNameAnalyzer.get_result().front() != npcName) {
+    //            // npc名称不正确
+    //            Log.info(__FUNCTION__, " | ", "npc name not match ", npcNameAnalyzer.get_result().front());
+    //            cancel_oper_selection();
+    //            continue;
+    //        }
+    //
+    //        ProcessTask skill_task(this_task(), { "Reclamation@BattleSkillReadyOnClick" });
+    //        skill_task.set_task_delay(0);
+    //
+    //        bool ret = skill_task.set_retry_times(5).run();
+    //        if (!ret) {
+    //            cancel_oper_selection();
+    //            Log.info(__FUNCTION__, " | ", "fail to click skill of npc");
+    //            return false;
+    //        }
+    //
+    //        return true;
+    //    }
 
     return false;
 }
