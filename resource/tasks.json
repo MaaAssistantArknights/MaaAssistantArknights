@@ -6264,10 +6264,10 @@
     "BattleSkillReady": {
         "cache": false,
         "rectMove": [
-            -20,
-            -125,
-            45,
-            50
+            -28,
+            -140,
+            64,
+            64
         ]
     },
     "BattleSkillReadyOnClick": {

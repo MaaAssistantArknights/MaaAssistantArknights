@@ -28,6 +28,8 @@ static void softmax(T& input)
 
 bool asst::BattleSkillReadyImageAnalyzer::analyze()
 {
+    LogTraceFunction;
+
     cv::Mat image = m_image(make_rect<cv::Rect>(m_roi));
     cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
 
