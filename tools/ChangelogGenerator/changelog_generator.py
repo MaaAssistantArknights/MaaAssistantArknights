@@ -133,7 +133,7 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
             ret_message += indent + "- " + commit_message
 
             if ctrs.count(contributor) == 0:
-                ret_message += contributor
+                ret_message += " " + contributor
                 if ret_contributor.count(contributor) == 0:
                     ret_contributor.append(contributor)
             for ctr in ctrs:
@@ -152,11 +152,11 @@ def main(tagname=None):
     except:
         pass
     # 从哪个 tag 开始
-    latest = os.popen("git describe --abbrev=0 --tags").read()[:-1]
+    latest = os.popen("git describe --abbrev=0 --tags").read().strip()
     if tagname:
         nightly = tagname
     else:
-        nightly = os.popen("git describe --tags").read()[:-1]
+        nightly = os.popen("git describe --tags").read().strip()
     print("From:", latest, ", To:", nightly, "\n")
 
     # 输出一张好看的 git log 图到控制台
