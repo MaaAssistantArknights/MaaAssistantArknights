@@ -127,7 +127,7 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
                 print(f"Warning: `{x}` has no contributor!")
             else:
                 contributor = contributor_re.group()
-                commit_message = re.sub(r"@\S*", "", commit_message)
+                commit_message = re.sub(r" *@\S*", "", commit_message)
 
             mes, ctrs = print_commits(commits[x], indent + "   ", False)
             ret_message += indent + "- " + commit_message
