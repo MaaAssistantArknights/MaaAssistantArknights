@@ -29,8 +29,6 @@ jobs:
         include:
           - msbuild_target: x64
             lowercase_target: x64
-          - msbuild_target: ARM64
-            lowercase_target: arm64
       fail-fast: false
     env:
       MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
