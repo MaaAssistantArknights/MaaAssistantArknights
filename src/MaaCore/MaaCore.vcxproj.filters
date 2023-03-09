@@ -26,15 +26,6 @@
     <Filter Include="源文件\Vision\Roguelike">
       <UniqueIdentifier>{250bc7cb-e99a-42f8-ae3c-66998564fdcf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Config">
-      <UniqueIdentifier>{3b2a04b8-fb22-43c3-9444-1b455851d8e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\Config\Roguelike">
-      <UniqueIdentifier>{de1acbf1-3e7a-4e91-8a62-e966602c6b25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\Config\Miscellaneous">
-      <UniqueIdentifier>{64367a8b-0654-47bb-92cc-d451799457a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\Task">
       <UniqueIdentifier>{8499a77f-7bcc-457c-97f1-6e950ab68bf4}</UniqueIdentifier>
     </Filter>
@@ -85,6 +76,15 @@
     </Filter>
     <Filter Include="源文件\Controller\adb-lite">
       <UniqueIdentifier>{a61a19a3-e1ba-45f2-9264-acb4102106b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Resource">
+      <UniqueIdentifier>{3b2a04b8-fb22-43c3-9444-1b455851d8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Resource\Roguelike">
+      <UniqueIdentifier>{de1acbf1-3e7a-4e91-8a62-e966602c6b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Resource\Miscellaneous">
+      <UniqueIdentifier>{64367a8b-0654-47bb-92cc-d451799457a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -196,52 +196,52 @@
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\AbstractConfig.h">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Config\AbstractConfigWithTempl.h">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Config\AbstractResource.h">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Config\ResourceLoader.h">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Config\TaskData.h">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Config\TemplResource.h">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
-      <Filter>源文件\Config\Roguelike</Filter>
+      <Filter>源文件\Resource\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h">
-      <Filter>源文件\Config\Roguelike</Filter>
+      <Filter>源文件\Resource\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h">
-      <Filter>源文件\Config\Roguelike</Filter>
+      <Filter>源文件\Resource\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\CopilotConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\InfrastConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\ItemConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\RecruitConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\StageDropsConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\TilePack.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\AbstractTask.h">
       <Filter>源文件\Task</Filter>
@@ -355,10 +355,10 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="Config\GeneralConfig.h">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\OcrPack.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\Fight\DrGrandetTaskPlugin.h">
       <Filter>源文件\Task\Fight</Filter>
@@ -469,13 +469,13 @@
       <Filter>源文件\Task</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\Interface\SSSCopilotTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h">
       <Filter>源文件\Task\SSS</Filter>
@@ -523,7 +523,10 @@
       <Filter>源文件\Controller\adb-lite</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\OnnxSession.h">
+      <Filter>源文件\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -591,46 +594,46 @@
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\AbstractConfig.cpp">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Config\ResourceLoader.cpp">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Config\TaskData.cpp">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Config\TemplResource.cpp">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
-      <Filter>源文件\Config\Roguelike</Filter>
+      <Filter>源文件\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp">
-      <Filter>源文件\Config\Roguelike</Filter>
+      <Filter>源文件\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp">
-      <Filter>源文件\Config\Roguelike</Filter>
+      <Filter>源文件\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\CopilotConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\InfrastConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\ItemConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\RecruitConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\StageDropsConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\TilePack.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\AbstractTask.cpp">
       <Filter>源文件\Task</Filter>
@@ -696,10 +699,10 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Config\GeneralConfig.cpp">
-      <Filter>源文件\Config</Filter>
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\OcrPack.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Fight\DrGrandetTaskPlugin.cpp">
       <Filter>源文件\Task\Fight</Filter>
@@ -813,13 +816,13 @@
       <Filter>源文件\Task</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp">
       <Filter>源文件\Task\SSS</Filter>
@@ -861,7 +864,10 @@
       <Filter>源文件\Controller\adb-lite</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp">
-      <Filter>源文件\Config\Miscellaneous</Filter>
+      <Filter>源文件\Resource\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\OnnxSession.cpp">
+      <Filter>源文件\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

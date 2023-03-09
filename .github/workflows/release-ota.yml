@@ -18,6 +18,8 @@ on:
 jobs:
   make-ota:
     runs-on: "ubuntu-latest"
+    matrix: 
+      target: [x64]
     steps:
       - name: "Fetch MaaRelease"
         uses: actions/checkout@v3
@@ -53,7 +55,7 @@ jobs:
           mkdir -pv build-ota/${{ env.release_tag }}
           cd build-ota/${{ env.release_tag }}
           mkdir -pv content
-          gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-win-x64.zip" --clobber
+          gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip" --clobber
           unzip -q -O GB2312 -o "*.zip" -d 'content'
           mv *.zip ..
         env:
@@ -63,7 +65,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config 'MaaAssistantArknights/MaaRelease'
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
       - name: "Commit and setup tag"
         run: |
           cd MaaRelease

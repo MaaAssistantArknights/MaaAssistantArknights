@@ -785,6 +785,62 @@
         "isAscii": true,
         "text": []
     },
+    "CF-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "CF-Open"
+        ],
+        "next": [
+            "CF-8@SideStoryStage",
+            "CF-8@SwipeToStage"
+        ]
+    },
+    "CF-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "落叶",
+            "逐火",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "CFChapterToCF"
+        ]
+    },
+    "CFChapterToCF": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "苍暮",
+            "山地"
+        ],
+        "roi": [
+            1026,
+            499,
+            218,
+            142
+        ],
+        "postDelay": 2000,
+        "next": [
+            "CFChapterToCF",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "CF-8@SideStoryStage": {
+        "baseTask": "SideStoryStage",
+        "text": [
+            "CF-8"
+        ]
+    },
     "GA-6": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -6208,10 +6264,10 @@
     "BattleSkillReady": {
         "cache": false,
         "rectMove": [
-            -20,
-            -125,
-            45,
-            50
+            -28,
+            -140,
+            64,
+            64
         ]
     },
     "BattleSkillReadyOnClick": {
@@ -8198,7 +8254,7 @@
     "Phantom@Roguelike@Abandon": {},
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
-        "onErrorNext":[
+        "onErrorNext": [
             "Phantom@Roguelike@RecruitWithoutButton"
         ],
         "next": [
@@ -8386,7 +8442,7 @@
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseOper": {
-        "onErrorNext":[
+        "onErrorNext": [
             "Mizuki@Roguelike@RecruitWithoutButton"
         ],
         "next": [
