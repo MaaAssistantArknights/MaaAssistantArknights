@@ -81,7 +81,7 @@ if __name__ == "__main__":
     #     'filename': './GA-EX8-raid.json',
     #     'formation': False
     # })
-
+    # asst.append_task('Custom', {"task_names": ["AwardBegin"]})
     asst.start()
 
     while asst.running():
