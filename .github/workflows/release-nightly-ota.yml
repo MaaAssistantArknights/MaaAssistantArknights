@@ -34,8 +34,6 @@ jobs:
         include:
           - msbuild_target: x64
             lowercase_target: x64
-          - msbuild_target: ARM64
-            lowercase_target: arm64
       fail-fast: false
     env:
       MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
@@ -127,7 +125,7 @@ jobs:
     needs: [build-win-nightly, push-tag]
     strategy:
       matrix:
-        target: [x64, arm64]
+        target: [x64]
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.build-win-nightly.outputs.tag }}
