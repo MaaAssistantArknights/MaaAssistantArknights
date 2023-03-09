@@ -1747,6 +1747,7 @@ namespace MaaWpfGui
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
+                    _versionUpdateViewModel.IsFirstBootAfterUpdate = true;
                     _versionUpdateViewModel.AskToRestart();
                     break;
 

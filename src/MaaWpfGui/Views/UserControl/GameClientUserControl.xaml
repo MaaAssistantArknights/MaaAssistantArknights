@@ -36,12 +36,8 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsChecked="{Binding AutoRestartOnDrop}"
-            Content="{DynamicResource AutoRestartOption}" />
-        <maa:TextBlock
-            HorizontalAlignment="Center"
-            Text="帮帮"
-            Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}" />
+            Content="{DynamicResource AutoRestartOption}"
+            IsChecked="{Binding AutoRestartOnDrop}" />
         <maa:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}">
             <Hyperlink
                 Cursor="Hand"
