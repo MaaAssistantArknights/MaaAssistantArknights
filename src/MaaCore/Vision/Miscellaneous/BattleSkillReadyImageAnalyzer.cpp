@@ -42,8 +42,6 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
             for (int j = 0; j < image.cols; j++) {
                 float value = static_cast<float>(image.at<cv::Vec3b>(i, j)[k]);
                 value /= 255;
-                value -= 0.5f; // mean
-                value /= 0.5f; // std
                 input[count++] = value;
             }
         }
