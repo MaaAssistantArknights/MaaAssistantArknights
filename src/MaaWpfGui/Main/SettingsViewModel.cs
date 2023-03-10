@@ -1252,7 +1252,7 @@ namespace MaaWpfGui
             {
                 try
                 {
-                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditFightTaskEnabled;
                     }
