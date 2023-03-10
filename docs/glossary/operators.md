@@ -3,6 +3,7 @@
 Lancet-2|Lancet-2|Lancet-2|Lancet-2
 Castle-3|Castle-3|Castle-3|Castle-3
 THRM-EX|THRM-EX|THRM-EX|THRM-EX
+正义骑士号|'Justice Knight'|ジャスティスナイト|저스티스 나이트
 泰拉大陆调查团|Terra Research Commission||
 
 中文|English|日本語|한국어
