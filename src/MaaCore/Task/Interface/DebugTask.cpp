@@ -4,21 +4,22 @@
 
 #include "Utils/NoWarningCV.h"
 
-// #include "Plugin/RoguelikeSkillSelectionTaskPlugin.h"
-
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
-asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType)
-{
-    ////auto task_ptr = std::make_shared<RoguelikeSkillSelectionTaskPlugin>(callback, inst, TaskType);
-    // auto task_ptr = std::make_shared<StageDropsTaskPlugin>(callback, inst, TaskType);
-    // m_subtasks.emplace_back(task_ptr);
-}
+asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType) {}
 
 bool asst::DebugTask::run()
+{
+    test_drops();
+
+    return true;
+}
+
+void asst::DebugTask::test_drops()
 {
     size_t total = 0;
     size_t success = 0;
@@ -34,5 +35,27 @@ bool asst::DebugTask::run()
         success += analyzer.analyze();
     }
     Log.info(__FUNCTION__, success, "/", total);
-    return true;
+}
+
+void asst::DebugTask::test_skill_ready()
+{
+    int total = 0;
+    int correct = 0;
+    for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/y)")) {
+        cv::Mat image = imread(entry.path().string());
+        BattleSkillReadyImageAnalyzer analyzer(image);
+        total++;
+        if (analyzer.analyze()) {
+            correct++;
+        }
+    }
+    for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/n)")) {
+        cv::Mat image = imread(entry.path().string());
+        BattleSkillReadyImageAnalyzer analyzer(image);
+        total++;
+        if (!analyzer.analyze()) {
+            correct++;
+        }
+    }
+    Log.info(__FUNCTION__, correct, "/", total, ",", double(correct) / total);
 }

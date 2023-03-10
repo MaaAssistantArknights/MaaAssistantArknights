@@ -3,7 +3,7 @@ import pathlib
 import time
 
 from asst.asst import Asst
-from asst.utils import Message, Version
+from asst.utils import Message, Version, InstanceOptionType
 from asst.updater import Updater
 from asst.emulator import Bluestacks
 
@@ -32,9 +32,9 @@ if __name__ == "__main__":
     # 例如 asst = Asst(callback=my_callback)
     asst = Asst()
 
-    ## 设置额外配置
+    # 设置额外配置
     # 触控方案配置
-    # asst.set_instance_option(InstanceOptionType.touch_type, 'maatouch')
+    asst.set_instance_option(InstanceOptionType.touch_type, 'maatouch')
     # 暂停下干员
     # asst.set_instance_option(InstanceOptionType.deployment_with_pause, '1')
 
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     #     'filename': './GA-EX8-raid.json',
     #     'formation': False
     # })
-
+    # asst.append_task('Custom', {"task_names": ["AwardBegin"]})
     asst.start()
 
     while asst.running():

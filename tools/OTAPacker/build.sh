@@ -13,12 +13,15 @@ script_dir="$(dirname $(realpath "$0"))"
 latest_tag=$(head -n 1 "$releases_txt")
 
 while read tag; do
+    echo "::group::$tag"
+
     if [ ! -d "$tag"/content ]; then
         mkdir -pv "$tag"
         cd "$tag"
         echo "Downloading $tag"
         gh release download "$tag" --repo $source_repo --pattern "MAA-$tag-win-$arch.zip" --clobber \
-            || gh release download "$tag" --repo $source_repo_fallback --pattern "MAA-$tag-win-$arch.zip" --clobber
+            || gh release download "$tag" --repo $source_repo_fallback --pattern "MAA-$tag-win-$arch.zip" --clobber \
+            || { echo "::warning:: win $arch not found in release $tag skipping."; echo "::endgroup::"; continue; }
         mkdir -pv 'content'
         unzip -q -O GB2312 -o "*.zip" -d 'content'
         rm -fv *.zip
@@ -40,5 +43,7 @@ while read tag; do
         zip -q -9 -r "$working_dir"/"MAAComponent-OTA-${tag}_${latest_tag}-win-$arch.zip" .
         cd $working_dir
     fi
+
+    echo "::endgroup::"
 done < "$releases_txt"
 

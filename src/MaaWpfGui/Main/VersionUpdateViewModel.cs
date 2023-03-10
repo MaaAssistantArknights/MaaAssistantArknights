@@ -155,6 +155,16 @@ namespace MaaWpfGui
             }
         }
 
+        /// <summary>
+        /// Gets the OS architecture.
+        /// </summary>
+        public static string OSArchitecture => RuntimeInformation.OSArchitecture.ToString().ToLower();
+
+        /// <summary>
+        /// Gets a value indicating whether the OS is arm.
+        /// </summary>
+        public static bool IsArm => OSArchitecture.StartsWith("arm");
+
         private const string RequestUrl = "repos/MaaAssistantArknights/MaaRelease/releases";
         private const string StableRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
         private const string MaaReleaseRequestUrlByTag = "repos/MaaAssistantArknights/MaaRelease/releases/tags/";
@@ -641,7 +651,14 @@ namespace MaaWpfGui
                     if (name.Contains("ota") && name.Contains("win") && name.Contains($"{_curVersion}_{_latestVersion}"))
                     {
                         _assetsObject = curAssets as JObject;
-                        break;
+                        if (IsArm ^ name.Contains("arm"))
+                        {
+                            continue; // 兼容旧版本，以前 ota 不区分指令集架构
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
 
