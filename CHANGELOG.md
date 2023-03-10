@@ -1,29 +1,22 @@
-## v4.12.0-beta.3
-
+## v4.12.0-rc.1
 
 ### 改进
 
-- 优化战斗中技能识别，改用深度学习模型 (#3918) @MistEO
-- 隐藏生息演算入口 @WLLEGit
+- 更新技能 ready 识别模型 @MistEO
 
 ### 修复
 
-- 修复 CF-9 地图格子错误 @yuanyan3060
-- 修复手动检查更新重启后不会打开 Changelog 弹窗的问题 @zzyyyl
-- 修复 WpfGui 自动更新时 x64 也下载 arm64 的 ota 的问题 (#3921)  @zzyyyl
+- 再次修复 Changelog 弹窗中 中文文本的字形问题 @zzyyyl
+- 修复 `泰拉大陆调查团` 识别错误 @MistEO
 
 ### 其他
 
-- simplify release-nightly-ota workflow @horror-proton
-- push tag once in release-nightly-ota workflow @horror-proton
 - 优化 Changelog 生成器 @zzyyyl
-- 优化 C# 部分代码 @ABA2396
-- skip ota build for empty pack @horror-proton
-- fix CI MaaDeps download (#3884) @MistEO @horror-proton @dantmnf
-- add support for find ONNXRuntime @aa889788
+- 修复 Changelog 生成器生成的 merge commit 的作者与 message 中多空格的问题 @zzyyyl
+- fix yaml syntax of release-ota @horror-proton
+- fix compile error @horror-proton
 
 ### For develops
 
-
-- 兜住某些情况下 tasks.json 解析炸了的异常 @zzyyyl
-- 修复某些情况下 maadeps-download.py 抛异常的问题 @zzyyyl
+- 增加一个task，可以执行tasks.json内任意一个task (#3930) @yuanyan3060
+- use maatouch in python script by default @horror-proton
