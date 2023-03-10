@@ -1,0 +1,234 @@
+name: ci
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+
+  meta:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.set_tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: temp
+      - name: Fetch history
+        run: |
+          git init
+          cp $GITHUB_WORKSPACE/temp/.git/config ./.git
+          rm -rf $GITHUB_WORKSPACE/temp
+          git fetch --filter=tree:0
+          git checkout ${{ github.ref_name }}
+
+      - id: set_tag
+        run: |
+          echo tag=$(git describe --tags HEAD) | tee -a $GITHUB_OUTPUT
+          exit ${PIPESTATUS[0]}
+
+  windows:
+    needs: meta
+    strategy:
+      matrix:
+        include:
+          - msbuild_target: x64
+            lowercase_target: x64
+          - msbuild_target: ARM64
+            lowercase_target: arm64
+    env:
+      MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ matrix.msbuild_target }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
+      - name: Build
+        run: |
+          python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
+
+          $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
+          $env:MAA_BUILDER_MAA_VERSION = '${{ needs.meta.outputs.tag }}'
+          ./build.cmd DevBuild
+        env:
+          Reason: 'Build nightly version'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          mv -v ./artifacts/MAA-${{ needs.meta.outputs.tag }}-win-*.zip ./artifacts/MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.lowercase_target }}.zip
+          rm -vf ./artifacts/checksum.json
+        shell: bash
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MAA-win-${{ matrix.lowercase_target }}
+          path: artifacts
+
+  ubuntu:
+    needs: meta
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [aarch64, x86_64]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install cross compile toolchains
+        if: ${{ matrix.arch != 'x86_64' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install g++-12-aarch64-linux-gnu g++-12-aarch64-linux-gnu
+
+      - name: Setup ccache
+        uses: Chocobo1/setup-ccache-action@v1
+        with:
+          remove_stale_cache: false
+
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
+
+      - name: Build MAA
+        env:
+          CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
+          CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
+        run: |
+          mkdir -p build
+          cmake -B build \
+            -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
+            -DINSTALL_THIRD_LIBS=ON \
+            -DINSTALL_RESOURCE=ON \
+            -DINSTALL_PYTHON=ON \
+            -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake --build build --parallel $(nproc --all)
+
+          mkdir -p install
+          cmake --install build --prefix install
+
+      - name: tar files
+        run: |
+          mkdir -p release
+          cd install
+          tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MAA-linux-${{ matrix.arch }}
+          path: 'release/*.tar.gz'
+
+  macos:
+    needs: meta
+    runs-on: macos-12
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: 'Install Developer ID Certificate'
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: ssrobins/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
+          p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+      - name: Cache Homebrew
+        uses: actions/cache@v3
+        with:
+          path: $(brew --prefix)
+          key: ${{ runner.os }}-homebrew-${{ hashFiles('.config/brew/Brewfile') }}
+      - name: Install Dependencies
+        run: |
+            brew update --preinstall
+            brew install create-dmg ninja pkg-config range-v3
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
+          python3 maadeps-download.py ${triplet}
+      - name: Configure MaaCore
+        run: |
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }} -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+      - name: Build libMaaCore
+        run: cmake --build build
+      - name: Build MAA
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        working-directory: src/MaaMacGui
+        run: xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA-${{ matrix.arch }} -configuration Release-${{ matrix.arch }}
+      - name: Build MAA
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: src/MaaMacGui
+        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA-${{ matrix.arch }} archive -archivePath MAA.xcarchive -configuration Release-${{ matrix.arch }}
+      - name: Export MAA
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: src/MaaMacGui
+        run: xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
+      - name: Create disk image
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: src/MaaMacGui
+        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA-${{ matrix.arch }}.dmg Export/MAA.app
+      - name: Archive debug symbols
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
+        run: ditto -c -k --keepParent MAA.app.dSYM MAA-${{ matrix.arch }}.app.dSYM.zip
+      - name: Place packages
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          GIT_TAG=${{ needs.meta.outputs.tag }}
+          APP_DMG=MAA-${GIT_TAG}-macos-${{ matrix.arch }}.dmg
+          APP_SYM=MAAComponent-DebugSymbol-${GIT_TAG}-macos-${{ matrix.arch }}.zip
+          mkdir -p release
+          mv src/MaaMacGui/MAA-${{ matrix.arch }}.dmg release/${APP_DMG}
+          mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA-${{ matrix.arch }}.app.dSYM.zip release/${APP_SYM}
+      - name: 'Verify image'
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          cd release
+          find . -name "*.dmg" -exec hdiutil verify {} \;
+      - name: 'Notarize image'
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
+          NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
+          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
+        run: |
+          cd release
+          find . -name "*.dmg" | while read dmg; do
+            xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait ${dmg}
+            xcrun stapler staple ${dmg}
+          done
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MAA-macos-${{ matrix.arch }}
+          path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/DerivedData/Build/Products' }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, ubuntu, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          path: release
+      - run: |
+          find .
+      - uses: softprops/action-gh-release@v1
+        with:
+          body_path: CHANGELOG.md
+          files: |
+            release/*/*
