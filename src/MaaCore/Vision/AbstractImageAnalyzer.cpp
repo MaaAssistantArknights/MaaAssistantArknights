@@ -9,14 +9,6 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/Time.hpp"
 
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
-    : m_image(image), m_roi(correct_rect(Rect(), image))
-#ifdef ASST_DEBUG
-      ,
-      m_image_draw(image.clone())
-#endif
-{}
-
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst)
     : InstHelper(inst), m_image(image), m_roi(correct_rect(Rect(), image))
 #ifdef ASST_DEBUG
@@ -31,6 +23,7 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
 #ifdef ASST_DEBUG
     m_image_draw = image.clone();
 #endif
+    m_roi = correct_rect(m_roi, m_image);
 }
 
 void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept

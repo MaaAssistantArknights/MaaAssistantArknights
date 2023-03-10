@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
@@ -11,29 +13,18 @@
 
 namespace asst
 {
-    class TaskData;
-    class Status;
     class Assistant;
 
     class AbstractImageAnalyzer : protected InstHelper
     {
     public:
         AbstractImageAnalyzer() = default;
-        AbstractImageAnalyzer(const cv::Mat& image);
-        AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst);
-        AbstractImageAnalyzer(const AbstractImageAnalyzer&) = delete;
-        AbstractImageAnalyzer(AbstractImageAnalyzer&&) = delete;
+        AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst = nullptr);
         virtual ~AbstractImageAnalyzer() = default;
 
         virtual void set_image(const cv::Mat& image);
         virtual void set_roi(const Rect& roi) noexcept;
-
-        virtual bool analyze() = 0;
-
-        AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
-        AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
-
-        bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
+        virtual bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
     protected:
         using InstHelper::status;
