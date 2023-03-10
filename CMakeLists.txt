@@ -90,6 +90,7 @@ endif()
 install(TARGETS MaaCore
     RUNTIME DESTINATION .
     LIBRARY DESTINATION .
+    PUBLIC_HEADER DESTINATION .
     ${MaaCore_install_extra_args}
 )
 
