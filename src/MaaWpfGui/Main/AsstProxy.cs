@@ -518,6 +518,7 @@ namespace MaaWpfGui
                         if (_taskQueueViewModel.Stage != string.Empty && _settingsViewModel.CreditFightTaskEnabled)
                         {
                             _settingsViewModel.LastCreditFightTaskTime = Utils.GetYJTimeDateString();
+                            _taskQueueViewModel.AddLog(Localization.GetString("CompleteTask") + Localization.GetString("CreditFight"));
                         }
                     }
 
