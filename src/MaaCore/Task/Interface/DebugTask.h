@@ -12,5 +12,9 @@ namespace asst
         virtual ~DebugTask() override = default;
 
         virtual bool run() override;
+
+    private:
+        void test_drops();
+        void test_skill_ready();
     };
 }
