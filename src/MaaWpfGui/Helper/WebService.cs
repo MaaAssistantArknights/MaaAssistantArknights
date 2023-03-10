@@ -12,12 +12,10 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
-using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -29,7 +27,63 @@ namespace MaaWpfGui.Helper
     {
         public const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
 
-        public static string Proxy { get; set; } = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
+        private static string s_proxy = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
+
+        public static string Proxy
+        {
+            get => s_proxy; set
+            {
+                s_proxy = value;
+                NormalClient = BuildNormalClient();
+            }
+        }
+
+#nullable enable
+        public static HttpClient NormalClient { get; private set; } = BuildNormalClient();
+
+        private static HttpClient BuildNormalClient() => new HttpClient(new HttpClientHandler()
+        {
+            Proxy = string.IsNullOrWhiteSpace(s_proxy) ? null : new WebProxy(s_proxy),
+        });
+
+        public static async Task<string?> GetJsonAsync(string url)
+        {
+            try
+            {
+                using var message = new HttpRequestMessage(HttpMethod.Get, url);
+                message.Headers.Accept.ParseAdd("application/json");
+                using var response = await NormalClient.SendAsync(message);
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                return null;
+            }
+        }
+
+        public static async Task<string?> PostJsonAsync<T>(string url, T content)
+        {
+            return await PostJsonAsync(url, JsonConvert.SerializeObject(content));
+        }
+
+        public static async Task<string?> PostJsonAsync(string url, string body)
+        {
+            try
+            {
+                using var message = new HttpRequestMessage(HttpMethod.Post, url);
+                message.Headers.Accept.ParseAdd("application/json");
+                message.Content = new StringContent(body, Encoding.UTF8, "application/json");
+                using var response = await NormalClient.SendAsync(message);
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                return null;
+            }
+        }
+#nullable disable
 
         public static string RequestGet(string url)
         {
