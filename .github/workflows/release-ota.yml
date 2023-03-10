@@ -18,8 +18,9 @@ on:
 jobs:
   make-ota:
     runs-on: "ubuntu-latest"
-    matrix: 
-      target: [x64, arm64]
+    strategy:
+      matrix: 
+        target: [x64]
     steps:
       - name: "Fetch MaaRelease"
         uses: actions/checkout@v3

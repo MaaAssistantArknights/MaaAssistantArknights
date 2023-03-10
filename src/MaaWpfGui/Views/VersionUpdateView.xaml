@@ -40,6 +40,7 @@
 
         <FlowDocumentScrollViewer
             x:Name="UpdateInfoMarkdownDocument"
+            Language="zh-cn"
             Document="{Binding UpdateInfoDoc}"
             Grid.Row="1"
             Margin="16,0"
