@@ -3,7 +3,7 @@
 Lancet-2|Lancet-2|Lancet-2|Lancet-2
 Castle-3|Castle-3|Castle-3|Castle-3
 THRM-EX|THRM-EX|THRM-EX|THRM-EX
-正义骑士号|'Justice Knight'|ジャスティスナイト|저스티스 나이트
+泰拉大陆调查团|Terra Research Commission||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -36,6 +36,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 预备干员-术师|Reserve Operator - Caster|予備隊員-術師|예비 인원 - 캐스터
 预备干员-后勤|Reserve Operator - Logistics|予備隊員-支援|예비 인원 - 지원
 预备干员-狙击|Reserve Operator - Sniper|予備隊員-狙撃|예비 인원 - 스나이퍼
+预备干员-重装|Reserve Operator - Defender||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -89,6 +90,9 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 罗比菈塔|Roberta|ロベルタ|로베르타
 布丁|Pudding|プリン|푸딩
 褐果|Chestnut|チェストナット|체스트넛
+罗小黑|Luo Xiaohei||
+铅踝|Totter||
+石英|Quarts||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -102,7 +106,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 白面鸮|Ptilopsis|フィリオプシス|프틸롭시스
 蓝毒|Blue Poison|アズリウス|블루포이즌
 炎客|Flamebringer|エンカク|플레임브링어
-星源|||
+星源|Astgenne|アステジーニ|
 拉普兰德|Lappland|ラップランド|라플란드
 幽灵鲨|Specter|スペクター|스펙터
 红|Projekt Red|レッド|레드
@@ -193,7 +197,7 @@ Stormeye|Stormeye|Stormeye|Stormeye
 炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼거토리
 寒芒克洛丝|Kroos the keen Glint|寒芒クルース|크루스 더 킨 글린트
 濯尘芙蓉|Hibiscus the Purifier|濯塵ハイビスカス|히비스커스 더 퓨리파이어
-承曦格雷伊|Greyy the Lightningbearer||그레이 더 라이트닝베어러
+承曦格雷伊|Greyy the Lightningbearer|承曦グレイ|그레이 더 라이트닝베어러
 耶拉|Kjera|イェラ|쉐라
 风丸|Kazemaru|カゼマル|카제마루
 九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
@@ -203,6 +207,22 @@ Stormeye|Stormeye|Stormeye|Stormeye
 埃拉托|Erato|エラト|에라토
 海蒂|Heidi|ハイディ|하이디
 车尔尼|Czerny|ツェルニー|체르니
+至简|Minimalist|ミニマリスト|
+晓歌|Cantabile|カンタービレ|
+但书|Proviso||
+海沫|Highmore||
+郁金香|Tulip||
+达格达|Dagda||
+明椒|Paprika||
+雪绒|Qanipalaat||
+子月|Lunacub||
+谜图|Puzzle||
+和弦|Harmonie||
+截云|Jieyun||
+火哨|Firewhistle||
+铎铃|Wind Chimes||
+火哨|Firewhistle||
+火龙S黑角|Rathalos S Noir Cornee||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -265,5 +285,16 @@ W|W|W|W
 号角|Horn|ホルン|혼
 流明|Lumen|ルーメン|루멘
 黑键|Ebenholz|エーベンホルツ|에벤홀츠
-多萝西|Dorothy||도로시
-
+多萝西|Dorothy|ドロシー|도로시
+鸿雪|Позёмка|パゼオンカ|
+百炼嘉维尔|Gavial the Invincible|百練ガヴィル|
+玛恩纳|Mlynar||
+白铁|Stainless||
+伺夜|Vigil||
+斥罪|Penance||
+缄默德克萨斯|Texas the Omertosa||
+焰影苇草|Reed The Flame Shadow||
+林|Lin||
+重岳|Chongyue||
+仇白|Qiubai||
+麒麟X夜刀|Kirin X Yato||
