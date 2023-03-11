@@ -550,6 +550,7 @@ namespace MaaWpfGui
             {
                 return;
             }
+
             CouldLikeWebJson = false;
 
             string jsonParam = JsonConvert.SerializeObject(new
@@ -557,7 +558,12 @@ namespace MaaWpfGui
                 id = CopilotId,
                 rating = rating,
             });
-            WebService.RequestPost(_copilotRatingUrl, jsonParam);
+            if (WebService.RequestPost(_copilotRatingUrl, jsonParam) == null)
+            {
+                AddLog(Localization.GetString("FailedToLikeWebJson"), UILogColor.Error);
+                return;
+            }
+
             _recentlyRatedCopilotId.Add(CopilotId);
             AddLog(Localization.GetString("ThanksForLikeWebJson"), UILogColor.Info);
         }
