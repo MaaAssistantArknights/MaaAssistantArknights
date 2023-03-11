@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -67,6 +68,23 @@ namespace MaaWpfGui
 
         public void UpdateStage(bool fromWeb)
         {
+            if (fromWeb)
+            {
+                // Check if we need to update from the web
+                string lastUpdateTimeFile = "lastUpdateTime.json";
+                JObject localLastUpdatedJson = WebService.LoadApiCache(lastUpdateTimeFile);
+                JObject webLastUpdatedJson = WebService.RequestMaaApiWithCache(lastUpdateTimeFile);
+                if (localLastUpdatedJson != null && webLastUpdatedJson != null)
+                {
+                    long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
+                    long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
+                    if (webTimestamp <= localTimestamp)
+                    {
+                        return;
+                    }
+                }
+            }
+
             var tempStage = new Dictionary<string, StageInfo>
             {
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
