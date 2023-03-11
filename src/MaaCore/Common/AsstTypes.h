@@ -43,6 +43,26 @@ namespace asst
         AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
     };
 
+    enum class TouchMode
+    {
+        Adb = 0,
+        Minitouch = 1,
+        Maatouch = 2,
+    };
+
+    namespace ControlFeat
+    {
+        using Feat = int64_t;
+        constexpr Feat NONE = 0;
+        constexpr Feat SWIPE_WITH_PAUSE = 1 << 0;
+        constexpr Feat PRECISE_SWIPE = 1 << 1;
+
+        inline bool support(Feat feat, Feat target) noexcept
+        {
+            return (feat & target) == target;
+        }
+    }
+
     struct Point
     {
         Point() = default;

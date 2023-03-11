@@ -75,15 +75,15 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     switch (key) {
     case InstanceOptionKey::TouchMode:
         if (constexpr std::string_view Adb = "adb"; value == Adb) {
-            m_ctrler->set_minitouch_enabled(false);
+            m_ctrler->set_touch_mode(TouchMode::Adb);
             return true;
         }
         else if (constexpr std::string_view Minitouch = "minitouch"; value == Minitouch) {
-            m_ctrler->set_minitouch_enabled(true, false);
+            m_ctrler->set_touch_mode(TouchMode::Minitouch);
             return true;
         }
         else if (constexpr std::string_view MaaTouch = "maatouch"; value == MaaTouch) {
-            m_ctrler->set_minitouch_enabled(true, true);
+            m_ctrler->set_touch_mode(TouchMode::Maatouch);
             return true;
         }
         break;
