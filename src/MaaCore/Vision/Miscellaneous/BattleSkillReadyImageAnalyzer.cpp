@@ -28,7 +28,7 @@ static void softmax(T& input)
 
 bool asst::BattleSkillReadyImageAnalyzer::analyze()
 {
-    cv::Mat image = m_image(make_rect<cv::Rect>(m_roi));
+    cv::Mat image = m_image(make_rect<cv::Rect>(m_roi)).clone();
     cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
 
     size_t input_size = 1ULL * image.cols * image.rows * image.channels();
