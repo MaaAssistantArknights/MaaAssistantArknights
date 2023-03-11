@@ -17266,6 +17266,7 @@
                 "openTime": 1593536400000
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterial_1",
         "stageType": "ACTIVITY",
@@ -17805,6 +17806,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterial_2",
         "stageType": "ACTIVITY",
@@ -18781,6 +18783,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_0",
         "stageType": "ACTIVITY",
@@ -21574,6 +21577,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterial_3",
         "stageType": "ACTIVITY",
@@ -22736,6 +22740,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_1",
         "stageType": "ACTIVITY",
@@ -23431,6 +23436,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_2",
         "stageType": "ACTIVITY",
@@ -27179,6 +27185,7 @@
                 "openTime": 1619802000000
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterial_4",
         "stageType": "ACTIVITY",
@@ -27334,6 +27341,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_3",
         "stageType": "ACTIVITY",
@@ -28425,6 +28433,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_4",
         "stageType": "ACTIVITY",
@@ -34965,6 +34974,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_5",
         "stageType": "ACTIVITY",
@@ -38810,6 +38820,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_6",
         "stageType": "ACTIVITY",
@@ -41751,6 +41762,7 @@
                 "openTime": 1647536400000
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterial_5",
         "stageType": "ACTIVITY",
@@ -43898,6 +43910,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_7",
         "stageType": "ACTIVITY",
@@ -48065,6 +48078,7 @@
                 "exist": true
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_8",
         "stageType": "ACTIVITY",
@@ -53319,6 +53333,7 @@
                 "exist": false
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterial_6",
         "stageType": "ACTIVITY",
@@ -55652,6 +55667,7 @@
                 "exist": false
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_9",
         "stageType": "ACTIVITY",
@@ -58728,6 +58744,7 @@
                 "exist": false
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_10",
         "stageType": "ACTIVITY",
@@ -64748,6 +64765,7 @@
                 "exist": false
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterial_7",
         "stageType": "ACTIVITY",
@@ -66819,6 +66837,7 @@
                 "exist": false
             }
         },
+        "isGacha": true,
         "minClearTime": null,
         "stageId": "randomMaterialRune_11",
         "stageType": "ACTIVITY",
@@ -70279,5 +70298,944 @@
         "stageId": "act16side_08_rep",
         "stageType": "ACTIVITY",
         "zoneId": "act16sre_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "CF-1",
+        "code_i18n": {
+            "en": "CF-1",
+            "ja": "CF-1",
+            "ko": "CF-1",
+            "zh": "CF-1"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 4
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 138000,
+        "stageId": "act24side_01",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "CF-2",
+        "code_i18n": {
+            "en": "CF-2",
+            "ja": "CF-2",
+            "ko": "CF-2",
+            "zh": "CF-2"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 4
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 163000,
+        "stageId": "act24side_02",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "CF-3",
+        "code_i18n": {
+            "en": "CF-3",
+            "ja": "CF-3",
+            "ko": "CF-3",
+            "zh": "CF-3"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 4
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 156000,
+        "stageId": "act24side_03",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "CF-4",
+        "code_i18n": {
+            "en": "CF-4",
+            "ja": "CF-4",
+            "ko": "CF-4",
+            "zh": "CF-4"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_5"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 142000,
+        "stageId": "act24side_04",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "CF-5",
+        "code_i18n": {
+            "en": "CF-5",
+            "ja": "CF-5",
+            "ko": "CF-5",
+            "zh": "CF-5"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_5"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 135000,
+        "stageId": "act24side_05",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "CF-6",
+        "code_i18n": {
+            "en": "CF-6",
+            "ja": "CF-6",
+            "ko": "CF-6",
+            "zh": "CF-6"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_5"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 179000,
+        "stageId": "act24side_06",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "CF-7",
+        "code_i18n": {
+            "en": "CF-7",
+            "ja": "CF-7",
+            "ko": "CF-7",
+            "zh": "CF-7"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_5"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 172000,
+        "stageId": "act24side_07",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "CF-8",
+        "code_i18n": {
+            "en": "CF-8",
+            "ja": "CF-8",
+            "ko": "CF-8",
+            "zh": "CF-8"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_2"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_3"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_4"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_5"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 10
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "act24side_melding_1"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 185000,
+        "stageId": "act24side_08",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 10,
+        "code": "CF-9",
+        "code_i18n": {
+            "en": "CF-9",
+            "ja": "CF-9",
+            "ko": "CF-9",
+            "zh": "CF-9"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 359000,
+        "stageId": "act24side_09",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
+    },
+    {
+        "apCost": 20,
+        "code": "炼金无限池",
+        "code_i18n": {
+            "en": "炼金无限池",
+            "ja": "炼金无限池",
+            "ko": "炼金无限池",
+            "zh": "炼金无限池"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31063"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30063"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "4001_2000"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 4
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1679342400000,
+                "exist": true,
+                "openTime": 1678176000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "isGacha": true,
+        "minClearTime": null,
+        "stageId": "act24side_gacha",
+        "stageType": "ACTIVITY",
+        "zoneId": "act24side_zone1"
     }
 ]
