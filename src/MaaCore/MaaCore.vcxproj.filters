@@ -528,6 +528,9 @@
     <ClInclude Include="Config\OnnxSession.h">
       <Filter>源文件\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Interface\CustomTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -868,6 +871,9 @@
     </ClCompile>
     <ClCompile Include="Config\OnnxSession.cpp">
       <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\CustomTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
