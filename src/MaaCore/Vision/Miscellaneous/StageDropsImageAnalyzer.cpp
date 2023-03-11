@@ -11,6 +11,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 #include <numbers>
@@ -22,7 +23,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
-    bool ret = analyze_drops();
+    bool ret = analyze_drops() && analyze_drops_for_CF();
 
 #ifndef ASST_DEBUG
     if (!ret)
@@ -228,6 +229,61 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
 
             m_drops.emplace_back(std::move(info));
         }
+    }
+    return !has_error;
+}
+
+bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
+{
+    if (!m_stage_code.starts_with("CF-")) {
+        return true;
+    }
+    LogTraceFunction;
+
+    static const std::array<std::string, 5> CFDrops = { "act24side_melding_1", "act24side_melding_2",
+                                                        "act24side_melding_3", "act24side_melding_4",
+                                                        "act24side_melding_5" }; // "act24side_melding_6"
+
+    bool has_error = false;
+
+    OcrImageAnalyzer food_analyzer(m_image);
+    food_analyzer.set_task_info("StageDrops-StageCF-FoodBonusFlag");
+    if (food_analyzer.analyze()) {
+        // 这个企鹅物流不收，而且也不好识别，直接报错拉倒
+        Log.info(__FUNCTION__, "Food Bonus, stop to upload");
+        has_error = true;
+    }
+
+    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    for (const auto& item_name : CFDrops) {
+        analyzer.set_task_info(item_name, "StageDrops-StageCF-ItemQuantity");
+        if (!analyzer.analyze()) {
+            continue;
+        }
+        const auto& result = analyzer.get_result().front();
+        int quantity = quantity_string_to_int(result.text);
+
+        Log.info("Item id:", item_name, ", quantity:", quantity);
+#ifdef ASST_DEBUG
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw, std::string("CF: ") + item_name.back(), cv::Point(result.rect.x, result.rect.y - 10),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw, std::to_string(quantity), cv::Point(result.rect.x, result.rect.y + 30),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+#endif
+        if (quantity <= 0) {
+            has_error = true;
+            Log.error(__FUNCTION__, "quantity error", quantity);
+        }
+        StageDropInfo info;
+        info.drop_type = StageDropType::Normal;
+        info.drop_type_name = "NORMAL_DROP";
+        info.quantity = quantity;
+        info.item_id = item_name;
+        const std::string& name = ItemData.get_item_name(info.item_id);
+        info.item_name = name.empty() ? info.item_id : name;
+
+        m_drops.emplace_back(std::move(info));
     }
     return !has_error;
 }
@@ -598,6 +654,35 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     return ocr.get_result().front();
 }
 
+int asst::StageDropsImageAnalyzer::quantity_string_to_int(const std::string& str)
+{
+    std::string digit_str = str;
+    int multiple = 1;
+    if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
+        multiple = 10000;
+        digit_str.erase(w_pos, digit_str.size());
+    }
+    else if (size_t k_pos = digit_str.find('k'); k_pos != std::string::npos) {
+        multiple = 1000;
+        digit_str.erase(k_pos, digit_str.size());
+    }
+
+    constexpr char Dot = '.';
+    if (digit_str.empty() ||
+        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
+        return 0;
+    }
+    if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {
+        if (dot_pos == 0 || dot_pos == digit_str.size() - 1 || digit_str.find(Dot, dot_pos + 1) != std::string::npos) {
+            return 0;
+        }
+    }
+
+    int quantity = static_cast<int>(std::stod(digit_str) * multiple);
+    Log.info("Quantity:", quantity);
+    return quantity;
+}
+
 int asst::StageDropsImageAnalyzer::match_quantity(const asst::Rect& roi, const std::string& item, bool use_word_model)
 {
     TextRect result;
@@ -625,29 +710,5 @@ int asst::StageDropsImageAnalyzer::match_quantity(const asst::Rect& roi, const s
     }
 #endif
 
-    std::string digit_str = result.text;
-    int multiple = 1;
-    if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
-        multiple = 10000;
-        digit_str.erase(w_pos, digit_str.size());
-    }
-    else if (size_t k_pos = digit_str.find('k'); k_pos != std::string::npos) {
-        multiple = 1000;
-        digit_str.erase(k_pos, digit_str.size());
-    }
-
-    constexpr char Dot = '.';
-    if (digit_str.empty() ||
-        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
-        return 0;
-    }
-    if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {
-        if (dot_pos == 0 || dot_pos == digit_str.size() - 1 || digit_str.find(Dot, dot_pos + 1) != std::string::npos) {
-            return 0;
-        }
-    }
-
-    int quantity = static_cast<int>(std::stod(digit_str) * multiple);
-    Log.info("Quantity:", quantity);
-    return quantity;
+    return quantity_string_to_int(result.text);
 }
