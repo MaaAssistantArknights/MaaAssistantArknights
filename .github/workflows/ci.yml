@@ -131,7 +131,6 @@ jobs:
   macos:
     needs: meta
     runs-on: macos-12
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -159,17 +158,18 @@ jobs:
           python3 maadeps-download.py x64-osx
       - name: Configure MaaCore
         run: |
-          cmake -B build-arm64 -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=arm64 -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
-          cmake -B build-x86_64 -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=x86_64 -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          ${{ startsWith(github.ref, 'refs/tags/v') }} && CONF=Release || CONF=Debug
+          cmake -B build-arm64 -GNinja -DCMAKE_BUILD_TYPE=$CONF -DCMAKE_OSX_ARCHITECTURES=arm64 -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build-x86_64 -GNinja -DCMAKE_BUILD_TYPE=$CONF -DCMAKE_OSX_ARCHITECTURES=x86_64 -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
       - name: Build libMaaCore
         run: |
-          cmake --build build-arm64 --parallel=$(sysctl -n hw.logicalcpu)
-          cmake --build build-x86_64 --parallel=$(sysctl -n hw.logicalcpu)
+          cmake --build build-arm64
+          cmake --build build-x86_64
       - name: Build universal binaries
         run: |
           mkdir build
           lipo -create build-arm64/libMaaCore.dylib build-x86_64/libMaaCore.dylib -output build/libMaaCore.dylib
-          for LIB_NAME in $(ls MaaDeps/runtime/maa-x64-osx); do
+          for LIB_NAME in $(ls MaaDeps/runtime/maa-x64-osx/*.dylib); do
             lipo -create MaaDeps/runtime/maa-arm64-osx/$LIB_NAME MaaDeps/runtime/maa-x64-osx/$LIB_NAME -output build/$LIB_NAME
           done
       - name: Build XCFramework
@@ -179,12 +179,11 @@ jobs:
           xcodebuild -create-xcframework -library libMaaDerpLearning.dylib -output MaaDerpLearning.xcframework
           xcodebuild -create-xcframework -library libonnxruntime.*.dylib -output ONNXRuntime.xcframework
           xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
-      - name: Build MAA
+      - name: Build Debug MAA
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         working-directory: src/MaaMacGui
-        run: xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA -configuration Release
-
-      - name: Build MAA
+        run: xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA
+      - name: Build Release MAA
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui
         run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
@@ -211,17 +210,16 @@ jobs:
           mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip release/${APP_SYM}
       - name: 'Verify image'
         if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          cd release
-          find . -name "*.dmg" -exec hdiutil verify {} \;
+        working-directory: release
+        run: find . -name "*.dmg" -exec hdiutil verify {} \;
       - name: 'Notarize image'
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
           NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
-          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
+          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}')
+        working-directory: release
         run: |
-          cd release
           find . -name "*.dmg" | while read dmg; do
             xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait ${dmg}
             xcrun stapler staple ${dmg}
@@ -229,7 +227,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-macos
-          path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/DerivedData/Build/Products' }}
+          path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/DerivedData/Build/Products/MAA.app' }}
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
