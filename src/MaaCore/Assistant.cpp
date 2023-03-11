@@ -6,20 +6,21 @@
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/OcrPack.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/Interface/AwardTask.h"
 #include "Task/Interface/CloseDownTask.h"
 #include "Task/Interface/CopilotTask.h"
+#include "Task/Interface/CustomTask.h"
 #include "Task/Interface/DepotTask.h"
 #include "Task/Interface/FightTask.h"
 #include "Task/Interface/InfrastTask.h"
-#include "Task/Interface/SingleStepTask.h"
 #include "Task/Interface/MallTask.h"
-#include "Task/Interface/RecruitTask.h"
 #include "Task/Interface/ReclamationTask.h"
+#include "Task/Interface/RecruitTask.h"
 #include "Task/Interface/RoguelikeTask.h"
 #include "Task/Interface/SSSCopilotTask.h"
+#include "Task/Interface/SingleStepTask.h"
 #include "Task/Interface/StartUpTask.h"
 #include "Utils/Logger.hpp"
 #ifdef ASST_DEBUG
@@ -164,6 +165,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CustomTask)
 #ifdef ASST_DEBUG
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif

@@ -1,7 +1,7 @@
 #include "ReclamationControlTask.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OcrImageAnalyzer.h"
@@ -9,7 +9,7 @@
 
 #include "ReclamationBattlePlugin.h"
 
-#define RunCheckSuccess(func, ...)  \
+#define RunCheckSuccess(func, ...)            \
     do {                                      \
         if (!func(__VA_ARGS__)) return false; \
     } while (false);
@@ -96,7 +96,7 @@ bool asst::ReclamationControlTask::run_smelt_gold_procedure()
     for (int i = 0; i < 2; ++i)
         swipe_right();
     RunCheckSuccess(ProcessTask(*this, { "Reclamation@EnterSmeltGoldPage" }).run);
-    
+
     if (check_manufacture_status() != 1) return false;
     while (!need_exit() && check_manufacture_status() == 1) {
         smelt_gold_callback(++m_total_gold);
@@ -229,14 +229,16 @@ bool asst::ReclamationControlTask::swipe_left()
     return ProcessTask(*this, { "Reclamation@CmdCenterSwipeLeft" }).run();
 }
 
-void asst::ReclamationControlTask::procedure_start_callback(int times) {
+void asst::ReclamationControlTask::procedure_start_callback(int times)
+{
     json::value info = basic_info_with_what("ReclamationProcedureStart");
     json::value& details = info["details"];
     details["times"] = times;
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-void asst::ReclamationControlTask::smelt_gold_callback(int times) {
+void asst::ReclamationControlTask::smelt_gold_callback(int times)
+{
     json::value info = basic_info_with_what("ReclamationSmeltGold");
     json::value& details = info["details"];
     details["times"] = times;

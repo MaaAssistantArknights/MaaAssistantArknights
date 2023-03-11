@@ -6,7 +6,7 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
@@ -129,16 +129,16 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = ctrler()->get_image();
-    auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
     OcrWithFlagTemplImageAnalyzer name_analyzer(image);
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
-    name_analyzer.set_replace(ocr_replace);
+    name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     name_analyzer.analyze();
 
     OcrWithFlagTemplImageAnalyzer special_focus_analyzer(image);
     special_focus_analyzer.set_task_info("BattleQuickFormation-OperNameFlag-SpecialFocus", "BattleQuickFormationOCR");
-    special_focus_analyzer.set_replace(ocr_replace);
+    special_focus_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     special_focus_analyzer.analyze();
 
     auto opers_result = name_analyzer.get_result();

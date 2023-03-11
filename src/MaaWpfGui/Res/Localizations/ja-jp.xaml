@@ -104,7 +104,7 @@
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
-        
+
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
@@ -122,8 +122,6 @@
     <system:String x:Key="AdbException">ADB検出エラー&#x0a;このソフトウェアを開くには管理者権限を使用するか&#x0a;手動で接続を設定してください。</system:String>
     <system:String x:Key="EmulatorNotFound">エミュレータが検出されない&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため&#x0a;不要なエミュレータを閉じるか&#x0a;手動で接続設定を行ってください</system:String>
-
-    <system:String x:Key="AlreadyLatest">すでに最新版です～</system:String>
 
     <system:String x:Key="SwitchLanguage">言語を切り替える</system:String>
     <system:String x:Key="Language">言語</system:String>
@@ -145,9 +143,8 @@
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
     <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
     <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
-    <system:String x:Key="UpdateCheck">Update version</system:String>        
+    <system:String x:Key="UpdateCheck">Update version</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
-    <system:String x:Key="UpdateCheck">更新版</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
 
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
@@ -177,12 +174,13 @@
 
     <system:String x:Key="NewVersionFoundButNoPackageTitle">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください。</system:String>
-        
+
     <system:String x:Key="Timer">タイマー</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
+    <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="MinimizingStartup">エミュレーターの起動を最小化する</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
@@ -391,12 +389,14 @@
     <!--  Where use it?  -->
 
     <!--  ログ  -->
-    <system:String x:Key="CopilotTip">ヒント：</system:String>
-    <system:String x:Key="CopilotTip1">エミュレータとゲーム内設定のフレームレートを60fps以上に設定してください；</system:String>
-    <system:String x:Key="CopilotTip2">「行動開始」ボタンのあるインターフェースでこの機能を使用してください；</system:String>
-    <system:String x:Key="CopilotTip3">サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；</system:String>
-    <system:String x:Key="CopilotTip4">逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；</system:String>
-    <system:String x:Key="CopilotTip5">「自動編成」では、一時的に「戦術要員」オペレーターを認識できません。必要に応じて、戦術要員をキャンセルまたは手動に編成してください。</system:String>
+    <system:String x:Key="CopilotTip">
+        ヒント：\n\n
+        1. 「行動開始」ボタンのあるインターフェースでこの機能を使用してください；\n\n
+        2. サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
+        3. 逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；\n\n
+        4. For SSS, There are two built-in files under the resource/copilot folder.\n
+        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+    </system:String>
 
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
@@ -452,6 +452,7 @@
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
     <system:String x:Key="GameDrop">回線が落ちました。再接続を行います</system:String>
+    <system:String x:Key="GameDropNoRestart">ゲームが落ちる、再接続しない、クエストを停止する</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ：怪しい旅商人</system:String>

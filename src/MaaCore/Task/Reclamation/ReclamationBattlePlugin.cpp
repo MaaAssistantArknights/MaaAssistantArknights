@@ -2,21 +2,20 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Controller.h"
+#include "Config/TaskData.h"
+#include "Controller/Controller.h"
+#include "ReclamationControlTask.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
-#include "Config/TaskData.h"
-#include "ReclamationControlTask.h"
+#include "Vision/OcrImageAnalyzer.h"
 
 using namespace asst;
 
-
 asst::ReclamationBattlePlugin::ReclamationBattlePlugin(const AsstCallback& callback, Assistant* inst,
-                                                           std::string_view task_chain)
+                                                       std::string_view task_chain)
     : AbstractTaskPlugin(callback, inst, task_chain), BattleHelper(inst)
 {}
 
@@ -42,7 +41,7 @@ bool asst::ReclamationBattlePlugin::_run()
         return quit_action();
     }
     else if (m_battle_mode == ReclamationBattleMode::BuyWater) {
-        sleep(1500);    // 等待技能图标
+        sleep(1500); // 等待技能图标
         bool result = buy_water();
         quit_action();
         return result;
@@ -84,7 +83,7 @@ bool asst::ReclamationBattlePlugin::quit_action()
 
         // 出现Loading转一会儿就结算了，没结算还有error_next
         OcrImageAnalyzer loadingAnalyzer(img);
-        loadingAnalyzer.set_task_info("Loading");
+        loadingAnalyzer.set_task_info("LoadingText");
         bool check3 = loadingAnalyzer.analyze();
 
         Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
@@ -121,54 +120,57 @@ bool asst::ReclamationBattlePlugin::communicate_with(const std::string& npcName)
     return false;
 }
 
-bool asst::ReclamationBattlePlugin::communicate_with_aux(const std::string& npcName, std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
+bool asst::ReclamationBattlePlugin::communicate_with_aux(
+    const std::string& npcName, std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
 {
-    auto image = ctrler()->get_image();
-    BattleSkillReadyImageAnalyzer skillReadyAnalyzer(image);
-    if (!skillReadyAnalyzer.analyze()) {
-        Log.info(__FUNCTION__, " | ", "no ready skills");
-        return false;
-    }
-    std::vector<MatchRect> skill_results = skillReadyAnalyzer.get_result();
-
-    std::sort(skill_results.begin(), skill_results.end(), orderComp);
-    for (const auto& [score, rect] : skill_results) {
-        Rect center(rect.x + rect.width / 2,
-                    rect.y + rect.height / 2 + Task.get("Reclamation@SkillReadyRoleOffset")->special_params.front(), 5,
-                    5);
-
-        const auto use_oper_task_ptr = Task.get("BattleUseOper");
-        ctrler()->click(center);
-        sleep(use_oper_task_ptr->pre_delay);
-
-        image = ctrler()->get_image();
-        OcrImageAnalyzer npcNameAnalyzer(image);
-        npcNameAnalyzer.set_task_info("Reclamation@Liaison");
-        npcNameAnalyzer.set_required({});
-        if (!npcNameAnalyzer.analyze()) {
-            // 地图发生了移动
-            Log.info(__FUNCTION__, " | ", "map moved ");
-            break;
-        }
-        if (npcNameAnalyzer.get_result().front() != npcName) {
-            // npc名称不正确
-            Log.info(__FUNCTION__, " | ", "npc name not match ", npcNameAnalyzer.get_result().front());
-            cancel_oper_selection();
-            continue;
-        }
-
-        ProcessTask skill_task(this_task(), { "Reclamation@BattleSkillReadyOnClick" });
-        skill_task.set_task_delay(0);
-
-        bool ret = skill_task.set_retry_times(5).run();
-        if (!ret) {
-            cancel_oper_selection();
-            Log.info(__FUNCTION__, " | ", "fail to click skill of npc");
-            return false;
-        }
-
-        return true;
-    }
+    std::ignore = npcName;
+    std::ignore = orderComp;
+    //    auto image = ctrler()->get_image();
+    //    BattleSkillReadyImageAnalyzer skillReadyAnalyzer(image);
+    //    if (!skillReadyAnalyzer.analyze()) {
+    //        Log.info(__FUNCTION__, " | ", "no ready skills");
+    //        return false;
+    //    }
+    //    std::vector<MatchRect> skill_results = skillReadyAnalyzer.get_result();
+    //
+    //    std::sort(skill_results.begin(), skill_results.end(), orderComp);
+    //    for (const auto& [score, rect] : skill_results) {
+    //        Rect center(rect.x + rect.width / 2,
+    //                    rect.y + rect.height / 2 +
+    //                    Task.get("Reclamation@SkillReadyRoleOffset")->special_params.front(), 5, 5);
+    //
+    //        const auto use_oper_task_ptr = Task.get("BattleUseOper");
+    //        ctrler()->click(center);
+    //        sleep(use_oper_task_ptr->pre_delay);
+    //
+    //        image = ctrler()->get_image();
+    //        OcrImageAnalyzer npcNameAnalyzer(image);
+    //        npcNameAnalyzer.set_task_info("Reclamation@Liaison");
+    //        npcNameAnalyzer.set_required({});
+    //        if (!npcNameAnalyzer.analyze()) {
+    //            // 地图发生了移动
+    //            Log.info(__FUNCTION__, " | ", "map moved ");
+    //            break;
+    //        }
+    //        if (npcNameAnalyzer.get_result().front() != npcName) {
+    //            // npc名称不正确
+    //            Log.info(__FUNCTION__, " | ", "npc name not match ", npcNameAnalyzer.get_result().front());
+    //            cancel_oper_selection();
+    //            continue;
+    //        }
+    //
+    //        ProcessTask skill_task(this_task(), { "Reclamation@BattleSkillReadyOnClick" });
+    //        skill_task.set_task_delay(0);
+    //
+    //        bool ret = skill_task.set_retry_times(5).run();
+    //        if (!ret) {
+    //            cancel_oper_selection();
+    //            Log.info(__FUNCTION__, " | ", "fail to click skill of npc");
+    //            return false;
+    //        }
+    //
+    //        return true;
+    //    }
 
     return false;
 }
@@ -181,9 +183,9 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
         }
         else {
             const int max_retry = 5;
-            int retry = 0; 
+            int retry = 0;
             bool succeed = false;
-            while (!need_exit()){
+            while (!need_exit()) {
                 if (retry == max_retry) break;
 
                 const auto& image = ctrler()->get_image();
@@ -196,7 +198,7 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
                     }
                     else {
                         retry++;
-                        continue; 
+                        continue;
                     }
                 }
                 const auto& rect = dialogAnalyzer.get_result().front().rect;

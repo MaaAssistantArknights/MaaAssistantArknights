@@ -6,7 +6,7 @@
 #include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
@@ -191,7 +191,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
                 name_analyzer.set_image(name_image);
                 name_analyzer.set_task_info(oper_name_ocr_task_name());
-                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map);
+                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                 if (!name_analyzer.analyze()) {
                     return std::string();
                 }
@@ -600,7 +601,8 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
 {
     LogTraceFunction;
 
-    ProcessTask skill_task(this_task(), { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" });
+    ProcessTask skill_task(this_task(), { "BattleSkillReadyOnClick", "BattleSkillReadyOnClick-SquareMap",
+                                          "BattleSkillStopOnClick", "BattleSkillStopOnClick-SquareMap" });
     skill_task.set_task_delay(0);
 
     if (keep_waiting) {
