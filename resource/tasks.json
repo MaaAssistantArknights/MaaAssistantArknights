@@ -6292,23 +6292,17 @@
         ],
         "postDelay": 300
     },
+    "BattleSkillReadyOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillReadyOnClick-SquareMap"
+    },
     "BattleSkillStopOnClick": {
-        "roi": [
-            748,
-            414,
-            210,
-            118
-        ],
-        "templThreshold": 0.7,
-        "cache": false,
-        "action": "ClickSelf",
-        "rectMove": [
-            0,
-            -110,
-            90,
-            90
-        ],
-        "postDelay": 300
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillStopOnClick"
+    },
+    "BattleSkillStopOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillStopOnClick-SquareMap"
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",

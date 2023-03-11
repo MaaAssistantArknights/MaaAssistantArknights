@@ -210,7 +210,7 @@
 
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="CreditFight">借助战赚信用</system:String>
-    <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。&#x0a;关卡选择为「当前/上次」时此功能无效。&#x0a;别传「火蓝之心」关卡OF-1未解锁时请勿勾选</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。&#x0a;一日只执行一次。&#x0a;关卡选择为「当前/上次」时此功能无效。&#x0a;别传「火蓝之心」关卡OF-1未解锁时请勿勾选。</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可</system:String>
@@ -373,6 +373,7 @@
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
+    <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页端即将开放评论区，敬请期待！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
