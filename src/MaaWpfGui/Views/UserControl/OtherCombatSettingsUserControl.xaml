@@ -42,8 +42,7 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     Content="{DynamicResource UseAlternateStage}"
-                    IsChecked="{Binding UseAlternateStage}"
-                    IsEnabled="{c:Binding !CustomStageCode}" />
+                    IsChecked="{Binding UseAlternateStage}" />
             </StackPanel>
             <StackPanel
                 HorizontalAlignment="Center"
