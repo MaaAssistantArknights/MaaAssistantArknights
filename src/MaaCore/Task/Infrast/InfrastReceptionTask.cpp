@@ -2,13 +2,13 @@
 
 #include "Utils/Ranges.hpp"
 
-#include "Controller.h"
-#include "Vision/Infrast/InfrastClueImageAnalyzer.h"
-#include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
+#include "Controller/Controller.h"
 #include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Infrast/InfrastClueImageAnalyzer.h"
+#include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
+#include "Vision/MatchImageAnalyzer.h"
 
 bool asst::InfrastReceptionTask::_run()
 {

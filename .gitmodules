@@ -4,3 +4,8 @@
 [submodule "src/MaaMacGui"]
 	path = src/MaaMacGui
 	url = https://github.com/MaaAssistantArknights/MaaMacGui.git
+[submodule "MaaDeps"]
+	path = MaaDeps
+	url = https://github.com/MaaAssistantArknights/MaaDeps
+	shallow = true
+	branch = master

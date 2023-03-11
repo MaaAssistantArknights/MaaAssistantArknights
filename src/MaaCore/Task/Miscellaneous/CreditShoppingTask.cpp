@@ -3,13 +3,13 @@
 #include <algorithm>
 #include <vector>
 
-#include "Controller.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/CreditShopImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Controller/Controller.h"
 #include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Miscellaneous/CreditShopImageAnalyzer.h"
+#include "Vision/OcrImageAnalyzer.h"
 
 void asst::CreditShoppingTask::set_black_list(std::vector<std::string> black_list)
 {

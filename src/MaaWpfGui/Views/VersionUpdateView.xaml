@@ -5,19 +5,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:mdg="clr-namespace:Neo.Markdig.Xaml;assembly=Neo.Markdig.Xaml"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    Title="版本已更新"
+    Title="{DynamicResource VersionUpdated}"
     Width="600"
     Height="500"
     d:DataContext="{d:DesignInstance {x:Type vm:VersionUpdateViewModel}}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="120" />
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
         <StackPanel
@@ -25,42 +25,44 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <maa:TextBlock
-                Margin="0,20"
-                FontSize="24"
+                Margin="0,10,0,5"
+                FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
-                Text="已更新："
-                TextWrapping="Wrap" />
+                Text="{DynamicResource VersionUpdatedTo}"
+                TextWrapping="Wrap" VerticalAlignment="Bottom" />
             <maa:TextBlock
-                Margin="0,20"
-                FontSize="24"
+                Margin="0,10,0,5"
+                FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{Binding UpdateTag}"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap" VerticalAlignment="Bottom" />
         </StackPanel>
 
-
-        <mdxam:MarkdownScrollViewer
+        <FlowDocumentScrollViewer
             x:Name="UpdateInfoMarkdownDocument"
+            Language="zh-cn"
+            Document="{Binding UpdateInfoDoc}"
             Grid.Row="1"
             Margin="16,0"
-            ClickAction="DisplayWithRelativePath"
-            Language="zh-CN"
-            Markdown="{Binding UpdateInfo}"
-            MarkdownStyleName="GithubLike" />
+            Zoom="90"
+            IsSelectionEnabled="False">
 
+            <FlowDocumentScrollViewer.Template>
+                <ControlTemplate TargetType="FlowDocumentScrollViewer">
+                    <Border
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Focusable="False">
+                        <ScrollViewer x:Name="PART_ContentHost" />
+                    </Border>
+                </ControlTemplate>
+            </FlowDocumentScrollViewer.Template>
 
-        <StackPanel
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <!--<Button Command="{s:Action Download}" Content="前往下载" Margin="20" Width="120" Height="60" />-->
-            <!--<Button Command="{s:Action Ignore}" Content="不再提示" Margin="20" Width="120" Height="60" />-->
-            <Button
-                Width="120"
-                Height="60"
-                Margin="20"
-                Command="{s:Action Close}"
-                Content="好的！" />
-        </StackPanel>
+            <FlowDocumentScrollViewer.CommandBindings>
+                <CommandBinding
+                    Command="{x:Static mdg:MarkdownXaml.Hyperlink}"
+                    Executed="{s:Action OpenHyperlink}" />
+            </FlowDocumentScrollViewer.CommandBindings>
+        </FlowDocumentScrollViewer>
     </Grid>
 </Window>

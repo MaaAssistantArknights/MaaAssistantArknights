@@ -879,6 +879,22 @@
         "sortId": 40003,
         "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
+    "LINKAGE_TKT_GACHA_10_3601": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "LINKAGE_TKT_GACHA_10_3601.png",
+        "name": "指引明路寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
+    "LINKAGE_TKT_GACHA_10_3602": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "LINKAGE_TKT_GACHA_10_3602.png",
+        "name": "合作限定十连寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1582,6 +1598,14 @@
         "name": "黑曜石节门票",
         "sortId": -10000,
         "usage": "黑曜石节官方发售的门票，用于进入各类特殊关卡。"
+    },
+    "itempack_gacha_1": {
+        "classifyType": "CONSUME",
+        "description": "在露华村的特色祈愿活动中取得的礼袋，寄寓着对你未来道路的美好祝愿。",
+        "icon": "itempack_gacha_1.png",
+        "name": "福运鼓鼓礼袋",
+        "sortId": -10000,
+        "usage": "获得“合作限定十连寻访凭证”和头像“苍暮印象”。“合作限定十连寻访凭证”过期时间：2023/03/21 03:59"
     },
     "itempack_mod_10": {
         "classifyType": "CONSUME",

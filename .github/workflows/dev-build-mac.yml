@@ -40,11 +40,15 @@ jobs:
       - name: Install Dependencies
         run: |
           brew update --preinstall
-          brew install ninja range-v3
+          brew install ninja pkg-config range-v3
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py
       - name: Configure MaaCore
         run: |
-          mkdir build && cd build
-          cmake .. -GNinja -DBUILD_XCFRAMEWORK=ON
+          cmake -B build -GNinja -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=x86_64
       - name: Build libMaaCore
         run: cmake --build build
       - name: Build MAA

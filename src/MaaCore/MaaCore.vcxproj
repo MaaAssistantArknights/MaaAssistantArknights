@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|ARM64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>ARM64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="RelWithDebInfo|x64">
       <Configuration>RelWithDebInfo</Configuration>
@@ -29,8 +37,12 @@
     <ClInclude Include="Common\AsstTypes.h" />
     <ClInclude Include="Common\AsstVersion.h" />
     <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h" />
+    <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
-    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Config\OnnxSession.h" />
+    <ClInclude Include="Controller\adb-lite\client.hpp" />
+    <ClInclude Include="Controller\adb-lite\protocol.hpp" />
+    <ClInclude Include="Controller\Controller.h" />
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
@@ -43,6 +55,7 @@
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
+    <ClInclude Include="Utils\File.hpp" />
     <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
     <ClInclude Include="Vision\BestMatchImageAnalyzer.h" />
     <ClInclude Include="Vision\HashImageAnalyzer.h" />
@@ -159,8 +172,12 @@
     <ClCompile Include="Assistant.cpp" />
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp" />
+    <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Config\OnnxSession.cpp" />
+    <ClCompile Include="Controller\adb-lite\client.cpp" />
+    <ClCompile Include="Controller\adb-lite\protocol.cpp" />
+    <ClCompile Include="Controller\Controller.cpp" />
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
@@ -263,6 +280,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeResetTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp" />
+    <ClCompile Include="Task\Interface\CustomTask.cpp" />
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
     <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
   </ItemGroup>
@@ -283,7 +301,21 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -298,20 +330,38 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir);</IncludePath>
-    <LibraryPath>$(TargetDir);$(ProjectDir)..\..\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir);</IncludePath>
-    <LibraryPath>$(TargetDir);$(ProjectDir)..\..\3rdparty\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -334,10 +384,55 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fastdeploy.lib;opencv_world453.lib;zlibstatic.lib;ws2_32.lib;adb-lite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <Profile>true</Profile>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
@@ -386,10 +481,58 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fastdeploy.lib;opencv_world453.lib;zlibstatic.lib;ws2_32.lib;adb-lite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <Profile>true</Profile>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>

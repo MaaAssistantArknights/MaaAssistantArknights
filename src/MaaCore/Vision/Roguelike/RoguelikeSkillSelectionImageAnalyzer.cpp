@@ -2,13 +2,13 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 {
@@ -54,7 +54,8 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
     analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image);
     analyzer.set_roi(roi.move(name_task_ptr->roi));
-    analyzer.set_replace(std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_map);
+    analyzer.set_replace(std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_map,
+                         std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_full);
 
     if (!analyzer.analyze()) {
         return {};

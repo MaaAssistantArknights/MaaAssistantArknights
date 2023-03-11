@@ -1,6 +1,21 @@
 {
+    "ClickChapter1": {
+        "text": [
+            "Hour of An Awakening"
+        ]
+    },
+    "ClickChapter2": {
+        "text": [
+            "Shatter of A Vision"
+        ]
+    },
+    "ClickChapter3": {
+        "text": [
+            "Shadow of A Dying Sun"
+        ]
+    },
     "CharsNameOcrReplace": {
-        "Doc": "该任务的 ocrReplace 被所有涉及干员名的English Name识别任务复用",
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
             [
                 "SilverAsh",
@@ -1384,19 +1399,10 @@
             ]
         ]
     },
-    "ClickChapter1": {
+    "TodaysSupplies": {
+        "algorithm": "OcrDetect",
         "text": [
-            "Hour of An Awakening"
-        ]
-    },
-    "ClickChapter2": {
-        "text": [
-            "Shatter of A Vision"
-        ]
-    },
-    "ClickChapter3": {
-        "text": [
-            "Shadow of A Dying Sun"
+            "Resource Today"
         ]
     },
     "StartButton1": {
@@ -1407,6 +1413,52 @@
     "PRTS2": {
         "text": [
             "Takeover"
+        ]
+    },
+    "ExpiringMedicineCheck": {
+        "text": [
+            "min",
+            "hr",
+            "1 day"
+        ],
+        "ocrReplace": [
+            [
+                ".+hrs?",
+                "hr"
+            ],
+            [
+                ".+mins?",
+                "min"
+            ]
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "To the most recent stage"
+        ]
+    },
+    "StartRecruit": {
+        "text": [
+            "Recruit Now"
+        ]
+    },
+    "RecruitFlag": {
+        "text": [
+            "Recruit"
+        ]
+    },
+    "RecruitNow": {
+        "text": [
+            "Expedite"
+        ]
+    },
+    "Award": {
+        "template": "Task.png",
+        "roi": [
+            700,
+            530,
+            200,
+            130
         ]
     },
     "NoFriends": {
@@ -1565,49 +1617,6 @@
             "Trust"
         ]
     },
-    "InfrastStationedInfo": {
-        "text": [
-            "Operator"
-        ]
-    },
-    "InfrastEnterOperList": {
-        "fullMatch": true,
-        "text": [
-            "Morale",
-            "Resting",
-            "Working",
-            "Assign"
-        ]
-    },
-    "Award": {
-        "template": "Task.png",
-        "roi": [
-            700,
-            530,
-            200,
-            130
-        ]
-    },
-    "GoLastBattle": {
-        "text": [
-            "To the most recent stage"
-        ]
-    },
-    "StartRecruit": {
-        "text": [
-            "Recruit Now"
-        ]
-    },
-    "RecruitFlag": {
-        "text": [
-            "Recruit"
-        ]
-    },
-    "RecruitNow": {
-        "text": [
-            "Expedite"
-        ]
-    },
     "ShamareThumbnail1": {
         "maskRange": [
             1,
@@ -1626,14 +1635,19 @@
             255
         ]
     },
-    "Roguelike@StageTraderInvestSystem": {
-        "maskRange": [
-            1,
-            255
+    "InfrastStationedInfo": {
+        "text": [
+            "Operator"
         ]
     },
-    "Roguelike@StageTraderInvestConfirm": {
-        "templThreshold": 0.55
+    "InfrastEnterOperList": {
+        "fullMatch": true,
+        "text": [
+            "Morale",
+            "Resting",
+            "Working",
+            "Assign"
+        ]
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
@@ -2026,6 +2040,15 @@
     },
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
+    },
+    "Roguelike@StageTraderInvestConfirm": {
+        "templThreshold": 0.55
+    },
+    "Roguelike@StageTraderInvestSystem": {
+        "maskRange": [
+            1,
+            255
+        ]
     },
     "Roguelike@StageTraderInvestSystemFull": {
         "text": [
@@ -3374,12 +3397,6 @@
                 "'The Carnival'",
                 "《欢欣鼓舞》"
             ]
-        ]
-    },
-    "TodaysSupplies": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "Resource Today"
         ]
     }
 }

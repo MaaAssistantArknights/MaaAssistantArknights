@@ -76,22 +76,16 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支持
 
-- 国际服（美服）<br>
-  支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarEN/readme.md)
-- 日服<br>
-  支持基本的刷理智、自动基建、信用购物、自动公招、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarJP/readme.md)
-- 韩服<br>
-  支持基本的刷理智、信用购物、访问好友、领取奖励、自动肉鸽（测试版本）、公招识别，请参考 [说明](resource/global/YoStarKR/readme.md)
-- 繁中服<br>
-  支持基本的刷理智、自动公招、自动肉鸽、领取日常、公招识别功能，请参考 [说明](resource/global/txwy/readme.md)
-
-由于外服用户较少及项目人手不足的问题，外服目前都仅适配了基本的功能。若您有强需求，欢迎在 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
+目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
+若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
 
 ## 主要关联项目
 
+**目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
+
 - 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
-- 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) （正在开发中，欢迎加入！）
-- [作业站](https://prts.plus)：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend) （正在开发中，欢迎加入！）
+- [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
 
 ## 致谢
@@ -122,7 +116,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
 - 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
-- 游戏数据及資源：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
+- 游戏数据及资源：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
 - 游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)
 
 ### 贡献/参与者
@@ -135,8 +129,15 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-- 直接使用 Visual Studio 2022 打开 `MAA.sln` 即可，所有环境都是配置好的
-- 建议启用 clang-format 支持，详细内容可以参考 [在 Visual Studio 中启用 clang-format](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
+1. 下载预构建的第三方库
+
+    ```cmd
+    python maadeps-download.py
+    ```
+
+2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
+3. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
+4. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
@@ -167,10 +168,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Issue bot
 
-- 使用 `Add {LABEL_NAME}` 增加标签，使用 `Remove {LABEL_NAME}` 删除标签。
-- 在提交说明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 给对应议题增加 `fixed` 标签。
-
-更多说明请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
+请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
 
 ## 声明
 

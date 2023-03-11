@@ -146,6 +146,7 @@
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
+    <system:String x:Key="ShowChangelog">更新日志</system:String>
 
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
@@ -180,6 +181,8 @@
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动MAA</system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动MAA后直接运行</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
+    <system:String x:Key="AutoRestartOption">游戏掉线时自动重连</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">启动MAA后自动开启模拟器</system:String>
     <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
@@ -207,7 +210,7 @@
 
     <system:String x:Key="SocialPtShop">信用购物</system:String>
     <system:String x:Key="CreditFight">借助战赚信用</system:String>
-    <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。&#x0a;关卡选择为「当前/上次」时此功能无效。&#x0a;别传「火蓝之心」关卡OF-1未解锁时请勿勾选</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。&#x0a;一日只执行一次。&#x0a;关卡选择为「当前/上次」时此功能无效。&#x0a;别传「火蓝之心」关卡OF-1未解锁时请勿勾选。</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可</system:String>
@@ -369,6 +372,9 @@
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
+    <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
+    <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
+    <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页端即将开放评论区，敬请期待！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别“特别关注”的干员</system:String>
@@ -378,12 +384,14 @@
     <system:String x:Key="VideoLink">视频链接</system:String>
 
     <!--  日志  -->
-    <system:String x:Key="CopilotTip">小提示：</system:String>
-    <system:String x:Key="CopilotTip1">请将模拟器及游戏帧率设置到 60 帧或更高；</system:String>
-    <system:String x:Key="CopilotTip2">请在有“开始行动”按钮的界面再使用本功能；</system:String>
-    <system:String x:Key="CopilotTip3">使用好友助战可以关闭“自动编队”，手动选择干员后开始；</system:String>
-    <system:String x:Key="CopilotTip4">模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；</system:String>
-    <system:String x:Key="CopilotTip5">“自动编队”暂时无法识别“特别关注”的干员，如有需求请取消特别关注或手动编队；</system:String>
+    <system:String x:Key="CopilotTip">
+        小提示：\n\n
+        1. 请在有“开始行动”按钮的界面再使用本功能；\n\n
+        2. 使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n
+        3. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n
+        4. 保全派驻 在 resource/copilot 文件夹下内置了两份作业。\n
+        请手动编队后在“开始部署”界面开始（可配合“循环次数”使用）
+    </system:String>
 
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -447,6 +455,7 @@
     <system:String x:Key="UpperLimit">投资达到上限</system:String>
     <system:String x:Key="GameCrash">游戏崩溃，重新启动</system:String>
     <system:String x:Key="GameDrop">游戏掉线，重新连接</system:String>
+    <system:String x:Key="GameDropNoRestart">游戏掉线，不重新连接，停止任务</system:String>
     <system:String x:Key="RoguelikeGamePass">肉鸽通关啦！</system:String>
     <system:String x:Key="SSSGamePass">保全通关啦！</system:String>
     <system:String x:Key="Trader">关卡：诡意行商</system:String>
@@ -471,11 +480,11 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
     <system:String x:Key="CurrentSteps">当前步骤：{0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel" xml:space="preserve">不支持的关卡，请更新 MAA 软件版本！
-不支持的关卡，请更新 MAA 软件版本！
-不支持的关卡，请更新 MAA 软件版本！
-
-若提示已是最新版本，请尝试检查开发版或内测版。
+    <system:String x:Key="UnsupportedLevel">
+        不支持的关卡，请更新 MAA 软件版本！\n
+        不支持的关卡，请更新 MAA 软件版本！\n
+        不支持的关卡，请更新 MAA 软件版本！\n\n
+        若提示已是最新版本，请尝试检查开发版或内测版。
     </system:String>
     <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
@@ -520,4 +529,10 @@
     <system:String x:Key="Hangover">下次不能喝、喝这么多了......</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
+
+    <!--  VersionUpdatePopup  -->
+    <system:String x:Key="UpdateNotificationOK">好的！</system:String>
+    <system:String x:Key="VersionUpdated">版本已更新</system:String>
+    <system:String x:Key="VersionUpdatedTo">已更新：</system:String>
+    <!--  VersionUpdatePopup  -->
 </ResourceDictionary>

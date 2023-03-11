@@ -20,11 +20,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
-using IWshRuntimeLibrary;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Newtonsoft.Json;
@@ -133,11 +134,6 @@ namespace MaaWpfGui
             _taskQueueViewModel = _container.Get<TaskQueueViewModel>();
             _asstProxy = _container.Get<AsstProxy>();
             _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
-
-            if (LoadGUIParameters && SaveGUIParametersOnClosing)
-            {
-                Application.Current.MainWindow.Closing += SaveGUIParameters;
-            }
 
             var addressListJson = ViewStatusStorage.Get("Connect.AddressHistory", string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
@@ -437,16 +433,36 @@ namespace MaaWpfGui
 
             try
             {
-                string fileName;
-                string arguments;
+                string fileName = string.Empty;
+                string arguments = string.Empty;
                 ProcessStartInfo startInfo;
 
                 if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
                 {
-                    WshShell shell = new WshShell();
-                    WshShortcut shortcut = (WshShortcut)shell.CreateShortcut(EmulatorPath);
-                    fileName = shortcut.TargetPath;
-                    arguments = shortcut.Arguments;
+                    var link = (IShellLink)new ShellLink();
+                    var file = (IPersistFile)link;
+                    file.Load(EmulatorPath, 0); // STGM_READ
+                    link.Resolve(IntPtr.Zero, 1); // SLR_NO_UI
+                    var buf = new char[32768];
+                    unsafe
+                    {
+                        fixed (char* ptr = buf)
+                        {
+                            link.GetPath(ptr, 260, IntPtr.Zero, 0);  // MAX_PATH
+                            var len = Array.IndexOf(buf, '\0');
+                            if (len != -1)
+                            {
+                                fileName = new string(buf, 0, len);
+                            }
+
+                            link.GetArguments(ptr, 32768);
+                            len = Array.IndexOf(buf, '\0');
+                            if (len != -1)
+                            {
+                                arguments = new string(buf, 0, len);
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -610,6 +626,18 @@ namespace MaaWpfGui
             { "YoStarKR", "KR" },
             { "txwy", "ZH_TW" },
         };
+
+        private bool _autoRestartOnDrop = bool.Parse(ViewStatusStorage.Get("Start.AutoRestartOnDrop", "True"));
+
+        public bool AutoRestartOnDrop
+        {
+            get => _autoRestartOnDrop;
+            set
+            {
+                SetAndNotify(ref _autoRestartOnDrop, value);
+                ViewStatusStorage.Set("Start.AutoRestartOnDrop", value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets the server type.
@@ -1201,7 +1229,7 @@ namespace MaaWpfGui
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
+        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo));
 
         public string LastCreditFightTaskTime
         {
@@ -1224,7 +1252,7 @@ namespace MaaWpfGui
             {
                 try
                 {
-                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditFightTaskEnabled;
                     }
@@ -1719,6 +1747,7 @@ namespace MaaWpfGui
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
+                    _versionUpdateViewModel.IsFirstBootAfterUpdate = true;
                     _versionUpdateViewModel.AskToRestart();
                     break;
 
@@ -1735,6 +1764,11 @@ namespace MaaWpfGui
                     toast.Show();
                 });
             }
+        }
+
+        public void ShowChangelog()
+        {
+            _windowManager.ShowWindow(_versionUpdateViewModel);
         }
 
         /* 连接设置 */
@@ -1808,6 +1842,12 @@ namespace MaaWpfGui
                 ViewStatusStorage.Set("Connect.Address", value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
+        }
+
+        public void RemoveAddress_Click(string address)
+        {
+            ConnectAddressHistory.Remove(address);
+            ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
         }
 
         private string _adbPath = ViewStatusStorage.Get("Connect.AdbPath", string.Empty);
@@ -2218,7 +2258,7 @@ namespace MaaWpfGui
             }
         }
 
-        private void SaveGUIParameters(object sender, EventArgs e)
+        public void SaveGUIParameters(object sender, EventArgs e)
         {
             SaveGUIParameters();
         }
@@ -2426,6 +2466,10 @@ namespace MaaWpfGui
                 System.Windows.Forms.MessageBoxManager.Yes = FormatText("{0}({1})", "Ok");
                 System.Windows.Forms.MessageBoxManager.No = FormatText("{0}({1})", "ManualRestart");
                 System.Windows.Forms.MessageBoxManager.Register();
+                Window mainWindow = Application.Current.MainWindow;
+                mainWindow.Show();
+                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Activate();
                 var result = MessageBox.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),

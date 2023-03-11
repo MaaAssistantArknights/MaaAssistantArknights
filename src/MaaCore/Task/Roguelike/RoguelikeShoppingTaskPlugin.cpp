@@ -1,12 +1,12 @@
 #include "RoguelikeShoppingTaskPlugin.h"
 
-#include "Controller.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Controller/Controller.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Roguelike/RoguelikeShoppingConfig.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {

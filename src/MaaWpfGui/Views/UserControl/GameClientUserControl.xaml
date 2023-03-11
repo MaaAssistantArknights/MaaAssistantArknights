@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.GameClientUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:local="clr-namespace:MaaWpfGui"
@@ -31,5 +32,19 @@
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
+        <CheckBox
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{DynamicResource AutoRestartOption}"
+            IsChecked="{Binding AutoRestartOnDrop}" />
+        <maa:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}">
+            <Hyperlink
+                Cursor="Hand"
+                NavigateUri="{Binding Source={x:Static local:MaaUrls.OverseasAdaptation}}"
+                TextDecorations="None">
+                <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}" />
+            </Hyperlink>
+        </maa:TextBlock>
     </StackPanel>
 </UserControl>
