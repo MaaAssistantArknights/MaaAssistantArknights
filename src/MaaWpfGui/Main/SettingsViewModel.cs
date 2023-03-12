@@ -2298,7 +2298,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _useAlternateStage, value);
-                _taskQueueViewModel.AlternateStageDisplay = value;
+                _taskQueueViewModel.UseAlternateStage = value;
                 ViewStatusStorage.Set("GUI.UseAlternateStage", value.ToString());
                 if (value)
                 {

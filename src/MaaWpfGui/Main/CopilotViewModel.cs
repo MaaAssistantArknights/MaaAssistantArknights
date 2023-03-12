@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -137,7 +137,7 @@ namespace MaaWpfGui
 
         private const string CopilotIdPrefix = "maa://";
 
-        private void UpdateFileDoc(string filename)
+        private async void UpdateFileDoc(string filename)
         {
             ClearLog();
             Url = CopilotUiUrl;
@@ -147,7 +147,8 @@ namespace MaaWpfGui
             {
                 try
                 {
-                    jsonStr = File.ReadAllText(filename);
+                    using var reader = new StreamReader(File.OpenRead(filename));
+                    jsonStr = await reader.ReadToEndAsync();
                 }
                 catch (Exception)
                 {
@@ -163,7 +164,7 @@ namespace MaaWpfGui
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
                 int.TryParse(copilotIdStr, out var numberStyles);
                 int tempCopilotId = numberStyles;
-                jsonStr = RequestCopilotServer(tempCopilotId);
+                jsonStr = await RequestCopilotServer(tempCopilotId);
                 if (!string.IsNullOrEmpty(jsonStr))
                 {
                     IsDataFromWeb = true;
@@ -174,7 +175,7 @@ namespace MaaWpfGui
             {
                 int.TryParse(filename, out var numberStyles);
                 int tempCopilotId = numberStyles;
-                jsonStr = RequestCopilotServer(tempCopilotId);
+                jsonStr = await RequestCopilotServer(tempCopilotId);
                 if (!string.IsNullOrEmpty(jsonStr))
                 {
                     IsDataFromWeb = true;
@@ -193,23 +194,15 @@ namespace MaaWpfGui
             }
         }
 
-        private string RequestCopilotServer(int copilotID)
+        private async Task<string> RequestCopilotServer(int copilotID)
         {
             try
             {
-                // 创建 Http 请求
-                var httpWebRequest = WebRequest.Create($@"https://prts.maa.plus/copilot/get/{copilotID}") as HttpWebRequest;
-                httpWebRequest.Method = "GET";
-                httpWebRequest.ContentType = "application/json";
-                var httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
-
-                // 获取输入输出流
-                using var sr = new StreamReader(httpWebResponse.GetResponseStream());
-                var text = sr.ReadToEnd();
-                var responseObject = (JObject)JsonConvert.DeserializeObject(text);
-                if (responseObject != null && responseObject.ContainsKey("status_code") && responseObject["status_code"].ToString() == "200")
+                var jsonResponse = await WebService.GetJsonAsync($@"https://prts.maa.plus/copilot/get/{copilotID}");
+                var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
+                if (json != null && json.ContainsKey("status_code") && json["status_code"].ToString() == "200")
                 {
-                    return responseObject["data"]["content"].ToString();
+                    return json["data"]["content"].ToString();
                 }
                 else
                 {
@@ -544,7 +537,7 @@ namespace MaaWpfGui
             RateWebJson("Dislike");
         }
 
-        private void RateWebJson(string rating)
+        private async void RateWebJson(string rating)
         {
             if (!CouldLikeWebJson)
             {
@@ -558,7 +551,9 @@ namespace MaaWpfGui
                 id = CopilotId,
                 rating = rating,
             });
-            if (WebService.RequestPost(_copilotRatingUrl, jsonParam) == null)
+
+            var response = await WebService.PostJsonAsync(_copilotRatingUrl, jsonParam);
+            if (response == null)
             {
                 AddLog(Localization.GetString("FailedToLikeWebJson"), UILogColor.Error);
                 return;

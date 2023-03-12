@@ -1526,16 +1526,15 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _alternateStageDisplay = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString))
-            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+        private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
         /// </summary>
-        public bool AlternateStageDisplay
+        public bool UseAlternateStage
         {
-            get => _alternateStageDisplay;
-            set => SetAndNotify(ref _alternateStageDisplay, value);
+            get => _useAlternateStage;
+            set => SetAndNotify(ref _useAlternateStage, value);
         }
 
         private bool _useRemainingSanityStage = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
@@ -1557,7 +1556,6 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _customStageCode, value);
-                AlternateStageDisplay = !value && _settingsViewModel.UseAlternateStage;
             }
         }
 
