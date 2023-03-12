@@ -245,7 +245,7 @@ jobs:
         env:
           NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
           NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
-          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}')
+          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
         working-directory: release
         run: |
           find . -name "*.dmg" | while read dmg; do
