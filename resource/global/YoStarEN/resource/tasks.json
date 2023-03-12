@@ -3398,5 +3398,48 @@
                 "《欢欣鼓舞》"
             ]
         ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "Phantom"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "Heart of Surging Flame"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
+    "Roguelike@FromIntegratedStrategies": {
+        "text": [
+            "ENTER"
+        ]
+    },
+    "StageEpisodeToGT": {
+        "text": [
+            "Grani and the Knights' Treasure"
+        ]
+    },
+    "GTToGT-5": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "Mizuki"
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
+        ]
     }
 }
