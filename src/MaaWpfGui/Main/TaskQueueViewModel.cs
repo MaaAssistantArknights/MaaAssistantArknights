@@ -964,7 +964,7 @@ namespace MaaWpfGui
         /// </summary>
         public void KillEmulatorModeSwitcher()
         {
-            string emulatorMode = Connect.ConnectConfig.EmulatorMode;
+            string emulatorMode = Connect.ConnectConfig;
             switch (emulatorMode)
             {
                 case "Nox":
