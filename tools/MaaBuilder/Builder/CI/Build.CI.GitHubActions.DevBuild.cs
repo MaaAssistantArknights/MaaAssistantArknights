@@ -11,7 +11,6 @@ namespace MaaBuilder;
     {
         "src/MaaCore/**",
         "src/MaaWpfGui/**",  // 新 UI 发布后，移除 MaaWpfGui
-        "3rdparty/**",  // 新 UI 发布后，移除 3rdparty/resource/**
         "tools/MaaBuilder/**",
         "tools/MaaBuilder.sln",
         "include/**",
@@ -22,7 +21,6 @@ namespace MaaBuilder;
     {
         "src/MaaCore/**",
         "src/MaaWpfGui/**",  // 新 UI 发布后，移除 MaaWpfGui
-        "3rdparty/**",  // 新 UI 发布后，移除 3rdparty/resource/**
         "tools/MaaBuilder/**",
         "tools/MaaBuilder.sln",
         "include/**",

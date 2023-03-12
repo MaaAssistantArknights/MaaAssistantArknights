@@ -343,11 +343,6 @@ namespace MaaWpfGui
             /// 原生下载器
             /// </summary>
             Native,
-
-            /// <summary>
-            /// Aria2 下载器
-            /// </summary>
-            Aria2,
         }
 
         /// <summary>
@@ -470,7 +465,6 @@ namespace MaaWpfGui
                 };
 
                 string rawUrl = _assetsObject["browser_download_url"]?.ToString();
-                var downloader = _settingsViewModel.UseAria2 ? Downloader.Aria2 : Downloader.Native;
                 const int DownloadRetryMaxTimes = 1;
                 for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
                 {
@@ -482,7 +476,7 @@ namespace MaaWpfGui
                             url = url.Replace(repTuple.Item1, repTuple.Item2);
                         }
 
-                        if (DownloadGithubAssets(url, _assetsObject, downloader))
+                        if (DownloadGithubAssets(url, _assetsObject, Downloader.Native))
                         {
                             OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadCompletedTitle"));
                             downloaded = true;
@@ -735,10 +729,6 @@ namespace MaaWpfGui
                 {
                     case Downloader.Native:
                         returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType, proxy);
-                        break;
-
-                    case Downloader.Aria2:
-                        returned = DownloadFileForAria2(url: url, saveTo: fileDir, fileName: fileNameWithTemp, proxy);
                         break;
                 }
 

@@ -14,12 +14,10 @@
   <Target Name="CopyMaaResourceFiles" BeforeTargets="Build">
     <ItemGroup>
       <MaaResourceFiles Include="$(MSBuildProjectDirectory)\..\..\resource\**\*.*" />
-      <MaaMiscFiles Include="$(MSBuildProjectDirectory)\..\..\3rdparty\tools\**\*.*" />
       <MaaPythonBinding Include="$(MSBuildProjectDirectory)\..\..\src\Python\**\*.*" />
     </ItemGroup>
     <Message Text="Copying resource files" Importance="High" />
     <Copy SourceFiles="@(MaaResourceFiles)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
-    <Copy SourceFiles="@(MaaMiscFiles)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(MaaPythonBinding)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\Python\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
   </Target>
 </Project>
