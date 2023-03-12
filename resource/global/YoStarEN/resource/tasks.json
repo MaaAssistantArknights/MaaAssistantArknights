@@ -3435,5 +3435,11 @@
         "text": [
             "Mizuki"
         ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
+        ]
     }
 }
