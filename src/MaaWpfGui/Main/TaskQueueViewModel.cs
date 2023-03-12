@@ -964,7 +964,7 @@ namespace MaaWpfGui
         /// </summary>
         public void KillEmulatorModeSwitcher()
         {
-            string emulatorMode = Connect.ConnectConfig;
+            string emulatorMode = ViewStatusStorage.Get("Connect.ConnectConfig", "General");
             switch (emulatorMode)
             {
                 case "Nox":
@@ -986,17 +986,17 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorLDPlayer()
         {
-            string address = Connect.Address;
+            string emuAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
-            if (address.Contains(":"))
+            if (emuAddress.Contains(":"))
             {
-                string portStr = address.Split(':')[1];
+                string portStr = emuAddress.Split(':')[1];
                 int port = int.Parse(portStr);
                 emuIndex = (port - 5555) / 2;
             }
             else
             {
-                string portStr = address.Split('-')[1];
+                string portStr = emuAddress.Split('-')[1];
                 int port = int.Parse(portStr);
                 emuIndex = (port - 5554) / 2;
             }
@@ -1019,15 +1019,15 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorNox()
         {
-            string address = Connect.Address;
+            string emuAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
-            if (address == "127.0.0.1:62001")
+            if (emuAddress == "127.0.0.1:62001")
             {
                 emuIndex = 0;
             }
             else
             {
-                string portStr = address.Split(':')[1];
+                string portStr = emuAddress.Split(':')[1];
                 int port = int.Parse(portStr);
                 emuIndex = port - 62024;
             }
@@ -1050,9 +1050,9 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorXYAZ()
         {
-            string address = Connect.Address;
+            string emuAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
-            string portStr = address.Split(':')[1];
+            string portStr = emuAddress.Split(':')[1];
             int port = int.Parse(portStr);
             emuIndex = (port - 21503) / 10;
 
