@@ -537,7 +537,7 @@ namespace MaaWpfGui
             RateWebJson("Dislike");
         }
 
-        private void RateWebJson(string rating)
+        private async void RateWebJson(string rating)
         {
             if (!CouldLikeWebJson)
             {
@@ -551,7 +551,9 @@ namespace MaaWpfGui
                 id = CopilotId,
                 rating = rating,
             });
-            if (WebService.RequestPost(_copilotRatingUrl, jsonParam) == null)
+
+            var response = await WebService.PostJsonAsync(_copilotRatingUrl, jsonParam);
+            if (response == null)
             {
                 AddLog(Localization.GetString("FailedToLikeWebJson"), UILogColor.Error);
                 return;
