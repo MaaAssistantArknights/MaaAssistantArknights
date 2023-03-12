@@ -194,7 +194,7 @@ jobs:
         run: |
           mkdir build
           lipo -create build-arm64/libMaaCore.dylib build-x86_64/libMaaCore.dylib -output build/libMaaCore.dylib
-          for LIB_NAME in $(ls MaaDeps/runtime/maa-x64-osx/*.dylib); do
+          for LIB_NAME in $(ls MaaDeps/runtime/maa-x64-osx); do
             lipo -create MaaDeps/runtime/maa-arm64-osx/$LIB_NAME MaaDeps/runtime/maa-x64-osx/$LIB_NAME -output build/$LIB_NAME
           done
       - name: Build XCFramework
