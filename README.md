@@ -109,7 +109,7 @@ MAA 的意思是 MAA Assistant Arknights
 - WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
 - C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
-- 下载器：[aria2](https://github.com/aria2/aria2)
+- ~~下载器：[aria2](https://github.com/aria2/aria2)~~
 
 ### 数据源
 
