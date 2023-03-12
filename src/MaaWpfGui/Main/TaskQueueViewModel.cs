@@ -958,7 +958,6 @@ namespace MaaWpfGui
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
-        "Read the parameters of Connect.ConnectConfig and determine which Killemulator mode to switch to"
 
         /// <summary>
         /// 一个用于判断关闭模拟器窗口的方式的方法
