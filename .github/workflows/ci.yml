@@ -285,7 +285,7 @@ jobs:
         with:
           body_path: CHANGELOG.md
           files: |
-            assets/*/*
+            assets/*
           prerelease: ${{ needs.meta.outputs.prerelease != 'false' }}
       - name: Trigger secondary workflows # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
