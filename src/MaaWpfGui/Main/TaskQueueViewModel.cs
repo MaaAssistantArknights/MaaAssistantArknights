@@ -958,7 +958,36 @@ namespace MaaWpfGui
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
+        
+        /// <summary>
+        /// Kills emulator by LD emulator console.
+        /// </summary>
+        /// <returns>Try Kill LD Emulator By Thier own console.</returns>
+        public bool KillEmulatorByConsole()
+        {
+            Process[] processes = Process.GetProcessesByName("dnplayer");
+            if (processes.Length > 0)
+            {
+                string dnplayerPath = processes[0].MainModule.FileName;
+                string ldconsolePath = Path.Combine(Path.GetDirectoryName(dnplayerPath), "ldconsole.exe");
 
+                int EmuIndex = -1;
+                string[] addressParts = Connect.Address.Split(':');
+                if (addressParts.Length == 2 && int.TryParse(addressParts[1], out int port))
+                {
+                    EmuIndex = (port - 5555) / 2;
+                }
+
+                if (EmuIndex != -1)
+                {
+                    Process.Start(ldconsolePath, $"quit --index {EmuIndex}");
+                    return true;
+                }
+            }
+
+            return KillEumlatorbyWindow();
+        }
+        
         /// <summary>
         /// Kills emulator by Window hwnd.
         /// </summary>
