@@ -149,7 +149,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
+                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
                         <maa:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
@@ -158,7 +158,7 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
+                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
                         <!--  a placeholder  -->
                         <maa:TextBlock
                             Margin="10,6"
@@ -193,15 +193,6 @@
                         SelectedValue="{Binding Stage1}"
                         SelectedValuePath="Value"
                         Visibility="{c:Binding !CustomStageCode}" />
-                    <TextBox
-                        Height="30"
-                        Margin="0,6"
-                        Padding="6,0,0,0"
-                        VerticalContentAlignment="Center"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding CustomStageCode}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -212,7 +203,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage2}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding AlternateStageDisplay}" />
+                        Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -223,7 +214,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding AlternateStageDisplay}" />
+                        Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -235,7 +226,34 @@
                         SelectedValue="{Binding RemainingSanityStage}"
                         SelectedValuePath="Value"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding UseRemainingSanityStage and !CustomStageCode}" />
+                        Visibility="{c:Binding !CustomStageCode and UseRemainingSanityStage}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode and UseAlternateStage}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode and UseAlternateStage}" />
                     <TextBox
                         Height="30"
                         Margin="0,6"
@@ -244,7 +262,7 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding UseRemainingSanityStage and CustomStageCode}" />
+                        Visibility="{c:Binding CustomStageCode and UseRemainingSanityStage}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">

@@ -6649,6 +6649,62 @@
             255
         ]
     },
+    "StageDrops-StageCF-ItemMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            300,
+            533,
+            600,
+            87
+        ]
+    },
+    "StageDrops-StageCF-FoodBonusFlag": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "用餐加成"
+        ],
+        "roi": [
+            270,
+            615,
+            230,
+            65
+        ]
+    },
+    "StageDrops-StageCF-ItemQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            52,
+            52,
+            18,
+            18
+        ]
+    },
+    "act24side_melding_1": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_1.png"
+    },
+    "act24side_melding_2": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_2.png"
+    },
+    "act24side_melding_3": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_3.png"
+    },
+    "act24side_melding_4": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_4.png"
+    },
+    "act24side_melding_5": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_5.png"
+    },
+    "act24side_melding_6": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_6.png"
+    },
     "NumberOcrReplace": {
         "algorithm": "OcrDetect",
         "isAscii": true,

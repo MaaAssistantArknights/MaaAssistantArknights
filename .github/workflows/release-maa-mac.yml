@@ -9,10 +9,6 @@ jobs:
     name: macos-latest
     runs-on: macos-12
 
-    strategy:
-      matrix:
-        arch: [arm64, x86_64]
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,38 +26,55 @@ jobs:
       - name: Install Dependencies
         run: |
             brew update --preinstall
-            brew install create-dmg ninja pkg-config range-v3
+            brew install create-dmg ninja pkg-config
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
-          python3 maadeps-download.py ${triplet}
+          python3 maadeps-download.py "arm64-osx"
+          python3 maadeps-download.py "x64-osx"
       - name: Configure MaaCore
         run: |
-          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_XCFRAMEWORK=ON -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
+          cmake -B build-arm64 -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="arm64"
+          cmake -B build-x86_64 -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64"
       - name: Build libMaaCore
-        run: cmake --build build
+        run: |
+          cmake --build build-arm64
+          cmake --build build-x86_64
+      - name: Build universal binaries
+        run: |
+          mkdir build
+          lipo -create build-arm64/libMaaCore.dylib build-x86_64/libMaaCore.dylib -output build/libMaaCore.dylib
+          for LIB_NAME in $(ls MaaDeps/runtime/maa-x64-osx); do
+            lipo -create MaaDeps/runtime/maa-arm64-osx/$LIB_NAME MaaDeps/runtime/maa-x64-osx/$LIB_NAME -output build/$LIB_NAME
+          done
+      - name: Build XCFramework
+        working-directory: build
+        run: |
+          xcodebuild -create-xcframework -library libMaaCore.dylib -headers ../include -output MaaCore.xcframework
+          xcodebuild -create-xcframework -library libMaaDerpLearning.dylib -output MaaDerpLearning.xcframework
+          xcodebuild -create-xcframework -library libonnxruntime.*.dylib -output ONNXRuntime.xcframework
+          xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
       - name: Build MAA
         working-directory: src/MaaMacGui
-        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA-${{ matrix.arch }} archive -archivePath MAA.xcarchive -configuration Release-${{ matrix.arch }}
+        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
       - name: Export MAA
         working-directory: src/MaaMacGui
         run: xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
       - name: Create disk image
         working-directory: src/MaaMacGui
-        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA-${{ matrix.arch }}.dmg Export/MAA.app
+        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA.dmg Export/MAA.app
       - name: Archive debug symbols
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
-        run: ditto -c -k --keepParent MAA.app.dSYM MAA-${{ matrix.arch }}.app.dSYM.zip
+        run: ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
       - name: Place packages
         run: |
           GIT_TAG=${GITHUB_REF#refs/*/}
-          APP_DMG=MAA-${GIT_TAG}-macos-${{ matrix.arch }}.dmg
-          APP_SYM=MAAComponent-DebugSymbol-${GIT_TAG}-macos-${{ matrix.arch }}.zip
+          APP_DMG=MAA-${GIT_TAG}-macos-universal.dmg
+          APP_SYM=MAAComponent-DebugSymbol-${GIT_TAG}-macos-universal.zip
           mkdir -p release
-          mv src/MaaMacGui/MAA-${{ matrix.arch }}.dmg release/${APP_DMG}
-          mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA-${{ matrix.arch }}.app.dSYM.zip release/${APP_SYM}
+          mv src/MaaMacGui/MAA.dmg release/${APP_DMG}
+          mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip release/${APP_SYM}
       - name: Upload products
         uses: actions/upload-artifact@v3
         with:

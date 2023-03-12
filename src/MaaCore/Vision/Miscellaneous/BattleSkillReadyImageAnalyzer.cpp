@@ -28,9 +28,7 @@ static void softmax(T& input)
 
 bool asst::BattleSkillReadyImageAnalyzer::analyze()
 {
-    LogTraceFunction;
-
-    cv::Mat image = m_image(make_rect<cv::Rect>(m_roi));
+    cv::Mat image = m_image(make_rect<cv::Rect>(m_roi)).clone();
     cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
 
     size_t input_size = 1ULL * image.cols * image.rows * image.channels();
@@ -67,17 +65,10 @@ bool asst::BattleSkillReadyImageAnalyzer::analyze()
 
     Ort::RunOptions run_options;
     session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
+    Log.info(__FUNCTION__, "raw result, 0: ", results[0], ", 1: ", results[1]);
 
     softmax(results);
-
-    Log.info("after softmax, 0: ", results[0], ", 1: ", results[1]);
-
-    auto max_iter = std::max_element(results.begin(), results.end());
-    if (*max_iter < 0.7) {
-        Log.warn("Skill ready recognition confidence too low: ", *max_iter, ", roi:", m_roi);
-        save_img(utils::path("debug") / utils::path("skill_ready_rec"));
-    }
-
+    Log.info(__FUNCTION__, "after softmax, 0: ", results[0], ", 1: ", results[1]);
     return results[1] > results[0];
 }
 
