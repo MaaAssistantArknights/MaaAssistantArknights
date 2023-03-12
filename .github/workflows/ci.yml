@@ -27,8 +27,9 @@ jobs:
           git init
           cp $GITHUB_WORKSPACE/temp/.git/config ./.git
           rm -rf $GITHUB_WORKSPACE/temp
+          git config remote.origin.fetch '+refs/*:refs/*'
           git fetch --filter=tree:0
-          git checkout ${{ github.ref_name }}
+          git checkout ${{ github.ref }}
 
       - id: set_tag
         run: |
