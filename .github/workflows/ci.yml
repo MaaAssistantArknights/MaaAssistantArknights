@@ -279,7 +279,8 @@ jobs:
       - run: |
           mv -vf assets/changelog/* .
           cd assets
-          find . -type f | xargs mv -fvt .
+          # find . -type f | xargs mv -fvt .
+          find . -type f | while read f; do mv -fvt . $f; done
       - uses: softprops/action-gh-release@v1
         with:
           body_path: CHANGELOG.md
