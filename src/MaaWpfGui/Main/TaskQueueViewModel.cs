@@ -964,7 +964,7 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorModeSwitcher()
         {
-            string emulatorMode = _settingsViewModel.ConnectConfig;
+            string emulatorMode = ViewStatusStorage.Get("Connect.ConnectConfig", "General");
             switch (emulatorMode)
             {
                 case "Nox":
@@ -977,6 +977,7 @@ namespace MaaWpfGui
                     return KillEumlatorbyWindow();
             }
         }
+        
         /// <summary>
         /// 一个用于调用雷电模拟器控制台关闭雷电模拟器的方法
         /// </summary>
@@ -1002,14 +1003,20 @@ namespace MaaWpfGui
             {
                 string emuLocation = processes[0].MainModule.FileName;
                 emuLocation = Path.GetDirectoryName(emuLocation);
-                string ldconsolePath = Path.Combine(emuLocation, "ldconsole.exe");
-                Process.Start(ldconsolePath, $"quit --index {emuIndex}");
+                string consolePath = Path.Combine(emuLocation, "ldconsole.exe");
+                
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                startInfo.Arguments = $"quit --index {emuIndex}";
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+                Process.Start(startInfo);
         
                 return KillEmulator();
             }
     
             return false;
         }
+        
         /// <summary>
         /// 一个用于调用夜神模拟器控制台关闭夜神模拟器的方法
         /// </summary>
@@ -1033,14 +1040,20 @@ namespace MaaWpfGui
             {
                 string emuLocation = processes[0].MainModule.FileName;
                 emuLocation = Path.GetDirectoryName(emuLocation);
-                string noxConsolePath = Path.Combine(emuLocation, "NoxConsole.exe");
-                Process.Start(noxConsolePath, $"quit -index:{emuIndex}");
+                string consolePath = Path.Combine(emuLocation, "NoxConsole.exe");
+                
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                startInfo.Arguments = $"quit -index:{emuIndex}";
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+                Process.Start(startInfo);
         
                 return KillEmulator();
             }
     
             return false;
         }
+        
         /// <summary>
         /// 一个用于调用逍遥模拟器控制台关闭逍遥模拟器的方法
         /// </summary>
@@ -1057,14 +1070,20 @@ namespace MaaWpfGui
             {
                 string emuLocation = processes[0].MainModule.FileName;
                 emuLocation = Path.GetDirectoryName(emuLocation);
-                string memucPath = Path.Combine(emuLocation, "memuc.exe");
-                Process.Start(memucPath, $"stop -i {emuIndex}");
+                string consolePath = Path.Combine(emuLocation, "memuc.exe");
+                
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                startInfo.Arguments = $"stop -i {emuIndex}";
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+                Process.Start(startInfo);
         
                 return KillEmulator();
             }
     
             return false;
         }
+        
         /// <summary>
         /// Kills emulator by Window hwnd.
         /// </summary>
