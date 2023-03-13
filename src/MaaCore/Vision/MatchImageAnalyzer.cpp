@@ -10,6 +10,8 @@
 
 std::optional<asst::MatchImageAnalyzer::Result> asst::MatchImageAnalyzer::analyze() const
 {
+    m_result = std::nullopt;
+
     const cv::Mat templ = m_templ_name.empty() ? m_templ : TemplResource::get_instance().get_templ(m_templ_name);
     if (templ.empty()) {
         Log.error("templ is empty!", m_templ_name);
@@ -53,9 +55,8 @@ std::optional<asst::MatchImageAnalyzer::Result> asst::MatchImageAnalyzer::analyz
     }
 
     if (m_templ_thres <= max_val && max_val < 2.0) {
-        Result result;
-        result.rect = { max_val, rect };
-        return result;
+        m_result = Result { .rect=rect, .score=max_val };
+        return result();
     }
     else {
         return std::nullopt;

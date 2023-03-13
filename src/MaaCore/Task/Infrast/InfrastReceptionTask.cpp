@@ -170,11 +170,10 @@ bool asst::InfrastReceptionTask::shift()
         break;
     case AlgorithmType::MatchTemplate: {
         add_analyzer.set_task_info(raw_task_ptr);
-
         if (!add_analyzer.analyze()) {
             return true;
         }
-        ctrler()->click(add_analyzer.get_result().rect);
+        ctrler()->click(add_analyzer.result()->rect);
     } break;
     default:
         break;

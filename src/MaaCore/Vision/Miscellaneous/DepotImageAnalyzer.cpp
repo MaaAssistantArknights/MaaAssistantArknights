@@ -181,7 +181,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     }
     analyzer.set_roi(enlarged_roi);
 
-    MatchRect matched;
+    MatchImageAnalyzer::Result matched;
     std::string matched_item_id;
     size_t matched_index = NPos;
     for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
@@ -194,8 +194,8 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
         if (!analyzer.analyze()) {
             continue;
         }
-        if (double score = analyzer.get_result().score; score >= matched.score) {
-            matched = analyzer.get_result();
+        if (double score = analyzer.result()->score; score >= matched.score) {
+            matched = *analyzer.result();
             matched_item_id = item_id;
             matched_index = index;
         }

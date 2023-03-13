@@ -114,7 +114,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             Log.error("no add button, just continue");
             continue;
         }
-        Rect add_button = add_analyzer.get_result().rect;
+        Rect add_button = add_analyzer.result()->rect;
         auto& rect_move = add_task_ptr->rect_move;
         if (!rect_move.empty()) {
             add_button = add_button.move(rect_move);
@@ -128,7 +128,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         for (const std::string& product : all_products) {
             product_analyzer.set_task_info("InfrastFlag" + product);
             if (product_analyzer.analyze()) {
-                double score = product_analyzer.get_result().score;
+                double score = product_analyzer.result()->score;
                 if (score > max_score) {
                     max_score = score;
                     cur_product = product;

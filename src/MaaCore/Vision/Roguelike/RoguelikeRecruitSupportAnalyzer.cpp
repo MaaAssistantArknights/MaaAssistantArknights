@@ -156,7 +156,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const in
             continue;
         }
 
-        double score = analyzer.get_result().score;
+        double score = analyzer.result()->score;
         if (score > max_score) {
             max_score = score;
             elite_result = elite;

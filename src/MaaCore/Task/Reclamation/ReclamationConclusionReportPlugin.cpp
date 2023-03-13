@@ -37,7 +37,7 @@ bool asst::ReclamationConclusionReportPlugin::check_page_valid(const cv::Mat& im
 {
     MatchImageAnalyzer pageAnalyzer(image);
     pageAnalyzer.set_task_info("Reclamation@GiveupSkipConfirm");
-    return pageAnalyzer.analyze();
+    return pageAnalyzer.analyze().has_value();
 }
 
 void asst::ReclamationConclusionReportPlugin::analyze(const cv::Mat& image)
@@ -53,13 +53,14 @@ int asst::ReclamationConclusionReportPlugin::analyze_badges(const cv::Mat& image
 {
     MatchImageAnalyzer badgeIconAnalyzer(image);
     badgeIconAnalyzer.set_task_info("Reclamation@ConclusionReportBadgeIcon");
-    if (!badgeIconAnalyzer.analyze()) return -1;
-    const auto& iconRect = badgeIconAnalyzer.get_result();
+    auto badgeIconResult = badgeIconAnalyzer.analyze();
+    if (!badgeIconResult) return -1;
+    const auto& iconRect = badgeIconResult->rect;
 
     OcrImageAnalyzer badgeCntAnalyzer(image);
     badgeCntAnalyzer.set_task_info("NumberOcrReplace");
     Rect roi = Task.get("Reclamation@ReportBadgesOcr")->roi;
-    int newX = iconRect.rect.x + iconRect.rect.width;
+    int newX = iconRect.x + iconRect.width;
     roi.width -= (newX - roi.x);
     roi.x = newX;
     badgeCntAnalyzer.set_roi(roi);

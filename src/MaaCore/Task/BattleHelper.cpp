@@ -401,8 +401,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    bool ret = battle_flag_analyzer.analyze();
-    return ret;
+    return battle_flag_analyzer.analyze().has_value();
 }
 
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)

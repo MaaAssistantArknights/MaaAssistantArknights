@@ -195,26 +195,6 @@ namespace asst
     };
     using TextRectProc = std::function<bool(TextRect&)>;
 
-    struct MatchRect
-    {
-        MatchRect() = default;
-        ~MatchRect() = default;
-        MatchRect(const MatchRect&) = default;
-        MatchRect(MatchRect&&) noexcept = default;
-        MatchRect(double score, const Rect& rect) : score(score), rect(rect) {}
-
-        explicit operator Rect() const noexcept { return rect; }
-        MatchRect& operator=(const MatchRect&) = default;
-        MatchRect& operator=(MatchRect&&) noexcept = default;
-        std::string to_string() const
-        {
-            return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
-        }
-        explicit operator std::string() const { return to_string(); }
-
-        double score = 0.0;
-        Rect rect;
-    };
 } // namespace asst
 
 namespace std

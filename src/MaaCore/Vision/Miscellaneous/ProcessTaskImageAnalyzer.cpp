@@ -35,9 +35,9 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(const std::shared_ptr<TaskInf
         m_match_analyzer->set_region_of_appeared(region_opt.value());
     }
 
-    if (m_match_analyzer->analyze()) {
+    if (auto match_result = m_match_analyzer->analyze()) {
         m_result = match_task_ptr;
-        m_result_rect = m_match_analyzer->get_result().rect;
+        m_result_rect = match_result->rect;
         status()->set_rect(match_task_ptr->name, m_result_rect);
         return true;
     }

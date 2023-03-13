@@ -271,7 +271,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             // 针对裁剪出来的每个技能进行识别
             skill_analyzer.set_roi(skill_rect);
 
-            std::vector<std::pair<infrast::Skill, MatchRect>> possible_skills;
+            std::vector<std::pair<infrast::Skill, MatchImageAnalyzer::Result>> possible_skills;
             // 逐个该设施内所有可能的技能，取得分最高的
             for (const auto& skill : InfrastData.get_skills(m_facility) | views::values) {
                 skill_analyzer.set_templ_name(skill.templ_name);
@@ -279,7 +279,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                 if (!skill_analyzer.analyze()) {
                     continue;
                 }
-                possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.get_result()));
+                possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.result()));
             }
             if (possible_skills.empty()) {
                 Log.error("skill has no recognition result");

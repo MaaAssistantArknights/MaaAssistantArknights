@@ -69,12 +69,11 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(raw_roi.move(task_ptr->rect_move));
-
         if (!analyzer.analyze()) {
             continue;
         }
 
-        if (double score = analyzer.get_result().score; score > max_score) {
+        if (double score = analyzer.result()->score; score > max_score) {
             max_score = score;
             elite_result = elite;
         }

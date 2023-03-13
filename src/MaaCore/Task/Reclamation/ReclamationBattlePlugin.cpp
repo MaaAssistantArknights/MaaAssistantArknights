@@ -8,7 +8,6 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
 

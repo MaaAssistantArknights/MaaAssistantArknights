@@ -8,13 +8,22 @@ namespace asst
     public:
         struct Result
         {
-            MatchRect rect;
+            explicit operator Rect() const noexcept { return rect; }
+            std::string to_string() const
+            {
+                return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
+            }
+            explicit operator std::string() const { return to_string(); }
+
+            Rect rect;
+            double score = 0.0;
         };
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~MatchImageAnalyzer() override = default;
 
-        std::optional<Result> analyze() const;
+        const std::optional<Result>& analyze() const;
+        const std::optional<Result>& result() const { return m_result; }
 
         void set_templ_name(std::string templ_name) noexcept;
         void set_templ(cv::Mat templ) noexcept;
@@ -33,7 +42,6 @@ namespace asst
 
         std::string m_templ_name;
         cv::Mat m_templ;
-        MatchRect m_result;
         double m_templ_thres = 0.0;
         bool m_use_cache = false;
         Rect m_region_of_appeared;
@@ -41,5 +49,7 @@ namespace asst
         bool m_mask_with_src = false;
         bool m_mask_with_close = false;
         bool m_log_tracing = true;
+
+        mutable std::optional<Result> m_result;
     };
 }

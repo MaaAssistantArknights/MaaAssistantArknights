@@ -60,8 +60,8 @@ bool asst::RecruitImageAnalyzer::refresh_analyze()
 
     refresh_analyzer.set_task_info("RecruitRefresh");
 
-    if (refresh_analyzer.analyze()) {
-        m_refresh_rect = refresh_analyzer.get_result().rect;
+    if (auto refresh_result = refresh_analyzer.analyze()) {
+        m_refresh_rect = refresh_result->rect;
         return true;
     }
 

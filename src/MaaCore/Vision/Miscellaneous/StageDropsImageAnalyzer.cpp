@@ -85,16 +85,16 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
     for (const auto& [stars, task_name] : StarsTaskName) {
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_name);
-
-        if (!analyzer.analyze()) {
+        auto result = analyzer.analyze();
+        if (!result) {
             continue;
         }
 
-        if (auto score = analyzer.get_result().score; score > max_score) {
+        if (auto score = result->score; score > max_score) {
             max_score = score;
             matched_stars = stars;
 #ifdef ASST_DEBUG
-            matched_rect = analyzer.get_result().rect;
+            matched_rect = result->rect;
 #endif
         }
     }
@@ -134,17 +134,17 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     for (const auto& [task_name, difficulty] : DifficultyTaskName) {
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_name);
-
-        if (!analyzer.analyze()) {
+        auto result = analyzer.analyze();
+        if (!result) {
             continue;
         }
 
-        if (auto score = analyzer.get_result().score; score > max_score) {
+        if (auto score = result->score; score > max_score) {
             max_score = score;
             matched = difficulty;
 #ifdef ASST_DEBUG
             matched_name = task_name;
-            matched_rect = analyzer.get_result().rect;
+            matched_rect = result->rect;
 #endif
         }
     }
@@ -422,10 +422,11 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         droptype_roi.y += task_ptr->roi.y;
         droptype_roi.height = task_ptr->roi.height;
         analyzer.set_roi(droptype_roi);
-        if (!analyzer.analyze()) {
+        auto result = analyzer.analyze();
+        if (!result) {
             continue;
         }
-        if (auto score = analyzer.get_result().score; score > max_score) {
+        if (auto score = result->score; score > max_score) {
             max_score = score;
             matched = type;
 #ifdef ASST_DEBUG
@@ -485,10 +486,11 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         std::string matched;
         for (const std::string& templ : templs_list) {
             analyzer.set_templ_name(templ);
-            if (!analyzer.analyze()) {
+            auto result = analyzer.analyze();
+            if (!result) {
                 continue;
             }
-            if (auto score = analyzer.get_result().score; score > max_score) {
+            if (auto score = result->score; score > max_score) {
                 max_score = score;
                 matched = templ;
             }
@@ -602,10 +604,11 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     analyzer.set_mask_range(1, 255);
     analyzer.set_mask_with_close(true);
     analyzer.set_roi(roi);
-    if (!analyzer.analyze()) {
+    auto result = analyzer.analyze();
+    if (!result) {
         return std::nullopt;
     }
-    Rect new_roi = analyzer.get_result().rect;
+    Rect new_roi = result->rect;
     cv::Mat item_img = m_image(make_rect<cv::Rect>(new_roi));
 
     // ref: DepotImageAnalyzer::match_quantity

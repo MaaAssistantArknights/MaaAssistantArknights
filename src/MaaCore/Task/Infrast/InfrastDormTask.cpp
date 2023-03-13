@@ -7,7 +7,6 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 

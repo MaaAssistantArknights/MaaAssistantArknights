@@ -16,7 +16,6 @@
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleImageAnalyzer.h"
 #include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"

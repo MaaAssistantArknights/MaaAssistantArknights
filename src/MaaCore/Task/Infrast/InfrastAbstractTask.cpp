@@ -12,7 +12,6 @@
 #include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
