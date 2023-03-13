@@ -6663,7 +6663,10 @@
         "algorithm": "OcrDetect",
         "cache": false,
         "text": [
-            "用餐加成"
+            "用",
+            "餐",
+            "加",
+            "成"
         ],
         "roi": [
             270,

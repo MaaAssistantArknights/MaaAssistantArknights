@@ -23,16 +23,20 @@ jobs:
         with:
           path: temp
       - name: Fetch history
+        if: ${{ !startsWith(github.ref, 'refs/pull/') }}
         run: |
           git init
           cp $GITHUB_WORKSPACE/temp/.git/config ./.git
           rm -rf $GITHUB_WORKSPACE/temp
-          git fetch --filter=tree:0
+          # git config remote.origin.fetch '+refs/*:refs/*'
+          git fetch --filter=tree:0 # --update-head-ok
+          git reset --hard origin/$(git branch --show-current) || true
           git checkout ${{ github.ref_name }}
 
       - id: set_tag
         run: |
-          echo tag=$(git describe --tags HEAD) | tee -a $GITHUB_OUTPUT
+          ${{ startsWith(github.ref, 'refs/pull/') && 'cd temp' || '' }}
+          echo tag=$(git describe --tags ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
           exit ${PIPESTATUS[0]}
 
       - id: set_pre
