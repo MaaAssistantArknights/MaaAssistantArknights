@@ -982,7 +982,7 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorLDPlayer()
         {
-            string address = _settingsViewModel.Address;
+            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
             if (address.Contains(":"))
             {
@@ -1015,7 +1015,7 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorNox()
         {
-            string address = _settingsViewModel.Address;
+            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
             if (address == "127.0.0.1:62001")
             {
@@ -1046,7 +1046,7 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorXYAZ()
         {
-            string address = _settingsViewModel.Address;
+            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
             string portStr = address.Split(':')[1];
             int port = int.Parse(portStr);
