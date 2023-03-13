@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using MaaWpfGui.Helper;
+using MaaWpfGui.MaaHotKeys;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -42,6 +43,11 @@ namespace MaaWpfGui
         private StageManager _stageManager;
         private SettingsViewModel _settingsViewModel;
         private AsstProxy _asstProxy;
+
+        // 没用上，但不能删
+#pragma warning disable IDE0052
+        private IMaaHotKeyManager _maaHotKeyManager;
+#pragma warning restore IDE0052
 
         /// <summary>
         /// Gets or sets the view models of task items.
@@ -120,6 +126,7 @@ namespace MaaWpfGui
             _settingsViewModel = _container.Get<SettingsViewModel>();
             _asstProxy = _container.Get<AsstProxy>();
             _stageManager = _container.Get<StageManager>();
+            _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
 
             DisplayName = Localization.GetString("Farming");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
