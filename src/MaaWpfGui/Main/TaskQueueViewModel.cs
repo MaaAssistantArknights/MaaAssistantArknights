@@ -965,7 +965,156 @@ namespace MaaWpfGui
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
+        
+        /// <summary>
+        /// 一个根据连接配置判断使用关闭模拟器的方式的方法
+        /// </summary>
+        public bool KillEmulatorModeSwitcher()
+        {
+            string emulatorMode = _settingsViewModel.ConnectConfig;
+            switch (emulatorMode)
+            {
+                case "Nox":
+                    return KillEmulatorNox();
+                case "LDPlayer":
+                    return KillEmulatorLDPlayer();
+                case "XYAZ":
+                    return KillEmulatorXYAZ();
+                default:
+                    return KillEumlatorbyWindow();
+            }
+        }
+        
+        /// <summary>
+        /// 一个用于调用雷电模拟器控制台关闭雷电模拟器的方法
+        /// </summary>
+        public bool KillEmulatorLDPlayer()
+        {
+            string address = _settingsViewModel.ConnectAddress;
+            int emuIndex;
+            if (address.Contains(":"))
+            {
+                string portStr = address.Split(':')[1];
+                int port = int.Parse(portStr);
+                emuIndex = (port - 5555) / 2;
+            }
+            else
+            {
+                string portStr = address.Split('-')[1];
+                int port = int.Parse(portStr);
+                emuIndex = (port - 5554) / 2;
+            }
 
+            Process[] processes = Process.GetProcessesByName("dnplayer");
+            if (processes.Length > 0)
+            {
+                string emuLocation = processes[0].MainModule.FileName;
+                emuLocation = Path.GetDirectoryName(emuLocation);
+                string consolePath = Path.Combine(emuLocation, "ldconsole.exe");
+                
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                    startInfo.Arguments = $"quit --index {emuIndex}";
+                    startInfo.CreateNoWindow = true;
+                    startInfo.UseShellExecute = false;
+                    Process.Start(startInfo);
+                   
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    return KillEumlatorbyWindow();
+                }
+            }
+            
+            return false;
+        }
+        
+        /// <summary>
+        /// 一个用于调用夜神模拟器控制台关闭夜神模拟器的方法
+        /// </summary>
+        public bool KillEmulatorNox()
+        {
+            string address = _settingsViewModel.ConnectAddress;
+            int emuIndex;
+            if (address == "127.0.0.1:62001")
+            {
+                emuIndex = 0;
+            }
+            else
+            {
+                string portStr = address.Split(':')[1];
+                int port = int.Parse(portStr);
+                emuIndex = port - 62024;
+            }
+
+            Process[] processes = Process.GetProcessesByName("Nox");
+            if (processes.Length > 0)
+            {
+                string emuLocation = processes[0].MainModule.FileName;
+                emuLocation = Path.GetDirectoryName(emuLocation);
+                string consolePath = Path.Combine(emuLocation, "NoxConsole.exe");
+                
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                    startInfo.Arguments = $"quit -index:{emuIndex}";
+                    startInfo.CreateNoWindow = true;
+                    startInfo.UseShellExecute = false;
+                    Process.Start(startInfo);                
+
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    return KillEumlatorbyWindow();
+                }
+            }
+            
+            return false;
+        }
+        
+        /// <summary>
+        /// 一个用于调用逍遥模拟器控制台关闭逍遥模拟器的方法
+        /// </summary>
+        public bool KillEmulatorXYAZ()
+        {
+            string address = _settingsViewModel.ConnectAddress;
+            int emuIndex;
+            string portStr = address.Split(':')[1];
+            int port = int.Parse(portStr);
+            emuIndex = (port - 21503) / 10;
+
+            Process[] processes = Process.GetProcessesByName("MEmu");
+            if (processes.Length > 0)
+            {
+                string emuLocation = processes[0].MainModule.FileName;
+                emuLocation = Path.GetDirectoryName(emuLocation);
+                string consolePath = Path.Combine(emuLocation, "memuc.exe");
+                
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                    startInfo.Arguments = $"stop -i {emuIndex}";
+                    startInfo.CreateNoWindow = true;
+                    startInfo.UseShellExecute = false;
+                    Process.Start(startInfo);                
+
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    return KillEumlatorbyWindow();
+                }
+            }
+    
+            return false;
+        }
+        
         /// <summary>
         /// Kills emulator by Window hwnd.
         /// </summary>
@@ -977,10 +1126,6 @@ namespace MaaWpfGui
             var windowname = new[]
             {
                 "明日方舟",
-                "夜神模拟器",
-                "逍遥模拟器",
-                "雷电模拟器(64)",
-                "雷电模拟器",
                 "明日方舟 - MuMu模拟器",
                 "BlueStacks App Player",
                 "BlueStacks",
@@ -1210,7 +1355,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.ExitEmulator:
-                    if (!KillEumlatorbyWindow())
+                    if (!KillEmulatorModeSwitcher())
                     {
                         AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
                     }
@@ -1218,7 +1363,7 @@ namespace MaaWpfGui
                     break;
 
                 case ActionType.ExitEmulatorAndSelf:
-                    if (!KillEumlatorbyWindow())
+                    if (!KillEmulatorModeSwitcher())
                     {
                         AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
                     }
@@ -1259,7 +1404,7 @@ namespace MaaWpfGui
 
                 case ActionType.ExitEmulatorAndSelfAndHibernate:
                 case ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist:
-                    if (!KillEumlatorbyWindow())
+                    if (!KillEmulatorModeSwitcher())
                     {
                         AddLog(Localization.GetString("ExitEmulatorFailed"), UILogColor.Error);
                     }
