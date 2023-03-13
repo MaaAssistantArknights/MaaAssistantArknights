@@ -982,17 +982,17 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorLDPlayer()
         {
-            string emuAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
+            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
-            if (emuAddress.Contains(":"))
+            if (address.Contains(":"))
             {
-                string portStr = emuAddress.Split(':')[1];
+                string portStr = address.Split(':')[1];
                 int port = int.Parse(portStr);
                 emuIndex = (port - 5555) / 2;
             }
             else
             {
-                string portStr = emuAddress.Split('-')[1];
+                string portStr = address.Split('-')[1];
                 int port = int.Parse(portStr);
                 emuIndex = (port - 5554) / 2;
             }
@@ -1015,15 +1015,15 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorNox()
         {
-            string emuAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
+            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
-            if (emuAddress == "127.0.0.1:62001")
+            if (address == "127.0.0.1:62001")
             {
                 emuIndex = 0;
             }
             else
             {
-                string portStr = emuAddress.Split(':')[1];
+                string portStr = address.Split(':')[1];
                 int port = int.Parse(portStr);
                 emuIndex = port - 62024;
             }
@@ -1046,9 +1046,9 @@ namespace MaaWpfGui
         /// </summary>
         public bool KillEmulatorXYAZ()
         {
-            string emuAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
+            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
             int emuIndex;
-            string portStr = emuAddress.Split(':')[1];
+            string portStr = address.Split(':')[1];
             int port = int.Parse(portStr);
             emuIndex = (port - 21503) / 10;
 
@@ -1076,10 +1076,6 @@ namespace MaaWpfGui
             var windowname = new[]
             {
                 "明日方舟",
-                "夜神模拟器",
-                "逍遥模拟器",
-                "雷电模拟器(64)",
-                "雷电模拟器",
                 "明日方舟 - MuMu模拟器",
                 "BlueStacks App Player",
                 "BlueStacks",
