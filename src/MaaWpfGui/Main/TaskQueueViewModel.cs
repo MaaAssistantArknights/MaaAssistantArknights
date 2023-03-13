@@ -1005,15 +1005,23 @@ namespace MaaWpfGui
                 emuLocation = Path.GetDirectoryName(emuLocation);
                 string consolePath = Path.Combine(emuLocation, "ldconsole.exe");
                 
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
-                startInfo.Arguments = $"quit --index {emuIndex}";
-                startInfo.CreateNoWindow = true;
-                startInfo.UseShellExecute = false;
-                Process.Start(startInfo);
-        
-                return KillEmulator();
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                    startInfo.Arguments = $"quit --index {emuIndex}";
+                    startInfo.CreateNoWindow = true;
+                    startInfo.UseShellExecute = false;
+                    Process.Start(startInfo);
+                   
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    return KillEumlatorbyWindow();
+                }
             }
-    
+            
             return false;
         }
         
@@ -1042,15 +1050,23 @@ namespace MaaWpfGui
                 emuLocation = Path.GetDirectoryName(emuLocation);
                 string consolePath = Path.Combine(emuLocation, "NoxConsole.exe");
                 
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
-                startInfo.Arguments = $"quit -index:{emuIndex}";
-                startInfo.CreateNoWindow = true;
-                startInfo.UseShellExecute = false;
-                Process.Start(startInfo);
-        
-                return KillEmulator();
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                    startInfo.Arguments = $"quit -index:{emuIndex}";
+                    startInfo.CreateNoWindow = true;
+                    startInfo.UseShellExecute = false;
+                    Process.Start(startInfo);                
+
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    return KillEumlatorbyWindow();
+                }
             }
-    
+            
             return false;
         }
         
@@ -1072,13 +1088,21 @@ namespace MaaWpfGui
                 emuLocation = Path.GetDirectoryName(emuLocation);
                 string consolePath = Path.Combine(emuLocation, "memuc.exe");
                 
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
-                startInfo.Arguments = $"stop -i {emuIndex}";
-                startInfo.CreateNoWindow = true;
-                startInfo.UseShellExecute = false;
-                Process.Start(startInfo);
-        
-                return KillEmulator();
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
+                    startInfo.Arguments = $"stop -i {emuIndex}";
+                    startInfo.CreateNoWindow = true;
+                    startInfo.UseShellExecute = false;
+                    Process.Start(startInfo);                
+
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    return KillEumlatorbyWindow();
+                }
             }
     
             return false;
