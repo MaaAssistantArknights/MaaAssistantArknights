@@ -171,49 +171,63 @@ jobs:
           name: MAA-linux-${{ matrix.arch }}
           path: 'release/*.tar.gz'
 
-  macos:
+  macOS-Core:
     needs: meta
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: brew install ninja
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
+          python3 maadeps-download.py ${triplet}
+      - name: Configure MaaCore
+        run: |
+          ${{ startsWith(github.ref, 'refs/tags/v') }} && CONF=Release || CONF=Debug
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=$CONF -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+      - name: Build MaaCore
+        run: |
+          cmake --build build
+          cmake --install build --prefix install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MAACore-macos-${{ matrix.arch }}
+          path: 'install/*.dylib'
+
+  macOS-GUI:
+    needs: [meta, macOS-Core]
     runs-on: macos-12
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - name: 'Install Developer ID Certificate'
+      - uses: actions/download-artifact@v3
+        with:
+          name: MAACore-macos-arm64
+          path: install-arm64
+      - uses: actions/download-artifact@v3
+        with:
+          name: MAACore-macos-x86_64
+          path: install-x86_64
+      - name: Install Developer ID Certificate
         if: startsWith(github.ref, 'refs/tags/v')
         uses: ssrobins/import-codesign-certs@v2
         with:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
-      - name: Cache Homebrew
-        uses: actions/cache@v3
-        with:
-          path: $(brew --prefix)
-          key: ${{ runner.os }}-homebrew-${{ hashFiles('.config/brew/Brewfile') }}
       - name: Install Dependencies
-        run: |
-            brew update --preinstall
-            brew install create-dmg ninja pkg-config
-      - name: Bootstrap MaaDeps
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python3 maadeps-download.py arm64-osx
-          python3 maadeps-download.py x64-osx
-      - name: Configure MaaCore
-        run: |
-          ${{ startsWith(github.ref, 'refs/tags/v') }} && CONF=Release || CONF=Debug
-          cmake -B build-arm64 -GNinja -DCMAKE_BUILD_TYPE=$CONF -DCMAKE_OSX_ARCHITECTURES=arm64 -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
-          cmake -B build-x86_64 -GNinja -DCMAKE_BUILD_TYPE=$CONF -DCMAKE_OSX_ARCHITECTURES=x86_64 -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
-      - name: Build libMaaCore
-        run: |
-          cmake --build build-arm64
-          cmake --build build-x86_64
-      - name: Build universal binaries
+        run: brew install create-dmg
+      - name: Build Universal Binaries
         run: |
           mkdir build
-          lipo -create build-arm64/libMaaCore.dylib build-x86_64/libMaaCore.dylib -output build/libMaaCore.dylib
-          for LIB_NAME in $(ls MaaDeps/runtime/maa-x64-osx); do
-            lipo -create MaaDeps/runtime/maa-arm64-osx/$LIB_NAME MaaDeps/runtime/maa-x64-osx/$LIB_NAME -output build/$LIB_NAME
+          for LIB_NAME in $(ls install-arm64); do
+            lipo -create install-arm64/$LIB_NAME install-x86_64/$LIB_NAME -output build/$LIB_NAME
           done
       - name: Build XCFramework
         working-directory: build
@@ -222,27 +236,32 @@ jobs:
           xcodebuild -create-xcframework -library libMaaDerpLearning.dylib -output MaaDerpLearning.xcframework
           xcodebuild -create-xcframework -library libonnxruntime.*.dylib -output ONNXRuntime.xcframework
           xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
-      - name: Build Debug MAA
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+      - name: Setup GUI Version
+        run: |
+          RELEASE_COUNT=$(git ls-remote --tags origin | grep refs/tags/v | awk 'END{print NR}')
+          echo 'MARKETING_VERSION = ${{ needs.meta.outputs.tag }}' | tee src/MaaMacGui/Version.xcconfig
+          echo 'CURRENT_PROJECT_VERSION = '"${RELEASE_COUNT}" | tee -a src/MaaMacGui/Version.xcconfig
+      - name: Build MAA
         working-directory: src/MaaMacGui
-        run: xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA
-      - name: Build Release MAA
-        if: startsWith(github.ref, 'refs/tags/v')
-        working-directory: src/MaaMacGui
-        run: xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
+        run: |
+          if ${{ startsWith(github.ref, 'refs/tags/v') }}; then
+            xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
+          else
+            xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Debug
+          fi
       - name: Export MAA
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui
         run: xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
-      - name: Create disk image
+      - name: Create Disk Image
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui
         run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA.dmg Export/MAA.app
-      - name: Archive debug symbols
+      - name: Archive Debug Symbols
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
         run: ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
-      - name: Place packages
+      - name: Place Packages
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           GIT_TAG=${{ needs.meta.outputs.tag }}
@@ -251,11 +270,7 @@ jobs:
           mkdir -p release
           mv src/MaaMacGui/MAA.dmg release/${APP_DMG}
           mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip release/${APP_SYM}
-      - name: 'Verify image'
-        if: startsWith(github.ref, 'refs/tags/v')
-        working-directory: release
-        run: find . -name "*.dmg" -exec hdiutil verify {} \;
-      - name: 'Notarize image'
+      - name: Notarize Image
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
@@ -269,12 +284,12 @@ jobs:
           done
       - uses: actions/upload-artifact@v3
         with:
-          name: MAA-macos
-          path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/DerivedData/Build/Products/MAA.app' }}
+          name: MAA-macos-universal
+          path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [meta, windows, ubuntu, macos]
+    needs: [meta, windows, ubuntu, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
@@ -282,6 +297,7 @@ jobs:
           path: assets
       - run: |
           mv -vf assets/changelog/* .
+          rm -rf assets/MAACore-macos-*
           cd assets
           # find . -type f | xargs mv -fvt .
           find . -type f | while read f; do mv -fvt . $f; done
