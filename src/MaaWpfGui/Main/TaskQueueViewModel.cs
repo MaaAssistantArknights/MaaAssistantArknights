@@ -960,7 +960,7 @@ namespace MaaWpfGui
         private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
         
         /// <summary>
-        /// 一个用于判断关闭模拟器窗口的方式的方法
+        /// 一个根据连接配置判断使用关闭模拟器的方式的方法
         /// </summary>
         public bool KillEmulatorModeSwitcher()
         {
