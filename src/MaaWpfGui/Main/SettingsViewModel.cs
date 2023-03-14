@@ -1252,7 +1252,7 @@ namespace MaaWpfGui
             {
                 try
                 {
-                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditFightTaskEnabled;
                     }
@@ -1682,21 +1682,6 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseAria2, bool.FalseString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to use Aria 2.
-        /// </summary>
-        public bool UseAria2
-        {
-            get => _useAria2;
-            set
-            {
-                SetAndNotify(ref _useAria2, value);
-                ViewStatusStorage.Set(ConfigKeys.UseAria2, value.ToString());
-            }
-        }
-
         private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.AutoDownloadUpdatePackage, bool.TrueString));
 
         /// <summary>
@@ -1747,7 +1732,6 @@ namespace MaaWpfGui
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                    _versionUpdateViewModel.IsFirstBootAfterUpdate = true;
                     _versionUpdateViewModel.AskToRestart();
                     break;
 
@@ -2304,7 +2288,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _useAlternateStage, value);
-                _taskQueueViewModel.AlternateStageDisplay = value;
+                _taskQueueViewModel.UseAlternateStage = value;
                 ViewStatusStorage.Set(ConfigKeys.UseAlternateStage, value.ToString());
                 if (value)
                 {

@@ -601,7 +601,8 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
 {
     LogTraceFunction;
 
-    ProcessTask skill_task(this_task(), { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" });
+    ProcessTask skill_task(this_task(), { "BattleSkillReadyOnClick", "BattleSkillReadyOnClick-SquareMap",
+                                          "BattleSkillStopOnClick", "BattleSkillStopOnClick-SquareMap" });
     skill_task.set_task_delay(0);
 
     if (keep_waiting) {

@@ -44,6 +44,7 @@
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
     <ClInclude Include="InstHelper.h" />
+    <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeResetTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp" />
+    <ClCompile Include="Task\Interface\CustomTask.cpp" />
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
     <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
   </ItemGroup>

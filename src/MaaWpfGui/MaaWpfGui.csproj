@@ -29,6 +29,13 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageProjectUrl>https://maa.plus/</PackageProjectUrl>
+    <Copyright>https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/LICENSE</Copyright>
+    <Description>https://maa.plus/docs/</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>False</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +44,10 @@
   <!-- StyleCop -->
 
   <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include=".editorconfig" />
     <None Include="App.config" />
   </ItemGroup>

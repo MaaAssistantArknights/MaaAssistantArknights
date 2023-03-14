@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
@@ -92,7 +93,7 @@ namespace MaaWpfGui
         /// <returns>yj历时间的字符串表示形式</returns>
         public static string GetYJTimeNowString()
         {
-            return GetYJTimeNow().ToString("yyyy/MM/dd HH:mm:ss");
+            return GetYJTimeNow().ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace MaaWpfGui
         /// <returns>yj历日期的字符串表示形式</returns>
         public static string GetYJTimeDateString()
         {
-            return GetYJTimeDate().ToString("yyyy/MM/dd HH:mm:ss");
+            return GetYJTimeDate().ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
         }
 
         /// <summary>
