@@ -3608,5 +3608,30 @@
             "招集",
             "召集"
         ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "青く燃ゆる心",
+            "青く",
+            "燃ゆる"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "イベントへ",
+            "イベント"
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "行動開始",
+            "開始"
+        ]
+    },
+    "BattleStartOCR": {
+        "text": [
+            "行動",
+            "開始"
+        ]
     }
 }
