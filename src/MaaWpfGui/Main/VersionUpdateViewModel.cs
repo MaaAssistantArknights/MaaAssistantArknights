@@ -68,7 +68,7 @@ namespace MaaWpfGui
         private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
-        private string _updateTag = ViewStatusStorage.Get("VersionUpdate.name", string.Empty);
+        private string _updateTag = ViewStatusStorage.Get(ConfigKeys.VersionName, string.Empty);
 
         /// <summary>
         /// Gets or sets the update tag.
@@ -79,11 +79,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _updateTag, value);
-                ViewStatusStorage.Set("VersionUpdate.name", value);
+                ViewStatusStorage.Set(ConfigKeys.VersionName, value);
             }
         }
 
-        private string _updateInfo = ViewStatusStorage.Get("VersionUpdate.body", string.Empty);
+        private string _updateInfo = ViewStatusStorage.Get(ConfigKeys.VersionUpdateBody, string.Empty);
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -107,7 +107,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _updateInfo, value);
-                ViewStatusStorage.Set("VersionUpdate.body", value);
+                ViewStatusStorage.Set(ConfigKeys.VersionUpdateBody, value);
             }
         }
 
@@ -125,7 +125,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _updateUrl, value);
         }
 
-        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.isfirstboot", bool.FalseString));
+        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.VersionUpdateIsFirstBoot, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether it is the first boot after updating.
@@ -136,11 +136,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _isFirstBootAfterUpdate, value);
-                ViewStatusStorage.Set("VersionUpdate.isfirstboot", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.VersionUpdateIsFirstBoot, value.ToString());
             }
         }
 
-        private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
+        private string _updatePackageName = ViewStatusStorage.Get(ConfigKeys.VersionUpdatePackage, string.Empty);
 
         /// <summary>
         /// Gets or sets the name of the update package.
@@ -151,7 +151,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _updatePackageName, value);
-                ViewStatusStorage.Set("VersionUpdate.package", value);
+                ViewStatusStorage.Set(ConfigKeys.VersionUpdatePackage, value);
             }
         }
 

@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using MaaWpfGui.Helper;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,7 +51,7 @@ namespace MaaWpfGui
         {
             get
             {
-                var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+                var language = ViewStatusStorage.Get(ConfigKeys.Localization, Localization.DefaultLanguage);
                 return $"https://maa.plus/docs/{_helpUrl[language]}";
             }
         }
@@ -69,7 +70,7 @@ namespace MaaWpfGui
         {
             get
             {
-                var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+                var language = ViewStatusStorage.Get(ConfigKeys.Localization, Localization.DefaultLanguage);
                 return $"https://maa.plus/docs/{_overseasAdaptation[language]}";
             }
         }
