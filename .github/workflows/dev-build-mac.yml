@@ -53,7 +53,7 @@ jobs:
         run: cmake --build build
       - name: Build MAA
         working-directory: src/MaaMacGui
-        run: xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA-x86_64
+        run: xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" -derivedDataPath DerivedData -project MeoAsstMac.xcodeproj -scheme MAA
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-macos

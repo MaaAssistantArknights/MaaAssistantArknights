@@ -38,13 +38,6 @@
                     Content="{DynamicResource UpdateAutoDownload}"
                     IsChecked="{Binding AutoDownloadUpdatePackage}"
                     IsEnabled="{Binding UpdateCheck}" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource DownloadWithAria2}"
-                    IsChecked="{Binding UseAria2}"
-                    IsEnabled="{Binding UpdateCheck}" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <maa:TextBlock
                         Margin="10,10,0,10"
@@ -92,9 +85,12 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Text="{Binding VersionInfo, Mode=OneWay}" />
-                <StackPanel Grid.Row="3" Margin="5" VerticalAlignment="Center">
-                <Button
+                <StackPanel
+                    Grid.Row="3"
                     Margin="5"
+                    VerticalAlignment="Center">
+                    <Button
+                        Margin="5"
                         Command="{s:Action ManualUpdate}"
                         Content="{DynamicResource UpdateCheckNow}"
                         IsEnabled="{c:Binding !IsCheckingForUpdates}" />

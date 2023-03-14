@@ -639,8 +639,7 @@ bool asst::Controller::screencap(const std::string& cmd, const DecodeFunc& decod
     }
     auto& data = ret.value();
     if (m_screencap_data_general_size && data.size() < m_screencap_data_general_size * 0.1) {
-        Log.error("data is too small!");
-        return false;
+        Log.warn("data is too small!");
     }
 
     bool tried_conversion = false;
@@ -1691,7 +1690,6 @@ std::optional<int> asst::Controller::call_command_tcpip(const std::string& cmd, 
     // adb connect
     // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
     if (std::regex_match(cmd, match, connect_regex)) {
-
         m_adb_client = adb::client::create(match[1].str()); // TODO: compare address with existing (if any)
 
         try {

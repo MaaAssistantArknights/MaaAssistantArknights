@@ -94,7 +94,6 @@ namespace MaaWpfGui
 
                 if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
                 {
-                    _versionUpdateViewModel.IsFirstBootAfterUpdate = true;
                     _versionUpdateViewModel.AskToRestart();
                 }
             }

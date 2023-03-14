@@ -6,6 +6,7 @@ docs/.vuepress/.temp
 
 # Compiled Object files
 build
+build-*
 *.slo
 *.lo
 *.o
@@ -437,7 +438,6 @@ screen.png
 adb_screen.png
 tools/**/*.png
 .vscode
-!3rdparty/tools/*
 enc_temp_folder/*
 
 # Nuke
@@ -448,3 +448,5 @@ enc_temp_folder/*
 /resource/Arknights-Tile-Pos/act2bossrush_02-activities-act2bossrush-level_bossrush2_02.json
 /resource/Arknights-Tile-Pos/act2bossrush_03-activities-act2bossrush-level_bossrush2_03.json
 /resource/Arknights-Tile-Pos/act2bossrush_04-activities-act2bossrush-level_bossrush2_04.json
+# CF 活动关卡（异格夜刀），手动改的地图
+/resource/Arknights-Tile-Pos/act24side_09-activities-act24side-level_act24side_09.json
