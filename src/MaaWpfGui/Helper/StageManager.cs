@@ -74,7 +74,7 @@ namespace MaaWpfGui
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
             };
 
-            var clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
+            var clientType = ViewStatusStorage.Get(ConfigKeys.ClientType, string.Empty);
 
             // 官服和B服使用同样的资源
             if (clientType == "Bilibili" || clientType == string.Empty)

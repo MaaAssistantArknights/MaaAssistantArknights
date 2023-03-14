@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using MaaWpfGui.Helper;
 using Stylet;
 
 namespace MaaWpfGui
@@ -29,7 +30,7 @@ namespace MaaWpfGui
         {
             Name = name;
             OriginalName = name;
-            _isCheckedStorageKey = storageKey + name + ".IsChecked";
+            _isCheckedStorageKey = ConfigKeys.GetCheckedStorageKey(storageKey, name);
             IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
         }
 
@@ -43,7 +44,7 @@ namespace MaaWpfGui
         {
             Name = name;
             OriginalName = original_name;
-            _isCheckedStorageKey = storageKey + original_name + ".IsChecked";
+            _isCheckedStorageKey = ConfigKeys.GetCheckedStorageKey(storageKey, original_name);
             IsChecked = System.Convert.ToBoolean(ViewStatusStorage.Get(_isCheckedStorageKey, bool.TrueString));
         }
 

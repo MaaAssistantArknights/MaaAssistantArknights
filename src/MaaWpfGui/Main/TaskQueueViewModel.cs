@@ -56,7 +56,7 @@ namespace MaaWpfGui
             int index = 0;
             foreach (var item in TaskItemViewModels)
             {
-                ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
+                ViewStatusStorage.Set(ConfigKeys.GetTaskOrderKey(item.OriginalName), index.ToString());
                 ++index;
             }
         }
@@ -66,7 +66,7 @@ namespace MaaWpfGui
         /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private string _actionAfterCompleted = ViewStatusStorage.Get("MainFunction.ActionAfterCompleted", ActionType.DoNothing.ToString());
+        private string _actionAfterCompleted = ViewStatusStorage.Get(ConfigKeys.ActionAfterCompleted, ActionType.DoNothing.ToString());
 
         /// <summary>
         /// Gets or sets the list of the actions after completion.
@@ -99,7 +99,7 @@ namespace MaaWpfGui
                     storeValue = ActionType.DoNothing.ToString();
                 }
 
-                ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
+                ViewStatusStorage.Set(ConfigKeys.ActionAfterCompleted, storeValue);
             }
         }
 
@@ -236,7 +236,7 @@ namespace MaaWpfGui
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
-                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out var order);
+                bool parsed = int.TryParse(ViewStatusStorage.Get(ConfigKeys.GetTaskOrderKey(task), "-1"), out var order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
 
@@ -461,7 +461,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _inverseMode = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString));
+        private bool _inverseMode = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.MainFunctionInverseMode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use inverse mode.
@@ -474,7 +474,7 @@ namespace MaaWpfGui
                 SetAndNotify(ref _inverseMode, value);
                 InverseShowText = value ? Localization.GetString("Inverse") : Localization.GetString("Clear");
                 InverseMenuText = value ? Localization.GetString("Clear") : Localization.GetString("Inverse");
-                ViewStatusStorage.Set("MainFunction.InverseMode", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.MainFunctionInverseMode, value.ToString());
             }
         }
 
@@ -484,7 +484,7 @@ namespace MaaWpfGui
         public const int SelectedAllWidthWhenBoth = 80;
 
         private int _selectedAllWidth =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
+            ViewStatusStorage.Get(ConfigKeys.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
@@ -506,7 +506,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _inverseSelectedWidth, value);
         }
 
-        private bool _showInverse = ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse";
+        private bool _showInverse = ViewStatusStorage.Get(ConfigKeys.InverseClearMode, "Clear") == "ClearInverse";
 
         /// <summary>
         /// Gets or sets a value indicating whether "Select inversely" is visible.
@@ -517,7 +517,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _showInverse, value);
         }
 
-        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
+        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
 
         /// <summary>
         /// Gets or sets the text to be displayed for "Select inversely".
@@ -528,7 +528,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _inverseShowText, value);
         }
 
-        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
+        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
 
         /// <summary>
         /// Gets or sets the text of inversion menu.
@@ -1033,7 +1033,7 @@ namespace MaaWpfGui
         {
             int pid = 0;
             string port;
-            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
+            string address = ViewStatusStorage.Get(ConfigKeys.ConnectAddress, string.Empty);
             if (address.StartsWith("127"))
             {
                 port = address.Substring(10);
@@ -1465,7 +1465,7 @@ namespace MaaWpfGui
             return value;
         }
 
-        private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty) ?? string.Empty;
+        private string _stage1 = ViewStatusStorage.Get(ConfigKeys.Stage1, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage1.
@@ -1487,12 +1487,12 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _stage1, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Stage1", value);
+                ViewStatusStorage.Set(ConfigKeys.Stage1, value);
                 UpdateDatePrompt();
             }
         }
 
-        private string _stage2 = ViewStatusStorage.Get("MainFunction.Stage2", string.Empty) ?? string.Empty;
+        private string _stage2 = ViewStatusStorage.Get(ConfigKeys.Stage2, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1504,12 +1504,12 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _stage2, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Stage2", value);
+                ViewStatusStorage.Set(ConfigKeys.Stage2, value);
                 UpdateDatePrompt();
             }
         }
 
-        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty) ?? string.Empty;
+        private string _stage3 = ViewStatusStorage.Get(ConfigKeys.Stage3, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1521,13 +1521,13 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _stage3, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Stage3", value);
+                ViewStatusStorage.Set(ConfigKeys.Stage3, value);
                 UpdateDatePrompt();
             }
         }
 
-        private bool _alternateStageDisplay = !Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString))
-            && Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+        private bool _alternateStageDisplay = !Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.CustomStageCode, bool.FalseString))
+            && Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
@@ -1538,7 +1538,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _alternateStageDisplay, value);
         }
 
-        private bool _useRemainingSanityStage = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
+        private bool _useRemainingSanityStage = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
         {
@@ -1546,7 +1546,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _useRemainingSanityStage, value);
         }
 
-        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.CustomStageCode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.
@@ -1561,7 +1561,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _remainingSanityStage = ViewStatusStorage.Get("Fight.RemainingSanityStage", string.Empty) ?? string.Empty;
+        private string _remainingSanityStage = ViewStatusStorage.Get(ConfigKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
 
         public string RemainingSanityStage
         {
@@ -1584,11 +1584,11 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _remainingSanityStage, value);
                 SetFightRemainingSanityParams();
-                ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
+                ViewStatusStorage.Set(ConfigKeys.RemainingSanityStage, value);
             }
         }
 
-        private bool _customInfrastEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Infrast.CustomInfrastEnabled", bool.FalseString));
+        private bool _customInfrastEnabled = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.CustomInfrastEnabled, bool.FalseString));
 
         public bool CustomInfrastEnabled
         {
@@ -1600,7 +1600,7 @@ namespace MaaWpfGui
             }
         }
 
-        private int _customInfrastPlanIndex = Convert.ToInt32(ViewStatusStorage.Get("Infrast.CustomInfrastPlanIndex", "0"));
+        private int _customInfrastPlanIndex = Convert.ToInt32(ViewStatusStorage.Get(ConfigKeys.CustomInfrastPlanIndex, "0"));
 
         public int CustomInfrastPlanIndex
         {
@@ -1627,7 +1627,7 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _customInfrastPlanIndex, value);
                 SetInfrastParams();
-                ViewStatusStorage.Set("Infrast.CustomInfrastPlanIndex", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.CustomInfrastPlanIndex, value.ToString());
             }
         }
 
@@ -1813,7 +1813,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
+        private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseMedicine, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use medicine.
@@ -1830,11 +1830,11 @@ namespace MaaWpfGui
                 }
 
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.UseMedicine, value.ToString());
             }
         }
 
-        private string _medicineNumber = ViewStatusStorage.Get("MainFunction.UseMedicine.Quantity", "999");
+        private string _medicineNumber = ViewStatusStorage.Get(ConfigKeys.UseMedicineQuantity, "999");
 
         /// <summary>
         /// Gets or sets the amount of medicine used.
@@ -1854,7 +1854,7 @@ namespace MaaWpfGui
                 // If the amount of medicine is 0, the stone is not used.
                 UseStone = UseStone;
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
+                ViewStatusStorage.Set(ConfigKeys.UseMedicineQuantity, MedicineNumber);
             }
         }
 
@@ -1884,7 +1884,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _stoneNumber = ViewStatusStorage.Get("MainFunction.UseStone.Quantity", "0");
+        private string _stoneNumber = ViewStatusStorage.Get(ConfigKeys.UseStoneQuantity, "0");
 
         /// <summary>
         /// Gets or sets the amount of originiums used.
@@ -1901,7 +1901,7 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
+                ViewStatusStorage.Set(ConfigKeys.UseStoneQuantity, StoneNumber);
             }
         }
 
@@ -1920,7 +1920,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
+        private string _maxTimes = ViewStatusStorage.Get(ConfigKeys.TimesLimitedQuantity, "5");
 
         /// <summary>
         /// Gets or sets the max number of times.
@@ -1937,13 +1937,13 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _maxTimes, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
+                ViewStatusStorage.Set(ConfigKeys.TimesLimitedQuantity, MaxTimes);
             }
         }
 
         #region Drops
 
-        private bool _isSpecifiedDrops = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
+        private bool _isSpecifiedDrops = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.DropsEnable, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether the drops are specified.
@@ -1955,7 +1955,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.Enable", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.DropsEnable, value.ToString());
             }
         }
 
@@ -2019,7 +2019,7 @@ namespace MaaWpfGui
         /// </summary>
         public ObservableCollection<CombData> DropsList { get; set; }
 
-        private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", string.Empty);
+        private string _dropsItemId = ViewStatusStorage.Get(ConfigKeys.DropsItemId, string.Empty);
 
         /// <summary>
         /// Gets or sets the item ID of drops.
@@ -2031,11 +2031,11 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _dropsItemId, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
+                ViewStatusStorage.Set(ConfigKeys.DropsItemId, DropsItemId);
             }
         }
 
-        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", Localization.GetString("NotSelected"));
+        private string _dropsItemName = ViewStatusStorage.Get(ConfigKeys.DropsItemName, Localization.GetString("NotSelected"));
 
         /// <summary>
         /// Gets or sets the item Name of drops.
@@ -2047,7 +2047,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _dropsItemName, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.ItemName", DropsItemName);
+                ViewStatusStorage.Set(ConfigKeys.DropsItemName, DropsItemName);
             }
         }
 
@@ -2071,7 +2071,7 @@ namespace MaaWpfGui
             DropsItemName = Localization.GetString("NotSelected");
         }
 
-        private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
+        private string _dropsQuantity = ViewStatusStorage.Get(ConfigKeys.DropsQuantity, "5");
 
         /// <summary>
         /// Gets or sets the quantity of drops.
@@ -2083,7 +2083,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
+                ViewStatusStorage.Set(ConfigKeys.DropsQuantity, DropsQuantity);
             }
         }
 

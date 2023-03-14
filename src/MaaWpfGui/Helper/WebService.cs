@@ -29,7 +29,7 @@ namespace MaaWpfGui.Helper
     {
         public const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
 
-        public static string Proxy { get; set; } = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
+        public static string Proxy { get; set; } = ViewStatusStorage.Get(ConfigKeys.UpdateProxy, string.Empty);
 
         public static string RequestGet(string url)
         {

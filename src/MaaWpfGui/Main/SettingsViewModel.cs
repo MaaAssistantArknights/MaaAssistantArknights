@@ -120,7 +120,7 @@ namespace MaaWpfGui
         {
             if (Cheers && Language == PallasLangKey)
             {
-                ViewStatusStorage.Set("GUI.Localization", SoberLanguage);
+                ViewStatusStorage.Set(ConfigKeys.Localization, SoberLanguage);
                 Hangover = true;
                 Cheers = false;
             }
@@ -135,7 +135,7 @@ namespace MaaWpfGui
             _asstProxy = _container.Get<AsstProxy>();
             _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
 
-            var addressListJson = ViewStatusStorage.Get("Connect.AddressHistory", string.Empty);
+            var addressListJson = ViewStatusStorage.Get(ConfigKeys.AddressHistory, string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
@@ -171,7 +171,7 @@ namespace MaaWpfGui
             for (int i = 0; i != facility_list.Length; ++i)
             {
                 var facility = facility_list[i];
-                bool parsed = int.TryParse(ViewStatusStorage.Get("Infrast.Order." + facility, "-1"), out int order);
+                bool parsed = int.TryParse(ViewStatusStorage.Get(ConfigKeys.GetFacilityOrderKey(facility), "-1"), out int order);
 
                 if (!parsed || order < 0)
                 {
@@ -318,7 +318,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _runDirectly = Convert.ToBoolean(ViewStatusStorage.Get("Start.RunDirectly", bool.FalseString));
+        private bool _runDirectly = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.RunDirectly, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to run directly.
@@ -329,11 +329,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _runDirectly, value);
-                ViewStatusStorage.Set("Start.RunDirectly", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RunDirectly, value.ToString());
             }
         }
 
-        private bool _startEmulator = Convert.ToBoolean(ViewStatusStorage.Get("Start.StartEmulator", bool.FalseString));
+        private bool _startEmulator = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.StartEmulator, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to start emulator.
@@ -344,7 +344,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _startEmulator, value);
-                ViewStatusStorage.Set("Start.StartEmulator", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.StartEmulator, value.ToString());
                 if (ClientType == string.Empty && Idle)
                 {
                     ClientType = "Official";
@@ -352,7 +352,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _minimizingStartup = Convert.ToBoolean(ViewStatusStorage.Get("Start.MinimizingStartup", bool.FalseString));
+        private bool _minimizingStartup = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.MinimizingStartup, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to minimally start the emulator
@@ -363,11 +363,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _minimizingStartup, value);
-                ViewStatusStorage.Set("Start.MinimizingStartup", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.MinimizingStartup, value.ToString());
             }
         }
 
-        private string _emulatorPath = ViewStatusStorage.Get("Start.EmulatorPath", string.Empty);
+        private string _emulatorPath = ViewStatusStorage.Get(ConfigKeys.EmulatorPath, string.Empty);
 
         /// <summary>
         /// Gets or sets the emulator path.
@@ -378,11 +378,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _emulatorPath, value);
-                ViewStatusStorage.Set("Start.EmulatorPath", value);
+                ViewStatusStorage.Set(ConfigKeys.EmulatorPath, value);
             }
         }
 
-        private string _emulatorAddCommand = ViewStatusStorage.Get("Start.EmulatorAddCommand", string.Empty);
+        private string _emulatorAddCommand = ViewStatusStorage.Get(ConfigKeys.EmulatorAddCommand, string.Empty);
 
         /// <summary>
         /// Gets or sets the command to append after the emulator command.
@@ -393,11 +393,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _emulatorAddCommand, value);
-                ViewStatusStorage.Set("Start.EmulatorAddCommand", value);
+                ViewStatusStorage.Set(ConfigKeys.EmulatorAddCommand, value);
             }
         }
 
-        private string _emulatorWaitSeconds = ViewStatusStorage.Get("Start.EmulatorWaitSeconds", "60");
+        private string _emulatorWaitSeconds = ViewStatusStorage.Get(ConfigKeys.EmulatorWaitSeconds, "60");
 
         /// <summary>
         /// Gets or sets the seconds to wait for the emulator.
@@ -408,7 +408,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _emulatorWaitSeconds, value);
-                ViewStatusStorage.Set("Start.EmulatorWaitSeconds", value);
+                ViewStatusStorage.Set(ConfigKeys.EmulatorWaitSeconds, value);
             }
         }
 
@@ -578,7 +578,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
+        private string _clientType = ViewStatusStorage.Get(ConfigKeys.ClientType, string.Empty);
 
         /// <summary>
         /// Gets or sets the client type.
@@ -590,7 +590,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _clientType, value);
                 Utils.ClientType = value;
-                ViewStatusStorage.Set("Start.ClientType", value);
+                ViewStatusStorage.Set(ConfigKeys.ClientType, value);
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
                 _taskQueueViewModel.UpdateStageList(true);
                 _taskQueueViewModel.UpdateDatePrompt();
@@ -627,7 +627,7 @@ namespace MaaWpfGui
             { "txwy", "ZH_TW" },
         };
 
-        private bool _autoRestartOnDrop = bool.Parse(ViewStatusStorage.Get("Start.AutoRestartOnDrop", "True"));
+        private bool _autoRestartOnDrop = bool.Parse(ViewStatusStorage.Get(ConfigKeys.AutoRestartOnDrop, "True"));
 
         public bool AutoRestartOnDrop
         {
@@ -635,7 +635,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _autoRestartOnDrop, value);
-                ViewStatusStorage.Set("Start.AutoRestartOnDrop", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.AutoRestartOnDrop, value.ToString());
             }
         }
 
@@ -719,7 +719,7 @@ namespace MaaWpfGui
         /// </summary>
         public List<CombData> LanguageList { get; set; }
 
-        private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get("Infrast.DormThreshold", "30"));
+        private int _dormThreshold = Convert.ToInt32(ViewStatusStorage.Get(ConfigKeys.DormThreshold, "30"));
 
         /// <summary>
         /// Gets or sets the threshold to enter dormitory.
@@ -731,7 +731,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _dormThreshold, value);
                 DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
-                ViewStatusStorage.Set("Infrast.DormThreshold", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.DormThreshold, value.ToString());
             }
         }
 
@@ -774,12 +774,12 @@ namespace MaaWpfGui
             int index = 0;
             foreach (var item in InfrastItemViewModels)
             {
-                ViewStatusStorage.Set("Infrast.Order." + item.OriginalName, index.ToString());
+                ViewStatusStorage.Set(ConfigKeys.GetFacilityOrderKey(item.OriginalName), index.ToString());
                 ++index;
             }
         }
 
-        private string _usesOfDrones = ViewStatusStorage.Get("Infrast.UsesOfDrones", "Money");
+        private string _usesOfDrones = ViewStatusStorage.Get(ConfigKeys.UsesOfDrones, "Money");
 
         /// <summary>
         /// Gets or sets the uses of drones.
@@ -790,11 +790,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _usesOfDrones, value);
-                ViewStatusStorage.Set("Infrast.UsesOfDrones", value);
+                ViewStatusStorage.Set(ConfigKeys.UsesOfDrones, value);
             }
         }
 
-        private string _defaultInfrast = ViewStatusStorage.Get("Infrast.DefaultInfrast", _userDefined);
+        private string _defaultInfrast = ViewStatusStorage.Get(ConfigKeys.DefaultInfrast, _userDefined);
 
         private static readonly string _userDefined = "user_defined";
 
@@ -817,11 +817,11 @@ namespace MaaWpfGui
                     IsCustomInfrastFileReadOnly = false;
                 }
 
-                ViewStatusStorage.Set("Infrast.DefaultInfrast", value);
+                ViewStatusStorage.Set(ConfigKeys.DefaultInfrast, value);
             }
         }
 
-        private string _isCustomInfrastFileReadOnly = ViewStatusStorage.Get("Infrast.IsCustomInfrastFileReadOnly", false.ToString());
+        private string _isCustomInfrastFileReadOnly = ViewStatusStorage.Get(ConfigKeys.IsCustomInfrastFileReadOnly, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether  CustomInfrastFile is read-only
@@ -832,11 +832,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _isCustomInfrastFileReadOnly, value.ToString());
-                ViewStatusStorage.Set("Infrast.IsCustomInfrastFileReadOnly", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.IsCustomInfrastFileReadOnly, value.ToString());
             }
         }
 
-        private string _dormFilterNotStationedEnabled = ViewStatusStorage.Get("Infrast.DormFilterNotStationedEnabled", false.ToString());
+        private string _dormFilterNotStationedEnabled = ViewStatusStorage.Get(ConfigKeys.DormFilterNotStationedEnabled, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
@@ -847,11 +847,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _dormFilterNotStationedEnabled, value.ToString());
-                ViewStatusStorage.Set("Infrast.DormFilterNotStationedEnabled", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.DormFilterNotStationedEnabled, value.ToString());
             }
         }
 
-        private string _dormTrustEnabled = ViewStatusStorage.Get("Infrast.DormTrustEnabled", true.ToString());
+        private string _dormTrustEnabled = ViewStatusStorage.Get(ConfigKeys.DormTrustEnabled, true.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether get trust in dorm is enabled.
@@ -862,11 +862,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _dormTrustEnabled, value.ToString());
-                ViewStatusStorage.Set("Infrast.DormTrustEnabled", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.DormTrustEnabled, value.ToString());
             }
         }
 
-        private string _originiumShardAutoReplenishment = ViewStatusStorage.Get("Infrast.OriginiumShardAutoReplenishment", true.ToString());
+        private string _originiumShardAutoReplenishment = ViewStatusStorage.Get(ConfigKeys.OriginiumShardAutoReplenishment, true.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether Originium shard auto replenishment is enabled.
@@ -877,11 +877,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _originiumShardAutoReplenishment, value.ToString());
-                ViewStatusStorage.Set("Infrast.OriginiumShardAutoReplenishment", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.OriginiumShardAutoReplenishment, value.ToString());
             }
         }
 
-        private bool _customInfrastEnabled = bool.Parse(ViewStatusStorage.Get("Infrast.CustomInfrastEnabled", false.ToString()));
+        private bool _customInfrastEnabled = bool.Parse(ViewStatusStorage.Get(ConfigKeys.CustomInfrastEnabled, false.ToString()));
 
         public bool CustomInfrastEnabled
         {
@@ -889,7 +889,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _customInfrastEnabled, value);
-                ViewStatusStorage.Set("Infrast.CustomInfrastEnabled", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.CustomInfrastEnabled, value.ToString());
                 _taskQueueViewModel.CustomInfrastEnabled = value;
             }
         }
@@ -912,7 +912,7 @@ namespace MaaWpfGui
             DefaultInfrast = _userDefined;
         }
 
-        private string _customInfrastFile = ViewStatusStorage.Get("Infrast.CustomInfrastFile", string.Empty);
+        private string _customInfrastFile = ViewStatusStorage.Get(ConfigKeys.CustomInfrastFile, string.Empty);
 
         public string CustomInfrastFile
         {
@@ -920,7 +920,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _customInfrastFile, value);
-                ViewStatusStorage.Set("Infrast.CustomInfrastFile", value);
+                ViewStatusStorage.Set(ConfigKeys.CustomInfrastFile, value);
                 _taskQueueViewModel.RefreshCustonInfrastPlan();
             }
         }
@@ -1058,7 +1058,7 @@ namespace MaaWpfGui
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ViewStatusStorage.Get("Roguelike.RoguelikeTheme", "Phantom");
+        private string _roguelikeTheme = ViewStatusStorage.Get(ConfigKeys.RoguelikeTheme, "Phantom");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -1070,11 +1070,11 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _roguelikeTheme, value);
                 UpdateRoguelikeThemeList();
-                ViewStatusStorage.Set("Roguelike.RoguelikeTheme", value);
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeTheme, value);
             }
         }
 
-        private string _roguelikeMode = ViewStatusStorage.Get("Roguelike.Mode", "0");
+        private string _roguelikeMode = ViewStatusStorage.Get(ConfigKeys.RoguelikeMode, "0");
 
         /// <summary>
         /// Gets or sets the roguelike mode.
@@ -1085,7 +1085,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeMode, value);
-                ViewStatusStorage.Set("Roguelike.Mode", value);
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeMode, value);
                 if (value == "1")
                 {
                     RoguelikeInvestmentEnabled = true;
@@ -1093,7 +1093,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _roguelikeSquad = ViewStatusStorage.Get("Roguelike.Squad", string.Empty);
+        private string _roguelikeSquad = ViewStatusStorage.Get(ConfigKeys.RoguelikeSquad, string.Empty);
 
         /// <summary>
         /// Gets or sets the roguelike squad.
@@ -1104,11 +1104,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeSquad, value);
-                ViewStatusStorage.Set("Roguelike.Squad", value);
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeSquad, value);
             }
         }
 
-        private string _roguelikeRoles = ViewStatusStorage.Get("Roguelike.Roles", string.Empty);
+        private string _roguelikeRoles = ViewStatusStorage.Get(ConfigKeys.RoguelikeRoles, string.Empty);
 
         /// <summary>
         /// Gets or sets the roguelike roles.
@@ -1119,11 +1119,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeRoles, value);
-                ViewStatusStorage.Set("Roguelike.Roles", value);
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeRoles, value);
             }
         }
 
-        private string _roguelikeCoreChar = ViewStatusStorage.Get("Roguelike.CoreChar", string.Empty);
+        private string _roguelikeCoreChar = ViewStatusStorage.Get(ConfigKeys.RoguelikeCoreChar, string.Empty);
 
         /// <summary>
         /// Gets or sets the roguelike core character.
@@ -1134,11 +1134,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeCoreChar, value);
-                ViewStatusStorage.Set("Roguelike.CoreChar", value);
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeCoreChar, value);
             }
         }
 
-        private string _roguelikeUseSupportUnit = ViewStatusStorage.Get("Roguelike.RoguelikeUseSupportUnit", false.ToString());
+        private string _roguelikeUseSupportUnit = ViewStatusStorage.Get(ConfigKeys.RoguelikeUseSupportUnit, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether use support unit.
@@ -1149,11 +1149,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeUseSupportUnit, value.ToString());
-                ViewStatusStorage.Set("Roguelike.RoguelikeUseSupportUnit", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeUseSupportUnit, value.ToString());
             }
         }
 
-        private string _roguelikeEnableNonfriendSupport = ViewStatusStorage.Get("Roguelike.RoguelikeEnableNonfriendSupport", false.ToString());
+        private string _roguelikeEnableNonfriendSupport = ViewStatusStorage.Get(ConfigKeys.RoguelikeEnableNonfriendSupport, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend
@@ -1164,11 +1164,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeEnableNonfriendSupport, value.ToString());
-                ViewStatusStorage.Set("Roguelike.RoguelikeEnableNonfriendSupport", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeEnableNonfriendSupport, value.ToString());
             }
         }
 
-        private string _roguelikeStartsCount = ViewStatusStorage.Get("Roguelike.StartsCount", "9999999");
+        private string _roguelikeStartsCount = ViewStatusStorage.Get(ConfigKeys.RoguelikeStartsCount, "9999999");
 
         /// <summary>
         /// Gets or sets the start count of roguelike.
@@ -1179,11 +1179,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeStartsCount, value.ToString());
-                ViewStatusStorage.Set("Roguelike.StartsCount", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeStartsCount, value.ToString());
             }
         }
 
-        private string _roguelikeInvestmentEnabled = ViewStatusStorage.Get("Roguelike.InvestmentEnabled", true.ToString());
+        private string _roguelikeInvestmentEnabled = ViewStatusStorage.Get(ConfigKeys.RoguelikeInvestmentEnabled, true.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether investment is enabled.
@@ -1194,11 +1194,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeInvestmentEnabled, value.ToString());
-                ViewStatusStorage.Set("Roguelike.InvestmentEnabled", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeInvestmentEnabled, value.ToString());
             }
         }
 
-        private string _roguelikeInvestsCount = ViewStatusStorage.Get("Roguelike.InvestsCount", "9999999");
+        private string _roguelikeInvestsCount = ViewStatusStorage.Get(ConfigKeys.RoguelikeInvestsCount, "9999999");
 
         /// <summary>
         /// Gets or sets the invests count of roguelike.
@@ -1209,11 +1209,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeInvestsCount, value.ToString());
-                ViewStatusStorage.Set("Roguelike.InvestsCount", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeInvestsCount, value.ToString());
             }
         }
 
-        private string _roguelikeStopWhenInvestmentFull = ViewStatusStorage.Get("Roguelike.StopWhenInvestmentFull", false.ToString());
+        private string _roguelikeStopWhenInvestmentFull = ViewStatusStorage.Get(ConfigKeys.RoguelikeStopWhenInvestmentFull, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether to stop when investment is full.
@@ -1224,12 +1224,12 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
-                ViewStatusStorage.Set("Roguelike.StopWhenInvestmentFull", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeStopWhenInvestmentFull, value.ToString());
             }
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ViewStatusStorage.Get("Visit.LastCreditFightTaskTime", Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
+        private string _lastCreditFightTaskTime = ViewStatusStorage.Get(ConfigKeys.LastCreditFightTaskTime, Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
 
         public string LastCreditFightTaskTime
         {
@@ -1237,11 +1237,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _lastCreditFightTaskTime, value);
-                ViewStatusStorage.Set("Visit.LastCreditFightTaskTime", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.LastCreditFightTaskTime, value.ToString());
             }
         }
 
-        private bool _creditFightTaskEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Visit.CreditFightTaskEnabled", bool.FalseString));
+        private bool _creditFightTaskEnabled = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.CreditFightTaskEnabled, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether credit fight task is enabled.
@@ -1268,7 +1268,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _creditFightTaskEnabled, value);
-                ViewStatusStorage.Set("Visit.CreditFightTaskEnabled", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.CreditFightTaskEnabled, value.ToString());
             }
         }
 
@@ -1282,13 +1282,13 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _creditFightTaskEnabled, value);
-                ViewStatusStorage.Set("Visit.CreditFightTaskEnabled", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.CreditFightTaskEnabled, value.ToString());
             }
         }
 
         /* 信用商店设置 */
 
-        private bool _creditShopping = Convert.ToBoolean(ViewStatusStorage.Get("Mall.CreditShopping", bool.TrueString));
+        private bool _creditShopping = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.CreditShopping, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to shop with credit.
@@ -1299,11 +1299,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _creditShopping, value);
-                ViewStatusStorage.Set("Mall.CreditShopping", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.CreditShopping, value.ToString());
             }
         }
 
-        private string _creditFirstList = ViewStatusStorage.Get("Mall.CreditFirstListNew", Localization.GetString("HighPriorityDefault"));
+        private string _creditFirstList = ViewStatusStorage.Get(ConfigKeys.CreditFirstListNew, Localization.GetString("HighPriorityDefault"));
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -1314,11 +1314,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _creditFirstList, value);
-                ViewStatusStorage.Set("Mall.CreditFirstListNew", value);
+                ViewStatusStorage.Set(ConfigKeys.CreditFirstListNew, value);
             }
         }
 
-        private string _creditBlackList = ViewStatusStorage.Get("Mall.CreditBlackListNew", Localization.GetString("BlacklistDefault"));
+        private string _creditBlackList = ViewStatusStorage.Get(ConfigKeys.CreditBlackListNew, Localization.GetString("BlacklistDefault"));
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.
@@ -1329,11 +1329,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _creditBlackList, value);
-                ViewStatusStorage.Set("Mall.CreditBlackListNew", value);
+                ViewStatusStorage.Set(ConfigKeys.CreditBlackListNew, value);
             }
         }
 
-        private bool _creditForceShoppingIfCreditFull = bool.Parse(ViewStatusStorage.Get("Mall.CreditForceShoppingIfCreditFull", false.ToString()));
+        private bool _creditForceShoppingIfCreditFull = bool.Parse(ViewStatusStorage.Get(ConfigKeys.CreditForceShoppingIfCreditFull, false.ToString()));
 
         /// <summary>
         /// Gets or sets a value indicating whether save credit is enabled.
@@ -1344,7 +1344,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
-                ViewStatusStorage.Set("Mall.CreditForceShoppingIfCreditFull", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.CreditForceShoppingIfCreditFull, value.ToString());
             }
         }
 
@@ -1375,7 +1375,7 @@ namespace MaaWpfGui
                     {
                         _isOn = value;
                         OnPropertyChanged();
-                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}", value.ToString());
+                        ViewStatusStorage.Set(ConfigKeys.GetTimerKey(TimerId+1), value.ToString());
                     }
                 }
 
@@ -1391,7 +1391,7 @@ namespace MaaWpfGui
                     {
                         _hour = (value >= 0 && value <= 23) ? value : _hour;
                         OnPropertyChanged();
-                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}Hour", value.ToString());
+                        ViewStatusStorage.Set(ConfigKeys.GetTimerHour(TimerId+1), value.ToString());
                     }
                 }
 
@@ -1407,7 +1407,7 @@ namespace MaaWpfGui
                     {
                         _min = (value >= 0 && value <= 59) ? value : _min;
                         OnPropertyChanged();
-                        ViewStatusStorage.Set($"Timer.Timer{TimerId + 1}Min", value.ToString());
+                        ViewStatusStorage.Set(ConfigKeys.GetTimerMin(TimerId+1), value.ToString());
                     }
                 }
 
@@ -1426,9 +1426,9 @@ namespace MaaWpfGui
                     Timers[i] = new TimerProperties
                     {
                         TimerId = i,
-                        IsOn = ViewStatusStorage.Get($"Timer.Timer{i + 1}", bool.FalseString) == bool.TrueString,
-                        Hour = int.Parse(ViewStatusStorage.Get($"Timer.Timer{i + 1}Hour", $"{i * 3}")),
-                        Min = int.Parse(ViewStatusStorage.Get($"Timer.Timer{i + 1}Min", "0")),
+                        IsOn = ViewStatusStorage.Get(ConfigKeys.GetTimerKey(i), bool.FalseString) == bool.TrueString,
+                        Hour = int.Parse(ViewStatusStorage.Get(ConfigKeys.GetTimerHour(i), $"{i * 3}")),
+                        Min = int.Parse(ViewStatusStorage.Get(ConfigKeys.GetTimerMin(i), "0")),
                     };
                 }
             }
@@ -1438,7 +1438,7 @@ namespace MaaWpfGui
 
         /* 刷理智设置 */
 
-        private string _penguinId = ViewStatusStorage.Get("Penguin.Id", string.Empty);
+        private string _penguinId = ViewStatusStorage.Get(ConfigKeys.PenguinId, string.Empty);
 
         /// <summary>
         /// Gets or sets the id of PenguinStats.
@@ -1449,11 +1449,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _penguinId, value);
-                ViewStatusStorage.Set("Penguin.Id", value);
+                ViewStatusStorage.Set(ConfigKeys.PenguinId, value);
             }
         }
 
-        private bool _isDrGrandet = Convert.ToBoolean(ViewStatusStorage.Get("Penguin.IsDrGrandet", bool.FalseString));
+        private bool _isDrGrandet = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.IsDrGrandet, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use DrGrandet mode.
@@ -1464,12 +1464,12 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _isDrGrandet, value);
-                ViewStatusStorage.Set("Penguin.IsDrGrandet", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.IsDrGrandet, value.ToString());
             }
         }
 
         /* 自动公招设置 */
-        private string _recruitMaxTimes = ViewStatusStorage.Get("AutoRecruit.MaxTimes", "4");
+        private string _recruitMaxTimes = ViewStatusStorage.Get(ConfigKeys.RecruitMaxTimes, "4");
 
         /// <summary>
         /// Gets or sets the maximum times of recruit.
@@ -1480,11 +1480,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _recruitMaxTimes, value);
-                ViewStatusStorage.Set("AutoRecruit.MaxTimes", value);
+                ViewStatusStorage.Set(ConfigKeys.RecruitMaxTimes, value);
             }
         }
 
-        private bool _refreshLevel3 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.RefreshLevel3", bool.TrueString));
+        private bool _refreshLevel3 = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.RefreshLevel3, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to refresh level 3.
@@ -1495,7 +1495,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _refreshLevel3, value);
-                ViewStatusStorage.Set("AutoRecruit.RefreshLevel3", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RefreshLevel3, value.ToString());
             }
         }
 
@@ -1510,7 +1510,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _useExpedited, value);
         }
 
-        private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.IsLevel3UseShortTime", bool.FalseString));
+        private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.IsLevel3UseShortTime, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to shorten the time for level 3.
@@ -1521,11 +1521,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _isLevel3UseShortTime, value);
-                ViewStatusStorage.Set("AutoRecruit.IsLevel3UseShortTime", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.IsLevel3UseShortTime, value.ToString());
             }
         }
 
-        private bool _notChooseLevel1 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.NotChooseLevel1", bool.TrueString));
+        private bool _notChooseLevel1 = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.NotChooseLevel1, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether not to choose level 1.
@@ -1536,11 +1536,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _notChooseLevel1, value);
-                ViewStatusStorage.Set("AutoRecruit.NotChooseLevel1", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.NotChooseLevel1, value.ToString());
             }
         }
 
-        private bool _chooseLevel3 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel3", bool.TrueString));
+        private bool _chooseLevel3 = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.RecruitChooseLevel3, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 3.
@@ -1551,11 +1551,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
-                ViewStatusStorage.Set("AutoRecruit.ChooseLevel3", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RecruitChooseLevel3, value.ToString());
             }
         }
 
-        private bool _chooseLevel4 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel4", bool.TrueString));
+        private bool _chooseLevel4 = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.RecruitChooseLevel4, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 4.
@@ -1566,11 +1566,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
-                ViewStatusStorage.Set("AutoRecruit.ChooseLevel4", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RecruitChooseLevel4, value.ToString());
             }
         }
 
-        private bool _chooseLevel5 = Convert.ToBoolean(ViewStatusStorage.Get("AutoRecruit.ChooseLevel5", bool.FalseString));
+        private bool _chooseLevel5 = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.RecruitChooseLevel5, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 5.
@@ -1581,7 +1581,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
-                ViewStatusStorage.Set("AutoRecruit.ChooseLevel5", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RecruitChooseLevel5, value.ToString());
             }
         }
 
@@ -1606,7 +1606,7 @@ namespace MaaWpfGui
         /* 软件更新设置 */
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
-                ViewStatusStorage.Get("VersionUpdate.VersionType", UpdateVersionType.Stable.ToString()));
+                ViewStatusStorage.Get(ConfigKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -1617,7 +1617,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _versionType, value);
-                ViewStatusStorage.Set("VersionUpdate.VersionType", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.VersionType, value.ToString());
             }
         }
 
@@ -1637,7 +1637,7 @@ namespace MaaWpfGui
             get => _versionType == UpdateVersionType.Beta;
         }
 
-        private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UpdateCheck", bool.TrueString));
+        private bool _updateCheck = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UpdateCheck, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -1648,11 +1648,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _updateCheck, value);
-                ViewStatusStorage.Set("VersionUpdate.UpdateCheck", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.UpdateCheck, value.ToString());
             }
         }
 
-        private string _proxy = ViewStatusStorage.Get("VersionUpdate.Proxy", string.Empty);
+        private string _proxy = ViewStatusStorage.Get(ConfigKeys.UpdateProxy, string.Empty);
 
         /// <summary>
         /// Gets or sets the proxy settings.
@@ -1664,7 +1664,7 @@ namespace MaaWpfGui
             {
                 WebService.Proxy = value;
                 SetAndNotify(ref _proxy, value);
-                ViewStatusStorage.Set("VersionUpdate.Proxy", value);
+                ViewStatusStorage.Set(ConfigKeys.UpdateProxy, value);
             }
         }
 
@@ -1682,7 +1682,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.UseAria2", bool.FalseString));
+        private bool _useAria2 = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseAria2, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use Aria 2.
@@ -1693,11 +1693,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _useAria2, value);
-                ViewStatusStorage.Set("VersionUpdate.UseAria2", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.UseAria2, value.ToString());
             }
         }
 
-        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.AutoDownloadUpdatePackage", bool.TrueString));
+        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.AutoDownloadUpdatePackage, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto download update package.
@@ -1708,7 +1708,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
-                ViewStatusStorage.Set("VersionUpdate.AutoDownloadUpdatePackage", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.AutoDownloadUpdatePackage, value.ToString());
             }
         }
 
@@ -1773,7 +1773,7 @@ namespace MaaWpfGui
 
         /* 连接设置 */
 
-        private bool _autoDetectConnection = bool.Parse(ViewStatusStorage.Get("Connect.AutoDetect", true.ToString()));
+        private bool _autoDetectConnection = bool.Parse(ViewStatusStorage.Get(ConfigKeys.AutoDetect, true.ToString()));
 
         public bool AutoDetectConnection
         {
@@ -1781,11 +1781,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _autoDetectConnection, value);
-                ViewStatusStorage.Set("Connect.AutoDetect", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.AutoDetect, value.ToString());
             }
         }
 
-        private bool _alwaysAutoDetectConnection = bool.Parse(ViewStatusStorage.Get("Connect.AlwaysAutoDetect", false.ToString()));
+        private bool _alwaysAutoDetectConnection = bool.Parse(ViewStatusStorage.Get(ConfigKeys.AlwaysAutoDetect, false.ToString()));
 
         public bool AlwaysAutoDetectConnection
         {
@@ -1793,7 +1793,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _alwaysAutoDetectConnection, value);
-                ViewStatusStorage.Set("Connect.AlwaysAutoDetect", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.AlwaysAutoDetect, value.ToString());
             }
         }
 
@@ -1805,7 +1805,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _connectAddressHistory, value);
         }
 
-        private string _connectAddress = ViewStatusStorage.Get("Connect.Address", string.Empty);
+        private string _connectAddress = ViewStatusStorage.Get(ConfigKeys.ConnectAddress, string.Empty);
 
         /// <summary>
         /// Gets or sets the connection address.
@@ -1838,8 +1838,8 @@ namespace MaaWpfGui
                 });
 
                 SetAndNotify(ref _connectAddress, value);
-                ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
-                ViewStatusStorage.Set("Connect.Address", value);
+                ViewStatusStorage.Set(ConfigKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
+                ViewStatusStorage.Set(ConfigKeys.ConnectAddress, value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
         }
@@ -1847,10 +1847,10 @@ namespace MaaWpfGui
         public void RemoveAddress_Click(string address)
         {
             ConnectAddressHistory.Remove(address);
-            ViewStatusStorage.Set("Connect.AddressHistory", JsonConvert.SerializeObject(ConnectAddressHistory));
+            ViewStatusStorage.Set(ConfigKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
         }
 
-        private string _adbPath = ViewStatusStorage.Get("Connect.AdbPath", string.Empty);
+        private string _adbPath = ViewStatusStorage.Get(ConfigKeys.AdbPath, string.Empty);
 
         /// <summary>
         /// Gets or sets the ADB path.
@@ -1861,11 +1861,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _adbPath, value);
-                ViewStatusStorage.Set("Connect.AdbPath", value);
+                ViewStatusStorage.Set(ConfigKeys.AdbPath, value);
             }
         }
 
-        private string _connectConfig = ViewStatusStorage.Get("Connect.ConnectConfig", "General");
+        private string _connectConfig = ViewStatusStorage.Get(ConfigKeys.ConnectConfig, "General");
 
         /// <summary>
         /// Gets or sets the connection config.
@@ -1876,12 +1876,12 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _connectConfig, value);
-                ViewStatusStorage.Set("Connect.ConnectConfig", value);
+                ViewStatusStorage.Set(ConfigKeys.ConnectConfig, value);
                 UpdateWindowTitle(); /* 每次修改连接配置时更新WindowTitle */
             }
         }
 
-        private bool _retryOnDisconnected = Convert.ToBoolean(ViewStatusStorage.Get("Connect.RetryOnDisconnected", bool.FalseString));
+        private bool _retryOnDisconnected = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.RetryOnAdbDisconnected, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to retry task after adb disconnected.
@@ -1892,11 +1892,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _retryOnDisconnected, value);
-                ViewStatusStorage.Set("Connect.RetryOnDisconnected", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RetryOnAdbDisconnected, value.ToString());
             }
         }
 
-        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get("Roguelike.DeploymentWithPause", false.ToString()));
+        private bool _deploymentWithPause = bool.Parse(ViewStatusStorage.Get(ConfigKeys.RoguelikeDeploymentWithPause, false.ToString()));
 
         public bool DeploymentWithPause
         {
@@ -1904,12 +1904,12 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _deploymentWithPause, value);
-                ViewStatusStorage.Set("Roguelike.DeploymentWithPause", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.RoguelikeDeploymentWithPause, value.ToString());
                 UpdateInstanceSettings();
             }
         }
 
-        private bool _adbLiteEnabled = bool.Parse(ViewStatusStorage.Get("Connect.AdbLiteEnabled", false.ToString()));
+        private bool _adbLiteEnabled = bool.Parse(ViewStatusStorage.Get(ConfigKeys.AdbLiteEnabled, false.ToString()));
 
         public bool AdbLiteEnabled
         {
@@ -1917,7 +1917,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _adbLiteEnabled, value);
-                ViewStatusStorage.Set("Connect.AdbLiteEnabled", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.AdbLiteEnabled, value.ToString());
                 UpdateInstanceSettings();
             }
         }
@@ -2042,8 +2042,8 @@ namespace MaaWpfGui
             rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
-        private readonly string _bluestacksConfig = ViewStatusStorage.Get("Bluestacks.Config.Path", string.Empty);
-        private readonly string _bluestacksKeyWord = ViewStatusStorage.Get("Bluestacks.Config.Keyword", "bst.instance.Nougat64.status.adb_port");
+        private readonly string _bluestacksConfig = ViewStatusStorage.Get(ConfigKeys.BluestacksConfigPath, string.Empty);
+        private readonly string _bluestacksKeyWord = ViewStatusStorage.Get(ConfigKeys.BluestacksConfigKeyword, "bst.instance.Nougat64.status.adb_port");
 
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
@@ -2057,7 +2057,7 @@ namespace MaaWpfGui
 
             if (!System.IO.File.Exists(_bluestacksConfig))
             {
-                ViewStatusStorage.Set("Bluestacks.Config.Error", "File not exists");
+                ViewStatusStorage.Set(ConfigKeys.BluestacksConfigError, "File not exists");
                 return;
             }
 
@@ -2077,7 +2077,7 @@ namespace MaaWpfGui
             return TouchMode == "adb";
         }
 
-        private string _touchMode = ViewStatusStorage.Get("Connect.TouchMode", "minitouch");
+        private string _touchMode = ViewStatusStorage.Get(ConfigKeys.TouchMode, "minitouch");
 
         public string TouchMode
         {
@@ -2085,7 +2085,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _touchMode, value);
-                ViewStatusStorage.Set("Connect.TouchMode", value);
+                ViewStatusStorage.Set(ConfigKeys.TouchMode, value);
                 UpdateInstanceSettings();
             }
         }
@@ -2153,7 +2153,7 @@ namespace MaaWpfGui
             await procTask;
 
             AdbReplaced = true;
-            ViewStatusStorage.Set("Connect.AdbReplaced", true.ToString());
+            ViewStatusStorage.Set(ConfigKeys.AdbReplaced, true.ToString());
             Execute.OnUIThread(() =>
             {
                 using var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB"));
@@ -2161,7 +2161,7 @@ namespace MaaWpfGui
             });
         }
 
-        public bool AdbReplaced { get; set; } = Convert.ToBoolean(ViewStatusStorage.Get("Connect.AdbReplaced", false.ToString()));
+        public bool AdbReplaced { get; set; } = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.AdbReplaced, false.ToString()));
 
         /* 界面设置 */
 
@@ -2170,7 +2170,7 @@ namespace MaaWpfGui
         /// </summary>
         public bool UseTray => true;
 
-        private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get("GUI.MinimizeToTray", bool.FalseString));
+        private bool _minimizeToTray = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.MinimizeToTray, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to minimize to tray.
@@ -2181,12 +2181,12 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
-                ViewStatusStorage.Set("GUI.MinimizeToTray", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.MinimizeToTray, value.ToString());
                 _mainWindowManager.SetMinimizeToTaskbar(value);
             }
         }
 
-        private bool _useNotify = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseNotify", bool.TrueString));
+        private bool _useNotify = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseNotify, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use notification.
@@ -2197,7 +2197,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _useNotify, value);
-                ViewStatusStorage.Set("GUI.UseNotify", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.UseNotify, value.ToString());
                 if (value)
                 {
                     Execute.OnUIThread(() =>
@@ -2209,7 +2209,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _loadGUIParameters = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString));
+        private bool _loadGUIParameters = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.LoadPositionAndSize, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to load GUI parameters.
@@ -2220,7 +2220,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _loadGUIParameters, value);
-                ViewStatusStorage.Set("GUI.PositionAndSize.Load", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.LoadPositionAndSize, value.ToString());
                 if (value)
                 {
                     if (SaveGUIParametersOnClosing)
@@ -2235,7 +2235,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _saveGUIParametersOnClosing = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.SaveOnClosing", bool.TrueString));
+        private bool _saveGUIParametersOnClosing = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.SavePositionAndSize, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to save GUI parameters on closing main window.
@@ -2246,7 +2246,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _saveGUIParametersOnClosing, value);
-                ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.SavePositionAndSize, value.ToString());
                 if (value)
                 {
                     Application.Current.MainWindow.Closing += SaveGUIParameters;
@@ -2270,24 +2270,24 @@ namespace MaaWpfGui
         {
             // 请在配置文件中修改该部分配置，暂不支持从GUI设置
             // Please modify this part of configuration in the configuration file.
-            ViewStatusStorage.Set("GUI.PositionAndSize.Load", LoadGUIParameters.ToString());
-            ViewStatusStorage.Set("GUI.PositionAndSize.SaveOnClosing", SaveGUIParametersOnClosing.ToString());
+            ViewStatusStorage.Set(ConfigKeys.LoadPositionAndSize, LoadGUIParameters.ToString());
+            ViewStatusStorage.Set(ConfigKeys.SavePositionAndSize, SaveGUIParametersOnClosing.ToString());
 
             var mainWindow = Application.Current.MainWindow;
             System.Windows.Forms.Screen currentScreen =
                 System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(mainWindow).Handle);
             var screenRect = currentScreen.Bounds;
-            ViewStatusStorage.Set("GUI.Monitor.Number", currentScreen.DeviceName);
-            ViewStatusStorage.Set("GUI.Monitor.Width", screenRect.Width.ToString());
-            ViewStatusStorage.Set("GUI.Monitor.Height", screenRect.Height.ToString());
+            ViewStatusStorage.Set(ConfigKeys.MonitorNumber, currentScreen.DeviceName);
+            ViewStatusStorage.Set(ConfigKeys.MonitorWidth, screenRect.Width.ToString());
+            ViewStatusStorage.Set(ConfigKeys.MonitorHeight, screenRect.Height.ToString());
 
-            ViewStatusStorage.Set("GUI.Position.Left", (mainWindow.Left - screenRect.Left).ToString(CultureInfo.InvariantCulture));
-            ViewStatusStorage.Set("GUI.Position.Top", (mainWindow.Top - screenRect.Top).ToString(CultureInfo.InvariantCulture));
-            ViewStatusStorage.Set("GUI.Size.Width", mainWindow.Width.ToString(CultureInfo.InvariantCulture));
-            ViewStatusStorage.Set("GUI.Size.Height", mainWindow.Height.ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set(ConfigKeys.PositionLeft, (mainWindow.Left - screenRect.Left).ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set(ConfigKeys.PositionTop, (mainWindow.Top - screenRect.Top).ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set(ConfigKeys.WindowWidth, mainWindow.Width.ToString(CultureInfo.InvariantCulture));
+            ViewStatusStorage.Set(ConfigKeys.WindowHeight, mainWindow.Height.ToString(CultureInfo.InvariantCulture));
         }
 
-        private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+        private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
@@ -2299,7 +2299,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _useAlternateStage, value);
                 _taskQueueViewModel.AlternateStageDisplay = value;
-                ViewStatusStorage.Set("GUI.UseAlternateStage", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.UseAlternateStage, value.ToString());
                 if (value)
                 {
                     HideUnavailableStage = false;
@@ -2307,7 +2307,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _useRemainingSanityStage = bool.Parse(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
+        private bool _useRemainingSanityStage = bool.Parse(ViewStatusStorage.Get(ConfigKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
         {
@@ -2316,11 +2316,11 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _useRemainingSanityStage, value);
                 _taskQueueViewModel.UseRemainingSanityStage = value;
-                ViewStatusStorage.Set("Fight.UseRemainingSanityStage", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.UseRemainingSanityStage, value.ToString());
             }
         }
 
-        private bool _useExpiringMedicine = bool.Parse(ViewStatusStorage.Get("Fight.UseExpiringMedicine", bool.FalseString));
+        private bool _useExpiringMedicine = bool.Parse(ViewStatusStorage.Get(ConfigKeys.UseExpiringMedicine, bool.FalseString));
 
         public bool UseExpiringMedicine
         {
@@ -2328,11 +2328,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _useExpiringMedicine, value);
-                ViewStatusStorage.Set("Fight.UseExpiringMedicine", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.UseExpiringMedicine, value.ToString());
             }
         }
 
-        private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.HideUnavailableStage", bool.TrueString));
+        private bool _hideUnavailableStage = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.HideUnavailableStage, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to hide unavailable stages.
@@ -2343,7 +2343,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _hideUnavailableStage, value);
-                ViewStatusStorage.Set("GUI.HideUnavailableStage", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.HideUnavailableStage, value.ToString());
 
                 if (value)
                 {
@@ -2354,7 +2354,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.CustomStageCode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.
@@ -2365,7 +2365,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _customStageCode, value);
-                ViewStatusStorage.Set("GUI.CustomStageCode", value.ToString());
+                ViewStatusStorage.Set(ConfigKeys.CustomStageCode, value.ToString());
                 _taskQueueViewModel.CustomStageCode = value;
             }
         }
@@ -2378,7 +2378,7 @@ namespace MaaWpfGui
         }
 
         private InverseClearType _inverseClearMode =
-            Enum.TryParse(ViewStatusStorage.Get("GUI.InverseClearMode", InverseClearType.Clear.ToString()),
+            Enum.TryParse(ViewStatusStorage.Get(ConfigKeys.InverseClearMode, InverseClearType.Clear.ToString()),
                 out InverseClearType temp)
             ? temp : InverseClearType.Clear;
 
@@ -2396,7 +2396,7 @@ namespace MaaWpfGui
                 }
 
                 SetAndNotify(ref _inverseClearMode, tempEnumValue);
-                ViewStatusStorage.Set("GUI.InverseClearMode", value);
+                ViewStatusStorage.Set(ConfigKeys.InverseClearMode, value);
                 switch (tempEnumValue)
                 {
                     case InverseClearType.Clear:
@@ -2431,7 +2431,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+        private string _language = ViewStatusStorage.Get(ConfigKeys.Localization, Localization.DefaultLanguage);
 
         /// <summary>
         /// Gets or sets the language.
@@ -2458,7 +2458,7 @@ namespace MaaWpfGui
                 }
 
                 // var backup = _language;
-                ViewStatusStorage.Set("GUI.Localization", value);
+                ViewStatusStorage.Set(ConfigKeys.Localization, value);
 
                 string FormatText(string text, string key)
                     => string.Format(text, Localization.GetString(key, value), Localization.GetString(key, _language));
@@ -2526,7 +2526,7 @@ namespace MaaWpfGui
 
         private void SetPallasLanguage()
         {
-            ViewStatusStorage.Set("GUI.Localization", PallasLangKey);
+            ViewStatusStorage.Set(ConfigKeys.Localization, PallasLangKey);
             var result = _windowManager.ShowMessageBox(
                 Localization.GetString("DrunkAndStaggering"),
                 Localization.GetString("Burping"),
