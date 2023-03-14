@@ -14,6 +14,28 @@
             "Shadow of A Dying Sun"
         ]
     },
+    "StageEpisodeToGT": {
+        "text": [
+            "Grani and the Knights' Treasure"
+        ]
+    },
+    "GTToGT-5": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "Heart of Surging Flame"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
@@ -2056,6 +2078,12 @@
             100
         ]
     },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
+        ]
+    },
     "StageDrops-DropType-ExpAndLMB": {
         "templThreshold": 0.7
     },
@@ -2076,6 +2104,21 @@
     },
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
+    },
+    "Roguelike@FromIntegratedStrategies": {
+        "text": [
+            "ENTER"
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "Phantom"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "Mizuki"
+        ]
     },
     "Roguelike@StageTraderInvestConfirm": {
         "templThreshold": 0.55
@@ -3433,49 +3476,6 @@
                 "'The Carnival'",
                 "《欢欣鼓舞》"
             ]
-        ]
-    },
-    "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "Phantom"
-        ]
-    },
-    "StageEpisodeToOF": {
-        "text": [
-            "Heart of Surging Flame"
-        ]
-    },
-    "OFToOF-Chapter": {
-        "text": [
-            "Enter",
-            "Event"
-        ]
-    },
-    "Roguelike@FromIntegratedStrategies": {
-        "text": [
-            "ENTER"
-        ]
-    },
-    "StageEpisodeToGT": {
-        "text": [
-            "Grani and the Knights' Treasure"
-        ]
-    },
-    "GTToGT-5": {
-        "text": [
-            "Enter",
-            "Event"
-        ]
-    },
-    "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "Mizuki"
-        ]
-    },
-    "BattleStartPre": {
-        "text": [
-            "Start",
-            "Start Challenge"
         ]
     }
 }
