@@ -1,7 +1,24 @@
-## v4.12.2
+## v4.12.3
+
+### 新增
+
+- 增加CF-EX与CF-S的地图 (#3996) @cenfusheng @MistEO
+
+### 改进
+
+- 优化退出模拟器的方式 (#3980) @PianCat
 
 ### 修复
 
-- 修复 CF 关卡 `用餐加成` 被上报的问题 @MistEO
-- 调整更新日志弹窗相关参数的设置时机 @zzyyyl
-- 修复 CI 错误 (#3953) @horror-proton
+- 修复麒麟X夜刀与火龙S黑角的识别问题 (#3989) @cenfusheng
+- 修复需加载一次“设置”选项卡后热键才生效 @ABA2396
+
+### 其他
+
+- Support macOS OTA (#3988) @hguandl @horror-proton
+
+### For overseas
+
+#### YostarEN / YostarJP
+
+- Updated game data @MistEO
