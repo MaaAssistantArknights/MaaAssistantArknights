@@ -1375,7 +1375,7 @@ namespace MaaWpfGui
                     {
                         _isOn = value;
                         OnPropertyChanged();
-                        ViewStatusStorage.Set(ConfigKeys.GetTimerKey(TimerId+1), value.ToString());
+                        ViewStatusStorage.Set(ConfigKeys.GetTimerKey(TimerId + 1), value.ToString());
                     }
                 }
 
@@ -1391,7 +1391,7 @@ namespace MaaWpfGui
                     {
                         _hour = (value >= 0 && value <= 23) ? value : _hour;
                         OnPropertyChanged();
-                        ViewStatusStorage.Set(ConfigKeys.GetTimerHour(TimerId+1), value.ToString());
+                        ViewStatusStorage.Set(ConfigKeys.GetTimerHour(TimerId + 1), value.ToString());
                     }
                 }
 
@@ -1407,7 +1407,7 @@ namespace MaaWpfGui
                     {
                         _min = (value >= 0 && value <= 59) ? value : _min;
                         OnPropertyChanged();
-                        ViewStatusStorage.Set(ConfigKeys.GetTimerMin(TimerId+1), value.ToString());
+                        ViewStatusStorage.Set(ConfigKeys.GetTimerMin(TimerId + 1), value.ToString());
                     }
                 }
 
