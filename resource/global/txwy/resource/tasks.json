@@ -75,23 +75,6 @@
             "ChapterSwipeToTheLeft"
         ]
     },
-    "BattleStartPre": {
-        "text": [
-            "開始行動",
-            "開始突襲",
-            "開始試煉"
-        ]
-    },
-    "FightMissionFailed": {
-        "text": [
-            "任務失敗"
-        ]
-    },
-    "FightMissionFailedAndStop": {
-        "text": [
-            "任務失敗"
-        ]
-    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用",
         "ocrReplace": [
@@ -868,11 +851,6 @@
             "反饋至神經"
         ]
     },
-    "GoLastBattle": {
-        "text": [
-            "前往上一次作戰"
-        ]
-    },
     "StartButton1": {
         "text": [
             "開始行動"
@@ -881,6 +859,26 @@
     "PRTS3": {
         "text": [
             "可放置角色"
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "行動結束"
+        ]
+    },
+    "FightMissionFailed": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "前往上一次作戰"
         ]
     },
     "StartRecruit": {
@@ -896,6 +894,23 @@
     "RecruitNow": {
         "text": [
             "立即招"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "採"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "今日參與",
+            "已達上限"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "信用不足",
+            "無法購買"
         ]
     },
     "RecruitTags": {
@@ -1044,28 +1059,6 @@
                 "支援機械",
                 "支援机械"
             ]
-        ]
-    },
-    "EndOfActionAnnihilation": {
-        "text": [
-            "行動結束"
-        ]
-    },
-    "VisitLimited": {
-        "text": [
-            "今日參與",
-            "已達上限"
-        ]
-    },
-    "Mall": {
-        "text": [
-            "採"
-        ]
-    },
-    "CreditShop-NoMoney": {
-        "text": [
-            "信用不足",
-            "無法購買"
         ]
     },
     "InfrastReward": {
@@ -1362,10 +1355,20 @@
             ]
         ]
     },
+    "BattleStartPre": {
+        "text": [
+            "開始行動",
+            "開始突襲",
+            "開始試煉"
+        ]
+    },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "進入主題"
         ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
     },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
@@ -1470,9 +1473,6 @@
                 "高规格分队"
             ]
         ]
-    },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.95
     },
     "RoguelikeRecruitLevel": {
         "Doc": "台服的等级字体比国服大一圈，要改roi",
