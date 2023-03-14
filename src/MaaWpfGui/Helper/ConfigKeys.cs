@@ -24,6 +24,7 @@ namespace MaaWpfGui.Helper
         public const string HideUnavailableStage = "GUI.HideUnavailableStage";
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode";
+        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";

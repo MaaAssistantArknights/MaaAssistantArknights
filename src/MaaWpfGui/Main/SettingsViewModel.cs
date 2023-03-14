@@ -2039,7 +2039,13 @@ namespace MaaWpfGui
                 }
             }
 
-            rvm.WindowTitle = $"MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            string prefix = ViewStatusStorage.Get(ConfigKeys.WindowTitlePrefix, string.Empty);
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                prefix += " - ";
+            }
+
+            rvm.WindowTitle = $"{prefix}MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = ViewStatusStorage.Get(ConfigKeys.BluestacksConfigPath, string.Empty);
