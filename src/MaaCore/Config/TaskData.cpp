@@ -44,7 +44,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
         return it->second;
     }
 
-    return expend_task(name, get_raw(name)).value_or(nullptr);
+    return expand_task(name, get_raw(name)).value_or(nullptr);
 }
 
 bool asst::TaskData::parse(const json::value& json)
@@ -144,7 +144,7 @@ bool asst::TaskData::parse(const json::value& json)
         /*
         // 生成 # 型任务
         for (const auto& [name, old_task] : m_raw_all_tasks_info) {
-            expend_task(name, old_task);
+            expand_task(name, old_task);
         }
         */
     }
@@ -591,7 +591,7 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
     return true;
 }
 
-std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string_view name, taskptr_t old_task)
+std::optional<asst::TaskData::taskptr_t> asst::TaskData::expand_task(std::string_view name, taskptr_t old_task)
 {
     if (old_task == nullptr) [[unlikely]] {
         return std::nullopt;
