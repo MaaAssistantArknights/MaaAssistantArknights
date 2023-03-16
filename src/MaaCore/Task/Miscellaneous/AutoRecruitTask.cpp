@@ -250,13 +250,11 @@ bool asst::AutoRecruitTask::_run()
     return true;
 }
 
-std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
+asst::OcrImageAnalyzer::ResultVector asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
-    OcrImageAnalyzer start_analyzer;
+    OcrImageAnalyzer start_analyzer(image);
     start_analyzer.set_task_info("StartRecruit");
-    start_analyzer.set_image(image);
-    if (!start_analyzer.analyze()) return {};
-    return start_analyzer.get_result();
+    return start_analyzer.analyze().value_or(OcrImageAnalyzer::ResultVector());
 }
 
 std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::Mat& image)
@@ -264,7 +262,7 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     const auto result = start_recruit_analyze(image);
     if (result.empty()) return std::nullopt;
     auto iter = ranges::find_if(
-        result, [&](const TextRect& r) -> bool { return !m_force_skipped.contains(slot_index_from_rect(r.rect)); });
+        result, [&](const auto& r) -> bool { return !m_force_skipped.contains(slot_index_from_rect(r.rect)); });
     if (iter == result.cend()) return std::nullopt;
     Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
     return iter->rect;
@@ -597,7 +595,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
         hour_ocr.set_replace(replace_map);
         if (!hour_ocr.analyze()) return false;
         std::string desired_hour_str = std::string("0") + std::to_string(minutes_expected / 60);
-        if (hour_ocr.get_result().front().text != desired_hour_str) return false;
+        if (hour_ocr.result()->front().text != desired_hour_str) return false;
     }
     if (minutes_expected % 60 == 0) return true; // minute counter stays untouched
 
@@ -607,7 +605,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
         minute_ocr.set_replace(replace_map);
         if (!minute_ocr.analyze()) return false;
         std::string desired_minute_str = std::to_string((minutes_expected % 60) / 10) + "0";
-        if (minute_ocr.get_result().front().text != desired_minute_str) return false;
+        if (minute_ocr.result()->front().text != desired_minute_str) return false;
     }
     return true;
 }

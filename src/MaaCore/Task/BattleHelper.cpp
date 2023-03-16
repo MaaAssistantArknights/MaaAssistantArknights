@@ -196,8 +196,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 if (!name_analyzer.analyze()) {
                     return std::string();
                 }
-                name_analyzer.sort_result_by_score();
-                return name_analyzer.get_result().front().text;
+                return name_analyzer.result()->front().text;
             };
 
             OcrWithPreprocessImageAnalyzer preproc_analyzer;

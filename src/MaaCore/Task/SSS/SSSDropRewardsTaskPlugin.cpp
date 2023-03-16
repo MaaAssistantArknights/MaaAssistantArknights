@@ -34,12 +34,12 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
 
     struct DropRecruitment
     {
-        TextRect ocr_res;
+        OcrImageAnalyzer::Result ocr_res;
         std::optional<Role> role;
     };
 
     std::vector<DropRecruitment> opers;
-    for (const auto& result : analyzer.get_result()) {
+    for (const auto& result : *analyzer.result()) {
         if (SSSCopilot.get_data().blacklist.contains(result.text)) {
             continue;
         }

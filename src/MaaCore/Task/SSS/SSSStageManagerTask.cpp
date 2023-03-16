@@ -6,7 +6,6 @@
 #include "Task/ProcessTask.h"
 #include "Task/SSS/SSSBattleProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::SSSStageManagerTask::_run()

@@ -9,11 +9,12 @@ namespace asst
         struct Result
         {
             explicit operator Rect() const noexcept { return rect; }
+            explicit operator std::string() const { return to_string(); }
+
             std::string to_string() const
             {
                 return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
             }
-            explicit operator std::string() const { return to_string(); }
 
             Rect rect;
             double score = 0.0;

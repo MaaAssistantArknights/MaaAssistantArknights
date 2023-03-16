@@ -88,7 +88,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
             sleep(Task.get("RoguelikeCustom-HijackSquad")->post_delay);
             continue;
         }
-        const auto& rect = analyzer.get_result().front().rect;
+        const auto& rect = analyzer.result()->front().rect;
         ctrler()->click(rect);
         return true;
     }
@@ -106,7 +106,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
     if (!analyzer.analyze()) {
         return false;
     }
-    const auto& rect = analyzer.get_result().front().rect;
+    const auto& rect = analyzer.result()->front().rect;
     ctrler()->click(rect);
     return true;
 }
@@ -136,7 +136,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     if (!analyzer.analyze()) {
         return false;
     }
-    const auto& role_rect = analyzer.get_result().front().rect;
+    const auto& role_rect = analyzer.result()->front().rect;
     ctrler()->click(role_rect);
 
     sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);

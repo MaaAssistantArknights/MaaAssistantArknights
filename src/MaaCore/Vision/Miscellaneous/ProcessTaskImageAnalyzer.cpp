@@ -90,20 +90,18 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
 
     (*analyzer_ptr)->set_region_of_appeared(status()->get_rect(ocr_task_ptr->name).value_or(Rect()));
     (*analyzer_ptr)->set_task_info(ocr_task_ptr);
+    (*analyzer_ptr)->set_sorting(OcrImageAnalyzer::Sorting::ByRequired);
 
-    bool ret = (*analyzer_ptr)->analyze();
-
-    if (ret) {
-        (*analyzer_ptr)->sort_result_by_required();
-        const auto& ocr_result = (*analyzer_ptr)->get_result();
-        auto& res = ocr_result.front();
+    if (auto ocr_result = (*analyzer_ptr)->analyze()) {
+        auto& res = ocr_result->front();
         m_result = ocr_task_ptr;
         m_result_rect = res.rect;
         status()->set_rect(ocr_task_ptr->name, m_result_rect);
         // m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
         Log.trace(__FUNCTION__, "| found", res);
+        return true;
     }
-    return ret;
+    return false;
 }
 
 void asst::ProcessTaskImageAnalyzer::reset() noexcept

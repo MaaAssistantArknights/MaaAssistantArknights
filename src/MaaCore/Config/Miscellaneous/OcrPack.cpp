@@ -11,15 +11,13 @@ ASST_SUPPRESS_CV_WARNINGS_END
 
 #include "Config/GeneralConfig.h"
 #include "Utils/Demangle.hpp"
+#include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
-#include "Utils/File.hpp"
 
-
-asst::OcrPack::OcrPack()
-    : m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
+asst::OcrPack::OcrPack() : m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
 {
     LogTraceFunction;
 }
@@ -52,7 +50,8 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         if (std::filesystem::exists(dst_model_file)) {
             auto det_model = asst::utils::read_file<std::string>(dst_model_file);
             option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-            m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option, fastdeploy::ModelFormat::ONNX);
+            m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
+                                                                          fastdeploy::ModelFormat::ONNX);
         }
         else if (!m_det) {
             break;
@@ -63,7 +62,8 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
             auto rec_model = asst::utils::read_file<std::string>(rec_model_file);
             auto label = asst::utils::read_file<std::string>(rec_label_file);
             option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-            m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), label, option, fastdeploy::ModelFormat::ONNX);
+            m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), label, option,
+                                                                          fastdeploy::ModelFormat::ONNX);
         }
         else if (!m_rec) {
             break;
@@ -78,31 +78,32 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         }
     } while (false);
 
-
     return m_det != nullptr && m_rec != nullptr && m_ocr != nullptr && m_det->Initialized() && m_rec->Initialized() &&
            m_ocr->Initialized();
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi,
-                                                     const asst::TextRectProc& pred, bool without_det, bool trim)
+asst::OcrPack::ResultVector asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi,
+                                                            const asst::OcrPack::ResultProc& pred, bool without_det,
+                                                            bool trim)
 {
-    auto rect_cor = [&roi, &pred, &without_det](TextRect& tr) -> bool {
+    auto rect_cor = [&roi, &pred, &without_det](Result& ocr_res) -> bool {
         if (without_det) {
-            tr.rect = roi;
+            ocr_res.rect = roi;
         }
         else {
-            tr.rect.x += roi.x;
-            tr.rect.y += roi.y;
+            ocr_res.rect.x += roi.x;
+            ocr_res.rect.y += roi.y;
         }
-        return pred(tr);
+        return pred(ocr_res);
     };
     Log.trace("OcrPack::recognize | roi:", roi);
     cv::Mat roi_img = image(make_rect<cv::Rect>(roi));
     return recognize(roi_img, rect_cor, without_det, trim);
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
-                                                     bool without_det, bool trim)
+asst::OcrPack::ResultVector asst::OcrPack::recognize(const cv::Mat& image,
+                                                            const asst::OcrPack::ResultProc& pred, bool without_det,
+                                                            bool trim)
 {
     std::string class_type = utils::demangle(typeid(*this).name());
     fastdeploy::vision::OCRResult ocr_result;
@@ -123,8 +124,8 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     cv::Mat draw = image.clone();
 #endif
 
-    std::vector<TextRect> raw_result;
-    std::vector<TextRect> proced_result;
+    ResultVector raw_result;
+    ResultVector proced_result;
     for (size_t i = 0; i != ocr_result.text.size(); ++i) {
         // the box rect like ↓
         // 0 - 1
@@ -150,13 +151,13 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
         if (score > 2.0) {
             score = 0;
         }
-        TextRect tr(score, det_rect, std::move(ocr_result.text.at(i)));
-        raw_result.emplace_back(tr);
+        Result ocr_res { .rect = det_rect, .text = std::move(ocr_result.text.at(i)), .score = score };
+        raw_result.emplace_back(ocr_res);
         if (trim) {
-            utils::string_trim(tr.text);
+            utils::string_trim(ocr_res.text);
         }
-        if (!pred || pred(tr)) {
-            proced_result.emplace_back(std::move(tr));
+        if (!pred || pred(ocr_res)) {
+            proced_result.emplace_back(std::move(ocr_res));
         }
     }
 

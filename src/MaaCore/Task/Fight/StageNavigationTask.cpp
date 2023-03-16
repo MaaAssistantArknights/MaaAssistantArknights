@@ -6,7 +6,6 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
 
 bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
 {

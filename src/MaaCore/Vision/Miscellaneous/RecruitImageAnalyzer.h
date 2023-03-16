@@ -2,11 +2,16 @@
 #include "Vision/AbstractImageAnalyzer.h"
 
 #include "Common/AsstTypes.h"
+#include "Vision/OcrImageAnalyzer.h"
 
 namespace asst
 {
     class RecruitImageAnalyzer final : public AbstractImageAnalyzer
     {
+    public:
+        using Result = OcrImageAnalyzer::Result;
+        using ResultVector = OcrImageAnalyzer::ResultVector;
+
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         RecruitImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;

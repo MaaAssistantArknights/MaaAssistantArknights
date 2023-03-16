@@ -170,30 +170,7 @@ namespace asst
         return To { rect.x, rect.y, rect.width, rect.height };
     }
 
-    struct TextRect
-    {
-        TextRect() = default;
-        ~TextRect() = default;
-        TextRect(const TextRect&) = default;
-        TextRect(TextRect&&) noexcept = default;
-        TextRect(double score, const Rect& rect, const std::string& text) : score(score), rect(rect), text(text) {}
 
-        TextRect& operator=(const TextRect&) = default;
-        TextRect& operator=(TextRect&&) noexcept = default;
-        bool operator==(const TextRect& rhs) const noexcept { return text == rhs.text && rect == rhs.rect; }
-        bool operator==(const std::string& rhs) const noexcept { return text == rhs; }
-        explicit operator Rect() const noexcept { return rect; }
-        std::string to_string() const
-        {
-            return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
-        }
-        explicit operator std::string() const { return to_string(); }
-
-        double score = 0.0;
-        Rect rect;
-        std::string text;
-    };
-    using TextRectProc = std::function<bool(TextRect&)>;
 
 } // namespace asst
 

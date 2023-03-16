@@ -32,8 +32,8 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 
     tags_analyzer.set_image(m_image);
 
-    if (tags_analyzer.analyze()) {
-        m_tags_result = tags_analyzer.get_result();
+    if (auto res = tags_analyzer.analyze()) {
+        m_tags_result = *res;
         return true;
         // if (m_tags_result.size() == RecruitData.CorrectNumberOfTags) {
         //     return true;

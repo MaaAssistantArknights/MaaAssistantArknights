@@ -31,13 +31,31 @@ namespace asst
     class OcrPack : public AbstractResource
     {
     public:
+        struct Result
+        {
+            explicit operator Rect() const noexcept { return rect; }
+            explicit operator std::string() const { return to_string(); }
+
+            std::string to_string() const
+            {
+                return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
+            }
+
+            Rect rect;
+            std::string text;
+            double score = 0.0;
+        };
+        using ResultVector = std::vector<Result>;
+        using ResultProc = std::function<bool(Result&)>;
+
+    public:
         virtual ~OcrPack() override;
 
         virtual bool load(const std::filesystem::path& path) override;
 
-        std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr,
+        ResultVector recognize(const cv::Mat& image, const ResultProc& pred = nullptr,
                                         bool without_det = false, bool trim = true);
-        std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr,
+        ResultVector recognize(const cv::Mat& image, const Rect& roi, const ResultProc& pred = nullptr,
                                         bool without_det = false, bool trim = true);
 
     protected:

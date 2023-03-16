@@ -58,7 +58,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left()
     if (!analyzer.analyze()) {
         return -1;
     }
-    auto text = analyzer.get_result().front().text;
+    auto text = analyzer.result()->front().text;
 
     std::regex regex = std::regex(R"(\d[:]\d\d)");
     std::smatch match;

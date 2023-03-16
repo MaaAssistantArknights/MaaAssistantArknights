@@ -3,30 +3,28 @@
 #include <regex>
 #include <unordered_map>
 
-#include "Config/Miscellaneous/OcrPack.h"
 #include "Config/Miscellaneous/OcrConfig.h"
+#include "Config/Miscellaneous/OcrPack.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
-bool asst::OcrImageAnalyzer::analyze()
+const std::optional<asst::OcrImageAnalyzer::ResultVector>& asst::OcrImageAnalyzer::analyze() const
 {
-    // LogTraceFunction;
+    m_result = std::nullopt;
 
-    m_ocr_result.clear();
+    std::vector<ResultProc> preds_vec;
 
-    std::vector<TextRectProc> preds_vec;
-
-    preds_vec.emplace_back([](TextRect& tr) -> bool {
-        tr.text = OcrConfig::get_instance().process_equivalence_class(tr.text);
+    preds_vec.emplace_back([](Result& ocr_res) -> bool {
+        ocr_res.text = OcrConfig::get_instance().process_equivalence_class(ocr_res.text);
         return true;
     });
 
     if (!m_replace.empty()) {
         if (m_replace_full) {
-            TextRectProc text_replace = [&](TextRect& tr) -> bool {
+            ResultProc text_replace = [&](Result& ocr_res) -> bool {
                 for (const auto& [regex, new_str] : m_replace) {
-                    if (std::regex_search(tr.text, std::regex(regex))) {
-                        tr.text = new_str;
+                    if (std::regex_search(ocr_res.text, std::regex(regex))) {
+                        ocr_res.text = new_str;
                     }
                 }
                 return true;
@@ -34,9 +32,9 @@ bool asst::OcrImageAnalyzer::analyze()
             preds_vec.emplace_back(text_replace);
         }
         else {
-            TextRectProc text_replace = [&](TextRect& tr) -> bool {
+            ResultProc text_replace = [&](Result& ocr_res) -> bool {
                 for (const auto& [regex, new_str] : m_replace) {
-                    tr.text = std::regex_replace(tr.text, std::regex(regex), new_str);
+                    ocr_res.text = std::regex_replace(ocr_res.text, std::regex(regex), new_str);
                 }
                 return true;
             };
@@ -46,18 +44,18 @@ bool asst::OcrImageAnalyzer::analyze()
 
     if (!m_required.empty()) {
         if (m_full_match) {
-            TextRectProc required_match = [&](TextRect& tr) -> bool {
-                return ranges::find(m_required, tr.text) != m_required.cend();
+            ResultProc required_match = [&](Result& ocr_res) -> bool {
+                return ranges::find(m_required, ocr_res.text) != m_required.cend();
             };
             preds_vec.emplace_back(required_match);
         }
         else {
-            TextRectProc required_search = [&](TextRect& tr) -> bool {
-                auto is_sub = [&tr](const std::string& str) -> bool {
-                    if (tr.text.find(str) == std::string::npos) {
+            ResultProc required_search = [&](Result& ocr_res) -> bool {
+                auto is_sub = [&ocr_res](const std::string& str) -> bool {
+                    if (ocr_res.text.find(str) == std::string::npos) {
                         return false;
                     }
-                    tr.text = str;
+                    ocr_res.text = str;
                     return true;
                 };
                 return ranges::find_if(m_required, is_sub) != m_required.cend();
@@ -68,16 +66,14 @@ bool asst::OcrImageAnalyzer::analyze()
 
     preds_vec.emplace_back(m_pred);
 
-    TextRectProc all_pred = [&](TextRect& tr) -> bool {
+    ResultProc all_pred = [&](Result& ocr_res) -> bool {
         for (const auto& pred : preds_vec) {
-            if (pred && !pred(tr)) {
+            if (pred && !pred(ocr_res)) {
                 return false;
             }
         }
         return true;
     };
-
-    m_roi = correct_rect(m_roi, m_image);
 
     OcrPack* ocr_ptr = nullptr;
     if (m_use_char_model) {
@@ -86,23 +82,17 @@ bool asst::OcrImageAnalyzer::analyze()
     else {
         ocr_ptr = &WordOcr::get_instance();
     }
-    m_ocr_result = ocr_ptr->recognize(m_image, m_roi, all_pred, m_without_det);
+    auto results = ocr_ptr->recognize(m_image, m_roi, all_pred, m_without_det);
     ocr_ptr = nullptr;
 
-    // log.trace("ocr result", m_ocr_result);
-    return !m_ocr_result.empty();
-}
-
-void asst::OcrImageAnalyzer::filter(const TextRectProc& filter_func)
-{
-    std::vector<TextRect> temp_result;
-
-    for (auto&& tr : get_result()) {
-        if (filter_func(tr)) {
-            temp_result.emplace_back(std::move(tr));
-        }
+    if (results.empty()) {
+        return std::nullopt;
     }
-    get_result() = std::move(temp_result);
+
+    sort_(results, m_sorting);
+    m_result = results;
+
+    return m_result;
 }
 
 void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
@@ -112,11 +102,13 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
 
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
-    ranges::for_each(required, [](std::string& str) { str = OcrConfig::get_instance().process_equivalence_class(str); });
+    ranges::for_each(required,
+                     [](std::string& str) { str = OcrConfig::get_instance().process_equivalence_class(str); });
     m_required = std::move(required);
 }
 
-void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace, bool replace_full) noexcept
+void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace,
+                                         bool replace_full) noexcept
 {
     m_replace = {};
     for (auto&& [key, val] : replace) {
@@ -125,6 +117,11 @@ void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, s
         m_replace.emplace(std::move(new_key), val);
     }
     m_replace_full = replace_full;
+}
+
+void asst::OcrImageAnalyzer::set_sorting(Sorting s)
+{
+    m_sorting = s;
 }
 
 void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
@@ -143,11 +140,6 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
         set_roi(task_info.roi);
         m_without_det = task_info.without_det;
     }
-}
-
-std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() noexcept
-{
-    return m_ocr_result;
 }
 
 void asst::OcrImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
@@ -174,52 +166,37 @@ void asst::OcrImageAnalyzer::set_use_char_model(bool enable) noexcept
     m_use_char_model = enable;
 }
 
-void asst::OcrImageAnalyzer::set_pred(const TextRectProc& pred)
+void asst::OcrImageAnalyzer::set_pred(const ResultProc& pred)
 {
     m_pred = pred;
 }
 
-const std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() const noexcept
+void asst::OcrImageAnalyzer::sort_(ResultVector& res, Sorting method) const
 {
-    return m_ocr_result;
+    switch (method) {
+    case Sorting::None:
+        break;
+    case Sorting::ByScore:
+        sort_by_score_(res);
+        break;
+    case Sorting::ByRequired:
+        sort_by_required_(res);
+        break;
+    case Sorting::ByHorizontal:
+        sort_by_horizontal_(res);
+        break;
+    case Sorting::ByVertical:
+        sort_by_vertical_(res);
+        break;
+    }
 }
 
-void asst::OcrImageAnalyzer::sort_result_horizontal()
+void asst::OcrImageAnalyzer::sort_by_score_(ResultVector& res) const
 {
-    // 按位置排个序
-    ranges::sort(get_result(), [](const TextRect& lhs, const TextRect& rhs) -> bool {
-        if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
-            return lhs.rect.x < rhs.rect.x;
-        }
-        else {
-            return lhs.rect.y < rhs.rect.y;
-        }
-    });
+    ranges::sort(res, std::greater {}, std::mem_fn(&Result::score));
 }
 
-void asst::OcrImageAnalyzer::sort_result_vertical()
-{
-    // 按位置排个序（顺序如下）
-    // +---+
-    // |1 3|
-    // |2 4|
-    // +---+
-    ranges::sort(get_result(), [](const TextRect& lhs, const TextRect& rhs) -> bool {
-        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
-            return lhs.rect.y < rhs.rect.y;
-        }
-        else {
-            return lhs.rect.x < rhs.rect.x;
-        }
-    });
-}
-
-void asst::OcrImageAnalyzer::sort_result_by_score()
-{
-    ranges::sort(get_result(), std::greater {}, std::mem_fn(&TextRect::score));
-}
-
-void asst::OcrImageAnalyzer::sort_result_by_required()
+void asst::OcrImageAnalyzer::sort_by_required_(ResultVector& res) const
 {
     if (m_required.empty()) {
         return;
@@ -230,9 +207,8 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
         req_cache.emplace(m_required.at(i), i + 1);
     }
 
-    auto& result = get_result();
     // 不在 m_required 中的将被排在最后
-    ranges::sort(result, [&req_cache](const auto& lhs, const auto& rhs) -> bool {
+    ranges::sort(res, [&req_cache](const auto& lhs, const auto& rhs) -> bool {
         size_t lvalue = req_cache[lhs.text];
         size_t rvalue = req_cache[rhs.text];
         if (lvalue == 0) {
@@ -242,5 +218,37 @@ void asst::OcrImageAnalyzer::sort_result_by_required()
             return true;
         }
         return lvalue < rvalue;
+    });
+}
+
+void asst::OcrImageAnalyzer::sort_by_horizontal_(ResultVector& res) const
+{
+    // +---+
+    // |1 2|
+    // |3 4|
+    // +---+
+    ranges::sort(res, [](const Result& lhs, const Result& rhs) -> bool {
+        if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
+            return lhs.rect.x < rhs.rect.x;
+        }
+        else {
+            return lhs.rect.y < rhs.rect.y;
+        }
+    });
+}
+
+void asst::OcrImageAnalyzer::sort_by_vertical_(ResultVector& res) const
+{
+    // +---+
+    // |1 3|
+    // |2 4|
+    // +---+
+    ranges::sort(res, [](const Result& lhs, const Result& rhs) -> bool {
+        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
+            return lhs.rect.y < rhs.rect.y;
+        }
+        else {
+            return lhs.rect.x < rhs.rect.x;
+        }
     });
 }

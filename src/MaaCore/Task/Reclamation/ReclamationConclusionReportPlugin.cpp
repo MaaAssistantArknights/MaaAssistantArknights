@@ -65,7 +65,7 @@ int asst::ReclamationConclusionReportPlugin::analyze_badges(const cv::Mat& image
     roi.x = newX;
     badgeCntAnalyzer.set_roi(roi);
     if (!badgeCntAnalyzer.analyze()) return -1;
-    std::string result = badgeCntAnalyzer.get_result().front().text;
+    std::string result = badgeCntAnalyzer.result()->front().text;
     try {
         return std::stoi(result);
     }
@@ -80,7 +80,7 @@ int asst::ReclamationConclusionReportPlugin::analyze_construction_points(const c
     consAnalyzer.set_task_info("NumberOcrReplace");
     consAnalyzer.set_roi(Task.get("Reclamation@ReportConstructPointsOcr")->roi);
     if (!consAnalyzer.analyze()) return -1;
-    std::string result = consAnalyzer.get_result().front().text;
+    std::string result = consAnalyzer.result()->front().text;
     try {
         return std::stoi(result);
     }

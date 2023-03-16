@@ -23,7 +23,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         analyzer.set_roi(task->roi);
         analyzer.set_required(task->text);
         if (!analyzer.analyze()) return false;
-        m_choose_support_result = analyzer.get_result().front().rect;
+        m_choose_support_result = analyzer.result()->front().rect;
         Log.info(__FUNCTION__, "| ChooseSupportBtn");
         return true;
     }
@@ -36,7 +36,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
                              Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
         if (!analyzer.analyze()) return false;
 
-        const auto& char_name_rects = analyzer.get_result();
+        const auto& char_name_rects = *analyzer.result();
         const auto& task_off1 = Task.get("RoguelikeRecruitSupportOff1");
         const auto& task_off_elite = Task.get("RoguelikeRecruitSupportEliteOff");
         const auto& task_off_level = Task.get("RoguelikeRecruitSupportLevelOff");
@@ -97,7 +97,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         // 未处在冷却时间
         analyzer.set_task_info("RoguelikeRefreshSupportBtnOcr");
         if (analyzer.analyze()) {
-            m_refresh_result = { analyzer.get_result().front().rect, false, 0 };
+            m_refresh_result = { analyzer.result()->front().rect, false, 0 };
             return true;
         }
 
@@ -108,8 +108,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             Log.info(__FUNCTION__, "| RefreshSupportBtn analyse failed");
             return false;
         }
-        const auto& results = analyzer.get_result();
-        for (const auto& result : results) {
+        for (const auto& result : *analyzer.result()) {
             Log.info(__FUNCTION__, "| RefreshSupportBtn parse `", result.text, "`", result.score);
             std::smatch match_results;
             if (std::regex_search(result.text, match_results, std::regex("[0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
