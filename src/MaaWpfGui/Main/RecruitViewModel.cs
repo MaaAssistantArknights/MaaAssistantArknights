@@ -69,7 +69,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _recruitResult, value);
         }
 
-        private bool _chooseLevel3 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel3", bool.FalseString));
+        private bool _chooseLevel3 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel3, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 3.
@@ -80,11 +80,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
-                ViewStatusStorage.Set("Recruit.ChooseLevel3", value.ToString());
+                Config.Set(Config.ChooseLevel3, value.ToString());
             }
         }
 
-        private bool _chooseLevel4 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel4", bool.TrueString));
+        private bool _chooseLevel4 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel4, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 4.
@@ -95,11 +95,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
-                ViewStatusStorage.Set("Recruit.ChooseLevel4", value.ToString());
+                Config.Set(Config.ChooseLevel4, value.ToString());
             }
         }
 
-        private bool _chooseLevel5 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel5", bool.TrueString));
+        private bool _chooseLevel5 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel5, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 5.
@@ -110,11 +110,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
-                ViewStatusStorage.Set("Recruit.ChooseLevel5", value.ToString());
+                Config.Set(Config.ChooseLevel5, value.ToString());
             }
         }
 
-        private bool _chooseLevel6 = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.ChooseLevel6", bool.TrueString));
+        private bool _chooseLevel6 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel6, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 6.
@@ -125,11 +125,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _chooseLevel6, value);
-                ViewStatusStorage.Set("Recruit.ChooseLevel6", value.ToString());
+                Config.Set(Config.ChooseLevel6, value.ToString());
             }
         }
 
-        private bool _autoSetTime = System.Convert.ToBoolean(ViewStatusStorage.Get("Recruit.AutoSetTime", bool.TrueString));
+        private bool _autoSetTime = System.Convert.ToBoolean(Config.Get(Config.AutoSetTime, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to set time automatically.
@@ -140,11 +140,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _autoSetTime, value);
-                ViewStatusStorage.Set("Recruit.AutoSetTime", value.ToString());
+                Config.Set(Config.AutoSetTime, value.ToString());
             }
         }
 
-        private bool _isLevel3UseShortTime = Convert.ToBoolean(ViewStatusStorage.Get("Recruit.IsLevel3UseShortTime", bool.FalseString));
+        private bool _isLevel3UseShortTime = Convert.ToBoolean(Config.Get(Config.Level3UseShortTime, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to shorten the time for level 3.
@@ -155,7 +155,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _isLevel3UseShortTime, value);
-                ViewStatusStorage.Set("Recruit.IsLevel3UseShortTime", value.ToString());
+                Config.Set(Config.Level3UseShortTime, value.ToString());
             }
         }
 
