@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using MaaWpfGui.Helper;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -41,7 +40,7 @@ namespace MaaWpfGui.Views
 
             ShouldExit = shouldExit;
 
-            var isZhCn = ViewStatusStorage.Get(ConfigKeys.Localization, Localization.DefaultLanguage) == "zh-cn";
+            var isZhCn = Config.Get(Config.Localization, Localization.DefaultLanguage) == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Hidden;
         }
 
