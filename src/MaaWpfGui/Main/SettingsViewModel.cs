@@ -559,7 +559,26 @@ namespace MaaWpfGui
                 }
             }
 
-            Thread.Sleep(delay * 1000);
+
+            for (var i = 0; i < delay; ++i)
+            {
+                // TODO: _taskQueueViewModel在SettingsViewModel显示之前为null。所以获取不到Stopping内容，导致无法停止等待,等个有缘人优化下）
+                // 一般是点了“停止”按钮了
+                /*
+                if (_taskQueueViewModel.Stopping)
+                {
+                    AsstProxy.AsstLog("Stop waiting for the emulator to start");
+                    return;
+                }
+                */
+                if (i % 10 == 0)
+                {
+                    // 同样的问题，因为_taskQueueViewModel为null，所以无法偶在主界面的log里显示
+                    AsstProxy.AsstLog("Waiting for the emulator to start: " + (delay - i) + "s");
+                }
+
+                Thread.Sleep(1000);
+            }
         }
 
         /// <summary>
