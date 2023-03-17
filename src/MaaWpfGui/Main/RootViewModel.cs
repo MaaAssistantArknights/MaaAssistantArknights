@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
+using System.Windows;
 using Stylet;
 using StyletIoC;
 

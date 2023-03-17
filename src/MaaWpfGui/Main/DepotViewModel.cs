@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -46,6 +47,10 @@ namespace MaaWpfGui
         {
             base.OnInitialActivate();
             _asstProxy = _container.Get<AsstProxy>();
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         private string _depotInfo = Localization.GetString("DepotRecognitionTip");

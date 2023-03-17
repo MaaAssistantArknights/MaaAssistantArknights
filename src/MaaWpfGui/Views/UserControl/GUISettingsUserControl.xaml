@@ -29,6 +29,11 @@
                 HorizontalAlignment="Left"
                 Content="{DynamicResource SystemNotification}"
                 IsChecked="{Binding UseNotify}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                Content="IIR (BETA)"
+                IsChecked="{Binding SetColors}" />
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"
