@@ -628,6 +628,13 @@ namespace MaaWpfGui
                     _settingsViewModel.TryToStartEmulator(true);
                 });
                 await subtask;
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return;
+                }
+
                 task = Task.Run(() =>
                 {
                     return _asstProxy.AsstConnect(ref errMsg);
