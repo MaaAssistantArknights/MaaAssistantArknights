@@ -25,12 +25,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Newtonsoft.Json;
 using Stylet;
 using StyletIoC;
+using Windows.UI.WindowManagement;
 
 namespace MaaWpfGui
 {
@@ -140,6 +142,11 @@ namespace MaaWpfGui
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         private List<string> _listTitle = new List<string>();
@@ -2211,6 +2218,39 @@ namespace MaaWpfGui
                 }
             }
         }
+
+        private bool _setColors = Convert.ToBoolean(ViewStatusStorage.Get("GUI.SetColors", bool.FalseString));
+
+        public bool SetColors
+        {
+            get => _setColors;
+            set
+            {
+                SetAndNotify(ref _setColors, value);
+                ViewStatusStorage.Set("GUI.SetColors", value.ToString());
+
+                System.Windows.Forms.MessageBoxManager.Unregister();
+                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
+                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
+                System.Windows.Forms.MessageBoxManager.Register();
+                Window mainWindow = Application.Current.MainWindow;
+                mainWindow.Show();
+                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Activate();
+                var result = MessageBox.Show(
+                    Localization.GetString("IIRSetColorsTip"),
+                    Localization.GetString("Tip"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+                System.Windows.Forms.MessageBoxManager.Unregister();
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                    System.Windows.Forms.Application.Restart();
+                }
+            }
+        }
+
 
         private bool _loadGUIParameters = Convert.ToBoolean(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString));
 

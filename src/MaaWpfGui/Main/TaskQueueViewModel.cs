@@ -137,6 +137,11 @@ namespace MaaWpfGui
             {
                 Application.Current.MainWindow.Closing += _settingsViewModel.SaveGUIParameters;
             }
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         /*
