@@ -391,7 +391,7 @@ namespace MaaWpfGui
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
-            if (!Convert.ToBoolean(ViewStatusStorage.Get(ConfigKeys.UseNotify, bool.TrueString)))
+            if (!Convert.ToBoolean(Config.Get(Config.UseNotify, bool.TrueString)))
             {
                 return;
             }

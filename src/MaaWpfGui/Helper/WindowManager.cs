@@ -15,7 +15,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using MaaWpfGui.Helper;
 using Stylet;
 
 namespace MaaWpfGui
@@ -27,15 +26,15 @@ namespace MaaWpfGui
         {
         }
 
-        private readonly string ScreenName = ViewStatusStorage.Get(ConfigKeys.MonitorNumber, string.Empty);
-        private readonly int ScreenWidth = int.Parse(ViewStatusStorage.Get(ConfigKeys.MonitorWidth, "-1"));
-        private readonly int ScreenHeight = int.Parse(ViewStatusStorage.Get(ConfigKeys.MonitorHeight, "-1"));
+        private readonly string ScreenName = Config.Get(Config.MonitorNumber, string.Empty);
+        private readonly int ScreenWidth = int.Parse(Config.Get(Config.MonitorWidth, "-1"));
+        private readonly int ScreenHeight = int.Parse(Config.Get(Config.MonitorHeight, "-1"));
 
         private static readonly double DefaultDouble = -114514;
-        private readonly double Left = double.Parse(ViewStatusStorage.Get(ConfigKeys.PositionLeft, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Top = double.Parse(ViewStatusStorage.Get(ConfigKeys.PositionTop, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Width = double.Parse(ViewStatusStorage.Get(ConfigKeys.WindowWidth, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Height = double.Parse(ViewStatusStorage.Get(ConfigKeys.WindowHeight, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Left = double.Parse(Config.Get(Config.PositionLeft, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Top = double.Parse(Config.Get(Config.PositionTop, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Width = double.Parse(Config.Get(Config.WindowWidth, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Height = double.Parse(Config.Get(Config.WindowHeight, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
 
         private readonly string RootView = "MaaWpfGui.RootView";
 
@@ -62,7 +61,7 @@ namespace MaaWpfGui
         protected override Window CreateWindow(object viewModel, bool isDialog, IViewAware ownerViewModel)
         {
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
-            if (bool.Parse(ViewStatusStorage.Get(ConfigKeys.LoadPositionAndSize, bool.TrueString)))
+            if (bool.Parse(Config.Get(Config.LoadPositionAndSize, bool.TrueString)))
             {
                 if (isDialog || ownerViewModel != null || Left == DefaultDouble || Top == DefaultDouble)
                 {

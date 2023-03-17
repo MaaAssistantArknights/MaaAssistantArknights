@@ -64,7 +64,7 @@ namespace MaaWpfGui
             }
         }
 
-        private static readonly string _culture = ViewStatusStorage.Get(ConfigKeys.Localization, DefaultLanguage);
+        private static readonly string _culture = Config.Get(Config.Localization, DefaultLanguage);
 
         /// <summary>
         /// Loads localizations.
