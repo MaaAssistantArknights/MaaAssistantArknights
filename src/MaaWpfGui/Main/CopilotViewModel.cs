@@ -414,7 +414,7 @@ namespace MaaWpfGui
 
         public bool Loop { get; set; } = false;
 
-        private int _loopTimes = int.Parse(ViewStatusStorage.Get("Copilot.LoopTimes", "1"));
+        private int _loopTimes = int.Parse(Config.Get(Config.CopilotLoopTimes, "1"));
 
         public int LoopTimes
         {
@@ -422,7 +422,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _loopTimes, value);
-                ViewStatusStorage.Set("Copilot.LoopTimes", value.ToString());
+                Config.Set(Config.CopilotLoopTimes, value.ToString());
             }
         }
 

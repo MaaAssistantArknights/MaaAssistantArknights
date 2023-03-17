@@ -19,7 +19,6 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
@@ -68,7 +67,7 @@ namespace MaaWpfGui
         private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
-        private string _updateTag = ViewStatusStorage.Get("VersionUpdate.name", string.Empty);
+        private string _updateTag = Config.Get(Config.VersionName, string.Empty);
 
         /// <summary>
         /// Gets or sets the update tag.
@@ -79,11 +78,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _updateTag, value);
-                ViewStatusStorage.Set("VersionUpdate.name", value);
+                Config.Set(Config.VersionName, value);
             }
         }
 
-        private string _updateInfo = ViewStatusStorage.Get("VersionUpdate.body", string.Empty);
+        private string _updateInfo = Config.Get(Config.VersionUpdateBody, string.Empty);
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -107,7 +106,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _updateInfo, value);
-                ViewStatusStorage.Set("VersionUpdate.body", value);
+                Config.Set(Config.VersionUpdateBody, value);
             }
         }
 
@@ -125,7 +124,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _updateUrl, value);
         }
 
-        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ViewStatusStorage.Get("VersionUpdate.isfirstboot", bool.FalseString));
+        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(Config.Get(Config.VersionUpdateIsFirstBoot, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether it is the first boot after updating.
@@ -136,11 +135,11 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _isFirstBootAfterUpdate, value);
-                ViewStatusStorage.Set("VersionUpdate.isfirstboot", value.ToString());
+                Config.Set(Config.VersionUpdateIsFirstBoot, value.ToString());
             }
         }
 
-        private string _updatePackageName = ViewStatusStorage.Get("VersionUpdate.package", string.Empty);
+        private string _updatePackageName = Config.Get(Config.VersionUpdatePackage, string.Empty);
 
         /// <summary>
         /// Gets or sets the name of the update package.
@@ -151,7 +150,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _updatePackageName, value);
-                ViewStatusStorage.Set("VersionUpdate.package", value);
+                Config.Set(Config.VersionUpdatePackage, value);
             }
         }
 
@@ -288,7 +287,7 @@ namespace MaaWpfGui
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             UpdatePackageName = string.Empty;
             IsFirstBootAfterUpdate = true;
-            ViewStatusStorage.Release();
+            Config.Release();
 
             // 重启进程（启动的是更新后的程序了）
             var newProcess = new Process();
