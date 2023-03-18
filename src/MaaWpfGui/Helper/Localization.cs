@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using MaaWpfGui.Helper;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -63,7 +64,7 @@ namespace MaaWpfGui
             }
         }
 
-        private static readonly string _culture = ViewStatusStorage.Get("GUI.Localization", DefaultLanguage);
+        private static readonly string _culture = Config.Get(Config.Localization, DefaultLanguage);
 
         /// <summary>
         /// Loads localizations.
