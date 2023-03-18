@@ -13,9 +13,9 @@
 
 using System;
 using System.Diagnostics;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -38,9 +38,35 @@ namespace MaaWpfGui
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            bool setColors = Convert.ToBoolean(ViewStatusStorage.Get("GUI.SetColors", bool.FalseString));
+            if (!setColors)
+            {
+                return;
+            }
 
             // 在应用程序启动时，遍历所有控件并设置它们的颜色
             SetAllControlColors(Current.MainWindow);
+
+            // 修改下拉框的颜色
+            EventManager.RegisterClassHandler(typeof(ComboBox), ComboBox.PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(ComboBox_DropDownOpened));
+        }
+
+        private void ComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+            if (!(sender is ComboBox comboBox))
+            {
+                return;
+            }
+
+            if (!(comboBox.Template.FindName("PART_Popup", comboBox) is Popup popup) || popup.Child == null)
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                SetAllControlColors(popup.Child);
+            }));
         }
 
         public static void SetAllControlColors(DependencyObject obj)
