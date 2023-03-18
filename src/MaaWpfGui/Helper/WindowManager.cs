@@ -84,6 +84,9 @@ namespace MaaWpfGui
                 }
             }
 
+            var app = Application.Current as App;
+            app.darkToStart();
+
             return window;
         }
     }
