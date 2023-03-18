@@ -139,6 +139,11 @@ namespace MaaWpfGui
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         private List<string> _listTitle = new List<string>();
@@ -558,7 +563,26 @@ namespace MaaWpfGui
                 }
             }
 
-            Thread.Sleep(delay * 1000);
+
+            for (var i = 0; i < delay; ++i)
+            {
+                // TODO: _taskQueueViewModel在SettingsViewModel显示之前为null。所以获取不到Stopping内容，导致无法停止等待,等个有缘人优化下）
+                // 一般是点了“停止”按钮了
+                /*
+                if (_taskQueueViewModel.Stopping)
+                {
+                    AsstProxy.AsstLog("Stop waiting for the emulator to start");
+                    return;
+                }
+                */
+                if (i % 10 == 0)
+                {
+                    // 同样的问题，因为_taskQueueViewModel为null，所以无法偶在主界面的log里显示
+                    AsstProxy.AsstLog("Waiting for the emulator to start: " + (delay - i) + "s");
+                }
+
+                Thread.Sleep(1000);
+            }
         }
 
         /// <summary>
@@ -2198,7 +2222,40 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _setColors = Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
+
+        public bool SetColors
+        {
+            get => _setColors;
+            set
+            {
+                SetAndNotify(ref _setColors, value);
+                Config.Set(Config.SetColors, value.ToString());
+
+                System.Windows.Forms.MessageBoxManager.Unregister();
+                System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");
+                System.Windows.Forms.MessageBoxManager.No = Localization.GetString("ManualRestart");
+                System.Windows.Forms.MessageBoxManager.Register();
+                Window mainWindow = Application.Current.MainWindow;
+                mainWindow.Show();
+                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Activate();
+                var result = MessageBox.Show(
+                    Localization.GetString("IIRSetColorsTip"),
+                    Localization.GetString("Tip"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+                System.Windows.Forms.MessageBoxManager.Unregister();
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                    System.Windows.Forms.Application.Restart();
+                }
+            }
+        }
+
         private bool _loadGUIParameters = Convert.ToBoolean(Config.Get(Config.LoadPositionAndSize, bool.TrueString));
+
 
         /// <summary>
         /// Gets or sets a value indicating whether to load GUI parameters.

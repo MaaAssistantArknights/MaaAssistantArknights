@@ -18,7 +18,7 @@
     KeyDown="{s:Action KeyDown}"
     MouseDown="{s:Action MouseDown}"
     mc:Ignorable="d">
-    <Grid Margin="20" Background="White">
+    <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -66,12 +66,13 @@
                     VerticalContentAlignment="Center"
                     Content="{DynamicResource LoopTimes}"
                     IsChecked="{Binding Loop}" />
-                <hc:TextBox
+                <TextBox
                     Width="60"
                     Height="30"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
                     InputMethod.IsInputMethodEnabled="False"
-                    Text="{Binding LoopTimes}"
-                    TextType="Int" />
+                    Text="{Binding LoopTimes}" />
             </StackPanel>
             <Grid Margin="0,10,0,30">
                 <Button

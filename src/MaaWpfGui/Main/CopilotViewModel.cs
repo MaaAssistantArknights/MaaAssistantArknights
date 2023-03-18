@@ -67,6 +67,10 @@ namespace MaaWpfGui
             base.OnInitialActivate();
             _asstProxy = _container.Get<AsstProxy>();
             _settingsViewModel = _container.Get<SettingsViewModel>();
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         /// <summary>

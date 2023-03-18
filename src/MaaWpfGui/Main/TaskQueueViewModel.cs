@@ -137,6 +137,11 @@ namespace MaaWpfGui
             {
                 Application.Current.MainWindow.Closing += _settingsViewModel.SaveGUIParameters;
             }
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         /*
@@ -628,6 +633,13 @@ namespace MaaWpfGui
                     _settingsViewModel.TryToStartEmulator(true);
                 });
                 await subtask;
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return;
+                }
+
                 task = Task.Run(() =>
                 {
                     return _asstProxy.AsstConnect(ref errMsg);
