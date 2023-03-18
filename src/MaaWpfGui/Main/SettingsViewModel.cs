@@ -24,15 +24,12 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Interop;
 using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Newtonsoft.Json;
 using Stylet;
 using StyletIoC;
-using Windows.UI.WindowManagement;
 
 namespace MaaWpfGui
 {
