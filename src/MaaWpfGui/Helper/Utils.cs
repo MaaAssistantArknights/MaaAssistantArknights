@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -24,7 +25,7 @@ namespace MaaWpfGui
     {
         static Utils()
         {
-            var language = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage);
+            var language = Config.Get(Config.Localization, Localization.DefaultLanguage);
             string filename = string.Empty;
             if (language == "zh-cn")
             {
@@ -59,7 +60,7 @@ namespace MaaWpfGui
             }
         }
 
-        private static string _clientType = ViewStatusStorage.Get("Start.ClientType", string.Empty);
+        private static string _clientType = Config.Get(Config.ClientType, string.Empty);
 
         public static string ClientType { get => _clientType; set => _clientType = value; }
 

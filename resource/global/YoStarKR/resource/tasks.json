@@ -14,6 +14,18 @@
             "석양"
         ]
     },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "하드모드",
+            "하드"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "노멀모드",
+            "노멀"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的ocrReplace被所有涉及干员名的韩文识别任务复用 이 작업의 'ocrReplace'는 운영자 이름과 관련된 모든 인식 작업에서 재사용됩니다",
         "ocrReplace": [
@@ -1536,6 +1548,11 @@
             56
         ]
     },
+    "TodaysSupplies": {
+        "text": [
+            "당일배급"
+        ]
+    },
     "StartButton1": {
         "text": [
             "작전개시"
@@ -1573,6 +1590,12 @@
             "즉시"
         ]
     },
+    "NoFriends": {
+        "text": [
+            "등록된",
+            "없습니다"
+        ]
+    },
     "VisitNextOcr": {
         "text": [
             "다음",
@@ -1589,6 +1612,19 @@
             "크레딧",
             "크레딪",
             "크레딜"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "일일공유참여상한도달",
+            "일일최대10회",
+            "상한"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "부족",
+            "불가"
         ]
     },
     "RecruitTags": {
@@ -1772,6 +1808,19 @@
             "신뢰도",
             "센리도",
             "센뢰도"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "배치정보"
+        ]
+    },
+    "InfrastEnterOperList": {
+        "text": [
+            "컨디션",
+            "휴식중",
+            "업무중",
+            "배치"
         ]
     },
     "BattleStageName": {
@@ -1980,6 +2029,154 @@
             [
                 "강건너불구경",
                 "隔岸观火"
+            ]
+        ]
+    },
+    "BattleQuickFormationFilter-Cost": {
+        "text": [
+            "배치코스트"
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "작전개시"
+        ]
+    },
+    "StageDrops-Quantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            62,
+            90,
+            46,
+            22
+        ],
+        "maskRange": [
+            200,
+            255
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "팬텀",
+            "팬럼"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "미즈키"
+        ]
+    },
+    "Roguelike@StageTraderInvestSystemFull": {
+        "text": [
+            "예치금잔액최대달성"
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.8
+    },
+    "RoguelikeCustom-HijackCoChar": {
+        "ocrReplace": [
+            [
+                "캐스터",
+                "术师"
+            ],
+            [
+                "메딕",
+                "医疗"
+            ],
+            [
+                "뱅가드",
+                "先锋"
+            ],
+            [
+                "스나이퍼",
+                "狙击"
+            ],
+            [
+                "스페셜리스트",
+                "特种"
+            ],
+            [
+                "서포터",
+                "辅助"
+            ],
+            [
+                "디펜더",
+                "重装"
+            ],
+            [
+                "가드",
+                "近卫"
+            ]
+        ]
+    },
+    "RoguelikeCustom-HijackRoles": {
+        "ocrReplace": [
+            [
+                "원하는",
+                "随心所欲"
+            ],
+            [
+                "원하는대로",
+                "随心所欲"
+            ],
+            [
+                "선수필승",
+                "先手必胜"
+            ],
+            [
+                "차근차근",
+                "稳扎稳打"
+            ],
+            [
+                "상호보완",
+                "取长补短"
+            ]
+        ]
+    },
+    "RoguelikeCustom-HijackSquad": {
+        "ocrReplace": [
+            [
+                "^지휘.*",
+                "指挥分队"
+            ],
+            [
+                "^집합.*",
+                "集群分队"
+            ],
+            [
+                "^지원.*",
+                "后勤分队"
+            ],
+            [
+                "^예봉.*",
+                "矛头分队"
+            ],
+            [
+                "^강습.*",
+                "突击战术分队"
+            ],
+            [
+                "^방어.*",
+                "堡垒战术分队"
+            ],
+            [
+                "^원거리.*",
+                "远程战术分队"
+            ],
+            [
+                "^파괴.*",
+                "破坏战术分队"
+            ],
+            [
+                "^연구.*",
+                "研究分队"
+            ],
+            [
+                "^고급화.*",
+                "高规格分队"
             ]
         ]
     },
@@ -3268,200 +3465,6 @@
             ]
         ]
     },
-    "VisitLimited": {
-        "text": [
-            "일일공유참여상한도달",
-            "일일최대10회",
-            "상한"
-        ]
-    },
-    "NoFriends": {
-        "text": [
-            "등록된",
-            "없습니다"
-        ]
-    },
-    "StageDrops-Quantity": {
-        "template": "empty.png",
-        "templThreshold": 3,
-        "templThreshold_Doc": "这里用来作为字间距阈值",
-        "roi": [
-            62,
-            90,
-            46,
-            22
-        ],
-        "maskRange": [
-            200,
-            255
-        ]
-    },
-    "CreditShop-NoMoney": {
-        "text": [
-            "부족",
-            "불가"
-        ]
-    },
-    "RoguelikeCustom-HijackSquad": {
-        "ocrReplace": [
-            [
-                "^지휘.*",
-                "指挥分队"
-            ],
-            [
-                "^집합.*",
-                "集群分队"
-            ],
-            [
-                "^지원.*",
-                "后勤分队"
-            ],
-            [
-                "^예봉.*",
-                "矛头分队"
-            ],
-            [
-                "^강습.*",
-                "突击战术分队"
-            ],
-            [
-                "^방어.*",
-                "堡垒战术分队"
-            ],
-            [
-                "^원거리.*",
-                "远程战术分队"
-            ],
-            [
-                "^파괴.*",
-                "破坏战术分队"
-            ],
-            [
-                "^연구.*",
-                "研究分队"
-            ],
-            [
-                "^고급화.*",
-                "高规格分队"
-            ]
-        ]
-    },
-    "RoguelikeCustom-HijackRoles": {
-        "ocrReplace": [
-            [
-                "원하는",
-                "随心所欲"
-            ],
-            [
-                "원하는대로",
-                "随心所欲"
-            ],
-            [
-                "선수필승",
-                "先手必胜"
-            ],
-            [
-                "차근차근",
-                "稳扎稳打"
-            ],
-            [
-                "상호보완",
-                "取长补短"
-            ]
-        ]
-    },
-    "RoguelikeCustom-HijackCoChar": {
-        "ocrReplace": [
-            [
-                "캐스터",
-                "术师"
-            ],
-            [
-                "메딕",
-                "医疗"
-            ],
-            [
-                "뱅가드",
-                "先锋"
-            ],
-            [
-                "스나이퍼",
-                "狙击"
-            ],
-            [
-                "스페셜리스트",
-                "特种"
-            ],
-            [
-                "서포터",
-                "辅助"
-            ],
-            [
-                "디펜더",
-                "重装"
-            ],
-            [
-                "가드",
-                "近卫"
-            ]
-        ]
-    },
-    "Roguelike@StageTraderInvestSystemFull": {
-        "text": [
-            "예치금잔액최대달성"
-        ]
-    },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.8
-    },
-    "Phantom@Roguelike@FromIntegratedStrategies": {
-        "text": [
-            "테마진입"
-        ]
-    },
-    "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "팬텀",
-            "팬럼"
-        ]
-    },
-    "Mizuki@Roguelike@FromIntegratedStrategies": {
-        "text": [
-            "테마진입"
-        ]
-    },
-    "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "미즈키"
-        ]
-    },
-    "EnterChapterDifficultyHard": {
-        "text": [
-            "하드모드",
-            "하드"
-        ]
-    },
-    "EnterChapterDifficultyNormal": {
-        "text": [
-            "노멀모드",
-            "노멀"
-        ]
-    },
-    "TodaysSupplies": {
-        "text": [
-            "당일배급"
-        ]
-    },
-    "BattleQuickFormationFilter-Cost": {
-        "text": [
-            "배치코스트"
-        ]
-    },
-    "BattleStartPre": {
-        "text": [
-            "작전개시"
-        ]
-    },
     "RoguelikeRefreshSupportBtnOcr": {
         "text": [
             "새로고침"
@@ -3482,17 +3485,14 @@
             "보안작전개시"
         ]
     },
-    "InfrastStationedInfo": {
+    "Phantom@Roguelike@FromIntegratedStrategies": {
         "text": [
-            "배치정보"
+            "테마진입"
         ]
     },
-    "InfrastEnterOperList": {
+    "Mizuki@Roguelike@FromIntegratedStrategies": {
         "text": [
-            "컨디션",
-            "휴식중",
-            "업무중",
-            "배치"
+            "테마진입"
         ]
     }
 }

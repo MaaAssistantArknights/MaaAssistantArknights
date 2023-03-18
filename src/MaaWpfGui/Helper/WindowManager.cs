@@ -26,15 +26,15 @@ namespace MaaWpfGui
         {
         }
 
-        private readonly string ScreenName = ViewStatusStorage.Get("GUI.Monitor.Number", string.Empty);
-        private readonly int ScreenWidth = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Width", "-1"));
-        private readonly int ScreenHeight = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Height", "-1"));
+        private readonly string ScreenName = Config.Get(Config.MonitorNumber, string.Empty);
+        private readonly int ScreenWidth = int.Parse(Config.Get(Config.MonitorWidth, "-1"));
+        private readonly int ScreenHeight = int.Parse(Config.Get(Config.MonitorHeight, "-1"));
 
         private static readonly double DefaultDouble = -114514;
-        private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Left = double.Parse(Config.Get(Config.PositionLeft, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Top = double.Parse(Config.Get(Config.PositionTop, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Width = double.Parse(Config.Get(Config.WindowWidth, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Height = double.Parse(Config.Get(Config.WindowHeight, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
 
         private readonly string RootView = "MaaWpfGui.RootView";
 
@@ -61,7 +61,7 @@ namespace MaaWpfGui
         protected override Window CreateWindow(object viewModel, bool isDialog, IViewAware ownerViewModel)
         {
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
-            if (bool.Parse(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString)))
+            if (bool.Parse(Config.Get(Config.LoadPositionAndSize, bool.TrueString)))
             {
                 if (isDialog || ownerViewModel != null || Left == DefaultDouble || Top == DefaultDouble)
                 {

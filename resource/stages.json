@@ -70615,7 +70615,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
+                    "upper": 2
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "act24side_melding_5"
@@ -70716,7 +70716,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
+                    "upper": 2
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "act24side_melding_5"
@@ -70817,7 +70817,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
+                    "upper": 2
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "act24side_melding_5"
@@ -70910,7 +70910,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
+                    "upper": 2
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "act24side_melding_5"
@@ -71019,7 +71019,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
+                    "upper": 2
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "act24side_melding_5"
