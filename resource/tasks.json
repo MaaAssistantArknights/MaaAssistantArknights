@@ -6682,6 +6682,7 @@
     },
     "StageDrops-StageCF-ItemQuantity": {
         "baseTask": "NumberOcrReplace",
+        "text": [],
         "roi": [
             52,
             52,
@@ -9869,6 +9870,25 @@
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
+    },
+    "BattleFormationOperNames": {
+        "baseTask": "CharsNameOcrReplace",
+        "text": [],
+        "roi": [
+            86,
+            321,
+            945,
+            325
+        ]
+    },
+    "BattleFormationOperAvatarMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -125,
+            -250,
+            125,
+            165
+        ]
     },
     "Reclamation@PopupConfirm": {
         "Doc": "base_task",
