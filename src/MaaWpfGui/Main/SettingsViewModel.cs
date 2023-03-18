@@ -2221,8 +2221,8 @@ namespace MaaWpfGui
                 }
             }
         }
-        
-        private bool _setColors = Convert.ToBoolean(ViewStatusStorage.Get("GUI.SetColors", bool.FalseString));
+
+        private bool _setColors = Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
 
         public bool SetColors
         {
@@ -2230,7 +2230,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _setColors, value);
-                ViewStatusStorage.Set("GUI.SetColors", value.ToString());
+                Config.Set(Config.SetColors, value.ToString());
 
                 System.Windows.Forms.MessageBoxManager.Unregister();
                 System.Windows.Forms.MessageBoxManager.Yes = Localization.GetString("Ok");

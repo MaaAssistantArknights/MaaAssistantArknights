@@ -38,7 +38,7 @@ namespace MaaWpfGui
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            bool setColors = Convert.ToBoolean(ViewStatusStorage.Get("GUI.SetColors", bool.FalseString));
+            bool setColors = Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
             if (!setColors)
             {
                 return;
@@ -71,7 +71,7 @@ namespace MaaWpfGui
 
         public static void SetAllControlColors(DependencyObject obj)
         {
-            bool setColors = Convert.ToBoolean(ViewStatusStorage.Get("GUI.SetColors", bool.FalseString));
+            bool setColors = Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
             if (!setColors)
             {
                 return;
