@@ -13,11 +13,13 @@
 
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using HandyControl.Tools;
 
 namespace MaaWpfGui
 {
@@ -26,6 +28,9 @@ namespace MaaWpfGui
     /// </summary>
     public partial class App : Application
     {
+        [DllImport("DwmApi.dll")]
+        public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int attrLen);
+
         public void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Hyperlink link = sender as Hyperlink;
@@ -35,35 +40,46 @@ namespace MaaWpfGui
             }
         }
 
+        private Color black = Color.FromRgb(49, 51, 56);
+        private Color white = Color.FromRgb(181, 186, 193);
+
+        public static bool SetColors => Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
+
+        public void darkToStart()
+        {
+            if (!SetColors)
+            {
+                return;
+            }
+
+            int darkModeEnabled = 1;
+            DwmSetWindowAttribute(this.MainWindow.GetHandle(), 20, ref darkModeEnabled, sizeof(int));
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            bool setColors = Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
-            if (!setColors)
+
+            if (!SetColors)
             {
                 return;
             }
 
             // 在应用程序启动时，遍历所有控件并设置它们的颜色
-            SetAllControlColors(Current.MainWindow);
+            SetAllControlColors(this.MainWindow);
 
             // 修改下拉框的颜色
-            EventManager.RegisterClassHandler(typeof(ComboBox), ComboBox.PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(ComboBox_DropDownOpened));
+            EventManager.RegisterClassHandler(typeof(ComboBox), UIElement.PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(ComboBox_DropDownOpened));
         }
 
         private void ComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            if (!(sender is ComboBox comboBox))
+            if (!(sender is ComboBox comboBox) || !(comboBox.Template.FindName("PART_Popup", comboBox) is Popup popup) || popup.Child == null)
             {
                 return;
             }
 
-            if (!(comboBox.Template.FindName("PART_Popup", comboBox) is Popup popup) || popup.Child == null)
-            {
-                return;
-            }
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            this.Dispatcher.BeginInvoke(new Action(() =>
             {
                 SetAllControlColors(popup.Child);
             }));
@@ -71,8 +87,7 @@ namespace MaaWpfGui
 
         public static void SetAllControlColors(DependencyObject obj)
         {
-            bool setColors = Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
-            if (!setColors)
+            if (!SetColors)
             {
                 return;
             }
@@ -104,22 +119,28 @@ namespace MaaWpfGui
             // 如果控件具有 Background 属性，则将其背景颜色设置为黑色
             if (type.GetProperty("Background") != null && (obj as Control)?.Background != null)
             {
-                (obj as Control).Background = Brushes.Black;
+                (obj as Control).Background = new SolidColorBrush(black);
             }
 
             // 如果控件具有 Foreground 属性，则将其前景色设置为白色
             if (type.GetProperty("Foreground") != null && (obj as Control)?.Foreground != null)
             {
-                (obj as Control).Foreground = Brushes.White;
+                (obj as Control).Foreground = new SolidColorBrush(white);
+            }
+
+            // 如果控件具有 BorderBrush 属性，则将其边框颜色设置为白色
+            if (type.GetProperty("BorderBrush") != null && (obj as Control)?.BorderBrush != null)
+            {
+                (obj as Control).BorderBrush = new SolidColorBrush(white);
             }
 
             if (obj is TextBlock)
             {
-                (obj as TextBlock).Foreground = Brushes.White;
+                (obj as TextBlock).Foreground = new SolidColorBrush(white);
             }
-            else if ((obj as Control) is Button)
+            else if (obj is DockPanel)
             {
-                (obj as Control).BorderBrush = Brushes.White;
+                (obj as DockPanel).Background = new SolidColorBrush(black);
             }
 
             // 遍历子控件并递归调用此方法
