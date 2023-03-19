@@ -715,6 +715,7 @@ namespace MaaWpfGui
                 if (!ret)
                 {
                     AddLog(item.OriginalName + "Error", UILogColor.Error);
+                    ret = true;
                     --count;
                 }
             }
@@ -1593,24 +1594,19 @@ namespace MaaWpfGui
         {
             get
             {
-                if (CustomStageCode)
-                {
-                    return Stage1;
-                }
-
                 if (_settingsViewModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(Stage1))
+                    if (IsStageOpen(Stage1) || (CustomStageCode && !StageList.Any(x => x.Value == Stage1)))
                     {
                         return Stage1;
                     }
 
-                    if (IsStageOpen(Stage2))
+                    if (IsStageOpen(Stage2) || (CustomStageCode && !StageList.Any(x => x.Value == Stage2)))
                     {
                         return Stage2;
                     }
 
-                    if (IsStageOpen(Stage3))
+                    if (IsStageOpen(Stage3) || (CustomStageCode && !StageList.Any(x => x.Value == Stage3)))
                     {
                         return Stage3;
                     }
