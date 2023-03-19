@@ -1684,6 +1684,16 @@ namespace MaaWpfGui
             get => _stage2;
             set
             {
+                if (_stage2 == value)
+                {
+                    return;
+                }
+
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _stage2, value);
                 SetFightParams();
                 Config.Set(Config.Stage2, value);
@@ -1701,6 +1711,16 @@ namespace MaaWpfGui
             get => _stage3;
             set
             {
+                if (_stage3 == value)
+                {
+                    return;
+                }
+
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _stage3, value);
                 SetFightParams();
                 Config.Set(Config.Stage3, value);
