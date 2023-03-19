@@ -40,8 +40,8 @@ namespace MaaWpfGui
             }
         }
 
-        private Color black = Color.FromRgb(49, 51, 56);
-        private Color white = Color.FromRgb(181, 186, 193);
+        private readonly SolidColorBrush black = new SolidColorBrush(Color.FromRgb(49, 51, 56));
+        private readonly SolidColorBrush white = new SolidColorBrush(Color.FromRgb(181, 186, 193));
 
         public static bool SetColors => Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
 
@@ -119,28 +119,28 @@ namespace MaaWpfGui
             // 如果控件具有 Background 属性，则将其背景颜色设置为黑色
             if (type.GetProperty("Background") != null && (obj as Control)?.Background != null)
             {
-                (obj as Control).Background = new SolidColorBrush(black);
+                (obj as Control).Background = black;
             }
 
             // 如果控件具有 Foreground 属性，则将其前景色设置为白色
             if (type.GetProperty("Foreground") != null && (obj as Control)?.Foreground != null)
             {
-                (obj as Control).Foreground = new SolidColorBrush(white);
+                (obj as Control).Foreground = white;
             }
 
             // 如果控件具有 BorderBrush 属性，则将其边框颜色设置为白色
             if (type.GetProperty("BorderBrush") != null && (obj as Control)?.BorderBrush != null)
             {
-                (obj as Control).BorderBrush = new SolidColorBrush(white);
+                (obj as Control).BorderBrush = white;
             }
 
             if (obj is TextBlock)
             {
-                (obj as TextBlock).Foreground = new SolidColorBrush(white);
+                (obj as TextBlock).Foreground = white;
             }
             else if (obj is DockPanel)
             {
-                (obj as DockPanel).Background = new SolidColorBrush(black);
+                (obj as DockPanel).Background = black;
             }
 
             // 遍历子控件并递归调用此方法
