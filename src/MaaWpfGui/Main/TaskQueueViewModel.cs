@@ -1003,6 +1003,7 @@ namespace MaaWpfGui
                 "Nox" => KillEmulatorNox(),
                 "LDPlayer" => KillEmulatorLDPlayer(),
                 "XYAZ" => KillEmulatorXYAZ(),
+                "BlueStacks" => KillEmulator(),
                 _ => KillEumlatorbyWindow(),
             };
         }
@@ -1158,8 +1159,6 @@ namespace MaaWpfGui
             {
                 "明日方舟",
                 "明日方舟 - MuMu模拟器",
-                "BlueStacks App Player",
-                "BlueStacks",
             };
             foreach (string i in windowname)
             {
