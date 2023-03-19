@@ -32,7 +32,7 @@
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
-                Content="IIR (BETA)"
+                Content="DarkMode (BETA)"
                 IsChecked="{Binding SetColors}" />
         </StackPanel>
         <StackPanel

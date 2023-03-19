@@ -563,7 +563,6 @@ namespace MaaWpfGui
                 }
             }
 
-
             for (var i = 0; i < delay; ++i)
             {
                 // TODO: _taskQueueViewModel在SettingsViewModel显示之前为null。所以获取不到Stopping内容，导致无法停止等待,等个有缘人优化下）
@@ -2241,7 +2240,7 @@ namespace MaaWpfGui
                 mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Activate();
                 var result = MessageBox.Show(
-                    Localization.GetString("IIRSetColorsTip"),
+                    Localization.GetString("DarkModeSetColorsTip"),
                     Localization.GetString("Tip"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
@@ -2255,7 +2254,6 @@ namespace MaaWpfGui
         }
 
         private bool _loadGUIParameters = Convert.ToBoolean(Config.Get(Config.LoadPositionAndSize, bool.TrueString));
-
 
         /// <summary>
         /// Gets or sets a value indicating whether to load GUI parameters.
