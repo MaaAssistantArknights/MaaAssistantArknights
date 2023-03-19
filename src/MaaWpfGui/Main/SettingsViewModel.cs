@@ -1397,7 +1397,7 @@ namespace MaaWpfGui
                     {
                         _isOn = value;
                         OnPropertyChanged();
-                        Config.Set(Config.GetTimerKey(TimerId + 1), value.ToString());
+                        Config.Set(Config.GetTimerKey(TimerId), value.ToString());
                     }
                 }
 
@@ -1413,7 +1413,7 @@ namespace MaaWpfGui
                     {
                         _hour = (value >= 0 && value <= 23) ? value : _hour;
                         OnPropertyChanged();
-                        Config.Set(Config.GetTimerHour(TimerId + 1), value.ToString());
+                        Config.Set(Config.GetTimerHour(TimerId), value.ToString());
                     }
                 }
 
@@ -1429,7 +1429,7 @@ namespace MaaWpfGui
                     {
                         _min = (value >= 0 && value <= 59) ? value : _min;
                         OnPropertyChanged();
-                        Config.Set(Config.GetTimerMin(TimerId + 1), value.ToString());
+                        Config.Set(Config.GetTimerMin(TimerId), value.ToString());
                     }
                 }
 
