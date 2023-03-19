@@ -711,6 +711,12 @@ namespace MaaWpfGui
 
                     // TODO 报错
                 }
+
+                if (!ret)
+                {
+                    AddLog(item.OriginalName + "Error", UILogColor.Error);
+                    --count;
+                }
             }
 
             if (count == 0)
@@ -895,6 +901,12 @@ namespace MaaWpfGui
 
         private bool appendInfrast()
         {
+            if (_settingsViewModel.CustomInfrastEnabled && string.IsNullOrEmpty(_settingsViewModel.CustomInfrastFile))
+            {
+                AddLog(Localization.GetString("CustomizeInfrastSelectionEmpty"), UILogColor.Error);
+                return false;
+            }
+
             var order = _settingsViewModel.GetInfrastOrderList();
             return _asstProxy.AsstAppendInfrast(order.ToArray(), _settingsViewModel.UsesOfDrones, _settingsViewModel.DormThreshold / 100.0, _settingsViewModel.DormFilterNotStationedEnabled, _settingsViewModel.DormTrustEnabled, _settingsViewModel.OriginiumShardAutoReplenishment,
                 _settingsViewModel.CustomInfrastEnabled, _settingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);

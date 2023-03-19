@@ -53,6 +53,7 @@
     <system:String x:Key="CustomInfrastTitle">Base Configuration:</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">Customize infrastructure selection is empty. Please check your configuration or turn off the customization function.</system:String>
 
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
