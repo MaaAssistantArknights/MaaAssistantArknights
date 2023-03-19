@@ -1865,11 +1865,23 @@
             "StageResource"
         ]
     },
+    "CE-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "CE-6"
+        ]
+    },
     "CE-6": {
         "baseTask": "ResourceStages",
         "next": [
             "CE6@StageCE",
             "CE-6@SwipeToTheLeft"
+        ]
+    },
+    "LS-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "LS-6"
         ]
     },
     "LS-6": {
@@ -1983,10 +1995,10 @@
     },
     "UnableToAgent": {
         "roi": [
-            994,
-            535,
-            286,
-            143
+            998,
+            538,
+            136,
+            135
         ],
         "next": [
             "Stage",
