@@ -473,6 +473,8 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         return "AP_GAMEPLAY"; // 理智返还
     case StageDropType::Reward:
         return "4003"; // 合成玉
+    default:
+        break;
     }
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
