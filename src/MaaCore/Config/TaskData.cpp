@@ -44,7 +44,7 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
         return it->second;
     }
 
-    return expend_task(name, get_raw(name)).value_or(nullptr);
+    return expand_task(name, get_raw(name)).value_or(nullptr);
 }
 
 bool asst::TaskData::parse(const json::value& json)
@@ -140,10 +140,13 @@ bool asst::TaskData::parse(const json::value& json)
             generate_task_and_its_base(name);
         }
 
+        // 延迟生成，等到一个任务被第一次 get 的时候才生成
+        /*
         // 生成 # 型任务
         for (const auto& [name, old_task] : m_raw_all_tasks_info) {
-            expend_task(name, old_task);
+            expand_task(name, old_task);
         }
+        */
     }
 
 #ifdef ASST_DEBUG
@@ -588,7 +591,7 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
     return true;
 }
 
-std::optional<asst::TaskData::taskptr_t> asst::TaskData::expend_task(std::string_view name, taskptr_t old_task)
+std::optional<asst::TaskData::taskptr_t> asst::TaskData::expand_task(std::string_view name, taskptr_t old_task)
 {
     if (old_task == nullptr) [[unlikely]] {
         return std::nullopt;
@@ -958,20 +961,20 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
     }
 
     bool validity = true;
-    if (!m_all_tasks_info.contains(task_name)) {
+    if (!m_raw_all_tasks_info.contains(task_name)) {
         Log.error("TaskData::syntax_check | Task", task_name, "has not been generated.");
         return false;
     }
 
     // 获取 algorithm
-    auto algorithm = m_all_tasks_info[task_name]->algorithm;
+    auto algorithm = m_raw_all_tasks_info[task_name]->algorithm;
     if (algorithm == AlgorithmType::Invalid) [[unlikely]] {
         Log.error(task_name, "has unknown algorithm.");
         validity = false;
     }
 
     // 获取 action
-    auto action = m_all_tasks_info[task_name]->action;
+    auto action = m_raw_all_tasks_info[task_name]->action;
     if (action == ProcessTaskAction::Invalid) [[unlikely]] {
         Log.error(task_name, "has unknown action.");
         validity = false;
