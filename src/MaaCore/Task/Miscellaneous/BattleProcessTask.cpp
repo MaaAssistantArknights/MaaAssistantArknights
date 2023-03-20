@@ -311,7 +311,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             }
             size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
                                                     [](const auto& oper) -> bool { return oper.cooling; });
-            if (cooling_count == action.cooling) {
+            if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
             }
             do_strategy_and_update_image();

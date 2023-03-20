@@ -29,7 +29,7 @@ if (MSVC)
     
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 else ()
-    add_compile_options("-Wall;-Wextra;-Wpedantic")
+    add_compile_options("-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
 endif ()
 
 

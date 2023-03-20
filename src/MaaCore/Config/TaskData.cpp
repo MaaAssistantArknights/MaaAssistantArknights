@@ -256,7 +256,7 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
         "none",               // 18
     };
 
-    auto is_symbl_name = [&](symbl_t x) { return x >= symbl_name_start; };
+    [[maybe_unused]] auto is_symbl_name = [&](symbl_t x) { return x >= symbl_name_start; };
     auto is_symbl_subtask_type = [&](symbl_t x) {
         switch (x) {
         case symbl_name_sub:
@@ -269,7 +269,7 @@ bool asst::TaskData::explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_
             return false;
         }
     };
-    auto is_symbl_sharp_type = [&](symbl_t x) {
+    [[maybe_unused]] auto is_symbl_sharp_type = [&](symbl_t x) {
         switch (x) {
         case symbl_name_self:
         case symbl_name_back:

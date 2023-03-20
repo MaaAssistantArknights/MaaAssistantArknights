@@ -78,7 +78,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
     }
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
 
-    for (; m_cur_facility_index < m_facility_list_tabs.size(); ++m_cur_facility_index) {
+    for (; static_cast<size_t>(m_cur_facility_index) < m_facility_list_tabs.size(); ++m_cur_facility_index) {
         Rect tab = m_facility_list_tabs.at(m_cur_facility_index);
         if (need_exit()) {
             return false;
@@ -86,7 +86,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
             if (m_is_custom) {
-                if (m_cur_facility_index < m_custom_config.size()) {
+                if (static_cast<size_t>(m_cur_facility_index) < m_custom_config.size()) {
                     current_room_config() = m_custom_config.at(m_cur_facility_index);
                 }
                 else {
@@ -332,7 +332,7 @@ bool asst::InfrastProductionTask::optimal_calc()
     }
 
     std::unordered_map<std::string, int> skills_num;
-    for (int i = 0; i != m_all_available_opers.size(); ++i) {
+    for (size_t i = 0; i != m_all_available_opers.size(); ++i) {
         const auto& comb = all_available_combs.at(i);
 
         bool out_of_num = false;
@@ -353,7 +353,7 @@ bool asst::InfrastProductionTask::optimal_calc()
             ++skills_num[skill.id];
         }
 
-        if (optimal_combs.size() >= cur_max_num_of_opers) {
+        if (optimal_combs.size() >= static_cast<size_t>(cur_max_num_of_opers)) {
             break;
         }
     }
@@ -437,7 +437,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         // 可能有多个干员有同样的技能，所以这里需要循环找同一个技能，直到找不到为止
         for (const infrast::SkillsComb& opt : optional) {
             auto find_iter = cur_available_opers.cbegin();
-            while (cur_combs.size() != cur_max_num_of_opers) {
+            while (cur_combs.size() != static_cast<size_t>(cur_max_num_of_opers)) {
                 find_iter = std::find_if(find_iter, cur_available_opers.cend(),
                                          [&](const infrast::SkillsComb& arg) -> bool { return arg == opt; });
                 if (find_iter != cur_available_opers.cend()) {
@@ -472,7 +472,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         }
 
         // 说明可选的没凑满人
-        if (cur_combs.size() < cur_max_num_of_opers) {
+        if (cur_combs.size() < static_cast<size_t>(cur_max_num_of_opers)) {
             // 允许外部的话，就把单个干员凑进来
             if (group.allow_external) {
                 size_t substitutes = cur_max_num_of_opers - cur_combs.size();
