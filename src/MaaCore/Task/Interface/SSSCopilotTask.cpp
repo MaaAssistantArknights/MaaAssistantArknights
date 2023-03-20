@@ -75,7 +75,7 @@ bool asst::SSSCopilotTask::set_params(const json::value& params)
     if (loop_times > 1) {
         m_subtasks.reserve(m_subtasks.size() * loop_times);
         auto raw_end = m_subtasks.end();
-        for (int i = 1; i < loop_times; ++i) {
+        for (size_t i = 1; i < loop_times; ++i) {
             // FIXME: 如果多次调用 set_params，这里复制的会有问题
             m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
         }
