@@ -608,59 +608,6 @@ namespace MaaWpfGui
 
             ClearLog();
 
-            AddLog(Localization.GetString("ConnectingToEmulator"));
-
-            string errMsg = string.Empty;
-            var task = Task.Run(() =>
-            {
-                return _asstProxy.AsstConnect(ref errMsg);
-            });
-            bool caught = await task;
-
-            // 一般是点了“停止”按钮了
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
-
-            if (!caught)
-            {
-                AddLog(errMsg, UILogColor.Error);
-                AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
-                var subtask = Task.Run(() =>
-                {
-                    _settingsViewModel.TryToStartEmulator(true);
-                });
-                await subtask;
-
-                if (Stopping)
-                {
-                    SetStopped();
-                    return;
-                }
-
-                task = Task.Run(() =>
-                {
-                    return _asstProxy.AsstConnect(ref errMsg);
-                });
-                caught = await task;
-                if (!caught)
-                {
-                    AddLog(errMsg, UILogColor.Error);
-                    Idle = true;
-                    SetStopped();
-                    return;
-                }
-            }
-
-            // 一般是点了“停止”按钮了
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
-
             bool ret = true;
 
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
@@ -726,6 +673,59 @@ namespace MaaWpfGui
                 Idle = true;
                 SetStopped();
                 return;
+            }
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            AddLog(Localization.GetString("ConnectingToEmulator"));
+
+            string errMsg = string.Empty;
+            var task = Task.Run(() =>
+            {
+                return _asstProxy.AsstConnect(ref errMsg);
+            });
+            bool caught = await task;
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            if (!caught)
+            {
+                AddLog(errMsg, UILogColor.Error);
+                AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
+                var subtask = Task.Run(() =>
+                {
+                    _settingsViewModel.TryToStartEmulator(true);
+                });
+                await subtask;
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return;
+                }
+
+                task = Task.Run(() =>
+                {
+                    return _asstProxy.AsstConnect(ref errMsg);
+                });
+                caught = await task;
+                if (!caught)
+                {
+                    AddLog(errMsg, UILogColor.Error);
+                    Idle = true;
+                    SetStopped();
+                    return;
+                }
             }
 
             // 一般是点了“停止”按钮了
