@@ -902,7 +902,7 @@ namespace MaaWpfGui
 
         private bool appendInfrast()
         {
-            if (_settingsViewModel.CustomInfrastEnabled && string.IsNullOrEmpty(_settingsViewModel.CustomInfrastFile))
+            if (_settingsViewModel.CustomInfrastEnabled && !File.Exists(_settingsViewModel.CustomInfrastFile))
             {
                 AddLog(Localization.GetString("CustomizeInfrastSelectionEmpty"), UILogColor.Error);
                 return false;
