@@ -107,6 +107,8 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             return true;
         }
         break;
+    default:
+        break;
     }
     Log.error("Unknown key or value", value);
     return false;
