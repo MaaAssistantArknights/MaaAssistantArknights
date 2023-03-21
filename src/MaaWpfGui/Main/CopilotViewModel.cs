@@ -221,7 +221,7 @@ namespace MaaWpfGui
             }
         }
 
-        private const string TempCopilotFile = "resource/_temp_copilot.json";
+        private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string TaskType = "General";
 
         private void ParseJsonAndShowInfo(string jsonStr)
