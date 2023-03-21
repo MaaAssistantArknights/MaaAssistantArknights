@@ -1967,11 +1967,12 @@
     "StageResource": {
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
+        "templThreshold": 0.77,
         "roi": [
-            455,
-            562,
-            544,
-            158
+            600,
+            600,
+            250,
+            110
         ]
     },
     "Stage": {
