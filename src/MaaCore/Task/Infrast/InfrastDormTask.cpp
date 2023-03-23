@@ -264,6 +264,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
     //     current_room_config() = origin_room_config;
     //     return false;
     // }
+    std::ignore = origin_room_config;
 
     return true;
 }
