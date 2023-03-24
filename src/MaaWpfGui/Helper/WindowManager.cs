@@ -17,7 +17,7 @@ using System.Linq;
 using System.Windows;
 using Stylet;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     public class WindowManager : Stylet.WindowManager
     {

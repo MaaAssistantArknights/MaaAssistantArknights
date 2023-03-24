@@ -1,15 +1,18 @@
 ﻿<UserControl
-    x:Class="MaaWpfGui.ConnectSettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.ConnectSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
-    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignHeight="300"
     d:DesignWidth="550"
     mc:Ignorable="d">
@@ -49,7 +52,7 @@
                 IsChecked="{Binding AlwaysAutoDetectConnection}"
                 Visibility="{c:Binding AutoDetectConnection}" />
         </StackPanel>
-        <maa:TextBlock
+        <controls:TextBlock
             Grid.Row="1"
             Grid.Column="0"
             Margin="10"
@@ -75,7 +78,7 @@
             Content="{DynamicResource Select}"
             IsEnabled="{c:Binding !AutoDetectConnection}" />
 
-        <maa:TextBlock
+        <controls:TextBlock
             Grid.Row="2"
             Grid.Column="0"
             Margin="10"
@@ -117,7 +120,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <maa:TextBlock
+        <controls:TextBlock
             Grid.Row="3"
             Grid.Column="0"
             Margin="10"
@@ -145,7 +148,7 @@
             Content="{DynamicResource RetryOnDisconnected}"
             IsChecked="{Binding RetryOnDisconnected}"
             ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
-        <maa:TextBlock
+        <controls:TextBlock
             Grid.Row="5"
             Grid.Column="0"
             VerticalAlignment="Center"
