@@ -189,6 +189,14 @@ namespace MaaWpfGui
                 return;
             }
 
+            if (NeedToCheckForUpdates())
+            {
+                if (_settingsViewModel.UpdatAutoCheck)
+                {
+                    _settingsViewModel.ManualUpdate();
+                }
+            }
+
             int intMinute = DateTime.Now.Minute;
             int intHour = DateTime.Now.Hour;
             var timeToStart = false;
@@ -362,7 +370,7 @@ namespace MaaWpfGui
             var hour = now.Hour;
             var min = now.Minute;
 
-            // yj历的16点
+            // yj历的4/16点
             if (min == 0 && hour == 12)
             {
                 return true;
@@ -379,6 +387,21 @@ namespace MaaWpfGui
                     return true;
                 }
             }
+        }
+
+        private bool NeedToCheckForUpdates()
+        {
+            var now = Utils.GetYJTimeNow();
+            var hour = now.Hour;
+            var min = now.Minute;
+
+            // yj历的4/22点
+            if (min == 0 && hour == 18)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -1674,6 +1674,21 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _updateAutoCheck = Convert.ToBoolean(Config.Get(Config.UpdatAutoCheck, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to check update.
+        /// </summary>
+        public bool UpdatAutoCheck
+        {
+            get => _updateAutoCheck;
+            set
+            {
+                SetAndNotify(ref _updateAutoCheck, value);
+                Config.Set(Config.UpdatAutoCheck, value.ToString());
+            }
+        }
+
         private string _proxy = Config.Get(Config.UpdateProxy, string.Empty);
 
         /// <summary>
