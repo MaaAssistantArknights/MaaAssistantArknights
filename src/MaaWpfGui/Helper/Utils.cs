@@ -15,11 +15,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     public static class Utils
     {

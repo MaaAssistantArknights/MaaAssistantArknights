@@ -11,14 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Windows.Controls;
-
-namespace MaaWpfGui
+namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
     /// StartSettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class StartSettingsUserControl : UserControl
+    public partial class StartSettingsUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StartSettingsUserControl"/> class.

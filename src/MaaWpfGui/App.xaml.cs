@@ -20,6 +20,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 using HandyControl.Tools;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui
 {

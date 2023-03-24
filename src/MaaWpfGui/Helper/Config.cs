@@ -13,12 +13,11 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     /// <summary>
     /// 界面设置存储（读写json文件）

@@ -11,14 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using MaaWpfGui.Helper;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     /// <summary>
     /// The localization class.

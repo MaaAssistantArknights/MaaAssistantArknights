@@ -18,25 +18,33 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
-using MaaWpfGui.MaaHotKeys;
+using MaaWpfGui.Helper;
+using MaaWpfGui.Services;
+using MaaWpfGui.Services.HotKeys;
+using MaaWpfGui.Services.Managers;
+using MaaWpfGui.ViewModels;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views;
+using MaaWpfGui.Views.UI;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
+using Localization = MaaWpfGui.Helper.Localization;
+using WindowManager = MaaWpfGui.Helper.WindowManager;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Main
 {
     /// <summary>
     /// The bootstrapper.
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
-        private static SettingsViewModel s_settingsViewModel;
-        private static TrayIcon s_trayIconInSettingsViewModel;
+        private static SettingsViewModel _settingsViewModel;
+        private static TrayIcon _trayIconInSettingsViewModel;
 
-        private static readonly FieldInfo s_settingsViewModelIContainerFiled =
+        private static readonly FieldInfo _settingsViewModelIContainerFiled =
             typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private static ILogger s_logger = Logger.None;
@@ -51,11 +59,11 @@ namespace MaaWpfGui
         /// </remarks>
         internal static void SetTrayIconInSettingsViewModel(SettingsViewModel settingsViewModel)
         {
-            s_settingsViewModel = settingsViewModel;
-            var container = (IContainer)s_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
+            _settingsViewModel = settingsViewModel;
+            var container = (IContainer)_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
             if (container != null)
             {
-                s_trayIconInSettingsViewModel = container.Get<TrayIcon>();
+                _trayIconInSettingsViewModel = container.Get<TrayIcon>();
             }
 
             // TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
@@ -150,7 +158,7 @@ namespace MaaWpfGui
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            s_settingsViewModel.Sober();
+            _settingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
             var os = RuntimeInformation.OSDescription;
@@ -160,7 +168,7 @@ namespace MaaWpfGui
             }
 
             // 注销任务栏图标
-            s_trayIconInSettingsViewModel.Close();
+            _trayIconInSettingsViewModel.Close();
             Config.Release();
         }
 

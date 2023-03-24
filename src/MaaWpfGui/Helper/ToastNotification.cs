@@ -15,7 +15,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Media;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -24,7 +23,6 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using MaaWpfGui.Helper;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
@@ -32,10 +30,9 @@ using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 using Serilog;
-using Serilog.Core;
 using Stylet;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     /// <summary>
     /// The toast notification.

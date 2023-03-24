@@ -18,12 +18,17 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
+using Localization = MaaWpfGui.Helper.Localization;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Main
 {
 #pragma warning disable SA1135 // Using directives should be qualified
 
@@ -415,16 +420,16 @@ namespace MaaWpfGui
 
                 case "UnsupportedResolution":
                     connected = false;
-                    _taskQueueViewModel.AddLog(Localization.GetString("ResolutionNotSupported"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ResolutionNotSupported"), UiLogColor.Error);
                     break;
 
                 case "ResolutionError":
                     connected = false;
-                    _taskQueueViewModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ResolutionAcquisitionFailure"), UiLogColor.Error);
                     break;
 
                 case "Reconnecting":
-                    _taskQueueViewModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", UILogColor.Error);
+                    _taskQueueViewModel.AddLog($"{Localization.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", UiLogColor.Error);
                     break;
 
                 case "Reconnected":
@@ -433,7 +438,7 @@ namespace MaaWpfGui
 
                 case "Disconnect":
                     connected = false;
-                    _taskQueueViewModel.AddLog(Localization.GetString("ReconnectFailed"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ReconnectFailed"), UiLogColor.Error);
                     if (_taskQueueViewModel.Idle)
                     {
                         break;
@@ -445,7 +450,7 @@ namespace MaaWpfGui
                     {
                         if (_settingsViewModel.RetryOnDisconnected)
                         {
-                            _taskQueueViewModel.AddLog(Localization.GetString("TryToStartEmulator"), UILogColor.Error);
+                            _taskQueueViewModel.AddLog(Localization.GetString("TryToStartEmulator"), UiLogColor.Error);
                             _taskQueueViewModel.KillEmulator();
                             await Task.Delay(3000);
                             _taskQueueViewModel.Stop();
@@ -457,11 +462,11 @@ namespace MaaWpfGui
                     break;
 
                 case "ScreencapFailed":
-                    _taskQueueViewModel.AddLog(Localization.GetString("ScreencapFailed"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ScreencapFailed"), UiLogColor.Error);
                     break;
 
                 case "TouchModeNotAvaiable":
-                    _taskQueueViewModel.AddLog(Localization.GetString("TouchModeNotAvaiable"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("TouchModeNotAvaiable"), UiLogColor.Error);
                     break;
             }
         }
@@ -497,16 +502,16 @@ namespace MaaWpfGui
                     break;
 
                 case AsstMsg.TaskChainError:
-                    _taskQueueViewModel.AddLog(Localization.GetString("TaskError") + taskChain, UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("TaskError") + taskChain, UiLogColor.Error);
                     if (isCoplitTaskChain)
                     {
                         _copilotViewModel.Idle = true;
-                        _copilotViewModel.AddLog(Localization.GetString("CombatError"), UILogColor.Error);
+                        _copilotViewModel.AddLog(Localization.GetString("CombatError"), UiLogColor.Error);
                     }
 
                     if (taskChain == "Fight" && (_taskQueueViewModel.Stage == "Annihilation"))
                     {
-                        _taskQueueViewModel.AddLog(Localization.GetString("AnnihilationTaskFailed"), UILogColor.Warning);
+                        _taskQueueViewModel.AddLog(Localization.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                     }
 
                     break;
@@ -542,7 +547,7 @@ namespace MaaWpfGui
                     if (isCoplitTaskChain)
                     {
                         _copilotViewModel.Idle = true;
-                        _copilotViewModel.AddLog(Localization.GetString("CompleteCombat"), UILogColor.Info);
+                        _copilotViewModel.AddLog(Localization.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 
                     break;
@@ -630,29 +635,29 @@ namespace MaaWpfGui
             switch (subTask)
             {
                 case "StartGameTask":
-                    _taskQueueViewModel.AddLog(Localization.GetString("FailedToOpenClient"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("FailedToOpenClient"), UiLogColor.Error);
                     break;
 
                 case "AutoRecruitTask":
                     {
                         var why_str = details.TryGetValue("why", out var why) ? why.ToString() : Localization.GetString("ErrorOccurred");
-                        _taskQueueViewModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(why_str + "，" + Localization.GetString("HasReturned"), UiLogColor.Error);
                         break;
                     }
 
                 case "RecognizeDrops":
-                    _taskQueueViewModel.AddLog(Localization.GetString("DropRecognitionError"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("DropRecognitionError"), UiLogColor.Error);
                     break;
 
                 case "ReportToPenguinStats":
                     {
                         var why = details["why"].ToString();
-                        _taskQueueViewModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(why + "，" + Localization.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
                         break;
                     }
 
                 case "CheckStageValid":
-                    _taskQueueViewModel.AddLog(Localization.GetString("TheEX"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("TheEX"), UiLogColor.Error);
                     break;
             }
         }
@@ -670,40 +675,40 @@ namespace MaaWpfGui
                 {
                     case "StartButton2":
                     case "AnnihilationConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {execTimes} " + Localization.GetString("UnitTime"), UiLogColor.Info);
                         break;
 
                     case "MedicineConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("MedicineUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UiLogColor.Info);
                         break;
 
                     case "StoneConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("StoneUsed") + $" {execTimes} " + Localization.GetString("UnitTime"), UiLogColor.Info);
                         break;
 
                     case "AbandonAction":
-                        _taskQueueViewModel.AddLog(Localization.GetString("ActingCommandError"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("ActingCommandError"), UiLogColor.Error);
                         break;
 
                     case "RecruitRefreshConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("LabelsRefreshed"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("LabelsRefreshed"), UiLogColor.Info);
                         break;
 
                     case "RecruitConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("RecruitConfirm"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("RecruitConfirm"), UiLogColor.Info);
                         break;
 
                     case "InfrastDormDoubleConfirmButton":
-                        _taskQueueViewModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("InfrastDormDoubleConfirmed"), UiLogColor.Error);
                         break;
 
                     /* 肉鸽相关 */
                     case "StartExplore":
-                        _taskQueueViewModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("BegunToExplore") + $" {execTimes} " + Localization.GetString("UnitTime"), UiLogColor.Info);
                         break;
 
                     case "StageTraderInvestConfirm":
-                        _taskQueueViewModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("HasInvested") + $" {execTimes} " + Localization.GetString("UnitTime"), UiLogColor.Info);
                         break;
 
                     case "ExitThenAbandon":
@@ -750,21 +755,21 @@ namespace MaaWpfGui
                         break;
 
                     case "StageTraderInvestSystemFull":
-                        _taskQueueViewModel.AddLog(Localization.GetString("UpperLimit"), UILogColor.Info);
+                        _taskQueueViewModel.AddLog(Localization.GetString("UpperLimit"), UiLogColor.Info);
                         break;
 
                     case "RestartGameAndContinue":
-                        _taskQueueViewModel.AddLog(Localization.GetString("GameCrash"), UILogColor.Warning);
+                        _taskQueueViewModel.AddLog(Localization.GetString("GameCrash"), UiLogColor.Warning);
                         break;
 
                     case "OfflineConfirm":
                         if (_settingsViewModel.AutoRestartOnDrop)
                         {
-                            _taskQueueViewModel.AddLog(Localization.GetString("GameDrop"), UILogColor.Warning);
+                            _taskQueueViewModel.AddLog(Localization.GetString("GameDrop"), UiLogColor.Warning);
                         }
                         else
                         {
-                            _taskQueueViewModel.AddLog(Localization.GetString("GameDropNoRestart"), UILogColor.Warning);
+                            _taskQueueViewModel.AddLog(Localization.GetString("GameDropNoRestart"), UiLogColor.Warning);
                             using var toast = new ToastNotification(Localization.GetString("GameDropNoRestart"));
                             toast.Show();
                             _taskQueueViewModel.Stop();
@@ -773,11 +778,11 @@ namespace MaaWpfGui
                         break;
 
                     case "GamePass":
-                        _taskQueueViewModel.AddLog(Localization.GetString("RoguelikeGamePass"), UILogColor.RareOperator);
+                        _taskQueueViewModel.AddLog(Localization.GetString("RoguelikeGamePass"), UiLogColor.RareOperator);
                         break;
 
                     case "BattleStartAll":
-                        _copilotViewModel.AddLog(Localization.GetString("MissionStart"), UILogColor.Info);
+                        _copilotViewModel.AddLog(Localization.GetString("MissionStart"), UiLogColor.Info);
                         break;
                 }
             }
@@ -835,7 +840,7 @@ namespace MaaWpfGui
                     break;
 
                 case "ProductIncorrect":
-                    _taskQueueViewModel.AddLog(Localization.GetString("ProductIncorrect"), UILogColor.Error);
+                    _taskQueueViewModel.AddLog(Localization.GetString("ProductIncorrect"), UiLogColor.Error);
                     break;
 
                 case "RecruitTagsDetected":
@@ -887,11 +892,11 @@ namespace MaaWpfGui
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
 
-                            _taskQueueViewModel.AddLog(level + " ★ Tags", UILogColor.RareOperator, "Bold");
+                            _taskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.RareOperator, "Bold");
                         }
                         else
                         {
-                            _taskQueueViewModel.AddLog(level + " ★ Tags", UILogColor.Info);
+                            _taskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info);
                         }
 
                         /*
@@ -935,7 +940,7 @@ namespace MaaWpfGui
 
                 case "NotEnoughStaff":
                     {
-                        _taskQueueViewModel.AddLog(Localization.GetString("NotEnoughStaff"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("NotEnoughStaff"), UiLogColor.Error);
                     }
 
                     break;
@@ -950,7 +955,7 @@ namespace MaaWpfGui
 
                 case "StageInfoError":
                     {
-                        _taskQueueViewModel.AddLog(Localization.GetString("StageInfoError"), UILogColor.Error);
+                        _taskQueueViewModel.AddLog(Localization.GetString("StageInfoError"), UiLogColor.Error);
                     }
 
                     break;
@@ -982,7 +987,7 @@ namespace MaaWpfGui
                         if (doc.Length != 0)
                         {
                             string color = subTaskDetails["doc_color"].ToString();
-                            _copilotViewModel.AddLog(doc, color.Length == 0 ? UILogColor.Message : color);
+                            _copilotViewModel.AddLog(doc, color.Length == 0 ? UiLogColor.Message : color);
                         }
 
                         _copilotViewModel.AddLog(
@@ -995,27 +1000,27 @@ namespace MaaWpfGui
 
                 case "SSSStage":
                     {
-                        _copilotViewModel.AddLog("CurrentStage: " + subTaskDetails["stage"].ToString(), UILogColor.Info);
+                        _copilotViewModel.AddLog("CurrentStage: " + subTaskDetails["stage"].ToString(), UiLogColor.Info);
                     }
 
                     break;
 
                 case "SSSSettlement":
                     {
-                        _copilotViewModel.AddLog(details["why"].ToString(), UILogColor.Info);
+                        _copilotViewModel.AddLog(details["why"].ToString(), UiLogColor.Info);
                     }
 
                     break;
 
                 case "SSSGamePass":
                     {
-                        _copilotViewModel.AddLog(Localization.GetString("SSSGamePass"), UILogColor.RareOperator);
+                        _copilotViewModel.AddLog(Localization.GetString("SSSGamePass"), UiLogColor.RareOperator);
                     }
 
                     break;
 
                 case "UnsupportedLevel":
-                    _copilotViewModel.AddLog(Localization.GetString("UnsupportedLevel"), UILogColor.Error);
+                    _copilotViewModel.AddLog(Localization.GetString("UnsupportedLevel"), UiLogColor.Error);
                     break;
 
                 case "CustomInfrastRoomOperators":
@@ -1040,7 +1045,7 @@ namespace MaaWpfGui
                         Localization.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
                     break;
                 case "ReclamationProcedureStart":
-                    _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"), UILogColor.Info);
+                    _taskQueueViewModel.AddLog(Localization.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"), UiLogColor.Info);
                     break;
                 case "ReclamationSmeltGold":
                     _taskQueueViewModel.AddLog(Localization.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + Localization.GetString("UnitTime"));
