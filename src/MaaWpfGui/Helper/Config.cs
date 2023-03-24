@@ -308,6 +308,7 @@ namespace MaaWpfGui
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string VersionType = "VersionUpdate.VersionType";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
+        public const string UpdatAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string UseAria2 = "VersionUpdate.UseAria2";
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
 

@@ -139,7 +139,8 @@
     <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">自动检查更新</system:String>
+    <system:String x:Key="StartupUpdateCheck">自动检查更新</system:String>
+    <system:String x:Key="UpdatAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="UpdateCheckStable">稳定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公测版</system:String>

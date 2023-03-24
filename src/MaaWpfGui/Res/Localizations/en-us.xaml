@@ -138,7 +138,8 @@
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
     <system:String x:Key="NoAutoNavigation">The feature does not automatically navigate to the stage</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">Auto check update</system:String>
+    <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
+    <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto download update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta release</system:String>
