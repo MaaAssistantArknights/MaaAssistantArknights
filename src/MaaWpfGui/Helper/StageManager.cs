@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -23,6 +22,7 @@ using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
 using Semver;
+using Serilog;
 using Stylet;
 using StyletIoC;
 
@@ -38,6 +38,8 @@ namespace MaaWpfGui
 
         // model references
         private readonly TaskQueueViewModel _taskQueueViewModel;
+
+        private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
         // datas
         private Dictionary<string, StageInfo> _stages;
@@ -218,7 +220,7 @@ namespace MaaWpfGui
                 }
                 catch (Exception e)
                 {
-                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                    _logger.Error(e, "解析 Stage 资源失败");
                 }
             }
 

@@ -16,6 +16,7 @@ using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace MaaWpfGui
 {
@@ -27,6 +28,8 @@ namespace MaaWpfGui
         private static readonly string _configFilename = Environment.CurrentDirectory + "\\config\\gui.json";
         private static readonly string _configBakFilename = Environment.CurrentDirectory + "\\config\\gui.json.bak";
         private static JObject _viewStatus = new JObject();
+
+        private static readonly ILogger _logger = Log.ForContext<Config>();
 
         /// <summary>
         /// Gets the value of a key with default value.
@@ -97,7 +100,7 @@ namespace MaaWpfGui
                         }
                         catch (Exception e)
                         {
-                            Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                            _logger.Error(e, "从备份复制配置文件失败");
                         }
                     }
 
@@ -105,7 +108,7 @@ namespace MaaWpfGui
                 }
                 catch (Exception e)
                 {
-                    Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                    _logger.Error(e, "读取配置文件失败");
                     _viewStatus = new JObject();
                     return false;
                 }

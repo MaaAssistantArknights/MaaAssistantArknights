@@ -27,6 +27,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.MaaHotKeys;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 using StyletIoC;
 
@@ -39,6 +40,8 @@ namespace MaaWpfGui
     {
         private readonly IWindowManager _windowManager;
         private readonly IContainer _container;
+
+        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
 
         private StageManager _stageManager;
         private SettingsViewModel _settingsViewModel;
@@ -135,7 +138,7 @@ namespace MaaWpfGui
 
             if (_settingsViewModel.LoadGUIParameters && _settingsViewModel.SaveGUIParametersOnClosing)
             {
-                Application.Current.MainWindow.Closing += _settingsViewModel.SaveGUIParameters;
+                Application.Current.MainWindow!.Closing += _settingsViewModel.SaveGUIParameters;
             }
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -466,7 +469,7 @@ namespace MaaWpfGui
         {
             var log = new LogItemViewModel(content, color, weight);
             LogItemViewModels.Add(log);
-            Logger.Info(content);
+            _logger.Information(content);
         }
 
         /// <summary>
@@ -475,7 +478,8 @@ namespace MaaWpfGui
         public void ClearLog()
         {
             LogItemViewModels.Clear();
-            Logger.Info("\n");
+            _logger.Information("Main windows log clear.");
+            _logger.Information(string.Empty);
         }
 
         /// <summary>
