@@ -115,6 +115,21 @@ namespace MaaWpfGui
             }
         }
 
+        private bool _startEnabled = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the start button is enabled.
+        /// </summary>
+        public bool StartEnabled
+        {
+            get => _startEnabled;
+            set
+            {
+                _startEnabled = value;
+                NotifyOfPropertyChange(() => StartEnabled);
+            }
+        }
+
         /// <summary>
         /// Clears log.
         /// </summary>
@@ -133,15 +148,28 @@ namespace MaaWpfGui
             get => _filename;
             set
             {
-                SetAndNotify(ref _filename, value);
+                if (value == _filename)
+                {
+                    return;
+                }
+
+                _filename = value;
+                NotifyOfPropertyChange(() => Filename);
                 ClearLog();
-                UpdateFileDoc(_filename);
+                UpdateFilename();
             }
+        }
+
+        private async void UpdateFilename()
+        {
+            StartEnabled = false;
+            await UpdateFileDoc(_filename);
+            StartEnabled = true;
         }
 
         private const string CopilotIdPrefix = "maa://";
 
-        private async void UpdateFileDoc(string filename)
+        private async Task UpdateFileDoc(string filename)
         {
             ClearLog();
             Url = CopilotUiUrl;
@@ -196,6 +224,7 @@ namespace MaaWpfGui
             {
                 ParseJsonAndShowInfo(jsonStr);
             }
+
         }
 
         private async Task<string> RequestCopilotServer(int copilotID)
