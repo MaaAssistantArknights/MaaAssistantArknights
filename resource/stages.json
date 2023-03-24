@@ -55977,13 +55977,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 130500,
@@ -56007,13 +56013,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 170000,
@@ -56037,13 +56049,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 160000,
@@ -56067,13 +56085,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 175000,
@@ -56097,13 +56121,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 163000,
@@ -56127,13 +56157,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 194000,
@@ -56157,13 +56193,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 182000,
@@ -56187,13 +56229,19 @@
                 "openTime": 1657008000000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1679943600000,
+                "exist": true,
+                "openTime": 1678777200000
             },
             "US": {
-                "exist": false
+                "closeTime": 1680001200000,
+                "exist": true,
+                "openTime": 1678813200000
             }
         },
         "minClearTime": 247000,
@@ -70308,69 +70356,6 @@
             "ko": "CF-1",
             "zh": "CF-1"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 4
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -70401,69 +70386,6 @@
             "ko": "CF-2",
             "zh": "CF-2"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 4
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -70494,69 +70416,6 @@
             "ko": "CF-3",
             "zh": "CF-3"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 4
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -70587,77 +70446,6 @@
             "ko": "CF-4",
             "zh": "CF-4"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_5"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -70688,77 +70476,6 @@
             "ko": "CF-5",
             "zh": "CF-5"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_5"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -70789,77 +70506,6 @@
             "ko": "CF-6",
             "zh": "CF-6"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_5"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -70890,77 +70536,6 @@
             "ko": "CF-7",
             "zh": "CF-7"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_5"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -70991,77 +70566,6 @@
             "ko": "CF-8",
             "zh": "CF-8"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_2"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_3"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_4"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_5"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 10
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "act24side_melding_1"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -71092,37 +70596,6 @@
             "ko": "CF-9",
             "zh": "CF-9"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,
@@ -71153,69 +70626,6 @@
             "ko": "炼金无限池",
             "zh": "炼金无限池"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "31063"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30063"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30033"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 100
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "4001_2000"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 4
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1679342400000,

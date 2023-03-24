@@ -62,7 +62,7 @@ namespace MaaWpfGui
             int index = 0;
             foreach (var item in TaskItemViewModels)
             {
-                ViewStatusStorage.Set("TaskQueue.Order." + item.OriginalName, index.ToString());
+                Config.Set(Config.GetTaskOrderKey(item.OriginalName), index.ToString());
                 ++index;
             }
         }
@@ -72,7 +72,7 @@ namespace MaaWpfGui
         /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private string _actionAfterCompleted = ViewStatusStorage.Get("MainFunction.ActionAfterCompleted", ActionType.DoNothing.ToString());
+        private string _actionAfterCompleted = Config.Get(Config.ActionAfterCompleted, ActionType.DoNothing.ToString());
 
         /// <summary>
         /// Gets or sets the list of the actions after completion.
@@ -105,7 +105,7 @@ namespace MaaWpfGui
                     storeValue = ActionType.DoNothing.ToString();
                 }
 
-                ViewStatusStorage.Set("MainFunction.ActionAfterCompleted", storeValue);
+                Config.Set(Config.ActionAfterCompleted, storeValue);
             }
         }
 
@@ -137,6 +137,11 @@ namespace MaaWpfGui
             {
                 Application.Current.MainWindow.Closing += _settingsViewModel.SaveGUIParameters;
             }
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         /*
@@ -243,7 +248,7 @@ namespace MaaWpfGui
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
-                bool parsed = int.TryParse(ViewStatusStorage.Get("TaskQueue.Order." + task, "-1"), out var order);
+                bool parsed = int.TryParse(Config.Get(Config.GetTaskOrderKey(task), "-1"), out var order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
 
@@ -468,7 +473,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _inverseMode = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString));
+        private bool _inverseMode = Convert.ToBoolean(Config.Get(Config.MainFunctionInverseMode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use inverse mode.
@@ -481,7 +486,7 @@ namespace MaaWpfGui
                 SetAndNotify(ref _inverseMode, value);
                 InverseShowText = value ? Localization.GetString("Inverse") : Localization.GetString("Clear");
                 InverseMenuText = value ? Localization.GetString("Clear") : Localization.GetString("Inverse");
-                ViewStatusStorage.Set("MainFunction.InverseMode", value.ToString());
+                Config.Set(Config.MainFunctionInverseMode, value.ToString());
             }
         }
 
@@ -491,7 +496,7 @@ namespace MaaWpfGui
         public const int SelectedAllWidthWhenBoth = 80;
 
         private int _selectedAllWidth =
-            ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
+            Config.Get(Config.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
@@ -513,7 +518,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _inverseSelectedWidth, value);
         }
 
-        private bool _showInverse = ViewStatusStorage.Get("GUI.InverseClearMode", "Clear") == "ClearInverse";
+        private bool _showInverse = Config.Get(Config.InverseClearMode, "Clear") == "ClearInverse";
 
         /// <summary>
         /// Gets or sets a value indicating whether "Select inversely" is visible.
@@ -524,7 +529,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _showInverse, value);
         }
 
-        private string _inverseShowText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
+        private string _inverseShowText = Convert.ToBoolean(Config.Get(Config.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
 
         /// <summary>
         /// Gets or sets the text to be displayed for "Select inversely".
@@ -535,7 +540,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _inverseShowText, value);
         }
 
-        private string _inverseMenuText = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.InverseMode", bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
+        private string _inverseMenuText = Convert.ToBoolean(Config.Get(Config.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
 
         /// <summary>
         /// Gets or sets the text of inversion menu.
@@ -603,52 +608,6 @@ namespace MaaWpfGui
 
             ClearLog();
 
-            AddLog(Localization.GetString("ConnectingToEmulator"));
-
-            string errMsg = string.Empty;
-            var task = Task.Run(() =>
-            {
-                return _asstProxy.AsstConnect(ref errMsg);
-            });
-            bool caught = await task;
-
-            // 一般是点了“停止”按钮了
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
-
-            if (!caught)
-            {
-                AddLog(errMsg, UILogColor.Error);
-                AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
-                var subtask = Task.Run(() =>
-                {
-                    _settingsViewModel.TryToStartEmulator(true);
-                });
-                await subtask;
-                task = Task.Run(() =>
-                {
-                    return _asstProxy.AsstConnect(ref errMsg);
-                });
-                caught = await task;
-                if (!caught)
-                {
-                    AddLog(errMsg, UILogColor.Error);
-                    Idle = true;
-                    SetStopped();
-                    return;
-                }
-            }
-
-            // 一般是点了“停止”按钮了
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
-
             bool ret = true;
 
             // 直接遍历TaskItemViewModels里面的内容，是排序后的
@@ -699,6 +658,13 @@ namespace MaaWpfGui
 
                     // TODO 报错
                 }
+
+                if (!ret)
+                {
+                    AddLog(item.OriginalName + "Error", UILogColor.Error);
+                    ret = true;
+                    --count;
+                }
             }
 
             if (count == 0)
@@ -707,6 +673,59 @@ namespace MaaWpfGui
                 Idle = true;
                 SetStopped();
                 return;
+            }
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            AddLog(Localization.GetString("ConnectingToEmulator"));
+
+            string errMsg = string.Empty;
+            var task = Task.Run(() =>
+            {
+                return _asstProxy.AsstConnect(ref errMsg);
+            });
+            bool caught = await task;
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            if (!caught)
+            {
+                AddLog(errMsg, UILogColor.Error);
+                AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
+                var subtask = Task.Run(() =>
+                {
+                    _settingsViewModel.TryToStartEmulator(true);
+                });
+                await subtask;
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return;
+                }
+
+                task = Task.Run(() =>
+                {
+                    return _asstProxy.AsstConnect(ref errMsg);
+                });
+                caught = await task;
+                if (!caught)
+                {
+                    AddLog(errMsg, UILogColor.Error);
+                    Idle = true;
+                    SetStopped();
+                    return;
+                }
             }
 
             // 一般是点了“停止”按钮了
@@ -883,6 +902,12 @@ namespace MaaWpfGui
 
         private bool appendInfrast()
         {
+            if (_settingsViewModel.CustomInfrastEnabled && !File.Exists(_settingsViewModel.CustomInfrastFile))
+            {
+                AddLog(Localization.GetString("CustomizeInfrastSelectionEmpty"), UILogColor.Error);
+                return false;
+            }
+
             var order = _settingsViewModel.GetInfrastOrderList();
             return _asstProxy.AsstAppendInfrast(order.ToArray(), _settingsViewModel.UsesOfDrones, _settingsViewModel.DormThreshold / 100.0, _settingsViewModel.DormFilterNotStationedEnabled, _settingsViewModel.DormTrustEnabled, _settingsViewModel.OriginiumShardAutoReplenishment,
                 _settingsViewModel.CustomInfrastEnabled, _settingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
@@ -965,29 +990,28 @@ namespace MaaWpfGui
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
-        
+
         /// <summary>
         /// 一个根据连接配置判断使用关闭模拟器的方式的方法
         /// </summary>
+        /// <returns>是否关闭成功</returns>
         public bool KillEmulatorModeSwitcher()
         {
             string emulatorMode = _settingsViewModel.ConnectConfig;
-            switch (emulatorMode)
+            return emulatorMode switch
             {
-                case "Nox":
-                    return KillEmulatorNox();
-                case "LDPlayer":
-                    return KillEmulatorLDPlayer();
-                case "XYAZ":
-                    return KillEmulatorXYAZ();
-                default:
-                    return KillEumlatorbyWindow();
-            }
+                "Nox" => KillEmulatorNox(),
+                "LDPlayer" => KillEmulatorLDPlayer(),
+                "XYAZ" => KillEmulatorXYAZ(),
+                "BlueStacks" => KillEmulator(),
+                _ => KillEumlatorbyWindow(),
+            };
         }
-        
+
         /// <summary>
         /// 一个用于调用雷电模拟器控制台关闭雷电模拟器的方法
         /// </summary>
+        /// <returns>是否关闭成功</returns>
         public bool KillEmulatorLDPlayer()
         {
             string address = _settingsViewModel.ConnectAddress;
@@ -1011,15 +1035,17 @@ namespace MaaWpfGui
                 string emuLocation = processes[0].MainModule.FileName;
                 emuLocation = Path.GetDirectoryName(emuLocation);
                 string consolePath = Path.Combine(emuLocation, "ldconsole.exe");
-                
+
                 if (File.Exists(consolePath))
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
-                    startInfo.Arguments = $"quit --index {emuIndex}";
-                    startInfo.CreateNoWindow = true;
-                    startInfo.UseShellExecute = false;
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                    {
+                        Arguments = $"quit --index {emuIndex}",
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                    };
                     Process.Start(startInfo);
-                   
+
                     return KillEmulator();
                 }
                 else
@@ -1028,13 +1054,14 @@ namespace MaaWpfGui
                     return KillEumlatorbyWindow();
                 }
             }
-            
+
             return false;
         }
-        
+
         /// <summary>
         /// 一个用于调用夜神模拟器控制台关闭夜神模拟器的方法
         /// </summary>
+        /// <returns>是否关闭成功</returns>
         public bool KillEmulatorNox()
         {
             string address = _settingsViewModel.ConnectAddress;
@@ -1056,14 +1083,16 @@ namespace MaaWpfGui
                 string emuLocation = processes[0].MainModule.FileName;
                 emuLocation = Path.GetDirectoryName(emuLocation);
                 string consolePath = Path.Combine(emuLocation, "NoxConsole.exe");
-                
+
                 if (File.Exists(consolePath))
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
-                    startInfo.Arguments = $"quit -index:{emuIndex}";
-                    startInfo.CreateNoWindow = true;
-                    startInfo.UseShellExecute = false;
-                    Process.Start(startInfo);                
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                    {
+                        Arguments = $"quit -index:{emuIndex}",
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                    };
+                    Process.Start(startInfo);
 
                     return KillEmulator();
                 }
@@ -1073,13 +1102,14 @@ namespace MaaWpfGui
                     return KillEumlatorbyWindow();
                 }
             }
-            
+
             return false;
         }
-        
+
         /// <summary>
         /// 一个用于调用逍遥模拟器控制台关闭逍遥模拟器的方法
         /// </summary>
+        /// <returns>是否关闭成功</returns>
         public bool KillEmulatorXYAZ()
         {
             string address = _settingsViewModel.ConnectAddress;
@@ -1094,14 +1124,16 @@ namespace MaaWpfGui
                 string emuLocation = processes[0].MainModule.FileName;
                 emuLocation = Path.GetDirectoryName(emuLocation);
                 string consolePath = Path.Combine(emuLocation, "memuc.exe");
-                
+
                 if (File.Exists(consolePath))
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath);
-                    startInfo.Arguments = $"stop -i {emuIndex}";
-                    startInfo.CreateNoWindow = true;
-                    startInfo.UseShellExecute = false;
-                    Process.Start(startInfo);                
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                    {
+                        Arguments = $"stop -i {emuIndex}",
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                    };
+                    Process.Start(startInfo);
 
                     return KillEmulator();
                 }
@@ -1111,10 +1143,10 @@ namespace MaaWpfGui
                     return KillEumlatorbyWindow();
                 }
             }
-    
+
             return false;
         }
-        
+
         /// <summary>
         /// Kills emulator by Window hwnd.
         /// </summary>
@@ -1127,8 +1159,6 @@ namespace MaaWpfGui
             {
                 "明日方舟",
                 "明日方舟 - MuMu模拟器",
-                "BlueStacks App Player",
-                "BlueStacks",
             };
             foreach (string i in windowname)
             {
@@ -1185,7 +1215,7 @@ namespace MaaWpfGui
         {
             int pid = 0;
             string port;
-            string address = ViewStatusStorage.Get("Connect.Address", string.Empty);
+            string address = Config.Get(Config.ConnectAddress, string.Empty);
             if (address.StartsWith("127"))
             {
                 port = address.Substring(10);
@@ -1563,24 +1593,19 @@ namespace MaaWpfGui
         {
             get
             {
-                if (CustomStageCode)
-                {
-                    return Stage1;
-                }
-
                 if (_settingsViewModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(Stage1))
+                    if (IsStageOpen(Stage1) || (CustomStageCode && !StageList.Any(x => x.Value == Stage1)))
                     {
                         return Stage1;
                     }
 
-                    if (IsStageOpen(Stage2))
+                    if (IsStageOpen(Stage2) || (CustomStageCode && !StageList.Any(x => x.Value == Stage2)))
                     {
                         return Stage2;
                     }
 
-                    if (IsStageOpen(Stage3))
+                    if (IsStageOpen(Stage3) || (CustomStageCode && !StageList.Any(x => x.Value == Stage3)))
                     {
                         return Stage3;
                     }
@@ -1617,7 +1642,7 @@ namespace MaaWpfGui
             return value;
         }
 
-        private string _stage1 = ViewStatusStorage.Get("MainFunction.Stage1", string.Empty) ?? string.Empty;
+        private string _stage1 = Config.Get(Config.Stage1, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage1.
@@ -1639,12 +1664,12 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _stage1, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Stage1", value);
+                Config.Set(Config.Stage1, value);
                 UpdateDatePrompt();
             }
         }
 
-        private string _stage2 = ViewStatusStorage.Get("MainFunction.Stage2", string.Empty) ?? string.Empty;
+        private string _stage2 = Config.Get(Config.Stage2, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1654,14 +1679,24 @@ namespace MaaWpfGui
             get => _stage2;
             set
             {
+                if (_stage2 == value)
+                {
+                    return;
+                }
+
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _stage2, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Stage2", value);
+                Config.Set(Config.Stage2, value);
                 UpdateDatePrompt();
             }
         }
 
-        private string _stage3 = ViewStatusStorage.Get("MainFunction.Stage3", string.Empty) ?? string.Empty;
+        private string _stage3 = Config.Get(Config.Stage3, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1671,14 +1706,24 @@ namespace MaaWpfGui
             get => _stage3;
             set
             {
+                if (_stage3 == value)
+                {
+                    return;
+                }
+
+                if (CustomStageCode)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+
                 SetAndNotify(ref _stage3, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Stage3", value);
+                Config.Set(Config.Stage3, value);
                 UpdateDatePrompt();
             }
         }
 
-        private bool _useAlternateStage = Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseAlternateStage", bool.FalseString));
+        private bool _useAlternateStage = Convert.ToBoolean(Config.Get(Config.UseAlternateStage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
@@ -1689,7 +1734,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _useAlternateStage, value);
         }
 
-        private bool _useRemainingSanityStage = Convert.ToBoolean(ViewStatusStorage.Get("Fight.UseRemainingSanityStage", bool.TrueString));
+        private bool _useRemainingSanityStage = Convert.ToBoolean(Config.Get(Config.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
         {
@@ -1697,7 +1742,7 @@ namespace MaaWpfGui
             set => SetAndNotify(ref _useRemainingSanityStage, value);
         }
 
-        private bool _customStageCode = Convert.ToBoolean(ViewStatusStorage.Get("GUI.CustomStageCode", bool.FalseString));
+        private bool _customStageCode = Convert.ToBoolean(Config.Get(Config.CustomStageCode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.
@@ -1711,7 +1756,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _remainingSanityStage = ViewStatusStorage.Get("Fight.RemainingSanityStage", string.Empty) ?? string.Empty;
+        private string _remainingSanityStage = Config.Get(Config.RemainingSanityStage, string.Empty) ?? string.Empty;
 
         public string RemainingSanityStage
         {
@@ -1734,11 +1779,11 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _remainingSanityStage, value);
                 SetFightRemainingSanityParams();
-                ViewStatusStorage.Set("Fight.RemainingSanityStage", value);
+                Config.Set(Config.RemainingSanityStage, value);
             }
         }
 
-        private bool _customInfrastEnabled = Convert.ToBoolean(ViewStatusStorage.Get("Infrast.CustomInfrastEnabled", bool.FalseString));
+        private bool _customInfrastEnabled = Convert.ToBoolean(Config.Get(Config.CustomInfrastEnabled, bool.FalseString));
 
         public bool CustomInfrastEnabled
         {
@@ -1750,7 +1795,7 @@ namespace MaaWpfGui
             }
         }
 
-        private int _customInfrastPlanIndex = Convert.ToInt32(ViewStatusStorage.Get("Infrast.CustomInfrastPlanIndex", "0"));
+        private int _customInfrastPlanIndex = Convert.ToInt32(Config.Get(Config.CustomInfrastPlanIndex, "0"));
 
         public int CustomInfrastPlanIndex
         {
@@ -1777,7 +1822,7 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _customInfrastPlanIndex, value);
                 SetInfrastParams();
-                ViewStatusStorage.Set("Infrast.CustomInfrastPlanIndex", value.ToString());
+                Config.Set(Config.CustomInfrastPlanIndex, value.ToString());
             }
         }
 
@@ -1963,7 +2008,7 @@ namespace MaaWpfGui
             }
         }
 
-        private bool _useMedicine = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.UseMedicine", bool.FalseString));
+        private bool _useMedicine = Convert.ToBoolean(Config.Get(Config.UseMedicine, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use medicine.
@@ -1980,11 +2025,11 @@ namespace MaaWpfGui
                 }
 
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.UseMedicine", value.ToString());
+                Config.Set(Config.UseMedicine, value.ToString());
             }
         }
 
-        private string _medicineNumber = ViewStatusStorage.Get("MainFunction.UseMedicine.Quantity", "999");
+        private string _medicineNumber = Config.Get(Config.UseMedicineQuantity, "999");
 
         /// <summary>
         /// Gets or sets the amount of medicine used.
@@ -2004,7 +2049,7 @@ namespace MaaWpfGui
                 // If the amount of medicine is 0, the stone is not used.
                 UseStone = UseStone;
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.UseMedicine.Quantity", MedicineNumber);
+                Config.Set(Config.UseMedicineQuantity, MedicineNumber);
             }
         }
 
@@ -2034,7 +2079,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _stoneNumber = ViewStatusStorage.Get("MainFunction.UseStone.Quantity", "0");
+        private string _stoneNumber = Config.Get(Config.UseStoneQuantity, "0");
 
         /// <summary>
         /// Gets or sets the amount of originiums used.
@@ -2051,7 +2096,7 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.UseStone.Quantity", StoneNumber);
+                Config.Set(Config.UseStoneQuantity, StoneNumber);
             }
         }
 
@@ -2070,7 +2115,7 @@ namespace MaaWpfGui
             }
         }
 
-        private string _maxTimes = ViewStatusStorage.Get("MainFunction.TimesLimited.Quantity", "5");
+        private string _maxTimes = Config.Get(Config.TimesLimitedQuantity, "5");
 
         /// <summary>
         /// Gets or sets the max number of times.
@@ -2087,13 +2132,13 @@ namespace MaaWpfGui
 
                 SetAndNotify(ref _maxTimes, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.TimesLimited.Quantity", MaxTimes);
+                Config.Set(Config.TimesLimitedQuantity, MaxTimes);
             }
         }
 
         #region Drops
 
-        private bool _isSpecifiedDrops = Convert.ToBoolean(ViewStatusStorage.Get("MainFunction.Drops.Enable", bool.FalseString));
+        private bool _isSpecifiedDrops = Convert.ToBoolean(Config.Get(Config.DropsEnable, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether the drops are specified.
@@ -2105,7 +2150,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.Enable", value.ToString());
+                Config.Set(Config.DropsEnable, value.ToString());
             }
         }
 
@@ -2169,7 +2214,7 @@ namespace MaaWpfGui
         /// </summary>
         public ObservableCollection<CombData> DropsList { get; set; }
 
-        private string _dropsItemId = ViewStatusStorage.Get("MainFunction.Drops.ItemId", string.Empty);
+        private string _dropsItemId = Config.Get(Config.DropsItemId, string.Empty);
 
         /// <summary>
         /// Gets or sets the item ID of drops.
@@ -2181,11 +2226,11 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _dropsItemId, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.ItemId", DropsItemId);
+                Config.Set(Config.DropsItemId, DropsItemId);
             }
         }
 
-        private string _dropsItemName = ViewStatusStorage.Get("MainFunction.Drops.ItemName", Localization.GetString("NotSelected"));
+        private string _dropsItemName = Config.Get(Config.DropsItemName, Localization.GetString("NotSelected"));
 
         /// <summary>
         /// Gets or sets the item Name of drops.
@@ -2197,7 +2242,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _dropsItemName, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.ItemName", DropsItemName);
+                Config.Set(Config.DropsItemName, DropsItemName);
             }
         }
 
@@ -2221,7 +2266,7 @@ namespace MaaWpfGui
             DropsItemName = Localization.GetString("NotSelected");
         }
 
-        private string _dropsQuantity = ViewStatusStorage.Get("MainFunction.Drops.Quantity", "5");
+        private string _dropsQuantity = Config.Get(Config.DropsQuantity, "5");
 
         /// <summary>
         /// Gets or sets the quantity of drops.
@@ -2233,7 +2278,7 @@ namespace MaaWpfGui
             {
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
-                ViewStatusStorage.Set("MainFunction.Drops.Quantity", DropsQuantity);
+                Config.Set(Config.DropsQuantity, DropsQuantity);
             }
         }
 

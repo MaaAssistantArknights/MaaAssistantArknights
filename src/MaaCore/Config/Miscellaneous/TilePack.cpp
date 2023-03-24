@@ -104,26 +104,28 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     eoq.store(true);
     condvar.notify_all();
 
-    auto result = std::transform_reduce(
-        workers.begin(), workers.end(), std::optional { std::list<json::value> {} },
-        [](result_type lhs, result_type rhs) -> result_type {
-            if (!lhs || !rhs) return std::nullopt;
-            lhs->splice(lhs->end(), std::move(rhs).value());
-            return lhs;
-        },
-        [&](std::future<result_type>& fut) -> result_type {
-            while (fut.wait_for(std::chrono::milliseconds(10)) == std::future_status::timeout)
-                condvar.notify_all(); // is this necessary?
-            return fut.get();
-        });
+    // is this necessary?
+    for (auto&& w : workers) {
+        if (w.wait_for(std::chrono::milliseconds::zero()) == std::future_status::ready) continue;
+        do
+            condvar.notify_all();
+        while (w.wait_for(std::chrono::milliseconds(10)) == std::future_status::timeout);
+    }
 
-    if (!result) return false;
-    Log.info("got", result->size(), "maps");
+    auto result = std::list<json::value> {};
+
+    for (auto&& w : workers) {
+        if (auto opt = w.get())
+            result.splice(result.end(), std::move(opt).value());
+        else
+            return false;
+    }
+
+    Log.info("got", result.size(), "maps");
 
     try {
         // TODO: this move has no effect
-        m_tile_calculator =
-            std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(result).value());
+        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(result));
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());

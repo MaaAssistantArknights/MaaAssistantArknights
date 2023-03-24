@@ -61,6 +61,8 @@
                 <TextBox
                     Width="50"
                     Margin="5"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding RecruitMaxTimes}" />
             </StackPanel>

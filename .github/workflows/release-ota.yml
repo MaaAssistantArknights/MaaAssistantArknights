@@ -104,14 +104,14 @@ jobs:
       - name: Fetch Release Information
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release list --repo 'hguandl/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
+        run: gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
       - name: Download Release Packages
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat ./release_maa.txt | awk '{ print $1 }' | while read tag; do
-            gh release download "$tag" --repo 'hguandl/MaaAssistantArknights' --clobber -D packages -p 'MAA-*-macos-universal.dmg' || true
-            RELEASE_NOTES=$(gh release view "$tag" --repo 'hguandl/MaaAssistantArknights' --json body --jq .body)
+            gh release download "$tag" --repo 'MaaAssistantArknights/MaaAssistantArknights' --clobber -D packages -p 'MAA-*-macos-universal.dmg' || true
+            RELEASE_NOTES=$(gh release view "$tag" --repo 'MaaAssistantArknights/MaaAssistantArknights' --json body --jq .body)
             gh api /markdown -f text="$RELEASE_NOTES" | tee ./packages/MAA-"$tag"-macos-universal.html
           done
           curl -fsSL -o packages/appcast.xml https://maa-release.hguandl.com/macos/appcast.xml

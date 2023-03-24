@@ -67,6 +67,10 @@ namespace MaaWpfGui
             base.OnInitialActivate();
             _asstProxy = _container.Get<AsstProxy>();
             _settingsViewModel = _container.Get<SettingsViewModel>();
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                App.SetAllControlColors(Application.Current.MainWindow);
+            }));
         }
 
         /// <summary>
@@ -217,7 +221,7 @@ namespace MaaWpfGui
             }
         }
 
-        private const string TempCopilotFile = "resource/_temp_copilot.json";
+        private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string TaskType = "General";
 
         private void ParseJsonAndShowInfo(string jsonStr)
@@ -414,7 +418,7 @@ namespace MaaWpfGui
 
         public bool Loop { get; set; } = false;
 
-        private int _loopTimes = int.Parse(ViewStatusStorage.Get("Copilot.LoopTimes", "1"));
+        private int _loopTimes = int.Parse(Config.Get(Config.CopilotLoopTimes, "1"));
 
         public int LoopTimes
         {
@@ -422,7 +426,7 @@ namespace MaaWpfGui
             set
             {
                 SetAndNotify(ref _loopTimes, value);
-                ViewStatusStorage.Set("Copilot.LoopTimes", value.ToString());
+                Config.Set(Config.CopilotLoopTimes, value.ToString());
             }
         }
 

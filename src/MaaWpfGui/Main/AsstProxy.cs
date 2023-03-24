@@ -289,13 +289,29 @@ namespace MaaWpfGui
             this.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, _settingsViewModel.AdbLiteEnabled ? "1" : "0");
             Execute.OnUIThread(async () =>
             {
+                if (_settingsViewModel.RunDirectly)
+                {
+                    // 如果是直接运行模式，就先让按钮显示为运行
+                    _taskQueueViewModel.Idle = false;
+                }
+
                 var task = Task.Run(() =>
                 {
                     _settingsViewModel.TryToStartEmulator();
                 });
                 await task;
+
+                // 一般是点了“停止”按钮了
+                if (_taskQueueViewModel.Stopping)
+                {
+                    _taskQueueViewModel.SetStopped();
+                    return;
+                }
+
                 if (_settingsViewModel.RunDirectly)
                 {
+                    // 重置按钮状态，不影响LinkStart判断
+                    _taskQueueViewModel.Idle = true;
                     _taskQueueViewModel.LinkStart();
                 }
             });

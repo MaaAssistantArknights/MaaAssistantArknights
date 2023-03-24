@@ -9,6 +9,19 @@
             "幻滅"
         ]
     },
+    "StageEpisodeToOF": {
+        "text": [
+            "青く燃ゆる心",
+            "青く",
+            "燃ゆる"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "イベントへ",
+            "イベント"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的日文识别任务复用 このタスクの「ocrReplace」は、オペレーター名に関連するすべての認識タスクで再利用されます",
         "replaceFull": true,
@@ -1746,7 +1759,7 @@
                 "星源"
             ],
             [
-                "承曦グレイ",
+                "承.*グレイ",
                 "承曦格雷伊"
             ],
             [
@@ -2253,6 +2266,20 @@
                 "新章の起稿",
                 "再启新篇"
             ]
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "行動開始",
+            "開始",
+            "試練",
+            "挑戦"
+        ]
+    },
+    "BattleStartOCR": {
+        "text": [
+            "行動",
+            "開始"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {

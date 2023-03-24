@@ -507,6 +507,7 @@
     "ClickedCorrectStageOrSwipe": {
         "baseTask": "StartButton1",
         "action": "DoNothing",
+        "reduceOtherTimes": [],
         "next": [
             "ClickedCorrectStage",
             "FullStageNavigation"
@@ -531,6 +532,10 @@
             [
                 "s",
                 "S"
+            ],
+            [
+                ":",
+                ""
             ]
         ],
         "roi": [
@@ -1860,11 +1865,23 @@
             "StageResource"
         ]
     },
+    "CE-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "CE-6"
+        ]
+    },
     "CE-6": {
         "baseTask": "ResourceStages",
         "next": [
             "CE6@StageCE",
             "CE-6@SwipeToTheLeft"
+        ]
+    },
+    "LS-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "LS-6"
         ]
     },
     "LS-6": {
@@ -1950,11 +1967,12 @@
     "StageResource": {
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
+        "templThreshold": 0.77,
         "roi": [
-            455,
-            562,
-            544,
-            158
+            600,
+            600,
+            250,
+            110
         ]
     },
     "Stage": {
@@ -1978,10 +1996,10 @@
     },
     "UnableToAgent": {
         "roi": [
-            994,
-            535,
-            286,
-            143
+            870,
+            410,
+            246,
+            206
         ],
         "next": [
             "Stage",
@@ -2013,6 +2031,7 @@
             243,
             143
         ],
+        "postDelay": 1000,
         "next": [
             "UnableToAgent",
             "Stop"
@@ -6677,6 +6696,7 @@
     },
     "StageDrops-StageCF-ItemQuantity": {
         "baseTask": "NumberOcrReplace",
+        "text": [],
         "roi": [
             52,
             52,
@@ -9864,6 +9884,25 @@
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
+    },
+    "BattleFormationOperNames": {
+        "baseTask": "CharsNameOcrReplace",
+        "text": [],
+        "roi": [
+            86,
+            321,
+            945,
+            325
+        ]
+    },
+    "BattleFormationOperAvatarMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -125,
+            -250,
+            125,
+            165
+        ]
     },
     "Reclamation@PopupConfirm": {
         "Doc": "base_task",
